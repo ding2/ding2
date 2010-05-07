@@ -1,0 +1,30 @@
+<?php
+// $Id$
+
+/**
+ * @file ting_recommendation_panes.module
+ * Shows lists of recommendations
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function ting_recommendation_panes_install() {
+  drupal_install_schema('ting_recommendation_panes');
+}
+  
+/**
+ * Implementation of hook_uninstall().
+ */
+function ting_recommendation_panes_uninstall() {
+  drupal_uninstall_schema('ting_recommendation_panes');
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function ting_recommendation_panes_schema() {
+  $schema = array(); 
+  $schema['cache_ting_recommendation_panes'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}

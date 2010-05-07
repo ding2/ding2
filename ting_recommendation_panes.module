@@ -1,0 +1,158 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_menu().
+ */
+function ting_recommendation_panes_menu() {
+  $path = drupal_get_path('module', 'ting_recommendation_panes');
+  $items = array();
+
+  $items['admin/settings/ting_recommendation_panes'] = array(
+    'title' => 'Ting recommendation panes',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_recommendation_panes_settings_form'),
+    'access arguments' => array('administer recommendation panes'),
+    'file' => 'ting_recommendation_panes.admin.inc',
+    'file path' => $path,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function ting_recommendation_panes_perm() {
+  return array(
+    'administer recommendation panes'
+  );
+}
+
+/**
+ * Implementation of hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function ting_recommendation_panes_theme() {
+  return array(
+    'ting_recommendation_panes_recommendation_list' => array(
+      'arguments' => array('objects' => NULL),
+      'template' => 'ting_recommendation_panes_recommendation_list',
+    ),
+    'ting_recommendation_panes_recommendation_list_entry' => array(
+      'arguments' => array('object' => NULL),
+      'template' => 'ting_recommendation_panes_recommendation_list_entry',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_flush_caches().
+ */
+function ting_recommendation_panes_flush_caches() {
+  return array('cache_ting_recommendation_panes');
+}
+
+/**
+ * Implementation of hook_ctools_plugin_directory().
+ *
+ * Tells CTools (and thus Panels) where to look for plugin code.
+ */
+function ting_recommendation_panes_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' || $module == 'panels') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Load TingClientObjects for each recommendation.
+ */
+function ting_recommendation_panes_get_recommended_objects($objects) {
+  $identifiers = ting_recommendation_panes_extract_identifers($objects);
+
+  $cacheId = md5(implode('|', $identifiers));
+  $cache = cache_get($cacheId, 'cache_ting_recommendation_panes');
+  if ($cache) {
+    $recommendedObjects = $cache->data;
+  }
+  else {
+    $numResults = 24;
+
+    $localIds = array();
+    foreach ($identifiers as $id) {
+      // Don't get more than 24 local ids..
+      if (count($localIds) >= 24) {
+        break;
+      }
+
+      try {
+        $recommendations = ting_get_object_recommendations($id, $numResults);
+        foreach ($recommendations as $recommendation) {
+          if (isset($localIds[$recommendation->localId])) {
+            $localIds[$recommendation->localId] = 0;
+          }
+          $localIds[$recommendation->localId]++;
+        }
+      }
+      catch (TingClientException $e) {
+        watchdog('ting client', 'Error retrieving recommendations: '. $e->getMessage(), array($id, $e), WATCHDOG_WARNING, $_SERVER["REQUEST_URI"]);
+      }
+    }
+    arsort($localIds);
+
+    $recommendedObjects = array();
+    $agency = variable_get('ting_agency', -1);
+
+    foreach(array_keys($localIds) as $localId) {
+      $ting_object = ting_get_object_by_local_id($localId, false);
+
+      // Only show objects belonging to our own library.
+      if ($ting_object && $ting_object->ownerId == $agency) {
+        $recommendedObjects[] = $ting_object;
+
+        // Don't get more than 10 valid objects.
+        if (count($recommendedObjects) >= 10) {
+          break;
+        }
+      }
+    }
+
+    cache_set($cacheId, $recommendedObjects, 'cache_ting_recommendation_panes', time()+variable_get('ting_recommendation_panes_cache_duration', 604800));
+  }
+
+  return $recommendedObjects;
+}
+
+function ting_recommendation_panes_extract_identifers($objects) {
+  if (is_array($objects)) {
+    //if passing an array then extract ids from each of the entries
+    $ids = array();
+    foreach ($objects as $o) {
+      $ids = array_merge($ids, ting_recommendation_panes_extract_identifers($o));
+    }
+    return array_unique($ids);
+  }
+  else {
+    //if passing a single value then extract ids depending on type
+    switch (get_class($objects)) {
+      case 'TingClientObject':
+        if (!empty($objects->record['dc:identifier']['dkdcplus:ISBN'])) {
+          return $objects->record['dc:identifier']['dkdcplus:ISBN'];
+        }
+        else {
+          return array();
+        }
+      break;
+      case 'TingClientObjectCollection':
+        //get ids from each of the objects in the collection
+        return ting_recommendation_panes_extract_identifers($objects->objects);
+      break;
+      default:
+        //assume a string or integer has been passed and return it
+        return array($objects);
+      break;
+    }
+  }
+}
+
