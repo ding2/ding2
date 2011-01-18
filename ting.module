@@ -1,0 +1,267 @@
+<?php
+
+/**
+ * @file
+ * Enables integration with Ting.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ting_menu() {
+  $items['ting/object/%ting_object'] = array(
+    // TODO: 'title callback' => 'node_page_title',
+    'page callback' => 'ting_object_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/ting'] = array(
+    'title' => 'Ting',
+    'description' => 'Manage Ting integration settings.',
+    'position' => 'left',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/ting/settings'] = array(
+    'title' => 'Ting',
+    'description' => 'Manage Ting integration settings.',
+    'weight' => -20,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_ting_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc'
+  );
+
+  $items['admin/config/ting/addi'] = array(
+    'title' => 'ADDI settings',
+    'description' => 'Additional information service settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_addi_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc',
+  );
+
+  $items['admin/config/ting/proxy'] = array(
+    'title' => 'Proxy settings',
+    'description' => 'Ting Proxy settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_proxy_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc'
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ting_permission() {
+  return array(
+    'administer ting settings' => array(
+      'title' => t('Administer ting settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_theme() {
+  return array(
+    'ting_object' => array(
+      'template' => 'ting_object',
+      'render element' => 'elements',
+      'file' => 'ting.theme.inc',
+    ),
+    'ting_object_overview' => array(
+      'template' => 'ting_object_overview',
+      'render element' => 'elements',
+      'file' => 'ting.theme.inc',
+    ),
+    'ting_object_details' => array(
+      'template' => 'ting_object_details',
+      'render element' => 'elements',
+      'file' => 'ting.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_entity_type().
+ */
+function ting_ding_entity_type() {
+  return array(
+    'ding_entity' => 'ting_object',
+  );
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function ting_entity_info() {
+  $return = array(
+    'ting_object' => array(
+      'label' => t('Ting object'),
+      'controller class' => 'TingObjectController',
+      'base table' => 'ting_object',
+      'revision table' => 'ting_object_revision',
+      // 'uri callback' => 'node_uri',
+      'fieldable' => TRUE,
+      'entity keys' => array(
+        'id' => 'tid',
+        'revision' => 'vid',
+      ),
+      'view modes' => array(
+        'full' => array(
+          'label' => t('Full content'),
+          'custom settings' => FALSE,
+        ),
+        'teaser' => array(
+          'label' => t('Teaser'),
+          'custom settings' => TRUE,
+        ),
+        'listing' => array(
+          'label' => t('Listing'),
+          'custom settings' => FALSE,
+        ),
+      ),
+    ),
+  );
+
+  return $return;
+}
+
+/**
+ * Load a ting object.
+ */
+function ting_object_load($id) {
+  module_load_include('client.inc', 'ting');
+  return ting_get_object_by_id($id);
+}
+
+/**
+ * Display a ting object.
+ */
+function ting_object_view($object, $view_mode = 'full') {
+  $object->content = array();
+
+  $object->content['overview'] = array(
+    '#theme' => 'ting_object_overview',
+    '#object' => $object,
+    '#view_mode' => $view_mode,
+    'left' => array(),
+    'right' => array(),
+  );
+
+  if ($view_mode == 'full') {
+    $object->content['details'] = array(
+      '#theme' => 'ting_object_details',
+      '#object' => $object,
+      '#view_mode' => $view_mode,
+    );
+
+    $collection = ting_get_collection_by_id($object->id);
+    if ($collection instanceof TingClientObjectCollection) {
+      $object->collection = $collection;
+    }
+    if (is_array($collection->types)) {
+      $links = array();
+      foreach ($collection->types as $type) {
+        if ($type != $object->type) {
+          $links[] = l($type, $collection->url, array('fragment' => $type));
+        }
+      }
+      $object->content['also-available-as'] = array(
+        '#theme' => 'item_list',
+        '#title' => t('Also available as:'),
+        '#items' => $links,
+      );
+    }
+  }
+
+  module_invoke_all('ting_view', $object, $view_mode);
+
+  $build = $object->content;
+  unset($object->content);
+
+  $build += array(
+    '#theme' => 'ting_object',
+    '#object' => $object,
+    '#view_mode' => $view_mode,
+  );
+
+  drupal_alter('ting_view', $build);
+  return $build;
+}
+
+/**
+ * Page callback: Display a ting object.
+ */
+function ting_object_page_view($object) {
+  drupal_set_title($object->record['dc:title'][''][0]);
+  return ting_object_view($object);
+}
+
+/**
+ * Controller class for ting objects.
+ */
+class TingObjectController extends DrupalDefaultEntityController {
+  public function load($ids = array(), $conditions = array()) {
+    module_load_include('client.inc', 'ting');
+    // Ensure that the requested entities exists locally if getting by
+    // ding_entity_id.
+    if (isset($conditions['ding_entity_id'])) {
+      $query = db_select($this->entityInfo['base table'], 'base');
+      $query->addField('base', 'ding_entity_id');
+      $query->addField('base', 'tid');
+      $query->condition('ding_entity_id', $conditions['ding_entity_id']);
+      $known = $query->execute()->fetchAllKeyed();
+      foreach ($conditions['ding_entity_id'] as $ding_entity_id) {
+        if (!isset($known[$ding_entity_id])) {
+          if (!isset($ting_object_cache)) {
+            // See if it exists. ting_get_object_by_id caches internally, so
+            // we don't.
+            $object = ting_get_object_by_id($ding_entity_id);
+            if ($object) {
+              // Insert a new local proxy row.
+              // db_insert($this->entityInfo['base table']);
+              $ting_object = array(
+                'ding_entity_id' => $ding_entity_id,
+              );
+              drupal_write_record('ting_object', $ting_object);
+              drupal_write_record('ting_object_revision', $ting_object);
+              db_update('ting_object')
+                ->fields(array('vid' => $ting_object['vid']))
+                ->condition('tid', $ting_object['tid'])
+                ->execute();
+            }
+          }
+        }
+      }
+    }
+    // debug(db_select($this->entityInfo['base table'], 'base')->fields('base')->execute()->fetchAll());
+    $entities = parent::load($ids, array());
+    return $entities;
+  }
+
+  protected function attachLoad(&$objects, $revision_id = FALSE) {
+    foreach ($objects as $key => $object) {
+      $ting_object = ting_get_object_by_id($object->ding_entity_id);
+      if ($ting_object) {
+        foreach ($object as $property => $value) {
+          $ting_object->$property = $value;
+        }
+        // Replace original object.
+        $objects[$key] = $ting_object;
+      }
+    }
+    parent::attachLoad($objects, $revision_id);
+  }
+}

@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ting_schema() {
+  $schema['ting_object'] = array(
+    'description' => 'Local proxy table for ting objects.',
+    'fields' => array(
+      'tid' => array(
+        'description' => 'The primary local identifier for a ting object.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'vid' => array(
+        'description' => 'The current {ting_object_revision}.vid version identifier.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'ding_entity_id' => array(
+        'description' => 'The ting object id.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array(
+      'ding_entity_id' => array('ding_entity_id'),
+    ),
+    'unique keys' => array(
+      'vid' => array('vid'),
+    ),
+    'foreign keys' => array(
+      'ting_object_revision' => array(
+        'table' => 'ting_object_revision',
+        'columns' => array('vid' => 'vid'),
+      ),
+    ),
+    'primary key' => array('tid'),
+  );
+
+  $schema['ting_object_revision'] = array(
+    'description' => 'Stores information about each saved version of a {ting_object}.',
+    'fields' => array(
+      'tid' => array(
+        'description' => 'The {ting_object} this version belongs to.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'vid' => array(
+        'description' => 'The primary identifier for this version.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'A Unix timestamp indicating when this version was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'tid' => array('tid'),
+    ),
+    'primary key' => array('vid'),
+    'foreign keys' => array(
+      'versioned_ting_object' => array(
+        'table' => 'ting_object',
+        'columns' => array('tid' => 'tid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}
