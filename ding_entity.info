@@ -4,4 +4,3 @@ package = Ding!
 version = 0.1
 core = 7.x
 files[] = ding_entity.module
-files[] = ding_entity.test
