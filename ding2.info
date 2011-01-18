@@ -1,0 +1,13 @@
+; $Id$
+name = Ding 2
+description = Install a Ding based library site.
+version = 1.0
+core = 7.x
+dependencies[] = block
+dependencies[] = contextual
+dependencies[] = menu
+dependencies[] = dblog
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = overlay
+files[] = ding2.profile
