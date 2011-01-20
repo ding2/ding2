@@ -18,7 +18,7 @@ function ding_entity_load($id) {
 function ding_entity_type() {
   $type = &drupal_static(__FUNCTION__);
   if (is_null($type)) {
-    $types = module_invoke_all('ding_entity_type');
+    $types = module_invoke_all('ding_entity_types');
     if (isset($types['ding_entity'])) {
       $type = $types['ding_entity'];
       return $type;
@@ -39,7 +39,7 @@ function ding_entity_collection_load($id) {
 function ding_entity_collection_type() {
   $type = &drupal_static(__FUNCTION__);
   if (is_null($type)) {
-    $types = module_invoke_all('ding_entity_collection_type');
+    $types = module_invoke_all('ding_entity_types');
     if (isset($types['ding_entity_collection'])) {
       $type = $types['ding_entity_collection'];
       return $type;
