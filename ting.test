@@ -36,4 +36,15 @@ class TingEntity extends DrupalWebTestCase {
     $this->assertTrue(is_object($entity), 'Entity is an object.');
     $this->assertEqual($entity->title, 'Harry Potter og De Vises Sten', 'Entity has proper title.');
   }
+
+   /**
+  * Test that getting a ting collection works.
+  */
+  function testTingCollectionEntity() {
+    $this->assertEqual(ding_entity_collection_type(), 'ting_collection', 'Entity type is right.');
+    $entity = ding_entity_collection_load('710100:25194853');
+    $this->assertTrue(is_object($entity), 'Entity is an object.');
+    $this->assertEqual($entity->title, 'Harry Potter og De Vises Sten', 'Entity has proper title.');
+    $this->assertTrue(is_array($entity->entities), 'Entity has an array.');
+  }
 }

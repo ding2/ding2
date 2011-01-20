@@ -96,9 +96,10 @@ function ting_theme() {
 /**
  * Implements hook_ding_entity_type().
  */
-function ting_ding_entity_type() {
+function ting_ding_entity_types() {
   return array(
     'ding_entity' => 'ting_object',
+    'ding_entity_collection' => 'ting_collection',
   );
 }
 
@@ -118,6 +119,26 @@ function ting_entity_info() {
         'id' => 'tid',
         'revision' => 'vid',
       ),
+      'view modes' => array(
+        'full' => array(
+          'label' => t('Full content'),
+          'custom settings' => FALSE,
+        ),
+        'teaser' => array(
+          'label' => t('Teaser'),
+          'custom settings' => TRUE,
+        ),
+        'listing' => array(
+          'label' => t('Listing'),
+          'custom settings' => FALSE,
+        ),
+      ),
+    ),
+
+    'ting_collection' => array(
+      'label' => t('Ting collection'),
+      'controller class' => 'TingCollectionController',
+      // 'uri callback' => 'node_uri',
       'view modes' => array(
         'full' => array(
           'label' => t('Full content'),
@@ -225,23 +246,21 @@ class TingObjectController extends DrupalDefaultEntityController {
       $known = $query->execute()->fetchAllKeyed();
       foreach ($conditions['ding_entity_id'] as $ding_entity_id) {
         if (!isset($known[$ding_entity_id])) {
-          if (!isset($ting_object_cache)) {
-            // See if it exists. ting_get_object_by_id caches internally, so
-            // we don't.
-            $object = ting_get_object_by_id($ding_entity_id);
-            if ($object) {
-              // Insert a new local proxy row.
-              // db_insert($this->entityInfo['base table']);
-              $ting_object = array(
-                'ding_entity_id' => $ding_entity_id,
-              );
-              drupal_write_record('ting_object', $ting_object);
-              drupal_write_record('ting_object_revision', $ting_object);
-              db_update('ting_object')
-                ->fields(array('vid' => $ting_object['vid']))
-                ->condition('tid', $ting_object['tid'])
-                ->execute();
-            }
+          // See if it exists. ting_get_object_by_id caches internally, so
+          // we don't.
+          $object = ting_get_object_by_id($ding_entity_id);
+          if ($object) {
+            // Insert a new local proxy row.
+            // db_insert($this->entityInfo['base table']);
+            $ting_object = array(
+              'ding_entity_id' => $ding_entity_id,
+            );
+            drupal_write_record('ting_object', $ting_object);
+            drupal_write_record('ting_object_revision', $ting_object);
+            db_update('ting_object')
+              ->fields(array('vid' => $ting_object['vid']))
+              ->condition('tid', $ting_object['tid'])
+              ->execute();
           }
         }
       }
@@ -263,5 +282,65 @@ class TingObjectController extends DrupalDefaultEntityController {
       }
     }
     parent::attachLoad($objects, $revision_id);
+  }
+}
+
+/**
+ * Controller class for ting collections.
+ */
+class TingCollectionController implements DrupalEntityControllerInterface {
+
+  /**
+   * Static cache of entities.
+   *
+   * @var array
+   */
+  protected $entityCache;
+
+  /**
+   * Constructor: sets basic variables.
+   */
+  public function __construct($entityType) {
+    $this->entityCache = array();
+  }
+
+  /**
+   * Implements DrupalEntityControllerInterface::resetCache().
+   */
+  public function resetCache(array $ids = NULL) {
+    if (isset($ids)) {
+      foreach ($ids as $id) {
+        unset($this->entityCache[$id]);
+      }
+    }
+    else {
+      $this->entityCache = array();
+    }
+  }
+
+  /**
+   * Implements DrupalEntityControllerInterface::load().
+   */
+  public function load($ids = array(), $conditions = array()) {
+    module_load_include('client.inc', 'ting');
+    $entities = array();
+    if (isset($conditions['ding_entity_collection_id'])) {
+      foreach ($conditions['ding_entity_collection_id'] as $ding_entity_collection_id) {
+        // See if it exists. ting_get_object_by_id caches internally, so
+        // we don't.
+        if (isset($this->entityCache[$ding_entity_collection_id])) {
+          $entities[$ding_entity_collection_id] = $this->entityCache[$ding_entity_collection_id];
+        }
+        else {
+          $object = ting_get_collection_by_id($ding_entity_collection_id);
+          if ($object) {
+            $object->entities = $object->objects;
+            $entities[$ding_entity_collection_id] = $object;
+            $this->entityCache[$ding_entity_collection_id] = $object;
+          }
+        }
+      }
+    }
+    return $entities;
   }
 }
