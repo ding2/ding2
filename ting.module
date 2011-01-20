@@ -17,6 +17,14 @@ function ting_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['ting/collection/%ting_collection'] = array(
+    // TODO: 'title callback' => 'node_page_title',
+    'page callback' => 'ting_collection_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   $items['admin/config/ting'] = array(
     'title' => 'Ting',
     'description' => 'Manage Ting integration settings.',
@@ -168,6 +176,15 @@ function ting_object_load($id) {
 }
 
 /**
+ * Load a ting collection.
+ */
+function ting_collection_load($id) {
+  // module_load_include('client.inc', 'ting');
+  // return ting_get_collection_by_id($id);
+  return reset(entity_load('ting_collection', array(), array('ding_entity_collection_id' => array($id))));
+}
+
+/**
  * Display a ting object.
  */
 function ting_object_view($object, $view_mode = 'full') {
@@ -223,11 +240,57 @@ function ting_object_view($object, $view_mode = 'full') {
 }
 
 /**
+ * Display a ting collection.
+ */
+function ting_collection_view($object, $view_mode = 'full') {
+  $object->content = array();
+
+  $object->content['overview'] = array(
+    '#theme' => 'ting_object_overview',
+    '#object' => $object,
+    '#view_mode' => $view_mode,
+    'left' => array(),
+    'right' => array(),
+  );
+
+  if ($view_mode == 'full') {
+    dpm($object);
+    foreach ($object->entities as $entity) {
+      $object->content[$entity->id] = ting_object_view($entity, 'teaser');
+    }
+  }
+
+  // TODO: Separate hook?
+  module_invoke_all('ting_view', $object, $view_mode);
+
+  $build = $object->content;
+  unset($object->content);
+
+  $build += array(
+    // TODO: Separate theming?
+    '#theme' => 'ting_object',
+    '#object' => $object,
+    '#view_mode' => $view_mode,
+  );
+
+  drupal_alter('ting_view', $build);
+  return $build;
+}
+
+/**
  * Page callback: Display a ting object.
  */
 function ting_object_page_view($object) {
-  drupal_set_title($object->record['dc:title'][''][0]);
+  drupal_set_title($object->title);
   return ting_object_view($object);
+}
+
+/**
+ * Page callback: Display a ting collection.
+ */
+function ting_collection_page_view($object) {
+  drupal_set_title($object->title);
+  return ting_collection_view($object);
 }
 
 /**

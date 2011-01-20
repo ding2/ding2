@@ -11,6 +11,7 @@
 function template_preprocess_ting_object(&$variables) {
   $variables['object'] = $variables['elements']['#object'];
 
+  $variables['page'] = $variables['elements']['#view_mode'] == 'full';
   // Helpful $content variable for templates.
   foreach (element_children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
@@ -29,17 +30,22 @@ function template_preprocess_ting_object_overview(&$variables) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
 
-  $variables['title'] = check_plain($object->record['dc:title'][''][0]);
+  $variables['page'] = $variables['elements']['#view_mode'] == 'full';
+  $variables['title'] = check_plain($object->title);
 
-  $titles = $object->record['dc:title'];
-  unset($titles['']);
-  $titles = array_values(array_map('array_shift', $titles));
-
-  $variables['other_titles'] = check_plain(implode(', ', $titles));
   $variables['alternative_titles'] = array();
-  if (!empty($object->record['dcterms:alternative'][''])) {
-    $titles = array_values($object->record['dcterms:alternative']['']);
-    $variables['alternative_titles'] = array_map('check_plain', $titles);
+  $variables['other_titles'] = "";
+  if (isset($object->record)){
+    $variables['ting_url'] = url('ting/' . (isset($object->entities) ? 'collection' : 'object') . '/' . $object->id);
+    $titles = $object->record['dc:title'];
+    unset($titles['']);
+    $titles = array_values(array_map('array_shift', $titles));
+
+    $variables['other_titles'] = check_plain(implode(', ', $titles));
+    if (!empty($object->record['dcterms:alternative'][''])) {
+      $titles = array_values($object->record['dcterms:alternative']['']);
+      $variables['alternative_titles'] = array_map('check_plain', $titles);
+    }
   }
 
   $creators = array();
@@ -52,7 +58,7 @@ function template_preprocess_ting_object_overview(&$variables) {
     $variables['date'] = check_plain($object->date);
   }
 
-  $variables['abstract'] = check_plain($object->record['dcterms:abstract'][''][0]);
+  $variables['abstract'] = check_plain($object->abstract);
 }
 
 /**

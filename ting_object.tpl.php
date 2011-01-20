@@ -10,7 +10,7 @@
  * - $content: Render array of content.
  */
 ?>
-<div id="ting-item-<?php print $object->localId; ?>" class="ting-item ting-item-full">
+<div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php echo render($content['overview']); ?>
 
   <?php echo render($content['details']); ?>

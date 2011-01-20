@@ -15,7 +15,12 @@
   </div>
 
   <div class="right-column left">
-    <h2><?php print $title; ?></h2>
+    <?php print render($title_prefix); ?>
+    <?php if (!$page): ?>
+      <h2<?php print $title_attributes; ?>><a href="<?php print $ting_url; ?>"><?php print $title; ?></a></h2>
+    <?php endif; ?>
+    <?php print render($title_suffix); ?>
+
     <?php if ($other_titles) { ?>
       <h2><?php print $other_titles; ?></h2>
     <?php } ?>
@@ -37,10 +42,5 @@
     <?php print render($content['right']); ?>
   </div>
 
-  <?php if ($buttons) :?>
-    <div class="ting-object-buttons">
-    <?php print theme('item_list', $buttons, NULL, 'ul', array('class' => 'buttons')) ?>
-    </div>
-  <?php endif; ?>
   <?php print render($content); ?>
 </div>
