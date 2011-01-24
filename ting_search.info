@@ -1,0 +1,8 @@
+name = Ting search
+description = Searching for Ting.
+package = Ding!
+version = 0.1
+core = 7.x
+files[] = ting_search.module
+dependencies[] = ting
+; configure = admin/config/ting

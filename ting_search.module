@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Enables search integration with Ting.
+ */
+
+/**
+ * Implements hook_search_info().
+ */
+function ting_search_search_info() {
+  return array(
+    'title' => 'Ting',
+    'path' => 'ting',
+    'conditions_callback' => 'ting_search_conditions_callback',
+  );
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ting_search_entity_info_alter(&$entity_info) {
+  // Only defining a search view mode for collections, as all results are
+  // actually collections.
+  $entity_info['ting_collection']['view modes'] += array(
+    'search_result' => array(
+      'label' => t('Search result'),
+      'custom settings' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Search conditions callback.
+ */
+function ting_search_conditions_callback($keys) {
+  $conditions = array();
+
+  if (!empty($_REQUEST['keys'])) {
+    $conditions['keys'] = $_REQUEST['keys'];
+  }
+
+  // TODO: Add facets here
+  return $conditions;
+}
+
+/**
+ * Implements hook_search_execute().
+ */
+function ting_search_search_execute($keys = NULL, $conditions = NULL) {
+  module_load_include('client.inc', 'ting');
+  // TODO: Add in facets here
+
+  $query = '(' . $keys . ')';
+
+  try {
+    // TODO: Paging?
+    // $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
+    $page = 1;
+    $resultsPerPage = 10;
+    $searchResult = ting_do_search($query, $page, $resultsPerPage, $options);
+
+    // $result = array(
+    //   'page' => $page,
+    //   'resultsPerPage' => $resultsPerPage,
+    //   'count' => (integer) $searchResult->numTotalObjects,
+    //   'collectionCount' => (integer) $searchResult->numTotalCollections,
+    //   'result_html' => '',
+    //   'facets' => $searchResult->facets,
+    //   'local_ids' => array(),
+    //   'feed_icon' => theme('feed_icon', url('ting/search/feed/' . $_REQUEST['query'])),
+    // );
+
+
+    foreach ($searchResult->collections as &$collection) {
+      $results[] = array(
+        'link' => url($collection->url, array('absolute' => TRUE)),
+        'type' => '',
+        'title' => $collection->title,
+        'user' => '',
+        'date' => '',
+        // 'extra' => array('object' => $collection),
+        'snippet' => drupal_render(ting_collection_view($collection, 'search_result')),
+      );
+
+
+      // $result['result_html'] .= theme('ting_search_collection', $collection);
+
+      // foreach ($collection->objects as $object) {
+      //   $result['local_ids'][] = $object->localId;
+      // }
+    }
+  }
+  catch (TingClientException $e) {
+    // TODO: Log the error.
+    $result = array();
+  }
+
+  return $results;
+}
