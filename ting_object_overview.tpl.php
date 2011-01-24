@@ -16,8 +16,8 @@
 
   <div class="right-column left">
     <?php print render($title_prefix); ?>
-    <?php if (!$page): ?>
-      <h2<?php print $title_attributes; ?>><a href="<?php print $ting_url; ?>"><?php print $title; ?></a></h2>
+    <?php if (!$page && !$search_result): ?>
+      <h2<?php print $title_attributes; ?>><a href="<?php print $url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
     <?php print render($title_suffix); ?>
 

@@ -327,7 +327,13 @@ function ting_add_collection_info(TingClientObjectCollection $collection) {
   $collection->creators_string = $common_object->creators_string;
   $collection->date = $common_object->date;
 
-  $collection->url = url('ting/collection/' . $collection->id, array('absolute' => true));
+  if (sizeof($collection->objects) > 1) {
+    $collection->url = url('ting/collection/' . $collection->id, array('absolute' => true));
+  }
+  else {
+    // Link collections of one object to the object.
+    $collection->url = url('ting/object/' . $collection->id, array('absolute' => true));
+  }
 
   return $collection;
 }
