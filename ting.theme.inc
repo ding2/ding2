@@ -56,6 +56,7 @@ function template_preprocess_ting_object_overview(&$variables) {
   }
   $variables['creators'] = implode(', ', $creators);
 
+  $variables['date'] = NULL;
   if (!empty($object->date)) {
     $variables['date'] = check_plain($object->date);
   }
