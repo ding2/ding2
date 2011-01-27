@@ -199,61 +199,55 @@ function template_preprocess_ting_object_details(&$variables) {
     );
   }
 
-  // if (!empty($object->record['dcterms:isReferencedBy'][''])) {
-  //   $items[] = array(
-  //     '#theme' => 'item_list',
-  //     '#title' => t('Referenced by'),
-  //     '#items' => $object->record['dcterms:isReferencedBy'][''],
-  //     '#attributes' => array('class' => 'referenced-by'),
-  //   );
-  // }
+  if (!empty($object->record['dcterms:isReferencedBy'][''])) {
+    $items[] = array(
+      'data' => '<h4>' . t('Referenced by') . '</h4>',
+      'children' => $object->record['dcterms:isReferencedBy'][''],
+      'class' => array('dcterms-isreferencedby'),
+    );
+  }
 
-  // if (!empty($object->record['dc:description'])) {
-  //   foreach ($object->record['dc:description'] as $type => $dc_description) {
-  //     $items[] = array(
-  //       '#theme' => 'item_list',
-  //       '#title' => t('Description'),
-  //       '#items' => $dc_description,
-  //       '#attributes' => array('class' => 'description'),
-  //     );
-  //   }
-  // }
+  if (!empty($object->record['dc:description'])) {
+    foreach ($object->record['dc:description'] as $type => $dc_description) {
+      $items[] = array(
+        'data' => '<h4>' . t('Description') . '</h4>',
+        'children' => $dc_description,
+        'class' => array('dc-description'),
+      );
+    }
+  }
 
-  // if (!empty($object->record['dc:source'][''])) {
-  //   $items[] = array(
-  //     '#theme' => 'item_list',
-  //     '#title' => t('Original title'),
-  //     '#items' => $object->record['dc:source'][''],
-  //     '#attributes' => array('class' => 'titles'),
-  //   );
-  // }
+  if (!empty($object->record['dc:source'][''])) {
+    $items[] = array(
+      'data' => '<h4>' . t('Original title') . '</h4>',
+      'children' => $object->record['dc:source'][''],
+      'class' => array('dc-source'),
+    );
+  }
 
-  // if (!empty($object->record['dcterms:replaces'][''])) {
-  //   $items[] = array(
-  //     '#theme' => 'item_list',
-  //     '#title' => t('Previous title'),
-  //     '#items' => $object->record['dc:source'][''],
-  //     '#attributes' => array('class' => 'titles'),
-  //   );
-  // }
+  if (!empty($object->record['dcterms:replaces'][''])) {
+    $items[] = array(
+      'data' => '<h4>' . t('Previous title') . '</h4>',
+      'children' => $object->record['dcterms:replaces'][''],
+      'class' => array('dcterms-replaces'),
+    );
+  }
 
-  // if (!empty($object->record['dcterms:isReplacedBy'][''])) {
-  //   $items[] = array(
-  //     '#theme' => 'item_list',
-  //     '#title' => t('Later title'),
-  //     '#items' => $object->record['dc:source'][''],
-  //     '#attributes' => array('class' => 'titles'),
-  //   );
-  // }
+  if (!empty($object->record['dcterms:isReplacedBy'][''])) {
+    $items[] = array(
+      'data' => '<h4>' . t('Later title') . '</h4>',
+      'children' => $object->record['dcterms:isReplacedBy'][''],
+      'class' => array('dcterms-isreplacedby'),
+    );
+  }
 
-  // if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) {
-  //   $items[] = array(
-  //     '#theme' => 'item_list',
-  //     '#title' => t('ISBN no.'),
-  //     '#items' => $object->record['dc:identifier']['dkdcplus:ISBN'],
-  //     '#attributes' => array('class' => 'identifier'),
-  //   );
-  // }
+  if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) {
+    $items[] = array(
+      'data' => '<h4>' . t('ISBN no.') . '</h4>',
+      'children' => $object->record['dc:identifier']['dkdcplus:ISBN'],
+      'class' => array('dkdcplus-isbn'),
+    );
+  }
 
   if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) {
     $items[] = array(
