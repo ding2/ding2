@@ -5,6 +5,7 @@
  * Enables search integration with Ting.
  */
 
+
 /**
  * Implements hook_search_info().
  */
@@ -14,6 +15,14 @@ function ting_search_search_info() {
     'path' => 'ting',
     'conditions_callback' => 'ting_search_conditions_callback',
   );
+}
+
+/**
+ * Implements hook_ding_facetbrowser().
+ */
+function ting_search_ding_facetbrowser() {
+  $results = _ting_search_static_result();
+  return $results;
 }
 
 /**
@@ -36,9 +45,9 @@ function ting_search_entity_info_alter(&$entity_info) {
 function ting_search_theme() {
   return array(
     'ting_search_results' => array(
-      'variables' => array('results' => NULL, 'module' => NULL),
-      'file' => 'ting_search.pages.inc',
-      'template' => 'ting-search-results',
+      'variables' => array('results'          => NULL, 'module' => NULL),
+      'file'      => 'ting_search.pages.inc',
+      'template'  => 'ting-search-results',
     ),
     'ting_search_mini_pager' => array(
       'variables' => array('tags' => array(), 'element' => 0, 'parameters' => array(), 'quantity' => 9),
@@ -64,10 +73,26 @@ function ting_search_conditions_callback($keys) {
  * Implements hook_search_execute().
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
+
   module_load_include('client.inc', 'ting');
   // TODO: Add in facets here
 
-  $query = '(' . $keys . ')';
+  $query   = '(' . $keys . ')';
+   //Extend query with selected facets
+  if (isset($_GET['facets']) && $_GET['facets']) {
+    $facetArray = array();
+
+    $facets = explode(';', $_GET['facets']);
+    foreach ($facets as $facet) {
+      $facet = explode(':', $facet, 2);
+      if ($facet[0] == TRUE) {
+        $facetArray[] = $facet[0].'="'.$facet[1].'"';
+      }
+    }
+
+    $query .= ' AND '.implode(' AND ', $facetArray);
+  }
+
 
   // TODO: Set sort options
   $options = array();
@@ -80,6 +105,8 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     // number if there is more results.
     $fake_total = ($resultsPerPage * $page) + sizeof($searchResult->collections) + ($searchResult->more ? 1 : 0);
     pager_default_initialize($fake_total, $resultsPerPage);
+
+    $results = array('facets' => $searchResult->facets);
 
     foreach ($searchResult->collections as &$collection) {
       $results[] = array(
@@ -95,8 +122,10 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   }
   catch (TingClientException $e) {
     // TODO: Log the error.
-    $result = array();
+    $results = array();
   }
+
+  _ting_search_static_result($searchResult);
 
   return $results;
 }
@@ -166,4 +195,12 @@ function theme_ting_search_mini_pager($variables) {
     );
     return theme('item_list', array('items' => $items, 'type' => 'ul', 'attributes' => array('class' => array('pager'))));
   }
+}
+
+function _ting_search_static_result($results = FALSE) {
+  static $searchResult;
+  if (!isset($searchResult)) {
+    $searchResult = $results;
+  }
+  return $searchResult;
 }
