@@ -101,7 +101,7 @@ function ting_block_view($delta = '') {
         $block['subject'] = t('Types');
         $items = array();
         foreach ($collection->types as $type) {
-          $items[] = l($type, );
+          $items[] = l($type, '#' . $type, array('external' => TRUE));
         }
         $block['content'] = array(
           '#theme' => 'item_list',
@@ -289,10 +289,16 @@ function ting_collection_view($object, $view_mode = 'full') {
   );
 
   if ($view_mode == 'full') {
+    foreach ($object->types as $type) {
+      $object->content['entities'][$type] = array(
+        '#prefix' => '<h2>' . $type . '</h2><a name="' . $type . '"></a>',
+      );
+    }
     foreach ($object->entities as $entity) {
-      $object->content[$entity->id] = ting_object_view($entity, 'teaser');
+      $object->content['entities'][$entity->type][$entity->id] = ting_object_view($entity, 'teaser');
     }
   }
+  // TODO: Sorting of $object->content['entities']
 
   // TODO: Separate hook?
   module_invoke_all('ting_view', $object, $view_mode);
