@@ -254,7 +254,6 @@ function ting_collection_view($object, $view_mode = 'full') {
   );
 
   if ($view_mode == 'full') {
-    dpm($object);
     foreach ($object->entities as $entity) {
       $object->content[$entity->id] = ting_object_view($entity, 'teaser');
     }

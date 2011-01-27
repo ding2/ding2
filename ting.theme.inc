@@ -56,9 +56,11 @@ function template_preprocess_ting_object_overview(&$variables) {
   }
   $variables['creators'] = implode(', ', $creators);
 
-  $variables['date'] = NULL;
   if (!empty($object->date)) {
     $variables['date'] = check_plain($object->date);
+  }
+  else {
+    $variables['date'] = "";
   }
 
   $variables['abstract'] = check_plain($object->abstract);
@@ -75,21 +77,17 @@ function template_preprocess_ting_object_details(&$variables) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
 
-  $abstracts = (array) $object->record['dcterms:abstract'];
-  // Was printed in ting_object_overview
-  unset($abstracts[''][0]);
-
-  // $items[] = array(
-  //   '#type' => 'container',
-  //   '#markup' => check_plain(implode(' ; ', ting_format_abstract($abstracts['']))),
-  //   '#attributes' => array('class' => 'abstract'),
-  // );
-  $abstract = implode(' ; ', ting_format_abstract($abstracts['']));
-  if (trim($abstract)){
-    $items[] = array(
-      'data' => check_plain($abstracts),
-      'class' => array('abstract'),
-    );
+  if (isset($object->record['dcterms:abstract'])){
+    $abstracts = (array) $object->record['dcterms:abstract'];
+    // Was printed in ting_object_overview
+    unset($abstracts[''][0]);
+    $abstract = implode(' ; ', ting_format_abstract($abstracts['']));
+    if (trim($abstract)){
+      $items[] = array(
+        'data' => check_plain($abstracts),
+        'class' => array('abstract'),
+      );
+    }
   }
 
   $items[] = array(
