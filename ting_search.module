@@ -31,6 +31,22 @@ function ting_search_entity_info_alter(&$entity_info) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ting_search_theme() {
+  return array(
+    'ting_search_results' => array(
+      'variables' => array('results' => NULL, 'module' => NULL),
+      'file' => 'ting_search.pages.inc',
+      'template' => 'ting-search-results',
+    ),
+    'ting_search_mini_pager' => array(
+      'variables' => array('tags' => array(), 'element' => 0, 'parameters' => array(), 'quantity' => 9),
+    ),
+  );
+}
+
+/**
  * Search conditions callback.
  */
 function ting_search_conditions_callback($keys) {
@@ -53,24 +69,17 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
 
   $query = '(' . $keys . ')';
 
+  // TODO: Set sort options
+  $options = array();
+
   try {
-    // TODO: Paging?
-    // $page = isset($_REQUEST['page']) ? intval($_REQUEST['page']) : 1;
-    $page = 1;
+    $page = pager_find_page();
     $resultsPerPage = 10;
-    $searchResult = ting_do_search($query, $page, $resultsPerPage, $options);
-
-    // $result = array(
-    //   'page' => $page,
-    //   'resultsPerPage' => $resultsPerPage,
-    //   'count' => (integer) $searchResult->numTotalObjects,
-    //   'collectionCount' => (integer) $searchResult->numTotalCollections,
-    //   'result_html' => '',
-    //   'facets' => $searchResult->facets,
-    //   'local_ids' => array(),
-    //   'feed_icon' => theme('feed_icon', url('ting/search/feed/' . $_REQUEST['query'])),
-    // );
-
+    $searchResult = ting_do_search($query, $page + 1, $resultsPerPage, $options);
+    // We don't know the real total, so fake one. We add one to the shown
+    // number if there is more results.
+    $fake_total = ($resultsPerPage * $page) + sizeof($searchResult->collections) + ($searchResult->more ? 1 : 0);
+    pager_default_initialize($fake_total, $resultsPerPage);
 
     foreach ($searchResult->collections as &$collection) {
       $results[] = array(
@@ -79,16 +88,9 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         'title' => $collection->title,
         'user' => '',
         'date' => '',
-        // 'extra' => array('object' => $collection),
+        // 'extra' => 'something here?',
         'snippet' => drupal_render(ting_collection_view($collection, 'search_result')),
       );
-
-
-      // $result['result_html'] .= theme('ting_search_collection', $collection);
-
-      // foreach ($collection->objects as $object) {
-      //   $result['local_ids'][] = $object->localId;
-      // }
     }
   }
   catch (TingClientException $e) {
@@ -97,4 +99,71 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   }
 
   return $results;
+}
+
+/**
+ * Implements hook_search_page().
+ */
+function ting_search_search_page($results) {
+  return array(
+    '#theme' => 'ting_search_results',
+    '#results' => $results,
+    '#module' => 'ting_search',
+  );
+}
+
+/**
+ * Theme a mini pager with only first, previous and next links.
+ */
+function theme_ting_search_mini_pager($variables) {
+  $tags = $variables['tags'];
+  $element = $variables['element'];
+  $parameters = $variables['parameters'];
+  $quantity = $variables['quantity'];
+  global $pager_page_array, $pager_total;
+
+  // Calculate various markers within this pager piece:
+  // Middle is used to "center" pages around the current page.
+  $pager_middle = ceil($quantity / 2);
+  // current is the page we are currently paged to
+  $pager_current = $pager_page_array[$element] + 1;
+  // max is the maximum page number
+  $pager_max = $pager_total[$element];
+  // End of marker calculations.
+
+
+  $li_previous = theme('pager_previous', array('text' => (isset($tags[1]) ? $tags[1] : t('‹ previous')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
+
+  if (empty($li_previous)) {
+    $li_previous = "&nbsp;";
+  }
+
+  $li_first = theme('pager_first', array('text' => (isset($tags[0]) ? $tags[0] : t('« first')), 'element' => $element, 'parameters' => $parameters));
+
+  if (empty($li_first)) {
+    $li_first = "&nbsp;";
+  }
+
+  $li_next = theme('pager_next', array('text' => (isset($tags[3]) ? $tags[3] : t('next ›')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
+  if (empty($li_next)) {
+    $li_next = "&nbsp;";
+  }
+
+  if ($pager_total[$element] > 1) {
+    $items[] = array(
+      'class' => array('pager-first'),
+      'data' => $li_first,
+    );
+
+    $items[] = array(
+      'class' => array('pager-previous'),
+      'data' => $li_previous,
+    );
+
+    $items[] = array(
+      'class' => array('pager-next'),
+      'data' => $li_next,
+    );
+    return theme('item_list', array('items' => $items, 'type' => 'ul', 'attributes' => array('class' => array('pager'))));
+  }
 }
