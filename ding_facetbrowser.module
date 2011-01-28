@@ -12,10 +12,13 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.js');
   $block = array();
   $search_results = module_invoke_all('ding_facetbrowser');
+  if (count($search_results) == FALSE) {
+    return $block;
+  }
   switch ($delta) {
     case 'facetbrowser':
       $block['subject'] = t('Facet browser');
-      $block['content'] = _build_facetsbrowser($search_results[0]->facets);
+      $block['content'] = _build_facetsbrowser($search_results);
     break;
   }
 
@@ -24,7 +27,6 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 
 function _build_facetsbrowser($all_facets = FALSE) {
   $output   = FALSE;
-
   if (is_array($all_facets)) {
     foreach ($all_facets as $facet_type) {
       $elements = array();
@@ -46,4 +48,51 @@ function _build_facetsbrowser($all_facets = FALSE) {
     }
   }
   return $output;
+}
+
+/**
+ * Implements hook_ding_facetbrowser() from the apachesolr_search module
+ * to prevent from hacking in contrib module.
+ */
+function apachesolr_search_ding_facetbrowser() {
+  $facets = $facet_terms = array();
+  if (apachesolr_has_searched()) {
+    $results = _apachesolr_static_result();
+    foreach ($results as $result) {
+      $node = node_load($result->nid);
+      if ($node instanceof stdClass) {
+        foreach ($node->field_tags as $vocabulary => $taxonomy) {
+          if (is_array($taxonomy)) {
+            foreach ($taxonomy as $term) {
+              $term_data = taxonomy_term_load_multiple(array($term['tid']));
+              $facet_terms += array($term_data[$term['tid']]->name=>$term_data[$term['tid']]->name);
+            }
+            $facets[$vocabulary] = (object)array(
+              'name' => $vocabulary,
+              'terms' => $facet_terms,
+            );
+          }
+        }
+      }
+    }
+  }
+  return $facets;
+}
+
+/**
+ * Call _apachesolr_static_result()
+ */
+function ding_facetbrowser_apachesolr_search_result_alter(&$doc) {
+  _apachesolr_static_result($doc);
+}
+
+/*
+ * Set the search result as a static variable
+ */
+function _apachesolr_static_result($result = FALSE) {
+  static $search_result = array();
+  if ($result instanceof stdClass) {
+    $search_result[] = $result;
+  }
+  return $search_result;
 }
