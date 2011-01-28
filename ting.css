@@ -1,0 +1,25 @@
+
+.ting-object .object-information ul {
+  padding: 0;
+  background-color: #f6f6f2;
+/* margin: 0; */
+}
+
+.ting-object .object-information h4 {
+  float: left;
+  width: 80px;
+  padding: 0 .5em ;
+}
+
+.ting-object .object-information li {
+  clear: left;
+}
+
+.ting-object .object-information ul ul li {
+  clear: inherit;
+}
+
+.ting-object .object-information li,
+.ting-object .object-information li ul li {
+  list-style-type: none;
+}

@@ -79,6 +79,41 @@ function ting_permission() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function ting_block_info() {
+  return array(
+    'ting_collection_types' => array(
+      'info' => t('Ting collection types'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ting_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'ting_collection_types':
+      if ($collection = menu_get_object('ting_collection', 2)) {
+        $block['subject'] = t('Types');
+        $items = array();
+        foreach ($collection->types as $type) {
+          $items[] = l($type, '#' . $type, array('external' => TRUE));
+        }
+        $block['content'] = array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+        );
+      }
+      break;
+  }
+  return $block;
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_theme() {
@@ -254,11 +289,16 @@ function ting_collection_view($object, $view_mode = 'full') {
   );
 
   if ($view_mode == 'full') {
-    dpm($object);
+    foreach ($object->types as $type) {
+      $object->content['entities'][$type] = array(
+        '#prefix' => '<h2>' . $type . '</h2><a name="' . $type . '"></a>',
+      );
+    }
     foreach ($object->entities as $entity) {
-      $object->content[$entity->id] = ting_object_view($entity, 'teaser');
+      $object->content['entities'][$entity->type][$entity->id] = ting_object_view($entity, 'teaser');
     }
   }
+  // TODO: Sorting of $object->content['entities']
 
   // TODO: Separate hook?
   module_invoke_all('ting_view', $object, $view_mode);
@@ -289,6 +329,9 @@ function ting_object_page_view($object) {
  * Page callback: Display a ting collection.
  */
 function ting_collection_page_view($object) {
+  if (sizeof($object->entities) < 2) {
+    drupal_goto('ting/collection/' . $object->id);
+  }
   drupal_set_title($object->title);
   return ting_collection_view($object);
 }

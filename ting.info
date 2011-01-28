@@ -6,3 +6,4 @@ core = 7.x
 files[] = ting.module
 files[] = ting.test
 configure = admin/config/ting
+stylesheets[all][] = ting.css
