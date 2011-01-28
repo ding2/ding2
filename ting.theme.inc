@@ -50,9 +50,19 @@ function template_preprocess_ting_object_overview(&$variables) {
     }
   }
 
+  $subjects = array();
+
+  if ($object->subjects) {
+    foreach ($object->subjects as $s) {
+      $subjects[] = $s;
+    }
+  }
+
+  $variables['subjects'] = implode(', ', $subjects);
+
   $creators = array();
   foreach ($object->creators as $i => $creator) {
-    $creators[] = l($creator, 'ting/search/' . $creator, array('attributes' => array('class' => 'author')));
+    $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
   }
   $variables['creators'] = implode(', ', $creators);
 
