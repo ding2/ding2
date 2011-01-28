@@ -43,4 +43,6 @@
   </div>
 
   <?php print render($content); ?>
+
+<?php print $subjects; ?>
 </div>
