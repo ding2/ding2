@@ -1,0 +1,49 @@
+<?php
+
+function ding_facetbrowser_block_info() {
+  $blocks['facetbrowser'] = array(
+    'info'  => t('Facet browser'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+function ding_facetbrowser_block_view($delta = FALSE) {
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.js');
+  $block = array();
+  $search_results = module_invoke_all('ding_facetbrowser');
+  switch ($delta) {
+    case 'facetbrowser':
+      $block['subject'] = t('Facet browser');
+      $block['content'] = _build_facetsbrowser($search_results[0]->facets);
+    break;
+  }
+
+  return $block;
+}
+
+function _build_facetsbrowser($all_facets = FALSE) {
+  $output   = FALSE;
+
+  if (is_array($all_facets)) {
+    foreach ($all_facets as $facet_type) {
+      $elements = array();
+      $title = $facet_type->name;
+      if (count($facet_type->terms) == TRUE) {
+        foreach ($facet_type->terms as $facet_name => $facet_count) {
+          $elements[] = strtr('%name', array(
+            '%name'  => $facet_name,
+            '%count' => $facet_count,
+          )) ;
+        }
+        $output .= theme('item_list', array(
+          'type'       => 'ul',
+          'attributes' => array('id' => $facet_type->name),
+          'title'      => $facet_type->name,
+          'items'      => $elements,
+        ));
+      }
+    }
+  }
+  return $output;
+}
