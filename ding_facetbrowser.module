@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Implements hook_block_info()
+ */
 function ding_facetbrowser_block_info() {
   $blocks['facetbrowser'] = array(
     'info'  => t('Facet browser'),
@@ -8,9 +11,15 @@ function ding_facetbrowser_block_info() {
   return $blocks;
 }
 
+/**
+ * Implements hook_block_view()
+ *
+ * @return Array
+ */
 function ding_facetbrowser_block_view($delta = FALSE) {
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.js');
   $block = array();
+
   $search_results = module_invoke_all('ding_facetbrowser');
   if (count($search_results) == FALSE) {
     return $block;
@@ -25,6 +34,12 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   return $block;
 }
 
+/**
+ * Bulid the facetbrowser as an item_list
+ *
+ * @param $all_facets Array
+ * @return String
+ */
 function _build_facetsbrowser($all_facets = FALSE) {
   $output   = FALSE;
   if (is_array($all_facets)) {
@@ -56,21 +71,31 @@ function _build_facetsbrowser($all_facets = FALSE) {
  */
 function apachesolr_search_ding_facetbrowser() {
   $facets = $facet_terms = array();
+  $fields = array(
+    1 => 'tags',
+    2 => 'category',
+  );
+
   if (apachesolr_has_searched()) {
     $results = _apachesolr_static_result();
     foreach ($results as $result) {
       $node = node_load($result->nid);
       if ($node instanceof stdClass) {
-        foreach ($node->field_tags as $vocabulary => $taxonomy) {
-          if (is_array($taxonomy)) {
-            foreach ($taxonomy as $term) {
-              $term_data = taxonomy_term_load_multiple(array($term['tid']));
-              $facet_terms += array($term_data[$term['tid']]->name=>$term_data[$term['tid']]->name);
+        foreach ($fields as $vocab_id => $vocab_name) {
+          $field_name = 'field_' . $vocab_name;
+          if (is_array($node->$field_name) && count($node->$field_name) == TRUE) {
+            foreach ($node->$field_name as $taxonomy) {
+              if (is_array($taxonomy)) {
+                foreach ($taxonomy as $term) {
+                  $term_data = taxonomy_term_load_multiple(array($term['tid']));
+                  $facet_terms[$vocab_name][$term_data[$term['tid']]->name] = $term_data[$term['tid']]->name;
+                }
+                $facets[$vocab_name] = (object)array(
+                  'name' => $field_name,
+                  'terms' => $facet_terms[$vocab_name],
+                );
+              }
             }
-            $facets[$vocabulary] = (object)array(
-              'name' => $vocabulary,
-              'terms' => $facet_terms,
-            );
           }
         }
       }
@@ -80,14 +105,16 @@ function apachesolr_search_ding_facetbrowser() {
 }
 
 /**
- * Call _apachesolr_static_result()
+ * Implements hook_apachesolr_search_result_alter().
+ *
+ * Save the search result in a static variable to be able to use it in blocks and so on.
  */
 function ding_facetbrowser_apachesolr_search_result_alter(&$doc) {
   _apachesolr_static_result($doc);
 }
 
 /*
- * Set the search result as a static variable
+ * Save the search result as in static variable
  */
 function _apachesolr_static_result($result = FALSE) {
   static $search_result = array();
