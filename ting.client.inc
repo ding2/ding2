@@ -339,12 +339,11 @@ function ting_add_collection_info(TingClientObjectCollection $collection) {
 }
 
 function ting_add_object_info(TingClientObject $object) {
-  $object->type = $object->record['dc:type']['dkdcplus:BibDK-Type'][0];
+  $object->type     = !empty($object->record['dc:type']) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
   $object->language = !empty($object->record['dc:language'][''][0]) ? $object->record['dc:language'][''][0] : FALSE;
-
-  $object->title = $object->record['dc:title'][''][0];
+  $object->title    = !empty($object->record['dc:title']) ? $object->record['dc:title'][''][0] : FALSE;
   $object->abstract = !empty($object->record['dcterms:abstract'][''][0]) ? $object->record['dcterms:abstract'][''][0] : FALSE;
-  $object->date = !empty($object->record['dc:date'][''][0]) ? $object->record['dc:date'][''][0] : FALSE;
+  $object->date     = !empty($object->record['dc:date'][''][0]) ? $object->record['dc:date'][''][0] : FALSE;
 
   $object->creators = array();
   if (!empty($object->record['dc:creator'])) {
