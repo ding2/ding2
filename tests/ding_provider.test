@@ -1,0 +1,30 @@
+<?php
+// $Id: field.test,v 1.47 2010/12/15 04:13:48 webchick Exp $
+
+/**
+ * @file
+ * Unit test file for Ding provider.
+ */
+
+class DingProviderTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding provider',
+      'description' => 'Test basic Ding provider functionality.',
+      'group' => 'Ding!',
+    );
+  }
+
+  function setUp() {
+    $this->profile = 'ding2';
+    parent::setUp(array('ding_provider', 'ding_provider_test'));
+  }
+
+  function testAvailabilityProvider() {
+    $res = ding_provider_invoke('availability', 'items', array(1, 2));
+    $this->assertTrue(is_array($res), t('Test availability provider returns an array.'));
+    $this->assertTrue($res[2], t('Returns TRUE for 2.'));
+    $this->assertFalse($res[1], t('Returns FALSE for 1.'));
+  }
+}

@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Helper module for the Ding provider tests.
+ *
+ * The module defines
+ * - an availability provider
+ *
+ */
+
+/**
+ * Implement hook_ding_provider().
+ */
+function ding_provider_test_ding_provider() {
+  return array(
+    'availability' => array(
+      'prefix' => 'availability',
+    ),
+  );
+}
+
+function ding_provider_test_availability_items($provider_ids) {
+  $res = array();
+  foreach ($provider_ids as $id) {
+    $res[$id] = (bool) (($id%2) == 0);
+  }
+  return $res;
+}
+
+/**
+ */
+function ding_provider_test_availability_details($provider_ids) {
+  $holdings = array();
+  return $holdings;
+}
+
+/**
+ *
+ */
+function ding_provider_test_availability_periodical($provider_ids) {
+  $holdings = array();
+  return $holdings;
+}

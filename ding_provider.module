@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Implements a common interface to backend providers.
+ */
+
+/**
+ * Invoke a provider hook.
+ */
+function ding_provider_invoke() {
+  $args = func_get_args();
+  $type = array_shift($args);
+  $hook = array_shift($args);
+
+  $provider = _ding_provider_get_provider($type);
+  if ($provider) {
+    $function = $provider['module'] . '_' . (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') . $hook;
+
+    if (isset($provider['file'])) {
+      require_once DRUPAL_ROOT . '/' . $provider['file'];
+    }
+
+    if ($function) {
+      return call_user_func_array($function, $args);
+    }
+    // Trigger an error. This might be a module attempting to use a wrong
+    // hook, or an improperly implemented plugin. In either case, it's
+    // programmer error.
+    trigger_error(t('Ding @type provider (%module module) does not implement %function', array('@type' => $type, '%function' => $hook, '%module' => $provider['module'])), E_USER_ERROR);
+  }
+  else {
+    watchdog('ding_provider', 'Provider module not configured for provider type %type.', array('%type' => $type), WATCHDOG_ERROR);
+  }
+}
+
+function _ding_provider_get_provider($type) {
+  static $providers;
+  if (!isset($providers)) {
+    $providers = array();
+    foreach (module_implements('ding_provider') as $module) {
+      $module_provides = module_invoke($module, 'ding_provider');
+      foreach ($module_provides as $name => $module_provider) {
+        $module_provider['module'] = $module;
+        $providers[$name] = $module_provider;
+      }
+    }
+  }
+
+  if (isset($providers[$type])) {
+    return $providers[$type];
+  }
+  return NULL;
+}

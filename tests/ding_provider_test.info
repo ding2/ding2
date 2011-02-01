@@ -1,0 +1,7 @@
+name = "Ding provider Test"
+description = "Support module for the Ding provider tests."
+core = 7.x
+package = Testing
+files[] = ding_provider_test.module
+version = 0.1
+hidden = TRUE
