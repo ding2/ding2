@@ -106,8 +106,6 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     $fake_total = ($resultsPerPage * $page) + sizeof($searchResult->collections) + ($searchResult->more ? 1 : 0);
     pager_default_initialize($fake_total, $resultsPerPage);
 
-    $results = array('facets' => $searchResult->facets);
-
     foreach ($searchResult->collections as &$collection) {
       $results[] = array(
         'link' => url($collection->url, array('absolute' => TRUE)),
