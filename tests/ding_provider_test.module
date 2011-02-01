@@ -15,6 +15,7 @@
 function ding_provider_test_ding_provider() {
   return array(
     'availability' => array(
+      'title' => 'Ding provider test availability provider',
       'prefix' => 'availability',
     ),
   );
