@@ -84,7 +84,11 @@ function ting_permission() {
 function ting_block_info() {
   return array(
     'ting_collection_types' => array(
-      'info' => t('Ting collection types'),
+      'info' => t('Ting collection material types'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
+    'ting_object_types' => array(
+      'info' => t('Ting alternative material types'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
   );
@@ -109,6 +113,22 @@ function ting_block_view($delta = '') {
         );
       }
       break;
+    case 'ting_object_types':
+      if (($object = menu_get_object('ting_object', 2)) &&
+        ($collection = ting_get_collection_by_id($object->id))) {
+
+        $block['subject'] = t('Types');
+        $items = array();
+        foreach ($collection->types as $type) {
+          $items[] = l($type, $collection->url, array('fragment' => $type));
+        }
+
+        $block['content'] = array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+        );
+      }
+    break;
   }
   return $block;
 }
@@ -239,24 +259,6 @@ function ting_object_view($object, $view_mode = 'full') {
       '#object' => $object,
       '#view_mode' => $view_mode,
     );
-
-    $collection = ting_get_collection_by_id($object->id);
-    if ($collection instanceof TingClientObjectCollection) {
-      $object->collection = $collection;
-    }
-    if (is_array($collection->types)) {
-      $links = array();
-      foreach ($collection->types as $type) {
-        if ($type != $object->type) {
-          $links[] = l($type, $collection->url, array('fragment' => $type));
-        }
-      }
-      $object->content['also-available-as'] = array(
-        '#theme' => 'item_list',
-        '#title' => t('Also available as:'),
-        '#items' => $links,
-      );
-    }
   }
 
   module_invoke_all('ting_view', $object, $view_mode);
