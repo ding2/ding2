@@ -124,7 +124,7 @@ function template_preprocess_ting_object_details(&$variables) {
 
   if (!empty($object->language)) {
     $items[] = array(
-      'data' => '<h4>' . t('language') . '</h4>',
+      'data' => '<h4>' . t('Language') . '</h4>',
       'children' => array($object->language),
       'class' => array('language'),
     );
@@ -256,14 +256,6 @@ function template_preprocess_ting_object_details(&$variables) {
       'data' => '<h4>' . t('ISBN no.') . '</h4>',
       'children' => $object->record['dc:identifier']['dkdcplus:ISBN'],
       'class' => array('dkdcplus-isbn'),
-    );
-  }
-
-  if (!empty($object->record['dc:identifier']['dkdcplus:ISBN'])) {
-    $items[] = array(
-      'data' => '<h4>' . t('ISBN no.') . '</h4>',
-      'children' => $object->record['dc:identifier']['dkdcplus:ISBN'],
-      'class' => array('identifier'),
     );
   }
 
