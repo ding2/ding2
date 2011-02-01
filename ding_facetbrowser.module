@@ -17,7 +17,9 @@ function ding_facetbrowser_block_info() {
  * @return Array
  */
 function ding_facetbrowser_block_view($delta = FALSE) {
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/jquery.url.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.js');
+  drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.css');
   $block = array();
 
   $search_results = module_invoke_all('ding_facetbrowser');
@@ -48,14 +50,19 @@ function _build_facetsbrowser($all_facets = FALSE) {
       $title = $facet_type->name;
       if (count($facet_type->terms) == TRUE) {
         foreach ($facet_type->terms as $facet_name => $facet_count) {
-          $elements[] = strtr('%name', array(
-            '%name'  => $facet_name,
-            '%count' => $facet_count,
-          )) ;
+          $elements[] = array(
+            'data' => strtr('<label for="%type-%name"><input type="checkbox" id="%type-%name" name="%type[%name]"> %textname (%count)</label>', array(
+              '%type'  => str_replace('.', '-', $facet_type->name),
+              '%name'  => str_replace(' ', '-', $facet_name),
+              '%textname'  => $facet_name,
+              '%count' => $facet_count,
+            )),
+            'rel' => $facet_name,
+          ) ;
         }
         $output .= theme('item_list', array(
           'type'       => 'ul',
-          'attributes' => array('id' => $facet_type->name),
+          'attributes' => array('id' => str_replace('.', '-', $facet_type->name)),
           'title'      => $facet_type->name,
           'items'      => $elements,
         ));
