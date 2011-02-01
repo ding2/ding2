@@ -22,7 +22,9 @@ function ting_search_search_info() {
  */
 function ting_search_ding_facetbrowser() {
   $results = _ting_search_static_result();
-  return $results->facets;
+  if (isset($results) && isset($results->facets)) {
+    return $results->facets;
+  }
 }
 
 /**
