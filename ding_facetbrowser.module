@@ -44,18 +44,20 @@ function ding_facetbrowser_block_view($delta = FALSE) {
  */
 function _build_facetsbrowser($all_facets = FALSE) {
   $output   = FALSE;
+
   if (is_array($all_facets)) {
     foreach ($all_facets as $facet_type) {
       $elements = array();
-      $title = $facet_type->name;
+      $title    = $facet_type->name;
+
       if (count($facet_type->terms) == TRUE) {
         foreach ($facet_type->terms as $facet_name => $facet_count) {
           $elements[] = array(
             'data' => strtr('<label for="%type-%name"><input type="checkbox" id="%type-%name" name="%type[%name]"> %textname (%count)</label>', array(
-              '%type'  => str_replace('.', '-', $facet_type->name),
-              '%name'  => str_replace(' ', '-', $facet_name),
-              '%textname'  => $facet_name,
-              '%count' => $facet_count,
+              '%type'     => str_replace('.', '-', $facet_type->name),
+              '%name'     => str_replace(' ', '-', $facet_name),
+              '%textname' => $facet_name,
+              '%count'    => $facet_count,
             )),
             'rel' => $facet_name,
           ) ;
@@ -98,7 +100,7 @@ function apachesolr_search_ding_facetbrowser() {
                   $facet_terms[$vocab_name][$term_data[$term['tid']]->name] = $term_data[$term['tid']]->name;
                 }
                 $facets[$vocab_name] = (object)array(
-                  'name' => $field_name,
+                  'name'  => $field_name,
                   'terms' => $facet_terms[$vocab_name],
                 );
               }
