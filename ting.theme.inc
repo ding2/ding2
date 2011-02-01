@@ -62,7 +62,7 @@ function template_preprocess_ting_object_overview(&$variables) {
 
   $creators = array();
   foreach ($object->creators as $i => $creator) {
-    $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => 'author')));
+    $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => array('author'))));
   }
   $variables['creators'] = implode(', ', $creators);
 
