@@ -12,73 +12,96 @@ function ding_facetbrowser_block_info() {
 }
 
 /**
+ * Implements hook_theme()
+ */
+function ding_facetbrowser_theme() {
+  return array(
+   'facetbrowser' => array(
+      'variables' => array('facets' => NULL),
+    ),
+  );
+}
+function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
+  $checkboxes = array();
+  if (count($facets) > 1 == TRUE) {
+    foreach ($facets as $facet) {
+      if (count($facet) == TRUE)
+        $form[$facet->name] = array(
+          '#type'        => 'fieldset',
+          '#title'       => $facet->name,
+          '#collapsible' => TRUE,
+        );
+      if ($facet instanceof TingClientFacetResult && count($facet->terms) == TRUE) {
+        foreach ($facet->terms as $term_name => $term_count) {
+          $checkboxes[$term_name] = $term_name . ' (' . $term_count . ')';
+        }
+        $form[$facet->name][$facet->name] = array(
+          '#type'    => 'checkboxes',
+          '#options' => $checkboxes,
+        );
+      }
+      unset($checkboxes);
+    }
+    $form['submit'] = array(
+      '#type'  => 'submit',
+      '#value' => 'Submit',
+    );
+  }
+  return $form;
+}
+
+/**
+ * facetbrowser theme function
+ */
+function theme_facetbrowser($all_facets = FALSE) {
+  $output   = ' ';
+  $elements = array();
+
+  if (is_array($all_facets)) {
+        $elements[] = drupal_render(drupal_get_form('ding_facetbrowser_form', $all_facets));
+  }
+  return implode('', $elements);
+}
+
+
+/**
  * Implements hook_block_view()
  *
  * @return Array
  */
 function ding_facetbrowser_block_view($delta = FALSE) {
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/jquery.url.js');
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.js');
-  drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/facetbrowser.css');
   $block = array();
+  $block_content = FALSE;
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery-bbq/jquery.ba-bbq.js');
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
+  drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
 
-  $search_results = module_invoke_all('ding_facetbrowser');
-  if (count($search_results) == FALSE) {
-    return $block;
+  # TODO: Fix so only the correct module is invoked
+  foreach (module_implements('ding_facetbrowser') as $module) {
+    $result = module_invoke($module, 'ding_facetbrowser');
+    if (count($result->facets) == TRUE || $result->show_empty == TRUE) {
+      $block_content = theme('facetbrowser', $result->facets);
+      break;
+    }
   }
+
   switch ($delta) {
     case 'facetbrowser':
       $block['subject'] = t('Facet browser');
-      $block['content'] = _build_facetsbrowser($search_results);
+      $block['content'] = $block_content;
     break;
   }
 
   return $block;
 }
 
-/**
- * Bulid the facetbrowser as an item_list
- *
- * @param $all_facets Array
- * @return String
- */
-function _build_facetsbrowser($all_facets = FALSE) {
-  $output   = FALSE;
-
-  if (is_array($all_facets)) {
-    foreach ($all_facets as $facet_type) {
-      $elements = array();
-      $title    = $facet_type->name;
-
-      if (count($facet_type->terms) == TRUE) {
-        foreach ($facet_type->terms as $facet_name => $facet_count) {
-          $elements[] = array(
-            'data' => strtr('<label for="%type-%name"><input type="checkbox" id="%type-%name" name="%type[%name]"> %textname (%count)</label>', array(
-              '%type'     => str_replace('.', '-', $facet_type->name),
-              '%name'     => str_replace(' ', '-', $facet_name),
-              '%textname' => $facet_name,
-              '%count'    => $facet_count,
-            )),
-            'rel' => $facet_name,
-          ) ;
-        }
-        $output .= theme('item_list', array(
-          'type'       => 'ul',
-          'attributes' => array('id' => str_replace('.', '-', $facet_type->name)),
-          'title'      => $facet_type->name,
-          'items'      => $elements,
-        ));
-      }
-    }
-  }
-  return $output;
-}
 
 /**
  * Implements hook_ding_facetbrowser() from the apachesolr_search module
  * to prevent from hacking in contrib module.
  */
 function apachesolr_search_ding_facetbrowser() {
+  $return_object = new stdClass();
   $facets = $facet_terms = array();
   $fields = array(
     1 => 'tags',
@@ -110,7 +133,9 @@ function apachesolr_search_ding_facetbrowser() {
       }
     }
   }
-  return $facets;
+  $return_object->facets = $facets;
+  $return_object->show_empty = FALSE;
+  return $return_object;
 }
 
 /**
