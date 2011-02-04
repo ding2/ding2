@@ -10,4 +10,5 @@ dependencies[] = dblog
 dependencies[] = shortcut
 dependencies[] = toolbar
 dependencies[] = overlay
+dependencies[] = ting
 files[] = ding2.profile
