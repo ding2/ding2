@@ -38,12 +38,24 @@ function ding2_install_tasks($install_state) {
     variable_del('ding_install_tasks');
   }
 
-  return $tasks;
+  /**
+   * We need this dummy task to ensure that the rest of the tasks is
+   * run. Without it, install_run_tasks() can manage to run through the tasks
+   * up to 'install_bootstrap_full', and if there's no following tasks (when
+   * 'install_configure_form' has been completed), it will think it's done
+   * before we have a chance to read the variable and tell it otherwise.
+   */
+  return array(
+    'ding2_dummy' => array(
+      'display' => FALSE,
+      'run' => INSTALL_TASK_RUN_IF_REACHED,
+    ),
+  ) + $tasks;
 }
 
 /**
- * Clean up after our-self.
+ * Does nothing.
  */
-function ding2_install_cleanup() {
-  variable_del('ding_install_tasks');
+function ding2_dummy() {
+  return;
 }
