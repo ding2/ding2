@@ -23,7 +23,7 @@ function ding_facetbrowser_theme() {
 }
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
   $checkboxes = array();
-  if (count($facets) > 1 == TRUE) {
+  if (count($facets) == TRUE) {
     foreach ($facets as $facet) {
       if (count($facet) == TRUE)
         $form[$facet->name] = array(
@@ -35,7 +35,10 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
         foreach ($facet->terms as $term_name => $term_count) {
           $checkboxes[$term_name] = $term_name . ' (' . $term_count . ')';
         }
-        $form[$facet->name][$facet->name] = array(
+        $facet_name = explode('.', $facet->name);
+        $element_name = end($facet_name);
+
+        $form[$facet->name][$element_name] = array(
           '#type'    => 'checkboxes',
           '#options' => $checkboxes,
         );
@@ -49,6 +52,30 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
   }
   return $form;
 }
+
+function ding_facetbrowser_form_validate($form, &$form_state) {
+}
+
+function ding_facetbrowser_form_submit($form, &$form_state) {
+  $facets = array();
+  $string = FALSE;
+  foreach ($form_state['values'] as $name => $data) {
+    foreach ($data as $key => $value) {
+      if ($value == TRUE) {
+        $facets['facet.' . $name][] = $value;
+      }
+    }
+  }
+
+  foreach ($facets as $type => $value) {
+    foreach ($value as $facet) {
+      $string .= $type . ':' . $facet . ';';
+    }
+  }
+  dsm($form_state);
+  drupal_goto('search/ting/harry', array('query' => array('facets' => $string)));
+}
+
 
 /**
  * facetbrowser theme function
