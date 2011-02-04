@@ -11,7 +11,8 @@
  * @ingroup forms
  * @see system_settings_form()
  */
-function ting_admin_ting_settings() {
+function ting_admin_ting_settings($form_state) {
+  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form = array();
 
   $form['ting'] = array(
@@ -74,7 +75,8 @@ function ting_admin_ting_settings() {
  * @ingroup forms
  * @see system_settings_form()
  */
-function ting_admin_addi_settings() {
+function ting_admin_addi_settings($form_state) {
+  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),
@@ -124,12 +126,13 @@ function ting_admin_addi_settings() {
 }
 
 /**
- * Form builder; Configure ADDI settings for this site.
+ * Form builder; Configure proxy settings for this site.
  *
  * @ingroup forms
  * @see system_settings_form()
  */
-function ting_admin_proxy_settings() {
+function ting_admin_proxy_settings($form_state) {
+  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form['proxy'] = array(
     '#type' => 'fieldset',
     '#title' => t('Proxy service'),
