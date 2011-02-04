@@ -1,5 +1,5 @@
 api = 2
-core = 6.x
+core = 7.x
 
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
