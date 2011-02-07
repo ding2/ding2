@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Base setup and functions for Ding!.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Provides the Configuration page block for all Ding modules.
+ */
+function ding_base_menu() {
+  $items['admin/config/ding'] = array(
+    'title' => 'Ding',
+    'description' => 'Manage Ding.',
+    'position' => 'right',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  return $items;
+}
