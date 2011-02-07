@@ -1,0 +1,19 @@
+<?php
+
+class DingFacetbrowser extends DrupalUnitTestCase {
+
+  public function getInfo() {
+    return array(
+      'name' => t('Ding Facetbrowser'),
+      'description' => t('Tests for the Ding Facetbrowser module'),
+      'group' => 'Ding!',
+    );
+  }
+
+  public function setUp() {
+
+  }
+
+}
+
+

@@ -4,4 +4,5 @@ version = 0.1
 core = 7.x
 package = Ding! Frontend
 files[] = ding_facetbrowser.module
+files[] = ding_facetbrowser.test
 
