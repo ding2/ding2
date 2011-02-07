@@ -5,6 +5,30 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function ding_provider_menu() {
+  $items['admin/config/ding/provider'] = array(
+    'title' => 'Ding provider',
+    'page callback' => 'ding_provider_admin_overview',
+    'access arguments' => array('administer ding provider'),
+    'file' => 'ding_provider.admin.inc'
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_provider_permission() {
+  return array(
+    'administer ding provider' => array(
+      'title' => t('Administer Ding provider'),
+    ),
+  );
+}
+
+/**
  * Invoke a provider hook.
  */
 function ding_provider_invoke() {
@@ -33,7 +57,10 @@ function ding_provider_invoke() {
   }
 }
 
-function _ding_provider_get_provider($type) {
+/**
+ * Returns the given provider.
+ */
+function _ding_provider_get_provider($type = NULL) {
   static $providers;
   if (!isset($providers)) {
     $providers = array();
@@ -44,6 +71,10 @@ function _ding_provider_get_provider($type) {
         $providers[$name] = $module_provider;
       }
     }
+  }
+
+  if (!$type) {
+    return $providers;
   }
 
   if (isset($providers[$type])) {
