@@ -21,29 +21,51 @@ function ding_facetbrowser_theme() {
     ),
   );
 }
+
+/**
+ * Implements a custom facetbrowser form
+ */
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
-  $checkboxes = array();
+  $predefined_facet_string = $_GET['facets'];
+  $predefined_facets       = explode(';', $predefined_facet_string);
+  $set_facets              = array();
+  $checkboxes              = array();
+      $default_values      = array();
+
+  // Create an array with pre-set facets from page url
+  foreach ($predefined_facets as $pre_facet) {
+    if ($pre_facet) {
+      $explode_facet = explode(':', $pre_facet);
+      $set_facets[str_replace('facet.', '', $explode_facet[0])][$explode_facet[1]] = $explode_facet[1];
+    }
+  }
   if (count($facets) == TRUE) {
     foreach ($facets as $facet) {
       if (count($facet) == TRUE)
-        $form[$facet->name] = array(
+        $form[$facet->name] = ar ray(
           '#type'        => 'fieldset',
-          '#title'       => $facet->name,
+          '#title'       = > $facet->name,
           '#collapsible' => TRUE,
         );
       if ($facet instanceof TingClientFacetResult && count($facet->terms) == TRUE) {
         foreach ($facet->terms as $term_name => $term_count) {
+          $facet_name             = explode('.', $facet->name);
+          $element_name           = end($facet_name);
           $checkboxes[$term_name] = $term_name . ' (' . $term_count . ')';
+
+          if (array_key_exists($element_name, $set_facets) && array_key_exists($term_name, $set_facets[$element_name])) {
+            $default_values[] = $term_name;
+          }
         }
-        $facet_name = explode('.', $facet->name);
-        $element_name = end($facet_name);
 
         $form[$facet->name][$element_name] = array(
-          '#type'    => 'checkboxes',
-          '#options' => $checkboxes,
+          '#type'          => 'checkboxes',
+          '#options'       => $checkboxes,
+          '#default_value' => $default_values,
         );
       }
       unset($checkboxes);
+      unset($default_values);
     }
     $form['submit'] = array(
       '#type'  => 'submit',
@@ -53,9 +75,15 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
   return $form;
 }
 
+/**
+ * Implements a validate handler for ding_facetbrowser_form().
+ */
 function ding_facetbrowser_form_validate($form, &$form_state) {
 }
 
+/**
+ * Implements a submit handler for ding_facetbrowser_form()
+ */
 function ding_facetbrowser_form_submit($form, &$form_state) {
   $facets = array();
   $string = FALSE;
@@ -72,7 +100,6 @@ function ding_facetbrowser_form_submit($form, &$form_state) {
       $string .= $type . ':' . $facet . ';';
     }
   }
-  dsm($form_state);
   drupal_goto('search/ting/harry', array('query' => array('facets' => $string)));
 }
 
