@@ -1,5 +1,7 @@
-name = facet browser
-description = the facet browser block for the search module
+name = Ding Facet Browser
+description = Implements a facetbrowser for search results. If a module implements hook_facetbrowser() we're trying to create a facetbrowser
+version = 0.1
 core = 7.x
-package = Search
-dependencies[] = ting_search
+package = Ding! Frontend
+files[] = ding_facetbrowser.module
+
