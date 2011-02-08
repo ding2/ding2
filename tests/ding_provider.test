@@ -24,7 +24,7 @@ class DingProviderTestCase extends DrupalWebTestCase {
   function testAvailabilityProvider() {
     $res = ding_provider_invoke('availability', 'items', array(1, 2));
     $this->assertTrue(is_array($res), t('Test availability provider returns an array.'));
-    $this->assertTrue($res[2], t('Returns TRUE for 2.'));
-    $this->assertFalse($res[1], t('Returns FALSE for 1.'));
+    $this->assertTrue($res[2]['reservable'], t('Returns reservable TRUE for 2.'));
+    $this->assertFalse($res[1]['reservable'], t('Returns reservable FALSE for 1.'));
   }
 }
