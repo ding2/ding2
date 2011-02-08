@@ -247,19 +247,28 @@ function ting_entity_info() {
 }
 
 /**
+ * Add a provider_id to the objects.
+ *
+ * @todo
+ *   Maybe this should be in a mapper module.
+ */
+function ting_ting_object_load($objects) {
+  foreach ($objects as $object) {
+    $object->provider_id = $object->localId;
+  }
+}
+
+/**
  * Load a ting object.
  */
 function ting_object_load($id) {
-  module_load_include('client.inc', 'ting');
-  return ting_get_object_by_id($id);
+  return reset(entity_load('ting_object', array(), array('ding_entity_id' => array($id))));
 }
 
 /**
  * Load a ting collection.
  */
 function ting_collection_load($id) {
-  // module_load_include('client.inc', 'ting');
-  // return ting_get_collection_by_id($id);
   return reset(entity_load('ting_collection', array(), array('ding_entity_collection_id' => array($id))));
 }
 
@@ -386,6 +395,7 @@ class TingObjectController extends DrupalDefaultEntityController {
       $query->condition('ding_entity_id', $conditions['ding_entity_id']);
       $known = $query->execute()->fetchAllKeyed();
       foreach ($conditions['ding_entity_id'] as $ding_entity_id) {
+        // Not known locally. Create a proxy if it exists in the well.
         if (!isset($known[$ding_entity_id])) {
           // See if it exists. ting_get_object_by_id caches internally, so
           // we don't.
@@ -404,9 +414,12 @@ class TingObjectController extends DrupalDefaultEntityController {
               ->execute();
           }
         }
+        elseif (!in_array($ding_entity_id, $ids)) {
+          // Add the local id to the ids loaded.
+          $ids[] = $known[$ding_entity_id];
+        }
       }
     }
-    // debug(db_select($this->entityInfo['base table'], 'base')->fields('base')->execute()->fetchAll());
     $entities = parent::load($ids, array());
     return $entities;
   }
