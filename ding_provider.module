@@ -29,6 +29,13 @@ function ding_provider_permission() {
 }
 
 /**
+ * Returns whether a provider implements a given function.
+ */
+function ding_provider_implements($type, $hook) {
+  return (bool) _ding_provider_function($type, $hook);
+}
+
+/**
  * Invoke a provider hook.
  */
 function ding_provider_invoke() {
@@ -38,12 +45,7 @@ function ding_provider_invoke() {
 
   $provider = _ding_provider_get_provider($type);
   if ($provider) {
-    $function = $provider['module'] . '_' . (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') . $hook;
-
-    if (isset($provider['file'])) {
-      require_once DRUPAL_ROOT . '/' . $provider['file'];
-    }
-
+    $function = _ding_provider_function($type, $hook);
     if ($function) {
       return call_user_func_array($function, $args);
     }
@@ -79,6 +81,29 @@ function _ding_provider_get_provider($type = NULL) {
 
   if (isset($providers[$type])) {
     return $providers[$type];
+  }
+  return NULL;
+}
+
+/**
+ * Returns the provider function for a hook, loading files if
+ * necessary.
+ *
+ * @return
+ *  String or NULL.
+ */
+function _ding_provider_function($type, $hook) {
+  $provider = _ding_provider_get_provider($type);
+  if ($provider) {
+    $function = $provider['module'] . '_' . (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') . $hook;
+
+    if (isset($provider['file'])) {
+      require_once DRUPAL_ROOT . '/' . $provider['file'];
+    }
+
+    if (function_exists($function)) {
+      return $function;
+    }
   }
   return NULL;
 }

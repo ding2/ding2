@@ -1,0 +1,7 @@
+name = "Ding provider example module"
+description = "An example provider module for reference and testing. Not for production use."
+core = 7.x
+package = Ding!
+dependencies[] = ding_provider
+files[] = dp_example.module
+version = 0.1

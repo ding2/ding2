@@ -8,23 +8,49 @@
 
 class DingProviderTestCase extends DrupalWebTestCase {
 
+  function setUp($modules) {
+    $this->profile = 'ding2';
+    if (!in_array('ding_provider', $modules)) {
+      $modules[] = 'ding_provider';
+    }
+    parent::setUp($modules);
+  }
+
+}
+
+class DingAvailabilityProviderTestCase extends DingProviderTestCase {
   public static function getInfo() {
     return array(
-      'name' => 'Ding provider',
-      'description' => 'Test basic Ding provider functionality.',
+      'name' => 'Ding availability provider',
+      'description' => 'Test Ding availability provider functionality.',
       'group' => 'Ding!',
     );
   }
 
   function setUp() {
-    $this->profile = 'ding2';
-    parent::setUp(array('ding_provider', 'ding_provider_test'));
+    parent::setUp(array('dp_example'));
   }
 
   function testAvailabilityProvider() {
-    $res = ding_provider_invoke('availability', 'items', array(1, 2));
-    $this->assertTrue(is_array($res), t('Test availability provider returns an array.'));
-    $this->assertTrue($res[2]['reservable'], t('Returns reservable TRUE for 2.'));
-    $this->assertFalse($res[1]['reservable'], t('Returns reservable FALSE for 1.'));
+    $res = ding_provider_invoke('availability', 'items', array(21, 12));
+    $this->assertTrue(is_array($res), t('Availability provider returns an array for items.'));
+    $this->assertTrue($res[12]['available'], t('Returns available for 12.'));
+    $this->assertFalse($res[21]['available'], t('Returns not available for 21.'));
+    $this->assertFalse($res[12]['reservable'], t('Returns not reservable for 12.'));
+    $this->assertTrue($res[21]['reservable'], t('Returns reservable  for 21.'));
+
+    $res = ding_provider_invoke('availability', 'holdings', array(121, 212));
+    $this->assertTrue(is_array($res), t('Availability provider returns an array for holdings.'));
+    $this->assertTrue(is_array($res[212]['holdings']), t('Holdings is an array.'));
+    $this->assertTrue(is_array($res[121]['holdings']), t('Holdings is an array.'));
+
+    $this->assertEqual($res[212]['holdings'], array('Andeby bibliotek', 'Gåserød bibliotek'), t('Correct holdings'));
+    $this->assertEqual($res[121]['holdings'], array(), t('Correct holdings'));
+
+    $this->assertTrue($res[212]['available'], t('Returns available for 212.'));
+    $this->assertFalse($res[121]['available'], t('Returns not available for 121.'));
+    $this->assertFalse($res[212]['reservable'], t('Returns not reservable for 212.'));
+    $this->assertTrue($res[121]['reservable'], t('Returns reservable  for 121.'));
+
   }
 }

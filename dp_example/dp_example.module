@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file
+ * Helper module for the Ding provider tests.
+ *
+ * The module defines
+ * - an availability provider
+ *
+ */
+
+/**
+ * Implement hook_ding_provider().
+ */
+function dp_example_ding_provider() {
+  return array(
+    'availability' => array(
+      'title' => 'Ding provider example availability provider',
+      'prefix' => 'availability',
+    ),
+  );
+}
+
+function dp_example_availability_items($provider_ids) {
+  $res = array();
+  foreach ($provider_ids as $id) {
+    $res[$id] = array(
+      'available' => (bool) (($id%2) == 0),
+      'reservable' => (bool) (((int)($id/10)%2) == 0),
+    );
+  }
+  return $res;
+}
+
+/**
+ */
+function dp_example_availability_holdings($provider_ids) {
+  // Holdings is a superset of items.
+  $res = dp_example_availability_items($provider_ids);
+  foreach ($res as $id => &$availability) {
+    if (((int)($id/100)%2) == 0) {
+      $availability['holdings'] = array(
+        'Andeby bibliotek',
+        'Gåserød bibliotek',
+      );
+    }
+    else {
+      $availability['holdings'] = array();
+    }
+  }
+
+  return $res;
+}
+
+/**
+ *
+ */
+function dp_example_availability_periodical($provider_ids) {
+  $holdings = array();
+  return $holdings;
+}
