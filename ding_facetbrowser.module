@@ -74,10 +74,12 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
       $default_values = array();
     }
 
-    $form['submit'] = array(
-      '#type'  => 'submit',
-      '#value' => 'Submit',
-    );
+    if (count($form) == TRUE) {
+      $form['submit'] = array(
+        '#type'  => 'submit',
+        '#value' => 'Submit',
+      );
+    }
   }
 
   return $form;
