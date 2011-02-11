@@ -1,0 +1,12 @@
+
+.availability {
+  background-color: #444;
+}
+
+.availability.available {
+  background-color: #CC0;
+}
+
+.availability.available.reservable {
+  background-color: #0C0;
+}

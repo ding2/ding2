@@ -15,6 +15,13 @@ function ding_availability_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['ding_availability/holdings'] = array(
+    'title' => 'Availability and holding status',
+    'page callback' => 'ding_availability_holdings_js',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -28,12 +35,46 @@ function ding_availability_js($provider_ids) {
 /**
  *
  */
+function ding_availability_holdings_js($provider_ids) {
+  drupal_json_output(ding_availability_holdings(explode(',', $provider_ids)));
+}
+
+/**
+ *
+ */
 function ding_availability_items($provider_ids) {
-  $items = ding_provider_invoke('availability', 'items', $provider_ids);
+  if (ding_provider_implements('availability', 'items')) {
+    $items = ding_provider_invoke('availability', 'items', $provider_ids);
+    if (!$items) {
+      return array();
+    }
+    foreach ($items as $item) {
+      $item += array(
+        'reservable' => FALSE,
+        'available' => FALSE,
+      );
+    }
+  }
+  else {
+    $items = ding_availability_holdings($provider_ids);
+  }
+
+  return $items;
+}
+
+/**
+ *
+ */
+function ding_availability_holdings($provider_ids) {
+  $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
+  if (!$items) {
+    return array();
+  }
   foreach ($items as $item) {
     $item += array(
       'reservable' => FALSE,
       'available' => FALSE,
+      'holdings' => array(),
     );
   }
 
@@ -44,10 +85,8 @@ function ding_availability_items($provider_ids) {
  * Implements hook_entity_view().
  */
 function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NULL) {
-  // dpm(ding_provider_invoke('availability', 'items', array($entity->provider_id)));
-
   $entity->content['overview']['right'] = array(
-    '#markup' => '<div class="availability-' . $entity->provider_id. '">wolla</div>',
+    '#markup' => '<div class="availability availability-' . $entity->provider_id. '"></div>',
     '#weight' => 10,
     '#attached' => array(
       'js' => array(
@@ -55,8 +94,16 @@ function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NUL
           'type' => 'file',
 
         ),
-        array('data' => array('ding_availability' => array($entity->provider_id => array('availability-' . $entity->provider_id))), 'type' => 'setting'),
+        array('data' => array('ding_availability_mode' => 'holdings', 'ding_availability' => array($entity->provider_id => array('availability-' . $entity->provider_id))), 'type' => 'setting'),
+      ),
+      'css' => array(
+        drupal_get_path('module', 'ding_availability') . '/ding_availability.css'
       ),
     ),
+  );
+
+  $entity->content['holdings'] = array(
+    '#markup' => '<div class="holdings holdings-' . $entity->provider_id. '"></div>',
+    '#weight' => 10,
   );
 }
