@@ -29,7 +29,7 @@ function ding_provider_menu() {
       $items['admin/config/ding/provider/' . $provider['module']] = array(
         'title' => $provider['title'],
         'page callback' => 'drupal_get_form',
-        'page arguments' => $provider['global settings'],
+        'page arguments' => array($provider['global settings']),
         'access arguments' => array('administer ding provider'),
         'type' => MENU_LOCAL_TASK,
         'weight' => -1,

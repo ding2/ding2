@@ -21,7 +21,7 @@ function ding_provider_admin_overview() {
       $build[$type] = array(
         '#type' => 'item',
         '#title' => t("Provider type '@type'", array('@type' => $type)),
-        '#markup' => check_plain($provider['title']),
+        '#markup' => t('Provided by @title', array('@title' => $provider['title'])),
       );
     }
   }
