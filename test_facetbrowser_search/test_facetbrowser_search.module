@@ -34,9 +34,9 @@ function test_facetbrowser_search_search_execute($keys = NULL, $conditions = NUL
  */
 function test_facetbrowser_search_ding_facetbrowser() {
 	$results             = new stdClass();
-  
+
   // Show an empty facetbrowser block, even if search didn't return any results
-  $results->show_empty = TRUE; 
+  $results->show_empty = TRUE;
 
   // Build the facet browser, with two categories
   $results->facets               = array();
@@ -58,7 +58,6 @@ function test_facetbrowser_search_ding_facetbrowser() {
       'Massa'      => 'Vestibulum',
     ),
   );
-  
 
 	return $results;
 }
