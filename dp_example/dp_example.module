@@ -14,9 +14,11 @@
  */
 function dp_example_ding_provider() {
   return array(
-    'availability' => array(
-      'title' => 'Ding provider example availability provider',
-      'prefix' => 'availability',
+    'title' => 'Ding provider example',
+    'provides' => array(
+      'availability' => array(
+        'prefix' => 'availability',
+      ),
     ),
   );
 }

@@ -29,33 +29,76 @@ function ding_provider_permission() {
 }
 
 /**
+ * Implements hook_ding_install_tasks().
+ */
+function ding_provider_ding_install_tasks() {
+  $users = _ding_provider_get_provider_users();
+  $providers = _ding_provider_get_provider();
+  $return = array();
+  foreach ($users as $provider => $info) {
+    // Add global provider settings if required.
+    if ($info['ding_profile'] && sizeof($info['required']) && $form_id = $providers[$provider]['global settings']) {
+      $return[$form_id] = array(
+        // TODO: This doesn't work for potx, we need the generated stings in
+        // plain form somewhere.
+        'display_name' => st($providers[$provider]['title']),
+        'type' => 'form',
+      );
+
+      if ($providers[$provider]['global settings file']) {
+        $return[$form_id]['file'] = $providers[$provider]['global settings file'];
+      }
+    }
+
+    // Add settings for individual providers to installer if someone asked for
+    // it and there's modules that requires this provider.
+    if ($info['ding_profile'] && sizeof($info['required']) && $form_id = ding_provider_implements($provider, 'settings')) {
+      $return[$form_id] = array(
+        // TODO: This doesn't work for potx, we need the generated stings in
+        // plain form somewhere.
+        'display_name' => st(drupal_ucfirst($provider) . ' provider'),
+        'type' => 'form',
+      );
+      if ($providers[$provider]['file']) {
+        $return[$form_id]['file'] = $providers[$provider]['file'];
+      }
+    }
+  }
+  return $return;
+}
+
+/**
  * Returns whether a provider implements a given function.
  */
 function ding_provider_implements($type, $hook) {
-  return (bool) _ding_provider_function($type, $hook);
+  return (bool) _ding_provider_function($type, $hook, TRUE);
 }
 
 /**
  * Invoke a provider hook.
  */
-function ding_provider_invoke() {
+function ding_provider_invoke($type, $hook) {
   $args = func_get_args();
-  $type = array_shift($args);
-  $hook = array_shift($args);
+  array_shift($args);
+  array_shift($args);
 
-  $provider = _ding_provider_get_provider($type);
-  if ($provider) {
-    $function = _ding_provider_function($type, $hook);
-    if ($function) {
-      return call_user_func_array($function, $args);
-    }
-    // Trigger an error. This might be a module attempting to use a wrong
-    // hook, or an improperly implemented plugin. In either case, it's
-    // programmer error.
-    trigger_error(t('Ding @type provider (%module module) does not implement %function', array('@type' => $type, '%function' => $hook, '%module' => $provider['module'])), E_USER_ERROR);
+  $function = _ding_provider_function($type, $hook);
+  if ($function) {
+    return call_user_func_array($function, $args);
   }
-  else {
-    watchdog('ding_provider', 'Provider module not configured for provider type %type.', array('%type' => $type), WATCHDOG_ERROR);
+}
+
+/**
+ * Get a provider form
+ */
+function ding_provider_get_form($type, $form_id) {
+  $args = func_get_args();
+  array_shift($args);
+  array_shift($args);
+
+  $function = _ding_provider_function($type, $form_id);
+  if ($function) {
+    return drupal_get_form($function, $args);
   }
 }
 
@@ -67,9 +110,17 @@ function _ding_provider_get_provider($type = NULL) {
   if (!isset($providers)) {
     $providers = array();
     foreach (module_implements('ding_provider') as $module) {
-      $module_provides = module_invoke($module, 'ding_provider');
-      foreach ($module_provides as $name => $module_provider) {
+      $module_provides = module_invoke($module, 'ding_provider') + array(
+        'title' => $module . '.module',
+        'settings' => NULL,
+        'file' => NULL,
+        'provides' => array(),
+      );
+      foreach ($module_provides['provides'] as $name => $module_provider) {
         $module_provider['module'] = $module;
+        $module_provider['title'] = $module_provides['title'];
+        $module_provider['global settings'] = $module_provides['settings'];
+        $module_provider['global settings file'] = $module_provides['file'];
         $providers[$name] = $module_provider;
       }
     }
@@ -86,13 +137,57 @@ function _ding_provider_get_provider($type = NULL) {
 }
 
 /**
- * Returns the provider function for a hook, loading files if
- * necessary.
+ * Returns user information on the given provider.
+ */
+function _ding_provider_get_provider_users($type = NULL) {
+  static $provider_users;
+  if (!isset($provider_users)) {
+    $provider_users = array();
+    foreach (module_implements('ding_provider_user') as $module) {
+      $module_uses = module_invoke($module, 'ding_provider_user');
+      foreach ($module_uses as $name => $options) {
+        if (!isset($provider_users[$name])) {
+          $provider_users[$name] = array(
+            'ding_profile' => FALSE,
+            'required' => array(),
+            'users' => array(),
+          );
+        }
+        if ($options['install time setup']) {
+          $provider_users[$name]['ding_profile'] = TRUE;
+        }
+        if ($options['required']) {
+          $provider_users[$name]['required'][] = $module;
+        }
+        else {
+          $provider_users[$name]['users'][] = $module;
+        }
+      }
+    }
+  }
+
+  if (!$type) {
+    return $provider_users;
+  }
+
+  if (isset($provider_users[$type])) {
+    return $provider_users[$type];
+  }
+  return NULL;
+}
+
+/**
+ * Returns the provider function for a hook, loading files if necessary. Logs
+ * an error if the provider or hook isn't implemented, unless $quiet has been
+ * specified.
  *
+ * @param $type Provider name.
+ * @param $hook Hook name.
+ * @param $quiet Whether to suppress errors.
  * @return
  *  String or NULL.
  */
-function _ding_provider_function($type, $hook) {
+function _ding_provider_function($type, $hook, $quiet = FALSE) {
   $provider = _ding_provider_get_provider($type);
   if ($provider) {
     $function = $provider['module'] . '_' . (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') . $hook;
@@ -104,6 +199,15 @@ function _ding_provider_function($type, $hook) {
     if (function_exists($function)) {
       return $function;
     }
+    elseif (!$quiet) {
+      // Trigger an error. This might be a module attempting to use a wrong
+      // hook, or an improperly implemented plugin. In either case, it's
+      // programmer error.
+      trigger_error(t('Ding @type provider (%module module) does not implement %function', array('@type' => $type, '%function' => $hook, '%module' => $provider['module'])), E_USER_ERROR);
+    }
+  }
+  elseif (!$quiet) {
+    watchdog('ding_provider', 'Provider module not configured for provider type %type.', array('%type' => $type), WATCHDOG_ERROR);
   }
   return NULL;
 }
