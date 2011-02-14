@@ -14,6 +14,32 @@ function ding_provider_menu() {
     'access arguments' => array('administer ding provider'),
     'file' => 'ding_provider.admin.inc'
   );
+
+  $items['admin/config/ding/provider/overview'] = array(
+    'title' => 'Overview',
+    'description' => 'Providers overview',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -1,
+    'file' => 'system.admin.inc',
+  );
+
+  $providers = _ding_provider_get_provider();
+  foreach ($providers as $name => $provider) {
+    if ($provider['global settings']) {
+      $items['admin/config/ding/provider/' . $provider['module']] = array(
+        'title' => $provider['title'],
+        'page callback' => 'drupal_get_form',
+        'page arguments' => $provider['global settings'],
+        'access arguments' => array('administer ding provider'),
+        'type' => MENU_LOCAL_TASK,
+        'weight' => -1,
+      );
+      if ($provider['global settings file']) {
+        $items['admin/config/ding/provider/' . $provider['module']]['file'] = $provider['global settings file'];
+      }
+    }
+  }
+
   return $items;
 }
 
