@@ -30,6 +30,7 @@ Drupal.behaviors.dingAvailabilityAttach = {
           }
           $('.availability-' + id).text(text);
           if (item['holdings'] !== undefined) {
+            // TODO: Check if holdings-<id> exists.
             if (item['holdings'].length > 0) {
               $('.holdings-' + id).append('<ul>');
               var container = $('.holdings-' + id + ' ul');
