@@ -1,0 +1,8 @@
+name = Test search
+description = Test search module, which builds a facetbrowser
+core = 7.x
+dependencies[] = search
+dependencies[] = ding_facetbrowser
+files[] = test_facetbrowser_search.module
+files[] = test_facetbrowser_search.install
+
