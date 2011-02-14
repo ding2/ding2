@@ -1,0 +1,131 @@
+<?php
+
+/**
+ * @file openruth.module
+ * Drupal implementation of ZRuth's openruth SOAP API
+ */
+
+/**
+ * Implement hook_ding_provider().
+ */
+function openruth_ding_provider() {
+  return array(
+    'title' => 'Openruth',
+    'settings' => 'openruth_settings_form',
+    'provides' => array(
+      'availability' => array(
+        'title' => 'Openruth availability provider',
+        'prefix' => 'availability',
+      ),
+    ),
+  );
+}
+
+/**
+ * Form callback for provider module settings.
+ *
+ * This is a regular form callback.
+ */
+function openruth_settings_form() {
+  $form['openruth_wsdl_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('OpenRuth WSDL URL'),
+    '#description' => t('The WSDL URL for OpenRuth SOAP service, usually something like http://openruth.addi.dk/0.2/openruth.wsdl'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('openruth_wsdl_url', ''),
+  );
+
+  $form['openruth_agency_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Agency Id'),
+    '#default_value' => variable_get('openruth_agency_id', ''),
+    '#description' => t('The OpenRuth agency id of the library.'),
+  );
+
+  $form['openruth_enable_logging'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable logging'),
+    '#default_value' => variable_get('openruth_enable_logging', FALSE),
+    '#description' => t('Logs requests to the OpenRuth webservice. Sensitive information such as CPR number and PIN code is stripped from the requests.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Submit function. Trim values.
+ */
+function openruth_settings_form_submit($form, &$form_state) {
+  foreach ($form_state['values'] as $name => $value) {
+    $form_state['values'][$name] = trim($value);
+  }
+  system_settings_form_submit($form, $form_state);
+}
+
+/**
+ * Return an OpenruthClient instance.
+ */
+function openruth_client() {
+  // This is basically a singleton. We also wait until right before
+  // instantiating to include our required classes. That seems like a
+  // decent performance tradeoff instead of loading everything on every
+  // page load.
+  static $client;
+  if (!isset($client)) {
+    $path = drupal_get_path('module', 'openruth');
+    include($path . '/lib/OpenruthClient/OpenruthClient.class.php');
+    $wsdl = variable_get('openruth_wsdl_url', '');
+    $agency_id = variable_get('openruth_agency_id', '');
+    if (!empty($wsdl) && !empty($agency_id)) {
+      try {
+        $client = new OpenruthClient($wsdl, $agency_id);
+      }
+      catch (Exception $e) {
+        watchdog('openruth', 'Constructor error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+        $client = NULL;
+      }
+    }
+    else {
+      $client = NULL;
+    }
+  }
+  return $client;
+}
+
+/**
+ * Calls the Openruth backend.
+ *
+ * @param $method
+ *   The desired method.
+ * @param ...
+ *   Arguments to the method.
+ *
+ * @return mixed
+ *   NULL on error, or the result of the method call.
+ */
+function openruth_client_invoke($method) {
+  $args = func_get_args();
+  array_shift($args); // Lose the method.
+  $client = openruth_client();
+  if (!$client) {
+    return NULL;
+  }
+
+  try {
+    $result = call_user_func_array(array($client, $method), $args);
+  }
+  catch (Exception $e) {
+    watchdog('openruth', '@method error: “@message”', array('@method' => $method, '@message' => $e->getMessage(), WATCHDOG_ERROR));
+    return NULL;
+  }
+
+  return $result;
+}
+
+/**
+ *
+ */
+function openruth_availability_holdings($provider_ids) {
+  $holdings = openruth_client_invoke('get_holdings', $provider_ids);
+  return $holdings;
+}

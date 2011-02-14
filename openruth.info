@@ -1,0 +1,7 @@
+name = "Openruth"
+description = "Implementation of ZRuth's openruth API for their library system."
+core = 7.x
+package = Ding!
+dependencies[] = ding_provider
+files[] = openruth.module
+version = 0.1
