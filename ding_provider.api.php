@@ -22,6 +22,7 @@
  *   - "title": The human-readable name for this module. Required.
  *   - "settings": Form id for a form of settings common to all providers
  *      of this module. Optional.
+ *   - "file": File to include for the global settings form. Optional.
  *   - "provides": An array of providers. The key is the name and the value
  *      is an array with the following attributes:
  *      - "prefix": An optional prefix for the methods in this provider.
