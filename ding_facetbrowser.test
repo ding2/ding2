@@ -1,16 +1,18 @@
 <?php
 
-class DingFacetbrowser extends DrupalWebTestCase {
+class DingFacetbrowserWeb extends DrupalWebTestCase {
 
   public function getInfo() {
     return array(
-      'name' => t('Ding Facetbrowser'),
-      'description' => t('Tests for the Ding Facetbrowser module'),
+      'name' => t('Ding Facetbrowser Web Tests'),
+      'description' => t('Webtests for the Ding Facetbrowser module'),
       'group' => 'Ding!',
     );
   }
 
   public function setUp() {
+    $this->profile = 'ding2';
+
     parent::setUp('ting', 'ding_facetbrowser', 'search', 'ting_search');
     variable_set('ting_agency', '721700');
     variable_set('ting_search_url', 'http://opensearch.addi.dk/0.14/');
@@ -19,12 +21,13 @@ class DingFacetbrowser extends DrupalWebTestCase {
     variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
     variable_set('search_active_modules', array('node' => 'node', 'ting_search' => 'ting_search'));
     variable_set('search_default_module', 'ting_search');
-    variable_set('ting_enable_logging', 1);
-    $this->web_user = $this->drupalCreateUser(array('administer search', 'administer blocks', 'search content', 'create page content'));
+
+    $this->nodetype = $this->drupalCreateContentType();
+    $this->web_user = $this->drupalCreateUser(array('administer search', 'administer blocks', 'search content', 'create ' . $this->nodetype->name . ' content'));
+    $this->drupalLogin($this->web_user);
   }
 
   public function testFacetModules() {
-    $this->drupalLogin($this->web_user);
     // Check if search module is installed
     $exists = module_exists('search');
     $this->assertTrue($exists, 'Search is enabled');
@@ -37,24 +40,35 @@ class DingFacetbrowser extends DrupalWebTestCase {
     $this->drupalGet('admin/structure/block');
     $this->assertRaw('Facet browser', 'The facetbrowser block is available');
 
-    $this->drupalPost('admin/structure/block', array('blocks[ding_facetbrowser_facetbrowser][region]' => 'sidebar_first'), t('Save blocks'));
-    $this->assertFieldByName('blocks[ding_facetbrowser_facetbrowser][region]', 'sidebar_first', t('Configurable text block is enabled in first sidebar successfully verified.') );
+    $this->drupalPost('admin/structure/block', array('blocks[ding_facetbrowser_facetbrowser][region]' => 'sidebar_first'), 'Save blocks');
+    $this->assertFieldByName('blocks[ding_facetbrowser_facetbrowser][region]', 'sidebar_first', 'Configurable text block is enabled in first sidebar successfully verified.');
 
-    // Create a page node containing the text 'harry'
+    // Create a custom node containing the text 'harry'
+    $node_title = $this->randomName(10);
     $node_info = array(
-      'title' => 'test node',
+      'title' => $node_title,
       'body[und][0][value]' => 'Harry potter rocks',
     );
+    $this->drupalPost('node/add/' . $this->nodetype->name, $node_info, t('Save'));
 
-    $this->drupalPost('node/add/page', $node_info, t('Save'));
+    $node = $this->drupalGetNodeByTitle($node_title);
+    $this->assertTrue($node, t('Node ' . $node_title . ' found in database'));
 
-    // Execute cron to update search index
+    // // Execute cron to update search index
     $this->cronRun();
 
-    // Search the site for harry
+    // // Search the site for harry
     $this->drupalGet('search/node/harry');
+    $this->assertNoText('Harry rocks', 'Search for "Harry rocks" in drupal - failed');
     $this->assertText('Harry potter rocks', 'Search for "Harry potter rocks" in drupal - complete');
 
+    $this->drupalGet('search/ting/harry');
+    $this->assertText('Hitler 1933 i dansk presse', 'Search for title from external search service completed');
+
+    // Check if the facetbrowser has any content
+
+    $this->assertText('facet.subject', 'Found the facet.subject fieldset in the facetbrowser');
+    $this->assertFieldById('edit-subject-instrumental', 'instrumental', 'Found the \'instrumental\' facet in the facet.subject fieldset');
   }
 }
 
