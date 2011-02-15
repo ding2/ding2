@@ -2,7 +2,7 @@
 
 class DingFacetbrowserWeb extends DrupalWebTestCase {
 
-  public function getInfo() {
+  static function getInfo() {
     return array(
       'name' => t('Ding Facetbrowser Web Tests'),
       'description' => t('Webtests for the Ding Facetbrowser module'),
