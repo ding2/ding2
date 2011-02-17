@@ -22,13 +22,11 @@ Drupal.behaviors.dingAvailabilityAttach = {
           var text = "";
           if (item['available']) {
             $('.availability-' + id).addClass('available');
-            text += Drupal.t('available');
           }
           if (item['reservable']) {
             $('.availability-' + id).addClass('reservable');
-            text += Drupal.t('reservable');
           }
-          $('.availability-' + id).text(text);
+          $('.availability-' + id).text(item['status']);
           if (item['holdings'] !== undefined) {
             // TODO: Check if holdings-<id> exists.
             if (item['holdings'].length > 0) {

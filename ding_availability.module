@@ -60,11 +60,12 @@ function ding_availability_items($provider_ids) {
     if (!$items) {
       return array();
     }
-    foreach ($items as $item) {
+    foreach ($items as &$item) {
       $item += array(
         'reservable' => FALSE,
         'available' => FALSE,
       );
+      _ding_availability_text($item);
     }
   }
   else {
@@ -82,12 +83,13 @@ function ding_availability_holdings($provider_ids) {
   if (!$items) {
     return array();
   }
-  foreach ($items as $item) {
+  foreach ($items as &$item) {
     $item += array(
       'reservable' => FALSE,
       'available' => FALSE,
       'holdings' => array(),
     );
+    _ding_availability_text($item);
   }
 
   return $items;
@@ -119,5 +121,23 @@ function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NUL
       '#markup' => '<div class="holdings holdings-' . $entity->provider_id. '"></div>',
       '#weight' => 10,
     );
+  }
+}
+
+/**
+ * Adds the human readable status text of an item.
+ */
+function _ding_availability_text(&$item) {
+  if ($item['available'] && $item['reservable']) {
+    $item['status'] = t('available');
+  }
+  elseif (!$item['available'] && $item['reservable']) {
+    $item['status'] = t('on loan');
+  }
+  elseif ($item['available'] && !$item['reservable']) {
+    $item['status'] = t('available');
+  }
+  elseif (!$item['available'] && !$item['reservable']) {
+    $item['status'] = t('unavailable');
   }
 }
