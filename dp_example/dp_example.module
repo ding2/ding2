@@ -19,6 +19,10 @@ function dp_example_ding_provider() {
       'availability' => array(
         'prefix' => 'availability',
       ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => drupal_get_path('module', 'dp_example') . '/dp_example.user.inc',
+      ),
     ),
   );
 }

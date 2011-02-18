@@ -23,7 +23,7 @@ class DingAvailabilityProviderTestCase extends DingProviderTestCase {
     return array(
       'name' => 'Ding availability provider',
       'description' => 'Test Ding availability provider functionality.',
-      'group' => 'Ding!',
+      'group' => 'Ding! provider',
     );
   }
 
@@ -52,5 +52,37 @@ class DingAvailabilityProviderTestCase extends DingProviderTestCase {
     $this->assertFalse($res[212]['reservable'], t('Returns not reservable for 212.'));
     $this->assertTrue($res[121]['reservable'], t('Returns reservable  for 121.'));
 
+  }
+}
+
+class DingUserProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding user provider',
+      'description' => 'Test Ding user provider functionality.',
+      'group' => 'Ding! provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('dp_example'));
+  }
+
+  function testUserProvider() {
+    $res = ding_provider_invoke('user', 'authenticate', 'twain', 'wain');
+    $this->assertTrue($res['success'], t('Authentication works.'));
+    $this->assertEqual($res['creds'], array('name' => 'twain', 'pass' => 'wain'), t('Creds are set properly.'));
+    $this->assertEqual($res['user'], array('display_name' => 'Twain'), t('User properties are set properly.'));
+
+    $this->assertTrue(ding_provider_invoke('user', 'is_authenticated', $res['creds']), t('is_authenticated returns TRUE'));
+
+
+    $res = ding_provider_invoke('user', 'authenticate', 'twain', 'ain');
+    $this->assertFalse($res['success'], t('Wrong password fails.'));
+    $this->assertEqual($res, array('success' => FALSE), t('No other data.'));
+
+    $res = ding_provider_invoke('user', 'authenticate', 'blockedtwain', 'wain');
+    $this->assertFalse($res['success'], t('Blocked user cannot log in.'));
+    $this->assertEqual($res['messages'], array(t("Sorry, you're blocked")), t('No other data.'));
   }
 }
