@@ -3,7 +3,7 @@
 /**
  * Test to ensure that ting objects is available through ding_entity.
  */
-class TingEntity extends DrupalWebTestCase {
+class TingEntityTestCase extends DrupalWebTestCase {
 
   public static function getInfo() {
     return array(
@@ -37,7 +37,7 @@ class TingEntity extends DrupalWebTestCase {
     $this->assertEqual($entity->title, 'Harry Potter og De Vises Sten', 'Entity has proper title.');
   }
 
-   /**
+  /**
   * Test that getting a ting collection works.
   */
   function testTingCollectionEntity() {
