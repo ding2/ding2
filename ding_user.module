@@ -1,0 +1,159 @@
+<?
+
+/**
+ * @file
+ * Ding user handling module.
+ */
+
+/**
+ *
+ */
+function ding_user_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // Add our own validation handler, after the default Drupal login
+      // validator.
+      $pos = array_search('user_login_authenticate_validate', $form['#validate']);
+      if ($pos === FALSE) {
+        // Not found, insert as next to last.
+        $pos = sizeof($form['#validate']) - 1;
+      }
+      else {
+        // After, not before.
+        $pos += 1;
+      }
+      array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
+    // Add our own submit handler.
+    // $form['#submit'][] = 'ding_library_user_login_submit';
+
+    // Remove the standard user login links.
+    //unset($form['links']);
+
+    break;
+  }
+}
+
+/**
+ * Return a local hash for the given name.
+ *
+ * As logins may be CPR numbers, which is really sensitive information, we use
+ * a hash of the name and the Drupal private key as authname.
+ */
+function ding_user_default_authname($name) {
+  // If another password.inc is in use, that doesn't define
+  // _password_base64_encode(), we'll fail horribly. We'll probably need to
+  // define our own base64 function, but we'll cross that bridge when we reach
+  // it.
+  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
+  /**
+   * A sha512 is 64 bytes, which becomes 128 hexadecimal chars, which is
+   * exactly the size of the authname field in the database. So we ask hash
+   * for binary data and lets _password_base64_encode base64 encode it to 86
+   * characters, leaving enough room for our suffix.
+   */
+  $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
+  return _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+}
+
+/**
+ *
+ */
+function ding_user_user_login_validate($form, &$form_state) {
+  // If $form_state['uid'] is set, Drupal already found a user, so we don't
+  // bother. Also, we require name and pass.
+  if ($form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['name'])) {
+    return;
+  }
+
+  $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+  if (!is_array($auth_res) || !isset($auth_res['success'])) {
+    watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+    return;
+  }
+
+  if ($auth_res['success']) {
+    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+      // If provider supplied an authname, use it.
+      $auth_name = $auth_res['authname'];
+    }
+    else {
+      // Else use a standard authname.
+      $auth_name = ding_user_default_authname($form_state['values']['name']);
+    }
+    // We'd like to use user_external_login_register(), but it saves the user
+    // and invokes hook_user_login before we have a chance to mess with it. So
+    // we do what it would do.
+
+    $account = user_external_load($auth_name);
+    if (!$account) {
+      // Register this new user.
+      $userinfo = array(
+        // Name is only 60 chars, and authname is longer. Use a shorter SHA1
+        // hash.
+        'name' => hash('sha1', $auth_name),
+        'pass' => user_password(),
+        'init' => $auth_name,
+        'status' => 1,
+        'access' => REQUEST_TIME,
+        'mail' => '',
+      );
+
+      if (isset($auth_res['user'])) {
+        $userinfo = array_merge($userinfo, $auth_res['user']);
+      }
+
+      $account = user_save(drupal_anonymous_user(), $userinfo);
+      // Terminate if an error occurred during user_save().
+      if (!$account) {
+        drupal_set_message(t("Error saving user account."), 'error');
+        return;
+      }
+      user_set_authmaps($account, array("authname_ding_user" => $auth_name));
+    }
+    elseif (isset($auth_res['user'])) {
+      // Detect changed properties.
+      foreach ($auth_res['user'] as $key => $value) {
+        if ($key == 'data') {
+          // Special handling for data array.
+          if (array_diff_assoc($account->$key, $value) === array_diff_assoc($value, $account->$key)) {
+            unset($auth_res['user'][$key]);
+          }
+        }
+        if (isset($account->$key) && $account->$key === $value) {
+          unset($auth_res['user'][$key]);
+        }
+      }
+      if (!empty($auth_res['user'])) {
+        // Save account if there's any changes.
+        $account = user_save($account, $auth_res);
+      }
+    }
+
+    // Log user in.
+    $form_state['uid'] = $account->uid;
+    // We're not calling user_login_submit like user_external_login_register
+    // does, it's already the submit handler.
+
+    // Save credentials for later.
+    if (isset($auth_res['creds'])) {
+      $_SESSION['ding_user_creds'][$account->uid] = $auth_res['creds'];
+    }
+    // TODO: Do we still need this?
+    if (ding_provider_implements('user', 'authenticate_finalize')) {
+      ding_provider_invoke('user', 'authenticate_finalize', $user);
+    }
+  }
+  else {
+    if (isset($auth_res['messages'])) {
+      foreach ($auth_res['messages'] as $message) {
+        if (is_array($message)) {
+          list($message, $type) = $message;
+        } else {
+          $type = 'warning';
+        }
+        drupal_set_message($message, $type);
+      }
+    }
+  }
+}

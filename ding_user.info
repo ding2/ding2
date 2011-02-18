@@ -1,0 +1,10 @@
+name = Ding user
+description = Handles authentication against user provider and other user related stuff.
+package = Ding!
+version = 0.1
+core = 7.x
+files[] = ding_user.module
+files[] = ding_user.test
+dependencies[] = ding_provider
+dependencies[] = ding_base
+configure = admin/config/ding/user
