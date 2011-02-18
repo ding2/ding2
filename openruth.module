@@ -115,7 +115,7 @@ function openruth_client_invoke($method) {
     $result = call_user_func_array(array($client, $method), $args);
   }
   catch (Exception $e) {
-    watchdog('openruth', '@method error: “@message”', array('@method' => $method, '@message' => $e->getMessage(), WATCHDOG_ERROR));
+    watchdog('openruth', '@method error: “@message”', array('@method' => $method, '@message' => $e->getMessage()), WATCHDOG_ERROR);
     return NULL;
   }
 
@@ -127,5 +127,9 @@ function openruth_client_invoke($method) {
  */
 function openruth_availability_holdings($provider_ids) {
   $holdings = openruth_client_invoke('get_holdings', $provider_ids);
+  if (is_string($holdings)) {
+    watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $holdings), WATCHDOG_ERROR);
+    return array();
+  }
   return $holdings;
 }
