@@ -6,6 +6,7 @@
  *
  * The module defines
  * - an availability provider
+ * - an user provider
  *
  */
 

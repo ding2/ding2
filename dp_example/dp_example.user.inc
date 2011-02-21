@@ -34,7 +34,8 @@ function dp_example_user_authenticate($name, $pass) {
 }
 
 /**
- *
+ * TODO: Determine if this is required, or if it can be made optional
+ * (by assuming things if creds are available or not)
  */
 function dp_example_user_is_authenticated($creds) {
   return (isset($creds['name']) && isset($creds['pass']));
