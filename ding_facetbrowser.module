@@ -51,7 +51,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
         foreach ($facet->terms as $term_name => $term_count) {
           $facet_name             = explode('.', $facet->name);
           $element_name           = end($facet_name);
-          $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' (' . $term_count . ')' : FALSE);
+          $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="count">(' . $term_count . ')</span>' : FALSE);
 
           if (array_key_exists($element_name, $set_facets) && array_key_exists($term_name, $set_facets[$element_name])) {
             $default_values[] = $term_name;
