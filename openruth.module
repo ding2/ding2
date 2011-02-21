@@ -14,8 +14,10 @@ function openruth_ding_provider() {
     'settings' => 'openruth_settings_form',
     'provides' => array(
       'availability' => array(
-        'title' => 'Openruth availability provider',
         'prefix' => 'availability',
+      ),
+      'user' => array(
+        'prefix' => 'user',
       ),
     ),
   );
@@ -123,7 +125,7 @@ function openruth_client_invoke($method) {
 }
 
 /**
- *
+ * Implements provider availability, holdings.
  */
 function openruth_availability_holdings($provider_ids) {
   $holdings = openruth_client_invoke('get_holdings', $provider_ids);
@@ -132,4 +134,39 @@ function openruth_availability_holdings($provider_ids) {
     return array();
   }
   return $holdings;
+}
+
+/**
+ * Implements provider user, authenticate.
+ */
+function openruth_user_authenticate($name, $pass) {
+  $return = array(
+    'success' => FALSE,
+  );
+  $res = openruth_client_invoke('user_check', $name, $pass);
+
+  if (is_string($res)) {
+    watchdog('openruth', 'Error in user_check: @error', array('@error' => $res), WATCHDOG_ERROR);
+    return $return;
+  }
+  elseif (!$res || !$res->userFound || !$res->userPinCodeOk) {
+    // No reply or not found.
+    return $return;
+  }
+
+  if ($res->userBlocked) {
+    // TODO: Tell the user...
+  }
+
+  $return['success'] = TRUE;
+  $return['creds'] = array(
+    'name' => $name,
+    'pass' => $pass,
+  );
+
+  // Flush the user status cache, so we'll get the newest information.
+  // _openruth_user_status();
+
+  return $return;
+
 }

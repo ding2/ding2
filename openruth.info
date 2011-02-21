@@ -4,4 +4,5 @@ core = 7.x
 package = Ding!
 dependencies[] = ding_provider
 files[] = openruth.module
+files[] = openruth.test
 version = 0.1

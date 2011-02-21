@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Test OpenRuth user provider implementation.
+ */
+
+class OpenruthProviderTestCase extends DingUserProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth user provider',
+      'description' => 'Test Openruth user provider functionality.',
+      'group' => 'Ding! Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.6/openruth.wsdl');
+    variable_set('openruth_agency_id', '710100');
+  }
+
+  /**
+   * Returns name and password for a user that's supposed to be able to log
+   * in. Used by parent class.
+   */
+  function getGoodUser() {
+    return array('0019', '0019');
+  }
+}
