@@ -22,6 +22,33 @@ foreach ($includes as $include) {
 }
 
 /**
+ * Return a ting object, using a cache that's settable from the outside.
+ *
+ * This is a stopgap measure until refactoring this file.
+ */
+function ting_object_cache($id = NULL, $objects = NULL) {
+  static $cache = array();
+  if ($objects) {
+    foreach ($objects as $object) {
+      $cache[$object->id] = $object;
+    }
+  }
+  if ($id) {
+    if (isset($cache[$id])) {
+      return $cache[$id];
+    }
+    else {
+      $object = ting_get_object_by_id($id);
+      if ($object) {
+        $cache[$object->id] = $object;
+        return $object;
+      }
+    }
+  }
+  return NULL;
+}
+
+/**
  * Load an object from Ting by ID.
  *
  * @param string $object_id
@@ -186,7 +213,7 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
   //Decorate search result with additional information
   if (is_array($searchResult->collections)) {
     foreach ($searchResult->collections as &$collection) {
-      $collection = ting_add_collection_info($collection);
+      $collection = ting_add_collection_info($collection, $query);
       if (isset($options['enrich']) && $options['enrich']) {
         $collection = ting_add_additional_info($collection);
       }
@@ -298,7 +325,7 @@ function ting_get_request_factory() {
   return $requestFactory;
 }
 
-function ting_add_collection_info(TingClientObjectCollection $collection) {
+function ting_add_collection_info(TingClientObjectCollection $collection, $query = NULL) {
   $types = array();
   $subject_count = array();
 
@@ -328,7 +355,7 @@ function ting_add_collection_info(TingClientObjectCollection $collection) {
   $collection->date = $common_object->date;
 
   if (sizeof($collection->objects) > 1) {
-    $collection->url = url('ting/collection/' . $collection->id, array('absolute' => true));
+    $collection->url = url('ting/collection/' . $collection->id . ($query ? '/' . $query : ''), array('absolute' => true));
   }
   else {
     // Link collections of one object to the object.
