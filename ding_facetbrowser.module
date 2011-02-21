@@ -45,7 +45,6 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
         $form[$facet->name] = array(
           '#type'        => 'fieldset',
           '#title'       => $facet->name,
-          '#collapsible' => TRUE,
         );
       }
       if (is_object($facet) && count($facet->terms) == TRUE) {
@@ -138,27 +137,35 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $block_content    = FALSE;
   $content_in_facet = FALSE;
 
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery-bbq/jquery.ba-bbq.js');
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery-bbq/jquery.ba-bbq.min.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
   drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
+  // TODO: Get the facetbrowser dom id automatic
+  drupal_add_js(
+    array('dingFacetBrowser' => array(
+      'mainElement' => '#block-ding-facetbrowser-facetbrowser', 
+      'showCount' => 5)
+    ), 'setting');
+
 
   // Invoke ding_facetbrowser() from executed search module
   $executed_search                = menu_get_item(ltrim(request_uri(), '/'));
   list($executed_search_module, ) = $executed_search['page_arguments'];
 
-  $results = module_invoke($executed_search_module, 'ding_facetbrowser');
-  if (is_object($results)) {
-    foreach ($results->facets as $result) {
-      if (count($result->terms) == TRUE) {
-        $content_in_facet = TRUE;
-        break;
+  if (is_string($executed_search_module)) {
+    $results = module_invoke($executed_search_module, 'ding_facetbrowser');
+    if (is_object($results)) {
+      foreach ($results->facets as $result) {
+        if (count($result->terms) == TRUE) {
+          $content_in_facet = TRUE;
+          break;
+        }
+      }
+
+      if ($content_in_facet === TRUE || $results->show_empty == TRUE) {
+        $block_content = theme('facetbrowser', $results->facets);
       }
     }
-
-  if ($content_in_facet === TRUE || $results->show_empty == TRUE) {
-    $block_content = theme('facetbrowser', $results->facets);
-  }
-
   switch ($delta) {
     case 'facetbrowser':
       $block['subject'] = t('Facet browser');
