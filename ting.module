@@ -500,13 +500,11 @@ class TingCollectionController implements DrupalEntityControllerInterface {
             $query = 'rec.id=' . $ding_entity_collection_id . ' AND (' . $conditions['query'] . ')';
             $result = ting_do_search($query, 1, 1, array('facets' => array(), 'allObjects' => TRUE));
             $object = array_shift($result->collections);
-            dpm('search');
           }
 
            // Else we use the standard fetching routine.
           if (!$object) {
             $object = ting_get_collection_by_id($ding_entity_collection_id);
-            dpm('fetch');
           }
 
           if ($object) {
