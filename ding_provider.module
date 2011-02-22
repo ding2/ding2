@@ -63,7 +63,7 @@ function ding_provider_ding_install_tasks() {
   $return = array();
   foreach ($users as $provider => $info) {
     // Add global provider settings if required.
-    if ($info['ding_profile'] && sizeof($info['required']) && $form_id = $providers[$provider]['global settings']) {
+    if ($info['ding_profile'] && sizeof($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
       $return[$form_id] = array(
         // TODO: This doesn't work for potx, we need the generated stings in
         // plain form somewhere.

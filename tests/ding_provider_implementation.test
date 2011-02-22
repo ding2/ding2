@@ -15,10 +15,24 @@ class DingProviderImplementationTestCase extends DrupalWebTestCase {
     parent::setUp($modules);
   }
 
+  function testHasAllProviderTests() {
+    $providers = _ding_provider_get_provider();
+    foreach ($providers as $type => $provider) {
+      // Split module name on _, and capitalize each part.
+      $parts = explode('_', $provider['module']);
+      $parts = array_map('drupal_ucfirst', $parts);
+      $class_name = join('', $parts) . drupal_ucfirst($type) . 'ProviderImplementationTestCase';
+      $this->assertTrue(class_exists($class_name), t('@module implements @provider tests', array('@module' => $provider['module'], '@provider' => $type)));
+    }
+  }
 }
 
 abstract class DingUserProviderImplementationTestCase extends DingProviderImplementationTestCase {
 
+  /**
+   * This should return an array of name and password of a user known to be
+   * able to log in.
+   */
   abstract function getGoodUser();
 
   function testAuthenticate() {
@@ -43,5 +57,65 @@ abstract class DingUserProviderImplementationTestCase extends DingProviderImplem
     else {
       debug('Creds not set.');
     }
+  }
+}
+
+abstract class DingAvailabilityProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * Should return an array of ids that will return availability information
+   * from the items function
+   *
+   * Only required if provider implements items.
+   */
+  // abstract function getSomeItems();
+
+  /**
+   * Should return an array of ids that will return availability information
+   * from the items function
+   */
+  abstract function getSomeHoldings();
+
+  function testItems() {
+    if (ding_provider_implements('availability', 'items')) {
+      $ids = $this->getSomeItems();
+      $response = ding_provider_invoke('availability', 'items', $ids);
+      $this->commonCase($ids, $response);
+    }
+    else {
+      debug('No items implementation, falling back to using holdings.');
+    }
+  }
+
+  function testHoldings() {
+    $ids = $this->getSomeHoldings();
+    $response = ding_provider_invoke('availability', 'holdings', $ids);
+    $this->commonCase($ids, $response);
+    $is_array = TRUE;
+    $of_strings = TRUE;
+    foreach ($response as $id => $holding) {
+      $is_array &= is_array($holding['holdings']);
+      foreach ($holding['holdings'] as $h) {
+        $of_strings &= is_string($h);
+      }
+    }
+    $this->assertTrue($is_array, t('Response items is an array'));
+    $this->assertTrue($of_strings, t('Response items is an array of strings'));
+  }
+
+  function commonCase($ids, $response) {
+    $this->assertTrue(is_array($response), t('Response is an array'));
+    $this->assertTrue($ids == array_keys($response), t('Ids of request and response matches.'));
+    $has_keys = TRUE;
+    $available_is_bool = TRUE;
+    $reservable_is_bool = TRUE;
+    foreach ($response as $id => $reply) {
+      $has_keys &= (isset($reply['available']) && isset($reply['reservable']));
+      $available_is_bool &= is_bool($reply['available']);
+      $reservable_is_bool &= is_bool($reply['reservable']);
+    }
+    $this->assertTrue($has_keys, t('Response has available and reservable keys.'));
+    $this->assertTrue($available_is_bool, t('Available key is bool.'));
+    $this->assertTrue($reservable_is_bool, t('Reservable key is bool.'));
   }
 }
