@@ -143,13 +143,13 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   // TODO: Get the facetbrowser dom id automatic
   drupal_add_js(
     array('dingFacetBrowser' => array(
-      'mainElement' => '#block-ding-facetbrowser-facetbrowser', 
+      'mainElement' => '#block-ding-facetbrowser-facetbrowser',
       'showCount' => 5)
     ), 'setting');
 
 
   // Invoke ding_facetbrowser() from executed search module
-  $executed_search                = menu_get_item(ltrim(request_uri(), '/'));
+  $executed_search                = menu_get_item();
   list($executed_search_module, ) = $executed_search['page_arguments'];
 
   if (is_string($executed_search_module)) {
