@@ -5,7 +5,7 @@
  * Test OpenRuth user provider implementation.
  */
 
-class OpenruthProviderTestCase extends DingUserProviderImplementationTestCase {
+class OpenruthUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Openruth user provider',
@@ -17,7 +17,7 @@ class OpenruthProviderTestCase extends DingUserProviderImplementationTestCase {
   function setUp() {
     parent::setup(array('openruth'));
     variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.6/openruth.wsdl');
-    variable_set('openruth_agency_id', '710100');
+    variable_set('openruth_agency_id', '100450');
   }
 
   /**
@@ -28,3 +28,28 @@ class OpenruthProviderTestCase extends DingUserProviderImplementationTestCase {
     return array('0019', '0019');
   }
 }
+
+
+class OpenruthAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth availability provider',
+      'description' => 'Test Openruth availability provider functionality.',
+      'group' => 'Ding! Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.6/openruth.wsdl');
+    variable_set('openruth_agency_id', '758000'); // Temporary...
+  }
+
+  /**
+   * Returns some holdings that's supposed to exist.
+   */
+  function getSomeHoldings() {
+    return array(24168638, 27307531);
+  }
+}
+
