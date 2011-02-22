@@ -5,4 +5,5 @@ package = Ding!
 dependencies[] = ding_provider
 files[] = dp_example.module
 files[] = dp_example.user.inc
+files[] = dp_example.test
 version = 0.1

@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file Test that the example provider implementation module passes the same
+ * tests as the real providers.
+ */
+
+class DpExampleUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding! provider example user provider',
+      'description' => 'Test Ding! provider example user functionality.',
+      'group' => 'Ding! example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('dp_example'));
+  }
+
+  /**
+   * Returns name and password for a user that's supposed to be able to log
+   * in. Used by parent class.
+   */
+  function getGoodUser() {
+    return array('Twain', 'wain');
+  }
+}
+
+class DpExampleAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding! provider example availability provider',
+      'description' => 'Test Ding! provider example availability functionality.',
+      'group' => 'Ding! example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('dp_example'));
+  }
+
+  function getSomeItems() {
+    return array(12314, 32434, 79798);
+  }
+
+  function getSomeHoldings() {
+    return array(54514, 23424, 2342, 342);
+  }
+}
+
