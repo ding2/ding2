@@ -130,21 +130,27 @@ class OpenruthClient {
     elseif (isset($res->holding)) {
       $holdings = array();
       foreach ($res->holding as $holding) {
-        $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-        $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
+        if (isset($holding->agencyHoldings)){
+          $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
+          $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
+        }
+        else {
+          $available = FALSE;
+          $reservable = FALSE;
+        }
         $h = array(
           'local_id' => $holding->itemId,
           'available' => $available,
           'reservable' => $reservable,
           'show_reservation_button' => $reservable,
           'holdings' => array(),
-          'reserved_count' => (int) $holding->ordersCount,
+          'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
           'issues' => array(),
         );
 
         $total = 0;
         $available = 0;
-        if ($holding->itemHoldings) {
+        if (isset($holding->itemHoldings)) {
           foreach ($holding->itemHoldings as $itemHolding) {
             $holding_reservable = FALSE;
             $fields = array('itemLocation', 'itemComingLocation');
