@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Handles relations for Ting entities.
+ */
+
+/**
+ * Implements hook_ding_entity_view().
+ */
+function ting_relations_ding_entity_view($entity, $view_mode, $langcode = NULL) {
+  if ($entity->relations) {
+    foreach ($entity->relations as $relation) {
+      if ($relation->relationType == 'hasAuthorDescription') {
+        $entity->content['relations'][] = array(
+          '#markup' => '<div style="background-color: #F6F6F2;"><h2>Forfatterpotræt</h2>' .
+          '<h3>' . check_plain($relation->title) . '</h3>' .
+          '<div>' . filter_xss_admin($relation->abstract) . '</div></div>',
+        );
+      }
+      if ($relation->relationType == 'hasSubjectDescription') {
+        $entity->content['relations'][] = array(
+          '#markup' => '<div style="background-color: #F6F6F2;"><h2>Emnebeskrivelse</h2>' .
+          '<h3>' . check_plain($relation->title) . '</h3>' .
+          '<div>' . check_plain($relation->abstract) . '</div></div>',
+        );
+      }
+    }
+  }
+}
