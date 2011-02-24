@@ -14,4 +14,7 @@ dependencies[] = ding_entity
 dependencies[] = ting
 dependencies[] = ting_search
 dependencies[] = ding_facetbrowser
+dependencies[] = ding_provider
+dependencies[] = ding_availability
+dependencies[] = ting_relations
 files[] = ding2.profile

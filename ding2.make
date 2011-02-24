@@ -16,3 +16,15 @@ projects[ting][download][url] = "git@github.com:ding2/ting.git"
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
 projects[ting_search][download][url] = "git@github.com:ding2/ting_search.git"
+
+projects[ding_provider][type] = "module"
+projects[ding_provider][download][type] = "git"
+projects[ding_provider][download][url] = "git@github.com:ding2/ding_provider.git"
+
+projects[ding_availability][type] = "module"
+projects[ding_availability][download][type] = "git"
+projects[ding_availability][download][url] = "git@github.com:ding2/ding_availability.git"
+
+projects[ting_relations][type] = "module"
+projects[ting_relations][download][type] = "git"
+projects[ting_relations][download][url] = "git@github.com:ding2/ting_relations.git"
