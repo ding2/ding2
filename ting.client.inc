@@ -38,7 +38,7 @@ function ting_object_cache($id = NULL, $objects = NULL) {
       return $cache[$id];
     }
     else {
-      $object = ting_get_object_by_id($id);
+      $object = ting_get_object_by_id($id, TRUE);
       if ($object) {
         $cache[$object->id] = $object;
         return $object;
@@ -80,7 +80,9 @@ function ting_get_object_by_id($object_id, $enrich = FALSE) {
   }
 
   if ($object && $enrich && empty($object->enriched)) {
-    $object = array_shift(ting_add_additional_info(array($object)));
+    if (class_exists('AdditionalInformationService')) {
+      $object = array_shift(ting_add_additional_info(array($object)));
+    }
     $object->enriched = TRUE;
   }
 
