@@ -387,6 +387,72 @@ function ting_collection_page_view($object) {
   return ting_collection_view($object);
 }
 
+class TingEntity extends DingEntity {
+  function __construct() {
+    parent::__construct();
+    $this->properties += array(
+      'type' => FALSE,
+      'record' => FALSE,
+      'relations' => FALSE,
+      'localId' => FALSE,
+      'url' => FALSE,
+      'creators' => FALSE,
+      'subjects' => FALSE,
+    );
+  }
+
+  function getLocalId() {
+    return $this->localId = $this->reply->localId;
+  }
+
+  function getType() {
+    return $this->type = !empty($this->reply->record['dc:type']) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
+  }
+
+  function getTitle() {
+    return $this->title = !empty($this->reply->record['dc:title']) ? $this->reply->record['dc:title'][''][0] : FALSE;
+  }
+
+  function getAbstract() {
+    return $this->abstract = !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;;
+  }
+
+  function getRecord() {
+    return $this->reply->record;
+  }
+
+  function getRelations() {
+    return $this->reply->relations;
+  }
+
+  function getUrl() {
+    $this->url = url('ting/object/' . $this->reply->id, array('absolute' => TRUE));
+  }
+
+  function getCreators() {
+    $this->creators = array();
+    if (!empty($this->reply->record['dc:creator'])) {
+      foreach ($this->reply->record['dc:creator'] as $type => $dc_creator) {
+        if ($type != 'oss:sort') {
+          $this->creators = array_merge($this->creators, $dc_creator);
+        }
+      }
+    }
+    return $this->creators;
+  }
+
+  function getSubjects() {
+    $this->subjects = array();
+    if (!empty($this->reply->record['dc:subject'])) {
+      foreach ($this->reply->record['dc:subject'] as $type => $dc_subject) {
+        if (in_array($type, array('dkdcplus:DBCF', 'dkdcplus:DBCS', 'dkdcplus:DBCM', 'dkdcplus:DBCO', 'dkdcplus:DBCN'))) {
+          $this->subjects = array_merge($this->subjects, $dc_subject);
+        }
+      }
+    }
+  }
+}
+
 /**
  * Controller class for ting objects.
  */
@@ -429,22 +495,77 @@ class TingObjectController extends DrupalDefaultEntityController {
         }
       }
     }
-    $entities = parent::load($ids, array());
-    return $entities;
-  }
+    // This is the same as parent::load(), with the exception that we fetch
+    // into objects.
+    $entities = array();
 
-  protected function attachLoad(&$objects, $revision_id = FALSE) {
-    foreach ($objects as $key => $object) {
-      $ting_object = ting_object_cache($object->ding_entity_id);
-      if ($ting_object) {
-        foreach ($object as $property => $value) {
-          $ting_object->$property = $value;
-        }
-        // Replace original object.
-        $objects[$key] = $ting_object;
+    // Revisions are not statically cached, and require a different query to
+    // other conditions, so separate the revision id into its own variable.
+    if ($this->revisionKey && isset($conditions[$this->revisionKey])) {
+      $revision_id = $conditions[$this->revisionKey];
+      unset($conditions[$this->revisionKey]);
+    }
+    else {
+      $revision_id = FALSE;
+    }
+
+    // Create a new variable which is either a prepared version of the $ids
+    // array for later comparison with the entity cache, or FALSE if no $ids
+    // were passed. The $ids array is reduced as items are loaded from cache,
+    // and we need to know if it's empty for this reason to avoid querying the
+    // database when all requested entities are loaded from cache.
+    $passed_ids = !empty($ids) ? array_flip($ids) : FALSE;
+    // Try to load entities from the static cache, if the entity type supports
+    // static caching.
+    if ($this->cache && !$revision_id) {
+      $entities += $this->cacheGet($ids, $conditions);
+      // If any entities were loaded, remove them from the ids still to load.
+      if ($passed_ids) {
+        $ids = array_keys(array_diff_key($passed_ids, $entities));
       }
     }
-    parent::attachLoad($objects, $revision_id);
+
+    // Load any remaining entities from the database. This is the case if $ids
+    // is set to FALSE (so we load all entities), if there are any ids left to
+    // load, if loading a revision, or if $conditions was passed without $ids.
+    if ($ids === FALSE || $ids || $revision_id || ($conditions && !$passed_ids)) {
+      // Build the query.
+      $query = $this->buildQuery($ids, $conditions, $revision_id);
+      $queried_entities = $query
+        ->execute()
+        ->fetchAllAssoc($this->idKey, 'TingEntity');
+    }
+
+    foreach ($queried_entities as &$qe) {
+      $qe->reply = ting_get_object($qe->ding_entity_id);
+    }
+    // Pass all entities loaded from the database through $this->attachLoad(),
+    // which attaches fields (if supported by the entity type) and calls the
+    // entity type specific load callback, for example hook_node_load().
+    if (!empty($queried_entities)) {
+      $this->attachLoad($queried_entities, $revision_id);
+      $entities += $queried_entities;
+    }
+
+    if ($this->cache) {
+      // Add entities to the cache if we are not loading a revision.
+      if (!empty($queried_entities) && !$revision_id) {
+        $this->cacheSet($queried_entities);
+      }
+    }
+
+    // Ensure that the returned array is ordered the same as the original
+    // $ids array if this was passed in and remove any invalid ids.
+    if ($passed_ids) {
+      // Remove any invalid ids from the array.
+      $passed_ids = array_intersect_key($passed_ids, $entities);
+      foreach ($entities as $entity) {
+        $passed_ids[$entity->{$this->idKey}] = $entity;
+      }
+      $entities = $passed_ids;
+    }
+
+    return $entities;
   }
 }
 

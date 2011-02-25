@@ -21,6 +21,30 @@ foreach ($includes as $include) {
   require_once($path . $include);
 }
 
+function ting_get_object($object_id, $collection = FALSE) {
+  if (empty($object_id)) { return FALSE; }
+  static $cache = array();
+
+  if (isset($cache[$object_id])) {
+    $object = $cache[$object_id];
+  }
+  else {
+    $request = ting_get_request_factory()->getCollectionRequest();
+    $request->setObjectId($object_id);
+    $request = ting_add_agency($request);
+    // $request = ting_add_relations($request, 'uri');
+    $object = ting_execute($request);
+  }
+
+  $cache[$object_id] = $object;
+
+  if (!$collection) {
+    return $object->objects[0];
+  }
+  return $object;
+}
+
+
 /**
  * Return a ting object, using a cache that's settable from the outside.
  *
