@@ -34,11 +34,17 @@ function ting_get_object($object_id, $collection = FALSE) {
     $request = ting_add_agency($request);
     // $request = ting_add_relations($request, 'uri');
     $object = ting_execute($request);
+    if (isset($object->objects)) {
+      foreach ($object->objects as $sub_object) {
+        $cache[$sub_object->id] = $sub_object;
+      }
+    }
+    $cache[$object_id] = $object;
   }
 
-  $cache[$object_id] = $object;
-
-  if (!$collection) {
+  // If not asking for a collection, and the object is, return the
+  // first sub-object.
+  if (!$collection && isset($object->objects)) {
     return $object->objects[0];
   }
   return $object;

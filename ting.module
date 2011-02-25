@@ -284,7 +284,6 @@ function ting_collection_load($id, $query = NULL) {
  */
 function ting_object_view($object, $view_mode = 'full') {
   $object->content = array();
-
   $object->content['overview'] = array(
     '#theme' => 'ting_object_overview',
     '#object' => $object,
@@ -330,7 +329,7 @@ function ting_collection_view($object, $view_mode = 'full') {
 
   $object->content['overview'] = array(
     '#theme' => 'ting_object_overview',
-    '#object' => $object,
+    '#object' => $object->primary_object,
     '#view_mode' => $view_mode,
     'left' => array(),
     'right' => array(),
@@ -346,8 +345,6 @@ function ting_collection_view($object, $view_mode = 'full') {
       $object->content['entities'][$entity->type][$entity->id] = ting_object_view($entity, 'teaser');
     }
   }
-  // TODO: Sorting of $object->content['entities']
-
   entity_prepare_view('ting_collection', array($object->id => $object));
 
   // Allow modules to make their own additions to the collection.
@@ -398,6 +395,7 @@ class TingEntity extends DingEntity {
       'url' => FALSE,
       'creators' => FALSE,
       'subjects' => FALSE,
+      'language' => FALSE,
     );
   }
 
@@ -450,6 +448,65 @@ class TingEntity extends DingEntity {
         }
       }
     }
+    return $this->subjects;
+  }
+
+  function getLanguage() {
+    return $this->language = !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
+  }
+}
+
+class TingCollection extends DingEntityCollection {
+  function __construct($id) {
+    $this->ding_entity_id = $id;
+    parent::__construct();
+    $this->properties += array(
+      'title' => FALSE,
+      'types' => FALSE,
+      'primary_object' => FALSE,
+    );
+  }
+
+  function getTitle() {
+    return $this->title = !empty($this->reply->objects[0]->record['dc:title']) ? $this->reply->objects[0]->record['dc:title'][''][0] : FALSE;
+  }
+
+  function getEntities() {
+    $this->entities = array();
+    if (isset($this->reply->objects)){
+      foreach ($this->reply->objects as $record) {
+        $entity_ids[] = $record->id;
+      }
+      $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+      // Can't pass overloaded $this->types as reference to
+      // _ting_type_lang_sort(), so we're using a temporary var.
+      $types_tmp = array();
+      $this->entities = _ting_type_lang_sort($entities, $types_tmp);
+      $this->types = $types_tmp;
+    }
+    return $this->entities;
+  }
+
+  function getTypes() {
+    $types = array();
+    foreach ($this->entities as $object) {
+      $types[] = $object->type;
+      foreach ($object->subjects as $subject) {
+        if (!isset($subject_count[$subject])) {
+          $subject_count[$subject] = 0;
+        }
+        $subject_count[$subject]++;
+      }
+    }
+    return $collection->types = array_unique($types);
+  }
+
+  function getPrimary_object() {
+    $this->primary_object = NULL;
+    if (isset($this->reply->objects)) {
+      $this->primary_object = reset(entity_load('ting_object', array(), array('ding_entity_id' => array($this->reply->objects[0]->id))));
+    }
+    return $this->primary_object;
   }
 }
 
@@ -472,7 +529,7 @@ class TingObjectController extends DrupalDefaultEntityController {
         if (!isset($known[$ding_entity_id])) {
           // See if it exists. ting_object_cache caches internally, so
           // we don't.
-          $object = ting_object_cache($ding_entity_id);
+          $object = ting_get_object($ding_entity_id);
           if ($object) {
             // Insert a new local proxy row.
             // db_insert($this->entityInfo['base table']);
@@ -625,25 +682,29 @@ class TingCollectionController implements DrupalEntityControllerInterface {
 
            // Else we use the standard fetching routine.
           if (!$object) {
-            $object = ting_get_collection_by_id($ding_entity_collection_id);
+            $reply = ting_get_object($ding_entity_collection_id, TRUE);
+            if ($reply) {
+              $object = new TingCollection($ding_entity_collection_id);
+              $object->reply = $reply;
+            }
           }
 
           if ($object) {
             // Loop through objects and feed the cache that
             // TingObjectController::attachLoad() uses.
             $collection_entities = array();
-            foreach ($object->objects as $sub_object) {
+            foreach ($reply->objects as $sub_object) {
               $collection_entities[] = $sub_object->id;
             }
-            ting_object_cache(NULL, $object->objects);
+            // ting_object_cache(NULL, $object->objects);
 
             // 'Load' the objects through the entity controller, ensuring that
             // local proxy object is created and proper hooks are called.
-            $object->objects = entity_load('ting_object', array(), array('ding_entity_id' => $collection_entities));
+            // $object->objects = entity_load('ting_object', array(), array('ding_entity_id' => $collection_entities));
 
             // Now group the objects by type and language, but in the overall
             // order they appear in the result.
-            $object->entities = _ting_type_lang_sort($object->objects, $object->types);
+            //$object->entities = _ting_type_lang_sort($object->objects, $object->types);
 
             // $object->entities = $object->objects;
             $entities[$ding_entity_collection_id] = $object;
@@ -681,5 +742,6 @@ function _ting_type_lang_sort($objects, &$return_types) {
       }
     }
   }
+
   return $sorted;
 }
