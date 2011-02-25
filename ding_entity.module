@@ -87,3 +87,9 @@ abstract class DingEntity extends DingEntityBase {
     $this->properties += array('title' => FALSE, 'creator' => FALSE, 'abstract' => FALSE);
   }
 }
+
+abstract class DingEntityCollection extends DingEntityBase {
+  function __construct() {
+    $this->properties += array('entities' => FALSE);
+  }
+}
