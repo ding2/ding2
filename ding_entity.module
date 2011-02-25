@@ -49,3 +49,41 @@ function ding_entity_collection_type() {
   }
   return $type;
 }
+
+/**
+ * Base class for Ding entity types.
+ *
+ * Do not extend this class, use one of the subclasses in this file.
+ */
+class DingEntityBase {
+  protected $properties = array('id' => FALSE);
+
+  public function __get($prop) {
+    if (isset($this->properties[$prop])) {
+      if (isset($this->$prop)) {
+        return $this->$prop;
+      } elseif (($method = 'get' . strtoupper($prop[0]) .  substr($prop, 1)) &&
+        method_exists($this, $method)) {
+        return call_user_func(array($this, $method));
+      }
+    }
+
+    $trace = debug_backtrace();
+    trigger_error('Undefined property via __get(): ' . $prop .
+      ' in ' . $trace[0]['file'] .
+      ' on line ' . $trace[0]['line'],
+      E_USER_NOTICE);
+
+    return NULL;
+  }
+
+  function getId() {
+    return $this->id = $this->ding_entity_id;
+  }
+}
+
+abstract class DingEntity extends DingEntityBase {
+  function __construct() {
+    $this->properties += array('title' => FALSE, 'creator' => FALSE, 'abstract' => FALSE);
+  }
+}
