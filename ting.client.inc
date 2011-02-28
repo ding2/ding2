@@ -21,7 +21,7 @@ foreach ($includes as $include) {
   require_once($path . $include);
 }
 
-function ting_get_object($object_id, $collection = FALSE) {
+function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
   if (empty($object_id)) {
     return FALSE;
   }
@@ -33,11 +33,19 @@ function ting_get_object($object_id, $collection = FALSE) {
     // object, or ensure that we won't try to fetch this id again.
     ting_cache_set($object_id, NULL);
 
-    $request = ting_get_request_factory()->getCollectionRequest();
-    $request->setObjectId($object_id);
-    $request = ting_add_agency($request);
-    // $request = ting_add_relations($request, 'uri');
-    $object = ting_execute_cache($request);
+    if ($query) {
+      $result = ting_do_search('rec.id=' . $object_id . ' AND (' . $query . ')', 1, 1, array('facets' => array(), 'allObjects' => TRUE, 'query' => $query, 'reply_only' => TRUE));
+      if (isset($result->collections)) {
+        $object = array_shift($result->collections);
+      }
+    }
+    if (!$object) {
+      $request = ting_get_request_factory()->getCollectionRequest();
+      $request->setObjectId($object_id);
+      $request = ting_add_agency($request);
+      // $request = ting_add_relations($request, 'uri');
+      $object = ting_execute_cache($request, $query);
+    }
   }
 
   // If not asking for a collection, and the object is, return the
@@ -80,7 +88,7 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
   $request->setSort((isset($options['sort'])) ? $options['sort'] : '');
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
-  $searchResult = ting_execute_cache($request);
+  $searchResult = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
   // Replace collections with proper TingCollection objects.
   if (is_array($searchResult->collections)) {
     $ids = array();
@@ -89,8 +97,9 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
         $ids[] = $collection->objects[0]->id;
       }
     }
-    $searchResult->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids));
-
+    if (!isset($options['reply_only']) || !$options['reply_only']) {
+      $searchResult->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids, 'query' => $query));
+    }
   }
 
   return $searchResult;
@@ -99,7 +108,12 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 /**
  *
  */
-function ting_execute_cache($request) {
+function ting_execute_cache($request, $query = NULL) {
+  static $call_count = 0;
+  $call_count++;
+  if ($call_count > 1 && function_exists('dpm') && user_access('access devel information')) {
+    drupal_set_message(t('Warning, ting_execute called @x times.', array('@x' => $call_count)), 'error');
+  }
   $reply = ting_execute($request);
 
   // Cache any sub-objects (mostly true for collections).
@@ -116,8 +130,15 @@ function ting_execute_cache($request) {
   // Cache any collections. Done after objects to ensure that collections take
   // precedence.
   if (isset($reply->collections)) {
-    foreach ($reply->collections as $collection) {
+    foreach ($reply->collections as &$collection) {
+      // Set the query used to load the collection on the collection itself,
+      // so it can create links that ensures that the objects is in the same
+      // order.
+      $collection->load_query = $query;
       if (isset($collection->objects[0])) {
+        foreach ($collection->objects as $object) {
+          ting_cache_set($object->id, $object);
+        }
         ting_cache_set($collection->objects[0]->id, $collection);
       }
     }
@@ -134,7 +155,7 @@ function ting_execute_cache($request) {
  *
  */
 function ting_cache_get($id) {
-  $cache = &drupal_static('ting_execute_cache_set');
+  $cache = &drupal_static('ting_cache_set');
   if (!isset($cache)) {
     $cache = array();
   }
@@ -150,7 +171,10 @@ function ting_cache_get($id) {
  *
  */
 function ting_cache_set($id, $value) {
-  $cache = &drupal_static('__FUNCTION__');
+  $cache = &drupal_static(__FUNCTION__);
+  if (!isset($cache)) {
+    $cache = array();
+  }
   $cache[$id] = $value;
 }
 

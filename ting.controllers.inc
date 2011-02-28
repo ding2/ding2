@@ -166,42 +166,16 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_collection_id] = $this->entityCache[$ding_entity_collection_id];
         }
         else {
-          $object = NULL;
-           // If we have a query, use that to fetch the collection. It should
-           // order the collection objects according to fitness.
-          if (isset($conditions['query'])) {
-            $query = 'rec.id=' . $ding_entity_collection_id . ' AND (' . $conditions['query'] . ')';
-            $result = ting_do_search($query, 1, 1, array('facets' => array(), 'allObjects' => TRUE));
-            $object = array_shift($result->collections);
-          }
-
-           // Else we use the standard fetching routine.
-          if (!$object) {
-            $reply = ting_get_object($ding_entity_collection_id, TRUE);
-            if ($reply) {
-              $object = new TingCollection($ding_entity_collection_id);
-              $object->reply = $reply;
-            }
+          // Also supply the original query, so ting_get_object() can
+          // use it if it fetches the collection. This ensures that we
+          // get the proper order of objects.
+          $reply = ting_get_object($ding_entity_collection_id, TRUE, (isset($conditions['query']) ? $conditions['query'] : NULL));
+          if ($reply) {
+            $object = new TingCollection($ding_entity_collection_id);
+            $object->reply = $reply;
           }
 
           if ($object) {
-            // Loop through objects and feed the cache that
-            // TingObjectController::attachLoad() uses.
-            $collection_entities = array();
-            foreach ($reply->objects as $sub_object) {
-              $collection_entities[] = $sub_object->id;
-            }
-            // ting_object_cache(NULL, $object->objects);
-
-            // 'Load' the objects through the entity controller, ensuring that
-            // local proxy object is created and proper hooks are called.
-            // $object->objects = entity_load('ting_object', array(), array('ding_entity_id' => $collection_entities));
-
-            // Now group the objects by type and language, but in the overall
-            // order they appear in the result.
-            //$object->entities = _ting_type_lang_sort($object->objects, $object->types);
-
-            // $object->entities = $object->objects;
             $entities[$ding_entity_collection_id] = $object;
             $this->entityCache[$ding_entity_collection_id] = $object;
           }
