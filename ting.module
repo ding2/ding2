@@ -226,7 +226,10 @@ function ting_entity_info() {
     'ting_collection' => array(
       'label' => t('Ting collection'),
       'controller class' => 'TingCollectionController',
-      // 'uri callback' => 'node_uri',
+      'uri callback' => 'ting_collection_uri',
+      'entity keys' => array(
+        'id' => 'ding_entity_collection_id',
+      ),
       'view modes' => array(
         'full' => array(
           'label' => t('Full content'),
@@ -245,6 +248,18 @@ function ting_entity_info() {
   );
 
   return $return;
+}
+
+/**
+ *
+ */
+function ting_collection_uri($collection) {
+  if (sizeof($collection->entities) > 1) {
+    return array('path' => 'ting/collection/' . $collection->id);
+  }
+  else {
+    return array('path' => 'ting/object/' . $collection->id);
+  }
 }
 
 /**

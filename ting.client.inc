@@ -22,24 +22,22 @@ foreach ($includes as $include) {
 }
 
 function ting_get_object($object_id, $collection = FALSE) {
-  if (empty($object_id)) { return FALSE; }
-  static $cache = array();
-
-  if (isset($cache[$object_id])) {
-    $object = $cache[$object_id];
+  if (empty($object_id)) {
+    return FALSE;
   }
-  else {
+
+  // Check the cache first.
+  $object = ting_cache_get($object_id);
+  if (!$object) {
+    // Put a negative reply in the cache. It will be overwritten by the
+    // object, or ensure that we won't try to fetch this id again.
+    ting_cache_set($object_id, NULL);
+
     $request = ting_get_request_factory()->getCollectionRequest();
     $request->setObjectId($object_id);
     $request = ting_add_agency($request);
     // $request = ting_add_relations($request, 'uri');
-    $object = ting_execute($request);
-    if (isset($object->objects)) {
-      foreach ($object->objects as $sub_object) {
-        $cache[$sub_object->id] = $sub_object;
-      }
-    }
-    $cache[$object_id] = $object;
+    $object = ting_execute_cache($request);
   }
 
   // If not asking for a collection, and the object is, return the
@@ -50,6 +48,111 @@ function ting_get_object($object_id, $collection = FALSE) {
   return $object;
 }
 
+/**
+ * Performs a search agains the
+ *
+ * @param string $query
+ *    The search query
+ * @param int $page
+ *    The page number to retrieve search results for
+ * @param int $resultsPerPage
+ *    The number of results to include per page
+ * @param array $options
+ *    Options to pass to the search. Possible options are:
+ *    - facets: Array of facet names for which to return results. Default: facet.subject, facet.creator, facet.type, facet.date, facet.language
+ *    - numFacets: The number of terms to include with each facet. Default: 10
+ *    - enrich: Whether to include additional information and cover images with each object. Default: false
+ *    - sort: The key to sort the results by. Default: "" (corresponds to relevance). The possible values are defined by the sortType type in the XSD.
+ *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
+ * @return TingClientSearchResult
+ *    The search result
+ */
+function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
+  $request = ting_get_request_factory()->getSearchRequest();
+  $request->setQuery($query);
+  $request = ting_add_agency($request);
+  $request->setStart($resultsPerPage * ($page - 1) + 1);
+  $request->setNumResults($resultsPerPage);
+
+  $request = (!isset($options['supportingTypes']) || !$options['supportingTypes']) ? ting_remove_supporting_types($request) : $request;
+  $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
+  $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
+  $request->setSort((isset($options['sort'])) ? $options['sort'] : '');
+  $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
+
+  $searchResult = ting_execute_cache($request);
+  // Replace collections with proper TingCollection objects.
+  if (is_array($searchResult->collections)) {
+    $ids = array();
+    foreach ($searchResult->collections as &$collection) {
+      if (isset($collection->objects[0])){
+        $ids[] = $collection->objects[0]->id;
+      }
+    }
+    $searchResult->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids));
+
+  }
+
+  return $searchResult;
+}
+
+/**
+ *
+ */
+function ting_execute_cache($request) {
+  $reply = ting_execute($request);
+
+  // Cache any sub-objects (mostly true for collections).
+  if (isset($reply->objects)) {
+    foreach ($reply->objects as $object) {
+      ting_cache_set($object->id, $object);
+    }
+    // Cache the reply as the first object's id. This is for collections.
+    if (!isset($reply->id) and isset($reply->objects[0])) {
+      ting_cache_set($reply->objects[0]->id, $reply);
+    }
+  }
+
+  // Cache any collections. Done after objects to ensure that collections take
+  // precedence.
+  if (isset($reply->collections)) {
+    foreach ($reply->collections as $collection) {
+      if (isset($collection->objects[0])) {
+        ting_cache_set($collection->objects[0]->id, $collection);
+      }
+    }
+  }
+  // Lastly cache the reply itself if it has an id.
+  if (isset($reply->id)) {
+    ting_cache_set($reply->id, $reply);
+  }
+
+  return $reply;
+}
+
+/**
+ *
+ */
+function ting_cache_get($id) {
+  $cache = &drupal_static('ting_execute_cache_set');
+  if (!isset($cache)) {
+    $cache = array();
+  }
+  // Using array_key_exists, as we might contain NULL values (which is
+  // !isset()).
+  if (array_key_exists($id, $cache)) {
+    return $cache[$id];
+  }
+  return NULL;
+}
+
+/**
+ *
+ */
+function ting_cache_set($id, $value) {
+  $cache = &drupal_static('__FUNCTION__');
+  $cache[$id] = $value;
+}
 
 /**
  * Return a ting object, using a cache that's settable from the outside.
@@ -227,7 +330,7 @@ function ting_search_sort_options() {
  * @return TingClientSearchResult
  *    The search result
  */
-function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
+function ting_do_search_old($query, $page = 1, $resultsPerPage = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
   $request->setQuery($query);
   $request = ting_add_agency($request);
