@@ -20,6 +20,7 @@ class TingEntity extends DingEntity {
       'creators' => FALSE,
       'subjects' => FALSE,
       'language' => FALSE,
+      'relationType' => FALSE,
     );
   }
 
@@ -44,7 +45,14 @@ class TingEntity extends DingEntity {
   }
 
   function getRelations() {
-    return $this->reply->relations;
+    $this->relations = array();
+    if (isset($this->reply->relations)) {
+      foreach ($this->reply->relations as $record) {
+        $entity_ids[] = $record->id;
+      }
+      $this->relations = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+    }
+    return $this->relations;
   }
 
   function getUrl() {
@@ -78,6 +86,10 @@ class TingEntity extends DingEntity {
   function getLanguage() {
     return $this->language = !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
   }
+
+  function getRelationType() {
+    return $this->relationType = $this->reply->relationType;
+  }
 }
 
 /**
@@ -100,7 +112,7 @@ class TingCollection extends DingEntityCollection {
 
   function getEntities() {
     $this->entities = array();
-    if (isset($this->reply->objects)){
+    if (isset($this->reply->objects)) {
       foreach ($this->reply->objects as $record) {
         $entity_ids[] = $record->id;
       }

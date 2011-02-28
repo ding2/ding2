@@ -43,7 +43,7 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
       $request = ting_get_request_factory()->getCollectionRequest();
       $request->setObjectId($object_id);
       $request = ting_add_agency($request);
-      // $request = ting_add_relations($request, 'uri');
+      $request = ting_add_relations($request, ($collection ? 'uri' : 'full'));
       $object = ting_execute_cache($request, $query);
     }
   }
@@ -120,6 +120,12 @@ function ting_execute_cache($request, $query = NULL) {
   if (isset($reply->objects)) {
     foreach ($reply->objects as $object) {
       ting_cache_set($object->id, $object);
+      // Cache any relations.
+      if (isset($object->relations)) {
+        foreach ($object->relations as $relation) {
+          ting_cache_set($relation->id, $relation);
+        }
+      }
     }
     // Cache the reply as the first object's id. This is for collections.
     if (!isset($reply->id) and isset($reply->objects[0])) {
@@ -137,12 +143,27 @@ function ting_execute_cache($request, $query = NULL) {
       $collection->load_query = $query;
       if (isset($collection->objects[0])) {
         foreach ($collection->objects as $object) {
+          // Cache any relations.
+          if (isset($object->relations)) {
+            foreach ($object->relations as $relation) {
+              ting_cache_set($relation->id, $relation);
+            }
+          }
           ting_cache_set($object->id, $object);
         }
+
         ting_cache_set($collection->objects[0]->id, $collection);
       }
     }
   }
+
+  // Cache any relations.
+  if (isset($reply->relations)) {
+    foreach ($reply->relations as $object) {
+      ting_cache_set($object->id, $object);
+    }
+  }
+
   // Lastly cache the reply itself if it has an id.
   if (isset($reply->id)) {
     ting_cache_set($reply->id, $reply);
