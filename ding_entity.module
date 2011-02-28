@@ -60,7 +60,8 @@ class DingEntityBase {
 
   public function __get($prop) {
     if (isset($this->properties[$prop])) {
-      if (isset($this->$prop)) {
+      // Use property_exists() to support NULL values.
+      if (property_exists($this, $prop)) {
         return $this->$prop;
       } elseif (($method = 'get' . strtoupper($prop[0]) .  substr($prop, 1)) &&
         method_exists($this, $method)) {
