@@ -36,9 +36,9 @@ function template_preprocess_ting_object_overview(&$variables) {
 
   $variables['alternative_titles'] = array();
   $variables['other_titles'] = "";
-  $variables['url'] = $object->url;
+  $uri = entity_uri('ting_object', $object);
+  $variables['url'] = url($uri['path'], $uri['options']);
   if (isset($object->record)){
-    // $variables['ting_url'] = url('ting/' . (isset($object->entities) ? 'collection' : 'object') . '/' . $object->id);
     $titles = $object->record['dc:title'];
     unset($titles['']);
     $titles = array_values(array_map('array_shift', $titles));
