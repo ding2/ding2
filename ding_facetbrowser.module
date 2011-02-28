@@ -137,7 +137,6 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $block_content    = FALSE;
   $content_in_facet = FALSE;
 
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery-bbq/jquery.ba-bbq.min.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
   drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
   // TODO: Get the facetbrowser dom id automatic
