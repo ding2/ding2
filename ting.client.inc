@@ -57,7 +57,7 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
 }
 
 /**
- * Performs a search agains the
+ * Performs a search agains the well
  *
  * @param string $query
  *    The search query
@@ -72,6 +72,8 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
  *    - enrich: Whether to include additional information and cover images with each object. Default: false
  *    - sort: The key to sort the results by. Default: "" (corresponds to relevance). The possible values are defined by the sortType type in the XSD.
  *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
+ *    - query: Override the query put on collections.
+ *    - reply_only: Don't change the result objects to TingCollection objects.
  * @return TingClientSearchResult
  *    The search result
  */
@@ -109,10 +111,13 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
  *
  */
 function ting_execute_cache($request, $query = NULL) {
-  static $call_count = 0;
-  $call_count++;
-  if ($call_count > 1 && function_exists('dpm') && user_access('access devel information')) {
-    drupal_set_message(t('Warning, ting_execute called @x times.', array('@x' => $call_count)), 'error');
+  static $calls = array();
+  $calls[] = $request->getQuery();
+  if (sizeof($calls) > 1) {
+    watchdog('ting', 'Warning, ting_execute called @x times: @queries', array('@x' => $calls, '@queries' => join(' ', $calls)), WATCHDOG_WARNING);
+    if (function_exists('dpm') && user_access('access devel information')) {
+      drupal_set_message(t('Warning, ting_execute called @x times: @queries', array('@x' => $calls, '@queries' => join(' ', $calls))), 'error');
+    }
   }
   $reply = ting_execute($request);
 
