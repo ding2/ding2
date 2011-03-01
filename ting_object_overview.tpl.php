@@ -31,8 +31,10 @@
     <?php } ?>
 
     <div class='creator'>
-      <span class='byline'><?php echo ucfirst(t('by')); ?></span>
-      <?php print $creators; ?>
+      <?php if ($creators) { ?>
+        <span class='byline'><?php echo ucfirst(t('by')); ?></span>
+        <?php print $creators; ?>
+      <?php } ?>
       <?php if ($date) { ?>
         <span class='date'>(<?php print $date; ?>)</span>
       <?php } ?>
