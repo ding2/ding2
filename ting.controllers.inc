@@ -83,9 +83,11 @@ class TingObjectController extends DrupalDefaultEntityController {
     if ($ids === FALSE || $ids || $revision_id || ($conditions && !$passed_ids)) {
       // Build the query.
       $query = $this->buildQuery($ids, $conditions, $revision_id);
-      $queried_entities = $query
-        ->execute()
-        ->fetchAllAssoc($this->idKey, 'TingEntity');
+      $result = $query->execute();
+      // Normally we'd use fetchAllAssoc($this->idKey, 'TingEntity'),
+      // but DatabaseStatementPrefetch is buggy.
+      $result->setFetchMode(PDO::FETCH_CLASS, 'TingEntity');
+      $queried_entities = $result->fetchAllAssoc($this->idKey);
     }
 
     foreach ($queried_entities as &$qe) {

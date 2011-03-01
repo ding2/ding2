@@ -133,7 +133,9 @@ function ting_execute_cache($request, $query = NULL) {
       // Cache any relations.
       if (isset($object->relations)) {
         foreach ($object->relations as $relation) {
-          ting_cache_set($relation->id, $relation);
+          if (isset($relation->id)) {
+            ting_cache_set($relation->id, $relation);
+          }
         }
       }
     }
@@ -156,7 +158,9 @@ function ting_execute_cache($request, $query = NULL) {
           // Cache any relations.
           if (isset($object->relations)) {
             foreach ($object->relations as $relation) {
-              ting_cache_set($relation->id, $relation);
+              if (isset($relation->id)) {
+                ting_cache_set($relation->id, $relation);
+              }
             }
           }
           ting_cache_set($object->id, $object);
