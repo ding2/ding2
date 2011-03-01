@@ -100,8 +100,9 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     pager_default_initialize($fake_total, $resultsPerPage);
 
     foreach ($searchResult->collections as &$collection) {
+      $uri = entity_uri('ting_collection', $collection);
       $results[] = array(
-        'link' => url($collection->url, array('absolute' => TRUE)),
+        'link' => url($uri['path'], $uri['options']),
         'type' => '',
         'title' => $collection->title,
         'user' => '',
