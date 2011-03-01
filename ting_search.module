@@ -11,7 +11,7 @@
  */
 function ting_search_search_info() {
   return array(
-    'title' => 'Ting',
+    'title' => t('Ting'),
     'path' => 'ting',
     'conditions_callback' => 'ting_search_conditions_callback',
   );
@@ -79,23 +79,15 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // TODO: Set sort options
   $options = array();
   $results = array();
+  $query   = '(' . $keys . ')';
 
   module_load_include('client.inc', 'ting');
 
-  $query = '(' . $keys . ')';
 
    //Extend query with selected facets
-  if (isset($_GET['facets']) && $_GET['facets']) {
-    $facetArray = array();
-
-    $facets = explode(';', $_GET['facets']);
-    foreach ($facets as $facet) {
-      $facet = explode(':', $facet, 2);
-      if ($facet[0] == TRUE) {
-        $facetArray[] = $facet[0].'="'.$facet[1].'"';
-      }
-    }
-    $query .= ' AND '.implode(' AND ', $facetArray);
+  if (isset($conditions['facets'])) {
+    $facetArray = explode(';', $conditions['facets']);
+    $query     .= ' AND ' . implode(' AND ', $facetArray);
   }
 
   try {
@@ -201,7 +193,7 @@ function theme_ting_search_mini_pager($variables) {
  */
 function _ting_search_static_result($results = FALSE) {
   static $searchResult;
-  if (!isset($searchResult)) {
+  if (!isset($searchResult) || $results) {
     $searchResult = $results;
   }
   return $searchResult;
