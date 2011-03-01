@@ -140,12 +140,14 @@ function ting_block_view($delta = '') {
       break;
     case 'ting_object_types':
       if (($object = menu_get_object('ting_object', 2)) &&
-        ($collection = ting_get_collection_by_id($object->id))) {
+        ($collection = ting_collection_load($object->id))) {
 
         $block['subject'] = t('Types');
         $items = array();
         foreach ($collection->types as $type) {
-          $items[] = l($type, $collection->url, array('fragment' => $type));
+          $uri = entity_uri('ting_collection', $collection);
+          $uri['options']['fragment'] = $type;
+          $items[] = l($type, $uri['path'], $uri['options']);
         }
 
         $block['content'] = array(
