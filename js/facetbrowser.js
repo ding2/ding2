@@ -3,9 +3,32 @@
     attach: function(context, settings) {
 
       Drupal.FoldFacetGroup();
-
     }
   };
+
+  $(window).bind('hashchange', function(e) {
+    var hashobj = $.deparam.querystring($.param.fragment());
+
+    $( ' .form-checkbox').live('click', function() {
+      if ($(this).attr('checked') == false) {
+        // Remove the unchecked facet from the url state
+        $.bbq.removeState($(this).closest('fieldset').attr('data'));
+      }
+      else {
+        // Add the checked facet to the url state
+        var state = {},
+        key = $(this).closest('fieldset').attr('data'),
+        value = $(this).val();
+        state[key] = value;
+        $.bbq.pushState(state, 0);
+      }
+    });
+
+    for (var key in hashobj) {
+      var fieldset_element = key.replace(/\./, "-");
+      var facet_element = hashobj[key].replace(/\./, "-");
+    }
+  });
 
   Drupal.FoldFacetGroup = function() {
     $(Drupal.settings.dingFacetBrowser.mainElement + ' fieldset.form-wrapper').each(function() {
@@ -46,4 +69,9 @@
 
     });
   }
+
+  // Since the event is only triggered when the hash changes, we need to trigger
+  // the event now, to handle the hash the page may have loaded with.
+  $(window).trigger('hashchange');
+
 })(jQuery);

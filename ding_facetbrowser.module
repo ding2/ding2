@@ -45,23 +45,30 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
         $form[$facet->name] = array(
           '#type'        => 'fieldset',
           '#title'       => $facet->name,
+          '#attributes'  => array('id' => str_replace('.', '-', $facet->name), 'data' => array($facet->name)),
         );
       }
       if (is_object($facet) && count($facet->terms) == TRUE) {
         foreach ($facet->terms as $term_name => $term_count) {
           $facet_name             = explode('.', $facet->name);
           $element_name           = end($facet_name);
-          $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="count">(' . $term_count . ')</span>' : FALSE);
+          $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="term_count">(' . $term_count . ')</span>' : FALSE);
 
           if (array_key_exists($element_name, $set_facets) && array_key_exists($term_name, $set_facets[$element_name])) {
             $default_values[] = $term_name;
           }
+          $form[$facet->name][$element_name][$term_name] = array(
+            '#type'             => 'checkbox',
+            '#title'            => $checkboxes[$term_name],
+            '#return_value'     => array($element_name => $term_name) ,
+            '#attributes'       => array('class' => array($term_name)),
+            '#ajax'             => array(
+              'callback' => '_ajax_search',
+              'wrapper'  => 'block-ding-facetbrowser-facetbrowser',
+              'method'   => 'replace',
+            ),
+          );
         }
-        $form[$facet->name][$element_name] = array(
-          '#type'          => 'checkboxes',
-          '#options'       => $checkboxes,
-          '#default_value' => $default_values,
-        );
       }
       // Dont show empty facet categories
       elseif (!empty($facet->name) && array_key_exists($facet->name, $form)) {
@@ -84,31 +91,45 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
   return $form;
 }
 
-/**
- * Implements a validate handler for ding_facetbrowser_form().
- */
-function ding_facetbrowser_form_validate($form, &$form_state) {
+function _ajax_search($form, $form_state) {
+  $commands          = array();
+  $results           = ting_search_search_execute('zorro', array('facets' => _facetString($form_state)));
+  $facets            = _ting_search_static_result();
+  $facets_formatted  = drupal_render(drupal_build_form('ding_facetbrowser_form', $form_state));
+  $results_formatted = theme('ting_search_results', array('results' => $results));
+
+  // $commands[] = ajax_command_replace('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
+  $commands[] = ajax_command_html('#content',$results_formatted);
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
-/**
- * Implements a submit handler for ding_facetbrowser_form()
- */
-function ding_facetbrowser_form_submit($form, &$form_state) {
-  $facets = array();
+function _facetString($form_state = NULL) {
   $string = FALSE;
-
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
     foreach ($form_state['values'] as $name => $data) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
-          if ($value == TRUE) {
-            $string .= 'facet.' . $name . ':' . $value . ';';
+          if ($value == TRUE && $key == TRUE) {
+            $string .= 'facet.' . $key. ':' . $value . ';';
           }
         }
       }
     }
   }
+  return substr($string, 0, -1);
+}
 
+/**
+ * Implements a validate handler for ding_facetbrowser_form().
+ */
+function ding_facetbrowser_form_validate($form, &$form_state) { }
+
+/**
+ * Implements a submit handler for ding_facetbrowser_form()
+ */
+function ding_facetbrowser_form_submit($form, &$form_state) {
+  $string = _facetString($form_state);
   drupal_goto(implode('/', arg()), array('query' => array('facets' => $string)));
 }
 
@@ -117,11 +138,9 @@ function ding_facetbrowser_form_submit($form, &$form_state) {
  * facetbrowser theme function
  */
 function theme_facetbrowser($all_facets = FALSE) {
-  $output   = ' ';
   $elements = array();
-
   if (is_array($all_facets)) {
-        $elements[] = drupal_render(drupal_get_form('ding_facetbrowser_form', $all_facets));
+    $elements[] = drupal_render(drupal_get_form('ding_facetbrowser_form', $all_facets));
   }
   return implode('', $elements);
 }
@@ -176,7 +195,6 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 
   return $block;
 }
-
 
 /**
  * Implements hook_ding_facetbrowser() from the apachesolr_search module
