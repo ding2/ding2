@@ -93,7 +93,6 @@ class TingEntityTestCase extends DrupalWebTestCase {
     $subjects = $entities['710100:23195151']->subjects;
     sort($subjects);
     $this->assertEqual($subjects, array('eventyrlige fortællinger', 'magi', 'troldmænd' ), 'Entity subjects OK.');
-    // $this->assertEqual($entities['710100:23195151']->relations[0]->relationType, 'hasAuthorDescription', 'Entity relation OK.');
 
     $this->assertEqual($entities['710100:25194853']->title, 'Harry Potter og De Vises Sten', 'Entity title OK.');
     $this->assertEqual($entities['710100:25194853']->provider_id, '25194853', 'Entity provider_id OK.');

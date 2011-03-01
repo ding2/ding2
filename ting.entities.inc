@@ -49,7 +49,9 @@ class TingEntity extends DingEntity {
     if (isset($this->reply->relations)) {
       $entity_ids = array();
       foreach ($this->reply->relations as $record) {
-        $entity_ids[] = $record->id;
+        if (isset($record->id)) {
+          $entity_ids[] = $record->id;
+        }
       }
       if ($entity_ids){
         $this->relations = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
