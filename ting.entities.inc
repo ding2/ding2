@@ -21,6 +21,7 @@ class TingEntity extends DingEntity {
       'subjects' => FALSE,
       'language' => FALSE,
       'relationType' => FALSE,
+      'relationUri' => FALSE,
     );
   }
 
@@ -92,6 +93,10 @@ class TingEntity extends DingEntity {
 
   function getRelationType() {
     return $this->relationType = $this->reply->relationType;
+  }
+
+  function getRelationUri() {
+    return $this->relationUri = $this->reply->relationUri;
   }
 }
 
