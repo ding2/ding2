@@ -16,7 +16,6 @@ class TingEntity extends DingEntity {
       'record' => FALSE,
       'relations' => FALSE,
       'localId' => FALSE,
-      'url' => FALSE,
       'creators' => FALSE,
       'subjects' => FALSE,
       'language' => FALSE,
@@ -57,10 +56,6 @@ class TingEntity extends DingEntity {
       }
     }
     return $this->relations;
-  }
-
-  function getUrl() {
-    $this->url = url('ting/object/' . $this->reply->id, array('absolute' => TRUE));
   }
 
   function getCreators() {
