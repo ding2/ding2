@@ -17,7 +17,7 @@ class TingEntityTestCase extends DrupalWebTestCase {
     $this->profile = 'ding2';
     parent::setUp(array('ding_entity', 'ting'));
     variable_set('ting_agency', '710100');
-    variable_set('ting_search_url', 'http://didicas.dbc.dk/testbroend-1.2-opensearch-1.0/');
+    variable_set('ting_search_url', 'http://opensearch.addi.dk/1.0/');
     variable_set('ting_scan_url', 'http://openscan.addi.dk/1.5/');
     variable_set('ting_spell_url', 'http://openspell.addi.dk/1.2/');
     variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
@@ -34,7 +34,24 @@ class TingEntityTestCase extends DrupalWebTestCase {
     $this->assertEqual(ding_entity_type(), 'ting_object', 'Entity type is right.');
     $entity = ding_entity_load('710100:25194853');
     $this->assertTrue(is_object($entity), 'Entity is an object.');
+    $this->assertEqual(get_class($entity), 'TingEntity', 'Entity is a TingEntity.');
     $this->assertEqual($entity->title, 'Harry Potter og De Vises Sten', 'Entity has proper title.');
+    $expected = array(
+      '150017:fant' => array('hasSubjectDescription', 'Fantasy'),
+      '150016:rowling00' => array('hasAuthorDescription', 'Joanne K. Rowling'),
+    );
+    $rels_check = TRUE;
+    foreach ($entity->relations as $rel) {
+      if (isset($expected[$rel->relationUri])) {
+        $rels_check = $rels_check && $expected[$rel->relationUri] == array($rel->relationType, $rel->title);
+        unset($expected[$rel->relationUri]);
+      }
+      else {
+        $this->fail(t('Unexpected relationship @type @uri', array('@type' => $rel->relationType, '@uri' => $rel->relationUri)));
+      }
+    }
+    $this->assertTrue(empty($expected), 'No unexpected relations.');
+    $this->assertTrue($rels_check, 'Relations look OK.');
   }
 
   /**
@@ -44,7 +61,43 @@ class TingEntityTestCase extends DrupalWebTestCase {
     $this->assertEqual(ding_entity_collection_type(), 'ting_collection', 'Collection type is right.');
     $entity = ding_entity_collection_load('710100:25194853');
     $this->assertTrue(is_object($entity), 'Collection is an object.');
+    $this->assertEqual(get_class($entity), 'TingCollection', 'Collection is a TingCollection.');
     $this->assertEqual($entity->title, 'Harry Potter og De Vises Sten', 'Collection has proper title.');
     $this->assertTrue(is_array($entity->entities), 'Collection has an array.');
+
+    // Check entities.
+    $all_entities = TRUE;
+    $entities = array();
+    foreach ($entity->entities as $sub_entity) {
+      $all_entities = $all_entities && (get_class($sub_entity) == 'TingEntity');
+      $entities[$sub_entity->id] = $sub_entity;
+    }
+    $expected_ids = array (
+      '710100:22513354',
+      '710100:22629344',
+      '710100:23195151',
+      '710100:25194853',
+    );
+    $gotten_ids = array_keys($entities);
+    sort($gotten_ids);
+    $this->assertEqual($gotten_ids, $expected_ids, 'Got the expected entity ids.');
+
+    // Check random entity properties.
+    $this->assertEqual($entities['710100:22513354']->title, 'Harry Potter og De Vises Sten', 'Entity title OK.');
+    $this->assertEqual($entities['710100:22513354']->abstract, 'Den 11-årige forældreløse dreng Harry Potter bliver adopteret af sin onkel og tante som ikke bryder sig om ham. Han har trolddomsblod i årerne og bliver optaget på en skole for trolddomskyndige. Her får han nye venner og fjender', 'Entity abstract OK.');
+
+    $this->assertEqual($entities['710100:22629344']->creators, array('Joanne K. Rowling'), 'Entity author OK.');
+    $this->assertEqual($entities['710100:22629344']->type, 'Bog', 'Entity type OK.');
+
+    $this->assertEqual($entities['710100:23195151']->language, 'Dansk', 'Entity language OK.');
+    $subjects = $entities['710100:23195151']->subjects;
+    sort($subjects);
+    $this->assertEqual($subjects, array('eventyrlige fortællinger', 'magi', 'troldmænd' ), 'Entity subjects OK.');
+    // $this->assertEqual($entities['710100:23195151']->relations[0]->relationType, 'hasAuthorDescription', 'Entity relation OK.');
+
+    $this->assertEqual($entities['710100:25194853']->title, 'Harry Potter og De Vises Sten', 'Entity title OK.');
+    $this->assertEqual($entities['710100:25194853']->provider_id, '25194853', 'Entity provider_id OK.');
+
+    $this->assertTrue($all_entities, 'Entities is TingEntities.');
   }
 }
