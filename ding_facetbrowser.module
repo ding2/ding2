@@ -26,19 +26,9 @@ function ding_facetbrowser_theme() {
  * Implements a custom facetbrowser form
  */
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
-  $predefined_facet_string = !empty($_GET['facets']) ? $_GET['facets'] : FALSE;
-  $predefined_facets       = explode(';', $predefined_facet_string);
-  $set_facets              = array();
   $checkboxes              = array();
   $default_values          = array();
 
-  // Create an array with pre-set facets from page url
-  foreach ($predefined_facets as $pre_facet) {
-    if ($pre_facet) {
-      $explode_facet = explode(':', $pre_facet);
-      $set_facets[str_replace('facet.', '', $explode_facet[0])][$explode_facet[1]] = $explode_facet[1];
-    }
-  }
   if (count($facets) == TRUE) {
     foreach ($facets as $facet) {
       if (count($facet) == TRUE) {
@@ -54,9 +44,6 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
           $element_name           = end($facet_name);
           $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="term_count">(' . $term_count . ')</span>' : FALSE);
 
-          if (array_key_exists($element_name, $set_facets) && array_key_exists($term_name, $set_facets[$element_name])) {
-            $default_values[] = $term_name;
-          }
           $form[$facet->name][$element_name][$term_name] = array(
             '#type'             => 'checkbox',
             '#title'            => $checkboxes[$term_name],
@@ -185,12 +172,12 @@ function ding_facetbrowser_block_view($delta = FALSE) {
         $block_content = theme('facetbrowser', $results->facets);
       }
     }
-  switch ($delta) {
+    switch ($delta) {
     case 'facetbrowser':
       $block['subject'] = t('Facet browser');
       $block['content'] = $block_content;
-    break;
-  }
+      break;
+    }
   }
 
   return $block;
