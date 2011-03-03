@@ -118,6 +118,7 @@ class TingCollection extends DingEntityCollection {
   function getEntities() {
     $this->entities = array();
     if (isset($this->reply->objects)) {
+      $entity_ids = array();
       foreach ($this->reply->objects as $record) {
         // Pull the entity with the same id at the top.
         if ($record->id == $this->id) {
