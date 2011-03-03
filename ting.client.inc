@@ -119,9 +119,9 @@ function ting_execute_cache($request, $query = NULL) {
   static $calls = array();
   $calls[] = $query;
   if (sizeof($calls) > 1) {
-    watchdog('ting', 'Warning, ting_execute called @x times: @queries', array('@x' => $calls, '@queries' => join(' ', $calls)), WATCHDOG_WARNING);
+    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls)), WATCHDOG_WARNING);
     if (function_exists('dpm') && user_access('access devel information')) {
-      drupal_set_message(t('Warning, ting_execute called @x times: @queries', array('@x' => $calls, '@queries' => join(' ', $calls))), 'error');
+      drupal_set_message(t('Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls))), 'error');
     }
   }
   $reply = ting_execute($request);

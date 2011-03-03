@@ -119,7 +119,12 @@ class TingCollection extends DingEntityCollection {
     $this->entities = array();
     if (isset($this->reply->objects)) {
       foreach ($this->reply->objects as $record) {
-        $entity_ids[] = $record->id;
+        // Pull the entity with the same id at the top.
+        if ($record->id == $this->id) {
+          array_unshift($entity_ids, $record->id);
+        } else {
+          $entity_ids[] = $record->id;
+        }
       }
       $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
       // Can't pass overloaded $this->types as reference to
