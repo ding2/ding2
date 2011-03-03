@@ -2,6 +2,8 @@
 
 /**
  * Implements hook_block_info()
+ *
+ * @return array
  */
 function ding_facetbrowser_block_info() {
   $blocks['facetbrowser'] = array(
@@ -13,6 +15,8 @@ function ding_facetbrowser_block_info() {
 
 /**
  * Implements hook_theme()
+ *
+ * @return array
  */
 function ding_facetbrowser_theme() {
   return array(
@@ -23,7 +27,12 @@ function ding_facetbrowser_theme() {
 }
 
 /**
- * Implements a custom facetbrowser form
+ * Create a custom form with checkbox elements for facets and ajax callback
+ *
+ * @param array $form
+ * @param array $form_state
+ * @param array $facets
+ * @return array $form
  */
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
   $checkboxes              = array();
@@ -78,6 +87,14 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
   return $form;
 }
 
+/**
+ * AJAX Callback function for ding_facetbrowser_form.
+ * Parse searchresults to various page containers
+ *
+ * @param array $form
+ * @param array $form_state
+ * @return array
+ */
 function _ajax_search($form, $form_state) {
   $commands          = array();
   $results           = ting_search_search_execute('zorro', array('facets' => _facetString($form_state)));
@@ -91,29 +108,41 @@ function _ajax_search($form, $form_state) {
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
+/**
+ * Parse the selected facets from the $form_state to a readable string for the ting_search
+ *
+ * @param array $form_state
+ * @return string
+ */
 function _facetString($form_state = NULL) {
-  $string = FALSE;
+  $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
     foreach ($form_state['values'] as $name => $data) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
-          if ($value == TRUE && $key == TRUE) {
-            $string .= 'facet.' . $key. ':' . $value . ';';
-          }
+          $facets[] = 'facet.' . $key. ':' . $value;
         }
       }
     }
   }
-  return substr($string, 0, -1);
+  return implode(';', $facets);
 }
 
 /**
  * Implements a validate handler for ding_facetbrowser_form().
+ *
+ * @param array $form
+ * @param array $form_state
+ * @return void
  */
 function ding_facetbrowser_form_validate($form, &$form_state) { }
 
 /**
  * Implements a submit handler for ding_facetbrowser_form()
+ *
+ * @param array $form
+ * @param array $form_state
+ * @return void
  */
 function ding_facetbrowser_form_submit($form, &$form_state) {
   $string = _facetString($form_state);
@@ -123,6 +152,9 @@ function ding_facetbrowser_form_submit($form, &$form_state) {
 
 /**
  * facetbrowser theme function
+ *
+ * @param array $all_facets
+ * @return string
  */
 function theme_facetbrowser($all_facets = FALSE) {
   $elements = array();
@@ -189,6 +221,8 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 /**
  * Implements hook_ding_facetbrowser() from the apachesolr_search module
  * to prevent from hacking in contrib module.
+ *
+ * @return object
  */
 function apachesolr_search_ding_facetbrowser() {
   $return_object = new stdClass();
@@ -230,8 +264,10 @@ function apachesolr_search_ding_facetbrowser() {
 
 /**
  * Implements hook_apachesolr_search_result_alter().
- *
  * Save the search result in a static variable to be able to use it in blocks and so on.
+ *
+ * @param object $doc
+ * @return void
  */
 function ding_facetbrowser_apachesolr_search_result_alter(&$doc) {
   _apachesolr_static_result($doc);
@@ -239,6 +275,9 @@ function ding_facetbrowser_apachesolr_search_result_alter(&$doc) {
 
 /*
  * Save the search result as in static variable
+ *
+ * @param object $result
+ * @return array
  */
 function _apachesolr_static_result($result = FALSE) {
   static $search_result = array();
