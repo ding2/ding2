@@ -35,8 +35,14 @@ function ding_facetbrowser_theme() {
  * @return array $form
  */
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
-  $checkboxes              = array();
-  $default_values          = array();
+  $search_string  = array_pop(arg());
+  $checkboxes     = array();
+  $default_values = array();
+
+  $form['search_string'] = array(
+    '#type'          => 'hidden',
+    '#default_value' => $search_string,
+  );
 
   if (count($facets) == TRUE) {
     foreach ($facets as $facet) {
@@ -97,7 +103,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
  */
 function _ajax_search($form, $form_state) {
   $commands          = array();
-  $results           = ting_search_search_execute('zorro', array('facets' => _facetString($form_state)));
+  $results           = ting_search_search_execute($form['search_string']['#value'], array('facets' => _facetString($form_state)));
   $facets            = _ting_search_static_result();
   $facets_formatted  = drupal_render(drupal_build_form('ding_facetbrowser_form', $form_state));
   $results_formatted = theme('ting_search_results', array('results' => $results));
