@@ -38,3 +38,7 @@ projects[pazpar2][type] = "library"
 projects[pazpar2][download][type] = "git"
 projects[pazpar2][download][url] = "git://git.indexdata.com/pazpar2.git"
 
+projects[mkdruding2][type] = "theme"
+projects[mkdruding2][download][type] = "git"
+projects[mkdruding2][download][url] = "git://git.indexdata.com/mkdruding2"
+
