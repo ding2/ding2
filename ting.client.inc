@@ -21,6 +21,19 @@ foreach ($includes as $include) {
   require_once($path . $include);
 }
 
+/**
+ * Get an ting object or collection.
+ *
+ * Returns the search response for the given id. This will cache the
+ * result, and any sub-objects, so fetching objects from a recently
+ * fetched collection won't trigger another backend request.
+ *
+ * @param $object_id The id to fetch.
+ * @param $collection Whether to return a collection, if possible, or
+ *   an object.
+ * @param $query use the given query when fetching, to trigger collection
+ *   ordering.
+ */
 function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
   if (empty($object_id)) {
     return FALSE;
@@ -113,7 +126,12 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 }
 
 /**
+ * Calls ting_execute() and caches the result.
  *
+ * Executes the request and caches sub-objects.
+ *
+ * @param $request the request.
+ * @param $query a query to put on collections, for making links later.
  */
 function ting_execute_cache($request, $query = NULL) {
   static $calls = array();
@@ -187,7 +205,7 @@ function ting_execute_cache($request, $query = NULL) {
 }
 
 /**
- *
+ * Get item from static cache.
  */
 function ting_cache_get($id) {
   $cache = &drupal_static('ting_cache_set');
@@ -203,7 +221,7 @@ function ting_cache_get($id) {
 }
 
 /**
- *
+ * Put item in the static cache.
  */
 function ting_cache_set($id, $value) {
   $cache = &drupal_static(__FUNCTION__);
