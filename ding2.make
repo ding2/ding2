@@ -32,6 +32,7 @@ projects[ting_relations][download][url] = "git@github.com:ding2/ting_relations.g
 projects[mkdru][type] = "module"
 projects[mkdru][download][type] = "git"
 projects[mkdru][download][url] = "git://git.indexdata.com/mkdru.git"
+projects[mkdru][download][branch] = "7.x"
 
 projects[pazpar2][type] = "library"
 projects[pazpar2][download][type] = "git"
