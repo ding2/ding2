@@ -86,7 +86,7 @@ function _ajax_search($form, $form_state) {
   $results_formatted = theme('ting_search_results', array('results' => $results));
 
   // $commands[] = ajax_command_replace('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
-  $commands[] = ajax_command_html('#content',$results_formatted);
+  $commands[] = ajax_command_after('#search-form',$results_formatted);
 
   return array('#type' => 'ajax', '#commands' => $commands);
 }
@@ -139,9 +139,10 @@ function theme_facetbrowser($all_facets = FALSE) {
  * @return Array
  */
 function ding_facetbrowser_block_view($delta = FALSE) {
-  $block            = array();
-  $block_content    = FALSE;
-  $content_in_facet = FALSE;
+  $block                  = array();
+  $block_content          = FALSE;
+  $content_in_facet       = FALSE;
+  $executed_search_module = FALSE;
 
   drupal_add_js('misc/jquery.ba-bbq.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
@@ -156,7 +157,9 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 
   // Invoke ding_facetbrowser() from executed search module
   $executed_search                = menu_get_item();
-  list($executed_search_module, ) = $executed_search['page_arguments'];
+  if (!empty($executed_search['page_arguments'])) {
+    list($executed_search_module, ) = $executed_search['page_arguments'];
+  }
 
   if (is_string($executed_search_module)) {
     $results = module_invoke($executed_search_module, 'ding_facetbrowser');
