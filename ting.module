@@ -10,20 +10,22 @@
  */
 function ting_menu() {
   $items['ting/object/%ting_object'] = array(
-    // TODO: 'title callback' => 'node_page_title',
+    'title callback' => 'ting_page_title',
+    'title arguments' => array(2),
     'page callback' => 'ting_object_page_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
+    'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
   $items['ting/collection/%ting_collection'] = array(
-    // TODO: 'title callback' => 'node_page_title',
+    'title callback' => 'ting_page_title',
+    'title arguments' => array(2),
     'load arguments' => array(3),
     'page callback' => 'ting_collection_page_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
+    'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
   $items['admin/config/ting'] = array(
@@ -253,6 +255,30 @@ function ting_entity_info() {
 }
 
 /**
+ * Page callback: Display a ting object.
+ */
+function ting_object_page_view($object) {
+  return ting_object_view($object);
+}
+
+/**
+ * Page callback: Display a ting collection.
+ */
+function ting_collection_page_view($object) {
+  if (sizeof($object->entities) < 2) {
+    drupal_goto('ting/collection/' . $object->id);
+  }
+  return ting_collection_view($object);
+}
+
+/**
+ * Page title callback.
+ */
+function ting_page_title($object) {
+  return check_plain($object->title);
+}
+
+/**
  * Callback for entity_uri(). Returns the uri for the object.
  */
 function ting_object_uri($collection) {
@@ -387,25 +413,6 @@ function ting_collection_view($object, $view_mode = 'full') {
 
   drupal_alter('ting_view', $build);
   return $build;
-}
-
-/**
- * Page callback: Display a ting object.
- */
-function ting_object_page_view($object) {
-  drupal_set_title($object->title);
-  return ting_object_view($object);
-}
-
-/**
- * Page callback: Display a ting collection.
- */
-function ting_collection_page_view($object) {
-  if (sizeof($object->entities) < 2) {
-    drupal_goto('ting/collection/' . $object->id);
-  }
-  drupal_set_title($object->title);
-  return ting_collection_view($object);
 }
 
 /**
