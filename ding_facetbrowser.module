@@ -60,7 +60,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $element_name           = end($facet_name);
           $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="term_count">(' . $term_count . ')</span>' : FALSE);
 
-          $form[$facet->name][$element_name][$term_name] = array(
+          $form[$facet->name][$element_name][urlencode($term_name)] = array(
             '#type'             => 'checkbox',
             '#title'            => $checkboxes[$term_name],
             '#return_value'     => array($element_name => $term_name) ,
@@ -110,8 +110,8 @@ function _ajax_search($form, $form_state) {
   $facets_formatted  = drupal_render(drupal_build_form('ding_facetbrowser_form', $form_state));
   $results_formatted = theme('ting_search_results', array('results' => $results));
 
-  // $commands[] = ajax_command_replace('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
-  $commands[] = ajax_command_after('#search-form',$results_formatted);
+  $commands[] = ajax_command_replace('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
+  $commands[] = ajax_command_html('.search-results',$results_formatted);
 
   return array('#type' => 'ajax', '#commands' => $commands);
 }
@@ -125,7 +125,7 @@ function _ajax_search($form, $form_state) {
 function _facetString($form_state = NULL) {
   $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
-    foreach ($form_state['values'] as $name => $data) {
+    foreach ($form_state['values'] as $data) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
           $facets[] = 'facet.' . $key. ':' . $value;
