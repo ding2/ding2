@@ -13,7 +13,7 @@ function ting_relations_ding_entity_view($entity, $view_mode, $langcode = NULL) 
     foreach ($entity->relations as $relation) {
       if ($relation->relationType == 'hasAuthorDescription') {
         $entity->content['relations'][] = array(
-          '#markup' => '<div style="background-color: #F6F6F2;"><h2>Forfatterpotræt</h2>' .
+          '#markup' => '<div style="background-color: #F6F6F2;"><h2>Forfatterportræt</h2>' .
           '<h3>' . check_plain($relation->title) . '</h3>' .
           '<div>' . filter_xss_admin($relation->abstract) . '</div></div>',
         );
