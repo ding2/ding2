@@ -25,6 +25,7 @@ function ting_search_ding_facetbrowser() {
 	$results->show_empty = FALSE;
 	$search_result       = _ting_search_static_result();
 	$results->facets     = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
+  $results->searchkey  = $search_result->search_key;
 	return $results;
 }
 
@@ -89,11 +90,11 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     $facetArray = explode(';', $conditions['facets']);
     $query     .= ' AND ' . implode(' AND ', $facetArray);
   }
-
   try {
     $page = pager_find_page();
     $resultsPerPage = variable_get('ting_search_results_per_page', 10);
     $searchResult = ting_do_search($query, $page + 1, $resultsPerPage, $options);
+    $searchResult->search_key = $keys;
     // We don't know the real total, so fake one. We add one to the shown
     // number if there is more results.
     $fake_total = ($resultsPerPage * $page) + sizeof($searchResult->collections) + ($searchResult->more ? 1 : 0);
