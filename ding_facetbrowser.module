@@ -21,7 +21,10 @@ function ding_facetbrowser_block_info() {
 function ding_facetbrowser_theme() {
   return array(
    'facetbrowser' => array(
-      'variables' => array('facets' => NULL),
+     'variables' => array(
+       'facets'    => NULL,
+       'searchkey' => NULL,
+     ),
     ),
   );
 }
@@ -34,14 +37,12 @@ function ding_facetbrowser_theme() {
  * @param array $facets
  * @return array $form
  */
-function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
-  $search_string  = array_pop(arg());
-  $checkboxes     = array();
-  $default_values = array();
-
-  $form['search_string'] = array(
-    '#type'          => 'hidden',
-    '#default_value' => $search_string,
+function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = FALSE) {
+  $checkboxes         = array();
+  $default_values     = array();
+  $form['search_key'] = array(
+    '#type'  => 'hidden',
+    '#value' => $search,
   );
 
   if (count($facets) == TRUE) {
@@ -49,7 +50,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
       if (count($facet) == TRUE) {
         $form[$facet->name] = array(
           '#type'        => 'fieldset',
-          '#title'       => $facet->name,
+          '#title'       => t($facet->name),
           '#attributes'  => array('id' => str_replace('.', '-', $facet->name), 'data' => array($facet->name)),
         );
       }
@@ -103,7 +104,8 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE) {
  */
 function _ajax_search($form, $form_state) {
   $commands          = array();
-  $results           = ting_search_search_execute($form['search_string']['#value'], array('facets' => _facetString($form_state)));
+  $search_key        = $form['search_key']['#value'];
+  $results           = ting_search_search_execute($search_key, array('facets' => _facetString($form_state)));
   $facets            = _ting_search_static_result();
   $facets_formatted  = drupal_render(drupal_build_form('ding_facetbrowser_form', $form_state));
   $results_formatted = theme('ting_search_results', array('results' => $results));
@@ -162,10 +164,12 @@ function ding_facetbrowser_form_submit($form, &$form_state) {
  * @param array $all_facets
  * @return string
  */
-function theme_facetbrowser($all_facets = FALSE) {
+function theme_facetbrowser($search_result = FALSE) {
+  $all_facets = array_shift($search_result);
+  $searchkey = array_shift($search_result);
   $elements = array();
   if (is_array($all_facets)) {
-    $elements[] = drupal_render(drupal_get_form('ding_facetbrowser_form', $all_facets));
+    $elements[] = drupal_render(drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey));
   }
   return implode('', $elements);
 }
@@ -208,9 +212,8 @@ function ding_facetbrowser_block_view($delta = FALSE) {
           break;
         }
       }
-
       if ($content_in_facet === TRUE || $results->show_empty == TRUE) {
-        $block_content = theme('facetbrowser', $results->facets);
+        $block_content = theme('facetbrowser', array($results->facets, $results->searchkey));
       }
     }
     switch ($delta) {
