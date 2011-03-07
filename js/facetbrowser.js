@@ -39,7 +39,9 @@
             $(facetElement).hide();
           }
         });
-        facetGroup.append('<span class="expand" id="expand_more">' + Drupal.t('Vis flere') + '</span>');
+        if (!facetGroup.find('#expand_more').length) {
+          facetGroup.append('<span class="expand" id="expand_more">' + Drupal.t('Vis flere') + '</span>');
+        }
       }
       else {
       }
