@@ -59,12 +59,11 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $element_name           = end($facet_name);
           $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="term_count">(' . $term_count . ')</span>' : FALSE);
 
-          $form[$facet->name][$element_name][urlencode($term_name)] = array(
-            '#type'             => 'checkbox',
-            '#title'            => $checkboxes[$term_name],
-            '#return_value'     => array($element_name => $term_name) ,
-            '#attributes'       => array('class' => array($term_name)),
-            '#ajax'             => array(
+          $form[$facet->name][$element_name] = array(
+            '#type'          => 'checkboxes',
+            '#options'       => $checkboxes,
+            '#default_value' => $default_values,
+            '#ajax' => array(
               'callback' => '_ajax_search',
               'wrapper'  => 'block-ding-facetbrowser-facetbrowser',
               'method'   => 'replace',
@@ -125,10 +124,12 @@ function _ajax_search($form, $form_state) {
 function _facetString($form_state = NULL) {
   $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
-    foreach ($form_state['values'] as $data) {
+    foreach ($form_state['values'] as $name => $data) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
-          $facets[] = 'facet.' . $key. ':' . $value;
+          if ($key === $value) {
+          $facets[] = 'facet.' . $name. ':' . $value;
+          }
         }
       }
     }
