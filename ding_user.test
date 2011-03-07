@@ -47,7 +47,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
     $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
 
     $this->drupalPost('user/login', $login_data, t('Log in'));
-    $this->assertRaw(t('Member for'), t("Secon login works."));
+    $this->assertRaw(t('Member for'), t("Second login works."));
 
     $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
     $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));

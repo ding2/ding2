@@ -6,7 +6,9 @@
  */
 
 /**
+ * Implements hook_form_alter().
  *
+ * Modify user login form to use our backend.
  */
 function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
@@ -31,6 +33,15 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
     //unset($form['links']);
 
     break;
+  }
+}
+
+/**
+ * Implements hook_username_alter().
+ */
+function ding_user_username_alter(&$name, $account) {
+  if (isset($account->data['display_name'])) {
+    $name = $account->data['display_name'];
   }
 }
 
