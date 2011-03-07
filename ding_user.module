@@ -126,18 +126,20 @@ function ding_user_user_login_validate($form, &$form_state) {
       // Detect changed properties.
       foreach ($auth_res['user'] as $key => $value) {
         if ($key == 'data') {
-          // Special handling for data array.
-          if (array_diff_assoc($account->$key, $value) === array_diff_assoc($value, $account->$key)) {
+          // Special handling for data array. We're using == as ===
+          // also checks order, and we don't need the extra type
+          // check.
+          if ($account->$key == $value) {
             unset($auth_res['user'][$key]);
           }
         }
-        if (isset($account->$key) && $account->$key === $value) {
+        elseif (isset($account->$key) && $account->$key === $value) {
           unset($auth_res['user'][$key]);
         }
       }
       if (!empty($auth_res['user'])) {
         // Save account if there's any changes.
-        $account = user_save($account, $auth_res);
+        $account = user_save($account, $auth_res['user']);
       }
     }
 
