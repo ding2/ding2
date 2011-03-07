@@ -164,9 +164,62 @@ function openruth_user_authenticate($name, $pass) {
     'pass' => $pass,
   );
 
-  // Flush the user status cache, so we'll get the newest information.
-  // _openruth_user_status();
+  $userStatus = _openruth_user_status($return['creds'], TRUE);
+  if ($userStatus && isset($userStatus->userInfo)) {
+    $userInfo = $userStatus->userInfo;
+    $return['user'] = array(
+      'data' => array(
+        'display_name' => $userInfo->userFirstName . ' ' . $userInfo->userLastName,
+      ),
+    );
+
+    if (isset($userInfo->agencyCounter)) {
+      $return['user']['data']['preferred_branch'] = $userInfo->agencyCounter;
+    }
+
+    if (isset($userInfo->userEmail)) {
+      $return['user']['mail'] = $userInfo->userEmail;
+    }
+  }
 
   return $return;
+}
 
+/**
+ * Get user status.
+ *
+ * Session cached for efficiency.
+ */
+function _openruth_user_status($creds = NULL, $reset = FALSE) {
+  // Flush cache if creds is not specified.
+  if ($reset || !is_array($_SESSION['openruth_user_status']) || !$creds) {
+    $_SESSION['openruth_user_status'] = array();
+  }
+  if (!$creds) {
+    return;
+  }
+
+  $id = hash('sha512', $creds['name'] . $creds['pass']);
+
+  if (!isset($_SESSION['openruth_user_status'][$id]) ||
+    $_SESSION['openruth_user_status'][$id]['time'] < ($_SERVER['REQUEST_TIME'] - 300)) {
+    $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
+    if ($status && !is_string($status)) {
+      if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
+        // Don't cache user pass.
+        unset($status->userInfo->userPinCode);
+      }
+      $_SESSION['openruth_user_status'][$id] = array(
+        'time' => $_SERVER['REQUEST_TIME'],
+        'data' => $status,
+      );
+    }
+    elseif (is_string($status)) {
+      watchdog('openruth', 'Error fetching user status @error', array('@error' => $status), WATCHDOG_ERROR);
+      return;
+    }
+  }
+  if ($_SESSION['openruth_user_status'][$id]) {
+    return $_SESSION['openruth_user_status'][$id]['data'];
+  }
 }

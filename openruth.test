@@ -15,8 +15,9 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
   }
 
   function setUp() {
-    parent::setup(array('openruth'));
-    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.6/openruth.wsdl');
+    // Need ding_user to test login.
+    parent::setup(array('openruth', 'ding_user'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
     variable_set('openruth_agency_id', '100450');
   }
 
@@ -26,6 +27,48 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
    */
   function getGoodUser() {
     return array('0019', '0019');
+  }
+
+  function testUserData() {
+    $login_data = array('name' => '0019', 'pass' => '0019');
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Login works."));
+
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
+    if (!$edit_link) {
+      return;
+    }
+
+    $res = preg_match('{^/user/(\d+)/edit$}', (string) $edit_link[0]['href'], $matches);
+    $this->assertTrue($res, t('Edit link is well formed.'));
+    if (!$res) {
+      // No uid, bail out.
+      return;
+    }
+    $uid = $matches[1];
+
+    $this->assertRaw('Anders Andersen Boes', t('Real name is displayed'));
+    $user = user_load($uid);
+    $this->assertEqual('jle@dbc.dk', $user->mail, t('User email has been properly set.'));
+    $this->assertNoRaw($user->name, t('$user->name isn\'t shown'));
+    $this->assertNoRaw($user->init, t('$user->init isn\'t shown'));
+    $this->assertEqual($user->data['preferred_branch'], 'DBCMedier', t('Preferred branch is correct.'));
+
+    // Logout
+    $this->drupalLogout();
+    // Check that we're logged out.
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Second login works."));
+
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
+    $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
+
   }
 }
 
