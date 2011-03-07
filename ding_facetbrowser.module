@@ -44,7 +44,6 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     '#type'  => 'hidden',
     '#value' => $search,
   );
-
   if (count($facets) == TRUE) {
     foreach ($facets as $facet) {
       if (count($facet) == TRUE) {
@@ -103,14 +102,15 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
  * @return array
  */
 function _ajax_search($form, $form_state) {
-  $commands          = array();
-  $search_key        = $form['search_key']['#value'];
-  $results           = ting_search_search_execute($search_key, array('facets' => _facetString($form_state)));
-  $facets            = _ting_search_static_result();
-  $facets_formatted  = drupal_render(drupal_build_form('ding_facetbrowser_form', $form_state));
-  $results_formatted = theme('ting_search_results', array('results' => $results));
+  $commands                            = array();
+  $search_key                          = $form['search_key']['#value'];
+  $results                             = ting_search_search_execute($search_key, array('facets' => _facetString($form_state)));
+  $search_results                      = _ting_search_static_result();
+  $form_state['build_info']['args'][0] = $search_results->facets;
+  $facets_formatted                    = drupal_render(drupal_rebuild_form('ding_facetbrowser_form', $form_state ));
+  $results_formatted                   = theme('ting_search_results', array('results' => $results));
 
-  $commands[] = ajax_command_replace('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
+  $commands[] = ajax_command_html('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
   $commands[] = ajax_command_html('.search-results',$results_formatted);
 
   return array('#type' => 'ajax', '#commands' => $commands);
