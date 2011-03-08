@@ -112,7 +112,17 @@ class TingCollection extends DingEntityCollection {
   }
 
   function getTitle() {
-    return $this->title = !empty($this->reply->objects[0]->record['dc:title']) ? $this->reply->objects[0]->record['dc:title'][''][0] : FALSE;
+    foreach ($this->reply->objects as &$object) {
+      // Find the title of the object that was used to fetch this collection.
+      if ($object->id == $this->ding_entity_id) {
+        $this->title = !empty($object->record['dc:title']) ? $object->record['dc:title'][''][0] : FALSE;
+      }
+    }
+    if (!property_exists($this, 'title')) {
+      // If we couldn't find the object, use the title of the first object.
+      $this->title = !empty($this->reply->objects[0]->record['dc:title']) ? $this->reply->objects[0]->record['dc:title'][''][0] : FALSE;
+    }
+    return $this->title;
   }
 
   function getEntities() {
@@ -153,8 +163,8 @@ class TingCollection extends DingEntityCollection {
 
   function getPrimary_object() {
     $this->primary_object = NULL;
-    if (isset($this->reply->objects)) {
-      $this->primary_object = reset(entity_load('ting_object', array(), array('ding_entity_id' => array($this->reply->objects[0]->id))));
+    if ($entities = $this->entities) {
+      $this->primary_object = reset($entities);
     }
     return $this->primary_object;
   }
