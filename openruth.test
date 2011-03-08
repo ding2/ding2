@@ -73,7 +73,7 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
 
     $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
     $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
-    $this->assertRaw('Anders Andersen Boes', t('Real name was reset properly displayed'));
+    $this->assertRaw('Anders Andersen Boes', t('Real name was properly reset.'));
     $user = user_load($uid, TRUE);
     $this->assertEqual('jle@dbc.dk', $user->mail, t('User email has been properly reset.'));
 
