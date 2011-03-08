@@ -96,7 +96,7 @@ function ding_availability_holdings($provider_ids) {
 }
 
 /**
- * Implements hook_entity_view().
+ * Implements hook_ding_entity_view().
  */
 function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NULL) {
   $entity->content['overview']['right'] = array(
