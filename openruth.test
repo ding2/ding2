@@ -57,6 +57,11 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
     $this->assertNoRaw($user->init, t('$user->init isn\'t shown'));
     $this->assertEqual($user->data['preferred_branch'], 'DBCMedier', t('Preferred branch is correct.'));
 
+    user_save($user, array('mail' => 'user@example.com', 'data' => array('display_name' => 'Svend Bent')));
+
+    $this->drupalGet('user');
+    $this->assertRaw('Svend Bent', t('Display name was changed.'));
+
     // Logout
     $this->drupalLogout();
     // Check that we're logged out.
@@ -68,6 +73,9 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
 
     $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
     $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
+    $this->assertRaw('Anders Andersen Boes', t('Real name was reset properly displayed'));
+    $user = user_load($uid, TRUE);
+    $this->assertEqual('jle@dbc.dk', $user->mail, t('User email has been properly reset.'));
 
   }
 }
