@@ -72,7 +72,7 @@ class DingUserProviderTestCase extends DingProviderTestCase {
     $res = ding_provider_invoke('user', 'authenticate', 'twain', 'wain');
     $this->assertTrue($res['success'], t('Authentication works.'));
     $this->assertEqual($res['creds'], array('name' => 'twain', 'pass' => 'wain'), t('Creds are set properly.'));
-    $this->assertEqual($res['user'], array('display_name' => 'Twain'), t('User properties are set properly.'));
+    $this->assertEqual($res['user'], array('mail' => 'twain@example.com', 'data' => array('display_name' => 'Twain')), t('User properties are set properly.'));
 
     $this->assertTrue(ding_provider_invoke('user', 'is_authenticated', $res['creds']), t('is_authenticated returns TRUE'));
 

@@ -26,7 +26,10 @@ function dp_example_user_authenticate($name, $pass) {
     );
 
     $res['user'] = array(
-      'display_name' => drupal_ucfirst($name),
+      'mail' => $name . '@example.com',
+      'data' => array(
+        'display_name' => drupal_ucfirst($name),
+      ),
     );
   }
 
