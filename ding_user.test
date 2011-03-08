@@ -40,6 +40,17 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
     }
     $uid = $matches[1];
 
+    $this->assertRaw('Twain', t('Real name is displayed'));
+    $user = user_load($uid);
+    $this->assertEqual('twain@example.com', $user->mail, t('User email has been properly set.'));
+    $this->assertNoRaw($user->name, t('$user->name isn\'t shown'));
+    $this->assertNoRaw($user->init, t('$user->init isn\'t shown'));
+
+    user_save($user, array('mail' => 'user@example.com', 'data' => array('display_name' => 'Svend Bent')));
+
+    $this->drupalGet('user');
+    $this->assertRaw('Svend Bent', t('Display name was changed for test.'));
+
     // Logout
     $this->drupalLogout();
     // Check that we're logged out.
@@ -51,6 +62,10 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
 
     $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
     $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
+
+    $this->assertRaw('Twain', t('Real name was properly reset.'));
+    $user = user_load($uid, TRUE);
+    $this->assertEqual('twain@example.com', $user->mail, t('User email has been properly reset.'));
   }
 
   /**
