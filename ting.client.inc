@@ -110,7 +110,7 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 
   $searchResult = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
   // Replace collections with proper TingCollection objects.
-  if (is_array($searchResult->collections)) {
+  if ($searchResult && is_array($searchResult->collections)) {
     $ids = array();
     foreach ($searchResult->collections as &$collection) {
       if (isset($collection->objects[0])){
