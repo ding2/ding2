@@ -5,6 +5,19 @@
  * Enables search integration with Ting.
  */
 
+/**
+ * Implements hook_menu_alter().
+ *
+ * Temporary hack to alter titles.
+ */
+function ting_search_menu_alter(&$items) {
+  $items['search/node']['title'] = 'Hjemmeside';
+  $items['search/node/%menu_tail']['title'] = 'Hjemmeside';
+  $items['search/ting']['title'] = 'Brønd';
+  $items['search/ting/%menu_tail']['title'] = 'Brønd';
+  $items['search/meta']['title'] = 'Universal Search';
+  $items['search/meta/%menu_tail']['title'] = 'Universal Search';
+}
 
 /**
  * Implements hook_search_info().
