@@ -1,0 +1,45 @@
+<?php
+
+class TingSearchTestCase extends DrupalWebTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Ting search',
+      'description' => 'Check if we got any searchresults back from the well',
+      'group' => 'Ding!',
+    );
+  }
+
+  public function setUp() {
+    $this->profile = 'ding2';
+
+    parent::setUp('ting', 'search', 'ting_search');
+    variable_set('ting_agency', '721700');
+    variable_set('ting_search_url', 'http://opensearch.addi.dk/0.14/');
+    variable_set('ting_scan_url', 'http://openscan.addi.dk/1.5/');
+    variable_set('ting_spell_url', 'http://openspell.addi.dk/1.2/');
+    variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
+    variable_set('search_active_modules', array('ting_search' => 'ting_search'));
+    variable_set('search_default_module', 'ting_search');
+    menu_rebuild();
+
+    $this->web_user = $this->drupalCreateUser(array('administer search', 'administer blocks', 'search content'));
+    $this->drupalLogin($this->web_user);
+  }
+
+  public function testTingSearch() {
+    // Check if search module is installed
+    $exists = module_exists('search');
+    $this->assertTrue($exists, 'Search is enabled');
+
+    // Check if ding_facetbrowser module is installed
+    $exists = module_exists('ting_search');
+    $this->assertTrue($exists, 'Ting Search is enabled');
+
+    $this->drupalGet('search/ting/jussi adler olsen journal 64');
+
+    $this->assertFieldByXPath("//ol[@class='search-results ting_search-results']/li[@class='search-result']/h3[@class='title']/a", 'Journal 64 krimithriller', 'We have a search result title = "Journal 64 krimithriller".');
+    $this->assertFieldByXPath("//ol[@class='search-results ting_search-results']/li[@class='search-result']/div[@class='search-snippet-info']/div[@class='ting-object clearfix']/div[@class='ting-overview clearfix']/div[@class='right-column left']/div[@class='creator']/a[@class='author']", "Jussi Adler-Olsen", 'We have a By-line = "Jussi Adler-Olsen".');
+    $this->assertFieldByXPath("//ol[@class='search-results ting_search-results']/li[@class='search-result']/div[@class='search-snippet-info']/div[@class='ting-object clearfix']/div[@class='ting-overview clearfix']/div[@class='right-column left']/p", 'Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde, da han efterforsker en sag om fem menneskers forsvinden i 1987. Sagen fører tilbage til kvindeanstalten på Sprogø, der virkede fra 1923-1961, og datidens racehygiejne og pludselig bliver Carl Mørck og hans kolleger udsat for mordforsøg, da sagen antager politiske dimensioner', 'We have a teaser text = "Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde"');
+  }
+}
