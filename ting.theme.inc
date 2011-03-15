@@ -148,7 +148,7 @@ function template_preprocess_ting_object_details(&$variables) {
 
   if (!empty($object->record['dc:subject']['oss:genre'])) {
     $items[] = array(
-      'data' => '</h4>' . t('Genre') . '</h4>',
+      'data' => '<h4>' . t('Genre') . '</h4>',
       'children' => $object->record['dc:subject']['oss:genre'],
       'class' => array('oss-genre'),
     );
