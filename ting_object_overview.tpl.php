@@ -39,12 +39,17 @@
         <span class='date'>(<?php print $date; ?>)</span>
       <?php } ?>
     </div>
-    <p><?php print $abstract; ?></p>
+
+    <?php if (isset($abstract)) { ?>
+      <div class="abstract"><?php print $abstract; ?></div>
+    <?php } ?>
 
     <?php print render($content['right']); ?>
   </div>
 
-  <?php print render($content); ?>
+  <?php if (isset($subjects)) { ?>
+    <div class="subjects"><?php print $subjects; ?></div>
+  <?php } ?>
 
 <?php print $subjects; ?>
 </div>
