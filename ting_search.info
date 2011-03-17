@@ -4,6 +4,7 @@ package = Ding!
 version = 0.1
 core = 7.x
 files[] = ting_search.module
+files[] = ting_search.test
 dependencies[] = ting
 dependencies[] = search
 ; configure = admin/config/ting
