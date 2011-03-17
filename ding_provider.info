@@ -7,4 +7,5 @@ dependencies[] = ding_base
 files[] = ding_provider.module
 files[] = tests/ding_provider.test
 files[] = tests/ding_provider_implementation.test
+files[] = tests/ding_provider_login.test
 configure = admin/config/ding/provider

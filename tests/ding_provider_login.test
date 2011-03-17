@@ -1,0 +1,44 @@
+<?php
+// $Id: field.test,v 1.47 2010/12/15 04:13:48 webchick Exp $
+
+/**
+ * @file
+ *
+ * Test that the provider catches DingProviderAuthException and redirects to
+ * login.
+ */
+
+class DingProviderLoginTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding provider login',
+      'description' => 'Ensure that provider redirects to login when necessary.',
+      'group' => 'Ding! provider',
+    );
+  }
+
+  function setUp() {
+    $this->profile = 'ding2';
+    parent::setUp(array('ding_provider', 'dp_example', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
+  }
+
+  public function testPageLogin() {
+    $login_data = array('name' => 'twain', 'pass' => 'wain');
+
+    // First log in.
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Login works."));
+
+    $this->drupalGet('ding_provider_login_test/authpage');
+    $this->assertText('Wolla!', t("Provider callback works when logged in."));
+
+    $this->drupalGet('ding_user_test/expirecreds');
+    $this->drupalGet('ding_provider_login_test/authpage');
+    $this->assertText('Enter your Drupal username.', t("We're asked to authenticate ourselves."));
+
+    $this->drupalPost(NULL, $login_data, t('Log in'));
+    $this->assertText('Wolla!', t("Provider callback works after logging in."));
+
+
+  }
+}

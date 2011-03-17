@@ -117,7 +117,7 @@ function ding_provider_invoke($type, $hook) {
 /**
  * Get a provider form
  */
-function ding_provider_get_form($type, $form_id) {
+function ding_provider_form($type, $form_id) {
   $args = func_get_args();
   array_shift($args);
   array_shift($args);
@@ -126,6 +126,199 @@ function ding_provider_get_form($type, $form_id) {
   if ($function) {
     return drupal_get_form($function, $args);
   }
+}
+
+/**
+ *
+ */
+function ding_provider_invoke_page($type, $hook) {
+  $args = func_get_args();
+  array_shift($args);
+  array_shift($args);
+
+  $function = _ding_provider_function($type, $hook);
+  if ($function) {
+    try {
+      return call_user_func_array($function, $args);
+    }
+    catch (DingProviderAuthException $e) {
+      if (!module_exists('ding_user') || !($authpage = ding_user_auth_page())) {
+        // Rethrow exception if ding_user isn't activated, or doesn't
+        // return a path.
+        throw $e;
+      }
+      // @todo redirect to auth page
+      drupal_goto($authpage, array('query' => ding_provider_get_destination()));
+    }
+    // We let other exceptions pass through.
+  }
+}
+
+/**
+ *
+ */
+function ding_provider_invoke_submit($callback, $form_state, $type, $hook) {
+  $args = func_get_args();
+  array_shift($args);
+  array_shift($args);
+
+  $function = _ding_provider_function($type, $hook);
+  if ($function) {
+    try {
+      $res = call_user_func_array($function, $args);
+      if ($callback_result = $callback($res)) {
+        $form_state['redirect'] = $callback_result;
+      }
+    }
+    catch (DingProviderAuthException $e) {
+      // @todo redirect to auth page
+      $form_state['redirect'] = 'authpage'; // drupal_get_destination
+      // Authpage checks this var and calls the callback if it
+      // exists. drupal_gotos the return value, or does nothing if it
+      // doesn't have any, letting destination do its thing.
+      $_SESSION['ding_provider_invoke_submit'] = array($callback, $type, $hook);
+    }
+    catch (Exception $e) {
+      // Pass the exception to the callback.
+      if ($callback_result = $callback($e)) {
+        $form_state['redirect'] = $callback_result;
+      }
+    }
+  }
+}
+
+function ding_provider_get_form($form_id) {
+  $form_state = array();
+
+  $args = func_get_args();
+  // Remove $form_id from the arguments.
+  array_shift($args);
+  $form_state['build_info']['args'] = $args;
+
+  return ding_provider_build_form($form_id, $form_state);
+}
+
+function ding_provider_build_form($form_id, &$form_state) {
+  $messages = NULL;
+  try {
+    if (isset($_REQUEST['dp_form_id']) && !empty($_REQUEST['dp_form_id'])) {
+      // Load saved submission.
+      if ($cached = cache_get('ding_provider_' . $form_id, 'cache_form')) {
+        $form_state['input'] = $cached->data;
+        $messages = $form_state['input']['#ding_provider_messages'];
+        unset($form_state['input']['#ding_provider_messages']);
+        cache_clear_all('ding_provider_' . $form_id, 'cache_form');
+      }
+    }
+    $old_redirect = $form_state['no_redirect'];
+    $form_state['no_redirect'] = TRUE;
+    $form = drupal_build_form($form_id, $form_state);
+
+    // Set any messages we saved.
+    _ding_provider_message_reset($messages);
+
+    $form_state['no_redirect'] = $old_redirect;
+    if ($form_state['executed'] == TRUE){
+      // Redirect if the form was submitted.
+      drupal_redirect_form($form_state);
+    }
+    return $form;
+  }
+  catch (DingProviderAuthException $e) {
+    if (!module_exists('ding_user')) {
+      // Rethrow exception if ding_user isn't activated.
+      throw $e;
+    }
+    // Something needs auth, save state and redirect to authentication page.
+    $expire = 21600;
+    $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+    $input['#ding_provider_messages'] = drupal_get_messages();
+    cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+    $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
+    drupal_goto('authtest', $options);
+  }
+}
+
+function ding_provider_ajax_form_callback() {
+  $messages = NULL;
+  list($form, $form_state) = ajax_get_form();
+  try {
+    if (isset($_REQUEST['dp_form_id']) && !empty($_REQUEST['dp_form_id'])) {
+      // Load saved submission.
+      if ($cached = cache_get('ding_provider_' . $form_id, 'cache_form')) {
+        $form_state['input'] = $cached->data;
+        $messages = $form_state['input']['#ding_provider_messages'];
+        unset($form_state['input']['#ding_provider_messages']);
+        cache_clear_all('ding_provider_' . $form_id, 'cache_form');
+      }
+    }
+
+    drupal_process_form($form['#form_id'], $form, $form_state);
+
+    // Set any messages we saved.
+    _ding_provider_message_reset($messages);
+
+    if (!empty($form_state['triggering_element'])) {
+      $callback = $form_state['triggering_element']['#ajax']['callback'];
+    }
+    if (!empty($callback) && function_exists($callback)) {
+      return $callback($form, $form_state);
+    }
+  }
+  catch (DingProviderAuthException $e) {
+    if (!module_exists('ding_user')) {
+      // Rethrow exception if ding_user isn't activated.
+      throw $e;
+    }
+    // Something needs auth, save state and redirect to authentication page.
+    $expire = 21600;
+    $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+    $input['#ding_provider_messages'] = drupal_get_messages();
+    cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+    $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
+    drupal_goto('authtest', $options);
+
+  }
+}
+
+/**
+ *
+ */
+function _ding_provider_message_reset($messages) {
+  if (is_array($messages)) {
+    foreach ($messages as $type => $message_list) {
+      foreach ($message_list as $message) {
+        drupal_set_message($message, $type, FALSE);
+      }
+    }
+  }
+}
+
+/**
+ *
+ */
+function ding_provider_get_destination() {
+  $destination = &drupal_static(__FUNCTION__);
+
+  // If destination is set, create a new one embedding the old, and
+  // unset destination, so drupal_goto wont go to the old
+  // destination.
+  if (isset($_GET['destination'])) {
+    $path = $_GET['q'];
+    $query = drupal_http_build_query(drupal_get_query_parameters());
+    if ($query != '') {
+      $path .= '?'. $query;
+    }
+    $destination = array(
+      'destination' => $path,
+    );
+    unset($_REQUEST['destination']);
+  }
+  else {
+    $destination = drupal_get_destination();
+  }
+
+  return $destination;
 }
 
 /**
@@ -237,3 +430,9 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
   }
   return NULL;
 }
+
+/**
+ * Exception that is thrown by providers when the given operation
+ * cannot be completed until the user authenticates.
+ */
+class DingProviderAuthException extends Exception {}

@@ -1,0 +1,6 @@
+name = "Ding Provider login tests"
+description = "Support module for Ding Provider login tests."
+package = Testing
+version = VERSION
+core = 7.x
+hidden = TRUE

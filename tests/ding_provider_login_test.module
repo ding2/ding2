@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Dummy module to test that provider properly intercepts auth exceptions.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_provider_login_test_menu() {
+  $items['ding_provider_login_test/authpage'] = array(
+    'title' => 'auth needing page',
+    'page callback' => 'ding_provider_login_test_page',
+    'page arguments' => array(),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * A page that requires that user is logged into backend.
+ */
+function ding_provider_login_test_page() {
+  $string = ding_provider_invoke_page('user', 'test');
+  return $string;
+}
