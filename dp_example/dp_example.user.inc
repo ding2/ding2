@@ -37,9 +37,20 @@ function dp_example_user_authenticate($name, $pass) {
 }
 
 /**
- * TODO: Determine if this is required, or if it can be made optional
+ * @todo Determine if this is required, or if it can be made optional
  * (by assuming things if creds are available or not)
  */
 function dp_example_user_is_authenticated($creds) {
   return (isset($creds['name']) && isset($creds['pass']));
+}
+
+/**
+ * Testing function, shouldn't be implemented in provider implementations.
+ * @todo: move testing code to use another existing function.
+ */
+function dp_example_user_test() {
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
+  return "Wolla!";
 }
