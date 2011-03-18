@@ -1,0 +1,8 @@
+.ac_results { border-color: #050505; }
+.ac_results span { display: block;}
+.ac_results .term { float: left; width: 370px; white-space: nowrap; overflow: hidden; }
+.ac_results .count { text-align: right; }
+
+.ac_odd { background: #f3f5f5; }
+.ac_over { background: #282327; }
+
