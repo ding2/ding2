@@ -7,9 +7,7 @@
 /**
  * Implementation of hook_install().
  */
-function ting_search_autocomplete_install() {
-	drupal_install_schema('ting_search_autocomplete');
-}
+function ting_search_autocomplete_install() {}
 
 /**
  * Implementation of hook_uninstall().
