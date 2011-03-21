@@ -34,7 +34,7 @@ class DingFacetbrowserUnit extends DrupalUnitTestCase {
     $facet_form = ding_facetbrowser_form($form, $form_state, $facets);
     $this->assertTrue(is_array($facet_form), 'Facetbrowser form is an array');
     foreach ($facet_form as $name => $value) {
-      if ($value['#type'] != 'submit') {
+      if ($value['#type'] != 'submit' && !empty($value[$name])) {
         $this->assertTrue(is_array($value), $name . ' is an array and a ' . $value['#type']);
         $this->assertTrue(is_array($value[$name]['#options']), $name . ' is a ' . $value[$name]['#type'] . ' contains ' . count($value[$name]['#options']) . ' facets');
       }
