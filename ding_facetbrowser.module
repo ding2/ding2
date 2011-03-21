@@ -81,7 +81,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
       $default_values = array();
     }
 
-    if (count($form) == TRUE && $_COOKIE['has_js'] == FALSE) {
+    if (count($form) == TRUE && empty($_COOKIE['has_js'])) {
       $form['submit'] = array(
         '#type'  => 'submit',
         '#value' => 'Submit',
