@@ -1,0 +1,24 @@
+
+.extendsearch-advanced .fields {
+	float: left;
+	margin-top: 0.8em;
+	margin-right: 2em;
+}
+
+.form-item-searchextendform-creator-field label {
+	float: left;
+	text-align: left;
+	width: 6em;
+}
+
+.form-item-searchextendform-title-field label {
+	float: left;
+	text-align: left;
+	width: 6em;
+}
+
+.form-item-searchextendform-subject-field label {
+	float: left;
+	text-align: left;
+	width: 6em;
+}
