@@ -13,7 +13,7 @@ function ding_provider_requirements($phase) {
   $providers    = array();
   $conflicting  = FALSE;
 
-  # Check if we have conflicting provider types
+  // Check if we have conflicting provider types
   foreach (module_implements('ding_provider') as $module) {
     $provider_module = module_invoke($module, 'ding_provider');
     if (array_key_exists('provides', $provider_module)) {
@@ -140,7 +140,7 @@ function ding_provider_ding_install_tasks() {
     // Add global provider settings if required.
     if ($info['ding_profile'] && sizeof($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
       $return[$form_id] = array(
-        // TODO: This doesn't work for potx, we need the generated stings in
+        // TODO: This doesn't work for potx, we need the generated strings in
         // plain form somewhere.
         'display_name' => st($providers[$provider]['title']),
         'type' => 'form',
@@ -176,7 +176,15 @@ function ding_provider_implements($type, $hook) {
 }
 
 /**
- * Invoke a provider hook.
+ * Invoke a provider function.
+ *
+ * Simplest of the provider invoking functions. Returns the result of calling
+ * the provider function, or throws DingProviderAuthException if not
+ * authenticated.
+ *
+ * @see ding_provider_invoke_page()
+ * @see ding_provider_get_form()
+ * @see ding_provider_ajax_form_callback()
  */
 function ding_provider_invoke($type, $hook) {
   $args = func_get_args();
@@ -190,7 +198,7 @@ function ding_provider_invoke($type, $hook) {
 }
 
 /**
- * Get a provider form
+ * Get a form from a provider.
  */
 function ding_provider_form($type, $form_id) {
   $args = func_get_args();
@@ -204,7 +212,14 @@ function ding_provider_form($type, $form_id) {
 }
 
 /**
+ * Invoke a provider function, handling authentication.
  *
+ * Will redirect to the authentication page if DingProviderAuthException is
+ * thrown, and redirect back on successful authentication.
+ *
+ * @see ding_provider_invoke()
+ * @see ding_provider_get_form()
+ * @see ding_provider_ajax_form_callback()
  */
 function ding_provider_invoke_page($type, $hook) {
   $args = func_get_args();
@@ -230,38 +245,15 @@ function ding_provider_invoke_page($type, $hook) {
 }
 
 /**
+ * Wrapper around drupal_get_form() that handles authentication.
  *
+ * Will redirect to the authentication page if DingProviderAuthException is
+ * thrown, and restart form processing on successful authentication.
+ *
+ * @see ding_provider_invoke()
+ * @see ding_provider_invoke_page()
+ * @see ding_provider_ajax_form_callback()
  */
-function ding_provider_invoke_submit($callback, $form_state, $type, $hook) {
-  $args = func_get_args();
-  array_shift($args);
-  array_shift($args);
-
-  $function = _ding_provider_function($type, $hook);
-  if ($function) {
-    try {
-      $res = call_user_func_array($function, $args);
-      if ($callback_result = $callback($res)) {
-        $form_state['redirect'] = $callback_result;
-      }
-    }
-    catch (DingProviderAuthException $e) {
-      // @todo redirect to auth page
-      $form_state['redirect'] = 'authpage'; // drupal_get_destination
-      // Authpage checks this var and calls the callback if it
-      // exists. drupal_gotos the return value, or does nothing if it
-      // doesn't have any, letting destination do its thing.
-      $_SESSION['ding_provider_invoke_submit'] = array($callback, $type, $hook);
-    }
-    catch (Exception $e) {
-      // Pass the exception to the callback.
-      if ($callback_result = $callback($e)) {
-        $form_state['redirect'] = $callback_result;
-      }
-    }
-  }
-}
-
 function ding_provider_get_form($form_id) {
   $form_state = array();
 
@@ -273,6 +265,14 @@ function ding_provider_get_form($form_id) {
   return ding_provider_build_form($form_id, $form_state);
 }
 
+/**
+ * Wrapper around drupal_build_form() that handles authentication.
+ *
+ * Will redirect to the authentication page if DingProviderAuthException is
+ * thrown, and restart form processing on successful authentication.
+ *
+ * @see ding_provider_get_form()
+ */
 function ding_provider_build_form($form_id, &$form_state) {
   $messages = NULL;
   try {
@@ -315,6 +315,16 @@ function ding_provider_build_form($form_id, &$form_state) {
   }
 }
 
+/**
+ * Replacement for ajax_form_callback() that handles authentication.
+ *
+ * Sends a log in AJAX command (implemented in ding_user), which will resubmit
+ * the AJAX request on successful submission.
+ *
+ * @see ding_provider_invoke()
+ * @see ding_provider_invoke_page()
+ * @see ding_provider_get_form()
+ */
 function ding_provider_ajax_form_callback() {
   $messages = NULL;
   list($form, $form_state, $form_id) = ajax_get_form();
@@ -363,7 +373,7 @@ function ding_provider_ajax_form_callback() {
 }
 
 /**
- *
+ * Re-sets messages, avoiding duplicates.
  */
 function _ding_provider_message_reset($messages) {
   if (is_array($messages)) {
@@ -376,7 +386,8 @@ function _ding_provider_message_reset($messages) {
 }
 
 /**
- *
+ * Alternative to drupal_get_destination() which will encode an existing
+ * destination into the new.
  */
 function ding_provider_get_destination($query_args = array()) {
   // If destination is set, create a new one embedding the old, and
