@@ -14,18 +14,22 @@
  *
  * @ingroup forms
  */
-function ding_user_authenticate_form($form, &$form_state) {
+function ding_user_authenticate_form($form, &$form_state, $ajax) {
+  form_load_include($form_state, 'inc', 'ding_user', 'ding_user.pages');
+
   global $user;
 
-  $creds = ding_user_get_creds();
-  // If we are already authenticated on, go to the user page instead.
-  if (ding_provider_implements('user', 'is_authenticated')) {
-    if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
+  if ($ajax != 'ajax') {
+    $creds = ding_user_get_creds();
+    // If we are already authenticated on, go to the user page instead.
+    if (ding_provider_implements('user', 'is_authenticated')) {
+      if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
+        drupal_goto('user/' . $user->uid);
+      }
+    }
+    elseif (empty($creds)) {
       drupal_goto('user/' . $user->uid);
     }
-  }
-  elseif (empty($creds)) {
-    drupal_goto('user/' . $user->uid);
   }
 
 
@@ -44,10 +48,16 @@ function ding_user_authenticate_form($form, &$form_state) {
     '#required' => TRUE,
   );
   // This is where we diverge from the regular login form. We're not
-  // specifying any validators, relying on the normal behaviour.
+  // specifying any special validators, but relying on the normal behaviour.
 
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Log in'));
+  if ($ajax == 'ajax') {
+    $form['actions']['submit']['#ajax'] = array(
+      'callback' => 'ding_user_authenticate_form_callback',
+      'wrapper' => 'ding-user-authenticate-form',
+    );
+  }
 
   return $form;
 }
@@ -97,4 +107,27 @@ function ding_user_authenticate_form_submit($form, &$form_state) {
     ding_user_save_creds($form_state['auth_res'], $user);
     $form_state['redirect'] = 'user/' . $user->uid;
   }
+}
+
+/**
+ *
+ */
+function ding_user_authenticate_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+  if ($form_state['authentication_success']) {
+    // Close dialog if successful.
+    $response['#commands'][] = array(
+      'command' => 'ding_user_authenticate_close',
+    );
+  }
+  else {
+    // Else redisplay form and messages.
+    $response['#commands'][] = ajax_command_replace(NULL, drupal_render($form));
+    $response['#commands'][] = ajax_command_prepend(NULL, theme('status_messages'));
+  }
+
+  return $response;
 }
