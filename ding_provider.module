@@ -36,15 +36,23 @@ function ding_provider_requirements($phase) {
 
   switch ($phase) {
     case 'runtime':
+      if ($callback = variable_get('ding_provider_ajax_disabled', FALSE)) {
+        $requirements['ding_provider_ajax_conflict'] = array(
+          'title'       => $t('Ding provider AJAX authentication'),
+          'description' => $t('Disabled'),
+          'severity'    => REQUIREMENT_ERROR,
+          'value'       => t('Ding Provider is unable to override the system/ajax page, because some other module already has overridden it with %callback.', array('%callback' => $callback)),
+        );
+      }
       if ($conflicting == TRUE) {
         $requirements['ding_provider_conflict'] = array(
           'title'       => $t('Ding provider Information'),
-          'description' => $t('Possible provider conflict.'),
+          'description' => $t('Possible provider conflict'),
           'severity'    => REQUIREMENT_WARNING,
           'value'       => implode('<br />', $conflicting),
         );
       }
-    break;
+      break;
   }
   return $requirements;
 }
@@ -86,6 +94,28 @@ function ding_provider_menu() {
   }
 
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_provider_menu_alter(&$items) {
+  // Override system/ajax with a version that caches
+  // DingProviderAuthException.
+  $callback = $items['system/ajax']['page callback'];
+  if ($callback == 'ajax_form_callback') {
+    $items['system/ajax']['page callback'] = 'ding_provider_ajax_form_callback';
+    $items['system/ajax']['file path'] = drupal_get_path('module', 'ding_provider');
+    $items['system/ajax']['file'] = 'ding_provider.module';
+    // Delete var, but only if it is set.
+    if (variable_get('ding_provider_ajax_disabled', NULL)) {
+      variable_del('ding_provider_ajax_disabled');
+    }
+  }
+  else {
+    // Set a variable for hook_requirements.
+    variable_set('ding_provider_ajax_disabled', $callback);
+  }
 }
 
 /**
@@ -255,7 +285,7 @@ function ding_provider_build_form($form_id, &$form_state) {
         cache_clear_all('ding_provider_' . $form_id, 'cache_form');
       }
     }
-    $old_redirect = $form_state['no_redirect'];
+    $old_redirect = isset($form_state['no_redirect']) ? $form_state['no_redirect'] : FALSE;
     $form_state['no_redirect'] = TRUE;
     $form = drupal_build_form($form_id, $form_state);
 
@@ -270,8 +300,9 @@ function ding_provider_build_form($form_id, &$form_state) {
     return $form;
   }
   catch (DingProviderAuthException $e) {
-    if (!module_exists('ding_user')) {
-      // Rethrow exception if ding_user isn't activated.
+    if (!module_exists('ding_user') || !($authpage = ding_user_auth_page())) {
+      // Rethrow exception if ding_user isn't activated, or doesn't
+      // return a path.
       throw $e;
     }
     // Something needs auth, save state and redirect to authentication page.
@@ -279,14 +310,14 @@ function ding_provider_build_form($form_id, &$form_state) {
     $input = $form_state['method'] == 'get' ? $_GET : $_POST;
     $input['#ding_provider_messages'] = drupal_get_messages();
     cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
-    $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
-    drupal_goto('authtest', $options);
+    $options = array('query' => ding_provider_get_destination(array('dp_form_id' => $form_id)));
+    drupal_goto($authpage, $options);
   }
 }
 
 function ding_provider_ajax_form_callback() {
   $messages = NULL;
-  list($form, $form_state) = ajax_get_form();
+  list($form, $form_state, $form_id) = ajax_get_form();
   try {
     if (isset($_REQUEST['dp_form_id']) && !empty($_REQUEST['dp_form_id'])) {
       // Load saved submission.
@@ -321,8 +352,13 @@ function ding_provider_ajax_form_callback() {
     $input['#ding_provider_messages'] = drupal_get_messages();
     cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
     $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
-    drupal_goto('authtest', $options);
 
+    return array(
+      '#type' => 'ajax',
+      '#commands' => array(
+        ajax_command_ding_user_authenticate($form_id)
+      ),
+    );
   }
 }
 
@@ -342,26 +378,19 @@ function _ding_provider_message_reset($messages) {
 /**
  *
  */
-function ding_provider_get_destination() {
-  $destination = &drupal_static(__FUNCTION__);
-
+function ding_provider_get_destination($query_args = array()) {
   // If destination is set, create a new one embedding the old, and
   // unset destination, so drupal_goto wont go to the old
   // destination.
-  if (isset($_GET['destination'])) {
-    $path = $_GET['q'];
-    $query = drupal_http_build_query(drupal_get_query_parameters());
-    if ($query != '') {
-      $path .= '?'. $query;
-    }
-    $destination = array(
-      'destination' => $path,
-    );
-    unset($_REQUEST['destination']);
+  $path = $_GET['q'];
+  $query = drupal_http_build_query($query_args + drupal_get_query_parameters());
+  unset($_REQUEST['destination']);
+  if ($query != '') {
+    $path .= '?'. $query;
   }
-  else {
-    $destination = drupal_get_destination();
-  }
+  $destination = array(
+    'destination' => $path,
+  );
 
   return $destination;
 }
