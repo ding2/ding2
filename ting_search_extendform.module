@@ -10,13 +10,13 @@
 /**
  * @brief Implementation of hook_menu()
  */
-function searchextendform_menu() {
+function ting_search_extendform_menu() {
   $items['admin/config/ting/searchextendform'] = 
     array(
       'title' => 'Extended search form settings',
       'description' => 'Change how the extended search form behaves',
       'page callback' => 'drupal_get_form',
-      'page arguments' => array('searchextendform_admin_settings'),
+      'page arguments' => array('ting_search_extendform_admin_settings'),
       'access arguments' => array('administer ting settings'),
       'type' => MENU_NORMAL_ITEM,
       'file' => 'searchextendform.admin.inc'
@@ -28,7 +28,7 @@ function searchextendform_menu() {
 /**
  * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
  */
-function searchextendform_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+function ting_search_extendform_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $form['advanced_search'] = 
     array('#type' => 'fieldset',
           '#title' => t('Advanseret'),
@@ -36,7 +36,6 @@ function searchextendform_form_search_block_form_alter(&$form, &$form_state, $fo
           '#collapsed' => TRUE,
       	  '#attributes' => array('class' => array('extendsearch-advanced')),
       	  '#prefix' => '<br/>'
-          //'#theme' => 'searchextendform_advanced_search'
          );
 
   $form['advanced_search']['fields'] =
@@ -45,20 +44,20 @@ function searchextendform_form_search_block_form_alter(&$form, &$form_state, $fo
       '#suffix' => '</div>',
     );     
     
-  $form['advanced_search']['fields']['searchextendform_creator_field'] = 
+  $form['advanced_search']['fields']['ting_search_extendform_creator_field'] = 
     array('#type' => 'textfield',
       	  '#title' => t('Forfatter:'),
       	  '#size' => 30,
       	  '#maxlength' => 255,
     );
-  $form['advanced_search']['fields']['searchextendform_title_field'] = 
+  $form['advanced_search']['fields']['ting_search_extendform_title_field'] = 
     array('#type' => 'textfield',
       	  '#title' => t('Titel:'),
       	  '#prefix' => '<br/>',
     	  '#size' => 30,
       	  '#maxlength' => 255,
     );
-  $form['advanced_search']['fields']['searchextendform_subject_field'] = 
+  $form['advanced_search']['fields']['ting_search_extendform_subject_field'] = 
     array('#type' => 'textfield',
       	  '#title' => t('Emne:'),
       	  '#prefix' => '<br/>',
@@ -69,9 +68,3 @@ function searchextendform_form_search_block_form_alter(&$form, &$form_state, $fo
   dpm($form);
   return $form;
 }
-
-
-
-
-
-

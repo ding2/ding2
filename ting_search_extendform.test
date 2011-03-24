@@ -1,11 +1,11 @@
 <?php
 
-class SearchExtendFormConceptTestCase extends DrupalUnitTestCase {
+class ConceptTestCase extends DrupalUnitTestCase {
   public static function getInfo() {
     return array(
-      'name' => 'Basic concept of test cases in Drupal',
+      'name' => 'Concept',
       'description' => 'Proff of Concept af unit tests i Drupal.',
-      'group' => 'SearchExtendForm',
+      'group' => 'TingSearchExtendForm',
     );
   }
 
