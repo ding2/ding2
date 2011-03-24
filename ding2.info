@@ -13,6 +13,7 @@ dependencies[] = overlay
 dependencies[] = ding_entity
 dependencies[] = ting
 dependencies[] = ting_search
+dependencies[] = ting_search_extendform
 dependencies[] = ding_facetbrowser
 dependencies[] = ding_provider
 dependencies[] = ding_availability

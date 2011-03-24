@@ -17,6 +17,10 @@ projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
 projects[ting_search][download][url] = "git@github.com:ding2/ting_search.git"
 
+projects[ting_search_extendform][type] = "module"
+projects[ting_search_extendform][download][type] = "git"
+projects[ting_search_extendform][download][url] = "git@github.com:ding2/ting_search_extendform.git"
+
 projects[ding_provider][type] = "module"
 projects[ding_provider][download][type] = "git"
 projects[ding_provider][download][url] = "git@github.com:ding2/ding_provider.git"
