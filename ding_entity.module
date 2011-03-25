@@ -78,8 +78,28 @@ class DingEntityBase {
     return NULL;
   }
 
-  function getId() {
+  public function getId() {
     return $this->id = $this->ding_entity_id;
+  }
+
+  /**
+   * Return whether an object is of a given pseudo-class.
+   *
+   * Modules can add their own pseudo-classes by implementing
+   * hook_ding_entity_is(). This function will call all
+   * implementations and return the overall result.
+   *
+   * Modules may return TRUE, FALSE or NULL from the hook. If any modules
+   * returned FALSE, the result is FALSE, else the result is TRUE if anyone
+   * returned TRUE, FALSE otherwise.
+   */
+  public function is($class) {
+    $result = module_invoke_all('ding_entity_is', $this, $class);
+    // Return true if anyone returned true, and nobody returned false.
+    if (!in_array(FALSE, $result) && in_array(TRUE, $result)) {
+      return TRUE;
+    }
+    return FALSE;
   }
 }
 
