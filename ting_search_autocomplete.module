@@ -1,13 +1,6 @@
 <?php
 
 /**
- * Implementation of hook_theme().
- */
-function ting_search_autocomplete_theme() {
-  return array();
-}
-
-/**
  * Implementation of hook_menu().
  */
 function ting_search_autocomplete_menu() {
@@ -33,26 +26,23 @@ function ting_search_autocomplete_flush_caches() {
 }
 
 /**
- * Alter the Ting search form to add autocomplete.
+ * Implements hook_form_alter()
  */
-function ting_search_autocomplete_form_ting_search_form_alter(&$form, &$form_state) {
-	//TODO should this be moved to another hook?
-	static $includes_loaded;
-	if (!isset($includes_loaded))
-	{
-		$basePath = drupal_get_path('module', 'ting');
-		drupal_add_js($basePath . '/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js', 'module', 'footer', TRUE);
-		drupal_add_css($basePath . '/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css', 'module');
+function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_state) {
+  static $includes_loaded;
+  if (!isset($includes_loaded))
+  {
+    $basePath = drupal_get_path('module', 'ting_search_autocomplete');
+    drupal_add_js($basePath . '/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js');
+    drupal_add_css($basePath . '/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css');
 
-		$modulePath = drupal_get_path('module', 'ting_search_autocomplete');
-		drupal_add_js($modulePath . '/js/ting_search_autocomplete.js', 'module', 'footer', TRUE);
+    drupal_add_js($basePath . '/js/ting_search_autocomplete.js');
+    drupal_add_js(array('tingSearchAutocomplete' => array('path' => url('ting/autocomplete'))), 'setting');
+    drupal_add_css($basePath . '/css/ting_search_autocomplete.css', 'module');
 
-    $autocomple_path = module_exists('trampoline') ? trampoline_url('ting/autocomplete') : url('ting/autocomplete');
-    drupal_add_js(array('tingSearchAutocomplete' => array('path' => $autocomple_path)), 'setting');
-		drupal_add_css($modulePath . '/css/ting_search_autocomplete.css', 'module');
-
-		$includes_loaded = true;
-	}
-
-	$form['keys']['#attributes'] = array('class' => 'ting-autocomplete');
+    $includes_loaded = true;
+  }
+  $form['#attributes'] = array('class' => 'ting-autocomplete');
 }
+
+
