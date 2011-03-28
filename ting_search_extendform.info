@@ -1,0 +1,8 @@
+package = Ding!
+name = Search Extend Form
+description = Extending the search form with librarian fields.
+version = 0.1
+core = 7.x
+files[] = ting_search_extendform.module
+configure = admin/config/ting/searchextendform
+stylesheets[all][] = ting_search_extendform.css
