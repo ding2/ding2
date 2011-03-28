@@ -13,7 +13,7 @@ class TingSearchAutocompleteTestWebCase extends DrupalWebTestCase {
   public function setUp() {
     $this->profile = 'ding2';
 
-    parent::setUp('ting', 'ding_facetbrowser', 'search', 'ting_search', 'ting_search_autocomplete');
+    parent::setUp('ting', 'search', 'ting_search', 'ting_search_autocomplete');
     variable_set('ting_agency', '721700');
     variable_set('ting_search_url', 'http://opensearch.addi.dk/0.14/');
     variable_set('ting_scan_url', 'http://openscan.addi.dk/1.6/');
