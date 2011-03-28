@@ -10,7 +10,7 @@ function ting_search_autocomplete_menu() {
     'title'            => 'Ting search autocomplete',
     'description'      => 'Returns a list of suggestions to use for autocompletion',
     'access arguments' => array('search content'),
-    'page callback'    => 'ting_search_autocomplete_js',
+    'page callback'    => 'ting_search_autocomplete',
     'type'             => MENU_CALLBACK,
     'file'             => 'ting_search_autocomplete.pages.inc',
   );
@@ -26,23 +26,11 @@ function ting_search_autocomplete_flush_caches() {
 }
 
 /**
- * Implements hook_form_alter()
+ * Implements hook_form_alter() for the ting_search_autocomplete form.
  */
 function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_state) {
-  static $includes_loaded;
-  if (!isset($includes_loaded))
-  {
-    $basePath = drupal_get_path('module', 'ting_search_autocomplete');
-    drupal_add_js($basePath . '/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.min.js');
-    drupal_add_css($basePath . '/js/jquery-autocomplete-1.0.2-mod/jquery.autocomplete.css');
-
-    drupal_add_js($basePath . '/js/ting_search_autocomplete.js');
-    drupal_add_js(array('tingSearchAutocomplete' => array('path' => url('ting/autocomplete'))), 'setting');
-    drupal_add_css($basePath . '/css/ting_search_autocomplete.css', 'module');
-
-    $includes_loaded = true;
-  }
+  drupal_add_css(drupal_get_path('module', 'ting_search_autocomplete') . '/css/ting_search_autocomplete.css');
+  $form['search_block_form']['#autocomplete_path'] = 'ting/autocomplete';
   $form['#attributes'] = array('class' => 'ting-autocomplete');
 }
-
 

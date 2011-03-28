@@ -1,17 +1,10 @@
 <?php
 
-/**
- * JSON callback to Ting search autocomplete
- */
-function ting_search_autocomplete_js() {
-	$return = array();
+function ting_search_autocomplete($query = NULL) {
+  $results = array();
 
-	$query = isset($_REQUEST['query']) ? $_REQUEST['query'] : FALSE;
-
-	if ($query !== FALSE)
-	{
+  if ($query == TRUE) {
     $cache = cache_get(md5($query), 'cache_ting_search_autocomplete');
-
 		if ($cache instanceof stdClass && is_array($cache->data)) {
 			$return = $cache->data;
 		}
@@ -29,17 +22,15 @@ function ting_search_autocomplete_js() {
       $terms = array_reverse($terms);
 
 			foreach ($terms as $term) {
-				$return[] = t('!word !results',
+        $return[$term->name] = t('!word !results',
           array('!word' => '<span class="term">' . $term->name . '</span>',
-          '!results' => '<span class="count">' . format_plural($term->count, t('(1 result)'), t('(@count results)')))) . '</span>|' . $term->name;
-			}
+          '!results' => '<span class="count">' . format_plural($term->count, t('(1 result)'), t('(@count results)')))) . '</span>';
+      }
 
       cache_set(md5($query), $return, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
 		}
-	}
-
-	echo implode("\n", $return);
-	exit;
+  }
+   drupal_json_output($return);
 }
 
 function ting_search_autocomplete_term_sort($t1, $t2) {
