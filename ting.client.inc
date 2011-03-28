@@ -137,7 +137,7 @@ function ting_execute_cache($request, $query = NULL) {
   static $calls = array();
   $calls[] = $query;
   if (sizeof($calls) > 1) {
-    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls)), WATCHDOG_WARNING);
+      watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls)), WATCHDOG_WARNING);
     if (function_exists('dpm') && user_access('access devel information')) {
       drupal_set_message(t('Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls))), 'error');
     }
@@ -290,7 +290,7 @@ function ting_execute($request) {
   try {
     return ting_get_client()->execute($request);
   } catch (TingClientException $e) {
-    watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+      watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
     return false;
   }
 }
@@ -305,9 +305,48 @@ function ting_get_client() {
 
   if (!isset($client))
   {
-    $logger = (variable_get('ting_enable_logging', false)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
+    $logger = (variable_get('ting_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
     $client = new TingClient(new TingClientDrupal6HttpRequestAdapter(), $logger);
   }
 
   return $client;
 }
+
+/**
+ * @param string $query The prefix to scan for
+ * @param int $numResults The numver of results to return
+ * @return TingClientScanResult
+ */
+function ting_do_scan($query, $numResults = 10) {
+  $request = ting_get_request_factory()->getScanRequest();
+  $request->setField('phrase.anyIndexes');
+  $request->setLower($query);
+  $request = ting_add_agency($request);
+  $request->setNumResults($numResults);
+  return ting_execute($request);
+}
+
+/**
+ * @param object $request - The TingClient object
+ * @return TingClientAgentRequest
+ */
+function ting_add_agency(TingClientAgentRequest $request) {
+  if ($agency = variable_get('ting_agency', false))
+  {
+    $request->setAgency($agency);
+  }
+  return $request;
+}
+
+/**
+ * @param string $word The word to get spell suggestions for
+ * @param $numResults The number of results to return
+ * @return array An array of TingClientSpellSuggestion objects
+ */
+function ting_get_spell_suggestions($word, $numResults = 10) {
+  $request = ting_get_request_factory()->getSpellRequest();
+  $request->setWord($word);
+  $request->setNumResults($numResults);
+  return ting_execute($request);
+}
+
