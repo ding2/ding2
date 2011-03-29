@@ -196,10 +196,12 @@ function ding_user_user_login_validate($form, &$form_state) {
  * Ajax command to authenticate.
  */
 function ajax_command_ding_user_authenticate($destination) {
+  global $user;
   drupal_add_library('system', 'ui.dialog');
   drupal_add_js(drupal_get_path('module', 'ding_user') . '/ding_user.js');
   module_load_include('inc', 'ding_user', 'ding_user.pages');
-  // return ctools_modal_command_display(t('Authenticate'), $content);
+
+  // @todo add support for user/login here.
   return array(
     'command' => 'ding_user_authenticate',
     'data' => drupal_render(drupal_get_form('ding_user_authenticate_form', 'ajax')),
