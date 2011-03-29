@@ -31,7 +31,9 @@ class TingEntityTestCase extends DrupalWebTestCase {
     // This shouldn't fail, but provides a hint if there's profile related
     // issues.
     $this->assertTrue($exists, 'Ding entity is enabled.');
-    $this->assertEqual(ding_entity_type(), 'ting_object', 'Entity type is right.');
+    $type = ding_entity_info('ding_entity');
+    $this->assertEqual($type['entity_type'], 'ting_object', 'Entity type is right.');
+
     $entity = ding_entity_load('710100:25194853');
     $this->assertTrue(is_object($entity), 'Entity is an object.');
     $this->assertEqual(get_class($entity), 'TingEntity', 'Entity is a TingEntity.');
@@ -58,7 +60,9 @@ class TingEntityTestCase extends DrupalWebTestCase {
   * Test that getting a ting collection works.
   */
   function testTingCollectionEntity() {
-    $this->assertEqual(ding_entity_collection_type(), 'ting_collection', 'Collection type is right.');
+    $type = ding_entity_info('ding_entity_collection');
+
+    $this->assertEqual($type['entity_type'], 'ting_collection', 'Collection type is right.');
     $entity = ding_entity_collection_load('710100:25194853');
     $this->assertTrue(is_object($entity), 'Collection is an object.');
     $this->assertEqual(get_class($entity), 'TingCollection', 'Collection is a TingCollection.');

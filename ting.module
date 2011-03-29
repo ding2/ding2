@@ -185,16 +185,6 @@ function ting_theme() {
 }
 
 /**
- * Implements hook_ding_entity_type().
- */
-function ting_ding_entity_types() {
-  return array(
-    'ding_entity' => 'ting_object',
-    'ding_entity_collection' => 'ting_collection',
-  );
-}
-
-/**
  * Implements hook_entity_info().
  */
 function ting_entity_info() {
@@ -205,6 +195,9 @@ function ting_entity_info() {
       'base table' => 'ting_object',
       'revision table' => 'ting_object_revision',
       'uri callback' => 'ting_object_uri',
+      'ding_entity_type' => 'ding_entity',
+      'ding_entity_menu' => 'ting/object/%ting_object',
+      'ding_entity_index' => 2,
       'fieldable' => TRUE,
       'entity keys' => array(
         'id' => 'tid',
@@ -230,6 +223,9 @@ function ting_entity_info() {
       'label' => t('Ting collection'),
       'controller class' => 'TingCollectionController',
       'uri callback' => 'ting_collection_uri',
+      'ding_entity_type' => 'ding_entity_collection',
+      'ding_entity_menu' => 'ting/collection/%ting_collection',
+      'ding_entity_index' => 2,
       'entity keys' => array(
         // We don't really have an ID, but use the ding_entity_collection_id,
         // so we can use entity_uri.
