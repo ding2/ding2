@@ -331,6 +331,7 @@ function ting_collection_load($id, $query = NULL) {
  */
 function ting_object_view($object, $view_mode = 'full') {
   $object->content = array();
+  $object->content['actions'] = array();
   $object->content['overview'] = array(
     '#theme' => 'ting_object_overview',
     '#object' => $object,
@@ -373,7 +374,7 @@ function ting_object_view($object, $view_mode = 'full') {
  */
 function ting_collection_view($object, $view_mode = 'full') {
   $object->content = array();
-
+  $object->content['actions'] = array();
   $object->content['overview'] = array(
     '#theme' => 'ting_object_overview',
     '#object' => $object->primary_object,
