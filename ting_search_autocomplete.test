@@ -47,7 +47,7 @@ class TingSearchAutocompleteTestWebCase extends DrupalWebTestCase {
     $names = array();
     if ($search_string == TRUE) {
       require_once drupal_get_path('module', 'ting') . '/ting.client.inc';
-      $results = ting_do_scan($search_string, $count);
+      $results = ting_do_scan($search_string, 'anyIndexes', $count);
       foreach ($results->terms as $term) {
         $names[] = $term->name;
       }

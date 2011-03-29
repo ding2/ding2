@@ -1,7 +1,9 @@
 <?php
 
 function ting_search_autocomplete($query = NULL) {
-  $results = array();
+  $results   = array();
+  $delimiter = 0;
+  $old_type  = FALSE;
 
   if ($query == TRUE) {
     $cache = cache_get(md5($query), 'cache_ting_search_autocomplete');
@@ -11,20 +13,52 @@ function ting_search_autocomplete($query = NULL) {
 		else {
       require_once drupal_get_path('module', 'ting') . '/ting.client.inc';
 
-			$terms = array();
+      $terms = array();
 
-			$scanResults = ting_do_scan($query, 10);
-			foreach ($scanResults->terms as $term) {
-				$terms[strtolower($term->name)] = $term;
-			}
+      // Scan for search results
+      $scanResults = ting_do_scan($query, 'anyIndexes', 10);
+      foreach ($scanResults->terms as $term) {
+        $terms['any'][strtolower($term->name)] = $term;
+      }
+      uasort($terms['any'], 'ting_search_autocomplete_term_sort');
+      $terms['any'] = array_reverse($terms['any']);
 
-      uasort($terms, 'ting_search_autocomplete_term_sort');
-      $terms = array_reverse($terms);
+      // Scan for spell suggestions
+      $spell_suggestions = ting_get_spell_suggestions($query, 4);
+      foreach ($spell_suggestions as $spell_word) {
+        if (strtolower($spell_word->word) == strtolower($query)) {
+          continue;
+        }
+        $spell_word->count = $spell_word->weight;
+        $spell_word->name  = $spell_word->word;
+        $terms['spell'][$spell_word->word] = $spell_word;
+      }
 
-			foreach ($terms as $term) {
-        $return[$term->name] = t('!word !results',
-          array('!word' => '<span class="term">' . $term->name . '</span>',
-          '!results' => '<span class="count">' . format_plural($term->count, t('(1 result)'), t('(@count results)')))) . '</span>';
+      foreach ($terms as $type => $row) {
+        foreach ($row as $term) {
+          switch ($type) {
+            case 'spell':
+              $delimiter_text = t('Did you mean...');
+              $result_text = '<span class="count"></span>';
+              break;
+            default:
+              $delimiter_text = '';
+              $result_text = '<span class="count">' . format_plural($term->count, t('(1 result)'), t('(@count results)')) . '</span>';
+              break;
+          }
+
+          if ($type != $old_type && $old_type !== FALSE) {
+            $return['delim_' . $delimiter] = t('<div class="autocomplete_delimiter">!type</div>', array('!type' => $delimiter_text));
+            $delimiter++;
+          }
+
+          $return[$term->name] = t('!word !results',
+            array(
+              '!word' => '<span class="term">' . substr($term->name,0,10) . '</span>',
+              '!results' => $result_text,
+            ));
+        }
+        $old_type = $type;
       }
 
       cache_set(md5($query), $return, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
