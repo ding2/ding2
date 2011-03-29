@@ -6,6 +6,32 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function ding_entity_menu() {
+  $items = array();
+  foreach (ding_entity_info() as $type => $info) {
+    if ($info['menu']) {
+      foreach (module_implements('ding_entity_menu') as $module) {
+        $function = $module . '_ding_entity_menu';
+        $function($items, $type, $info['menu'], $info['menu_index']);
+      }
+    }
+  }
+
+  return $items;
+}
+
+/**
+ *
+ */
+function ding_entity_uri($type, $object) {
+  if ($type_info = ding_entity_info($type)) {
+    return entity_uri($type_info['entity_type'], $object);
+  }
+}
+
+/**
  *
  */
 function ding_entity_info($ding_entity_type = NULL) {
@@ -16,8 +42,12 @@ function ding_entity_info($ding_entity_type = NULL) {
       $type = $entity_info['ding_entity_type'];
       $types[$type] = array(
         'entity_type' => $entity_type,
-        'menu' => isset($entity_info['ding_entity_menu']) ? $entity_info['ding_entity_menu'] : NULL,
+        'menu' => NULL,
       );
+      if (isset($entity_info['ding_entity_menu']) && isset($entity_info['ding_entity_index'])) {
+        $types[$type]['menu'] = $entity_info['ding_entity_menu'];
+        $types[$type]['menu_index'] = $entity_info['ding_entity_index'];
+      }
     }
   }
 
