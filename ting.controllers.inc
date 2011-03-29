@@ -118,7 +118,6 @@ class TingObjectController extends DrupalDefaultEntityController {
       }
       $entities = $passed_ids;
     }
-
     return $entities;
   }
 }
@@ -172,12 +171,13 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           // use it if it fetches the collection. This ensures that we
           // get the proper order of objects.
           $reply = ting_get_object($ding_entity_collection_id, TRUE, (isset($conditions['query']) ? $conditions['query'] : NULL));
+          $object = NULL;
           if ($reply) {
             $object = new TingCollection($ding_entity_collection_id);
             $object->reply = $reply;
           }
 
-          if ($object) {
+          if (isset($object)) {
             $entities[$ding_entity_collection_id] = $object;
             $this->entityCache[$ding_entity_collection_id] = $object;
           }

@@ -21,7 +21,6 @@ function ting_menu() {
   $items['ting/collection/%ting_collection'] = array(
     'title callback' => 'ting_page_title',
     'title arguments' => array(2),
-    'load arguments' => array(3),
     'page callback' => 'ting_collection_page_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
