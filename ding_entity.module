@@ -8,46 +8,42 @@
 /**
  *
  */
-function ding_entity_load($id) {
-  if ($type = ding_entity_type()){
-    return reset(entity_load($type, FALSE, array('ding_entity_id' => array($id))));
+function ding_entity_info($ding_entity_type = NULL) {
+  $types = &drupal_static(__FUNCTION__);
+  $entity_types = entity_get_info();
+  foreach ($entity_types as $entity_type => $entity_info) {
+    if (isset($entity_info['ding_entity_type'])) {
+      $type = $entity_info['ding_entity_type'];
+      $types[$type] = array(
+        'entity_type' => $entity_type,
+        'menu' => isset($entity_info['ding_entity_menu']) ? $entity_info['ding_entity_menu'] : NULL,
+      );
+    }
   }
-  return FALSE;
+
+  if (empty($ding_entity_type)) {
+    return $types;
+  }
+  elseif (isset($types[$ding_entity_type])) {
+    return $types[$ding_entity_type];
+  }
 }
 
-function ding_entity_type() {
-  $type = &drupal_static(__FUNCTION__);
-  if (is_null($type)) {
-    $types = module_invoke_all('ding_entity_types');
-    if (isset($types['ding_entity'])) {
-      $type = $types['ding_entity'];
-      return $type;
-    }
-    // None found, flag it.
-    $type = FALSE;
+/**
+ *
+ */
+function ding_entity_load($id) {
+  if ($type = ding_entity_info('ding_entity')){
+    return reset(entity_load($type['entity_type'], FALSE, array('ding_entity_id' => array($id))));
   }
-  return $type;
+  return FALSE;
 }
 
 function ding_entity_collection_load($id) {
-  if ($type = ding_entity_collection_type()){
-    return reset(entity_load($type, FALSE, array('ding_entity_collection_id' => array($id))));
+  if ($type = ding_entity_info('ding_entity_collection')){
+    return reset(entity_load($type['entity_type'], FALSE, array('ding_entity_collection_id' => array($id))));
   }
   return FALSE;
-}
-
-function ding_entity_collection_type() {
-  $type = &drupal_static(__FUNCTION__);
-  if (is_null($type)) {
-    $types = module_invoke_all('ding_entity_types');
-    if (isset($types['ding_entity_collection'])) {
-      $type = $types['ding_entity_collection'];
-      return $type;
-    }
-    // None found, flag it.
-    $type = FALSE;
-  }
-  return $type;
 }
 
 /**
