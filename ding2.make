@@ -33,6 +33,10 @@ projects[ting_relations][type] = "module"
 projects[ting_relations][download][type] = "git"
 projects[ting_relations][download][url] = "git@github.com:ding2/ting_relations.git"
 
+projects[ting_relations][type] = "module"
+projects[ting_relations][download][type] = "git"
+projects[ting_relations][download][url] = "git@github.com:ding2/ting_search_autocomplete.git"
+
 projects[mkdru][type] = "module"
 projects[mkdru][download][type] = "git"
 projects[mkdru][download][url] = "git://git.indexdata.com/mkdru.git"
