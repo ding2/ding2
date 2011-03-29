@@ -66,6 +66,34 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_enable_logging', false),
   );
 
+  $intervals = array(
+    60,
+    300,
+    900,
+    1800,
+    3600,
+    10800,
+    43200,
+    86400,
+    259200,
+    604800,
+  );
+  $options = array(
+    0 => t('No caching'),
+  );
+
+  foreach ($intervals as $interval) {
+    $options[$interval] = format_interval($interval, 2);
+  }
+
+  $form['ting']['ting_cache_lifetime'] = array(
+    '#type' => 'select',
+    '#title' => t('Cache lifetime'),
+    '#default_value' => variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME),
+    '#options' => $options,
+    '#description' => t("Cache answers from the datawell for this time. At least a few minutes is recommended, so the same objects doesn't have to be fetched on each page request."),
+  );
+
   return system_settings_form($form);
 }
 

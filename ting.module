@@ -5,6 +5,8 @@
  * Enables integration with Ting.
  */
 
+define('TING_DEFAULT_CACHE_LIFETIME', 0);
+
 /**
  * Implements hook_menu().
  */
