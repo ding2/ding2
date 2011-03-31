@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * @file
+ * Handles display and creation/deletion of reservations for users.
+ */
+
+/**
+ * Implements hook_ding_entity_menu().
+ */
+function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
+  if ($type == 'ding_entity'){
+    $items[$path . '/reserve'] = array(
+      'title' => t('Reserve'),
+      'page callback' => 'ding_provider_get_form',
+      'page arguments' => array('ding_reservation_reserve_form', $index),
+      'access callback' => TRUE,
+    );
+  }
+}
+
+/**
+ * Implements hook_ding_entity_view().
+ */
+function ding_reservation_ding_entity_view($entity, $view_mode, $langcode = NULL) {
+  if ($entity->is('reservable')) {
+    $entity->content['actions']['reserve'] = ding_provider_get_form('ding_reservation_reserve_form', $entity, TRUE);
+  }
+}
+
+/**
+ * Implementation of hook_ding_entity_is().
+ */
+function ding_reservation_ding_entity_is($object, $class) {
+  if ($class == 'reservable' || $class == 'cartable') {
+    if ($object->is('online')) {
+      return FALSE;
+    }
+    elseif (in_array(drupal_strtolower($object->type), array('artikel', 'tidsskrift'))) {
+      return FALSE;
+    }
+    return TRUE;
+  }
+}
+
+/**
+ *
+ */
+function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hide_branch = FALSE) {
+  global $user;
+
+  $uri = ding_entity_uri('ding_entity', $entity);
+
+  // We post to our own path as we might want to rebuild the form.
+  // @todo move *_get_destination to ding_base?
+  if ($_GET['q'] != $uri['path'] . '/reserve') {
+    $form['#action'] = url($uri['path'] . '/reserve', array('query' => ding_provider_get_destination()));
+  }
+
+  $form['entity'] = array(
+    '#type' => 'value',
+    '#value' => $entity,
+  );
+
+  $preferred_branch = '';
+  if (isset($user->preferred_branch)) {
+    $preferred_branch = $user->preferred_branch;
+  }
+
+  $form_state['branch_hidden'] = FALSE;
+  if ($hide_branch || !empty($preferred_branch)) {
+    $form['preferred_branch'] = array(
+      '#type' => 'value',
+      '#value' => $preferred_branch,
+    );
+
+    // Hidden variable to tell validator that we hid the preferred_branch.
+    $form['preferred_branch_hidden'] = array(
+      '#type' => 'hidden',
+      '#value' => TRUE,
+    );
+  }
+  else {
+    $form['description'] = array(
+      '#markup' => '<p>'.t('In order to make quick reservations, you must select a default pickup branch.').'</p>',
+    );
+
+    $options = ding_provider_invoke('reservation', 'pickup_branches', $user);
+
+    $form['preferred_branch'] = array(
+      '#type' => 'select',
+      '#title' => t('Default pickup branch'),
+      '#options' => $options,
+      '#default_value' => $preferred_branch,
+    );
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reserve'),
+  );
+
+  return $form;
+}
+
+/**
+ * Form validation.
+ */
+function ding_reservation_reserve_form_validate($form, &$form_state) {
+  if (empty($form_state['values']['preferred_branch'])) {
+    // Looking directly into the post vars isn't nice, but we need to figure
+    // out if the posting form hid preferred_branch. We can't look at anything
+    // else as the form was already rebuild in order to feed this validation
+    // function.
+    if (!isset($form_state['input']['preferred_branch_hidden'])) {
+      // Only show an error if the user had a choice.
+      form_error($form, t('You must select a branch.'));
+    }
+    else {
+      // Else simply rebuild the form.
+      $form_state['rebuild'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Form submission handler.
+ */
+function ding_reservation_reserve_form_submit($form, &$form_state) {
+  global $user;
+  if ($form_state['values']['preferred_branch'] != $user->data['preferred_branch']) {
+    try {
+      $branch = $form_state['values']['preferred_branch'];
+      ding_provider_invoke('reservation', 'set_preferred_branch', $user, $branch);
+      user_save($user, array('data' => array('preferred_branch' => $branch)));
+    }
+    catch (DingReservationError $e) {
+      drupal_set_message(t('An error occurred while saving default pickup branch. Please try again later.'), 'error');
+      watchdog('ding_reservation', 'Error setting default branch, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
+    }
+  }
+  if ($form_state['values']['entity']) {
+    $entity = $form_state['values']['entity'];
+    try {
+      ding_provider_invoke('reservation', 'create', $user, $entity->provider_id);
+      if (ding_provider_implements('reservation', 'branch_name')) {
+        $branch_name = ding_provider_invoke('reservation', 'branch_name', $user->data['preferred_branch']);
+        drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $entity->title, '@branch' => $branch_name)));
+      }
+      else {
+        drupal_set_message(t('"@title" reserved.', array('@title' => $entity->title)));
+      }
+    }
+    catch (DingReservationErrorReservationExists $e) {
+      drupal_set_message(t('You have already reserved "@title".', array('@title' => $entity->title)), 'error');
+    }
+    catch (DingReservationErrorNotAvailable $e) {
+      drupal_set_message(t('"@title" is not available for reservation.', array('@title' => $entity->title)), 'error');
+    }
+    catch (DingReservationError $e) {
+      drupal_set_message(t('An error occurred while reserving item. Please try again later.'), 'error');
+      watchdog('ding_reservation', 'Error while reserving, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
+    }
+  }
+}
+
+class DingReservationError extends Exception {}
+class DingReservationErrorReservationExists extends Exception {}
+class DingReservationErrorNotAvailable extends Exception {}
