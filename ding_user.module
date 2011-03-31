@@ -9,12 +9,12 @@
  * Implements hook_menu().
  */
 function ding_user_menu() {
-  $items['user/%user/authenticate/%'] = array(
+  $items['user/%user/authenticate'] = array(
     'title' => 'Authenticate',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_user_authenticate_form'),
     'access callback' => 'ding_user_access',
-    'access arguments' => array(1, 3),
+    'access arguments' => array(1),
     'file' => 'ding_user.pages.inc',
     'type' => MENU_CALLBACK,
   );
@@ -72,7 +72,8 @@ function ding_user_username_alter(&$name, $account) {
 }
 
 /**
- *
+ * Return the page to redirect user to in order to authenticate/log
+ * in. Used by ding_provider.
  */
 function ding_user_auth_page() {
   global $user;
@@ -193,20 +194,16 @@ function ding_user_user_login_validate($form, &$form_state) {
 }
 
 /**
- * Ajax command to authenticate.
+ * Ajax command to authenticate. Used by ding_provider.
  */
-function ajax_command_ding_user_authenticate($destination) {
+function ajax_command_ding_user_authenticate($extra_data) {
   global $user;
-  drupal_add_library('system', 'ui.dialog');
-  drupal_add_js(drupal_get_path('module', 'ding_user') . '/ding_user.js');
+  // @todo add support for user/login here.
   module_load_include('inc', 'ding_user', 'ding_user.pages');
 
-  // @todo add support for user/login here.
-  return array(
-    'command' => 'ding_user_authenticate',
-    'data' => drupal_render(drupal_get_form('ding_user_authenticate_form', 'ajax')),
-    'form_id' => $destination,
-  );
+  $form = drupal_get_form('ding_user_authenticate_form', 'ajax');
+  $login_form = drupal_render($form);
+  return ajax_command_ding_popup(t('Authenticate'), $login_form, TRUE, $extra_data);
 }
 
 /**

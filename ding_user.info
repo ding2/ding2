@@ -7,4 +7,5 @@ files[] = ding_user.module
 files[] = tests/ding_user.test
 dependencies[] = ding_provider
 dependencies[] = ding_base
+dependencies[] = ding_popup
 configure = admin/config/ding/user

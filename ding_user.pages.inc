@@ -14,7 +14,7 @@
  *
  * @ingroup forms
  */
-function ding_user_authenticate_form($form, &$form_state, $ajax) {
+function ding_user_authenticate_form($form, &$form_state, $ajax = '') {
   form_load_include($form_state, 'inc', 'ding_user', 'ding_user.pages');
 
   global $user;
@@ -119,9 +119,7 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
   );
   if ($form_state['authentication_success']) {
     // Close dialog if successful.
-    $response['#commands'][] = array(
-      'command' => 'ding_user_authenticate_close',
-    );
+    $response['#commands'][] = ajax_command_ding_popup_close();
   }
   else {
     // Else redisplay form and messages.
