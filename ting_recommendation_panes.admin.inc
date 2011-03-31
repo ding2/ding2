@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * Ting recommendation panel admin form.

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file recommendation_list.inc

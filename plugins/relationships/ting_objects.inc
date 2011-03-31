@@ -1,4 +1,4 @@
-<?php // $Id$
+<?php
 
 /**
  * @file ting_objects.inc
