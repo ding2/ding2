@@ -313,13 +313,18 @@ function ting_get_client() {
 }
 
 /**
+ * Use OpenScan to search for keyword, check
+ * http://oss.dbc.dk/twiki/bin/view/Databroend/OpenSearchDocIndexes
+ * for which phrase index to search, default is 'anyIndexes'
+ *
  * @param string $query The prefix to scan for
+ * @param string $phrase Which phrase index to search
  * @param int $numResults The numver of results to return
  * @return TingClientScanResult
  */
-function ting_do_scan($query, $numResults = 10) {
+function ting_do_scan($query, $phrase = 'anyIndexes', $numResults = 10) {
   $request = ting_get_request_factory()->getScanRequest();
-  $request->setField('phrase.anyIndexes');
+  $request->setField('phrase.' . $phrase);
   $request->setLower($query);
   $request = ting_add_agency($request);
   $request->setNumResults($numResults);
