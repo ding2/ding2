@@ -1,0 +1,6 @@
+name = Ding popup
+description = Provides popup functionallity for ding modules..
+package = Ding!
+version = 0.1
+core = 7.x
+files[] = ding_popup.module
