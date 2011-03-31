@@ -31,7 +31,7 @@ function ting_admin_ting_settings($form_state) {
   $form['ting']['ting_search_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Search service URL'),
-    '#description' => t('URL to the Ting search webservice, e.g. http://opensearch.addi.dk/0.14/'),
+    '#description' => t('URL to the Ting search webservice, e.g. http://opensearch.addi.dk/1.1/'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_search_url', ''),
   );
@@ -39,7 +39,7 @@ function ting_admin_ting_settings($form_state) {
   $form['ting']['ting_scan_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Scan service URL'),
-    '#description' => t('URL to the Ting scan webservice, e.g. http://openscan.addi.dk/1.5/'),
+    '#description' => t('URL to the Ting scan webservice, e.g. http://openscan.addi.dk/1.7/'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_scan_url', ''),
   );
@@ -64,6 +64,34 @@ function ting_admin_ting_settings($form_state) {
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
     '#default_value' => variable_get('ting_enable_logging', false),
+  );
+
+  $intervals = array(
+    60,
+    300,
+    900,
+    1800,
+    3600,
+    10800,
+    43200,
+    86400,
+    259200,
+    604800,
+  );
+  $options = array(
+    0 => t('No caching'),
+  );
+
+  foreach ($intervals as $interval) {
+    $options[$interval] = format_interval($interval, 2);
+  }
+
+  $form['ting']['ting_cache_lifetime'] = array(
+    '#type' => 'select',
+    '#title' => t('Cache lifetime'),
+    '#default_value' => variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME),
+    '#options' => $options,
+    '#description' => t("Cache answers from the datawell for this time. At least a few minutes is recommended, so the same objects doesn't have to be fetched on each page request."),
   );
 
   return system_settings_form($form);

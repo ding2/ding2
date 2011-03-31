@@ -208,27 +208,43 @@ function ting_execute_cache($request, $query = NULL) {
  * Get item from static cache.
  */
 function ting_cache_get($id) {
-  $cache = &drupal_static('ting_cache_set');
-  if (!isset($cache)) {
-    $cache = array();
+  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+    $cache = cache_get('ting-object:' . $id);
+    if (isset($cache) && ($cache->expire > REQUEST_TIME)) {
+      return $cache->data;
+    }
+    return NULL;
   }
-  // Using array_key_exists, as we might contain NULL values (which is
-  // !isset()).
-  if (array_key_exists($id, $cache)) {
-    return $cache[$id];
+  else {
+    // Without proper caching, use a request cache.
+    $cache = &drupal_static('ting_cache_set');
+    if (!isset($cache)) {
+      $cache = array();
+    }
+    // Using array_key_exists, as we might contain NULL values (which is
+    // !isset()).
+    if (array_key_exists($id, $cache)) {
+      return $cache[$id];
+    }
+    return NULL;
   }
-  return NULL;
 }
 
 /**
  * Put item in the static cache.
  */
 function ting_cache_set($id, $value) {
-  $cache = &drupal_static(__FUNCTION__);
-  if (!isset($cache)) {
-    $cache = array();
+  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+    $cache = cache_set('ting-object:' . $id, $value, 'cache', REQUEST_TIME + $ttl);
   }
-  $cache[$id] = $value;
+  else {
+    // Without proper caching, use a request cache.
+    $cache = &drupal_static(__FUNCTION__);
+    if (!isset($cache)) {
+      $cache = array();
+    }
+    $cache[$id] = $value;
+  }
 }
 
 /**
