@@ -366,7 +366,7 @@ function ding_provider_ajax_form_callback() {
     return array(
       '#type' => 'ajax',
       '#commands' => array(
-        ajax_command_ding_user_authenticate($form_id)
+        ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id))
       ),
     );
   }

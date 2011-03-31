@@ -113,18 +113,18 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
     @$dom->loadHTML($this->content);
     foreach ($commands as $command) {
       switch ($command['command']) {
-        case 'ding_user_authenticate':
+        case 'ding_popup':
           $xpath = new DOMXPath($dom);
           $wrapperNode = $xpath->query('//body')->item(0);
 
           $newDom = new DOMDocument();
-          $newDom->loadHTML('<div class="ding_user_authenticate_test">' . $command['data'] . '</div>');
+          $newDom->loadHTML('<div class="ding_popup_test">' . $command['data'] . '</div>');
           $newNode = $dom->importNode($newDom->documentElement->firstChild, TRUE);
           $wrapperNode->appendChild($newNode);
           break;
-        case 'ding_user_authenticate_close':
+        case 'ding_popup_close':
           $xpath = new DOMXPath($dom);
-          $popups = $xpath->query('//*[@class=ding_user_authenticate_close]');
+          $popups = $xpath->query('//*[@class=ding_popup_close]');
           foreach ($popups as $popup) {
             $popup->parentNode()->removeChild($popup);
           }
@@ -146,8 +146,8 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
 
     $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'test'), array('op' => t('Say it')));
     $expected = array(
-      'command' => 'ding_user_authenticate',
-      'form_id' => 'ding_provider_login_test_ajax_form',
+      'command' => 'ding_popup',
+      'extra_data' => array('dp_form_id' => 'ding_provider_login_test_ajax_form'),
     );
     $this->assertCommand($commands, $expected, "We get a login form.");
 
@@ -185,8 +185,8 @@ Sorry, authentication failed, did you type the right username and password?</div
 
     $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'Wolla'), array('op' => t('Say it')));
     $expected = array(
-      'command' => 'ding_user_authenticate',
-      'form_id' => 'ding_provider_login_test_ajax_form',
+      'command' => 'ding_popup',
+      'extra_data' => array('dp_form_id' => 'ding_provider_login_test_ajax_form'),
     );
     $this->assertCommand($commands, $expected, "We get a login form.");
 
@@ -194,11 +194,11 @@ Sorry, authentication failed, did you type the right username and password?</div
     $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'ding-user-authenticate-form');
 
     $expected = array(
-      'command' => 'ding_user_authenticate_close',
+      'command' => 'ding_popup_close',
     );
     $this->assertCommand($commands, $expected, "We authenticated.");
 
-    // ding_user_authenticate_close triggers reposting, we do it by hand.
+    // ding_popup_close triggers reposting, we do it by hand.
     $commands = $this->drupalPostAJAX('ding_provider_login_test/authajaxform/ajax?dp_form_id=ding_provider_login_test_ajax_form', array('b_field' => 'Wolla'), array('op' => t('Say it')));
 
     $expected = array(
