@@ -24,5 +24,5 @@ function ding_user_test_menu() {
  * re-authenticate.
  */
 function ding_user_test_expirecreds() {
-  unset($_SESSION['ding_user_creds']);
+  db_delete('cache_ding_user_credentials')->execute();
 }

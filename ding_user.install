@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function ding_user_schema() {
+  $schema['cache_ding_user_credentials'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  return $schema;
+}
+
+/**
+ * Create table for credential caching.
+ */
+function ding_user_update_7000(&$sandbox) {
+  $res = drupal_install_schema('ding_user');
+  return $res;
+}

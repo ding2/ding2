@@ -6,6 +6,11 @@
  */
 
 /**
+ * Default seconds to cache user credentials before wiping them.
+ */
+define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
+
+/**
  * Implements hook_menu().
  */
 function ding_user_menu() {
@@ -29,6 +34,14 @@ function ding_user_menu() {
  */
 function ding_user_access($account) {
   return ($GLOBALS['user']->uid == $account->uid) && $account->uid > 0;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_user_() {
+  // Clear out expired credentials.
+  cache_clear_all(NULL, 'cache_ding_user_credentials');
 }
 
 /**
@@ -171,9 +184,6 @@ function ding_user_user_login_validate($form, &$form_state) {
 
     // Save credentials for later.
     ding_user_save_creds($auth_res, $account);
-    if (isset($auth_res['creds'])) {
-      $_SESSION['ding_user_creds'][$account->uid] = $auth_res['creds'];
-    }
     // TODO: Do we still need this?
     if (ding_provider_implements('user', 'authenticate_finalize')) {
       ding_provider_invoke('user', 'authenticate_finalize', $user);
@@ -214,8 +224,8 @@ function ding_user_get_creds($account = NULL) {
     $account = $GLOBALS['user'];
   }
 
-  if (isset($_SESSION['ding_user_creds'][$account->uid])) {
-    return $_SESSION['ding_user_creds'][$account->uid];
+  if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
+    return $cache->data;
   }
   return FALSE;
 }
@@ -248,6 +258,6 @@ function ding_user_update_user($auth_res, &$account) {
  */
 function ding_user_save_creds($auth_res, $account) {
   if (isset($auth_res['creds'])) {
-    $_SESSION['ding_user_creds'][$account->uid] = $auth_res['creds'];
+    cache_set(session_name() . '-' . $account->uid, $auth_res['creds'], 'cache_ding_user_credentials', REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME));
   }
 }
