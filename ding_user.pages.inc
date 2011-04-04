@@ -119,12 +119,12 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
   );
   if ($form_state['authentication_success']) {
     // Close dialog if successful.
-    $response['#commands'][] = ajax_command_ding_popup_close();
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
   }
   else {
     // Else redisplay form and messages.
-    $response['#commands'][] = ajax_command_replace(NULL, drupal_render($form));
-    $response['#commands'][] = ajax_command_prepend(NULL, theme('status_messages'));
+    $html = theme('status_messages') . drupal_render($form);
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
   }
 
   return $response;

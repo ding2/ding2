@@ -213,7 +213,7 @@ function ajax_command_ding_user_authenticate($extra_data) {
 
   $form = drupal_get_form('ding_user_authenticate_form', 'ajax');
   $login_form = drupal_render($form);
-  return ajax_command_ding_popup(t('Authenticate'), $login_form, TRUE, $extra_data);
+  return ajax_command_ding_popup('ding_user', t('Authenticate'), $login_form, TRUE, $extra_data);
 }
 
 /**
