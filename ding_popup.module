@@ -8,13 +8,14 @@
 /**
  * Ajax command to open a popup.
  */
-function ajax_command_ding_popup($title, $html, $resubmit = FALSE, $data = array()) {
+function ajax_command_ding_popup($name, $title, $html, $resubmit = FALSE, $data = array()) {
   global $user;
   drupal_add_library('system', 'ui.dialog');
   drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js');
 
   return array(
     'command' => 'ding_popup',
+    'name' => $name,
     'title' => check_plain($title),
     'data' => $html,
     'resubmit' => (bool) $resubmit,
@@ -25,8 +26,9 @@ function ajax_command_ding_popup($title, $html, $resubmit = FALSE, $data = array
 /**
  * Ajax command to close a popup.
  */
-function ajax_command_ding_popup_close() {
+function ajax_command_ding_popup_close($name) {
   return array(
     'command' => 'ding_popup_close',
+    'name' => $name,
   );
 }
