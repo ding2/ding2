@@ -8,8 +8,12 @@
 
 class DingProviderTestCase extends DrupalWebTestCase {
 
-  function setUp($modules) {
+  function setUp() {
     $this->profile = 'ding2';
+    $modules = func_get_args();
+    if (isset($modules[0]) && is_array($modules[0])) {
+      $modules = $modules[0];
+    }
     if (!in_array('ding_provider', $modules)) {
       $modules[] = 'ding_provider';
     }
@@ -33,24 +37,24 @@ class DingAvailabilityProviderTestCase extends DingProviderTestCase {
 
   function testAvailabilityProvider() {
     $res = ding_provider_invoke('availability', 'items', array(21, 12));
-    $this->assertTrue(is_array($res), t('Availability provider returns an array for items.'));
-    $this->assertTrue($res[12]['available'], t('Returns available for 12.'));
-    $this->assertFalse($res[21]['available'], t('Returns not available for 21.'));
-    $this->assertFalse($res[12]['reservable'], t('Returns not reservable for 12.'));
-    $this->assertTrue($res[21]['reservable'], t('Returns reservable  for 21.'));
+    $this->assertTrue(is_array($res), 'Availability provider returns an array for items.');
+    $this->assertTrue($res[12]['available'], 'Returns available for 12.');
+    $this->assertFalse($res[21]['available'], 'Returns not available for 21.');
+    $this->assertFalse($res[12]['reservable'], 'Returns not reservable for 12.');
+    $this->assertTrue($res[21]['reservable'], 'Returns reservable  for 21.');
 
     $res = ding_provider_invoke('availability', 'holdings', array(121, 212));
-    $this->assertTrue(is_array($res), t('Availability provider returns an array for holdings.'));
-    $this->assertTrue(is_array($res[212]['holdings']), t('Holdings is an array.'));
-    $this->assertTrue(is_array($res[121]['holdings']), t('Holdings is an array.'));
+    $this->assertTrue(is_array($res), 'Availability provider returns an array for holdings.');
+    $this->assertTrue(is_array($res[212]['holdings']), 'Holdings is an array.');
+    $this->assertTrue(is_array($res[121]['holdings']), 'Holdings is an array.');
 
-    $this->assertEqual($res[212]['holdings'], array('Andeby bibliotek', 'Gåserød bibliotek'), t('Correct holdings'));
-    $this->assertEqual($res[121]['holdings'], array(), t('Correct holdings'));
+    $this->assertEqual($res[212]['holdings'], array('Andeby bibliotek', 'Gåserød bibliotek'), 'Correct holdings');
+    $this->assertEqual($res[121]['holdings'], array(), 'Correct holdings');
 
-    $this->assertTrue($res[212]['available'], t('Returns available for 212.'));
-    $this->assertFalse($res[121]['available'], t('Returns not available for 121.'));
-    $this->assertFalse($res[212]['reservable'], t('Returns not reservable for 212.'));
-    $this->assertTrue($res[121]['reservable'], t('Returns reservable  for 121.'));
+    $this->assertTrue($res[212]['available'], 'Returns available for 212.');
+    $this->assertFalse($res[121]['available'], 'Returns not available for 121.');
+    $this->assertFalse($res[212]['reservable'], 'Returns not reservable for 212.');
+    $this->assertTrue($res[121]['reservable'], 'Returns reservable  for 121.');
 
   }
 }
@@ -70,19 +74,51 @@ class DingUserProviderTestCase extends DingProviderTestCase {
 
   function testUserProvider() {
     $res = ding_provider_invoke('user', 'authenticate', 'twain', 'wain');
-    $this->assertTrue($res['success'], t('Authentication works.'));
-    $this->assertEqual($res['creds'], array('name' => 'twain', 'pass' => 'wain'), t('Creds are set properly.'));
-    $this->assertEqual($res['user'], array('mail' => 'twain@example.com', 'data' => array('display_name' => 'Twain')), t('User properties are set properly.'));
+    $this->assertTrue($res['success'], 'Authentication works.');
+    $this->assertEqual($res['creds'], array('name' => 'twain', 'pass' => 'wain'), 'Creds are set properly.');
+    $this->assertEqual($res['user'], array('mail' => 'twain@example.com', 'data' => array('display_name' => 'Twain')), 'User properties are set properly.');
 
-    $this->assertTrue(ding_provider_invoke('user', 'is_authenticated', $res['creds']), t('is_authenticated returns TRUE'));
+    $this->assertTrue(ding_provider_invoke('user', 'is_authenticated', $res['creds']), 'is_authenticated returns TRUE');
 
 
     $res = ding_provider_invoke('user', 'authenticate', 'twain', 'ain');
-    $this->assertFalse($res['success'], t('Wrong password fails.'));
-    $this->assertEqual($res, array('success' => FALSE), t('No other data.'));
+    $this->assertFalse($res['success'], 'Wrong password fails.');
+    $this->assertEqual($res, array('success' => FALSE), 'No other data.');
 
     $res = ding_provider_invoke('user', 'authenticate', 'blockedtwain', 'wain');
-    $this->assertFalse($res['success'], t('Blocked user cannot log in.'));
-    $this->assertEqual($res['messages'], array(t("Sorry, you're blocked")), t('No other data.'));
+    $this->assertFalse($res['success'], 'Blocked user cannot log in.');
+    $this->assertEqual($res['messages'], array(t("Sorry, you're blocked")), 'No other data.');
+  }
+}
+
+
+class DingReservationProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding reservation provider',
+      'description' => 'Test Ding reservation provider functionality.',
+      'group' => 'Ding! provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('dp_example'));
+  }
+
+  function testReservationProvider() {
+    global $user;
+    $branches = array(
+      'aby' => 'Andeby bibliotek',
+      'grd' => 'Gåserød bibliotek',
+    );
+    $res = ding_provider_invoke('reservation', 'pickup_branches', $user);
+    $this->assertEqual($res, $branches, 'Branches looks good.');
+
+    // set_preferred_branch is a noop in dp_example.
+    // create always succeeds.
+
+    $this->assertEqual(ding_provider_invoke('reservation', 'branch_name', 'aby'), 'Andeby bibliotek', 'Branch name is returned correctly.');
+
+    $this->assertNull(ding_provider_invoke('reservation', 'branch_name', 'oeu'), 'Bad branch id returns NULL.');
   }
 }

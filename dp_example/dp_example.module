@@ -24,6 +24,10 @@ function dp_example_ding_provider() {
         'prefix' => 'user',
         'file' => drupal_get_path('module', 'dp_example') . '/dp_example.user.inc',
       ),
+      'reservation' => array(
+        'prefix' => 'reservation',
+        'file' => drupal_get_path('module', 'dp_example') . '/dp_example.reservation.inc',
+      ),
     ),
   );
 }
