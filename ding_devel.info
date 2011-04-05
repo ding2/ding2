@@ -1,0 +1,5 @@
+name = Ding Devel
+description = Various helpers for Ding! developers.
+package = Development
+core = 7.x
+tags[] = developer
