@@ -158,7 +158,7 @@ class TingCollection extends DingEntityCollection {
         $subject_count[$subject]++;
       }
     }
-    return $collection->types = array_unique($types);
+    return $this->types = array_unique($types);
   }
 
   function getPrimary_object() {

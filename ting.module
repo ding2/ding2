@@ -312,7 +312,8 @@ function ting_ting_object_load($objects) {
  * Load a ting object.
  */
 function ting_object_load($id) {
-  return reset(entity_load('ting_object', array(), array('ding_entity_id' => array($id))));
+  $object = entity_load('ting_object', array(), array('ding_entity_id' => array($id)));
+  return $object ? reset($object) : FALSE;
 }
 
 /**
@@ -325,7 +326,8 @@ function ting_collection_load($id, $query = NULL) {
   if ($query) {
     $conditions['query'] = $query;
   }
-  return reset(entity_load('ting_collection', array(), $conditions));
+  $collection = entity_load('ting_collection', array(), $conditions);
+  return $collection ? reset($collection) : FALSE;
 }
 
 /**
