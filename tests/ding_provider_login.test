@@ -30,17 +30,17 @@ class DingProviderLoginTestCase extends DrupalWebTestCase {
 
     // First log in.
     $this->drupalPost('user/login', $login_data, t('Log in'));
-    $this->assertRaw(t('Member for'), t("Login works."));
+    $this->assertRaw(t('Member for'), "Login works.");
 
     $this->drupalGet('ding_provider_login_test/authpage');
-    $this->assertText('Wolla!', t("Provider callback works when logged in."));
+    $this->assertText('Wolla!', "Provider callback works when logged in.");
 
     $this->drupalGet('ding_user_test/expirecreds');
     $this->drupalGet('ding_provider_login_test/authpage');
-    $this->assertText('Enter your Drupal username.', t("We're asked to authenticate ourselves."));
+    $this->assertText('Enter your Drupal username.', "We're asked to authenticate ourselves.");
 
     $this->drupalPost(NULL, $login_data, t('Log in'));
-    $this->assertText('Wolla!', t("Provider callback works after logging in."));
+    $this->assertText('Wolla!', "Provider callback works after logging in.");
   }
 
   /**
@@ -50,37 +50,37 @@ class DingProviderLoginTestCase extends DrupalWebTestCase {
     $login_data = array('name' => 'twain', 'pass' => 'wain');
 
     $this->drupalGet('ding_provider_login_test/authform/form');
-    $this->assertNoText('Enter a string', t("Form doesn't work when not logged in."));
-    $this->assertText(t('Enter the password that accompanies your username.'), t("We're asked to log in."));
+    $this->assertNoText('Enter a string', "Form doesn't work when not logged in.");
+    $this->assertText(t('Enter the password that accompanies your username.'), "We're asked to log in.");
 
     // Log in.
     $this->drupalPost(NULL, $login_data, t('Log in'));
-    $this->assertText(t('Enter a string'), t("Form display works after login."));
+    $this->assertText(t('Enter a string'), "Form display works after login.");
 
     $this->drupalGet('ding_provider_login_test/authform/form');
-    $this->assertText(t('Enter a string'), t("Form display works when logged in."));
+    $this->assertText(t('Enter a string'), "Form display works when logged in.");
 
-    $this->drupalPost(NULL, array('a_field' => 'Wolla'), t('Say it'));
-    $this->assertText('Wolla', t("Form submission works when logged in."));
+    $this->drupalPost(NULL, array('a_field' => 'Wolla'), 'Say it');
+    $this->assertText('Wolla', "Form submission works when logged in.");
 
     $this->drupalGet('ding_user_test/expirecreds');
 
     $this->drupalGet('ding_provider_login_test/authform/form');
-    $this->assertText(t('Enter the password that accompanies your username.'), t("Form redirects to authenticate when not authenticated."));
+    $this->assertText(t('Enter the password that accompanies your username.'), "Form redirects to authenticate when not authenticated.");
 
     $this->drupalPost(NULL, $login_data, t('Log in'));
-    $this->assertText(t('Enter a string'), t("Form display works after authentication."));
+    $this->assertText(t('Enter a string'), "Form display works after authentication.");
 
     $this->drupalGet('ding_user_test/expirecreds');
 
     $this->drupalGet('ding_provider_login_test/authform/submit');
-    $this->assertText(t('Enter a string'), t("Form display still works."));
+    $this->assertText(t('Enter a string'), "Form display still works.");
 
     $this->drupalPost(NULL, array('a_field' => 'Wolla'), t('Say it'));
-    $this->assertText(t('Enter the password that accompanies your username.'), t("Form submit redirects to authenticate when not authenticated."));
+    $this->assertText(t('Enter the password that accompanies your username.'), "Form submit redirects to authenticate when not authenticated.");
 
     $this->drupalPost(NULL, $login_data, t('Log in'));
-    $this->assertText('Wolla', t("Form submission works when authenticated.."));
+    $this->assertText('Wolla', "Form submission works when authenticated..");
   }
 }
 
@@ -142,7 +142,7 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
     $login_data = array('name' => 'twain', 'pass' => 'wain');
 
     $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
-    $this->assertText('Enter a string', t("Form display works when not logged in."));
+    $this->assertText('Enter a string', "Form display works when not logged in.");
 
     $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'test'), array('op' => t('Say it')));
     $expected = array(
@@ -156,20 +156,24 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
 
     // Check that we can't authenticate (we're not logged in at all).
     $expected = array(
-      'command' => 'insert',
-      'data' => '<div class="messages error">
-<h2 class="element-invisible">Error message</h2>
-Sorry, authentication failed, did you type the right username and password?</div>
-',
+      'command' => 'ding_popup',
     );
+
+    $data = '';
+    foreach ($commands as $command) {
+      if (isset($command['data'])){
+        $data .= $command['data'];
+      }
+    }
     $this->assertCommand($commands, $expected, "We can't authenticate when not logged in.");
+    $this->assertTrue(preg_match('/Sorry, authentication failed, did you type the right username and password?/', $data), "We can't authenticate when not logged in.");
 
      // Log in.
     $this->drupalPost('user/login', $login_data, t('Log in'));
-    $this->assertRaw(t('Member for'), t("Login works."));
+    $this->assertRaw(t('Member for'), "Login works.");
 
     $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
-    $this->assertText(t('Enter a string'), t("Form display works after login."));
+    $this->assertText(t('Enter a string'), "Form display works after login.");
 
     $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'Willa'), array('op' => t('Say it')));
     $expected = array(
@@ -181,7 +185,7 @@ Sorry, authentication failed, did you type the right username and password?</div
     $this->drupalGet('ding_user_test/expirecreds');
 
     $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
-    $this->assertText('Enter a string', t("Form display works when logged in but not authenticated."));
+    $this->assertText('Enter a string', "Form display works when logged in but not authenticated.");
 
     $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'Wolla'), array('op' => t('Say it')));
     $expected = array(
