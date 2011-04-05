@@ -169,8 +169,10 @@ function theme_facetbrowser($search_result = FALSE) {
   $all_facets = array_shift($search_result);
   $searchkey = array_shift($search_result);
   $elements = array();
+
   if (is_array($all_facets)) {
-    $elements[] = drupal_render(drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey));
+    $form = drupal_get_form('ding_facetbrowser_form', $all_facets);
+    $elements[] = drupal_render($form);
   }
   return implode('', $elements);
 }
