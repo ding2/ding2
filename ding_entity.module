@@ -64,14 +64,16 @@ function ding_entity_info($ding_entity_type = NULL) {
  */
 function ding_entity_load($id) {
   if ($type = ding_entity_info('ding_entity')){
-    return reset(entity_load($type['entity_type'], FALSE, array('ding_entity_id' => array($id))));
+    $entity = entity_load($type['entity_type'], FALSE, array('ding_entity_id' => array($id)));
+    return $entity ? reset($entity) : NULL;
   }
   return FALSE;
 }
 
 function ding_entity_collection_load($id) {
   if ($type = ding_entity_info('ding_entity_collection')){
-    return reset(entity_load($type['entity_type'], FALSE, array('ding_entity_collection_id' => array($id))));
+    $collection = entity_load($type['entity_type'], FALSE, array('ding_entity_collection_id' => array($id)));
+    return $collection ? reset($collection) : NULL;
   }
   return FALSE;
 }
