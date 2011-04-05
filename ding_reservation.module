@@ -44,11 +44,13 @@ function ding_reservation_ding_entity_is($object, $class) {
 }
 
 /**
+ * Reserve form callback.
  *
+ * Note that this form relies on form caching, which is triggered by
+ * ajaxifying the submit button.
  */
 function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hide_branch = FALSE) {
   global $user;
-
   $uri = ding_entity_uri('ding_entity', $entity);
 
   // We post to our own path as we might want to rebuild the form.
@@ -63,9 +65,11 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
   );
 
   $preferred_branch = '';
-  if (isset($user->preferred_branch)) {
-    $preferred_branch = $user->preferred_branch;
+  if (isset($user->data['preferred_branch'])) {
+    $preferred_branch = $user->data['preferred_branch'];
   }
+
+  $hide_branch = !isset($form_state['branch_hidden']);
 
   $form_state['branch_hidden'] = FALSE;
   if ($hide_branch || !empty($preferred_branch)) {
@@ -74,11 +78,7 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
       '#value' => $preferred_branch,
     );
 
-    // Hidden variable to tell validator that we hid the preferred_branch.
-    $form['preferred_branch_hidden'] = array(
-      '#type' => 'hidden',
-      '#value' => TRUE,
-    );
+    $form_state['branch_hidden'] = TRUE;
   }
   else {
     $form['description'] = array(
@@ -98,6 +98,10 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Reserve'),
+    '#ajax' => array(
+      'callback' => 'ding_reservation_reserve_form_callback',
+      'wrapper' => 'ding-reservation-reserve-form',
+    ),
   );
 
   return $form;
@@ -108,11 +112,7 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
  */
 function ding_reservation_reserve_form_validate($form, &$form_state) {
   if (empty($form_state['values']['preferred_branch'])) {
-    // Looking directly into the post vars isn't nice, but we need to figure
-    // out if the posting form hid preferred_branch. We can't look at anything
-    // else as the form was already rebuild in order to feed this validation
-    // function.
-    if (!isset($form_state['input']['preferred_branch_hidden'])) {
+    if (!$form_state['branch_hidden']) {
       // Only show an error if the user had a choice.
       form_error($form, t('You must select a branch.'));
     }
@@ -143,6 +143,7 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
     $entity = $form_state['values']['entity'];
     try {
       ding_provider_invoke('reservation', 'create', $user, $entity->provider_id);
+      $form_state['reserved'] = TRUE;
       if (ding_provider_implements('reservation', 'branch_name')) {
         $branch_name = ding_provider_invoke('reservation', 'branch_name', $user->data['preferred_branch']);
         drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $entity->title, '@branch' => $branch_name)));
@@ -164,6 +165,26 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
   }
 }
 
+
+/**
+ * Ajax callback.
+ */
+function ding_reservation_reserve_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages');
+  if ($form_state['rebuild'] || form_get_errors()) {
+    // Redisplay form.
+    $html .= drupal_render($form);
+  }
+
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Reserve'), $html);
+
+  return $response;
+}
 class DingReservationError extends Exception {}
 class DingReservationErrorReservationExists extends Exception {}
 class DingReservationErrorNotAvailable extends Exception {}
