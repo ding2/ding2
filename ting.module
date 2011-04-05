@@ -187,6 +187,21 @@ function ting_theme() {
 }
 
 /**
+ * Implements hook_ding_devel_timers().
+ */
+function ting_ding_devel_timers() {
+  return array(
+    'ting' => array(
+      'title' => 'Ting total request time was @time ms.',
+    ),
+    'ting_net' => array(
+      'title' => 'Ting net time was @time ms.',
+      'include in total' => FALSE,
+    )
+  );
+}
+
+/**
  * Implements hook_entity_info().
  */
 function ting_entity_info() {

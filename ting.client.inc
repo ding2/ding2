@@ -292,9 +292,13 @@ function ting_add_relations($request, $type = 'full') {
  */
 function ting_execute($request) {
   try {
-    return ting_get_client()->execute($request);
+    timer_start('ting');
+    $res = ting_get_client()->execute($request);
+    timer_stop('ting');
+    return $res;
   } catch (TingClientException $e) {
-      watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+    timer_stop('ting');
+    watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
     return false;
   }
 }
