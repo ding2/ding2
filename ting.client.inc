@@ -104,7 +104,7 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
 
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
-  $request->setSort((isset($options['sort'])) ? $options['sort'] : '');
+  $request->setSort((isset($options['sort']) && $options['sort']) ? $options['sort'] : 'rank_general');
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
   $searchResult = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
