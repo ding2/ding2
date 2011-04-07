@@ -1,9 +1,9 @@
-name = Ting relations
+name = Ting relation
 description = Handles relations for ting entities.
 package = Ding!
 version = 0.1
 core = 7.x
-files[] = ting_relations.module
+files[] = ting_relation.module
 ; files[] = ting.test
 ; configure = admin/config/ting
 ; stylesheets[all][] = ting.css

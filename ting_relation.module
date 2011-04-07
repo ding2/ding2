@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * Handles relations for Ting entities.
+ */
+
+/**
+ * Implements hook_ding_entity_view().
+ */
+function ting_relation_ding_entity_view($entity, $view_mode, $langcode = NULL) {
+  if ($entity->relations) {
+    $relation_types = ting_relation_inline();
+    foreach ($entity->relations as $relation) {
+      if (isset($relation_types[$relation->relationType])) {
+        $entity->content['relations'][] = array(
+          '#theme' => 'ting_relation',
+          '#object' => $relation,
+          '#view_mode' => $view_mode,
+          '#title' => $relation_types[$relation->relationType],
+          '#attached' => array(
+            'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
+          ),
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_relation_theme() {
+  return array(
+    'ting_relation' => array(
+      'template' => 'ting_relation',
+      'render element' => 'elements',
+      'file' => 'ting_relation.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Inline relation types and their titles.
+ */
+function ting_relation_inline() {
+  static $types;
+  if (!$types) {
+    $types = array(
+      'hasAuthorDescription' => t('Author portrait'),
+      'hasSubjectDescription' => t('Subject description'),
+    );
+  }
+  return $types;
+}
