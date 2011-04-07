@@ -38,5 +38,19 @@ function hook_ding_entity_menu(&$items, $type, $path, $index) {
 }
 
 /**
+ *
+ */
+function hook_ding_entity_view(&$object, $view_mode) {
+
+}
+
+/**
+ *
+ */
+function hook_ding_entity_collection_view(&$object, $view_mode) {
+
+}
+
+/**
  * @} End of "addtogroup hooks".
  */
