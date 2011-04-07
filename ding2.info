@@ -17,6 +17,6 @@ dependencies[] = ting_search_extendform
 dependencies[] = ding_facetbrowser
 dependencies[] = ding_provider
 dependencies[] = ding_availability
-dependencies[] = ting_relations
 dependencies[] = mkdru
+dependencies[] = ting_relation
 files[] = ding2.profile
