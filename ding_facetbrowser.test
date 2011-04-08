@@ -105,7 +105,7 @@ class DingFacetbrowserWeb extends DrupalWebTestCase {
     $this->assertText('Harry potter rocks', 'Search for "Harry potter rocks" in drupal - complete');
 
     $this->drupalGet('search/ting/harry');
-    $this->assertText('Hitler 1933 i dansk presse', 'Search for title from external search service completed');
+    $this->assertText('Da pensionisten Harry Browns gamle', 'Search for title from external search service completed');
 
     // Check if the facetbrowser has any content
 
