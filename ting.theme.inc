@@ -29,10 +29,11 @@ function template_preprocess_ting_object_overview(&$variables) {
   foreach (element_children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
-
+ 
   $variables['page'] = $variables['elements']['#view_mode'] == 'full';
   $variables['search_result'] = $variables['elements']['#view_mode'] == 'search_result';
   $variables['title'] = check_plain($object->title);
+  $variables['serie_title'] = l(check_plain($object->serieTitle), 'search/ting/phrase.title=' . $object->serieTitle);
 
   $variables['alternative_titles'] = array();
   $variables['other_titles'] = "";
@@ -79,7 +80,7 @@ function template_preprocess_ting_object_overview(&$variables) {
 /**
  * Template preprocessor for ting object details.
  */
-function template_preprocess_ting_object_details(&$variables) {
+function template_preprocess_ting_object_details(&$variables) { 
   $object = $variables['object'] = $variables['elements']['#object'];
 
   // Helpful $content variable for templates.

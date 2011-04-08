@@ -13,6 +13,7 @@ class TingEntity extends DingEntity {
     parent::__construct();
     $this->properties += array(
       'type' => FALSE,
+      'serieTitle' => FALSE,
       'record' => FALSE,
       'relations' => FALSE,
       'localId' => FALSE,
@@ -37,6 +38,12 @@ class TingEntity extends DingEntity {
     return $this->title = !empty($this->reply->record['dc:title']) ? $this->reply->record['dc:title'][''][0] : FALSE;
   }
 
+  function getSerieTitle() {
+    $titleObj = $this->reply->record['dc:title'];
+    
+    return $this->serieTitle = !empty($titleObj) && !empty($titleObj['oss:series']) ? $titleObj['oss:series'][0] : FALSE;
+  }
+  
   function getAbstract() {
     return $this->abstract = !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;;
   }
