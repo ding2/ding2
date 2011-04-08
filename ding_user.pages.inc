@@ -14,22 +14,20 @@
  *
  * @ingroup forms
  */
-function ding_user_authenticate_form($form, &$form_state, $ajax = '') {
+function ding_user_authenticate_form($form, &$form_state) {
   form_load_include($form_state, 'inc', 'ding_user', 'ding_user.pages');
 
   global $user;
 
-  if ($ajax != 'ajax') {
-    $creds = ding_user_get_creds();
-    // If we are already authenticated on, go to the user page instead.
-    if (ding_provider_implements('user', 'is_authenticated')) {
-      if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
-        drupal_goto('user/' . $user->uid);
-      }
-    }
-    elseif (empty($creds)) {
+  $creds = ding_user_get_creds();
+  // If we are already authenticated on, go to the user page instead.
+  if (ding_provider_implements('user', 'is_authenticated')) {
+    if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
       drupal_goto('user/' . $user->uid);
     }
+  }
+  elseif (empty($creds)) {
+    drupal_goto('user/' . $user->uid);
   }
 
 
@@ -52,12 +50,6 @@ function ding_user_authenticate_form($form, &$form_state, $ajax = '') {
 
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Log in'));
-  if ($ajax == 'ajax') {
-    $form['actions']['submit']['#ajax'] = array(
-      'callback' => 'ding_user_authenticate_form_callback',
-      'wrapper' => 'ding-user-authenticate-form',
-    );
-  }
 
   return $form;
 }
@@ -107,25 +99,4 @@ function ding_user_authenticate_form_submit($form, &$form_state) {
     ding_user_save_creds($form_state['auth_res'], $user);
     $form_state['redirect'] = 'user/' . $user->uid;
   }
-}
-
-/**
- *
- */
-function ding_user_authenticate_form_callback($form, &$form_state) {
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array(),
-  );
-  if ($form_state['authentication_success']) {
-    // Close dialog if successful.
-    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
-  }
-  else {
-    // Else redisplay form and messages.
-    $html = theme('status_messages') . drupal_render($form);
-    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
-  }
-
-  return $response;
 }

@@ -71,7 +71,15 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
     // Remove the standard user login links.
     //unset($form['links']);
 
-    break;
+      // Falling through on purpose.
+    case 'ding_user_authenticate_form':
+      if (isset($form_state['ajaxify'])) {
+        $form['actions']['submit']['#ajax'] = array(
+          'callback' => 'ding_user_authenticate_form_callback',
+          'wrapper' => drupal_html_id($form_id),
+        );
+      }
+      break;
   }
 }
 
@@ -210,10 +218,51 @@ function ajax_command_ding_user_authenticate($extra_data) {
   global $user;
   // @todo add support for user/login here.
   module_load_include('inc', 'ding_user', 'ding_user.pages');
+  if ($user->uid) {
+    $title = t('Authenticate');
+    $form_id = 'ding_user_authenticate_form';
+  }
+  else {
+    $title = t('Login');
+    $form_id = 'user_login';
+  }
+  $form_state = array(
+    'ajaxify' => TRUE,
+  );
+  $form = drupal_build_form($form_id, $form_state);
 
-  $form = drupal_get_form('ding_user_authenticate_form', 'ajax');
   $login_form = drupal_render($form);
-  return ajax_command_ding_popup('ding_user', t('Authenticate'), $login_form, TRUE, $extra_data);
+  return ajax_command_ding_popup('ding_user', $title, $login_form, TRUE, $extra_data);
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_user_authenticate_form_callback($form, &$form_state) {
+  switch ($form['#id']) {
+  case 'ding-user-authenticate-form':
+    $success = $form_state['authentication_success'];
+    break;
+  case 'user-login':
+    $success = !empty($form_state['uid']);
+    break;
+  }
+
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+  if ($success) {
+    // Close dialog if successful.
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
+  }
+  else {
+    // Else redisplay form and messages.
+    $html = theme('status_messages') . drupal_render($form);
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
+  }
+
+  return $response;
 }
 
 /**
