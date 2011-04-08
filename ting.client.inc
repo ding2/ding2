@@ -6,21 +6,6 @@
  * Wrapper functions for Ting client.
  */
 
-// Ting client has a ton of includes. Let's load them.
-$includes = array(
-  'ting-client/lib/TingClient.php',
-  'ting-client/lib/adapter/http/TingClientDrupal6HttpRequestAdapter.php',
-  'ting-client/lib/request/rest-json/RestJsonTingClientRequestFactory.php',
-  'ting-client/lib/log/TingClientDrupalWatchDogLogger.php',
-  // 'addi-client/AdditionalInformationService.php'
-);
-
-$path = drupal_get_path('module', 'ting') . '/lib/';
-
-foreach ($includes as $include) {
-  require_once($path . $include);
-}
-
 /**
  * Get an ting object or collection.
  *

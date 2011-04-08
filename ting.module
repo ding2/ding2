@@ -270,6 +270,21 @@ function ting_entity_info() {
 }
 
 /**
+ * Implements hook_registry_files_alter().
+ */
+function ting_registry_files_alter(&$files, $modules) {
+  // Add in ting client classes, so the autoloader knows where to find
+  // them. This is more handy than hardcoding them into the info file.
+  $def = array(
+    'module' => 'ting',
+    'weight' => 0,
+  );
+  foreach (file_scan_directory(drupal_get_path('module', 'ting') . '/lib/ting-client/lib', '/\.php$/') as $filename => $dummy) {
+    $files[$filename] = $def;
+  }
+}
+
+/**
  * Page callback: Display a ting object.
  */
 function ting_object_page_view($object) {
