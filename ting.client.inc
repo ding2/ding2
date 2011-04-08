@@ -102,10 +102,9 @@ function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = arra
   $request->setStart($resultsPerPage * ($page - 1) + 1);
   $request->setNumResults($resultsPerPage);
 
-  $request = (!isset($options['supportingTypes']) || !$options['supportingTypes']) ? ting_remove_supporting_types($request) : $request;
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
-  $request->setSort((isset($options['sort'])) ? $options['sort'] : '');
+  $request->setSort((isset($options['sort']) && $options['sort']) ? $options['sort'] : 'rank_general');
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
   $searchResult = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
@@ -137,7 +136,7 @@ function ting_execute_cache($request, $query = NULL) {
   static $calls = array();
   $calls[] = $query;
   if (sizeof($calls) > 1) {
-    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls)), WATCHDOG_WARNING);
+      watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls)), WATCHDOG_WARNING);
     if (function_exists('dpm') && user_access('access devel information')) {
       drupal_set_message(t('Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls))), 'error');
     }
@@ -208,27 +207,43 @@ function ting_execute_cache($request, $query = NULL) {
  * Get item from static cache.
  */
 function ting_cache_get($id) {
-  $cache = &drupal_static('ting_cache_set');
-  if (!isset($cache)) {
-    $cache = array();
+  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+    $cache = cache_get('ting-object:' . $id);
+    if (isset($cache) && ($cache->expire > REQUEST_TIME)) {
+      return $cache->data;
+    }
+    return NULL;
   }
-  // Using array_key_exists, as we might contain NULL values (which is
-  // !isset()).
-  if (array_key_exists($id, $cache)) {
-    return $cache[$id];
+  else {
+    // Without proper caching, use a request cache.
+    $cache = &drupal_static('ting_cache_set');
+    if (!isset($cache)) {
+      $cache = array();
+    }
+    // Using array_key_exists, as we might contain NULL values (which is
+    // !isset()).
+    if (array_key_exists($id, $cache)) {
+      return $cache[$id];
+    }
+    return NULL;
   }
-  return NULL;
 }
 
 /**
  * Put item in the static cache.
  */
 function ting_cache_set($id, $value) {
-  $cache = &drupal_static(__FUNCTION__);
-  if (!isset($cache)) {
-    $cache = array();
+  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+    $cache = cache_set('ting-object:' . $id, $value, 'cache', REQUEST_TIME + $ttl);
   }
-  $cache[$id] = $value;
+  else {
+    // Without proper caching, use a request cache.
+    $cache = &drupal_static(__FUNCTION__);
+    if (!isset($cache)) {
+      $cache = array();
+    }
+    $cache[$id] = $value;
+  }
 }
 
 /**
@@ -269,17 +284,6 @@ function ting_add_relations($request, $type = 'full') {
   return $request;
 }
 
-function ting_remove_supporting_types(TingClientSearchRequest $request) {
-  $supportingTypes = array('materialevurdering*', 'anmeldelse');
-  foreach ($supportingTypes as &$type)
-  {
-    $type = 'facet.type='.$type;
-  }
-
-  $request->setQuery($request->getQuery().' NOT ('.implode(' OR ', $supportingTypes).')');
-  return $request;
-}
-
 /**
  * Perform a request against Ting and perform error handling if necessary
  *
@@ -288,8 +292,12 @@ function ting_remove_supporting_types(TingClientSearchRequest $request) {
  */
 function ting_execute($request) {
   try {
-    return ting_get_client()->execute($request);
+    timer_start('ting');
+    $res = ting_get_client()->execute($request);
+    timer_stop('ting');
+    return $res;
   } catch (TingClientException $e) {
+    timer_stop('ting');
     watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
     return false;
   }
@@ -305,9 +313,53 @@ function ting_get_client() {
 
   if (!isset($client))
   {
-    $logger = (variable_get('ting_enable_logging', false)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
+    $logger = (variable_get('ting_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
     $client = new TingClient(new TingClientDrupal6HttpRequestAdapter(), $logger);
   }
 
   return $client;
 }
+
+/**
+ * Use OpenScan to search for keyword, check
+ * http://oss.dbc.dk/twiki/bin/view/Databroend/OpenSearchDocIndexes
+ * for which phrase index to search, default is 'anyIndexes'
+ *
+ * @param string $query The prefix to scan for
+ * @param string $phrase Which phrase index to search
+ * @param int $numResults The numver of results to return
+ * @return TingClientScanResult
+ */
+function ting_do_scan($query, $phrase = 'anyIndexes', $numResults = 10) {
+  $request = ting_get_request_factory()->getScanRequest();
+  $request->setField('phrase.' . $phrase);
+  $request->setLower($query);
+  $request = ting_add_agency($request);
+  $request->setNumResults($numResults);
+  return ting_execute($request);
+}
+
+/**
+ * @param object $request - The TingClient object
+ * @return TingClientAgentRequest
+ */
+function ting_add_agency(TingClientAgentRequest $request) {
+  if ($agency = variable_get('ting_agency', false))
+  {
+    $request->setAgency($agency);
+  }
+  return $request;
+}
+
+/**
+ * @param string $word The word to get spell suggestions for
+ * @param $numResults The number of results to return
+ * @return array An array of TingClientSpellSuggestion objects
+ */
+function ting_get_spell_suggestions($word, $numResults = 10) {
+  $request = ting_get_request_factory()->getSpellRequest();
+  $request->setWord($word);
+  $request->setNumResults($numResults);
+  return ting_execute($request);
+}
+

@@ -58,5 +58,4 @@
     <div class="subjects"><?php print $subjects; ?></div>
   <?php } ?>
 
-<?php print $subjects; ?>
 </div>

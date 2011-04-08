@@ -22,6 +22,7 @@ class TingEntity extends DingEntity {
       'language' => FALSE,
       'relationType' => FALSE,
       'relationUri' => FALSE,
+      'online_url' => FALSE,
     );
   }
 
@@ -102,6 +103,14 @@ class TingEntity extends DingEntity {
   function getRelationUri() {
     return $this->relationUri = $this->reply->relationUri;
   }
+
+  function getOnline_url() {
+    if (isset($this->reply->record['dc:identifier']['dcterms:URI'])) {
+      $url = $this->reply->record['dc:identifier']['dcterms:URI'][0];
+      drupal_alter('ting_online_url', $url, $this);
+      return $this->online_url = $url;
+    }
+  }
 }
 
 /**
@@ -165,7 +174,7 @@ class TingCollection extends DingEntityCollection {
         $subject_count[$subject]++;
       }
     }
-    return $collection->types = array_unique($types);
+    return $this->types = array_unique($types);
   }
 
   function getPrimary_object() {

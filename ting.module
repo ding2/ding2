@@ -5,6 +5,8 @@
  * Enables integration with Ting.
  */
 
+define('TING_DEFAULT_CACHE_LIFETIME', 0);
+
 /**
  * Implements hook_menu().
  */
@@ -21,7 +23,6 @@ function ting_menu() {
   $items['ting/collection/%ting_collection'] = array(
     'title callback' => 'ting_page_title',
     'title arguments' => array(2),
-    'load arguments' => array(3),
     'page callback' => 'ting_collection_page_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
@@ -187,12 +188,17 @@ function ting_theme() {
 }
 
 /**
- * Implements hook_ding_entity_type().
+ * Implements hook_ding_devel_timers().
  */
-function ting_ding_entity_types() {
+function ting_ding_devel_timers() {
   return array(
-    'ding_entity' => 'ting_object',
-    'ding_entity_collection' => 'ting_collection',
+    'ting' => array(
+      'title' => 'Ting total request time was @time ms.',
+    ),
+    'ting_net' => array(
+      'title' => 'Ting net time was @time ms.',
+      'include in total' => FALSE,
+    )
   );
 }
 
@@ -207,6 +213,9 @@ function ting_entity_info() {
       'base table' => 'ting_object',
       'revision table' => 'ting_object_revision',
       'uri callback' => 'ting_object_uri',
+      'ding_entity_type' => 'ding_entity',
+      'ding_entity_menu' => 'ting/object/%ting_object',
+      'ding_entity_index' => 2,
       'fieldable' => TRUE,
       'entity keys' => array(
         'id' => 'tid',
@@ -232,6 +241,9 @@ function ting_entity_info() {
       'label' => t('Ting collection'),
       'controller class' => 'TingCollectionController',
       'uri callback' => 'ting_collection_uri',
+      'ding_entity_type' => 'ding_entity_collection',
+      'ding_entity_menu' => 'ting/collection/%ting_collection',
+      'ding_entity_index' => 2,
       'entity keys' => array(
         // We don't really have an ID, but use the ding_entity_collection_id,
         // so we can use entity_uri.
@@ -316,7 +328,8 @@ function ting_ting_object_load($objects) {
  * Load a ting object.
  */
 function ting_object_load($id) {
-  return reset(entity_load('ting_object', array(), array('ding_entity_id' => array($id))));
+  $object = entity_load('ting_object', array(), array('ding_entity_id' => array($id)));
+  return $object ? reset($object) : FALSE;
 }
 
 /**
@@ -329,7 +342,8 @@ function ting_collection_load($id, $query = NULL) {
   if ($query) {
     $conditions['query'] = $query;
   }
-  return reset(entity_load('ting_collection', array(), $conditions));
+  $collection = entity_load('ting_collection', array(), $conditions);
+  return $collection ? reset($collection) : FALSE;
 }
 
 /**
@@ -337,6 +351,7 @@ function ting_collection_load($id, $query = NULL) {
  */
 function ting_object_view($object, $view_mode = 'full') {
   $object->content = array();
+  $object->content['actions'] = array();
   $object->content['overview'] = array(
     '#theme' => 'ting_object_overview',
     '#object' => $object,
@@ -380,7 +395,7 @@ function ting_object_view($object, $view_mode = 'full') {
  */
 function ting_collection_view($object, $view_mode = 'full') {
   $object->content = array();
-
+  $object->content['actions'] = array();
   $object->content['overview'] = array(
     '#theme' => 'ting_object_overview',
     '#object' => $object->primary_object,
