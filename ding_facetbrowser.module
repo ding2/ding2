@@ -105,6 +105,10 @@ function _ajax_search($form, $form_state) {
   $search_key                          = $form['search_key']['#value'];
   $results                             = ting_search_search_execute($search_key, array('facets' => _facetString($form_state)));
   $search_results                      = _ting_search_static_result();
+  if (!$search_results) {
+    // @todo search crapped, what do we do?
+    return;
+  }
   $form_state['build_info']['args'][0] = $search_results->facets;
   $facets_formatted                    = drupal_render(drupal_rebuild_form('ding_facetbrowser_form', $form_state ));
   $results_formatted                   = theme('ting_search_results', array('results' => $results));
@@ -171,7 +175,7 @@ function theme_facetbrowser($search_result = FALSE) {
   $elements = array();
 
   if (is_array($all_facets)) {
-    $form = drupal_get_form('ding_facetbrowser_form', $all_facets);
+    $form = drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey);
     $elements[] = drupal_render($form);
   }
   return implode('', $elements);
