@@ -326,17 +326,32 @@ function ding_provider_build_form($form_id, &$form_state) {
  * @see ding_provider_get_form()
  */
 function ding_provider_ajax_form_callback() {
+  global $user;
   $messages = NULL;
-  list($form, $form_state, $form_id) = ajax_get_form();
   try {
     if (isset($_REQUEST['dp_form_id']) && !empty($_REQUEST['dp_form_id'])) {
+      $form_id = (string) $_REQUEST['dp_form_id'];
       // Load saved submission.
       if ($cached = cache_get('ding_provider_' . $form_id, 'cache_form')) {
         $form_state['input'] = $cached->data;
         $messages = $form_state['input']['#ding_provider_messages'];
+        $orig_user = $form_state['input']['#ding_provider_user'];
         unset($form_state['input']['#ding_provider_messages']);
+        unset($form_state['input']['#ding_provider_user']);
         cache_clear_all('ding_provider_' . $form_id, 'cache_form');
       }
+    }
+
+    // If the user changed (likely because they just logged in),
+    // things get complicated as ajax_get_form wont find the cached
+    // form. So we reset the user momentarily.
+    if (isset($orig_user) && $user->uid != $orig_user->uid) {
+      $new_user = $user;
+      $user = $orig_user;
+    }
+    list($form, $form_state, $form_id) = ajax_get_form();
+    if (isset($new_user)) {
+      $user = $new_user;
     }
 
     drupal_process_form($form['#form_id'], $form, $form_state);
@@ -348,7 +363,8 @@ function ding_provider_ajax_form_callback() {
       $callback = $form_state['triggering_element']['#ajax']['callback'];
     }
     if (!empty($callback) && function_exists($callback)) {
-      return $callback($form, $form_state);
+      $x = $callback($form, $form_state);
+      return $x;
     }
   }
   catch (DingProviderAuthException $e) {
@@ -360,6 +376,7 @@ function ding_provider_ajax_form_callback() {
     $expire = 21600;
     $input = $form_state['method'] == 'get' ? $_GET : $_POST;
     $input['#ding_provider_messages'] = drupal_get_messages();
+    $input['#ding_provider_user'] = $user;
     cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
     $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
 

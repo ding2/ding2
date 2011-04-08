@@ -152,25 +152,13 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
     $this->assertCommand($commands, $expected, "We get a login form.");
 
     $this->fudge($commands);
-    $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'ding-user-authenticate-form');
+    $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'user-login');
 
-    // Check that we can't authenticate (we're not logged in at all).
     $expected = array(
-      'command' => 'ding_popup',
+      'command' => 'ding_popup_close',
     );
 
-    $data = '';
-    foreach ($commands as $command) {
-      if (isset($command['data'])){
-        $data .= $command['data'];
-      }
-    }
-    $this->assertCommand($commands, $expected, "We can't authenticate when not logged in.");
-    $this->assertTrue(preg_match('/Sorry, authentication failed, did you type the right username and password?/', $data), "We can't authenticate when not logged in.");
-
-     // Log in.
-    $this->drupalPost('user/login', $login_data, t('Log in'));
-    $this->assertRaw(t('Member for'), "Login works.");
+    $this->assertCommand($commands, $expected, "Login works.");
 
     $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
     $this->assertText(t('Enter a string'), "Form display works after login.");
