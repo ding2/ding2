@@ -39,7 +39,7 @@ function ding_user_access($account) {
 /**
  * Implements hook_cron().
  */
-function ding_user_() {
+function ding_user_cron() {
   // Clear out expired credentials.
   cache_clear_all(NULL, 'cache_ding_user_credentials');
 }
