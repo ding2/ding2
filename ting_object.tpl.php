@@ -11,9 +11,9 @@
  */
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <?php echo render($content['overview']); ?>
+    <?php echo render($content['overview']); ?>
 
-  <?php echo render($content['details']); ?>
+    <?php echo render($content['details']); ?>
 
-  <?php echo render($content); ?>
+    <?php echo render($content); ?>
 </div>

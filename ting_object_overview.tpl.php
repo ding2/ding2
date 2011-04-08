@@ -2,7 +2,7 @@
 // $Id$
 /**
  * @file
- */
+ */ 
 ?>
 <div class="ting-overview clearfix">
   <div class="left-column left">
@@ -29,7 +29,14 @@
         <h2>(<?php print $title; ?>)</h2>
       <?php } ?>
     <?php } ?>
-
+        
+    <?php if ($serie_title && $page) { ?>
+      <h3>
+        <?php echo t('Serie title: '); print $serie_title; ?>
+      </h3>
+    <?php } ?>
+        
+        
     <div class='creator'>
       <?php if ($creators) { ?>
         <span class='byline'><?php echo ucfirst(t('by')); ?></span>
