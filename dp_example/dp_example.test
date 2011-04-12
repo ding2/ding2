@@ -49,3 +49,38 @@ class DpExampleAvailabilityProviderImplementationTestCase extends DingAvailabili
   }
 }
 
+class DpExampleReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding! provider example reservation provider',
+      'description' => 'Test Ding! provider example reservation functionality.',
+      'group' => 'Ding! example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('dp_example'));
+    unset($_SESSION['dp_example_reservations']);
+  }
+
+  function getUser() {
+    global $user;
+    return $user;
+  }
+
+  function getBranch() {
+    return 'aby';
+  }
+
+  function getSomeReservables() {
+    // Just return some random numbers.
+    return array(
+      324,
+      34,
+      7,
+      870,
+      349,
+      'abc',
+    );
+  }
+}

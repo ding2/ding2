@@ -50,8 +50,22 @@ function dp_example_reservation_create($account, $id, $branch, $expiry) {
   if (!isset($_SESSION['dp_example_reservations'])) {
     $_SESSION['dp_example_reservations'] = array();
   }
+  foreach ($_SESSION['dp_example_reservations'] as $res) {
+    if ($id == $res[0]) {
+      throw new DingReservationUserErrorReservationExists();
+    }
+  }
   $_SESSION['dp_example_reservations'][uniqid()] = array($id, 'Reservation #' . (sizeof($_SESSION['dp_example_reservations']) + 1), $branch, $expiry);
   return;
+}
+
+/**
+ *
+ */
+function dp_example_reservation_delete($account, $id) {
+  if (isset($_SESSION['dp_example_reservations']) && isset($_SESSION['dp_example_reservations'][$id])) {
+    unset($_SESSION['dp_example_reservations'][$id]);
+  }
 }
 
 /**
