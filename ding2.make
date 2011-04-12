@@ -40,6 +40,7 @@ projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_s
 projects[mkdru][type] = "module"
 projects[mkdru][download][type] = "git"
 projects[mkdru][download][url] = "git://git.indexdata.com/mkdru.git"
+projects[mkdru][download][revision] = "ac3d47c986ab5db1d6597b5125b34a50bb6ae57b"
 projects[mkdru][download][branch] = "7.x"
 
 projects[pazpar2][type] = "library"
