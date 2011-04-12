@@ -13,7 +13,7 @@ class DingReservationUserError extends DingProviderUserException {}
  * Exception thrown when the item is already reserved.
  */
 class DingReservationUserErrorReservationExists extends DingReservationUserError{
-  public function __construct(string $message = "", int $code = 0) {
+  public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t('"You have already reserved "@title".');
     }
@@ -25,7 +25,7 @@ class DingReservationUserErrorReservationExists extends DingReservationUserError
  * The item is not available for reservation.
  */
 class DingReservationUserErrorNotAvailable extends DingReservationUserError {
-  public function __construct(string $message = "", int $code = 0) {
+  public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t('"@title" is not available for reservation.');
     }
@@ -37,7 +37,7 @@ class DingReservationUserErrorNotAvailable extends DingReservationUserError {
  * Reservation is not allowed.
  */
 class DingReservationUserErrorNotAllowed extends DingReservationUserError{
-  public function __construct(string $message = "", int $code = 0) {
+  public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t("You're not allowed to reserve \"@title\".");
     }
