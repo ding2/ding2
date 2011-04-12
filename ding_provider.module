@@ -532,9 +532,3 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
   }
   return NULL;
 }
-
-/**
- * Exception that is thrown by providers when the given operation
- * cannot be completed until the user authenticates.
- */
-class DingProviderAuthException extends Exception {}
