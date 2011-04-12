@@ -26,12 +26,12 @@ function dp_example_reservation_set_preferred_branch($account, $branch) {
 /**
  *
  */
-function dp_example_reservation_create($account, $id) {
+function dp_example_reservation_create($account, $id, $branch, $expiry) {
   // Fake it.
   if (!isset($_SESSION['dp_example_reservations'])) {
     $_SESSION['dp_example_reservations'] = array();
   }
-  $_SESSION['dp_example_reservations'][] = array('Reservation #' . (sizeof($_SESSION['dp_example_reservations']) + 1), $account->data['preferred_branch']);
+  $_SESSION['dp_example_reservations'][] = array('Reservation #' . (sizeof($_SESSION['dp_example_reservations']) + 1), $branch, $expiry);
   return;
 }
 
