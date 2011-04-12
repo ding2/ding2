@@ -72,7 +72,7 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
    *
    * Only required if provider implements items.
    */
-  function getSomeItems() {};
+  function getSomeItems() {}
 
   /**
    * Should return an array of ids that will return availability information
