@@ -50,9 +50,15 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
   }
 
   // If not asking for a collection, and the object is, return the
-  // first sub-object.
+  // sub-object with the same id.
   if (!$collection && isset($object->objects)) {
-    return $object->objects[0];
+    foreach ($object->objects as $sub_object) {
+      if ($sub_object->id == $object_id) {
+        return $sub_object;
+      }
+    }
+    // No sub-object had the same id. Somethings broken.
+    return NULL;
   }
   return $object;
 }

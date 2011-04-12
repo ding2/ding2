@@ -103,4 +103,29 @@ class TingEntityTestCase extends DrupalWebTestCase {
 
     $this->assertTrue($all_entities, 'Entities is TingEntities.');
   }
+
+  /**
+   * Test for regressions.
+   */
+  function testRegression() {
+    // Bug fixed: Clicking on the lydbog type in a collection would show the
+    // book object.
+
+    // Harry Potter og dødsregalierne
+    $entity = ding_entity_collection_load('710100:26917921');
+    $this->assertTrue(is_object($entity), 'Collection is an object.');
+    $this->assertEqual(get_class($entity), 'TingCollection', 'Collection is a TingCollection.');
+    $this->assertEqual($entity->title, 'Harry Potter og dødsregalierne', 'We got the proper collection.');
+
+    foreach ($entity->entities as $sub_entity) {
+      $id = $sub_entity->id;
+      // Clear request cache.
+      drupal_static_reset('ting_cache_set');
+      $new_entity = ding_entity_load($id);
+      // Check that the ids match.
+      $this->assertEqual($sub_entity->id, $new_entity->id, 'Re-fetching the sub-object returns an object with the same id.');
+      // Check that the objects is of the same type.
+      $this->assertEqual($sub_entity->type, $new_entity->type, 'Re-fetching the sub-object returns an object with the same type.');
+    }
+  }
 }
