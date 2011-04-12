@@ -1,5 +1,8 @@
 <?php
 
+// Default interest period is ~six months.
+define('DING_RESERVATION_DEFAULT_INTEREST_PERIOD', 183 * 86400);
+
 /**
  * @file
  * Handles display and creation/deletion of reservations for users.
@@ -142,7 +145,8 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
   if ($form_state['values']['entity']) {
     $entity = $form_state['values']['entity'];
     try {
-      ding_provider_invoke('reservation', 'create', $user, $entity->provider_id);
+      // @todo implement custom interest periods.
+      ding_provider_invoke('reservation', 'create', $user, $entity->provider_id, $form_state['values']['preferred_branch'], REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD);
       $form_state['reserved'] = TRUE;
       if (ding_provider_implements('reservation', 'branch_name')) {
         $branch_name = ding_provider_invoke('reservation', 'branch_name', $user->data['preferred_branch']);
@@ -152,13 +156,10 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
         drupal_set_message(t('"@title" reserved.', array('@title' => $entity->title)));
       }
     }
-    catch (DingReservationErrorReservationExists $e) {
-      drupal_set_message(t('You have already reserved "@title".', array('@title' => $entity->title)), 'error');
+    catch (DingProviderUserException $e) {
+      drupal_set_message($e->getMessageT(array('@title' => $entity->title)), 'error');
     }
-    catch (DingReservationErrorNotAvailable $e) {
-      drupal_set_message(t('"@title" is not available for reservation.', array('@title' => $entity->title)), 'error');
-    }
-    catch (DingReservationError $e) {
+    catch (Exception $e) {
       drupal_set_message(t('An error occurred while reserving item. Please try again later.'), 'error');
       watchdog('ding_reservation', 'Error while reserving, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
     }
@@ -185,6 +186,3 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 
   return $response;
 }
-class DingReservationError extends Exception {}
-class DingReservationErrorReservationExists extends Exception {}
-class DingReservationErrorNotAvailable extends Exception {}
