@@ -123,3 +123,131 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
     $this->assertTrue($reservable_is_bool, t('Reservable key is bool.'));
   }
 }
+
+abstract class DingReservationProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * Return a user that may reserve something.
+   */
+  abstract function getUser();
+
+  /**
+   * Return a branch the user can reserve to.
+   */
+  abstract function getBranch();
+
+  /**
+   * Returns an array of ids of reservable items.
+   */
+  abstract function getSomeReservables();
+
+  function testBranches() {
+    $user = $this->getUser();
+    $branches = ding_provider_invoke('reservation', 'pickup_branches', $user);
+    $this->assertTrue(is_array($branches), 'pickup_branches returns an array');
+    $this->assertFalse(empty($branches), 'pickup_branches returns an non-empty array');
+
+    $this->assertFalse(isset($branches['']), 'No branch with an empty id');
+    $this->assertFalse(isset($branches[0]), 'No branch with an zero id');
+
+    // set_preferred_branch is not testable at the moment (how do we check
+    // that it succeeded?)
+
+    // @todo checking the name of each branch may be a bit overkill, but we'll
+    // implement a $this->checkBranches if it becomes a problem.
+    foreach ($branches as $id => $name) {
+      $name2 = ding_provider_invoke('reservation', 'branch_name', $id);
+      $this->assertEqual($name, $name2, 'branch_name returns the same name');
+    }
+  }
+
+  function testReservations() {
+    module_load_include('inc', 'ding_reservation', 'ding_reservation.exceptions');
+    $user = $this->getUser();
+    $branch = $this->getBranch();
+    $reservables = array_flip($this->getSomeReservables());
+    $expiry = REQUEST_TIME + (14*86400);
+
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    foreach ($reservations as $id => $reservation) {
+      // If already reserved, remove it so we don't get an exception.
+      if (isset($reservables[$id])) {
+        unset($reservables[$id]);
+      }
+    }
+    $reservables = array_flip($reservables);
+
+    // Fail if we don't have anything to test with.
+    if (empty($reservables)){
+      $this->fail('No reservables available for test');
+      return;
+    }
+
+    // Try to reserve each reservable.
+    try {
+      foreach ($reservables as $id) {
+        ding_provider_invoke('reservation', 'create', $user, $id, $branch, $expiry);
+      }
+    }
+    catch (Exception $e) {
+      $this->fail('Reserve threw ' . get_class($e) . '.');
+    }
+
+
+    // Check that reserving already reserved id throws an exception.
+    $reservable = reset($reservables);
+    try {
+      ding_provider_invoke('reservation', 'create', $user, $reservable, $branch, $expiry);
+      $this->fail("Re-reserving doesn't throw an DingReservationUserErrorReservationExists.");
+    }
+    catch (DingReservationUserErrorReservationExists $e) {
+      $this->pass("Re-reserving throws an DingReservationUserErrorReservationExists.");
+    }
+    catch (Exception $e) {
+      $this->fail("Re-reserving throws " . get_class($e). ".");
+    }
+
+    $existing_reservations = array();
+    // Check that the reservations list looks OK, and make a lookup array.
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    foreach ($reservations as $id => $reservation) {
+      $this->assertEqual($id, $reservation['id'], 'Ids match.');
+      if (in_array($reservation['provider_id'], $reservables)) {
+        $this->assertFalse(isset($existing_reservations[$reservation['provider_id']]), 'Not a dupe');
+        $existing_reservations[$reservation['provider_id']] = $reservation;
+      }
+    }
+
+    $known_keys = array(
+      'id',
+      'provider_id',
+      'display_title',
+      'pickup_branch',
+      'expiry',
+    );
+
+    // Make sure that the reservables is now reserved and looks right.
+    foreach ($reservables as $reservable) {
+      $this->assertTrue(isset($existing_reservations[$reservable]), 'Was reserved.');
+      if (isset($existing_reservations[$reservable])) {
+        $res = $existing_reservations[$reservable];
+        // @todo display_title may not be required in the long run.
+        $this->assertTrue(isset($res['display_title']), 'Has a display_title.');
+        $this->assertEqual($res['pickup_branch'], $branch, 'Has a proper branch.');
+        $this->assertEqual($res['expiry'], $expiry, 'Expiry is properly set.');
+        $keys = array_diff(array_keys($res), $known_keys);
+        $this->assertTrue(empty($keys), 'No unknown keys');
+      }
+    }
+
+    // Delete the reserved items.
+    foreach ($existing_reservations as $id => $reservation) {
+      ding_provider_invoke('reservation', 'delete', $user, $reservation['id']);
+    }
+    // Make sure they're really gone.
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    foreach ($reservations as $reservation) {
+      $this->assertFalse(isset($existing_reservations[$reservation['id']]), 'Deleted reservation is gone.');
+    }
+  }
+}
