@@ -44,6 +44,10 @@ class DingProviderUserException extends Exception {
       return $string;
     }
     else {
+      // Allow subclasses to add in default args.
+      if (property_exists($this, 'args')) {
+        $args += $this->args;
+      }
       // Transform arguments before inserting them.
       foreach ($args as $key => $value) {
         switch ($key[0]) {
