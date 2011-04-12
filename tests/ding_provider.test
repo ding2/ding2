@@ -107,6 +107,10 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
 
   function testReservationProvider() {
     global $user;
+
+    // Ensure a clean slate.
+    unset($_SESSION['dp_example_reservations']);
+
     $branches = array(
       'aby' => 'Andeby bibliotek',
       'grd' => 'Gåserød bibliotek',
@@ -120,5 +124,34 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
     $this->assertEqual(ding_provider_invoke('reservation', 'branch_name', 'aby'), 'Andeby bibliotek', 'Branch name is returned correctly.');
 
     $this->assertNull(ding_provider_invoke('reservation', 'branch_name', 'oeu'), 'Bad branch id returns NULL.');
+
+    // Reservation crud
+    $expiry = REQUEST_TIME + (14*86400);
+    ding_provider_invoke('reservation', 'create', $user, 123, 'aby', $expiry);
+    ding_provider_invoke('reservation', 'create', $user, 321, 'grd', $expiry);
+
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    $this->assertEqual(sizeof($reservations), 2, 'Correct number of reservations');
+    $expected = array(
+      123 => array(
+        'provider_id' => 123,
+        'display_title' => 'Reservation #1',
+        'pickup_branch' => 'aby',
+        'expiry' => $expiry,
+      ),
+      321 => array(
+        'provider_id' => 321,
+        'display_title' => 'Reservation #2',
+        'pickup_branch' => 'grd',
+        'expiry' => $expiry,
+      ),
+    );
+
+    foreach ($reservations as $id => $res) {
+      $this->assertTrue(isset($expected[$res['provider_id']]), 'Expected reservation');
+      $expected_res = $expected[$res['provider_id']];
+      $expected_res['id'] = $id;
+      $this->assertEqual($expected_res, $res, 'Reservation looks OK.');
+    }
   }
 }

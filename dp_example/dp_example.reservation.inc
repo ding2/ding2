@@ -26,12 +26,31 @@ function dp_example_reservation_set_preferred_branch($account, $branch) {
 /**
  *
  */
+function dp_example_reservation_list($account) {
+  $result = array();
+  if (isset($_SESSION['dp_example_reservations'])) {
+    foreach ($_SESSION['dp_example_reservations'] as $id => $res) {
+      $result[$id] = array(
+        'id' => $id,
+        'provider_id' => $res[0],
+        'display_title' => $res[1],
+        'pickup_branch' => $res[2],
+        'expiry' => $res[3],
+      );
+    }
+  }
+  return $result;
+}
+
+/**
+ *
+ */
 function dp_example_reservation_create($account, $id, $branch, $expiry) {
   // Fake it.
   if (!isset($_SESSION['dp_example_reservations'])) {
     $_SESSION['dp_example_reservations'] = array();
   }
-  $_SESSION['dp_example_reservations'][] = array('Reservation #' . (sizeof($_SESSION['dp_example_reservations']) + 1), $branch, $expiry);
+  $_SESSION['dp_example_reservations'][uniqid()] = array($id, 'Reservation #' . (sizeof($_SESSION['dp_example_reservations']) + 1), $branch, $expiry);
   return;
 }
 
