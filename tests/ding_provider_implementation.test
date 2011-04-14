@@ -162,7 +162,6 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
   }
 
   function testReservations() {
-    module_load_include('inc', 'ding_reservation', 'ding_reservation.exceptions');
     $user = $this->getUser();
     $branch = $this->getBranch();
     $reservables = array_flip($this->getSomeReservables());

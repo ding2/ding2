@@ -59,7 +59,7 @@ class DpExampleReservationProviderImplementationTestCase extends DingReservation
   }
 
   function setUp() {
-    parent::setup(array('dp_example'));
+    parent::setup(array('dp_example', 'ding_reservation'));
     unset($_SESSION['dp_example_reservations']);
   }
 
