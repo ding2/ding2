@@ -30,7 +30,7 @@
       <?php } ?>
     <?php } ?>
         
-    <?php if ($serie_title && $page) { ?>
+    <?php if ($serie_title) { ?>
       <h3>
         <?php echo t('Serie title: '); print $serie_title; ?>
       </h3>
