@@ -32,7 +32,7 @@ class DingAvailabilityProviderTestCase extends DingProviderTestCase {
   }
 
   function setUp() {
-    parent::setUp(array('dp_example'));
+    parent::setUp(array('connie'));
   }
 
   function testAvailabilityProvider() {
@@ -69,7 +69,7 @@ class DingUserProviderTestCase extends DingProviderTestCase {
   }
 
   function setUp() {
-    parent::setUp(array('dp_example'));
+    parent::setUp(array('connie'));
   }
 
   function testUserProvider() {
@@ -102,14 +102,14 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
   }
 
   function setUp() {
-    parent::setUp(array('dp_example'));
+    parent::setUp(array('connie'));
   }
 
   function testReservationProvider() {
     global $user;
 
     // Ensure a clean slate.
-    unset($_SESSION['dp_example_reservations']);
+    unset($_SESSION['connie_reservations']);
 
     $branches = array(
       'aby' => 'Andeby bibliotek',
@@ -118,7 +118,7 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
     $res = ding_provider_invoke('reservation', 'pickup_branches', $user);
     $this->assertEqual($res, $branches, 'Branches looks good.');
 
-    // set_preferred_branch is a noop in dp_example.
+    // set_preferred_branch is a noop in connie.
     // create always succeeds.
 
     $this->assertEqual(ding_provider_invoke('reservation', 'branch_name', 'aby'), 'Andeby bibliotek', 'Branch name is returned correctly.');

@@ -14,7 +14,7 @@
  * Implement this hook to tell ding_provider that this module
  * implements one or more providers.
  *
- * See the dp_example module for how to implement different providers.
+ * See the Connie module for how to implement different providers.
  *
  * @return
  *   An array of information about what this module provides. The array may
@@ -32,7 +32,7 @@
  *         <module name>_user_is_logged_in function.
  *      - "file": File to be included before calling this function. Optional.
  *
- * @see dp_example.module
+ * @see connie.module
  */
 function hook_ding_provider() {
   return array(

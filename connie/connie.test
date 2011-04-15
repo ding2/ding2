@@ -5,17 +5,17 @@
  * tests as the real providers.
  */
 
-class DpExampleUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
+class ConnieUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
   public static function getInfo() {
     return array(
-      'name' => 'Ding! provider example user provider',
+      'name' => 'Connie provider example user provider',
       'description' => 'Test Ding! provider example user functionality.',
       'group' => 'Ding! example provider',
     );
   }
 
   function setUp() {
-    parent::setup(array('dp_example'));
+    parent::setup(array('connie'));
   }
 
   /**
@@ -27,17 +27,17 @@ class DpExampleUserProviderImplementationTestCase extends DingUserProviderImplem
   }
 }
 
-class DpExampleAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
+class ConnieAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
   public static function getInfo() {
     return array(
-      'name' => 'Ding! provider example availability provider',
+      'name' => 'Connie provider example availability provider',
       'description' => 'Test Ding! provider example availability functionality.',
       'group' => 'Ding! example provider',
     );
   }
 
   function setUp() {
-    parent::setup(array('dp_example'));
+    parent::setup(array('connie'));
   }
 
   function getSomeItems() {
@@ -49,18 +49,18 @@ class DpExampleAvailabilityProviderImplementationTestCase extends DingAvailabili
   }
 }
 
-class DpExampleReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
+class ConnieReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
   public static function getInfo() {
     return array(
-      'name' => 'Ding! provider example reservation provider',
+      'name' => 'Connie provider example reservation provider',
       'description' => 'Test Ding! provider example reservation functionality.',
       'group' => 'Ding! example provider',
     );
   }
 
   function setUp() {
-    parent::setup(array('dp_example', 'ding_reservation'));
-    unset($_SESSION['dp_example_reservations']);
+    parent::setup(array('connie', 'ding_reservation'));
+    unset($_SESSION['connie_reservations']);
   }
 
   function getUser() {

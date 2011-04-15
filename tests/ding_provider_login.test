@@ -19,7 +19,7 @@ class DingProviderLoginTestCase extends DrupalWebTestCase {
 
   function setUp() {
     $this->profile = 'ding2';
-    parent::setUp(array('ding_provider', 'dp_example', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
+    parent::setUp(array('ding_provider', 'connie', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
   }
 
   /**
@@ -95,7 +95,7 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
 
   function setUp() {
     $this->profile = 'ding2';
-    parent::setUp(array('ding_provider', 'dp_example', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
+    parent::setUp(array('ding_provider', 'connie', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
   }
 
   /**

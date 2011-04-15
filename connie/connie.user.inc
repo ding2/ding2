@@ -8,7 +8,7 @@
 /**
  *
  */
-function dp_example_user_authenticate($name, $pass) {
+function connie_user_authenticate($name, $pass) {
   $res = array(
     'success' => FALSE,
   );
@@ -40,7 +40,7 @@ function dp_example_user_authenticate($name, $pass) {
  * @todo Determine if this is required, or if it can be made optional
  * (by assuming things if creds are available or not)
  */
-function dp_example_user_is_authenticated($creds) {
+function connie_user_is_authenticated($creds) {
   return (isset($creds['name']) && isset($creds['pass']));
 }
 
@@ -48,7 +48,7 @@ function dp_example_user_is_authenticated($creds) {
  * Testing function, shouldn't be implemented in provider implementations.
  * @todo: move testing code to use another existing function.
  */
-function dp_example_user_test() {
+function connie_user_test() {
   if (!ding_user_get_creds()) {
     throw new DingProviderAuthException;
   }
