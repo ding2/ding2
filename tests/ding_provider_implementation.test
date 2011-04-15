@@ -199,7 +199,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
       ding_provider_invoke('reservation', 'create', $user, $reservable, $branch, $expiry);
       $this->fail("Re-reserving doesn't throw an DingReservationUserErrorReservationExists.");
     }
-    catch (DingReservationUserErrorReservationExists $e) {
+    catch (DingReservationExists $e) {
       $this->pass("Re-reserving throws an DingReservationUserErrorReservationExists.");
     }
     catch (Exception $e) {
