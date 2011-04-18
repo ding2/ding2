@@ -54,10 +54,6 @@ projects[mkdruding2][type] = "theme"
 projects[mkdruding2][download][type] = "git"
 projects[mkdruding2][download][url] = "git://git.indexdata.com/mkdruding2.git"
 
-projects[ding_ting_frontend][type] = "module"
-projects[ding_ting_frontend][download][type] = "git"
-projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
-
 projects[artois][type] = "theme"
 projects[artois][download][type] = "git"
 projects[artois][download][url] = "git@github.com:ding2/artois.git"
