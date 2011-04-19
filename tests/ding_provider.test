@@ -134,24 +134,27 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
     $this->assertEqual(sizeof($reservations), 2, 'Correct number of reservations');
     $expected = array(
       123 => array(
-        'provider_id' => 123,
-        'display_title' => 'Reservation #1',
-        'pickup_branch' => 'aby',
+        'ding_entity_id' => 123,
+        'display_name' => 'Reservation #1',
+        'pickup_branch_id' => 'aby',
         'expiry' => $expiry,
       ),
       321 => array(
-        'provider_id' => 321,
-        'display_title' => 'Reservation #2',
-        'pickup_branch' => 'grd',
+        'ding_entity_id' => 321,
+        'display_name' => 'Reservation #2',
+        'pickup_branch_id' => 'grd',
         'expiry' => $expiry,
       ),
     );
 
     foreach ($reservations as $id => $res) {
-      $this->assertTrue(isset($expected[$res['provider_id']]), 'Expected reservation');
-      $expected_res = $expected[$res['provider_id']];
-      $expected_res['id'] = $id;
-      $this->assertEqual($expected_res, $res, 'Reservation looks OK.');
+      $this->assertTrue(isset($expected[$res->ding_entity_id]), 'Expected reservation');
+      $expected_res = $expected[$res->ding_entity_id];
+      debug($res);
+      foreach ($expected_res as $prop => $value) {
+        $this->assertEqual($res->$prop, $value, 'Property ' . $prop . ' looks OK');
+      }
+      //$this->assertEqual($expected_res, $res, 'Reservation looks OK.');
     }
   }
 }

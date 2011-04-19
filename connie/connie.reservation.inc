@@ -32,7 +32,7 @@ function connie_reservation_list($account) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
       $result[$id] = new DingProviderReservation($id, array(
                        'ding_entity_id' => $res[0],
-                       'display_title' => $res[1],
+                       'display_name' => $res[1],
                        'pickup_branch_id' => $res[2],
                        'expiry' => $res[3],
                      ));
