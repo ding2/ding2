@@ -33,8 +33,8 @@ function template_preprocess_ting_object_overview(&$variables) {
   $variables['page'] = $variables['elements']['#view_mode'] == 'full';
   $variables['search_result'] = $variables['elements']['#view_mode'] == 'search_result';
   $variables['title'] = check_plain($object->title);
-  $variables['serie_title'] = l(check_plain($object->serieTitle), 'search/ting/phrase.title=' . $object->serieTitle);
-
+  $variables['serie_title'] = $object->serieTitle ? l(check_plain($object->serieTitle), 'search/ting/' . variable_get('ting_admin_register_serie_title') . '="' . strtolower($object->serieTitle) . '"'): FALSE;
+  
   $variables['alternative_titles'] = array();
   $variables['other_titles'] = "";
   $uri = entity_uri('ting_object', $object);

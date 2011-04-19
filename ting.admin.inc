@@ -196,3 +196,35 @@ function ting_admin_settings_hostnames_value($form, $edit = FALSE) {
     return array_filter(array_map('trim', explode("\n", $edit)));
   }
 }
+
+/**
+ * @brief Implementation of hook_menu()
+ *
+ * Felter: Forfatter, titel, emneord,
+ */
+function ting_admin_register_settings() {
+  $form['ting_admin_register_serie_title'] = 
+    array('#type' => 'textfield',
+	  '#title' => t('Serie title'),
+	  '#description' => t('Specify the register to be used for searching against serie titles.'),
+	  '#default_value' => variable_get('ting_admin_register_serie_title', 'phrase.title')
+	  );
+	  
+  $form['#submit'][] = 'ting_search_extendform_admin_settings_submit';
+  return system_settings_form($form);
+}
+
+function ting_admin_register_settings_validate($form, &$form_state) {
+  $s = '';
+  if(isset($form_state['values']['ting_admin_register_serie_title'])) {
+    $s = $form_state['values']['ting_admin_register_serie_title'];
+  }
+  
+  if($s == '') {
+    form_set_error('ting_admin_register_serie_title', t('Please specify a register for serie titles.'));
+  }
+}
+
+function ting_search_extendform_admin_settings_submit($form, $form_state) {
+  variable_set('ting_admin_register_serie_title', $form_state['values']['ting_admin_register_serie_title']);
+}

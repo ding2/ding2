@@ -68,6 +68,15 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
+  $items['admin/config/ting/registers'] = array(
+    'title' => 'Open search register settings',
+    'description' => 'Configure registers to use for specific open search searches.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_register_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc'
+  );
+  
   return $items;
 }
 
