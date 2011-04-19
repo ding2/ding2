@@ -93,7 +93,7 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
     $form['preferred_branch'] = array(
       '#type' => 'select',
       '#title' => t('Default pickup branch'),
-      '#options' => $options,
+      '#options' => (array) $options,
       '#default_value' => $preferred_branch,
     );
   }
@@ -131,11 +131,12 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
  */
 function ding_reservation_reserve_form_submit($form, &$form_state) {
   global $user;
-  if ($form_state['values']['preferred_branch'] != $user->data['preferred_branch']) {
+  if (!isset($user->data['preferred_branch']) || $form_state['values']['preferred_branch'] != $user->data['preferred_branch']) {
     try {
       $branch = $form_state['values']['preferred_branch'];
       ding_provider_invoke('reservation', 'set_preferred_branch', $user, $branch);
       user_save($user, array('data' => array('preferred_branch' => $branch)));
+      $user->data['preferred_branch'] = $branch;
     }
     catch (DingReservationError $e) {
       drupal_set_message(t('An error occurred while saving default pickup branch. Please try again later.'), 'error');

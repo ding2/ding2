@@ -4,6 +4,6 @@ package = Ding!
 version = 0.1
 core = 7.x
 files[] = ding_reservation.module
-;files[] = tests/ding_user.test
+files[] = ding_reservation.test
 dependencies[] = ding_provider
 dependencies[] = ding_user
