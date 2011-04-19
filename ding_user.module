@@ -239,11 +239,11 @@ function ajax_command_ding_user_authenticate($extra_data) {
  * Ajax callback.
  */
 function ding_user_authenticate_form_callback($form, &$form_state) {
-  switch ($form['#id']) {
-  case 'ding-user-authenticate-form':
+  switch ($form['form_id']['#value']) {
+  case 'ding_user_authenticate_form':
     $success = $form_state['authentication_success'];
     break;
-  case 'user-login':
+  case 'user_login':
     $success = !empty($form_state['uid']);
     break;
   }
