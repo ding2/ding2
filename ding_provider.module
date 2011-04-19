@@ -524,11 +524,11 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
       // Trigger an error. This might be a module attempting to use a wrong
       // hook, or an improperly implemented plugin. In either case, it's
       // programmer error.
-      trigger_error(t('Ding @type provider (%module module) does not implement %function', array('@type' => $type, '%function' => $hook, '%module' => $provider['module'])), E_USER_ERROR);
+      throw new DingProviderDoesntImplement(t('Ding @type provider (@module module) does not implement @function', array('@type' => $type, '@function' => $hook, '@module' => $provider['module'])), E_USER_ERROR);
     }
   }
   elseif (!$quiet) {
-    watchdog('ding_provider', 'Provider module not configured for provider type %type.', array('%type' => $type), WATCHDOG_ERROR);
+    throw new DingProviderNoProvider(t("Provider module not configured for provider type @type.", array('@type' => $type)));
   }
   return NULL;
 }

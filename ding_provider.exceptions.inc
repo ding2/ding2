@@ -12,6 +12,16 @@
 class DingProviderAuthException extends Exception {}
 
 /**
+ * Thrown when no provider is configured for the given provider.
+ */
+class DingProviderNoProvider extends Exception {}
+
+/**
+ * Thrown when provider doesn't implement the given function.
+ */
+class DingProviderDoesntImplement extends Exception {}
+
+/**
  * Exception class that can provide a translated and substituted
  * message. Exceptions that is instanceof DingProviderUserException is
  * errors appropriate for displaying to the end user. Internal errors
