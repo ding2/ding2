@@ -83,7 +83,7 @@ class DingProviderLoginTestCase extends DrupalWebTestCase {
   }
 }
 
-class DingProviderAjaxLoginTestCase extends AJAXTestCase {
+class DingProviderAjaxLoginTestCase extends DingPopupTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Ding provider ajax login',
@@ -95,43 +95,6 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
   function setUp() {
     $this->profile = 'ding2';
     parent::setUp(array('ding_provider', 'connie', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
-  }
-
-  /**
-   * Fudge ajax page.
-   *
-   * drupalPostAJAX requires that the form being posted is represented in the
-   * content of the current page. However, as it doesn't know what to do with
-   * our custom ajax commands, it doesn't insert the form in the content, so
-   * we do it ourselves here.
-   */
-  function fudge($commands) {
-    // DOM can load HTML soup. But, HTML soup can throw warnings, suppress
-    // them.
-    $dom = new DOMDocument();
-    @$dom->loadHTML($this->content);
-    foreach ($commands as $command) {
-      switch ($command['command']) {
-        case 'ding_popup':
-          $xpath = new DOMXPath($dom);
-          $wrapperNode = $xpath->query('//body')->item(0);
-
-          $newDom = new DOMDocument();
-          $newDom->loadHTML('<div class="ding_popup_test">' . $command['data'] . '</div>');
-          $newNode = $dom->importNode($newDom->documentElement->firstChild, TRUE);
-          $wrapperNode->appendChild($newNode);
-          break;
-        case 'ding_popup_close':
-          $xpath = new DOMXPath($dom);
-          $popups = $xpath->query('//*[@class=ding_popup_close]');
-          foreach ($popups as $popup) {
-            $popup->parentNode()->removeChild($popup);
-          }
-
-          break;
-      }
-    }
-    $this->content = $dom->saveHTML();
   }
 
   /**
@@ -150,7 +113,6 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
     );
     $this->assertCommand($commands, $expected, "We get a login form.");
 
-    $this->fudge($commands);
     $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'user-login');
 
     $expected = array(
@@ -181,7 +143,6 @@ class DingProviderAjaxLoginTestCase extends AJAXTestCase {
     );
     $this->assertCommand($commands, $expected, "We get a login form.");
 
-    $this->fudge($commands);
     $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'ding-user-authenticate-form');
 
     $expected = array(
