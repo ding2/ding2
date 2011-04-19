@@ -210,10 +210,10 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     // Check that the reservations list looks OK, and make a lookup array.
     $reservations = ding_provider_invoke('reservation', 'list', $user);
     foreach ($reservations as $id => $reservation) {
-      $this->assertEqual($id, $reservation['id'], 'Ids match.');
-      if (in_array($reservation['provider_id'], $reservables)) {
-        $this->assertFalse(isset($existing_reservations[$reservation['provider_id']]), 'Not a dupe');
-        $existing_reservations[$reservation['provider_id']] = $reservation;
+      $this->assertEqual($id, $reservation->id, 'Ids match.');
+      if (in_array($reservation->ding_entity_id, $reservables)) {
+        $this->assertFalse(isset($existing_reservations[$reservation->ding_entity_id]), 'Not a dupe');
+        $existing_reservations[$reservation->ding_entity_id] = $reservation;
       }
     }
 
@@ -231,22 +231,20 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
       if (isset($existing_reservations[$reservable])) {
         $res = $existing_reservations[$reservable];
         // @todo display_title may not be required in the long run.
-        $this->assertTrue(isset($res['display_title']), 'Has a display_title.');
-        $this->assertEqual($res['pickup_branch'], $branch, 'Has a proper branch.');
-        $this->assertEqual($res['expiry'], $expiry, 'Expiry is properly set.');
-        $keys = array_diff(array_keys($res), $known_keys);
-        $this->assertTrue(empty($keys), 'No unknown keys');
+        $this->assertTrue(isset($res->display_name), 'Has a display_title.');
+        $this->assertEqual($res->pickup_branch_id, $branch, 'Has a proper branch.');
+        $this->assertEqual($res->expiry, $expiry, 'Expiry is properly set.');
       }
     }
 
     // Delete the reserved items.
     foreach ($existing_reservations as $id => $reservation) {
-      ding_provider_invoke('reservation', 'delete', $user, $reservation['id']);
+      ding_provider_invoke('reservation', 'delete', $user, $reservation->id);
     }
     // Make sure they're really gone.
     $reservations = ding_provider_invoke('reservation', 'list', $user);
     foreach ($reservations as $reservation) {
-      $this->assertFalse(isset($existing_reservations[$reservation['id']]), 'Deleted reservation is gone.');
+      $this->assertFalse(isset($existing_reservations[$reservation->id]), 'Deleted reservation is gone.');
     }
   }
 }

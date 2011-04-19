@@ -30,13 +30,12 @@ function connie_reservation_list($account) {
   $result = array();
   if (isset($_SESSION['connie_reservations'])) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
-      $result[$id] = array(
-        'id' => $id,
-        'provider_id' => $res[0],
-        'display_title' => $res[1],
-        'pickup_branch' => $res[2],
-        'expiry' => $res[3],
-      );
+      $result[$id] = new DingProviderReservation($id, array(
+                       'ding_entity_id' => $res[0],
+                       'display_title' => $res[1],
+                       'pickup_branch_id' => $res[2],
+                       'expiry' => $res[3],
+                     ));
     }
   }
   return $result;
@@ -70,6 +69,9 @@ function connie_reservation_delete($account, $id) {
 
 /**
  *
+ * Should cache the result of external requests internally, as it
+ * might be called multiple times with the same parameters in the same
+ * request.
  */
 function connie_reservation_branch_name($branch_id) {
   $branches = array(
