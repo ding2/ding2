@@ -9,6 +9,10 @@
  *
  */
 function connie_reservation_pickup_branches($account) {
+  // Throw exception if we're not logged in.
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
   return array(
     'aby' => 'Andeby bibliotek',
     'grd' => 'Gåserød bibliotek',
@@ -19,6 +23,8 @@ function connie_reservation_pickup_branches($account) {
  *
  */
 function connie_reservation_set_preferred_branch($account, $branch) {
+  // Throw exception if we're not logged in.
+  connie_user_test();
   // Do nothing, ding_reservation will update local user if we don't throw an
   // exception.
 }
@@ -27,6 +33,10 @@ function connie_reservation_set_preferred_branch($account, $branch) {
  *
  */
 function connie_reservation_list($account) {
+  // Throw exception if we're not logged in.
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
   $result = array();
   if (isset($_SESSION['connie_reservations'])) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
@@ -45,6 +55,10 @@ function connie_reservation_list($account) {
  *
  */
 function connie_reservation_create($account, $id, $branch, $expiry) {
+  // Throw exception if we're not logged in.
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
   // Fake it.
   if (!isset($_SESSION['connie_reservations'])) {
     $_SESSION['connie_reservations'] = array();
@@ -62,6 +76,10 @@ function connie_reservation_create($account, $id, $branch, $expiry) {
  *
  */
 function connie_reservation_delete($account, $id) {
+  // Throw exception if we're not logged in.
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
   if (isset($_SESSION['connie_reservations']) && isset($_SESSION['connie_reservations'][$id])) {
     unset($_SESSION['connie_reservations'][$id]);
   }

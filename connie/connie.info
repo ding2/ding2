@@ -3,6 +3,7 @@ description = "An example provider module for reference and testing. Not for pro
 core = 7.x
 package = Ding!
 dependencies[] = ding_provider
+dependencies[] = ding_user
 files[] = connie.module
 files[] = connie.user.inc
 files[] = connie.test

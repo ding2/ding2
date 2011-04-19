@@ -65,6 +65,7 @@ class ConnieReservationProviderImplementationTestCase extends DingReservationPro
 
   function getUser() {
     global $user;
+    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')), $user);
     return $user;
   }
 
