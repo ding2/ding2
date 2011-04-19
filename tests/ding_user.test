@@ -15,7 +15,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
 
   function setUp() {
     $this->profile = 'ding2';
-    parent::setUp(array('ding_user', 'ding_provider', 'dp_example', 'ding_user_test'));
+    parent::setUp(array('ding_user', 'ding_provider', 'connie', 'ding_user_test'));
   }
 
   /**
@@ -36,7 +36,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
    * Test a user can log in.
    */
   function testLogin() {
-    // dp_example accepts any user whose password is last four chars of the
+    // connie accepts any user whose password is last four chars of the
     // username
     $login_data = array('name' => 'twain', 'pass' => 'wain');
     $this->drupalGet('user/login');
@@ -85,7 +85,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
   * Test that an unknown user can't log in.
   */
   function testLoginFail() {
-    // dp_example rejects any user whose password is not the last four chars
+    // connie rejects any user whose password is not the last four chars
     // of the username.
     $login_data = array('name' => 'twain', 'pass' => 'banana');
     $this->drupalGet('user/login');
@@ -99,7 +99,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
   * Test that an blocked user can't log in, and gets a message.
   */
   function testLoginBlocked() {
-    // dp_example blocks any user with 'blocked' in the username.
+    // connie blocks any user with 'blocked' in the username.
     $login_data = array('name' => 'blockedtwain', 'pass' => 'wain');
     $this->drupalGet('user/login');
     $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
@@ -112,7 +112,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
    * Test that authentication page works when providing the right credentials.
    */
   function testAuthenticationLogin() {
-    // dp_example accepts any user whose password is last four chars of the
+    // connie accepts any user whose password is last four chars of the
     // username
     $login_data = array('name' => 'twain', 'pass' => 'wain');
     $this->drupalGet('user/login');
@@ -145,7 +145,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
    * Test that authentication page doesn't let you log in with another user.
    */
   function testAuthenticationNotOtherUser() {
-    // dp_example accepts any user whose password is last four chars of the
+    // connie accepts any user whose password is last four chars of the
     // username
     $login_data = array('name' => 'twain', 'pass' => 'wain');
     $false_login_data = array('name' => 'shakespeare', 'pass' => 'eare');
