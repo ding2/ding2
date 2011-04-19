@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ *
+ * Superclass to implement tests of popup use.
+ */
+
+/**
+ * Parent class for testing popup using code.
+ */
+class DingPopupTestCase extends AJAXTestCase {
+  /**
+   * Fudge ajax page.
+   *
+   * drupalPostAJAX requires that the form being posted is represented in the
+   * content of the current page. However, as it doesn't know what to do with
+   * our custom ajax commands, it doesn't insert the form in the content, so
+   * we do it ourselves here.
+   */
+  function fudge($commands) {
+    // DOM can load HTML soup. But, HTML soup can throw warnings, suppress
+    // them.
+    $dom = new DOMDocument();
+    @$dom->loadHTML($this->content);
+    foreach ($commands as $command) {
+      switch ($command['command']) {
+        case 'ding_popup':
+          $xpath = new DOMXPath($dom);
+          $wrapperNode = $xpath->query('//body')->item(0);
+
+          $newDom = new DOMDocument();
+          $newDom->loadHTML('<div class="ding_popup_test">' . $command['data'] . '</div>');
+          $newNode = $dom->importNode($newDom->documentElement->firstChild, TRUE);
+          $wrapperNode->appendChild($newNode);
+          break;
+        case 'ding_popup_close':
+          $xpath = new DOMXPath($dom);
+          $popups = $xpath->query('//*[@class=ding_popup_close]');
+          foreach ($popups as $popup) {
+            $popup->parentNode()->removeChild($popup);
+          }
+
+          break;
+      }
+    }
+    $this->content = $dom->saveHTML();
+  }
+
+  /**
+   * Override so we can fudge the popup.
+   */
+  protected function drupalGetAJAX($path, array $options = array(), array $headers = array()) {
+    $commands = parent::drupalGetAJAX($path, $options, $headers);
+    $this->fudge($commands);
+    return $commands;
+  }
+
+  /**
+   * Override so we can fudge the popup.
+   */
+  protected function drupalPostAJAX($path, $edit, $triggering_element, $ajax_path = NULL, array $options = array(), array $headers = array(), $form_html_id = NULL, $ajax_settings = NULL) {
+    $commands = parent::drupalPostAJAX($path, $edit, $triggering_element, $ajax_path, $options, $headers, $form_html_id, $ajax_settings);
+    $this->fudge($commands);
+    return $commands;
+  }
+}
