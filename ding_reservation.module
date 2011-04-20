@@ -114,14 +114,23 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
  * Form validation.
  */
 function ding_reservation_reserve_form_validate($form, &$form_state) {
+  global $user;
   if (empty($form_state['values']['preferred_branch'])) {
-    if (!$form_state['branch_hidden']) {
-      // Only show an error if the user had a choice.
-      form_error($form, t('You must select a branch.'));
+    // Check an extra time if the user has a default branch, as they
+    // might have clicked the button before logging in, and then the
+    // value isn't set.
+    if (isset($user->data['preferred_branch'])) {
+      form_set_value($form['preferred_branch'], $user->data['preferred_branch'], $form_state);
     }
     else {
-      // Else simply rebuild the form.
-      $form_state['rebuild'] = TRUE;
+      if (!$form_state['branch_hidden']) {
+        // Only show an error if the user had a choice.
+        form_error($form, t('You must select a branch.'));
+      }
+      else {
+        // Else simply rebuild the form.
+        $form_state['rebuild'] = TRUE;
+      }
     }
   }
 }
