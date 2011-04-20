@@ -33,6 +33,7 @@ class DingReservationFunctionalTest extends DingPopupTestCase {
     $commands = $this->drupalPostAJAX(NULL, array(), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form');
     $expected = array(
       'command' => 'ding_popup',
+      'name' => 'ding_user',
       'title' => t('Login'),
     );
     $this->assertCommand($commands, $expected, "We get a login form.");
@@ -41,10 +42,15 @@ class DingReservationFunctionalTest extends DingPopupTestCase {
 
     $expected = array(
       'command' => 'ding_popup_close',
+      'name' => 'ding_user',
     );
-    debug($expected);
     $this->assertCommand($commands, $expected, "Login works.");
 
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "We're asked for a default branch.");
   }
 
 }
