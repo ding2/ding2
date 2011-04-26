@@ -95,7 +95,14 @@ function ding_user_authenticate_form_validate($form, &$form_state) {
 function ding_user_authenticate_form_submit($form, &$form_state) {
   global $user;
   if ($form_state['authentication_success']) {
-    ding_user_update_user($form_state['auth_res'], $user);
+    // user_save clears the session related properties off the $user
+    // object, causing session_write_close to emit a notice about an
+    // undefined property, which we don't want. But as we're a submit
+    // handler, we assume that nobody will rely on the $user object to
+    // have updated properties from the provider before this request
+    // ends, so we just hand the saving function a clone of the $user.
+    $account = clone $user;
+    ding_user_update_user($form_state['auth_res'], $account);
     ding_user_save_creds($form_state['auth_res'], $user);
     $form_state['redirect'] = 'user/' . $user->uid;
   }
