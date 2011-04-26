@@ -169,6 +169,10 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
     catch (DingProviderUserException $e) {
       drupal_set_message($e->getMessageT(array('@title' => $entity->title)), 'error');
     }
+    catch (DingProviderAuthException $e) {
+      // Just rethrow.
+      throw $e;
+    }
     catch (Exception $e) {
       drupal_set_message(t('An error occurred while reserving item. Please try again later.'), 'error');
       watchdog('ding_reservation', 'Error while reserving, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
