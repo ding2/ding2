@@ -21,10 +21,13 @@ class DingPopupTestCase extends AJAXTestCase {
    * we do it ourselves here.
    */
   function fudge($commands) {
+    $result = array();
+    if (!is_array($commands)) {
+      return $result;
+    }
+    $dom = new DOMDocument();
     // DOM can load HTML soup. But, HTML soup can throw warnings, suppress
     // them.
-    $result = array();
-    $dom = new DOMDocument();
     @$dom->loadHTML($this->content);
     foreach ($commands as $command) {
       switch ($command['command']) {
@@ -36,13 +39,14 @@ class DingPopupTestCase extends AJAXTestCase {
           $wrapperNode = $xpath->query('//body')->item(0);
 
           $newDom = new DOMDocument();
-          $newDom->loadHTML('<div class="ding_popup_test">' . $command['data'] . '</div>');
+          $newDom->loadHTML('<div class="ding_popup_' . $command['name'] . '">' . $command['data'] . '</div>');
           $newNode = $dom->importNode($newDom->documentElement->firstChild, TRUE);
           $wrapperNode->appendChild($newNode);
+          $this->content = $dom->saveHTML();
           break;
         case 'ding_popup_close':
           $xpath = new DOMXPath($dom);
-          $popups = $xpath->query('//*[@class=ding_popup_close]');
+          $popups = $xpath->query('//*[@class=ding_popup_' . $command['name'] . ']');
           foreach ($popups as $popup) {
             $popup->parentNode()->removeChild($popup);
           }
@@ -87,7 +91,6 @@ class DingPopupTestCase extends AJAXTestCase {
           break;
       }
     }
-    $this->content = $dom->saveHTML();
     return $result;
   }
 
