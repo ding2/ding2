@@ -23,7 +23,7 @@ projects[ting_search_extendform][download][url] = "git@github.com:ding2/ting_sea
 
 projects[ding_provider][type] = "module"
 projects[ding_provider][download][type] = "git"
-projects[ding_provider][download][url] = "git@github.com:ding2/ding_provider.git"
+projects[ding_provider][download][url] = "git@github.com:inleadmedia/ding_provider.git"
 
 projects[ding_availability][type] = "module"
 projects[ding_availability][download][type] = "git"
