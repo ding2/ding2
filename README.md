@@ -25,6 +25,8 @@ command inside the profiles/ding2 folder:
 
     drush make --no-core --contrib-destination=. ding2.make
 
+Ding relies on recursive make files that might have the same projects defined in multiple places. If your drush make bombs on this, apply the latest patch from this issue: http://drupal.org/node/947158
+
 If you want a developer version with Git working copies, run this
 command instead:
 
