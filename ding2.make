@@ -11,7 +11,7 @@ projects[ding_facetbrowser][download][url] = "git@github.com:ding2/ding_facetbro
 
 projects[ting][type] = "module"
 projects[ting][download][type] = "git"
-projects[ting][download][url] = "git@github.com:ding2/ting.git"
+projects[ting][download][url] = "git@github.com:inleadmedia/ting.git"
 
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
@@ -62,3 +62,10 @@ projects[artois][type] = "theme"
 projects[artois][download][type] = "git"
 projects[artois][download][url] = "git@github.com:ding2/artois.git"
 
++projects[ding_voxb][type] = "module"
++projects[ding_voxb][download][type] = "git"
++projects[ding_voxb][download][url] = "git@github.com:inleadmedia/ding_voxb.git"
+
++projects[ding_arbo][type] = "module"
++projects[ding_arbo][download][type] = "git"
++projects[ding_arbo][download][url] = "git@github.com:inleadmedia/ding_arbo.git"
