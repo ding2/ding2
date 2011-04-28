@@ -13,19 +13,30 @@ function alma_user_authenticate($uid, $pass) {
 
   try {
     $res = alma_client_invoke('get_patron_info', $uid, $pass, TRUE);
+    $return['success'] = TRUE;
   }
   catch (Exception $e) {
-    /**
-     *  @TODO re-throw better error message
-     */
-    throw $e;
+    return $return;
   }
 
-  $return['success'] = TRUE;
-  $return['creds'] = array(
+  // Check block status
+
+  // Set creds
+  $return['creds'] = array (
     'name' => $uid,
     'pass' => $pass,
   );
+
+  // Set user information
+  $return['user'] = array(
+    'data' => array(
+      'display_name' => $res['user_name'],
+    ),
+  );
+
+  if (isset($res['mails'][0]) && valid_email_address($res['mails'][0]['mail'])) {
+    $return['user']['mail'] = $res['mails'][0]['mail'];
+  }
 
   return $return;
 }

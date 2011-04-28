@@ -8,7 +8,6 @@ files[] = alma.module
 files[] = alma.user.inc
 files[] = alma.reservation.inc
 files[] = alma.availability.inc
-
-files[] = lib/AlmaClient.php
+files[] = lib/AlmaClient.class.php
 
 version = 0.1
