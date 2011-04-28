@@ -1,0 +1,14 @@
+name = "Alma provider"
+description = ""
+core = 7.x
+package = Ding!
+dependencies[] = ding_provider
+
+files[] = alma.module
+files[] = alma.user.inc
+files[] = alma.reservation.inc
+files[] = alma.availability.inc
+
+files[] = lib/AlmaClient.php
+
+version = 0.1

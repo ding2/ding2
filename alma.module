@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * @file
+ *
+ */
+
+/**
+ * Implement hook_ding_provider().
+ */
+function alma_ding_provider() {
+  return array(
+    'title' => 'Alma provider',
+    'settings' => 'alma_settings_form',
+    'provides' => array(
+      'user' => array(
+        'prefix' => 'user',
+        'file' => drupal_get_path('module', 'alma') . '/alma.user.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Form callback for provider module settings.
+ *
+ * This is a regular form callback.
+ */
+function alma_settings_form() {
+  $form['alma_base_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Alma base URL'),
+    '#description' => t('The WSDL URL for Alam service.'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('alma_base_url', ''),
+  );
+
+  return system_settings_form($form);
+}
+
+
+/**
+ * Return a fully instantiated AlmaClient instance.
+ */
+function alma_client() {
+  // This is basically a singleton. We also wait until right before
+  // instantiating to include our required classes. That seems like a
+  // decent performance tradeoff instead of loading everything on every
+  // page load.
+  static $client;
+  if (!isset($client)) {
+    $path = drupal_get_path('module', 'alma');
+    $client = new AlmaClient(variable_get('alma_base_url', ''));
+  }
+  return $client;
+}
+
+/**
+ * Calls the Alma backend, possibly caching the result.
+ *
+ * @param $method
+ *   The desired method.
+ * @param ...
+ *   Arguments to the method.
+ *
+ * @return mixed
+ *   NULL on error, or the result of the method call.
+ */
+function alma_client_invoke($method) {
+
+  $args = func_get_args();
+  array_shift($args); // Lose the method.
+  $client = alma_client();
+  if (!$client) {
+
+  }
+
+  // May throw execption, which should be catched by caller.
+  $result = call_user_func_array(array($client, $method), $args);
+  
+  if (isset($cid) && $result) {
+    cache_set($cid, $result, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + $expire);
+  }
+
+  return $result;
+}
