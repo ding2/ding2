@@ -34,6 +34,10 @@ function alma_user_authenticate($uid, $pass) {
     ),
   );
 
+  if (isset($res['preferences']['patron_branch'])) {
+    $return['user']['data']['preferred_branch'] = $res['preferences']['patron_branch'];
+  }
+
   if (isset($res['mails'][0]) && valid_email_address($res['mails'][0]['mail'])) {
     $return['user']['mail'] = $res['mails'][0]['mail'];
   }
