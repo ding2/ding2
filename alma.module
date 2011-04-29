@@ -74,7 +74,7 @@ function alma_client() {
     }
     catch (Exception $e) {
       watchdog('alma', 'Constructor error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
-      $client = NULL;
+      throw $e;
     }
 
   }
@@ -93,20 +93,16 @@ function alma_client() {
  *   NULL on error, or the result of the method call.
  */
 function alma_client_invoke($method) {
-
   $args = func_get_args();
   array_shift($args); // Lose the method.
   $client = alma_client();
-  if (!$client) {
-    return NULL;
-  }
 
   try {
     $result = call_user_func_array(array($client, $method), $args);
   }
   catch (Exception $e) {
     watchdog('alma', '@method error: “@message”', array('@method' => $method, '@message' => $e->getMessage()), WATCHDOG_ERROR);
-    return NULL;
+    throw $e;
   }
 
   return $result;
