@@ -26,6 +26,16 @@ class AlmaClient {
   private static $salt;
 
   /**
+   * Whether we're logging requests.
+   */
+  private $logging = FALSE;
+
+  /**
+   * Start time of request, used for logging.
+   */
+  private $log_timestamp = NULL;
+
+  /**
    * Constructor, checking if we have a sensible value for $base_url.
    */
   function __construct($base_url) {
@@ -54,23 +64,24 @@ class AlmaClient {
    *    A DOMDocument object with the response.
    */
   public function request($method, $params = array(), $check_status = TRUE) {
-    $startTime = explode(' ', microtime());
+    if ($this->logging) {
+      $this->log_timestamp = microtime(TRUE);
+    };
 
-    // For use with a non-Drupal-system, we should have a way to swap
-    // the HTTP client out.
-    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)));
+    // Build the requeste and sent it.
+    $this->last_request = url($this->base_url . $method, array('query' => $params));
+    $request = drupal_http_request($this->last_request);
 
-    $stopTime = explode(' ', microtime());
-
-    // For use with a non-Drupal-system, we should have a way to swap
-    // logging and logging preferences out.
-    if (variable_get('alma_enable_logging', FALSE)) {
-    	$seconds = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
-
+    // Log the request
+    if ($this->logging) {
+      $time = round(microtime(TRUE) - $this->log_timestamp, 2);
       $log_params = self::filter_request_params($params);
 
-      // Log the request
-      watchdog('alma', 'Sent request: @url (@seconds s)', array('@url' => url($this->base_url . $method, array('query' => $log_params)), '@seconds' => $seconds), WATCHDOG_DEBUG);
+      if ($time) {
+        watchdog('alma', 'Request (@seconds sec): @url', array('@url' => url($this->base_url . $method, array('query' => $log_params)), '@seconds' => $time), WATCHDOG_DEBUG);
+      } else {
+        watchdog('alma', 'Request: @url', array('@url' => url($this->base_url . $method, array('query' => $log_params))), WATCHDOG_DEBUG);
+      }
     }
 
     if ($request->code == 200) {

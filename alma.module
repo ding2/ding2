@@ -6,7 +6,26 @@
  */
 
 /**
- * Implement hook_ding_provider().
+ * Implements hook_requirements().
+ */
+function alma_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if (!function_exists('simplexml_load_string')) {
+    $requirements['simplexml'] = array(
+      'title' => 'SimpleXML',
+      'description' => $t('The Alma module requires SimpleXML to function. Please install and/or enable SimpleXML in your PHP configuration.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_ding_provider().
  */
 function alma_ding_provider() {
   return array(
