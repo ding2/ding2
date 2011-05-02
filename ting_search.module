@@ -20,6 +20,65 @@ function ting_search_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ting_search_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implement hook_ctools_plugin_api().
+ *
+ * If you do this, CTools will pick up default panels pages in
+ * <modulename>.pages_default.inc
+ */
+function ting_search_ctools_plugin_api($module, $api) {
+  // @todo -- this example should explain how to put it in a different file.
+  if ($module == 'panels_mini' && $api == 'panels_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Performs a search by calling hook_search_execute().
+ *
+ * @param $keys
+ *   Keyword query to search on.
+ * @param $module
+ *   Search module to search.
+ * @param $conditions
+ *   Optional array of additional search conditions.
+ *
+ * @return
+ *   Renderable array of search results. No return value if $keys are not
+ *   supplied or if the given search module is not active.
+ */
+function ting_search_data($keys, $module = 'ting_search', $conditions = NULL) {
+  if (module_hook($module, 'search_execute')) {
+    $results = module_invoke($module, 'search_execute', $keys, $conditions);
+    if (module_hook($module, 'search_page')) {
+      return module_invoke($module, 'search_page', $results);
+    }
+    else {
+      return array(
+        '#theme' => 'ting_search_results',
+        '#results' => $results,
+        '#module' => $module,
+      );
+    }
+  }
+}
+
+/**
  * Implements hook_search_info().
  */
 function ting_search_search_info() {
