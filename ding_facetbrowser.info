@@ -2,7 +2,7 @@ name = Ding Facet Browser
 description = Implements a facetbrowser for search results. If a module implements hook_facetbrowser() we're trying to create a facetbrowser
 version = 0.1
 core = 7.x
-package = Ding! Frontend
+package = Ding!
 files[] = ding_facetbrowser.module
 files[] = ding_facetbrowser.test
 
