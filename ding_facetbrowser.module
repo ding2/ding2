@@ -44,7 +44,7 @@ function ding_facetbrowser_ctools_plugin_directory($module, $plugin) {
 /**
  * Implement hook_ctools_plugin_api().
  */
-function ding_facetbrowser_tools_plugin_api($module, $api) {
+function ding_facetbrowser_ctools_plugin_api($module, $api) {
   if ($module == 'panels_mini' && $api == 'panels_default') {
     return array('version' => 1);
   }
