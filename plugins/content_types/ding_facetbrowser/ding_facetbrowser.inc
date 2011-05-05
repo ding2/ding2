@@ -53,3 +53,10 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
     return $block;
   }
 }
+
+/**
+ * Returns an edit form for settings
+ */
+function ding_facetbrowser_ding_facetbrowser_content_type_edit_form($form,&$form_state) {
+  return $form;
+}
