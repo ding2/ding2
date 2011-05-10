@@ -117,7 +117,10 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->subtype = 'ding_facetbrowser';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -134,7 +137,10 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->subtype = 'ting_search_result';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
