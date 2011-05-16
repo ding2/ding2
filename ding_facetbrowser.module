@@ -88,7 +88,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             '#default_value' => $default_values,
             '#ajax' => array(
               'callback' => '_ajax_search',
-              'wrapper'  => 'block-ding-facetbrowser-facetbrowser',
+              'wrapper'  => '.pane-ding-facetbrowser',
               'method'   => 'replace',
             ),
           );
@@ -136,7 +136,7 @@ function _ajax_search($form, $form_state) {
   $facets_formatted                    = drupal_render(drupal_rebuild_form('ding_facetbrowser_form', $form_state ));
   $results_formatted                   = theme('ting_search_results', array('results' => $results));
 
-  $commands[] = ajax_command_html('#block-ding-facetbrowser-facetbrowser', $facets_formatted);
+  $commands[] = ajax_command_html('.pane-ding-facetbrowser', $facets_formatted);
   $commands[] = ajax_command_html('.search-results',$results_formatted);
 
   return array('#type' => 'ajax', '#commands' => $commands);
@@ -221,7 +221,7 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   // TODO: Get the facetbrowser dom id automatic
   drupal_add_js(
     array('dingFacetBrowser' => array(
-      'mainElement' => '#block-ding-facetbrowser-facetbrowser',
+      'mainElement' => '.pane-ding-facetbrowser',
       'showCount' => 5)
     ), 'setting');
 
