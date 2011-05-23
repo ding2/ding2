@@ -39,23 +39,32 @@ function ding2_install_tasks($install_state) {
   }
 
   /**
-   * We need this dummy task to ensure that the rest of the tasks is
+   * We need at least one task to ensure that the rest of the tasks is
    * run. Without it, install_run_tasks() can manage to run through the tasks
    * up to 'install_bootstrap_full', and if there's no following tasks (when
    * 'install_configure_form' has been completed), it will think it's done
    * before we have a chance to read the variable and tell it otherwise.
+   *
+   * Luckily, we need to flush some caches anyway.
    */
-  return array(
-    'ding2_dummy' => array(
+  $ret = array(
+    'ding2_flush_all_caches' => array(
       'display' => FALSE,
       'run' => INSTALL_TASK_RUN_IF_REACHED,
     ),
   ) + $tasks;
+  return $ret;
 }
 
 /**
- * Does nothing.
+ * Install task that flushes caches. Ensures that the profile modules hook
+ * implementations are available so we can invoke hook_ding_install_tasks and
+ * get all the module provided tasks for the next round.
  */
-function ding2_dummy() {
+function ding2_flush_all_caches() {
+  // Only flush cache if we haven't picked up any install tasks yet.
+  if (!variable_get('ding_install_tasks', NULL)){
+    drupal_flush_all_caches();
+  }
   return;
 }
