@@ -50,7 +50,7 @@ function ding2_install_tasks($install_state) {
   $ret = array(
     'ding2_flush_all_caches' => array(
       'display' => FALSE,
-      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+      'run' => INSTALL_TASK_RUN_IF_REACHED,
     ),
   ) + $tasks;
   return $ret;
@@ -62,6 +62,9 @@ function ding2_install_tasks($install_state) {
  * get all the module provided tasks for the next round.
  */
 function ding2_flush_all_caches() {
-  drupal_flush_all_caches();
+  // Only flush cache if we haven't picked up any install tasks yet.
+  if (!variable_get('ding_install_tasks', NULL)){
+    drupal_flush_all_caches();
+  }
   return;
 }
