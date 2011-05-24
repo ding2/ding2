@@ -62,6 +62,10 @@ projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
 
+projects[ding_toggle_format][type] = "module"
+projects[ding_toggle_format][download][type] = "git"
+projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
+
 projects[artois][type] = "theme"
 projects[artois][download][type] = "git"
 projects[artois][download][url] = "git@github.com:ding2/artois.git"
