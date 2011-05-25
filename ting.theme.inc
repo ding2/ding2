@@ -75,6 +75,8 @@ function template_preprocess_ting_object_overview(&$variables) {
   }
 
   $variables['abstract'] = check_plain($object->abstract);
+
+  $variables['type'] = check_plain($object->type);
 }
 
 /**
