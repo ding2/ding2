@@ -263,7 +263,7 @@ function ting_get_request_factory() {
       }
     }
 
-    $requestFactory = new RestJsonTingClientRequestFactory($urls);
+    $requestFactory = new TingClientRequestFactory($urls);
   }
 
   return $requestFactory;
