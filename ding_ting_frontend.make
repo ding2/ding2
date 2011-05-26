@@ -3,14 +3,14 @@ core = 7.x
 
 ; CONTRIB MODULES
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "7.x-1.0-alpha4"
+projects[ctools][version] = "1.0-alpha4"
 projects[ctools][patch][] = "http://drupal.org/files/issues/search_page_manager.patch"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "7.x-3.0-alpha3"
+projects[panels][version] = "3.0-alpha3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "7.x-1.0-beta2"
+projects[features][version] = "1.0-beta2"
 
 ; CUSTOM MODULES
 projects[ding_facetbrowser][type] = "module"
