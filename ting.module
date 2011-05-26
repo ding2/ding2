@@ -5,7 +5,40 @@
  */
 
 define('TING_DEFAULT_CACHE_LIFETIME', 0);
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function ting_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 2);
+  }
+}
 
+
+/**
+ * Implements hook_ctools_plugin_directory() to let the system know
+ * where our task and task_handler plugins are.
+ */
+function ting_ctools_plugin_directory($owner, $plugin_type) {
+    return 'plugins/' . $plugin_type;
+}
+
+/**
+ * Implements hook_ctools_plugin_type() to inform the plugin system that Page
+ * Manager owns task, task_handler, and page_wizard plugin types.
+ *
+ * All of these are empty because the defaults all work.
+ */
+function ting_ctools_plugin_type() {
+  return array(
+    'tasks' => array(),
+    'content_types' => array(),
+    'task_handlers' => array(),
+    'page_wizards' => array(),
+    'arguments' => array(),
+    'contexts' => array(),
+  );
+}
 /**
  * Implements hook_menu().
  */
