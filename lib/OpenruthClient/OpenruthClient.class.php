@@ -80,7 +80,7 @@ class OpenruthClient {
       foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($sensitive)) as $value) {
         $replace_values['>' . $value . '<'] = '>' . substr(md5($value . self::$salt), 0, strlen($value)) . '<';
       }
-      if ($time) {
+      if (isset($time)) {
         watchdog('openruth', 'Sending request (@seconds sec): @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
 
       } else {
