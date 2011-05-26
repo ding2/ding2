@@ -11,6 +11,7 @@
 class TingObjectController extends DrupalDefaultEntityController {
   public function load($ids = array(), $conditions = array()) {
     module_load_include('client.inc', 'ting');
+    $queried_entities = array();
     // We really don't support loading of all objects. We're adding to
     // $ids depending on conditions.
     if ($ids === FALSE) {

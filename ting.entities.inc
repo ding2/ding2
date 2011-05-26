@@ -27,7 +27,7 @@ class TingEntity extends DingEntity {
   }
 
   function getLocalId() {
-    return $this->localId = $this->reply->localId;
+    return $this->localId = !empty($this->reply->localId) ? $this->reply->localId : FALSE;
   }
 
   function getType() {
