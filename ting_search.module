@@ -136,71 +136,68 @@ function ting_search_theme() {
 function ting_search_form_search_form_alter(&$form, &$form_state, $form_id) {
   unset($form['basic']);
   unset($form['advanced']);
-  
-  if(strpos($form['#action'],'search/ting') === FALSE) {
+
+  if (strpos($form['#action'], 'search/ting') === FALSE) {
     return $form;
   };
   unset($form['#validate']);
-  
-  $form['navigate'] =
-    array(
-      '#prefix' => '<div class="navigate"><table><tr>',
-      '#suffix' => '</tr></table></div><br/>',
-    );     
-      
-  $form['navigate']['sort'] =
-    array(
-      '#title' => t('Sort by:'),
-      '#type' => 'select',
-      '#default_value' => isset($_GET['sort']) ? $_GET['sort'] : 'title_ascending',
-      '#options' => array(
-            'title_ascending' => t('Title (Ascending)'),
-            'title_descending' => t('Title (Descending)'),
-            'creator_ascending' => t('Creator (Ascending)'),
-            'creator_descending' => t('Creator (Descending)'),
-            'date_ascending' => t('Date (Ascending)'),
-            'date_descending' => t('Date (Descending)')
-        ),
-	  '#attributes' => array('onchange' => 'form.submit(\'{search-form}\')'),
-      '#prefix' => '<td>',
-      '#suffix' => '</td>',
-    );     
-    
-  $form['navigate']['size'] =
-    array(
-      '#title' => t('Results on page:'),
-      '#type' => 'select',
-      '#default_value' => isset($_GET['size']) ? $_GET['size'] : '10',
-      '#options' => array(
-            '5' => t('5'),
-            '10' => t('10'),
-            '20' => t('20'),
-            '50' => t('50'),
-            '75' => t('75')
-      ),
-	  '#attributes' => array('onchange' => 'form.submit(\'{search-form}\')'),
-      '#prefix' => '<td>',
-      '#suffix' => '</td>',
-    );     
 
-  foreach( $_GET as $k => $v ) {
-  	if(!( $k == 'sort' || $k == 'size') ) {
+  $form['navigate'] = array(
+    '#prefix' => '<div class="navigate"><table><tr>',
+    '#suffix' => '</tr></table></div><br/>',
+  );
+
+  $form['navigate']['sort'] = array(
+    '#title' => t('Sort by:'),
+    '#type' => 'select',
+    '#default_value' => isset($_GET['sort']) ? $_GET['sort'] : 'title_ascending',
+    '#options' => array(
+      'title_ascending' => t('Title (Ascending)'),
+      'title_descending' => t('Title (Descending)'),
+      'creator_ascending' => t('Creator (Ascending)'),
+      'creator_descending' => t('Creator (Descending)'),
+      'date_ascending' => t('Date (Ascending)'),
+      'date_descending' => t('Date (Descending)')
+    ),
+    '#attributes' => array('onchange' => 'form.submit(\'{search-form}\')'),
+    '#prefix' => '<td>',
+    '#suffix' => '</td>',
+  );
+
+  $form['navigate']['size'] = array(
+    '#title' => t('Results on page:'),
+    '#type' => 'select',
+    '#default_value' => isset($_GET['size']) ? $_GET['size'] : '10',
+    '#options' => array(
+      '5' => t('5'),
+      '10' => t('10'),
+      '20' => t('20'),
+      '50' => t('50'),
+      '75' => t('75')
+    ),
+    '#attributes' => array('onchange' => 'form.submit(\'{search-form}\')'),
+    '#prefix' => '<td>',
+    '#suffix' => '</td>',
+  );
+
+  foreach ($_GET as $k => $v) {
+    if (!( $k == 'sort' || $k == 'size') ) {
       $form['get'][$k] = array('#type' => 'hidden', '#value' => $v);
-	}     
+    }
   }
-    
+
   unset($form['#action']);
-  $form['actions'] = 
+  $form['actions'] =
     array(
       '#type' => 'actions',
       'submit' => array(
         '#type' => 'submit',
         '#value' => 'Search',
-	    '#attributes' => array('style' => 'display: none;'),
+        '#attributes' => array('style' => 'display: none;'),
       )
     );
   $form['#submit'] = array('ting_search_navigateform_submit');
-  
+
   return $form;
 }
 
@@ -210,16 +207,16 @@ function ting_search_navigateform_submit($form, &$form_state) {
     $form_state['redirect'] = FALSE;
     $url = $form_state['values']['q'];
     $args = array();
-    
-    foreach($_GET as $k => $v ) {
-      if( $k !== 'q') {
+
+    foreach ($_GET as $k => $v) {
+      if ($k !== 'q') {
         $args[$k] = $v;
       }
     }
-    
+
     $args['sort'] = $form_state['values']['sort'];
     $args['size'] = $form_state['values']['size'];
-    
+
     drupal_goto($url, array('query' => $args));
   }
   else {
@@ -240,11 +237,11 @@ function ting_search_conditions_callback($keys) {
   if (!empty($_REQUEST['size'])) {
     $conditions['size'] = $_REQUEST['size'];
   }
-  
+
   if (!empty($_REQUEST['sort'])) {
     $conditions['sort'] = $_REQUEST['sort'];
   }
-  
+
   // TODO: Add facets here
   return $conditions;
 }
@@ -279,11 +276,11 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     if (!empty($conditions['size'])) {
       $resultsPerPage = $conditions['size'];
     }
-    
+
     if (!empty($conditions['sort'])) {
       $options['sort'] = $conditions['sort'];
     }
-    
+
     $searchResult = ting_do_search($query, $page + 1, $resultsPerPage, $options);
     if (isset($searchResult->collections)) {
       $searchResult->search_key = $keys;
