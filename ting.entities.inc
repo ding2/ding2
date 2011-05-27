@@ -40,10 +40,10 @@ class TingEntity extends DingEntity {
 
   function getSerieTitle() {
     $titleObj = $this->reply->record['dc:title'];
-    
+
     return $this->serieTitle = !empty($titleObj) && !empty($titleObj['oss:series']) ? $titleObj['oss:series'][0] : FALSE;
   }
-  
+
   function getAbstract() {
     return $this->abstract = !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;;
   }
@@ -61,7 +61,7 @@ class TingEntity extends DingEntity {
           $entity_ids[] = $record->id;
         }
       }
-      if ($entity_ids){
+      if ($entity_ids) {
         $this->relations = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
       }
     }
@@ -149,7 +149,8 @@ class TingCollection extends DingEntityCollection {
         // Pull the entity with the same id at the top.
         if ($record->id == $this->id) {
           array_unshift($entity_ids, $record->id);
-        } else {
+        }
+        else {
           $entity_ids[] = $record->id;
         }
       }

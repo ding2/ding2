@@ -108,7 +108,7 @@ function ting_menu() {
     'access arguments' => array('administer ting settings'),
     'file' => 'ting.admin.inc'
   );
-  
+
   return $items;
 }
 
@@ -368,7 +368,7 @@ function ting_object_uri($collection) {
  */
 function ting_collection_uri($collection) {
   if (sizeof($collection->entities) > 1) {
-    return array('path' => 'ting/collection/' . $collection->id  . (isset($collection->reply->load_query) ? '/' . $collection->reply->load_query : ''));
+    return array('path' => 'ting/collection/' . $collection->id . (isset($collection->reply->load_query) ? '/' . $collection->reply->load_query : ''));
   }
   else {
     return entity_uri('ting_object', $collection->primary_object);

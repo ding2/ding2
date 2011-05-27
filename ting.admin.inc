@@ -63,7 +63,7 @@ function ting_admin_ting_settings($form_state) {
   $form['ting']['ting_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
-    '#default_value' => variable_get('ting_enable_logging', false),
+    '#default_value' => variable_get('ting_enable_logging', FALSE),
   );
 
   $intervals = array(
@@ -108,7 +108,7 @@ function ting_admin_addi_settings($form_state) {
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),
-  	'#description' => t('The Additional Information service is used to retrieve cover images and other information about objects. <a href="http://www.danbib.dk/index.php?doc=forsideservice">More information about the service (in Danish)</a>'),
+    '#description' => t('The Additional Information service is used to retrieve cover images and other information about objects. <a href="http://www.danbib.dk/index.php?doc=forsideservice">More information about the service (in Danish)</a>'),
     '#tree' => FALSE,
   );
 
@@ -147,7 +147,7 @@ function ting_admin_addi_settings($form_state) {
   $form['addi']['addi_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
-    '#default_value' => variable_get('addi_enable_logging', false),
+    '#default_value' => variable_get('addi_enable_logging', FALSE),
   );
 
   return system_settings_form($form);
@@ -203,24 +203,24 @@ function ting_admin_settings_hostnames_value($form, $edit = FALSE) {
  * Felter: Forfatter, titel, emneord,
  */
 function ting_admin_register_settings() {
-  $form['ting_admin_register_serie_title'] = 
-    array('#type' => 'textfield',
-	  '#title' => t('Serie title'),
-	  '#description' => t('Specify the register to be used for searching against serie titles.'),
-	  '#default_value' => variable_get('ting_admin_register_serie_title', 'phrase.title')
-	  );
-	  
+  $form['ting_admin_register_serie_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Serie title'),
+    '#description' => t('Specify the register to be used for searching against serie titles.'),
+    '#default_value' => variable_get('ting_admin_register_serie_title', 'phrase.title')
+  );
+
   $form['#submit'][] = 'ting_search_extendform_admin_settings_submit';
   return system_settings_form($form);
 }
 
 function ting_admin_register_settings_validate($form, &$form_state) {
   $s = '';
-  if(isset($form_state['values']['ting_admin_register_serie_title'])) {
+  if (isset($form_state['values']['ting_admin_register_serie_title'])) {
     $s = $form_state['values']['ting_admin_register_serie_title'];
   }
-  
-  if($s == '') {
+
+  if ($s == '') {
     form_set_error('ting_admin_register_serie_title', t('Please specify a register for serie titles.'));
   }
 }

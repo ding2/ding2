@@ -40,7 +40,7 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
     if (!$object) {
       $request = ting_get_request_factory()->getCollectionRequest();
       $request->setObjectId($object_id);
-      if ($agency = variable_get('ting_agency', false)) {
+      if ($agency = variable_get('ting_agency', FALSE)) {
         $request->setAgency($agency);
       }
       $request->setAllRelations(TRUE);
@@ -70,7 +70,7 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
  *    The search query
  * @param int $page
  *    The page number to retrieve search results for
- * @param int $resultsPerPage
+ * @param int $results_per_page
  *    The number of results to include per page
  * @param array $options
  *    Options to pass to the search. Possible options are:
@@ -84,35 +84,35 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
  * @return TingClientSearchResult
  *    The search result
  */
-function ting_do_search($query, $page = 1, $resultsPerPage = 10, $options = array()) {
+function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
   $request->setQuery($query);
-  if ($agency = variable_get('ting_agency', false)) {
+  if ($agency = variable_get('ting_agency', FALSE)) {
     $request->setAgency($agency);
   }
-  $request->setStart($resultsPerPage * ($page - 1) + 1);
-  $request->setNumResults($resultsPerPage);
+  $request->setStart($results_per_page * ($page - 1) + 1);
+  $request->setNumResults($results_per_page);
 
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
   $request->setSort((isset($options['sort']) && $options['sort']) ? $options['sort'] : 'rank_general');
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
-  $searchResult = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
+  $search_result = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
   // Replace collections with proper TingCollection objects.
-  if ($searchResult && is_array($searchResult->collections)) {
+  if ($search_result && is_array($search_result->collections)) {
     $ids = array();
-    foreach ($searchResult->collections as &$collection) {
-      if (isset($collection->objects[0])){
+    foreach ($search_result->collections as &$collection) {
+      if (isset($collection->objects[0])) {
         $ids[] = $collection->objects[0]->id;
       }
     }
     if (!isset($options['reply_only']) || !$options['reply_only']) {
-      $searchResult->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids, 'query' => $query));
+      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids, 'query' => $query));
     }
   }
 
-  return $searchResult;
+  return $search_result;
 }
 
 /**
@@ -243,30 +243,30 @@ function ting_cache_set($id, $value) {
  * @return TingClientRequestFactory
  */
 function ting_get_request_factory() {
-  static $requestFactory;
+  static $request_factory;
 
-  if (!isset($requestFactory))
-  {
-    $urlVariables = array(  'search' => 'ting_search_url',
-                            'scan' => 'ting_scan_url',
-                            'object' => 'ting_search_url',
-                            'collection' => 'ting_search_url',
-                            'spell' => 'ting_spell_url',
-                            'recommendation' => 'ting_recommendation_url');
+  if (!isset($request_factory)) {
+    $url_variables = array(
+      'search' => 'ting_search_url',
+      'scan' => 'ting_scan_url',
+      'object' => 'ting_search_url',
+      'collection' => 'ting_search_url',
+      'spell' => 'ting_spell_url',
+      'recommendation' => 'ting_recommendation_url',
+    );
 
     $urls = array();
-    foreach ($urlVariables as $name => $setting)
-    {
-      $urls[$name] = variable_get($setting, false);
+    foreach ($url_variables as $name => $setting) {
+      $urls[$name] = variable_get($setting, FALSE);
       if (!$urls[$name]) {
-        throw new TingClientException('No Ting webservice url defined for '.$name);
+        throw new TingClientException('No Ting webservice url defined for ' . $name);
       }
     }
 
-    $requestFactory = new TingClientRequestFactory($urls);
+    $request_factory = new TingClientRequestFactory($urls);
   }
 
-  return $requestFactory;
+  return $request_factory;
 }
 
 function ting_add_relations($request, $type = 'full') {
@@ -289,8 +289,8 @@ function ting_execute($request) {
     return $res;
   } catch (TingClientException $e) {
     timer_stop('ting');
-    watchdog('ting client', 'Error performing request: '.$e->getMessage(), NULL, WATCHDOG_ERROR, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-    return false;
+    watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
+    return FALSE;
   }
 }
 
@@ -317,15 +317,15 @@ function ting_get_client() {
  *
  * @param string $query The prefix to scan for
  * @param string $phrase Which phrase index to search
- * @param int $numResults The numver of results to return
+ * @param int $num_results The numver of results to return
  * @return TingClientScanResult
  */
-function ting_do_scan($query, $phrase = 'anyIndexes', $numResults = 10) {
+function ting_do_scan($query, $phrase = 'anyIndexes', $num_results = 10) {
   $request = ting_get_request_factory()->getScanRequest();
   $request->setField('phrase.' . $phrase);
   $request->setLower($query);
   $request = ting_add_agency($request);
-  $request->setNumResults($numResults);
+  $request->setNumResults($num_results);
   return ting_execute($request);
 }
 
@@ -334,8 +334,7 @@ function ting_do_scan($query, $phrase = 'anyIndexes', $numResults = 10) {
  * @return TingClientAgentRequest
  */
 function ting_add_agency(TingClientAgentRequest $request) {
-  if ($agency = variable_get('ting_agency', false))
-  {
+  if ($agency = variable_get('ting_agency', FALSE)) {
     $request->setAgency($agency);
   }
   return $request;
@@ -343,13 +342,12 @@ function ting_add_agency(TingClientAgentRequest $request) {
 
 /**
  * @param string $word The word to get spell suggestions for
- * @param $numResults The number of results to return
+ * @param $num_results The number of results to return
  * @return array An array of TingClientSpellSuggestion objects
  */
-function ting_get_spell_suggestions($word, $numResults = 10) {
+function ting_get_spell_suggestions($word, $num_results = 10) {
   $request = ting_get_request_factory()->getSpellRequest();
   $request->setWord($word);
-  $request->setNumResults($numResults);
+  $request->setNumResults($num_results);
   return ting_execute($request);
 }
-
