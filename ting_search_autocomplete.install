@@ -18,7 +18,7 @@ function ting_search_autocomplete_uninstall() {}
  * Implementation of hook_schema().
  */
 function ting_search_autocomplete_schema() {
-	$schema = array();
-	$schema['cache_ting_search_autocomplete'] = drupal_get_schema_unprocessed('system', 'cache');
-	return $schema;
+  $schema = array();
+  $schema['cache_ting_search_autocomplete'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
 }

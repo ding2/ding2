@@ -22,7 +22,7 @@ function ting_search_autocomplete_menu() {
  * Implementation of hook_flush_caches().
  */
 function ting_search_autocomplete_flush_caches() {
-	return array('cache_ting_search_autocomplete');
+  return array('cache_ting_search_autocomplete');
 }
 
 /**
