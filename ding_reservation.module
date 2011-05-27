@@ -42,9 +42,9 @@ function ding_reservation_ctools_plugin_api($module, $api) {
  * Implements hook_ding_entity_menu().
  */
 function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
-  if ($type == 'ding_entity'){
+  if ($type == 'ding_entity') {
     $items[$path . '/reserve'] = array(
-      'title' => t('Reserve'),
+      'title' => 'Reserve',
       'page callback' => 'ding_provider_get_form',
       'page arguments' => array('ding_reservation_reserve_form', $index),
       'access callback' => TRUE,
@@ -115,7 +115,7 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
   }
   else {
     $form['description'] = array(
-      '#markup' => '<p>'.t('In order to make quick reservations, you must select a default pickup branch.').'</p>',
+      '#markup' => '<p>' . t('In order to make quick reservations, you must select a default pickup branch.') . '</p>',
     );
 
     $options = ding_provider_invoke('reservation', 'pickup_branches', $user);
