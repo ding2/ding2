@@ -100,7 +100,7 @@ function ding_availability_holdings($provider_ids) {
  */
 function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NULL) {
   $entity->content['overview']['right'] = array(
-    '#markup' => '<div class="availability availability-' . $entity->provider_id. '"></div>',
+    '#markup' => '<div class="availability availability-' . $entity->provider_id . '"></div>',
     '#weight' => 10,
     '#attached' => array(
       'js' => array(
@@ -118,7 +118,7 @@ function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NUL
 
   if ($view_mode == 'full') {
     $entity->content['holdings'] = array(
-      '#markup' => '<div class="holdings holdings-' . $entity->provider_id. '"></div>',
+      '#markup' => '<div class="holdings holdings-' . $entity->provider_id . '"></div>',
       '#weight' => 10,
     );
   }
