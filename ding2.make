@@ -51,6 +51,10 @@ projects[mkdru][download][type] = "git"
 projects[mkdru][download][url] = "git://git.indexdata.com/mkdru.git"
 projects[mkdru][download][revision] = "ac3d47c986ab5db1d6597b5125b34a50bb6ae57b"
 
+projects[ding_toggle_format][type] = "module"
+projects[ding_toggle_format][download][type] = "git"
+projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
+
 ; Frontend modules
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
