@@ -303,7 +303,7 @@ function ting_get_client() {
   static $client;
 
   if (!isset($client)) {
-    $client = new TingClient(new TingClientRequestAdapter(), new TingClientDrupalDebugLogger(ting_get_request_factory()));
+    $client = new TingClient(new TingClientRequestAdapter(), new TingClientDrupalWatchdogLogger(ting_get_request_factory()));
   }
 
   return $client;
