@@ -177,7 +177,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     $reservables = array_flip($reservables);
 
     // Fail if we don't have anything to test with.
-    if (empty($reservables)){
+    if (empty($reservables)) {
       $this->fail('No reservables available for test');
       return;
     }
@@ -203,7 +203,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
       $this->pass("Re-reserving throws an DingReservationUserErrorReservationExists.");
     }
     catch (Exception $e) {
-      $this->fail("Re-reserving throws " . get_class($e). ".");
+      $this->fail("Re-reserving throws " . get_class($e) . ".");
     }
 
     $existing_reservations = array();

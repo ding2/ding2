@@ -293,7 +293,7 @@ function ding_provider_build_form($form_id, &$form_state) {
     _ding_provider_message_reset($messages);
 
     $form_state['no_redirect'] = $old_redirect;
-    if ($form_state['executed'] == TRUE){
+    if ($form_state['executed'] == TRUE) {
       // Redirect if the form was submitted.
       drupal_redirect_form($form_state);
     }
@@ -414,7 +414,7 @@ function ding_provider_get_destination($query_args = array()) {
   $query = drupal_http_build_query($query_args + drupal_get_query_parameters());
   unset($_REQUEST['destination']);
   if ($query != '') {
-    $path .= '?'. $query;
+    $path .= '?' . $query;
   }
   $destination = array(
     'destination' => $path,

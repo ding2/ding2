@@ -128,7 +128,8 @@ class DingProviderReservation {
     // Use property_exists() to support NULL values.
     if (property_exists($this, $prop)) {
       return $this->$prop;
-    } elseif (($method = 'get' . strtoupper($prop[0]) .  substr($prop, 1)) &&
+    }
+    elseif (($method = 'get' . strtoupper($prop[0]) . substr($prop, 1)) &&
       method_exists($this, $method)) {
       return call_user_func(array($this, $method));
     }
