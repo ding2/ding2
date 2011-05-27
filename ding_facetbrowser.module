@@ -137,7 +137,7 @@ function _ajax_search($form, $form_state) {
   $results_formatted                   = theme('ting_search_results', array('results' => $results));
 
   $commands[] = ajax_command_html('.pane-ding-facetbrowser', $facets_formatted);
-  $commands[] = ajax_command_html('.search-results',$results_formatted);
+  $commands[] = ajax_command_html('.search-results', $results_formatted);
 
   return array('#type' => 'ajax', '#commands' => $commands);
 }
@@ -155,7 +155,7 @@ function _facetString($form_state = NULL) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
           if ($key === $value) {
-          $facets[] = 'facet.' . $name. ':' . $value;
+          $facets[] = 'facet.' . $name . ':' . $value;
           }
         }
       }
