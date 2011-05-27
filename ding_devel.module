@@ -19,7 +19,7 @@ function ding_devel_page_alter(&$page) {
 
   $page['footer']['ding_devel'][] = array(
     '#type' => 'markup',
-    '#markup' => t(' Page execution time was @time ms.', array('@time' => $page_time)),
+    '#markup' => t('Page execution time was @time ms.', array('@time' => $page_time)),
     '#suffix' => '<br />',
   );
 
@@ -28,7 +28,7 @@ function ding_devel_page_alter(&$page) {
     if (isset($timers[$name])) {
       $time = timer_read($name);
       $string = isset($info['title']) ? $info['title'] : '"' . $name . '": @time';
-      if (!isset($info['include in total']) || $info['include in total']){
+      if (!isset($info['include in total']) || $info['include in total']) {
         $timer_total += $time;
       }
 
