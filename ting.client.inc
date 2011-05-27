@@ -303,7 +303,7 @@ function ting_get_client() {
   static $client;
 
   if (!isset($client)) {
-    $logger = (variable_get('ting_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
+    $logger = (variable_get('ting_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger(ting_get_request_factory()) : new TingClientVoidLogger();
     $client = new TingClient(new TingClientRequestAdapter(), $logger);
   }
 

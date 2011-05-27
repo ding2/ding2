@@ -201,7 +201,7 @@ function ting_block_view($delta = '') {
       }
     break;
   }
-  
+
   return $block;
 }
 
@@ -449,7 +449,7 @@ function ting_object_view($object, $view_mode = 'full') {
   );
 
   drupal_alter('ting_view', $build);
-  
+
   return $build;
 }
 
