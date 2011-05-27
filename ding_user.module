@@ -124,7 +124,7 @@ function ding_user_username_alter(&$name, $account) {
  */
 function ding_user_auth_page() {
   global $user;
-  if ($user->uid > 0){
+  if ($user->uid > 0) {
     return 'user/' . $user->uid . '/authenticate';
   }
   return 'user/login';
@@ -228,7 +228,8 @@ function ding_user_user_login_validate($form, &$form_state) {
       foreach ($auth_res['messages'] as $message) {
         if (is_array($message)) {
           list($message, $type) = $message;
-        } else {
+        }
+        else {
           $type = 'warning';
         }
         drupal_set_message($message, $type);
