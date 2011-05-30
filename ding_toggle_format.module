@@ -45,25 +45,12 @@ function ding_toggle_format_render_link() {
   $image_title = t('Toggle format link');
   $format_prefix = '<span class="ding-toggle-format-label">' . t('Display format: ' . '</span>');
 
-  // get long/short format from cookie
-  $format = ( isset($_COOKIE['ding_toggle_format']) ) ? $_COOKIE['ding_toggle_format'] : 'short';
-
   // render image html using theme_image (returns NULL if file doesn't exist)
   $format_image = theme('image', array('path'=>$image_path, 'alt'=>$image_alt, 'title'=>$image_title, 'attributes' => array('id' => 'ding-toggle-format-image')));
 
-
   // if the image rendered ok, render link using above variables
-  $format_link = ( $format_image ) ? $format_prefix . l($format_image, 'href', array( 'html' => TRUE, 'attributes' => array( 'title' => $image_title, 'id' => 'ding-toggle-format', 'class' => 'ding-toggle-format-' . $format))) : NULL;
+  $format_link = ( $format_image ) ? $format_prefix . l($format_image, '#', array( 'html' => TRUE, 'attributes' => array( 'title' => $image_title, 'id' => 'ding-toggle-format', 'class' => 'ding-toggle-format-short'))) : NULL;
 
   return $format_link;
-}
-
-/**
- * Returns format.
- */
-function ding_toggle_format_get() {
-  // return long/short format from cookie. Default : 'short'
-  return $format = ($_COOKIE['ding_toggle_format']) ? $_COOKIE['ding_toggle_format'] : 'short';
-
 }
 

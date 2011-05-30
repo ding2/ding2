@@ -1,21 +1,31 @@
 (function($){
   $(document).ready(function(){
-    setToggleFormat();
+    var format = ( $.cookie("ding_toggle_format") ) ? $.cookie("ding_toggle_format") : 'short';
+    $.cookie("ding_toggle_format", format, { expires: 30 });
+    setToggleFormat(format);
   });
-  var format = ( $.cookie("ding_toggle_format") ) ? $.cookie("ding_toggle_format") : 'short';
-  $.cookie("ding_toggle_format", format);
 })(jQuery);
 
 
-function setToggleFormat() {
-  if ( !document.getElementById('ding-toggle-format') )
+function setToggleFormat(format) {
+  if ( !jQuery("#ding-toggle-format") )
     return false;
-  document.getElementById('ding-toggle-format').onclick = toggleFormat;
+  setFormat(format);
+  jQuery("#ding-toggle-format").click(function() {
+    var toFormat = ( jQuery.cookie("ding_toggle_format") == 'short' ) ? 'long' : 'short';
+    return setFormat(toFormat);
+  });
 }
 
-function toggleFormat() {
-  var toFormat = ( jQuery.cookie("ding_toggle_format") == 'short' ) ? 'long' : 'short';
-  mySwitchClassname (this,'ding-toggle-format-' + jQuery.cookie("ding_toggle_format"),'ding-toggle-format-' + toFormat);
-  jQuery.cookie("ding_toggle_format", toFormat);
+
+function setFormat(format) {
+  jQuery("#ding-toggle-format").removeClass('ding-toggle-format-long');
+  jQuery("#ding-toggle-format").removeClass('ding-toggle-format-short');
+  jQuery("#ding-toggle-format").addClass('ding-toggle-format-' + format);
+  jQuery("li.search-result").removeClass('ding-format-long');
+  jQuery("li.search-result").removeClass('ding-format-short');
+  jQuery("li.search-result").addClass('ding-format-' + format);
+  jQuery.cookie("ding_toggle_format", format, { expires: 30 });
   return false;
 }
+
