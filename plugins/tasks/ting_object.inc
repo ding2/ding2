@@ -18,12 +18,23 @@ function ting_ting_object_page_manager_tasks() {
 }
 
 function ting_ting_object_menu_alter(&$items, $task) {
+  if (variable_get('ting_ting_object_disabled', TRUE)) {
+    return;
+  }
+
   // Override the node view handler for our purpose.
   $callback = $items['ting/object/%ting_object']['page callback'];
   if ($callback == 'ting_object_page_view' || variable_get('page_manager_override_anyway', FALSE)) {
     $items['ting/object/%ting_object']['page callback'] = 'ting_ting_object_page';
     $items['ting/object/%ting_object']['file path'] = $task['path'];
     $items['ting/object/%ting_object']['file'] = $task['file'];
+  }
+  else {
+    // automatically disable this task if it cannot be enabled.
+    variable_set('ting_ting_object_page', TRUE);
+    if (!empty($GLOBALS['ting_enabling_ting_object'])) {
+      drupal_set_message(t('Page manager module is unable to enable ting/object/%ting_object because some other module already has overridden with %callback.', array('%callback' => $callback)), 'error');
+    }
   }
 }
 
