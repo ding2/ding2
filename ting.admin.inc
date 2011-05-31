@@ -310,6 +310,7 @@ function ting_admin_online_url_settings_update_types($form, &$form_state) {
     $types[drupal_strtolower($term)] = $count;
   }
 
+  // Only save if we actually got any types.
   if (!empty($types)) {
     variable_set('ting_url_labels_types', $types);
   }
