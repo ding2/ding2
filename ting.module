@@ -109,6 +109,15 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
+  $items['admin/config/ding/online_url'] = array(
+    'title' => 'Online URL labels',
+    'description' => 'Define labels for online resources.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_online_url_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc'
+  );
+
   return $items;
 }
 
@@ -431,6 +440,17 @@ function ting_object_view($object, $view_mode = 'full') {
     );
   }
 
+  if ($object->online_url) {
+    $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+    $type = drupal_strtolower($object->type);
+    $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+    $object->content['actions'][] = array(
+      '#type' => 'markup',
+      '#markup' => l($label, $object->online_url),
+    );
+
+  }
+
   field_attach_prepare_view('ting_object', array($object->id => $object), $view_mode);
   entity_prepare_view('ting_object', array($object->id => $object));
   $object->content += field_attach_view('ting_object', $object, $view_mode);
@@ -524,4 +544,21 @@ function _ting_type_lang_sort($objects, &$return_types) {
   }
 
   return $sorted;
+}
+
+/**
+ * Default url labels.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _ting_default_url_labels() {
+  return array(
+    '_default' => t('See online'),
+    'cd' => t('Hear online'),
+    'kassettelydbånd' => t('Hear online'),
+    'lydbog (cd)' => t('Hear online'),
+    'lydbog (cd-mp3)' => t('Hear online'),
+    'lydbog (online)' => t('Hear online'),
+    'grammofonplade' => t('Hear online'),
+  );
 }

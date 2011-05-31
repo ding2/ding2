@@ -228,3 +228,89 @@ function ting_admin_register_settings_validate($form, &$form_state) {
 function ting_search_extendform_admin_settings_submit($form, $form_state) {
   variable_set('ting_admin_register_serie_title', $form_state['values']['ting_admin_register_serie_title']);
 }
+
+/**
+ * Form builder; Configure labels for online_url.
+ *
+ * @ingroup forms
+ * @see system_settings_form()
+ */
+function ting_admin_online_url_settings($form_state) {
+  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
+  form_load_include($form_state, 'inc', 'ting', 'ting.client');
+  $form = array();
+
+  $form['update'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Update from datawell'),
+    '#description' => t('Update the list of known types by asking the datawell for all types.')
+  );
+
+  $form['update']['update'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+    '#submit' => array('ting_admin_online_url_settings_update_types'),
+  );
+
+  $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+  $types = variable_get('ting_url_labels_types', array());
+  $form['ting_url_labels'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Labels'),
+    '#tree' => TRUE,
+  );
+
+  $form['ting_url_labels']['_default'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Default label'),
+    '#default_value' => isset($settings['_default']) ? $settings['_default'] : '',
+    '#description' => t('Default label used for types that is not specifically set below.'),
+  );
+
+  if (sizeof($types)) {
+    $form['ting_url_labels']['types'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Type specific labels'),
+      '#tree' => TRUE,
+      '#description' => t("Here you may override the default label for individual material types."),
+    );
+
+    foreach ($types as $term => $count) {
+      $form['ting_url_labels']['types'][$term] = array(
+        '#type' => 'textfield',
+        '#title' => $term,
+        '#default_value' => isset($settings[$term]) ? $settings[$term] : '',
+        '#description' => t('Count: @count', array('@count' => $count)),
+        // Fudge the parent so we'll get all the labels in one big array in
+        // ting_url_labels.
+        '#parents' => array('ting_url_labels', $term),
+      );
+    }
+  }
+
+  return system_settings_form($form);
+}
+
+/**
+ * Submit handler. Updates the list of known types from the datawell.
+ */
+function ting_admin_online_url_settings_update_types($form, &$form_state) {
+  // Get a list of types by executing a null query and look at the facets
+  // result.
+  $options = array(
+    'facets' => array('facet.type'),
+    'numFacets' => 99,
+    'reply_only' => TRUE,
+    'sort' => 'random',
+  );
+  $result = ting_do_search("*=*", 0, 0, $options);
+
+  $types = array();
+  foreach ($result->facets['facet.type']->terms as $term => $count) {
+    $types[drupal_strtolower($term)] = $count;
+  }
+
+  if (!empty($types)) {
+    variable_set('ting_url_labels_types', $types);
+  }
+}
