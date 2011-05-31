@@ -1,6 +1,12 @@
 api = 2
 core = 7.x
 
+; Contrib
+projects[ctools][type] = "module"
+projects[ctools][download][type] = "git"
+projects[ctools][download][url] = "http://git.drupal.org/project/ctools.git"
+projects[ctools][download][branch] = "7.x-1.x"
+
 ; Modules
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
