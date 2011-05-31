@@ -19,6 +19,10 @@ function openruth_ding_provider() {
       'user' => array(
         'prefix' => 'user',
       ),
+      'reservation' => array(
+        'prefix' => 'reservation',
+        'file' => drupal_get_path('module', 'openruth') . '/openruth.reservation.inc',
+      ),
     ),
   );
 }

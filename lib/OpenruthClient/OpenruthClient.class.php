@@ -265,7 +265,7 @@ class OpenruthClient {
   /**
    * Making a reservation in the local system
    */
-  public function order_item($username, $provider_id, $expiry, $pickup_branch) {
+  public function order_item($username, $item_id, $count, $order_date, $expiry, $pickup_branch) {
     $this->log_start();
     $res = $this->client->orderItem(array(
              'agencyId' =>  $this->agency_id,
@@ -276,7 +276,7 @@ class OpenruthClient {
              'orderOverRule' => FALSE,
              'orderPriority' => 'normal',
              'orderItemId' => array(
-               'itemId' => $provider_id,
+               'itemId' => $item_id,
              ),
       ));
     $this->log($username);
@@ -324,6 +324,28 @@ class OpenruthClient {
     else {
       return FALSE;
     }
+  }
+
+  /**
+   * Get list of agencycounters
+   *
+   * @return Array
+   */
+  public function get_agencycounters() {
+    $agencys = array();
+    $this->log_start();
+    $res = $this->client->agencyCounters(array(
+             'agencyId' =>  $this->agency_id,
+             'bookingId' => $bookings_id,
+      ));
+    $this->log();
+    if ($res->agencyCounters instanceof stdClass && is_array($res->agencyCounters->agencyCounterInfo)) {
+      foreach ($res->agencyCounters->agencyCounterInfo as $agency) {
+        $agencys[$agency->agencyCounter] = $agency->agencyCounterName;
+      }
+      return $agencys;
+    }
+    return NULL;
   }
 
   /**
