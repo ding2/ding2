@@ -190,19 +190,6 @@ function openruth_user_authenticate($name, $pass) {
 }
 
 /**
- *
- */
-function openruth_reservation_create($account, $id) {
-  if ($creds = ding_user_get_creds($account)) {
-    // @todo pickup branch?
-
-  }
-  else {
-    throw new DingProviderAuthException;
-  }
-}
-
-/**
  * Get user status.
  *
  * Session cached for efficiency.
