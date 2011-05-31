@@ -4,6 +4,7 @@
 define('DING_RESERVATION_DEFAULT_INTEREST_PERIOD', 183 * 86400);
 
 function ding_reservation_ding_user_mypage_tab($account = FALSE) {
+  $items = array();
   $block = new stdClass();
   $block->title = t('My reservations');
   $list = ding_provider_invoke('reservation', 'list', $account);
