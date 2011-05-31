@@ -23,6 +23,7 @@ class TingEntity extends DingEntity {
       'relationType' => FALSE,
       'relationUri' => FALSE,
       'online_url' => FALSE,
+      'ac_source' => FALSE,
     );
   }
 
@@ -110,6 +111,10 @@ class TingEntity extends DingEntity {
       drupal_alter('ting_online_url', $url, $this);
       return $this->online_url = $url;
     }
+  }
+
+  function getAc_source() {
+    return $this->ac_source = !empty($this->reply->record['ac:source'][''][0]) ? $this->reply->record['ac:source'][''][0] : FALSE;
   }
 }
 
