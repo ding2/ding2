@@ -27,23 +27,26 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
 /**
  * Get list of reserved items
  */
-function openruth_reservation_list($account) {
-  // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
-  $internal_account = ding_user_get_creds($account);
-  $reservations = openruth_client_invoke('user_status', $internal_account['name'], $internal_account['pass']);
-    foreach ($reservations->orders->orderNotReady as $res) {
-      $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
-                       'ding_entity_id' => $res->itemId,
-                       'display_name' => $res->itemDisplayTitle,
-                       'pickup_branch_id' => $res->agencyCounter,
-                       'expiry' => $res->orderLastInterestDate,
-                     ));
-    }
-  return $result;
-}
+ function openruth_reservation_list($account) {
+   $result = array();
+   // Throw exception if we're not logged in.
+   if (!ding_user_get_creds()) {
+     throw new DingProviderAuthException;
+   }
+   $internal_account = ding_user_get_creds($account);
+   $reservations = openruth_client_invoke('user_status', $internal_account['name'], $internal_account['pass']);
+   if (isset($reservations->order->orderNotReady)) {
+     foreach ($reservations->orders->orderNotReady as $res) {
+       $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+         'ding_entity_id' => $res->itemId,
+         'display_name' => $res->itemDisplayTitle,
+         'pickup_branch_id' => $res->agencyCounter,
+         'expiry' => $res->orderLastInterestDate,
+       ));
+     }
+   }
+   return $result;
+ }
 
 /**
  * Create a reservation for a given account
