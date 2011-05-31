@@ -1,31 +1,33 @@
+
 (function($){
-  $(document).ready(function(){
-    var format = ( $.cookie("ding_toggle_format") ) ? $.cookie("ding_toggle_format") : 'short';
+
+  Drupal.behaviors.toggleFormat = {
+    attach: function (context, settings) {
+      $('#ding-toggle-format', context).click(function () {
+        var toFormat = ( $.cookie("ding_toggle_format") == 'short' ) ? 'long' : 'short';
+        Drupal.setFormat(toFormat);
+        return false;
+      });
+    }
+  };
+
+  Drupal.behaviors.readyFormat = {
+    attach: function (context, settings) {
+      $('#ding-toggle-format', context).ready(function () {
+        var format = ( $.cookie("ding_toggle_format") ) ? $.cookie("ding_toggle_format") : 'short';
+        Drupal.setFormat(format);
+      });
+    }
+  };
+
+  Drupal.setFormat = function (format) {
+    $("#ding-toggle-format").removeClass('ding-toggle-format-long');
+    $("#ding-toggle-format").removeClass('ding-toggle-format-short');
+    $("#ding-toggle-format").addClass('ding-toggle-format-' + format);
+    $("li.search-result").removeClass('ding-format-long');
+    $("li.search-result").removeClass('ding-format-short');
+    $("li.search-result").addClass('ding-format-' + format);
     $.cookie("ding_toggle_format", format, { expires: 30 });
-    setToggleFormat(format);
-  });
-})(jQuery);
+  }
 
-
-function setToggleFormat(format) {
-  if ( !jQuery("#ding-toggle-format") )
-    return false;
-  setFormat(format);
-  jQuery("#ding-toggle-format").click(function() {
-    var toFormat = ( jQuery.cookie("ding_toggle_format") == 'short' ) ? 'long' : 'short';
-    return setFormat(toFormat);
-  });
-}
-
-
-function setFormat(format) {
-  jQuery("#ding-toggle-format").removeClass('ding-toggle-format-long');
-  jQuery("#ding-toggle-format").removeClass('ding-toggle-format-short');
-  jQuery("#ding-toggle-format").addClass('ding-toggle-format-' + format);
-  jQuery("li.search-result").removeClass('ding-format-long');
-  jQuery("li.search-result").removeClass('ding-format-short');
-  jQuery("li.search-result").addClass('ding-format-' + format);
-  jQuery.cookie("ding_toggle_format", format, { expires: 30 });
-  return false;
-}
-
+}(jQuery));
