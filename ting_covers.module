@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file ting_covers.module
+ * Provide functionality and page callbacks for retrieving covers for Ting objects and collections
+ */
+
+define('TING_COVERS_CACHE_LIFETIME', 86400);
+
+/**
+ * Implementation of hook_init().
+ */
+function ting_covers_init() {
+  drupal_add_js(drupal_get_path('module', 'ting_covers').'/js/ting-covers.js', array('type' => 'file'));
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function ting_covers_menu() {
+  $items = array();
+
+  $items['ting/covers'] = array(
+    'title' => 'Retreives cover for Ting objects',
+    'page callback' => 'ting_covers_objects',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_covers.pages.inc',
+  );
+
+  $items['admin/config/ting/covers'] = array(
+    'title' => 'Covers',
+    'description' => 'Configure how covers are handled.',
+  	'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_covers.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function ting_covers_theme() {
+  return array(
+    'ting_object_cover' => array(
+      'variables' => array('object' => NULL, 'image_style' => NULL),
+      'file' => 'ting_covers.theme.inc',
+    ),
+    'ting_collection_cover' => array(
+      'variables' => array('collection' => NULL, 'image_style' => NULL),
+      'file' => 'ting_covers.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_ding_entity_view().
+ */
+function ting_covers_ding_entity_view(&$object, $view_mode) {
+  dpm($object);
+  dpm($view_mode);
+}
+
+/**
+ * Implementation of hook_ding_entity_collection_view().
+ */
+/*function ting_covers_ding_entity_collection_view(&$object, $view_mode) {
+  if ($view_mode == 'search_result') {
+    $object->content['overview']['left'] = 'foo';    
+  }
+}*/
+
+function ting_covers_preprocess_ting_object_overview(&$variables) {
+  $variables['image'] = theme('ting_object_cover', array('object' => $variables['object'], 'image_style' => variable_get('ting_covers_search_result_style', 'thumbnail')));
+}
+
+/**
+ * Implementation of hook_cron().
+ */
+function ting_covers_cron() {
+  //TODO: Delete obsolete image files  
+}
+
+/**
+ * Return the path to the cover of the object.
+ */
+function ting_covers_object_path($object_id) {
+  return file_default_scheme() . '://ting/covers/object/' . md5($object_id) . '.jpg';
+}
