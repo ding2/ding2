@@ -35,7 +35,7 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
    }
    $internal_account = ding_user_get_creds($account);
    $reservations = openruth_client_invoke('user_status', $internal_account['name'], $internal_account['pass']);
-   if (isset($reservations->order->orderNotReady)) {
+   if (isset($reservations->orders->orderNotReady)) {
      foreach ($reservations->orders->orderNotReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
          'ding_entity_id' => $res->itemId,
