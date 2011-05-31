@@ -55,6 +55,10 @@ projects[ding_toggle_format][type] = "module"
 projects[ding_toggle_format][download][type] = "git"
 projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
 
+projects[openruth][type] = "module"
+projects[openruth][download][type] = "git"
+projects[openruth][download][url] = "git@github.com:ding2/openruth.git"
+
 ; Frontend modules
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
