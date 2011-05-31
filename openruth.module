@@ -159,7 +159,7 @@ function openruth_user_authenticate($name, $pass) {
   }
 
   if ($res->userBlocked) {
-    // TODO: Tell the user...
+    // @todo Tell the user...
   }
 
   $return['success'] = TRUE;
@@ -187,6 +187,19 @@ function openruth_user_authenticate($name, $pass) {
   }
 
   return $return;
+}
+
+/**
+ *
+ */
+function openruth_reservation_create($account, $id) {
+  if ($creds = ding_user_get_creds($account)) {
+    // @todo pickup branch?
+
+  }
+  else {
+    throw new DingProviderAuthException;
+  }
 }
 
 /**
