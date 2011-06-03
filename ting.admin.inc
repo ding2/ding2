@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Admin page callback file for the ting module.
@@ -95,6 +94,134 @@ function ting_admin_ting_settings($form_state) {
   );
 
   return system_settings_form($form);
+}
+
+/**
+ * Form builder; Configure custom search result ranking for this site.
+ *
+ * @ingroup forms
+ */
+function ting_admin_ranking_settings($form, &$form_state) {
+  form_load_include($form_state, 'admin.inc', 'ting');
+  $form = array(
+    '#after_build' => array('ting_admin_ranking_form_after_build'),
+  );
+
+  $form['ting_ranking_custom'] = array(
+    '#title' => t('Enable custom ranking'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('ting_ranking_custom', 0),
+    '#description' => t('If enabled, the Ting client will use the custom ranking settings provided below when making queries to Ting.'),
+  );
+
+  // Get our stored data.
+  $field_data = variable_get('ting_ranking_fields', array());
+
+  if (!isset($form_state['ranking_field_count'])) {
+    $form_state['ranking_field_count'] = count($field_data) + 1;
+  }
+
+  // Wrapper, so that the AJAX callback have some place to put new elements
+  $form['ting_ranking_fields'] = array(
+    '#title' => t('Custom ranking fields'),
+    '#type' => 'fieldset',
+    '#prefix' => '<div id="ranking-fields-wrapper">',
+    '#suffix' => '</div>',
+    '#tree' => TRUE,
+  );
+
+  for ($i = 0; $i < $form_state['ranking_field_count']; $i++) {
+    $form['ting_ranking_fields']['fields'][$i] = array(
+      '#type' => 'ting_ranking_field',
+      '#default_value' => (isset($field_data[$i])) ? $field_data[$i] : array(),
+    );
+  }
+
+  $form['ting_ranking_fields']['add_field'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add another ranking field'),
+    '#submit' => array('ting_admin_ranking_add_more_submit'),
+    '#weight' => 10,
+    '#ajax' => array(
+      'callback' => 'ting_admin_ranking_add_more_js',
+      'wrapper' => 'ranking-fields-wrapper',
+      'effect' => 'fade',
+    ),
+  );
+
+  $form['buttons']['save'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save changes'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the "Add another item" button of a field form.
+ *
+ * This handler is run regardless of whether JS is enabled or not. It makes
+ * changes to the form state. If the button was clicked with JS disabled, then
+ * the page is reloaded with the complete rebuilt form. If the button was
+ * clicked with JS enabled, then ajax_form_callback() calls field_add_more_js()
+ * to return just the changed part of the form.
+ */
+function ting_admin_ranking_add_more_submit($form, &$form_state) {
+  // Simply add another empty set of values to the field array and ask
+  // to have the form rebuilt. The form code will take care of the rest.
+  $form_state['ranking_field_count'] += 1;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax callback in response to a new empty widget being added to the form.
+ */
+function ting_admin_ranking_add_more_js($form, &$form_state) {
+  return $form['ting_ranking_fields'];
+}
+
+/**
+ * After build callback to the ranking settings form.
+ *
+ * Add a little bit of CSS and JS to the form.
+ */
+function ting_admin_ranking_form_after_build($form, &$form_state) {
+  $path = drupal_get_path('module', 'ting');
+
+  drupal_add_css($path .'/css/ting_admin_ranking_form.css');
+
+  return $form;
+}
+
+/**
+ * Submit handler for ranking settings form.
+ */
+function ting_admin_ranking_settings_submit($form, &$form_state) {
+  variable_set('ting_ranking_custom', (integer) $form_state['values']['ting_ranking_custom']);
+
+  $fields = $form_state['values']['ting_ranking_fields']['fields'];
+
+  $fields = array_filter($fields, '_ting_ranking_field_filter');
+  usort($fields, '_ting_ranking_field_sort');
+
+  variable_set('ting_ranking_fields', $fields);
+}
+
+/**
+ * array_filter() callback to remove empty/deleted elements.
+ */
+function _ting_ranking_field_filter($element) {
+  return !empty($element['field_name']);
+}
+
+/**
+ * usort() callback to remove empty/deleted elements.
+ */
+function _ting_ranking_field_sort($a, $b) {
+  if ($a['weight'] == $b['weight']) {
+      return 0;
+  }
+  return ($a['weight'] > $b['weight']) ? -1 : 1;
 }
 
 /**

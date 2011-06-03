@@ -1,8 +1,6 @@
 <?php
-// $Id$
-
 /**
- * @file ting.client.inc
+ * @file
  * Wrapper functions for Ting client.
  */
 
@@ -78,6 +76,7 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
  *    - numFacets: The number of terms to include with each facet. Default: 10
  *    - enrich: Whether to include additional information and cover images with each object. Default: false
  *    - sort: The key to sort the results by. Default: "" (corresponds to relevance). The possible values are defined by the sortType type in the XSD.
+ *    - rank: The ranking type, as defined in the XSD.
  *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
  *    - query: Override the query put on collections.
  *    - reply_only: Don't change the result objects to TingCollection objects.
@@ -95,8 +94,28 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
 
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
-  $request->setSort((isset($options['sort']) && $options['sort']) ? $options['sort'] : 'rank_general');
+  if (isset($options['sort']) && $options['sort']) {
+    $request->setSort = $options['sort'];
+  }
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
+
+  if (variable_get('ting_ranking_custom', FALSE)) {
+    $fields = array();
+    foreach (variable_get('ting_ranking_fields', array()) as $field) {
+      $fields[] = array(
+        'fieldName' => $field['field_name'],
+        'fieldType' => $field['field_type'],
+        'weight' => $field['weight'],
+      );
+    }
+
+    if (!empty($fields)) {
+      $request->userDefinedRanking = array('tieValue' => 0.1, 'rankField' => $fields);
+    }
+  }
+  else {
+    $request->setRank((isset($options['rank']) && $options['rank']) ? $options['rank'] : 'rank_general');
+  }
 
   $search_result = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
   // Replace collections with proper TingCollection objects.
