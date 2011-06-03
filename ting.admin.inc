@@ -253,7 +253,7 @@ function ting_admin_online_url_settings($form_state) {
   );
 
   $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-  $types = variable_get('ting_url_labels_types', array());
+  $types = variable_get('ting_well_types', array());
   $form['ting_url_labels'] = array(
     '#type' => 'fieldset',
     '#title' => t('Labels'),
@@ -295,22 +295,65 @@ function ting_admin_online_url_settings($form_state) {
  * Submit handler. Updates the list of known types from the datawell.
  */
 function ting_admin_online_url_settings_update_types($form, &$form_state) {
-  // Get a list of types by executing a null query and look at the facets
-  // result.
-  $options = array(
-    'facets' => array('facet.type'),
-    'numFacets' => 99,
-    'reply_only' => TRUE,
-    'sort' => 'random',
+  _ting_fetch_well_types();
+}
+
+/**
+ * Form builder; Configure reservable materials.
+ *
+ * @ingroup forms
+ * @see system_settings_form()
+ */
+function ting_admin_reservable_settings($form_state) {
+  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
+  $form = array();
+
+  $form['update'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Update from datawell'),
+    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.')
   );
-  $result = ting_do_search("*=*", 0, 0, $options);
 
-  $types = array();
-  foreach ($result->facets['facet.type']->terms as $term => $count) {
-    $types[drupal_strtolower($term)] = $count;
-  }
+  $form['update']['update'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+    '#submit' => array('ting_admin_reservable_settings_update'),
+  );
 
-  if (!empty($types)) {
-    variable_set('ting_url_labels_types', $types);
-  }
+  $types = variable_get('ting_well_types', array());
+  $sources = variable_get('ting_well_sources', array());
+
+  $form['ting_reservable'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Reservation buttons'),
+    '#tree' => FALSE,
+    '#description' => t("A Ting object will get a reservation button, if it's source and type is <em>both</em> selected ."),
+  );
+
+  $form['ting_reservable']['ting_reservable_sources'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Sources'),
+    '#options' => drupal_map_assoc(array_keys($sources)),
+    '#default_value' => variable_get('ting_reservable_sources', _ting_default_reservable_sources()),
+  );
+
+  $form['ting_reservable']['ting_reservable_types'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Types'),
+    '#options' => drupal_map_assoc(array_keys($types)),
+    '#default_value' => variable_get('ting_reservable_types', _ting_default_reservable_types()),
+  );
+  // Save us the trouble of running array_filter.
+  $form['array_filter'] = array('#type' => 'value', '#value' => TRUE);
+
+  return system_settings_form($form);
+}
+
+/**
+ * Submit handler. Updates the list of known types and sources from the
+ * datawell.
+ */
+function ting_admin_reservable_settings_update($form, &$form_state) {
+  _ting_fetch_well_types();
+  _ting_fetch_well_sources();
 }

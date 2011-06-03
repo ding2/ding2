@@ -118,6 +118,15 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
+  $items['admin/config/ding/reservable'] = array(
+    'title' => 'Reservable Ting objects',
+    'description' => 'Configure on which Ting objects there will be a reservation button.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_reservable_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc'
+  );
+
   return $items;
 }
 
@@ -342,6 +351,22 @@ function ting_registry_files_alter(&$files, $modules) {
 }
 
 /**
+ * Implements hook_ding_entity_is().
+ */
+function ting_ding_entity_is($object, $class) {
+  if ($class == 'reservable') {
+    $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
+    $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
+    if (isset($sources[drupal_strtolower($object->ac_source)]) && isset($types[drupal_strtolower($object->type)])) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
+  }
+}
+
+/**
  * Page callback: Display a ting object.
  */
 function ting_object_page_view($object) {
@@ -561,4 +586,101 @@ function _ting_default_url_labels() {
     'lydbog (online)' => t('Hear online'),
     'grammofonplade' => t('Hear online'),
   );
+}
+
+/**
+ * Default reservable sources.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _ting_default_reservable_sources() {
+  return drupal_map_assoc(array(
+    'bibliotekets materialer',
+  ));
+}
+
+/**
+ * Default reservable types.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _ting_default_reservable_types() {
+  return drupal_map_assoc(array(
+    'billedbog',
+    'blu-ray disc',
+    'bog',
+    'cd',
+    'cd-rom',
+    'diskette',
+    'dvd',
+    'dvd-rom',
+    'film',
+    'grammofonplade',
+    'kassettelydbånd',
+    'lydbog (cd)',
+    'lydbog (cd-mp3)',
+    'periodikum',
+    'playstation2-spil',
+    'playstation3-spil',
+    'playstation-spil',
+    'puslespil',
+    'spil',
+    'tegneserie',
+    'video',
+    'wii-spil',
+    'xbox-spil',
+    'årbog',
+  ));
+}
+
+/**
+ * Fetch known types from the datawell.
+ */
+function _ting_fetch_well_types() {
+  // Get a list of types by executing a null query and look at the facets
+  // result.
+  $options = array(
+    'facets' => array('facet.type'),
+    'numFacets' => 99,
+    'reply_only' => TRUE,
+    'sort' => 'random',
+  );
+  module_load_include('client.inc', 'ting');
+  $result = ting_do_search("*=*", 0, 0, $options);
+
+  $types = array();
+  foreach ($result->facets['facet.type']->terms as $term => $count) {
+    $types[drupal_strtolower($term)] = $count;
+  }
+
+  // Only save if we actually got any types.
+  if (!empty($types)) {
+    variable_set('ting_well_types', $types);
+  }
+}
+
+/**
+ * Fetch known sources from the datawell.
+ */
+function _ting_fetch_well_sources() {
+  // Get a list of sources by executing a null query and look at the facets
+  // result.
+  $options = array(
+    'facets' => array('facet.acSource'),
+    'numFacets' => 99,
+    'reply_only' => TRUE,
+    'sort' => 'random',
+  );
+  module_load_include('client.inc', 'ting');
+  $result = ting_do_search("*=*", 0, 0, $options);
+
+  $sources = array();
+  foreach ($result->facets['facet.acSource']->terms as $term => $count) {
+    $sources[drupal_strtolower($term)] = $count;
+  }
+
+  // Only save if we actually got any types.
+  if (!empty($sources)) {
+    variable_set('ting_well_sources', $sources);
+  }
 }
