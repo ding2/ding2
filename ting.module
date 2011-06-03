@@ -669,8 +669,6 @@ function theme_ting_ranking_field($element) {
   return theme('form_element', $element);
 }
 
-}
-
 /**
  * Default reservable sources.
  *
