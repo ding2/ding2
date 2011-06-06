@@ -22,7 +22,7 @@
     attach: function(context) {
       //Assemble information regarding covers
       var coverData = [];
-      $('.ting-cover-wrapper:not(.ting-cover-processing, .ting-cover-processed)', context).each(function(i, e) {
+      $('.ting-cover:not(.ting-cover-processing, .ting-cover-processed)', context).each(function(i, e) {
         coverData.push(Drupal.extractCoverData(e));
       }).addClass('ting-cover-processing');
       
