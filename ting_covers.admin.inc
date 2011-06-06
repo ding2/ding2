@@ -49,6 +49,16 @@ function ting_covers_admin_settings_form(&$form_state) {
     '#default_value' => variable_get('ting_covers_collection_style', 'large'),
   );  
   
+  return system_settings_form($form);
+}
+
+/**
+ * Form builder; Configure ADDI settings for this site.
+ *
+ * @ingroup forms
+ * @see system_settings_form()
+ */
+function ting_covers_admin_addi_settings_form($form_state) {
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),

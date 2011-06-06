@@ -37,6 +37,23 @@ function ting_covers_menu() {
     'file' => 'ting_covers.admin.inc',
   );
 
+  $items['admin/config/ting/covers/setttings'] = array(
+    'title' => 'Settings',
+    'description' => 'Configure how covers are handled.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  
+  $items['admin/config/ting/covers/addi'] = array(
+    'title' => 'ADDI service',
+    'description' => 'Configure integration with the ADDI service.',
+  	'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_admin_addi_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_covers.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  
   return $items;
 }
 
@@ -100,6 +117,25 @@ function ting_covers_cron() {
   }
 }
 
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ting_covers_ding_install_tasks() {
+  module_load_include('inc', 'ting_covers', 'ting_covers.admin');
+  return array(
+    'ting_covers_admin_addi_settings_form' => array(
+      'display_name' => st('ADDI service settings'),
+      'type' => 'form',
+      'file' => drupal_get_path('module', 'ting_covers') . '/ting_covers.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Retrieve all files under a path recursively 
+ * @param string $files_path Path or URI
+ * @return array An array of file paths or URIs
+ */
 function _ting_covers_get_files($files_path) {
   $files = array();
   
