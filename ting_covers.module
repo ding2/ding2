@@ -57,21 +57,11 @@ function ting_covers_theme() {
 }
 
 /**
- * Implementation of hook_ding_entity_view().
- */
-function ting_covers_ding_entity_view(&$object, $view_mode) {
-  dpm($object);
-  dpm($view_mode);
-}
-
-/**
  * Implementation of hook_ding_entity_collection_view().
  */
-/*function ting_covers_ding_entity_collection_view(&$object, $view_mode) {
-  if ($view_mode == 'search_result') {
-    $object->content['overview']['left'] = 'foo';    
-  }
-}*/
+function ting_covers_ding_entity_collection_view(&$collection, $view_mode) {
+  $object->content['overview']['left'] = theme('ting_object_cover', array('object' => array_shift($collection->entities), 'image_style' => variable_get('ting_covers_collection_style', 'large')));;    
+}
 
 function ting_covers_preprocess_ting_object_overview(&$variables) {
   $variables['image'] = theme('ting_object_cover', array('object' => $variables['object'], 'image_style' => variable_get('ting_covers_search_result_style', 'thumbnail')));
