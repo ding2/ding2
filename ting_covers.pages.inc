@@ -56,7 +56,7 @@ function ting_covers_objects() {
       }
     }
   } catch (Exception $e) {
-    print_r($e);
+    watchdog('ting_covers', 'Unable to retrieve covers from ADDI: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
   }
   
   //Return all image information
