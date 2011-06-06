@@ -15,8 +15,12 @@ function ting_covers_admin_settings_form(&$form_state) {
     '#type' => 'select',
     '#title' => t('Cover cache lifetime'),
     '#options' => array(
+      CACHE_TEMPORARY =>  t('Disable cache'),
+      '86400' => t("24 hours"),
+      '604800' => t("1 week"),
+      '2592000' => t("1 month"),
     ),
-    '#default_value' => variable_get('ting_covers_cache_lifetime', 86400),
+    '#default_value' => variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME),
   );
 
   $form['styles'] = array(
