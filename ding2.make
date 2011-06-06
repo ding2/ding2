@@ -40,6 +40,10 @@ projects[ding_reservation][type] = "module"
 projects[ding_reservation][download][type] = "git"
 projects[ding_reservation][download][url] = "git@github.com:ding2/ding_reservation.git"
 
+projects[ting_covers][type] = "module"
+projects[ting_covers][download][type] = "git"
+projects[ting_covers][download][url] = "git@github.com:ding2/ting_covers.git"
+
 projects[ting_relation][type] = "module"
 projects[ting_relation][download][type] = "git"
 projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git"
