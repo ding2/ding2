@@ -32,19 +32,21 @@ function ting_covers_objects() {
     $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
     //Local ids = Faust numbers. Library object identifiers can be confusing...
     $additional_informations = $service->getByFaustNumber($missing_images_local_ids);
-    foreach($additional_informations as $local_id => $ai) {
+    foreach($missing_images_local_ids as $local_id) {
       //Try to extract the image url from the result 
       $source_url = FALSE;
-      if ($ai->detailUrl) {
-        $source_url = $ai->detailUrl;
-      } elseif ($ai->thumbnailUrl) {
-        $source_url = $ai->thumbnailUrl;
+      if (isset($additional_informations[$local_id]) && $ai = $additional_informations[$local_id]) {
+        if ($ai->detailUrl) {
+          $source_url = $ai->detailUrl;
+        } elseif ($ai->thumbnailUrl) {
+          $source_url = $ai->thumbnailUrl;
+        }
       }
       
       //No cover image found? Cache this for future reference to avoid unnecessary requests
       if (!$source_url) {
-        cache_set('ting_covers:'.$local_id, TRUE, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_CACHE_LIFETIME);
-        break; 
+        cache_set('ting_covers:'.$local_id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_CACHE_LIFETIME);
+        continue;
       }
       
       //Try to download the image locally

@@ -18,7 +18,7 @@ function template_preprocess_ting_object_cover(&$variables) {
 
     //Avoid further javascript processing
     $variables['classes'][] = 'ting-cover-processed';
-  } elseif (cache_get('ting_covers:' . $object->localId, FALSE)) {
+  } elseif (cache_get('ting_covers:' . $object->localId)) {
     //We know that there is no cover available for this object so avoid
     //further javascript processing
     $variables['classes'][] = 'ting-cover-processed';
