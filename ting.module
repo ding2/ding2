@@ -91,15 +91,6 @@ function ting_menu() {
     'file' => 'ting.admin.inc',
   );
 
-  $items['admin/config/ting/addi'] = array(
-    'title' => 'ADDI settings',
-    'description' => 'Additional information service settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_addi_settings'),
-    'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc',
-  );
-
   $items['admin/config/ting/proxy'] = array(
     'title' => 'Proxy settings',
     'description' => 'Ting Proxy settings.',
@@ -147,11 +138,6 @@ function ting_ding_install_tasks() {
   return array(
     'ting_admin_ting_settings' => array(
       'display_name' => st('Ting service settings'),
-      'type' => 'form',
-      'file' => drupal_get_path('module', 'ting') . '/ting.admin.inc',
-    ),
-    'ting_admin_addi_settings' => array(
-      'display_name' => st('ADDI service settings'),
       'type' => 'form',
       'file' => drupal_get_path('module', 'ting') . '/ting.admin.inc',
     ),
