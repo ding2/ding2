@@ -8,13 +8,6 @@
 define('TING_COVERS_CACHE_LIFETIME', 86400);
 
 /**
- * Implementation of hook_init().
- */
-function ting_covers_init() {
-  drupal_add_js(drupal_get_path('module', 'ting_covers').'/js/ting-covers.js', array('type' => 'file'));
-}
-
-/**
  * Implementation of hook_menu().
  */
 function ting_covers_menu() {
@@ -63,11 +56,7 @@ function ting_covers_menu() {
 function ting_covers_theme() {
   return array(
     'ting_object_cover' => array(
-      'variables' => array('object' => NULL, 'image_style' => NULL),
-      'file' => 'ting_covers.theme.inc',
-    ),
-    'ting_collection_cover' => array(
-      'variables' => array('collection' => NULL, 'image_style' => NULL),
+      'render element' => 'elements',
       'file' => 'ting_covers.theme.inc',
     ),
   );
@@ -77,11 +66,25 @@ function ting_covers_theme() {
  * Implementation of hook_ding_entity_collection_view().
  */
 function ting_covers_ding_entity_collection_view(&$collection, $view_mode) {
-  $object->content['overview']['left'] = theme('ting_object_cover', array('object' => array_shift($collection->entities), 'image_style' => variable_get('ting_covers_collection_style', 'large')));;    
+  $object->content['overview']['left'] = array(
+    '#theme' => 'ting_object_cover',
+    '#object' => array_shift($collection->entities), 
+    '#image_style' => variable_get('ting_covers_search_result_style', 'thumbnail'),
+    '#attached' => array(
+    	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
+    ),
+  ); 
 }
 
 function ting_covers_preprocess_ting_object_overview(&$variables) {
-  $variables['image'] = theme('ting_object_cover', array('object' => $variables['object'], 'image_style' => variable_get('ting_covers_search_result_style', 'thumbnail')));
+  $variables['image'] = array(
+    '#theme' => 'ting_object_cover',
+    '#object' => $variables['object'], 
+    '#image_style' => variable_get('ting_covers_search_result_style', 'thumbnail'),
+    '#attached' => array(
+    	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
+    ),
+  );
 }
 
 /**

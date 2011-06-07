@@ -1,8 +1,10 @@
 <?php
 
 function template_preprocess_ting_object_cover(&$variables) {
-  $object = $variables['object'];
+  $object = $variables['object'] = $variables['elements']['#object'];
+  $variables['image_style'] = $variables['elements']['#image_style'];
   
+  //Set initial values required by the template
   $variables['classes'] = array('ting-cover', 
   															'ting-cover-object-id-'.$object->localId,
   															'ting-cover-style-'.$variables['image_style']);
