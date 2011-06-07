@@ -5,11 +5,11 @@
  * by the system that includes this file.
  */
 $plugin = array(
-  'title' => t('Reservation List'),
-  'description' => t('Users reservation list'),
+  'title' => t('User reservation list'),
+  'description' => t('The current reservations for a user'),
   'single' => TRUE,
   'content_types' => array('list'),
-  'render callback' => 'list_content_type_render',
+  // 'render callback' => 'ding_reservation_list_content_type_render',
   'required context' => new ctools_context_required(t('User'), 'user'),
   'category' => t('User'),
 );
@@ -17,7 +17,7 @@ $plugin = array(
 /**
  * Render the block
  */
-function list_content_type_render($subtype, $conf, $panel_args, $context) {
+function ding_reservation_list_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
   $items = array();
 
@@ -26,11 +26,16 @@ function list_content_type_render($subtype, $conf, $panel_args, $context) {
   $block->delta = 'list';
   $block->title = t('Reservation list');
 
-  $list = ding_provider_invoke('reservation', 'list', $account);
+  $list = ding_provider_invoke_page('reservation', 'list', $account);
+
+  $ids = array();
   foreach ($list as $item) {
-    $items[$item->id] = ting_object_load(variable_get('ting_agency', 0) . ':' . $item->ding_entity_id);
+    $ids[] = $item->ding_entity_id;
   }
-  $block->content = count($items) == TRUE ? drupal_get_form('ding_reservation_list_form', $items) : t('No reservations');
+  // Preload all ting objects.
+  ting_object_load_multiple($ids);
+
+  $block->content = count($list) == TRUE ? ding_provider_get_form('ding_reservation_list_form', $list) : t('No reservations');
   return $block;
 }
 
@@ -45,14 +50,13 @@ function ding_reservation_list_content_type_edit_form($form, &$form_state) {
  * Implements a drupal form, which show a list of reservations
  */
 function ding_reservation_list_form($form, &$form_state, $items = array()) {
-  foreach ($items as $entity_id => $item) {
-    $title = t('@title by @author', array('@title' => $item->getTitle(), '@author' => implode(', ', $item->getCreators())));
-    $checkboxes[$entity_id] = l($title, 'ting/object/' . $item->getId());
+  foreach ($items as $id => $item) {
+    $title = t('@title by @author', array('@title' => $item->title, '@author' => $item->creator));
+    $checkboxes[$item->id] = l($title, 'ting/object/' . $item->ding_entity_id);
   }
   $form['reservations'] = array(
     '#type' => 'checkboxes',
     '#options' => $checkboxes,
-    '#default_value' => FALSE,
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -76,5 +80,4 @@ function ding_reservation_list_form_submit($form, &$form_state) {
       ding_provider_invoke('reservation', 'delete', $user, $entity_id);
     }
   }
-  drupal_goto('user');
 }
