@@ -467,6 +467,13 @@ function ting_object_load($id) {
 }
 
 /**
+ * Load a ting object.
+ */
+function ting_object_load_multiple($ids) {
+  return entity_load('ting_object', array(), array('ding_entity_id' => $ids));
+}
+
+/**
  * Load a ting collection.
  */
 function ting_collection_load($id) {

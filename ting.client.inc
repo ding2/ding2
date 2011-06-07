@@ -54,6 +54,60 @@ function ting_get_object($object_id, $collection = FALSE) {
 }
 
 /**
+ * Get a bunch of objects in one request.
+ */
+function ting_get_objects($ids) {
+  $objects = array();
+
+  // Prefill from cache.
+  foreach ($ids as $id) {
+    $objects[$id] = ting_cache_get($id);
+    if (isset($objects[$id]) && isset($objects[$id]->objects)) {
+      foreach ($objects[$id]->objects as $sub_object) {
+        if ($sub_object->id == $id) {
+          $objects[$id] = $sub_object;
+          break 2;
+        }
+      }
+      // No sub-object had the same id. Somethings broken.
+      $objects[$id] = NULL;
+    }
+  }
+
+  $query = array();
+  foreach ($objects as $id => $object) {
+    if (!isset($object)) {
+      $query[] = 'rec.id=' . $id;
+    }
+  }
+
+  if (sizeof($query)) {
+    $request = ting_get_request_factory()->getSearchRequest();
+
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
+    $request->setQuery(join(' OR ', $query));
+    $request->setAllRelations(TRUE);
+    $request->setRelationData('uri');
+    $request->setStart(1);
+    $request->setNumResults(1000);
+
+    $result = ting_execute_cache($request);
+
+    if ($result && is_array($result->collections)) {
+      foreach ($result->collections as $collection) {
+        if (is_array($collection->objects) && sizeof($collection->objects))
+        foreach ($collection->objects as $object) {
+          $objects[$object->id] = $object;
+        }
+      }
+    }
+  }
+  return $objects;
+}
+
+/**
  * Performs a search agains the well
  *
  * @param string $query
