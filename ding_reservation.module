@@ -30,7 +30,7 @@ function ding_reservation_list_form($form, &$form_state, $items = array()) {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Submit reservations'),
+    '#value' => t('Delete reservations'),
   );
   return $form;
 }
@@ -84,15 +84,14 @@ function ding_reservation_ding_entity_view($entity, $view_mode, $langcode = NULL
  * Implementation of hook_ding_entity_is().
  */
 function ding_reservation_ding_entity_is($object, $class) {
+  $types = variable_get('ting_well_types', array());
+  $sources = variable_get('ting_well_sources', array());
   if ($class == 'reservable' || $class == 'cartable') {
-    if ($object->is('online')) {
-      return FALSE;
+    if (!empty($sources[drupal_strtolower($object->ac_source)]) && !empty($types[drupal_strtolower($object->type)])) {
+      return TRUE;
     }
-    elseif (in_array(drupal_strtolower($object->type), array('artikel', 'tidsskrift'))) {
-      return FALSE;
-    }
-    return TRUE;
   }
+  return FALSE;
 }
 
 /**
