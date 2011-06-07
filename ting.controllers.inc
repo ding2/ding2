@@ -173,10 +173,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_collection_id] = $this->entityCache[$ding_entity_collection_id];
         }
         else {
-          // Also supply the original query, so ting_get_object() can
-          // use it if it fetches the collection. This ensures that we
-          // get the proper order of objects.
-          $reply = ting_get_object($ding_entity_collection_id, TRUE, (isset($conditions['query']) ? $conditions['query'] : NULL));
+          $reply = ting_get_object($ding_entity_collection_id, TRUE);
           $object = NULL;
           if ($reply) {
             $object = new TingCollection($ding_entity_collection_id);
