@@ -3,7 +3,7 @@
 /**
  * Admin settings form for Ting covers.
  */
-function ting_covers_admin_settings_form(&$form_state) {
+function ting_covers_admin_settings_form($form, &$form_state) {
   $form = array();
 
   $form['settings'] = array(
@@ -58,7 +58,7 @@ function ting_covers_admin_settings_form(&$form_state) {
  * @ingroup forms
  * @see system_settings_form()
  */
-function ting_covers_admin_addi_settings_form($form_state) {
+function ting_covers_admin_addi_settings_form($form, &$form_state) {
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),
