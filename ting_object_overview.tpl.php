@@ -8,7 +8,7 @@
   <div class="left-column left">
     <div class="picture">
       <?php if (isset($image)) { ?>
-        <?php print $image; ?>
+        <?php print render($image); ?>
       <?php } ?>
     </div>
     <?php print render($content['left']); ?>
