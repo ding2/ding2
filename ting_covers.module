@@ -91,6 +91,37 @@ function ting_covers_preprocess_ting_object_overview(&$variables) {
  * Implementation of hook_cron().
  */
 function ting_covers_cron() {
+  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME));
+}
+
+/**
+ * Implementation of hook_cache_clear().
+ */
+function ting_covers_flush_caches() {
+  _ting_covers_delete_old_files();
+}
+
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ting_covers_ding_install_tasks() {
+  module_load_include('inc', 'ting_covers', 'ting_covers.admin');
+  return array(
+    'ting_covers_admin_addi_settings_form' => array(
+      'display_name' => st('ADDI service settings'),
+      'type' => 'form',
+      'file' => drupal_get_path('module', 'ting_covers') . '/ting_covers.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Delete ting covers files.
+ * 
+ * @param int $time Timestamp where older files will be deleted. 
+ * 	Obmit or set to NULL to delete all files.
+ */
+function _ting_covers_delete_old_files($time = NULL) {
   //Collect potential locations of cover folders
   $files_dir = file_default_scheme() . '://';
   $image_dirs = array($files_dir);
@@ -102,7 +133,7 @@ function ting_covers_cron() {
       $image_dirs[] = $style_dir;
     }
   }
-  
+
   //Collect cover files
   $cover_files = array();
   foreach ($image_dirs as $uri) {
@@ -111,10 +142,10 @@ function ting_covers_cron() {
       $cover_files = array_merge($cover_files, _ting_covers_get_files($ting_covers_dir));
     }
   }
-    
+  
   //Delete obsolete files
   foreach ($cover_files as $file) {
-    if (filemtime($file) < $_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME)) {
+    if (!$time || (filemtime($file) < $time)) {
       file_unmanaged_delete($file);
     }
   }
@@ -141,7 +172,7 @@ function ting_covers_ding_install_tasks() {
  */
 function _ting_covers_get_files($files_path) {
   $files = array();
-  
+
   foreach (scandir($files_path) as $path) {
     $file_path = $files_path . DIRECTORY_SEPARATOR . $path;
     if (is_dir($file_path)) {
