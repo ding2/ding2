@@ -514,7 +514,7 @@ function ting_object_view($object, $view_mode = 'full') {
     );
   }
 
-  if ($object->online_url) {
+  if (isset($object->online_url)) {
     $settings = variable_get('ting_url_labels', _ting_default_url_labels());
     $type = drupal_strtolower($object->type);
     $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
