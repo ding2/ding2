@@ -46,20 +46,6 @@ function ding_reservation_ding_entity_view($entity, $view_mode, $langcode = NULL
 }
 
 /**
- * Implementation of hook_ding_entity_is().
- */
-function ding_reservation_ding_entity_is($object, $class) {
-  $types = variable_get('ting_well_types', array());
-  $sources = variable_get('ting_well_sources', array());
-  if ($class == 'reservable' || $class == 'cartable') {
-    if (!empty($sources[drupal_strtolower($object->ac_source)]) && !empty($types[drupal_strtolower($object->type)])) {
-      return TRUE;
-    }
-  }
-  return FALSE;
-}
-
-/**
  * Reserve form callback.
  *
  * Note that this form relies on form caching, which is triggered by
