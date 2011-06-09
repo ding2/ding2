@@ -17,6 +17,12 @@ function template_preprocess_ting_object(&$variables) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
 
+  if ( isset($variables['content']['entities']) ) {
+    foreach ( $variables['content']['entities'] as $key => $val ) {
+      $variables['content']['overview']['types'][] = $key;
+    }
+  }
+
 }
 
 /**
@@ -77,6 +83,18 @@ function template_preprocess_ting_object_overview(&$variables) {
   $variables['abstract'] = check_plain($object->abstract);
 
   $variables['type'] = check_plain($object->type);
+
+  if ( isset($variables['content']['types']) ) {
+    $variables['types'] = $variables['content']['types'];
+  }
+
+  if ( $variables['page'] )
+    $variables['materials_heading'] = t('All materials');
+
+  if ( $variables['page'] && function_exists('ding_availability_render_legend') ) {
+    $variables['availability_legend'] = ding_availability_render_legend();
+  }
+
 }
 
 /**
