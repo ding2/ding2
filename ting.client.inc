@@ -14,10 +14,8 @@
  * @param $object_id The id to fetch.
  * @param $collection Whether to return a collection, if possible, or
  *   an object.
- * @param $query use the given query when fetching, to trigger collection
- *   ordering.
  */
-function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
+function ting_get_object($object_id, $collection = FALSE) {
   if (empty($object_id)) {
     return FALSE;
   }
@@ -29,12 +27,6 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
     // object, or ensure that we won't try to fetch this id again.
     ting_cache_set($object_id, NULL);
 
-    if ($query) {
-      $result = ting_do_search('rec.id=' . $object_id . ' AND (' . $query . ')', 1, 1, array('facets' => array(), 'allObjects' => TRUE, 'query' => $query, 'reply_only' => TRUE));
-      if (isset($result->collections)) {
-        $object = array_shift($result->collections);
-      }
-    }
     if (!$object) {
       $request = ting_get_request_factory()->getCollectionRequest();
       $request->setObjectId($object_id);
@@ -43,7 +35,7 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
       }
       $request->setAllRelations(TRUE);
       $request->setRelationData($collection ? 'uri' : 'full');
-      $object = ting_execute_cache($request, $query);
+      $object = ting_execute_cache($request);
     }
   }
 
@@ -59,6 +51,60 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
     return NULL;
   }
   return $object;
+}
+
+/**
+ * Get a bunch of objects in one request.
+ */
+function ting_get_objects($ids) {
+  $objects = array();
+
+  // Prefill from cache.
+  foreach ($ids as $id) {
+    $objects[$id] = ting_cache_get($id);
+    if (isset($objects[$id]) && isset($objects[$id]->objects)) {
+      foreach ($objects[$id]->objects as $sub_object) {
+        if ($sub_object->id == $id) {
+          $objects[$id] = $sub_object;
+          continue 2;
+        }
+      }
+      // No sub-object had the same id. Somethings broken.
+      $objects[$id] = NULL;
+    }
+  }
+
+  $query = array();
+  foreach ($objects as $id => $object) {
+    if (!isset($object)) {
+      $query[] = 'rec.id=' . $id;
+    }
+  }
+
+  if (sizeof($query)) {
+    $request = ting_get_request_factory()->getSearchRequest();
+
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
+    $request->setQuery(join(' OR ', $query));
+    $request->setAllRelations(TRUE);
+    $request->setRelationData('uri');
+    $request->setStart(1);
+    $request->setNumResults(1000);
+
+    $result = ting_execute_cache($request);
+
+    if ($result && is_array($result->collections)) {
+      foreach ($result->collections as $collection) {
+        if (is_array($collection->objects) && sizeof($collection->objects))
+        foreach ($collection->objects as $object) {
+          $objects[$object->id] = $object;
+        }
+      }
+    }
+  }
+  return $objects;
 }
 
 /**
@@ -78,7 +124,6 @@ function ting_get_object($object_id, $collection = FALSE, $query = NULL) {
  *    - sort: The key to sort the results by. Default: "" (corresponds to relevance). The possible values are defined by the sortType type in the XSD.
  *    - rank: The ranking type, as defined in the XSD.
  *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
- *    - query: Override the query put on collections.
  *    - reply_only: Don't change the result objects to TingCollection objects.
  * @return TingClientSearchResult
  *    The search result
@@ -117,7 +162,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     $request->setRank((isset($options['rank']) && $options['rank']) ? $options['rank'] : 'rank_general');
   }
 
-  $search_result = ting_execute_cache($request, (isset($options['query']) ? $options['query'] : $query));
+  $search_result = ting_execute_cache($request);
   // Replace collections with proper TingCollection objects.
   if ($search_result && is_array($search_result->collections)) {
     $ids = array();
@@ -127,7 +172,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
       }
     }
     if (!isset($options['reply_only']) || !$options['reply_only']) {
-      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids, 'query' => $query));
+      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids));
     }
   }
 
@@ -140,17 +185,13 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  * Executes the request and caches sub-objects.
  *
  * @param $request the request.
- * @param $query a query to put on collections, for making links later.
  */
-function ting_execute_cache($request, $query = NULL) {
-  static $calls = array();
-  $calls[] = $query;
-  if (sizeof($calls) > 1) {
-      watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls)), WATCHDOG_WARNING);
-    if (function_exists('dpm') && user_access('access devel information')) {
-      drupal_set_message(t('Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls))), 'error');
-    }
+function ting_execute_cache($request) {
+  $calls = &drupal_static(__FUNCTION__);
+  if (!isset($calls)) {
+    $calls = array();
   }
+  $calls[] = $request->getRequest()->getParameters();
   $reply = ting_execute($request);
 
   // Cache any sub-objects (mostly true for collections).
@@ -176,10 +217,6 @@ function ting_execute_cache($request, $query = NULL) {
   // precedence.
   if (isset($reply->collections)) {
     foreach ($reply->collections as &$collection) {
-      // Set the query used to load the collection on the collection itself,
-      // so it can create links that ensures that the objects is in the same
-      // order.
-      $collection->load_query = $query;
       if (isset($collection->objects[0])) {
         foreach ($collection->objects as $object) {
           // Cache any relations.

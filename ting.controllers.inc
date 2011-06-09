@@ -19,6 +19,7 @@ class TingObjectController extends DrupalDefaultEntityController {
     }
     // Ensure that the requested entities exists locally if getting by
     // ding_entity_id.
+    $unknown = array();
     if (isset($conditions['ding_entity_id'])) {
       $query = db_select($this->entityInfo['base table'], 'base');
       $query->addField('base', 'ding_entity_id');
@@ -26,26 +27,9 @@ class TingObjectController extends DrupalDefaultEntityController {
       $query->condition('ding_entity_id', $conditions['ding_entity_id']);
       $known = $query->execute()->fetchAllKeyed();
       foreach ($conditions['ding_entity_id'] as $ding_entity_id) {
-        // Not known locally. Create a proxy if it exists in the well.
         if (!isset($known[$ding_entity_id])) {
-          // See if it exists. ting_object_cache caches internally, so
-          // we don't.
-          $object = ting_get_object($ding_entity_id);
-          if ($object) {
-            // Insert a new local proxy row.
-            // db_insert($this->entityInfo['base table']);
-            $ting_object = array(
-              'ding_entity_id' => $ding_entity_id,
-            );
-            drupal_write_record('ting_object', $ting_object);
-            drupal_write_record('ting_object_revision', $ting_object);
-            db_update('ting_object')
-              ->fields(array('vid' => $ting_object['vid']))
-              ->condition('tid', $ting_object['tid'])
-              ->execute();
-            // Add new id to the loaded set.
-            $ids[] = $ting_object['tid'];
-          }
+          // Collect all unknown.
+          $unknown[$ding_entity_id] = $ding_entity_id;
         }
         elseif (!in_array($ding_entity_id, $ids)) {
           // Add the local id to the ids loaded.
@@ -53,6 +37,30 @@ class TingObjectController extends DrupalDefaultEntityController {
         }
       }
     }
+
+    // Now load all objects in one go.
+    $objects = ting_get_objects($conditions['ding_entity_id']);
+
+    // Not known locally. Create a proxy if it exists in the well.
+    if (sizeof($unknown)) {
+      foreach ($unknown as $ding_entity_id) {
+        if (isset($objects[$ding_entity_id])){
+          // Insert a new local proxy row.
+          $ting_object = array(
+            'ding_entity_id' => $ding_entity_id,
+          );
+          drupal_write_record('ting_object', $ting_object);
+          drupal_write_record('ting_object_revision', $ting_object);
+          db_update('ting_object')
+            ->fields(array('vid' => $ting_object['vid']))
+            ->condition('tid', $ting_object['tid'])
+            ->execute();
+          // Add new id to the loaded set.
+          $ids[] = $ting_object['tid'];
+        }
+      }
+    }
+
     // This is the same as parent::load(), with the exception that we fetch
     // into objects.
     $entities = array();
@@ -97,7 +105,7 @@ class TingObjectController extends DrupalDefaultEntityController {
     }
 
     foreach ($queried_entities as &$qe) {
-      $qe->reply = ting_get_object($qe->ding_entity_id);
+      $qe->reply = $objects[$qe->ding_entity_id];
     }
     // Pass all entities loaded from the database through $this->attachLoad(),
     // which attaches fields (if supported by the entity type) and calls the
@@ -173,10 +181,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_collection_id] = $this->entityCache[$ding_entity_collection_id];
         }
         else {
-          // Also supply the original query, so ting_get_object() can
-          // use it if it fetches the collection. This ensures that we
-          // get the proper order of objects.
-          $reply = ting_get_object($ding_entity_collection_id, TRUE, (isset($conditions['query']) ? $conditions['query'] : NULL));
+          $reply = ting_get_object($ding_entity_collection_id, TRUE);
           $object = NULL;
           if ($reply) {
             $object = new TingCollection($ding_entity_collection_id);
