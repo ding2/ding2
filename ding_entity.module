@@ -81,21 +81,51 @@ function ding_entity_collection_load($id) {
 /**
  * Base class for Ding entity types.
  *
- * Do not extend this class, use one of the subclasses in this file.
+ * Implements getters for properties.
+ *
+ * Subclasses should define properties with the value DingEntityBase::NULL, to
+ * get them automatically converted. When an attemting to access
+ * $object->my_prop, DingEntityBase will call $this->getMy_prop, and store the
+ * result for future accesses.
  */
 class DingEntityBase {
-  protected $properties = array('id' => FALSE);
+  /**
+   * Stores property values.
+   */
+  protected $properties = array();
+
+  /**
+   * Magic value to initialise properties with, to trigger automatic getter
+   * method handling.
+   */
+  const NULL = 'DingEntityBase::undefined';
+
+  public function __construct() {
+    foreach (get_object_vars($this) as $prop => $val) {
+      if ($val === self::NULL) {
+        // Unset the property, so __get() will take over.
+        unset($this->$prop);
+        // Set the value to our special null value.
+        $this->properties[$prop] = self::NULL;
+      }
+    }
+  }
 
   public function __get($prop) {
     if (isset($this->properties[$prop])) {
-      // Use property_exists() to support NULL values.
-      if (property_exists($this, $prop)) {
-        return $this->$prop;
+      if ($this->properties[$prop] === self::NULL) {
+        if (($method = 'get' . strtoupper($prop[0]) . substr($prop, 1)) &&
+          method_exists($this, $method)) {
+          $this->properties[$prop] = call_user_func(array($this, $method));
+        }
+        else {
+          trigger_error('No getter defined for ' . $prop .
+            ' in ' . $trace[0]['file'] .
+            ' on line ' . $trace[0]['line'],
+            E_USER_NOTICE);
+        }
       }
-      elseif (($method = 'get' . strtoupper($prop[0]) . substr($prop, 1)) &&
-        method_exists($this, $method)) {
-        return call_user_func(array($this, $method));
-      }
+      return $this->properties[$prop];
     }
 
     $trace = debug_backtrace();
@@ -106,6 +136,36 @@ class DingEntityBase {
 
     return NULL;
   }
+}
+
+/**
+ * Abstract superclass for materials.
+ */
+abstract class DingEntity extends DingEntityBase {
+  /**
+   * The unique id of the object.
+   */
+  public $ding_entity_id;
+
+  /**
+   * The local id of the object.
+   */
+  public $id = DingEntityBase::NULL;
+
+  /**
+   * Title of the object.
+   */
+  public $title = DingEntityBase::NULL;
+
+  /**
+   * Creator of the object.
+   */
+  public $creator = DingEntityBase::NULL;
+
+  /**
+   * Abstract (description) of the object.
+   */
+  public $abstract = DingEntityBase::NULL;
 
   public function getId() {
     return $this->id = $this->ding_entity_id;
@@ -132,14 +192,31 @@ class DingEntityBase {
   }
 }
 
-abstract class DingEntity extends DingEntityBase {
-  function __construct() {
-    $this->properties += array('title' => FALSE, 'creator' => FALSE, 'abstract' => FALSE);
-  }
-}
-
+/**
+ * Abstract superclass for collections of materials.
+ *
+ * Collections is primarily used for grouping together objects together in a
+ * 'work'. For instance, a book might be available both as a book, as an
+ * audiobook and as an online ebook. These are all part of the same collection
+ * representing that work.
+ */
 abstract class DingEntityCollection extends DingEntityBase {
-  function __construct() {
-    $this->properties += array('entities' => FALSE);
+  /**
+   * The unique id of the object.
+   */
+  public $ding_entity_id;
+
+  /**
+   * The local id of the object.
+   */
+  public $id = DingEntityBase::NULL;
+
+  /**
+   * Objects of this collection.
+   */
+  public $entities = DingEntityBase::NULL;
+
+  public function getId() {
+    return $this->id = $this->ding_entity_id;
   }
 }
