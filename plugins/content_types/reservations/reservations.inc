@@ -67,11 +67,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 }
 
 /**
- * Validate function for the form.
- */
-function ding_reservation_reservations_form_validate($form, &$form_state) { }
-
-/**
  * Submit handler for the form.
  */
 function ding_reservation_reservations_form_submit($form, &$form_state) {
