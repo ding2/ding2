@@ -109,7 +109,7 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
-  $items['admin/config/ding/online_url'] = array(
+  $items['admin/config/ting/online_url'] = array(
     'title' => 'Online URL labels',
     'description' => 'Define labels for online resources.',
     'page callback' => 'drupal_get_form',
@@ -118,7 +118,7 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
-  $items['admin/config/ding/reservable'] = array(
+  $items['admin/config/ting/reservable'] = array(
     'title' => 'Reservable Ting objects',
     'description' => 'Configure on which Ting objects there will be a reservation button.',
     'page callback' => 'drupal_get_form',
