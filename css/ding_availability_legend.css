@@ -1,0 +1,40 @@
+.availability-legend {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  border-top: 1px solid #e7e7e6;
+  border-bottom: 1px solid #e7e7e6;
+}
+
+.availability-legend-item {
+  float: left;
+  margin-right: 0.75em;
+}
+
+.availability-legend-item .availability-label {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.availability-legend-item img {
+  height: 10px;
+  width: 10px;
+  margin-right: 0.25em;
+}
+
+.availability-legend-item.available img {
+  background-color: #4c9f45;
+}
+
+.availability-legend-item.available-ill img {
+  background-color: #ea9123;
+}
+
+.availability-legend-item.on-loan img {
+  background-color: #ed1e88;
+}
+
+.availability-legend-item.unavailable img {
+  background-color: #696a69;
+}
+
+

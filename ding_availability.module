@@ -141,3 +141,55 @@ function _ding_availability_text(&$item) {
     $item['status'] = t('unavailable');
   }
 }
+
+
+/**
+ * Implements hook_block_info().
+ * Define availability legend block.
+ */
+function ding_availability_block_info() {
+  return array(
+    'legend' => array(
+      'info' => t('Ding availability legend'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ * Define availability legend block.
+ */
+function ding_availability_block_view($delta = '') {
+  $block['subject'] = t('Ding availability legend');
+  $block['content'] = ding_availability_render_legend();
+  return $block;
+}
+
+/**
+ * Return rendered legend block for availability types.
+ */
+function ding_availability_render_legend() {
+
+  drupal_add_css(drupal_get_path('module', 'ding_availability') . '/css/ding_availability_legend.css');
+
+  // construct the image's path (.gif stored in a module subdir)
+  $image_path = drupal_get_path('module', 'ding_availability') . '/images/blank.gif';
+
+  // make some text, image's alt & title tags (SEO, accessibility)
+  $availability_legend['available']     = t('Available');
+  $availability_legend['available-ill'] = t('Available elsewhere');
+  $availability_legend['on-loan']       = t('On loan');
+  $availability_legend['unavailable']   = t('Unavailable');
+
+  // render image html using theme_image (returns NULL if file doesn't exist)
+  foreach ( $availability_legend as $key => $val ) {
+    $format_label = '<span class="availability-label">' . $val . '</span>';
+    $format_image = theme('image', array('path'=>$image_path, 'alt'=>$val, 'title'=>$val));
+    $format_items[] = '<div class="availability-legend-item ' . $key . '">' . $format_image . $format_label . '</div>';
+  };
+  $format_items[] = '<div class="clearfix"></div>';
+
+  return '<div class="availability-legend">' . implode($format_items) . '</div>';
+
+}
