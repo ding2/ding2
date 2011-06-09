@@ -17,13 +17,13 @@ $plugin = array(
 /**
  * Render the block
  */
-function ding_reservation_list_content_type_render($subtype, $conf, $panel_args, $context) {
+function ding_reservation_reservations_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
   $items = array();
 
   $block = new stdClass();
   $block->module = 'ding_reservation';
-  $block->delta = 'list';
+  $block->delta = 'reservations';
   $block->title = t('Reservation list');
 
   $list = ding_provider_invoke_page('reservation', 'list', $account);
@@ -33,23 +33,24 @@ function ding_reservation_list_content_type_render($subtype, $conf, $panel_args,
     $ids[] = $item->ding_entity_id;
   }
   // Preload all ting objects.
+  // @todo: this should really be ding_entity_load_multiple()
   ting_object_load_multiple($ids);
 
-  $block->content = count($list) == TRUE ? ding_provider_get_form('ding_reservation_list_form', $list) : t('No reservations');
+  $block->content = count($list) == TRUE ? ding_provider_get_form('ding_reservation_reservations_form', $list) : t('No reservations');
   return $block;
 }
 
 /**
  * Adding the admin form, to be able to control the required context
  */
-function ding_reservation_list_content_type_edit_form($form, &$form_state) {
+function ding_reservation_reservations_content_type_edit_form($form, &$form_state) {
   return $form;
 }
 
 /**
  * Implements a drupal form, which show a list of reservations
  */
-function ding_reservation_list_form($form, &$form_state, $items = array()) {
+function ding_reservation_reservations_form($form, &$form_state, $items = array()) {
   foreach ($items as $id => $item) {
     $title = t('@title by @author', array('@title' => $item->title, '@author' => $item->creator));
     $checkboxes[$item->id] = l($title, 'ting/object/' . $item->ding_entity_id);
@@ -68,12 +69,12 @@ function ding_reservation_list_form($form, &$form_state, $items = array()) {
 /**
  * Validate function for the form.
  */
-function ding_reservation_list_form_validate($form, &$form_state) { }
+function ding_reservation_reservations_form_validate($form, &$form_state) { }
 
 /**
  * Submit handler for the form.
  */
-function ding_reservation_list_form_submit($form, &$form_state) {
+function ding_reservation_reservations_form_submit($form, &$form_state) {
   global $user;
   foreach ($form_state['values']['reservations'] as $key => $entity_id) {
     if ($key == $entity_id) {
