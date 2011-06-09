@@ -66,7 +66,7 @@ function ting_get_objects($ids) {
       foreach ($objects[$id]->objects as $sub_object) {
         if ($sub_object->id == $id) {
           $objects[$id] = $sub_object;
-          break 2;
+          continue 2;
         }
       }
       // No sub-object had the same id. Somethings broken.
