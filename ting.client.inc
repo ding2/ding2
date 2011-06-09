@@ -89,7 +89,7 @@ function ting_get_objects($ids) {
     }
     $request->setQuery(join(' OR ', $query));
     $request->setAllRelations(TRUE);
-    $request->setRelationData('uri');
+    $request->setRelationData('full');
     $request->setStart(1);
     $request->setNumResults(1000);
 
