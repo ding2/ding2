@@ -382,7 +382,7 @@ function ting_ding_entity_is($object, $class) {
   if ($class == 'reservable' || $class == 'cartable') {
     $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
     $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
-    if (isset($sources[drupal_strtolower($object->ac_source)]) && isset($types[drupal_strtolower($object->type)])) {
+    if (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types)) {
       return TRUE;
     }
     else {
@@ -696,9 +696,9 @@ function theme_ting_ranking_field($element) {
  * Defined as a function as a define can only be scalars.
  */
 function _ting_default_reservable_sources() {
-  return drupal_map_assoc(array(
+  return array(
     'bibliotekets materialer',
-  ));
+  );
 }
 
 /**
@@ -707,7 +707,7 @@ function _ting_default_reservable_sources() {
  * Defined as a function as a define can only be scalars.
  */
 function _ting_default_reservable_types() {
-  return drupal_map_assoc(array(
+  return array(
     'billedbog',
     'blu-ray disc',
     'bog',
@@ -732,7 +732,7 @@ function _ting_default_reservable_types() {
     'wii-spil',
     'xbox-spil',
     'årbog',
-  ));
+  );
 }
 
 /**
