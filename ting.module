@@ -184,7 +184,12 @@ function ting_block_view($delta = '') {
   switch ($delta) {
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
-        $block['subject'] = t('Types');
+        $block['subject'] = array(
+          '#markup' => t('Types'),
+          '#prefix' => '<div class="ting-collection-types-header">',
+          '#suffix' => '</div>',
+        );
+        $block['subject'] = render($block['subject']);
         $items = array();
         foreach ($collection->types as $type) {
           $items[] = l($type, '#' . $type, array('external' => TRUE));
@@ -198,8 +203,12 @@ function ting_block_view($delta = '') {
     case 'ting_object_types':
       if (($object = menu_get_object('ting_object', 2)) &&
         ($collection = ting_collection_load($object->id))) {
-
-        $block['subject'] = t('Types');
+        $block['subject'] = array(
+          '#markup' => t('Types'),
+          '#prefix' => '<div class="ting-object-types-header">',
+          '#suffix' => '</div>',
+        );
+        $block['subject'] = render($block['subject']);
         $items = array();
         foreach ($collection->types as $type) {
           $uri = entity_uri('ting_collection', $collection);
