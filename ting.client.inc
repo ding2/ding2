@@ -80,26 +80,31 @@ function ting_get_objects($ids) {
       $query[] = 'rec.id=' . $id;
     }
   }
-
   if (sizeof($query)) {
-    $request = ting_get_request_factory()->getSearchRequest();
+    // Bug in well means that we can't add together the queries with '
+    // OR ', as we only get the last match. So we do them one after
+    // another for the moment being.
+    foreach ($query as $q) {
+      $request = ting_get_request_factory()->getSearchRequest();
 
-    if ($agency = variable_get('ting_agency', FALSE)) {
-      $request->setAgency($agency);
-    }
-    $request->setQuery(join(' OR ', $query));
-    $request->setAllRelations(TRUE);
-    $request->setRelationData('full');
-    $request->setStart(1);
-    $request->setNumResults(1000);
+      if ($agency = variable_get('ting_agency', FALSE)) {
+        $request->setAgency($agency);
+      }
+      $request->setQuery($q);
+      $request->setAllRelations(TRUE);
+      $request->setRelationData('full');
+      $request->setStart(1);
+      $request->setNumResults(1000);
 
-    $result = ting_execute_cache($request);
+      $result = ting_execute_cache($request);
 
-    if ($result && is_array($result->collections)) {
-      foreach ($result->collections as $collection) {
-        if (is_array($collection->objects) && sizeof($collection->objects))
-        foreach ($collection->objects as $object) {
-          $objects[$object->id] = $object;
+      if ($result && is_array($result->collections)) {
+        foreach ($result->collections as $collection) {
+          if (is_array($collection->objects) && sizeof($collection->objects)) {
+            foreach ($collection->objects as $object) {
+              $objects[$object->id] = $object;
+            }
+          }
         }
       }
     }

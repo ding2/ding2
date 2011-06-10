@@ -17,6 +17,7 @@ class TingObjectController extends DrupalDefaultEntityController {
     if ($ids === FALSE) {
       $ids = array();
     }
+
     // Ensure that the requested entities exists locally if getting by
     // ding_entity_id.
     $unknown = array();
@@ -34,32 +35,6 @@ class TingObjectController extends DrupalDefaultEntityController {
         elseif (!in_array($ding_entity_id, $ids)) {
           // Add the local id to the ids loaded.
           $ids[] = $known[$ding_entity_id];
-        }
-      }
-    }
-
-    $objects = array();
-    // Now load all objects in one go.
-    if (isset($conditions['ding_entity_id'])) {
-      $objects = ting_get_objects($conditions['ding_entity_id']);
-    }
-
-    // Not known locally. Create a proxy if it exists in the well.
-    if (sizeof($unknown)) {
-      foreach ($unknown as $ding_entity_id) {
-        if (isset($objects[$ding_entity_id])){
-          // Insert a new local proxy row.
-          $ting_object = array(
-            'ding_entity_id' => $ding_entity_id,
-          );
-          drupal_write_record('ting_object', $ting_object);
-          drupal_write_record('ting_object_revision', $ting_object);
-          db_update('ting_object')
-            ->fields(array('vid' => $ting_object['vid']))
-            ->condition('tid', $ting_object['tid'])
-            ->execute();
-          // Add new id to the loaded set.
-          $ids[] = $ting_object['tid'];
         }
       }
     }
@@ -91,6 +66,41 @@ class TingObjectController extends DrupalDefaultEntityController {
       // If any entities were loaded, remove them from the ids still to load.
       if ($passed_ids) {
         $ids = array_keys(array_diff_key($passed_ids, $entities));
+      }
+    }
+
+    $cached_entity_ids = array();
+    foreach ($entities as $entity) {
+      $cached_entity_ids[] = $entity->ding_entity_id;
+    }
+
+    $objects = array();
+    // Now load all objects in one go.
+    if (isset($conditions['ding_entity_id']) && $load_ids = array_diff($conditions['ding_entity_id'], $cached_entity_ids)) {
+      $objects = ting_get_objects($load_ids);
+      $conditions['ding_entity_id'] = array_diff($conditions['ding_entity_id'], $load_ids);
+      if (!$conditions['ding_entity_id']) {
+        unset($conditions['ding_entity_id']);
+      }
+    }
+
+    // Not known locally. Create a proxy if it exists in the well.
+    if (sizeof($unknown)) {
+      foreach ($unknown as $ding_entity_id) {
+        if (isset($objects[$ding_entity_id])){
+          // Insert a new local proxy row.
+          $ting_object = array(
+            'ding_entity_id' => $ding_entity_id,
+          );
+          drupal_write_record('ting_object', $ting_object);
+          drupal_write_record('ting_object_revision', $ting_object);
+          db_update('ting_object')
+            ->fields(array('vid' => $ting_object['vid']))
+            ->condition('tid', $ting_object['tid'])
+            ->execute();
+          // Add new id to the loaded set.
+          $ids[] = $ting_object['tid'];
+        }
       }
     }
 
@@ -134,6 +144,39 @@ class TingObjectController extends DrupalDefaultEntityController {
         $passed_ids[$entity->{$this->idKey}] = $entity;
       }
       $entities = $passed_ids;
+    }
+    return $entities;
+  }
+  /**
+   * Gets entities from the static cache.
+   *
+   * Superclass method doesn't deal with arrays in conditions.
+   */
+  protected function cacheGet($ids, $conditions = array()) {
+    $entities = array();
+    // Load any available entities from the internal cache.
+    if (!empty($this->entityCache)) {
+      if ($ids) {
+        $entities += array_intersect_key($this->entityCache, array_flip($ids));
+      }
+      // If loading entities only by conditions, fetch all available entities
+      // from the cache. Entities which don't match are removed later.
+      elseif ($conditions) {
+        $entities = $this->entityCache;
+      }
+    }
+
+    // Exclude any entities loaded from cache if they don't match $conditions.
+    // This ensures the same behavior whether loading from memory or database.
+    if ($conditions) {
+      foreach ($entities as $entity) {
+        $entity_values = (array) $entity;
+        $diffs = array_diff_assoc($conditions, $entity_values);
+        if ($diffs) {
+          if (array_keys($diffs) != array('ding_entity_id') || !in_array($entity_values['ding_entity_id'], $diffs['ding_entity_id'])) {
+            unset($entities[$entity->{$this->idKey}]);
+          }}
+      }
     }
     return $entities;
   }
