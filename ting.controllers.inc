@@ -38,8 +38,11 @@ class TingObjectController extends DrupalDefaultEntityController {
       }
     }
 
+    $objects = array();
     // Now load all objects in one go.
-    $objects = ting_get_objects($conditions['ding_entity_id']);
+    if (isset($conditions['ding_entity_id'])) {
+      $objects = ting_get_objects($conditions['ding_entity_id']);
+    }
 
     // Not known locally. Create a proxy if it exists in the well.
     if (sizeof($unknown)) {
