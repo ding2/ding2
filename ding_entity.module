@@ -71,13 +71,17 @@ function ding_entity_load($id, $type = NULL) {
  *
  */
 function ding_entity_load_multiple($ids, $type = NULL) {
+  $conditions = array();
   if (!$type) {
     if ($type_info = ding_entity_info('ding_entity')) {
       $type = $type_info['entity_type'];
     }
   }
+  if ($ids) {
+    $conditions['ding_entity_id'] = $ids;
+  }
   if ($type) {
-    return entity_load($type, FALSE, array('ding_entity_id' => $ids));
+    return entity_load($type, FALSE, $conditions);
   }
   return FALSE;
 }
