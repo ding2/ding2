@@ -329,9 +329,9 @@ function ting_entity_info() {
       'ding_entity_menu' => 'ting/collection/%ting_collection',
       'ding_entity_index' => 2,
       'entity keys' => array(
-        // We don't really have an ID, but use the ding_entity_collection_id,
+        // We don't really have an ID, but use the ding_entity_id,
         // so we can use entity_uri.
-        'id' => 'ding_entity_collection_id',
+        'id' => 'ding_entity_id',
       ),
       'view modes' => array(
         'full' => array(
@@ -458,7 +458,7 @@ function ting_collection_uri($collection) {
 /**
  * Add a provider_id to the objects.
  *
- * @todo
+ * @to do
  *   Maybe this should be in a mapper module.
  */
 function ting_ting_object_load($objects) {
@@ -469,27 +469,29 @@ function ting_ting_object_load($objects) {
 
 /**
  * Load a ting object.
+ *
+ * Don't use this, use ding_entity_load().
  */
 function ting_object_load($id) {
-  $object = entity_load('ting_object', array(), array('ding_entity_id' => array($id)));
-  return $object ? reset($object) : FALSE;
+  return ding_entity_load($id, 'ting_object');
 }
 
 /**
- * Load a ting object.
+ * Load multiple ting objects.
+ *
+ * Don't use this, use ding_entity_load_multiple().
  */
 function ting_object_load_multiple($ids) {
-  return entity_load('ting_object', array(), array('ding_entity_id' => $ids));
+  return ding_entity_load_multiple($ids, 'ting_object');
 }
 
 /**
  * Load a ting collection.
+ *
+ * Don't use this, use ding_collection_load().
  */
 function ting_collection_load($id) {
-  $conditions = array('ding_entity_collection_id' => array($id));
-
-  $collection = entity_load('ting_collection', array(), $conditions);
-  return $collection ? reset($collection) : FALSE;
+  return ding_entity_load($id, 'ting_collection');
 }
 
 /**

@@ -175,22 +175,22 @@ class TingCollectionController implements DrupalEntityControllerInterface {
   public function load($ids = array(), $conditions = array()) {
     module_load_include('client.inc', 'ting');
     $entities = array();
-    if (isset($conditions['ding_entity_collection_id'])) {
-      foreach ($conditions['ding_entity_collection_id'] as $ding_entity_collection_id) {
-        if (isset($this->entityCache[$ding_entity_collection_id])) {
-          $entities[$ding_entity_collection_id] = $this->entityCache[$ding_entity_collection_id];
+    if (isset($conditions['ding_entity_id'])) {
+      foreach ($conditions['ding_entity_id'] as $ding_entity_id) {
+        if (isset($this->entityCache[$ding_entity_id])) {
+          $entities[$ding_entity_id] = $this->entityCache[$ding_entity_id];
         }
         else {
-          $reply = ting_get_object($ding_entity_collection_id, TRUE);
+          $reply = ting_get_object($ding_entity_id, TRUE);
           $object = NULL;
           if ($reply) {
-            $object = new TingCollection($ding_entity_collection_id);
+            $object = new TingCollection($ding_entity_id);
             $object->reply = $reply;
           }
 
           if (isset($object)) {
-            $entities[$ding_entity_collection_id] = $object;
-            $this->entityCache[$ding_entity_collection_id] = $object;
+            $entities[$ding_entity_id] = $object;
+            $this->entityCache[$ding_entity_id] = $object;
           }
         }
       }

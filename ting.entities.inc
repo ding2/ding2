@@ -9,44 +9,39 @@
  * Ting object entity.
  */
 class TingEntity extends DingEntity {
-  function __construct() {
-    parent::__construct();
-    $this->properties += array(
-      'type' => FALSE,
-      'serieTitle' => FALSE,
-      'record' => FALSE,
-      'relations' => FALSE,
-      'localId' => FALSE,
-      'creators' => FALSE,
-      'subjects' => FALSE,
-      'language' => FALSE,
-      'relationType' => FALSE,
-      'relationUri' => FALSE,
-      'online_url' => FALSE,
-      'ac_source' => FALSE,
-    );
-  }
+  public $type = DingEntityBase::NULL;
+  public $serieTitle = DingEntityBase::NULL;
+  public $record = DingEntityBase::NULL;
+  public $relations = DingEntityBase::NULL;
+  public $localId = DingEntityBase::NULL;
+  public $creators = DingEntityBase::NULL;
+  public $subjects = DingEntityBase::NULL;
+  public $language = DingEntityBase::NULL;
+  public $relationType = DingEntityBase::NULL;
+  public $relationUri = DingEntityBase::NULL;
+  public $online_url = DingEntityBase::NULL;
+  public $ac_source = DingEntityBase::NULL;
 
   function getLocalId() {
-    return $this->localId = !empty($this->reply->localId) ? $this->reply->localId : FALSE;
+    return !empty($this->reply->localId) ? $this->reply->localId : FALSE;
   }
 
   function getType() {
-    return $this->type = !empty($this->reply->record['dc:type']) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
+    return !empty($this->reply->record['dc:type']) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
   }
 
   function getTitle() {
-    return $this->title = !empty($this->reply->record['dc:title']) ? $this->reply->record['dc:title'][''][0] : FALSE;
+    return !empty($this->reply->record['dc:title']) ? $this->reply->record['dc:title'][''][0] : FALSE;
   }
 
   function getSerieTitle() {
     $titleObj = $this->reply->record['dc:title'];
 
-    return $this->serieTitle = !empty($titleObj) && !empty($titleObj['oss:series']) ? $titleObj['oss:series'][0] : FALSE;
+    return !empty($titleObj) && !empty($titleObj['oss:series']) ? $titleObj['oss:series'][0] : FALSE;
   }
 
   function getAbstract() {
-    return $this->abstract = !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;;
+    return !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;;
   }
 
   function getRecord() {
@@ -94,27 +89,27 @@ class TingEntity extends DingEntity {
   }
 
   function getLanguage() {
-    return $this->language = !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
+    return !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
   }
 
   function getRelationType() {
-    return $this->relationType = $this->reply->relationType;
+    return $this->reply->relationType;
   }
 
   function getRelationUri() {
-    return $this->relationUri = $this->reply->relationUri;
+    return $this->reply->relationUri;
   }
 
   function getOnline_url() {
     if (isset($this->reply->record['dc:identifier']['dcterms:URI'])) {
       $url = $this->reply->record['dc:identifier']['dcterms:URI'][0];
       drupal_alter('ting_online_url', $url, $this);
-      return $this->online_url = $url;
+      return $url;
     }
   }
 
   function getAc_source() {
-    return $this->ac_source = !empty($this->reply->record['ac:source'][''][0]) ? $this->reply->record['ac:source'][''][0] : FALSE;
+    return !empty($this->reply->record['ac:source'][''][0]) ? $this->reply->record['ac:source'][''][0] : FALSE;
   }
 }
 
@@ -122,28 +117,19 @@ class TingEntity extends DingEntity {
  * Ting collection entity.
  */
 class TingCollection extends DingEntityCollection {
-  function __construct($id) {
-    $this->ding_entity_id = $id;
-    parent::__construct();
-    $this->properties += array(
-      'title' => FALSE,
-      'types' => FALSE,
-      'primary_object' => FALSE,
-    );
-  }
+  public $title = DingEntityBase::NULL;
+  public $types = DingEntityBase::NULL;
+  public $primary_object = DingEntityBase::NULL;
 
   function getTitle() {
     foreach ($this->reply->objects as &$object) {
       // Find the title of the object that was used to fetch this collection.
-      if ($object->id == $this->ding_entity_id) {
-        $this->title = !empty($object->record['dc:title']) ? $object->record['dc:title'][''][0] : FALSE;
+      if ($object->id == $this->ding_entity_id && !empty($object->record['dc:title'])) {
+        return $object->record['dc:title'][''][0];
       }
     }
-    if (!property_exists($this, 'title')) {
-      // If we couldn't find the object, use the title of the first object.
-      $this->title = !empty($this->reply->objects[0]->record['dc:title']) ? $this->reply->objects[0]->record['dc:title'][''][0] : FALSE;
-    }
-    return $this->title;
+    // If we couldn't find the object, use the title of the first object.
+    return !empty($this->reply->objects[0]->record['dc:title']) ? $this->reply->objects[0]->record['dc:title'][''][0] : FALSE;
   }
 
   function getEntities() {
@@ -184,10 +170,8 @@ class TingCollection extends DingEntityCollection {
   }
 
   function getPrimary_object() {
-    $this->primary_object = NULL;
     if ($entities = $this->entities) {
-      $this->primary_object = reset($entities);
+      return reset($entities);
     }
-    return $this->primary_object;
   }
 }

@@ -172,7 +172,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
       }
     }
     if (!isset($options['reply_only']) || !$options['reply_only']) {
-      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_collection_id' => $ids));
+      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_id' => $ids));
     }
   }
 
