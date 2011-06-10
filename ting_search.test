@@ -13,7 +13,7 @@ class TingSearchTestCase extends DrupalWebTestCase {
   public function setUp() {
     $this->profile = 'ding2';
 
-    parent::setUp('ting', 'search', 'ting_search');
+    parent::setUp('ting', 'search', 'ting_search', 'nanosoap');
     variable_set('ting_agency', '721700');
     variable_set('ting_search_url', 'http://opensearch.addi.dk/1.0/');
     variable_set('ting_scan_url', 'http://openscan.addi.dk/1.5/');
