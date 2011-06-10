@@ -62,18 +62,34 @@ function ding_entity_info($ding_entity_type = NULL) {
 /**
  *
  */
-function ding_entity_load($id) {
-  if ($type = ding_entity_info('ding_entity')) {
-    $entity = entity_load($type['entity_type'], FALSE, array('ding_entity_id' => array($id)));
-    return $entity ? reset($entity) : NULL;
+function ding_entity_load($id, $type = NULL) {
+  $entity = ding_entity_load_multiple(array($id), $type);
+  return $entity ? reset($entity) : FALSE;
+}
+
+/**
+ *
+ */
+function ding_entity_load_multiple($ids, $type = NULL) {
+  if (!$type) {
+    if ($type_info = ding_entity_info('ding_entity')) {
+      $type = $type_info['entity_type'];
+    }
+  }
+  if ($type) {
+    return entity_load($type, FALSE, array('ding_entity_id' => $ids));
   }
   return FALSE;
 }
 
-function ding_entity_collection_load($id) {
-  if ($type = ding_entity_info('ding_entity_collection')) {
-    $collection = entity_load($type['entity_type'], FALSE, array('ding_entity_collection_id' => array($id)));
-    return $collection ? reset($collection) : NULL;
+function ding_entity_collection_load($id, $type = NULL) {
+  if (!$type) {
+    if ($type_info = ding_entity_info('ding_entity_collection')) {
+      $type = $type_info['entity_type'];
+    }
+  }
+  if ($type) {
+    return ding_entity_load($id, $type);
   }
   return FALSE;
 }
