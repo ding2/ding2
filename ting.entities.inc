@@ -121,6 +121,11 @@ class TingCollection extends DingEntityCollection {
   public $types = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
+  function __construct($id) {
+    $this->ding_entity_id = $id;
+    parent::__construct();
+  }
+
   function getTitle() {
     foreach ($this->reply->objects as &$object) {
       // Find the title of the object that was used to fetch this collection.
