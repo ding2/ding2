@@ -43,7 +43,7 @@ function connie_reservation_list($account) {
   if (isset($_SESSION['connie_reservations'])) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
       $result[$id] = new DingProviderReservation($id, array(
-                       'ding_entity_id' => $res[0],
+                       'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res[0],
                        'display_name' => $res[1],
                        'pickup_branch_id' => $res[2],
                        'expiry' => $res[3],

@@ -8,7 +8,7 @@
 /**
  * Class representing a reservation.
  */
-class DingProviderReservation {
+class DingProviderReservation extends DingEntityBase {
   /**
    * Value of DingProviderReservation::status if the reservation is active.
    */
@@ -25,44 +25,44 @@ class DingProviderReservation {
    * it, however it should be a sting value suitable for values in forms and
    * the like.
    */
-  protected $id;
+  protected $id = DingEntityBase::NULL;
 
   /**
    * Materials number, optional. Is shown to the user.
    */
-  protected $materials_number = '';
+  protected $materials_number = DingEntityBase::NULL;
 
   /**
    * Id of the ding_entity.
    */
-  protected $ding_entity_id;
+  protected $ding_entity_id = DingEntityBase::NULL;
 
   /**
    * The ding_entity.
    */
-  protected $entity;
+  protected $entity = DingEntityBase::NULL;
 
   /**
    * Fallback display if the reservation is an obscure material that is not
    * known by the datawell.
    */
-  protected $display_name;
+  protected $display_name = DingEntityBase::NULL;
 
   /**
    * Status of the reservation, either DingProviderReservation::STATUS_ACTIVE
    * or DingProviderReservation::STATUS_FECTHABLE.
    */
-  protected $status;
+  protected $status = DingEntityBase::NULL;
 
   /**
    * Id of pickup place.
    */
-  protected $pickup_branch_id;
+  protected $pickup_branch_id = DingEntityBase::NULL;
 
   /**
    * Creation date of reservation. Format: YYYY-MM-DD.
    */
-  protected $created;
+  protected $created = DingEntityBase::NULL;
 
   /**
    * Reservation valid to. Format: YYYY-MM-DD.
@@ -71,25 +71,25 @@ class DingProviderReservation {
    * expires, for DingProviderReservation::STATUS_FECTHABLE it is the last
    * pickup date.
    */
-  protected $expiry;
+  protected $expiry = DingEntityBase::NULL;
 
   /**
    * Queue number. optional. Only valid for
    * DingProviderReservation::STATUS_ACTIVE reservations.
    */
-  protected $queue_number;
+  protected $queue_number = DingEntityBase::NULL;
 
 
   /**
    * Pickup number. Only valid for DingProviderReservation::STATUS_FECTHABLE
    * reservations.
    */
-  protected $pickup_number;
+  protected $pickup_number = DingEntityBase::NULL;
 
   /**
    * Notes - some additional information.
    */
-  protected $notes = '';
+  protected $notes = DingEntityBase::NULL;
 
   /*
    titel
@@ -100,7 +100,8 @@ class DingProviderReservation {
    */
 
   public function __construct($id, $data = array()) {
-    $this->id = $id;
+    parent::__construct();
+    $this->properties['id'] = $id;
     // Default display name.
     $this->display_name = t('Title not available');
     $properties = array(
@@ -119,26 +120,9 @@ class DingProviderReservation {
     );
     foreach ($properties as $prop) {
       if (isset($data[$prop])) {
-        $this->$prop = $data[$prop];
+        $this->properties[$prop] = $data[$prop];
       }
     }
-  }
-
-  public function __get($prop) {
-    // Use property_exists() to support NULL values.
-    if (property_exists($this, $prop)) {
-      return $this->$prop;
-    }
-    elseif (($method = 'get' . strtoupper($prop[0]) . substr($prop, 1)) &&
-      method_exists($this, $method)) {
-      return call_user_func(array($this, $method));
-    }
-
-    throw new Exception('Undefined property via __get(): ' . $prop);
-  }
-
-  public function __isset($prop) {
-    return property_exists($this, $prop);
   }
 
   function getPickup_branch() {
@@ -146,8 +130,13 @@ class DingProviderReservation {
   }
 
   function getEntity() {
-    if (!isset($this->entity) && !empty($this->ding_entity_id)) {
-      $this->entity = ding_entity_load($this->ding_entity_id);
+    if (!isset($this->entity)) {
+      if (!empty($this->ding_entity_id)) {
+        $this->entity = ding_entity_load($this->ding_entity_id);
+      }
+      else {
+        $this->entity = NULL;
+      }
     }
     return $this->entity;
   }
@@ -162,22 +151,30 @@ class DingProviderReservation {
 
   function getTitle() {
     $this->getEntity();
-    return $this->title = $this->entity->title;
+    if ($this->entity) {
+      return $this->title = $this->entity->title;
+    }
   }
 
   function getCreator() {
     $this->getEntity();
-    return $this->creator = $this->entity->creator;
+    if ($this->entity) {
+      return $this->creator = $this->entity->creator;
+    }
   }
 
   function getType() {
     $this->getEntity();
-    return $this->type = $this->entity->type;
+    if ($this->entity) {
+      return $this->type = $this->entity->type;
+    }
   }
 
   function getLanguage() {
     $this->getEntity();
-    return $this->language = $this->entity->language;
+    if ($this->entity) {
+      return $this->language = $this->entity->language;
+    }
   }
 }
 
