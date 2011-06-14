@@ -131,6 +131,10 @@ class DingEntityBase {
     }
   }
 
+  public function __wakeup() {
+    self::__construct();
+  }
+
   public function __get($prop) {
     if (isset($this->properties[$prop])) {
       if ($this->properties[$prop] === self::NULL) {
@@ -139,6 +143,7 @@ class DingEntityBase {
           $this->properties[$prop] = call_user_func(array($this, $method));
         }
         else {
+          $trace = debug_backtrace();
           trigger_error('No getter defined for ' . $prop .
             ' in ' . $trace[0]['file'] .
             ' on line ' . $trace[0]['line'],
