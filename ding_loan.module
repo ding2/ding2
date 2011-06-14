@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * User loan listing and renewal functionallity.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_loan_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ * @todo move to ding_user_frontend
+ */
+function ding_loan_entity_info_alter(&$entity_info) {
+  $ding_entity_info = ding_entity_info('ding_entity');
+  $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
+    'user_list' => array(
+      'label' => t('User lists'),
+      'custom settings' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Callback function for sorting loans.
+ */
+function ding_loan_sort_expiry($a, $b) {
+  if ($a->expiry == $b->expiry) {
+    return 0;
+  }
+  return ($a->expiry < $b->expiry) ? -1 : 1;
+}

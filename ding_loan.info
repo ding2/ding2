@@ -1,0 +1,10 @@
+name = Ding loan
+description = Allows users to manage their loans.
+package = Ding!
+version = 0.1
+core = 7.x
+files[] = ding_loan.module
+; files[] = ding_loan.test
+dependencies[] = ding_provider
+dependencies[] = ding_user
+dependencies[] = ding_popup
