@@ -18,6 +18,7 @@ $plugin = array(
  * Render callback function
  */
 function ding_user_my_page_type_render($subtype, $conf, $panel_args, $context) {
+  $block = array();
   $hook = 'ding_user_mypage_tab';
   foreach (module_implements($hook) as $module) {
     $function = $module . '_' . $hook;
