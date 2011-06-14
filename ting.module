@@ -91,6 +91,15 @@ function ting_menu() {
     'file' => 'ting.admin.inc',
   );
 
+  $items['admin/config/ting/boost'] = array(
+    'title' => 'Search result boost',
+    'description' => 'Enable the user to boost specific values for specific fields in search results.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_boost_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc',
+  );
+
   $items['admin/config/ting/proxy'] = array(
     'title' => 'Proxy settings',
     'description' => 'Ting Proxy settings.',
@@ -237,6 +246,10 @@ function ting_block_view($delta = '') {
  */
 function ting_element_info() {
   return array(
+    'ting_boost_field' => array(
+      '#input' => TRUE,
+      '#process' => array('ting_boost_field_element_process'),
+    ),
     'ting_ranking_field' => array(
       '#input' => TRUE,
       '#process' => array('ting_ranking_field_element_process'),
@@ -637,6 +650,46 @@ function _ting_default_url_labels() {
     'lydbog (online)' => t('Hear online'),
     'grammofonplade' => t('Hear online'),
   );
+}
+
+/**
+ * Processor for the ting_boost_field form element.
+ */
+function ting_boost_field_element_process($element, $form_state) {
+  $element['#tree'] = TRUE;
+  $element['#prefix'] = '<div class="ting-boost-field-element clearfix">';
+  $element['#suffix'] = '</div>';
+
+  $element['field_name'] = array(
+    '#title' => t('Field name'),
+    '#type' => 'select',
+    '#options' => array(
+      '' => '- ' . t('Choose') . ' -',
+      'dc.source' => t('Source'),
+      'dc.title' => t('Title'),
+      'dc.creator' => t('Author'),
+      'dc.subject' => t('Subject'),
+      'dc.date' => t('Year of publish'),
+      'dc.type' => t('Material type'),
+    ),
+    '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
+    '#attributes' => array('class' => array('field-name')),
+  );
+
+  $element['field_value'] = array(
+    '#title' => t('Value'),
+    '#type' => 'textfield',
+    '#default_value' => (isset($element['#value']['field_value'])) ? $element['#value']['field_value'] : NULL,
+  );
+
+  $element['weight'] = array(
+    '#title' => t('Weight'),
+    '#type' => 'select',
+    '#options' => drupal_map_assoc(range(1, 10)),
+    '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
+  );
+
+  return $element;
 }
 
 /**
