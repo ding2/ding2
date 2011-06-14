@@ -35,5 +35,3 @@ projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git
 projects[ting_search_autocomplete][type] = "module"
 projects[ting_search_autocomplete][download][type] = "git"
 projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_search_autocomplete.git"
-
-
