@@ -14,6 +14,8 @@
  * @param $object_id The id to fetch.
  * @param $collection Whether to return a collection, if possible, or
  *   an object.
+ *
+ * @todo Should use getObject, but the ting-client lib doesn't implement that.
  */
 function ting_get_object($object_id, $collection = FALSE) {
   if (empty($object_id)) {
@@ -55,6 +57,8 @@ function ting_get_object($object_id, $collection = FALSE) {
 
 /**
  * Get a bunch of objects in one request.
+ *
+ * @todo Should use getObject when getObject supports getting multiple.
  */
 function ting_get_objects($ids) {
   $objects = array();
@@ -81,29 +85,24 @@ function ting_get_objects($ids) {
     }
   }
   if (sizeof($query)) {
-    // Bug in well means that we can't add together the queries with '
-    // OR ', as we only get the last match. So we do them one after
-    // another for the moment being.
-    foreach ($query as $q) {
-      $request = ting_get_request_factory()->getSearchRequest();
+    $request = ting_get_request_factory()->getSearchRequest();
 
-      if ($agency = variable_get('ting_agency', FALSE)) {
-        $request->setAgency($agency);
-      }
-      $request->setQuery($q);
-      $request->setAllRelations(TRUE);
-      $request->setRelationData('full');
-      $request->setStart(1);
-      $request->setNumResults(1000);
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
+    $request->setQuery(join(' OR ', $query));
+    $request->setAllRelations(TRUE);
+    $request->setRelationData('full');
+    $request->setStart(1);
+    $request->setNumResults(1000);
 
-      $result = ting_execute_cache($request);
+    $result = ting_execute_cache($request);
 
-      if ($result && is_array($result->collections)) {
-        foreach ($result->collections as $collection) {
-          if (is_array($collection->objects) && sizeof($collection->objects)) {
-            foreach ($collection->objects as $object) {
-              $objects[$object->id] = $object;
-            }
+    if ($result && is_array($result->collections)) {
+      foreach ($result->collections as $collection) {
+        if (is_array($collection->objects) && sizeof($collection->objects)) {
+          foreach ($collection->objects as $object) {
+            $objects[$object->id] = $object;
           }
         }
       }
