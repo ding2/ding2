@@ -3,8 +3,7 @@ core = 7.x
 
 ; CONTRIB MODULES
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.0-alpha4"
-projects[ctools][patch][] = "http://drupal.org/files/issues/search_page_manager.patch"
+projects[ctools][version] = "1.0-beta1"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
