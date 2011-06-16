@@ -28,6 +28,10 @@ function connie_ding_provider() {
         'prefix' => 'reservation',
         'file' => drupal_get_path('module', 'connie') . '/connie.reservation.inc',
       ),
+      'loan' => array(
+        'prefix' => 'loan',
+        'file' => drupal_get_path('module', 'connie') . '/connie.loan.inc',
+      ),
     ),
   );
 }

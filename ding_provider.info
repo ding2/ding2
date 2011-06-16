@@ -7,6 +7,7 @@ dependencies[] = ding_base
 files[] = ding_provider.module
 files[] = ding_provider.exceptions.inc
 files[] = ding_provider.reservation.inc
+files[] = ding_provider.loan.inc
 files[] = tests/ding_provider.test
 files[] = tests/ding_provider_implementation.test
 files[] = tests/ding_provider_login.test
