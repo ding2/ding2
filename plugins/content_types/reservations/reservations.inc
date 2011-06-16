@@ -51,18 +51,51 @@ function ding_reservation_reservations_content_type_edit_form($form, &$form_stat
  * Implements a drupal form, which show a list of reservations
  */
 function ding_reservation_reservations_form($form, &$form_state, $items = array()) {
+  $options = array();
+  $destination = drupal_get_destination();
+  $header = array(
+    'title' => t('Title'),
+    'created' => t('Created date'),
+    'expiry' => t('Expiry date'),
+    'pickup_branch_id' => t('Pickup branch'),
+    'queue_number' => t('Queue number'),
+    'operations' => '',
+  );
+
+  uasort($items, 'ding_reservation_sort_queue');
+
   foreach ($items as $id => $item) {
-    $title = t('@title by @author', array('@title' => $item->title, '@author' => $item->creator));
-    $checkboxes[$item->id] = l($title, 'ting/object/' . $item->ding_entity_id);
+    $options[$item->id] = array(
+      'title' => array(
+        'data' => isset($entity) ? ting_object_view($item->entity, 'user_list') : array('#markup' => $item->display_name),
+      ),
+      'created' => check_plain($item->created),
+      'expiry' => check_plain($item->expiry),
+      'pickup_branch_id' => check_plain($item->pickup_branch_id),
+      'queue_number' => check_plain($item->queue_number),
+      'operations' => array(
+        'data' =>  array(
+          '#type' => 'link',
+          '#title' => t('Edit'),
+          '#href' => 'reservations/' . $item->id . '/edit',
+          '#options' => array('query' => $destination),
+        ),
+      ),
+    );
   }
+
   $form['reservations'] = array(
-    '#type' => 'checkboxes',
-    '#options' => $checkboxes,
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => $options,
+    '#empty' => t('No Reservations'),
   );
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Submit reservations'),
-  );
+
+   $form['submit'] = array(
+     '#type' => 'submit',
+     '#value' => t('Submit reservations'),
+   );
+
   return $form;
 }
 
