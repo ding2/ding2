@@ -328,7 +328,7 @@ function ting_admin_boost_settings_submit($form, &$form_state) {
  * array_filter() callback to remove empty/deleted elements.
  */
 function _ting_boost_field_filter($element) {
-  return !empty($element['field_name']);
+  return !(empty($element['field_name']) || empty($element['field_value']));
 }
 
 /**
