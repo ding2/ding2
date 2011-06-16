@@ -1,5 +1,5 @@
 name = Ding reservation
-description = Reservation of materials.
+description = Allows users to reserve  materials.
 package = Ding!
 version = 0.1
 core = 7.x
