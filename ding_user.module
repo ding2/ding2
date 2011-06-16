@@ -6,6 +6,11 @@
  */
 
 /**
+ * Default seconds to cache user credentials before wiping them.
+ */
+define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -29,12 +34,6 @@ function ding_user_ctools_plugin_api($module, $api) {
     return array('version' => 1);
   }
 }
-
-
-/**
- * Default seconds to cache user credentials before wiping them.
- */
-define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
 
 /**
  * Implements hook_menu().
