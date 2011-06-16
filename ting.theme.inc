@@ -43,7 +43,7 @@ function template_preprocess_ting_object_overview(&$variables) {
 
   $variables['alternative_titles'] = array();
   $variables['other_titles'] = "";
-  $uri = entity_uri($object instanceof TingObject ? 'ting_object' : 'ting_collection', $object);
+  $uri = $variables['elements']['#uri'];
   $variables['url'] = url($uri['path'], $uri['options']);
   if (isset($object->record)) {
     $titles = $object->record['dc:title'];
