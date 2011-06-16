@@ -54,6 +54,20 @@ function ding_user_menu() {
 }
 
 /**
+ * Implements hook_entity_info_alter().
+ */
+function ding_user_entity_info_alter(&$entity_info) {
+  $ding_entity_info = ding_entity_info('ding_entity');
+  // Add a user_list display mode for addon modules to use.
+  $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
+    'user_list' => array(
+      'label' => t('User lists'),
+      'custom settings' => FALSE,
+    ),
+  );
+}
+
+/**
  * Access callback.
  *
  * Allows access if the account is the same as the logged in user.
