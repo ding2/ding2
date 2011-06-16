@@ -460,12 +460,13 @@ function ting_object_uri($collection) {
  * Callback for entity_uri(). Returns the uri for the collection.
  */
 function ting_collection_uri($collection) {
-  if (sizeof($collection->entities) > 1) {
+  if (isset($collection->entities) && sizeof($collection->entities) > 1) {
     return array('path' => 'ting/collection/' . $collection->id);
   }
-  else {
+  elseif (isset($collection->entities)) {
     return entity_uri('ting_object', $collection->primary_object);
   }
+  return entity_uri('ting_object', $collection);
 }
 
 /**
