@@ -518,6 +518,7 @@ function ting_object_view($object, $view_mode = 'full') {
     '#theme' => 'ting_object_overview',
     '#object' => $object,
     '#view_mode' => $view_mode,
+    '#uri' => entity_uri($object instanceof TingEntity ? 'ting_object' : 'ting_collection', $object),
     'left' => array(),
     'right' => array(),
   );
