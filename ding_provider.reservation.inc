@@ -156,6 +156,20 @@ class DingProviderReservation extends DingEntityBase {
     }
   }
 
+  function getCreated() {
+    $this->getEntity();
+    if ($this->entity) {
+      return $this->created = $this->entity->created;
+    }
+  }
+
+  function getQueue_number() {
+    $this->getEntity();
+    if ($this->entity) {
+      return $this->queue_number = $this->entity->queue_number;
+    }
+  }
+
   function getCreator() {
     $this->getEntity();
     if ($this->entity) {
