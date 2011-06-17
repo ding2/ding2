@@ -23,3 +23,23 @@ function openruth_loan_list($account) {
 
   return $result;
 }
+
+/**
+ * Renew loans.
+ */
+function openruth_loan_renew($account, $ids) {
+  $creds = ding_user_get_creds($account);
+
+  $result = array();
+  $res = openruth_client_invoke('renew_loan', $creds['name'], $ids);
+
+  foreach ($ids as $id) {
+    if ($res[$id] === TRUE) {
+      $result[$id] = DingProviderLoan::STATUS_RENEWED;
+    }
+    else {
+      $result[$id] = DingProviderLoan::STATUS_NOT_RENEWED;
+    }
+  }
+  return $result;
+}
