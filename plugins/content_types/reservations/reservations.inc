@@ -75,9 +75,8 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       'queue_number' => check_plain($item->queue_number),
       'operations' => array(
         'data' =>  array(
-          '#type' => 'link',
-          '#title' => t('Edit'),
-          '#href' => 'reservations/' . $item->id . '/edit',
+          '#type' => 'button',
+          '#value' => t('Delete'),
           '#options' => array('query' => $destination),
         ),
       ),
@@ -93,11 +92,22 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 
    $form['submit'] = array(
      '#type' => 'submit',
-     '#value' => t('Submit reservations'),
+     '#value' => t('Delete reservations'),
    );
+
+  $form['update'] = array(
+    '#type' => 'submit',
+    '#submit' => array('ding_reservation_update_reservation_form'),
+    '#value' => t('Update reservations'),
+    '#ajax' => array(
+      'callback' => 'ding_reservation_update_reservation_callback',
+      'wrapper' => 'ding-reservation-reservations-form',
+    ),
+  );
 
   return $form;
 }
+
 
 /**
  * Submit handler for the form.

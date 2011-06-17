@@ -133,6 +133,81 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
     }
   }
 }
+/**
+ * UPDATE RESERVATIONS
+ * @todo fix reservations så key er id og value er original form data
+ */
+function ding_reservation_update_reservation_form($form, &$form_state) {
+  $branches = ding_provider_invoke('reservation', 'pickup_branches');
+  foreach ($form_state['input']['reservations'] as $reservation => $value) {
+    $reservations[] = $reservation;
+  }
+  $form['update_reservation'] = array(
+    '#type' => 'value',
+    '#value' => $reservations,
+  );
+  $form['pickup_branch'] = array(
+    '#type' => 'select',
+    '#title' => t('Pickup branches'),
+    '#options' => array('-1' => t('Choose pickup branch')) + $branches,
+  );
+  $form['expiry_date'] = array(
+    '#type' => 'date_popup',
+    '#date_format' => 'm/d/Y',
+    '#title' => t('Expiry date'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#submit' => array('ding_reservation_update_reservation_form_submit'),
+    '#ajax' => array(
+      'callback' => 'ding_reservation_update_reservation_form_callback',
+      'wrapper' => 'ding-reservation-update-reservation-form',
+    ),
+    '#value' => t('Update reservations'),
+  );
+  return $form;
+}
+
+function ding_reservation_update_reservation_form_submit($form, &$form_state) {
+  global $user;
+  if ($form_state['values']['pickup_branch'] != -1 || $form_state['values']['expiry_date'] != FALSE) {
+    foreach ($form_state['values']['update_reservation'] as $reservation) {
+      $expiry_date = $form_state['values']['expiry_date'] ? $form_state['values']['expiry_date'] : FALSE;
+      $pickup_branch = $form_state['values']['pickup_branch'] != -1 ? $form_state['values']['pickup_branch'] : FALSE;
+      if (!$expiry_date || !$pickup_branch) {
+        $original_reservations = ding_provider_invoke('reservation', 'list', $user);
+        if (!$expiry_date) {
+          $expiry_date = $original_reservations[$reservation]->expiry;
+        }
+        if (!$pickup_branch) {
+          $pickup_branch = $original_reservations[$reservation]->pickup_branch_id;
+        }
+      }
+      ding_provider_invoke('reservation', 'update_order', $user, $reservation, $pickup_branch, $expiry_date);
+    }
+  }
+}
+
+function ding_reservation_update_reservation_form_callback($form, &$form_state) {
+  return t('Your reservations has been updated.');
+}
+
+function ding_reservation_update_reservation_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages');
+    $html .= drupal_render(drupal_get_form('ding_reservation_update_reservation_form'));
+
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Update reservations'), $html);
+
+  return $response;
+}
+
+
+
 
 /**
  * Form submission handler.
@@ -178,7 +253,6 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
     }
   }
 }
-
 
 /**
  * Ajax callback.
