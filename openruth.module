@@ -23,6 +23,10 @@ function openruth_ding_provider() {
         'prefix' => 'reservation',
         'file' => drupal_get_path('module', 'openruth') . '/openruth.reservation.inc',
       ),
+      'loan' => array(
+        'prefix' => 'loan',
+        'file' => drupal_get_path('module', 'openruth') . '/openruth.loan.inc',
+      ),
     ),
   );
 }
