@@ -68,6 +68,15 @@ function openruth_reservation_create($account, $id, $branch, $expiry) {
   }
 }
 
+function openruth_reservation_update_order($account, $order_id, $pickup_branch, $expiry_date) {
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
+  $internal_account = ding_user_get_creds($account);
+
+  $res = openruth_client_invoke('update_order', $order_id, $pickup_branch, $expiry_date);
+  error_log(print_r($res,1));
+}
 /**
  * Delete a reservation for a given account
  */
