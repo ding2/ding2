@@ -42,6 +42,8 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
          'display_name' => $res->itemDisplayTitle,
          'pickup_branch_id' => $res->agencyCounter,
          'expiry' => $res->orderLastInterestDate,
+         'created' => $res->orderDate,
+         'queue_number' => $res->orderQueuePosition,
        ));
      }
    }
