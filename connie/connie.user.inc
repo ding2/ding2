@@ -49,8 +49,7 @@ function connie_user_is_authenticated($creds) {
  * @todo: move testing code to use another existing function.
  */
 function connie_user_test() {
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds();
+
   return "Wolla!";
 }

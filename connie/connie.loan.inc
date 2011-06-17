@@ -10,9 +10,8 @@
  */
 function connie_loan_list($account) {
   // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds();
+
   $result = array();
   $i = 7;
   // We fake a loan list from the reserved items as there's no way to
@@ -35,9 +34,7 @@ function connie_loan_list($account) {
  *
  */
 function connie_loan_renew($account, $ids) {
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds();
 
   $result = array();
   foreach ($ids as $id) {
