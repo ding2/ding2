@@ -133,96 +133,41 @@ function ting_search_theme() {
   );
 }
 
-function ting_search_form_search_form_alter(&$form, &$form_state, $form_id) {
-  unset($form['basic']);
-  unset($form['advanced']);
 
-  if (strpos($form['#action'], 'search/ting') === FALSE) {
-    return $form;
-  };
-  unset($form['#validate']);
-
-  $form['navigate'] = array(
-    '#prefix' => '<div class="navigate"><table><tr>',
-    '#suffix' => '</tr></table></div><br/>',
-  );
-
-  $form['navigate']['sort'] = array(
-    '#title' => t('Sort by:'),
-    '#type' => 'select',
+/**
+ * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
+ */
+function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  $form['sort'] = array(
+    '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? $_GET['sort'] : 'title_ascending',
-    '#options' => array(
-      'title_ascending' => t('Title (Ascending)'),
-      'title_descending' => t('Title (Descending)'),
-      'creator_ascending' => t('Creator (Ascending)'),
-      'creator_descending' => t('Creator (Descending)'),
-      'date_ascending' => t('Date (Ascending)'),
-      'date_descending' => t('Date (Descending)')
-    ),
-    '#attributes' => array('onchange' => 'form.submit(\'{search-form}\')'),
-    '#prefix' => '<td>',
-    '#suffix' => '</td>',
+    '#attributes' => array('id' => 'controls_search_sort'),
   );
-
-  $form['navigate']['size'] = array(
-    '#title' => t('Results on page:'),
-    '#type' => 'select',
+  $form['size'] = array(
+    '#type' => 'hidden',
     '#default_value' => isset($_GET['size']) ? $_GET['size'] : '10',
-    '#options' => array(
-      '5' => t('5'),
-      '10' => t('10'),
-      '20' => t('20'),
-      '50' => t('50'),
-      '75' => t('75')
-    ),
-    '#attributes' => array('onchange' => 'form.submit(\'{search-form}\')'),
-    '#prefix' => '<td>',
-    '#suffix' => '</td>',
+    '#attributes' => array('id' => 'controls_search_size'),
   );
-
-  foreach ($_GET as $k => $v) {
-    if (!( $k == 'sort' || $k == 'size') ) {
-      $form['get'][$k] = array('#type' => 'hidden', '#value' => $v);
-    }
-  }
-
-  unset($form['#action']);
-  $form['actions'] =
-    array(
-      '#type' => 'actions',
-      'submit' => array(
-        '#type' => 'submit',
-        '#value' => 'Search',
-        '#attributes' => array('style' => 'display: none;'),
-      )
-    );
-  $form['#submit'] = array('ting_search_navigateform_submit');
+  $form['creator'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['creator']) ? $_GET['creator'] : '',
+    '#attributes' => array('id' => 'extend_search_creator'),
+  );
+  $form['title'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['title']) ? $_GET['title'] : '',
+    '#attributes' => array('id' => 'extend_search_title'),
+  );
+  $form['subject'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['subject']) ? $_GET['subject'] : '',
+    '#attributes' => array('id' => 'extend_search_subject'),
+  );
+  $form['#submit'] = array('ting_search_submit');
 
   return $form;
 }
 
-function ting_search_navigateform_submit($form, &$form_state) {
-  $info = search_get_default_module_info();
-  if ($info) {
-    $form_state['redirect'] = FALSE;
-    $url = $form_state['values']['q'];
-    $args = array();
-
-    foreach ($_GET as $k => $v) {
-      if ($k !== 'q') {
-        $args[$k] = $v;
-      }
-    }
-
-    $args['sort'] = $form_state['values']['sort'];
-    $args['size'] = $form_state['values']['size'];
-
-    drupal_goto($url, array('query' => $args));
-  }
-  else {
-    form_set_error(NULL, t('Search is currently disabled.'), 'error');
-  }
-}
 
 /**
  * Search conditions callback.
@@ -379,6 +324,267 @@ function theme_ting_search_mini_pager($variables) {
       'data' => $li_next,
     );
     return theme('item_list', array('items' => $items, 'type' => 'ul', 'attributes' => array('class' => array('pager'))));
+  }
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ting_search_block_info() {
+  $blocks['search-extend'] = array(
+      'info' => t('Ting search extended form'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  $blocks['search-controls'] = array(
+      'info' => t('Ting search "sort by" and "records per page"'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ting_search_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'search-extend':
+      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
+      drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
+      $block['subject'] = t('Ting search extended form');
+      $block['content'] = search_extend_content() ;
+      break;
+    case 'search-controls':
+      $block['subject'] = t('Ting search controls');
+      $block['content'] = search_controls_content() ;
+      break;
+  }
+  return $block;
+
+}
+
+
+/**
+ * @brief Implementation of hook_form_FORM_ID_alter() for form ting_admin_register_settings.
+ * @brief Add author, title & subject to ting_admin_register_settings.
+ */
+function ting_search_form_ting_admin_register_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ting_search_extendform_creator_index'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Author'),
+    '#description' => t('Field that contains authername, for instance dc.creator'),
+    '#default_value' => variable_get('ting_search_extendform_creator_index', 'dc.creator')
+  );
+
+  $form['ting_search_extendform_title_index'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#description' => t('Field that contains title, for instance dc.title'),
+    '#default_value' => variable_get('ting_search_extendform_title_index', 'dc.title')
+  );
+
+  $form['ting_search_extendform_subject_index'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    '#description' => t('Field that contains subject, for instance dc.subject'),
+    '#default_value' => variable_get('ting_search_extendform_subject_index', 'dc.subject')
+  );
+
+  $form['#validate'][] = 'ting_search_admin_register_settings_validate';
+  $form['#submit'][] = 'ting_search_admin_register_settings_submit';
+
+  return $form;
+}
+
+
+function ting_search_admin_register_settings_validate($form, &$form_state) {
+  $s = '';
+  if (isset($form_state['values']['ting_search_extendform_creator_index'])) {
+    $s = $form_state['values']['ting_search_extendform_creator_index'];
+  }
+  if ($s == '') {
+    form_set_error('ting_search_extendform_creator_index', t('Please enter a register to use with creator.'));
+  }
+
+  $s = '';
+  if (isset($form_state['values']['ting_search_extendform_title_index'])) {
+    $s = $form_state['values']['ting_search_extendform_title_index'];
+  }
+  if ($s == '') {
+    form_set_error('ting_search_extendform_title_index', t('Please enter a register to use with title.'));
+  }
+
+  $s = '';
+  if (isset($form_state['values']['ting_search_extendform_subject_index'])) {
+    $s = $form_state['values']['ting_search_extendform_subject_index'];
+  }
+  if ($s == '') {
+    form_set_error('ting_search_extendform_subject_index', t('Please enter a register to use with subjects.'));
+  }
+}
+
+
+function ting_search_admin_register_settings_submit($form, $form_state) {
+  variable_set('ting_search_extendform_creator_index', $form_state['values']['ting_search_extendform_creator_index']);
+  variable_set('ting_search_extendform_title_index', $form_state['values']['ting_search_extendform_title_index']);
+  variable_set('ting_search_extendform_subject_index', $form_state['values']['ting_search_extendform_subject_index']);
+}
+
+
+function search_extend_content() {
+  return drupal_get_form('search_extend_form');
+}
+
+function search_extend_form($form_state) {
+
+  $form['extendform'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced search'),
+    '#tree' => TRUE,
+  );
+  $form['extendform']['creator'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Author'),
+    // '#default_value' =>  isset($_GET('creator')) ? $_GET('creator') : '',
+    '#size' => 30,
+    '#maxlength' => 64,
+    '#description' => t('Enter the author name'),
+    '#attributes' => array('onchange' => 'extendSearch("extend_search_creator",this.value)'),
+  );
+  $form['extendform']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    // '#default_value' =>  isset($_GET('title')) ? $_GET('title') : '',
+    '#size' => 30,
+    '#maxlength' => 64,
+    '#description' => t('Enter title'),
+    '#attributes' => array('onchange' => 'extendSearch("extend_search_title",this.value)'),
+  );
+  $form['extendform']['subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subject'),
+    // '#default_value' =>  isset($_GET('subject')) ? $_GET('subject') : '',
+    '#size' => 30,
+    '#maxlength' => 64,
+    '#description' => t('Enter subject keywords'),
+    '#attributes' => array('onchange' => 'extendSearch("extend_search_subject",this.value)'),
+  );
+  return $form;
+}
+
+
+function search_controls_content() {
+  return drupal_get_form('search_controls_form');
+}
+
+function search_controls_form($form_state) {
+
+  $form['sort'] = array(
+    '#title' => t('Sort by:'),
+    '#type' => 'select',
+    '#default_value' => isset($_GET['sort']) ? $_GET['sort'] : 'title_ascending',
+    '#options' => array(
+      'title_ascending' => t('Title (Ascending)'),
+      'title_descending' => t('Title (Descending)'),
+      'creator_ascending' => t('Creator (Ascending)'),
+      'creator_descending' => t('Creator (Descending)'),
+      'date_ascending' => t('Date (Ascending)'),
+      'date_descending' => t('Date (Descending)')
+    ),
+    '#description' => t('Set sort order for search result'),
+    '#attributes' => array('onchange' => 'var i = this.selectedIndex; extendSearch("controls_search_sort",this[i].value)'),
+  );
+
+  $form['size'] = array(
+    '#title' => t('Results on page:'),
+    '#type' => 'radios',
+    '#default_value' => isset($_GET['size']) ? $_GET['size'] : '10',
+    '#options' => array(
+      '10' => t('10'),
+      '25' => t('25'),
+      '50' => t('50')
+    ),
+    '#description' => t('Set number of records shown'),
+    '#attributes' => array('onchange' => 'extendSearch("controls_search_size",this.value)'),
+  );
+
+  return $form;
+}
+
+
+/**
+ * Process a block search form submission.
+ */
+function ting_search_submit($form, &$form_state) {
+  // The search form relies on control of the redirect destination for its
+  // functionality, so we override any static destination set in the request,
+  // for example by drupal_access_denied() or drupal_not_found()
+  // (see http://drupal.org/node/292565).
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  $form_id = $form['form_id']['#value']; // 'search_block_form'
+  $terms = $form_state['values'][$form_id];
+  $fields = array();
+  $args = array();
+
+  $s = $form_state['values']['creator'];
+  if ( $s != "" ) {
+    $args['creator'] = $s;
+    $fields[] = sprintf('%s=%s', variable_get('ting_search_extendform_creator_index', 'dc.creator'), $s);
+  }
+
+  $s = $form_state['values']['title'];
+  if ( $s != "" ) {
+    $args['title'] = $s;
+    $fields[] = sprintf('%s=%s', variable_get('ting_search_extendform_title_index', 'dc.title'), $s);
+  }
+
+  $s = $form_state['values']['subject'];
+  if ( $s != "" ) {
+    $args['subject'] = $s;
+    $fields[] = sprintf('%s=%s', variable_get('ting_search_extendform_subject_index', 'dc.subject'), $s);
+  }
+
+  $q = implode(' AND ', $fields);
+  if ($q == '') {
+    $q = $terms;
+  }
+  elseif ($terms != '') {
+    $q = sprintf('%s AND (%s)', $terms, $q);
+  }
+
+  $s = $form_state['values']['sort'];
+  if ( $s != "" ) {
+    $controls['sort'] = $s;
+  }
+
+  $s = $form_state['values']['size'];
+  if ( $s != "" ) {
+    $controls['size'] = $s;
+  }
+
+
+  // Check to see if the form was submitted empty.
+  // If it is empty, display an error message.
+  // (This method is used instead of setting #required to TRUE for this field
+  // because that results in a confusing error message.  It would say a plain
+  // "field is required" because the search keywords field has no title.
+  // The error message would also complain about a missing #title field.)
+  if ($q == '') {
+    form_set_error('keys', t('Please enter some keywords.'));
+  }
+
+  $info = search_get_default_module_info();
+  if ($info) {
+    $form_state['redirect'] = FALSE;
+    $url = 'search/' . $info['path'] . '/' . trim($q);
+    drupal_goto($url, array('query' => $controls));
+  }
+  else {
+    form_set_error(NULL, t('Search is currently disabled.'), 'error');
   }
 }
 

@@ -1,0 +1,34 @@
+#search-extend-form {
+  border: 1px solid red;
+  display: none;
+}
+
+#search-extend-form.extend-form-show {
+  display: block;
+
+}
+
+
+.extendsearch-advanced .fields {
+  float: left;
+  margin-top: 0.8em;
+  margin-right: 2em;
+}
+
+.form-item-ting-search-extendform-creator-field label {
+  float: left;
+  text-align: left;
+  width: 6em;
+}
+
+.form-item-ting-search-extendform-title-field label {
+  float: left;
+  text-align: left;
+  width: 6em;
+}
+
+.form-item-ting-search-extendform-subject-field label {
+  float: left;
+  text-align: left;
+  width: 6em;
+}
