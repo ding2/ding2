@@ -24,8 +24,26 @@ function connie_loan_list($account) {
                        'display_name' => $res[1],
                        'loan_date' => strftime('%Y-%m-%d', strtotime('now -' . $i . ' day')),
                        'expiry' => strftime('%Y-%m-%d', strtotime('now ' . (14-$i++) . ' day')),
+                       'renewable' => TRUE,
                      ));
     }
   }
+  return $result;
+}
+
+/**
+ *
+ */
+function connie_loan_renew($account, $ids) {
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
+
+  $result = array();
+  foreach ($ids as $id) {
+    // 50/50 chance of renewal.
+    $result[$id] = rand(0, 1) ? DingProviderLoan::STATUS_RENEWED : DingProviderLoan::STATUS_NOT_RENEWED;
+  }
+
   return $result;
 }
