@@ -19,17 +19,18 @@ function ding_user_authenticate_form($form, &$form_state) {
 
   global $user;
 
-  $creds = ding_user_get_creds();
-  // If we are already authenticated on, go to the user page instead.
-  if (ding_provider_implements('user', 'is_authenticated')) {
-    if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
-      drupal_goto('user/' . $user->uid);
+  try {
+    $creds = ding_user_get_creds();
+    // If we are already authenticated on, go to the user page instead.
+    if (ding_provider_implements('user', 'is_authenticated')) {
+      if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
+        drupal_goto('user/' . $user->uid);
+      }
     }
   }
-  elseif (empty($creds)) {
-    drupal_goto('user/' . $user->uid);
+  catch (DingProviderAuthException $e) {
+    // Fall through.
   }
-
 
   // Display login form:
   $form['name'] = array('#type' => 'textfield',
