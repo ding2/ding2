@@ -10,19 +10,17 @@
   margin: 0;
 }
 
-#search-controls-form .form-item-sort label {
+#search-controls-form label,
+#search-controls-form label,
+#search-extend-form label {
   display: inline;
   margin-right: 1em;
 }
 
-#search-controls-form .form-item-sort .description {
+#search-controls-form .description,
+#search-extend-form .description {
   display: inline;
   margin-left: 1em;
-}
-
-#search-controls-form .form-item-size label {
-  display: inline;
-  margin-right: 1em;
 }
 
 #search-controls-form .form-item-size .form-radios {
@@ -32,11 +30,4 @@
 #search-controls-form .form-item-size .form-radios div {
   display: inline;
 }
-
-#search-controls-form .form-item-size .description {
-  display: inline;
-  margin-left: 1em;
-}
-
-
 
