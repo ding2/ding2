@@ -35,7 +35,7 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   // Preload all entities.
   ding_entity_load_multiple($ids);
 
-  $block->content = ding_provider_get_form('ding_loan_loans_form', $list);
+  $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $list);
   return $block;
 }
 
@@ -49,7 +49,7 @@ function ding_loan_loans_content_type_edit_form($form, &$form_state) {
 /**
  * Implements a drupal form, which show a list of reservations
  */
-function ding_loan_loans_form($form, &$form_state, $items = array()) {
+function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
   $options = array();
   $destination = drupal_get_destination();
   $header = array(
@@ -59,6 +59,16 @@ function ding_loan_loans_form($form, &$form_state, $items = array()) {
     'operations' => '',
   );
   uasort($items, 'ding_loan_sort_expiry');
+
+  $form['account'] = array(
+    '#type' => 'value',
+    '#value' => $account,
+  );
+
+  $form['items'] = array(
+    '#type' => 'value',
+    '#value' => $items,
+  );
 
   foreach ($items as $id => $item) {
     $item->creator = 'fake';
@@ -73,13 +83,12 @@ function ding_loan_loans_form($form, &$form_state, $items = array()) {
         'data' =>  array(
           '#type' => 'link',
           '#title' => t('Edit'),
-          '#href' => 'reservations/' . $item->id . '/edit',
+          '#href' => 'user/' . $account->uid . '/loan/' . $item->id . '/renew',
           '#options' => array('query' => $destination),
         ),
       ),
     );
   }
-
 
   $form['loans'] = array(
     '#type' => 'tableselect',
@@ -88,15 +97,11 @@ function ding_loan_loans_form($form, &$form_state, $items = array()) {
     '#empty' => t('No loans'),
   );
 
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Renew selected'),
+  );
 
-  // $form['loans'] = array(
-  //   '#type' => 'checkboxes',
-  //   '#options' => $checkboxes,
-  // );
-  // $form['submit'] = array(
-  //   '#type' => 'submit',
-  //   '#value' => t('Submit reservations'),
-  // );
   return $form;
 }
 
@@ -108,11 +113,33 @@ function ding_loan_loans_form($form, &$form_state, $items = array()) {
 /**
  * Submit handler for the form.
  */
-// function ding_reservation_list_form_submit($form, &$form_state) {
-//   global $user;
-//   foreach ($form_state['values']['reservations'] as $key => $entity_id) {
-//     if ($key == $entity_id) {
-//       ding_provider_invoke('reservation', 'delete', $user, $entity_id);
-//     }
-//   }
-// }
+function ding_loan_loans_form_submit($form, &$form_state) {
+  $ids = array();
+  foreach (array_filter($form_state['values']['loans']) as $id) {
+    if ($form_state['values']['items'][$id]->renewable) {
+      $ids[] = $id;
+    }
+  }
+
+  $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
+  foreach ($result as $id => $status) {
+    if ($object = $form_state['values']['items'][$id]->entity) {
+      $title = $object->title;
+    }
+    else {
+      $title = $item->display_name;
+    }
+    // @todo Better feedback.
+    switch ($status) {
+      case DingProviderLoan::STATUS_RENEWED:
+        drupal_set_message(t('"@title renewed"', array('@title' => $title)));
+        break;
+      case DingProviderLoan::STATUS_NOT_RENEWED:
+        drupal_set_message(t('"@title not renewed"', array('@title' => $title)), 'warning');
+        break;
+      default:
+        watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
+    }
+  }
+}
+
