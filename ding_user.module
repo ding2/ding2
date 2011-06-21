@@ -135,6 +135,18 @@ function ding_user_username_alter(&$name, $account) {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ding_user_ding_provider_user() {
+  return array(
+    'user' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
  * Return the page to redirect user to in order to authenticate/log
  * in. Used by ding_provider.
  */
