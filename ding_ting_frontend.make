@@ -20,9 +20,9 @@ projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
 projects[ting_search][download][url] = "git@github.com:ding2/ting_search.git"
 
-projects[ting_search_extendform][type] = "module"
-projects[ting_search_extendform][download][type] = "git"
-projects[ting_search_extendform][download][url] = "git@github.com:ding2/ting_search_extendform.git"
+projects[ting_search_autocomplete][type] = "module"
+projects[ting_search_autocomplete][download][type] = "git"
+projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_search_autocomplete.git"
 
 projects[ding_availability][type] = "module"
 projects[ding_availability][download][type] = "git"
@@ -35,3 +35,11 @@ projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git
 projects[ting_search_autocomplete][type] = "module"
 projects[ting_search_autocomplete][download][type] = "git"
 projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_search_autocomplete.git"
+
+projects[ding_availability][type] = "module"
+projects[ding_availability][download][type] = "git"
+projects[ding_availability][download][url] = "git@github.com:ding2/ding_availability.git"
+
+projects[ding_toggle_format][type] = "module"
+projects[ding_toggle_format][download][type] = "git"
+projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
