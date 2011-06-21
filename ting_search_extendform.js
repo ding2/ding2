@@ -50,8 +50,12 @@
     attach: function (context, settings) {
       $('.form-item-size').find('input').change(function () {
         Drupal.setSelectedLabel();
-        var action = $("#search-controls-form").attr("action").split('?');
+        var action = document.location.href.split('?');
         action = action[0] + '?sort=' + $('#edit-sort').val() + '&size=' + $("input[name='size']:checked").val();
+        var fragment = document.location.href.split('#');
+        if ( fragment[1] ) {
+          action = action + '#' + fragment[1];
+        }
         document.location.href = action;
       });
     }
@@ -60,8 +64,12 @@
   Drupal.behaviors.toggleSort = {
     attach: function (context, settings) {
       $('#edit-sort').change(function () {
-        var action = $("#search-controls-form").attr("action").split('?');
+        var action = document.location.href.split('?');
         action = action[0] + '?sort=' + $('#edit-sort').val() + '&size=' + $("input[name='size']:checked").val();
+        var fragment = document.location.href.split('#');
+        if ( fragment[1] ) {
+          action = action + '#' + fragment[1];
+        }
         document.location.href = action;
       });
     }
