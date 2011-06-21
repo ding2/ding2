@@ -19,6 +19,18 @@ function ding_loan_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ding_loan_ding_provider_user() {
+  return array(
+    'loan' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
  * Callback function for sorting loans.
  */
 function ding_loan_sort_expiry($a, $b) {
