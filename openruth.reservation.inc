@@ -35,6 +35,19 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
    }
    $internal_account = ding_user_get_creds($account);
    $reservations = openruth_client_invoke('user_status', $internal_account['name'], $internal_account['pass']);
+   if (isset($reservations->orders->orderReady)) {
+     foreach ($reservations->orders->orderReady as $res) {
+       $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+         'order_id' => $res->orderId,
+         'ding_entity_id' => $res->itemId,
+         'display_name' => $res->itemDisplayTitle,
+         'pickup_date' => $res->orderPickUpDate,
+         'pickup_branch_id' => $res->agencyCounter,
+         'created' => $res->orderDate,
+         'ready_for_pickup' => 1,
+       ));
+     }
+   }
    if (isset($reservations->orders->orderNotReady)) {
      foreach ($reservations->orders->orderNotReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
@@ -44,6 +57,7 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
          'expiry' => $res->orderLastInterestDate,
          'created' => $res->orderDate,
          'queue_number' => $res->orderQueuePosition,
+         'ready_for_pickup' => 0,
        ));
      }
    }
@@ -75,8 +89,8 @@ function openruth_reservation_update_order($account, $order_id, $pickup_branch, 
   $internal_account = ding_user_get_creds($account);
 
   $res = openruth_client_invoke('update_order', $order_id, $pickup_branch, $expiry_date);
-  error_log(print_r($res,1));
 }
+
 /**
  * Delete a reservation for a given account
  */
