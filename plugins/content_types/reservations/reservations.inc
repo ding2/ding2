@@ -106,12 +106,13 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   uasort($items, 'ding_reservation_sort_queue');
 
   foreach ($items as $id => $item) {
+    $entity = $item->entity;
     switch ($type) {
     case 'ready_for_pickup':
       $options[$item->id] = array(
         'order_id' => check_plain($item->order_id),
         'title' => array(
-          'data' => isset($entity) ? ting_object_view($item->entity, 'user_list') : array('#markup' => $item->display_name),
+          'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
         ),
         'created' => check_plain($item->created),
         'pickup_date' => check_plain($item->pickup_date),
@@ -128,7 +129,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     case 'not_ready_for_pickup':
       $options[$item->id] = array(
         'title' => array(
-          'data' => isset($entity) ? ting_object_view($item->entity, 'user_list') : array('#markup' => $item->display_name),
+          'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
         ),
         'created' => check_plain($item->created),
         'expiry' => check_plain($item->expiry),
