@@ -38,6 +38,21 @@ class DingProviderReservation extends DingEntityBase {
   protected $ding_entity_id = DingEntityBase::NULL;
 
   /**
+   * Boolean for if reservation is ready for pickup.
+   */
+  protected $ready_for_pickup = DingEntityBase::NULL;
+
+  /**
+   * Pickup date
+   */
+  protected $pickup_date = DingEntityBase::NULL;
+
+  /**
+   * Order Id
+   */
+  protected $order_id = DingEntityBase::NULL;
+
+  /**
    * The ding_entity.
    */
   protected $entity = DingEntityBase::NULL;
@@ -105,6 +120,7 @@ class DingProviderReservation extends DingEntityBase {
     // Default display name.
     $this->display_name = t('Title not available');
     $properties = array(
+      'order_id',
       'materials_number',
       'ding_entity_id',
       'entity',
@@ -116,7 +132,9 @@ class DingProviderReservation extends DingEntityBase {
       'expiry',
       'queue_number',
       'pickup_number',
+      'pickup_date',
       'notes',
+      'ready_for_pickup',
     );
     foreach ($properties as $prop) {
       if (isset($data[$prop])) {
@@ -142,6 +160,8 @@ class DingProviderReservation extends DingEntityBase {
   }
 
   /*
+   order_id
+   created
    titel
    type
    forfatter
@@ -149,6 +169,13 @@ class DingProviderReservation extends DingEntityBase {
    materiale nr
    */
 
+  function getOrder_id() {
+    $this->getEntity();
+    if ($this->entity) {
+      return $this->order_id = $this->entity->orderId;
+    }
+  
+  }
   function getTitle() {
     $this->getEntity();
     if ($this->entity) {
