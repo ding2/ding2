@@ -1,6 +1,10 @@
 
 (function($){
 
+  $(document).ready(function(){
+    Drupal.setSelectedLabel();
+  });
+
   $.TingExtendedForm = {};
   $.TingExtendedForm.showExtended = false;
 
@@ -41,6 +45,32 @@
       });
     }
   };
+
+  Drupal.behaviors.toggleSize = {
+    attach: function (context, settings) {
+      $('.form-item-size').find('input').change(function () {
+        Drupal.setSelectedLabel();
+        var action = $("#search-controls-form").attr("action").split('?');
+        action = action[0] + '?sort=' + $('#edit-sort').val() + '&size=' + $("input[name='size']:checked").val();
+        document.location.href = action;
+      });
+    }
+  };
+
+  Drupal.behaviors.toggleSort = {
+    attach: function (context, settings) {
+      $('#edit-sort').change(function () {
+        var action = $("#search-controls-form").attr("action").split('?');
+        action = action[0] + '?sort=' + $('#edit-sort').val() + '&size=' + $("input[name='size']:checked").val();
+        document.location.href = action;
+      });
+    }
+  };
+
+  Drupal.setSelectedLabel = function () {
+    $('.form-item-size').find('label').removeClass('labelSelected');
+    $('input[name=size]').filter(':checked').parent().find('label').addClass('labelSelected');
+  }
 
 }(jQuery));
 
