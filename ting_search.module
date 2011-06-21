@@ -107,9 +107,15 @@ function ting_search_ding_facetbrowser() {
  * Implements hook_entity_info_alter().
  */
 function ting_search_entity_info_alter(&$entity_info) {
-  // Only defining a search view mode for collections, as all results are
-  // actually collections.
+  // While search results only consists of collections, it's actually
+  // an object being rendered, so we define the view mode for both.
   $entity_info['ting_collection']['view modes'] += array(
+    'search_result' => array(
+      'label' => t('Search result'),
+      'custom settings' => FALSE,
+    ),
+  );
+  $entity_info['ting_object']['view modes'] += array(
     'search_result' => array(
       'label' => t('Search result'),
       'custom settings' => FALSE,
