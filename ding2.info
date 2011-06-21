@@ -20,4 +20,5 @@ dependencies[] = ding_provider
 dependencies[] = ding_availability
 dependencies[] = mkdru
 dependencies[] = ting_relation
+dependencies[] = openruth
 files[] = ding2.profile
