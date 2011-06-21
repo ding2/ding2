@@ -36,7 +36,7 @@ function ting_covers_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  
+
   $items['admin/config/ting/covers/addi'] = array(
     'title' => 'ADDI service',
     'description' => 'Configure integration with the ADDI service.',
@@ -46,7 +46,7 @@ function ting_covers_menu() {
     'file' => 'ting_covers.admin.inc',
     'type' => MENU_LOCAL_TASK,
   );
-  
+
   return $items;
 }
 
@@ -65,21 +65,21 @@ function ting_covers_theme() {
 /**
  * Implementation of hook_ding_entity_collection_view().
  */
-function ting_covers_ding_entity_collection_view(&$collection, $view_mode) {
+function ting_covers_ding_entity_collection_view($collection, $view_mode) {
   $object->content['overview']['left'] = array(
     '#theme' => 'ting_object_cover',
-    '#object' => array_shift($collection->entities), 
+    '#object' => array_shift($collection->entities),
     '#image_style' => variable_get('ting_covers_search_result_style', 'thumbnail'),
     '#attached' => array(
     	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
     ),
-  ); 
+  );
 }
 
 function ting_covers_preprocess_ting_object_overview(&$variables) {
   $variables['image'] = array(
     '#theme' => 'ting_object_cover',
-    '#object' => $variables['object'], 
+    '#object' => $variables['object'],
     '#image_style' => variable_get('ting_covers_search_result_style', 'thumbnail'),
     '#attached' => array(
     	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
@@ -117,8 +117,8 @@ function ting_covers_ding_install_tasks() {
 
 /**
  * Delete ting covers files.
- * 
- * @param int $time Timestamp where older files will be deleted. 
+ *
+ * @param int $time Timestamp where older files will be deleted.
  * 	Obmit or set to NULL to delete all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
@@ -142,7 +142,7 @@ function _ting_covers_delete_old_files($time = NULL) {
       $cover_files = array_merge($cover_files, _ting_covers_get_files($ting_covers_dir));
     }
   }
-  
+
   //Delete obsolete files
   foreach ($cover_files as $file) {
     if (!$time || (filemtime($file) < $time)) {
@@ -152,7 +152,7 @@ function _ting_covers_delete_old_files($time = NULL) {
 }
 
 /**
- * Retrieve all files under a path recursively 
+ * Retrieve all files under a path recursively
  * @param string $files_path Path or URI
  * @return array An array of file paths or URIs
  */
@@ -169,7 +169,7 @@ function _ting_covers_get_files($files_path) {
       $files[] = $file_path;
     }
   }
-  
+
   return $files;
 }
 
