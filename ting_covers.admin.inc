@@ -30,8 +30,6 @@ function ting_covers_admin_settings_form($form, &$form_state) {
   );
 
   $entity_info = entity_get_info('ting_object');
-  dpm($entity_info);
-
   foreach ($entity_info['view modes'] as $mode => $view_mode) {
     $form['styles']['ting_covers_' . $mode. '_style'] = array(
       '#type' => 'select',
