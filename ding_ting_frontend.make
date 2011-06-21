@@ -43,3 +43,7 @@ projects[ding_availability][download][url] = "git@github.com:ding2/ding_availabi
 projects[ding_toggle_format][type] = "module"
 projects[ding_toggle_format][download][type] = "git"
 projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
+
+projects[ting_covers][type] = "module"
+projects[ting_covers][download][type] = "git"
+projects[ting_covers][download][url] = "git@github.com:ding2/ting_covers.git"
