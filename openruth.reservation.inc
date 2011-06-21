@@ -39,7 +39,7 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
      foreach ($reservations->orders->orderReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
          'order_id' => $res->orderId,
-         'ding_entity_id' => $res->itemId,
+         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
          'display_name' => $res->itemDisplayTitle,
          'pickup_date' => $res->orderPickUpDate,
          'pickup_branch_id' => $res->agencyCounter,
@@ -51,7 +51,7 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
    if (isset($reservations->orders->orderNotReady)) {
      foreach ($reservations->orders->orderNotReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
-         'ding_entity_id' => $res->itemId,
+         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
          'display_name' => $res->itemDisplayTitle,
          'pickup_branch_id' => $res->agencyCounter,
          'expiry' => $res->orderLastInterestDate,
