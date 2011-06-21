@@ -12,6 +12,7 @@ function ding2_install() {
 
   // Enable some standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
+
   $values = array(
     array(
       'module' => 'system',
@@ -24,42 +25,42 @@ function ding2_install() {
       'cache' => -1,
     ),
     array(
+      'module' => 'system',
+      'delta' => 'main-menu',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'header',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'search',
+      'delta' => 'form',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'subheader',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
       'module' => 'user',
       'delta' => 'login',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 0,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'navigation',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'sidebar_first',
-      'pages' => '',
-      'cache' => -1,
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'management',
-      'theme' => $default_theme,
-      'status' => 1,
       'weight' => 1,
-      'region' => 'sidebar_first',
+      'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
     ),
     array(
       'module' => 'system',
-      'delta' => 'help',
+      'delta' => 'user-menu',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 0,
-      'region' => 'help',
+      'weight' => 2,
+      'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
     ),
@@ -70,12 +71,31 @@ function ding2_install() {
   }
   $query->execute();
 
+  // Hide the title on the user login block and user menu block.
+  db_update('block')->fields(array('title' => '<none>'))->condition('module', 'user')->condition('delta', 'login')->condition('theme', $default_theme)->execute();
+  db_update('block')->fields(array('title' => '<none>'))->condition('module', 'system')->condition('delta', 'user-menu')->condition('theme', $default_theme)->execute();
+
+  // Enable ting search as default.
+  variable_set('search_active_modules', array(
+      'node' => 'node',
+      'ting_search' => 'ting_search',
+      'user' => 0,
+      'mkdru' => 'mkdru',
+    ));
+  variable_set('search_default_module', 'ting_search');
+
+  // Enable the panel pages for ting objects and search.
+  variable_set('ting_ting_object_disabled', FALSE);
+  variable_set('ting_ting_collection_disabled', FALSE);
+  variable_set('page_manager_search_disabled_ting_search', FALSE);
+
   // Allow visitor account creation, but with administrative approval.
   variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
 
   // Enable default permissions for system roles.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content'));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content'));
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
+
   // Create a default role for site administrators, with all available permissions assigned.
   $admin_role = new stdClass();
   $admin_role->name = 'administrator';

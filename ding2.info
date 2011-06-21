@@ -1,4 +1,3 @@
-; $Id$
 name = Ding 2
 description = Install a Ding based library site.
 version = 1.0
@@ -10,15 +9,9 @@ dependencies[] = dblog
 dependencies[] = shortcut
 dependencies[] = toolbar
 dependencies[] = overlay
-dependencies[] = ding_entity
-dependencies[] = ting
-dependencies[] = ting_search
-dependencies[] = ting_search_extendform
-dependencies[] = ting_covers
-dependencies[] = ding_facetbrowser
-dependencies[] = ding_provider
-dependencies[] = ding_availability
+
 dependencies[] = mkdru
-dependencies[] = ting_relation
 dependencies[] = openruth
+dependencies[] = ding_user_frontend
+dependencies[] = ding_ting_frontend
 files[] = ding2.profile
