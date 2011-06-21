@@ -57,13 +57,16 @@ function ding_user_menu() {
  */
 function ding_user_entity_info_alter(&$entity_info) {
   $ding_entity_info = ding_entity_info('ding_entity');
-  // Add a user_list display mode for addon modules to use.
-  $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
-    'user_list' => array(
-      'label' => t('User lists'),
-      'custom settings' => FALSE,
-    ),
-  );
+  // Entity might not be defined yet (is the case in the installer).
+  if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
+    // Add a user_list display mode for addon modules to use.
+    $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
+      'user_list' => array(
+        'label' => t('User lists'),
+        'custom settings' => FALSE,
+      ),
+    );
+  }
 }
 
 /**
