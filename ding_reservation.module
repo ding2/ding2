@@ -46,6 +46,18 @@ function ding_reservation_ding_entity_view($entity, $view_mode, $langcode = NULL
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ding_reservation_ding_provider_user() {
+  return array(
+    'reservation' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
  * Reserve form callback.
  *
  * Note that this form relies on form caching, which is triggered by
