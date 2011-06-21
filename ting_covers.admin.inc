@@ -26,29 +26,21 @@ function ting_covers_admin_settings_form($form, &$form_state) {
   $form['styles'] = array(
     '#type' => 'fieldset',
     '#title' => t('Cover image styles'),
+    '#description' => t("Select the cover image style for each view mode."),
   );
 
-  $form['styles']['ting_covers_search_result_style'] = array(
-    '#type' => 'select',
-    '#title' => t('Search result style'),
-    '#options' => _ting_covers_image_style_options(),
-    '#default_value' => variable_get('ting_covers_search_result_style', 'thumbnail'),
-  );
+  $entity_info = entity_get_info('ting_object');
+  dpm($entity_info);
 
-  $form['styles']['ting_covers_collection_style'] = array(
-    '#type' => 'select',
-    '#title' => t('Collection view style'),
-    '#options' => _ting_covers_image_style_options(),
-    '#default_value' => variable_get('ting_covers_collection_style', 'large'),
-  );
+  foreach ($entity_info['view modes'] as $mode => $view_mode) {
+    $form['styles']['ting_covers_' . $mode. '_style'] = array(
+      '#type' => 'select',
+      '#title' => $view_mode['label'],
+      '#options' => _ting_covers_image_style_options(),
+      '#default_value' => variable_get('ting_covers_' . $mode . '_style', 'thumbnail'),
+    );
+  }
 
-  $form['styles']['ting_covers_object_style'] = array(
-    '#type' => 'select',
-    '#title' => t('Object view style'),
-    '#options' => _ting_covers_image_style_options(),
-    '#default_value' => variable_get('ting_covers_collection_style', 'large'),
-  );  
-  
   return system_settings_form($form);
 }
 
@@ -103,7 +95,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
     '#title' => t('Enable logging'),
     '#default_value' => variable_get('addi_enable_logging', FALSE),
   );
-  
+
   return system_settings_form($form);
 }
 
@@ -112,5 +104,5 @@ function _ting_covers_image_style_options() {
   foreach ($styles as $id => &$style) {
     $style = $style['name'];
   }
-  return $styles; 
+  return $styles;
 }

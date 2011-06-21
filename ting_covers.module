@@ -63,24 +63,13 @@ function ting_covers_theme() {
 }
 
 /**
- * Implementation of hook_ding_entity_collection_view().
+ * Theme function preprocesor.
  */
-function ting_covers_ding_entity_collection_view($collection, $view_mode) {
-  $object->content['overview']['left'] = array(
-    '#theme' => 'ting_object_cover',
-    '#object' => array_shift($collection->entities),
-    '#image_style' => variable_get('ting_covers_search_result_style', 'thumbnail'),
-    '#attached' => array(
-    	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
-    ),
-  );
-}
-
 function ting_covers_preprocess_ting_object_overview(&$variables) {
   $variables['image'] = array(
     '#theme' => 'ting_object_cover',
     '#object' => $variables['object'],
-    '#image_style' => variable_get('ting_covers_search_result_style', 'thumbnail'),
+    '#image_style' => variable_get('ting_covers_' . $variables['elements']['#view_mode'] . '_style', 'thumbnail'),
     '#attached' => array(
     	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
     ),
