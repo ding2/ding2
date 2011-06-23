@@ -13,6 +13,11 @@ $plugin = array(
   'category' => t('User'),
 );
 
+/*
+ * Additional dateformat, used by format_date().
+ */
+variable_set('date_format_ding_reservation_short', 'd.m.Y');
+
 /**
  * Render the block
  */
@@ -115,8 +120,8 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         'title' => array(
           'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
         ),
-        'created' => check_plain($item->created),
-        'pickup_date' => check_plain($item->pickup_date),
+        'created' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
+        'pickup_date' => format_date(strtotime(check_plain($item->pickup_date)), 'ding_reservation_short' ),
         'pickup_branch_id' => check_plain($item->pickup_branch_id),
         'operations' => array(
           'data' =>  array(
@@ -132,8 +137,8 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         'title' => array(
           'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
         ),
-        'created' => check_plain($item->created),
-        'expiry' => check_plain($item->expiry),
+        'created' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
+        'expiry' => format_date(strtotime(check_plain($item->expiry)), 'ding_reservation_short'),
         'pickup_branch_id' => check_plain($item->pickup_branch_id),
         'queue_number' => check_plain($item->queue_number),
         'operations' => array(
