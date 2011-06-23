@@ -14,6 +14,11 @@ $plugin = array(
   'category' => t('User'),
 );
 
+/*
+ * Additional dateformat, used by format_date().
+ */
+variable_set('date_format_ding_loan_short', 'd.m.Y');
+
 /**
  * Render the block
  */
@@ -77,8 +82,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
       'title' => array(
         'data' => isset($entity) ? ting_object_view($item->entity, 'user_list') : array('#markup' => $item->display_name),
       ),
-      'loan_date' => check_plain($item->loan_date),
-      'expiry' => check_plain($item->expiry),
+      'loan_date' => format_date(strtotime(check_plain($item->loan_date)), 'ding_loan_short'),
+      'expiry' => format_date(strtotime(check_plain($item->expiry)), 'ding_loan_short'),
       'operations' => array(
         'data' =>  array(
           '#type' => 'link',
