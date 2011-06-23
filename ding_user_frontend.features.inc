@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * ding_user_frontend.features.inc
+ */
 
 /**
  * Implementation of hook_ctools_plugin_api().

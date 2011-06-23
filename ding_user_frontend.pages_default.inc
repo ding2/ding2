@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * ding_user_frontend.pages_default.inc
+ */
 
 /**
  * Implementation of hook_default_page_manager_handlers().
@@ -109,7 +113,7 @@ function ding_user_frontend_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Wolla';
+  $display->title = 'Mine hjemlån';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -199,7 +203,7 @@ function ding_user_frontend_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Wolla';
+  $display->title = 'Mine reserveringer';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
