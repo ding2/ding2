@@ -160,6 +160,19 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     }
 
     if (!empty($fields)) {
+      // Add the default anyIndex boosts.
+      $fields[] = array(
+        'fieldName' => 'cql.anyIndexes',
+        'fieldType' => 'phrase',
+        'weight' => 1,
+      );
+
+      $fields[] = array(
+        'fieldName' => 'cql.anyIndexes',
+        'fieldType' => 'word',
+        'weight' => 1,
+      );
+
       $request->userDefinedRanking = array('tieValue' => 0.1, 'rankField' => $fields);
     }
   }
@@ -419,3 +432,4 @@ function ting_get_spell_suggestions($word, $num_results = 10) {
   $request->setNumResults($num_results);
   return ting_execute($request);
 }
+

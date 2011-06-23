@@ -137,6 +137,12 @@ function ting_admin_ranking_settings($form, &$form_state) {
     );
   }
 
+  $form['ting_ranking_fields']['allindexes_notice'] = array(
+    '#markup' => t('In addition to the boost values selected above, we will add a boost value of 1 to anyIndexes for both phrase and word matches. This is done to ensure that all matches is included in the result, regardless of how they are ranked.'),
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
+  );
+
   $form['ting_ranking_fields']['add_field'] = array(
     '#type' => 'submit',
     '#value' => t('Add another ranking field'),
@@ -545,3 +551,4 @@ function ting_admin_reservable_settings_update($form, &$form_state) {
   _ting_fetch_well_types();
   _ting_fetch_well_sources();
 }
+
