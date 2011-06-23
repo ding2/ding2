@@ -9,7 +9,6 @@ $plugin = array(
   'description' => t('The current loans for a user'),
   'single' => TRUE,
   'content_types' => array('list'),
-  // 'render callback' => 'ding_reservation_list_content_type_render',
   'required context' => new ctools_context_required(t('User'), 'user'),
   'category' => t('User'),
 );
@@ -25,6 +24,7 @@ variable_set('date_format_ding_loan_short', 'd.m.Y');
 function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
   $items = array();
+  $ids = array();
 
   $block = new stdClass();
   $block->module = 'ding_loan';
@@ -32,8 +32,6 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $block->title = t('Loan list');
 
   $list = ding_provider_invoke_page('loan', 'list', $account);
-
-  $ids = array();
   foreach ($list as $item) {
     $ids[] = $item->ding_entity_id;
   }
@@ -80,7 +78,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
     $entity = $item->entity;
     $options[$item->id] = array(
       'title' => array(
-        'data' => isset($entity) ? ting_object_view($item->entity, 'user_list') : array('#markup' => $item->display_name),
+        'data' => array(
+          isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+          array(
+            '#type' => 'markup',
+            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number))
+          ),
+        ),
       ),
       'loan_date' => format_date(strtotime(check_plain($item->loan_date)), 'ding_loan_short'),
       'expiry' => format_date(strtotime(check_plain($item->expiry)), 'ding_loan_short'),
