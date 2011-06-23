@@ -90,6 +90,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       'pickup_branch_id' => t('Pickup branch'),
       'operations' => '',
     );
+    uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
     break;
   case 'not_ready_for_pickup':
     $header = array(
@@ -100,10 +101,10 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       'queue_number' => t('Queue number'),
       'operations' => '',
     );
+    uasort($items, 'ding_reservation_sort_queue_by_queue_number');
     break;
   }
 
-  uasort($items, 'ding_reservation_sort_queue');
 
   foreach ($items as $id => $item) {
     $entity = $item->entity;
