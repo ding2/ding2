@@ -40,7 +40,9 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
  * Implements hook_ding_entity_view().
  */
 function ding_reservation_ding_entity_view($entity, $view_mode, $langcode = NULL) {
-  if ($entity->is('reservable')) {
+  // @todo which view modes should have reservation button should
+  // probably be configurable.
+  if ($entity->is('reservable') && $view_mode != 'user_list') {
     $entity->content['actions']['reserve'] = ding_provider_get_form('ding_reservation_reserve_form', $entity, TRUE);
   }
 }
