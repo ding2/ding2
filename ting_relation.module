@@ -12,6 +12,9 @@ function ting_relation_ding_entity_view($entity, $view_mode, $langcode = NULL) {
   if ($entity->relations) {
     $relation_types = ting_relation_inline();
     foreach ($entity->relations as $relation) {
+      if ($relation->relationType == 'isPartOfManifestation') {
+        $view_mode = 'search_result';
+      }
       if (isset($relation_types[$relation->relationType])) {
         $entity->content['relations'][] = array(
           '#theme' => 'ting_relation',
@@ -49,7 +52,9 @@ function ting_relation_inline() {
     $types = array(
       'hasAuthorDescription' => t('Author portrait'),
       'hasSubjectDescription' => t('Subject description'),
+      'isPartOfManifestation' => t('Is part of manifestation'),
     );
   }
   return $types;
 }
+
