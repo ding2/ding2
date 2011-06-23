@@ -51,7 +51,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
   $options = array();
   $destination = drupal_get_destination();
   $header = array(
-    'id' => t('Material no.'),
     'title' => t('Title'),
     'loan_date' => t('Loan date'),
     'expiry' => t('Return date'),
@@ -73,9 +72,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
     $item->creator = 'fake';
     $entity = $item->entity;
     $options[$item->id] = array(
-      'id' => $item->id,
       'title' => array(
-        'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+        'data' => array(
+          isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+          array(
+            '#type' => 'markup',
+            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number))
+          ),
+        ),
       ),
       'loan_date' => check_plain($item->loan_date),
       'expiry' => check_plain($item->expiry),
