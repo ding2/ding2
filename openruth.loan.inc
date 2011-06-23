@@ -16,6 +16,7 @@ function openruth_loan_list($account) {
                        'loan_date' => $loan->loanDate,
                        'expiry' => $loan->loanReturnDate,
                        'renewable' => $loan->loanRenewable == 'renewable',
+                       'materials_number' => $loan->copyId,
                      ));
 
     }
