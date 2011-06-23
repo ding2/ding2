@@ -327,10 +327,6 @@ function ting_entity_info() {
           'label' => t('Teaser'),
           'custom settings' => TRUE,
         ),
-        'listing' => array(
-          'label' => t('Listing'),
-          'custom settings' => FALSE,
-        ),
       ),
     ),
 
