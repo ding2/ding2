@@ -8,7 +8,7 @@ function openruth_loan_list($account) {
   $result = array();
   $status = _openruth_user_status($creds);
 
-  if (isset($status->loans)) {
+  if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
                        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan->itemId,
