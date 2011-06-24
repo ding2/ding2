@@ -146,27 +146,27 @@ function ting_search_theme() {
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $form['sort'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['sort']) ? $_GET['sort'] : 'title_ascending',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : 'title_ascending',
     '#attributes' => array('id' => 'controls_search_sort'),
   );
   $form['size'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['size']) ? $_GET['size'] : '10',
+    '#default_value' => isset($_GET['size']) ? (int)$_GET['size'] : '10',
     '#attributes' => array('id' => 'controls_search_size'),
   );
   $form['creator'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['creator']) ? $_GET['creator'] : '',
+    '#default_value' => isset($_GET['creator']) ? check_plain($_GET['creator']) : '',
     '#attributes' => array('id' => 'extend_search_creator'),
   );
   $form['title'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['title']) ? $_GET['title'] : '',
+    '#default_value' => isset($_GET['title']) ? check_plain($_GET['title']) : '',
     '#attributes' => array('id' => 'extend_search_title'),
   );
   $form['subject'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['subject']) ? $_GET['subject'] : '',
+    '#default_value' => isset($_GET['subject']) ? check_plain($_GET['subject']) : '',
     '#attributes' => array('id' => 'extend_search_subject'),
   );
   $form['#submit'] = array('ting_search_submit');
@@ -182,15 +182,15 @@ function ting_search_conditions_callback($keys) {
   $conditions = array();
 
   if (!empty($_REQUEST['keys'])) {
-    $conditions['keys'] = $_REQUEST['keys'];
+    $conditions['keys'] = check_plain($_REQUEST['keys']);
   }
 
   if (!empty($_REQUEST['size'])) {
-    $conditions['size'] = $_REQUEST['size'];
+    $conditions['size'] = (int)$_REQUEST['size'];
   }
 
   if (!empty($_REQUEST['sort'])) {
-    $conditions['sort'] = $_REQUEST['sort'];
+    $conditions['sort'] = check_plain($_REQUEST['sort']);
   }
 
   // TODO: Add facets here
@@ -452,7 +452,6 @@ function search_extend_form($form_state) {
   $form['extendform']['creator'] = array(
     '#type' => 'textfield',
     '#title' => t('Author'),
-    // '#default_value' =>  isset($_GET('creator')) ? $_GET('creator') : '',
     '#size' => 30,
     '#maxlength' => 64,
     '#description' => t('Enter the author name'),
@@ -461,7 +460,6 @@ function search_extend_form($form_state) {
   $form['extendform']['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
-    // '#default_value' =>  isset($_GET('title')) ? $_GET('title') : '',
     '#size' => 30,
     '#maxlength' => 64,
     '#description' => t('Enter title'),
@@ -470,7 +468,6 @@ function search_extend_form($form_state) {
   $form['extendform']['subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Subject'),
-    // '#default_value' =>  isset($_GET('subject')) ? $_GET('subject') : '',
     '#size' => 30,
     '#maxlength' => 64,
     '#description' => t('Enter subject keywords'),
@@ -489,7 +486,7 @@ function search_controls_form($form_state) {
   $form['sort'] = array(
     '#title' => t('Sort by:'),
     '#type' => 'select',
-    '#default_value' => isset($_GET['sort']) ? htmlspecialchars($_GET['sort']) : 'title_ascending',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : 'title_ascending',
     '#options' => array(
       'title_ascending' => t('Title (Ascending)'),
       'title_descending' => t('Title (Descending)'),
