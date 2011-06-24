@@ -28,15 +28,12 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
  * Get list of reserved items
  */
  function openruth_reservation_list($account) {
+   $creds = ding_user_get_creds($account);
    $result = array();
-   // Throw exception if we're not logged in.
-   if (!ding_user_get_creds()) {
-     throw new DingProviderAuthException;
-   }
-   $internal_account = ding_user_get_creds($account);
-   $reservations = openruth_client_invoke('user_status', $internal_account['name'], $internal_account['pass']);
-   if (isset($reservations->orders->orderReady)) {
-     foreach ($reservations->orders->orderReady as $res) {
+   $status = _openruth_user_status($creds);
+
+   if (isset($status->orders->orderReady)) {
+     foreach ($status->orders->orderReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
          'order_id' => $res->orderId,
          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
@@ -48,8 +45,8 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
        ));
      }
    }
-   if (isset($reservations->orders->orderNotReady)) {
-     foreach ($reservations->orders->orderNotReady as $res) {
+   if (isset($status->orders->orderNotReady)) {
+     foreach ($status->orders->orderNotReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
          'display_name' => $res->itemDisplayTitle,
@@ -68,13 +65,13 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
  * Create a reservation for a given account
  */
 function openruth_reservation_create($account, $id, $branch, $expiry) {
-  // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  $creds = ding_user_get_creds($account);
+  $status = _openruth_user_status($creds, TRUE);
+
   $internal_account = ding_user_get_creds($account);
   $booking = openruth_client_invoke('order_item', $internal_account['name'], $id, 1, date('c', time()), date('c', $expiry), $branch);
   if ($booking[$id] == 1) {
+    $status = _openruth_user_status($creds, TRUE);
     return $booking;
   }
   else {
@@ -82,24 +79,30 @@ function openruth_reservation_create($account, $id, $branch, $expiry) {
   }
 }
 
+/**
+ * Update order, by defining new expiry date or pickup branch
+ */
 function openruth_reservation_update_order($account, $order_id, $pickup_branch, $expiry_date) {
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
-  $internal_account = ding_user_get_creds($account);
+  $creds = ding_user_get_creds($account);
 
   $res = openruth_client_invoke('update_order', $order_id, $pickup_branch, $expiry_date);
+
+  if ($res == TRUE) {
+    $status = _openruth_user_status($creds, TRUE);
+  }
 }
 
 /**
  * Delete a reservation for a given account
  */
 function openruth_reservation_delete($account, $id) {
-  // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  $creds = ding_user_get_creds($account);
+
   $res = openruth_client_invoke('cancel_order', $id);
+
+  if ($res == TRUE) {
+    $status = _openruth_user_status($creds, TRUE);
+  }
 }
 
 /**
