@@ -176,7 +176,7 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'block';
-    $pane->subtype = 'ding_availability-legend';
+    $pane->subtype = 'ting_search-search-controls';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -195,8 +195,8 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-5';
     $pane->panel = 'middle';
-    $pane->type = 'ting_search_result';
-    $pane->subtype = 'ting_search_result';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_availability-legend';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -212,6 +212,26 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->position = 3;
     $display->content['new-5'] = $pane;
     $display->panels['middle'][3] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'middle';
+    $pane->type = 'ting_search_result';
+    $pane->subtype = 'ting_search_result';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $display->content['new-6'] = $pane;
+    $display->panels['middle'][4] = 'new-6';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
