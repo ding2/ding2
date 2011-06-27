@@ -56,7 +56,7 @@ function ding2_install() {
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
-      'title' => '',
+      'title' => '<none>',
     ),
     array(
       'module' => 'system',
@@ -67,7 +67,7 @@ function ding2_install() {
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
-      'title' => '',
+      'title' => '<none>',
     ),
   );
   $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'));
@@ -75,10 +75,6 @@ function ding2_install() {
     $query->values($record);
   }
   $query->execute();
-
-  // Hide the title on the user login block and user menu block.
-  db_update('block')->fields(array('title' => '<none>'))->condition('module', 'user')->condition('delta', 'login')->condition('theme', $default_theme)->execute();
-  db_update('block')->fields(array('title' => '<none>'))->condition('module', 'system')->condition('delta', 'user-menu')->condition('theme', $default_theme)->execute();
 
   // Enable ting search as default.
   variable_set('search_active_modules', array(
