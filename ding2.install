@@ -23,6 +23,7 @@ function ding2_install() {
       'region' => 'content',
       'pages' => '',
       'cache' => -1,
+      'title' => '',
     ),
     array(
       'module' => 'system',
@@ -33,6 +34,7 @@ function ding2_install() {
       'region' => 'header',
       'pages' => '',
       'cache' => -1,
+      'title' => '<none>',
     ),
     array(
       'module' => 'search',
@@ -43,6 +45,7 @@ function ding2_install() {
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
+      'title' => '',
     ),
     array(
       'module' => 'user',
@@ -53,6 +56,7 @@ function ding2_install() {
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
+      'title' => '',
     ),
     array(
       'module' => 'system',
@@ -63,9 +67,10 @@ function ding2_install() {
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
+      'title' => '',
     ),
   );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'));
   foreach ($values as $record) {
     $query->values($record);
   }
