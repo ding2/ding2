@@ -32,6 +32,10 @@ command instead:
 
     drush make --no-core --contrib-destination=. --working-copy ding2.make
 
+If you want to have some dummy content added and a pre-filled main menu, you can install the 'artesis demo content' module from our git repository.
+
+[artesis_demo_content]: https://github.com/ding2/artesis_demo_content
+
 [ding.TING]: http://ting.dk/groups/dingting
 [Drupal]: http://drupal.org/
 [TING concept]: http://ting.dk/
