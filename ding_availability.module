@@ -193,3 +193,15 @@ function ding_availability_render_legend() {
   return '<div class="availability-legend">' . implode($format_items) . '</div>';
 
 }
+
+/**
+ * ting_object_entities preprocessor.
+ */
+function ding_availability_preprocess_ting_object_entities(&$variables) {
+  if (!empty($variables['content']) && function_exists('ding_availability_render_legend')) {
+    $variables['content']['availability_legend'] = array(
+      '#markup' => ding_availability_render_legend(),
+      '#weight' => -10,
+    );
+  }
+}
