@@ -362,6 +362,8 @@ function ting_search_block_view($delta = '') {
       $block['content'] = search_extend_content() ;
       break;
     case 'search-controls':
+      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
+      drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
       $block['subject'] = t('Ting search controls');
       $block['content'] = search_controls_content() ;
       break;
