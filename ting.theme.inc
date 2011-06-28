@@ -84,17 +84,9 @@ function template_preprocess_ting_object_overview(&$variables) {
 
   $variables['type'] = check_plain($object->type);
 
-  if ( isset($variables['content']['types']) ) {
+  if (isset($variables['content']['types'])) {
     $variables['types'] = $variables['content']['types'];
   }
-
-  if ( $variables['page'] )
-    $variables['materials_heading'] = t('All materials');
-
-  if ( $variables['page'] && function_exists('ding_availability_render_legend') ) {
-    $variables['availability_legend'] = ding_availability_render_legend();
-  }
-
 }
 
 /**
@@ -330,6 +322,16 @@ function template_preprocess_ting_object_details(&$variables) {
   );
 }
 
+/**
+ * Template preprocessor for ting object entities.
+ */
+function template_preprocess_ting_object_entities(&$variables) {
+  $variables['title'] = $variables['elements']['#title'];
+
+  foreach (element_children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
 
 /**
  * Helper function to format abstracts from ting.

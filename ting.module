@@ -277,6 +277,11 @@ function ting_theme() {
       'render element' => 'elements',
       'file' => 'ting.theme.inc',
     ),
+    'ting_object_entities' => array(
+      'template' => 'ting_object_entities',
+      'render element' => 'elements',
+      'file' => 'ting.theme.inc',
+    ),
     'ting_ranking_field' => array(
       'arguments' => array('element' => NULL),
     ),
@@ -572,6 +577,10 @@ function ting_collection_view($object, $view_mode = 'full') {
   );
 
   if ($view_mode == 'full') {
+    $object->content['entities'] = array(
+      '#theme' => 'ting_object_entities',
+      '#title' => t('All materials'),
+    );
     foreach ($object->types as $type) {
       $object->content['entities'][$type] = array(
         '#prefix' => '<h2>' . $type . '</h2><a name="' . $type . '"></a>',
