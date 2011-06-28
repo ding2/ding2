@@ -118,13 +118,26 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     switch ($type) {
     case 'ready_for_pickup':
       $options[$item->id] = array(
-        'order_id' => check_plain($item->order_id),
+        'order_id' => array(
+          'data' => check_plain($item->order_id),
+          'class' => 'order-id',
+        ),
         'title' => array(
           'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+          'class' => 'title',
         ),
-        'created' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
-        'pickup_date' => format_date(strtotime(check_plain($item->pickup_date)), 'ding_reservation_short' ),
-        'pickup_branch_id' => check_plain($item->pickup_branch_id),
+        'created' => array(
+          'data' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
+          'class' => 'created-date',
+        ),
+        'pickup_date' => array(
+          'data' => format_date(strtotime(check_plain($item->pickup_date)), 'ding_reservation_short' ),
+          'class' => 'pickup-date',
+        ),
+        'pickup_branch_id' => array(
+          'data' => check_plain($item->pickup_branch_id),
+          'class' => 'pickup-branch',
+        ),
         'operations' => array(
           'data' =>  array(
             '#type' => 'button',
@@ -138,11 +151,24 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       $options[$item->id] = array(
         'title' => array(
           'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+          'class' => 'title',
         ),
-        'created' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
-        'expiry' => format_date(strtotime(check_plain($item->expiry)), 'ding_reservation_short'),
-        'pickup_branch_id' => check_plain($item->pickup_branch_id),
-        'queue_number' => check_plain($item->queue_number),
+        'created' => array(
+          'data' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
+          'class' => 'created-date',
+        ),
+        'expiry' => array(
+          'data' => format_date(strtotime(check_plain($item->expiry)), 'ding_reservation_short'),
+          'class' => 'expire-date',
+        ),
+        'pickup_branch_id' => array(
+          'data' => check_plain($item->pickup_branch_id),
+          'class' => 'pickup-branch',
+        ),
+        'queue_number' => array(
+          'data' => check_plain($item->queue_number),
+          'class' => 'queue-number',
+        ),
         'operations' => array(
           'data' =>  array(
             '#type' => 'button',
