@@ -5,3 +5,14 @@
  */
 
 include_once('ding_user_frontend.features.inc');
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function ding_user_frontend_preprocess_page(&$variables) {
+  // unset tabs in pages with panels that also has tabs.
+  if ( in_array('page__user__status',$variables['theme_hook_suggestions']) ) {
+    unset($variables['tabs']['#primary']);
+    unset($variables['tabs']['#secondary']);
+  }
+}
