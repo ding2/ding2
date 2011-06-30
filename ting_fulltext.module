@@ -1,0 +1,70 @@
+<?php
+/**
+ * @file
+ * Drupal module for displaying full-text version of Ting objects.
+ *
+ * This uses a docbook-subset for displaying content.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ting_fulltext_menu() {
+  $items = array();
+
+  $items['ting/object/%ting_fulltext_object/fulltext'] = array(
+    'page callback' => 'ting_fulltext_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'file' => 'ting_fulltext.pages.inc',
+    'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
+  );
+
+  return $items;
+}
+
+/**
+ * Loader function to get the fulltext object.
+ */
+function ting_fulltext_object_load($object_id) {
+  if (empty($object_id)) {
+    return FALSE;
+  }
+
+  module_load_include('client.inc', 'ting');
+
+  // Check the cache first.
+  $object = ting_cache_get($object_id . ':FULLTEXT');
+  if (!$object) {
+    $request = ting_get_request_factory()->getObjectRequest();
+    $request->setObjectId($object_id);
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
+    $request->setParameter('format', 'docbook');
+    $request->setParameter('outputType', 'xml');
+    $object = ting_execute($request);
+
+   // ting_cache_set($object_id . ':FULLTEXT', $object);
+  }
+
+  return $object;
+}
+
+/**
+ * Fulltext page view.
+ */
+function ting_fulltext_view_page($object) {
+  dpm($object);
+
+  $build = array();
+
+  $build['default_message'] = array(
+    '#markup' => 'heeeeeeest', 
+    '#prefix' => '<div id="first-time">', 
+    '#suffix' => '</div>',
+  );
+  
+  return $build;
+}
+
