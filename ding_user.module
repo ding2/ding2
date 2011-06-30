@@ -168,14 +168,8 @@ function ding_user_user_view($account) {
 
   $account->content['summary']['user_adress'] = array(
     '#type' => 'user_profile_item',
-    '#title' => t('User email'),
+    '#title' => t('User address'),
     '#markup' => render($address),
-  );
-
-  $account->content['summary']['user_email'] = array(
-    '#type' => 'user_profile_item',
-    '#title' => t('User email'),
-    '#markup' => $status->userInfo->userEmail,
   );
 
   $account->content['summary']['user_email'] = array(
@@ -186,7 +180,7 @@ function ding_user_user_view($account) {
 
   $account->content['summary']['agencyCounter'] = array(
     '#type' => 'user_profile_item',
-    '#title' => t('Prefered branch'),
+    '#title' => t('Preferred branch'),
     '#markup' => $status->userInfo->agencyCounter,
   );
 
