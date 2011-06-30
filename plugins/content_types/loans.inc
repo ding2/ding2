@@ -82,7 +82,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
           isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
           array(
             '#type' => 'markup',
+            '#prefix' => '<p class="order-id">',
             '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number))
+            '#suffix' => '</p>',
           ),
         ),
       ),
