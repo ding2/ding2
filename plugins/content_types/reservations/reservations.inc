@@ -90,7 +90,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   switch ($type) {
   case 'ready_for_pickup':
     $header = array(
-      'order_id' => t('Order id'),
       'title' => t('Title'),
       'created' => t('Created date'),
       'pickup_date' => t('Pickup date'),
@@ -118,13 +117,16 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     switch ($type) {
     case 'ready_for_pickup':
       $options[$item->id] = array(
-        'order_id' => array(
-          'data' => check_plain($item->order_id),
-          'class' => 'order-id',
-        ),
         'title' => array(
-          'data' => isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
-          'class' => 'title',
+          'data' => array(
+            isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+            array(
+              '#type' => 'markup',
+              '#prefix' => '<p class="order-id">',
+              '#markup' => t('(Material no. @mat_no)', array('@mat_no' => check_plain($item->order_id))),
+              '#suffix' => '</p>',
+            ),
+          ),
         ),
         'created' => array(
           'data' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
