@@ -125,6 +125,76 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
+
+/**
+ * Implements hook_user_view().
+ */
+function ding_user_user_view($account) {
+
+  $creds = ding_user_get_creds($account);
+  $status = _openruth_user_status($creds);
+
+  $account->content['summary']['user_display_name'] = array(
+    '#type' => 'user_profile_item',
+    '#title' => t('User name'),
+    '#markup' => $status->userInfo->userFirstName . ' ' . $status->userInfo->userLastName,
+  );
+
+  $address['data'][] =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<p>',
+      '#markup' => $status->userInfo->userAddress,
+      '#suffix' => '</p>',
+    );
+  if ( $status->userInfo->userVillage ) {
+    $address['data'][] =
+      array(
+        '#type' => 'markup',
+        '#prefix' => '<p>',
+        '#markup' => $status->userInfo->userVillage,
+        '#suffix' => '</p>',
+      );
+  }
+  $address['data'][] =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<p>',
+      '#markup' => $status->userInfo->userPostCode . ' ' . $status->userInfo->userCity,
+      '#suffix' => '</p>',
+    );
+  $address['#prefix'] = '<div class="user-adress">';
+  $address['#suffix'] = '</div>';
+
+  $account->content['summary']['user_adress'] = array(
+    '#type' => 'user_profile_item',
+    '#title' => t('User email'),
+    '#markup' => render($address),
+  );
+
+  $account->content['summary']['user_email'] = array(
+    '#type' => 'user_profile_item',
+    '#title' => t('User email'),
+    '#markup' => $status->userInfo->userEmail,
+  );
+
+  $account->content['summary']['user_email'] = array(
+    '#type' => 'user_profile_item',
+    '#title' => t('User email'),
+    '#markup' => $status->userInfo->userEmail,
+  );
+
+  $account->content['summary']['agencyCounter'] = array(
+    '#type' => 'user_profile_item',
+    '#title' => t('Prefered branch'),
+    '#markup' => $status->userInfo->agencyCounter,
+  );
+
+  $account->content['summary']['#title'] = t('User information');
+
+}
+
+
 /**
  * Implements hook_username_alter().
  */
