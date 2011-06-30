@@ -3,7 +3,8 @@ core = 7.x
 
 ; CONTRIB MODULES
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.0-beta1"
+projects[ctools][version] = "1.x-dev"
+projects[ctools][patch][] = "http://drupal.org/files/issues/0001-No-need-for-hook_search_execute-to-be-executed-twice.patch"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
