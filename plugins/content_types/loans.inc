@@ -83,7 +83,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
           array(
             '#type' => 'markup',
             '#prefix' => '<p class="order-id">',
-            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number))
+            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number)),
             '#suffix' => '</p>',
           ),
         ),
