@@ -36,6 +36,9 @@ function ding_entity_uri($type, $object) {
  */
 function ding_entity_info($ding_entity_type = NULL) {
   $types = &drupal_static(__FUNCTION__);
+  if (!isset($types)) {
+    $types = array();
+  }
   $entity_types = entity_get_info();
   foreach ($entity_types as $entity_type => $entity_info) {
     if (isset($entity_info['ding_entity_type'])) {
