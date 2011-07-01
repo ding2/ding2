@@ -72,6 +72,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
     $item->creator = 'fake';
     $entity = $item->entity;
     $options[$item->id] = array(
+      '#disabled' => $item->renewable,
       'title' => array(
         'data' => array(
           isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
@@ -99,6 +100,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
     '#header' => $header,
     '#options' => $options,
     '#empty' => t('No loans'),
+    '#process' => array('form_process_tableselect', '_ding_loan_loans_disable'),
   );
 
   $form['actions']['submit'] = array(
@@ -109,10 +111,19 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
   return $form;
 }
 
+
 /**
- * Validate function for the form.
+ * Process function to disable checkboxes for unrenewable materials.
  */
-// function ding_reservation_list_form_validate($form, &$form_state) { }
+function _ding_loan_loans_disable($element) {
+  foreach ($element['#options'] as $key => $choice) {
+    if (isset($choice['#disabled']) && !$choice['#disabled']) {
+      $element[$key]['#disabled'] = TRUE;
+      $element[$key]['#attributes']['title'] = t('Not renewable');
+    }
+  }
+  return $element;
+}
 
 /**
  * Submit handler for the form.
