@@ -370,7 +370,15 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->subtype = 'reservations';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'reservation_type_list' => 'ready_for_pickup',
+      'form_build_id' => 'form-G6s64gjUFJ0Bhts4dwSIySYzormSwxY9gzniPrAKIUU',
+      'form_token' => 'k5YvrXuVEXOL31_hpy0IrSa_Cw8c4cSGJPpZjQhEftw',
+      'form_id' => 'ding_reservation_reservations_content_type_edit_form',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -380,6 +388,31 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->position = 1;
     $display->content['new-3'] = $pane;
     $display->panels['right'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'reservations';
+    $pane->subtype = 'reservations';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'reservation_type_list' => 'not_ready_for_pickup',
+      'form_build_id' => 'form-wicrwm_b27DxswOxAMqn3vNlC0kfxrmJkOvH8JMklY0',
+      'form_token' => 'k5YvrXuVEXOL31_hpy0IrSa_Cw8c4cSGJPpZjQhEftw',
+      'form_id' => 'ding_reservation_reservations_content_type_edit_form',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][2] = 'new-4';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
