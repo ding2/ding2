@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Shows issue information on periodicals.
+ */
+
+/**
+ * Implements hook_ding_entity_view().
+ */
+function ding_periodical_ding_entity_view($entity, $view_mode, $langcode = NULL) {
+  // @todo view modes should be configurable.
+  if ($entity->is('periodical') && $view_mode == 'full') {
+    $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
+    $issues = $availability[$entity->provider_id]['issues'];
+    array_walk($issues, 'asort');
+    ksort($issues);
+    $entity->content['issues'] = array(
+      '#theme' => 'ding_periodical_issues',
+      '#entity' => $entity,
+      '#issues' => $issues,
+    );
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_periodical_theme() {
+  return array(
+    'ding_periodical_issues' => array(
+      // 'variables' => array('entity', 'issues'),
+      'render element' => 'elements',
+    ),
+  );
+}
+
+/**
+ * Theming function.
+ */
+function theme_ding_periodical_issues($variables) {
+  foreach ($variables['elements']['#issues'] as $volume => $issues) {
+    $items[] = array(
+      'data' => $volume,
+      'children' => array_keys($issues),
+    );
+  }
+
+  return theme('item_list', array('items' => $items, 'title' => t('Issues')));
+}

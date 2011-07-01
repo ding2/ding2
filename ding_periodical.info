@@ -1,0 +1,8 @@
+name = Ding periodical
+description = Handles listing of issues on periodicals.
+package = Ding!
+version = 0.1
+core = 7.x
+files[] = ding_periodical.module
+dependencies[] = ding_provider
+dependencies[] = ding_entity
