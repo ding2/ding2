@@ -15,6 +15,7 @@ class DingProviderImplementationTestCase extends DrupalWebTestCase {
     }
     if (!in_array('ding_provider', $modules)) {
       $modules[] = 'ding_provider';
+      $modules[] = 'search';
     }
     parent::setUp($modules);
   }
@@ -80,6 +81,8 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
    */
   abstract function getSomeHoldings();
 
+  abstract function getSomePeriodicals();
+
   function testItems() {
     if (ding_provider_implements('availability', 'items')) {
       $ids = $this->getSomeItems();
@@ -121,6 +124,26 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
     $this->assertTrue($has_keys, t('Response has available and reservable keys.'));
     $this->assertTrue($available_is_bool, t('Available key is bool.'));
     $this->assertTrue($reservable_is_bool, t('Reservable key is bool.'));
+  }
+
+  function testPeriodicals() {
+    $ids = $this->getSomePeriodicals();
+    $response = ding_provider_invoke('availability', 'availability', $ids);
+    $this->commonCase($ids, $response);
+
+    $is_array = TRUE;
+    $volumes_is_array = TRUE;
+    foreach ($response as $id => $volumes) {
+      $is_array &= is_array($volumes);
+      foreach ($volumes as $volume => $issues) {
+        $volumes_is_array &= is_array($issues);
+        // Test that each volume's issues passes as regular holding responses.
+        $this->commonCase(array_keys($issues), $issues);
+      }
+    }
+
+    $this->assertTrue($is_array, t('Volumes is an array'));
+    $this->assertTrue($is_array, t('Each volume is an array of issues'));
   }
 }
 

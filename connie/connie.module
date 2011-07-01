@@ -43,6 +43,31 @@ function connie_availability_items($provider_ids) {
       'available' => (bool) (($id%2) == 0),
       'reservable' => (bool) (((int)($id/10)%2) == 0),
     );
+    // This is a periodical.
+    if ($id == '06078362') {
+      $res[$id]['issues'] = array(
+        '2011' => array(
+          '1' => array(
+            'available' => FALSE,
+            'reservable' => FALSE,
+          ),
+          '2' => array(
+            'available' => TRUE,
+            'reservable' => TRUE,
+          ),
+        ),
+        '2010' => array(
+          '2' => array(
+            'available' => TRUE,
+            'reservable' => FALSE,
+          ),
+          '1' => array(
+            'available' => TRUE,
+            'reservable' => FALSE,
+          ),
+        ),
+      );
+    }
   }
   return $res;
 }
@@ -71,6 +96,30 @@ function connie_availability_holdings($provider_ids) {
  *
  */
 function connie_availability_periodical($provider_ids) {
-  $holdings = array();
-  return $holdings;
+  $res = array();
+  foreach ($provider_ids as $id) {
+    $res[$id] = array(
+      '2011' => array(
+        '1' => array(
+          'available' => FALSE,
+          'reservable' => FALSE,
+        ),
+        '2' => array(
+          'available' => TRUE,
+          'reservable' => TRUE,
+        ),
+      ),
+      '2010' => array(
+        '1' => array(
+          'available' => TRUE,
+          'reservable' => FALSE,
+        ),
+        '2' => array(
+          'available' => TRUE,
+          'reservable' => FALSE,
+        ),
+      ),
+    );
+  }
+  return $res;
 }

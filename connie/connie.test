@@ -47,6 +47,10 @@ class ConnieAvailabilityProviderImplementationTestCase extends DingAvailabilityP
   function getSomeHoldings() {
     return array(54514, 23424, 2342, 342);
   }
+
+  function getSomePeriodicals() {
+    return array('49325703');
+  }
 }
 
 class ConnieReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
