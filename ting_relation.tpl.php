@@ -8,6 +8,7 @@
   <h2><?php print render($type_title); ?></h2>
   <h3><?php print render($title); ?></h3>
   <div><?php print render($content); ?></div>
+  <?php print $docbook_link; ?>
   <?php if ($online_url): ?>
     <div><?php print render($online_url); ?></div>
   <?php endif; ?>
