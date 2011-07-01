@@ -1,0 +1,45 @@
+<?php
+
+include_once('ding_tabroll.features.inc');
+
+/**
+ * Check if the tabs lib is loaded before trying to call it. 
+ * It is called in template file views-view-unformatted--tabroll.tpl.php
+*/
+drupal_add_js(drupal_get_path('module', 'ding_tabroll') .'/ding_tabroll.js'); 
+
+/**
+ * See http://views-help.doc.logrus.com/help/views/api-default-views for help with providing default .tpl files for your views 
+ */
+function ding_tabroll_theme($existing) {
+  $path = drupal_get_path('module', 'ding_tabroll');
+  return array(
+    'views_view_unformatted__tabroll' => array (
+      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+      'template' => 'views-view-unformatted--tabroll',
+      'original hook' => 'views_view_unformatted',
+      'path' => $path,
+	  'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess_views_view_unformatted__tabroll',
+      ),
+    ),
+    'views_view_fields__tabroll' => array (
+      'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'views-view-fields--tabroll',
+      'original hook' => 'views_view_fields',
+      'path' => $path,
+	  'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_fields',
+        'ding_tabroll_preprocess_views_view_fields__tabroll',
+      ),
+    ),
+  );
+}
+
+function ding_tabroll_init(){
+  drupal_add_css(drupal_get_path('module', 'ding_tabroll') .'/ding_tabroll.css');
+}
+

@@ -1,0 +1,10 @@
+Ding! Tabroll module.
+
+The Tabroll-carousel will not repeat its cycle unless at least 5 rolltabs has been created for it.
+
+Every rolltab can reference a library on the Ding!-site. This is entirely optional, and the only
+thing provided by this is the name of the library printed out as a CSS class on the image and info
+elements. We use this on vejlebibs Ding! to show the tabs with colored overlays.
+
+The imagecache preset used by Tabroll ("460_240_crop") includes the action to make the image greyscale.
+This can be modified - it is greyscale because of the use of images on vejlebibs Ding!  
