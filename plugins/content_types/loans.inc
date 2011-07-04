@@ -87,16 +87,26 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
             '#suffix' => '</p>',
           ),
         ),
+        'class' => 'title',
       ),
-      'loan_date' => format_date(strtotime(check_plain($item->loan_date)), 'ding_loan_short'),
-      'expiry' => format_date(strtotime(check_plain($item->expiry)), 'ding_loan_short'),
+      'loan_date' => array(
+          'data' => format_date(strtotime(check_plain($item->loan_date)), 'ding_loan_short'),
+          'class' => 'created-date',
+        ),
+      'expiry' => array(
+          'data' => format_date(strtotime(check_plain($item->expiry)), 'ding_loan_short'),
+          'class' => 'expire-date',
+        ),
       'operations' => array(
         'data' =>  array(
           '#type' => 'link',
           '#title' => t('Edit'),
           '#href' => 'user/' . $account->uid . '/loan/' . $item->id . '/renew',
           '#options' => array('query' => $destination),
+          '#prefix' => '<p class="edit-loan rounded-corners">',
+          '#suffix' => '</p>',
         ),
+        'class' => 'operations',
       ),
     );
   }
