@@ -23,3 +23,158 @@ function ding_base_menu() {
 
   return $items;
 }
+
+/**
+ * Implements hook_theme().
+ */
+function ding_base_theme() {
+  return array(
+    'tableselect_form' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function ding_base_element_info() {
+  $types['tableselect_form'] = array(
+    '#input' => TRUE,
+    '#js_select' => TRUE,
+    '#multiple' => TRUE,
+    '#process' => array('ding_base_element_process_tableselect_form'),
+    '#options' => array(),
+    '#empty' => '',
+    '#theme' => 'tableselect_form',
+  );
+
+  return $types;
+}
+
+/**
+ * Process function for our element.
+ */
+function ding_base_element_process_tableselect_form($element) {
+  if ($element['#multiple']) {
+    $value = is_array($element['#value']) ? $element['#value'] : array();
+  }
+  else {
+    // Advanced selection behaviour make no sense for radios.
+    $element['#js_select'] = FALSE;
+  }
+
+  $element['#tree'] = TRUE;
+
+  if (count($element['#options']) > 0) {
+    if (!isset($element['#default_value']) || $element['#default_value'] === 0) {
+      $element['#default_value'] = array();
+    }
+
+    // Create a checkbox or radio for each item in #options in such a way that
+    // the value of the tableselect element behaves as if it had been of type
+    // checkboxes or radios.
+    foreach ($element['#options'] as $key => $choice) {
+      // Do not overwrite manually created children.
+      if (!isset($element[$key])) {
+        if ($element['#multiple']) {
+          $title = '';
+          if (!empty($element['#options'][$key]['title']['data']['#title'])) {
+            $title = t('Update @title', array(
+                       '@title' => $element['#options'][$key]['title']['data']['#title'],
+                     ));
+          }
+          $element[$key] = array(
+            '#type' => 'checkbox',
+            '#title' => $title,
+            '#title_display' => 'invisible',
+            '#return_value' => $key,
+            '#default_value' => isset($value[$key]) ? $key : NULL,
+            '#attributes' => $element['#attributes'],
+          );
+        }
+        else {
+          // Generate the parents as the autogenerator does, so we will have a
+          // unique id for each radio button.
+          $parents_for_id = array_merge($element['#parents'], array($key));
+          $element[$key] = array(
+            '#type' => 'radio',
+            '#title' => '',
+            '#return_value' => $key,
+            '#default_value' => ($element['#default_value'] == $key) ? $key : NULL,
+            '#attributes' => $element['#attributes'],
+            '#parents' => $element['#parents'],
+            '#id' => drupal_html_id('edit-' . implode('-', $parents_for_id)),
+            '#ajax' => isset($element['#ajax']) ? $element['#ajax'] : NULL,
+          );
+        }
+        if (isset($element['#options'][$key]['#weight'])) {
+          $element[$key]['#weight'] = $element['#options'][$key]['#weight'];
+        }
+
+        // Add a reference to cell content in a hidden child of this
+        // element. This means that form API will see them, and do the
+        // appropriate processing.
+        foreach ($element['#header'] as $fieldname => $title) {
+          if (isset($element['#options'][$key][$fieldname]['data']) && is_array($element['#options'][$key][$fieldname]['data'])) {
+            $element['_form_options'][$key][$fieldname] =& $element['#options'][$key][$fieldname]['data'];
+        }
+          elseif (is_array($element['#options'][$key][$fieldname])) {
+            $element['_form_options'][$key][$fieldname] =& $element['#options'][$key][$fieldname];
+          }
+        }
+      }
+    }
+  }
+  else {
+    $element['#value'] = array();
+  }
+  return $element;
+}
+
+/**
+ * Theme function for our custom element.
+ */
+function theme_tableselect_form($variables) {
+  $element = $variables['element'];
+  $rows = array();
+  $header = $element['#header'];
+  if (!empty($element['#options'])) {
+    // Generate a table row for each selectable item in #options.
+    foreach (element_children($element) as $key) {
+      if ($key == '_form_options') {
+        // Skip our hidden render sub-array.
+        continue;
+      }
+      $row = array();
+
+      $row['data'] = array();
+      if (isset($element['#options'][$key]['#attributes'])) {
+        $row += $element['#options'][$key]['#attributes'];
+      }
+      // Render the checkbox / radio element.
+      $row['data'][] = drupal_render($element[$key]);
+
+      // As theme_table only maps header and row columns by order, create the
+      // correct order by iterating over the header fields.
+      foreach ($element['#header'] as $fieldname => $title) {
+        $row['data'][] = $element['#options'][$key][$fieldname];
+      }
+      $rows[] = $row;
+    }
+    // Add an empty header or a "Select all" checkbox to provide room for the
+    // checkboxes/radios in the first table column.
+    if ($element['#js_select']) {
+      // Add a "Select all" checkbox.
+      drupal_add_js('misc/tableselect.js');
+      array_unshift($header, array('class' => array('select-all')));
+    }
+    else {
+      // Add an empty header when radio buttons are displayed or a "Select all"
+      // checkbox is not desired.
+      array_unshift($header, '');
+    }
+  }
+
+  return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
+}
