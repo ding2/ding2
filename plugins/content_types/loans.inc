@@ -85,22 +85,29 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
       'loan_date' => check_plain($item->loan_date),
       'expiry' => check_plain($item->expiry),
       'operations' => array(
-        'data' =>  array(
-          '#type' => 'link',
-          '#title' => t('Edit'),
-          '#href' => 'user/' . $account->uid . '/loan/' . $item->id . '/renew',
-          '#options' => array('query' => $destination),
-        ),
+        'data' =>  array(),
       ),
     );
+
+    if ($item->renewable) {
+      $options[$item->id]['operations']['data'][] = array(
+          '#type' => 'submit',
+          '#value' => t('Renew'),
+          '#submit' => array('ding_loan_loans_form_renew_submit'),
+          '#loan_id' => $item->id,
+          '#name' => 'renew-' . $item->id, // Needed so form API can tell them
+                                           // apart.
+          '#disabled' => $item->renewable,
+      );
+    }
   }
 
   $form['loans'] = array(
-    '#type' => 'tableselect',
+    '#type' => 'tableselect_form',
     '#header' => $header,
     '#options' => $options,
     '#empty' => t('No loans'),
-    '#process' => array('form_process_tableselect', '_ding_loan_loans_disable'),
+    '#process' => array('ding_base_element_process_tableselect_form', '_ding_loan_loans_disable'),
   );
 
   $form['actions']['submit'] = array(
@@ -158,3 +165,11 @@ function ding_loan_loans_form_submit($form, &$form_state) {
   }
 }
 
+/**
+ *
+ */
+function ding_loan_loans_form_renew_submit($form, &$form_state) {
+  form_set_value($form['loans'], array($form_state['triggering_element']['#loan_id']), $form_state);
+  dpm($form_state['triggering_element']);
+  ding_loan_loans_form_submit($form, $form_state);
+}
