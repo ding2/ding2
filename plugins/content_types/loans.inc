@@ -13,6 +13,11 @@ $plugin = array(
   'category' => t('User'),
 );
 
+/*
+ * Additional dateformat, used by format_date().
+ */
+variable_set('date_format_ding_loan_short', 'd.m.Y');
+
 /**
  * Render the block
  */
@@ -78,14 +83,25 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
           isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
           array(
             '#type' => 'markup',
-            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number))
+            '#prefix' => '<p class="order-id">',
+            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number)),
+            '#suffix' => '</p>',
           ),
         ),
+        'class' => 'title',
       ),
-      'loan_date' => check_plain($item->loan_date),
-      'expiry' => check_plain($item->expiry),
+      'loan_date' => array(
+          'data' => format_date(strtotime(check_plain($item->loan_date)), 'ding_loan_short'),
+          'class' => 'created-date',
+        ),
+      'expiry' => array(
+          'data' => format_date(strtotime(check_plain($item->expiry)), 'ding_loan_short'),
+          'class' => 'expire-date',
+        ),
       'operations' => array(
-        'data' =>  array(),
+        'data' =>  array(
+        ),
+        'class' => 'operations',
       ),
     );
 
