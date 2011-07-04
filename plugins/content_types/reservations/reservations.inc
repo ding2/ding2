@@ -127,6 +127,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
               '#suffix' => '</p>',
             ),
           ),
+          'class' => 'title',
         ),
         'created' => array(
           'data' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
@@ -146,6 +147,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
+          'class' => 'operations',
         ),
       );
       break;
@@ -177,6 +179,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
+          'class' => 'operations',
         ),
       );
       break;
