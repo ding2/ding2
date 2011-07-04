@@ -118,8 +118,8 @@ function ding_base_element_process_tableselect_form($element) {
         foreach ($element['#header'] as $fieldname => $title) {
           if (isset($element['#options'][$key][$fieldname]['data']) && is_array($element['#options'][$key][$fieldname]['data'])) {
             $element['_form_options'][$key][$fieldname] =& $element['#options'][$key][$fieldname]['data'];
-        }
-          elseif (is_array($element['#options'][$key][$fieldname])) {
+          }
+          elseif (!isset($element['#options'][$key][$fieldname]['data']) && is_array($element['#options'][$key][$fieldname])) {
             $element['_form_options'][$key][$fieldname] =& $element['#options'][$key][$fieldname];
           }
         }
