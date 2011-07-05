@@ -8,4 +8,5 @@ files[] = ting.controllers.inc
 files[] = ting.test
 configure = admin/config/ting
 stylesheets[all][] = ting.css
+dependencies[] = ding_entity
 dependencies[] = nanosoap
