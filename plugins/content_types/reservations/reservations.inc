@@ -93,7 +93,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       'title' => t('Title'),
       'created' => t('Created date'),
       'pickup_date' => t('Pickup date'),
-      'pickup_branch_id' => t('Pickup branch'),
+      'pickup_branch' => t('Pickup branch'),
       'operations' => '',
     );
     uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
@@ -103,7 +103,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       'title' => t('Title'),
       'created' => t('Created date'),
       'expiry' => t('Expiry date'),
-      'pickup_branch_id' => t('Pickup branch'),
+      'pickup_branch' => t('Pickup branch'),
       'queue_number' => t('Queue number'),
       'operations' => '',
     );
@@ -114,6 +114,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 
   foreach ($items as $id => $item) {
     $entity = $item->entity;
+    $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $item->pickup_branch_id);
     switch ($type) {
     case 'ready_for_pickup':
       $options[$item->id] = array(
@@ -131,8 +132,8 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => $item->pickup_date ? format_date(strtotime(check_plain($item->pickup_date)), 'date_only' ) : '',
           'class' => 'pickup-date',
         ),
-        'pickup_branch_id' => array(
-          'data' => check_plain($item->pickup_branch_id),
+        'pickup_branch' => array(
+          'data' => $pickup_branch ? check_plain($pickup_branch) : '',
           'class' => 'pickup-branch',
         ),
         'operations' => array(
@@ -167,8 +168,8 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => $item->created ? format_date(strtotime(check_plain($item->expiry)), 'date_only') : '',
           'class' => 'expire-date',
         ),
-        'pickup_branch_id' => array(
-          'data' => check_plain($item->pickup_branch_id),
+        'pickup_branch' => array(
+          'data' => $pickup_branch ? check_plain($pickup_branch) : '',
           'class' => 'pickup-branch',
         ),
         'queue_number' => array(
