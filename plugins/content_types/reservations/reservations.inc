@@ -124,11 +124,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'title',
         ),
         'created' => array(
-          'data' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
+          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'date_only') : '',
           'class' => 'created-date',
         ),
         'pickup_date' => array(
-          'data' => format_date(strtotime(check_plain($item->pickup_date)), 'ding_reservation_short' ),
+          'data' => $item->pickup_date ? format_date(strtotime(check_plain($item->pickup_date)), 'date_only' ) : '',
           'class' => 'pickup-date',
         ),
         'pickup_branch_id' => array(
@@ -160,11 +160,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'title',
         ),
         'created' => array(
-          'data' => format_date(strtotime(check_plain($item->created)), 'ding_reservation_short'),
+          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'date_only') : '',
           'class' => 'created-date',
         ),
         'expiry' => array(
-          'data' => format_date(strtotime(check_plain($item->expiry)), 'ding_reservation_short'),
+          'data' => $item->created ? format_date(strtotime(check_plain($item->expiry)), 'date_only') : '',
           'class' => 'expire-date',
         ),
         'pickup_branch_id' => array(
@@ -172,7 +172,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'pickup-branch',
         ),
         'queue_number' => array(
-          'data' => check_plain($item->queue_number),
+          'data' => $item->queue_number ? check_plain($item->queue_number) : '',
           'class' => 'queue-number',
         ),
         'operations' => array(
