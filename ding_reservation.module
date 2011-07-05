@@ -43,7 +43,8 @@ function ding_reservation_ding_entity_view($entity, $view_mode, $langcode = NULL
   // @todo which view modes should have reservation button should
   // probably be configurable.
   if ($entity->is('reservable') && $view_mode != 'user_list') {
-    $entity->content['actions']['reserve'] = ding_provider_get_form('ding_reservation_reserve_form', $entity, TRUE);
+    $entity->content['actions']['reserve'] = ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE);
+
   }
 }
 
@@ -65,8 +66,9 @@ function ding_reservation_ding_provider_user() {
  * Note that this form relies on form caching, which is triggered by
  * ajaxifying the submit button.
  */
-function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hide_branch = FALSE) {
+function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_branch = FALSE) {
   global $user;
+  $entity = $reservable->getEntity();
   $uri = ding_entity_uri('ding_entity', $entity);
 
   // We post to our own path as we might want to rebuild the form.
@@ -75,9 +77,9 @@ function ding_reservation_reserve_form($form, &$form_state, $entity = NULL, $hid
     $form['#action'] = url($uri['path'] . '/reserve', array('query' => ding_provider_get_destination()));
   }
 
-  $form['entity'] = array(
+  $form['reservable'] = array(
     '#type' => 'value',
-    '#value' => $entity,
+    '#value' => $reservable,
   );
 
   $preferred_branch = '';
@@ -147,6 +149,72 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
     }
   }
 }
+
+/**
+ * Form submission handler.
+ */
+function ding_reservation_reserve_form_submit($form, &$form_state) {
+  global $user;
+  if (!isset($user->data['preferred_branch']) || $form_state['values']['preferred_branch'] != $user->data['preferred_branch']) {
+    try {
+      $branch = $form_state['values']['preferred_branch'];
+      ding_provider_invoke('reservation', 'set_preferred_branch', $user, $branch);
+      user_save($user, array('data' => array('preferred_branch' => $branch)));
+      $user->data['preferred_branch'] = $branch;
+    }
+    catch (DingReservationError $e) {
+      drupal_set_message(t('An error occurred while saving default pickup branch. Please try again later.'), 'error');
+      watchdog('ding_reservation', 'Error setting default branch, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
+    }
+  }
+  if ($form_state['values']['reservable']) {
+    $reservable = $form_state['values']['reservable'];
+    try {
+      // @todo implement custom interest periods.
+      ding_provider_invoke('reservation', 'create', $user, $reservable->getProviderId(), $form_state['values']['preferred_branch'], REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD);
+      $form_state['reserved'] = TRUE;
+      if (ding_provider_implements('reservation', 'branch_name')) {
+        $branch_name = ding_provider_invoke('reservation', 'branch_name', $user->data['preferred_branch']);
+        drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $reservable->getTitle(), '@branch' => $branch_name)));
+      }
+      else {
+        drupal_set_message(t('"@title" reserved.', array('@title' => $reservable->getProviderId())));
+      }
+    }
+    catch (DingProviderUserException $e) {
+      drupal_set_message($e->getMessageT(array('@title' => $reservable->getTitle())), 'error');
+    }
+    catch (DingProviderAuthException $e) {
+      // Just rethrow.
+      throw $e;
+    }
+    catch (Exception $e) {
+      drupal_set_message(t('An error occurred while reserving item. Please try again later.'), 'error');
+      watchdog('ding_reservation', 'Error while reserving, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
+    }
+  }
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_reservation_reserve_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages');
+  if ($form_state['rebuild'] || form_get_errors()) {
+    // Redisplay form.
+    $html .= drupal_render($form);
+  }
+
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Reserve'), $html);
+
+  return $response;
+}
+
 /**
  * UPDATE RESERVATIONS
  * @todo fix reservations så key er id og value er original form data
@@ -220,74 +288,6 @@ function ding_reservation_update_reservation_callback($form, &$form_state) {
   return $response;
 }
 
-
-
-
-/**
- * Form submission handler.
- */
-function ding_reservation_reserve_form_submit($form, &$form_state) {
-  global $user;
-  if (!isset($user->data['preferred_branch']) || $form_state['values']['preferred_branch'] != $user->data['preferred_branch']) {
-    try {
-      $branch = $form_state['values']['preferred_branch'];
-      ding_provider_invoke('reservation', 'set_preferred_branch', $user, $branch);
-      user_save($user, array('data' => array('preferred_branch' => $branch)));
-      $user->data['preferred_branch'] = $branch;
-    }
-    catch (DingReservationError $e) {
-      drupal_set_message(t('An error occurred while saving default pickup branch. Please try again later.'), 'error');
-      watchdog('ding_reservation', 'Error setting default branch, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
-    }
-  }
-  if ($form_state['values']['entity']) {
-    $entity = $form_state['values']['entity'];
-    try {
-      // @todo implement custom interest periods.
-      ding_provider_invoke('reservation', 'create', $user, $entity->provider_id, $form_state['values']['preferred_branch'], REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD);
-      $form_state['reserved'] = TRUE;
-      if (ding_provider_implements('reservation', 'branch_name')) {
-        $branch_name = ding_provider_invoke('reservation', 'branch_name', $user->data['preferred_branch']);
-        drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $entity->title, '@branch' => $branch_name)));
-      }
-      else {
-        drupal_set_message(t('"@title" reserved.', array('@title' => $entity->title)));
-      }
-    }
-    catch (DingProviderUserException $e) {
-      drupal_set_message($e->getMessageT(array('@title' => $entity->title)), 'error');
-    }
-    catch (DingProviderAuthException $e) {
-      // Just rethrow.
-      throw $e;
-    }
-    catch (Exception $e) {
-      drupal_set_message(t('An error occurred while reserving item. Please try again later.'), 'error');
-      watchdog('ding_reservation', 'Error while reserving, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
-    }
-  }
-}
-
-/**
- * Ajax callback.
- */
-function ding_reservation_reserve_form_callback($form, &$form_state) {
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array(),
-  );
-
-  $html = theme('status_messages');
-  if ($form_state['rebuild'] || form_get_errors()) {
-    // Redisplay form.
-    $html .= drupal_render($form);
-  }
-
-  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Reserve'), $html);
-
-  return $response;
-}
-
 /**
  * Callback function to sort array by pickup date
  */
@@ -306,4 +306,34 @@ function ding_reservation_sort_queue_by_queue_number($a, $b) {
     return 0;
   }
   return ($a->queue_number< $b->queue_number) ? -1 : 1;
+}
+
+/**
+ * Interface for reservable items.
+ */
+interface DingReservationReservable {
+  public function getProviderId();
+  // @todo, this should be optional.
+  public function getEntity();
+  public function getTitle();
+}
+
+/**
+ * A reservable entity.
+ */
+class DingReservationReservableEntity implements DingReservationReservable {
+  public function __construct($entity) {
+    $this->entity = $entity;
+  }
+
+  public function getProviderId() {
+    return $this->entity->provider_id;
+  }
+
+  public function getEntity() {
+    return $this->entity;
+  }
+  public function getTitle() {
+    return $this->entity->title;
+  }
 }
