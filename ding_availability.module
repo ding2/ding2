@@ -8,7 +8,7 @@
  * Implements hook_menu().
  */
 function ding_availability_menu() {
-  $items['ding_availability/item'] = array(
+  $items['ding_availability/items'] = array(
     'title' => 'Availability status',
     'page callback' => 'ding_availability_js',
     'access arguments' => array('access content'),
