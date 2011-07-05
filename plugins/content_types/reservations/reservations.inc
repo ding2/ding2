@@ -120,12 +120,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         'title' => array(
           'data' => array(
             $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
-            array(
-              '#type' => 'markup',
-              '#prefix' => '<p class="order-id">',
-              '#markup' => t('(Material no. @mat_no)', array('@mat_no' => check_plain($item->order_id))),
-              '#suffix' => '</p>',
-            ),
           ),
           'class' => 'title',
         ),
@@ -150,6 +144,14 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'operations',
         ),
       );
+      if ($item->order_id) {
+        $options[$item->id]['title'][] = array(
+          '#type' => 'markup',
+          '#prefix' => '<p class="order-id">',
+          '#markup' => t('(Material no. @mat_no)', array('@mat_no' => check_plain($item->order_id))),
+          '#suffix' => '</p>',
+        );
+      }
       break;
     case 'not_ready_for_pickup':
       $options[$item->id] = array(
