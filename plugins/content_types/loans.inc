@@ -80,13 +80,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
       '#disabled' => $item->renewable,
       'title' => array(
         'data' => array(
-          isset($entity) ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
-          array(
-            '#type' => 'markup',
-            '#prefix' => '<p class="order-id">',
-            '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number)),
-            '#suffix' => '</p>',
-          ),
+          $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
         ),
         'class' => 'title',
       ),
@@ -105,6 +99,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
       ),
     );
 
+    if ($item->materials_number) {
+      $options[$item->id]['title']['data'][] = array(
+        '#type' => 'markup',
+        '#prefix' => '<p class="order-id">',
+        '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number)),
+        '#suffix' => '</p>',
+      );
+    }
     if ($item->renewable) {
       $options[$item->id]['operations']['data'][] = array(
           '#type' => 'submit',
