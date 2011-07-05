@@ -19,7 +19,7 @@ function alma_user_authenticate($uid, $pass) {
     return $return;
   }
 
-  // @TODO Check block status.
+  // @todo Check block status.
 
   // Set creds.
   $return['creds'] = array (

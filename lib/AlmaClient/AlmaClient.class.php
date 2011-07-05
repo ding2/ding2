@@ -1,17 +1,15 @@
 <?php
-// $Id$
+/**
+ * @file
+ * Provides a client for the Axiell Alma library information webservice.
+ */
 
 define('ALMA_SERVICE_TYPE_DUE_DATE_ALERT', 'dueDateAlert');
 define('ALMA_SERVICE_TYPE_LIBRARY_MESSAGE', 'libraryMessage');
 define('ALMA_SERVICE_TYPE_OVERDUE_NOTICE', 'overdueNotice');
 define('ALMA_SERVICE_TYPE_PICK_UP_NOTICE', 'pickUpNotice');
-
 define('ALMA_SERVICE_METHOD_SMS', 'sms');
 
-/**
- * @file AlmaClient.php
- * Provides a client for the Axiell Alma library information webservice.
- */
 class AlmaClient {
   /**
    * @var AlmaClientBaseURL
@@ -26,16 +24,6 @@ class AlmaClient {
   private static $salt;
 
   /**
-   * Whether we're logging requests.
-   */
-  private $logging = FALSE;
-
-  /**
-   * Start time of request, used for logging.
-   */
-  private $log_timestamp = NULL;
-
-  /**
    * Constructor, checking if we have a sensible value for $base_url.
    */
   function __construct($base_url) {
@@ -47,7 +35,7 @@ class AlmaClient {
       throw new Exception('Invalid base URL: ' . $base_url);
     }
 
-    self::$salt = rand();
+    self::$salt = mt_rand();
   }
 
   /**
@@ -64,28 +52,30 @@ class AlmaClient {
    *    A DOMDocument object with the response.
    */
   public function request($method, $params = array(), $check_status = TRUE) {
-    if ($this->logging) {
-      $this->log_timestamp = microtime(TRUE);
-    };
+    $startTime = explode(' ', microtime());
 
-    // Build the requeste and sent it.
-    $this->last_request = url($this->base_url . $method, array('query' => $params));
-    $request = drupal_http_request($this->last_request);
+    // For use with a non-Drupal-system, we should have a way to swap
+    // the HTTP client out.
+    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)));
 
-    // Log the request
-    if ($this->logging) {
-      $time = round(microtime(TRUE) - $this->log_timestamp, 2);
-      $log_params = self::filter_request_params($params);
+    $stopTime = explode(' ', microtime());
 
-      if ($time) {
-        watchdog('alma', 'Request (@seconds sec): @url', array('@url' => url($this->base_url . $method, array('query' => $log_params)), '@seconds' => $time), WATCHDOG_DEBUG);
-      } else {
-        watchdog('alma', 'Request: @url', array('@url' => url($this->base_url . $method, array('query' => $log_params))), WATCHDOG_DEBUG);
-      }
+    // For use with a non-Drupal-system, we should have a way to swap
+    // logging and logging preferences out.
+    if (variable_get('alma_enable_logging', FALSE)) {
+    	$seconds = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
+      
+      // Filter params to avoid logging sensitive data. 
+      // This can be disabled by setting alma_logging_filter_params = 0. There is no UI for setting this variable
+      // It is intended for settings.php in development environments only.
+      $params = (variable_get('alma_logging_filter_params', 1)) ? self::filter_request_params($params) : $params;
+
+      // Log the request
+      watchdog('alma', 'Sent request: @url (@seconds s)', array('@url' => url($this->base_url . $method, array('query' => $params)), '@seconds' => $seconds), WATCHDOG_DEBUG);
     }
 
     if ($request->code == 200) {
-      // Since we currently have no neat for the more advanced stuff
+      // Since we currently have no need for the more advanced stuff
       // SimpleXML provides, we'll just use DOM, since that is a lot
       // faster in most cases.
       $doc = new DOMDocument();
@@ -344,6 +334,10 @@ class AlmaClient {
         'record_available' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('isAvailable'),
       );
 
+      if ($note = $item->getElementsByTagName('note')->item(0)) {
+        $reservation['notes'] = $note->getAttribute('value');
+      }
+
       if ($reservation['status'] == 'fetchable') {
         $reservation['pickup_number'] = (integer) $item->getAttribute('pickUpNo');
         $reservation['pickup_expire_date'] = $item->getAttribute('pickUpExpireDate');
@@ -371,7 +365,7 @@ class AlmaClient {
     $loans = array();
     foreach ($doc->getElementsByTagName('loan') as $item) {
       $id = $item->getAttribute('id');
-      $loans[$id] = array(
+      $loan = array(
         'id' => $id,
         'branch' => $item->getAttribute('loanBranch'),
         'loan_date' => $item->getAttribute('loanDate'),
@@ -380,6 +374,10 @@ class AlmaClient {
         'record_id' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('id'),
         'record_available' => $item->getElementsByTagName('catalogueRecord')->item(0)->getAttribute('isAvailable'),
       );
+      if ($item->getElementsByTagName('note')->length > 0) {
+        $loan['notes'] = $item->getElementsByTagName('note')->item(0)->getAttribute('value');
+      }
+      $loans[$id] = $loan;
     }
     uasort($loans, 'AlmaClient::loan_sort');
     return $loans;
@@ -431,9 +429,7 @@ class AlmaClient {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      // Axiell requires URLs to be ISO-8859-1. If you're having strange
-      // bugs, you could ostensibly blame this conversion.
-      'reservable' => utf8_decode($reservation['id']),
+      'reservable' => $reservation['id'],
       'reservationPickUpBranch' => $reservation['pickup_branch'],
       'reservationValidFrom' => $reservation['valid_from'],
       'reservationValidTo' => $reservation['valid_to'],
@@ -451,6 +447,18 @@ class AlmaClient {
 
     try {
       $doc = $this->request('patron/reservations/add', $params);
+      $res_status = $doc->getElementsByTagName('reservationStatus')->item(0)->getAttribute('value');
+      $res_message = $doc->getElementsByTagName('reservationStatus')->item(0)->getAttribute('key');
+
+      // Return error code when patron is blocked.
+      if ($res_message == 'reservationPatronBlocked') {
+        return DING_PROVIDER_AUTH_BLOCKED;
+      }
+
+      // General catchall if status is not okay is to report failure.
+      if ($res_status == 'reservationNotOk') {
+        return FALSE;
+      }
     }
     catch (AlmaClientReservationNotFound $e) {
       return FALSE;
@@ -510,8 +518,33 @@ class AlmaClient {
       'pinCode' => $pin_code,
       'loans' => (is_array($loan_ids)) ? join(',', $loan_ids) : $loan_ids,
     );
+
     $doc = $this->request('patron/loans/renew', $params);
-    return TRUE;
+    
+    //Built return array as specified by Ding loan provider.
+    //See ding_provider_example_loan_renew_loans().
+    $reservations = array();
+    foreach ($doc->getElementsByTagName('loan') as $loan) {
+      $id = $loan->getAttribute('id');
+      if (in_array($id, $loan_ids)) {
+        if ($renewable = $loan->getElementsByTagName('loanIsRenewable')->item(0)) {
+          $message = $renewable->getAttribute('message');
+          $renewable = $renewable->getAttribute('value');
+          //If message is "isRenewedToday" we assumme that the renewal is successful.
+          //Even if this is not the case any error in the current renewal is irrelevant
+          //as the loan has previously been renewed so don't report it as such
+          if ($message == 'isRenewedToday') {
+            $reservations[$id] = TRUE; 
+          } elseif ($message == 'maxNofRenewals') {
+            $reservations[$id] = t('Maximum number of renewals reached'); 
+          } elseif (!$renewable) {
+            $reservations[$id] = t('Unable to renew material');
+          }
+        }
+      }
+    }
+    
+    return $reservations;
   }
 
   /**
