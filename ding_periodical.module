@@ -40,10 +40,19 @@ function ding_periodical_theme() {
  */
 function theme_ding_periodical_issues($variables) {
   foreach ($variables['elements']['#issues'] as $volume => $issues) {
-    $items[] = array(
+    $iss = array();
+    foreach ($issues as $key => $availability) {
+      $issue = $key;
+      if (module_exists('ding_periodical_reservation')) {
+        $issue .= ' ' . ding_periodical_reservation_button($key, $volume, $key, $variables['elements']['#entity']);
+      }
+      $iss[] = $issue;
+    }
+    $vol = array(
       'data' => $volume,
-      'children' => array_keys($issues),
+      'children' => $iss,
     );
+    $items[] = $vol;
   }
 
   return theme('item_list', array('items' => $items, 'title' => t('Issues')));

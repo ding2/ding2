@@ -1,0 +1,32 @@
+<?php
+
+/**
+ *
+ */
+function ding_periodical_reservation_button($id, $volume, $issue, $entity) {
+  return drupal_render(ding_provider_get_form('ding_reservation_reserve_form', new DingPeriodicalReservable($id, $volume, $issue, $entity)));
+}
+
+/**
+ * A periodical reservation.
+ */
+class DingPeriodicalReservable implements DingReservationReservable {
+  public function __construct($id, $volume, $issue, $entity) {
+    $this->id = $id;
+    $this->volume = $volume;
+    $this->issue = $issue;
+    $this->entity = $entity;
+  }
+
+  public function getProviderId() {
+    return $this->id;
+  }
+
+  public function getEntity() {
+    return $this->entity;
+  }
+
+  public function getTitle() {
+    return t('@title, vol @volume, issue @issue', array('@title' => $this->entity->title, '@volume' => $this->volume, '@issue' => $this->issue));
+  }
+}
