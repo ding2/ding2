@@ -85,11 +85,11 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
         'class' => 'title',
       ),
       'loan_date' => array(
-          'data' => format_date(strtotime(check_plain($item->loan_date)), 'ding_loan_short'),
+          'data' => format_date(strtotime(check_plain($item->loan_date)), 'date_only'),
           'class' => 'created-date',
         ),
       'expiry' => array(
-          'data' => format_date(strtotime(check_plain($item->expiry)), 'ding_loan_short'),
+          'data' => format_date(strtotime(check_plain($item->expiry)), 'date_only'),
           'class' => 'expire-date',
         ),
       'operations' => array(

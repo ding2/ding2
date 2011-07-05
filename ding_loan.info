@@ -5,6 +5,7 @@ version = 0.1
 core = 7.x
 files[] = ding_loan.module
 ; files[] = ding_loan.test
+dependencies[] = ding_base
 dependencies[] = ding_provider
 dependencies[] = ding_user
 dependencies[] = ding_popup
