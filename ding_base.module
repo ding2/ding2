@@ -36,6 +36,15 @@ function ding_base_theme() {
 }
 
 /**
+ * Implements hook_date_format_types().
+ */
+function ding_base_date_format_types() {
+  return array(
+    'date_only' => t('Date only'),
+  );
+}
+
+/**
  * Implements hook_element_info().
  */
 function ding_base_element_info() {
