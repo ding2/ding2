@@ -118,7 +118,8 @@ class DingProviderReservation extends DingEntityBase {
     parent::__construct();
     $this->properties['id'] = $id;
     // Default display name.
-    $this->display_name = t('Title not available');
+    $this->properties['display_name'] = t('Title not available');
+    $this->properties['ready_for_pickup'] = FALSE;
     $properties = array(
       'order_id',
       'materials_number',
