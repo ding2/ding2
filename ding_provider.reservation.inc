@@ -174,8 +174,8 @@ class DingProviderReservation extends DingEntityBase {
     if ($this->entity) {
       return $this->order_id = $this->entity->orderId;
     }
-  
   }
+
   function getTitle() {
     $this->getEntity();
     if ($this->entity) {

@@ -24,6 +24,7 @@ function connie_loan_list($account) {
                        'loan_date' => strftime('%Y-%m-%d', strtotime('now -' . $i . ' day')),
                        'expiry' => strftime('%Y-%m-%d', strtotime('now ' . (14-$i++) . ' day')),
                        'renewable' => TRUE,
+                       'materials_number' => $id,
                      ));
     }
   }
