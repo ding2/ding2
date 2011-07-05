@@ -139,7 +139,7 @@ class DingEntityBase {
   }
 
   public function __get($prop) {
-    if (isset($this->properties[$prop])) {
+    if (array_key_exists($prop, $this->properties)) {
       if ($this->properties[$prop] === self::NULL) {
         if (($method = 'get' . strtoupper($prop[0]) . substr($prop, 1)) &&
           method_exists($this, $method)) {
