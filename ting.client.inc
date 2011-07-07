@@ -281,7 +281,7 @@ function ting_execute_cache($request) {
 function ting_cache_get($id) {
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get('ting-object:' . $id);
-    if (isset($cache) && ($cache->expire > REQUEST_TIME)) {
+    if (isset($cache) && $cache && ($cache->expire > REQUEST_TIME)) {
       return $cache->data;
     }
     return NULL;
