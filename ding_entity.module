@@ -23,7 +23,7 @@ function ding_entity_menu() {
 }
 
 /**
- *
+ * Implements hook_entity_uri().
  */
 function ding_entity_uri($type, $object) {
   if ($type_info = ding_entity_info($type)) {
@@ -32,7 +32,7 @@ function ding_entity_uri($type, $object) {
 }
 
 /**
- *
+ * Get information about the active ding_entities.
  */
 function ding_entity_info($ding_entity_type = NULL) {
   $types = &drupal_static(__FUNCTION__);
@@ -63,7 +63,7 @@ function ding_entity_info($ding_entity_type = NULL) {
 }
 
 /**
- *
+ * Load an ding_entity.
  */
 function ding_entity_load($id, $type = NULL) {
   $entity = ding_entity_load_multiple(array($id), $type);
@@ -71,7 +71,7 @@ function ding_entity_load($id, $type = NULL) {
 }
 
 /**
- *
+ * Load multiple ding_entities.
  */
 function ding_entity_load_multiple($ids, $type = NULL) {
   $conditions = array();
@@ -89,6 +89,9 @@ function ding_entity_load_multiple($ids, $type = NULL) {
   return FALSE;
 }
 
+/**
+ * Load a collection entity.
+ */
 function ding_entity_collection_load($id, $type = NULL) {
   if (!$type) {
     if ($type_info = ding_entity_info('ding_entity_collection')) {
