@@ -336,7 +336,6 @@ class OpenruthClient {
     $this->log_start();
     $res = $this->client->agencyCounters(array(
              'agencyId' =>  $this->agency_id,
-             'bookingId' => $bookings_id,
       ));
     $this->log();
     if ($res->agencyCounters instanceof stdClass && is_array($res->agencyCounters->agencyCounterInfo)) {
