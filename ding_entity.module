@@ -32,6 +32,52 @@ function ding_entity_uri($type, $object) {
 }
 
 /**
+ * Implements hook_modules_enabled().
+ */
+function ding_entity_modules_enabled($modules) {
+  // Ensure that Field API has discovered any new fields.
+  field_info_cache_clear();
+  foreach ($modules as $module) {
+    if (module_hook($module, 'ding_entity_fields')) {
+      $fields = module_invoke($module, 'ding_entity_fields');
+      foreach ($fields as $field_name => $field) {
+        $field['field'] += array(
+          'field_name' => $field_name,
+          'type' => $field_name,
+        );
+        field_create_field($field['field']);
+        $field['instance'] += array(
+          'field_name' => $field_name,
+          'ding_entity_type' => 'ding_entity',
+        );
+        // Let modules that know what they're doing (I hope), define the
+        // entity_type themselves.
+        if (!isset($field['instance']['entity_type'])) {
+          $info = ding_entity_info($field['instance']['ding_entity_type']);
+          // Different bundles are currently not supported.
+          $field['instance']['entity_type'] = $field['instance']['bundle'] = $info['entity_type'];
+        }
+        field_create_instance($field['instance']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_modules_disabled().
+ */
+function ding_entity_modules_disabled($modules) {
+  foreach ($modules as $module) {
+    if (module_hook($module, 'ding_entity_fields')) {
+      $fields = module_invoke($module, 'ding_entity_fields');
+      foreach ($fields as $field_name => $field) {
+        field_delete_field($field_name);
+      }
+    }
+  }
+}
+
+/**
  * Get information about the active ding_entities.
  */
 function ding_entity_info($ding_entity_type = NULL) {
