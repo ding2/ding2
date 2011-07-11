@@ -178,7 +178,9 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         ),
         'operations' => array(
           'data' =>  array(
-            '#type' => 'button',
+            '#type' => 'submit',
+            '#submit' => array('ding_reservation_reservations_delete_submit'),
+            '#reservation_id' => $item->id,
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
@@ -190,7 +192,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   }
 
   $form['reservations'] = array(
-    '#type' => 'tableselect',
+    '#type' => 'tableselect_form',
     '#header' => $header,
     '#options' => $options,
     '#empty' => t('No Reservations'),
@@ -216,6 +218,10 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   return $form;
 }
 
+function ding_reservation_reservations_delete_submit($form, &$form_state) {
+  form_set_value($form['reservations'], array($form_state['triggering_element']['#reservation_id'] => $form_state['triggering_element']['#reservation_id']), $form_state);
+  ding_reservation_reservations_form_submit($form, $form_state);
+}
 
 /**
  * Submit handler for the form.
