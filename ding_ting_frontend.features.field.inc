@@ -37,7 +37,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ding_availability',
           'settings' => array(),
           'type' => 'ding_availability_default',
-          'weight' => '10',
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -298,7 +298,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ting',
           'settings' => array(),
           'type' => 'ting_details_default',
-          'weight' => 11,
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
