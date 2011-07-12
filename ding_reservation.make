@@ -1,6 +1,9 @@
 api = 2
 core = 7.x
 
+projects[date][subdir] = "contrib"
+projects[date][version] = "2.0-alpha3"
+
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
 projects[ding_base][download][url] = "git@github.com:ding2/ding_base.git"
