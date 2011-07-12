@@ -57,7 +57,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '10',
+        'weight' => '11',
       ),
     ),
   );
@@ -271,6 +271,58 @@ function ding_ting_frontend_field_default_fields() {
     ),
   );
 
+  // Exported field: 'ting_object-ting_object-ting_details'
+  $fields['ting_object-ting_object-ting_details'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ting_details',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_details',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ting_object',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'ding_entity_type' => 'ding_entity',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ting',
+          'settings' => array(),
+          'type' => 'ting_details_default',
+          'weight' => 11,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ting_object',
+      'field_name' => 'ting_details',
+      'label' => 'Ting object details',
+      'required' => FALSE,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '10',
+      ),
+    ),
+  );
+
   // Exported field: 'ting_object-ting_object-ting_subjects'
   $fields['ting_object-ting_object-ting_subjects'] = array(
     'field_config' => array(
@@ -436,6 +488,7 @@ function ding_ting_frontend_field_default_fields() {
   t('Subjects');
   t('Ting object abstract');
   t('Ting object author');
+  t('Ting object details');
   t('Ting object title');
   t('Ting object type');
 
