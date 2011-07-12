@@ -12,6 +12,9 @@ projects[panels][version] = "3.0-alpha3"
 projects[features][subdir] = "contrib"
 projects[features][version] = "1.0-beta2"
 
+projects[strongarm][subdir] = "contrib"
+projects[strongarm][version] = "2.0-beta2"
+
 ; CUSTOM MODULES
 projects[ding_facetbrowser][type] = "module"
 projects[ding_facetbrowser][download][type] = "git"
