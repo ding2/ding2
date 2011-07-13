@@ -132,3 +132,36 @@ function alma_client_invoke($method) {
 
   return $result;
 }
+
+/**
+ * Get the complete organisation info from Alma.
+ *
+ * Includes branches, departments, locations, sublocations and
+ * collections.
+ *
+ * @param boolean $reset
+ * Optional. If TRUE reset the cached data and reload.
+ * @return array
+ * Array of the different organisational unit, each an array of their
+ * member units.
+ */
+function alma_get_organisation($reset = FALSE) {
+  // Return data from cache if available.
+  static $organisation;
+  if (!$organisation || $reset) {
+    $organisation = array(
+      'branch' => alma_client_invoke('get_branches'),
+      'department' => alma_client_invoke('get_departments'),
+      'location' => alma_client_invoke('get_locations'),
+      'sublocation' => alma_client_invoke('get_sublocations'),
+      'collection' => alma_client_invoke('get_collections'),
+    );
+
+    // Cache output for 24 hours if we got all the data correctly.
+    if ($organisation['branch'] && $organisation['department'] && $organisation['location'] && $organisation['sublocation'] && $organisation['collection']) {
+      //cache_set('alma_get_organisation', $organisation, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 86400);
+    }
+  }
+
+  return $organisation;
+}

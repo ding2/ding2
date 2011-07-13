@@ -33,17 +33,15 @@ function alma_reservation_set_preferred_branch($account, $branch) {
    $creds = ding_user_get_creds();
    $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
    $result = array();
-//   var_dump($reservations);
 
    // Create DingProviderReservation objects.
    foreach ($reservations as $reservation) {
      if (isset($reservation['pickup_number'])) {
-       $result[$reservation['record_id']] = new DingProviderReservation($reservation['record_id'], array(
-         'order_id' => $reservation['record_id'],
-         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['id'],
-         'display_name' => 'TEST', // FIXME
+       $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
+         'order_id' => $reservation['id'],
+         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+         'pickup_branch_id' => $reservation['pickup_branch'],
          'pickup_date' => $reservation['pickup_expire_date'],
-         'pickup_branch_id' => 1, // FIXME
          'created' => $reservation['create_date'],
          'expiry' => $reservation['valid_to'],
          'queue_number' => $reservation['queue_number'],
@@ -51,20 +49,18 @@ function alma_reservation_set_preferred_branch($account, $branch) {
        ));
      }
      else {
-       $result[$reservation['record_id']] = new DingProviderReservation($reservation['record_id'], array(
-         'order_id' => $reservation['record_id'],
-         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['id'],
-         'display_name' => 'TEST', // FIXME
-         'pickup_date' => $reservation['pickup_expire_date'],
-         'pickup_branch_id' => 1, // FIXME
+       $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
+         'order_id' => $reservation['id'],
+         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+         'pickup_branch_id' => $reservation['pickup_branch'],
          'created' => $reservation['create_date'],
+         'expiry' => $reservation['valid_to'],
          'queue_number' => $reservation['queue_number'],
          'ready_for_pickup' => 0,
        ));
      }
    }
 
-   var_dump($result);
    return $result;
  }
 
@@ -96,5 +92,15 @@ function alma_reservation_delete($account, $id) {
  * @return String
  */
 function alma_reservation_branch_name($branch_id) {
+  // Throw exception if we're not logged in.
+  if (!ding_user_get_creds()) {
+    throw new DingProviderAuthException;
+  }
 
+  // Get library organistation from alma.
+  $organisation = alma_get_organisation();
+  if (isset($organisation['branch'][$branch_id])) {
+    return $organisation['branch'][$branch_id];
+  }
+  return NULL;
 }
