@@ -46,7 +46,7 @@ function alma_ding_provider() {
       ),
 //      'loan' => array(
 //        'prefix' => 'loan',
-//        'file' => drupal_get_path('module', 'openruth') . '/openruth.loan.inc',
+//        'file' => drupal_get_path('module', 'alma') . '/alma.loan.inc',
 //      ),
     ),
   );
@@ -136,8 +136,9 @@ function alma_client_invoke($method) {
 /**
  * Get the complete organisation info from Alma.
  *
- * Includes branches, departments, locations, sublocations and
- * collections.
+ * Includes branches, departments, locations, sublocations and collections. The
+ * information is cache until the cache is cleared or the reset parameter is
+ * TRUE.
  *
  * @param boolean $reset
  * Optional. If TRUE reset the cached data and reload.
@@ -149,17 +150,22 @@ function alma_get_organisation($reset = FALSE) {
   // Return data from cache if available.
   static $organisation;
   if (!$organisation || $reset) {
-    $organisation = array(
-      'branch' => alma_client_invoke('get_branches'),
-      'department' => alma_client_invoke('get_departments'),
-      'location' => alma_client_invoke('get_locations'),
-      'sublocation' => alma_client_invoke('get_sublocations'),
-      'collection' => alma_client_invoke('get_collections'),
-    );
+    if (($cache = cache_get('alma_organisation')) && !empty($cache->data) && !$reset) {
+      $organisation = $cache->data;
+    }
+    else {
+      $organisation = array(
+        'branch' => alma_client_invoke('get_branches'),
+        'department' => alma_client_invoke('get_departments'),
+        'location' => alma_client_invoke('get_locations'),
+        'sublocation' => alma_client_invoke('get_sublocations'),
+        'collection' => alma_client_invoke('get_collections'),
+      );
 
-    // Cache output for 24 hours if we got all the data correctly.
-    if ($organisation['branch'] && $organisation['department'] && $organisation['location'] && $organisation['sublocation'] && $organisation['collection']) {
-      //cache_set('alma_get_organisation', $organisation, 'cache_alma_requests', $_SERVER['REQUEST_TIME'] + 86400);
+      // Cache output for 24 hours if we got all the data correctly.
+      if ($organisation['branch'] && $organisation['department'] && $organisation['location'] && $organisation['sublocation'] && $organisation['collection']) {
+        cache_set('alma_organisation', $organisation, 'cache');
+      }
     }
   }
 
