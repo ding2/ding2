@@ -452,7 +452,7 @@ class AlmaClient {
 
       // Return error code when patron is blocked.
       if ($res_message == 'reservationPatronBlocked') {
-        return DING_PROVIDER_AUTH_BLOCKED;
+        return ALMA_AUTH_BLOCKED;
       }
 
       // General catchall if status is not okay is to report failure.

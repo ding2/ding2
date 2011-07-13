@@ -5,6 +5,8 @@
  *
  */
 
+define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
+
 /**
  * Implements hook_requirements().
  */
