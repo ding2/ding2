@@ -29,11 +29,11 @@ function alma_reservation_set_preferred_branch($account, $branch) {
   // Throws an exception if we are not logged in.
   $creds = ding_user_get_creds($account, TRUE);
 
-  // Ding_reservation will update local user if we don't throw an exception.
-
   /**
-   * @todo Should call alma an update the branch in the library system.
+   * @todo Should call alma an update the branch in the library system (not sure
+   * if branch has the right format).
    */
+  //alma_client_invoke('get_reservations', $creds['name'], $creds['pass'], $branch);
 }
 
 /**
@@ -41,7 +41,7 @@ function alma_reservation_set_preferred_branch($account, $branch) {
  */
  function alma_reservation_list($account) {
    $creds = ding_user_get_creds($account, TRUE);
-   $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
+   $reservations = alma_reservation_get_reservations($account);
    $result = array();
 
    // Create DingProviderReservation objects into to categories base on pickup
@@ -106,6 +106,8 @@ function alma_reservation_create($account, $id, $branch, $expiry) {
   }
 
   if ($result) {
+    // Reset session cache
+    alma_reservation_clear_cache();
     return array($id => TRUE);
   }
   else {
@@ -116,12 +118,21 @@ function alma_reservation_create($account, $id, $branch, $expiry) {
 /**
  * Update order, by defining new expiry date or pickup branch.
  */
-function alma_reservation_update_order($account, $order_id, $pickup_branch, $expiry_date) {
-  // TODO:
-  //
-  // It's not allowed to change pickup branch for ready to pickup stuff.
-  //
-  // throw new DingProviderUserException(t('Error: ' . $booking[$id]));
+function alma_reservation_update_order($account, $id, $pickup_branch, $expiry_date) {
+  $creds = ding_user_get_creds($account, TRUE);
+  $reservations = alma_reservation_get_reservations($account);
+  if (isset($reservations[$id])) {
+    $changes = array(
+      'valid_to' => alma_reservation_format_date($expiry_date),
+      'pickup_branch' => $pickup_branch,
+    );
+    // Alma do not return a status.
+    alma_client_invoke('change_reservation', $creds['name'], $creds['pass'], $reservations[$id], $changes);
+    alma_reservation_clear_cache();
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**
@@ -129,8 +140,9 @@ function alma_reservation_update_order($account, $order_id, $pickup_branch, $exp
  */
 function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account, TRUE);
-  $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
-  return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
+  $reservations = alma_reservation_get_reservations($account);
+  alma_reservation_clear_cache();
+  //return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
 }
 
 /**
@@ -148,9 +160,25 @@ function alma_reservation_branch_name($branch_id) {
   return NULL;
 }
 
-/**
- * @return bool
+/**********************************
+ * Helper functions
  */
+
+function alma_reservation_get_reservations($account, $reset = FALSE) {
+  $creds = ding_user_get_creds($account, TRUE);
+
+  // Try to look in the session for reservation information.
+  if (!isset($_SESSION['alam_reservations']) || !is_array($_SESSION['alam_reservations']) || $reset) {
+    $_SESSION['alam_reservations'] = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
+  }
+  
+  return $_SESSION['alam_reservations'];
+}
+
+function alma_reservation_clear_cache() {
+  unset($_SESSION['alam_reservations']);
+}
+
 function alma_reservation_exists($creds, $item_id) {
   $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
   foreach ($reservations as $res) {
