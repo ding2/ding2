@@ -39,7 +39,7 @@ function ding_ting_frontend_field_default_fields() {
           'weight' => '2',
         ),
         'teaser' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'ting',
           'settings' => array(),
           'type' => 'ting_collection_types_default',
@@ -103,12 +103,13 @@ function ding_ting_frontend_field_default_fields() {
       ),
       'entity_type' => 'ting_collection',
       'field_name' => 'ting_entities',
-      'label' => 'Ting collection objects',
-      'required' => FALSE,
+      'label' => 'All materials',
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
@@ -140,7 +141,7 @@ function ding_ting_frontend_field_default_fields() {
       'ding_entity_type' => 'ding_entity_collection',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'ting',
           'settings' => array(
             'view_mode' => 'collection_primary',
@@ -461,7 +462,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'hidden',
           'module' => 'ting_covers',
           'settings' => array(
-            'image_style' => 'ding_small',
+            'image_style' => 'ding_medium',
           ),
           'type' => 'ting_cover_default',
           'weight' => '0',
@@ -470,7 +471,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'hidden',
           'module' => 'ting_covers',
           'settings' => array(
-            'image_style' => 'ding_small',
+            'image_style' => 'ding_large',
           ),
           'type' => 'ting_cover_default',
           'weight' => '0',
@@ -488,7 +489,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'module' => 'ting_covers',
           'settings' => array(
-            'image_style' => 'medium',
+            'image_style' => 'ding_medium',
           ),
           'type' => 'ting_cover_default',
           'weight' => '0',
@@ -777,12 +778,12 @@ function ding_ting_frontend_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('All materials');
   t('Availability information');
   t('Cover');
   t('Holdings information');
   t('Subjects');
   t('Ting collection object types');
-  t('Ting collection objects');
   t('Ting collection primary object');
   t('Ting object abstract');
   t('Ting object author');
