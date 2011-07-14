@@ -2,9 +2,6 @@
 
 /**
  * @todo
- * store reservation list information in session and user status.
- *
- * @todo
  * Where do the user enter the interest periode and preferred branch
  * information. (THIS IS NOT IMPLEMENTED YET, SO DEFAULT IS USED)
  */

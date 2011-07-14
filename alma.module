@@ -46,10 +46,10 @@ function alma_ding_provider() {
         'prefix' => 'availability',
         'file' => drupal_get_path('module', 'alma') . '/alma.availability.inc',
       ),
-//      'loan' => array(
-//        'prefix' => 'loan',
-//        'file' => drupal_get_path('module', 'alma') . '/alma.loan.inc',
-//      ),
+      'loan' => array(
+        'prefix' => 'loan',
+        'file' => drupal_get_path('module', 'alma') . '/alma.loan.inc',
+      ),
     ),
   );
 }
