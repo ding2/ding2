@@ -201,6 +201,10 @@ class TingCollectionController implements DrupalEntityControllerInterface {
     $this->entityCache = array();
   }
 
+  protected function cacheSet($entities) {
+    $this->entityCache += $entities;
+  }
+
   /**
    * Implements DrupalEntityControllerInterface::resetCache().
    */
@@ -221,6 +225,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
   public function load($ids = array(), $conditions = array()) {
     module_load_include('client.inc', 'ting');
     $entities = array();
+    $queried_entities = array();
     if (isset($conditions['ding_entity_id'])) {
       foreach ($conditions['ding_entity_id'] as $ding_entity_id) {
         if (isset($this->entityCache[$ding_entity_id])) {
@@ -232,15 +237,44 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           if ($reply) {
             $object = new TingCollection($ding_entity_id);
             $object->reply = $reply;
+            $queried_entities[$ding_entity_id] = $object;
           }
 
           if (isset($object)) {
             $entities[$ding_entity_id] = $object;
-            $this->entityCache[$ding_entity_id] = $object;
+            // $this->entityCache[$ding_entity_id] = $object;
           }
         }
       }
     }
+
+    if (!empty($queried_entities)) {
+      $this->attachLoad($queried_entities);
+      $entities += $queried_entities;
+    }
+
+    if (!empty($queried_entities)) {
+      $this->cacheSet($queried_entities);
+    }
+
     return $entities;
+  }
+
+  /**
+   * Implements DrupalEntityControllerInterface::attachLoad().
+   */
+  protected function attachLoad(&$queried_entities) {
+    // Attach fields.
+    field_attach_load('ting_collection', $queried_entities);
+
+    // Call hook_entity_load().
+    foreach (module_implements('entity_load') as $module) {
+      $function = $module . '_entity_load';
+      $function($queried_entities, 'ting_collection');
+    }
+    $args = array(array($queried_entities));
+    foreach (module_implements('ting_collection_load') as $module) {
+      call_user_func_array($module . '_ting_collection_load', $args);
+    }
   }
 }

@@ -17,6 +17,7 @@ class TingEntity extends DingEntity {
   public $creators = DingEntityBase::NULL;
   public $subjects = DingEntityBase::NULL;
   public $language = DingEntityBase::NULL;
+  public $date = DingEntityBase::NULL;
   public $relationType = DingEntityBase::NULL;
   public $relationUri = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
@@ -90,6 +91,10 @@ class TingEntity extends DingEntity {
 
   function getLanguage() {
     return !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
+  }
+
+  function getDate() {
+    return !empty($this->reply->record['dc:date']) ? $this->reply->record['dc:date'][''][0] : FALSE;
   }
 
   function getRelationType() {

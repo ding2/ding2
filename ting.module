@@ -43,6 +43,7 @@ function ting_ctools_plugin_type() {
  * Implements hook_menu().
  */
 function ting_menu() {
+
   $items['ting/object/%ting_object'] = array(
     'title callback' => 'ting_page_title',
     'title arguments' => array(2),
@@ -59,6 +60,24 @@ function ting_menu() {
     'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
+  );
+
+  $items['admin/structure/ting_object'] = array(
+    'title' => 'Ting objects',
+    'description' => 'Manage Ting object display.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_ting_object_display'),
+    'access arguments' => array('administer content types'),
+    'file' => 'ting.admin.inc',
+  );
+
+  $items['admin/structure/ting_collection'] = array(
+    'title' => 'Ting collections',
+    'description' => 'Manage Ting collection display.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_ting_collection_display'),
+    'access arguments' => array('administer content types'),
+    'file' => 'ting.admin.inc',
   );
 
   $items['admin/config/ting'] = array(
@@ -267,18 +286,8 @@ function ting_theme() {
       'render element' => 'elements',
       'file' => 'ting.theme.inc',
     ),
-    'ting_object_overview' => array(
-      'template' => 'ting_object_overview',
-      'render element' => 'elements',
-      'file' => 'ting.theme.inc',
-    ),
     'ting_object_details' => array(
       'template' => 'ting_object_details',
-      'render element' => 'elements',
-      'file' => 'ting.theme.inc',
-    ),
-    'ting_object_entities' => array(
-      'template' => 'ting_object_entities',
       'render element' => 'elements',
       'file' => 'ting.theme.inc',
     ),
@@ -333,6 +342,15 @@ function ting_entity_info() {
           'custom settings' => TRUE,
         ),
       ),
+      'bundles' => array(
+        'ting_object' => array(
+          'label' => 'Ting object',
+          'admin' => array(
+            'path' => 'admin/structure/ting_object',
+            'access arguments' => array('administer content types'),
+          ),
+        ),
+      ),
     ),
 
     'ting_collection' => array(
@@ -342,6 +360,7 @@ function ting_entity_info() {
       'ding_entity_type' => 'ding_entity_collection',
       'ding_entity_menu' => 'ting/collection/%ting_collection',
       'ding_entity_index' => 2,
+      'fieldable' => TRUE,
       'entity keys' => array(
         // We don't really have an ID, but use the ding_entity_id,
         // so we can use entity_uri.
@@ -357,11 +376,347 @@ function ting_entity_info() {
           'custom settings' => TRUE,
         ),
       ),
+      'bundles' => array(
+        'ting_collection' => array(
+          'label' => 'Ting collection',
+          'admin' => array(
+            'path' => 'admin/structure/ting_collection',
+            'access arguments' => array('administer content types'),
+          ),
+        ),
+      ),
     ),
   );
 
   return $return;
 }
+
+/**
+ * Implements hook_field_info().
+ */
+function ting_field_info() {
+  return array(
+    // ting_object
+    'ting_title' => array(
+      'label' => t('Ting object title'),
+      'description' => t('Ting object title'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_title_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_type' => array(
+      'label' => t('Ting object type'),
+      'description' => t('Ting object type'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_type_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_abstract' => array(
+      'label' => t('Ting object abstract'),
+      'description' => t('Ting object abstract'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_abstract_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_author' => array(
+      'label' => t('Ting object author'),
+      'description' => t('Ting object author'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_author_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_subjects' => array(
+      'label' => t('Ting object subjects'),
+      'description' => t('Ting object subjects'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_subjects_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_details' => array(
+      'label' => t('Ting object details'),
+      'description' => t('Ting object details'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_details_default',
+      'no_ui' => TRUE,
+    ),
+
+    // ting_collection
+    'ting_primary_object' => array(
+      'label' => t('Ting collection primary object'),
+      'description' => t('Ting collection primary object'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_primary_object_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_entities' => array(
+      'label' => t('Ting collection listing'),
+      'description' => t('Ting collection listing'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_entities_default',
+      'no_ui' => TRUE,
+    ),
+    'ting_collection_types' => array(
+      'label' => t('Ting collection object types'),
+      'description' => t('Ting collection object types'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_collection_types_default',
+      'no_ui' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_widget_info_alter().
+ */
+function ting_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'] += array(
+      'ting_title',
+      'ting_type',
+      'ting_abstract',
+      'ting_author',
+      'ting_subjects',
+      'ting_details',
+
+      'ting_primary_object',
+      'ting_entities',
+      'ting_collection_types',
+    );
+  }
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ting_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  // Transform entities into a multiple field.
+  if ($field['type'] == 'ting_entities') {
+    foreach ($entities as $id => $entity) {
+      foreach ($entity->entities as $ent) {
+        $items[$id][] = array(
+          'id' => $ent->id,
+        );
+      }
+    }
+  }
+  else {
+    foreach ($entities as $id => $entity) {
+      $items[$id][0] = array(
+        'id' => $entity->id,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_field_formatter_info() {
+  return array(
+    'ting_title_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_title',
+      ),
+    ),
+    'ting_type_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_type',
+      ),
+    ),
+    'ting_abstract_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_abstract',
+      ),
+    ),
+    'ting_author_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_author',
+      ),
+    ),
+    'ting_subjects_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_subjects',
+      ),
+    ),
+    'ting_details_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_details',
+      ),
+    ),
+
+    'ting_primary_object_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_primary_object',
+      ),
+      'settings' => array(
+        'view_mode' => 'teaser',
+      ),
+    ),
+    'ting_entities_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_entities',
+      ),
+      'settings' => array(
+        'hide_primary' => TRUE,
+        'view_mode' => 'teaser',
+      ),
+    ),
+    'ting_collection_types_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_collection_types',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function ting_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = NULL;
+
+  switch ($field['type']) {
+    case 'ting_entities':
+      $element['hide_primary'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Hide primary'),
+        '#description' => t("Don't show the primary object as part of the list."),
+        '#default_value' => $settings['hide_primary'],
+      );
+    case 'ting_primary_object':
+      $entity_info = entity_get_info('ting_object');
+      $view_modes = array();
+      foreach ($entity_info['view modes'] as $view_mode => $view_mode_info) {
+        $view_modes[$view_mode] = $view_mode_info['label'];
+      }
+
+      $element['view_mode'] = array(
+        '#title' => t('View mode'),
+        '#type' => 'select',
+        '#default_value' => $settings['view_mode'],
+        '#options' => $view_modes,
+      );
+    break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = '';
+  switch ($field['type']) {
+    case 'ting_entities':
+      $summary .= $settings['hide_primary'] ? t("Don't show primary. ") : t("Include primary. ");
+    case 'ting_primary_object':
+      $view_mode = $settings['view_mode'];
+      $entity_info = entity_get_info('ting_object');
+      if (isset($entity_info['view modes'][$view_mode])) {
+        $view_mode = $entity_info['view modes'][$view_mode]['label'];
+      }
+
+      $summary .= t('View mode @view_mode', array('@view_mode' => $view_mode));
+      break;
+  }
+
+  return $summary;
+}
+
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  foreach ($items as $delta => $item) {
+    switch ($display['type']) {
+      case 'ting_title_default':
+        // '#uri' => entity_uri($object instanceof TingEntity ? 'ting_object' : 'ting_collection', $object),
+        //   $variables['title'] = check_plain($object->title);
+        $element[$delta] = array(
+          '#prefix' => '<h2>',
+          '#suffix' => '</h2>',
+          '#markup' => check_plain($entity->title),
+        );
+        break;
+      case 'ting_type_default':
+        $element[$delta] = array(
+          '#theme' => 'item_list',
+          '#items' => array(
+            array(
+              'data' => $entity->type,
+              'class' => array(drupal_html_class($entity->type)),
+            )
+          ),
+        );
+        break;
+      case 'ting_abstract_default':
+        $element[$delta] = array(
+          '#markup' => check_plain($entity->abstract),
+        );
+        break;
+      case 'ting_author_default':
+        $creators = array();
+        foreach ($entity->creators as $i => $creator) {
+          $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => array('author'))));
+        }
+        $element[$delta] = array(
+          '#markup' => t('By !author_link (@year)', array(
+                       '!author_link' => implode(', ', $creators),
+                       '@year' => $entity->date, // So wrong, but appears to
+                                                 // be the way the data is.
+                     )),
+        );
+        break;
+      case 'ting_subjects_default':
+        $element[$delta] = array(
+          '#markup' => check_plain(implode(' ', $entity->subjects)),
+        );
+        break;
+      case 'ting_details_default':
+        $element[$delta] = array(
+          '#theme' => 'ting_object_details',
+          '#object' => $entity,
+        );
+        break;
+
+      case 'ting_primary_object_default':
+        $element[$delta] = ting_object_view($entity->primary_object, $display['settings']['view_mode']);
+        break;
+      case 'ting_entities_default':
+        // Skip the first.
+        if ($delta == 0 && $display['settings']['hide_primary']) {
+          continue;
+        }
+        $element[$delta] = ting_object_view($entity->entities[$delta], $display['settings']['view_mode']);
+        break;
+      case 'ting_collection_types_default':
+        $element[$delta] = array(
+          '#theme' => 'item_list',
+          '#items' => $entity->types,
+        );
+        break;
+    }
+  }
+
+  return $element;
+}
+
 
 /**
  * Implements hook_registry_files_alter().
@@ -516,36 +871,10 @@ function ting_collection_load($id) {
  */
 function ting_object_view($object, $view_mode = 'full') {
   $object->content = array();
-  $object->content['actions'] = array();
-  $object->content['overview'] = array(
-    '#theme' => 'ting_object_overview',
-    '#object' => $object,
-    '#view_mode' => $view_mode,
-    '#uri' => entity_uri($object instanceof TingEntity ? 'ting_object' : 'ting_collection', $object),
-    'left' => array(),
-    'right' => array(),
-  );
 
-  if ($view_mode == 'full') {
-    $object->content['details'] = array(
-      '#theme' => 'ting_object_details',
-      '#object' => $object,
-      '#view_mode' => $view_mode,
-    );
-  }
-
-  if (isset($object->online_url)) {
-    $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-    $type = drupal_strtolower($object->type);
-    $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-    $object->content['actions'][] = array(
-      '#type' => 'markup',
-      '#markup' => l($label, $object->online_url),
-    );
-
-  }
-
-  field_attach_prepare_view('ting_object', array($object->id => $object), $view_mode);
+  // _field_invoke_multiple gets pissy if the arrays aren't indexed by the
+  // local ID.
+  field_attach_prepare_view('ting_object', array($object->tid => $object), $view_mode);
   entity_prepare_view('ting_object', array($object->id => $object));
   $object->content += field_attach_view('ting_object', $object, $view_mode);
 
@@ -572,31 +901,12 @@ function ting_object_view($object, $view_mode = 'full') {
  */
 function ting_collection_view($object, $view_mode = 'full') {
   $object->content = array();
-  $object->content['actions'] = array();
-  $object->content['overview'] = array(
-    '#theme' => 'ting_object_overview',
-    '#object' => $object->primary_object,
-    '#uri' => entity_uri($object instanceof TingEntity ? 'ting_object' : 'ting_collection', $object),
-    '#view_mode' => $view_mode,
-    'left' => array(),
-    'right' => array(),
-  );
 
-  if ($view_mode == 'full') {
-    $object->content['entities'] = array(
-      '#theme' => 'ting_object_entities',
-      '#title' => t('All materials'),
-    );
-    foreach ($object->types as $type) {
-      $object->content['entities'][$type] = array(
-        '#prefix' => '<h2>' . $type . '</h2><a name="' . $type . '"></a>',
-      );
-    }
-    foreach ($object->entities as $entity) {
-      $object->content['entities'][$entity->type][$entity->id] = ting_object_view($entity, 'teaser');
-    }
-  }
+  // _field_invoke_multiple gets pissy if the arrays aren't indexed by the
+  // local ID.
+  field_attach_prepare_view('ting_collection', array($object->ding_entity_id => $object), $view_mode);
   entity_prepare_view('ting_collection', array($object->id => $object));
+  $object->content += field_attach_view('ting_collection', $object, $view_mode);
 
   // Allow modules to make their own additions to the collection.
   module_invoke_all('ding_entity_collection_view', $object, $view_mode);
@@ -612,7 +922,7 @@ function ting_collection_view($object, $view_mode = 'full') {
     '#view_mode' => $view_mode,
   );
 
-  drupal_alter('ting_view', $build);
+  drupal_alter('ting_collection_view', $build);
   return $build;
 }
 

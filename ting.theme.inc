@@ -26,70 +26,6 @@ function template_preprocess_ting_object(&$variables) {
 }
 
 /**
- * Template preprocessor for ting object overview.
- */
-function template_preprocess_ting_object_overview(&$variables) {
-  $object = $variables['object'] = $variables['elements']['#object'];
-
-  // Helpful $content variable for templates.
-  foreach (element_children($variables['elements']) as $key) {
-    $variables['content'][$key] = $variables['elements'][$key];
-  }
-
-  $variables['page'] = $variables['elements']['#view_mode'] == 'full';
-  $variables['search_result'] = $variables['elements']['#view_mode'] == 'search_result';
-  $variables['title'] = check_plain($object->title);
-  $variables['serie_title'] = $object->serieTitle ? l(check_plain($object->serieTitle), 'search/ting/' . variable_get('ting_admin_register_serie_title') . '="' . strtolower($object->serieTitle) . '"'): FALSE;
-
-  $variables['alternative_titles'] = array();
-  $variables['other_titles'] = "";
-  $uri = $variables['elements']['#uri'];
-  $variables['url'] = url($uri['path'], $uri['options']);
-  if (isset($object->record)) {
-    $titles = $object->record['dc:title'];
-    unset($titles['']);
-    $titles = array_values(array_map('array_shift', $titles));
-
-    $variables['other_titles'] = check_plain(implode(', ', $titles));
-    if (!empty($object->record['dcterms:alternative'][''])) {
-      $titles = array_values($object->record['dcterms:alternative']['']);
-      $variables['alternative_titles'] = array_map('check_plain', $titles);
-    }
-  }
-
-  $subjects = array();
-
-  if ($object->subjects) {
-    foreach ($object->subjects as $s) {
-      $subjects[] = $s;
-    }
-  }
-
-  $variables['subjects'] = implode(', ', $subjects);
-
-  $creators = array();
-  foreach ($object->creators as $i => $creator) {
-    $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => array('author'))));
-  }
-  $variables['creators'] = implode(', ', $creators);
-
-  if (!empty($object->date)) {
-    $variables['date'] = check_plain($object->date);
-  }
-  else {
-    $variables['date'] = "";
-  }
-
-  $variables['abstract'] = check_plain($object->abstract);
-
-  $variables['type'] = check_plain($object->type);
-
-  if (isset($variables['content']['types'])) {
-    $variables['types'] = $variables['content']['types'];
-  }
-}
-
-/**
  * Template preprocessor for ting object details.
  */
 function template_preprocess_ting_object_details(&$variables) {
@@ -320,17 +256,6 @@ function template_preprocess_ting_object_details(&$variables) {
     '#theme' => 'item_list',
     '#items' => $items,
   );
-}
-
-/**
- * Template preprocessor for ting object entities.
- */
-function template_preprocess_ting_object_entities(&$variables) {
-  $variables['title'] = $variables['elements']['#title'];
-
-  foreach (element_children($variables['elements']) as $key) {
-    $variables['content'][$key] = $variables['elements'][$key];
-  }
 }
 
 /**

@@ -22,8 +22,14 @@ function ting_get_object($object_id, $collection = FALSE) {
     return FALSE;
   }
 
-  // Check the cache first.
-  $object = ting_cache_get($object_id);
+  $object = NULL;
+  // @todo objects and collections fight over the cache, for the
+  // moment being, don't look for collections in the cache, as the id
+  // might be taken by an object.
+  if (!$collection) {
+    // Check the cache first.
+    $object = ting_cache_get($object_id);
+  }
   if (!$object) {
     // Put a negative reply in the cache. It will be overwritten by the
     // object, or ensure that we won't try to fetch this id again.
@@ -281,7 +287,7 @@ function ting_execute_cache($request) {
 function ting_cache_get($id) {
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get('ting-object:' . $id);
-    if (isset($cache) && ($cache->expire > REQUEST_TIME)) {
+    if ($cache && ($cache->expire > REQUEST_TIME)) {
       return $cache->data;
     }
     return NULL;
