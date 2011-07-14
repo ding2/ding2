@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ding_availability_ding_entity_fields() {
+  return array(
+    'ding_availability_item' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Availability information'),
+      ),
+    ),
+    'ding_availability_holdings' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Holdings information'),
+      ),
+    ),
+  );
+}

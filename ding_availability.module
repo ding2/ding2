@@ -96,32 +96,96 @@ function ding_availability_holdings($provider_ids) {
 }
 
 /**
- * Implements hook_ding_entity_view().
+ * Implements hook_field_info().
  */
-function ding_availability_ding_entity_view($entity, $view_mode, $langcode = NULL) {
-  $entity->content['overview']['right'] = array(
-    '#markup' => '<div class="availability availability-' . $entity->provider_id . '"></div>',
-    '#weight' => 10,
-    '#attached' => array(
+function ding_availability_field_info() {
+  return array(
+    'ding_availability_item' => array(
+      'label' => t('Availability information.'),
+      'description' => t('Availability information.'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ding_availability_default',
+      'no_ui' => TRUE,
+    ),
+    'ding_availability_holdings' => array(
+      'label' => t('Holdings information.'),
+      'description' => t('Holdings information.'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ding_availability_default',
+      'no_ui' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ding_availability_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    $items[$id][0] = array(
+      'provider_id' => $entity->localId,
+    );
+  }
+}
+
+/**
+ * Implements hook_widget_info_alter().
+ */
+function ding_availability_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ding_availability_item';
+    $info['hidden']['field types'][] = 'ding_availability_holdings';
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_availability_field_formatter_info() {
+  return array(
+    'ding_availability_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ding_availability_item',
+        'ding_availability_holdings'
+      ),
+    )
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  foreach ($items as $delta => $item) {
+    $attached = array(
       'js' => array(
         drupal_get_path('module', 'ding_availability') . '/ding_availability.js' => array(
           'type' => 'file',
-
         ),
-        array('data' => array('ding_availability_mode' => ($view_mode == 'full' ? 'holdings' : 'items'), 'ding_availability' => array($entity->provider_id => array('availability-' . $entity->provider_id))), 'type' => 'setting'),
+        array('data' => array('ding_availability_mode' => 'holdings', 'ding_availability' => array('availability-' . $item['provider_id'] => $item['provider_id'])), 'type' => 'setting'),
       ),
       'css' => array(
         drupal_get_path('module', 'ding_availability') . '/ding_availability.css'
       ),
-    ),
-  );
-
-  if ($view_mode == 'full') {
-    $entity->content['holdings'] = array(
-      '#markup' => '<div class="holdings holdings-' . $entity->provider_id . '"></div>',
-      '#weight' => 10,
     );
+    switch ($field['type']) {
+      case 'ding_availability_holdings':
+        $element[$delta] = array(
+          '#markup' => '<div class="holdings holdings-' . $item['provider_id'] . '"></div>',
+          '#attached' => $attached,
+      );
+      break;
+      case 'ding_availability_item':
+        $element[$delta] = array(
+          '#markup' => '<div class="availability availability-' . $item['provider_id'] . '"></div>',
+          '#attached' => $attached,
+        );
+        break;
+    }
   }
+  return $element;
 }
 
 /**
