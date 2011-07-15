@@ -8,3 +8,5 @@ files[] = lib/addi-client/AdditionalInformation.php
 files[] = lib/addi-client/AdditionalInformationException.php
 files[] = lib/addi-client/AdditionalInformationService.php
 dependencies[] = image
+dependencies[] = ting
+dependencies[] = blackhole
