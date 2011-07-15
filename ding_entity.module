@@ -35,7 +35,7 @@ function ding_entity_uri($type, $object) {
  * Implements hook_modules_enabled().
  */
 function ding_entity_modules_enabled($modules) {
-  if (!ding_entity_info($field['instance']['ding_entity_type'])) {
+  if (!ding_entity_info('ding_entity')) {
     // No entity provider yet, queue for later.
     variable_set('ding_entity_delayed_field_modules', array_unique(array_merge(variable_get('ding_entity_delayed_field_modules', array()), $modules)));
     return;
