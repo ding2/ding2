@@ -91,30 +91,6 @@ class OpenruthClient {
   }
 
   /**
-   * Get information about an agency's counters
-   */
-  public function get_agency_counters() {
-    $this->log_start();
-    $res = $this->client->agencyCounters(array(
-             'agencyId' =>  $this->agency_id,
-           ));
-    $this->log();
-    if (isset($res->agencyError)) {
-      return $res->agencyError;
-    }
-    elseif (isset($res->agencyCounters) && isset($res->agencyCounters->agencyCounterInfo)) {
-      $result = array();
-      foreach ($res->agencyCounters->agencyCounterInfo as $agencyCounterInfo) {
-        $result[$agencyCounterInfo->agencyCounter] = $agencyCounterInfo->agencyCounterName;
-      }
-      return $result;
-    }
-    else {
-      return FALSE;
-    }
-  }
-
-  /**
    * Holdings information (agency info, location, availability etc.) about an given item.
    */
   public function get_holdings($ids) {
