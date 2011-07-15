@@ -671,7 +671,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'hidden',
           'module' => 'ting',
           'settings' => array(
-            'link_type' => 'none',
+            'link_type' => 'object',
           ),
           'type' => 'ting_title_default',
           'weight' => '2',
@@ -680,7 +680,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'hidden',
           'module' => 'ting',
           'settings' => array(
-            'link_type' => 'none',
+            'link_type' => 'object',
           ),
           'type' => 'ting_title_default',
           'weight' => '2',
