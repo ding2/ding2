@@ -18,6 +18,7 @@ function openruth_ding_provider() {
       ),
       'user' => array(
         'prefix' => 'user',
+        'file' => drupal_get_path('module', 'openruth') . '/openruth.user.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
