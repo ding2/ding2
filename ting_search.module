@@ -175,7 +175,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       pager_default_initialize($fake_total, $resultsPerPage);
 
       foreach ($searchResult->collections as &$collection) {
-        $build = ting_collection_view($collection, 'search_result');
+        $build = ting_collection_view($collection, 'teaser');
         $uri = entity_uri('ting_collection', $collection);
         $results[] = array(
           'link' => url($uri['path'], $uri['options']),
