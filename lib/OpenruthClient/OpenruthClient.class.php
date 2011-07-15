@@ -327,6 +327,26 @@ class OpenruthClient {
   }
 
   /**
+   * Get information about an Agency
+   */
+  public function get_agency_info() {
+    $agency_info = array();
+    $this->log_start();
+    $res = $this->client->agencyCounters(array(
+      'agencyId' =>  $this->agency_id,
+    ));
+    $this->log();
+    if ($res->agencyCounters instanceof stdClass) {
+      $agency_info = array(
+        'agencyId' => $res->agencyCounters->agencyId,
+        'agencyName' => $res->agencyCounters->agencyName,
+        'orderActivePeriod' => $res->agencyCounters->orderActivePeriod,
+      );
+    }
+    return (object) $agency_info;
+
+  }
+  /**
    * Get list of agencycounters
    *
    * @return Array
