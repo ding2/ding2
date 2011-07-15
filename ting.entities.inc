@@ -36,8 +36,7 @@ class TingEntity extends DingEntity {
   }
 
   function getSerieTitle() {
-    $titleObj = $this->reply->record['dc:title'];
-
+    $titleObj = ( $this->reply && $this->reply->record['dc:title'] ) ? $this->reply->record['dc:title'] : '';
     return !empty($titleObj) && !empty($titleObj['oss:series']) ? $titleObj['oss:series'][0] : FALSE;
   }
 
