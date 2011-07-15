@@ -23,13 +23,8 @@ function ting_get_object($object_id, $collection = FALSE) {
   }
 
   $object = NULL;
-  // @todo objects and collections fight over the cache, for the
-  // moment being, don't look for collections in the cache, as the id
-  // might be taken by an object.
-  if (!$collection) {
-    // Check the cache first.
-    $object = ting_cache_get($object_id);
-  }
+  // Check the cache first.
+  $object = ting_cache_get($object_id, $collection);
   if (!$object) {
     // Put a negative reply in the cache. It will be overwritten by the
     // object, or ensure that we won't try to fetch this id again.
@@ -284,9 +279,9 @@ function ting_execute_cache($request) {
 /**
  * Get item from static cache.
  */
-function ting_cache_get($id) {
+function ting_cache_get($id, $collection = FALSE) {
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    $cache = cache_get('ting-object:' . $id);
+    $cache = cache_get('ting-' . ($collection ? 'collection' : 'object') . ':' . $id);
     if ($cache && ($cache->expire > REQUEST_TIME)) {
       return $cache->data;
     }
@@ -311,8 +306,12 @@ function ting_cache_get($id) {
  * Put item in the static cache.
  */
 function ting_cache_set($id, $value) {
+  $cid = 'ting-object';
+  if ($value instanceof TingClientObjectCollection) {
+    $cid = 'ting-collection';
+  }
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    $cache = cache_set('ting-object:' . $id, $value, 'cache', REQUEST_TIME + $ttl);
+    $cache = cache_set($cid . ':' . $id, $value, 'cache', REQUEST_TIME + $ttl);
   }
   else {
     // Without proper caching, use a request cache.
