@@ -5,5 +5,4 @@ version = 0.1
 core = 7.x
 files[] = ding_availability.module
 dependencies[] = ding_provider
-; files[] = tests/ding_provider.test
-; configure = admin/config/ting
+dependencies[] = blackhole
