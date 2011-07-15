@@ -18,6 +18,10 @@ function ting_collection_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
   $object = isset($context->data) ? ($context->data) : NULL;
   if ($object instanceOf TingCollection) {
+    if (sizeof($object->entities) < 2) {
+      drupal_goto('ting/object/' . $object->id);
+    }
+
     $block->title = check_plain($object->title);
     $block->content = ting_collection_view($object);
   }
