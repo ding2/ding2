@@ -26,7 +26,6 @@ function openruth_user_info($creds = NULL) {
 }
 
 function openruth_user_profile_form($form, $form_state) {
-
   global $user;
   $creds            = ding_user_get_creds($user);
   $status           = _openruth_user_status($creds);
@@ -49,6 +48,11 @@ function openruth_user_profile_form($form, $form_state) {
     '#title' => t('My library'),
   );
 
+  $form['openruth_library']['email'] = array(
+    '#type' => 'value',
+    '#value' => TRUE,
+  );
+
   $form['openruth_library']['mobile_phone'] = array(
     '#type' => 'textfield',
     '#title' => t('Mobile phone'),
@@ -61,6 +65,12 @@ function openruth_user_profile_form($form, $form_state) {
     '#options' => ding_provider_invoke('reservation', 'pickup_branches', $user),
     '#default_value' => $preferred_branch,
   );
+
+  // Since we dont know the users internal password, we will remove the form fields
+  // And the validate check.
+  unset($form['#validate'][array_search('user_validate_current_pass', $form['#validate'])]);
+  unset($form['account']['current_pass']);
+  unset($form['account']['current_pass_required_values']);
 
   return $form;
 }
@@ -79,6 +89,10 @@ function openruth_user_profile_form_submit($form, $form_state) {
   $args = array();
   $changed_settings = $form_state['input'];
   $orig_settings = $form['openruth_library'];
+
+  if ($orig_settings['email'] == TRUE && ($form['account']['mail']['#default_value'] !== $changed_settings['mail'])) {
+    $args['mail'] = $changed_settings['mail'];
+  }
 
   if ($changed_settings['mobile_phone'] !== $orig_settings['mobile_phone']['#value']) {
     $args['mobile_phone'] = $changed_settings['mobile_phone'];
