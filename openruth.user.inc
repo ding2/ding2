@@ -25,7 +25,8 @@ function openruth_user_info($creds = NULL) {
   return (object) $info;
 }
 
-function openruth_user_profile_form($form) {
+function openruth_user_profile_form($form, $form_state) {
+
   global $user;
   $creds            = ding_user_get_creds($user);
   $status           = _openruth_user_status($creds);
@@ -48,43 +49,50 @@ function openruth_user_profile_form($form) {
     '#title' => t('My library'),
   );
 
-  $form['openruth_library']['phone'] = array(
+  $form['openruth_library']['mobile_phone'] = array(
     '#type' => 'textfield',
     '#title' => t('Mobile phone'),
-    '#value' => $status->userInfo->userTelephone,
+    '#value' => $status->userInfo->userMobilePhone,
   );
 
-  $form['openruth_library']['pickup_branch'] = array(
+  $form['openruth_library']['preferred_branch'] = array(
     '#type' => 'select',
     '#title' => t('My pickup branch'),
     '#options' => ding_provider_invoke('reservation', 'pickup_branches', $user),
     '#default_value' => $preferred_branch,
   );
 
-  $form['openruth_library']['period_of_interest'] = array(
-    '#type' => 'select',
-    '#title' => t('Period of interest'),
-    '#options' => $period_of_interest,
-    '#default_value' => $agency_info->orderActivePeriod,
-  );
-
-  $form['openruth_library']['pause_reservation'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Pause reservations from'),
-  );
-
-  $form['openruth_library']['pause_reservations']['from'] = array(
-    '#type' => 'date_popup',
-    '#date_format' => 'm/d/Y',
-  );
-
-  $form['openruth_library']['pause_reservations']['to'] = array(
-    '#type' => 'date_popup',
-    '#date_format' => 'm/d/Y',
-    '#title' => t('to'),
-  );
-
-  $form['#validate'][] = 'openruth_form_user_profile_form_validate';
-
   return $form;
 }
+
+/**
+ * Provider specific user profile form validate handler.
+ */
+function openruth_user_profile_form_validate($form, $form_state) { }
+
+/**
+ * Provider specific user profile form submit handler.
+ */
+function openruth_user_profile_form_submit($form, $form_state) {
+  global $user;
+
+  $args = array();
+  $changed_settings = $form_state['input'];
+  $orig_settings = $form['openruth_library'];
+
+  if ($changed_settings['mobile_phone'] !== $orig_settings['mobile_phone']['#value']) {
+    $args['mobile_phone'] = $changed_settings['mobile_phone'];
+  }
+
+  if ($changed_settings['preferred_branch'] !== $orig_settings['preferred_branch']['#default_value']) {
+    $args['preferred_branch'] = $changed_settings['preferred_branch'];
+  }
+
+  if (count($args) == TRUE) {
+    $creds = ding_user_get_creds($user);
+    openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $args);
+    _openruth_user_status($creds, TRUE);
+  }
+
+}
+
