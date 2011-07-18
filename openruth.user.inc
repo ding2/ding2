@@ -53,6 +53,11 @@ function openruth_user_profile_form($form, $form_state) {
     '#value' => TRUE,
   );
 
+  $form['openruth_library']['password'] = array(
+    '#type' => 'value',
+    '#value' => TRUE,
+  );
+
   $form['openruth_library']['mobile_phone'] = array(
     '#type' => 'textfield',
     '#title' => t('Mobile phone'),
@@ -89,9 +94,12 @@ function openruth_user_profile_form_submit($form, $form_state) {
   $args = array();
   $changed_settings = $form_state['input'];
   $orig_settings = $form['openruth_library'];
-
   if ($orig_settings['email'] == TRUE && ($form['account']['mail']['#default_value'] !== $changed_settings['mail'])) {
     $args['mail'] = $changed_settings['mail'];
+  }
+
+  if ($orig_settings['password'] == TRUE && ($changed_settings['pass']['pass1'])) {
+    $args['pass'] = $changed_settings['pass']['pass1'];
   }
 
   if ($changed_settings['mobile_phone'] !== $orig_settings['mobile_phone']['#value']) {
@@ -105,6 +113,12 @@ function openruth_user_profile_form_submit($form, $form_state) {
   if (count($args) == TRUE) {
     $creds = ding_user_get_creds($user);
     openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $args);
+    ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $args['pass'])), $user);
+    $creds = ding_user_get_creds($user);
+
+    if (isset($args['pass'])) {
+      $creds['pass'] = $args['pass'];
+    }
     _openruth_user_status($creds, TRUE);
   }
 
