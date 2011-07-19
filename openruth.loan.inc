@@ -34,6 +34,9 @@ function openruth_loan_renew($account, $ids) {
   $result = array();
   $res = openruth_client_invoke('renew_loan', $creds['name'], $ids);
 
+  if ($res == TRUE) {
+    $status = _openruth_user_status($creds, TRUE);
+  }
   foreach ($ids as $id) {
     if ($res[$id] === TRUE) {
       $result[$id] = DingProviderLoan::STATUS_RENEWED;
