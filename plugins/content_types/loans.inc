@@ -115,7 +115,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
           '#loan_id' => $item->id,
           '#name' => 'renew-' . $item->id, // Needed so form API can tell them
                                            // apart.
-          '#disabled' => $item->renewable,
+          '#disabled' => !$item->renewable,
       );
     }
   }
@@ -189,6 +189,6 @@ function ding_loan_loans_form_submit($form, &$form_state) {
  */
 function ding_loan_loans_form_renew_submit($form, &$form_state) {
   form_set_value($form['loans'], array($form_state['triggering_element']['#loan_id']), $form_state);
-  dpm($form_state['triggering_element']);
   ding_loan_loans_form_submit($form, $form_state);
 }
+
