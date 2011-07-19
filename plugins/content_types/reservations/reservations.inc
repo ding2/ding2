@@ -138,7 +138,10 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         ),
         'operations' => array(
           'data' =>  array(
-            '#type' => 'button',
+            '#type' => 'submit',
+            '#submit' => array('ding_reservation_reservations_delete_submit'),
+            '#reservation_id' => $item->id,
+            '#name' => 'delete-' . $item->id, // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
@@ -181,6 +184,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#type' => 'submit',
             '#submit' => array('ding_reservation_reservations_delete_submit'),
             '#reservation_id' => $item->id,
+            '#name' => 'delete-' . $item->id, // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
