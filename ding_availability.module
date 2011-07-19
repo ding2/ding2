@@ -161,13 +161,13 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
   foreach ($items as $delta => $item) {
     $attached = array(
       'js' => array(
-        drupal_get_path('module', 'ding_availability') . '/ding_availability.js' => array(
+        drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js' => array(
           'type' => 'file',
         ),
         array('data' => array('ding_availability_mode' => 'holdings', 'ding_availability' => array('availability-' . $item['provider_id'] => $item['provider_id'])), 'type' => 'setting'),
       ),
       'css' => array(
-        drupal_get_path('module', 'ding_availability') . '/ding_availability.css'
+        drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css'
       ),
     );
     switch ($field['type']) {
@@ -269,3 +269,4 @@ function ding_availability_preprocess_ting_object_entities(&$variables) {
     );
   }
 }
+
