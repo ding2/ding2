@@ -162,14 +162,43 @@ function alma_get_organisation($reset = FALSE) {
         'location' => alma_client_invoke('get_locations'),
         'sublocation' => alma_client_invoke('get_sublocations'),
         'collection' => alma_client_invoke('get_collections'),
+        'reservation' => alma_client_invoke('get_reservation_branches'),
       );
 
       // Cache output for 24 hours if we got all the data correctly.
-      if ($organisation['branch'] && $organisation['department'] && $organisation['location'] && $organisation['sublocation'] && $organisation['collection']) {
+      if ($organisation['branch'] && $organisation['department'] &&
+          $organisation['location'] && $organisation['sublocation'] &&
+          $organisation['collection'] && $organisation['reservation']) {
         cache_set('alma_organisation', $organisation, 'cache');
       }
     }
   }
 
   return $organisation;
+}
+
+function alma_get_patron($creds = NULL, $reset = TRUE) {
+  if (is_null($creds)) {
+    // Get creds, which may throw an exception that login is required.
+    global $user;
+    $creds = ding_user_get_creds($user, TRUE);
+  }
+
+  static $patron;
+  if (!$patron || $reset) {
+    $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
+    $organisation = alma_get_organisation();
+    $patron = array(
+      'name' => $info['user_name'],
+      'email' => isset($info['mails'][0]) ? $info['mails'][0]['mail'] : '',
+      'address' => isset($info['addresses'][0]) ? $info['addresses'][0]['street'] : '',
+      'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
+      'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
+      'mobile' => isset($info['phones'][0]) ? $info['phones'][0]['phone'] : '',
+      'branch' => $info['preferences']['patron_branch'],
+      'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
+    );
+  }
+
+  return (object)$patron;
 }
