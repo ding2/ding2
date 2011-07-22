@@ -147,19 +147,24 @@ function alma_user_profile_form_submit($form, $form_state) {
 
   // Update e-mail address.
   if ($orig_settings['email'] == TRUE && ($form['account']['mail']['#default_value'] !== $changed_settings['mail'])) {
-    alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], 0, $changed_settings['mail']);
+    alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $orig_settings['email'], $changed_settings['mail']);
     $updated = TRUE;
   }
 
   // Update password.
   if ($orig_settings['password'] == TRUE && ($changed_settings['pass']['pass1'])) {
     alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changed_settings['pass']['pass1']);
+    
+    // Update informations local.
+    ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $changed_settings['pass']['pass1'])), $user);
+    $creds = ding_user_get_creds($user);
+    $creds['pass'] = $changed_settings['pass']['pass1'];
     $updated = TRUE;
   }
 
   // Mobile phone number.
   if ($changed_settings['mobile_phone'] !== $orig_settings['mobile_phone']['#value']) {
-    alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], 0, $changed_settings['mobile_phone']);
+    alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $orig_settings['mobile_phone']['#value'], $changed_settings['mobile_phone']);
     $updated = TRUE;
   }
 
@@ -170,14 +175,6 @@ function alma_user_profile_form_submit($form, $form_state) {
   }
 
   if ($updated) {
-    // Update local information.
-    ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $args['pass'])), $user);
-    $creds = ding_user_get_creds($user);
-
-    if (isset($args['pass'])) {
-      $creds['pass'] = $args['pass'];
-    }
-
     // Update local cache.
     alma_get_patron($creds, TRUE);
   }
