@@ -147,7 +147,7 @@ function alma_user_profile_form_submit($form, $form_state) {
 
   // Update e-mail address.
   if ($orig_settings['email'] == TRUE && ($form['account']['mail']['#default_value'] !== $changed_settings['mail'])) {
-    alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $orig_settings['email'], $changed_settings['mail']);
+    alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $form['account']['mail']['#default_value'], $changed_settings['mail']);
     $updated = TRUE;
   }
 

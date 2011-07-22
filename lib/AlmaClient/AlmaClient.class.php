@@ -613,9 +613,6 @@ class AlmaClient {
       'address' => $new_email,
     );
 
-    if ($new_number) {
-      $params['localCode'] = $new_number;
-    }
     $doc = $this->request('patron/email/change', $params);
     return TRUE;
   }
