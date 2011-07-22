@@ -1,0 +1,9 @@
+name = Ting object reference
+description = Defines a reference field for relating content to Ting objects.
+package = Ding!
+core = 7.x
+files[] = ting_reference.module
+files[] = ting_reference.pages.inc
+dependencies[] = relation
+dependencies[] = ting
+
