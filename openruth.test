@@ -5,7 +5,7 @@
  * Test OpenRuth user provider implementation.
  */
 
-class OpenruthUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
+abstract class OpenruthUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Openruth user provider',
@@ -81,7 +81,7 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
 }
 
 
-class OpenruthAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
+abstract class OpenruthAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
   public static function getInfo() {
     return array(
       'name' => 'Openruth availability provider',
