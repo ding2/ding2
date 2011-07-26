@@ -61,7 +61,7 @@ function openruth_user_profile_form($form, $form_state) {
   $form['openruth_library']['mobile_phone'] = array(
     '#type' => 'textfield',
     '#title' => t('Mobile phone'),
-    '#value' => $status->userInfo->userMobilePhone,
+    '#value' => isset($status->userInfo->userMobilePhone) ? $status->userInfo->userMobilePhone : NULL,
   );
 
   $form['openruth_library']['preferred_branch'] = array(
@@ -109,11 +109,13 @@ function openruth_user_profile_form_submit($form, $form_state) {
   if ($changed_settings['preferred_branch'] !== $orig_settings['preferred_branch']['#default_value']) {
     $args['preferred_branch'] = $changed_settings['preferred_branch'];
   }
-
+dpm($args);
   if (count($args) == TRUE) {
     $creds = ding_user_get_creds($user);
     openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $args);
-    ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $args['pass'])), $user);
+    if (isset($args['pass'])) {
+      ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $args['pass'])), $user);
+    }
     $creds = ding_user_get_creds($user);
 
     if (isset($args['pass'])) {
