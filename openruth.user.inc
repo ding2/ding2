@@ -109,7 +109,7 @@ function openruth_user_profile_form_submit($form, $form_state) {
   if ($changed_settings['preferred_branch'] !== $orig_settings['preferred_branch']['#default_value']) {
     $args['preferred_branch'] = $changed_settings['preferred_branch'];
   }
-dpm($args);
+
   if (count($args) == TRUE) {
     $creds = ding_user_get_creds($user);
     openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $args);
