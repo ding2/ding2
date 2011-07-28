@@ -154,7 +154,7 @@ function _facetString($form_state = NULL) {
     foreach ($form_state['values'] as $name => $data) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
-          if ($key === $value) {
+          if ($key == $value && $value !== 0) {
           $facets[] = 'facet.' . $name . ':' . $value;
           }
         }
