@@ -45,7 +45,7 @@ function ting_fulltext_object_load($object_id) {
     $request->setParameter('outputType', 'xml');
     $object = ting_execute($request);
 
-   // ting_cache_set($object_id . ':FULLTEXT', $object);
+    ting_cache_set($object_id . ':FULLTEXT', $object);
   }
 
   return $object;
