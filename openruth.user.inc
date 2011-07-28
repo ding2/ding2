@@ -83,7 +83,12 @@ function openruth_user_profile_form($form, $form_state) {
 /**
  * Provider specific user profile form validate handler.
  */
-function openruth_user_profile_form_validate($form, $form_state) { }
+function openruth_user_profile_form_validate($form, $form_state) {
+  // Validate the phonenumber
+  if (strlen($form_state['input']['mobile_phone']) != 0 && strlen((int)$form_state['input']['mobile_phone']) != 8) {
+    form_set_error('mobile_phone', t('The mobile number should only contain 8 digits'));
+  }
+}
 
 /**
  * Provider specific user profile form submit handler.
