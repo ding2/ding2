@@ -16,7 +16,7 @@ function ting_fulltext_menu() {
     'page callback' => 'ting_fulltext_page_view',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
-    'file' => 'ting_fulltext.pages.inc',
+    'file' => 'includes/ting_fulltext.pages.inc',
     'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
