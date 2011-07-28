@@ -51,20 +51,3 @@ function ting_fulltext_object_load($object_id) {
   return $object;
 }
 
-/**
- * Fulltext page view.
- */
-function ting_fulltext_view_page($object) {
-  dpm($object);
-
-  $build = array();
-
-  $build['default_message'] = array(
-    '#markup' => 'heeeeeeest', 
-    '#prefix' => '<div id="first-time">', 
-    '#suffix' => '</div>',
-  );
-  
-  return $build;
-}
-
