@@ -31,8 +31,17 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
   $block         = new stdClass();
   $block->module = 'ding_reservation';
   $block->delta  = 'reservations';
-  $block->title  = t('Reservation list');
 
+  switch ($conf['reservation_type_list']) {
+    case 'ready_for_pickup':
+      $block->title = t('Reservations ready for pickup');
+    break;
+    default:
+    case 'not_ready_for_pickup':
+      $block->title = t('Reservations');
+    break;
+  }
+  
   $list = ding_provider_invoke_page('reservation', 'list', $account);
 
   foreach ($list as $item) {
@@ -48,7 +57,6 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     ding_entity_load_multiple($preload_ids);
     $preload_reservations['ids'] = TRUE;
   }
-
   $block->content = count($reservation_list) == TRUE ? ding_provider_get_form('ding_reservation_reservations_form', $reservation_list, $conf['reservation_type_list']) : t('No reservations');
   return $block;
 }
