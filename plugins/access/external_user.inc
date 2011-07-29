@@ -26,7 +26,7 @@ function ding_user_external_user_access_check($conf, $context) {
   if (empty($context) || empty($context[0]->data)) {
     return FALSE;
   }
-  return (user_get_authmaps($context[0]->data->init) xor !$conf);
+  return (user_get_authmaps($context[0]->data->init) xor $conf);
 }
 
 /**
