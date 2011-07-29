@@ -282,9 +282,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'plugins' => array(
       0 => array(
         'name' => 'external_user',
-        'settings' => array(
-          'external' => '1',
-        ),
+        'settings' => NULL,
         'context' => array(
           0 => 'argument_entity_id:user_1',
         ),
