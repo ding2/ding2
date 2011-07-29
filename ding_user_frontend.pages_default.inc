@@ -126,7 +126,19 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->admin_title = 'User loans';
   $page->admin_description = '';
   $page->path = 'user/%user/status/loans';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'external_user',
+        'settings' => NULL,
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'default tab',
     'title' => 'Mine hjemlån',
@@ -167,6 +179,10 @@ function ding_user_frontend_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display;
   $display->layout = 'twocol';
@@ -262,7 +278,21 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->admin_title = 'User reservations';
   $page->admin_description = '';
   $page->path = 'user/%user/status/reservations';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'external_user',
+        'settings' => array(
+          'external' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'Mine reserveringer',
@@ -303,6 +333,10 @@ function ding_user_frontend_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display;
   $display->layout = 'twocol';
