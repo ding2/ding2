@@ -147,68 +147,72 @@ function ding_user_profile_form_submit($form, &$form_state) {
  * Implements hook_user_view().
  */
 function ding_user_user_view($account) {
-  $creds = ding_user_get_creds($account);
-  $user_info = ding_provider_invoke('user', 'info', $creds);
+  // If we're having a user which is handled by an
+  // external authentication module, then show 
+  // custom fields.
+  if (user_get_authmaps($account->init)) {
+    $creds = ding_user_get_creds($account);
+    $user_info = ding_provider_invoke('user', 'info', $creds);
 
-  $account->content['summary']['user_display_name'] = array(
-    '#type' => 'user_profile_item',
-    '#title' => t('User name'),
-    '#markup' => check_plain($user_info->firstname) . ' ' . check_plain($user_info->lastname),
-  );
-
-  $address['data'][] =
-    array(
-      '#type' => 'markup',
-      '#prefix' => '<p>',
-      '#markup' => check_plain($user_info->address),
-      '#suffix' => '</p>',
+    $account->content['summary']['user_display_name'] = array(
+      '#type' => 'user_profile_item',
+      '#title' => t('User name'),
+      '#markup' => check_plain($user_info->firstname) . ' ' . check_plain($user_info->lastname),
     );
 
-  if (isset($user_info->village) && $user_info->village !== $user_info->city) {
     $address['data'][] =
       array(
         '#type' => 'markup',
         '#prefix' => '<p>',
-        '#markup' => check_plain($user_info->village),
-        '#suffix' => '</p>',
-      );
-  }
-
-  if (isset($user_info->postal) && isset($user_info->city)) {
-    $address['data'][] =
-      array(
-        '#type' => 'markup',
-        '#prefix' => '<p>',
-        '#markup' => check_plain($user_info->postal ). ' ' . check_plain($user_info->city),
+        '#markup' => check_plain($user_info->address),
         '#suffix' => '</p>',
       );
 
-    $address['#prefix'] = '<div class="user-adress">';
-    $address['#suffix'] = '</div>';
+    if (isset($user_info->village) && $user_info->village !== $user_info->city) {
+      $address['data'][] =
+        array(
+          '#type' => 'markup',
+          '#prefix' => '<p>',
+          '#markup' => check_plain($user_info->village),
+          '#suffix' => '</p>',
+        );
+    }
 
-    $account->content['summary']['user_adress'] = array(
+    if (isset($user_info->postal) && isset($user_info->city)) {
+      $address['data'][] =
+        array(
+          '#type' => 'markup',
+          '#prefix' => '<p>',
+          '#markup' => check_plain($user_info->postal ). ' ' . check_plain($user_info->city),
+          '#suffix' => '</p>',
+        );
+
+      $address['#prefix'] = '<div class="user-adress">';
+      $address['#suffix'] = '</div>';
+
+      $account->content['summary']['user_adress'] = array(
+        '#type' => 'user_profile_item',
+        '#title' => t('User address'),
+        '#markup' => render($address),
+      );
+    }
+
+    $account->content['summary']['user_email'] = array(
       '#type' => 'user_profile_item',
-      '#title' => t('User address'),
-      '#markup' => render($address),
+      '#title' => t('User email'),
+      '#markup' => check_plain($user_info->email),
     );
+
+    if (isset($user_info->agency)) {
+      $account->content['summary']['agencyCounter'] = array(
+        '#type' => 'user_profile_item',
+        '#title' => t('Preferred branch'),
+        '#markup' => check_plain($user_info->agency),
+      );
+    }
+
+    $account->content['summary']['#title'] = t('User information');
   }
-
-  $account->content['summary']['user_email'] = array(
-    '#type' => 'user_profile_item',
-    '#title' => t('User email'),
-    '#markup' => check_plain($user_info->email),
-  );
-
-  if (isset($user_info->agency)) {
-    $account->content['summary']['agencyCounter'] = array(
-      '#type' => 'user_profile_item',
-      '#title' => t('Preferred branch'),
-      '#markup' => check_plain($user_info->agency),
-    );
-  }
-
-  $account->content['summary']['#title'] = t('User information');
-
 }
 
 
