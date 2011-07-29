@@ -130,9 +130,12 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
  *
  */
 function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
-  $form = ding_provider_invoke('user', 'profile_form', $form, $form_state);
-  $form['#validate'][] = 'ding_user_profile_form_validate';
-  $form['#submit'][] = 'ding_user_profile_form_submit';
+  global $user;
+  if (user_get_authmaps($user->init)) {
+    $form = ding_provider_invoke('user', 'profile_form', $form, $form_state);
+    $form['#validate'][] = 'ding_user_profile_form_validate';
+    $form['#submit'][] = 'ding_user_profile_form_submit';
+  }
 }
 
 function ding_user_profile_form_validate($form, &$form_state) {
