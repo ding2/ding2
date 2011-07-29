@@ -77,6 +77,10 @@ function ting_search_theme() {
  * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  $search_result = drupal_static('ting_search_results');
+  if ($search_result instanceof TingClientSearchResult && isset($search_result->search_key)) {
+    $form['search_block_form']['#default_value'] = $search_result->search_key;
+  }
   $form['sort'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : 'title_ascending',
