@@ -712,8 +712,12 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         foreach ($entity->creators as $i => $creator) {
           $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => array('author'))));
         }
+        $markup_string = ' (@year)';
+        if (count($creators)) {
+          $markup_string = 'By !author_link (@year)';
+        }
         $element[$delta] = array(
-          '#markup' => t('By !author_link (@year)', array(
+          '#markup' => t($markup_string, array(
                        '!author_link' => implode(', ', $creators),
                        '@year' => $entity->date, // So wrong, but appears to
                                                  // be the way the data is.
