@@ -92,7 +92,7 @@ function ding_ting_frontend_field_default_fields() {
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_entities_default',
-          'weight' => '1',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -142,12 +142,9 @@ function ding_ting_frontend_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'ting',
-          'settings' => array(
-            'view_mode' => 'collection_primary',
-          ),
-          'type' => 'ting_primary_object_default',
-          'weight' => '0',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
