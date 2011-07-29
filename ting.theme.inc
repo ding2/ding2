@@ -114,7 +114,7 @@ function template_preprocess_ting_object_details(&$variables) {
   if (!empty($object->record['dc:subject']['dkdcplus:DK5'])) {
     $items[] = array(
       'data' => '<h4>' . t('Classification') . '</h4>',
-      'children' => $object->record['dc:subject']['dkdcplus:DK5'],
+      'children' => array($object->record['dc:subject']['dkdcplus:DK5'][0] . (count($object->record['dc:subject']['dkdcplus:DK5-Text']) ? ' (' . $object->record['dc:subject']['dkdcplus:DK5-Text'][0] . ')' : '')),
       'class' => array('dkdcplus-dk5'),
     );
   }
