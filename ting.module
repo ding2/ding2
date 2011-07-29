@@ -712,9 +712,12 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         foreach ($entity->creators as $i => $creator) {
           $creators[] = l($creator, 'search/ting/' . $creator, array('attributes' => array('class' => array('author'))));
         }
-        $markup_string = ' (@year)';
+        $markup_string = '';
         if (count($creators)) {
-          $markup_string = 'By !author_link (@year)';
+          $markup_string = 'By !author_link';
+        }
+        if ($entity->date != '') {
+          $markup_string .= ' (@year)';
         }
         $element[$delta] = array(
           '#markup' => t($markup_string, array(
