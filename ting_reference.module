@@ -5,6 +5,154 @@
  */
 
 /**
+ * Implements hook_element_info().
+ */
+function ting_reference_element_info() {
+  return array(
+    'ting_reference_object_id' => array(
+      '#input' => TRUE,
+      '#process' => array('ting_reference_object_id_process'),
+      '#element_validate' => array('ting_reference_object_id_validate')
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function ting_reference_field_info() {
+  return array(
+    'ting_reference' => array(
+      'label' => t('Ting reference'),
+      'description' => t('Stores relationships between Ting objects and Drupal entities.'),
+      'settings' => array(),
+      'default_widget' => 'ting_reference_simple',
+      'default_formatter' => 'ting_reference_simple',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function ting_reference_field_is_empty($item, $field) {
+  return empty($item['identifier']);
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ting_reference_field_load() {
+}
+
+/**
+ * Implements hook_field_validate().
+ *
+ * Possible error codes:
+ * - 'invalid_nid': nid is not valid for the field (not a valid node id, or the node is not referenceable).
+ */
+function ting_reference_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+
+}
+
+/**
+ * Implements hook_field_insert().
+ */
+function ting_reference_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  $entity_info = entity_get_info($entity_type);
+  foreach ($items as $item) {
+    $relation = relation_create('ting_reference', array(
+      array(
+        'entity_type' => $entity_type,
+        'entity_id' => $entity->{$entity_info['entity keys']['id']},
+        'r_index' => 0,
+      ),
+      array(
+        'entity_type' => 'ting_object',
+        'entity_id' => $item['object']->tid,
+        'r_index' => 1,
+      ),
+    ));
+    relation_save($relation);
+  }
+}
+
+/**
+ * Implements hook_field_update().
+ */
+function ting_reference_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
+}
+
+/**
+ * Implements hook_field_delete().
+ */
+function ting_reference_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function ting_reference_field_widget_info() {
+  return array(
+    'ting_reference_simple' => array(
+      'label' => t('Ting reference (simple)'),
+      'field types' => array('ting_reference'),
+      'behaviors' => array(
+        'default value' => FIELD_BEHAVIOR_NONE
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function ting_reference_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $element['#type'] = 'ting_reference_object_id';
+  $element['#description'] = t('Enter object ID, FAUST or ISBN number, to select an object from the Ting datawell.');
+
+  return $element;
+}
+
+/**
+ * Process the object ID form element.
+ */
+function ting_reference_object_id_process($element, $form_state, $complete_form) {
+  $element['identifier'] = array(
+    '#type' => 'textfield',
+  );
+
+  return $element;
+}
+
+/**
+ * Validate the object ID form element.
+ */
+function ting_reference_object_id_validate(&$element, &$form_state) {
+  module_load_include('client.inc', 'ting');
+
+  // Don't bother validating empty fields.
+  if (empty($element['#value']['identifier'])) { return; }
+
+  // Load the object to validate it exists.
+  // Loading it should make it available for use with ting_get_object().
+  $object = ting_reference_get_object($element['#value']['identifier']);
+
+  // Shortcut for easy access.
+  $p = $element['#parents'];
+
+  if ($object) {
+    // Accessing the stored value this was is rather nasty, but it
+    // doesn't seem like there's a better way to go.
+    // TODO, find a better way to set the object.
+    $form_state['values'][$p[0]][$p[1]][$p[2]]['object'] = $object;
+  }
+  else {
+    form_set_error(implode('][', $p), 'fail');
+  }
+}
+
+/**
  * Implementation of hook_relation_default_relation_types().
  *
  * Doesn't work atm.
@@ -46,4 +194,29 @@ function ting_reference_enable() {
   }
 }
 
-
+/**
+ * Utility function to get a ting object with entity data.
+ *
+ * @param $object_id
+ *    The id of the object to get
+ *
+ * @return Full ting object with entity data.
+ */
+function ting_reference_get_object($object_id) {
+  $objects = &drupal_static(__FUNCTION__);
+  if (!isset($objects)) {
+    $objects = array();
+  }
+  if (!empty($objects[$object_id])) {
+    return $objects[$object_id];
+  }
+  $object = ting_get_object($object_id);
+  $entity_objects = entity_load('ting_object', array(), array('ding_entity_id' => $object_id));
+  if ($entity_objects) {
+    $entity_object = reset($entity_objects);
+    $object->tid = $entity_object->tid;
+    $object->vid = $entity_object->vid;
+  }
+  $objects[$object_id] = $object;
+  return $object;
+}
