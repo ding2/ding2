@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_field_schema().
+ */
+function ting_reference_field_schema($field) {
+  switch ($field['type']) {
+    case 'ting_reference':
+      $columns = array(
+        'value' => array(
+          'type' => 'varchar',
+          'length' => 31,
+          'not null' => FALSE,
+        ),
+      );
+      break;
+  }
+
+  return array(
+    'columns' => $columns,
+  );
+}

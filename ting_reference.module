@@ -33,6 +33,18 @@ function ting_reference_field_info() {
 }
 
 /**
+ * hook_field_widget_properties_alter().
+ */
+function ting_reference_field_widget_properties_alter(&$widget, $context) {
+  // This is a small but nessesary hack. Since we don't have any entity data
+  // on hook_field_widget_form, we add it to the widget settings here instead.
+  if ($widget['type'] == 'ting_reference_simple') {
+    $widget['settings']['context']['entity'] = $context['entity'];
+    $widget['settings']['context']['entity_type'] = $context['entity_type'];
+  }
+}
+
+/**
  * Implements hook_field_is_empty().
  */
 function ting_reference_field_is_empty($item, $field) {
@@ -42,7 +54,7 @@ function ting_reference_field_is_empty($item, $field) {
 /**
  * Implements hook_field_load().
  */
-function ting_reference_field_load() {
+function ting_reference_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
 }
 
 /**
@@ -61,20 +73,24 @@ function ting_reference_field_validate($entity_type, $entity, $field, $instance,
 function ting_reference_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
   $entity_info = entity_get_info($entity_type);
   foreach ($items as $item) {
-    $relation = relation_create('ting_reference', array(
-      array(
-        'entity_type' => $entity_type,
-        'entity_id' => $entity->{$entity_info['entity keys']['id']},
-        'r_index' => 0,
-      ),
-      array(
-        'entity_type' => 'ting_object',
-        'entity_id' => $item['object']->tid,
-        'r_index' => 1,
-      ),
-    ));
-    relation_save($relation);
+    if (!empty($item['object'])){
+      $relation = relation_create('ting_reference', array(
+        array(
+          'entity_type' => $entity_type,
+          'entity_id' => $entity->{$entity_info['entity keys']['id']},
+          'r_index' => 0,
+        ),
+        array(
+          'entity_type' => 'ting_object',
+          'entity_id' => $item['object']->tid,
+          'r_index' => 1,
+        ),
+      ));
+      relation_save($relation);
+    }
   }
+  // Need to clear field cache to display fields properly.
+  field_cache_clear('field:' . $entity_type . ':' . $entity->{$entity_info['entity keys']['id']});
 }
 
 /**
@@ -108,8 +124,38 @@ function ting_reference_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function ting_reference_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // Get the context for this widget form.
+  $context = !empty($instance['widget']['settings']['context']) ? $instance['widget']['settings']['context'] : array();
+  static $objects;
+  if (!isset($objects)) {
+    $objects = array();
+    if ($context) {
+      // If we have a context, get the relations for it.
+      $entity_info = entity_get_info($context['entity_type']);
+      $query = new EntityFieldQuery();
+      $result = $query
+        ->entityCondition('entity_type', 'relation')
+        ->entityCondition('bundle', 'ting_reference')
+        ->fieldCondition('endpoints', 'entity_type', $context['entity_type'])
+        ->fieldCondition('endpoints', 'entity_id', $context['entity']->{$entity_info['entity keys']['id']})
+        ->execute();
+      $relations = relation_load_multiple(array_keys($result['relation']));
+      // Get the tids for the ting objects.
+      $tids = array();
+      foreach ($relations as $relation) {
+        $tids[$relation->endpoints['und'][1]['entity_id']] = $relation->endpoints['und'][1]['entity_id'];
+      }
+      // Load the actual ting objects, which holds the entered data: ding_entity_id.
+      $ting_objects = entity_load('ting_object', $tids);
+      foreach ($ting_objects as $ting_object) {
+        $objects[] = $ting_object;
+      }
+    }
+  }
+
   $element['#type'] = 'ting_reference_object_id';
   $element['#description'] = t('Enter object ID, FAUST or ISBN number, to select an object from the Ting datawell.');
+  $element['#default_value'] = !empty($objects[$delta]->ding_entity_id) ? $objects[$delta]->ding_entity_id : '';
 
   return $element;
 }
@@ -120,6 +166,7 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 function ting_reference_object_id_process($element, $form_state, $complete_form) {
   $element['identifier'] = array(
     '#type' => 'textfield',
+    '#default_value' => $element['#default_value'],
   );
 
   return $element;
@@ -146,6 +193,7 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
     // doesn't seem like there's a better way to go.
     // TODO, find a better way to set the object.
     $form_state['values'][$p[0]][$p[1]][$p[2]]['object'] = $object;
+    $form_state['values'][$p[0]][$p[1]][$p[2]]['value'] = '';
   }
   else {
     form_set_error(implode('][', $p), 'fail');
@@ -211,7 +259,7 @@ function ting_reference_get_object($object_id) {
     return $objects[$object_id];
   }
   $object = ting_get_object($object_id);
-  $entity_objects = entity_load('ting_object', array(), array('ding_entity_id' => $object_id));
+  $entity_objects = entity_load('ting_object', array(), array('ding_entity_id' => array($object_id)));
   if ($entity_objects) {
     $entity_object = reset($entity_objects);
     $object->tid = $entity_object->tid;
