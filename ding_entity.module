@@ -5,6 +5,10 @@
  * Interface module for talking with the materials backend.
  */
 
+// Load Field module hooks.
+module_load_include('inc', 'ding_entity', 'ding_entity.field');
+
+
 /**
  * Implements hook_menu().
  */

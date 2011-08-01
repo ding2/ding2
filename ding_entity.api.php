@@ -95,6 +95,14 @@ function hook_ding_entity_fields() {
   );
 }
 
+/**
+ * Add buttons to an ding entity
+ */
+function hook_ding_entity_buttons($type, $entity) {
+  if ($type == 'ding_entity' && $entity->is('reservable')) {
+    return ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE);
+  }
+}
 
 /**
  * @} End of "addtogroup hooks".

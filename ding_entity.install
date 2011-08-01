@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_entity module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ding_entity_ding_entity_fields() {
+  return array(
+    'ding_entity_buttons' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Action buttons'),
+      ),
+    ),
+  );
+}
