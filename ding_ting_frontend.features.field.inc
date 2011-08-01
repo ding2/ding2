@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * ding_ting_frontend.features.field.inc
- */
 
 /**
  * Implementation of hook_field_default_fields().
@@ -88,7 +84,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'module' => 'ting',
           'settings' => array(
-            'hide_primary' => 1,
+            'hide_primary' => 0,
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_entities_default',

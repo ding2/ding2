@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * ding_ting_frontend.pages_default.inc
- */
 
 /**
  * Implementation of hook_default_page_manager_handlers().

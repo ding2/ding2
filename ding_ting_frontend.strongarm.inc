@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * ding_ting_frontend.strongarm.inc
- */
 
 /**
  * Implementation of hook_strongarm().
