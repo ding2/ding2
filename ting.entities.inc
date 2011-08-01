@@ -28,7 +28,7 @@ class TingEntity extends DingEntity {
   }
 
   function getType() {
-    return !empty($this->reply->record['dc:type']) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
+    return !empty($this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
   }
 
   function getTitle() {
