@@ -362,13 +362,15 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         );
         break;
       case 'ting_subjects_default':
-        $subjects = array();
-        foreach ($entity->subjects as $subject) {
-          $subjects[] = l($subject, 'search/ting/dc.subject=' . $subject, array('attributes' => array('class' => array('author'))));
+        if (count($entity->subjects) == TRUE) {
+          $subjects = array();
+          foreach ($entity->subjects as $subject) {
+            $subjects[] = l($subject, 'search/ting/dc.subject=' . $subject, array('attributes' => array('class' => array('author'))));
+          }
+          $element[$delta] = array(
+            '#markup' => implode(' ', $subjects),
+          );
         }
-        $element[$delta] = array(
-          '#markup' => implode(' ', $subjects),
-        );
         break;
       case 'ting_details_default':
         $element[$delta] = array(
