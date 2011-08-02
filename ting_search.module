@@ -83,12 +83,12 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   }
   $form['sort'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : 'title_ascending',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
     '#attributes' => array('id' => 'controls_search_sort'),
   );
   $form['size'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['size']) ? (int)$_GET['size'] : '10',
+    '#default_value' => isset($_GET['size']) ? (int)$_GET['size'] : FALSE,
     '#attributes' => array('id' => 'controls_search_size'),
   );
   $form['creator'] = array(
@@ -422,8 +422,9 @@ function search_controls_form($form_state) {
   $form['sort'] = array(
     '#title' => t('Sort by:'),
     '#type' => 'select',
-    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : 'title_ascending',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : '',
     '#options' => array(
+      '' => t('Ranking'),
       'title_ascending' => t('Title (Ascending)'),
       'title_descending' => t('Title (Descending)'),
       'creator_ascending' => t('Creator (Ascending)'),
@@ -456,6 +457,8 @@ function search_controls_form($form_state) {
  * Process a block search form submission.
  */
 function ting_search_submit($form, &$form_state) {
+
+  $controls = array();
   // The search form relies on control of the redirect destination for its
   // functionality, so we override any static destination set in the request,
   // for example by drupal_access_denied() or drupal_not_found()
