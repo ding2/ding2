@@ -10,15 +10,15 @@ function openruth_user_info($creds = NULL) {
   $branches = openruth_client_invoke('get_agencycounters');
 
   $info = array(
-    'firstname' => $user_status->userInfo->userFirstName,
-    'lastname' => $user_status->userInfo->userLastName,
-    'email' => $user_status->userInfo->userEmail,
-    'address' => $user_status->userInfo->userAddress,
-    'postal' => $user_status->userInfo->userPostCode,
-    'city' => $user_status->userInfo->userCity,
-    'village' => $user_status->userInfo->userVillage,
-    'phone' => $user_status->userInfo->userTelephone,
-    'mobile' => $user_status->userInfo->userMobilePhone,
+    'firstname' => isset($user_status->userInfo->userFirstName) ? $user_status->userInfo->userFirstName : NULL,
+    'lastname' => isset($user_status->userInfo->userLastName) ? $user_status->userInfo->userLastName : NULL,
+    'email' => isset($user_status->userInfo->userEmail) ? $user_status->userInfo->userEmail : NULL,
+    'address' => isset($user_status->userInfo->userAddress) ? $user_status->userInfo->userAddress : NULL,
+    'postal' => isset($user_status->userInfo->userPostCode) ? $user_status->userInfo->userPostCode : NULL,
+    'city' => isset($user_status->userInfo->userCity) ? $user_status->userInfo->userCity : NULL,
+    'village' => isset($user_status->userInfo->userVillage) ? $user_status->userInfo->userVillage : NULL,
+    'phone' => isset($user_status->userInfo->userTelephone) ? $user_status->userInfo->userTelephone : NULL,
+    'mobile' => isset($user_status->userInfo->userMobilePhone) ? $user_status->userInfo->userMobilePhone : NULL,
     'agency' => $branches[$user_status->userInfo->agencyCounter],
   );
 
