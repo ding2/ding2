@@ -96,29 +96,28 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   $options = array();
   $destination = drupal_get_destination();
   switch ($type) {
-  case 'ready_for_pickup':
-    $header = array(
-      'title' => t('Title'),
-      'created' => t('Created date'),
-      'pickup_date' => t('Pickup date'),
-      'pickup_branch' => t('Pickup branch'),
-      'operations' => '',
-    );
-    uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
+    case 'ready_for_pickup':
+      $header = array(
+        'title' => t('Title'),
+        'created' => t('Created date'),
+        'pickup_date' => t('Pickup date'),
+        'pickup_branch' => t('Pickup branch'),
+        'operations' => '',
+      );
+      uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
     break;
-  case 'not_ready_for_pickup':
-    $header = array(
-      'title' => t('Title'),
-      'created' => t('Created date'),
-      'expiry' => t('Expiry date'),
-      'pickup_branch' => t('Pickup branch'),
-      'queue_number' => t('Queue number'),
-      'operations' => '',
-    );
-    uasort($items, 'ding_reservation_sort_queue_by_queue_number');
+    case 'not_ready_for_pickup':
+      $header = array(
+        'title' => t('Title'),
+        'created' => t('Created date'),
+        'expiry' => t('Expiry date'),
+        'pickup_branch' => t('Pickup branch'),
+        'queue_number' => t('Queue number'),
+        'operations' => '',
+      );
+      uasort($items, 'ding_reservation_sort_queue_by_queue_number');
     break;
   }
-
 
   foreach ($items as $id => $item) {
     $entity = $item->entity;
@@ -127,9 +126,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     case 'ready_for_pickup':
       $options[$item->id] = array(
         'title' => array(
-          'data' => array(
-            $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
-          ),
+          'data' => $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
           'class' => 'title',
         ),
         'created' => array(
