@@ -25,6 +25,13 @@ function ting_field_info() {
       'default_formatter' => 'ting_type_default',
       'no_ui' => TRUE,
     ),
+    'ting_series' => array(
+      'label' => t('Ting object series'),
+      'description' => t('Ting object series'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_series_default',
+      'no_ui' => TRUE,
+    ),
     'ting_abstract' => array(
       'label' => t('Ting object abstract'),
       'description' => t('Ting object abstract'),
@@ -140,6 +147,12 @@ function ting_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array(
         'ting_type',
+      ),
+    ),
+    'ting_series_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_series',
       ),
     ),
     'ting_abstract_default' => array(
@@ -315,6 +328,13 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             )
           ),
         );
+        break;
+      case 'ting_series_default':
+        if ($entity->serieTitle) {
+          $element[$delta] = array(
+            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/phrase.title=' . drupal_strtolower($entity->serieTitle), array('attributes' => array('class' => array('series')))),
+          );
+        }
         break;
       case 'ting_abstract_default':
         $element[$delta] = array(

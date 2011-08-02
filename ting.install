@@ -113,6 +113,17 @@ function ting_ding_entity_fields() {
         'label' => t('Ting object type'),
       ),
     ),
+    'ting_series' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object series'),
+      ),
+    ),
     'ting_abstract' => array(
       'field' => array(
         'locked' => TRUE,
