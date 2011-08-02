@@ -43,7 +43,7 @@ function template_preprocess_ting_object_details(&$variables) {
     $abstract = implode(' ; ', ting_format_abstract($abstracts['']));
     if (trim($abstract)) {
       $items[] = array(
-        'data' => check_plain($abstracts),
+        'data' => check_plain($abstract),
         'class' => array('abstract'),
       );
     }
