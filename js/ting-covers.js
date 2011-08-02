@@ -1,9 +1,9 @@
 (function ($) {
 
   Drupal.extractCoverData = function(e) {
-    class = $(e).attr('class');
-    id = class.match(/ting-cover-object-id-(\S+)/);
-    imageStyle = class.match(/ting-cover-style-(\S+)/);
+    classname = $(e).attr('class');
+    id = classname.match(/ting-cover-object-id-(\S+)/);
+    imageStyle = classname.match(/ting-cover-style-(\S+)/);
     return id[1]+':'+imageStyle[1];
   };
   
