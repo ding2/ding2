@@ -237,72 +237,6 @@ function ding_ting_frontend_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ting_object-ting_object-ding_availability_item'
-  $fields['ting_object-ting_object-ding_availability_item'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_availability_item',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'ding_availability',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'ding_availability_item',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ting_object',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'ding_entity_type' => 'ding_entity',
-      'display' => array(
-        'collection_list' => array(
-          'label' => 'hidden',
-          'module' => 'ding_availability',
-          'settings' => array(),
-          'type' => 'ding_availability_default',
-          'weight' => '6',
-        ),
-        'collection_primary' => array(
-          'label' => 'hidden',
-          'module' => 'ding_availability',
-          'settings' => array(),
-          'type' => 'ding_availability_default',
-          'weight' => '6',
-        ),
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'ding_availability',
-          'settings' => array(),
-          'type' => 'ding_availability_default',
-          'weight' => '7',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '7',
-        ),
-      ),
-      'entity_type' => 'ting_object',
-      'field_name' => 'ding_availability_item',
-      'label' => 'Availability information',
-      'required' => FALSE,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'blackhole',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => '9',
-      ),
-    ),
-  );
-
   // Exported field: 'ting_object-ting_object-ding_entity_buttons'
   $fields['ting_object-ting_object-ding_entity_buttons'] = array(
     'field_config' => array(
@@ -918,7 +852,6 @@ function ding_ting_frontend_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Action buttons');
   t('All materials');
-  t('Availability information');
   t('Cover');
   t('Holdings information');
   t('Series');
