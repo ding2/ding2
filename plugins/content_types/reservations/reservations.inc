@@ -118,7 +118,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       uasort($items, 'ding_reservation_sort_queue_by_queue_number');
     break;
   }
-
   foreach ($items as $id => $item) {
     $entity = $item->entity;
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $item->pickup_branch_id);
@@ -126,7 +125,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     case 'ready_for_pickup':
       $options[$item->id] = array(
         'title' => array(
-          'data' => $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+          'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
         'created' => array(
@@ -154,13 +153,19 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         ),
       );
       if ($item->order_id) {
-        $options[$item->id]['title'][] = array(
+        $options[$item->id]['title']['data'][] = array(
           '#type' => 'markup',
           '#prefix' => '<p class="order-id">',
           '#markup' => t('(Material no. @mat_no)', array('@mat_no' => check_plain($item->order_id))),
           '#suffix' => '</p>',
         );
       }
+      $form['reservations'] = array(
+        '#type' => 'tableselect_form',
+        '#header' => $header,
+        '#options' => $options,
+        '#empty' => t('No reservations ready for pickup'),
+      );
       break;
     case 'not_ready_for_pickup':
       $options[$item->id] = array(
@@ -196,16 +201,15 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'operations',
         ),
       );
+      $form['reservations'] = array(
+        '#type' => 'tableselect_form',
+        '#header' => $header,
+        '#options' => $options,
+        '#empty' => t('No Reservations'),
+      );
       break;
     }
   }
-
-  $form['reservations'] = array(
-    '#type' => 'tableselect_form',
-    '#header' => $header,
-    '#options' => $options,
-    '#empty' => t('No Reservations'),
-  );
 
   $form['submit'] = array(
     '#type' => 'submit',
