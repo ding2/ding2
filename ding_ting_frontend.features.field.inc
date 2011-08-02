@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * ding_ting_frontend.features.field.inc
+ */
 
 /**
  * Implementation of hook_field_default_fields().
@@ -570,6 +574,72 @@ function ding_ting_frontend_field_default_fields() {
     ),
   );
 
+  // Exported field: 'ting_object-ting_object-ting_series'
+  $fields['ting_object-ting_object-ting_series'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ting_series',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_series',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ting_object',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'ding_entity_type' => 'ding_entity',
+      'display' => array(
+        'collection_list' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'collection_primary' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'ting',
+          'settings' => array(),
+          'type' => 'ting_series_default',
+          'weight' => '9',
+        ),
+        'teaser' => array(
+          'label' => 'inline',
+          'module' => 'ting',
+          'settings' => array(),
+          'type' => 'ting_series_default',
+          'weight' => '2',
+        ),
+      ),
+      'entity_type' => 'ting_object',
+      'field_name' => 'ting_series',
+      'label' => 'Series',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
+    ),
+  );
+
   // Exported field: 'ting_object-ting_object-ting_subjects'
   $fields['ting_object-ting_object-ting_subjects'] = array(
     'field_config' => array(
@@ -785,6 +855,7 @@ function ding_ting_frontend_field_default_fields() {
   t('Availability information');
   t('Cover');
   t('Holdings information');
+  t('Series');
   t('Subjects');
   t('Ting collection object types');
   t('Ting collection primary object');

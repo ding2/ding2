@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * ding_ting_frontend.features.inc
+ */
 
 /**
  * Implementation of hook_ctools_plugin_api().
@@ -8,7 +12,8 @@ function ding_ting_frontend_ctools_plugin_api() {
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => 1);
   }
-  elseif ($module == "strongarm" && $api == "strongarm") {
+  list($module, $api) = func_get_args();
+  if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => 1);
   }
 }
@@ -22,7 +27,7 @@ function ding_ting_frontend_image_default_styles() {
   // Exported image style: ding_large
   $styles['ding_large'] = array(
     'effects' => array(
-      '0' => array(
+      0 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -44,7 +49,7 @@ function ding_ting_frontend_image_default_styles() {
   // Exported image style: ding_medium
   $styles['ding_medium'] = array(
     'effects' => array(
-      '0' => array(
+      0 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -66,7 +71,7 @@ function ding_ting_frontend_image_default_styles() {
   // Exported image style: ding_small
   $styles['ding_small'] = array(
     'effects' => array(
-      '0' => array(
+      0 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
