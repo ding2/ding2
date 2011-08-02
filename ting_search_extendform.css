@@ -6,6 +6,11 @@
   display: block;
 }
 
+#search-extend-form #edit-extendform-submit {
+  visibility: hidden;
+  position: absolute;
+}
+
 #search-controls-form div {
   margin: 0;
 }

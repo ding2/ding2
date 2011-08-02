@@ -394,7 +394,6 @@ function search_extend_form($form_state) {
     '#size' => 30,
     '#maxlength' => 64,
     '#description' => t('Enter the author name'),
-    '#attributes' => array('onchange' => 'extendSearch("extend_search_creator",this.value)'),
   );
   $form['extendform']['title'] = array(
     '#type' => 'textfield',
@@ -402,7 +401,6 @@ function search_extend_form($form_state) {
     '#size' => 30,
     '#maxlength' => 64,
     '#description' => t('Enter title'),
-    '#attributes' => array('onchange' => 'extendSearch("extend_search_title",this.value)'),
   );
   $form['extendform']['subject'] = array(
     '#type' => 'textfield',
@@ -410,7 +408,6 @@ function search_extend_form($form_state) {
     '#size' => 30,
     '#maxlength' => 64,
     '#description' => t('Enter subject keywords'),
-    '#attributes' => array('onchange' => 'extendSearch("extend_search_subject",this.value)'),
   );
   return $form;
 }

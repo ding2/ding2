@@ -75,6 +75,46 @@
     }
   };
 
+
+  Drupal.behaviors.setExtendedFormCreator = {
+    attach: function (context, settings) {
+      $('#edit-extendform-creator').change(function() {
+          $('#extend_search_creator').val( $('#edit-extendform-creator').val() );
+      });
+    }
+  };
+
+  Drupal.behaviors.setExtendedFormTitle = {
+    attach: function (context, settings) {
+      $('#edit-extendform-title').change(function() {
+          $('#extend_search_title').val( $('#edit-extendform-title').val() );
+      });
+    }
+  };
+
+  Drupal.behaviors.setExtendedFormSubject = {
+    attach: function (context, settings) {
+      $('#edit-extendform-subject').change(function() {
+          $('#extend_search_subject').val( $('#edit-extendform-subject').val() );
+      });
+    }
+  };
+
+  Drupal.behaviors.setExtendedFormSubmit = {
+    attach: function (context, settings) {
+      $('#search-extend-form').keypress(function(e) {
+          c = e.which ? e.which : e.keyCode;
+          if ( c == 13 ) {
+              $('#extend_search_creator').val( $('#edit-extendform-creator').val() );
+              $('#extend_search_title').val( $('#edit-extendform-title').val() );
+              $('#extend_search_subject').val( $('#edit-extendform-subject').val() );
+              $('#search-block-form').submit();
+              return false;
+          }
+      });
+    }
+  };
+
   Drupal.setSelectedLabel = function () {
     $('.form-item-size').find('label').removeClass('labelSelected');
     $('input[name=size]').filter(':checked').parent().find('label').addClass('labelSelected');
@@ -82,6 +122,3 @@
 
 }(jQuery));
 
-function extendSearch(id,val) {
-  document.getElementById(id).value = val;
-}
