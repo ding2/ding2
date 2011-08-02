@@ -1,12 +1,17 @@
 
 .availability {
-  background-color: #444;
+  color: #444;
 }
 
 .availability.available {
-  background-color: #CC0;
+  color: #ea9123;
+}
+
+.availability.reservable {
+  color: #ed1e88;
 }
 
 .availability.available.reservable {
-  background-color: #0C0;
+  color: #4c9f45;
 }
+
