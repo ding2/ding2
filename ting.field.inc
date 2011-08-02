@@ -368,9 +368,16 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         $element[$delta] = ting_object_view($entity->entities[$delta], $display['settings']['view_mode']);
         break;
       case 'ting_collection_types_default':
+        $types = array();
+        foreach ($entity->types as $type) {
+          $types[] = array(
+            'data' => $type,
+            'class' => array(drupal_html_class($type)),
+          );
+        }
         $element[$delta] = array(
           '#theme' => 'item_list',
-          '#items' => $entity->types,
+          '#items' => $types,
         );
         break;
     }
