@@ -2,46 +2,6 @@ api = 2
 core = 7.x
 
 ; Modules
-projects[ding_entity][type] = "module"
-projects[ding_entity][download][type] = "git"
-projects[ding_entity][download][url] = "git@github.com:ding2/ding_entity.git"
-
-projects[ding_facetbrowser][type] = "module"
-projects[ding_facetbrowser][download][type] = "git"
-projects[ding_facetbrowser][download][url] = "git@github.com:ding2/ding_facetbrowser.git"
-
-projects[ting][type] = "module"
-projects[ting][download][type] = "git"
-projects[ting][download][url] = "git@github.com:ding2/ting.git"
-
-projects[ting_search][type] = "module"
-projects[ting_search][download][type] = "git"
-projects[ting_search][download][url] = "git@github.com:ding2/ting_search.git"
-
-projects[ding_provider][type] = "module"
-projects[ding_provider][download][type] = "git"
-projects[ding_provider][download][url] = "git@github.com:ding2/ding_provider.git"
-
-projects[ding_availability][type] = "module"
-projects[ding_availability][download][type] = "git"
-projects[ding_availability][download][url] = "git@github.com:ding2/ding_availability.git"
-
-projects[ding_reservation][type] = "module"
-projects[ding_reservation][download][type] = "git"
-projects[ding_reservation][download][url] = "git@github.com:ding2/ding_reservation.git"
-
-projects[ting_covers][type] = "module"
-projects[ting_covers][download][type] = "git"
-projects[ting_covers][download][url] = "git@github.com:ding2/ting_covers.git"
-
-projects[ting_relation][type] = "module"
-projects[ting_relation][download][type] = "git"
-projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git"
-
-projects[ting_search_autocomplete][type] = "module"
-projects[ting_search_autocomplete][download][type] = "git"
-projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_search_autocomplete.git"
-
 projects[ding_devel][type] = "module"
 projects[ding_devel][download][type] = "git"
 projects[ding_devel][download][url] = "git@github.com:ding2/ding_devel.git"
@@ -50,10 +10,6 @@ projects[mkdru][type] = "module"
 projects[mkdru][download][type] = "git"
 projects[mkdru][download][url] = "git://git.indexdata.com/mkdru.git"
 projects[mkdru][download][revision] = "ac3d47c986ab5db1d6597b5125b34a50bb6ae57b"
-
-projects[ding_toggle_format][type] = "module"
-projects[ding_toggle_format][download][type] = "git"
-projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
 
 projects[openruth][type] = "module"
 projects[openruth][download][type] = "git"
