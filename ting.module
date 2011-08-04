@@ -765,7 +765,6 @@ function _ting_default_reservable_types() {
     'kassettelydbånd',
     'lydbog (cd)',
     'lydbog (cd-mp3)',
-    'periodikum',
     'playstation2-spil',
     'playstation3-spil',
     'playstation-spil',
