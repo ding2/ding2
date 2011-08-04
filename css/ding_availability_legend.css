@@ -25,10 +25,6 @@
   background-color: #4c9f45;
 }
 
-.availability-legend-item.available-ill img {
-  background-color: #ea9123;
-}
-
 .availability-legend-item.on-loan img {
   background-color: #ed1e88;
 }

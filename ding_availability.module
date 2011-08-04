@@ -152,7 +152,6 @@ function ding_availability_render_legend() {
 
   // make some text, image's alt & title tags (SEO, accessibility)
   $availability_legend['available']     = t('Available');
-  $availability_legend['available-ill'] = t('Available elsewhere');
   $availability_legend['on-loan']       = t('On loan');
   $availability_legend['unavailable']   = t('Unavailable');
 
