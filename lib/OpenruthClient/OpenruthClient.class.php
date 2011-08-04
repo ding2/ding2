@@ -138,7 +138,10 @@ class OpenruthClient {
                     $holding_reservable = TRUE;
                   }
                   $total += $itemLocation->copiesCount;
-                  $available += $itemLocation->copiesAvailableCount;
+
+                  if (isset($itemLocation->copiesAvailableCount)) {
+                    $available += $itemLocation->copiesAvailableCount;
+                  }
                   $parts = array();
                   if (isset($itemLocation->agencyBranchId->agencyBranchName)) {
                     $parts[] = $itemLocation->agencyBranchId->agencyBranchName;
