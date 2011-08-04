@@ -193,12 +193,17 @@ function ting_reference_object_id_process($element, $form_state, $complete_form)
 function ting_reference_object_id_validate(&$element, &$form_state) {
   module_load_include('client.inc', 'ting');
 
+  // If the colon was URL-encoded, decode it - and trim whitespace of 
+  // both ends of the input string.
+  $identifier = trim(str_replace('%3A', ':', $element['#value']['identifier']));
+
   // Don't bother validating empty fields.
-  if (empty($element['#value']['identifier'])) { return; }
+  if (empty($identifier)) { return; }
+
 
   // Load the object to validate it exists.
   // Loading it should make it available for use with ting_get_object().
-  $object = ting_reference_get_object($element['#value']['identifier']);
+  $object = ting_reference_get_object($identifier);
 
   // Shortcut for easy access.
   $p = $element['#parents'];
@@ -211,7 +216,7 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
     $form_state['values'][$p[0]][$p[1]][$p[2]]['value'] = '';
   }
   else {
-    form_set_error(implode('][', $p), 'fail');
+    form_set_error(implode('][', $p), t('Object “%identifier” could not be found.', array('%identifier' => $identifier)));
   }
 }
 
@@ -334,3 +339,4 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
   relation_save($relation);
   return $relation;
 }
+
