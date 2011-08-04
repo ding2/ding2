@@ -200,6 +200,18 @@ function ting_covers_ding_install_tasks() {
 }
 
 /**
+ * Template preprocessor.
+ */
+function ting_covers_preprocess_ting_object(&$variables) {
+  /*
+   * Add the image style as a class, allowing templates to react on the size.
+   */
+  if (isset($variables['elements']['ting_cover'][0])) {
+    $variables['classes_array'][] = drupal_html_class('imagestyle-' . $variables['elements']['ting_cover'][0]['#image_style']);
+  }
+}
+
+/**
  * Delete ting covers files.
  *
  * @param int $time Timestamp where older files will be deleted.
