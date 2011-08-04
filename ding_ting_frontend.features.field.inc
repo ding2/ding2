@@ -478,7 +478,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'hidden',
           'module' => 'ting_covers',
           'settings' => array(
-            'image_style' => 'ding_small',
+            'image_style' => 'ding_large',
           ),
           'type' => 'ting_cover_default',
           'weight' => '0',
