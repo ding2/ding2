@@ -27,6 +27,10 @@ command inside the profiles/ding2 folder:
 
 Ding relies on recursive make files that might have the same projects defined in multiple places. If your drush make bombs on this, apply the latest patch from this issue: http://drupal.org/node/947158
 
+    cd DRUSH_MAKE_FOLDER
+    wget http://drupal.org/files/issues/947158-recursive_2.patch
+    patch -p1 < 947158-recursive_2.patch
+
 If you want a developer version with Git working copies, run this
 command instead:
 
