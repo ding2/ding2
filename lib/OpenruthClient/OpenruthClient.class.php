@@ -134,7 +134,7 @@ class OpenruthClient {
             foreach ($fields as $field) {
               if (isset($itemHolding->{$field})){
                 foreach ($itemHolding->{$field} as $itemLocation) {
-                  if ($itemLocation->bookingAllowed) {
+                  if ($itemLocation->orderAllowed) {
                     $holding_reservable = TRUE;
                   }
                   $total += $itemLocation->copiesCount;
