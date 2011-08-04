@@ -288,6 +288,27 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
  */
 function ting_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+
+  // Entity listing is a special case.
+  if ($display['type'] == 'ting_entities_default') {
+    $entities = $entity->entities;
+    // Skip the first.
+    if ($display['settings']['hide_primary']) {
+      $primary = array_shift($entities);
+    }
+
+    foreach ($entity->types as $type) {
+      $element[0][$type] = array(
+        '#prefix' => '<h2>' . $type . '</h2><a name="' . $type . '"></a>',
+      );
+    }
+    foreach ($entities as $sub_entity) {
+      $element[0][$sub_entity->type][$sub_entity->id] = ting_object_view($sub_entity, $display['settings']['view_mode']);
+    }
+
+    return $element;
+  }
+
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
@@ -381,13 +402,6 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
       case 'ting_primary_object_default':
         $element[$delta] = ting_object_view($entity->primary_object, $display['settings']['view_mode']);
-        break;
-      case 'ting_entities_default':
-        // Skip the first.
-        if ($delta == 0 && $display['settings']['hide_primary']) {
-          continue;
-        }
-        $element[$delta] = ting_object_view($entity->entities[$delta], $display['settings']['view_mode']);
         break;
       case 'ting_collection_types_default':
         $types = array();
