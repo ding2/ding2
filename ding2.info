@@ -9,6 +9,8 @@ dependencies[] = dblog
 dependencies[] = shortcut
 dependencies[] = toolbar
 dependencies[] = overlay
+dependencies[] = color
+dependencies[] = translation
 
 dependencies[] = mkdru
 dependencies[] = openruth
