@@ -212,7 +212,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ding_availability',
           'settings' => array(),
           'type' => 'ding_availability_default',
-          'weight' => '9',
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -305,6 +305,71 @@ function ding_ting_frontend_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
+    ),
+  );
+
+  // Exported field: 'ting_object-ting_object-ding_periodical_issues'
+  $fields['ting_object-ting_object-ding_periodical_issues'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_periodical_issues',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ding_periodical',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ding_periodical_issues',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ting_object',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'ding_entity_type' => 'ding_entity',
+      'display' => array(
+        'collection_list' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'collection_primary' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ding_periodical',
+          'settings' => array(),
+          'type' => 'ding_periodical_issues_default',
+          'weight' => '8',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ting_object',
+      'field_name' => 'ding_periodical_issues',
+      'label' => 'Issues',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
@@ -653,7 +718,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ting_relation',
           'settings' => array(),
           'type' => 'ting_relations_default',
-          'weight' => '10',
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -723,7 +788,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ting',
           'settings' => array(),
           'type' => 'ting_series_default',
-          'weight' => '8',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'inline',
@@ -993,6 +1058,7 @@ function ding_ting_frontend_field_default_fields() {
   t('All materials');
   t('Cover');
   t('Holdings information');
+  t('Issues');
   t('Series');
   t('Subjects');
   t('Ting collection object types');
