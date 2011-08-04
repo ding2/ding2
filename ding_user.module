@@ -63,7 +63,7 @@ function ding_user_entity_info_alter(&$entity_info) {
     $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
       'user_list' => array(
         'label' => t('User lists'),
-        'custom settings' => FALSE,
+        'custom settings' => TRUE,
       ),
     );
   }
