@@ -151,7 +151,7 @@ function ding_user_profile_form_submit($form, &$form_state) {
  */
 function ding_user_user_view($account) {
   // If we're having a user which is handled by an
-  // external authentication module, then show 
+  // external authentication module, then show
   // custom fields.
   if (user_get_authmaps($account->init)) {
     $creds = ding_user_get_creds($account);
@@ -381,7 +381,7 @@ function ajax_command_ding_user_authenticate($extra_data) {
   $form = drupal_build_form($form_id, $form_state);
 
   $login_form = drupal_render($form);
-  return ajax_command_ding_popup('ding_user', $title, $login_form, TRUE, $extra_data);
+  return ajax_command_ding_popup('ding_user', $title, $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
 }
 
 /**
