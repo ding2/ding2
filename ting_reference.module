@@ -301,14 +301,25 @@ function ting_reference_get_object($object_id) {
  */
 function ting_reference_get_relations($entity_type, $entity) {
   $entity_info = entity_get_info($entity_type);
-  $query = new EntityFieldQuery();
-  $result = $query
-    ->entityCondition('entity_type', 'relation')
-    ->entityCondition('bundle', 'ting_reference')
-    ->fieldCondition('endpoints', 'entity_type', $entity_type)
-    ->fieldCondition('endpoints', 'entity_id', $entity->{$entity_info['entity keys']['id']})
-    ->execute();
-  return relation_load_multiple(array_keys($result['relation']));
+
+  // Look up relations, if this entity has an ID. This check will be
+  // false for a newly created entity that has not been saved to the
+  // database yet.
+  if (!empty($entity->{$entity_info['entity keys']['id']})) {
+    $query = new EntityFieldQuery();
+    $result = $query
+      ->entityCondition('entity_type', 'relation')
+      ->entityCondition('bundle', 'ting_reference')
+      ->fieldCondition('endpoints', 'entity_type', $entity_type)
+      ->fieldCondition('endpoints', 'entity_id', $entity->{$entity_info['entity keys']['id']})
+      ->execute();
+
+    if ($result) {
+      return relation_load_multiple(array_keys($result['relation']));
+    }
+  }
+
+  return array();
 }
 
 /**
