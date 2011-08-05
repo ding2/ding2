@@ -96,6 +96,7 @@ function ting_get_objects($ids) {
     $request->setRelationData('full');
     $request->setStart(1);
     $request->setNumResults(1000);
+    $request->setAllObjects(TRUE);
 
     $result = ting_execute_cache($request);
 
@@ -312,6 +313,7 @@ function ting_cache_set($id, $value) {
     $cid = 'ting-collection';
   }
   $cid .= ':' . $id;
+
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_set($cid, $value, 'cache', REQUEST_TIME + $ttl);
   }

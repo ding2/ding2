@@ -78,7 +78,6 @@ class TingObjectController extends DrupalDefaultEntityController {
     // Now load all objects in one go.
     if (isset($conditions['ding_entity_id']) && $load_ids = array_diff($conditions['ding_entity_id'], $cached_entity_ids)) {
       $objects = ting_get_objects($load_ids);
-      $conditions['ding_entity_id'] = array_diff($conditions['ding_entity_id'], $load_ids);
       if (!$conditions['ding_entity_id']) {
         unset($conditions['ding_entity_id']);
       }
