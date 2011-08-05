@@ -10,7 +10,7 @@
 function ting_reference_enable() {
   // Currently, the relation types are not loaded automatically, so we
   // do this manually when the module is enabled.
-  // TODO: Provide some sort of sanity check that relation is ready to 
+  // TODO: Provide some sort of sanity check that relation is ready to
   // receive the new relation type before calling this.
   foreach (ting_reference_relation_default_relation_types() as $relation_type) {
     if (!relation_type_load($relation_type->relation_type)) {
@@ -71,7 +71,7 @@ function ting_reference_field_info() {
       'description' => t('Stores relationships between Ting objects and Drupal entities.'),
       'settings' => array(),
       'default_widget' => 'ting_reference_simple',
-      'default_formatter' => 'ting_reference_simple',
+      'default_formatter' => 'ting_reference_teaser',
     ),
   );
 }
@@ -181,6 +181,50 @@ function ting_reference_field_delete($entity_type, $entity, $field, $instance, $
   foreach ($relations as $rid => $relation) {
     relation_delete($rid);
   }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_reference_field_formatter_info() {
+  return array(
+    'ting_reference_teaser' => array(
+      'label' => t('Teaser view'),
+      'description' => t('Displays the teaser for the referenced Ting object.'),
+      'field types' => array('ting_reference'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_reference_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $settings = $display['settings'];
+
+  switch ($display['type']) {
+    case 'ting_reference_teaser':
+      $ids = array();
+
+      // Extract the IDs for the ting_object entites we need to load.
+      foreach ($items as $rel) {
+        $id = $rel->endpoints[$langcode][1]['entity_id'];
+        $ids[$rel->rid] = $id;
+      }
+
+      // Load the ting objects found.
+      $materials = entity_load('ting_object', $ids);
+
+      foreach ($materials as $id => $mat) {
+        $element[] = ting_object_view($mat, 'teaser');
+      }
+      $element[] = array('#markup' => 'FINITY');
+
+      break;
+  }
+
+  return $element;
 }
 
 /**
