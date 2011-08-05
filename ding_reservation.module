@@ -278,9 +278,9 @@ function ding_reservation_update_reservation_callback($form, &$form_state) {
   );
 
   $html = theme('status_messages');
-    $html .= drupal_render(drupal_get_form('ding_reservation_update_reservation_form'));
+  $html .= drupal_render(drupal_get_form('ding_reservation_update_reservation_form'));
 
-  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Update reservations'), $html);
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Update reservations'), $html, array('refresh' => TRUE));
 
   return $response;
 }
