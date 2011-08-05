@@ -34,6 +34,11 @@ Drupal.ding_popup = {
       this.dialogs[response.name] = $('<div class="ding-popup-content"></div>').dialog({
           'autoOpen': false,
           'modal': true,
+          'close': function(event, ui) {
+            if (response['refresh']) {
+              window.location.reload(true);
+            }
+          },
       });
     }
     this.dialogs[response.name].dialog('option', {'title': response.title});
@@ -61,6 +66,9 @@ Drupal.ding_popup = {
       $.extend(state['orig_ajax'].options.data, state['extra_data']);
       // Call original ajax callback.
       state['orig_ajax'].eventResponse(state['orig_ajax'], null);
+    }
+    if (this.dialogs[response.name].refresh_on_close) {
+      alert('refresh');
     }
     this.dialogs[response.name].dialog('close');
   }
