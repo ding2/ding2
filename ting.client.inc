@@ -280,8 +280,9 @@ function ting_execute_cache($request) {
  * Get item from static cache.
  */
 function ting_cache_get($id, $collection = FALSE) {
+  $cid = 'ting-' . ($collection ? 'collection' : 'object') . ':' . $id;
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    $cache = cache_get('ting-' . ($collection ? 'collection' : 'object') . ':' . $id);
+    $cache = cache_get($cid);
     if ($cache && ($cache->expire > REQUEST_TIME)) {
       return $cache->data;
     }
@@ -295,8 +296,8 @@ function ting_cache_get($id, $collection = FALSE) {
     }
     // Using array_key_exists, as we might contain NULL values (which is
     // !isset()).
-    if (array_key_exists($id, $cache)) {
-      return $cache[$id];
+    if (array_key_exists($cid, $cache)) {
+      return $cache[$cid];
     }
     return NULL;
   }
@@ -310,8 +311,9 @@ function ting_cache_set($id, $value) {
   if ($value instanceof TingClientObjectCollection) {
     $cid = 'ting-collection';
   }
+  $cid .= ':' . $id;
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    $cache = cache_set($cid . ':' . $id, $value, 'cache', REQUEST_TIME + $ttl);
+    $cache = cache_set($cid, $value, 'cache', REQUEST_TIME + $ttl);
   }
   else {
     // Without proper caching, use a request cache.
@@ -319,7 +321,7 @@ function ting_cache_set($id, $value) {
     if (!isset($cache)) {
       $cache = array();
     }
-    $cache[$id] = $value;
+    $cache[$cid] = $value;
   }
 }
 
