@@ -126,6 +126,12 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
  * Implements hook_field_delete().
  */
 function ting_reference_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  // When node is deleted, delete its relations as well.
+  $relations = ting_reference_get_relations($entity_type, $entity);
+
+  foreach ($relations as $rid => $relation) {
+    relation_delete($rid);
+  }
 }
 
 /**
