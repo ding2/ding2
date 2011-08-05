@@ -99,6 +99,11 @@ function ting_reference_field_is_empty($item, $field) {
  * Implements hook_field_load().
  */
 function ting_reference_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  // This could probably be more efficient if we made a function for
+  // getting relations for multiple entities at once.
+  foreach ($entities as $id => $entity) {
+    $items[$id] = ting_reference_get_relations($entity_type, $entity);
+  }
 }
 
 /**
