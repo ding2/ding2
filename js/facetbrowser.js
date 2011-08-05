@@ -1,12 +1,13 @@
 (function($) {
   Drupal.behaviors.facetbrowser = {
     attach: function(context, settings) {
-
       Drupal.FoldFacetGroup();
+      Drupal.CheckHashedFacets();
     }
   };
 
   $(window).bind('hashchange', function(e) {
+    if ($.deparam != undefined) {
     var hashobj = $.deparam.querystring($.param.fragment());
 
     $( ' .form-checkbox').live('click', function() {
@@ -23,13 +24,30 @@
         $.bbq.pushState(state, 0);
       }
     });
-
+    }
     for (var key in hashobj) {
       var fieldset_element = key.replace(/\./, "-");
       var facet_element = hashobj[key].replace(/\./, "-");
     }
   });
 
+/**
+ * Automatic fill facet checkboxes with values from url hashes.
+ */
+  Drupal.CheckHashedFacets = function() {
+    var hashobj = $.deparam.querystring($.param.fragment());
+    if (hashobj) {
+      for (var key in hashobj) {
+        var element_id = hashobj[key];
+        var facet_type = key.split('.',-1);
+        $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g,"-")).attr('checked', true);
+      }
+    }
+  }
+
+/**
+ * Fold facet groups to show only 5 per group.
+ */
   Drupal.FoldFacetGroup = function() {
     $(Drupal.settings.dingFacetBrowser.mainElement + ' fieldset.form-wrapper').each(function() {
       var facetGroup = $(this);
