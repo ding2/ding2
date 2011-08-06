@@ -101,8 +101,13 @@ function ting_reference_field_is_empty($item, $field) {
 function ting_reference_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
   // This could probably be more efficient if we made a function for
   // getting relations for multiple entities at once.
-  foreach ($entities as $id => $entity) {
-    $items[$id] = ting_reference_get_relations($entity_type, $entity);
+  foreach ($entities as $entity_id => $entity) {
+    $references = ting_reference_get_relations($entity_type, $entity);
+    $delta = 0;
+    foreach ($references as $rid => $reference) {
+      $items[$entity_id][$delta]['value'] = $reference;
+      $delta += 1;
+    }
   }
 }
 
@@ -209,21 +214,24 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
       // Extract the IDs for the ting_object entites we need to load.
       foreach ($items as $rel) {
-        $id = $rel->endpoints[$langcode][1]['entity_id'];
-        $ids[$rel->rid] = $id;
+        $id = $rel['value']->endpoints[$langcode][1]['entity_id'];
+        $ids[$rel['value']->rid] = $id;
       }
 
       // Load the ting objects found.
       $materials = entity_load('ting_object', $ids);
 
       foreach ($materials as $id => $mat) {
+        if (empty($mat->reply)) {
+          // Kinda hacky but needed. Fetch the object manually, since it wont be added when geting the ting object by id.
+          $object = ting_reference_get_object($mat->ding_entity_id);
+          $mat->reply = $object;
+        }
         $element[] = ting_object_view($mat, 'teaser');
       }
-      $element[] = array('#markup' => 'FINITY');
 
       break;
   }
-
   return $element;
 }
 
