@@ -315,11 +315,8 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
   $p = $element['#parents'];
 
   if ($object) {
-    // Accessing the stored value this was is rather nasty, but it
-    // doesn't seem like there's a better way to go.
-    // TODO, find a better way to set the object.
-    $form_state['values'][$p[0]][$p[1]][$p[2]]['object'] = $object;
-    $form_state['values'][$p[0]][$p[1]][$p[2]]['value'] = '';
+    // Set the form values needed.
+    form_set_value($element, array('value' => '', 'object' => $object, 'identifier' => $identifier), $form_state);
   }
   else {
     form_set_error(implode('][', $p), t('Object “%identifier” could not be found.', array('%identifier' => $identifier)));
