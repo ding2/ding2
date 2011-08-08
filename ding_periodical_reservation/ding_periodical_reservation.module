@@ -19,7 +19,7 @@ class DingPeriodicalReservable implements DingReservationReservable {
   }
 
   public function getProviderId() {
-    return array($this->entity->id, $this->id);
+    return array($this->entity->provider_id, $this->id);
   }
 
   public function getEntity() {

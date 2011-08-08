@@ -28,8 +28,8 @@ function theme_ding_periodical_issues($variables) {
     $iss = array();
     foreach ($issues as $key => $availability) {
       $issue = $key;
-      if (module_exists('ding_periodical_reservation')) {
-        $issue .= ' ' . ding_periodical_reservation_button($key, $volume, $key, $variables['elements']['#entity']);
+      if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
+        $issue .= ' ' . ding_periodical_reservation_button($availability['local_id'], $volume, $key, $variables['elements']['#entity']);
       }
       $iss[] = $issue;
     }
