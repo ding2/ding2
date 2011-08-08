@@ -440,6 +440,21 @@ function ting_ding_entity_is($object, $class) {
 }
 
 /**
+ * Implements hook_ding_entity_buttons()
+ */
+function ting_ding_entity_buttons($type, $entity) {
+  if ($entity instanceof TingEntity && $entity->online_url) {
+    $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+    $type = drupal_strtolower($entity->type);
+    $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+    return array(
+      '#type' => 'markup',
+      '#markup' => l($label, $entity->online_url),
+    );
+  }
+}
+
+/**
  * Implements hook_page_alter().
  *
  * Log, and display if the devel module is active and the user has
