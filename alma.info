@@ -1,5 +1,5 @@
-name = "Alma provider"
-description = ""
+name = Alma
+description = Implementation of Axiell’s Alma API for DDELibra.
 core = 7.x
 package = Ding!
 dependencies[] = ding_provider
@@ -10,4 +10,3 @@ files[] = alma.reservation.inc
 files[] = alma.availability.inc
 files[] = lib/AlmaClient/AlmaClient.class.php
 
-version = 0.1
