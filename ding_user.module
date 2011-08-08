@@ -233,7 +233,7 @@ function ding_user_user_view($account) {
  * Implements hook_username_alter().
  */
 function ding_user_username_alter(&$name, $account) {
-  if (is_array($account->data) && isset($account->data['display_name'])) {
+  if (!empty($account->data) && isset($account->data['display_name'])) {
     $name = $account->data['display_name'];
   }
 }
