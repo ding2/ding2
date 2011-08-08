@@ -16,6 +16,9 @@ function template_preprocess_ting_relation(&$variables) {
   if ($relation->relationType == 'isPartOfManifestation') {
     $variables['content']= ting_object_view($relation, 'search_result');
   }
+  elseif ($relation->relationType == 'hasReview') {
+    $variables['content'] = filter_xss_admin($relation->reply->record['dc:description'][''][0]);
+  }
   else {
     $variables['content'] = filter_xss_admin($relation->abstract);
   }

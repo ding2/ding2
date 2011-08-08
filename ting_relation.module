@@ -29,6 +29,7 @@ function ting_relation_inline() {
   if (!$types) {
     $types = array(
       'hasAuthorDescription' => t('Author portrait'),
+      'hasReview' => t('Review'),
       'hasSubjectDescription' => t('Subject description'),
       'isPartOfManifestation' => t('Is part of manifestation'),
     );
