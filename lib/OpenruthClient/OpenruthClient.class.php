@@ -246,6 +246,18 @@ class OpenruthClient {
    */
   public function order_item($username, $item_id, $count, $order_date, $expiry, $pickup_branch) {
     $this->log_start();
+    // Support periodicals.
+    if (is_array($item_id)) {
+      $order_item_id = array(
+        'itemId' => $item_id[0],
+        'itemSerialPartId' => $item_id[1],
+      );
+    }
+    else {
+      $order_item_id = array(
+        'itemId' => $item_id,
+      );
+    }
     $res = $this->client->orderItem(array(
              'agencyId' =>  $this->agency_id,
              'userId' => $username,
@@ -254,9 +266,7 @@ class OpenruthClient {
              'agencyCounter' => $pickup_branch,
              'orderOverRule' => FALSE,
              'orderPriority' => 'normal',
-             'orderItemId' => array(
-               'itemId' => $item_id,
-             ),
+             'orderItemId' => $order_item_id,
       ));
     $this->log($username);
     if (isset($res->orderItemError)) {
