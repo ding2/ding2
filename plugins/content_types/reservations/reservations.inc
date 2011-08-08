@@ -145,7 +145,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#type' => 'submit',
             '#submit' => array('ding_reservation_reservations_delete_submit'),
             '#reservation_id' => $item->id,
-            '#name' => 'delete-' . $item->id, // Need this for formAPI can tell buttons apart
+            '#name' => 'delete-' . preg_replace('/\W/', '-', $item->id), // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
@@ -170,7 +170,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     case 'not_ready_for_pickup':
       $options[$item->id] = array(
         'title' => array(
-          'data' => $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+          'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
         'created' => array(
@@ -194,7 +194,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#type' => 'submit',
             '#submit' => array('ding_reservation_reservations_delete_submit'),
             '#reservation_id' => $item->id,
-            '#name' => 'delete-' . $item->id, // Need this for formAPI can tell buttons apart
+            '#name' => 'delete-' . preg_replace('/\W/', '-', $item->id), // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
             '#options' => array('query' => $destination),
           ),
