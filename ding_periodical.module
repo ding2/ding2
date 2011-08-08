@@ -24,6 +24,7 @@ function ding_periodical_theme() {
  * Theming function.
  */
 function theme_ding_periodical_issues($variables) {
+  $items = array();
   foreach ($variables['elements']['#issues'] as $volume => $issues) {
     $iss = array();
     foreach ($issues as $key => $availability) {
