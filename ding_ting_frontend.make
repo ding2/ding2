@@ -7,8 +7,8 @@ projects[ctools][subdir] = "contrib"
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
 
-projects[features][subdir] = "contrib"
-projects[features][version] = "1.0-beta2"
+projects[features][subdir] = contrib
+projects[features][version] = 1.0-beta3
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0-beta2"
