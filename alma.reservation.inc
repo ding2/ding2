@@ -165,15 +165,15 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account, TRUE);
 
   // Try to look in the session for reservation information.
-  if (!isset($_SESSION['alam_reservations']) || !is_array($_SESSION['alam_reservations']) || $reset) {
-    $_SESSION['alam_reservations'] = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
+  if (!isset($_SESSION['alma_reservations']) || !is_array($_SESSION['alma_reservations']) || $reset) {
+    $_SESSION['alma_reservations'] = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
   }
   
-  return $_SESSION['alam_reservations'];
+  return $_SESSION['alma_reservations'];
 }
 
 function alma_reservation_clear_cache() {
-  unset($_SESSION['alam_reservations']);
+  unset($_SESSION['alma_reservations']);
 }
 
 function alma_reservation_exists($creds, $item_id) {

@@ -69,7 +69,7 @@ function alma_settings_form() {
   $form['alma']['alma_base_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Alma base URL'),
-    '#description' => t('Base URL for Alam service.'),
+    '#description' => t('Base URL for Alma service.'),
     '#required' => TRUE,
     '#default_value' => variable_get('alma_base_url', ''),
   );
