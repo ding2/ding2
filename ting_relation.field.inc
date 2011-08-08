@@ -38,7 +38,7 @@ function ting_relation_field_load($entity_type, $entities, $field, $instances, $
  */
 function ting_relation_widget_info_alter(&$info) {
   if (isset($info['hidden'])) {
-    $info['hidden']['field types'][] = 'ding_entity_buttons';
+    $info['hidden']['field types'][] = 'ting_relations';
   }
 }
 
