@@ -53,6 +53,16 @@ function ding_user_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function ding_user_menu_alter(&$items) {
+  // Hook in authentication handling to the regular user edit page.
+  if (isset($items['user/%user/edit']) && $items['user/%user/edit']['page callback'] == 'drupal_get_form') {
+    $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
+  }
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function ding_user_entity_info_alter(&$entity_info) {
