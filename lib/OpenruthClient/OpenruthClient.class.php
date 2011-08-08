@@ -59,6 +59,7 @@ class OpenruthClient {
     if ($this->logging) {
       $this->log_timestamp = microtime(TRUE);
     }
+    timer_start('openruth_net');
   }
 
   /**
@@ -68,6 +69,7 @@ class OpenruthClient {
    *   A variable number of arguments, whose values will be redacted.
    */
   private function log() {
+    timer_stop('openruth_net');
     if ($this->logging) {
       if ($this->log_timestamp) {
         $time = round(microtime(TRUE) - $this->log_timestamp, 2);
@@ -245,7 +247,6 @@ class OpenruthClient {
    * Making a reservation in the local system
    */
   public function order_item($username, $item_id, $count, $order_date, $expiry, $pickup_branch) {
-    $this->log_start();
     // Support periodicals.
     if (is_array($item_id)) {
       $order_item_id = array(
@@ -258,6 +259,7 @@ class OpenruthClient {
         'itemId' => $item_id,
       );
     }
+    $this->log_start();
     $res = $this->client->orderItem(array(
              'agencyId' =>  $this->agency_id,
              'userId' => $username,
@@ -415,7 +417,6 @@ class OpenruthClient {
       'last_name' => 'userLastName',
       'preferred_branch' => 'agencyCounter',
     );
-    $this->log_start();
     $args = array(
              'agencyId' =>  $this->agency_id,
              'userId' => $name,
@@ -427,6 +428,7 @@ class OpenruthClient {
       }
     }
 
+    $this->log_start();
     $res = $this->client->updateUserInfo($args);
     $this->log($name, $pass);
     if (isset($res->userError)) {
@@ -447,6 +449,7 @@ class OpenruthClient {
    *   UserCheck response object, a string error message or FALSE.
    */
   public function user_check($username, $pin_code) {
+    $this->log_start();
     $res = $this->client->userCheck(array(
              'agencyId' =>  $this->agency_id,
              'userId' => $username,
@@ -490,7 +493,6 @@ class OpenruthClient {
    * paying user fines
    */
   public function user_payment($username, $amount, $transaction_id = NULL) {
-    $this->log_start();
     $params = array(
       'agencyId' =>  $this->agency_id,
       'userId' => $username,
@@ -500,6 +502,7 @@ class OpenruthClient {
       $params['userPaymentTransactionId'] = $transaction_id;
     }
 
+    $this->log_start();
     $res = $this->client->userPayment($params);
     $this->log($username);
     if (isset($res->userPaymentError)) {

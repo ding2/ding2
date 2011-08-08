@@ -33,6 +33,21 @@ function openruth_ding_provider() {
 }
 
 /**
+ * Implements hook_ding_devel_timers().
+ */
+function openruth_ding_devel_timers() {
+  return array(
+    'openruth' => array(
+      'title' => 'Openruth total request time was @time ms.',
+    ),
+    'openruth_net' => array(
+      'title' => 'Openruth net time was @time ms.',
+      'include in total' => FALSE,
+    )
+  );
+}
+
+/**
  * Form callback for provider module settings.
  *
  * This is a regular form callback.
@@ -129,9 +144,12 @@ function openruth_client_invoke($method) {
   }
 
   try {
+    timer_start('openruth');
     $result = call_user_func_array(array($client, $method), $args);
+    timer_stop('openruth');
   }
   catch (Exception $e) {
+    timer_stop('openruth');
     watchdog('openruth', '@method error: “@message”', array('@method' => $method, '@message' => $e->getMessage()), WATCHDOG_ERROR);
     return NULL;
   }
