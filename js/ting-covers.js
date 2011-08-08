@@ -4,8 +4,9 @@
     classname = $(e).attr('class');
     id = classname.match(/ting-cover-object-id-(\S+)/);
     imageStyle = classname.match(/ting-cover-style-(\S+)/);
-    if ( !id )
+    if ( !id ) {
       return false;
+    }
     return id[1]+':'+imageStyle[1];
   };
 
