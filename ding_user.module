@@ -57,8 +57,11 @@ function ding_user_menu() {
  */
 function ding_user_menu_alter(&$items) {
   // Hook in authentication handling to the regular user edit page.
-  if (isset($items['user/%user/edit']) && $items['user/%user/edit']['page callback'] == 'drupal_get_form') {
-    $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
+  // But don't if page_manager overrides it.
+  if (!module_exists('page_manager') || variable_get('page_manager_user_edit_disabled', TRUE)) {
+    if (isset($items['user/%user/edit']) && $items['user/%user/edit']['page callback'] == 'drupal_get_form') {
+      $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
+    }
   }
 }
 
