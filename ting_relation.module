@@ -31,7 +31,7 @@ function ting_relation_inline() {
       'hasAuthorDescription' => t('Author portrait'),
       'hasReview' => t('Review'),
       'hasSubjectDescription' => t('Subject description'),
-      // 'isPartOfManifestation' => t('Is part of manifestation'),
+      'isPartOfManifestation' => t('Is part of manifestation'),
     );
   }
   return $types;
