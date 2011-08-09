@@ -34,10 +34,9 @@ function ding_ting_frontend_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'ding_availability',
           'settings' => array(),
-          'type' => 'ding_availability_types',
-          'weight' => '0',
+          'type' => 'hidden',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -93,7 +92,7 @@ function ding_ting_frontend_field_default_fields() {
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_entities_default',
-          'weight' => '1',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
