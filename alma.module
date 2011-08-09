@@ -38,19 +38,19 @@ function alma_ding_provider() {
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => $path . '/alma.availability.inc',
+        'file' => $path . '/includes/alma.availability.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => $path . '/alma.loan.inc',
+        'file' => $path . '/includes/alma.loan.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => $path . '/alma.reservation.inc',
+        'file' => $path . '/includes/alma.reservation.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => $path . '/alma.user.inc',
+        'file' => $path . '/includes/alma.user.inc',
       ),
     ),
   );
