@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function ding_user_frontend_install() {
+  db_update('system')
+    ->fields(array('weight' => 8))
+    ->condition('name', 'ding_user_frontend')
+    ->condition('type', 'module')
+    ->execute();
+}
