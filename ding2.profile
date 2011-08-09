@@ -19,8 +19,7 @@ function ding2_form_install_configure_form_alter(&$form, $form_state) {
  * As this function is called early and often, we have to maintain a cache or
  * else the task specifying a form may not be available on form submit.
  */
-function ding2_install_tasks() {
-  global $install_state;
+function ding2_install_tasks($install_state) {
   $tasks = module_invoke_all('ding_install_tasks') + variable_get('ding_install_tasks', array());
   if ($tasks && !$install_state['installation_finished']) {
     variable_set('ding_install_tasks', $tasks);
