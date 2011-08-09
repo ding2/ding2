@@ -1,6 +1,55 @@
 <?php
 
 /**
+ * Implements provider user, authenticate.
+ */
+function openruth_user_authenticate($name, $pass) {
+  $return = array(
+    'success' => FALSE,
+  );
+  $res = openruth_client_invoke('user_check', $name, $pass);
+
+  if (is_string($res)) {
+    watchdog('openruth', 'Error in user_check: @error', array('@error' => $res), WATCHDOG_ERROR);
+    return $return;
+  }
+  elseif (!$res || !$res->userFound || !$res->userPinCodeOk) {
+    // No reply or not found.
+    return $return;
+  }
+
+  if ($res->userBlocked) {
+    // @todo Tell the user...
+  }
+
+  $return['success'] = TRUE;
+  $return['creds'] = array(
+    'name' => $name,
+    'pass' => $pass,
+  );
+
+  $userStatus = _openruth_user_status($return['creds'], TRUE);
+  if ($userStatus && isset($userStatus->userInfo)) {
+    $userInfo = $userStatus->userInfo;
+    $return['user'] = array(
+      'data' => array(
+        'display_name' => $userInfo->userFirstName . ' ' . $userInfo->userLastName,
+      ),
+    );
+
+    if (isset($userInfo->agencyCounter)) {
+      $return['user']['data']['preferred_branch'] = $userInfo->agencyCounter;
+    }
+
+    if (isset($userInfo->userEmail)) {
+      $return['user']['mail'] = $userInfo->userEmail;
+    }
+  }
+
+  return $return;
+}
+
+/**
  * Callback function to get OpenRuth user information
  */
 function openruth_user_info($creds = NULL) {
