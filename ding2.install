@@ -143,3 +143,4 @@ function ding2_install() {
   // Disable configurable timezones for users
   variable_set('configurable_timezones', 0);
 }
+
