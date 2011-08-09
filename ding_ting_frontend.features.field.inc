@@ -669,12 +669,13 @@ function ding_ting_frontend_field_default_fields() {
       ),
       'entity_type' => 'ting_object',
       'field_name' => 'ting_details',
-      'label' => 'Ting object details',
-      'required' => FALSE,
+      'label' => 'Detaljer om materialet',
+      'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
@@ -1061,6 +1062,7 @@ function ding_ting_frontend_field_default_fields() {
   t('Action buttons');
   t('All materials');
   t('Cover');
+  t('Detaljer om materialet');
   t('Holdings information');
   t('Issues');
   t('Series');
@@ -1069,7 +1071,6 @@ function ding_ting_frontend_field_default_fields() {
   t('Ting collection primary object');
   t('Ting object abstract');
   t('Ting object author');
-  t('Ting object details');
   t('Ting object title');
   t('Ting object type');
   t('Ting relations.');
