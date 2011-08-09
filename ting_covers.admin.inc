@@ -23,22 +23,6 @@ function ting_covers_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME),
   );
 
-  $form['styles'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Cover image styles'),
-    '#description' => t("Select the cover image style for each view mode."),
-  );
-
-  $entity_info = entity_get_info('ting_object');
-  foreach ($entity_info['view modes'] as $mode => $view_mode) {
-    $form['styles']['ting_covers_' . $mode. '_style'] = array(
-      '#type' => 'select',
-      '#title' => $view_mode['label'],
-      '#options' => _ting_covers_image_style_options(),
-      '#default_value' => variable_get('ting_covers_' . $mode . '_style', 'thumbnail'),
-    );
-  }
-
   return system_settings_form($form);
 }
 
@@ -95,12 +79,4 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
   );
 
   return system_settings_form($form);
-}
-
-function _ting_covers_image_style_options() {
-  $styles = image_styles();
-  foreach ($styles as $id => &$style) {
-    $style = $style['name'];
-  }
-  return $styles;
 }
