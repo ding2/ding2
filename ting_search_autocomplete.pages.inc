@@ -3,7 +3,6 @@
 function ting_search_autocomplete($query = NULL) {
   $results   = array();
   $delimiter = 0;
-  $old_type  = FALSE;
 
   if ($query == TRUE) {
     $cache = cache_get(md5($query), 'cache_ting_search_autocomplete');
@@ -24,7 +23,7 @@ function ting_search_autocomplete($query = NULL) {
       $terms['any'] = array_reverse($terms['any']);
 
       // Scan for spell suggestions
-      $spell_suggestions = ting_get_spell_suggestions($query, 4);
+      $spell_suggestions = ting_get_spell_suggestions($query, 3);
       foreach ($spell_suggestions as $spell_word) {
         if (strtolower($spell_word->word) == strtolower($query)) {
           continue;
@@ -36,35 +35,21 @@ function ting_search_autocomplete($query = NULL) {
 
       foreach ($terms as $type => $row) {
         foreach ($row as $term) {
-          switch ($type) {
-            case 'spell':
-              $delimiter_text = t('Did you mean...');
-              $result_text = '<span class="count"></span>';
-              break;
-            default:
-              $delimiter_text = '';
-              $result_text = '<span class="count">' . format_plural($term->count, t('(1 result)'), t('(@count results)')) . '</span>';
-              break;
+          if ($type == 'spell' && !$delimiter) {
+            $return['delim_' . $delimiter++] = t('<div class="autocomplete_delimiter">!type</div>', array('!type' => t('Did you mean...')));
           }
 
-          if ($type != $old_type && $old_type !== FALSE) {
-            $return['delim_' . $delimiter] = t('<div class="autocomplete_delimiter">!type</div>', array('!type' => $delimiter_text));
-            $delimiter++;
-          }
-
-          $return[$term->name] = t('!word !results',
+          $return[$term->name] = t('!word',
             array(
-              '!word' => '<span class="term">' . substr($term->name, 0, 10) . '</span>',
-              '!results' => $result_text,
+              '!word' => '<span class="term" title="' . $term->name . '">' . (drupal_strlen($term->name) > 30 ? drupal_substr($term->name, 0, 30) . '...' : $term->name) . '</span>',
             ));
         }
-        $old_type = $type;
       }
 
       cache_set(md5($query), $return, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
     }
   }
-   drupal_json_output($return);
+  drupal_json_output($return);
 }
 
 function ting_search_autocomplete_term_sort($t1, $t2) {
