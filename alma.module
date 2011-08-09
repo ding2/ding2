@@ -30,25 +30,27 @@ function alma_requirements($phase) {
  * Implements hook_ding_provider().
  */
 function alma_ding_provider() {
+  $path = drupal_get_path('module', 'alma');
+
   return array(
     'title' => 'Alma provider',
     'settings' => 'alma_settings_form',
     'provides' => array(
-      'user' => array(
-        'prefix' => 'user',
-        'file' => drupal_get_path('module', 'alma') . '/alma.user.inc',
-      ),
-      'reservation' => array(
-        'prefix' => 'reservation',
-        'file' => drupal_get_path('module', 'alma') . '/alma.reservation.inc',
-      ),
       'availability' => array(
         'prefix' => 'availability',
-        'file' => drupal_get_path('module', 'alma') . '/alma.availability.inc',
+        'file' => $path . '/alma.availability.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => drupal_get_path('module', 'alma') . '/alma.loan.inc',
+        'file' => $path . '/alma.loan.inc',
+      ),
+      'reservation' => array(
+        'prefix' => 'reservation',
+        'file' => $path . '/alma.reservation.inc',
+      ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => $path . '/alma.user.inc',
       ),
     ),
   );
