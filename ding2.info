@@ -1,5 +1,5 @@
 name = Ding 2
-description = Install a Ding based library site.
+description = Install a Artesis based library site.
 version = 1.0
 core = 7.x
 dependencies[] = block
