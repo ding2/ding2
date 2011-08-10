@@ -2,6 +2,7 @@ name = Ting covers
 description = Displays covers for Ting objects and collections
 package = Ding!
 core = 7.x
+version = 0.1
 files[] = ting_covers.module
 files[] = ting_covers.test
 files[] = lib/addi-client/AdditionalInformation.php
