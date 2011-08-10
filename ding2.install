@@ -7,6 +7,9 @@
  * Perform actions to set up the site for this profile.
  */
 function ding2_install() {
+  // Set theme.
+  variable_set('theme_default', 'artois');
+
   // Enable some standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
 
