@@ -1,5 +1,6 @@
 core = "7.x"
 dependencies[] = "page_manager"
+dependencies[] = "panels"
 description = "Global frontend module."
 features[ctools][] = "page_manager:pages_default:1"
 features[page_manager_pages][] = "frontpage"
