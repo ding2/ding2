@@ -1,6 +1,7 @@
 name = Alma
 description = Implementation of Axiell’s Alma API for DDELibra.
 core = 7.x
+version = 0.1
 package = Ding!
 dependencies[] = ding_provider
 
