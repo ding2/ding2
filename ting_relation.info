@@ -4,6 +4,3 @@ package = Ding!
 version = 0.1
 core = 7.x
 files[] = ting_relation.module
-; files[] = ting.test
-; configure = admin/config/ting
-; stylesheets[all][] = ting.css
