@@ -2,5 +2,6 @@ name = Ting search autocomplete
 description = Enables autocompletion for the Ting search box.
 package = Ding!
 core = 7.x
+version = 0.1
 dependencies[] = ting_search
 files[] = ting_search_autocomplete.test
