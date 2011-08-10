@@ -20,7 +20,7 @@ function ting_covers_objects() {
     $path = ting_covers_object_path($local_id);
     if (file_exists($path)) {
       //If we we already have a valid cover image w/o style then just use it
-      $covers[$local_id.':'.$image_style] = image_style_path($path. $image_style);
+      $covers[$local_id.':'.$image_style] = image_style_url($image_style, $path);
     } else {
       //Mark the image for retrieval;
       $missing_images_local_ids[] = $local_id;
