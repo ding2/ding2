@@ -811,7 +811,7 @@ function ding_ting_frontend_field_default_fields() {
       ),
       'entity_type' => 'ting_object',
       'field_name' => 'ting_series',
-      'label' => 'Series',
+      'label' => 'Serie',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -885,7 +885,7 @@ function ding_ting_frontend_field_default_fields() {
       ),
       'entity_type' => 'ting_object',
       'field_name' => 'ting_subjects',
-      'label' => 'Subjects',
+      'label' => 'Emner',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -1063,10 +1063,10 @@ function ding_ting_frontend_field_default_fields() {
   t('All materials');
   t('Cover');
   t('Detaljer om materialet');
+  t('Emner');
   t('Holdings information');
   t('Issues');
-  t('Series');
-  t('Subjects');
+  t('Serie');
   t('Ting collection object types');
   t('Ting collection primary object');
   t('Ting object abstract');
