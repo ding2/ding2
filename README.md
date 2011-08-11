@@ -20,16 +20,16 @@ Clone the ding2 profile repository from github.
 
     git clone git@github.com:ding2/ding2.git
 
-Place the install profile inside your Drupal installation, and run this
-command inside the profiles/ding2 folder:
-
-    drush make --no-core --contrib-destination=. ding2.make
-
 Ding relies on recursive make files that might have the same projects defined in multiple places. If your drush make bombs on this, apply the latest patch from this issue: http://drupal.org/node/947158
 
     cd DRUSH_MAKE_FOLDER
     wget http://drupal.org/files/issues/947158-recursive_2.patch
     patch -p1 < 947158-recursive_2.patch
+
+Place the install profile inside your Drupal installation, and run this
+command inside the profiles/ding2 folder:
+
+    drush make --no-core --contrib-destination=. ding2.make
 
 If you want a developer version with Git working copies, run this
 command instead:
