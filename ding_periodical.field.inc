@@ -69,11 +69,13 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
     array_walk($issues, 'asort');
     ksort($issues);
 
-    $element[$delta] = array(
-      '#theme' => 'ding_periodical_issues',
-      '#entity' => $entity,
-      '#issues' => $issues,
-    );
+    if ($issues) {
+      $element[$delta] = array(
+        '#theme' => 'ding_periodical_issues',
+        '#entity' => $entity,
+        '#issues' => $issues,
+      );
+    }
   }
   return $element;
 }
