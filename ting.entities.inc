@@ -50,11 +50,11 @@ class TingEntity extends DingEntity {
 
   function getRelations() {
     $this->relations = array();
-    if (isset($this->reply->relations)) {
+    if (isset($this->reply->relationsData)) {
       $entity_ids = array();
-      foreach ($this->reply->relations as $record) {
-        if (isset($record->id)) {
-          $entity_ids[] = $record->id;
+      foreach ($this->reply->relationsData as $record) {
+        if (isset($record->relationUri)) {
+          $entity_ids[] = $record->relationUri;
         }
       }
       if ($entity_ids) {

@@ -150,6 +150,10 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   }
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
+  // Always fetch relations.
+  $request->setAllRelations(TRUE);
+  $request->setRelationData('uri');
+
   // Apply custom ranking if enabled.
   if (variable_get('ting_ranking_custom', FALSE)) {
     $fields = array();
