@@ -18,7 +18,7 @@ Go into your Drupal installation path
 
 Clone the ding2 profile repository from github.
 
-    git clone git@github.com:ding2/ding2.git
+    git clone git@github.com:DBCDK/ding2.git
 
 Place the install profile inside your Drupal installation, and run this
 command inside the profiles/ding2 folder:
@@ -38,7 +38,7 @@ command instead:
 
 If you want to have some dummy content added and a pre-filled main menu, you can install the 'artesis demo content' module from our git repository.
 
-[artesis_demo_content]: https://github.com/ding2/artesis_demo_content
+[artesis_demo_content]: https://github.com/DBCDK/artesis_demo_content
 
 [ding.TING]: http://ting.dk/groups/dingting
 [Drupal]: http://drupal.org/
