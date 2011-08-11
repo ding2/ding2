@@ -6,6 +6,29 @@
  */
 
 /**
+ * Object representing a relation between TingEntites.
+ */
+class TingRelation extends DingEntityBase {
+  public $type = DingEntityBase::NULL;
+  public $uri = DingEntityBase::NULL;
+  public $object = DingEntityBase::NULL;
+
+  public function __construct($type, $uri, $object = NULL) {
+    parent::__construct();
+    $this->properties['type'] = $type;
+    $this->properties['uri'] = $uri;
+    if ($object) {
+      $this->properties['object'] = $object;
+    }
+  }
+
+  function getObject() {
+    $object = entity_load('ting_object', array(), array('ding_entity_id' => array($this->properties['uri'])));
+    return reset($object);
+  }
+}
+
+/**
  * Ting object entity.
  */
 class TingEntity extends DingEntity {
@@ -18,8 +41,6 @@ class TingEntity extends DingEntity {
   public $subjects = DingEntityBase::NULL;
   public $language = DingEntityBase::NULL;
   public $date = DingEntityBase::NULL;
-  public $relationType = DingEntityBase::NULL;
-  public $relationUri = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
 
@@ -50,6 +71,7 @@ class TingEntity extends DingEntity {
 
   function getRelations() {
     $this->relations = array();
+    $relation_objects = array();
     if (isset($this->reply->relationsData)) {
       $entity_ids = array();
       foreach ($this->reply->relationsData as $record) {
@@ -58,7 +80,13 @@ class TingEntity extends DingEntity {
         }
       }
       if ($entity_ids) {
-        $this->relations = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+        $objects = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+        foreach ($objects as $object) {
+          $relation_objects[$object->id] = $object;
+        }
+      }
+      foreach ($this->reply->relationsData as $record) {
+        $this->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
       }
     }
     return $this->relations;
@@ -94,14 +122,6 @@ class TingEntity extends DingEntity {
 
   function getDate() {
     return !empty($this->reply->record['dc:date']) ? $this->reply->record['dc:date'][''][0] : FALSE;
-  }
-
-  function getRelationType() {
-    return $this->reply->relationType;
-  }
-
-  function getRelationUri() {
-    return $this->reply->relationUri;
   }
 
   function getOnline_url() {
