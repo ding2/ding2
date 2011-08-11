@@ -64,11 +64,11 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   $relation_types = ting_relation_inline();
   foreach ($items as $delta => $item) {
     foreach ($entity->relations as $relation) {
-      if (isset($relation_types[$relation->relationType])) {
+      if (isset($relation_types[$relation->type])) {
         $element[$delta][] = array(
           '#theme' => 'ting_relation',
-          '#object' => $relation,
-          '#title' => $relation_types[$relation->relationType],
+          '#object' => $relation->object,
+          '#title' => $relation_types[$relation->type],
           '#attached' => array(
             'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
           ),
