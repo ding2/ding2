@@ -67,6 +67,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
       if (isset($relation_types[$relation->type])) {
         $element[$delta][] = array(
           '#theme' => 'ting_relation',
+          '#relation' => $relation,
           '#object' => $relation->object,
           '#title' => $relation_types[$relation->type],
           '#attached' => array(
