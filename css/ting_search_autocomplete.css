@@ -1,18 +1,9 @@
-#autocomplete li { 
-  font-size: 14px;
-  text-align: left;
-  width:100%;
-  clear: both;
-}
-#autocomplete .autocomplete_delimiter {
-  width: 100%;
-  padding: 0 4px;
-  background-color: #3c3;
-}
+ul.ui-autocomplete { z-index:100 !important;max-width:300px;}
+  ul.ui-autocomplete li { text-align: left;}
+    ul.ui-autocomplete li a { font-size: 14px; }
 
-#autocomplete .term {
-  float:left;
-}
-#autocomplete .count {
-  float: right;
-}
+/*.form-item-search-block-form .spinner{*/
+  /*background: url(../img/spinner.gif)  240px 4px no-repeat ;*/
+  /*position: absolute;*/
+/*}*/
+

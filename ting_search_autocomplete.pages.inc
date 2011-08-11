@@ -1,6 +1,7 @@
 <?php
 
 function ting_search_autocomplete($query = NULL) {
+  $query = $_GET['query'];
   $results   = array();
   $delimiter = 0;
 
@@ -35,14 +36,20 @@ function ting_search_autocomplete($query = NULL) {
 
       foreach ($terms as $type => $row) {
         foreach ($row as $term) {
-          if ($type == 'spell' && !$delimiter) {
-            $return['delim_' . $delimiter++] = t('<div class="autocomplete_delimiter">!type</div>', array('!type' => t('Did you mean...')));
+          if ($type == 'spell') {
+            $return[] = array(
+              'id'    => $term->name,
+              'value' => $term->name,
+              'label' => t('Did you mean \'@query\' ?', array('@query' => $term->name)),
+            );
           }
-
-          $return[$term->name] = t('!word',
-            array(
-              '!word' => '<span class="term" title="' . $term->name . '">' . (drupal_strlen($term->name) > 30 ? drupal_substr($term->name, 0, 30) . '...' : $term->name) . '</span>',
-            ));
+          else {
+            $return[] = array(
+              'id'    => $term->name,
+              'value' => $term->name,
+              'label' => $term->name,
+            );
+          }
         }
       }
 

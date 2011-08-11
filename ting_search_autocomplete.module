@@ -29,8 +29,9 @@ function ting_search_autocomplete_flush_caches() {
  * Implements hook_form_alter() for the ting_search_autocomplete form.
  */
 function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_state) {
+  drupal_add_library('system', 'ui.autocomplete');
   drupal_add_css(drupal_get_path('module', 'ting_search_autocomplete') . '/css/ting_search_autocomplete.css');
-  $form['search_block_form']['#autocomplete_path'] = 'ting/autocomplete';
-  $form['#attributes'] = array('class' => 'ting-autocomplete');
+  drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js');
+
 }
 
