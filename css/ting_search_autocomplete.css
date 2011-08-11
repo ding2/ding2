@@ -2,8 +2,9 @@ ul.ui-autocomplete { z-index:100 !important;max-width:300px;}
   ul.ui-autocomplete li { text-align: left;}
     ul.ui-autocomplete li a { font-size: 14px; }
 
-/*.form-item-search-block-form .spinner{*/
-  /*background: url(../img/spinner.gif)  240px 4px no-repeat ;*/
-  /*position: absolute;*/
-/*}*/
+input#edit-search-block-form--2.spinner {
+  background-image: url(../img/spinner.gif);
+  background-repeat: no-repeat;
+  background-position: 240px 5px;
+}
 
