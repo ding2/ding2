@@ -42,7 +42,7 @@ projects[ding_periodical][download][tag] = "v0.1"
 projects[ting_relation][type] = "module"
 projects[ting_relation][download][type] = "git"
 projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git"
-projects[ding_relation][download][tag] = "v0.1"
+projects[ting_relation][download][tag] = "v0.1"
 
 projects[ting_search_autocomplete][type] = "module"
 projects[ting_search_autocomplete][download][type] = "git"
