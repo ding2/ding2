@@ -1,0 +1,148 @@
+<?php
+/**
+ * @file
+ * Enable DIBS as a payment provider for Ding!
+ */
+
+/**
+ * Implementation of hook_dibsapi().
+ */
+function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
+  global $user;
+  switch ($op) {
+    case 'info':
+      $info = array(1 => array('info' => t('Ding DIBS debts payment')));
+
+      if (is_null($delta)) {
+        return $info;
+      }
+
+      return (isset($info[$delta])) ? $info[$delta] : NULL;
+    case 'transaction_cancel':
+      watchdog('ding_dibs', 'DIBS  order %order cancelled by user.', array(
+        '%order' => $transaction['payment_order_id'],
+      ), WATCHDOG_NOTICE);
+      break;
+    case 'transaction_accept':
+      if ($transaction['payment_status'] == 1) {
+        drupal_set_message(t('Your payment of @amount was received.', array('@amount' => $transaction['payment_price'])));
+        watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
+          '%transaction' => $transaction['payment_transaction_id'],
+          '%order' => $transaction['payment_order_id'],
+        ), WATCHDOG_DEBUG);
+        return drupal_goto('user/' . $user->uid . '/status/debts');
+      }
+      else {
+        drupal_set_message(t('Payment not verified by DIBS. This indicates a problem with the network. Please try again and contact the system administrator if it persists'), 'error');
+        watchdog('ding_dibs', 'Unverified DIBS transaction %transaction, order %order at accept URL: !data', array(
+          '%transaction' => $transaction['payment_transaction_id'],
+          '%order' => $transaction['payment_order_id'],
+          '!data' => '<pre>' . check_plain(print_r($transaction, TRUE)) . '</pre>',
+        ), WATCHDOG_CRITICAL);
+        return drupal_goto('user/' . $user->uid . '/status/debts');
+      }
+      break;
+    case 'transaction_callback':
+    dpm('hep');
+      watchdog('ding_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
+        '%transaction' => $transaction['payment_transaction_id'],
+        '%order' => $transaction['payment_order_id'],
+      ), WATCHDOG_NOTICE);
+
+      if (isset($transaction['params']['callback'])) {
+        $callback = $transaction['params']['callback'];
+        if (function_exists($callback)) {
+          // Ensure that this session isn't saved.
+          drupal_save_session(FALSE);
+
+          // Load the user that was paying.
+          $my_user = user_load(array('uid' => $transaction['customer_uid']));
+
+          // If we have a saved session, let's resume it.
+          if (isset($transaction['params']['session'])) {
+            $result = db_query("SELECT sid, session FROM {sessions} WHERE sid = :sid", array(
+              ':sid' => $transaction['params']['session'],
+            ));
+            $row = $result->fetchObject();
+            // Session_decode doesn't work without any session, start one.
+            session_start();
+            // Set the user (session_start might have set it to anonymous).
+            $user = $my_user;
+            // Load the session variables into $_SESSION
+            session_decode($row->session);
+          }
+
+          // Call the callback, which may now *read* the session.
+          call_user_func($callback, $transaction);
+        }
+        else {
+          watchdog('ding_dibs', "Callback function @function doesn't exist.", array('@function' => $callback), WATCHDOG_CRITICAL);
+        }
+      }
+      else {
+        // Unlikely to happen, unless someone has been tampering with things
+        // they shouldn't.
+        watchdog('ding_dibs', "No callback function defined.", NULL, WATCHDOG_CRITICAL);
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ding_provider().
+ */
+function ding_dibs_ding_provider() {
+  $path = drupal_get_path('module', 'ding_dibs');
+
+  return array(
+    'title' => 'DIBS payment provider',
+    'provides' => array(
+      'payment' => array(
+        'prefix' => 'payment',
+        'file' => $path . '/includes/dibs.payment.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Send user to DIBS for payment.
+ *
+ * When the payment is complete, the callback will be called with the
+ * transaction. The global $user and session will be set up to the
+ * same values as when this function was called, but be aware that the
+ * session variables will *not* be saved.
+ *
+ * @param $amount
+ *  The amount to charge the user.
+ * @param $params
+ *  Parameters for dibs.module.
+ * @param $callback
+ *  The function to call on successful payment.
+ */
+function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE) {
+  global $user;
+  $params['payment_price'] = $amount;
+  $params['api_module'] = 'ding_dibs';
+  $params['api_delta'] = 1;
+  $params['customer_uid'] = $user->uid;
+
+  if (!isset($params['params']) || !is_array($params['params'])) {
+    $params['params'] = array();
+  }
+  // Params is stored by dibs.module, so are tamper safe.
+  $params['params']['callback'] = $callback;
+  // Save session id for later loading.
+  if (!empty($_COOKIE[session_name()])) {
+    $params['params']['session'] = session_id();
+  }
+
+  $params += array(
+    'order_info_short' => t('Payment of library dues'),
+    'order_price_info' => array('Total' => $amount),
+    // dibs module fills in missing data.
+  );
+
+  return dibs_payment_prepare($params, $redirect);
+}
+
