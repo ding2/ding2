@@ -605,7 +605,7 @@ class AlmaClient {
   /**
    * Change e-mail address.
    */
-  public function change_email_address($borr_card, $pin_code, $email_id, $new_email= FALSE) {
+  public function change_email_address($borr_card, $pin_code, $email_id, $new_email = FALSE) {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,

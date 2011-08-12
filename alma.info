@@ -6,6 +6,7 @@ dependencies[] = ding_provider
 
 files[] = alma.module
 files[] = includes/alma.availability.inc
+files[] = includes/alma.debt.inc
 files[] = includes/alma.reservation.inc
 files[] = includes/alma.user.inc
 files[] = lib/AlmaClient/AlmaClient.class.php

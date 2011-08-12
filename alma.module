@@ -40,6 +40,10 @@ function alma_ding_provider() {
         'prefix' => 'availability',
         'file' => $path . '/includes/alma.availability.inc',
       ),
+      'debt' => array(
+        'prefix' => 'debt',
+        'file' => $path . '/includes/alma.debt.inc',
+      ),
       'loan' => array(
         'prefix' => 'loan',
         'file' => $path . '/includes/alma.loan.inc',
@@ -179,6 +183,16 @@ function alma_get_organisation($reset = FALSE) {
   return $organisation;
 }
 
+/**
+ * Get patron data from Alma.
+ *
+ * @param array $creds
+ *   Array with 'name' and 'pass' keys, used to authenticate user with Alma.
+ * @param boolean $reset
+ *   Reset static caching for this function.
+ * @return stdClass
+ *   Patron object.
+ */
 function alma_get_patron($creds = NULL, $reset = TRUE) {
   if (is_null($creds)) {
     // Get creds, which may throw an exception that login is required.
@@ -202,5 +216,6 @@ function alma_get_patron($creds = NULL, $reset = TRUE) {
     );
   }
 
-  return (object)$patron;
+  return (object) $patron;
 }
+
