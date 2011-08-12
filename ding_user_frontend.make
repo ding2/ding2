@@ -8,6 +8,10 @@ projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-11841
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
 
+projects[ding_debt][type] = module
+projects[ding_debt][download][type] = git
+projects[ding_dent][download][url] = git@github.com:ding2/ding_debt.git
+
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
 projects[ding_loan][download][url] = "git@github.com:ding2/ding_loan.git"
