@@ -3,7 +3,7 @@ core = 7.x
 
 ; Contrib
 projects[ctools][subdir] = "contrib"
-projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-1184168.patch"
+projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
 
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
