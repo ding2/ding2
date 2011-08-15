@@ -1,21 +1,19 @@
-(function ($) {
+(function($) {
 
   Drupal.extractCoverData = function(e) {
     classname = $(e).attr('class');
     id = classname.match(/ting-cover-object-id-(\S+)/);
     imageStyle = classname.match(/ting-cover-style-(\S+)/);
-    if ( !id ) {
+    if (!id) {
       return false;
     }
-    return id[1]+':'+imageStyle[1];
+    return id[1] + ':' + imageStyle[1];
   };
 
   Drupal.insertCovers = function(coverData) {
     $.each(coverData, function(coverInfo, url) {
       coverInfo = coverInfo.split(':');
-      $('.ting-cover-processing'+
-        '.ting-cover-object-id-'+coverInfo[0]+
-        '.ting-cover-style-'+coverInfo[1]).html('<img src="'+url+'"/>');
+      $('.ting-cover-processing' + '.ting-cover-object-id-' + coverInfo[0] + '.ting-cover-style-' + coverInfo[1]).html('<img src="' + url + '"/>');
     });
   };
 
@@ -39,7 +37,7 @@
           dataType: 'json',
           success: Drupal.insertCovers,
           //Keep state using classes
-          complete: function(request, status){
+          complete: function(request, status) {
             processing = $('.ting-cover-processing', context);
             if (status == 'success') {
               processing.addClass('ting-cover-processed');
@@ -56,10 +54,12 @@
     detach: function(context) {
       //If we have a request associated with the context then abort it.
       //It is obsolete.
-      if (request = $(context).data('request')) {
+      var request = $(context).data('request');
+      if (request) {
         request.abort();
       }
     }
   };
 
-}(jQuery));
+} (jQuery));
+
