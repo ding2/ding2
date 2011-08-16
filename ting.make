@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[nanosoap][subdir] = contrib
-projects[nanosoap][version] = 1.0-beta2
+projects[nanosoap][version] = 1.0-beta3
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "git@github.com:ding2/ting-client.git"
