@@ -1,0 +1,10 @@
+name = Ting infomedia
+description = Handles articles from Infomedia.
+package = Ding!
+version = 0.1
+core = 7.x
+files[] = ting_infomedia.module
+files[] = ting_infomedia.install
+files[] = ting_infomedia.theme.inc
+; configure = admin/config/ting
+; stylesheets[all][] = ting.css

@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Handles articles from Infomedia.
+ */
+
+// Load Field module hooks.
+module_load_include('inc', 'ting_infomedia', 'ting_infomedia.field');
+
+/**
+ * Implements hook_theme().
+ */
+function ting_infomedia_theme() {
+  return array(
+    'ting_infomedia' => array(
+      'template' => 'ting_infomedia',
+      'render element' => 'elements',
+      'file' => 'ting_infomedia.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Inline relation types and their titles.
+ */
+function ting_infomedia_inline() {
+  static $types;
+  if (!$types) {
+    $types = array(
+      #'hasAuthorDescription' => t('Author portrait'),
+      #'hasSubjectDescription' => t('Subject description'),
+      #'isPartOfManifestation' => t('Is part of manifestation'),
+    );
+  }
+  return $types;
+}
+
