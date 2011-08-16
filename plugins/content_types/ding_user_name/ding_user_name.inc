@@ -8,7 +8,6 @@ $plugin = array(
   'title' => t('Ding username'),
   'icon' => 'icon_user.png',
   'description' => t("Username, for login box area"),
-  'description' => t('ding_user_name description.'),
   'single' => TRUE,
   'content_types' => array('ding_user_name'),
   'render callback' => 'ding_user_ding_user_name_type_render',

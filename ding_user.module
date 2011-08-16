@@ -484,3 +484,49 @@ function ding_user_save_creds($auth_res, $account) {
     cache_set(session_name() . '-' . $account->uid, $auth_res['creds'], 'cache_ding_user_credentials', REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME));
   }
 }
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_user_block_info() {
+  $blocks['ding-user-name'] = array(
+      'info' => t('Ding username(2)'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_user_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'ding-user-name':
+      $block['subject'] = t('Username, for login box area');
+      $block['content'] = ding_user_name_render() ;
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Render callback function
+ */
+function ding_user_name_render() {
+  $display_name = isset($GLOBALS['user']) ? $GLOBALS['user']->data['display_name'] : NULL;
+  $block =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<p class="ding-user-name">',
+      '#markup' => $display_name,
+      '#suffix' => '</p>',
+    );
+  if ( $display_name ) {
+    return $block;
+  } else {
+    return NULL;
+  }
+}
+
