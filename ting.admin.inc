@@ -59,13 +59,13 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_recommendation_url', ''),
   );
 
-  $form['ting']['ting_infomedia_url'] = array(
+   $form['ting']['ting_infomedia_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Infomedia web service URL'),
-    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://didicas.dbc.dk/useraccessinfomedia_1.1/)',
+    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://didicas.dbc.dk/useraccessinfomedia_1.1/'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_infomedia_url', ''),
-  );
+    );
 
   $form['ting']['ting_enable_logging'] = array(
     '#type' => 'checkbox',
