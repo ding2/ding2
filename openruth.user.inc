@@ -85,13 +85,6 @@ function openruth_user_profile_form($form, $form_state) {
     $preferred_branch = $user->data['preferred_branch'];
   }
 
-  $period_of_interest = array(
-    30 => t('1 month'),
-    60 => t('2 months'),
-    180 => t('6 months'),
-    360 => t('12 months'),
-  );
-
   $form['openruth_library'] = array(
     '#type' => 'fieldset',
     '#title' => t('My library'),
