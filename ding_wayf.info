@@ -1,0 +1,6 @@
+name = "Ding WAYF"
+description = "Implementation of login with WAYF (nemlog-in)."
+core = 7.x
+package = Ding!
+files[] = ding_wayf.module
+files[] = ding_wayf.test
