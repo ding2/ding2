@@ -10,7 +10,7 @@
  */
 function template_preprocess_ting_infomedia(&$variables) {
   // krumo( "INFOMEDIAHEST" );
-  krumo($variables);
+  //krumo($variables);
 
 }
 

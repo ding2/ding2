@@ -28,11 +28,37 @@ function ting_infomedia_inline() {
   static $types;
   if (!$types) {
     $types = array(
-      #'hasAuthorDescription' => t('Author portrait'),
-      #'hasSubjectDescription' => t('Subject description'),
-      #'isPartOfManifestation' => t('Is part of manifestation'),
+      'hasAuthorDescription' => t('Author portrait'),
+      'hasSubjectDescription' => t('Subject description'),
+      'isPartOfManifestation' => t('Is part of manifestation'),
     );
   }
   return $types;
+}
+
+/**
+ * hook_menu() must be implemented to emit items to place in the main menu.
+ * This is a required step for modules wishing to display their own pages,
+ * because the process of creating the links also tells Drupal what
+ * callback function to use for a given URL. The menu items returned
+ * here provide this information to the menu system.
+ */
+
+/**
+ * Implements hook_menu()
+ */
+function ting_infomedia_menu() {
+  // url path
+  // http://[drupa]/?ting/infomedia
+  $items['ting/infomedia'] = 
+    array('title' => 'Infomedia',
+	  // page callback function
+	  'page callback' => 'ting_infomedia_article_view',
+	  'file' => 'ting_infomedia.pages.inc',
+	  // permissions
+	  'access callback' => TRUE,
+	  // default - do not show in menus
+	  'type' => MENU_CALLBACK,);
+  return $items;	  
 }
 
