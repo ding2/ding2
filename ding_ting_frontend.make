@@ -3,6 +3,7 @@ core = 7.x
 
 ; CONTRIB MODULES
 projects[ctools][subdir] = "contrib"
+projects[ctools][version] = "1.0-rc1"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
