@@ -20,6 +20,10 @@
         });
       });
 
+      $.each(ids, function(index, id) {
+        $('#' + id).addClass('pending');
+      });
+
       // Fetch availability.
       if (ids.length > 0) {
         $.getJSON(settings.basePath + 'ding_availability/' + (settings.ding_availability_mode ? settings.ding_availability_mode: 'items') + '/' + ids.join(','), {}, update);
@@ -52,6 +56,8 @@
             reservable = reservable || Drupal.DADB[entity_id]['reservable'];
           }
         });
+
+        $('#' + id).addClass('processed');
 
         if (available) {
           $('#' + id).addClass('available');

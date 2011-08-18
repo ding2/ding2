@@ -1,17 +1,20 @@
 
-.availability {
+.pending {
   color: #444;
 }
 
+.availability.processed {
+  color: #ed1e88;
+}
+
 .availability.available {
-  color: #ea9123;
+  color: #3399FF;
 }
 
 .availability.reservable {
-  color: #ed1e88;
+  color: #ea9123;
 }
 
 .availability.available.reservable {
   color: #4c9f45;
 }
-
