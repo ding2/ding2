@@ -11,13 +11,16 @@ module_load_include('inc', 'ting_infomedia', 'ting_infomedia.field');
 /**
  * Implements hook_theme().
  */
-function ting_infomedia_theme() {
+function ting_infomedia_theme($existing, $type, $theme, $path) {
+  print_r($theme);
   return array(
     'ting_infomedia' => array(
       'template' => 'ting_infomedia',
       'render element' => 'elements',
       'file' => 'ting_infomedia.theme.inc',
     ),
+    'ting_infomedia_hest' => 
+    array('render element'=>'element',),				   
   );
 }
 
@@ -75,3 +78,4 @@ function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state
     '#default_value' => variable_get('ting_infomedia_url', ''),
     );
 }
+

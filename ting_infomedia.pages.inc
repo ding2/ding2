@@ -28,8 +28,9 @@ function ting_infomedia_article_view(){
   // #theme - The theme function; e.g theme_infomedia_view_articles()
   // #title - title of page
    
-   $render_array['#markup'] = ting_infomedia_get_article();
-   //$render_array['#theme'] = 'ting_infomedia_hest';  
+   //$render_array['#markup'] = ting_infomedia_get_article();
+   $render_array['#hest'] = ting_infomedia_get_article();
+   $render_array['#theme'] = 'ting_infomedia_hest';  
    //$render_array['render element'] = 'element';
    
   return $render_array;
@@ -42,10 +43,9 @@ function ting_infomedia_get_article() {
   return $infomedia->html(); 
 }
 
-function ting_infomedia_hest_theme(&$variables) {
-  echo "HEST";
-  return array('#markup'=>'<div style="color:blue">RENDER_KO</div>');
-return '<div style="color:blue">RENDER_KO</div>';
+function theme_ting_infomedia_hest($variables) {
+  krumo($variables);
+  return '<div style="color:blue">RENDER_KO</div>';
 }
 
 /*function ting_infomedia_hest_theme() {
