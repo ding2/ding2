@@ -63,6 +63,7 @@ function ting_admin_ting_settings($form_state) {
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
     '#default_value' => variable_get('ting_enable_logging', FALSE),
+    '#weight' => 1,
   );
 
   $intervals = array(
@@ -91,6 +92,7 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME),
     '#options' => $options,
     '#description' => t("Cache answers from the datawell for this time. At least a few minutes is recommended, so the same objects doesn't have to be fetched on each page request."),
+    '#weight' => 1,
   );
 
   return system_settings_form($form);
