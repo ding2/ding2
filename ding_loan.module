@@ -39,3 +39,54 @@ function ding_loan_sort_expiry($a, $b) {
   }
   return ($a->expiry < $b->expiry) ? -1 : 1;
 }
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_loan_block_info() {
+  $blocks['ding-user-loan-number'] = array(
+      'info' => t('Ding loan number'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_loan_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'ding-user-loan-number':
+      $block['subject'] = t("Number of loans in user's loan list, for login box area");
+      $block['content'] = ding_loan_amount_render() ;
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Render callback function
+ */
+function ding_loan_amount_render() {
+
+//    return NULL;
+
+  if ( !isset($GLOBALS['user']) ) {
+    return NULL;
+  }
+
+  $list = ding_provider_invoke_page('loan', 'list', $GLOBALS['user']);
+
+  $block =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="ding-user-loan-amount">',
+      '#markup' => '<span class="label">' . t('Loans: ') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+      '#suffix' => '</div>',
+    );
+
+  return $block;
+
+}
