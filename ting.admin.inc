@@ -59,24 +59,6 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_recommendation_url', ''),
   );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-   $form['ting']['ting_infomedia_url'] = array(
-=======
-  $form['ting']['ting_infomedia_url'] = array(
->>>>>>> parent of 3fb3a40... And again - configuration url for infomedia web-service
-    '#type' => 'textfield',
-    '#title' => t('Infomedia web service URL'),
-    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://didicas.dbc.dk/useraccessinfomedia_1.1/)',
-    '#required' => TRUE,
-    '#default_value' => variable_get('ting_infomedia_url', ''),
-  );
-
-=======
->>>>>>> parent of bb3b6c5... Added field for infomedia webservice url on ting settings form
-=======
->>>>>>> parent of bb3b6c5... Added field for infomedia webservice url on ting settings form
   $form['ting']['ting_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
