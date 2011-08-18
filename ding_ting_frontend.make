@@ -5,6 +5,9 @@ core = 7.x
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 
+projects[i18n][subdir] = "contrib"
+projects[i18n][version] = "1.0-rc3"
+
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
 
@@ -13,6 +16,9 @@ projects[features][version] = 1.0-beta3
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0-beta2"
+
+projects[variable][subdir] = "contrib"
+projects[variable][version] = "1.1"
 
 ; CUSTOM MODULES
 projects[ding_facetbrowser][type] = "module"
