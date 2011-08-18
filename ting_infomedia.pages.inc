@@ -22,30 +22,34 @@ function ting_infomedia_article_view(){
    $render_array = array();
   
   // simple render array for testing
-   $render_array['#markup'] = '<div style="color:red">'.t(' this is an article from infomedia').'</div>';
+  // $render_array['#markup'] = '<div style="color:red">'.t(' this is an article from infomedia').'</div>';
   // other options:
   // #items - items to pass to theme function
   // #theme - The theme function; e.g theme_infomedia_view_articles()
   // #title - title of page
    
-   $render_array['#hest'] = ting_infomedia_get_article();
-
-    krumo($render_array);
+   $render_array['#markup'] = ting_infomedia_get_article();
+   //$render_array['#theme'] = 'ting_infomedia_hest';  
+   //$render_array['render element'] = 'element';
    
   return $render_array;
 }
 
 function ting_infomedia_get_article() {
-  // make an adapter
-  // make a tingClientRequest object
-  // adapter->execute($request);
- 
-  //krumo($adapter);
-  
-  $infomedia = new TingClientInfomediaRequest('getArticleRequest');
-  try{ $ret = $infomedia->go(); }
+  try{ $infomedia = new TingClientInfomediaRequest('getArticleRequest');  }
   catch(TingClientException $e){watchdog('infomedia', $e->message());}
   //krumo($request);
-  return $ret; 
+  return $infomedia->html(); 
 }
+
+function ting_infomedia_hest_theme(&$variables) {
+  echo "HEST";
+  return array('#markup'=>'<div style="color:blue">RENDER_KO</div>');
+return '<div style="color:blue">RENDER_KO</div>';
+}
+
+/*function ting_infomedia_hest_theme() {
+return '<div style="color:blue">RENDER_KO</div>';
+}*/
+
 
