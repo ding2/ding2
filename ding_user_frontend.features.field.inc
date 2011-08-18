@@ -27,10 +27,10 @@ function ding_user_frontend_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          30 => '1 måned',
-          60 => '2 måneder',
-          90 => '3 måneder',
-          180 => '6 måneder',
+          30 => '1 month',
+          60 => '2 months',
+          90 => '3 months',
+          180 => '6 months',
         ),
         'allowed_values_function' => '',
       ),
@@ -53,7 +53,7 @@ function ding_user_frontend_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_period_of_interest',
-      'label' => 'Interessesperiode',
+      'label' => 'Interest period',
       'required' => 0,
       'settings' => array(
         'user_register_form' => 0,
@@ -115,7 +115,7 @@ function ding_user_frontend_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_reservation_pause',
-      'label' => 'Sæt reservationer i bero',
+      'label' => 'Reservation pause',
       'required' => 0,
       'settings' => array(
         'default_format' => 'medium',
@@ -145,8 +145,8 @@ function ding_user_frontend_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Interessesperiode');
-  t('Sæt reservationer i bero');
+  t('Interest period');
+  t('Reservation pause');
 
   return $fields;
 }

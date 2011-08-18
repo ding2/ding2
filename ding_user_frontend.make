@@ -3,7 +3,11 @@ core = 7.x
 
 ; Contrib
 projects[ctools][subdir] = "contrib"
+projects[ctools][version] = "1.0-rc1"
 projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
+
+projects[i18n][subdir] = "contrib"
+projects[i18n][version] = "1.0-rc3"
 
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
@@ -11,6 +15,9 @@ projects[panels][version] = 3.0-alpha3
 projects[ding_debt][type] = module
 projects[ding_debt][download][type] = git
 projects[ding_dent][download][url] = git@github.com:ding2/ding_debt.git
+
+projects[variable][subdir] = "contrib"
+projects[variable][version] = "1.1"
 
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
