@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * Implementation of hook_requirements().
+ */
+function ding_wayf_requirements($phase) {
+  global $conf;
+  $requirements = array();
+
+  // Ensure translations don't break at install time
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    // Test that the provider password have been set.
+    if (!isset($conf['ding_wayf_passwd'])) {
+      $requirements['ding_wayf_passwd'] = array(
+        'title' => $t('Ding wayf default password'),
+        'description' => t('You have not defined the default password use by ding_wayf in you settings.php. You should add the line $conf[\'ding_wayf_passwd\'] = \'<PASSWORD>\''),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+
+    // Test that configuration have be created.
+    $config = variable_get('ding_wayf', FALSE);
+    if (!$config) {
+      $requirements['ding_wayf_config'] = array(
+        'title' => $t('Ding wayf configuration'),
+        'description' => t('You have not yet confirmed the configuration at !url.', array('!url' => l('/admin/settings/ding/wayf', 'admin/settings/ding/wayf'))),
+        'severity' => REQUIREMENT_WARNING,
+      );
+    }
+
+    // Test that simple saml is installed.
+    if (!$config || !isset($config['installdir'])) {
+      $requirements['ding_wayf_install'] = array(
+        'title' => $t('SimpleSAMLphp installation not defined'),
+        'description' => t('The installation of simpleSAMLphp was not found.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+    else {
+      // Check that simpleSAMLphp is found at the location given.
+      if (!ding_wayf_check_simplesamlphp($config['installdir'])) {
+        $requirements['ding_wayf_install'] = array(
+          'title' => $t('SimpleSAMLphp installation has disappeared'),
+          'description' => t('The installation of simpleSAMLphp was not found.'),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+    }
+  }
+
+  return $requirements;
+}
