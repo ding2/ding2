@@ -62,3 +62,16 @@ function ting_infomedia_menu() {
   return $items;	  
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter()
+ * Adding infomedia url form field to ting configuration form
+ */
+function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+   $form['ting']['ting_infomedia_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Infomedia web service URL'),
+    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://didicas.dbc.dk/useraccessinfomedia_1.1/'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('ting_infomedia_url', ''),
+    );
+}
