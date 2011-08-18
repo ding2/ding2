@@ -59,6 +59,7 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_recommendation_url', ''),
   );
 
+<<<<<<< HEAD
    $form['ting']['ting_infomedia_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Infomedia web service URL'),
@@ -67,6 +68,8 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_infomedia_url', ''),
     );
 
+=======
+>>>>>>> parent of bb3b6c5... Added field for infomedia webservice url on ting settings form
   $form['ting']['ting_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
