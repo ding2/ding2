@@ -11,16 +11,18 @@
   Drupal.behaviors.dingAvailabilityAttach = {
     attach: function(context, settings) {
       var ids = [];
+      var html_ids = [];
       $.each(settings.ding_availability, function(id, entity_ids) {
         $.each(entity_ids, function(index, entity_id) {
           if (Drupal.DADB[entity_id] === undefined) {
             Drupal.DADB[entity_id] = null;
             ids.push(entity_id);
+            html_ids.push(id);
           }
         });
       });
 
-      $.each(ids, function(index, id) {
+     $.each(html_ids, function(index, id) {
         $('#' + id).addClass('pending');
       });
 
@@ -57,6 +59,7 @@
           }
         });
 
+        $('#' + id).removeClass('pending');
         $('#' + id).addClass('processed');
 
         if (available) {
