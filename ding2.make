@@ -63,4 +63,4 @@ projects[pazpar2][download][url] = "git://git.indexdata.com/pazpar2.git"
 projects[artois][type] = "theme"
 projects[artois][download][type] = "git"
 projects[artois][download][url] = "git@github.com:DBCDK/artois.git"
-
+projects[artois][tag] = "v0.2"
