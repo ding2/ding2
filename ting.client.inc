@@ -347,9 +347,13 @@ function ting_get_request_factory() {
       'collection' => 'ting_search_url',
       'spell' => 'ting_spell_url',
       'recommendation' => 'ting_recommendation_url',
-      // pjo added infomedia
-      'infomedia' => 'ting_infomedia_url',
     );
+
+    // TODO: This should probably be rethought.
+    if (module_exists('ting_infomedia')) {
+      // pjo added infomedia
+      $url_variables['infomedia'] = 'ting_infomedia_url';
+    }
 
     $urls = array();
     foreach ($url_variables as $name => $setting) {
