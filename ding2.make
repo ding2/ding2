@@ -5,7 +5,7 @@ core = 7.x
 projects[alma][type] = module
 projects[alma][download][type] = git
 projects[alma][download][url] = git@github.com:ding2/alma.git
-projects[alma][download][tag] = "v0.1"
+projects[alma][download][tag] = "v0.2"
 
 projects[ding_devel][type] = "module"
 projects[ding_devel][download][type] = "git"
@@ -20,28 +20,39 @@ projects[mkdru][download][revision] = "ac3d47c986ab5db1d6597b5125b34a50bb6ae57b"
 projects[openruth][type] = "module"
 projects[openruth][download][type] = "git"
 projects[openruth][download][url] = "git@github.com:ding2/openruth.git"
-projects[openruth][download][tag] = "v0.1"
+projects[openruth][download][tag] = "v0.2"
 
 projects[ting_fulltext][type] = module
 projects[ting_fulltext][download][type] = git
 projects[ting_fulltext][download][url] = git@github.com:ding2/ting_fulltext.git
-projects[ting_fulltext][download][tag] = "v0.1"
+projects[ting_fulltext][download][tag] = "v0.2"
+
+; Inlead/VoxB
+projects[ding_arbo_d7][type] = module
+projects[ding_arbo_d7][download][type] = git
+projects[ding_arbo_d7][download][url] = git@github.com:inleadmedia/ding_arbo_d7.git
+projects[ding_arbo_d7][download][branch] = v2.0
+
+projects[ding_voxb_d7][type] = module
+projects[ding_voxb_d7][download][type] = git
+projects[ding_voxb_d7][download][url] = git@github.com:inleadmedia/ding_voxb_d7.git
+projects[ding_voxb_d7][download][branch] = v2.0
 
 ; Frontend modules
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
 projects[ding_frontend][download][url] = "git@github.com:ding2/ding_frontend.git"
-projects[ding_frontend][download][tag] = "v0.1"
+projects[ding_frontend][download][tag] = "v0.2"
 
 projects[ding_user_frontend][type] = "module"
 projects[ding_user_frontend][download][type] = "git"
 projects[ding_user_frontend][download][url] = "git@github.com:ding2/ding_user_frontend.git"
-projects[ding_user_frontend][download][tag] = "v0.1"
+projects[ding_user_frontend][download][tag] = "v0.2"
 
 projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
-projects[ding_ting_frontend][download][tag] = "v0.1"
+projects[ding_ting_frontend][download][tag] = "v0.2"
 
 ; Libraries
 projects[pazpar2][download][type] = "git"
