@@ -3,18 +3,25 @@
   color: #696a69;
 }
 
+/* Not available or reservable */
 .availability.processed {
   color: #ed1e88;
 }
 
+.availability.processed.netdokument  {
+  color: #2e2e2e;
+}
+
 .availability.available {
-  color: #3399FF;
+  color: #0072bc;
 }
 
 .availability.reservable {
   color: #ea9123;
 }
 
+/* Available and reservable */
 .availability.available.reservable {
   color: #4c9f45;
 }
+

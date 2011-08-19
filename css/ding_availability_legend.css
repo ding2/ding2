@@ -26,11 +26,19 @@
 }
 
 .availability-legend-item.on-loan img {
-  background-color: #ed1e88;
+  background-color: #ea9123;
 }
 
 .availability-legend-item.unavailable img {
-  background-color: #696a69;
+  background-color: #ED1E88;
+}
+
+.availability-legend-item.unavailable.netdokument img {
+  background-color: #2e2e2e;
+}
+
+.availability-legend-item.unreservable img {
+  background-color: #0072bc;
 }
 
 
