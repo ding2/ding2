@@ -27,17 +27,6 @@ projects[ting_fulltext][download][type] = git
 projects[ting_fulltext][download][url] = git@github.com:ding2/ting_fulltext.git
 projects[ting_fulltext][download][tag] = "v0.2"
 
-; Inlead/VoxB
-projects[ding_arbo_d7][type] = module
-projects[ding_arbo_d7][download][type] = git
-projects[ding_arbo_d7][download][url] = git@github.com:inleadmedia/ding_arbo_d7.git
-projects[ding_arbo_d7][download][branch] = v2.0
-
-projects[ding_voxb_d7][type] = module
-projects[ding_voxb_d7][download][type] = git
-projects[ding_voxb_d7][download][url] = git@github.com:inleadmedia/ding_voxb_d7.git
-projects[ding_voxb_d7][download][branch] = v2.0
-
 ; Frontend modules
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
