@@ -234,15 +234,7 @@ function ding_wayf_logout() {
 
   // Check if the user is logged into WAYF and log out the user.
   if ($saml->isAuthenticated()) {
-    $config = SimpleSAML_Configuration::getInstance();
-    $msg = 'with_slo';
-
-    try {
-      $slo = $config->getString('SingleLogoutService');
-    } catch (Exception $e) {
-      $msg = "no_slo";
-    }
-    $saml->logout('/?msg=' . $msg);
+    $saml->logout();
   }
 }
 
