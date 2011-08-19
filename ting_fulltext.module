@@ -56,7 +56,9 @@ function ting_fulltext_object_load($object_id) {
  */
 function ting_fulltext_preprocess_ting_relation(&$variables) {
   $relation = $variables['object'] = $variables['elements']['#object'];
-  if (in_array('docbook', $relation->reply->formatsAvailable)) {
+  if (isset($relation->reply) &&
+      is_array($relation->reply->formatsAvailable) &&
+      in_array('docbook', $relation->reply->formatsAvailable)) {
     $variables['content']['docbook_link'] = array(
       '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),
     );
