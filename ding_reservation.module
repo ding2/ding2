@@ -364,7 +364,7 @@ function ding_reservation_block_view($delta = '') {
  * Render callback function
  */
 function ding_reservations_amount_render() {
-  if ( !isset($GLOBALS['user']) ) {
+  if ( !isset($GLOBALS['user']->init) || !user_get_authmaps($GLOBALS['user']->init) ) {
     return NULL;
   }
   $list = ding_provider_invoke_page('reservation', 'list', $GLOBALS['user']);
@@ -372,7 +372,7 @@ function ding_reservations_amount_render() {
     array(
       '#type' => 'markup',
       '#prefix' => '<div id="ding-user-reservation-amount">',
-      '#markup' => '<span class="label">' . t('Reservations: ') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+      '#markup' => '<span class="label"><a href="/user/' . $GLOBALS['user']->uid . '/status/reservations">' . t('Reservations:') . '</a></span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
       '#suffix' => '</div>',
     );
   return $block;
