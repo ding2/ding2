@@ -14,7 +14,7 @@ projects[panels][version] = 3.0-alpha3
 
 projects[ding_debt][type] = module
 projects[ding_debt][download][type] = git
-projects[ding_dent][download][url] = git@github.com:ding2/ding_debt.git
+projects[ding_debt][download][url] = git@github.com:ding2/ding_debt.git
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "1.1"
@@ -22,10 +22,9 @@ projects[variable][version] = "1.1"
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
 projects[ding_loan][download][url] = "git@github.com:ding2/ding_loan.git"
-projects[ding_loan][download][tag] = "v0.1"
+projects[ding_loan][download][tag] = "v0.2"
 
 projects[ding_reservation][type] = "module"
 projects[ding_reservation][download][type] = "git"
 projects[ding_reservation][download][url] = "git@github.com:ding2/ding_reservation.git"
-projects[ding_reservation][download][tag] = "v0.1"
-
+projects[ding_reservation][download][tag] = "v0.2"
