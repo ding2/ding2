@@ -70,23 +70,16 @@ function ding_loan_block_view($delta = '') {
  * Render callback function
  */
 function ding_loan_amount_render() {
-
-//    return NULL;
-
-  if ( !isset($GLOBALS['user']) ) {
+  if ( !isset($GLOBALS['user']->init) || !user_get_authmaps($GLOBALS['user']->init) ) {
     return NULL;
   }
-
   $list = ding_provider_invoke_page('loan', 'list', $GLOBALS['user']);
-
   $block =
     array(
       '#type' => 'markup',
       '#prefix' => '<div id="ding-user-loan-amount">',
-      '#markup' => '<span class="label">' . t('Loans: ') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+      '#markup' => '<span class="label"><a href="/user/' . $GLOBALS['user']->uid . '/status">' . t('Loans:') . '</a></span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
       '#suffix' => '</div>',
     );
-
   return $block;
-
 }
