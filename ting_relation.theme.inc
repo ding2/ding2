@@ -15,7 +15,7 @@ function template_preprocess_ting_relation(&$variables) {
   $variables['type_title'] = $variables['elements']['#title'];
   $variables['title'] = check_plain($object->title);
   if ($relation->type == 'isPartOfManifestation') {
-    $variables['content']['body'] = ting_object_view($object, 'search_result');
+    $variables['content']['body'] = ting_object_view($object, 'teaser');
   }
   elseif ($relation->type == 'hasReview') {
     $variables['content']['body'] = array(
