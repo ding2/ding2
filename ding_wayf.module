@@ -80,7 +80,7 @@ function ding_wayf_redirect_login() {
           $auth_name = ding_wayf_get_credentials($saml_attributes[$config['attribute']], $config['attribute_field']);
           if ($auth_name) {
             $creds = array(
-              'name' => ding_wayf_get_credentials($saml_attributes[$config['attribute']], $config['attribute_field']),
+              'name' => $auth_name,
               'pass' => $conf['ding_wayf_passwd'],
             );
           }
@@ -108,11 +108,6 @@ function ding_wayf_redirect_login() {
 
 /**
  * Login a wayf user, as thay where logged in by the library system.
- */
-
-/*
- *
- * SEE ding_user.module line 293
  */
 function ding_wayf_login($creds) {
   global $user;
@@ -174,6 +169,10 @@ function ding_wayf_login($creds) {
     else {
       ding_user_update_user($auth_res, $account);
     }
+
+    // Login user
+    $form_state['uid'] = $account->uid;
+    user_login_submit(array(), $form_state);
     
     // Save credentials for later.
     ding_user_save_creds($auth_res, $account);
@@ -269,13 +268,11 @@ function ding_wayf_get_saml_connection($sp) {
 }
 
 /**
- * Implementation of hook_user(). Ensures that the WAYF logout function is called
- * on user logout.
+ * Implementation of hook_user_logout(). Ensures that the WAYF logout function
+ * is called on user logout.
  */
-function ding_wayf_user($op, &$edit, &$account, $category = NULL) {
-  if ($op == 'logout') {
-    ding_wayf_logout();
-  }
+function ding_wayf_user_logout($account) {
+  ding_wayf_logout();
 }
 
 /**
