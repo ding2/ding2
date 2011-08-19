@@ -67,7 +67,11 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
     $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
     if (isset($availability[$entity->provider_id])) {
       $issues = $availability[$entity->provider_id]['issues'];
-      array_walk($issues, 'asort');
+      // array_walk($issues, 'asort') complains about 'Notice: A non
+      // well formed numeric value encountered'.
+      foreach ($issues as $k => $v) {
+        asort($v);
+      }
       ksort($issues);
 
       if ($issues) {
