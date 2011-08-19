@@ -523,15 +523,17 @@ function ding_user_block_view($delta = '') {
  * Render callback function
  */
 function ding_user_name_render() {
-  $display_name = ( isset($GLOBALS['user']) && isset($GLOBALS['user']->data) ) ? $GLOBALS['user']->data['display_name'] : NULL;
-  if ( !$display_name ) {
+  $ding_name = ( isset($GLOBALS['user']) && isset($GLOBALS['user']->data) ) ? $GLOBALS['user']->data['display_name'] : NULL;
+  $user_name = ( isset($GLOBALS['user']) && isset($GLOBALS['user']->name) ) ? $GLOBALS['user']->name : NULL;
+  $name = ( $ding_name ) ? $ding_name : $user_name;
+  if ( !$name ) {
     return NULL;
   }
   $block =
     array(
       '#type' => 'markup',
       '#prefix' => '<div id="ding-user-name">',
-      '#markup' => $display_name,
+      '#markup' => $name,
       '#suffix' => '</div>',
     );
   return $block;
@@ -541,8 +543,8 @@ function ding_user_name_render() {
  * Render callback function
  */
 function ding_user_icon_render() {
-  $display_name = ( isset($GLOBALS['user']) && isset($GLOBALS['user']->data) ) ? TRUE : FALSE;
-  if ( !$display_name ) {
+  $is_user = ( isset($GLOBALS['user']) && isset($GLOBALS['user']->data) ) ? TRUE : FALSE;
+  if ( !$is_user ) {
     return NULL;
   }
   $block =
