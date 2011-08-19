@@ -268,27 +268,6 @@ function ding_wayf_user_logout($account) {
 }
 
 /**
- * Implementation of hook_block(). A block is created with the login link to
- * WAYF.
- */
-//function ding_wayf_block($op = 'list', $delta = 0, $edit = array()) {
-//  switch ($op) {
-//    case 'list':
-//      $block[0] = array('info' => 'WAYF login block');
-//      break;
-//
-//    case 'view':
-//      global $user;
-//      // Only show login link for anon. users.
-//      if ($user->uid == 0) {
-//        $block['content'] = l(t('Login using WAYF'), 'wayf/login', array('query' => drupal_get_destination()));
-//      }
-//      break;
-//  }
-//  return $block;
-//}
-
-/**
  * Check that simpleSAMLphp is installed at the location given.
  */
 function ding_wayf_check_simplesamlphp($path) {
@@ -298,4 +277,36 @@ function ding_wayf_check_simplesamlphp($path) {
   }
 
   return TRUE;
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * @return array
+ */
+function ding_wayf_block_info() {
+  return array(
+    'login' => array(
+      'info' => t('WAYF login'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * @param string $delta
+ * @return array
+ */
+function ding_wayf_block_view($delta) {
+  $block = array();
+  if ($delta == 'login') {
+    global $user;
+    // Only show login link for anon. users.
+    if ($user->uid == 0) {
+      $block['content'] = l(t('Login using WAYF'), 'wayf/login', array('query' => drupal_get_destination()));
+    }
+  }
+
+  return $block;
 }
