@@ -433,7 +433,6 @@ function search_controls_form($form_state) {
       'date_descending' => t('Date (Descending)')
     ),
     '#description' => t('Set sort order for search result'),
-    '#attributes' => array('onchange' => 'var i = this.selectedIndex; extendSearch("controls_search_sort",this[i].value)'),
   );
 
   $form['size'] = array(
@@ -446,7 +445,6 @@ function search_controls_form($form_state) {
       '50' => t('50')
     ),
     '#description' => t('Set number of records shown'),
-    '#attributes' => array('onchange' => 'extendSearch("controls_search_size",this.value)'),
   );
 
   return $form;
