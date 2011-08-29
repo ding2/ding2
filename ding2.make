@@ -12,10 +12,13 @@ projects[ding_devel][download][type] = "git"
 projects[ding_devel][download][url] = "git@github.com:ding2/ding_devel.git"
 projects[ding_devel][download][tag] = "v0.1"
 
-projects[mkdru][type] = "module"
-projects[mkdru][download][type] = "git"
-projects[mkdru][download][url] = "git://git.indexdata.com/mkdru.git"
-projects[mkdru][download][revision] = "ac3d47c986ab5db1d6597b5125b34a50bb6ae57b"
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][version] = "1.0"
+
+projects[mkdru_ding][type] = "module"
+projects[mkdru_ding][download][type] = "git"
+projects[mkdru_ding][download][url] = "git://github.com/indexdata/mkdru_ding.git"
+projects[mkdru_ding][download][version] = "7.x-1.x"
 
 projects[openruth][type] = "module"
 projects[openruth][download][type] = "git"
