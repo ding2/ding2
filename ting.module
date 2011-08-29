@@ -449,7 +449,7 @@ function ting_ding_entity_buttons($type, $entity) {
     $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
     return array(
       '#type' => 'markup',
-      '#markup' => l($label, $entity->online_url),
+      '#markup' => l($label, $entity->online_url,array('attributes'=>array('target'=>'_new'))),
     );
   }
 }
