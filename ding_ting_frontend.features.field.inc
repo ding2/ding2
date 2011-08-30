@@ -198,7 +198,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => '11',
         ),
         'collection_primary' => array(
           'label' => 'above',
@@ -265,10 +265,11 @@ function ding_ting_frontend_field_default_fields() {
       'ding_entity_type' => 'ding_entity',
       'display' => array(
         'collection_list' => array(
-          'label' => 'above',
+          'label' => 'hidden',
+          'module' => 'ding_entity',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '0',
+          'type' => 'ding_entity_buttons_default',
+          'weight' => '6',
         ),
         'collection_primary' => array(
           'label' => 'above',
@@ -338,7 +339,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '8',
         ),
         'collection_primary' => array(
           'label' => 'above',
@@ -639,7 +640,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '7',
+          'weight' => '10',
         ),
         'collection_primary' => array(
           'label' => 'above',
@@ -710,7 +711,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '7',
         ),
         'collection_primary' => array(
           'label' => 'above',
@@ -780,7 +781,7 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '9',
         ),
         'collection_primary' => array(
           'label' => 'above',
