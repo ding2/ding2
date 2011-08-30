@@ -1,7 +1,5 @@
-name = Ting infomedia
-description = Handles articles from Infomedia.
+name = ting_Infomedia
+description = module for linking and wieving infomedia articles and reviews
 package = Ding!
 version = 0.1
 core = 7.x
-files[] = ting_infomedia.theme.inc
-files[] = ting_infomedia.pages.inc

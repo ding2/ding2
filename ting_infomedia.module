@@ -1,68 +1,165 @@
 <?php
 
-/**
- * @file
- * Handles articles from Infomedia.
- */
-
-// Load Field module hooks.
+// load field hooks
 module_load_include('inc', 'ting_infomedia', 'ting_infomedia.field');
 
+// required for ajax
+drupal_add_library('system', 'drupal.ajax');
+drupal_add_library('system', 'jquery.form');
+
 /**
- * Implements hook_theme().
+ * Implements hook_menu
  */
-function ting_infomedia_theme($existing, $type, $theme, $path) {
-  print_r($theme);
-  return array(
-    'ting_infomedia' => array(
-      'template' => 'ting_infomedia',
-      'render element' => 'elements',
-      'file' => 'ting_infomedia.theme.inc',
-    ),
-    'ting_infomedia_hest' => 
-    array('render element'=>'element',),				   
-  );
+function ting_infomedia_menu() {
+  // TODO set nice url for viewing infomedia articles e.g /$items['ting/object/%ting_object/ting_infomedia'] =
+
+  // path for viewing infomedia articles
+$items['ting/infomedia'] =
+  array('title' => 'Infomedia',
+	'page callback' => 'ting_infomedia_view',
+	'access callback' => TRUE,
+	'type' => MENU_CALLBACK,	
+	);
+$items['ting_infomedia/ajax'] =
+  array('title' => 'Infomedia article', 
+	'page callback' => 'ting_infomedia_ajax_callback', 
+	'access callback' => TRUE, 
+	'type' => MENU_CALLBACK, );
+
+return $items;
 }
+
+
+/**
+ * Ajax callback function
+ */
+function ting_infomedia_ajax_callback($type = 'ajax') { 
+  if ($type == 'ajax') { 
+    $commands[] = ajax_command_replace('#article-wrapper', ting_infomedia_get_article()); 
+    $page = array('#type' => 'ajax', 
+		  '#commands' => $commands); 
+    ajax_deliver($page); 
+  } else { 
+    $output = t("This is some content delivered via a page load."); 
+    return $output; 
+  } 
+}
+
+/**
+ * Page callback function 
+ * 
+ * Return a render array
+ */
+function ting_infomedia_view() {
+return array(
+	     // easiest solution - simply return html-markup for page
+	     // '#markup' => '<p>' . t('Simple page: The quick brown fox jumps over the lazy dog.') . '</p>',
+	     // if theme is set #markup i useless (overridden).
+	     // if template is given in hook_theme the template is used - if not the theme_function (theme_ting_infomedia_article) is called.
+	      '#theme' => 'ting_infomedia_article',
+	      // '#html-markup' => ting_infomedia_get_article(),
+	      '#markup' => '<div id="article-wrapper">'. ting_infomedia_get_ajax_link().
+	     '<p style="margin-left:10em">'.t('Please wait - loading article from infomedia'). '</p></div>',
+	     
+	     );
+}
+
+function ting_infomedia_get_ajax_link() {
+  return l(t(' '), 'ting_infomedia/ajax/', array('attributes' => array('class' => array('use-ajax'),'id' => 'ajax_infomedia_article')));
+}
+
+/**
+ * Implements hook_theme
+ * Set template for viewing ting_infomedia articles.
+ * Set theme-function for displaying a link (field) to ting_infomedia
+ *
+ * @existing; array of existing themes
+ * @type; which type is being process (module,base_theme_engine,theme_engine,base_theme,theme)
+ * @theme; name of $type being processed
+ * @path; directory path of them or module
+ *
+ * return a render array http://randyfay.com/node/79
+ */
+function ting_infomedia_theme( $existing, $type, $theme, $path ) {
+  // page view definitions - view articles
+  $render_array['ting_infomedia_article'] =
+    array('template' => 'ting_infomedia_article_view',
+	  'render element' => 'element',);
+  // field definitions - link to ting_infomedia articles
+  $render_array['ting_infomedia_link'] =
+    array('render element' => 'element', 
+	  );
+  
+  return $render_array;
+}
+
+/**
+ * implements hook_admin_paths_alter
+ */
+/*function ting_infomedia_admin_paths_alter(&$paths) {
+  $paths['ting/ting_infomedia']=TRUE;
+  // Treat all user pages as administrative.
+  
+  }*/
+
+
+/**
+ * Implement theme function - not used for now - use template
+ */
+function theme_ting_infomedia_link() {
+  krumo("TESTHEST");
+ return '<div style="color:blue">THEME_TING_INFOMEDIA</div>';
+}
+
+/**
+ * Implements hook_page_alter
+ *
+ * Remove 'subheader' (search-box and user-info) from page-views
+ * add stylesheet for ting_infomedia article
+ */
+function ting_infomedia_page_alter(&$page) {
+  $items = ting_infomedia_menu();
+  $path = $_GET['q'];
+  foreach($items as $key=>$val) {
+    if( $key == $path ) {
+      unset($page['subheader']);
+      unset($page['page_top']);
+      break;
+    }
+  }
+  // krumo($page);
+  
+  }
+
+/**
+ * Get content(html) from ting_infomedia-webservice
+ */
+function ting_infomedia_get_article(){
+  try{ $ting_infomedia = new TingClientInfomediaRequest('getArticleRequest');  }
+  catch(TingClientException $e){watchdog('ting_infomedia', $e->message()); return '<pre>'.$e->message().'</pre>';}
+  
+  return $ting_infomedia->html(); 
+}
+
 
 /**
  * Inline relation types and their titles.
  */
-function ting_infomedia_inline() {
+function ting_infomedia_get_ting_relations() {
   static $types;
+  // pjo: testing
+  // return TRUE;
   if (!$types) {
-    $types = array(
-      'hasAuthorDescription' => t('Author portrait'),
-      'hasSubjectDescription' => t('Subject description'),
-      'isPartOfManifestation' => t('Is part of manifestation'),
+    $types = array(      
+      'hasFulltext' => t('Article from infomedia'),
     );
   }
   return $types;
 }
 
-/**
- * hook_menu() must be implemented to emit items to place in the main menu.
- * This is a required step for modules wishing to display their own pages,
- * because the process of creating the links also tells Drupal what
- * callback function to use for a given URL. The menu items returned
- * here provide this information to the menu system.
- */
-
-/**
- * Implements hook_menu()
- */
-function ting_infomedia_menu() {
-  // url path
-  // http://[drupa]/?ting/infomedia
-  $items['ting/infomedia'] = 
-    array('title' => 'Infomedia',
-	  // page callback function
-	  'page callback' => 'ting_infomedia_article_view',
-	  'file' => 'ting_infomedia.pages.inc',
-	  // permissions
-	  'access callback' => TRUE,
-	  // default - do not show in menus
-	  'type' => MENU_CALLBACK,);
-  return $items;	  
+function ting_infomedia_preprocess_html(&$variables,$hook) {
+  drupal_add_js('jQuery(document).ready(function () {  document.getElementById("ajax_infomedia_article").click() });', 'inline');
+  drupal_add_css(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_article_view.css');
 }
 
 /**
@@ -79,3 +176,25 @@ function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state
     );
 }
 
+
+
+/*********** TESTING BELOW *****************7
+
+/**
+ * Preprocess variables for ting_infomedia_article_view (articles and reviews)
+ */
+function template_preprocess_ting_infomedia_article_view(&$variables) {
+  krumo($variables);
+}
+
+
+/**
+ * Implements hook_custom_theme
+ */
+function ting_infomedia_custom_theme() {
+  return 'ting_infomedia';
+}
+
+function theme_ting_infomedia($variables) {
+  krumo($variables);
+}

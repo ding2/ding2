@@ -29,7 +29,7 @@
 
  * description of field
 */
-
+ 
 function ting_infomedia_field_info() {
   $ret = array(
 	       'ting_infomedia' =>
@@ -73,19 +73,60 @@ function ting_infomedia_field_formatter_info() {
  * only one formatter is supported
  * - ting_infomedia
  */
+
+/*function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  // krumo($entity);
+  $element = array();
+  $relation_types = ting_infomedia_get_ting_relations();
+  foreach ($items as $delta => $item) {
+   foreach ($entity->relations as $relation) {
+    if (isset($relation_types[$relation->relationType])) {
+        $element[$delta][] = 
+	  array(
+		'#theme' => 'ting_relation',
+		'#object' => $relation->object,
+		'#title' => $relation_types[$relation->relationType],
+		// '#attached' => array(
+		//  'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
+		//),
+		);
+    }
+   }
+  }
+  return $element;
+  }*/
+
+
+
 function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  // krumo($display);
+  $relation_types = ting_infomedia_get_ting_relations();
   switch($display['type']) {
   case 'ting_infomedia_default' :
-    foreach($items as $delta=>$items)
-      $element[$delta] = array('#markup' => '<div style="color:green; font-size:3em">HEST</div>');
+    foreach($items as $delta=>$items) {
+      foreach ($entity->relations as $relation) {
+	//	krumo($relation->type);
+	if( isset($relation_types[$relation->type]) ) {
+	  //	  print_r($relation);
+	  $element[$delta] = array('#markup' => '<div style="color:green; font-size:2em"><a href="'.ting_infomedia_get_article_link().'">'.t('Read article').'</a></div>');
+	}
+      }
+    }
     break;
   default:
     krumo('ERROR');    
   }
   return $element;
+  }
+
+function ting_infomedia_get_article_link() {
+  //global $base_path;
+  return '?q=ting/infomedia';
+  //$ret.=$base_path.'?q=ting/ting_infomedia';
+  //return $ret;
 }
+
+
 
 /**
  * Implements hook_field_validate
@@ -104,21 +145,20 @@ function ting_infomedia_is_empty($item, $field) {
   return false;
 }
 
+
 /**
  * Implements hook_field_load().
  * pjo notes Define custom load behavior for this module's field types.
  */
-/*function ting_infomedia_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
-  // krumo("ting_infomedia.field.inc:FIELD LOAD");
-  foreach ($entities as $id => $entity) {
+function ting_infomedia_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+   foreach ($entities as $id => $entity) {
     // We could create relations as multiple values here, but it's
     // cached after this hook, so we don't.
     $items[$id][0] = array(
       'id' => $id,
     );
   } 
-  }*/
-
+  }
 /**
 Implements hook_field_formatter_prepare_view
 *

@@ -2,10 +2,11 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the ting infomedia module.
+ * Install, update and uninstall functions for the ting ting_infomedia module.
  */
 
 /**
+ * field-definitions
  * Implements hook_ding_entity_fields().
  */
 function ting_infomedia_ding_entity_fields() {
@@ -18,7 +19,7 @@ function ting_infomedia_ding_entity_fields() {
         ),
       ),
       'instance' => array(
-        'label' => t('Ting infomedia.'),
+        'label' => t('Link to infomedia articles'),
       ),
     ),
   );
