@@ -1,0 +1,181 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function ting_proxy_menu() {
+  $items = array();
+
+  // Get the module path
+  $path = drupal_get_path('module', 'ting_proxy') . '/includes';
+
+  // Administration UI
+  $items['admin/config/ting/proxy'] = array(
+    'title' => 'Proxy settings',
+    'description' => 'Ting Proxy settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_proxy_settings_form'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting_proxy.admin.inc',
+  	'file path' => $path,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_element_info() that defines a new form element named
+ * ting_proxy_hostname.
+ *
+ * It calls the theme function theme_ting_proxy_hostname, if not defined
+ * no elements will be displayed.
+ *
+ */
+function ting_proxy_element_info() {
+  $types = array();
+  $types['ting_proxy_hostname'] = array(
+    '#input' => TRUE,
+    '#process' => array('ting_proxy_hostname_element_process'),
+    '#element_validate' => array('ting_proxy_hostname_element_validate'),
+  );
+  return $types;
+}
+
+/**
+ * Implementation of hook_theme().
+ *
+ * Defines the new form element "ting_proxy_hostname" theme function. Which is
+ * required by hook_elements.
+ *
+ */
+function ting_proxy_theme() {
+  return array(
+    'ting_proxy_hostname' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Theme function to format the custom form element (ting_proxy_hostname).
+ */
+function theme_ting_proxy_hostname($element) {
+  return theme('form_element', $element);
+}
+
+/**
+ * Process callback to expand our form element into several fields.
+ */
+function ting_proxy_hostname_element_process($element, $form_state) {
+  $element['#tree'] = TRUE;
+
+  $element['url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Url'),
+    '#required' => TRUE,
+    '#size' => 30,
+    '#default_value' => ((isset($element['#value']['url'])) ? $element['#value']['url'] : ''),
+    '#description' => t('Enter hostname, e.g. <em>magazine.example.com</em>. Do not include the <em>http://</em> prefix.'),
+    '#attributes' => array('class' => array('url-text-field')),
+  );
+
+  // Create collapible fieldset, because only a small subset will use these
+  // options.
+  $element['expression'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Replacement'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $element['expression']['regex'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Regular expression'),
+    '#size' => 30,
+    '#default_value' => isset($element['#value']['expression']) ? $element['#value']['expression']['regex'] : '',
+    '#description' => t('Use regular expression to substitut parts of the url, e.g. "<em>%regex</em>".', array('%regex' => '/bib\w{5,6}/')),
+  );
+
+  $element['expression']['replacement'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Replacement'),
+    '#size' => 30,
+    '#default_value' => isset($element['#value']['expression']) ? $element['#value']['expression']['replacement'] : '',
+    '#description' => t('The replacement value for the regular expression.'),
+  );
+
+  // Enables the option of not prefixing the url.
+  // In some cases it's not needed and replacements still work
+  $element['disable_prefix'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Do not use proxy prefix for this hostname'),
+    '#default_value' => (isset($element['#value']['disable_prefix']) ? $element['#value']['disable_prefix'] : FALSE),
+  );
+
+  // Placeholder to mark proxies for removal
+  $element['removed'] = array(
+    '#type' => 'hidden',
+    '#default_value' => 0,
+    '#attributes' => array('class' => array('removed')),
+  );
+
+  $element['remove'] = array(
+    '#type' => 'button',
+    '#value' => t('Remove'),
+    '#attributes' => array('class' => array('remove')),
+  );
+
+  return $element;
+}
+
+/**
+ * Our element's validation function.
+ */
+function ting_proxy_hostname_element_validate($element, &$form_state) {
+  return $element;
+}
+
+/**
+ * Implementation of hook_ting_online_url_alter().
+ */
+function ting_proxy_ting_online_url_alter(&$url) {
+  $url = ting_proxy_rewrite_download_url($url);
+}
+
+/**
+ * Rewrite the URL of external restricted-access ressources.
+ *
+ * This allow access to the ressources through the library's proxy server.
+ *
+ * Only URLs refererring to sites specified on the Ting proxy settings page are
+ * modified; other URLs are returned unmodified.
+ */
+function ting_proxy_rewrite_download_url($url) {
+  $host = parse_url($url, PHP_URL_HOST);
+  $proxy = variable_get('ting_proxy', NULL);
+
+  // Search hostnames (can this be optimized ? yes - save data in other format)
+  if ($proxy && isset($proxy['hostnames'])) {
+    foreach ($proxy['hostnames'] as $key => $hostname) {
+      if ($host == $hostname['url'] && $proxy['prefix']) {
+        // Rewrite/convert url using regex
+        if ((isset($hostname['expression']['regex']) && !empty($hostname['expression']['regex'])) &&
+            (isset($hostname['expression']['replacement']) && !empty($hostname['expression']['replacement']))) {
+          $url = preg_replace($hostname['expression']['regex'],
+                              $hostname['expression']['replacement'],
+                              $url);
+        }
+
+        // Add prefix, if choosen
+        if (!$hostname['disable_prefix']) {
+          $url = $proxy['prefix'] . urlencode($url);
+        }
+
+        // Exit the foreach loop
+        break;
+      }
+    }
+  }
+
+  return $url;
+}

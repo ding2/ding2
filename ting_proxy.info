@@ -1,0 +1,6 @@
+name = Ting proxy
+description = Rewrite Ting object URLs to use proxies
+package = Ding!
+core = 7.x
+files[] = ting_proxy.module
+dependencies[] = ting
