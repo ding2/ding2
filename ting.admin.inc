@@ -350,50 +350,6 @@ function _ting_boost_field_sort($a, $b) {
 }
 
 /**
- * Form builder; Configure proxy settings for this site.
- *
- * @ingroup forms
- * @see system_settings_form()
- */
-function ting_admin_proxy_settings($form_state) {
-  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
-  $form['proxy'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Proxy service'),
-    '#description' => t('Restricted-access resources referenced by Ting may be accessed through the library\'s proxy server'),
-    '#tree' => FALSE,
-  );
-
-  $form['proxy']['restricted_access_proxy_prefix'] = array(
-    '#type' => 'textfield',
-    '#title' => 'Proxy server URL prefix',
-    '#default_value' => variable_get('restricted_access_proxy_prefix', ''),
-    '#description' => t('E.g. <em>http://proxy.example.com/?url=</em>.'),
-  );
-
-  $form['proxy']['restricted_access_proxy_hostnames'] = array(
-    '#type' => 'textarea',
-    '#title' => 'Hostnames',
-    '#rows' => 15,
-    '#default_value' => implode("\n", variable_get('restricted_access_proxy_hostnames', array())),
-    '#value_callback' => 'ting_admin_settings_hostnames_value',
-    '#description' => t('Enter one hostname per line, e.g. <em>magazine.example.com</em>. Do not include the <em>http://</em> prefix.'),
-  );
-
-    return system_settings_form($form);
-}
-
-/**
- * Value callback for restricted_access_proxy_hostnames field defined in
- * ting_admin_proxy_settings().
- */
-function ting_admin_settings_hostnames_value($form, $edit = FALSE) {
-  if ($edit !== FALSE) {
-    return array_filter(array_map('trim', explode("\n", $edit)));
-  }
-}
-
-/**
  * @brief Implementation of hook_menu()
  *
  * Felter: Forfatter, titel, emneord,
