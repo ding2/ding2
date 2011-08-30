@@ -13,7 +13,6 @@ projects[ding_devel][download][url] = "git@github.com:ding2/ding_devel.git"
 projects[ding_devel][download][tag] = "v0.1"
 
 projects[mkdru][subdir] = "contrib"
-projects[mkdru][version] = "1.0"
 
 projects[mkdru_ding][type] = "module"
 projects[mkdru_ding][download][type] = "git"
