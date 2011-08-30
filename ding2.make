@@ -45,6 +45,10 @@ projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
 projects[ding_ting_frontend][download][tag] = "v0.2"
 
+projects[mkdru_ding_frontend][type] = "module"
+projects[mkdru_ding_frontend][download][type] = "git"
+projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2/mkdru_ding_frontend.git"
+
 ; Libraries
 projects[pazpar2][download][type] = "git"
 projects[pazpar2][type] = "library"
