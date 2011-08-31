@@ -27,3 +27,93 @@ function ding_user_frontend_form_user_profile_form_alter(&$form, &$form_state, $
     unset($form['locale']);
   }
 }
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_ting_frontend_block_info() {
+  $blocks['ding-username'] = array(
+      'info' => t('Ding username'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  $blocks['ding-user-loan-number'] = array(
+      'info' => t('Ding loan and reservation number'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_ting_frontend_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'ding-username':
+      $block['subject'] = t('Ding User icon and username, for login box area');
+      $block['content'] = ding_username_render() ;
+      break;
+    case 'ding-user-loan-number':
+      $block['subject'] = t("Number of user's loans and reservations, for login box area");
+      $block['content'] = ding_loanamount_render() ;
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Render callback function
+ */
+function ding_username_render() {
+  global $user;
+  $ding_name = ( isset($user) && isset($user->data) ) ? $user->data['display_name'] : NULL;
+  $user_name = ( isset($user) && isset($user->name) ) ? $user->name : NULL;
+  $name = ( $ding_name ) ? $ding_name : $user_name;
+  if ( !$name ) {
+    return NULL;
+  }
+  $block[] =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="ding-user-icon"><div class="content">',
+      '#markup' => '',
+      '#suffix' => '</div></div>',
+    );
+  $block[] =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="ding-user-name"><div class="content">',
+      '#markup' => $name,
+      '#suffix' => '</div></div>',
+    );
+  return $block;
+}
+
+
+/**
+ * Render callback function
+ */
+function ding_loanamount_render() {
+  global $user;
+  if ( !user_is_logged_in() || !ding_user_get_creds() ) {
+    return NULL;
+  }
+  $list = ding_provider_invoke_page('loan', 'list', $user);
+  $block[] =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="ding-user-loan-amount"><div class="content">',
+      '#markup' => '<span class="label">' . l(t('Loans:'),'user/' . $user->uid . '/status') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+      '#suffix' => '</div></div>',
+    );
+  $list = ding_provider_invoke_page('reservation', 'list', $user);
+  $block[] =
+    array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="ding-user-reservation-amount"><div class="content">',
+      '#markup' => '<span class="label">' . l(t('Reservations:'),'user/' . $user->uid . '/status/reservations') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+      '#suffix' => '</div></div>',
+    );
+  return $block;
+}
