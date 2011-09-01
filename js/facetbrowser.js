@@ -8,30 +8,46 @@
 
   $(window).bind('hashchange', function(e) {
     if ($.deparam != undefined) {
-    var hashobj = $.deparam.querystring($.param.fragment());
+      // If page is loaded with selected facets,
+      // we need to execute the search.
+      if ($.param.fragment() !== '') {
+        var url = window.location.pathname.split('/');
+        var search_string = url[url.length - 1];
+        $.ajax({
+          url: '/ding_facetbrowser/ajax',
+          type: 'GET',
+          data: {
+            keyword: search_string,
+            facets: $.param.fragment()
+          },
+          dataType: 'json',
+          success: function(data, i) {
+            $(Drupal.settings.dingFacetBrowser.mainElement).html(data.facet_browser).show();
+            $('.search-results').html(data.search_results).show();
+            Drupal.CheckHashedFacets();
+            Drupal.FoldFacetGroup();
+          }
+        });
+      }
 
-    $( ' .form-checkbox').live('click', function() {
-      if ($(this).attr('checked') == false) {
-        // Remove the unchecked facet from the url state
-        $.bbq.removeState($(this).closest('fieldset').attr('data'));
-      }
-      else {
-        // Add the checked facet to the url state
-        var state = {},
-        key = $(this).closest('fieldset').attr('data'),
-        value = $(this).val();
-        state[key] = value;
-        $.bbq.pushState(state, 0);
-      }
-    });
-    }
-    for (var key in hashobj) {
-      var fieldset_element = key.replace(/\./, "-");
-      var facet_element = hashobj[key].replace(/\./, "-");
+      $(' .form-checkbox').live('click', function() {
+        if ($(this).attr('checked') === false) {
+          // Remove the unchecked facet from the url state
+          $.bbq.removeState($(this).closest('fieldset').attr('data'));
+        }
+        else {
+          // Add the checked facet to the url state
+          var state = {},
+          key = $(this).closest('fieldset').attr('data'),
+          value = $(this).val();
+          state[key] = value;
+          $.bbq.pushState(state, 0);
+        }
+      });
     }
   });
 
-/**
+  /**
  * Automatic fill facet checkboxes with values from url hashes.
  */
   Drupal.CheckHashedFacets = function() {
@@ -39,13 +55,13 @@
     if (hashobj) {
       for (var key in hashobj) {
         var element_id = hashobj[key];
-        var facet_type = key.split('.',-1);
-        $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g,"-")).attr('checked', true);
+        var facet_type = key.split('.', - 1);
+        $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-")).attr('checked', true);
       }
     }
-  }
+  };
 
-/**
+  /**
  * Fold facet groups to show only 5 per group.
  */
   Drupal.FoldFacetGroup = function() {
@@ -61,18 +77,16 @@
           facetGroup.append('<span class="expand" id="expand_more">' + Drupal.t('Vis flere') + '</span>');
         }
       }
-      else {
-      }
     });
 
     $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand').live('click', function() {
       var clickedKey = this;
       var facetGroup = $(clickedKey).parent();
 
-      facetGroup.find('.form-type-checkbox:' + (clickedKey.id == 'expand_more' ? 'hidden' : 'visible')).each(function(count, facetElement) {
+      facetGroup.find('.form-type-checkbox:' + (clickedKey.id == 'expand_more' ? 'hidden': 'visible')).each(function(count, facetElement) {
         if (clickedKey.id == 'expand_more' && count < Drupal.settings.dingFacetBrowser.showCount) {
           $(facetElement).slideDown('fast', function() {
-            if (facetGroup.find('.form-type-checkbox:visible').size() >= Drupal.settings.dingFacetBrowser.showCount && facetGroup.find('#expand_less').size() == 0 && count % Drupal.settings.dingFacetBrowser.showCount == 0) {
+            if (facetGroup.find('.form-type-checkbox:visible').size() >= Drupal.settings.dingFacetBrowser.showCount && facetGroup.find('#expand_less').size() === 0 && count % Drupal.settings.dingFacetBrowser.showCount === 0) {
               facetGroup.find('#expand_more').after('<span class="expand" id="expand_less">' + Drupal.t('Luk') + '</span>');
             }
           });
@@ -80,18 +94,18 @@
         else if (clickedKey.id == 'expand_less' && count >= Drupal.settings.dingFacetBrowser.showCount) {
           $(facetElement).slideUp('fast', function() {
             if (facetGroup.find('.form-type-checkbox:visible').size() == Drupal.settings.dingFacetBrowser.showCount && facetGroup.find('#expand_less:visible')) {
-             facetGroup.find('#expand_less').fadeOut().remove();
+              facetGroup.find('#expand_less').fadeOut().remove();
             }
 
           });
         }
       });
-
     });
-  }
+  };
 
   // Since the event is only triggered when the hash changes, we need to trigger
   // the event now, to handle the hash the page may have loaded with.
   $(window).trigger('hashchange');
 
 })(jQuery);
+

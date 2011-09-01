@@ -14,6 +14,44 @@ function ding_facetbrowser_block_info() {
 }
 
 /**
+ * Implements hook_menu()
+ */
+function ding_facetbrowser_menu() {
+  $items['ding_facetbrowser/ajax'] = array(
+    'title' => 'ding_facetbrowser_ajax_callback',
+    'page callback' => 'ding_facetbrowser_ajax',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Custom ajax callback.
+ *
+ * Need this to execute the ting_search on page load,
+ * if a facet is selected, ex. from a bookmark.
+ */
+function ding_facetbrowser_ajax() {
+  $facets = str_replace(array('&', '=', '+'), array(';', ':', ' '), $_GET['facets']);
+  $search_result = theme('ting_search_results', array('results' => ting_search_search_execute(rawurldecode($_GET['keyword']), array('facets' => $facets))));
+  // Get cached search results.
+  // Used when generating the facet browser.
+  $ting_search_results = drupal_static('ting_search_results');
+
+  // Generate the facetbrowser
+  $facet_browser  = drupal_render(drupal_get_form('ding_facetbrowser_form', $ting_search_results->facets, 'harry' ));
+
+  // output the search results
+  print json_encode(array(
+    'search_results' => $search_result,
+    'facet_browser' => $facet_browser,
+  ));
+}
+
+/**
  * Implements hook_theme()
  *
  * @return array
@@ -196,7 +234,6 @@ function theme_facetbrowser($search_result = FALSE) {
   $all_facets = array_shift($search_result);
   $searchkey = array_shift($search_result);
   $elements = array();
-
   if (is_array($all_facets)) {
     $form = drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey);
     $elements[] = drupal_render($form);
