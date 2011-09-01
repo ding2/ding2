@@ -450,7 +450,9 @@ function ding_user_get_creds($account = NULL, $throw = FALSE) {
     }
   }
 
-  throw new DingProviderAuthException;
+  if ($throw) {
+    throw new DingProviderAuthException;
+  }
 }
 
 /**
