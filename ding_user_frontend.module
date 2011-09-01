@@ -96,24 +96,30 @@ function ding_username_render() {
  */
 function ding_loanamount_render() {
   global $user;
-  if ( !user_is_logged_in() || !ding_user_get_creds() ) {
+  return NULL;
+  if ( !user_is_logged_in() ) {
     return NULL;
   }
-  $list = ding_provider_invoke_page('loan', 'list', $user);
-  $block[] =
-    array(
-      '#type' => 'markup',
-      '#prefix' => '<div id="ding-user-loan-amount"><div class="content">',
-      '#markup' => '<span class="label">' . l(t('Loans:'),'user/' . $user->uid . '/status') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
-      '#suffix' => '</div></div>',
-    );
-  $list = ding_provider_invoke_page('reservation', 'list', $user);
-  $block[] =
-    array(
-      '#type' => 'markup',
-      '#prefix' => '<div id="ding-user-reservation-amount"><div class="content">',
-      '#markup' => '<span class="label">' . l(t('Reservations:'),'user/' . $user->uid . '/status/reservations') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
-      '#suffix' => '</div></div>',
-    );
-  return $block;
+  try {
+    $list = ding_provider_invoke_page('loan', 'list', $user);
+    die('hej');
+    $block[] =
+      array(
+        '#type' => 'markup',
+        '#prefix' => '<div id="ding-user-loan-amount"><div class="content">',
+        '#markup' => '<span class="label">' . l(t('Loans:'),'user/' . $user->uid . '/status') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+        '#suffix' => '</div></div>',
+      );
+    $list = ding_provider_invoke_page('reservation', 'list', $user);
+    $block[] =
+      array(
+        '#type' => 'markup',
+        '#prefix' => '<div id="ding-user-reservation-amount"><div class="content">',
+        '#markup' => '<span class="label">' . l(t('Reservations:'),'user/' . $user->uid . '/status/reservations') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
+        '#suffix' => '</div></div>',
+      );
+    return $block;
+  } catch (Exception $e) {
+    return NULL;
+  }
 }
