@@ -96,13 +96,12 @@ function ding_username_render() {
  */
 function ding_loanamount_render() {
   global $user;
-  return NULL;
   if ( !user_is_logged_in() ) {
     return NULL;
   }
   try {
+    ding_user_get_creds();
     $list = ding_provider_invoke_page('loan', 'list', $user);
-    die('hej');
     $block[] =
       array(
         '#type' => 'markup',
