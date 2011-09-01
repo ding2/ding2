@@ -96,11 +96,10 @@ function ding_username_render() {
  */
 function ding_loanamount_render() {
   global $user;
-  if ( !user_is_logged_in() ) {
-    return NULL;
-  }
   try {
-    ding_user_get_creds();
+    if ( !user_is_logged_in() || !ding_user_get_creds() ) {
+      return NULL;
+    }
     $list = ding_provider_invoke_page('loan', 'list', $user);
     $block[] =
       array(
@@ -118,7 +117,7 @@ function ding_loanamount_render() {
         '#suffix' => '</div></div>',
       );
     return $block;
-  } catch (Exception $e) {
+  } catch ( Exception $e ) {
     return NULL;
   }
 }
