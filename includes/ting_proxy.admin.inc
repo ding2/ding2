@@ -115,6 +115,7 @@ function ting_proxy_settings_form_submit($form, &$form_state) {
     }
   }
 
+  // Reset keys after filtering
   $form_state['values']['ting_proxy']['hostnames'] = array_values($form_state['values']['ting_proxy']['hostnames']);
 
   variable_set('ting_proxy', $form_state['values']['ting_proxy']);

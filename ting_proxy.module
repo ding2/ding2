@@ -139,7 +139,13 @@ function ting_proxy_hostname_element_validate($element, &$form_state) {
  * Implementation of hook_ting_online_url_alter().
  */
 function ting_proxy_ting_online_url_alter(&$url) {
-  $url = ting_proxy_rewrite_download_url($url);
+  $configuration = variable_get('ting_proxy', array());
+
+  //Alter the url if we have a valid proxy configuration
+  if (isset($proxy['prefix']) && $proxy['prefix'] &&
+      isset($proxy['hostnames']) && is_array($proxy['hostnames'])) {
+    $url = ting_proxy_rewrite_download_url($url, $proxy['prefix'], $proxy['hostnames']);
+  }
 }
 
 /**
@@ -147,33 +153,36 @@ function ting_proxy_ting_online_url_alter(&$url) {
  *
  * This allow access to the ressources through the library's proxy server.
  *
- * Only URLs refererring to sites specified on the Ting proxy settings page are
- * modified; other URLs are returned unmodified.
+ * @param $url The url to rewrite
+ * @param $proxy_url The url to the proxy server to prepend to the url
+ * @param $hostnames_config An array of hostname configurations containing keys
+ * 	- hostname: The hostname for which the configuration applies in the format
+ * 		www.example.com
+ *  - expression: An array with a regex and a replacement to support replacing
+ *  	values in the url e.g. replace /librarycode/ with /123456/
+ *  - disable_prefix: Do not prefix the url with the proxy url
  */
-function ting_proxy_rewrite_download_url($url) {
+function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames_config) {
   $host = parse_url($url, PHP_URL_HOST);
-  $proxy = variable_get('ting_proxy', NULL);
 
   // Search hostnames (can this be optimized ? yes - save data in other format)
-  if ($proxy && isset($proxy['hostnames'])) {
-    foreach ($proxy['hostnames'] as $key => $hostname) {
-      if ($host == $hostname['url'] && $proxy['prefix']) {
-        // Rewrite/convert url using regex
-        if ((isset($hostname['expression']['regex']) && !empty($hostname['expression']['regex'])) &&
-            (isset($hostname['expression']['replacement']) && !empty($hostname['expression']['replacement']))) {
-          $url = preg_replace($hostname['expression']['regex'],
-                              $hostname['expression']['replacement'],
-                              $url);
-        }
-
-        // Add prefix, if choosen
-        if (!$hostname['disable_prefix']) {
-          $url = $proxy['prefix'] . urlencode($url);
-        }
-
-        // Exit the foreach loop
-        break;
+  foreach ($hostnames_config as $config) {
+    if ($host == $config['hostname']) {
+      // Rewrite/convert url using regex
+      if ((isset($config['expression']['regex']) && !empty($config['expression']['regex'])) &&
+          (isset($config['expression']['replacement']) && !empty($config['expression']['replacement']))) {
+        $url = preg_replace($config['expression']['regex'],
+                            $config['expression']['replacement'],
+                            $url);
       }
+
+      // Add prefix, if choosen
+      if (!$config['disable_prefix']) {
+        $url = $proxy_url . urlencode($url);
+      }
+
+      // Exit the foreach loop
+      break;
     }
   }
 
