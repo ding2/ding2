@@ -63,6 +63,10 @@ function ding_user_menu_alter(&$items) {
       $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
     }
   }
+
+  $items['user/%user/view']['title'] = t('User profile');
+  $items['user/%user/edit']['title'] = t('Edit user profile');
+  $items['user/%pm_arg/status']['title'] = t('User status');
 }
 
 /**
