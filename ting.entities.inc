@@ -37,6 +37,7 @@ class TingEntity extends DingEntity {
   public $record = DingEntityBase::NULL;
   public $relations = DingEntityBase::NULL;
   public $localId = DingEntityBase::NULL;
+  public $ownerId = DingEntityBase::NULL;
   public $creators = DingEntityBase::NULL;
   public $subjects = DingEntityBase::NULL;
   public $language = DingEntityBase::NULL;
@@ -46,6 +47,10 @@ class TingEntity extends DingEntity {
 
   function getLocalId() {
     return !empty($this->reply->localId) ? $this->reply->localId : FALSE;
+  }
+
+  function getOwnerId() {
+    return !empty($this->reply->ownerId) ? $this->reply->ownerId : FALSE;
   }
 
   function getType() {
