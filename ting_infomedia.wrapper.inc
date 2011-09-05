@@ -5,13 +5,35 @@
  * @param int $id Faust
  * @return TingClientInfomediaResult
  */
+
+module_load_include('client.inc', 'ting');
+
 function ting_infomedia_get_article($id) {
   $request = ting_get_request_factory()->getInfomediaArticleRequest();
+ 
   $request->makeGet();
   $request->setFaust($id); 
-  $request = ting_add_user_creds($request);
-  return TingClientInfomediaArticleRequest::parse(ting_execute($request));
+  
+  //$request = ting_infomedia_add_user_creds($request);
+  //ting_infomedia_set_test_user($request);
+  
+  $request->setTestUser();
+  //$request->setTestRequest();
+  // $object = $request->getRequest();
+  //ting_infomedia_set_test_user($object);
+  // print_r($request);
+  $ret = $request->parse(ting_execute($request->getRequest()));
+  
+  return $ret;
 }
+
+function ting_infomedia_set_test_user($request) {  
+  $request->setUser('0019');
+  $request->setPin('0019');
+  $request->setAgency('718300');  
+}
+
+
 
 /**
  * Infomedia - verify that request of item identify by faust does return an article
@@ -23,7 +45,7 @@ function ting_infomedia_check_article($id) {
   $request = ting_get_request_factory()->getInfomediaArticleRequest();
   $request->makeCheck();
   $request->setFaust($id);
-  $request = ting_add_user_creds($request);
+  $request = ting_infomedia_add_user_creds($request);
   return TingClientInfomediaArticleRequest::parse(ting_execute($request));
 }
 
@@ -45,8 +67,13 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
   else
     $request->setFaust($id); 
 
-  $request = ting_add_user_creds($request);
+  $request = ting_infomedia_add_user_creds($request);
   return TingClientInfomediaReviewRequest::parse(ting_execute($request));
+}
+
+function checkUser() {
+  return true;
+  // TODO implement
 }
 
 /**
@@ -60,6 +87,9 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
  */
 function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
   $request = ting_get_request_factory()->getInfomediaReviewRequest();
+  
+ 
+
   $request->makeCheck();
 
   if ($id_is_isbn)
@@ -67,7 +97,7 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
   else
     $request->setFaust($id);
 
-  $request = ting_add_user_creds($request);
+  $request = ting_infomedia_add_user_creds($request);
   return TingClientInfomediaReviewRequest::parse(ting_execute($request));
 }
 

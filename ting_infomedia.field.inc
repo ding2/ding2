@@ -36,7 +36,7 @@ function ting_infomedia_field_info() {
 	       array('label' => t('A link to infomedia articles'),
 		     'description' => t('This field links to infomedia articles'),
 		     // optional (for database)
-		     'settings' => array('max_length'=>255),
+		     'settings' => array('max_length'=>255,),
 		     // optional
 		     // 'instance_settings' => array('text_processing' => 0),
 		     // see hook_widget_info
@@ -47,7 +47,8 @@ function ting_infomedia_field_info() {
 		     // create fields and instances of this field type through the UI. 
 		     // Such fields can only be created programmatically with 
 		     // field_create_field() and field_create_instance().
-		     'no_ui' => TRUE,),
+		     'no_ui' => TRUE,
+		     ),
 	       );
   return $ret;
 }
@@ -100,6 +101,8 @@ function ting_infomedia_field_formatter_info() {
 
 function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+  $id = $entity->ding_entity_id;
+
   $relation_types = ting_infomedia_get_ting_relations();
   switch($display['type']) {
   case 'ting_infomedia_default' :
@@ -108,7 +111,10 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
 	//	krumo($relation->type);
 	if( isset($relation_types[$relation->type]) ) {
 	  //	  print_r($relation);
-	  $element[$delta] = array('#markup' => '<div style="color:green; font-size:2em"><a href="'.ting_infomedia_get_article_link().'">'.t('Read article').'</a></div>');
+	  //  $element[$delta] = array('#markup' => '<div style="color:green; font-size:2em"><a href="'.ting_infomedia_get_article_link($id).'">'.t('Read article').'</a></div>');
+	  $element[$delta] = 
+	    array('#markup' => '<a class="infomedia_group" href="'.ting_infomedia_get_article_link($id).'">'.t('Read article').'</a>',);
+	  
 	}
       }
     }
@@ -119,10 +125,11 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
   return $element;
   }
 
-function ting_infomedia_get_article_link() {
+function ting_infomedia_get_article_link($entityid) {
   //global $base_path;
-  return '?q=ting/infomedia';
-  //$ret.=$base_path.'?q=ting/ting_infomedia';
+  $ids = explode(':',$entityid);
+  return base_path().'ting/infomedia/'.$ids[1];
+  //$ret.=$base_path.'?q=ting/ting_infomedia/'.$ids;
   //return $ret;
 }
 

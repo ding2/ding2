@@ -2,7 +2,7 @@
 
 // load field hooks
 module_load_include('inc', 'ting_infomedia', 'ting_infomedia.field');
-
+module_load_include('inc', 'ting_infomedia' , 'ting_infomedia.wrapper');
 // required for ajax
 drupal_add_library('system', 'drupal.ajax');
 drupal_add_library('system', 'jquery.form');
@@ -11,38 +11,33 @@ drupal_add_library('system', 'jquery.form');
  * Implements hook_menu
  */
 function ting_infomedia_menu() {
-  // TODO set nice url for viewing infomedia articles e.g /$items['ting/object/%ting_object/ting_infomedia'] =
-
   // path for viewing infomedia articles
-$items['ting/infomedia'] =
-  array('title' => 'Infomedia',
-	'page callback' => 'ting_infomedia_view',
-	'access callback' => TRUE,
-	'type' => MENU_CALLBACK,	
-	);
-$items['ting_infomedia/ajax'] =
-  array('title' => 'Infomedia article', 
-	'page callback' => 'ting_infomedia_ajax_callback', 
-	'access callback' => TRUE, 
-	'type' => MENU_CALLBACK, );
+  $items['ting/infomedia/%'] =
+    array('title' => 'Infomedia',
+	  'page callback' => 'ting_infomedia_view',
+	  'page arguments' => array(2),
+	  'access callback' => TRUE,
+	  'type' => MENU_CALLBACK,	
+	  );
+  $items['ting_infomedia/ajax/%'] =
+    array('title' => 'Infomedia article', 
+	  'page callback' => 'ting_infomedia_ajax_callback', 
+	  'page arguments' => array(2),
+	  'access callback' => TRUE, 
+	  'type' => MENU_CALLBACK, );
 
-return $items;
+  return $items;
 }
 
 
 /**
  * Ajax callback function
  */
-function ting_infomedia_ajax_callback($type = 'ajax') { 
-  if ($type == 'ajax') { 
-    $commands[] = ajax_command_replace('#article-wrapper', ting_infomedia_get_article()); 
-    $page = array('#type' => 'ajax', 
-		  '#commands' => $commands); 
-    ajax_deliver($page); 
-  } else { 
-    $output = t("This is some content delivered via a page load."); 
-    return $output; 
-  } 
+function ting_infomedia_ajax_callback($id) { 
+  $commands[] = ajax_command_replace('#article-wrapper', ting_infomedia_parse_article($id)); 
+  $page = array('#type' => 'ajax', 
+		'#commands' => $commands); 
+  ajax_deliver($page); 
 }
 
 /**
@@ -50,22 +45,23 @@ function ting_infomedia_ajax_callback($type = 'ajax') {
  * 
  * Return a render array
  */
-function ting_infomedia_view() {
-return array(
-	     // easiest solution - simply return html-markup for page
-	     // '#markup' => '<p>' . t('Simple page: The quick brown fox jumps over the lazy dog.') . '</p>',
-	     // if theme is set #markup i useless (overridden).
-	     // if template is given in hook_theme the template is used - if not the theme_function (theme_ting_infomedia_article) is called.
-	      '#theme' => 'ting_infomedia_article',
-	      // '#html-markup' => ting_infomedia_get_article(),
-	      '#markup' => '<div id="article-wrapper">'. ting_infomedia_get_ajax_link().
-	     '<p style="margin-left:10em">'.t('Please wait - loading article from infomedia'). '</p></div>',
-	     
-	     );
+function ting_infomedia_view($id) {
+  return array(
+	       // easiest solution - simply return html-markup for page
+	       // '#markup' => '<p>' . t('Simple page: The quick brown fox jumps over the lazy dog.') . '</p>',
+	       // if theme is set #markup i useless (overridden).
+	       // if template is given in hook_theme the template is used - if not the theme_function (theme_ting_infomedia_article) is called.
+	       //'#theme' => 'ting_infomedia_article',
+	       //'#markup' => ting_infomedia_parse_article($id),
+	       // '#markup' => $id,
+	       '#markup' => '<div id="article-wrapper">'. ting_infomedia_get_ajax_link($id).
+	       '<p style="margin-left:10em">'.t('Please wait - loading article from infomedia'). '</p></div>',
+	       
+	       );
 }
 
-function ting_infomedia_get_ajax_link() {
-  return l(t(' '), 'ting_infomedia/ajax/', array('attributes' => array('class' => array('use-ajax'),'id' => 'ajax_infomedia_article')));
+function ting_infomedia_get_ajax_link($id) {
+  return l(t(' '), 'ting_infomedia/ajax/'.$id, array('attributes' => array('class' => array('use-ajax'),'id' => 'ajax_infomedia_article')));
 }
 
 /**
@@ -108,7 +104,7 @@ function ting_infomedia_theme( $existing, $type, $theme, $path ) {
  */
 function theme_ting_infomedia_link() {
   krumo("TESTHEST");
- return '<div style="color:blue">THEME_TING_INFOMEDIA</div>';
+  return '<div style="color:blue">THEME_TING_INFOMEDIA</div>';
 }
 
 /**
@@ -119,27 +115,37 @@ function theme_ting_infomedia_link() {
  */
 function ting_infomedia_page_alter(&$page) {
   $items = ting_infomedia_menu();
-  $path = $_GET['q'];
   foreach($items as $key=>$val) {
-    if( $key == $path ) {
+    if( ting_infomedia_strip_path($key) == ting_infomedia_strip_path(request_path() )) {
       unset($page['subheader']);
       unset($page['page_top']);
       break;
     }
   }
-  // krumo($page);
-  
-  }
+}
+
+/**
+ * Return stripped path. e.g /ting/infomedia/33514212 -> /ting/infomedia
+ */
+function ting_infomedia_strip_path($path) {
+  $parts = explode('/',$path);
+  if( isset($parts[0]) && isset($parts[1]) )
+    return $parts[0].'/'.$parts[1];
+
+  return false;
+}
 
 /**
  * Get content(html) from ting_infomedia-webservice
  */
-function ting_infomedia_get_article(){
-  try{ $ting_infomedia = new TingClientInfomediaRequest('getArticleRequest');  }
-  catch(TingClientException $e){watchdog('ting_infomedia', $e->message()); return '<pre>'.$e->message().'</pre>';}
+/*function ting_infomedia_get_article(){
+  print_r( ting_infomedia_get_article(33514212));
+
+  //  try{ $ting_infomedia = new TingClientInfomediaRequest('getArticleRequest');  }
+  //catch(TingClientException $e){watchdog('ting_infomedia', $e->message()); return '<pre>'.$e->message().'</pre>';}
   
-  return $ting_infomedia->html(); 
-}
+  //return $ting_infomedia->html(); 
+  }*/
 
 
 /**
@@ -151,13 +157,21 @@ function ting_infomedia_get_ting_relations() {
   // return TRUE;
   if (!$types) {
     $types = array(      
-      'hasFulltext' => t('Article from infomedia'),
-    );
+		   'hasFulltext' => t('Article from infomedia'),
+			 );
   }
   return $types;
 }
 
+/**
+ * Add css and javascript for displaying infomedia-article
+ */
 function ting_infomedia_preprocess_html(&$variables,$hook) {
+  drupal_add_css(drupal_get_path('module', 'ting_infomedia') . '/jquery.fancybox-1.3.4.css');
+  drupal_add_js(drupal_get_path('module', 'ting_infomedia') . '/jquery.fancybox-1.3.4.js');
+  drupal_add_js(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_fancybox.js');
+
+
   drupal_add_js('jQuery(document).ready(function () {  document.getElementById("ajax_infomedia_article").click() });', 'inline');
   drupal_add_css(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_article_view.css');
 }
@@ -167,22 +181,88 @@ function ting_infomedia_preprocess_html(&$variables,$hook) {
  * Adding infomedia url form field to ting configuration form
  */
 function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
-   $form['ting']['ting_infomedia_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Infomedia web service URL'),
-    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://didicas.dbc.dk/useraccessinfomedia_1.1/'),
-    '#required' => TRUE,
-    '#default_value' => variable_get('ting_infomedia_url', ''),
-    );
+  $form['ting']['ting_infomedia_url'] =
+    array(
+	  '#type' => 'textfield',
+	  '#title' => t('Infomedia web service URL'),
+	  '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://didicas.dbc.dk/useraccessinfomedia_1.1/'),
+	  '#required' => TRUE,
+	  '#default_value' => variable_get('ting_infomedia_url', ''),
+	  );
+}
+
+/**
+ * retrive article from infomedia. Parse for errors, clean html and add html for errorhandling if needed.
+ * return the parsed html
+ */
+function ting_infomedia_parse_article($id) {
+  $obj = ting_infomedia_get_article($id);
+  //  var_dump($obj);
+  ting_infomedia_parse_for_errors($obj,$error);
+  if( strlen($error) > 1 ){
+    // echo "hest".$error;
+    return $error;
+  }
+
+  if( empty($error) ) {
+    foreach($obj->parts as $part=>$val) {
+      if($message = ting_infomedia_parse_for_article_error($val) ){
+	$val['article'] = $message;
+      }
+
+      $html = $val['article'];
+      // for now simply return the first article. TODO handle more articles
+      ting_infomedia_clean_html($html);
+      return $html;
+    }
+  }
+}
+
+/**
+ * Parse for general (user and/or library) errors and take appropiate action if errors are found.
+ * return string; if no errors an empty, if errors html-formatted with error string
+ */
+function ting_infomedia_parse_for_errors(TingClientInfomediaResult $result, &$error='') {
+  $pre = '<div class="infomedia_error">';
+  $suf = '</div>';
+  if( $result->error ) {
+    $error = $pre.$result->error.$suf;    
+  }    
+}
+
+/**
+ * Parse for error on article-level. Not verified, empty etc.
+ * parameter $part - an array holding óne article
+ */
+function ting_infomedia_parse_for_article_error($part) {
+  if( !$part['verified'] ) 
+    return t('Article not verified');
+  if( empty($part['article']) )
+    return t('Article not found on infomedia');
+    
+  return false;
 }
 
 
+function ting_infomedia_clean_html(&$html)
+{
+  $patterns = array();
+  $patterns[0] = '/<p id="[.+]">/';
+  $patterns[1] = '/<hl2>/';
+  $patterns[2] = '/<\/hl2>/';
+  $replacements = array();
+  $replacements[0] = '<p>';
+  $replacements[1] = '<h4>';
+  $replacements[2] = '</h4>';
+
+  preg_replace($patterns, $replacements, $html);
+}
 
 /*********** TESTING BELOW *****************7
 
 /**
- * Preprocess variables for ting_infomedia_article_view (articles and reviews)
- */
+* Preprocess variables for ting_infomedia_article_view (articles and reviews)
+*/
 function template_preprocess_ting_infomedia_article_view(&$variables) {
   krumo($variables);
 }
