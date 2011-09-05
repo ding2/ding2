@@ -141,7 +141,7 @@ function alma_user_profile_form_submit($form, $form_state) {
   global $user;
 
   $updated = FALSE;
-  $creds = ding_user_get_creds($user);
+  $creds = ding_user_get_creds($user, TRUE);
   $changed_settings = $form_state['input'];
   $orig_settings = $form['alma_library'];
 

@@ -12,9 +12,7 @@
  */
 function alma_reservation_pickup_branches($account) {
   // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds($account, TRUE);
 
   return alma_client_invoke('get_reservation_branches');
 }
