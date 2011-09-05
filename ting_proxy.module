@@ -69,12 +69,12 @@ function theme_ting_proxy_hostname($element) {
 function ting_proxy_hostname_element_process($element, $form_state) {
   $element['#tree'] = TRUE;
 
-  $element['url'] = array(
+  $element['hostname'] = array(
     '#type' => 'textfield',
-    '#title' => t('Url'),
+    '#title' => t('Hostname'),
     '#required' => TRUE,
     '#size' => 30,
-    '#default_value' => ((isset($element['#value']['url'])) ? $element['#value']['url'] : ''),
+    '#default_value' => ((isset($element['#value']['hostname'])) ? $element['#value']['hostname'] : ''),
     '#description' => t('Enter hostname, e.g. <em>magazine.example.com</em>. Do not include the <em>http://</em> prefix.'),
     '#attributes' => array('class' => array('url-text-field')),
   );
