@@ -18,21 +18,38 @@ $plugin = array(
  */
 function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $context) {
   $preload_debts = &drupal_static('ids');
-  $account              = isset($context->data) ? $context->data : NULL;
-  $preload_ids          = array();
-  $items                = array();
-  $debt_list     = array();
+  $account = isset($context->data) ? $context->data : NULL;
+  $preload_ids = array();
+  $items = array();
+  $debt_list = array();
+  $rows = array();
+  $row = array();
 
-  $block         = new stdClass();
+  $block = new stdClass();
   $block->module = 'ding_debt';
   $block->delta  = 'debts';
-
   $block->title = t('My debts');
-  $block->content = 'asdf';
 
   $debts = ding_provider_invoke_page('debt', 'list', $account);
 
-  $block->content = ding_provider_get_form('ding_debt_debts_form', $debts);
+  $header = array(
+    array('data' => t('Fee date'), 'class' => 'feedate'),
+    array('data' => t('Material name'), 'class' => 'feetitle'),
+    array('data' => t('Amount'), 'class' => 'feeamount'),
+  );
+  foreach ($debts as $debt) {
+    $row = array(
+      array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate'),
+      array('data' => $debt->display_name, 'class' => 'feetitle'),
+      array('data' => number_format($debt->amount, 2, ',', ' '), 'class' => 'feeamount'),
+    );
+    $rows[] = $row;
+  }
+  $table = theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+  ));
+  $block->content = render($table) . render(ding_provider_get_form('ding_debt_debts_form', $debts));
 
   return $block;
 }
@@ -47,44 +64,13 @@ function ding_debt_debts_content_type_edit_form($form, &$form_state) {
 }
 
 /**
- * Implements a drupal form, which show a list of debts
+ * Implements a drupal form, which implements a pay button and debts data
  */
 function ding_debt_debts_form($form, &$form_state, $debts = array()) {
-  $header = array(
-    'date' => t('Date'),
-    'amount' => t('Amount'),
-    'note' => t('Note'),
-  );
-
-  $options = array();
-
-  foreach ($debts as $id => $debt) {
-    $options[$id] = array(
-      'date' => array(
-        'data' => format_date(strtotime(check_plain($debt->date)), 'date_only'),
-        'class' => 'date',
-      ),
-      'amount' => array(
-        'data' => number_format($debt->amount, 2, ',', ' '),
-        'class' => 'amount',
-      ),
-      'note' => array(
-        'data' => check_plain($debt->note),
-        'class' => 'note',
-      ),
-    );
-  }
 
   $form['debt_data'] = array(
     '#type' => 'value',
     '#value' => $debts,
-  );
-
-  $form['debts'] = array(
-    '#type' => 'tableselect_form',
-    '#header' => $header,
-    '#options' => $options,
-    '#empty' => t('No debts'),
   );
 
   $form['pay'] = array(
