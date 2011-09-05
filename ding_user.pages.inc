@@ -20,7 +20,7 @@ function ding_user_authenticate_form($form, &$form_state) {
   global $user;
 
   try {
-    $creds = ding_user_get_creds();
+    $creds = ding_user_get_creds(NULL, TRUE);
     // If we are already authenticated on, go to the user page instead.
     if (ding_provider_implements('user', 'is_authenticated')) {
       if (ding_provider_invoke('user', 'is_authenticated', $creds)) {
