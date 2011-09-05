@@ -65,6 +65,9 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   foreach ($items as $delta => $item) {
     foreach ($entity->relations as $relation) {
       if (isset($relation_types[$relation->type])) {
+        if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', '') != $relation->object->ownerId) {
+          continue;
+        }
         $element[$delta][] = array(
           '#theme' => 'ting_relation',
           '#relation' => $relation,
