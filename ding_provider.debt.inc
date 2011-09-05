@@ -7,43 +7,51 @@
 /**
  * Class representing a debt.
  */
-class DingProviderDebt {
+class DingProviderDebt extends DingEntityBase {
   /**
    * Id of the debt. Used as identifier. No assumptions are made about
    * it, however it should be a sting value suitable for values in forms and
    * the like.
    */
-  var $id;
+  protected $id = DingEntityBase::NULL;
 
   /**
    * Creation date of debt. Format: YYYY-MM-DD.
    */
-  var $date;
+  protected $date = DingEntityBase::NULL;
 
   /**
    * Debt type.
    *
    * This is a provider-specific value, and is not required.
    */
-  var $type;
+  protected $type = DingEntityBase::NULL;
 
+
+  protected $display_name = DingEntityBase::NULL;
 
   /**
    * The amount owed, floating point.
    */
-  var $amount;
+  protected $amount = DingEntityBase::NULL;
 
-  /**
-   * Note – a description of what the debt was for.
-   *
-   * Not provided in all cases, and thus, not required.
-   */
-  var $note;
 
-  public function __construct($id, $date, $amount, $note = '') {
-    $this->id = $id;
-    $this->amount = $amount;
-    $this->date = $date;
-    $this->note = $note;
+  public function __construct($id, $data = array()) {
+    parent::__construct();
+    $this->properties['id'] = $id;
+    // Default display name.
+    $this->properties['display_name'] = t('Title not available');
+    $properties = array(
+      'display_name',
+      'pickup_branch_id',
+      'date',
+      'amount',
+      'type',
+    );
+    foreach ($properties as $prop) {
+      if (isset($data[$prop])) {
+        $this->properties[$prop] = $data[$prop];
+      }
+    }
   }
 }
