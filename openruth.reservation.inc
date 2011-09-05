@@ -5,9 +5,7 @@
  */
 function openruth_reservation_pickup_branches($account) {
   // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds($account, TRUE);
 
   $branches = openruth_client_invoke('get_agencycounters');
   return $branches;
@@ -18,9 +16,7 @@ function openruth_reservation_pickup_branches($account) {
  */
 function openruth_reservation_set_preferred_branch($account, $branch) {
   // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds($account, TRUE);
   // Do nothing, ding_reservation will update local user if we don't throw an exception.
 }
 
@@ -114,9 +110,7 @@ function openruth_reservation_delete($account, $id) {
  */
 function openruth_reservation_branch_name($branch_id) {
   // Throw exception if we're not logged in.
-  if (!ding_user_get_creds()) {
-    throw new DingProviderAuthException;
-  }
+  ding_user_get_creds(NULL, TRUE);
 
   $branches = openruth_client_invoke('get_agencycounters');
   if (isset($branches[$branch_id])) {

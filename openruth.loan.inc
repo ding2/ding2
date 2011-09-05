@@ -4,7 +4,7 @@
  * Get list of user loans.
  */
 function openruth_loan_list($account) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds($account, TRUE);
   $result = array();
   $status = _openruth_user_status($creds);
 
@@ -29,7 +29,7 @@ function openruth_loan_list($account) {
  * Renew loans.
  */
 function openruth_loan_renew($account, $ids) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds($account, TRUE);
 
   $result = array();
   $res = openruth_client_invoke('renew_loan', $creds['name'], $ids);
