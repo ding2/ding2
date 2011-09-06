@@ -434,10 +434,11 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
 /**
  * Return cached creds for a user.
  *
+ * Throws DingProviderAuthException if not authenticated.
+ *
  * @param $account The user to get creds for.
- * @param $throw Whether to throw a DingProviderAuthException if creds not found.
  */
-function ding_user_get_creds($account = NULL, $throw = FALSE) {
+function ding_user_get_creds($account = NULL) {
   if (!$account) {
     $account = $GLOBALS['user'];
   }
@@ -454,9 +455,7 @@ function ding_user_get_creds($account = NULL, $throw = FALSE) {
     }
   }
 
-  if ($throw) {
-    throw new DingProviderAuthException;
-  }
+  throw new DingProviderAuthException;
 }
 
 /**
