@@ -76,9 +76,9 @@ function openruth_user_info($creds = NULL) {
 
 function openruth_user_profile_form($form, $form_state) {
   global $user;
-  $creds            = ding_user_get_creds($user);
-  $status           = _openruth_user_status($creds);
-  $agency_info      = openruth_client_invoke('get_agency_info');
+  $creds = ding_user_get_creds($user);
+  $status = _openruth_user_status($creds);
+  $agency_info = openruth_client_invoke('get_agency_info');
   $preferred_branch = FALSE;
 
   if (isset($user->data['preferred_branch'])) {
