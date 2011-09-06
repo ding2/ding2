@@ -32,25 +32,29 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
 
   $debts = ding_provider_invoke_page('debt', 'list', $account);
 
-  $header = array(
-    array('data' => t('Fee date'), 'class' => 'feedate'),
-    array('data' => t('Material name'), 'class' => 'feetitle'),
-    array('data' => t('Amount'), 'class' => 'feeamount'),
-  );
-  foreach ($debts as $debt) {
-    $row = array(
-      array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate'),
-      array('data' => $debt->display_name, 'class' => 'feetitle'),
-      array('data' => number_format($debt->amount, 2, ',', ' '), 'class' => 'feeamount'),
+  if (count($debts) == TRUE) {
+    $header = array(
+      array('data' => t('Fee date'), 'class' => 'feedate'),
+      array('data' => t('Material name'), 'class' => 'feetitle'),
+      array('data' => t('Amount'), 'class' => 'feeamount'),
     );
-    $rows[] = $row;
+    foreach ($debts as $debt) {
+      $row = array(
+        array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate'),
+        array('data' => $debt->display_name, 'class' => 'feetitle'),
+        array('data' => number_format($debt->amount, 2, ',', ' '), 'class' => 'feeamount'),
+      );
+      $rows[] = $row;
+    }
+    $table = theme('table', array(
+      'header' => $header,
+      'rows' => $rows,
+    ));
+    $block->content = render($table) . render(ding_provider_get_form('ding_debt_debts_form', $debts));
   }
-  $table = theme('table', array(
-    'header' => $header,
-    'rows' => $rows,
-  ));
-  $block->content = render($table) . render(ding_provider_get_form('ding_debt_debts_form', $debts));
-
+  else {
+    $block->content = t('No debts');
+  }
   return $block;
 }
 
