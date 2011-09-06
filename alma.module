@@ -197,7 +197,7 @@ function alma_get_patron($creds = NULL, $reset = TRUE) {
   if (is_null($creds)) {
     // Get creds, which may throw an exception that login is required.
     global $user;
-    $creds = ding_user_get_creds($user, TRUE);
+    $creds = ding_user_get_creds($user);
   }
 
   static $patron;

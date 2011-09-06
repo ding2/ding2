@@ -1,7 +1,7 @@
 <?php
 
 function alma_loan_list($account) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
   $results = array();
 
   try {
@@ -25,7 +25,7 @@ function alma_loan_list($account) {
 }
 
 function alma_loan_renew($account, $ids) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
   $result = array();
   $res = alma_client_invoke('renew_loan', $creds['name'], $creds['pass'], $ids);
 

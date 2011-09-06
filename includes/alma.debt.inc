@@ -39,7 +39,7 @@ function alma_debt_list($account) {
  *   Order ID of the payment transaction, to be recorded in the backend system.
  */
 function alma_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
-  // TODO: We should probably check that $amount adds up to the debts 
+  // TODO: We should probably check that $amount adds up to the debts
   // we're going to mark paid, since Alma doesn't.
   return alma_client_invoke('add_payment', implode(',', $debt_ids), $order_id);
 }
@@ -48,7 +48,7 @@ function alma_debt_payment_received($amount, $debt_ids = array(), $order_id = NU
  * Get list of debts from Alma.
  */
 function alma_debt_get_debts($account, $reset = FALSE) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
 
   return alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
 }

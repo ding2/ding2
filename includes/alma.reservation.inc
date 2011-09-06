@@ -5,14 +5,14 @@
  * Where do the user enter the interest periode and preferred branch
  * information. (THIS IS NOT IMPLEMENTED YET, SO DEFAULT IS USED)
  */
- 
+
 
 /**
  * Get list of pickup branches.
  */
 function alma_reservation_pickup_branches($account) {
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account, TRUE);
+  ding_user_get_creds($account);
 
   return alma_client_invoke('get_reservation_branches');
 }
@@ -22,7 +22,7 @@ function alma_reservation_pickup_branches($account) {
  */
 function alma_reservation_set_preferred_branch($account, $branch) {
   // Throws an exception if we are not logged in.
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
 
   /**
    * @todo Should call alma an update the branch in the library system (not sure
@@ -35,7 +35,7 @@ function alma_reservation_set_preferred_branch($account, $branch) {
  * Get list of reserved items.
  */
  function alma_reservation_list($account) {
-   $creds = ding_user_get_creds($account, TRUE);
+   $creds = ding_user_get_creds($account);
    $reservations = alma_reservation_get_reservations($account);
    $result = array();
 
@@ -74,7 +74,7 @@ function alma_reservation_set_preferred_branch($account, $branch) {
  * Create a reservation for a given account.
  */
 function alma_reservation_create($account, $id, $branch, $expiry) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
 
   // Check if the users has this reservation and throw exception.
   if (alma_reservation_exists($creds, $id)) {
@@ -114,7 +114,7 @@ function alma_reservation_create($account, $id, $branch, $expiry) {
  * Update order, by defining new expiry date or pickup branch.
  */
 function alma_reservation_update_order($account, $id, $pickup_branch, $expiry_date) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
   if (isset($reservations[$id])) {
     $changes = array(
@@ -134,7 +134,7 @@ function alma_reservation_update_order($account, $id, $pickup_branch, $expiry_da
  * Delete a reservation for a given account.
  */
 function alma_reservation_delete($account, $id) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
   alma_reservation_clear_cache();
   //return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
@@ -160,13 +160,13 @@ function alma_reservation_branch_name($branch_id) {
  */
 
 function alma_reservation_get_reservations($account, $reset = FALSE) {
-  $creds = ding_user_get_creds($account, TRUE);
+  $creds = ding_user_get_creds($account);
 
   // Try to look in the session for reservation information.
   if (!isset($_SESSION['alma_reservations']) || !is_array($_SESSION['alma_reservations']) || $reset) {
     $_SESSION['alma_reservations'] = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
   }
-  
+
   return $_SESSION['alma_reservations'];
 }
 

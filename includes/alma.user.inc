@@ -15,7 +15,7 @@ function alma_user_authenticate($uid, $pass) {
     $res = alma_client_invoke('get_patron_info', $uid, $pass, TRUE);
     $return['success'] = TRUE;
   }
-  catch (Exception $e) {    
+  catch (Exception $e) {
     return $return;
   }
 
@@ -86,7 +86,7 @@ function alma_user_info($creds = NULL) {
 function alma_user_profile_form($form, $form_state) {
   $status = alma_get_patron();
   $organisation = alma_get_organisation();
-  
+
   // NOT IMPLEMNETED YET
 //  $period_of_interest = array(
 //    30 => t('1 month'),
@@ -123,15 +123,15 @@ function alma_user_profile_form($form, $form_state) {
   unset($form['#validate'][array_search('user_validate_current_pass', $form['#validate'])]);
   unset($form['account']['current_pass']);
   unset($form['account']['current_pass_required_values']);
-  
+
   return $form;
 }
 
 /**
  * Provider specific user profile form validate handler.
  */
-function alma_user_profile_form_validate($form, $form_state) { 
-  
+function alma_user_profile_form_validate($form, $form_state) {
+
 }
 
 /**
@@ -141,7 +141,7 @@ function alma_user_profile_form_submit($form, $form_state) {
   global $user;
 
   $updated = FALSE;
-  $creds = ding_user_get_creds($user, TRUE);
+  $creds = ding_user_get_creds($user);
   $changed_settings = $form_state['input'];
   $orig_settings = $form['alma_library'];
 
@@ -154,7 +154,7 @@ function alma_user_profile_form_submit($form, $form_state) {
   // Update password.
   if ($orig_settings['password'] == TRUE && ($changed_settings['pass']['pass1'])) {
     alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changed_settings['pass']['pass1']);
-    
+
     // Update informations local.
     ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $changed_settings['pass']['pass1'])), $user);
     $creds = ding_user_get_creds($user);
