@@ -1,6 +1,12 @@
 <div class="ting_fulltext_wrap">
 
-<h1><?php echo $variables['element']['#fields']['title'];?></h1>
+<h1>
+<?php 
+   if( isset($variables['element']['#fields']['title']) ) {
+     echo $variables['element']['#fields']['title'];
+   }
+?>
+</h1>
 
 <div class="ting_fulltext_name">
 <?php
@@ -22,9 +28,11 @@ if( isset($variables['element']['#fields']['subject']) ) {
 
 
 <?php
-foreach( $variables['element']['#fields']['section'] as $key => $section ) {
-  echo '<h4>'.$section['title'].'</h4>';
-  echo '<div class="ting_fulltext_txt">'.$section['para'].'</div>';
+if( isset( $variables['element']['#fields']['section']) ) {
+  foreach( $variables['element']['#fields']['section'] as $key => $section ) {
+    echo '<h4>'.$section['title'].'</h4>';
+    echo '<div class="ting_fulltext_txt">'.$section['para'].'</div>';
+  }
 }
 ?>
 </div> <!-- wrapper -->

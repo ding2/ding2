@@ -43,24 +43,29 @@ function ting_fulltext_parse($xml) {
   static $xpath;
   $ret = array();
 
+
+
   if( !isset($xpath) )
     $xpath = ting_fulltext_get_xpath($xml);
 
   //main title
   $query = '//docbook:article/docbook:title';
   $nodelist = $xpath->query($query);
-  (isset($nodelist->item(0)->nodeValue) ? $ret['title'] = $nodelist->item(0)->nodeValue : $ret['title'] = '');
+  if( $nodelist->length > 0 )
+    (isset($nodelist->item(0)->nodeValue) ? $ret['title'] = $nodelist->item(0)->nodeValue : $ret['title'] = '');
   
   //firstname
   $query = '//docbook:firstname';
   $nodelist = $xpath->query($query);
-  (isset($nodelist->item(0)->nodeValue) ? $ret['firstname'] = $nodelist->item(0)->nodeValue : $ret['firstname'] = '');
+  if( $nodelist->length > 0 )
+   (isset($nodelist->item(0)->nodeValue) ? $ret['firstname'] = $nodelist->item(0)->nodeValue : $ret['firstname'] = '');
 
   //surname
   $query = '//docbook:surname';
   $nodelist = $xpath->query($query);
-  (isset($nodelist->item(0)->nodeValue) ? $ret['surname'] = $nodelist->item(0)->nodeValue : $ret['surname'] = '');
-
+  if( $nodelist->length > 0 )
+    (isset($nodelist->item(0)->nodeValue) ? $ret['surname'] = $nodelist->item(0)->nodeValue : $ret['surname'] = '');
+  
   //section (there can be more than one section, but i haven't seen more than one yet)
   $query = '//docbook:section';
   $nodelist = $xpath->query($query);
@@ -90,7 +95,9 @@ function ting_fulltext_get_xpath($xml) {
   // TODO errorhandling
   $dom = new DOMDocument();
   $dom->loadXML($xml);
-
-  return new DOMXPath($dom);
+  $xpath = new DOMXPath($dom);
+  $xpath->registerNamespace('docbook','http://docbook.org/ns/docbook');
+  return $xpath;
+ 
 }
 
