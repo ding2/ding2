@@ -1,6 +1,30 @@
 <?php
 
 /**
+ * Implements hook_form_alter().
+ *
+ * Remove #required attribute for form elements in the installer
+ * as they prevent the install profile from being run using drush
+ * site-install.
+ *
+ * These elements will usually be added by modules implementing
+ * hook_ding_install_tasks and passing a default administration form. While
+ * setting elements as required in the administration is reasonable, during
+ * the instalation we may present the users with required form elements
+ * they do not know how to handle and thus prevent them from completing the
+ * installation.
+ */
+function ding2_form_alter(&$form, $form_state, $form_id) {
+  // Proces all forms during installation except the Drupal default
+  // configuration form
+  if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install' &&
+      $form_id != 'install_configure_form') {
+    array_walk_recursive($form, '_ding2_remove_form_requirements');
+  }
+}
+
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Allows the profile to alter the site configuration form.
@@ -66,4 +90,14 @@ function ding2_flush_all_caches() {
     drupal_flush_all_caches();
   }
   return;
+}
+
+/**
+ * Function to remove all required attributes from a form element array.
+ */
+function _ding2_remove_form_requirements(&$value, $key) {
+  // Set required attribute to false if set.
+  if ($key === '#required') {
+    $value = FALSE;
+  }
 }
