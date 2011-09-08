@@ -58,7 +58,7 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
       foreach ($entity->relations as $relation) {
         //if( $relation_type == $relation->type)  {
           $element[$delta] = 
-	    array('#markup' => '<a href="http://google.dk">HEST</a>',);
+	    array('#markup' => '<div class="ting_sfx_button"><a href="http://google.dk">HEST</a></div>',);
 	  //}
       }
     }
@@ -67,6 +67,11 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
     krumo('ERROR');    
     }
   return $element;
+}
+
+function ting_sfx_get_html() {
+  $ret = '<div class="ting_sfx_button">$</div>';
+  return $ret;
 }
 
 
@@ -100,6 +105,11 @@ function ting_sfx_field_load($entity_type, $entities, $field, $instances, $langc
     );
   } 
   }
+
+function ting_sfx_preprocess_html(&$variables,$hook) {
+  drupal_add_css(drupal_get_path('module','ting_sfx').'/ting_sfx.css');
+}
+
 /**
 Implements hook_field_formatter_prepare_view
 *
@@ -114,8 +124,7 @@ foreach ($entities as $id => $entity) {
     // cached after this hook, so we don't.
     $items[$id][0] = array(
       'id' => $id,
-    );
-   
+    );   
   } 
 }
 

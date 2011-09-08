@@ -1,0 +1,14 @@
+div.ting_sfx_button {
+color:green;
+border:1px solid blue;
+height:1.5em;
+width:5em;
+background-image:url('sfx_logo.png');
+background-repeat:no-repeat;
+padding:5px;
+}
+
+div.ting_sfx_button a {
+margin-left:35px;
+}
+
