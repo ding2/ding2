@@ -3,33 +3,26 @@
     attach: function(context, settings) {
       Drupal.FoldFacetGroup();
       Drupal.CheckHashedFacets();
+      // If we have hashes and on a fresh facetbrowser form
+      // them hide facetbrowser and search pane before
+      // triggering the change event.
+      if ($.param.fragment()) {
+        $('.pane-ding-facetbrowser').hide();
+        $('.search-results').hide();
+        $('form#ding-facetbrowser-form input.form-checkbox:checked:first').trigger('change');
+      }
+      // TODO: Change to use native Drupal ajax function overrides.
+      // When then search is complete then show panes again.
+      $(document).ajaxComplete(function(e, xhr, settings) {
+        $('.pane-ding-facetbrowser').show();
+        $('.search-results').show();
+      });
     }
   };
 
   $(window).bind('hashchange', function(e) {
+    // Check if BBQ plugin is available.
     if ($.deparam != undefined) {
-      // If page is loaded with selected facets,
-      // we need to execute the search.
-      if ($.param.fragment() !== '') {
-        var url = window.location.pathname.split('/');
-        var search_string = url[url.length - 1];
-        $.ajax({
-          url: '/ding_facetbrowser/ajax',
-          type: 'GET',
-          data: {
-            keyword: search_string,
-            facets: $.param.fragment()
-          },
-          dataType: 'json',
-          success: function(data, i) {
-            $(Drupal.settings.dingFacetBrowser.mainElement).html(data.facet_browser).show();
-            $('.search-results').html(data.search_results).show();
-            Drupal.CheckHashedFacets();
-            Drupal.FoldFacetGroup();
-          }
-        });
-      }
-
       $(' .form-checkbox').live('click', function() {
         if ($(this).attr('checked') === false) {
           // Remove the unchecked facet from the url state
