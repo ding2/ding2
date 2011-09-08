@@ -36,15 +36,13 @@ function ting_fulltext_page_view($object) {
     '#theme' => 'ting_fulltext',  
     '#fields' => ting_fulltext_parse($object),
   );
+  //  print_r($build);
   return $build;
 }
 
 function ting_fulltext_parse($xml) {
   static $xpath;
   $ret = array();
-
-
-
   if( !isset($xpath) )
     $xpath = ting_fulltext_get_xpath($xml);
 
@@ -87,7 +85,8 @@ function ting_fulltext_parse($xml) {
       $ret['subject'][] = $node->nodeValue;
     }
   }
-
+  
+  //  print_r($ret);
   return $ret;
 }
 
