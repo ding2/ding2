@@ -91,15 +91,13 @@ function ding_debt_debts_form($form, &$form_state, $debts = array()) {
 function ding_debt_debts_form_submit($form, &$form_state) {
   global $user;
   $amount = 0;
-
-  $debts = array_filter($form_state['values']['debts']);
-
-  foreach ($debts as $debt_id) {
+  $debts = array_filter($form_state['values']['debt_data']);
+  foreach ($debts as $debt_id => $debt_data) {
     $amount += $form_state['values']['debt_data'][$debt_id]->amount;
   }
 
   if ($amount > 0) {
-    $params = array('params' => array('debt_ids' => $debts));
+    $params = array('params' => array('debt_ids' => array_keys($debts)));
 
     $url = ding_provider_invoke('payment', 'get_url', $amount, $params, 'ding_debt_payment_callback');
 
