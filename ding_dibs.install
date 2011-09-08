@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function ding_dibs_install() {
+  // Inserting default order id setting
+  $db_id = db_insert('dibs_order_id_settings')
+    ->fields(array(
+      'api_module' => 'dibg_dibs',
+      'api_delta' => '1',
+      'order_id' => 10000,
+      'order_id_prefix' => '',
+      'order_id_suffix' => '',
+    ))
+    ->execute();
+
+}
