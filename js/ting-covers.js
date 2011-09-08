@@ -29,7 +29,7 @@
       if (coverData.length > 0) {
         //Retrieve covers
         request = $.ajax({
-          url: '/ting/covers',
+          url: Drupal.settings.basePath + 'ting/covers',
           type: 'POST',
           data: {
             coverData: coverData
