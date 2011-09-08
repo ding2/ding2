@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting ting_infomedia module.
+ */
+
+/**
+ * field-definitions
+ * Implements hook_ding_entity_fields().
+ */
+function ting_sfx_ding_entity_fields() {
+  return array(
+    'ting_sfx' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Link to openurl (sfx)'),
+      ),
+    ),
+  );
+}

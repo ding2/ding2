@@ -1,0 +1,130 @@
+<?php
+/**
+ * @file
+ * Handles sfx-fields for ting entities.
+ */
+
+
+/**
+ * Implements hook_field_info()
+
+ * description of field
+ */
+
+function ting_sfx_field_info() {
+  $ret = array(
+               'ting_sfx' =>
+               array('label' => t('A link to openur (sfx)'),
+                     'description' => t('This field links sfx'),
+		     'default_formatter' => 'ting_sfx_default', 
+		     'settings' => array('max_length'=>255,),
+		     'default_widget' => 'hidden',
+                     'no_ui' => TRUE,
+                     ),
+               );
+  return $ret;
+}
+
+/**
+ * Implements hook_field_formatter_info
+ *
+ * pjo notes; 'field types' are passed on to hook_file_formatter_view
+ */
+function ting_sfx_field_formatter_info() {
+  return array(
+               'ting_sfx_default' => 
+               array('label' => t('Default'),
+                     'field types' => 
+                     array('ting_sfx',), )
+               );
+}
+
+
+/**
+ * Implements hook_field_formatter_view
+ *
+ * only one formatter is supported
+ * - ting_sfx
+ */
+
+function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array(); 
+
+  $relation_type = 'dbcaddi:hasOpenUrl';
+
+  switch($display['type']) {
+  case 'ting_sfx_default' :
+    foreach($items as $delta=>$items) {
+      foreach ($entity->relations as $relation) {
+        //if( $relation_type == $relation->type)  {
+          $element[$delta] = 
+	    array('#markup' => '<a href="http://google.dk">HEST</a>',);
+	  //}
+      }
+    }
+    break;
+  default:
+    krumo('ERROR');    
+    }
+  return $element;
+}
+
+
+/**
+ * Implements hook_field_validate
+ * TODO is some kind of validation needed?
+ */
+function ting_sfx_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  // do nothing
+}
+
+/**
+ * Implements hook_field_is_empty
+ *
+ */
+function ting_sfx_is_empty($item, $field) {
+  // TODO; check 
+  return false;
+}
+
+/**
+ * Implements hook_field_load().
+ * pjo notes Define custom load behavior for this module's field types.
+ */
+function ting_sfx_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+   foreach ($entities as $id => $entity) {
+    // We could create relations as multiple values here, but it's
+    // cached after this hook, so we don't.
+    $items[$id][0] = array(
+      'id' => $id,
+    );
+  } 
+  }
+/**
+Implements hook_field_formatter_prepare_view
+*
+* 
+* pjo notes; add the field to given item(s)
+* we could also use hook_field_load or hook_field_prepare_view
+ */
+
+function ting_sfx_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+foreach ($entities as $id => $entity) {
+    // We could create relations as multiple values here, but it's
+    // cached after this hook, so we don't.
+    $items[$id][0] = array(
+      'id' => $id,
+    );
+   
+  } 
+}
+
+
+
+
+
+
+
+
+
+
