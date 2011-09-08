@@ -3,23 +3,9 @@
     attach: function(context, settings) {
       Drupal.FoldFacetGroup();
       Drupal.CheckHashedFacets();
-      // If we have hashes and on a fresh facetbrowser form
-      // them hide facetbrowser and search pane before
-      // triggering the change event.
-      if ($.param.fragment()) {
-        $('.pane-ding-facetbrowser').hide();
-        $('.search-results').hide();
-        $('form#ding-facetbrowser-form input.form-checkbox:checked:first').trigger('change');
-      }
-      // TODO: Change to use native Drupal ajax function overrides.
-      // When then search is complete then show panes again.
-      $(document).ajaxComplete(function(e, xhr, settings) {
-        $('.pane-ding-facetbrowser').show();
-        $('.search-results').show();
-      });
+      Drupal.executeSearch();
     }
   };
-
   $(window).bind('hashchange', function(e) {
     // Check if BBQ plugin is available.
     if ($.deparam != undefined) {
@@ -35,10 +21,32 @@
           value = $(this).val();
           state[key] = value;
           $.bbq.pushState(state, 0);
+          // Add fragments to pager when toggeling facetbrowser
+          $('ul.pager li a').fragment('', $.param.fragment(), 2);
         }
       });
     }
-  });
+  }).triggerHandler('hashchange');
+
+  Drupal.executeSearch = function() {
+    // If we have hashes and on a fresh facetbrowser form
+    // them hide facetbrowser and search pane before
+    // triggering the change event.
+    if ($.param.fragment()) {
+      $('.pane-ding-facetbrowser').hide();
+      $('.search-results').hide();
+      // Trigger the form, and execute the search
+      $('form#ding-facetbrowser-form input.form-checkbox:checked:first').trigger('change');
+      // Add fragments to pager when toggeling facetbrowser
+      $('ul.pager li a').fragment('', $.param.fragment(), 2);
+    }
+    // TODO: Change to use native Drupal ajax function overrides.
+    // When then search is complete then show panes again.
+    $(document).ajaxComplete(function(e, xhr, settings) {
+      $('.pane-ding-facetbrowser').show();
+      $('.search-results').show();
+    });
+  };
 
   /**
  * Automatic fill facet checkboxes with values from url hashes.
