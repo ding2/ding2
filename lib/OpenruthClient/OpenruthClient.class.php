@@ -492,10 +492,11 @@ class OpenruthClient {
   /**
    * paying user fines
    */
-  public function user_payment($username, $amount, $transaction_id = NULL) {
+  public function add_payment($amount, $transaction_id = NULL) {
+    $creds = ding_user_get_creds($account);
     $params = array(
       'agencyId' =>  $this->agency_id,
-      'userId' => $username,
+      'userId' => $creds['name'],
       'feeAmountPaid' => $amount,
     );
     if ($transaction_id) {
@@ -504,7 +505,7 @@ class OpenruthClient {
 
     $this->log_start();
     $res = $this->client->userPayment($params);
-    $this->log($username);
+    $this->log($creds['name']);
     if (isset($res->userPaymentError)) {
       return $res->userPaymentError;
     }
