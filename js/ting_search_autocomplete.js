@@ -5,7 +5,7 @@
       $('#edit-search-block-form--2').autocomplete({
         minLength: 3,
         source: function(request, response) {
-          $.getJSON('/ting/autocomplete', {
+          $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
             query: request.term
           }, response);
         },
