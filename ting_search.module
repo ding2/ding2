@@ -173,10 +173,10 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     $searchResult = ting_do_search($query, $page + 1, $resultsPerPage, $options);
     if (isset($searchResult->collections)) {
       $searchResult->search_key = $keys;
-      // We don't know the real total, so fake one. We add one to the shown
-      // number if there is more results.
-      $fake_total = ($resultsPerPage * $page) + sizeof($searchResult->collections) + ($searchResult->more ? 1 : 0);
-      pager_default_initialize($fake_total, $resultsPerPage);
+
+      $total_results = (int) $searchResult->numTotalObjects;
+
+      pager_default_initialize($total_results, $resultsPerPage);
 
       foreach ($searchResult->collections as &$collection) {
         $build = ting_collection_view($collection, 'teaser');
