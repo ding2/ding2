@@ -22,3 +22,8 @@ function openruth_debt_list($account) {
 
    return $result;
 }
+
+function openruth_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
+  // TODO: We should probably check that $amount adds up to the debts
+  return openruth_client_invoke('add_payment', $amount, $order_id);
+}
