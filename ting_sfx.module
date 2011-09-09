@@ -57,7 +57,7 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
     foreach($items as $delta=>$items) {
       foreach ($entity->relations as $relation) {
         if( $relation_type == $relation->type)  {
-	  var_dump($relation);
+	  //var_dump($relation);
           $element[$delta] = 
 	    array('#markup' => '<div onclick="location.href=\''.ting_sfx_get_open_url($relation->uri).'\'" class="ting_sfx_button">'.ting_sfx_get_logo().'<span>'.t('ting_sfx_url').'</div>',);
 	  }
