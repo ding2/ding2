@@ -56,10 +56,11 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
   case 'ting_sfx_default' :
     foreach($items as $delta=>$items) {
       foreach ($entity->relations as $relation) {
-        //if( $relation_type == $relation->type)  {
+        if( $relation_type == $relation->type)  {
+	  var_dump($relation);
           $element[$delta] = 
-	    array('#markup' => '<div class="ting_sfx_button"><a href="http://google.dk">HEST</a></div>',);
-	  //}
+	    array('#markup' => '<div onclick="location.href=\''.ting_sfx_get_open_url($relation->uri).'\'" class="ting_sfx_button">'.ting_sfx_get_logo().'<span>'.t('ting_sfx_url').'</div>',);
+	  }
       }
     }
     break;
@@ -69,11 +70,25 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
   return $element;
 }
 
-function ting_sfx_get_html() {
-  $ret = '<div class="ting_sfx_button">$</div>';
+function ting_sfx_get_open_url($uri) {
+  $baseurl = 'http://sfx.dbc.dk:3410/dbc_test-ph_metropol?';  
+  
+  $ret = str_replace('_BASEURL_',$baseurl,$uri);
+
   return $ret;
 }
 
+function ting_sfx_get_logo() {
+  $ret = '<img src="';
+  $ret .= base_path();
+  $ret .='/';
+  $ret .= drupal_get_path('module','ting_sfx');
+  $ret .='/';
+  $ret .= 'sfx_logo.png';
+  $ret .= '"/>';
+
+  return $ret;
+}
 
 /**
  * Implements hook_field_validate
