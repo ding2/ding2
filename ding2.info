@@ -13,7 +13,6 @@ dependencies[] = color
 dependencies[] = translation
 
 dependencies[] = mkdru
-dependencies[] = openruth
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 files[] = ding2.profile
