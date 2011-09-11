@@ -12,7 +12,7 @@ function ding_place2book_content_default_fields() {
     'type_name' => 'event',
     'display_settings' => array(
       'weight' => '32',
-      'parent' => '',
+      'parent' => 'group_place2book',
       'label' => array(
         'format' => 'hidden',
       ),
@@ -63,7 +63,7 @@ function ding_place2book_content_default_fields() {
       'default_value_php' => NULL,
       'label' => 'Place2Book ID',
       'weight' => '32',
-      'description' => 'A ID-reference to the corresponding event on the ticket booking service Place2Book.com',
+      'description' => 'An ID-reference to the corresponding event on the ticket booking service Place2Book',
       'type' => 'number',
       'module' => 'number',
     ),
@@ -75,16 +75,16 @@ function ding_place2book_content_default_fields() {
     'type_name' => 'event',
     'display_settings' => array(
       'weight' => '31',
-      'parent' => '',
+      'parent' => 'group_place2book',
       'label' => array(
-        'format' => 'above',
+        'format' => 'hidden',
       ),
       'teaser' => array(
-        'format' => 'default',
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       'full' => array(
-        'format' => 'default',
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       '4' => array(
@@ -114,12 +114,13 @@ function ding_place2book_content_default_fields() {
     'suffix' => '',
     'min' => '',
     'max' => '',
-    'allowed_values' => '',
+    'allowed_values' => '0|Maintain copy on Place2Book
+1|Maintain copy on Place2Book',
     'allowed_values_php' => '',
     'widget' => array(
       'default_value' => array(
         '0' => array(
-          'value' => NULL,
+          'value' => 1,
         ),
       ),
       'default_value_php' => NULL,
@@ -136,16 +137,17 @@ function ding_place2book_content_default_fields() {
     'field_name' => 'field_place2book_use_taxonomy',
     'type_name' => 'event',
     'display_settings' => array(
+      'weight' => '33',
+      'parent' => 'group_place2book',
       'label' => array(
-        'format' => 'above',
-        'exclude' => 0,
+        'format' => 'hidden',
       ),
       'teaser' => array(
-        'format' => 'default',
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       'full' => array(
-        'format' => 'default',
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       '4' => array(
@@ -175,7 +177,8 @@ function ding_place2book_content_default_fields() {
     'suffix' => '',
     'min' => '',
     'max' => '',
-    'allowed_values' => '',
+    'allowed_values' => '0|Categories to Place2Book
+1|Categories to Place2Book',
     'allowed_values_php' => '',
     'widget' => array(
       'default_value' => array(
