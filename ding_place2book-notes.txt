@@ -1,0 +1,82 @@
+---------------
+ding_place2book (dev notes)
+---------------
+
+http://drupal.org/node/633354
+- use drupal_http_request() to send xml to place2book
+- parse return data with simplexml functions
+
+
+* Admin settings:
+-----------------
+- place2book API key
+- place2book URL
+- base account
+- library accounts, if diff. from base account (generate one per library)
+(following probably not needed, can be handled by language functionality)
+- sold-out text (HTML)
+- order-ticket link, with placeholders for {place2book-ID} and {tickets-left} (HTML)
+- event-passed text (HTML)
+
+
+
+* Content type Event, extra:
+----------------------------
+(- address/location override (also practical without using the place2book functionality). NB! Field already on the event-node!)
+
+- maintain copy on place2book (default:on)
+if unselecting the setting on an existing event node, request to delete the corresponding info. on place2book. Activates/grays out the place2book section below. 
+
+- place2book section (whole section active/inactive)
+	- related place2book event ID (default: null)
+	- write categories (checkbox. Default:selected)
+
+* functions:
+------------
+CREATE at place2book when:
+- event-node with  "maintain copy on place2book"=ON is created
+- event-node with ("maintain copy on place2book"=ON and place2book-ID=NULL) is edited
+
+EDIT at place2book when:
+- event-node with  "maintain copy on place2book"=ON is edited
+
+DELETE at place2book when:
+- event-node is deleted
+- event-node sets "maintain copy on place2book" to OFF
+
+
+* Error handling:
+-----------------
+Event-node with "maintain copy" set is opened for editing,but has no place2book-ID = don't do anything, it will try to create the copy when node is saved.
+
+Event-node create, edit or delete with no contact to place2book server = write message to user, with link to try again (link is the edit-link for the event-node)
+
+
+
+* VISNING:
+----------
+Hvis event-node har place2book-ID og ikke har fundet sted, 
+så
+	- indsæt place2book section samt javascript i event-noden.
+	Javascript-kode kalder place2book op for status på event:
+		- har ikke fundet sted + ledige billetter = order ticket link
+		- har ikke fundet sted + ikke flere billetter = sold-out text
+		- har fundet sted = events passed text (status kun med for fejlhåndteringen skyld)
+		- Any errors returned = generic error text a la "technical error, we're sorry"
+ellers hvis event-node har fundet sted,
+så
+	- show <div>events passed text</div>
+ellers
+	- no output
+
+
+place2book HTML section, with initial display:none on elements:
+<div class="place2book">
+	<div class="order-ticket">
+		
+	</div>
+	<div class="sold-out">
+	
+	</div>
+	<div class="error"></div>
+</div>
