@@ -34,7 +34,8 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
          'order_id' => $res->orderId,
          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
          'display_name' => $res->itemDisplayTitle,
-         'pickup_date' => $res->orderPickUpDate,
+         // For some reason, we might not get a pickup date back.
+         'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
          'pickup_branch_id' => $res->agencyCounter,
          'created' => $res->orderDate,
          'ready_for_pickup' => 1,
