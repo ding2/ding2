@@ -18,9 +18,11 @@ function template_preprocess_ting_relation(&$variables) {
     $variables['content']['body'] = ting_object_view($object, 'teaser');
   }
   elseif ($relation->type == 'hasReview') {
-    $variables['content']['body'] = array(
-      '#markup' => filter_xss_admin($object->reply->record['dc:description'][''][0]),
-    );
+    if (!empty($object->reply->record['dc:description'][''][0])) {
+      $variables['content']['body'] = array(
+        '#markup' => filter_xss_admin($object->reply->record['dc:description'][''][0]),
+      );
+    }
   }
   else {
     $variables['content']['body'] = array(
@@ -30,4 +32,3 @@ function template_preprocess_ting_relation(&$variables) {
 
   $variables['online_url'] = isset($object->online_url) ? l($object->online_url, $object->online_url) : FALSE;
 }
-
