@@ -65,8 +65,8 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   foreach ($items as $delta => $item) {
     foreach ($entity->relations as $relation) {
       if (isset($relation_types[$relation->type])) {
-        $ownerId = is_object($relation->object) ? $relation->object->ownerId : 'none';
-        if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', '') != $ownerId) {
+        $ownerId = is_object($relation->object) ? $relation->object->ownerId : NULL;
+        if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
           continue;
         }
         $element[$delta][] = array(
