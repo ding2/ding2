@@ -86,7 +86,8 @@
         var element_ids = hashobj[key];
         var facet_type = key.split('.', - 1);
 
-        for (element_id in element_ids) {
+        for (var i in element_ids) {
+          element_id = element_ids[i];
           $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-")).attr('checked', true);
         }
       }
