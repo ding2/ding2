@@ -54,13 +54,15 @@ function ding_user_frontend_block_view($delta = '') {
 
   switch ($delta) {
     case 'ding-username':
-      $name = (!empty($user->data['display_name'])) ? $user->data['display_name'] : $user->name;
+      if ($user->uid > 0) {
+        $name = (!empty($user->data['display_name'])) ? $user->data['display_name'] : $user->name;
 
-      if (!empty($name)) {
-        $block['content'] = theme('ding_user_frontend_user_name', array(
-          'account' => $user,
-          'name' => $name,
-        ));
+        if (!empty($name)) {
+          $block['content'] = theme('ding_user_frontend_user_name', array(
+            'account' => $user,
+            'name' => $name,
+          ));
+        }
       }
       break;
     case 'ding-user-loan-number':
