@@ -4,14 +4,12 @@
  * Code for the Ding User Frontend feature.
  */
 
-include_once('ding_user_frontend.features.inc');
-
 /**
  * Implements hook_preprocess_page().
  */
 function ding_user_frontend_preprocess_page(&$variables) {
   // unset tabs in pages with panels that also has tabs.
-  if ( in_array('page__user',$variables['theme_hook_suggestions']) ) {
+  if (in_array('page__user', $variables['theme_hook_suggestions'])) {
     unset($variables['tabs']['#primary']);
     unset($variables['tabs']['#secondary']);
   }
@@ -32,100 +30,76 @@ function ding_user_frontend_form_user_profile_form_alter(&$form, &$form_state, $
 /**
  * Implements hook_block_info().
  */
-function ding_ting_frontend_block_info() {
+function ding_user_frontend_block_info() {
+  $blocks = array();
+
   $blocks['ding-username'] = array(
-      'info' => t('Ding username'),
-      'cache' => DRUPAL_CACHE_PER_PAGE,
-    );
+    'info' => t('Ding user name'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
   $blocks['ding-user-loan-number'] = array(
-      'info' => t('Ding loan and reservation number'),
-      'cache' => DRUPAL_CACHE_PER_PAGE,
-    );
+    'info' => t('Ding loan, reservation, and debt count'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
   return $blocks;
 }
 
 /**
  * Implements hook_block_view().
  */
-function ding_ting_frontend_block_view($delta = '') {
+function ding_user_frontend_block_view($delta = '') {
   $block = array();
+  global $user;
+
   switch ($delta) {
     case 'ding-username':
-      $block['subject'] = t('Ding User icon and username, for login box area');
-      $block['content'] = ding_username_render() ;
+      $name = (!empty($user->data['display_name'])) ? $user->data['display_name'] : $user->name;
+
+      if (!empty($name)) {
+        $block['content'] = theme('ding_user_frontend_user_name', array(
+          'account' => $user,
+          'name' => $name,
+        ));
+      }
       break;
     case 'ding-user-loan-number':
-      $block['subject'] = t("Number of user's loans and reservations, for login box area");
-      $block['content'] = ding_loanamount_render() ;
+      try {
+        // We don't really need the credentials here, but getting them
+        // causes an exception to be thrown if user is not
+        // authenticated, exiting this block of code, which is what we
+        // want. No credentials, no user status.
+        ding_user_get_creds($user);
+
+        $block['content'] = theme('ding_user_frontend_user_status', array(
+          'loan_count' => count(ding_provider_invoke_page('loan', 'list', $user)),
+          'reservation_count' => count(ding_provider_invoke_page('reservation', 'list', $user)),
+          'debt_count' => count(ding_provider_invoke_page('debt', 'list', $user)),
+        ));
+      } catch ( Exception $e ) { return; }
+
       break;
   }
   return $block;
 }
 
 /**
- * Render callback function
+ * Implements hook_theme().
  */
-function ding_username_render() {
-  global $user;
-  $ding_name = ( isset($user) && isset($user->data) ) ? $user->data['display_name'] : NULL;
-  $user_name = ( isset($user) && isset($user->name) ) ? $user->name : NULL;
-  $name = ( $ding_name ) ? $ding_name : $user_name;
-  if ( !$name ) {
-    return NULL;
-  }
-  $block[] =
-    array(
-      '#type' => 'markup',
-      '#prefix' => '<div id="ding-user-icon"><div class="content">',
-      '#markup' => '',
-      '#suffix' => '</div></div>',
-    );
-  $block[] =
-    array(
-      '#type' => 'markup',
-      '#prefix' => '<div id="ding-user-name"><div class="content">',
-      '#markup' => $name,
-      '#suffix' => '</div></div>',
-    );
-  return $block;
+function ding_user_frontend_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_user_frontend_user_name' => array(
+      'variables' => array('account' => NULL, 'name' => NULL),
+      'template' => 'ding_user_frontend_user_name',
+      'path' => $path . '/templates',
+    ),
+    'ding_user_frontend_user_status' => array(
+      'variables' => array('loan_count' => NULL, 'reservation_count' => NULL, 'debt_count' => NULL),
+      'template' => 'ding_user_frontend_user_status',
+      'path' => $path . '/templates',
+    ),
+  );
 }
 
+include_once('ding_user_frontend.features.inc');
 
-/**
- * Render callback function
- */
-function ding_loanamount_render() {
-  global $user;
-  try {
-    if ( !user_is_logged_in() || !ding_user_get_creds() ) {
-      return NULL;
-    }
-    $list = ding_provider_invoke_page('loan', 'list', $user);
-    $block[] =
-      array(
-        '#type' => 'markup',
-        '#prefix' => '<div id="ding-user-loan-amount"><div class="content">',
-        '#markup' => '<span class="label">' . l(t('Loans:'),'user/' . $user->uid . '/status') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
-        '#suffix' => '</div></div>',
-      );
-    $list = ding_provider_invoke_page('reservation', 'list', $user);
-    $block[] =
-      array(
-        '#type' => 'markup',
-        '#prefix' => '<div id="ding-user-reservation-amount"><div class="content">',
-        '#markup' => '<span class="label">' . l(t('Reservations:'),'user/' . $user->uid . '/status/reservations') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
-        '#suffix' => '</div></div>',
-      );
-    $list = ding_provider_invoke_page('debt', 'list', $user);
-    $block[] =
-      array(
-        '#type' => 'markup',
-        '#prefix' => '<div id="ding-user-debt-amount"><div class="content">',
-        '#markup' => '<span class="label">' . l(t('Debts:'),'user/' . $user->uid . '/status/debts') . '</span>' . '<span class="amount">(' . sizeof($list) . ')</span>',
-        '#suffix' => '</div></div>',
-      );
-    return $block;
-  } catch ( Exception $e ) {
-    return NULL;
-  }
-}
