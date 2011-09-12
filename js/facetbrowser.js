@@ -12,14 +12,41 @@
       $(' .form-checkbox').live('click', function() {
         if ($(this).attr('checked') === false) {
           // Remove the unchecked facet from the url state
-          $.bbq.removeState($(this).closest('fieldset').attr('data'));
+          var facetmatching = /^edit-([^-]+)-(.+)--/,
+          match, facet, id, facetstate, newstate = {};
+          [match, facet, id] = $(this)[0].id.match(facetmatching);
+          facet = 'facet.' + facet;
+          facetstate = $.bbq.getState(facet);
+
+          if (facetstate) {
+            newstate[facet] = facetstate.filter(function(x) { return id != x.replace(/ /g, '-'); });
+
+            if (newstate.length == 0) {
+              $.bbq.removeState(facet);
+            }
+            else {
+              $.bbq.pushState(newstate);
+            }
+          }
         }
         else {
           // Add the checked facet to the url state
           var state = {},
           key = $(this).closest('fieldset').attr('data'),
           value = $(this).val();
-          state[key] = value;
+          currentValues = $.bbq.getState(key);
+
+          if (currentValues === undefined) {
+            currentValues = [];
+            currentValues.push(value);
+          }
+          else {
+            if (currentValues.indexOf(value) == -1) {
+            currentValues.push(value);
+            }
+          }
+
+          state[key] = currentValues;
           $.bbq.pushState(state, 0);
           // Add fragments to pager when toggeling facetbrowser
           $('ul.pager li a').fragment('', $.param.fragment(), 2);
@@ -53,11 +80,15 @@
  */
   Drupal.CheckHashedFacets = function() {
     var hashobj = $.deparam.querystring($.param.fragment());
+
     if (hashobj) {
       for (var key in hashobj) {
-        var element_id = hashobj[key];
+        var element_ids = hashobj[key];
         var facet_type = key.split('.', - 1);
-        $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-")).attr('checked', true);
+
+        for (element_id in element_ids) {
+          $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-")).attr('checked', true);
+        }
       }
     }
   };
