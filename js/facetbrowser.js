@@ -1,72 +1,89 @@
+
 (function($) {
+
   Drupal.behaviors.facetbrowser = {
     attach: function(context, settings) {
       Drupal.FoldFacetGroup();
-      Drupal.CheckHashedFacets();
+
+      if (this.processed) {
+        return;
+      }
+      this.processed = true;
+      Drupal.executeSearch();
+
+      $(window).bind('hashchange.pane-ding-facetbrowser', $.proxy(Drupal.facetbrowser, 'eventhandlerDFOperateByURLFragment')).triggerHandler('hashchange.pane-ding-facetbrowser');
+
+      $(document).bind('click.form-checkbox', $.proxy(Drupal.facetbrowser, 'eventHandlerDFOperateClick'));
+
+    }
+
+  };
+
+  Drupal.facetbrowser = Drupal.facetbrowser || { };
+  Drupal.facetbrowser.prototype = {};
+
+  Drupal.facetbrowser.eventhandlerDFOperateByURLFragment = function(event) {
+    var state = $.bbq.getState();
+    if (state) {
       Drupal.executeSearch();
     }
   };
-  $(window).bind('hashchange', function(e) {
-    // Check if BBQ plugin is available.
-    if ($.deparam != undefined) {
-      $(' .form-checkbox').live('click', function() {
-        if ($(this).attr('checked') === false) {
-          // Remove the unchecked facet from the url state
-          var facetmatching = /^edit-([^-]+)-(.+)--/,
-          match, facet, id, facetstate, newstate = {};
-          [match, facet, id] = $(this)[0].id.match(facetmatching);
-          facet = 'facet.' + facet;
-          facetstate = $.bbq.getState(facet);
 
-          if (facetstate) {
-            newstate[facet] = facetstate.filter(function(x) { return id != x.replace(/ /g, '-'); });
+  Drupal.facetbrowser.eventHandlerDFOperateClick = function(event) {
+    var $target = $(event.target);
+    if ($target.attr('checked')) {
+      var state = {};
+      var key = $target.closest('fieldset').attr('data');
+      var value = $target.val();
 
-            if (newstate.length == 0) {
-              $.bbq.removeState(facet);
-            }
-            else {
-              $.bbq.pushState(newstate);
-            }
-          }
-        }
-        else {
-          // Add the checked facet to the url state
-          var state = {},
-          key = $(this).closest('fieldset').attr('data'),
-          value = $(this).val();
-          currentValues = $.bbq.getState(key);
+      currentValues = $.bbq.getState(key);
 
-          if (currentValues === undefined) {
-            currentValues = [];
-            currentValues.push(value);
-          }
-          else {
-            if (currentValues.indexOf(value) == -1) {
-            currentValues.push(value);
-            }
-          }
-
-          state[key] = currentValues;
-          $.bbq.pushState(state, 0);
-          // Add fragments to pager when toggeling facetbrowser
-          $('ul.pager li a').fragment('', $.param.fragment(), 2);
-        }
-      });
-    }
-  }).triggerHandler('hashchange');
-
-  Drupal.executeSearch = function() {
-    // If we have hashes and on a fresh facetbrowser form
-    // them hide facetbrowser and search pane before
-    // triggering the change event.
-    if ($.param.fragment()) {
-      $('.pane-ding-facetbrowser').hide();
-      $('.search-results').hide();
-      // Trigger the form, and execute the search
-      $('form#ding-facetbrowser-form input.form-checkbox:checked:first').trigger('change');
-      // Add fragments to pager when toggeling facetbrowser
+      if (currentValues === undefined) {
+        currentValues = [];
+        currentValues.push(value);
+      }
+      else if (currentValues.indexOf(value) == -1) {
+        currentValues.push(value);
+      }
+      state[key] = currentValues;
+      $.bbq.pushState(state,0);
+      // Add the url state to pagers
       $('ul.pager li a').fragment('', $.param.fragment(), 2);
     }
+    else {
+      // Remove unchecked facet from url state
+      var facetmatching = /^edit-([^-]+)-(.+)--/,
+      facetstate, newstate = {};
+      var facet_identifier = $target[0].id.match(facetmatching);
+      var match = facet_identifier[0];
+      var facet = facet_identifier[1];
+      var id = facet_identifier[2];
+
+      facet = 'facet.' + facet;
+      facetstate = $.bbq.getState(facet);
+
+      if (facetstate) {
+        newstate[facet] = facetstate.filter(function(x) { return id != x.replace(/ /g, '-'); });
+
+        if (newstate.length === 0) {
+          $.bbq.removeState(facet);
+        }
+        else {
+          $.bbq.pushState(newstate);
+        }
+      }
+      $.bbq.removeState($(this).closest('fieldset').attr('data'));
+    }
+  };
+
+  Drupal.executeSearch = function() {
+    Drupal.CheckHashedFacets();
+    $('.pane-ding-facetbrowser').hide();
+    $('.search-results').hide();
+    // Trigger the form, and execute the search
+    $('.pane-ding-facetbrowser input.form-checkbox:checked:first').trigger('change');
+    // Add fragments to pager when toggeling facetbrowser
+    $('ul.pager li a').fragment('', $.param.fragment(), 2);
     // TODO: Change to use native Drupal ajax function overrides.
     // When then search is complete then show panes again.
     $(document).ajaxComplete(function(e, xhr, settings) {
@@ -79,16 +96,16 @@
  * Automatic fill facet checkboxes with values from url hashes.
  */
   Drupal.CheckHashedFacets = function() {
+    $('.pane-ding-facetbrowser input.form-checkbox').attr('checked', false);
     var hashobj = $.deparam.querystring($.param.fragment());
 
     if (hashobj) {
       for (var key in hashobj) {
         var element_ids = hashobj[key];
         var facet_type = key.split('.', - 1);
-
-        for (var i in element_ids) {
-          element_id = element_ids[i];
-          $('#edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-")).attr('checked', true);
+        for (var counter in element_ids) {
+          element_id = element_ids[counter];
+          $('.pane-ding-facetbrowser input[id^="edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-") + '"]').attr('checked', true);
         }
       }
     }
@@ -136,9 +153,6 @@
     });
   };
 
-  // Since the event is only triggered when the hash changes, we need to trigger
-  // the event now, to handle the hash the page may have loaded with.
-  $(window).trigger('hashchange');
 
 })(jQuery);
 
