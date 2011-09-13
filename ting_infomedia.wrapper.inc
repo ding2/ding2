@@ -9,7 +9,12 @@
 module_load_include('client.inc', 'ting');
 
 function ting_infomedia_get_article($id) {
-  $request = ting_get_request_factory()->getInfomediaArticleRequest();
+  try{ $factory = ting_get_request_factory();}
+    catch( TingClientException $e ) {
+    watchdog($e->message);
+    }
+
+  $request = $factory->getInfomediaArticleRequest();
  
   $request->makeGet();
   $request->setFaust($id); 

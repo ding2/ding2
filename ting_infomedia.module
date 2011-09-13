@@ -34,7 +34,14 @@ function ting_infomedia_menu() {
  * Ajax callback function
  */
 function ting_infomedia_ajax_callback($id) { 
-  $commands[] = ajax_command_replace('#article-wrapper', ting_infomedia_parse_article($id)); 
+  $url = variable_get('ting_infomedia_url');
+  if( isset($url ) ) {
+    $commands[] = ajax_command_replace('#article-wrapper', ting_infomedia_parse_article($id)); 
+  }
+  else {
+    $commands[] = ajax_command_replace('#article-wrapper', '<div class="infomedia_error">'.t('No url given to infomedia-webservice please contact site-administrator').'</div>'); 
+  }
+ 
   $page = array('#type' => 'ajax', 
 		'#commands' => $commands); 
   ajax_deliver($page); 
@@ -167,12 +174,12 @@ function ting_infomedia_get_ting_relations() {
  * Add css and javascript for displaying infomedia-article
  */
 function ting_infomedia_preprocess_html(&$variables,$hook) {
-  drupal_add_css(drupal_get_path('module', 'ting_infomedia') . '/jquery.fancybox-1.3.4.css');
-  drupal_add_js(drupal_get_path('module', 'ting_infomedia') . '/jquery.fancybox-1.3.4.js');
-  drupal_add_js(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_fancybox.js');
+  //drupal_add_css(drupal_get_path('module', 'ting_infomedia') . '/jquery.fancybox-1.3.4.css');
+  //drupal_add_js(drupal_get_path('module', 'ting_infomedia') . '/jquery.fancybox-1.3.4.js');
+  //drupal_add_js(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_fancybox.js');
 
 
-  drupal_add_js('jQuery(document).ready(function () {  document.getElementById("ajax_infomedia_article").click() });', 'inline');
+  drupal_add_js('jQuery(document).ready(function () {  var elem = document.getElementById("ajax_infomedia_article"); if(elem){elem.click();} })', 'inline');
   drupal_add_css(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_article_view.css');
 }
 
@@ -189,6 +196,20 @@ function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state
 	  '#required' => TRUE,
 	  '#default_value' => variable_get('ting_infomedia_url', ''),
 	  );
+}
+
+function ting_infomedia_requirements($phase) {
+  echo l(t('Url to infomedia webservice must be set in admin'), 'admin/config/ting/settings');
+  $requirements = array();
+  $url = variable_get('ting_infomedia_url');
+  if( !isset($url) ) {
+    $requirements['service_urls'] =
+      array( 'title' => t('infomedia settings'),
+	     'value' =>  l(t('Url to infomedia webservice must be set in admin'), 'admin/config/ting/settings'),
+	     'severity' => REQUIREMENT_ERROR );
+  }
+
+  return $requirements;
 }
 
 /**
