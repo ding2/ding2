@@ -21,8 +21,9 @@ function ding_user_frontend_preprocess_page(&$variables) {
  * Remove locale form fields, if available.
  */
 function ding_user_frontend_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  // Hide the e-mail language picker.
   if (isset($form['locale'])) {
-    unset($form['locale']);
+    $form['locale']['#access'] = FALSE;
   }
 }
 
