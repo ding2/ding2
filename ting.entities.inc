@@ -83,7 +83,7 @@ class TingEntity extends DingEntity {
     $relation_objects = array();
     
     // pjo: lazy load here; check if relationsdata is set; if not do a request
-    if(isset($this->reply->relationsData) ) {
+    if(!isset($this->reply->relationsData) ) {
       //77easy way : 
       $this->reply = ting_get_object($this->ding_entity_id);
       // $reply->realationsData = ting_get_relation_data()
