@@ -65,3 +65,9 @@ projects[ting_proxy][type] = "module"
 projects[ting_proxy][download][type] = "git"
 projects[ting_proxy][download][url] = "git@github.com:ding2/ting_proxy.git"
 projects[ting_proxy][download][tag] = "v0.1"
+
+; pjo 130911 added infomedia
+projects[ting_infomedia][type] = "module"
+projects[ting_infomedia][download][type] = "git"
+projects[ting_infomedia][download][url] = "git@github.com:ding2/ting_infomedia.git"
+projects[ting_infomedia][download][tag] = "v0.1"
