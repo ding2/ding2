@@ -230,6 +230,23 @@ class DingEntityBase {
   public function __isset($prop) {
     return isset($this->properties[$prop]) && $this->properties[$prop] !== self::NULL;
   }
+
+  /**
+   * Populate object properties from an array.
+   *
+   * Handles NULL values.
+   *
+   * @param $properties array of properties to copy from $values.
+   * @param $values associative array of values to copy.
+   */
+  protected function _populate($properties, $values) {
+    foreach ($properties as $prop) {
+      // Use array_key_exists to support NULL values.
+      if (array_key_exists($prop, $values)) {
+        $this->properties[$prop] = $values[$prop];
+      }
+    }
+  }
 }
 
 /**
