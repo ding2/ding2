@@ -6,7 +6,7 @@
  */
 
 // Load Field module hooks.
-module_load_include('inc', 'ting_relation', 'ting_relation.field');
+module_load_include('field.inc', 'ting_relation');
 
 /**
  * Implements hook_theme().
