@@ -38,7 +38,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Bruger information';
+  $display->title = 'Rediger profil';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -94,7 +94,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_user_edit_1',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -239,6 +239,8 @@ function ding_user_frontend_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'tab',
