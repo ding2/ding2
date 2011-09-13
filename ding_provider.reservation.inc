@@ -138,7 +138,8 @@ class DingProviderReservation extends DingEntityBase {
       'ready_for_pickup',
     );
     foreach ($properties as $prop) {
-      if (isset($data[$prop])) {
+      // Use array_key_exists to support NULL values.
+      if (array_key_exists($prop, $data)) {
         $this->properties[$prop] = $data[$prop];
       }
     }
