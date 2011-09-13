@@ -49,7 +49,7 @@ projects[ding_periodical][download][tag] = "v0.2"
 projects[ting_relation][type] = "module"
 projects[ting_relation][download][type] = "git"
 projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git"
-projects[ting_relation][download][tag] = "v0.3"
+projects[ting_relation][download][tag] = "v0.4"
 
 projects[ding_toggle_format][type] = "module"
 projects[ding_toggle_format][download][type] = "git"
