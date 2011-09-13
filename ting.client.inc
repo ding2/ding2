@@ -7,7 +7,7 @@
 /**
  * Get an ting object or collection.
  *
- * Returns the search response for the given id. This will cache the
+ * Returns the search response for the given id (-pjo lazy load :serverresponse as jsondecode). This will cache the
  * result, and any sub-objects, so fetching objects from a recently
  * fetched collection won't trigger another backend request.
  *
@@ -136,6 +136,7 @@ function ting_get_objects($ids) {
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
+
   $request->setQuery($query);
   if ($agency = variable_get('ting_agency', FALSE)) {
     $request->setAgency($agency);
@@ -151,7 +152,9 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
   // Always fetch relations.
-  $request->setAllRelations(TRUE);
+  // pjo lazy load; FALSE
+  $request->setAllRelations(FALSE);
+  // $request->setAllRelations(TRUE);
   $request->setRelationData('uri');
 
   // Apply custom ranking if enabled.
@@ -338,7 +341,6 @@ function ting_cache_set($id, $value) {
  */
 function ting_get_request_factory() {
   static $request_factory;
-
   if (!isset($request_factory)) {
     $url_variables = array(
       'search' => 'ting_search_url',
@@ -354,7 +356,6 @@ function ting_get_request_factory() {
       // pjo added infomedia
       $url_variables['infomedia'] = 'ting_infomedia_url';
     }
-
     $urls = array();
     foreach ($url_variables as $name => $setting) {
       $urls[$name] = variable_get($setting, FALSE);
@@ -365,7 +366,6 @@ function ting_get_request_factory() {
 
     $request_factory = new TingClientRequestFactory($urls);
   }
-
   return $request_factory;
 }
 
