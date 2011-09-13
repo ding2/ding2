@@ -86,7 +86,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js' => array(
           'type' => 'file',
         ),
-        array('data' => array('ding_availability_mode' => 'holdings'), 'type' => 'setting'),
       ),
       'css' => array(
         drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css'
