@@ -6,7 +6,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.0-rc3"
+projects[i18n][version] = "1.0"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
