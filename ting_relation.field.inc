@@ -69,6 +69,11 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
         if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
           continue;
         }
+        elseif ($relation->type == 'hasReview' && is_object($relation->object) && $relation->object->ac_source == 'Anmeldelser') {
+          // Temporary filter out regular reviews. We need better
+          // handling of those.
+          continue;
+        }
         $element[$delta][] = array(
           '#theme' => 'ting_relation',
           '#relation' => $relation,
