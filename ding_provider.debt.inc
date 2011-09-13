@@ -48,10 +48,6 @@ class DingProviderDebt extends DingEntityBase {
       'amount',
       'type',
     );
-    foreach ($properties as $prop) {
-      if (isset($data[$prop])) {
-        $this->properties[$prop] = $data[$prop];
-      }
-    }
+    $this->_populate($properties, $data);
   }
 }

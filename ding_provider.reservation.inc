@@ -137,12 +137,7 @@ class DingProviderReservation extends DingEntityBase {
       'notes',
       'ready_for_pickup',
     );
-    foreach ($properties as $prop) {
-      // Use array_key_exists to support NULL values.
-      if (array_key_exists($prop, $data)) {
-        $this->properties[$prop] = $data[$prop];
-      }
-    }
+    $this->_populate($properties, $data);
   }
 
   function getPickup_branch() {

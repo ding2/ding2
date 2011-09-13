@@ -97,11 +97,7 @@ class DingProviderLoan extends DingEntityBase {
       'remote_loan',
       'notes',
     );
-    foreach ($properties as $prop) {
-      if (isset($data[$prop])) {
-        $this->properties[$prop] = $data[$prop];
-      }
-    }
+    $this->_populate($properties, $data);
   }
 
   function getEntity() {
