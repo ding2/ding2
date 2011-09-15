@@ -509,29 +509,3 @@ function ting_admin_reservable_settings_update($form, &$form_state) {
   _ting_fetch_well_types();
   _ting_fetch_well_sources();
 }
-
-/**
- * Form builder.
- */
-function ting_admin_ting_object_display($form_state) {
-  $form['description'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ting object display'),
-    '#description' => t('Configure how ting objects are displayed.'),
-  );
-
-  return $form;
-}
-
-/**
- * Form builder.
- */
-function ting_admin_ting_collection_display($form_state) {
-  $form['description'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ting collection display'),
-    '#description' => t('Configure how ting collections are displayed.'),
-  );
-
-  return $form;
-}

@@ -66,24 +66,6 @@ function ting_menu() {
     'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
-  $items['admin/structure/ting_object'] = array(
-    'title' => 'Ting objects',
-    'description' => 'Manage Ting object display.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_ting_object_display'),
-    'access arguments' => array('administer content types'),
-    'file' => 'ting.admin.inc',
-  );
-
-  $items['admin/structure/ting_collection'] = array(
-    'title' => 'Ting collections',
-    'description' => 'Manage Ting collection display.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_ting_collection_display'),
-    'access arguments' => array('administer content types'),
-    'file' => 'ting.admin.inc',
-  );
-
   $items['admin/config/ting'] = array(
     'title' => 'Ting',
     'description' => 'Manage Ting integration settings.',
@@ -151,6 +133,45 @@ function ting_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Adjusts the menu so that the field subtab becomes the default local task,
+ * to avoid having an useless placeholder page.
+ */
+function ting_menu_alter(&$items) {
+  if (module_exists('field_ui')) {
+    if (isset($items['admin/structure/ting_object/fields'])) {
+      // Make the fields task the default local task.
+      $items['admin/structure/ting_object'] = $items['admin/structure/ting_object/fields'];
+      $item = &$items['admin/structure/ting_object'];
+      $item['type'] = MENU_NORMAL_ITEM;
+      $item['title'] = 'Ting objects';
+      $item['description'] = 'Manage Ting object display.';
+
+      $items['admin/structure/ting_object/fields'] = array(
+        'title' => 'Manage fields',
+        'type' => MENU_DEFAULT_LOCAL_TASK,
+        'weight' => 1,
+      );
+    }
+    if (isset($items['admin/structure/ting_collection/fields'])) {
+      // Make the fields task the default local task.
+      $items['admin/structure/ting_collection'] = $items['admin/structure/ting_collection/fields'];
+      $item = &$items['admin/structure/ting_collection'];
+      $item['type'] = MENU_NORMAL_ITEM;
+      $item['title'] = 'Ting collection';
+      $item['description'] = 'Manage Ting collection display.';
+
+      $items['admin/structure/ting_collection/fields'] = array(
+        'title' => 'Manage fields',
+        'type' => MENU_DEFAULT_LOCAL_TASK,
+        'weight' => 1,
+      );
+    }
+  }
 }
 
 /**
