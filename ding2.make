@@ -44,7 +44,7 @@ projects[ding_user_frontend][download][tag] = "v0.4"
 projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
-projects[ding_ting_frontend][download][tag] = "v0.6"
+projects[ding_ting_frontend][download][tag] = "v0.7"
 
 projects[mkdru_ding_frontend][type] = "module"
 projects[mkdru_ding_frontend][download][type] = "git"
