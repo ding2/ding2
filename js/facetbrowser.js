@@ -9,12 +9,9 @@
         return;
       }
       this.processed = true;
-      Drupal.executeSearch();
 
       $(window).bind('hashchange.pane-ding-facetbrowser', $.proxy(Drupal.facetbrowser, 'eventhandlerDFOperateByURLFragment')).triggerHandler('hashchange.pane-ding-facetbrowser');
-
       $(document).bind('click.form-checkbox', $.proxy(Drupal.facetbrowser, 'eventHandlerDFOperateClick'));
-
     }
 
   };
@@ -24,19 +21,28 @@
 
   Drupal.facetbrowser.eventhandlerDFOperateByURLFragment = function(event) {
     var state = $.bbq.getState();
-    if (state) {
+
+    if (state && !Drupal.facetbrowser.clicking) {
       Drupal.executeSearch();
     }
+
+    Drupal.facetbrowser.clicking = false;
   };
+
+  Drupal.facetbrowser.idToAttributeString = function(id) {
+    return id.replace(/ /g, '-').replace(/[.\/]/g,'');
+  }
 
   Drupal.facetbrowser.eventHandlerDFOperateClick = function(event) {
     var $target = $(event.target);
+
     if ($target.attr('checked')) {
+      // a checkbox has been marked by clicking
+      Drupal.facetbrowser.clicking = true;
       var state = {};
       var key = $target.closest('fieldset').attr('data');
       var value = $target.val();
-
-      currentValues = $.bbq.getState(key);
+      var currentValues = $.bbq.getState(key);
 
       if (currentValues === undefined) {
         currentValues = [];
@@ -45,6 +51,7 @@
       else if (currentValues.indexOf(value) == -1) {
         currentValues.push(value);
       }
+
       state[key] = currentValues;
       $.bbq.pushState(state,0);
       // Add the url state to pagers
@@ -55,24 +62,30 @@
       var facetmatching = /^edit-([^-]+)-(.+)--/,
       facetstate, newstate = {};
       var facet_identifier = $target[0].id.match(facetmatching);
-      var match = facet_identifier[0];
-      var facet = facet_identifier[1];
-      var id = facet_identifier[2];
 
-      facet = 'facet.' + facet;
-      facetstate = $.bbq.getState(facet);
+      if (facet_identifier) {
+        // a checkbox has been unmarked by clicking
+        Drupal.facetbrowser.clicking = true;
+        var match = facet_identifier[0];
+        var facet = facet_identifier[1];
+        var id = facet_identifier[2];
 
-      if (facetstate) {
-        newstate[facet] = facetstate.filter(function(x) { return id != x.replace(/ /g, '-'); });
+        facet = 'facet.' + facet;
+        facetstate = $.bbq.getState(facet);
 
-        if (newstate.length === 0) {
-          $.bbq.removeState(facet);
-        }
-        else {
-          $.bbq.pushState(newstate);
+        if (facetstate) {
+          newstate[facet] = facetstate.filter(function(x) { return id != Drupal.facetbrowser.idToAttributeString(x); });
+
+          if (newstate[facet].length === 0) {
+            $.bbq.removeState(facet);
+          }
+          else {
+            $.bbq.pushState(newstate);
+          }
         }
       }
-      $.bbq.removeState($(this).closest('fieldset').attr('data'));
+
+      $('ul.pager li a').fragment('', $.param.fragment(), 2);
     }
   };
 
@@ -90,6 +103,7 @@
       $('.pane-ding-facetbrowser').show();
       $('.search-results').show();
     });
+
   };
 
   /**
@@ -104,8 +118,14 @@
         var element_ids = hashobj[key];
         var facet_type = key.split('.', - 1);
         for (var counter in element_ids) {
-          element_id = element_ids[counter];
-          $('.pane-ding-facetbrowser input[id^="edit-' + facet_type[1] + '-' + element_id.replace(/ /g, "-") + '"]').attr('checked', true);
+          var element_id = element_ids[counter];
+          var id_string = Drupal.facetbrowser.idToAttributeString(element_id); 
+          var filter_func = function(index) {
+                              var r = new RegExp(id_string + "(--[0-9]+)?$");
+                              return $(this).attr('id').match(r);
+                            }
+          var id = $('.pane-ding-facetbrowser input[id^="edit-' + facet_type[1] + '-' + id_string + '"]').filter(filter_func);
+          id.attr('checked', true);
         }
       }
     }
