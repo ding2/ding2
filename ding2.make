@@ -23,7 +23,7 @@ projects[mkdru_ding][download][branch] = "7.x-1.x"
 projects[openruth][type] = "module"
 projects[openruth][download][type] = "git"
 projects[openruth][download][url] = "git@github.com:ding2/openruth.git"
-projects[openruth][download][tag] = "v0.3"
+projects[openruth][download][tag] = "v0.4"
 
 projects[ting_fulltext][type] = module
 projects[ting_fulltext][download][type] = git
