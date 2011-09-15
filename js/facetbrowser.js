@@ -78,7 +78,7 @@
 
   Drupal.executeSearch = function() {
     Drupal.CheckHashedFacets();
-    $('.pane-ding-facetbrowser').hide();
+    // $('.pane-ding-facetbrowser').hide();
     $('.search-results').hide();
     // Trigger the form, and execute the search
     $('.pane-ding-facetbrowser input.form-checkbox:checked:first').trigger('change');
