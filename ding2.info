@@ -1,6 +1,6 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 0.1.7
+version = 0.1.8
 core = 7.x
 dependencies[] = block
 dependencies[] = contextual
