@@ -12,6 +12,10 @@ projects[i18n][version] = "1.0"
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
 
+projects[languageicons][subdir] = "contrib"
+projects[languageicons][version] = "1.0-beta1"
+projects[languageicons][patch][] = "http://drupal.org/files/issues/fix_object_language-1027054-21_0.patch"
+
 projects[ding_debt][type] = module
 projects[ding_debt][download][type] = git
 projects[ding_debt][download][url] = git@github.com:ding2/ding_debt.git
