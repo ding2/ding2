@@ -1,0 +1,9 @@
+name = 'Ding campaign'
+description = 'Campaign system. Displays context-sensitive, ad-like campaigns.'
+version = 0.1
+core = 7.x
+package = 'Ding!'
+configure = admin/config/ding/campaign
+dependencies[] = field
+dependencies[] = image
+dependencies[] = features

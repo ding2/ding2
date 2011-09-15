@@ -1,0 +1,207 @@
+<?php
+
+/**
+ * @file ding_campaign.module
+ * 
+ * Provides campaign feature to various node types in Ding!
+ *
+ */
+
+define('DING_CAMPAIGN_PATH', drupal_get_path('module', 'ding_campaign'));
+
+/**
+ * Implements hook_menu().
+ */
+function ding_campaign_menu() {
+  $items = array();
+
+  $items['admin/config/ding/campaign'] = array(
+    'title' => 'Ding! Campaign',
+    'description' => 'Configure the Ding! campaign system.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_campaign_configure'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ding_campaign.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_campaign_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['ding_campaign_red'] = array(
+    'variables' => array('content' => NULL),
+    'template' => 'ding_campaign-red',
+    'path' => DING_CAMPAIGN_PATH . '/templates/',
+  );
+
+  $hooks['ding_campaign_green'] = array(
+    'variables' => array('content' => NULL),
+    'template' => 'ding_campaign-green',
+    'path' => DING_CAMPAIGN_PATH . '/templates/',
+  );
+
+  $hooks['ding_campaign_blue'] = array(
+    'variables' => array('content' => NULL),
+    'template' => 'ding_campaign-blue',
+    'path' => DING_CAMPAIGN_PATH . '/templates/',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
+  // Alter the Campaign addition form
+  if ($form_id == 'campaign_node_form') {
+    $form['#attached']['js'] = array(
+      DING_CAMPAIGN_PATH . '/js/ding_campaign_scripts.js',
+    );
+
+    // Remove the 'N/A' radiobox
+    unset($form['field_camp_settings']['und']['#options']['_none']);
+    // Remove the 'None' value from dropdown list
+    unset($form['field_camp_weight']['und']['#options']['_none']);
+  }
+  else {
+    $enabled_types = variable_get('ding_campaign_node_types', array());
+
+    // Alter the specific node form, mentioned in Campaign settings
+    if (isset($form['#node']) && isset($enabled_types[$form['#form_id']]) && ($enabled_types[$form['#form_id']] === $form['#form_id'])) {
+      $form['ding_campaigns_wrap'] = array(
+        '#type' => 'fieldset',
+        '#title' => 'Available campaigns',
+      );
+
+      $form['ding_campaigns_wrap']['ding_campaigns'] = array(
+        '#type' => 'checkboxes',
+        '#default_value' => isset($form['#node']->ding_campaigns) ? $form['#node']->ding_campaigns : array(),
+        '#options' => ding_campaign_get_campaigns(),
+        '#description' => 'Select campaigns which shall be displayed with this node.',
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_node_insert($node) {
+  $enabled_types = variable_get('ding_campaign_node_types', array());
+
+  // Process only selected node types
+  if (isset($enabled_types[$node->form_id]) && $enabled_types[$node->form_id] === $node->form_id) {
+    if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
+      foreach ($node->ding_campaigns as $k => $v) {
+        $dt = array(
+          'node_id' => $node->nid,
+          'campaign_id' => $v
+        );
+
+        // Skip the unused campaigns
+        if ($v != 0) {
+          db_insert('ding_campaign')
+            ->fields($dt)
+            ->execute();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_node_update($node) {
+  $enabled_types = variable_get('ding_campaign_node_types', array());
+
+  // Process only selected node types
+  if (isset($enabled_types[$node->type . '_node_form']) && $enabled_types[$node->type . '_node_form'] === $node->type . '_node_form') {
+    if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
+      // Renew the assigned campaigns
+      db_delete('ding_campaign')
+        ->condition('node_id', $node->nid)
+        ->execute();
+      
+      foreach ($node->ding_campaigns as $k => $v) {
+        $dt = array(
+          'node_id' => $node->nid,
+          'campaign_id' => $v
+        );
+
+        // Skip the unused campaigns
+        if ($v != 0) {
+          db_insert('ding_campaign')
+            ->fields($dt)
+            ->execute();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_node_load($node) {
+  $enabled_types = variable_get('ding_campaign_node_types', array());
+  $nids = array_keys($node);
+
+  // Process only selected node types
+  if (isset($enabled_types[$node[$nids[0]]->type . '_node_form']) && $enabled_types[$node[$nids[0]]->type . '_node_form'] === $node[$nids[0]]->type . '_node_form') {
+    $nids = array_keys($node);
+    $q = db_select('ding_campaign')
+      ->fields('ding_campaign', array('campaign_id'))
+      ->condition('node_id', $node[$nids[0]]->nid)
+      ->execute()
+      ->fetchAll();
+
+    foreach ($q as $k => $v) {
+      $node[$nids[0]]->ding_campaigns[$v->campaign_id] = $v->campaign_id;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_node_delete($node) {
+  $enabled_types = variable_get('ding_campaign_node_types', array());
+
+  // Process only selected node types
+  if (isset($enabled_types[$node->type . '_node_form']) && $enabled_types[$node->type . '_node_form'] === $node->type . '_node_form') {
+    if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
+      db_delete('ding_campaign')
+        ->condition('node_id', $node->nid)
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Fetch available campaigns.
+ *
+ * @return
+ *   Array of campaigns with id's and title's
+ */
+function ding_campaign_get_campaigns() {
+  $q = db_select('node')
+    ->fields('node', array('nid', 'title'))
+    ->condition('type', 'campaign')
+    ->execute()
+    ->fetchAll();
+
+  $campaigns = array();
+
+  foreach ($q as $k => $v) {
+    $campaigns[$v->nid] = $v->title;
+  }
+
+  return $campaigns;
+}

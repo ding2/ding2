@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file ding_campaign.install
+ *
+ * Provides initial setup of module specific tables.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_campaign_schema() {
+  $schema['ding_campaign'] = array(
+    'description' => 'Table for ding campaigns usage',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'node_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+      'campaign_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_campaign_uninstall() {
+  drupal_uninstall_schema('ding_campaign');
+}
