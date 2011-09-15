@@ -1,5 +1,5 @@
 ---------------
-ding_place2book (dev notes)
+ding_place2book (dev notes .. lidt ekstra)
 ---------------
 
 http://drupal.org/node/633354
