@@ -30,7 +30,8 @@
   };
 
   Drupal.facetbrowser.idToAttributeString = function(id) {
-    return id.replace(/ /g, '-').replace(/[.\/]/g,'');
+    // replace spaces with dashes and strip all characters which are not dash, underscore, or in the ranges a-z or 0-9
+    return id.replace(/ /g, '-').replace(/[^a-z0-9-_]/g,'');
   }
 
   Drupal.facetbrowser.eventHandlerDFOperateClick = function(event) {
