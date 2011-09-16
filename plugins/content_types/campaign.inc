@@ -1,10 +1,7 @@
 <?php
-
 /**
- * @file campaign.inc
- * 
+ * @file
  * Ding Campaign CTools plugin file
- *
  */
 
 $plugin = array(
@@ -29,7 +26,7 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
   );
   $count = $conf['ding_campaign_count'];
   $offset = $conf['ding_campaign_offset'];
-  
+
   $block->content = ding_campaign_display($context_data, $count, $offset);
 
   return $block;

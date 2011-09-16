@@ -1,3 +1,7 @@
 <?php
+/**
+ * @file
+ *
+ */
 
-echo '<h1>FUCK U!</h1>';
+echo '<h1>Random trash</h1>';

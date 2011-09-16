@@ -1,10 +1,7 @@
 <?php
-
 /**
- * @file ding_campaign.module
- * 
+ * @file
  * Provides campaign feature to various node types in Ding!
- *
  */
 
 define('DING_CAMPAIGN_PATH', drupal_get_path('module', 'ding_campaign'));
@@ -59,7 +56,7 @@ function ding_campaign_display($context, $count, $offset) {
 
   // Process page campaigns
   if ($context['page'] != NULL) {
-    $q = db_query("SELECT n.nid FROM node n, ding_campaign d
+    $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d
       WHERE n.nid = d.cid AND n.status = 1 AND d.type = 'page'")
       ->fetchAll();
   }
@@ -78,8 +75,8 @@ function ding_campaign_display($context, $count, $offset) {
     else {
       $condition = ' = \'' . $context['search_term'] . '\'';
     }
-    
-    $q = db_query("SELECT n.nid FROM node n, ding_campaign d
+
+    $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d
       WHERE n.nid = d.cid
         AND n.status = 1
         AND d.type = 'search'
@@ -139,7 +136,7 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_form_validate().
  */
 function ding_campaign_campaign_form_validate($form, &$form_state) {
-  if ($form_state['input']['field_camp_type']['und'] == 'search' && 
+  if ($form_state['input']['field_camp_type']['und'] == 'search' &&
     empty($form_state['input']['field_camp_keywords']['und'][0]['value'])) {
 
     form_set_error('field_camp_keywords', t('Provide some search keyword.'));
@@ -221,10 +218,10 @@ function ding_campaign_node_update($node) {
       ->fields($dt)
       ->condition('cid', $node->nid)
       ->execute();
-    
+
     return;
   }
-  
+
   $enabled_types = variable_get('ding_campaign_node_types', array());
 
   // Process only selected node types
@@ -234,7 +231,7 @@ function ding_campaign_node_update($node) {
       db_delete('ding_campaign_rules')
         ->condition('nid', $node->nid)
         ->execute();
-      
+
       foreach ($node->ding_campaigns as $k => $v) {
         $dt = array(
           'nid' => $node->nid,
@@ -305,7 +302,7 @@ function ding_campaign_node_delete($node) {
  *   Array of campaigns with id's and title's
  */
 function ding_campaign_get_campaigns() {
-  $q = db_query("SELECT n.nid, n.title FROM node n, ding_campaign d
+  $q = db_query("SELECT n.nid, n.title FROM {node} n, {ding_campaign} d
     WHERE n.nid = d.cid AND d.type = 'page'
     GROUP BY n.nid;")
     ->fetchAll();

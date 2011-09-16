@@ -1,8 +1,6 @@
 <?php
-
 /**
- * @file ding_campaign.install
- *
+ * @file
  * Provides initial setup of module specific tables.
  */
 
@@ -40,7 +38,7 @@ function ding_campaign_schema() {
     ),
     'primary key' => array('id'),
   );
-  
+
   $schema['ding_campaign_rules'] = array(
     'description' => 'Table for ding campaigns usage',
     'fields' => array(

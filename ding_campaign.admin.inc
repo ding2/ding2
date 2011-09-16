@@ -1,8 +1,6 @@
 <?php
-
 /**
- * @file ding_campaign.admin.inc
- *
+ * @file
  * Contains admin related stuff.
  */
 
