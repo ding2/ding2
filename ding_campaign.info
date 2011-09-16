@@ -7,3 +7,4 @@ configure = admin/config/ding/campaign
 dependencies[] = field
 dependencies[] = image
 dependencies[] = features
+dependencies[] = ctools

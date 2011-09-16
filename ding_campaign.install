@@ -11,6 +11,37 @@
  */
 function ding_campaign_schema() {
   $schema['ding_campaign'] = array(
+    'description' => 'Table holding campaign types types for easier access',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'cid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 64,
+      ),
+      'keywords' => array(
+        'type' => 'varchar',
+        'length' => 512,
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  
+  $schema['ding_campaign_rules'] = array(
     'description' => 'Table for ding campaigns usage',
     'fields' => array(
       'id' => array(
@@ -18,17 +49,16 @@ function ding_campaign_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'node_id' => array(
+      'nid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0
+        'default' => 0,
       ),
-      'campaign_id' => array(
+      'cid' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-        'default' => 0
+        'default' => 0,
       ),
     ),
     'primary key' => array('id'),
