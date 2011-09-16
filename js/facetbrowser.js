@@ -40,7 +40,7 @@
       // a checkbox has been marked by clicking
       Drupal.facetbrowser.clicking = true;
       var state = {};
-      var key = $target.closest('fieldset').attr('data');
+      var key = $target.closest('fieldset').attr('data').toLowerCase();
       var value = $target.val();
       var currentValues = $.bbq.getState(key);
 
