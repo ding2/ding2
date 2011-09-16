@@ -20,9 +20,7 @@
   Drupal.facetbrowser.prototype = {};
 
   Drupal.facetbrowser.eventhandlerDFOperateByURLFragment = function(event) {
-    var state = $.bbq.getState();
-
-    if (state && !Drupal.facetbrowser.clicking) {
+    if (!Drupal.facetbrowser.clicking) {
       Drupal.executeSearch();
     }
 
@@ -94,8 +92,14 @@
     Drupal.CheckHashedFacets();
     // $('.pane-ding-facetbrowser').hide();
     $('.search-results').hide();
-    // Trigger the form, and execute the search
-    $('.pane-ding-facetbrowser input.form-checkbox:checked:first').trigger('change');
+    var hasfacets = location.hash != '';
+    var firstsearch = Drupal.facetbrowser.clicking === undefined;
+
+    if (!firstsearch || hasfacets) {
+      // Trigger the form, and execute the search
+      $('.pane-ding-facetbrowser input.form-checkbox:first').trigger('change');
+    }
+
     // Add fragments to pager when toggeling facetbrowser
     $('ul.pager li a').fragment('', $.param.fragment(), 2);
     // TODO: Change to use native Drupal ajax function overrides.
