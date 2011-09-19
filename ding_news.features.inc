@@ -15,6 +15,16 @@ function ding_news_ctools_plugin_api() {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function ding_news_views_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "views" && $api == "views_default") {
+    return array("version" => "3.0");
+  }
+}
+
+/**
  * Implementation of hook_node_info().
  */
 function ding_news_node_info() {
