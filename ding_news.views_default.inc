@@ -163,6 +163,19 @@ function ding_news_views_default_views() {
     'trim_length' => '100',
   );
   $handler->display->display_options['fields']['body']['field_api_classes'] = 0;
+
+  /* Display: Feed */
+  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'rss';
+  $handler->display->display_options['row_plugin'] = 'node_rss';
+  $handler->display->display_options['path'] = 'ding-news/feed';
+  $handler->display->display_options['displays'] = array(
+    'default' => 'default',
+    'ctools_context_1' => 'ctools_context_1',
+  );
   $translatables['ding_news'] = array(
     t('Master'),
     t('Read more'),
@@ -173,6 +186,7 @@ function ding_news_views_default_views() {
     t('Desc'),
     t('List of 4 news'),
     t('more'),
+    t('Feed'),
   );
   $export['ding_news'] = $view;
 
