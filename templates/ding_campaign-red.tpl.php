@@ -3,5 +3,7 @@
  * @file
  *
  */
-
-echo '<h1>Random trash</h1>';
+?>
+<div class="ding-campaign-item" style="background-color: red;">
+<?php print ($content); ?>
+</div>

@@ -32,19 +32,19 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
   $hooks = array();
 
   $hooks['ding_campaign_red'] = array(
-    'variables' => array('campaign' => NULL, 'count' => NULL, 'offset' => NULL),
+    'variables' => array('content' => NULL),
     'template' => 'ding_campaign-red',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
   );
 
   $hooks['ding_campaign_green'] = array(
-    'variables' => array('campaign' => NULL, 'count' => NULL, 'offset' => NULL),
+    'variables' => array('content' => NULL),
     'template' => 'ding_campaign-green',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
   );
 
   $hooks['ding_campaign_blue'] = array(
-    'variables' => array('campaign' => NULL, 'count' => NULL, 'offset' => NULL),
+    'variables' => array('content' => NULL),
     'template' => 'ding_campaign-blue',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
   );
@@ -53,11 +53,17 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
 }
 
 function ding_campaign_display($context, $count, $offset) {
-
   // Process page campaigns
+  $q = '';
+  
   if ($context['page'] != NULL) {
-    $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d
-      WHERE n.nid = d.cid AND n.status = 1 AND d.type = 'page'")
+    $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d, {ding_campaign_rules} r
+      WHERE n.nid = d.cid
+        AND r.cid = d.cid
+        AND n.status = 1
+        AND d.type = 'page'
+      ORDER BY d.weight ASC
+      LIMIT " . (int)$offset . ',' . (int)$count)
       ->fetchAll();
   }
   // Process search campaigns
@@ -65,9 +71,9 @@ function ding_campaign_display($context, $count, $offset) {
     $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
     $condition = '';
 
-    // In case we have multiple search keywords
-    if (strpos($terms, ',')) {
-      $terms = preg_replace('/,\s+/', ',', $terms);
+    // Multiple keywords, comma and/or space separated
+    if (strpos($terms, ',') || strpos($terms, ' ')) {
+      $terms = preg_replace('/(,?\s+)/', ',', $terms);
       $terms = implode('\',\'', explode(',', $terms));
       $condition = 'IN (\'' . $terms . '\')';
     }
@@ -80,19 +86,50 @@ function ding_campaign_display($context, $count, $offset) {
       WHERE n.nid = d.cid
         AND n.status = 1
         AND d.type = 'search'
-        AND d.keywords " . $condition)
+        AND d.keywords " . $condition . "
+      ORDER BY d.weight ASC 
+      LIMIT " . (int)$offset . ',' . (int)$count)
       ->fetchAll();
-
-    var_dump($q);
   }
 
-  // @todo
-  // Test purpose
-  return theme('ding_campaign_red', array(
-    'campaign' => $context,
-    'count' => $count,
-    'offset' => $offset,
-  ));
+  // There is at least one result
+  if (count($q) > 0) {
+    $block = '';
+
+    foreach ($q as $k => $v) {
+      $node = node_load($v->nid);
+      $content = '';
+
+      switch ($node->field_camp_settings['und'][0]['value']) {
+        case 'plain': default:
+          $content = '<div class="ding-item-plain">' . $node->field_camp_text_plain['und'][0]['value'] . '</div>';
+          break;
+        case 'image':
+          $content = '<img src="' . file_create_url($node->field_camp_image['und'][0]['uri']) . '" alt="" />';
+          break;
+        case 'full':
+          $content = '<div class="ding-item-full">' . $node->field_camp_text_full['und'][0]['value'] . '</div>';
+          break;
+      }
+
+      $theme = '';
+      switch ($node->field_camp_theme['und'][0]['value']) {
+        case 'theme_red':
+          $theme = 'ding_campaign_red';
+          break;
+        case 'theme_blue':
+          $theme = 'ding_campaign_blue';
+          break;
+        case 'theme_green':
+          $theme = 'ding_campaign_green';
+          break;
+      }
+      
+      $block .= theme($theme, array('content' => $content));
+    }
+
+    return $block;
+  }
 }
 
 /**
@@ -105,10 +142,12 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
       DING_CAMPAIGN_PATH . '/js/ding_campaign_scripts.js',
     );
 
-    // Remove the 'N/A' radiobox
+    // Remove the 'N/A' type radiobox
     unset($form['field_camp_settings']['und']['#options']['_none']);
-    // Remove the 'None' value from dropdown list
+    // Remove the 'None' value from weight dropdown
     unset($form['field_camp_weight']['und']['#options']['_none']);
+    // Remove the 'None' value from theme dropdown
+    unset($form['field_camp_theme']['und']['#options']['_none']);
 
     $form['#validate'][] = 'ding_campaign_campaign_form_validate';
   }
@@ -153,6 +192,7 @@ function ding_campaign_node_insert($node) {
       'type' => $node->field_camp_type['und'][0]['value'],
       'keywords' => isset($node->field_camp_keywords['und'][0]['value']) ? $node->field_camp_keywords['und'][0]['value'] : '',
       'weight' => $node->field_camp_weight['und'][0]['value'],
+      'theme' => $node->field_camp_theme['und'][0]['value'],
     );
 
     db_insert('ding_campaign')
@@ -212,6 +252,7 @@ function ding_campaign_node_update($node) {
       'type' => $node->field_camp_type['und'][0]['value'],
       'keywords' => $node->field_camp_keywords['und'][0]['value'],
       'weight' => $node->field_camp_weight['und'][0]['value'],
+      'theme' => $node->field_camp_theme['und'][0]['value'],
     );
 
     db_update('ding_campaign')

@@ -8,3 +8,4 @@ dependencies[] = field
 dependencies[] = image
 dependencies[] = features
 dependencies[] = ctools
+dependencies[] = wysiwyg

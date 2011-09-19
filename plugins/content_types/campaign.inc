@@ -59,9 +59,30 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
 }
 
 /**
+ * Implements hook_content_type_edit_form_validate().
+ */
+function ding_campaign_campaign_content_type_edit_form_validate($form, &$form_state) {
+  // Sanitise the submitted values.
+  $values = array('ding_campaign_count' => 1, 'ding_campaign_offset' => 0);
+  foreach ($values as $value => $min_value) {
+    $val = trim($form_state['values'][$value]);
+    $count = intval($val);
+
+    // Give an error if a value less than 1 was entered.
+    if (!empty($val) && $count < $min_value) {
+      form_set_error($value, t('%value must be a number larger than zero.', array('%value' => ucfirst(str_replace('_', ' ', $value)))));
+    }
+    // Otherwise, store the sanitised value in the form state.
+    else {
+      $form_state['values'][$value] = $count;
+    }
+  }
+}
+
+/**
  * Implements hook_content_type_edit_form_submit().
  */
-function ding_campaign_campaign_content_type_edit_form_submit(&$form, &$form_state) {
+function ding_campaign_campaign_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['ding_campaign_count'] = $form_state['values']['ding_campaign_count'];
   $form_state['conf']['ding_campaign_offset'] = $form_state['values']['ding_campaign_offset'];
 }

@@ -35,6 +35,10 @@ function ding_campaign_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'theme' => array(
+        'type' => 'varchar',
+        'length' => 32,
+      ),
     ),
     'primary key' => array('id'),
   );
