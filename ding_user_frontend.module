@@ -18,15 +18,55 @@ function ding_user_frontend_preprocess_page(&$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * Add setting for password length.
+ */
+function ding_user_frontend_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_user_frontend'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('User password settings'),
+    '#weight' => -1,
+  );
+
+  $form['ding_user_frontend']['ding_user_frontend_password_length'] = array(
+    '#type' => 'radios',
+    '#title' => t('Password length'),
+    '#options' => array(
+      0 => t('Default'),
+      4 => t('Max @number chars', array('@number' => 4)),
+      5 => t('Max @number chars', array('@number' => 5)),
+    ),
+    '#default_value' => variable_get('ding_user_frontend_password_length', 0),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
  * Remove locale form fields, if available.
+ * Customize password form.
  */
 function ding_user_frontend_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   // Hide the e-mail language picker.
   if (isset($form['locale'])) {
     $form['locale']['#access'] = FALSE;
   }
+  $form['#after_build'][] = 'ding_user_frontend_user_profile_after_build';
 }
 
+/**
+ * After build form processing.
+ *
+ * Remove user javascript that displays password hints.
+ * Set maxlength on password fields.
+ */
+function ding_user_frontend_user_profile_after_build(&$form, &$form_state) {
+  unset($form['account']['pass']['#attached']['js']);
+  if (variable_get('ding_user_frontend_password_length', 0)) {
+    $form['account']['pass']['pass1']['#maxlength'] = variable_get('ding_user_frontend_password_length', 0);
+    $form['account']['pass']['pass2']['#maxlength'] = variable_get('ding_user_frontend_password_length', 0);
+  }
+  return $form;
+}
 
 /**
  * Implements hook_block_info().
