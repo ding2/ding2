@@ -59,11 +59,23 @@ function ding_frontpage_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'block';
-    $pane->subtype = 'views-ding_news-block';
+    $pane->type = 'views';
+    $pane->subtype = 'ding_news';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'override_pager_settings' => 0,
+      'use_pager' => 0,
+      'nodes_per_page' => '4',
+      'pager_id' => '0',
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 0,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'ctools_context_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -77,7 +89,7 @@ function ding_frontpage_default_page_manager_pages() {
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-1';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_frontpage'] = $page;
