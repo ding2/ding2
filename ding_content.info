@@ -1,0 +1,6 @@
+name = Ding Content
+description = Create panels panes for Ding!
+package = Ding!
+core = 7.x
+dependencies[] = panels
+dependencies[] = taxonomy
