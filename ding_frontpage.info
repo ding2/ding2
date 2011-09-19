@@ -1,0 +1,7 @@
+core = "7.x"
+dependencies[] = "page_manager"
+description = "Provides a panel for the front page"
+features[ctools][] = "page_manager:pages_default:1"
+features[page_manager_pages][] = "ding_frontpage"
+name = "Ding frontpage"
+package = "Features"
