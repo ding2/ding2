@@ -34,6 +34,17 @@ function ding2_install() {
       'title' => '<none>',
     ),
     array(
+      'module' => 'locale',
+      'delta' => 'language',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'header',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    ),
+    array(
       'module' => 'search',
       'delta' => 'form',
       'theme' => $default_theme,
