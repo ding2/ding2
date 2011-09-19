@@ -1,5 +1,6 @@
 core = "7.x"
 dependencies[] = "ctools"
+dependencies[] = "ding_content"
 dependencies[] = "features"
 dependencies[] = "page_manager"
 dependencies[] = "strongarm"

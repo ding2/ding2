@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Ding news feature.
+ * Create news content type and displays.
  */
 
 /**
