@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Provides initial setup of module specific tables.
+ * Install, update and uninstall functions for the ding_campaign module.
  */
 
 /**

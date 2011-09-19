@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains admin related stuff.
+ * Contains admin backend related code.
  */
 
 /**

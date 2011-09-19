@@ -9,3 +9,4 @@ dependencies[] = image
 dependencies[] = features
 dependencies[] = ctools
 dependencies[] = wysiwyg
+stylesheets[all][] = css/ding_campaign.css

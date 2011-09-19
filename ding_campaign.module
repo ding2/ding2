@@ -52,10 +52,21 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
   return $hooks;
 }
 
+/**
+ * Displays certain campaigns.
+ *
+ * @param $context
+ *   Display context used.
+ * @param $count
+ *   Count of campaigns to display.
+ * @param $offset
+ *   Offset of the first campaign in the database.
+ * @return
+ *   HTML formatted string.
+ */
 function ding_campaign_display($context, $count, $offset) {
-  // Process page campaigns
   $q = '';
-  
+  // Process page campaigns
   if ($context['page'] != NULL) {
     $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d, {ding_campaign_rules} r
       WHERE n.nid = d.cid
@@ -96,10 +107,12 @@ function ding_campaign_display($context, $count, $offset) {
   if (count($q) > 0) {
     $block = '';
 
+    // Loop through campaigns
     foreach ($q as $k => $v) {
       $node = node_load($v->nid);
       $content = '';
 
+      // Select the display for campaign type
       switch ($node->field_camp_settings['und'][0]['value']) {
         case 'plain': default:
           $content = '<div class="ding-item-plain">' . $node->field_camp_text_plain['und'][0]['value'] . '</div>';
@@ -112,6 +125,7 @@ function ding_campaign_display($context, $count, $offset) {
           break;
       }
 
+      // Select the theme for campaign
       $theme = '';
       switch ($node->field_camp_theme['und'][0]['value']) {
         case 'theme_red':
@@ -172,9 +186,10 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Implements hook_form_validate().
+ * Implements hook_form_FORM_ID_validate().
  */
 function ding_campaign_campaign_form_validate($form, &$form_state) {
+  // Check for non-empty keyword
   if ($form_state['input']['field_camp_type']['und'] == 'search' &&
     empty($form_state['input']['field_camp_keywords']['und'][0]['value'])) {
 
@@ -186,6 +201,7 @@ function ding_campaign_campaign_form_validate($form, &$form_state) {
  * Implements hook_node_insert().
  */
 function ding_campaign_node_insert($node) {
+  // Insert the campaign type node
   if ($node->type == 'campaign') {
     $dt = array(
       'cid' => $node->nid,
@@ -204,7 +220,7 @@ function ding_campaign_node_insert($node) {
 
   $enabled_types = variable_get('ding_campaign_node_types', array());
 
-  // Process only selected node types
+  // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node->form_id]) && $enabled_types[$node->form_id] === $node->form_id) {
     if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
       foreach ($node->ding_campaigns as $k => $v) {
@@ -246,7 +262,6 @@ function ding_campaign_node_update($node) {
         ->execute();
     }
 
-
     // Update campaign fields
     $dt = array(
       'type' => $node->field_camp_type['und'][0]['value'],
@@ -265,7 +280,7 @@ function ding_campaign_node_update($node) {
 
   $enabled_types = variable_get('ding_campaign_node_types', array());
 
-  // Process only selected node types
+  // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node->type . '_node_form']) && $enabled_types[$node->type . '_node_form'] === $node->type . '_node_form') {
     if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
       // Renew the assigned campaigns
@@ -297,7 +312,7 @@ function ding_campaign_node_load($node) {
   $enabled_types = variable_get('ding_campaign_node_types', array());
   $nids = array_keys($node);
 
-  // Process only selected node types
+  // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node[$nids[0]]->type . '_node_form']) && $enabled_types[$node[$nids[0]]->type . '_node_form'] === $node[$nids[0]]->type . '_node_form') {
     $nids = array_keys($node);
     $q = db_select('ding_campaign_rules')
@@ -316,6 +331,7 @@ function ding_campaign_node_load($node) {
  * Implements hook_node_delete().
  */
 function ding_campaign_node_delete($node) {
+  // Delete the campaign if needed
   if ($node->type == 'campaign') {
     db_delete('ding_campaign')
       ->condition('cid', $node->nid)
@@ -326,7 +342,7 @@ function ding_campaign_node_delete($node) {
 
   $enabled_types = variable_get('ding_campaign_node_types', array());
 
-  // Process only selected node types
+  // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node->type . '_node_form']) && $enabled_types[$node->type . '_node_form'] === $node->type . '_node_form') {
     if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
       db_delete('ding_campaign_rules')

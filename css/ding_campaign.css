@@ -1,0 +1,15 @@
+.ding-campaign-item {
+  padding: 5px;
+}
+
+.ding-campaign-item-red {
+  border: 3px solid red;
+}
+
+.ding-campaign-item-blue {
+  border: 3px solid blue;
+}
+
+.ding-campaign-item-green {
+  border: 3px solid green;
+}
