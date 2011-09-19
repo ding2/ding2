@@ -154,6 +154,12 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   $request->setAllRelations(TRUE);
   $request->setRelationData('uri');
 
+  // Set search profile, if applicable.
+  $profile = variable_get('ting_search_profile', '');
+  if (!empty($profile) && method_exists($request, 'setProfile')) {
+    $request->setProfile($profile);
+  }
+
   // Apply custom ranking if enabled.
   if (variable_get('ting_ranking_custom', FALSE)) {
     $fields = array();

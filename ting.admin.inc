@@ -95,6 +95,13 @@ function ting_admin_ting_settings($form_state) {
     '#weight' => 1,
   );
 
+  $form['ting']['ting_search_profile'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search profile'),
+    '#description' => t('Profile name, used for filtering the search based on settings from vip.dbc.dk.'),
+    '#default_value' => variable_get('ting_search_profile', ''),
+  );
+
   return system_settings_form($form);
 }
 
