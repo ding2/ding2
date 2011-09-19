@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Code for the Ding news feature.
+ */
+
+/**
+ * Implements hook_enable().
+ *
+ * Create taxonomy term if needed.
+ */
+function ding_news_enable() {
+  if (!taxonomy_vocabulary_machine_name_load('ding_news')) {
+    $vocabulary = (object) array(
+      'name' => t('News category'),
+      'machine_name' => 'ding_news',
+      'module' => 'ding_news',
+    );
+    taxonomy_vocabulary_save($vocabulary);
+  }
+}
+
+include_once('ding_news.features.inc');
