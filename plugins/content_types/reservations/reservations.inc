@@ -35,10 +35,12 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
   switch ($conf['reservation_type_list']) {
     case 'ready_for_pickup':
       $block->title = t('Reservations ready for pickup');
+      $no_reservation_text = t('There are no reservations ready for pickup.');
     break;
     default:
     case 'not_ready_for_pickup':
       $block->title = t('Reservations');
+      $no_reservation_text = t('There are no reservations.');
     break;
   }
   
@@ -57,7 +59,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     ding_entity_load_multiple($preload_ids);
     $preload_reservations['ids'] = TRUE;
   }
-  $block->content = count($reservation_list) == TRUE ? ding_provider_get_form('ding_reservation_reservations_form', $reservation_list, $conf['reservation_type_list']) : t('No reservations');
+  $block->content = count($reservation_list) == TRUE ? ding_provider_get_form('ding_reservation_reservations_form', $reservation_list, $conf['reservation_type_list']) : $no_reservation_text;
   return $block;
 }
 
