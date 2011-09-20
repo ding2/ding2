@@ -65,6 +65,10 @@ function ding_reservation_ding_provider_user() {
  */
 function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_branch = FALSE) {
   global $user;
+  if (!($reservable instanceof DingReservationReservable)) {
+    // Assume that we were given a reservable entity.
+    $reservable = new DingReservationReservableEntity($reservable);
+  }
   $entity = $reservable->getEntity();
   $uri = ding_entity_uri('ding_entity', $entity);
 
