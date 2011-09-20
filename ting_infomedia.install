@@ -24,3 +24,4 @@ function ting_infomedia_ding_entity_fields() {
     ),
   );
 }
+

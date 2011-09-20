@@ -25,80 +25,51 @@
  * *
 
  /**
- * Implements hook_field_info()
+  * Implements hook_field_info()
 
- * description of field
-*/
- 
+  * description of field
+ */
+
 function ting_infomedia_field_info() {
   $ret = array(
-	       'ting_infomedia' =>
-	       array('label' => t('A link to infomedia articles'),
-		     'description' => t('This field links to infomedia articles'),
-		     // optional (for database)
-		     'settings' => array('max_length'=>255,),
-		     // optional
-		     // 'instance_settings' => array('text_processing' => 0),
-		     // see hook_widget_info
-		     'default_widget' => 'hidden',
-		     // see hook formatter_info
-		     'default_formatter' => 'ting_infomedia_default',
-		     // A boolean specifying that users should not be allowed to 
-		     // create fields and instances of this field type through the UI. 
-		     // Such fields can only be created programmatically with 
-		     // field_create_field() and field_create_instance().
-		     'no_ui' => TRUE,
-		     ),
-	       );
+    'ting_infomedia' => array(
+      'label' => t('A link to infomedia articles'),
+      'description' => t('This field links to infomedia articles'),
+      // optional (for database)
+      'settings' => array('max_length'=>255,),
+      // see hook_widget_info
+      'default_widget' => 'hidden',
+      // see hook formatter_info
+      'default_formatter' => 'ting_infomedia_default',
+      // A boolean specifying that users should not be allowed to
+      // create fields and instances of this field type through the UI.
+      // Such fields can only be created programmatically with
+      // field_create_field() and field_create_instance().
+      'no_ui' => TRUE,
+    ),
+  );
   return $ret;
 }
 
 /**
  * Implements hook_field_formatter_info
  *
- * pjo notes; 'field types' are passed on to hook_file_formatter_view
+ * Notes; 'field types' are passed on to hook_field_formatter_view
  */
 function ting_infomedia_field_formatter_info() {
   return array(
-	       'ting_infomedia_default' => 
-	       array('label' => t('Default'),
-		     'field types' => 
-		     array('ting_infomedia',), )
-	       );
-  }
-
+    'ting_infomedia_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_infomedia',
+      ),
+    )
+  );
+}
 
 /**
- * Implements hook_field_formatter_view
- *
- * only one formatter is supported
- * - ting_infomedia
+ * Implements hook_field_formatter_view()
  */
-
-/*function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  // krumo($entity);
-  $element = array();
-  $relation_types = ting_infomedia_get_ting_relations();
-  foreach ($items as $delta => $item) {
-   foreach ($entity->relations as $relation) {
-    if (isset($relation_types[$relation->relationType])) {
-        $element[$delta][] = 
-	  array(
-		'#theme' => 'ting_relation',
-		'#object' => $relation->object,
-		'#title' => $relation_types[$relation->relationType],
-		// '#attached' => array(
-		//  'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
-		//),
-		);
-    }
-   }
-  }
-  return $element;
-  }*/
-
-
-
 function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $id = $entity->ding_entity_id;
@@ -108,32 +79,28 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
   case 'ting_infomedia_default' :
     foreach($items as $delta=>$items) {
       foreach ($entity->relations as $relation) {
-	//	krumo($relation->type);
-	if( isset($relation_types[$relation->type]) ) {
-	  //	  print_r($relation);
-	  //  $element[$delta] = array('#markup' => '<div style="color:green; font-size:2em"><a href="'.ting_infomedia_get_article_link($id).'">'.t('Read article').'</a></div>');
-	  $element[$delta] = 
-	    array('#markup' => '<a class="infomedia_group" href="'.ting_infomedia_get_article_link($id).'">'.t('Read article').'</a>',);
-	  
-	}
+        if( isset($relation_types[$relation->type]) ) {
+          $element[$delta] = array(
+            '#markup' => l(t('Read article'), ting_infomedia_get_article_link($id), array('attributes' => array('class' => 'infomedia_group'))),
+          );
+        }
       }
     }
     break;
-  default:
-    krumo('ERROR');    
   }
   return $element;
-  }
-
-function ting_infomedia_get_article_link($entityid) {
-  //global $base_path;
-  $ids = explode(':',$entityid);
-  return base_path().'ting/infomedia/'.$ids[1];
-  //$ret.=$base_path.'?q=ting/ting_infomedia/'.$ids;
-  //return $ret;
 }
 
-
+/**
+ * Parse the entityid and return an url
+ *
+ * @param String $entityid
+ * @return String
+ */
+function ting_infomedia_get_article_link($entityid) {
+  $ids = explode(':', $entityid);
+  return 'ting/infomedia/' . $ids[1];
+}
 
 /**
  * Implements hook_field_validate
@@ -145,50 +112,39 @@ function ting_infomedia_field_validate($entity_type, $entity, $field, $instance,
 
 /**
  * Implements hook_field_is_empty
- *
+ * TODO; check
  */
 function ting_infomedia_is_empty($item, $field) {
-  // TODO; check 
   return false;
 }
 
-
 /**
  * Implements hook_field_load().
- * pjo notes Define custom load behavior for this module's field types.
+ * Notes: Define custom load behavior for this module's field types.
  */
 function ting_infomedia_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
-   foreach ($entities as $id => $entity) {
+  foreach ($entities as $id => $entity) {
     // We could create relations as multiple values here, but it's
     // cached after this hook, so we don't.
     $items[$id][0] = array(
       'id' => $id,
     );
-  } 
   }
+}
+
 /**
-Implements hook_field_formatter_prepare_view
-*
-* 
-* pjo notes; add the field to given item(s)
-* we could also use hook_field_load or hook_field_prepare_view
+ * Implements hook_field_formatter_prepare_view
+ * Notes; add the field to given item(s)
+ * we could also use hook_field_load or hook_field_prepare_view
  */
 
 function ting_infomedia_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
-foreach ($entities as $id => $entity) {
+  foreach ($entities as $id => $entity) {
     // We could create relations as multiple values here, but it's
     // cached after this hook, so we don't.
     $items[$id][0] = array(
       'id' => $id,
     );
-   
-  } 
+  }
 }
-
-
-
-
-
-
-
 
