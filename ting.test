@@ -9,12 +9,12 @@ class TingEntityTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Ting via Ding entity',
       'description' => 'Test that getting a ting object works.',
-      'group' => 'Ding!',
+      'group' => 'Ding! - Ting',
     );
   }
 
   function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
     parent::setUp(array('ding_entity', 'ting', 'nanosoap'));
     variable_set('ting_agency', '710100');
     variable_set('ting_search_url', 'http://opensearch.addi.dk/1.0/');
