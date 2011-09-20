@@ -10,7 +10,7 @@ abstract class OpenruthUserProviderImplementationTestCase extends DingUserProvid
     return array(
       'name' => 'Openruth user provider',
       'description' => 'Test Openruth user provider functionality.',
-      'group' => 'Ding! Openruth provider',
+      'group' => 'Ding! - Openruth provider',
     );
   }
 
@@ -86,7 +86,7 @@ abstract class OpenruthAvailabilityProviderImplementationTestCase extends DingAv
     return array(
       'name' => 'Openruth availability provider',
       'description' => 'Test Openruth availability provider functionality.',
-      'group' => 'Ding! Openruth provider',
+      'group' => 'Ding! - Openruth provider',
     );
   }
 
