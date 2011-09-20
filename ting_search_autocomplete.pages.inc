@@ -39,14 +39,14 @@ function ting_search_autocomplete($query = NULL) {
           if ($type == 'spell') {
             $return[] = array(
               'id'    => $term->name,
-              'value' => $term->name,
+              'value' => drupal_substr($term->name, 0, 128),
               'label' => t('Did you mean \'@query\' ?', array('@query' => $term->name)),
             );
           }
           else {
             $return[] = array(
               'id'    => $term->name,
-              'value' => $term->name,
+              'value' => drupal_substr($term->name, 0, 128),
               'label' => $term->name,
             );
           }
