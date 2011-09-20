@@ -22,10 +22,11 @@ class TingRelation extends DingEntityBase {
     }
   }
 
-  function getObject() {
-    $object = entity_load('ting_object', array(), array('ding_entity_id' => array($this->properties['uri'])));
-    return reset($object);
-  }
+  // apparently this method is no longer used - leave it for now. TODO delete this method
+  /* function getObject() {
+     $object = entity_load('ting_object', array(), array('ding_entity_id' => array($this->properties['uri'])));
+     return reset($object);
+     }*/
 }
 
 /**
@@ -75,6 +76,15 @@ class TingEntity extends DingEntity {
   }
 
   function getRelations() {
+
+    // pjo: if relations are not set; do another request to get relations
+    if( !isset($this->reply->relationsData) ) {
+      $tingClientObject = ting_get_object_request($this->ding_entity_id); 
+      if( isset($tingClientObject->relationsData) ) {
+	$this->reply->relationsData = $tingClientObject->relationsData;
+      }
+    }
+    
     $this->relations = array();
     $relation_objects = array();
     if (isset($this->reply->relationsData)) {
