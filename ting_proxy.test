@@ -9,7 +9,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
     return array(
       'name' => 'Ting proxy',
       'description' => 'Check if urls are rewritten to use proxies',
-      'group' => 'Ding!',
+      'group' => 'Ding! - Ting proxy',
     );
   }
 
