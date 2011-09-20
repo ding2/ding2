@@ -11,12 +11,12 @@ class TingSearchAutocompleteTestWebCase extends DrupalWebTestCase {
     return array(
       'name' => t('Ting search autocomplete opensearch Web Tests.'),
       'description' => t('Test if we are getting results when searching in opensearch.'),
-      'group' => 'Ding!',
+      'group' => 'Ding! - Ting search autocomplete',
     );
   }
 
   public function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
 
     parent::setUp('ting', 'search', 'ting_search', 'ting_search_autocomplete');
     variable_set('ting_agency', '721700');
