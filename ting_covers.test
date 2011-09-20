@@ -5,7 +5,7 @@ class TingCoversTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Ting covers',
       'description' => 'Check if we can retrieve covers',
-      'group' => 'Ding!',
+      'group' => 'Ding! - Ting covers',
     );
   }
 
@@ -21,7 +21,7 @@ class TingCoversTestCase extends DrupalWebTestCase {
       $addi_info[$k] = variable_get('addi_' . $k, NULL);
     }
 
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
     parent::setUp('image', 'ting_covers');
 
     //All variables have been reset to set these again!
