@@ -6,12 +6,12 @@ class TingSearchTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Ting search',
       'description' => 'Check if we got any searchresults back from the well',
-      'group' => 'Ding!',
+      'group' => 'Ding! - Ting search',
     );
   }
 
   public function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
 
     parent::setUp('ting', 'search', 'ting_search', 'nanosoap');
     variable_set('ting_agency', '721700');
