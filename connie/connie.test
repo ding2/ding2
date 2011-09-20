@@ -10,7 +10,7 @@ class ConnieUserProviderImplementationTestCase extends DingUserProviderImplement
     return array(
       'name' => 'Connie provider example user provider',
       'description' => 'Test Ding! provider example user functionality.',
-      'group' => 'Ding! example provider',
+      'group' => 'Ding! - example provider',
     );
   }
 
@@ -32,7 +32,7 @@ class ConnieAvailabilityProviderImplementationTestCase extends DingAvailabilityP
     return array(
       'name' => 'Connie provider example availability provider',
       'description' => 'Test Ding! provider example availability functionality.',
-      'group' => 'Ding! example provider',
+      'group' => 'Ding! - example provider',
     );
   }
 
@@ -58,7 +58,7 @@ class ConnieReservationProviderImplementationTestCase extends DingReservationPro
     return array(
       'name' => 'Connie provider example reservation provider',
       'description' => 'Test Ding! provider example reservation functionality.',
-      'group' => 'Ding! example provider',
+      'group' => 'Ding! - example provider',
     );
   }
 
