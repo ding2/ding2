@@ -9,12 +9,12 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
     return array(
       'name' => 'Ding user',
       'description' => 'Basic user login functionality through a provider.',
-      'group' => 'Ding!',
+      'group' => 'Ding! - User',
     );
   }
 
   function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
     parent::setUp(array('ding_user', 'ding_provider', 'connie', 'ding_user_test'));
   }
 
