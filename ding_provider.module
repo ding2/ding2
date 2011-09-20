@@ -61,6 +61,12 @@ function ding_provider_requirements($phase) {
  * Implements hook_menu().
  */
 function ding_provider_menu() {
+  $items['ding_provider_error'] = array(
+    'title' => 'Internal error',
+    'page callback' => 'ding_provider_error_page',
+    'access callback' => TRUE,
+  );
+
   $items['admin/config/ding/provider'] = array(
     'title' => 'Ding provider',
     'page callback' => 'ding_provider_admin_overview',
@@ -169,10 +175,24 @@ function ding_provider_ding_install_tasks() {
 }
 
 /**
+ * Error page callback.
+ */
+function ding_provider_error_page() {
+  return array(
+    '#markup' => t("Internal error. Please contact the site administrator if the problem persists."),
+  );
+}
+
+/**
  * Returns whether a provider implements a given function.
  */
 function ding_provider_implements($type, $hook) {
-  return (bool) _ding_provider_function($type, $hook, TRUE);
+  try {
+    return (bool) _ding_provider_function($type, $hook, TRUE);
+  }
+  catch (Exception $e) {
+    return FALSE;
+  }
 }
 
 /**
@@ -226,21 +246,26 @@ function ding_provider_invoke_page($type, $hook) {
   array_shift($args);
   array_shift($args);
 
-  $function = _ding_provider_function($type, $hook);
-  if ($function) {
-    try {
+  try {
+    $function = _ding_provider_function($type, $hook);
+    if ($function) {
       return call_user_func_array($function, $args);
     }
-    catch (DingProviderAuthException $e) {
-      if (!module_exists('ding_user') || !($authpage = ding_user_auth_page())) {
-        // Rethrow exception if ding_user isn't activated, or doesn't
-        // return a path.
-        throw $e;
-      }
-      // @todo redirect to auth page
-      drupal_goto($authpage, array('query' => ding_provider_get_destination()));
+  }
+  catch (Exception $e) {
+    if ($e instanceof DingProviderUserException) {
+      // Rethrow user exceptions.
+      throw $e;
     }
-    // We let other exceptions pass through.
+    elseif ($e instanceof DingProviderAuthException) {
+      // Redirect to auth page
+      if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
+        // @todo redirect to auth page
+        drupal_goto($authpage, array('query' => ding_provider_get_destination()));
+      }
+    }
+    // Redirect to error page.
+    drupal_goto('ding_provider_error');
   }
 }
 
@@ -299,19 +324,24 @@ function ding_provider_build_form($form_id, &$form_state) {
     }
     return $form;
   }
-  catch (DingProviderAuthException $e) {
-    if (!module_exists('ding_user') || !($authpage = ding_user_auth_page())) {
-      // Rethrow exception if ding_user isn't activated, or doesn't
-      // return a path.
+  catch (Exception $e) {
+    if ($e instanceof DingProviderUserException) {
+      // Rethrow user exceptions.
       throw $e;
     }
-    // Something needs auth, save state and redirect to authentication page.
-    $expire = 21600;
-    $input = $form_state['method'] == 'get' ? $_GET : $_POST;
-    $input['#ding_provider_messages'] = drupal_get_messages();
-    cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
-    $options = array('query' => ding_provider_get_destination(array('dp_form_id' => $form_id)));
-    drupal_goto($authpage, $options);
+    elseif ($e instanceof DingProviderAuthException) {
+      if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
+        // Something needs auth, save state and redirect to authentication page.
+        $expire = 21600;
+        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+        $input['#ding_provider_messages'] = drupal_get_messages();
+        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+        $options = array('query' => ding_provider_get_destination(array('dp_form_id' => $form_id)));
+        drupal_goto($authpage, $options);
+      }
+    }
+    // Redirect to error page.
+    drupal_goto('ding_provider_error');
   }
 }
 
@@ -367,26 +397,38 @@ function ding_provider_ajax_form_callback() {
       return $x;
     }
   }
-  catch (DingProviderAuthException $e) {
-    if (!module_exists('ding_user')) {
-      // Rethrow exception if ding_user isn't activated.
+  catch (Exception $e) {
+    if ($e instanceof DingProviderUserException) {
+      // Rethrow user exceptions.
       throw $e;
     }
-    // Something needs auth, save state and redirect to authentication page.
-    $expire = 21600;
-    $input = $form_state['method'] == 'get' ? $_GET : $_POST;
-    $input['#ding_provider_messages'] = drupal_get_messages();
-    $input['#ding_provider_user'] = $user;
-    cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
-    $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
+    elseif ($e instanceof DingProviderAuthException) {
+      if (module_exists('ding_user')) {
+        // Something needs auth, save state and redirect to authentication page.
+        $expire = 21600;
+        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+        $input['#ding_provider_messages'] = drupal_get_messages();
+        $input['#ding_provider_user'] = $user;
+        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+        $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
 
-    return array(
-      '#type' => 'ajax',
-      '#commands' => array(
-        ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id))
-      ),
-    );
+        return array(
+          '#type' => 'ajax',
+          '#commands' => array(
+            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id))
+          ),
+        );
+      }
+    }
   }
+
+  // Else show internal error.
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_alert(t("Internal error. Please contact the site administrator if the problem persists.")),
+    ),
+  );
 }
 
 /**
