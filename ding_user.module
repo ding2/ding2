@@ -307,79 +307,85 @@ function ding_user_user_login_validate($form, &$form_state) {
     return;
   }
 
-  $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
-  if (!is_array($auth_res) || !isset($auth_res['success'])) {
-    watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-    return;
-  }
-
-  if ($auth_res['success']) {
-    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
-      // If provider supplied an authname, use it.
-      $auth_name = $auth_res['authname'];
+  try {
+    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+    if (!is_array($auth_res) || !isset($auth_res['success'])) {
+      watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+      return;
     }
-    else {
-      // Else use a standard authname.
-      $auth_name = ding_user_default_authname($form_state['values']['name']);
-    }
-    // We'd like to use user_external_login_register(), but it saves the user
-    // and invokes hook_user_login before we have a chance to mess with it. So
-    // we do what it would do.
 
-    $account = user_external_load($auth_name);
-    if (!$account) {
-      // Register this new user.
-      $userinfo = array(
-        // Name is only 60 chars, and authname is longer. Use a shorter SHAE1
-        // hash.
-        'name' => hash('sha1', $auth_name),
-        'pass' => user_password(),
-        'init' => $auth_name,
-        'status' => 1,
-        'access' => REQUEST_TIME,
-        'mail' => '',
-      );
-
-      if (isset($auth_res['user'])) {
-        $userinfo = array_merge($userinfo, $auth_res['user']);
+    if ($auth_res['success']) {
+      if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+        // If provider supplied an authname, use it.
+        $auth_name = $auth_res['authname'];
       }
+      else {
+        // Else use a standard authname.
+        $auth_name = ding_user_default_authname($form_state['values']['name']);
+      }
+      // We'd like to use user_external_login_register(), but it saves the user
+      // and invokes hook_user_login before we have a chance to mess with it. So
+      // we do what it would do.
 
-      $account = user_save(drupal_anonymous_user(), $userinfo);
-      // Terminate if an error occurred during user_save().
+      $account = user_external_load($auth_name);
       if (!$account) {
-        drupal_set_message(t("Error saving user account."), 'error');
-        return;
+        // Register this new user.
+        $userinfo = array(
+          // Name is only 60 chars, and authname is longer. Use a shorter SHAE1
+          // hash.
+          'name' => hash('sha1', $auth_name),
+          'pass' => user_password(),
+          'init' => $auth_name,
+          'status' => 1,
+          'access' => REQUEST_TIME,
+          'mail' => '',
+        );
+
+        if (isset($auth_res['user'])) {
+          $userinfo = array_merge($userinfo, $auth_res['user']);
+        }
+
+        $account = user_save(drupal_anonymous_user(), $userinfo);
+        // Terminate if an error occurred during user_save().
+        if (!$account) {
+          drupal_set_message(t("Error saving user account."), 'error');
+          return;
+        }
+        user_set_authmaps($account, array("authname_ding_user" => $auth_name));
       }
-      user_set_authmaps($account, array("authname_ding_user" => $auth_name));
+      else {
+        ding_user_update_user($auth_res, $account);
+      }
+
+      // Log user in.
+      $form_state['uid'] = $account->uid;
+      // We're not calling user_login_submit like user_external_login_register
+      // does, it's already the submit handler.
+
+      // Save credentials for later.
+      ding_user_save_creds($auth_res, $account);
+      // TODO: Do we still need this?
+      if (ding_provider_implements('user', 'authenticate_finalize')) {
+        ding_provider_invoke('user', 'authenticate_finalize', $user);
+      }
     }
     else {
-      ding_user_update_user($auth_res, $account);
-    }
-
-    // Log user in.
-    $form_state['uid'] = $account->uid;
-    // We're not calling user_login_submit like user_external_login_register
-    // does, it's already the submit handler.
-
-    // Save credentials for later.
-    ding_user_save_creds($auth_res, $account);
-    // TODO: Do we still need this?
-    if (ding_provider_implements('user', 'authenticate_finalize')) {
-      ding_provider_invoke('user', 'authenticate_finalize', $user);
-    }
-  }
-  else {
-    if (isset($auth_res['messages'])) {
-      foreach ($auth_res['messages'] as $message) {
-        if (is_array($message)) {
-          list($message, $type) = $message;
+      if (isset($auth_res['messages'])) {
+        foreach ($auth_res['messages'] as $message) {
+          if (is_array($message)) {
+            list($message, $type) = $message;
+          }
+          else {
+            $type = 'warning';
+          }
+          drupal_set_message($message, $type);
         }
-        else {
-          $type = 'warning';
-        }
-        drupal_set_message($message, $type);
       }
     }
+  }
+  catch (Exception $e) {
+    // Exception thrown, log error and carry on.
+    watchdog('ding_user', 'Provider exception, message: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
   }
 }
 
