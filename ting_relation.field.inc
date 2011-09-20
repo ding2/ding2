@@ -66,10 +66,10 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
     foreach ($entity->relations as $relation) {
       if (isset($relation_types[$relation->type])) {
         $ownerId = is_object($relation->object) ? $relation->object->ownerId : NULL;
-        if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
+        if ($relation->type == 'dbcaddi:isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
           continue;
         }
-        elseif ($relation->type == 'hasReview' && is_object($relation->object) && $relation->object->ac_source == 'Anmeldelser') {
+        elseif ($relation->type == 'dbcaddi:hasReview' && is_object($relation->object) && $relation->object->ac_source == 'Anmeldelser') {
           // Temporary filter out regular reviews. We need better
           // handling of those.
           continue;

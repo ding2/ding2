@@ -17,12 +17,31 @@ function template_preprocess_ting_relation(&$variables) {
   if ($relation->type == 'dbcbib:isPartOfManifestation') {
     $variables['content']['body'] = ting_object_view($object, 'teaser');
   }
-  elseif ($relation->type == 'hasReview') {
+  elseif ($relation->type == 'dbcaddi:hasReview') {
     if (!empty($object->reply->record['dc:description'][''][0])) {
       $variables['content']['body'] = array(
         '#markup' => filter_xss_admin($object->reply->record['dc:description'][''][0]),
       );
     }
+  }
+  elseif ($relation->type == 'dbcaddi:hasSubjectDescription') {
+    if ($object->creators){
+      $variables['content']['byline'] = array(
+        '#markup' => t('by @author', array('@author' => $object->creators)),
+        '#prefix' => '<div>',
+        '#suffix' => '</div>',
+      );
+    }
+    $variables['content']['body'] = array(
+      '#markup' => filter_xss_admin($object->abstract),
+        '#prefix' => '<div>',
+        '#suffix' => '</div>',
+    );
+    $variables['content']['description'] = array(
+      '#markup' => filter_xss_admin($object->description),
+        '#prefix' => '<div>',
+        '#suffix' => '</div>',
+    );
   }
   else {
     $variables['content']['body'] = array(
@@ -30,5 +49,5 @@ function template_preprocess_ting_relation(&$variables) {
     );
   }
 
-  $variables['online_url'] = isset($object->online_url) ? l($object->online_url, $object->online_url) : FALSE;
+  $variables['online_url'] = $object->online_url ? l($object->online_url, $object->online_url) : FALSE;
 }
