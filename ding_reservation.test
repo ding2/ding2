@@ -9,12 +9,12 @@ class DingReservationFunctionalTest extends DingPopupTestCase {
     return array(
       'name' => 'Ding reservation',
       'description' => 'Reservation functional tests.',
-      'group' => 'Ding!',
+      'group' => 'Ding! - Reservation',
     );
   }
 
   function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
     parent::setUp(array('ding_reservation', 'ding_user', 'ding_user_test', 'ding_provider', 'connie', 'ting'));
 
     // Way too many dependencies for this test, but we'll need a mock
