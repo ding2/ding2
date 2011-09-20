@@ -6,11 +6,12 @@ class DingFacetbrowserUnit extends DrupalUnitTestCase {
     return array(
       'name' => t('Ding Facetbrowser Unit tests'),
       'description' => t('Unit tests for the Ding Facetbrowser module'),
-      'group' => 'Ding!',
+      'group' => 'Ding! - Facetbrowser',
     );
   }
 
   function testFacetbrowser() {
+    drupal_load('module', 'ding_facetbrowser');
     $form       = array();
     $form_state = array();
     $facets     = array();
@@ -48,12 +49,12 @@ class DingFacetbrowserWeb extends DrupalWebTestCase {
     return array(
       'name' => t('Ding Facetbrowser Web Tests'),
       'description' => t('Webtests for the Ding Facetbrowser module'),
-      'group' => 'Ding!',
+      'group' => 'Ding! - Facetbrowser',
     );
   }
 
   public function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
 
     parent::setUp('ting', 'ding_facetbrowser', 'search', 'ting_search');
     variable_set('ting_agency', '100200');
