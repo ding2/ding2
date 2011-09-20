@@ -30,6 +30,12 @@
       if (ids.length > 0) {
         $.getJSON(settings.basePath + 'ding_availability/' + (settings.ding_availability_mode ? settings.ding_availability_mode: 'items') + '/' + ids.join(','), {}, update);
       }
+      else {
+        // Apply already fetched availability
+        $.each(settings.ding_availability, function(id, entity_ids) {
+          updateAvailability(id, entity_ids);
+        });
+      }
 
       function update(data, textData) {
         $.each(data, function(id, item) {
@@ -53,7 +59,7 @@
         var available = false;
         var reservable = false;
         $.each(entity_ids, function(index, entity_id) {
-          if (Drupal.DADB[entity_id] !== undefined) {
+          if (Drupal.DADB[entity_id] !== undefined && Drupal.DADB[entity_id] !== null) {
             available = available || Drupal.DADB[entity_id]['available'];
             reservable = reservable || Drupal.DADB[entity_id]['reservable'];
           }
