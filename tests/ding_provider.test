@@ -8,7 +8,7 @@
 class DingProviderTestCase extends DrupalWebTestCase {
 
   function setUp() {
-    $this->profile = 'ding2';
+    $this->profile = 'minimal';
     $modules = func_get_args();
     if (isset($modules[0]) && is_array($modules[0])) {
       $modules = $modules[0];
@@ -26,7 +26,7 @@ class DingAvailabilityProviderTestCase extends DingProviderTestCase {
     return array(
       'name' => 'Ding availability provider',
       'description' => 'Test Ding availability provider functionality.',
-      'group' => 'Ding! provider',
+      'group' => 'Ding! - Provider',
     );
   }
 
@@ -63,7 +63,7 @@ class DingUserProviderTestCase extends DingProviderTestCase {
     return array(
       'name' => 'Ding user provider',
       'description' => 'Test Ding user provider functionality.',
-      'group' => 'Ding! provider',
+      'group' => 'Ding! - Provider',
     );
   }
 
@@ -96,7 +96,7 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
     return array(
       'name' => 'Ding reservation provider',
       'description' => 'Test Ding reservation provider functionality.',
-      'group' => 'Ding! provider',
+      'group' => 'Ding! - Provider',
     );
   }
 

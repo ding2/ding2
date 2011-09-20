@@ -12,7 +12,7 @@ class DingProviderLoginTestCase extends DrupalWebTestCase {
     return array(
       'name' => 'Ding provider login',
       'description' => 'Ensure that provider redirects to login when necessary.',
-      'group' => 'Ding! provider',
+      'group' => 'Ding! - Provider',
     );
   }
 
@@ -88,7 +88,7 @@ class DingProviderAjaxLoginTestCase extends DingPopupTestCase {
     return array(
       'name' => 'Ding provider ajax login',
       'description' => 'Ensure that provider handles ajax requests when necessary.',
-      'group' => 'Ding! provider',
+      'group' => 'Ding! - Provider',
     );
   }
 
