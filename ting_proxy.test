@@ -21,10 +21,12 @@ class TingProxyTestCase extends DrupalUnitTestCase {
 
     $this->proxy_url = 'http://myproxy.com/proxy?';
 
-    $this->urls = array('http://www.host1.com/part1/index.html',
-    										'http://www.host1.com/part1/part2/index.html',
-                        'http://www.host2.com/part1/index.html',
-    										'http://www.host2.com/part1/part2/index.html');
+    $this->urls = array(
+      'http://www.host1.com/part1/index.html',
+      'http://www.host1.com/part1/part2/index.html',
+      'http://www.host2.com/part1/index.html',
+      'http://www.host2.com/part1/part2/index.html',
+    );
   }
 
   public function testRewriteNoConfig() {
@@ -38,10 +40,16 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteNoHostnameMatch() {
-    $config = array(array('hostname' => 'host1.com',
-                          'expression' => array('regex' => '/part1/',
-                          											'replacement' => 'part3'),
-    											'disable_prefix' => 0));
+    $config = array(
+      array(
+        'hostname' => 'host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3'
+        ),
+        'disable_prefix' => 0,
+      ),
+    );
 
     foreach ($this->urls as $url) {
       $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
@@ -51,10 +59,16 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteReplace() {
-    $config = array(array('hostname' => 'www.host1.com',
-                          'expression' => array('regex' => '/part1/',
-                          											'replacement' => 'part3'),
-    											'disable_prefix' => 1));
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3'
+        ),
+        'disable_prefix' => 1,
+      ),
+    );
 
     foreach ($this->urls as $url) {
       $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
@@ -67,9 +81,13 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewritePrefix() {
-    $config = array(array('hostname' => 'www.host1.com',
-                          'expression' => array(),
-    											'disable_prefix' => 0));
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(),
+        'disable_prefix' => 0,
+      ),
+    );
 
     foreach ($this->urls as $url) {
       $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
@@ -81,10 +99,16 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteReplacePrefix() {
-    $config = array(array('hostname' => 'www.host1.com',
-                          'expression' => array('regex' => '/part1/',
-                                                'replace' => 'part3'),
-    											'disable_prefix' => 0));
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replace' => 'part3'
+        ),
+        'disable_prefix' => 0,
+      ),
+    );
 
     foreach ($this->urls as $url) {
       $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
@@ -98,13 +122,21 @@ class TingProxyTestCase extends DrupalUnitTestCase {
 
 
   public function testRewriteFirstConfigPriority() {
-    $config = array(array('hostname' => 'www.host1.com',
-                          'expression' => array(),
-    											'disable_prefix' => 0),
-                    array('hostname' => 'www.host1.com',
-                          'expression' => array('regex' => '/part1/',
-                          											'replacement' => 'part3'),
-    											'disable_prefix' => 1));
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(),
+        'disable_prefix' => 0,
+      ),
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3',
+        ),
+        'disable_prefix' => 1,
+      ),
+    );
 
     foreach ($this->urls as $url) {
       $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
