@@ -81,7 +81,7 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
    */
   abstract function getSomeHoldings();
 
-  abstract function getSomePeriodicals();
+  function getSomePeriodicals() {}
 
   function testItems() {
     if (ding_provider_implements('availability', 'items')) {
@@ -128,7 +128,7 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
 
   function testPeriodicals() {
     $ids = $this->getSomePeriodicals();
-    $response = ding_provider_invoke('availability', 'availability', $ids);
+    $response = ding_provider_invoke('availability', 'holdings', $ids);
     $this->commonCase($ids, $response);
 
     $is_array = TRUE;
