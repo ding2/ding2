@@ -94,7 +94,7 @@ function ting_infomedia_get_ting_relations() {
   static $types;
   if (!$types) {
     $types = array(
-      'hasFulltext' => t('Article from infomedia'),
+      'dbcaddi:hasOnlineAccess' => t('Article from infomedia'),
     );
   }
   return $types;
