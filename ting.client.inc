@@ -19,6 +19,12 @@ function ting_get_object_request($object_id) {
   $request->setObjectId($object_id);
   $request->setAllRelations(TRUE);
   $request->setRelationData('full');
+
+  // Set search profile, if applicable.
+  $profile = variable_get('ting_search_profile', '');
+  if (!empty($profile) && method_exists($request, 'setProfile')) {
+    $request->setProfile($profile);
+  }
  
   $object = ting_execute_cache($request);
 
