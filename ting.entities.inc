@@ -45,6 +45,7 @@ class TingEntity extends DingEntity {
   public $date = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
+  public $description = DingEntityBase::NULL;
 
   function getLocalId() {
     return !empty($this->reply->localId) ? $this->reply->localId : FALSE;
@@ -79,12 +80,12 @@ class TingEntity extends DingEntity {
 
     // pjo: if relations are not set; do another request to get relations
     if( !isset($this->reply->relationsData) ) {
-      $tingClientObject = ting_get_object_request($this->ding_entity_id); 
+      $tingClientObject = ting_get_object_request($this->ding_entity_id);
       if( isset($tingClientObject->relationsData) ) {
 	$this->reply->relationsData = $tingClientObject->relationsData;
       }
     }
-    
+
     $this->relations = array();
     $relation_objects = array();
     if (isset($this->reply->relationsData)) {
@@ -149,6 +150,10 @@ class TingEntity extends DingEntity {
 
   function getAc_source() {
     return !empty($this->reply->record['ac:source'][''][0]) ? $this->reply->record['ac:source'][''][0] : FALSE;
+  }
+
+  function getDescription() {
+    return !empty($this->reply->record['dc:description'][''][0]) ? $this->reply->record['dc:description'][''][0] : FALSE;
   }
 }
 
