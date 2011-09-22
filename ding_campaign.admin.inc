@@ -47,6 +47,9 @@ function ding_campaign_configure($form, $form_state) {
  *   Campaign rules edit form
  */
 function ding_campaign_rules_admin($node) {
+   drupal_add_js(array('ding_campaing_init' => array(
+          'autocompleteUrl' => url('ding_campaign/autocomplete/'),
+          )), 'setting');
   return drupal_get_form('ding_campaign_edit_rules_form', $node);
 }
 
@@ -78,12 +81,12 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     for ($i = 0; $i < count($node->camp_rule); $i++) {
       $form['ding_campaign_rules']['rules'][$i] = ding_campaign_rule_form(
         isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
-        isset($node->camp_type[$i]) ? $node->camp_type[$i] : NULL
+        isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page'
       );
     }
   }
   else {
-    $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form();
+    $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form(NULL, 'rule_page');
   }
   
   $form['ding_campaign_rules']['add_rule'] = array(
