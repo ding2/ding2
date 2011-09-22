@@ -30,7 +30,7 @@ function ding_campaign_menu() {
     'access arguments' => array(1),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_LOCAL_TASK,
-    'access callback' => 'ding_campaign_node_access', 
+    'access callback' => 'ding_campaign_node_access',
     'weight' => 2,
   );
 
@@ -48,8 +48,8 @@ function ding_campaign_menu() {
 }
 
 /**
-* Menu access callback.
-*/
+ * Implements hook_node_access().
+ */
 function ding_campaign_node_access($node) {
   if ($node->type == 'campaign') {
     return TRUE;
@@ -131,7 +131,7 @@ function ding_campaign_display($context, $count, $offset) {
           $theme = 'ding_campaign_green';
           break;
       }
-      
+
       $block .= theme($theme, array('content' => $content));
     }
 
@@ -139,6 +139,14 @@ function ding_campaign_display($context, $count, $offset) {
   }
 }
 
+/**
+ * Fetch campaign from database according to context.
+ * 
+ * @param type $context
+ * @param type $limit
+ * @param type $offset
+ * @return type 
+ */
 function ding_campaign_get_campaigns($context, $limit, $offset) {
   $campaigns = array();
   // Process page campaigns
@@ -173,7 +181,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   $path = drupal_get_path_alias($_GET['q']);
   foreach ($q as $k => $v) {
     $page_match = drupal_match_path($path, $v->rule);
-    
+
     if ($path != $_GET['q']) {
       $page_match = $page_match || drupal_match_path($_GET['q'], $v->rule);
     }
@@ -217,7 +225,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   // Process taxonomy campaigns
   if ($context['taxonomy_term'] != NULL) {
     $tid = $context['taxonomy_term']->tid;
-    
+
     $q = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :tid

@@ -47,7 +47,7 @@ function ding_campaign_configure($form, $form_state) {
  *   Campaign rules edit form
  */
 function ding_campaign_rules_admin($node) {
-   drupal_add_js(array('ding_campaing_init' => array(
+  drupal_add_js(array('ding_campaing_init' => array(
           'autocompleteUrl' => url('ding_campaign/autocomplete/'),
           )), 'setting');
   return drupal_get_form('ding_campaign_edit_rules_form', $node);
@@ -82,7 +82,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     $c = count($node->camp_rule);
     for ($i = 0; $i < count($node->camp_rule); $i++) {
       $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(
-              isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL, 
+              isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
               isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page');
     }
   }
@@ -90,7 +90,6 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
   for (; $i < $num_rules + $c; $i++) {
     $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(NULL, 'rule_page');
   }
-  
 
   $form['ding_campaign_rules']['howmany_select'] = array(
     '#type' => 'hidden',
@@ -99,7 +98,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
 
   $form['ding_campaign_rules']['rule_add'] = array(
     '#type' => 'button',
-    '#value' => 'More',
+    '#value' => t('Add another rule'),
     '#ajax' => array(
       'callback' => 'ding_campaign_add_rule',
       'wrapper' => 'edit-rule-add',
@@ -130,21 +129,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
  */
 function ding_campaign_add_rule($form, $form_state) {
   $c = count(element_children($form['ding_campaign_rules']['rules']));
-  dump_it($c);
   return $form['ding_campaign_rules']['rules']['rule_' . ($c - 1)];
-}
-
-function ding_campaign_edit_rules_form_validate($form, &$form_state) {
-  /*for ($i = 0; $i < count($form_state['input']['rule_type']); $i++) {
-    if ($form_state['input']['rule_type'][$i] != 'rule_generic' && empty($form_state['input']['rule_value'][$i])) {
-      form_set_error('rule_value[]', t('Empty values are not allowed - :msg', array(':msg' => $form_state['input']['rule_type'][$i])));
-    }
-    elseif ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy') {
-      if (!preg_match('/^\[[tn]id:(\d+)\]$/', $form_state['input']['rule_value'][$i])) {
-        form_set_error('rule_value[]', t('Invalid value provided -  :msg', array(':msg' => $form_state['input']['rule_value'][$i])));
-      }
-    }
-  }*/
 }
 
 /**
@@ -227,20 +212,25 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
 
   return $form;
 }
-
+/**
+ * Autcomplete handler.
+ * 
+ * @param type $type
+ * @param type $input 
+ */
 function ding_campaign_admin_autocomplete($type, $input) {
   $matches = array();
-  
+
   switch ($type) {
     case 'rule_page':
-      $q = db_query("SELECT nid, title FROM {node} WHERE title LIKE(:term) LIMIT 5", array(':term' => '%%' . $input . '%%'))->fetchAll();
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
       foreach ($q as $k => $v) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
     case 'rule_taxonomy':
-      $q = db_query("SELECT tid, name FROM {taxonomy_term_data} WHERE name LIKE(:term) LIMIT 5", array(':term' => '%%' . $input . '%%'))->fetchAll();
+      $q = db_query_range("SELECT tid, name FROM {taxonomy_term_data} WHERE name LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
       foreach ($q as $k => $v) {
         $matches['[tid:' . $v->tid . ']'] = $v->name;
@@ -249,12 +239,4 @@ function ding_campaign_admin_autocomplete($type, $input) {
   }
 
   drupal_json_output($matches);
-}
-
-function dump_it($s) {
-  $f = DING_CAMPAIGN_PATH . '/dump.txt';
-  $h = fopen($f, 'wt');
-  ftruncate($h, 0);
-  fwrite($h, print_r($s, TRUE));
-  fclose($h);
 }
