@@ -69,7 +69,9 @@ function ting_fulltext_preprocess_ting_relation(&$variables) {
     in_array('docbook', $relation->reply->formatsAvailable)) {
       $variables['content']['docbook_link'] =
         array(
-          '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),
+	      '#prefix' => '<div>',
+	      '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),
+	      '#suffix' => '</div>',
         );
     }
 }
