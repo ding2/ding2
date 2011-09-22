@@ -110,12 +110,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
     if ($item->renewable) {
       $options[$item->id]['operations']['data'][] = array(
           '#type' => 'submit',
+          '#prefix' => '<div class="renew-loan-button">',
           '#value' => t('Renew'),
           '#submit' => array('ding_loan_loans_form_renew_submit'),
           '#loan_id' => $item->id,
           '#name' => 'renew-' . $item->id, // Needed so form API can tell them
                                            // apart.
           '#disabled' => !$item->renewable,
+          '#suffix' => '</div>',
       );
     }
   }
@@ -130,7 +132,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
 
   $form['actions']['submit'] = array(
     '#type' => 'submit',
+    '#prefix' => '<div class="renew-loan-button">',
     '#value' => t('Renew selected'),
+    '#suffix' => '</div>',
   );
 
   return $form;
