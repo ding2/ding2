@@ -4,6 +4,8 @@ core = 7.x
 ; CONTRIB MODULES
 project[ctools][subdir] = "contrib"
 
+project[conditional_styles][subdir] = "contrib"
+
 project[panels][subdir] = "contrib"
 project[panels][version] = "7.x-3.0-alpha3"
 

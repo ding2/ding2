@@ -1,5 +1,6 @@
 core = "7.x"
 dependencies[] = "ctools"
+dependencies[] = "conditional_styles"
 dependencies[] = "languageicons"
 dependencies[] = "locale"
 dependencies[] = "page_manager"
