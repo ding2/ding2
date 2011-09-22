@@ -13,7 +13,7 @@
   }
 
   Drupal.behaviors.ding_campaing_init = {
-    /*bindAutocomplete: function(obj, type) {
+    bindAutocomplete: function(obj, type) {
       $(obj).find('input.autocomplete')
         .val(Drupal.settings.ding_campaing_init.autocompleteUrl + type)
         .removeClass('autocomplete-processed')
@@ -21,7 +21,7 @@
         .find('input.form-text')
         .addClass('form-autocomplete');
       Drupal.attachBehaviors($(obj));
-    },*/
+    },
     attach: function(context) {
       campaign_content_click($('.node-campaign-form #edit-field-camp-settings input[type=radio]:checked').attr('value'));
 
@@ -30,7 +30,7 @@
         campaign_content_click(type);
       });
 
-      /*$('.ding-campaign-rule select').change(function() {
+      $('.ding-campaign-rule select').change(function() {
         if ($(this).selected().attr('value') == 'rule_generic') {
           $(this).parent().parent().parent().find('.rule-value').hide();
         }
@@ -52,7 +52,7 @@
         if ($(this).find('.rule-type select').selected().attr('value') == 'rule_generic') {
           $(this).find('.rule-value').hide();
         }
-      });*/
+      });
     }
   }
 })(jQuery);

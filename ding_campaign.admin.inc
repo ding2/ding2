@@ -76,6 +76,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     '#description' => t('This is where we get automatically generated checkboxes'),
   );
 
+  $i = 0;
   $c = 1;
   if (isset($node->camp_rule) && is_array($node->camp_rule)) {
     $c = count($node->camp_rule);
