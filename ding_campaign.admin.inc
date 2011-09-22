@@ -196,12 +196,35 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#maxlength' => 24,
     '#prefix' => '<div class="rule-value">',
     '#suffix' => '</div><div class="clear"></div></div>',
-    '#autocomplete_path' => 'ding_campaign/autocomplete/567',
+    //'#autocomplete_path' => 'ding_campaign/autocomplete/567',
   );
+
+  if ($type == 'rule_page' || $type == 'rule_taxonomy') {
+    $form['rule_value[]']['#autocomplete_path'] = 'ding_campaign/autocomplete/' . $type;
+  }
 
   return $form;
 }
 
-function ding_campaign_admin_autocomplete($v) {
-  drupal_json_output(array('bastard' => $v));
+function ding_campaign_admin_autocomplete($type, $input) {
+  $matches = array();
+  
+  switch ($type) {
+    case 'rule_page':
+      $q = db_query("SELECT nid, title FROM {node} WHERE title LIKE(:term) LIMIT 5", array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[nid:' . $v->nid . ']'] = $v->title;
+      }
+      break;
+    case 'rule_taxonomy':
+      $q = db_query("SELECT tid, name FROM {taxonomy_term_data} WHERE name LIKE(:term) LIMIT 5", array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[tid:' . $v->tid . ']'] = $v->name;
+      }
+      break;
+  }
+
+  drupal_json_output($matches);
 }
