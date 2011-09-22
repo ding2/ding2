@@ -12,14 +12,14 @@
 function ting_fulltext_menu() {
   $items = array();
 
-  $items['ting/object/%ting_fulltext_object/fulltext'] = 
+  $items['ting/object/%ting_fulltext_object/fulltext'] =
     array(
-	  'page callback' => 'ting_fulltext_page_view',
-	  'page arguments' => array(2),
-	  'access arguments' => array('access content'),
-	  'file' => 'includes/ting_fulltext.pages.inc',
-	  'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
-	  );
+      'page callback' => 'ting_fulltext_page_view',
+      'page arguments' => array(2),
+      'access arguments' => array('access content'),
+      'file' => 'includes/ting_fulltext.pages.inc',
+      'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
+    );
 
   return $items;
 }
@@ -28,9 +28,9 @@ function ting_fulltext_menu() {
  * Implements hook_theme
  */
 function ting_fulltext_theme($existing, $type, $theme, $path) {
-  $render_array['ting_fulltext'] = 
-    array('template' => 'ting_fulltext_view',	     
-	  'render element' => 'element',);
+  $render_array['ting_fulltext'] =
+    array('template' => 'ting_fulltext_view',
+      'render element' => 'element',);
   return $render_array;
 }
 
@@ -48,9 +48,9 @@ function ting_fulltext_object_load($object_id) {
     $request->setObjectId($object_id);
     $request->setProfile(variable_get('ting_search_profile', ''));
     $request->setFormat('docbook');
-    
+
     $request->setObjectFormat('docbook');
-    
+
     $request->setOutputType('xml');
     $xml = ting_execute($request);
     ting_cache_set($object_id . ':FULLTEXT', $xml);
@@ -65,11 +65,11 @@ function ting_fulltext_object_load($object_id) {
 function ting_fulltext_preprocess_ting_relation(&$variables) {
   $relation = $variables['object'] = $variables['elements']['#object'];
   if (isset($relation->reply) &&
-      is_array($relation->reply->formatsAvailable) &&
-      in_array('docbook', $relation->reply->formatsAvailable)) {
-    $variables['content']['docbook_link'] = 
-      array(
-	    '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),	   
-	    );
-  }
+    is_array($relation->reply->formatsAvailable) &&
+    in_array('docbook', $relation->reply->formatsAvailable)) {
+      $variables['content']['docbook_link'] =
+        array(
+          '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),
+        );
+    }
 }
