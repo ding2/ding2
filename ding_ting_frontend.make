@@ -24,7 +24,7 @@ projects[variable][version] = "1.1"
 projects[ding_facetbrowser][type] = "module"
 projects[ding_facetbrowser][download][type] = "git"
 projects[ding_facetbrowser][download][url] = "git@github.com:ding2/ding_facetbrowser.git"
-projects[ding_facetbrowser][download][tag] = "v0.4"
+projects[ding_facetbrowser][download][tag] = "v0.5"
 
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
