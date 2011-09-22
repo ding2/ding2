@@ -77,7 +77,6 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
  */
 function ding_campaign_display($context, $count, $offset) {
   $q = ding_campaign_get_campaigns($context, $count, $offset);
-  var_dump($q);
 
   // There is at least one result
   if (is_array($q) && count($q) > 0) {
@@ -141,8 +140,29 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process path-based campaigns
-  // @todo
-  // QUERY
+  $q = db_query('SELECT r.cid, r.rule
+    FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+    WHERE r.type = \'rule_path\'
+      AND n.status = 1
+      AND r.cid = d.cid
+      AND r.cid = n.nid
+    ORDER BY d.weight DESC')
+    ->fetchAll();
+
+  $path = drupal_get_path_alias($_GET['q']);
+  foreach ($q as $k => $v) {
+    $page_match = drupal_match_path($path, $v->rule);
+    
+    if ($path != $_GET['q']) {
+      $page_match = $page_match || drupal_match_path($_GET['q'], $v->rule);
+    }
+
+    if ($page_match) {
+      $campaigns[$v->cid] += 8;
+    }
+  }
+
+  var_dump($campaigns);
 
   
   // Process search campaigns
