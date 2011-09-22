@@ -5,16 +5,7 @@
  */
 
 
-function ting_echo($txt) {
-  $show = false;;
-  if( $show ) {
-    echo '<div style="font-size:2em">'.$txt.'</div>';
-  }
-}
-
-
 function ting_get_object_request($object_id) {
-  ting_echo('get_object_request : '.$object_id);
   $request = ting_get_request_factory()->getObjectRequest();
   $request->setObjectId($object_id);
   $request->setAllRelations(TRUE);
@@ -25,11 +16,12 @@ function ting_get_object_request($object_id) {
   if (!empty($profile) && method_exists($request, 'setProfile')) {
     $request->setProfile($profile);
   }
- 
+
   $object = ting_execute_cache($request);
 
   return $object;
 }
+
 /**
  * Get an ting object or collection.
  *
@@ -48,9 +40,6 @@ function ting_get_object($object_id, $collection = FALSE) {
     return FALSE;
   }
 
-  //pjo testing
-  ting_echo('get_object');
-  $object = NULL;
   // Check the cache first.
   $object = ting_cache_get($object_id, $collection);
   if (!$object) {
@@ -64,10 +53,6 @@ function ting_get_object($object_id, $collection = FALSE) {
       if ($agency = variable_get('ting_agency', FALSE)) {
         $request->setAgency($agency);
       }
-      // pjo: this method is used for getting collections. - Don't set relations yet; see: ting_get_object_request()
-      //  $request->setAllRelations(TRUE);
-      //$request->setRelationData($collection ? 'uri' : 'full');
-    
       $request->setAllObjects(false);
       $object = ting_execute_cache($request);
     }
@@ -95,8 +80,6 @@ function ting_get_object($object_id, $collection = FALSE) {
 function ting_get_objects($ids) {
   $objects = array();
 
-  //pjo testing
-  ting_echo('get_objects');
   // Prefill from cache.
   foreach ($ids as $id) {
     $objects[$id] = ting_cache_get($id);
@@ -125,9 +108,6 @@ function ting_get_objects($ids) {
       $request->setAgency($agency);
     }
     $request->setQuery(join(' OR ', $query));
-    // Don't set relations on collections
-    //$request->setAllRelations(TRUE);
-    //$request->setRelationData('full');
     $request->setStart(1);
     $request->setNumResults(1000);
     $request->setAllObjects(TRUE);
@@ -169,8 +149,6 @@ function ting_get_objects($ids) {
  *    The search result
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
-  //pjo testing
-  ting_echo('do_search');
 
   $request = ting_get_request_factory()->getSearchRequest();
   $request->setQuery($query);
@@ -187,11 +165,6 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   }
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
-  // Always fetch relations.
-  // pjo: NEVER fetch relations on searchpage; /ting/object/%object
-  //$request->setAllRelations(TRUE);
-  // $request->setRelationData('uri');
-
   // Set search profile, if applicable.
   $profile = variable_get('ting_search_profile', '');
   if (!empty($profile) && method_exists($request, 'setProfile')) {
@@ -203,25 +176,25 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     $fields = array();
     foreach (variable_get('ting_ranking_fields', array()) as $field) {
       $fields[] = array(
-			'fieldName' => $field['field_name'],
-			'fieldType' => $field['field_type'],
-			'weight' => $field['weight'],
-			);
+        'fieldName' => $field['field_name'],
+        'fieldType' => $field['field_type'],
+        'weight' => $field['weight'],
+      );
     }
 
     if (!empty($fields)) {
       // Add the default anyIndex boosts.
       $fields[] = array(
-			'fieldName' => 'cql.anyIndexes',
-			'fieldType' => 'phrase',
-			'weight' => 1,
-			);
+        'fieldName' => 'cql.anyIndexes',
+        'fieldType' => 'phrase',
+        'weight' => 1,
+      );
 
       $fields[] = array(
-			'fieldName' => 'cql.anyIndexes',
-			'fieldType' => 'word',
-			'weight' => 1,
-			);
+        'fieldName' => 'cql.anyIndexes',
+        'fieldType' => 'word',
+        'weight' => 1,
+      );
 
       $request->userDefinedRanking = array('tieValue' => 0.1, 'rankField' => $fields);
     }
@@ -343,8 +316,7 @@ function ting_cache_get($id, $collection = FALSE) {
     if (!isset($cache)) {
       $cache = array();
     }
-    // Using array_key_exists, as we might contain NULL values (which is
-    // !isset()).
+    // Using array_key_exists, as we might contain NULL values (which is !isset()).
     if (array_key_exists($cid, $cache)) {
       return $cache[$cid];
     }
@@ -385,17 +357,16 @@ function ting_get_request_factory() {
 
   if (!isset($request_factory)) {
     $url_variables = array(
-			   'search' => 'ting_search_url',
-			   'scan' => 'ting_scan_url',
-			   'object' => 'ting_search_url',
-			   'collection' => 'ting_search_url',
-			   'spell' => 'ting_spell_url',
-			   'recommendation' => 'ting_recommendation_url',
-			   );
+      'search' => 'ting_search_url',
+      'scan' => 'ting_scan_url',
+      'object' => 'ting_search_url',
+      'collection' => 'ting_search_url',
+      'spell' => 'ting_spell_url',
+      'recommendation' => 'ting_recommendation_url',
+    );
 
     // TODO: This should probably be rethought.
     if (module_exists('ting_infomedia')) {
-      // pjo added infomedia
       $url_variables['infomedia'] = 'ting_infomedia_url';
     }
 
