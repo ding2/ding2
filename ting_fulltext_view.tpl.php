@@ -30,8 +30,14 @@ if( isset($variables['element']['#fields']['subject']) ) {
 <?php
 if( isset( $variables['element']['#fields']['section']) ) {
   foreach( $variables['element']['#fields']['section'] as $key => $section ) {
-    echo '<h4>'.$section['title'].'</h4>';
-    echo '<div class="ting_fulltext_txt">'.$section['para'].'</div>';
+    if( isset($section['title']) ) {
+      echo '<h4>'.$section['title'].'</h4>';
+    }
+    if( isset($section['para']) ) {
+      foreach($section['para'] as $para) {      
+	echo '<div class="ting_fulltext_txt">'.$para.'</div>';
+      }
+    }
   }
 }
 ?>

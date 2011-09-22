@@ -47,19 +47,16 @@ function ting_fulltext_parse($xml) {
   if( $nodelist->length > 0 )
     (isset($nodelist->item(0)->nodeValue) ? $ret['surname'] = $nodelist->item(0)->nodeValue : $ret['surname'] = '');
   
-  //section (there can be more than one section, but i haven't seen more than one yet); note title is not always set
+  // section (there can be more than one section) and furthermore there can be one or more sections in a section..
   $query = '//docbook:section';
   $nodelist = $xpath->query($query);
   if( $nodelist->length > 0 ) {
-    foreach($nodelist as $node) {
-      $sections[] = 
-	array('title' => (isset($node->getElementsByTagname('title')->item(0)->nodeValue)) ? $node->getElementsByTagname('title')->item(0)->nodeValue : '',
-	      'para' => $node->getElementsByTagname('para')->item(0)->nodeValue);	      
+    foreach($nodelist as $node ) {
+       $sections[] =  ting_fulltext_get_section($node);
     }
     $ret['section'] = $sections;
   }
 
-  // subjects; there can be more than one subject - haven't found any yet 
   //<docbook:subjectset><docbook:subject><docbook:subjectitem>
   $query = '//docbook:subjectitem';
   $nodelist = $xpath->query($query);
@@ -68,8 +65,33 @@ function ting_fulltext_parse($xml) {
       $ret['subject'][] = $node->nodeValue;
     }
   }
-  
-  //  print_r($ret);
+
+  return $ret;
+}
+
+
+/**
+ * Not sure whether this is a complete parse of section - there might be more cases. TODO make this parse complete
+ */
+function ting_fulltext_get_section($node) {
+  foreach( $node->childNodes as $child ) {
+    switch($child->nodeName) {
+    case 'docbook:title' :
+      $ret['title'] = $child->nodeValue;
+      break;
+    case 'docbook:para' : // there might be more than one para in each section
+      $ret['para'][] = $child->nodeValue;
+      break;
+    case 'docbook:info' :
+      $ret['title'] = $child->getElementsByTagName('title')->item(0)->nodeValue;
+      break;
+    case 'docbook:section' :
+      // recursive
+      ting_fulltext_get_section($child);
+      break;
+    default:break;
+    }
+  }
   return $ret;
 }
 
