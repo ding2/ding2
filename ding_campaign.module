@@ -22,6 +22,17 @@ function ding_campaign_menu() {
     'file' => 'ding_campaign.admin.inc',
   );
 
+  $items['node/%node/campaign_rules'] = array(
+    'title' => 'Campaign rules',
+    'description' => 'Edit campaign rules',
+    'page callback' => 'ding_campaign_rules_admin',
+    'page arguments' => array(1),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ding_campaign.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+
   return $items;
 }
 
@@ -65,58 +76,20 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
  *   HTML formatted string.
  */
 function ding_campaign_display($context, $count, $offset) {
-  $q = '';
-  // Process page campaigns
-  if ($context['page'] != NULL) {
-    $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d, {ding_campaign_rules} r
-      WHERE n.nid = d.cid
-        AND r.cid = d.cid
-        AND n.status = 1
-        AND d.type = 'page'
-      ORDER BY d.weight ASC
-      LIMIT " . (int)$offset . ',' . (int)$count)
-      ->fetchAll();
-  }
-  // Process search campaigns
-  elseif ($context['search_term'] != NULL) {
-    $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
-    $condition = '';
-
-    // Multiple keywords, comma and/or space separated
-    if (strpos($terms, ',') || strpos($terms, ' ')) {
-      $terms = preg_replace('/(,?\s+)/', ',', $terms);
-      $terms = implode('\',\'', explode(',', $terms));
-      $condition = 'IN (\'' . $terms . '\')';
-    }
-    // Single keyword
-    else {
-      $condition = ' = \'' . $context['search_term'] . '\'';
-    }
-
-    $q = db_query("SELECT n.nid FROM {node} n, {ding_campaign} d
-      WHERE n.nid = d.cid
-        AND n.status = 1
-        AND d.type = 'search'
-        AND d.keywords " . $condition . "
-      ORDER BY d.weight ASC 
-      LIMIT " . (int)$offset . ',' . (int)$count)
-      ->fetchAll();
-  }
+  $q = ding_campaign_get_campaigns($context, $count, $offset);
+  var_dump($q);
 
   // There is at least one result
-  if (count($q) > 0) {
+  if (is_array($q) && count($q) > 0) {
     $block = '';
 
     // Loop through campaigns
     foreach ($q as $k => $v) {
-      $node = node_load($v->nid);
+      $node = node_load($v);
       $content = '';
 
       // Select the display for campaign type
       switch ($node->field_camp_settings['und'][0]['value']) {
-        case 'plain': default:
-          $content = '<div class="ding-item-plain">' . $node->field_camp_text_plain['und'][0]['value'] . '</div>';
-          break;
         case 'image':
           $content = '<img src="' . file_create_url($node->field_camp_image['und'][0]['uri']) . '" alt="" />';
           break;
@@ -146,24 +119,71 @@ function ding_campaign_display($context, $count, $offset) {
   }
 }
 
+function ding_campaign_get_campaigns($context, $limit, $offset) {
+  $campaigns = array();
+  // Process page campaigns
+  if ($context['page'] != NULL)  {
+    $nid = $context['page']->nid;
+
+    $q = db_query('SELECT r.cid
+      FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+      WHERE r.nid = :nid
+        AND r.type = \'rule_page\'
+        AND n.status = 1
+        AND r.cid = d.cid
+        AND r.cid = n.nid
+      ORDER BY d.weight DESC', array(':nid' => (int)$nid))
+      ->fetchAll();
+
+    foreach ($q as $k => $v) {
+      @$campaigns[$v->cid] += 9;
+    }
+  }
+
+  // Process path-based campaigns
+  // @todo
+  // QUERY
+
+  
+  // Process search campaigns
+  if ($context['search_term'] != NULL) {
+    $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
+    $condition = '';
+
+    // Multiple keywords, comma and/or space separated
+    if (strpos($terms, ',') || strpos($terms, ' ')) {
+      $terms = preg_replace('/(,?\s+)/', ',', $terms);
+      $terms = implode('\',\'', explode(',', $terms));
+      $condition = 'IN (\'' . $terms . '\')';
+    }
+    // Single keyword
+    else {
+      $condition = ' = \'' . $context['search_term'] . '\'';
+    }
+
+    // @todo
+    // QUERY
+  }
+
+  // @todo
+  // Process generic campaigns
+
+  arsort($campaigns);
+  return array_slice(array_keys($campaigns), $offset, $limit);
+}
+
 /**
  * Implements hook_form_alter().
  */
 function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
   // Alter the Campaign addition form
   if ($form_id == 'campaign_node_form') {
-    $form['#attached']['js'] = array(
-      DING_CAMPAIGN_PATH . '/js/ding_campaign_scripts.js',
-    );
-
     // Remove the 'N/A' type radiobox
     unset($form['field_camp_settings']['und']['#options']['_none']);
     // Remove the 'None' value from weight dropdown
     unset($form['field_camp_weight']['und']['#options']['_none']);
     // Remove the 'None' value from theme dropdown
     unset($form['field_camp_theme']['und']['#options']['_none']);
-
-    $form['#validate'][] = 'ding_campaign_campaign_form_validate';
   }
   else {
     $enabled_types = variable_get('ding_campaign_node_types', array());
@@ -178,22 +198,10 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
       $form['ding_campaigns_wrap']['ding_campaigns'] = array(
         '#type' => 'checkboxes',
         '#default_value' => isset($form['#node']->ding_campaigns) ? $form['#node']->ding_campaigns : array(),
-        '#options' => ding_campaign_get_campaigns(),
-        '#description' => 'Select campaigns which shall be displayed with this node.',
+        '#options' => ding_campaign_get_list(),
+        '#description' => 'Select campaigns asociated with this node.',
       );
     }
-  }
-}
-
-/**
- * Implements hook_form_FORM_ID_validate().
- */
-function ding_campaign_campaign_form_validate($form, &$form_state) {
-  // Check for non-empty keyword
-  if ($form_state['input']['field_camp_type']['und'] == 'search' &&
-    empty($form_state['input']['field_camp_keywords']['und'][0]['value'])) {
-
-    form_set_error('field_camp_keywords', t('Provide some search keyword.'));
   }
 }
 
@@ -205,8 +213,7 @@ function ding_campaign_node_insert($node) {
   if ($node->type == 'campaign') {
     $dt = array(
       'cid' => $node->nid,
-      'type' => $node->field_camp_type['und'][0]['value'],
-      'keywords' => isset($node->field_camp_keywords['und'][0]['value']) ? $node->field_camp_keywords['und'][0]['value'] : '',
+      'type' => $node->field_camp_settings['und'][0]['value'],
       'weight' => $node->field_camp_weight['und'][0]['value'],
       'theme' => $node->field_camp_theme['und'][0]['value'],
     );
@@ -214,6 +221,9 @@ function ding_campaign_node_insert($node) {
     db_insert('ding_campaign')
       ->fields($dt)
       ->execute();
+
+    // @todo
+    // Insert rules
 
     return;
   }
@@ -226,7 +236,9 @@ function ding_campaign_node_insert($node) {
       foreach ($node->ding_campaigns as $k => $v) {
         $dt = array(
           'nid' => $node->nid,
-          'cid' => $v
+          'cid' => $v,
+          'rule' => '[nid:' . $node->nid . ']',
+          'type' => 'rule_page',
         );
 
         // Skip the unused campaigns
@@ -246,26 +258,9 @@ function ding_campaign_node_insert($node) {
 function ding_campaign_node_update($node) {
   // Update the campaign if needed
   if ($node->type == 'campaign') {
-
-    // Check if campaign type has changed and it was assigned before to a node,
-    // delete the assignment if so...
-    $q = db_select('ding_campaign')
-      ->fields('ding_campaign', array('type'))
-      ->condition('cid', $node->nid)
-      ->execute()
-      ->fetchAll();
-
-    if ($node->field_camp_type['und'][0]['value'] == 'search' &&
-      $q[0]->type != $node->field_camp_type['und'][0]['value']) {
-      db_delete('ding_campaign_rules')
-        ->condition('cid', $node->nid)
-        ->execute();
-    }
-
     // Update campaign fields
     $dt = array(
-      'type' => $node->field_camp_type['und'][0]['value'],
-      'keywords' => $node->field_camp_keywords['und'][0]['value'],
+      'type' => $node->field_camp_settings['und'][0]['value'],
       'weight' => $node->field_camp_weight['und'][0]['value'],
       'theme' => $node->field_camp_theme['und'][0]['value'],
     );
@@ -291,7 +286,9 @@ function ding_campaign_node_update($node) {
       foreach ($node->ding_campaigns as $k => $v) {
         $dt = array(
           'nid' => $node->nid,
-          'cid' => $v
+          'cid' => $v,
+          'rule' => '[nid:' . $node->nid . ']',
+          'type' => 'rule_page',
         );
 
         // Skip the unused campaigns
@@ -309,8 +306,27 @@ function ding_campaign_node_update($node) {
  * Implements hook_node_load().
  */
 function ding_campaign_node_load($node) {
-  $enabled_types = variable_get('ding_campaign_node_types', array());
   $nids = array_keys($node);
+
+  if ($node[$nids[0]]->type == 'campaign') {
+    $q = db_select('ding_campaign_rules')
+      ->fields('ding_campaign_rules', array('rule', 'type'))
+      ->condition('cid', $node[$nids[0]]->nid)
+      ->execute()
+      ->fetchAll();
+
+    // Add assigned campaigns
+    if (is_array($q) && count($q) > 0) {
+      foreach ($q as $k => $v) {
+        $node[$nids[0]]->camp_rule[$k] = $v->rule;
+        $node[$nids[0]]->camp_type[$k] = $v->type;
+      }
+    }
+
+    return;
+  }
+
+  $enabled_types = variable_get('ding_campaign_node_types', array());
 
   // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node[$nids[0]]->type . '_node_form']) && $enabled_types[$node[$nids[0]]->type . '_node_form'] === $node[$nids[0]]->type . '_node_form') {
@@ -318,6 +334,7 @@ function ding_campaign_node_load($node) {
     $q = db_select('ding_campaign_rules')
       ->fields('ding_campaign_rules', array('cid'))
       ->condition('nid', $node[$nids[0]]->nid)
+      ->condition('type', 'rule_page')
       ->execute()
       ->fetchAll();
 
@@ -358,10 +375,11 @@ function ding_campaign_node_delete($node) {
  * @return
  *   Array of campaigns with id's and title's
  */
-function ding_campaign_get_campaigns() {
-  $q = db_query("SELECT n.nid, n.title FROM {node} n, {ding_campaign} d
-    WHERE n.nid = d.cid AND d.type = 'page'
-    GROUP BY n.nid;")
+function ding_campaign_get_list() {
+  $q = db_query("SELECT n.nid, n.title FROM {node} n
+    WHERE n.status <> 0
+      AND n.type = 'campaign'
+    ORDER BY n.title")
     ->fetchAll();
 
   $campaigns = array();
@@ -380,4 +398,12 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools') {
     return 'plugins/' . $plugin;
   }
+}
+
+function dump_it($s) {
+  $f = DING_CAMPAIGN_PATH . '/dump.txt';
+  $h = fopen($f, 'wt');
+  ftruncate($h, 0);
+  fwrite($h, print_r($s, TRUE));
+  fclose($h);
 }

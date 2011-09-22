@@ -24,11 +24,7 @@ function ding_campaign_schema() {
       ),
       'type' => array(
         'type' => 'varchar',
-        'length' => 64,
-      ),
-      'keywords' => array(
-        'type' => 'varchar',
-        'length' => 512,
+        'length' => 128,
       ),
       'weight' => array(
         'type' => 'int',
@@ -61,6 +57,14 @@ function ding_campaign_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
+      ),
+      'rule' => array(
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 128,
       ),
     ),
     'primary key' => array('id'),

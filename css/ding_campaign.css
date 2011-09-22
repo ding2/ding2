@@ -13,3 +13,24 @@
 .ding-campaign-item-green {
   border: 3px solid green;
 }
+
+.ding-campaign-rule .clear {
+  clear: both;
+}
+
+.ding-campaign-rule .form-item {
+  margin: 0;
+  padding: 0;
+}
+
+.ding-campaign-rule .rule-type, .ding-campaign-rule .rule-value {
+  float: left;
+}
+
+.ding-campaign-rule .rule-type select, .ding-campaign-rule .rule-value input {
+  margin: 2px;
+}
+
+.ding-campaign-button-add {
+  margin-top: 10px;
+}
