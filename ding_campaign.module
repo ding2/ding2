@@ -158,13 +158,10 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     }
 
     if ($page_match) {
-      $campaigns[$v->cid] += 8;
+      @$campaigns[$v->cid] += 8;
     }
   }
 
-  var_dump($campaigns);
-
-  
   // Process search campaigns
   if ($context['search_term'] != NULL) {
     $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
@@ -187,6 +184,20 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   // @todo
   // Process generic campaigns
+  $q = db_query('SELECT r.cid
+    FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+    WHERE r.type = \'rule_generic\'
+      AND n.status = 1
+      AND r.cid = d.cid
+      AND r.cid = n.nid
+    ORDER BY d.weight DESC')
+    ->fetchAll();
+
+  foreach ($q as $k => $v) {
+    if (!isset($campaigns[$v->cid]) || $campaigns[$v->cid] == 0) {
+      $campaigns[$v->cid] = (mt_rand(1, 10) / 10);
+    }
+  }
 
   arsort($campaigns);
   return array_slice(array_keys($campaigns), $offset, $limit);
