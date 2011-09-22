@@ -15,13 +15,14 @@ projects[panels][version] = "3.0-alpha3"
 projects[securepages][subdir] = "contrib"
 projects[securepages][version] = "1.x-dev"
 
+projects[variable][subdir] = "contrib"
+projects[variable][version] = "1.1"
+
+; Ding!
 projects[ding_debt][type] = "module"
 projects[ding_debt][download][type] = "git"
 projects[ding_debt][download][url] = "git@github.com:ding2/ding_debt.git"
 projects[ding_debt][download][tag] = "v0.3"
-
-projects[variable][subdir] = "contrib"
-projects[variable][version] = "1.1"
 
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
