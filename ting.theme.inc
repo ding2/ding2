@@ -80,26 +80,26 @@ function template_preprocess_ting_object_details(&$variables) {
     );
   }
 
-  if (!empty($object->record['dc:language']['oss:spoken'])) {
+  if (!empty($object->record['dc:language']['dkdcplus:spoken'])) {
     $items[] = array(
       'data' => '<h4>' . t('Speech') . '</h4>',
-      'children' => $object->record['dc:language']['oss:spoken'],
+      'children' => $object->record['dc:language']['dkdcplus:spoken'],
       'class' => array('oss-spoken'),
     );
   }
 
-  if (!empty($object->record['dc:language']['oss:subtitles'])) {
+  if (!empty($object->record['dc:language']['dkdcplus:subtitles'])) {
     $items[] = array(
       'data' => '<h4>' . t('Subtitles') . '</h4>',
-      'children' => $object->record['dc:language']['oss:subtitles'],
+      'children' => $object->record['dc:language']['dkdcplus:subtitles'],
       'class' => array('oss-subtitles'),
     );
   }
 
-  if (!empty($object->record['dc:subject']['oss:genre'])) {
+  if (!empty($object->record['dc:subject']['dkdcplus:genre'])) {
     $items[] = array(
       'data' => '<h4>' . t('Genre') . '</h4>',
-      'children' => $object->record['dc:subject']['oss:genre'],
+      'children' => $object->record['dc:subject']['dkdcplus:genre'],
       'class' => array('oss-genre'),
     );
   }
@@ -127,34 +127,34 @@ function template_preprocess_ting_object_details(&$variables) {
     );
   }
 
-  if (!empty($object->record['dc:contributor']['oss:dkind'])) {
+  if (!empty($object->record['dc:contributor']['dkdcplus:dkind'])) {
     $items[] = array(
       'data' => '<h4>' . t('Reader') . '</h4>',
-      'children' => $object->record['dc:contributor']['oss:dkind'],
+      'children' => $object->record['dc:contributor']['dkdcplus:dkind'],
       'class' => array('oss-dkind'),
     );
   }
 
-  if (!empty($object->record['dc:contributor']['oss:act'])) {
+  if (!empty($object->record['dc:contributor']['dkdcplus:act'])) {
     $items[] = array(
       'data' => '<h4>' . t('Actor') . '</h4>',
-      'children' => $object->record['dc:contributor']['oss:act'],
+      'children' => $object->record['dc:contributor']['dkdcplus:act'],
       'class' => array('oss-act'),
     );
   }
 
-  if (!empty($object->record['dc:contributor']['oss:mus'])) {
+  if (!empty($object->record['dc:contributor']['dkdcplus:mus'])) {
     $items[] = array(
       'data' => '<h4>' . t('Musician') . '</h4>',
-      'children' => $object->record['dc:contributor']['oss:mus'],
+      'children' => $object->record['dc:contributor']['dkdcplus:mus'],
       'class' => array('oss-mus'),
     );
   }
 
-  if (!empty($object->record['dcterms:hasPart']['oss:track'])) {
+  if (!empty($object->record['dcterms:hasPart']['dkdcplus:track'])) {
     $items[] = array(
       'data' => '<h4>' . t('Contains') . '</h4>',
-      'children' => $object->record['dcterms:hasPart']['oss:track'],
+      'children' => $object->record['dcterms:hasPart']['dkdcplus:track'],
       'class' => array('oss-track'),
     );
   }
