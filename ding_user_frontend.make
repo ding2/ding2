@@ -33,3 +33,8 @@ projects[ding_reservation][type] = "module"
 projects[ding_reservation][download][type] = "git"
 projects[ding_reservation][download][url] = "git@github.com:ding2/ding_reservation.git"
 projects[ding_reservation][download][tag] = "v0.5"
+
+projects[ding_wayf][type] = "module"
+projects[ding_wayf][download][type] = "git"
+projects[ding_wayf][download][url] = "git@github.com:ding2/ding_wayf.git"
+projects[ding_wayf][download][tag] = "v0.1"
