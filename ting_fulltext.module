@@ -12,13 +12,14 @@
 function ting_fulltext_menu() {
   $items = array();
 
-  $items['ting/object/%ting_fulltext_object/fulltext'] = array(
-    'page callback' => 'ting_fulltext_page_view',
-    'page arguments' => array(2),
-    'access arguments' => array('access content'),
-    'file' => 'includes/ting_fulltext.pages.inc',
-    'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
-  );
+  $items['ting/object/%ting_fulltext_object/fulltext'] = 
+    array(
+	  'page callback' => 'ting_fulltext_page_view',
+	  'page arguments' => array(2),
+	  'access arguments' => array('access content'),
+	  'file' => 'includes/ting_fulltext.pages.inc',
+	  'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
+	  );
 
   return $items;
 }
@@ -27,53 +28,37 @@ function ting_fulltext_menu() {
  * Implements hook_theme
  */
 function ting_fulltext_theme($existing, $type, $theme, $path) {
-$render_array['ting_fulltext'] = 
-  array('template' => 'ting_fulltext_view',	     
-	'render element' => 'element',);
-return $render_array;
+  $render_array['ting_fulltext'] = 
+    array('template' => 'ting_fulltext_view',	     
+	  'render element' => 'element',);
+  return $render_array;
 }
 
 /**
- * Loader function to get the fulltext object.
+ * Loader function to get the fulltext object as raw data(xml)  for parsing.
  */
 function ting_fulltext_object_load($object_id) {
   if (empty($object_id)) {
     return FALSE;
   }
-
-  module_load_include('client.inc', 'ting');
-
-  // Check the cache first.
-  $object = ting_cache_get($object_id . ':FULLTEXT');
-  //$object = null;
-  if (!$object) {
+  $xml = ting_cache_get($object_id . ':FULLTEXT');
+  if( !$xml ) {
+    module_load_include('client.inc', 'ting');
     $request = ting_get_request_factory()->getObjectRequest();
     $request->setObjectId($object_id);
-    if ($agency = variable_get('ting_agency', FALSE)) {
-      $request->setAgency($agency);
-    }
-    $request->setParameter('format', 'docbook');
-    $request->setParameter('outputType', 'xml');
-    $object = ting_execute($request);
-
-    ting_cache_set($object_id . ':FULLTEXT', $object);
-  }  
-  
-  //pjo testing
-  //$obj2 = ting_cache_get($object_id);
-  //  var_dump($obj2);
-
-  return $object;
+    $request->setProfile(variable_get('ting_search_profile', ''));
+    $request->setFormat('docbook');
+    
+    $request->setObjectFormat('docbook');
+    
+    $request->setOutputType('xml');
+    $xml = ting_execute($request);
+    ting_cache_set($object_id . ':FULLTEXT', $xml);
+  }
+  return $xml;
 }
 
-/**
- * Implements hook_preprocess_html
- * load a stylesheet
- */
-function ting_fulltext_preprocess_html() {
-  drupal_add_css(drupal_get_path('module', 'ting_fulltext').'/ting_fulltext.css');
-}
- 
+
 /**
  * Preprocess variables for ting_relation.tpl.php.
  */
@@ -82,8 +67,9 @@ function ting_fulltext_preprocess_ting_relation(&$variables) {
   if (isset($relation->reply) &&
       is_array($relation->reply->formatsAvailable) &&
       in_array('docbook', $relation->reply->formatsAvailable)) {
-    $variables['content']['docbook_link'] = array(
-      '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),
-    );
+    $variables['content']['docbook_link'] = 
+      array(
+	    '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),	   
+	    );
   }
 }

@@ -7,39 +7,22 @@
 /**
  * Fulltext page view.
  */
-/*function ting_fulltext_page_view($object) {
-  $build = array();
-  
-  //var_dump($object);
-  
-  // Load XSL stylesheet and prepare it for using it for transformation.
-  $xsl = new DOMDocument();
-  $xsl->load(dirname(__FILE__) . '/docbook_transform.xsl', LIBXML_NOCDATA);
-  $xslt = new XSLTProcessor();
-  $xslt->importStylesheet($xsl);
-
-  // Render the document via XSLT transformation.
-  $doc = new DOMDocument();
-  $doc->loadXML($object);
-
-  $build['fulltext'] = array(
-    '#markup' => $xslt->transformToXML($doc),
-  );
-
-  return $build;
-  }*/
-
-
 function ting_fulltext_page_view($object) {
   // echo $object;
   $build['ting_fulltext'] = array(
     '#theme' => 'ting_fulltext',  
     '#fields' => ting_fulltext_parse($object),
+    '#attached' => 
+	    array('css' => array(drupal_get_path('module', 'ting_fulltext') . '/ting_fulltext.css'),),
   );
   //  print_r($build);
   return $build;
 }
 
+
+/**
+ * Parse given xml. Return an array holding selected values
+ */
 function ting_fulltext_parse($xml) {
   static $xpath;
   $ret = array();
@@ -64,13 +47,13 @@ function ting_fulltext_parse($xml) {
   if( $nodelist->length > 0 )
     (isset($nodelist->item(0)->nodeValue) ? $ret['surname'] = $nodelist->item(0)->nodeValue : $ret['surname'] = '');
   
-  //section (there can be more than one section, but i haven't seen more than one yet)
+  //section (there can be more than one section, but i haven't seen more than one yet); note title is not always set
   $query = '//docbook:section';
   $nodelist = $xpath->query($query);
   if( $nodelist->length > 0 ) {
     foreach($nodelist as $node) {
       $sections[] = 
-	array('title' => $node->getElementsByTagname('title')->item(0)->nodeValue,
+	array('title' => (isset($node->getElementsByTagname('title')->item(0)->nodeValue)) ? $node->getElementsByTagname('title')->item(0)->nodeValue : '',
 	      'para' => $node->getElementsByTagname('para')->item(0)->nodeValue);	      
     }
     $ret['section'] = $sections;
