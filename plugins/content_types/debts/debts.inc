@@ -79,7 +79,9 @@ function ding_debt_debts_form($form, &$form_state, $debts = array()) {
 
   $form['pay'] = array(
     '#type' => 'submit',
+    '#prefix' => '<div class="pay-button">',
     '#value' => t('Pay debts'),
+    '#suffix' => '</div>',
   );
 
   return $form;
