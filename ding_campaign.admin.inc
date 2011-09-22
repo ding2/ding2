@@ -63,8 +63,6 @@ function ding_campaign_rules_admin($node) {
  *   Campaign rules edit form
  */
 function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
-  $form = array();
-
   $form['ding_campaign_rules'] = array(
     '#type' => 'fieldset',
     '#title' => t('Campaign rules'),
@@ -78,7 +76,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
   // Display already created rules
   if (isset($node->camp_rule)) {
     for ($i = 0; $i < count($node->camp_rule); $i++) {
-      $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form(
+      $form['ding_campaign_rules']['rules'][$i] = ding_campaign_rule_form(
         isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
         isset($node->camp_type[$i]) ? $node->camp_type[$i] : NULL
       );
@@ -87,7 +85,6 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
   else {
     $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form();
   }
-  
   
   $form['ding_campaign_rules']['add_rule'] = array(
     '#type' => 'button',
@@ -125,6 +122,19 @@ function ding_campaign_add_rule($form, $form_state) {
   return $form['ding_campaign_rules']['rules'][0];
 }
 
+function ding_campaign_edit_rules_form_validate($form, &$form_state) {
+  /*for ($i = 0; $i < count($form_state['input']['rule_type']); $i++) {
+    if ($form_state['input']['rule_type'][$i] != 'rule_generic' && empty($form_state['input']['rule_value'][$i])) {
+      form_set_error('rule_value[]', t('Empty values are not allowed - :msg', array(':msg' => $form_state['input']['rule_type'][$i])));
+    }
+    elseif ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy') {
+      if (!preg_match('/^\[[tn]id:(\d+)\]$/', $form_state['input']['rule_value'][$i])) {
+        form_set_error('rule_value[]', t('Invalid value provided -  :msg', array(':msg' => $form_state['input']['rule_value'][$i])));
+      }
+    }
+  }*/
+}
+
 /**
  * Implements hook_FORM_ID_submit().
  */
@@ -148,7 +158,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
         }
 
         $dt = array(
-          'nid' => $nid,
+          'nid' => isset($nid[0]) ? $nid[0] : NULL,
           'cid' => $form_state['build_info']['args'][0]->nid,
           'rule' => ($form_state['input']['rule_type'][$i] == 'rule_generic') ? '' : $form_state['input']['rule_value'][$i],
           'type' => $form_state['input']['rule_type'][$i],

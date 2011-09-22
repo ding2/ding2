@@ -29,7 +29,7 @@ function ding_campaign_menu() {
     'page arguments' => array(1),
     'access arguments' => array('access administration pages'),
     'file' => 'ding_campaign.admin.inc',
-    //'type' => MENU_LOCAL_TASK,
+    'type' => MENU_CALLBACK,
     'weight' => 10,
   );
 
@@ -250,8 +250,6 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     }
   }
 
-  //var_dump($campaigns);
-
   arsort($campaigns);
   return array_slice(array_keys($campaigns), $offset, $limit);
 }
@@ -305,9 +303,6 @@ function ding_campaign_node_insert($node) {
     db_insert('ding_campaign')
       ->fields($dt)
       ->execute();
-
-    // @todo
-    // Insert rules
 
     return;
   }
@@ -482,12 +477,4 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools') {
     return 'plugins/' . $plugin;
   }
-}
-
-function dump_it($s) {
-  $f = DING_CAMPAIGN_PATH . '/dump.txt';
-  $h = fopen($f, 'wt');
-  ftruncate($h, 0);
-  fwrite($h, print_r($s, TRUE));
-  fclose($h);
 }
