@@ -13,7 +13,7 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
 
 projects[securepages][subdir] = "contrib"
-projects[securepages][version] = "1.9"
+projects[securepages][version] = "1.x-dev"
 
 projects[ding_debt][type] = "module"
 projects[ding_debt][download][type] = "git"
