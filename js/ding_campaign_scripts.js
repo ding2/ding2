@@ -45,6 +45,7 @@
               select_value);
           }
         }
+        $(this).parent().parent().parent().find('input.form-text').val('');
       });
 
       $('#ding-campaign-rules .ding-campaign-rule').each(function() {
