@@ -33,6 +33,16 @@ function ding_campaign_menu() {
     'weight' => 10,
   );
 
+  $items['ding_campaign/autocomplete/%'] = array(
+    'title' => 'Campaign rule autocomplete',
+    'description' => 'Autocomplete field for campaign rule values.',
+    'page callback' => 'ding_campaign_admin_autocomplete',
+    'page arguments' => array(2),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ding_campaign.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -205,7 +215,25 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     }
   }
 
-  // @todo
+  // Process taxonomy campaigns
+  if ($context['taxonomy_term'] != NULL) {
+    $tid = $context['taxonomy_term']->tid;
+    
+    $q = db_query('SELECT r.cid
+      FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+      WHERE r.nid = :tid
+        AND r.type = \'rule_taxonomy\'
+        AND n.status = 1
+        AND r.cid = d.cid
+        AND r.cid = n.nid
+      ORDER BY d.weight DESC', array(':tid' => (int)$tid))
+      ->fetchAll();
+
+    foreach ($q as $k => $v) {
+      @$campaigns[$v->cid] += 3;
+    }
+  }
+
   // Process generic campaigns
   $q = db_query('SELECT r.cid
     FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
@@ -222,7 +250,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     }
   }
 
-  var_dump($campaigns);
+  //var_dump($campaigns);
 
   arsort($campaigns);
   return array_slice(array_keys($campaigns), $offset, $limit);

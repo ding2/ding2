@@ -142,7 +142,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
       if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic') {
 
         $nid = NULL;
-        if ($form_state['input']['rule_type'][$i] == 'rule_page') {
+        if ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy') {
           $nid = array();
           preg_match('/\d{1,9}/', $form_state['input']['rule_value'][$i], $nid);
         }
@@ -181,6 +181,7 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
       'rule_page' => 'Page',
       'rule_path' => 'Path',
       'rule_term' => 'Search term',
+      'rule_taxonomy' => 'Taxonomy term',
       'rule_generic' => 'Generic',
     ),
     '#prefix' => '<div class="ding-campaign-rule"><div class="rule-type">',
@@ -195,7 +196,12 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#maxlength' => 24,
     '#prefix' => '<div class="rule-value">',
     '#suffix' => '</div><div class="clear"></div></div>',
+    '#autocomplete_path' => 'ding_campaign/autocomplete/567',
   );
 
   return $form;
+}
+
+function ding_campaign_admin_autocomplete($v) {
+  drupal_json_output(array('bastard' => $v));
 }

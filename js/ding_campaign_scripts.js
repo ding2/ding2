@@ -29,6 +29,12 @@
           $(this).parent().parent().parent().find('.rule-value').show();
         }
       });
+
+      $('#ding-campaign-rules .ding-campaign-rule').each(function() {
+        if ($(this).find('.rule-type select').selected().attr('value') == 'rule_generic') {
+          $(this).find('.rule-value').hide();
+        }
+      });
     }
   }
 })(jQuery);

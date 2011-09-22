@@ -11,7 +11,8 @@ $plugin = array(
   'defaults' => array('ding_campaign_count' => 3, 'ding_campaign_offset' => 0),
   'required context' => array(
       new ctools_context_optional(t('Page node'), 'node'),
-      new ctools_context_optional(t('Search term'), 'string')),
+      new ctools_context_optional(t('Search term'), 'string'),
+      new ctools_context_optional(t('Taxonomy term'), 'taxonomy_term')),
   'category' => t('Ding!'),
 );
 
@@ -23,6 +24,7 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
   $context_data = array(
     'page' => isset($context[0]->data) ? $context[0]->data : NULL,
     'search_term' => isset($context[1]->data) ? $context[1]->data : NULL,
+    'taxonomy_term' => isset($context[2]->data) ? $context[2]->data : NULL,
   );
   $count = $conf['ding_campaign_count'];
   $offset = $conf['ding_campaign_offset'];
