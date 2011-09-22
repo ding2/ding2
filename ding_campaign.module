@@ -29,11 +29,23 @@ function ding_campaign_menu() {
     'page arguments' => array(1),
     'access arguments' => array('access administration pages'),
     'file' => 'ding_campaign.admin.inc',
-    'type' => MENU_LOCAL_TASK,
+    //'type' => MENU_LOCAL_TASK,
     'weight' => 10,
   );
 
   return $items;
+}
+
+function ding_campaign_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if ($root_path == 'node/%/edit') {
+    $item = menu_get_item('node/' . arg(1) . '/campaign_rules');
+    if ($item['page_arguments'][0]->type == 'campaign') {
+      $data['actions']['output'][] = array(
+        '#theme' => 'menu_local_task',
+        '#link' => $item,
+      );
+    }
+  }
 }
 
 /**
@@ -178,8 +190,19 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       $condition = ' = \'' . $context['search_term'] . '\'';
     }
 
-    // @todo
-    // QUERY
+    $q = db_query('SELECT r.cid
+      FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+      WHERE r.type = \'rule_term\'
+        AND n.status = 1
+        AND r.cid = d.cid
+        AND r.cid = n.nid
+        AND r.rule ' . $condition . '
+      ORDER BY d.weight DESC')
+      ->fetchAll();
+
+    foreach ($q as $k => $v) {
+      @$campaigns[$v->cid] += 7;
+    }
   }
 
   // @todo
@@ -198,6 +221,8 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       $campaigns[$v->cid] = (mt_rand(1, 10) / 10);
     }
   }
+
+  var_dump($campaigns);
 
   arsort($campaigns);
   return array_slice(array_keys($campaigns), $offset, $limit);

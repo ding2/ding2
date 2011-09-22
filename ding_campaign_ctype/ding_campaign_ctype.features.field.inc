@@ -88,74 +88,6 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_keywords'
-  $fields['node-campaign-field_camp_keywords'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_camp_keywords',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(
-        'max_length' => '500',
-      ),
-      'translatable' => '0',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'campaign',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => 'Campaign keyword, linking to a specific search query.',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 6,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_camp_keywords',
-      'label' => 'Search keyword',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '6',
-      ),
-    ),
-  );
-
   // Exported field: 'node-campaign-field_camp_settings'
   $fields['node-campaign-field_camp_settings'] = array(
     'field_config' => array(
@@ -173,9 +105,8 @@ function ding_campaign_ctype_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          'full' => 'WYSIWYG with title',
+          'full' => 'WYSIWYG/Plain text',
           'image' => 'Image',
-          'plain' => 'Plain text',
         ),
         'allowed_values_function' => '',
       ),
@@ -186,7 +117,7 @@ function ding_campaign_ctype_field_default_fields() {
       'bundle' => 'campaign',
       'default_value' => array(
         0 => array(
-          'value' => 'plain',
+          'value' => 'full',
         ),
       ),
       'deleted' => '0',
@@ -288,72 +219,6 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_text_plain'
-  $fields['node-campaign-field_camp_text_plain'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_camp_text_plain',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'campaign',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '0',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_camp_text_plain',
-      'label' => 'Campaign text',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '2',
-      ),
-    ),
-  );
-
   // Exported field: 'node-campaign-field_camp_theme'
   $fields['node-campaign-field_camp_theme'] = array(
     'field_config' => array(
@@ -417,72 +282,6 @@ function ding_campaign_ctype_field_default_fields() {
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '7',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-campaign-field_camp_type'
-  $fields['node-campaign-field_camp_type'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_camp_type',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'page' => 'Page',
-          'search' => 'Search keywords',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'campaign',
-      'default_value' => array(
-        0 => array(
-          'value' => 'page',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 5,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_camp_type',
-      'label' => 'Campaign type',
-      'required' => 1,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_buttons',
-        'weight' => '5',
       ),
     ),
   );
@@ -574,12 +373,9 @@ function ding_campaign_ctype_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Campaign image');
-  t('Campaign keyword, linking to a specific search query.');
   t('Campaign settings');
   t('Campaign text');
   t('Campaign theme');
-  t('Campaign type');
-  t('Search keyword');
   t('Weight');
 
   return $fields;
