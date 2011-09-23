@@ -47,6 +47,10 @@ function ding_campaign_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_admin_paths().
+ * 
+ */
 function ding_campaign_admin_paths() {   
   $paths = array(
       'node/*/campaign_rules' => TRUE,      
