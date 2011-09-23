@@ -69,7 +69,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
   $num_rules = !empty($form_state['values']['howmany_select']) ? $form_state['values']['howmany_select'] : 0;
 
   $form['ding_campaign_rules'] = array(
-    '#title' => t("Generated Checkboxes"),
+    '#title' => '',
     '#prefix' => '<div id="ding-campaign-rules">',
     '#suffix' => '</div>',
     '#type' => 'fieldset',
