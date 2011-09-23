@@ -27,10 +27,11 @@ function ding_campaign_menu() {
     'description' => 'Edit campaign rules',
     'page callback' => 'ding_campaign_rules_admin',
     'page arguments' => array(1),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array(1),
     'file' => 'ding_campaign.admin.inc',
-    'type' => MENU_CALLBACK,
-    'weight' => 10,
+    'type' => MENU_LOCAL_TASK,
+    'access callback' => 'ding_campaign_node_access', 
+    'weight' => 2,
   );
 
   $items['ding_campaign/autocomplete/%'] = array(
@@ -46,16 +47,14 @@ function ding_campaign_menu() {
   return $items;
 }
 
-function ding_campaign_menu_local_tasks_alter(&$data, $router_item, $root_path) {
-  if ($root_path == 'node/%/edit') {
-    $item = menu_get_item('node/' . arg(1) . '/campaign_rules');
-    if ($item['page_arguments'][0]->type == 'campaign') {
-      $data['actions']['output'][] = array(
-        '#theme' => 'menu_local_task',
-        '#link' => $item,
-      );
-    }
+/**
+* Menu access callback.
+*/
+function ding_campaign_node_access($node) {
+  if ($node->type == 'campaign') {
+    return TRUE;
   }
+  return FALSE;
 }
 
 /**
