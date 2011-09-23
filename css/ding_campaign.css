@@ -29,6 +29,13 @@
 
 .ding-campaign-rule .rule-type select, .ding-campaign-rule .rule-value input {
   margin: 2px;
+  font-size: 10px;
+}
+.ding-campaign-rule select {
+  height: 24px;
+}
+.ding-campaign-rule .rule-value input {
+  height: 14px;
 }
 
 .ding-campaign-button-add {

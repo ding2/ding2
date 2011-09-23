@@ -47,6 +47,9 @@ function ding_campaign_configure($form, $form_state) {
  *   Campaign rules edit form
  */
 function ding_campaign_rules_admin($node) {
+   drupal_add_js(array('ding_campaing_init' => array(
+          'autocompleteUrl' => url('ding_campaign/autocomplete/'),
+          )), 'setting');
   return drupal_get_form('ding_campaign_edit_rules_form', $node);
 }
 
