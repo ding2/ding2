@@ -214,9 +214,9 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
 }
 /**
  * Autcomplete handler.
- * 
+ *
  * @param type $type
- * @param type $input 
+ * @param type $input
  */
 function ding_campaign_admin_autocomplete($type, $input) {
   $matches = array();

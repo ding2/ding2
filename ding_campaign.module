@@ -141,11 +141,11 @@ function ding_campaign_display($context, $count, $offset) {
 
 /**
  * Fetch campaign from database according to context.
- * 
+ *
  * @param type $context
  * @param type $limit
  * @param type $offset
- * @return type 
+ * @return type
  */
 function ding_campaign_get_campaigns($context, $limit, $offset) {
   $campaigns = array();
