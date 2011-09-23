@@ -66,44 +66,50 @@ function ding_campaign_rules_admin($node) {
  *   Campaign rules edit form
  */
 function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
+  $num_rules = !empty($form_state['values']['howmany_select']) ? $form_state['values']['howmany_select'] : 0;
+
   $form['ding_campaign_rules'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Campaign rules'),
-    '#description' => t('Assign display rules to this campaign.'),
-    '#collapsible' => FALSE,
-    '#collapsed' => TRUE,
+    '#title' => t("Generated Checkboxes"),
     '#prefix' => '<div id="ding-campaign-rules">',
     '#suffix' => '</div>',
+    '#type' => 'fieldset',
+    '#description' => t('This is where we get automatically generated checkboxes'),
   );
 
-  // Display already created rules
-  if (isset($node->camp_rule)) {
+  $c = 1;
+  if (isset($node->camp_rule) && is_array($node->camp_rule)) {
+    $c = count($node->camp_rule);
     for ($i = 0; $i < count($node->camp_rule); $i++) {
-      $form['ding_campaign_rules']['rules'][$i] = ding_campaign_rule_form(
-        isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
-        isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page'
-      );
+      $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(
+              isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL, 
+              isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page');
     }
   }
-  else {
-    $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form(NULL, 'rule_page');
+
+  for (; $i < $num_rules + $c; $i++) {
+    $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(NULL, 'rule_page');
   }
   
-  $form['ding_campaign_rules']['add_rule'] = array(
-    '#type' => 'button',
-    '#value' => 'Add another rule',
-    '#attributes' => array('class' => array('ding-campaign-button-add')),
-    '#ajax' => array(
-      'callback' => 'ding_campaign_add_rule',
-      'wrapper' => 'edit-add-rule',
-      'method' => 'before',
-      'effect' => 'slide',
-    )
+
+  $form['ding_campaign_rules']['howmany_select'] = array(
+    '#type' => 'hidden',
+    '#value' => $num_rules += 1,
   );
 
-  $form['ding_campaign_rules_save'] = array(
+  $form['ding_campaign_rules']['rule_add'] = array(
+    '#type' => 'button',
+    '#value' => 'More',
+    '#ajax' => array(
+      'callback' => 'ding_campaign_add_rule',
+      'wrapper' => 'edit-rule-add',
+      'method' => 'before',
+      'effect' => 'fade',
+    ),
+  );
+
+  $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Save rules',
+    '#value' => t('Save rules'),
   );
 
   $form['#submit'] = array('ding_campaign_campaign_rule_form_submit');
@@ -122,10 +128,9 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
  *   Form element - rule fields
  */
 function ding_campaign_add_rule($form, $form_state) {
-  $form['ding_campaign_rules']['rules'][0]['rule_value[]']['#value'] = '';
-  $form['ding_campaign_rules']['rules'][0]['rule_type[]']['#value'] = 'rule_page';
-
-  return $form['ding_campaign_rules']['rules'][0];
+  $c = count(element_children($form['ding_campaign_rules']['rules']));
+  dump_it($c);
+  return $form['ding_campaign_rules']['rules']['rule_' . ($c - 1)];
 }
 
 function ding_campaign_edit_rules_form_validate($form, &$form_state) {
@@ -243,4 +248,12 @@ function ding_campaign_admin_autocomplete($type, $input) {
   }
 
   drupal_json_output($matches);
+}
+
+function dump_it($s) {
+  $f = DING_CAMPAIGN_PATH . '/dump.txt';
+  $h = fopen($f, 'wt');
+  ftruncate($h, 0);
+  fwrite($h, print_r($s, TRUE));
+  fclose($h);
 }
