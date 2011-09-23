@@ -78,12 +78,12 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     for ($i = 0; $i < count($node->camp_rule); $i++) {
       $form['ding_campaign_rules']['rules'][$i] = ding_campaign_rule_form(
         isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
-        isset($node->camp_type[$i]) ? $node->camp_type[$i] : NULL
+        isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page'
       );
     }
   }
   else {
-    $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form();
+    $form['ding_campaign_rules']['rules'][] = ding_campaign_rule_form(NULL, 'rule_page');
   }
   
   $form['ding_campaign_rules']['add_rule'] = array(
@@ -119,6 +119,9 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
  *   Form element - rule fields
  */
 function ding_campaign_add_rule($form, $form_state) {
+  $form['ding_campaign_rules']['rules'][0]['rule_value[]']['#value'] = '';
+  $form['ding_campaign_rules']['rules'][0]['rule_type[]']['#value'] = 'rule_page';
+
   return $form['ding_campaign_rules']['rules'][0];
 }
 
