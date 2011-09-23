@@ -38,7 +38,7 @@ Drupal.ding_popup = {
             if (response['refresh']) {
               window.location.reload(true);
             }
-          },
+          }
       });
     }
     this.dialogs[response.name].dialog('option', {'title': response.title});
@@ -49,7 +49,7 @@ Drupal.ding_popup = {
 
   open: function(response) {
     if (this.states[response.name] == undefined) {
-      this.states[response.name] = []
+      this.states[response.name] = [];
     }
     if (response['resubmit']) {
       this.states[response.name].push(response);
