@@ -72,8 +72,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     '#title' => '',
     '#prefix' => '<div id="ding-campaign-rules">',
     '#suffix' => '</div>',
-    '#type' => 'fieldset',
-    '#description' => t('This is where we get automatically generated checkboxes'),
+    '#description' => '',
   );
 
   $i = 0;
