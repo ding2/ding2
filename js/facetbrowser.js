@@ -30,7 +30,7 @@
   Drupal.facetbrowser.idToAttributeString = function(id) {
     // replace spaces with dashes and strip all characters which are not dash, underscore, or in the ranges a-z or 0-9
     return id.replace(/ /g, '-').replace(/[^a-z0-9-_]/g,'');
-  }
+  };
 
   Drupal.facetbrowser.eventHandlerDFOperateClick = function(event) {
     var $target = $(event.target);
@@ -92,7 +92,7 @@
     Drupal.CheckHashedFacets();
     // $('.pane-ding-facetbrowser').hide();
     $('.search-results').hide();
-    var hasfacets = location.hash != '';
+    var hasfacets = location.hash != null;
     var firstsearch = Drupal.facetbrowser.clicking === undefined;
 
     if (!firstsearch || hasfacets) {
@@ -128,7 +128,7 @@
           var filter_func = function(index) {
                               var r = new RegExp(id_string + "(--[0-9]+)?$");
                               return $(this).attr('id').match(r);
-                            }
+                            };
           var id = $('.pane-ding-facetbrowser input[id^="edit-' + facet_type[1] + '-' + id_string + '"]').filter(filter_func);
           id.attr('checked', true);
         }
