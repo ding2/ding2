@@ -70,9 +70,9 @@ function ding_campaign_node_access($node) {
 function ding_campaign_theme($existing, $type, $theme, $path) {
   $hooks = array();
 
-  $hooks['ding_campaign_red'] = array(
+  $hooks['ding_campaign_orange'] = array(
     'variables' => array('content' => NULL),
-    'template' => 'ding_campaign-red',
+    'template' => 'ding_campaign-orange',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
   );
 
@@ -85,6 +85,12 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
   $hooks['ding_campaign_blue'] = array(
     'variables' => array('content' => NULL),
     'template' => 'ding_campaign-blue',
+    'path' => DING_CAMPAIGN_PATH . '/templates/',
+  );
+
+  $hooks['ding_campaign_pink'] = array(
+    'variables' => array('content' => NULL),
+    'template' => 'ding_campaign-pink',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
   );
 
@@ -128,14 +134,17 @@ function ding_campaign_display($context, $count, $offset) {
       // Select the theme for campaign
       $theme = '';
       switch ($node->field_camp_theme['und'][0]['value']) {
-        case 'theme_red':
-          $theme = 'ding_campaign_red';
+        case 'theme_orange':
+          $theme = 'ding_campaign_orange';
           break;
         case 'theme_blue':
           $theme = 'ding_campaign_blue';
           break;
         case 'theme_green':
           $theme = 'ding_campaign_green';
+          break;
+        case 'theme_pink':
+          $theme = 'ding_campaign_pink';
           break;
       }
 
@@ -148,11 +157,11 @@ function ding_campaign_display($context, $count, $offset) {
 
 /**
  * Fetch campaign from database according to context.
- * 
+ *
  * @param type $context
  * @param type $limit
  * @param type $offset
- * @return type 
+ * @return type
  */
 function ding_campaign_get_campaigns($context, $limit, $offset) {
   $campaigns = array();

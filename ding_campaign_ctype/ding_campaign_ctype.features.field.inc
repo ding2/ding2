@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_field_default_fields().
+ * Implements hook_field_default_fields().
  */
 function ding_campaign_ctype_field_default_fields() {
   $fields = array();
@@ -304,9 +304,10 @@ function ding_campaign_ctype_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
+          'theme_orange' => 'Orange',
           'theme_blue' => 'Blue',
           'theme_green' => 'Green',
-          'theme_red' => 'Red',
+          'theme_pink' => 'Pink',
         ),
         'allowed_values_function' => '',
       ),
@@ -317,7 +318,7 @@ function ding_campaign_ctype_field_default_fields() {
       'bundle' => 'campaign',
       'default_value' => array(
         0 => array(
-          'value' => 'theme_red',
+          'value' => 'theme_orange',
         ),
       ),
       'deleted' => '0',

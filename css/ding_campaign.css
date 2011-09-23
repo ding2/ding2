@@ -2,16 +2,20 @@
   padding: 5px;
 }
 
-.ding-campaign-item-red {
-  border: 3px solid red;
+.ding-campaign-item-orange {
+  background-color: #e94928;
 }
 
 .ding-campaign-item-blue {
-  border: 3px solid blue;
+  background-color: #9a9e0;
 }
 
 .ding-campaign-item-green {
-  border: 3px solid green;
+  background-color: #4eaa47;
+}
+
+.ding-campaign-item-pink {
+  background-color: #d51578;
 }
 
 .ding-campaign-rule .clear {
