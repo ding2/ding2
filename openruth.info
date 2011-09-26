@@ -5,4 +5,4 @@ package = Ding!
 dependencies[] = ding_provider
 files[] = openruth.module
 files[] = openruth.test
-version = 0.4
+version = "0.5"
