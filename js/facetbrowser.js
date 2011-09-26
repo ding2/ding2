@@ -92,7 +92,7 @@
     Drupal.CheckHashedFacets();
     // $('.pane-ding-facetbrowser').hide();
     $('.search-results').hide();
-    var hasfacets = location.hash != null;
+    var hasfacets = !$.isEmptyObject($.bbq.getState());
     var firstsearch = Drupal.facetbrowser.clicking === undefined;
 
     if (!firstsearch || hasfacets) {
