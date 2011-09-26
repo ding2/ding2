@@ -29,7 +29,7 @@ function ting_relation_inline() {
   if (!$types) {
     $types = array(
       'dbcaddi:hasCreatorDescription' => t('Author portrait'),
-      'hasReview' => t('Review'),
+      'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
       'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
     );
