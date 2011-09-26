@@ -4,3 +4,6 @@ package = Ding!
 core = 7.x
 dependencies[] = panels
 dependencies[] = taxonomy
+dependencies[] = views
+dependencies[] = workbench
+
