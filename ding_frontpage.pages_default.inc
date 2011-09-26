@@ -15,7 +15,7 @@ function ding_frontpage_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding frontpage';
   $page->admin_description = 'Front page.';
-  $page->path = 'ding-frontpage';
+  $page->path = 'ding_frontpage';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array();
