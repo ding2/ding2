@@ -78,7 +78,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
           '#theme' => 'ting_relation',
           '#relation' => $relation,
           '#object' => $relation->object,
-          '#title' => $relation_types[$relation->type],
+          '#title' => $relation_types[$relation->type],	  
           '#attached' => array(
             'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
           ),
@@ -88,3 +88,20 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   }
   return $element;
 }
+
+function ting_relation_get_contributors($relation) {
+  $contributors = $relation->object->contributors;
+  if(!isset($contributors))
+    return false;
+
+  $ret = '';
+  foreach( $contributors as $key => $name ) {
+    if( strlen($ret) > 0 )
+      $ret .= ', ';
+    $ret .= $name;
+  }
+
+  return $ret;
+}
+
+

@@ -2,3 +2,8 @@
 .ting-relation {
     background-color: #F6F6F2;
 }
+
+div.ting-relation-meta {
+    background-color:#CCCCCC;
+    padding-left:0.5em;
+}
