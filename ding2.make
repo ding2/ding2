@@ -50,6 +50,20 @@ projects[mkdru_ding_frontend][type] = "module"
 projects[mkdru_ding_frontend][download][type] = "git"
 projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2/mkdru_ding_frontend.git"
 
+; CMS modules (Curate)
+
+projects[ding_content][type] = module
+projects[ding_content][download][type] = git
+projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
+
+projects[ding_frontpage][type] = module
+projects[ding_frontpage][download][type] = git
+projects[ding_frontpage][download][url] = git@github.com:ding2/ding_frontpage.git
+
+projects[ding_news][type] = module
+projects[ding_news][download][type] = git
+projects[ding_news][download][url] = git@github.com:ding2/ding_news.git
+
 ; Libraries
 projects[pazpar2][download][type] = "git"
 projects[pazpar2][type] = "library"

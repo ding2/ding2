@@ -15,4 +15,10 @@ dependencies[] = translation
 dependencies[] = mkdru
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
+
+; CMS (Curate)
+dependencies[] = ding_frontpage
+dependencies[] = ding_news
+
 files[] = ding2.profile
+
