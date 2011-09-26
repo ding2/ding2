@@ -41,6 +41,23 @@ class TingEntity extends DingEntity {
   public $ac_source = DingEntityBase::NULL;
   public $description = DingEntityBase::NULL;
 
+  //pjo 26-09-11 added contributor
+  public $contributors = DingEntityBase::NULL;
+
+  // pjo 26-09-11 ; get method contributor
+  function getContributors() {
+    $this->contributors = array();
+    if( !empty($this->reply->record['dc:contributor']) ) {
+      foreach($this->reply->record['dc:contributor'] as $type => $dc_contributor ) {
+        if( $type != 'oss:sort' ) {
+          $this->contributors = array_merge($this->contributors, $dc_contributor);
+        }
+      }
+    }
+    return $this->contributors;
+  }
+
+
   function getLocalId() {
     return !empty($this->reply->localId) ? $this->reply->localId : FALSE;
   }
