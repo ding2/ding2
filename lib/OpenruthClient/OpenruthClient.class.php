@@ -122,6 +122,7 @@ class OpenruthClient {
           'reservable' => $reservable,
           'show_reservation_button' => $reservable,
           'holdings' => array(),
+          'holdings_available' => array(),
           'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
           'issues' => array(),
         );
@@ -159,6 +160,9 @@ class OpenruthClient {
                   }
                   if ($parts) {
                     $h['holdings'][] = join(' → ', $parts);
+                  }
+                  if ($parts && $available) {
+                    $h['holdings_available'][] = join(' → ', $parts);
                   }
                 }
               }
