@@ -12,14 +12,6 @@ projects[ding_devel][download][type] = "git"
 projects[ding_devel][download][url] = "git@github.com:ding2/ding_devel.git"
 projects[ding_devel][download][tag] = "v0.1"
 
-projects[mkdru][subdir] = "contrib"
-projects[mkdru][version] = "1.1"
-
-projects[mkdru_ding][type] = "module"
-projects[mkdru_ding][download][type] = "git"
-projects[mkdru_ding][download][url] = "git://github.com/indexdata/mkdru_ding.git"
-projects[mkdru_ding][download][branch] = "7.x-1.x"
-
 projects[openruth][type] = "module"
 projects[openruth][download][type] = "git"
 projects[openruth][download][url] = "git@github.com:ding2/openruth.git"
