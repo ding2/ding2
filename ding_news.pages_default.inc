@@ -15,7 +15,7 @@ function ding_news_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding news';
   $page->admin_description = '';
-  $page->path = 'ding-news';
+  $page->path = 'news';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
