@@ -6,6 +6,12 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
 
+projects[date][subdir] = "contrib"
+projects[date][version] = "2.0-alpha4"
+
+projects[features][subdir] = contrib
+projects[features][version] = 1.0-beta3
+
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.0"
 
@@ -18,7 +24,7 @@ projects[securepages][version] = "1.x-dev"
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "1.1"
 
-; Ding!
+; Ding! modules
 projects[ding_debt][type] = "module"
 projects[ding_debt][download][type] = "git"
 projects[ding_debt][download][url] = "git@github.com:ding2/ding_debt.git"
