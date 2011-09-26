@@ -34,7 +34,7 @@ projects[ting_search][download][tag] = "v0.3"
 projects[ting_search_autocomplete][type] = "module"
 projects[ting_search_autocomplete][download][type] = "git"
 projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_search_autocomplete.git"
-projects[ting_search_autocomplete][download][tag] = "v0.3"
+projects[ting_search_autocomplete][download][tag] = "v0.4"
 
 projects[ding_availability][type] = "module"
 projects[ding_availability][download][type] = "git"
