@@ -27,7 +27,7 @@ projects[ding_debt][download][tag] = "v0.3"
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
 projects[ding_loan][download][url] = "git@github.com:ding2/ding_loan.git"
-projects[ding_loan][download][tag] = "v0.5"
+projects[ding_loan][download][tag] = "v0.6"
 
 projects[ding_reservation][type] = "module"
 projects[ding_reservation][download][type] = "git"
