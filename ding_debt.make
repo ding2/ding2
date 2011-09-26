@@ -14,7 +14,7 @@ projects[ding_dibs][download][tag] = "v0.2"
 projects[ding_popup][type] = module
 projects[ding_popup][download][type] = git
 projects[ding_popup][download][url] = git@github.com:ding2/ding_popup.git
-projects[ding_popup][download][tag] = "v0.1"
+projects[ding_popup][download][tag] = "v0.2"
 
 projects[ding_user][type] = module
 projects[ding_user][download][type] = git
