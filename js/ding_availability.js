@@ -50,7 +50,8 @@
           }
           else {
             // Update holding information.
-            updateHoldings(id, entity_ids);
+            // updateHoldings(id, entity_ids);
+            updateHoldingsAvailable(id, entity_ids);
           }
         });
       }
@@ -103,6 +104,22 @@
           }
         }
       }
+
+      function updateHoldingsAvailable(id, entity_ids) {
+        var entity_id = entity_ids.pop();
+        if (Drupal.DADB[entity_id] !== undefined && Drupal.DADB[entity_id]['holdings'] !== undefined) {
+          var holdings = Drupal.DADB[entity_id]['holdings_available'];
+          if (holdings.length > 0) {
+            $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
+            $('#' + id).append('<ul>');
+            var container = $('#' + id + ' ul');
+            $.each(holdings, function(i, holding) {
+              container.append('<li>' + holding + '</li>');
+            });
+          }
+        }
+      }
+
     }
   };
 
