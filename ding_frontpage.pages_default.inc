@@ -74,8 +74,8 @@ function ding_frontpage_default_page_manager_pages() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => 'ding-news',
-      'display' => 'ctools_context_1',
+      'url' => '',
+      'display' => 'ctools_context_teaser_list',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -88,7 +88,7 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
