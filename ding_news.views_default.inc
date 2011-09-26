@@ -13,7 +13,7 @@ function ding_news_views_default_views() {
   $view = new view;
   $view->name = 'ding_news';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'ding_news';
   $view->base_table = 'node';
   $view->human_name = 'Ding news';
   $view->core = 7;
@@ -101,8 +101,8 @@ function ding_news_views_default_views() {
     'ding_news' => 'ding_news',
   );
 
-  /* Display: List of 4 news */
-  $handler = $view->new_display('ctools_context', 'List of 4 news', 'ctools_context_1');
+  /* Display: Teaser list */
+  $handler = $view->new_display('ctools_context', 'Teaser list', 'ctools_context_teaser_list');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '4';
@@ -177,7 +177,7 @@ function ding_news_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('List of 4 news'),
+    t('Teaser list'),
     t('more'),
     t('Feed'),
   );
