@@ -69,7 +69,7 @@ function ding_frontpage_default_page_manager_pages() {
       'nodes_per_page' => '4',
       'pager_id' => '0',
       'offset' => '0',
-      'more_link' => 1,
+      'more_link' => 0,
       'feed_icons' => 0,
       'panel_args' => 0,
       'link_to_view' => 0,
@@ -79,7 +79,14 @@ function ding_frontpage_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_frontpage:page_ding_frontpage_panel_context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -88,6 +95,40 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'campaign';
+    $pane->subtype = 'campaign';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ding_campaign_count' => 3,
+      'ding_campaign_offset' => 0,
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_frontpage:page_ding_frontpage_panel_context',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
