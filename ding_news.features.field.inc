@@ -224,6 +224,57 @@ function ding_news_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_news-ding_news_materials'
+  $fields['node-ding_news-ding_news_materials'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_news_materials',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_news',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ting_reference',
+          'settings' => array(),
+          'type' => 'ting_reference_teaser',
+          'weight' => 5,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_news_materials',
+      'label' => 'Materials',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'ting_reference',
+        'settings' => array(),
+        'type' => 'ting_reference_simple',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_news-ding_news_teaser'
   $fields['node-ding_news-ding_news_teaser'] = array(
     'field_config' => array(
@@ -292,32 +343,51 @@ function ding_news_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_news-ding_news_materials'
-  $fields['node-ding_news-ding_news_materials'] = array(
+  // Exported field: 'node-ding_news-ding_content_tags'
+  $fields['node-ding_news-ding_content_tags'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'ding_news_materials',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'ting_reference',
-      'settings' => array(),
+      'field_name' => 'ding_content_tags',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'parent' => '0',
+            'vocabulary' => 'ding_content_tags',
+          ),
+        ),
+      ),
       'translatable' => '0',
-      'type' => 'ting_reference',
+      'type' => 'taxonomy_term_reference',
     ),
     'field_instance' => array(
       'bundle' => 'ding_news',
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'ting_reference',
+          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'ting_reference_teaser',
-          'weight' => 5,
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 6,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -327,18 +397,21 @@ function ding_news_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'ding_news_materials',
-      'label' => 'Materials',
+      'field_name' => 'ding_content_tags',
+      'label' => 'Tags',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'ting_reference',
-        'settings' => array(),
-        'type' => 'ting_reference_simple',
-        'weight' => '5',
+        'module' => 'taxonomy',
+        'settings' => array(
+          'autocomplete_path' => 'taxonomy/autocomplete',
+          'size' => 60,
+        ),
+        'type' => 'taxonomy_autocomplete',
+        'weight' => '6',
       ),
     ),
   );
@@ -349,6 +422,7 @@ function ding_news_field_default_fields() {
   t('Category');
   t('Image');
   t('Materials');
+  t('Tags');
   t('Teaser');
 
   return $fields;

@@ -7,7 +7,7 @@
 /**
  * Implements hook_enable().
  *
- * Create taxonomy term if needed.
+ * Create taxonomy vocabolary if needed.
  */
 function ding_news_enable() {
   if (!taxonomy_vocabulary_machine_name_load('ding_news')) {
