@@ -56,9 +56,17 @@ projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
 
+projects[ding_campaign][type] = module
+projects[ding_campaign][download][type] = git
+projects[ding_campaign][download][url] = git@github.com:ding2/ding_campaign.git
+
 projects[ding_frontpage][type] = module
 projects[ding_frontpage][download][type] = git
 projects[ding_frontpage][download][url] = git@github.com:ding2/ding_frontpage.git
+
+projects[ding_library][type] = module
+projects[ding_library][download][type] = git
+projects[ding_library][download][url] = git@github.com:ding2/ding_library.git
 
 projects[ding_news][type] = module
 projects[ding_news][download][type] = git
