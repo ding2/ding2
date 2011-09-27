@@ -14,44 +14,6 @@ function ding_facetbrowser_block_info() {
 }
 
 /**
- * Implements hook_menu()
- */
-function ding_facetbrowser_menu() {
-  $items['ding_facetbrowser/ajax'] = array(
-    'title' => 'ding_facetbrowser_ajax_callback',
-    'page callback' => 'ding_facetbrowser_ajax',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-
-  return $items;
-}
-
-
-/**
- * Custom ajax callback.
- *
- * Need this to execute the ting_search on page load,
- * if a facet is selected, ex. from a bookmark.
- */
-function ding_facetbrowser_ajax() {
-  $facets = str_replace(array('&', '=', '+'), array(';', ':', ' '), $_GET['facets']);
-  $search_result = theme('ting_search_results', array('results' => ting_search_search_execute(rawurldecode($_GET['keyword']), array('facets' => $facets))));
-  // Get cached search results.
-  // Used when generating the facet browser.
-  $ting_search_results = drupal_static('ting_search_results');
-
-  // Generate the facetbrowser
-  $facet_browser  = drupal_render(drupal_get_form('ding_facetbrowser_form', $ting_search_results->facets, 'harry' ));
-
-  // output the search results
-  print json_encode(array(
-    'search_results' => $search_result,
-    'facet_browser' => $facet_browser,
-  ));
-}
-
-/**
  * Implements hook_theme()
  *
  * @return array
@@ -99,6 +61,8 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
  * @return array $form
  */
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = FALSE) {
+  global $base_root;
+
   $checkboxes         = array();
   $default_values     = array();
   $form['search_key'] = array(
@@ -118,17 +82,22 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
         foreach ($facet->terms as $term_name => $term_count) {
           $facet_name             = explode('.', $facet->name);
           $element_name           = end($facet_name);
-          $checkboxes[$term_name] = $term_name . ($term_name !== $term_count ? ' <span class="term_count">(' . $term_count . ')</span>' : FALSE);
+          $facets_string = $facet->name . ':' . $term_name;
+          if (_isFacetSet($facet->name, $term_name) === TRUE) {
+            $default_values[]       = $term_name;
+            $facets_string = '-' . $facets_string;
+          }
+          $checkboxes[$term_name] = l($term_name,  $base_root . _parseRequestUri(), array(
+            'html' => TRUE,
+            'query' => array(
+              'facets' => array('' => $facets_string),
+            )
+          ));
 
           $form[$facet->name][$element_name] = array(
             '#type'          => 'checkboxes',
             '#options'       => $checkboxes,
             '#default_value' => $default_values,
-            '#ajax' => array(
-              'callback' => '_ajax_search',
-              'wrapper'  => '.pane-ding-facetbrowser',
-              'method'   => 'replace',
-            ),
           );
         }
       }
@@ -142,42 +111,60 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
       $default_values = array();
     }
 
-    if (count($form) == TRUE && empty($_COOKIE['has_js'])) {
-      $form['submit'] = array(
-        '#type'  => 'submit',
-        '#value' => 'Submit',
-      );
-    }
   }
 
   return $form;
 }
 
 /**
- * AJAX Callback function for ding_facetbrowser_form.
- * Parse searchresults to various page containers
+ * Check if selected facet from url matches the one from params.
  *
- * @param array $form
- * @param array $form_state
- * @return array
+ * @param String $term_cat
+ * @param String $term_name
+ * @return Boolean
  */
-function _ajax_search($form, $form_state) {
-  $commands                            = array();
-  $search_key                          = $form['search_key']['#value'];
-  $results                             = ting_search_search_execute($search_key, array('facets' => _facetString($form_state)));
-  $search_results                      = drupal_static('ting_search_results');
-  if (!$search_results) {
-    // @todo search crapped, what do we do?
-    return;
+
+function _isFacetSet($term_cat, $term_name) {
+  $facets = &drupal_static('ding_facetbrowser_facets');
+  if (!isset($facets)) {
+    $new_query_part = array();
+    $request_uri_parts = explode('?', request_uri());
+    $facets = explode('&', rawurldecode(end($request_uri_parts)));
+    drupal_static('ding_facetbrowser_facets', $facets);
   }
-  $form_state['build_info']['args'][0] = $search_results->facets;
-  $facets_formatted                    = drupal_render(drupal_rebuild_form('ding_facetbrowser_form', $form_state ));
-  $results_formatted                   = theme('ting_search_results', array('results' => $results));
+  foreach ($facets as $facet) {
+    if (stristr($facet, $term_cat . ':' . $term_name)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
 
-  $commands[] = ajax_command_html('.pane-ding-facetbrowser', $facets_formatted);
-  $commands[] = ajax_command_html('.search-results', $results_formatted);
+/**
+ * Check the URI and drop pager parameter, if available.
+ *
+ * @return String
+ */
+function _parseRequestUri() {
+  $new_query_part = array();
+  if (stristr('?', request_uri())) {
+    $request_uri_parts = explode('?', request_uri());
 
-  return array('#type' => 'ajax', '#commands' => $commands);
+    $query = rawurldecode(end($request_uri_parts));
+    $query_parts = explode('&', $query);
+    foreach ($query_parts as $key => $part) {
+      if (preg_match('/^page\=/', $part)) {
+        unset($query_parts[$key]);
+        continue;
+      }
+      $new_query_part[] = $part;
+    }
+    $query = $new_query_part;
+    return $request_uri_parts[0] . '?' . implode('&', $query);
+  }
+  else {
+    return request_uri();
+  }
 }
 
 /**
@@ -201,28 +188,6 @@ function _facetString($form_state = NULL) {
   }
   return implode(';', $facets);
 }
-
-/**
- * Implements a validate handler for ding_facetbrowser_form().
- *
- * @param array $form
- * @param array $form_state
- * @return void
- */
-function ding_facetbrowser_form_validate($form, &$form_state) { }
-
-/**
- * Implements a submit handler for ding_facetbrowser_form()
- *
- * @param array $form
- * @param array $form_state
- * @return void
- */
-function ding_facetbrowser_form_submit($form, &$form_state) {
-  $string = _facetString($form_state);
-  drupal_goto(implode('/', arg()), array('query' => array('facets' => $string)));
-}
-
 
 /**
  * facetbrowser theme function
@@ -252,7 +217,6 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $content_in_facet       = FALSE;
   $executed_search_module = FALSE;
 
-  drupal_add_js('misc/jquery.ba-bbq.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
   drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
   // TODO: Get the facetbrowser dom id automatic
@@ -292,71 +256,3 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   return $block;
 }
 
-/**
- * Implements hook_ding_facetbrowser() from the apachesolr_search module
- * to prevent from hacking in contrib module.
- *
- * @return object
- */
-function apachesolr_search_ding_facetbrowser() {
-  $return_object = new stdClass();
-  $facets = $facet_terms = array();
-  $fields = array(
-    1 => 'tags',
-    2 => 'category',
-  );
-
-  if (apachesolr_has_searched()) {
-    $results = _apachesolr_static_result();
-    foreach ($results as $result) {
-      $node = node_load($result->nid);
-      if ($node instanceof stdClass) {
-        foreach ($fields as $vocab_id => $vocab_name) {
-          $field_name = 'field_' . $vocab_name;
-          if (is_array($node->$field_name) && count($node->$field_name) == TRUE) {
-            foreach ($node->$field_name as $taxonomy) {
-              if (is_array($taxonomy)) {
-                foreach ($taxonomy as $term) {
-                  $term_data = taxonomy_term_load_multiple(array($term['tid']));
-                  $facet_terms[$vocab_name][$term_data[$term['tid']]->name] = $term_data[$term['tid']]->name;
-                }
-                $facets[$vocab_name] = (object)array(
-                  'name'  => $field_name,
-                  'terms' => $facet_terms[$vocab_name],
-                );
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  $return_object->facets = $facets;
-  $return_object->show_empty = FALSE;
-  return $return_object;
-}
-
-/**
- * Implements hook_apachesolr_search_result_alter().
- * Save the search result in a static variable to be able to use it in blocks and so on.
- *
- * @param object $doc
- * @return void
- */
-function ding_facetbrowser_apachesolr_search_result_alter(&$doc) {
-  _apachesolr_static_result($doc);
-}
-
-/*
- * Save the search result as in static variable
- *
- * @param object $result
- * @return array
- */
-function _apachesolr_static_result($result = FALSE) {
-  static $search_result = array();
-  if ($result instanceof stdClass) {
-    $search_result[] = $result;
-  }
-  return $search_result;
-}
