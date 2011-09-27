@@ -74,7 +74,7 @@ function ding_frontpage_default_page_manager_pages() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => '',
+      'url' => 'news',
       'display' => 'ctools_context_teaser_list',
       'override_title' => 0,
       'override_title_text' => '',
