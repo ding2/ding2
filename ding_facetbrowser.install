@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Implement hook_requirements():
+ */
+function ding_facetbrowser_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $requirements['ding_facetbrowser'] = array(
+      'title' => t('Ding facetbrowser'),
+      'value' => t('One or more facetgroups have been translated.'),
+    );
+    if (variable_get('ding_facetbrowser_facets', FALSE) == FALSE) {
+      $requirements['ding_facetbrowser']['value'] = t('No facetgroups have been translated. Go to <a href="!link">Settings</a>.', array('!link' => '/admin/config/ting/facets'));
+      $requirements['ding_facetbrowser']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+  return $requirements;
+}
+

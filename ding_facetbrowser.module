@@ -14,6 +14,32 @@ function ding_facetbrowser_block_info() {
 }
 
 /**
+ * Implements hook_menu()
+ */
+function ding_facetbrowser_menu() {
+  $items['admin/config/ting/facets'] = array(
+    'title' => 'Ting facets',
+    'description' => 'Configure facets.',
+    'weight' => -20,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_facetbrowser_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ding_facetbrowser.admin.inc',
+  );
+
+  $items['admin/config/ting/facets/%/delete'] = array(
+    'title' => 'Delete facets',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_facetbrowser_delete_facet', 4),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ding_facetbrowser.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_theme()
  *
  * @return array
@@ -25,6 +51,10 @@ function ding_facetbrowser_theme() {
        'facets'    => NULL,
        'searchkey' => NULL,
      ),
+    ),
+   'ding_facetbrowser_settings' => array(
+     'render element' => 'form',
+     'file' => 'ding_facetbrowser.admin.inc',
     ),
   );
 }
@@ -69,16 +99,18 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     '#type'  => 'hidden',
     '#value' => $search,
   );
-  if (count($facets) == TRUE) {
-    foreach ($facets as $facet) {
-      if (count($facet) == TRUE) {
+
+  foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
+    if (isset($facets[$configured_facet['name']])) {
+      $facet = $facets[$configured_facet['name']];
+
+      if (count($facet->terms) > 0) {
         $form[$facet->name] = array(
           '#type'        => 'fieldset',
-          '#title'       => t($facet->name),
+          '#title'       => $configured_facet['title'],
           '#attributes'  => array('id' => str_replace('.', '-', $facet->name), 'data' => array($facet->name)),
         );
-      }
-      if (is_object($facet) && count($facet->terms) == TRUE) {
+
         foreach ($facet->terms as $term_name => $term_count) {
           $facet_name             = explode('.', $facet->name);
           $element_name           = end($facet_name);
@@ -101,17 +133,13 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           );
         }
       }
-      // Dont show empty facet categories
-      elseif (!empty($facet->name) && array_key_exists($facet->name, $form)) {
-        unset($form[$facet->name]);
-      }
-
-      // Reset previous set variables
-      $checkboxes     = array();
-      $default_values = array();
     }
 
+    // Reset previous set variables
+    $checkboxes     = array();
+    $default_values = array();
   }
+
 
   return $form;
 }
