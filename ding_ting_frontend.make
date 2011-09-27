@@ -1,6 +1,10 @@
 api = 2
 core = 7.x
 
+projects[blackhole][type] = "module"
+projects[blackhole][download][type] = "git"
+projects[blackhole][download][url] = "git@github.com:xendk/blackhole.git"
+
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 
@@ -20,11 +24,15 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "1.1"
 
 ; Ding! modules
-
 projects[ding_facetbrowser][type] = "module"
 projects[ding_facetbrowser][download][type] = "git"
 projects[ding_facetbrowser][download][url] = "git@github.com:ding2/ding_facetbrowser.git"
 projects[ding_facetbrowser][download][tag] = "v0.5"
+
+projects[ding_frontend][type] = "module"
+projects[ding_frontend][download][type] = "git"
+projects[ding_frontend][download][url] = "git@github.com:ding2/ding_frontend.git"
+projects[ding_frontend][download][tag] = "v0.4"
 
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
@@ -70,3 +78,8 @@ projects[ting_infomedia][type] = "module"
 projects[ting_infomedia][download][type] = "git"
 projects[ting_infomedia][download][url] = "git@github.com:ding2/ting_infomedia.git"
 projects[ting_infomedia][download][tag] = "v0.1"
+
+projects[ting_fulltext][type] = "module"
+projects[ting_fulltext][download][type] = "git"
+projects[ting_fulltext][download][url] = "git@github.com:ding2/ting_fulltext.git"
+projects[ting_fulltext][download][tag] = "v0.4"
