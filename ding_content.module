@@ -15,3 +15,19 @@ function ding_content_ctools_plugin_directory($owner, $plugin_type) {
     return 'plugins/content_types';
   }
 }
+
+/**
+ * Implements hook_enable().
+ *
+ * Create taxonomy vocabolary if needed.
+ */
+function ding_content_enable() {
+  if (!taxonomy_vocabulary_machine_name_load('ding_content_tags')) {
+    $vocabulary = (object) array(
+      'name' => t('Tags'),
+      'machine_name' => 'ding_content_tags',
+      'module' => 'ding_content',
+    );
+    taxonomy_vocabulary_save($vocabulary);
+  }
+}
