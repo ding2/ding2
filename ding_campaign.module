@@ -2,6 +2,8 @@
 /**
  * @file
  * Provides campaign feature to various node types in Ding!
+ *
+ * @todo Please rename variables such as $q and $dt
  */
 
 define('DING_CAMPAIGN_PATH', drupal_get_path('module', 'ding_campaign'));
@@ -49,13 +51,13 @@ function ding_campaign_menu() {
 
 /**
  * Implements hook_admin_paths().
- * 
+ *
  */
-function ding_campaign_admin_paths() {   
+function ding_campaign_admin_paths() {
   $paths = array(
-      'node/*/campaign_rules' => TRUE,      
-  );   
-  return $paths; 
+    'node/*/campaign_rules' => TRUE,
+  );
+  return $paths;
 }
 
 /**

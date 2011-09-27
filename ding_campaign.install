@@ -2,6 +2,8 @@
 /**
  * @file
  * Install, update and uninstall functions for the ding_campaign module.
+ *
+ * @todo By hook_uninstall the variable(s) should be deleted 
  */
 
 /**
