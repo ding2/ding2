@@ -1,0 +1,53 @@
+/* panel rules */
+/*here we gogo */
+.jcarousel-skin-ting-search-carousel { margin-left: 260px; width:700px; }
+.jcarousel-skin-ting-search-carousel .jcarousel-container{ width: 672px; height:200px; margin:0 auto; }
+.jcarousel-skin-ting-search-carousel .jcarousel-item { width: 112px; height: 180px; padding: 20px 0; overflow: hidden; }
+
+/** Horizontal  */
+.jcarousel-skin-ting-search-carousel .jcarousel-container-horizontal {}
+.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal { width: 672px; height:200px; }
+
+.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal {position: absolute; top: 75px; right: -30px; width: 35px; height: 35px; cursor: pointer; background: transparent url(../images/buttons.png) no-repeat 0 -35px;}
+	.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal:hover {background-position: -35px -35px;}
+	.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal:active {background-position: -70px -35px;}
+	.jcarousel-skin-ting-search-carousel .jcarousel-next-disabled-horizontal,
+	.jcarousel-skin-ting-search-carousel .jcarousel-next-disabled-horizontal:hover,
+	.jcarousel-skin-ting-search-carousel .jcarousel-next-disabled-horizontal:active {cursor: default; background-position: -105px -35px;}
+
+.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal {position: absolute; top: 75px; left: -292px; width: 35px; height: 35px; cursor: pointer; background: transparent url(../images/buttons.png) no-repeat 0 0;}
+	.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal:hover {background-position: -35px 0;}
+	.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal:active {background-position: -70px 0;}
+	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal,
+	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal:hover,
+	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal:active {cursor: default; background-position: -105px 0;}
+
+.ting-search-carousel .subtitle { width: 210px; padding: 10px 0 10px 10px; float: left; color: #fff; font-size: 50px; line-height: 0.9; font-weight: bold; text-transform: uppercase; text-shadow: 1px 1px #727272; }
+.ting-search-carousel .loading { background: url(../images/ajax-loader.gif) no-repeat 60% 50%; }
+
+.ting-search-carousel .search-results { background-color: #918F91; }
+.ting-search-carousel .search-results > li { display: none; }
+.ting-search-carousel .search-results > li.active { display: block; }
+
+.ting-search-carousel .search-results .info { height: 39px; overflow: hidden; } 
+.ting-search-carousel .search-results img,
+.ting-search-carousel .search-results .creator,
+.ting-search-carousel .search-results .title { display: block; } 
+.ting-search-carousel .search-results img { margin: 0 auto; }
+.ting-search-carousel .search-results .creator,
+.ting-search-carousel .search-results .title { font-size: 10px; line-height: 1.25; color: #fff; text-align: center; } 
+
+
+.ting-search-carousel .search-controller { background:#f3f5f5; border-top: 1px solid #c2c4c4;margin:0 0 0 2px; width:958px; height:20px; }
+.ting-search-carousel .search-controller li { float:left; padding:0px 17px; height:18px; margin:-1px 2px 0 0;background:#d1d9d7; border-top: 1px solid #a7aeac; color:#fff; font-size:11px; line-height:15px; }
+.ting-search-carousel .search-controller li.active { background:#918f91; border-top: 1px solid #918f91; }
+.ting-search-carousel .search-controller li a { font-size:11px; line-height:15px; color:#050505; }
+
+
+
+/* admin rules */
+#ting-search-carousels .ui-sortable-helper { padding: 5px; background: #F8F8F8; width: 600px !important; }
+#edit-new-search-carousel-button { margin: 10px 0; }
+#add-another-fields { background:#FFFFFF none repeat scroll 0 0; border:1px solid #CCCCCC; padding:0.1em 0.6em; }
+
+.sort-hidden { display: none; }

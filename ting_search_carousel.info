@@ -1,0 +1,6 @@
+name = Ting search carousel
+description = Show Ting search results in a carousel
+package = Ding!
+core = 7.x
+dependencies[] = ting
+dependencies[] = ting_search
