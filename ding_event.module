@@ -4,4 +4,20 @@
  * Code for the Ding event feature.
  */
 
+/**
+ * Implements hook_enable().
+ *
+ * Create taxonomy vocabolary if needed.
+ */
+function ding_event_enable() {
+  if (!taxonomy_vocabulary_machine_name_load('ding_event')) {
+    $vocabulary = (object) array(
+      'name' => t('Event category'),
+      'machine_name' => 'ding_event',
+      'module' => 'ding_event',
+    );
+    taxonomy_vocabulary_save($vocabulary);
+  }
+}
+
 include_once('ding_event.features.inc');

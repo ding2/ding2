@@ -386,6 +386,57 @@ function ding_event_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_event-ding_event_materials'
+  $fields['node-ding_event-ding_event_materials'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_event_materials',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ting_reference',
+          'settings' => array(),
+          'type' => 'ting_reference_teaser',
+          'weight' => 7,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_event_materials',
+      'label' => 'Materials',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'ting_reference',
+        'settings' => array(),
+        'type' => 'ting_reference_simple',
+        'weight' => '3',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_event-ding_event_teaser'
   $fields['node-ding_event-ding_event_teaser'] = array(
     'field_config' => array(
@@ -454,6 +505,76 @@ function ding_event_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_event-ding_event_category'
+  $fields['node-ding_event-ding_event_category'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_event_category',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'parent' => '0',
+            'vocabulary' => 'ding_event',
+          ),
+        ),
+      ),
+      'translatable' => '0',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => 8,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_event_category',
+      'label' => 'Category',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '4',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_event-ding_event_materials'
   $fields['node-ding_event-ding_event_materials'] = array(
     'field_config' => array(
@@ -509,6 +630,7 @@ function ding_event_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Address');
   t('Body');
+  t('Category');
   t('Date and time');
   t('Image');
   t('Materials');
