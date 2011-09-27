@@ -516,7 +516,7 @@ function _ding_provider_get_provider_users($type = NULL) {
             'users' => array(),
           );
         }
-        if ($options['install time setup']) {
+        if (!empty($options['install time setup'])) {
           $provider_users[$name]['ding_profile'] = TRUE;
         }
         if ($options['required']) {
