@@ -4,3 +4,4 @@ package = Ding!
 version = "0.5"
 core = 7.x
 files[] = ting_relation.module
+dependencies[] = relation
