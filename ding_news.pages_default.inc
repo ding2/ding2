@@ -87,11 +87,11 @@ function ding_news_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'links' => 1,
-      'no_extras' => 1,
+      'no_extras' => 0,
       'override_title' => 0,
       'override_title_text' => '',
       'identifier' => '',
-      'link' => 1,
+      'link' => 0,
       'leave_node_title' => 0,
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
