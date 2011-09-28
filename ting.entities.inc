@@ -97,12 +97,19 @@ class TingEntity extends DingEntity {
   }
 
   function getSerieTitle() {
-    $titleObj = ( $this->reply && $this->reply->record['dc:title'] ) ? $this->reply->record['dc:title'] : '';
-    return !empty($titleObj) && !empty($titleObj['dkdcplus:series']) ? $titleObj['dkdcplus:series'][0] : FALSE;
+    $serie_title = array();
+    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : ''; 
+
+    if (preg_match('/^([^;]+);/', $serie, $serie_title)) {
+      return isset($serie_title[1]) ? trim($serie_title[1]) : FALSE;
+    }
+    else {
+      return FALSE;
+    }
   }
 
   function getAbstract() {
-    return !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;;
+    return !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;
   }
 
   function getRecord() {
