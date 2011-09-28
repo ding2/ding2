@@ -95,6 +95,9 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 
   $checkboxes         = array();
   $default_values     = array();
+  $selected = array();
+  $not_selected = array();
+
   $form['search_key'] = array(
     '#type'  => 'hidden',
     '#value' => $search,
@@ -116,19 +119,28 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $element_name           = end($facet_name);
           $facets_string = $facet->name . ':' . $term_name;
           if (_isFacetSet($facet->name, $term_name) === TRUE) {
-            $default_values[]       = $term_name;
+            $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
+
+            $selected[$term_name] = l($term_name . ' ' . $term_count,  $base_root . _parseRequestUri(), array(
+              'html' => TRUE,
+              'query' => array(
+                'facets' => array('' => $facets_string),
+              )
+            ));
           }
-          $checkboxes[$term_name] = l($term_name,  $base_root . _parseRequestUri(), array(
-            'html' => TRUE,
-            'query' => array(
-              'facets' => array('' => $facets_string),
-            )
-          ));
+          else {
+            $not_selected[$term_name] = l($term_name . ' ' . $term_count,  $base_root . _parseRequestUri(), array(
+              'html' => TRUE,
+              'query' => array(
+                'facets' => array('' => $facets_string),
+              )
+            ));
+          }
 
           $form[$facet->name][$element_name] = array(
             '#type'          => 'checkboxes',
-            '#options'       => $checkboxes,
+            '#options'       => $selected + $not_selected,
             '#default_value' => $default_values,
           );
         }
@@ -138,6 +150,9 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     // Reset previous set variables
     $checkboxes     = array();
     $default_values = array();
+    $selected       = array();
+    $not_selected   = array();
+
   }
 
 
