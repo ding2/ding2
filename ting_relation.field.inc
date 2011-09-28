@@ -69,11 +69,11 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
         if ($relation->type == 'dbcaddi:isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
           continue;
         }
-        elseif ($relation->type == 'dbcaddi:hasReview' && is_object($relation->object) && $relation->object->ac_source == 'Anmeldelser') {
+	/*  elseif ($relation->type == 'dbcaddi:hasReview' && is_object($relation->object) && $relation->object->ac_source == 'Anmeldelser') {
           // Temporary filter out regular reviews. We need better
           // handling of those.
           continue;
-        }
+	  }*/
         $element[$delta][] = array(
           '#theme' => 'ting_relation',
           '#relation' => $relation,
@@ -89,19 +89,5 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   return $element;
 }
 
-function ting_relation_get_contributors($relation) {
-  $contributors = $relation->object->contributors;
-  if(!isset($contributors))
-    return false;
-
-  $ret = '';
-  foreach( $contributors as $key => $name ) {
-    if( strlen($ret) > 0 )
-      $ret .= ', ';
-    $ret .= $name;
-  }
-
-  return $ret;
-}
 
 

@@ -32,6 +32,7 @@ function ting_relation_inline() {
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
       'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
+      'dbcaddi:isReviewOf' => t('Is review of'),
     );
   }
   return $types;
