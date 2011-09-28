@@ -137,7 +137,7 @@ function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
   alma_reservation_clear_cache();
-  //return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
+  return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
 }
 
 /**
