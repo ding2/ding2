@@ -1,7 +1,7 @@
 name = Ding reservation
 description = Allows users to reserve  materials.
 package = Ding!
-version = "0.6"
+version = "7.x-0.7"
 core = 7.x
 files[] = ding_reservation.module
 files[] = ding_reservation.test
