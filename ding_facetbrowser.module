@@ -161,7 +161,7 @@ function _isFacetSet($term_cat, $term_name) {
     drupal_static('ding_facetbrowser_facets', $facets);
   }
   foreach ($facets as $facet) {
-    if (stristr($facet, $term_cat . ':' . $term_name)) {
+    if (preg_replace('/facets\[\d*\]=/i', '', $facet) == $term_cat . ':' . $term_name) {
       return TRUE;
     }
   }
