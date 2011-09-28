@@ -12,6 +12,7 @@ class TingRelation extends DingEntityBase {
   public $type = DingEntityBase::NULL;
   public $uri = DingEntityBase::NULL;
   public $object = DingEntityBase::NULL;
+ 
 
   public function __construct($type, $uri, $object = NULL) {
     parent::__construct();
@@ -21,6 +22,10 @@ class TingRelation extends DingEntityBase {
       $this->properties['object'] = $object;
     }
   }
+
+
+  
+  
 }
 
 /**
@@ -39,10 +44,27 @@ class TingEntity extends DingEntity {
   public $date = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
-  public $description = DingEntityBase::NULL;
-
-  //pjo 26-09-11 added contributor
+  public $description = DingEntityBase::NULL; 
+  //pjo 26-09-11 added contributor and abstract for relations
   public $contributors = DingEntityBase::NULL;
+  public $isPartOf = DingEntityBase::NULL;
+  public $extent = DingEntityBase::NULL;
+
+  public function getExtent() {
+    return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
+  }
+
+  function getIsPartOf() {
+    $this->isPartOf = array();
+    if( !empty($this->reply->record['dcterms:isPartOf']) ) {
+      foreach($this->reply->record['dcterms:isPartOf'] as $type => $dcterms_ispartof ) {
+        if( $type != 'oss:sort' ) {
+          $this->isPartOf = array_merge($this->isPartOf, $dcterms_ispartof);
+        }
+      }
+    }
+    return $this->isPartOf;
+  }
 
   // pjo 26-09-11 ; get method contributor
   function getContributors() {
@@ -88,7 +110,6 @@ class TingEntity extends DingEntity {
   }
 
   function getRelations() {
-
     // If relations are not set; do another request to get relations
     if( !isset($this->reply->relationsData) ) {
       $tingClientObject = ting_get_object_request($this->ding_entity_id);
