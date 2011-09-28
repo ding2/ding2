@@ -1,7 +1,7 @@
 name = Ding availability
 description = Availability information for Ding objects.
 package = Ding!
-version = "0.6"
+version = "7.x-0.7"
 core = 7.x
 files[] = ding_availability.module
 dependencies[] = ding_provider
