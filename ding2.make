@@ -20,7 +20,7 @@ projects[openruth][download][tag] = "7.x-0.6"
 projects[ting_fulltext][type] = module
 projects[ting_fulltext][download][type] = git
 projects[ting_fulltext][download][url] = git@github.com:ding2/ting_fulltext.git
-projects[ting_fulltext][download][tag] = "7.x-0.5"
+projects[ting_fulltext][download][tag] = "7.x-0.6"
 
 ; Frontend modules
 projects[ding_frontend][type] = "module"
@@ -36,7 +36,7 @@ projects[ding_user_frontend][download][tag] = "7.x-0.8"
 projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
-projects[ding_ting_frontend][download][tag] = "7.x-0.11"
+projects[ding_ting_frontend][download][tag] = "7.x-0.12"
 
 projects[mkdru_ding_frontend][type] = "module"
 projects[mkdru_ding_frontend][download][type] = "git"
