@@ -24,10 +24,10 @@ function ting_search_content_type_render($subtype, $conf, $panel_args, $context)
     $total = $results->numTotalObjects;
     $block->title = t('Search results text');
     $block->content = '<div class="ting-search-amount-block">' . format_plural($total,
-      'Show @from-@to of 1 result',
-      'Show @from-@to of @count results', array(
-        '@from' => $from,
-        '@to' => $to,
+      'Show %from-%to of 1 result',
+      'Show %from-%to of <em class="placeholder">@count</em> results', array(
+        '%from' => $from,
+        '%to' => $to,
     )) . '</div>';
   }
   return $block;
