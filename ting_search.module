@@ -159,7 +159,7 @@ function ting_search_conditions_callback($keys) {
       foreach ($conditions['facets'] as $facet) {
         $facets['facets'][] =  $facet;
       }
-      drupal_goto($url[0], array('query' => $facets));
+      drupal_goto(rawurldecode(substr($url[0],1)), array('query' => $facets));
     }
   }
   return $conditions;
