@@ -1,3 +1,146 @@
 <?php
 
-// Drupal needs this blank file.
+/*
+ * Fix module weight to be heavier than CCK field group module,
+ * so hook_form_alter() has access to field groups
+*/
+function ding_place2book_update_1() {
+  $items = array();
+  $items[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'ding_place2book';");
+  drupal_set_message('Updated custom module weight.');
+  return $items;
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function ding_place2book_menu() {
+  $items = array();
+  
+  $items['admin/settings/ding/place2book'] = array(
+    'title' => 'Place2book settings',
+    'description' => 'Settings and defaults for Place2book integration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_admin_settings_form'),
+    'access callback' => TRUE,
+    'access arguments' => array(1),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ding_place2book.admin.inc',
+    );
+  return $items;
+}
+
+function ding_place2book_p2b_submit($form, &$form_state)
+{
+  //dpm for debugging.. see http://www.thingy-ma-jig.co.uk/blog/02-10-2007/hugely-useful-hugely-undocumented
+  dpm($form_state);
+  
+  //Save settings
+  $exists = db_result(db_query('SELECT nid FROM {ding_place2book} WHERE nid = %d', $form['nid']['#value']));
+
+  // if this node already has p2b settings, update its record
+  if ($exists) {
+    db_query('UPDATE {ding_place2book} SET place2book_id = %d, maintain_copy = %d, use_taxonomy = %d WHERE nid = %d', $form_state['values']['place2book']['place2book_id'], $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy'], $form['nid']['#value']);
+    drupal_set_message('Place2book: UPDATE op ran, settings were UPDATED, with maintain_copy= ' . $form_state['values']['maintain_copy']);
+  } else {
+    //send data to place2book and retrieve the place2book_id
+    $place2book_id = 100;
+    
+    // otherwise, insert a new record with the p2b settings for this node
+    db_query('INSERT INTO {ding_place2book} (nid, place2book_id, maintain_copy, use_taxonomy) VALUES (%d, %d, %d, %d)', $form['nid']['#value'], $place2book_id, $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy']);        
+    drupal_set_message('Place2book: UPDATE op ran, settings were INSERTED');
+  }
+  
+  drupal_set_message('ding_place2book_p2b_submit called.');
+}
+
+
+function place2book_settings($nid) {
+  $settings = array();
+
+  //set defaults
+  $place2book_defaults = variable_get('ding_place2book_defaults', array());
+  $settings = $place2book_defaults;
+
+  //use db values instead if they exist
+  $result = db_query('SELECT * FROM {ding_place2book} WHERE nid = %d', $nid);
+  if ($result) {
+    $row = db_fetch_array($result);
+    if (isset($row['nid'])) {
+      $settings = $row;
+    } 
+  }
+
+  return $settings;
+}
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function ding_place2book_form_alter(&$form, $form_state, $form_id) {
+
+  $p2b_values = place2book_settings($form['nid']['#value']);
+  print '<pre>';
+  //print_r($form);  
+  print '</pre>';
+
+  //settings for Place2book on the event nodetype
+  if ($form_id == 'event_node_form') {
+    
+    $form['place2book'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Place2Book'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#weight' => 35,
+      '#group' => 'additional_settings',
+    );
+    $form['place2book']['maintain_copy'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Maintain copy on Place2Book'),
+      '#default_value' => $p2b_values['maintain_copy'],
+      '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.')
+    );
+    $form['place2book']['place2book_id'] = array(
+      '#type' => 'item',
+      '#title' => t('Place2Book ID'),
+      '#value' => $p2b_values['place2book_id'],
+      '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book')
+    );
+    $form['place2book']['use_taxonomy'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Categories to Place2Book'),
+      '#default_value' => $p2b_values['use_taxonomy'],
+      '#description' => t('If checked, categories/taxonomy terms on this ding-event is sent to the corresponding event maintained on Place2Book.com.')
+    );   
+    $form['#submit'][] = 'ding_place2book_p2b_submit'; 
+
+  }
+
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  
+  if ($node->type == "event") {
+    $place2book_defaults = variable_get('ding_place2book_defaults', array());
+ 
+    switch ($op) {
+      case 'delete':
+        if (isset($node->nid) && $node->nid) {
+          $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
+          if ($exists_p2b) {
+            // send DELETE request to Place2book webservice
+            drupal_set_message('Place2book: DELETE request to P2B webservice');
+          } 
+          drupal_set_message('Place2book: Requested DELETE on place2book event with id ' . $exists_p2b);
+          db_query('DELETE FROM {ding_place2book} WHERE nid = %d', $node->nid);
+        
+          //drupal_set_message('Place2book: DELETE op ran on event with node id ' . $node->nid );
+        }
+        break;
+    }
+  }
+}

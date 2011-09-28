@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Installation file for ding_place2book module.
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function ding_place2book_schema() {
+  return array(
+    'ding_place2book' => array(
+      'description' => t('The main table to hold the ding_place2book data.'),
+      'fields' => array(
+        'nid' => array(
+          'description' => t('The foreign key to node.nid'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ),
+        'place2book_id' => array(
+          'description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'maintain_copy' => array(
+          'description' => t('event is created and updated on Place2Book'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 1,
+        ),
+        'use_taxonomy' => array(
+          'description' => t('taxonomy terms on event is carried over to place2book event'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+      ),
+      'primary key' => array('nid'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function ding_place2book_install() {
+  drupal_install_schema('ding_place2book');
+}
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ding_place2book_uninstall() {
+  drupal_uninstall_schema('ding_place2book');
+  db_query("DELETE FROM {variable} WHERE name LIKE '%s_%%'", 'ding_place2book');
+}
+
