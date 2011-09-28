@@ -5,7 +5,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 
 projects[conditional_styles][subdir] = "contrib"
-projects[conditional_styles][version] = "1.0-rc1"
+projects[conditional_styles][version] = "2.0"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
