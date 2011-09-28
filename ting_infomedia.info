@@ -1,5 +1,5 @@
 name = Ting Infomedia
 description = Module for linking and viewing Infomedia articles and reviews.
 package = Ding!
-version = "0.2"
+version = "7.x-0.3"
 core = 7.x
