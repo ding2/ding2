@@ -23,6 +23,9 @@ projects[strongarm][version] = "2.0-beta3"
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "1.1"
 
+projects[relation][subdir] = "contrib"
+projects[relation][version] = "1.0-beta1"
+
 ; Ding! modules
 projects[ding_facetbrowser][type] = "module"
 projects[ding_facetbrowser][download][type] = "git"
