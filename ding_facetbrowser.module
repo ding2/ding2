@@ -122,7 +122,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
 
-            $selected[$term_name] = l($term_name . ' ' . $term_count,  $base_root . _parseRequestUri(), array(
+            $selected[$term_name] = l($term_name . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -130,7 +130,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             ));
           }
           else {
-            $not_selected[$term_name] = l($term_name . ' ' . $term_count,  $base_root . _parseRequestUri(), array(
+            $not_selected[$term_name] = l($term_name . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
