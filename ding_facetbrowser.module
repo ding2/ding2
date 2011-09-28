@@ -190,7 +190,7 @@ function _isFacetSet($term_cat, $term_name) {
  */
 function _parseRequestUri() {
   $new_query_part = array();
-  if (stristr('?', request_uri())) {
+  if (stristr(request_uri(), '?')) {
     $request_uri_parts = explode('?', request_uri());
 
     $query = rawurldecode(end($request_uri_parts));
