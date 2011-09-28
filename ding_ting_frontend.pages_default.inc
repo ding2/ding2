@@ -237,6 +237,26 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-6';
     $pane->panel = 'middle';
+    $pane->type = 'ting_search';
+    $pane->subtype = 'ting_search';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $display->content['new-6'] = $pane;
+    $display->panels['middle'][4] = 'new-6';
+    $pane = new stdClass;
+    $pane->pid = 'new-7';
+    $pane->panel = 'middle';
     $pane->type = 'search_result';
     $pane->subtype = 'search_result';
     $pane->shown = TRUE;
@@ -262,9 +282,9 @@ function ding_ting_frontend_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
-    $display->content['new-6'] = $pane;
-    $display->panels['middle'][4] = 'new-6';
+    $pane->position = 5;
+    $display->content['new-7'] = $pane;
+    $display->panels['middle'][5] = 'new-7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
