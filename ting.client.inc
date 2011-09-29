@@ -7,6 +7,9 @@
 
 function ting_get_object_request($object_id) {
   $request = ting_get_request_factory()->getObjectRequest();
+  if ($agency = variable_get('ting_agency', FALSE)) {
+    $request->setAgency($agency);
+  }
   $request->setObjectId($object_id);
   $request->setAllRelations(TRUE);
   $request->setRelationData('full');
