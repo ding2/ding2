@@ -6,3 +6,4 @@ dependencies[] = ding_provider
 files[] = openruth.module
 files[] = openruth.test
 version = "7.x-0.6"
+configure = admin/config/ding/provider/openruth
