@@ -7,6 +7,7 @@ projects[blackhole][download][url] = "git@github.com:xendk/blackhole.git"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
+projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.0"
