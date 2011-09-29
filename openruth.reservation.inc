@@ -45,6 +45,7 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
    if (isset($status->orders->orderNotReady)) {
      foreach ($status->orders->orderNotReady as $res) {
        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+         'order_id' => $res->orderId,
          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
          'display_name' => $res->itemDisplayTitle,
          'pickup_branch_id' => $res->agencyCounter,
