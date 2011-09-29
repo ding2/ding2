@@ -97,10 +97,36 @@ function ting_search_theme() {
  * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+
   $search_result = drupal_static('ting_search_results');
+
+  // extend this list if more are added in search_extend_form()
+  $cql_fields = array(
+    variable_get('ting_search_extendform_creator_index', 'dc.creator') => t('creator'),
+    variable_get('ting_search_extendform_title_index', 'dc.title')     => t('title'),
+    variable_get('ting_search_extendform_subject_index', 'dc.subject') => t('subject'),
+  );
+
+  // parse querystring for search_extend_form elements.
   if ($search_result instanceof TingClientSearchResult && isset($search_result->search_key)) {
-    $form['search_block_form']['#default_value'] = $search_result->search_key;
+    $findme   = ' and (';
+    $pos = strpos(strtolower($search_result->search_key), $findme);
+    if ($pos === false) {
+      $query_parse['base'] = $search_result->search_key;
+      $query_parse['extended'] = parse_cqlpart($search_result->search_key,$cql_fields);
+      if ( $query_parse['extended'] ) {
+        $query_parse['base'] = '';
+      }
+    } else {
+      $query_parse['base'] = substr($search_result->search_key,0,$pos);
+      $query_parse['extended'] = parse_cqlpart (substr($search_result->search_key,$pos+5),$cql_fields);
+      if (!$query_parse['extended']) {
+        $query_parse['base'] = $search_result->search_key;
+      }
+    }
+    $form['search_block_form']['#default_value'] = $query_parse['base'];
   }
+
   $form['sort'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
@@ -113,22 +139,38 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   );
   $form['creator'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['creator']) ? check_plain($_GET['creator']) : '',
+    '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_creator_index', 'dc.creator') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_creator_index', 'dc.creator') ] : '',
     '#attributes' => array('id' => 'extend_search_creator'),
   );
   $form['title'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['title']) ? check_plain($_GET['title']) : '',
+    '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_title_index', 'dc.title') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_title_index', 'dc.title') ] : '',
     '#attributes' => array('id' => 'extend_search_title'),
   );
   $form['subject'] = array(
     '#type' => 'hidden',
-    '#default_value' => isset($_GET['subject']) ? check_plain($_GET['subject']) : '',
+    '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_subject_index', 'dc.subject') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_subject_index', 'dc.subject') ] : '',
     '#attributes' => array('id' => 'extend_search_subject'),
   );
   $form['#submit'] = array('ting_search_submit');
 
   return $form;
+}
+
+
+/**
+ * Parse cql part for extended form elements.
+ */
+function parse_cqlpart ($str,$cql_fields) {
+  $str = explode(' ', strtolower(trim($str,' ()')));
+  foreach ($str as $key => $val) {
+    $extended_parts[$key] = explode('=', $val);
+    $extended[ $extended_parts[$key][0] ] = ( !empty($extended_parts[$key][1]) ) ? $extended_parts[$key][1] : '';
+    if ( !array_key_exists($extended_parts[$key][0],$cql_fields) && ( empty($extended_parts[$key][1]) && strtolower($extended_parts[$key][0]) != 'and') ) {
+      return array();
+    }
+  }
+  return $extended;
 }
 
 

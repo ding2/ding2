@@ -2,6 +2,7 @@
 
   $(document).ready(function() {
     Drupal.setSelectedLabel();
+    Drupal.extendedFormOnload();
   });
 
   $.TingExtendedForm = {};
@@ -111,6 +112,12 @@
   Drupal.setSelectedLabel = function() {
     $('.form-item-size').find('label').removeClass('labelSelected');
     $('input[name=size]').filter(':checked').parent().find('label').addClass('labelSelected');
+  };
+
+  Drupal.extendedFormOnload = function() {
+    $('#edit-extendform-creator').val($('#extend_search_creator').val());
+    $('#edit-extendform-title').val($('#extend_search_title').val());
+    $('#edit-extendform-subject').val($('#extend_search_subject').val());
   };
 
 } (jQuery));
