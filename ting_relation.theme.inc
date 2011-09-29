@@ -119,7 +119,7 @@ function ting_relation_set_subject(&$variables) {
   //creators
   if ($tingentity_object->creators) {
     $variables['content']['byline'] = array(
-      '#markup' => t('by @author', array('@author' => $tingentity_object->creators)),
+      '#markup' => t('by @author', array('@author' => ting_relation_array2names($tingentity_object->creators))),
       '#prefix' => '<div>',
       '#suffix' => '</div>',
     );
