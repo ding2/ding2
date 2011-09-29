@@ -17,11 +17,6 @@ projects[openruth][download][type] = "git"
 projects[openruth][download][url] = "git@github.com:ding2/openruth.git"
 projects[openruth][download][tag] = "7.x-0.6"
 
-projects[ting_fulltext][type] = module
-projects[ting_fulltext][download][type] = git
-projects[ting_fulltext][download][url] = git@github.com:ding2/ting_fulltext.git
-projects[ting_fulltext][download][tag] = "7.x-0.6"
-
 ; Frontend modules
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
