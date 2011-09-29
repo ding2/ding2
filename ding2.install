@@ -167,9 +167,6 @@ function ding2_install() {
   variable_set('ting_covers_user_list_style', 'ding_small');
   variable_set('ting_covers_search_result_style', 'ding_medium');
 
-  // Set the date format for loan/reservation listings.
-  variable_set('date_format_date_only', 'd.m.Y');
-
   // Disable configurable timezones for users
   variable_set('configurable_timezones', 0);
 }
