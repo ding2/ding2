@@ -12,7 +12,7 @@ class TingRelation extends DingEntityBase {
   public $type = DingEntityBase::NULL;
   public $uri = DingEntityBase::NULL;
   public $object = DingEntityBase::NULL;
- 
+
 
   public function __construct($type, $uri, $object = NULL) {
     parent::__construct();
@@ -24,8 +24,8 @@ class TingRelation extends DingEntityBase {
   }
 
 
-  
-  
+
+
 }
 
 /**
@@ -44,7 +44,7 @@ class TingEntity extends DingEntity {
   public $date = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
-  public $description = DingEntityBase::NULL; 
+  public $description = DingEntityBase::NULL;
   //pjo 26-09-11 added contributor and abstract for relations
   public $contributors = DingEntityBase::NULL;
   public $isPartOf = DingEntityBase::NULL;
@@ -98,7 +98,7 @@ class TingEntity extends DingEntity {
 
   function getSerieTitle() {
     $serie_title = array();
-    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : ''; 
+    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
 
     if (preg_match('/^([^;]+);/', $serie, $serie_title)) {
       return isset($serie_title[1]) ? trim($serie_title[1]) : FALSE;
@@ -130,7 +130,10 @@ class TingEntity extends DingEntity {
     if (isset($this->reply->relationsData)) {
       $entity_ids = array();
       foreach ($this->reply->relationsData as $record) {
-        if (isset($record->relationUri)) {
+        // The well might return relations where the relationsUri is
+        // very far from an id. Attempting to fetch those ids results
+        // in an error from Solr. Only attempt to load wellformed ids.
+        if (isset($record->relationUri) && preg_match('/^\d+:\d+$/', $record->relationUri)) {
           $entity_ids[] = $record->relationUri;
         }
       }
