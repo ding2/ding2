@@ -114,14 +114,14 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
  *   HTML formatted string.
  */
 function ding_campaign_display($context, $count, $offset) {
-  $q = ding_campaign_get_campaigns($context, $count, $offset);
+  $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
   // There is at least one result
-  if (is_array($q) && count($q) > 0) {
+  if (is_array($campaigns) && count($campaigns) > 0) {
     $block = '';
 
     // Loop through campaigns
-    foreach ($q as $k => $v) {
+    foreach ($campaigns as $k => $v) {
       $node = node_load($v);
       $content = '';
 
@@ -173,7 +173,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   if ($context['page'] != NULL)  {
     $nid = $context['page']->nid;
 
-    $q = db_query('SELECT r.cid
+    $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :nid
         AND r.type = \'rule_page\'
@@ -183,13 +183,13 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ORDER BY d.weight DESC', array(':nid' => (int)$nid))
       ->fetchAll();
 
-    foreach ($q as $k => $v) {
+    foreach ($result as $k => $v) {
       @$campaigns[$v->cid] += 9;
     }
   }
 
   // Process path-based campaigns
-  $q = db_query('SELECT r.cid, r.rule
+  $result = db_query('SELECT r.cid, r.rule
     FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
     WHERE r.type = \'rule_path\'
       AND n.status = 1
@@ -199,7 +199,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ->fetchAll();
 
   $path = drupal_get_path_alias($_GET['q']);
-  foreach ($q as $k => $v) {
+  foreach ($result as $k => $v) {
     $page_match = drupal_match_path($path, $v->rule);
 
     if ($path != $_GET['q']) {
@@ -227,7 +227,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       $condition = ' = \'' . $context['search_term'] . '\'';
     }
 
-    $q = db_query('SELECT r.cid
+    $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.type = \'rule_term\'
         AND n.status = 1
@@ -237,7 +237,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ORDER BY d.weight DESC')
       ->fetchAll();
 
-    foreach ($q as $k => $v) {
+    foreach ($result as $k => $v) {
       @$campaigns[$v->cid] += 7;
     }
   }
@@ -246,7 +246,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   if ($context['taxonomy_term'] != NULL) {
     $tid = $context['taxonomy_term']->tid;
 
-    $q = db_query('SELECT r.cid
+    $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :tid
         AND r.type = \'rule_taxonomy\'
@@ -256,13 +256,13 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ORDER BY d.weight DESC', array(':tid' => (int)$tid))
       ->fetchAll();
 
-    foreach ($q as $k => $v) {
+    foreach ($result as $k => $v) {
       @$campaigns[$v->cid] += 3;
     }
   }
 
   // Process generic campaigns
-  $q = db_query('SELECT r.cid
+  $result = db_query('SELECT r.cid
     FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
     WHERE r.type = \'rule_generic\'
       AND n.status = 1
@@ -271,7 +271,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ORDER BY d.weight DESC')
     ->fetchAll();
 
-  foreach ($q as $k => $v) {
+  foreach ($result as $k => $v) {
     if (!isset($campaigns[$v->cid]) || $campaigns[$v->cid] == 0) {
       $campaigns[$v->cid] = (mt_rand(1, 10) / 10);
     }
@@ -415,15 +415,15 @@ function ding_campaign_node_load($node) {
   $nids = array_keys($node);
 
   if ($node[$nids[0]]->type == 'campaign') {
-    $q = db_select('ding_campaign_rules')
+    $result = db_select('ding_campaign_rules')
       ->fields('ding_campaign_rules', array('rule', 'type'))
       ->condition('cid', $node[$nids[0]]->nid)
       ->execute()
       ->fetchAll();
 
     // Add assigned campaigns
-    if (is_array($q) && count($q) > 0) {
-      foreach ($q as $k => $v) {
+    if (is_array($result) && count($result) > 0) {
+      foreach ($result as $k => $v) {
         $node[$nids[0]]->camp_rule[$k] = $v->rule;
         $node[$nids[0]]->camp_type[$k] = $v->type;
       }
@@ -437,14 +437,14 @@ function ding_campaign_node_load($node) {
   // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node[$nids[0]]->type . '_node_form']) && $enabled_types[$node[$nids[0]]->type . '_node_form'] === $node[$nids[0]]->type . '_node_form') {
     $nids = array_keys($node);
-    $q = db_select('ding_campaign_rules')
+    $result = db_select('ding_campaign_rules')
       ->fields('ding_campaign_rules', array('cid'))
       ->condition('nid', $node[$nids[0]]->nid)
       ->condition('type', 'rule_page')
       ->execute()
       ->fetchAll();
 
-    foreach ($q as $k => $v) {
+    foreach ($result as $k => $v) {
       $node[$nids[0]]->ding_campaigns[$v->cid] = $v->cid;
     }
   }
@@ -482,7 +482,7 @@ function ding_campaign_node_delete($node) {
  *   Array of campaigns with id's and title's
  */
 function ding_campaign_get_list() {
-  $q = db_query("SELECT n.nid, n.title FROM {node} n
+  $result = db_query("SELECT n.nid, n.title FROM {node} n
     WHERE n.status <> 0
       AND n.type = 'campaign'
     ORDER BY n.title")
@@ -490,7 +490,7 @@ function ding_campaign_get_list() {
 
   $campaigns = array();
 
-  foreach ($q as $k => $v) {
+  foreach ($result as $k => $v) {
     $campaigns[$v->nid] = $v->title;
   }
 
