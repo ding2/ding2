@@ -86,3 +86,8 @@ projects[ting_fulltext][type] = "module"
 projects[ting_fulltext][download][type] = "git"
 projects[ting_fulltext][download][url] = "git@github.com:ding2/ting_fulltext.git"
 projects[ting_fulltext][download][tag] = "7.x-0.6"
+
+projects[ting_sfx][type] = "module"
+projects[ting_sfx][download][type] = "git"
+projects[ting_sfx][download][url] = "git@github.com:ding2/ting_sfx.git"
+projects[ting_sfx][download][tag] = "7.x-0.6"
