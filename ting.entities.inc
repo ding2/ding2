@@ -132,8 +132,9 @@ class TingEntity extends DingEntity {
       foreach ($this->reply->relationsData as $record) {
         // The well might return relations where the relationsUri is
         // very far from an id. Attempting to fetch those ids results
-        // in an error from Solr. Only attempt to load wellformed ids.
-        if (isset($record->relationUri) && preg_match('/^\d+:\d+$/', $record->relationUri)) {
+        // in an error from Solr. Only attempt to load ids that pass a
+        // basic sanity test.
+        if (isset($record->relationUri) && preg_match('/^\d+:.*+$/', $record->relationUri)) {
           $entity_ids[] = $record->relationUri;
         }
       }
