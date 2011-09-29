@@ -13,11 +13,6 @@ $plugin = array(
   'category' => t('User'),
 );
 
-/*
- * Additional dateformat, used by format_date().
- */
-variable_set('date_format_ding_reservation_short', 'd.m.Y');
-
 /**
  * Render the block
  */
