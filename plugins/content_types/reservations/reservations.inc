@@ -207,6 +207,16 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'operations',
         ),
       );
+
+      if (isset($item->order_id)) {
+        $options[$item->id]['title']['data'][] = array(
+          '#type' => 'markup',
+          '#prefix' => '<p class="order-id">',
+          '#markup' => t('(Order no. @order_id)', array('@order_id' => check_plain($item->order_id))),
+          '#suffix' => '</p>',
+        );
+      }
+
       $form['reservations'] = array(
         '#type' => 'tableselect_form',
         '#header' => $header,
