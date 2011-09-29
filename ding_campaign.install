@@ -2,8 +2,6 @@
 /**
  * @file
  * Install, update and uninstall functions for the ding_campaign module.
- *
- * @todo By hook_uninstall the variable(s) should be deleted 
  */
 
 /**
@@ -79,5 +77,6 @@ function ding_campaign_schema() {
  * Implements hook_uninstall().
  */
 function ding_campaign_uninstall() {
+  variable_del('ding_campaign_node_types');
   drupal_uninstall_schema('ding_campaign');
 }

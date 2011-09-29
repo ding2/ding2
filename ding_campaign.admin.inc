@@ -15,7 +15,6 @@
  *   Form structure array
  */
 function ding_campaign_configure($form, $form_state) {
-
   $types = node_type_get_names();
 
   // Some key renaming routine, required in further module checks

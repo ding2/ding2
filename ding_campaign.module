@@ -2,8 +2,6 @@
 /**
  * @file
  * Provides campaign feature to various node types in Ding!
- *
- * @todo Please rename variables such as $q and $dt
  */
 
 define('DING_CAMPAIGN_PATH', drupal_get_path('module', 'ding_campaign'));
@@ -322,7 +320,7 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 function ding_campaign_node_insert($node) {
   // Insert the campaign type node
   if ($node->type == 'campaign') {
-    $dt = array(
+    $data = array(
       'cid' => $node->nid,
       'type' => $node->field_camp_settings['und'][0]['value'],
       'weight' => $node->field_camp_weight['und'][0]['value'],
@@ -330,7 +328,7 @@ function ding_campaign_node_insert($node) {
     );
 
     db_insert('ding_campaign')
-      ->fields($dt)
+      ->fields($data)
       ->execute();
 
     return;
@@ -342,7 +340,7 @@ function ding_campaign_node_insert($node) {
   if (isset($enabled_types[$node->form_id]) && $enabled_types[$node->form_id] === $node->form_id) {
     if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
       foreach ($node->ding_campaigns as $k => $v) {
-        $dt = array(
+        $data = array(
           'nid' => $node->nid,
           'cid' => $v,
           'rule' => '[nid:' . $node->nid . ']',
@@ -352,7 +350,7 @@ function ding_campaign_node_insert($node) {
         // Skip the unused campaigns
         if ($v != 0) {
           db_insert('ding_campaign_rules')
-            ->fields($dt)
+            ->fields($data)
             ->execute();
         }
       }
@@ -367,14 +365,14 @@ function ding_campaign_node_update($node) {
   // Update the campaign if needed
   if ($node->type == 'campaign') {
     // Update campaign fields
-    $dt = array(
+    $data = array(
       'type' => $node->field_camp_settings['und'][0]['value'],
       'weight' => $node->field_camp_weight['und'][0]['value'],
       'theme' => $node->field_camp_theme['und'][0]['value'],
     );
 
     db_update('ding_campaign')
-      ->fields($dt)
+      ->fields($data)
       ->condition('cid', $node->nid)
       ->execute();
 
@@ -392,7 +390,7 @@ function ding_campaign_node_update($node) {
         ->execute();
 
       foreach ($node->ding_campaigns as $k => $v) {
-        $dt = array(
+        $data = array(
           'nid' => $node->nid,
           'cid' => $v,
           'rule' => '[nid:' . $node->nid . ']',
@@ -402,7 +400,7 @@ function ding_campaign_node_update($node) {
         // Skip the unused campaigns
         if ($v != 0) {
           db_insert('ding_campaign_rules')
-            ->fields($dt)
+            ->fields($data)
             ->execute();
         }
       }
