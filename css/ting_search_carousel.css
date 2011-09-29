@@ -51,3 +51,12 @@
 #add-another-fields { background:#FFFFFF none repeat scroll 0 0; border:1px solid #CCCCCC; padding:0.1em 0.6em; }
 
 .sort-hidden { display: none; }
+
+.search-carousel-query {
+  float: left;
+}
+
+.clear, .form-item-ting-search-carousel-cache-duration {
+  float: none;
+  clear: both;
+}

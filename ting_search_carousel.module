@@ -13,8 +13,7 @@ function ting_search_carousel_menu() {
     'page callback' => 'ting_search_carousel_admin_page',
     'page arguments' => array(),
     'access arguments' => array('access administration pages'),
-    'file' => 'ting_search_carousel.admin.inc',
-    'type' => MENU_CALLBACK
+    'file' => 'ting_search_carousel.admin.inc'
   );/*
 
   $items['admin/settings/ting_search_carousel/form/ahah'] = array(
