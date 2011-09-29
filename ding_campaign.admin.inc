@@ -78,7 +78,7 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
   $c = 1;
   if (isset($node->camp_rule) && is_array($node->camp_rule)) {
     $c = count($node->camp_rule);
-    for ($i = 0; $i < count($node->camp_rule); $i++) {
+    for ($i = 0; $i < $c; $i++) {
       $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(
               isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
               isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page');
@@ -147,7 +147,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
       if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic') {
 
         $nid = NULL;
-        if ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy') {
+        if ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy' || $form_state['input']['rule_type'][$i] == 'rule_library') {
           $nid = array();
           preg_match('/\d{1,9}/', $form_state['input']['rule_value'][$i], $nid);
         }
@@ -188,6 +188,7 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
       'rule_term' => 'Search term',
       'rule_taxonomy' => 'Taxonomy term',
       'rule_generic' => 'Generic',
+      'rule_library' => 'Library',
     ),
     '#prefix' => '<div class="ding-campaign-rule"><div class="rule-type">',
     '#suffix' => '</div>',
@@ -232,6 +233,13 @@ function ding_campaign_admin_autocomplete($type, $input) {
 
       foreach ($q as $k => $v) {
         $matches['[tid:' . $v->tid . ']'] = $v->name;
+      }
+      break;
+    case 'rule_library':
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
   }

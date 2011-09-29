@@ -242,6 +242,25 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     }
   }
 
+  // Process library campaigns
+  if ($context['library'] != NULL && $context['library']->type == 'library') {
+    $nid = $context['library']->nid;
+
+    $result = db_query('SELECT r.cid
+      FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+      WHERE r.nid = :nid
+        AND r.type = \'rule_library\'
+        AND n.status = 1
+        AND r.cid = d.cid
+        AND r.cid = n.nid
+      ORDER BY d.weight DESC', array(':nid' => (int)$nid))
+      ->fetchAll();
+
+    foreach ($result as $k => $v) {
+      @$campaigns[$v->cid] += 5;
+    }
+  }
+
   // Process taxonomy campaigns
   if ($context['taxonomy_term'] != NULL) {
     $tid = $context['taxonomy_term']->tid;
@@ -344,7 +363,7 @@ function ding_campaign_node_insert($node) {
           'nid' => $node->nid,
           'cid' => $v,
           'rule' => '[nid:' . $node->nid . ']',
-          'type' => 'rule_page',
+          'type' => ($node->type == 'library') ? 'rule_library' : 'rule_page',
         );
 
         // Skip the unused campaigns
@@ -394,7 +413,7 @@ function ding_campaign_node_update($node) {
           'nid' => $node->nid,
           'cid' => $v,
           'rule' => '[nid:' . $node->nid . ']',
-          'type' => 'rule_page',
+          'type' => ($node->type == 'library') ? 'rule_library' : 'rule_page',
         );
 
         // Skip the unused campaigns
@@ -437,10 +456,11 @@ function ding_campaign_node_load($node) {
   // Process other types of nodes (selected in backend)
   if (isset($enabled_types[$node[$nids[0]]->type . '_node_form']) && $enabled_types[$node[$nids[0]]->type . '_node_form'] === $node[$nids[0]]->type . '_node_form') {
     $nids = array_keys($node);
+    $or = db_or()->condition('type', 'rule_library')->condition('type', 'rule_page');
     $result = db_select('ding_campaign_rules')
       ->fields('ding_campaign_rules', array('cid'))
       ->condition('nid', $node[$nids[0]]->nid)
-      ->condition('type', 'rule_page')
+      ->condition($or)
       ->execute()
       ->fetchAll();
 
