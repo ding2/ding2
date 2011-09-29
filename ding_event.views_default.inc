@@ -152,14 +152,13 @@ function ding_event_views_default_views() {
   $handler->display->display_options['sitename_title'] = 1;
   $translatables['ding_event'] = array(
     t('Master'),
-    t('Read more'),
+    t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
     t('Asc'),
     t('Desc'),
     t('Teaser list'),
-    t('more'),
     t('Feed'),
   );
   $export['ding_event'] = $view;
