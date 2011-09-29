@@ -1,7 +1,12 @@
 <?php
+/**
+ * @file
+ *
+ * Ting search carousel module main file.
+ */
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ting_search_carousel_menu() {
   $path = drupal_get_path('module', 'ting_search_carousel');
@@ -36,6 +41,8 @@ function ting_search_carousel_menu() {
   return $items;
 }
 
+// @todo
+// Set permissions if needed
 /**
  * Implementation of hook_perm().
  *
@@ -52,9 +59,7 @@ function ting_search_carousel_perm() {
 }*/
 
 /**
- * Implementation of hook_theme().
- *
- * This lets us tell Drupal about our theme functions and their arguments.
+ * Implements hook_theme().
  */
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   $hooks = array();
@@ -79,18 +84,19 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
   return $hooks;
 }
 
+// @todo
+// Unknown purpose
 /**
  * Implementation of hook_flush_caches().
  */
-
+/*
 function ting_search_carousel_flush_caches() {
 	return array('cache_ting_search_carousel');
-}
+}*/
 
 /**
- * Implementation of hook_ctools_plugin_directory().
+ * Implements hook_ctools_plugin_directory().
  *
- * Tells CTools (and thus Panels) where to look for plugin code.
  */
 function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' || $module == 'panels') {
@@ -98,99 +104,13 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-/**
- * Theme function to format the our custom form element.
- *
- * We use the container-inline class so that all three of the HTML elements
- * are placed next to each other, rather than on separate lines.
- */
-/*
-function theme_ting_search_carousel_search($element) {
-  return theme('form_element', $element, '<div class="ting-search-carousel-search-wrap">'. $element['#children'] .'</div>');
-}
-*/
 
-/**
- * Implementation of hook_elements().
- */
-/*
-function ting_search_carousel_elements() {
-  $types = array();
-  $types['ting_search_carousel_search'] = array(
-    '#input' => TRUE,
-    '#process' => array('ting_search_carousel_search_element_process'),
-    '#element_validate' => array('ting_search_carousel_search_element_validate'),
-    '#default_value' => array(
-      'sort' => 0,
-      'title' => '',
-  		'subtitle' => '',
-  		'query' => '',
-    ),
-  );
-  return $types;
-}
-*/
-/**
- * Process callback to expand our form element into several fields.
- */
-/*function ting_search_carousel_search_element_process($element, $form_state) {
-  $element['#tree'] = TRUE;
-
-  if (!isset($element['#value'])) {
-    $element['#value'] = $element['#default_value'];
-  }
-  else {
-    $element['#value'] += $element['#default_value'];
-  }
-
-  $element['sort'] = array(
-    '#type' => 'weight',
-    '#delta' => 10,
-    '#default_value' => (isset($element['#sort'])) ? $element['#sort'] : $element['#value']['sort'],
-    '#attributes' => array('class' => 'sort-hidden'),
-  );
-
-  $element['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-  	'#description' => t('The title of the search is used for the tab in the carousel. Keep it short.'),
-  	'#default_value' => $element['#value']['title'],
-  );
-
-  $element['subtitle'] = array(
-    '#type' => 'textfield',
-    '#title' => t('subtitle'),
-  	'#description' => t('The subtitle displayed next to the search results'),
-    '#default_value' => $element['#value']['subtitle'],
-  );
-  $element['query'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Query'),
-    '#maxlength' => 2048,
-    '#description' => t('The query to display search results for'),
-  	'#default_value' => $element['#value']['query'],
-  );
-  $element['remove'] = array(
-    '#type' => 'button',
-    '#submit' => FALSE,
-    '#value' => t('Remove'),
-    '#attributes' => array('class' => 'remove')
-	);
-
-  return $element;
-}
-*/
-/**
- * Our element's validation function.
- */
-/*
-function ting_search_carousel_search_element_validate($element, &$form_state) {
-  return $form;
-}*/
-
+// @todo
+// this hook is not available in D7
 /**
  * Implementation of hook_imagecache_default_presets()
  */
+/*
 function ting_search_carousel_imagecache_default_presets() {
   $presets = array();
   $presets['ting_search_carousel'] = array (
@@ -234,3 +154,4 @@ function ting_search_carousel_imagecache_default_presets() {
   );
   return $presets;
 }
+*/

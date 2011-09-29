@@ -1,15 +1,15 @@
 <?php
 
 /**
- * @file ting_search_carousel.module
- * Performs autocomplete for the Ting search box.
+ * @file
+ * Install, update and uninstall functions for the ding_campaign module.
  */
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function ting_search_carousel_install() {
-	//drupal_install_schema('ting_search_carousel');
+  //drupal_install_schema('ting_search_carousel');
 
   variable_set('ting_search_carousel_searches', array());
 
@@ -43,29 +43,32 @@ function ting_search_carousel_install() {
     ),
   );
 
-  //need to install preset, id will be returned by function,
-  //then install action add presetid to action prior to install:
+  // Save presets and effects
   $preset = image_style_save($preset);
+  
   foreach ($imagecache_actions as $action)
   {
     $action['isid'] = $preset['isid'];
     image_effect_save($action);
   }
+  
   drupal_set_message(t('ImageCache preset %id: %name and corresponding actions saved.', array('%id' => $preset['isid'], '%name' => $preset['name'])));
 }
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function ting_search_carousel_uninstall() {
-	drupal_uninstall_schema('ting_search_carousel');
+  drupal_uninstall_schema('ting_search_carousel');
 
-	variable_del('ting_search_carousel_searches');
+  variable_del('ting_search_carousel_searches');
 
-	if ($preset = image_style_load('ting_search_carousel'))
-	{
+  $preset = image_style_load('ting_search_carousel');
+  
+  if ($preset)
+  {
     image_style_delete($preset);
-	}
+  }
 }
 
 /**
