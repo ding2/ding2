@@ -80,3 +80,76 @@ place2book HTML section, with initial display:none on elements:
 	</div>
 	<div class="error"></div>
 </div>
+
+
+noter vedr. xml-skabelonen og mapping af felter:
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+
+  <provider>
+    <name>Peter Jeppesen</name>
+    <email>psj@place2book.com</email>
+    <phone>70232550</phone>
+  </provider>
+=> trækkes fra admin-kontoen
+
+
+  <event>
+    <name>test8</name>
+=> node title
+
+    <description_short>En kort beskrivelse af arrangementet</description_short>
+=> node teaser
+
+    <description_long>En lang beskrivelse af arrangementet</description_long>
+=> node body
+
+
+    <begin_at>2014-08-17 12:00 UTC</begin_at>
+=> field-date-from. "UTC" kan evt. erstattes med "CET", men default er CET
+
+    <end_at>2014-08-17 12:00 UTC</end_at>
+=> field-date-to, og se note ovenfor. Place2book tager ikke værdien, Peter kigger på det.
+
+    <sale_open>2011-08-17 12:00 UTC</sale_open>
+=> NULL, så er den aktiv med det samme
+
+    <sale_close>2014-08-17 11:00 UTC</sale_close>
+=> NULL, så sættes den til 1 time før
+
+    <venue>
+      <name>Testhallen</name>
+      <address1>Testvej 1</address1>
+      <address2>Testforstad</address2>
+      <postal>1159</postal>
+      <city>Testby</city>
+      <country_code>DK</country_code>
+    </venue>
+=> jeg har felterne, træk fra Bibl. hvis muligt, ellers tag indtastningerne fra nodefelter.
+
+    <capacity>100</capacity>
+=> lav ekstra felt i nodeform til det. Er det tomt, slettes det fra xml-skabelonen der sendes til place2book.
+
+    <unlimited_capacity>0</unlimited_capacity>
+=> sættes til 1 som standard. Hvis det nye felt til capacity ovenfor har en værdi, sættes denne nul i xml-skabelonen til place2book. 
+
+    <price>
+      <name>Voksen</name>
+      <value_dollar>100</value_dollar>
+    </price>
+=> field_price. Sæt f.eks. name til "Adgang" - det er så standardbilletprisen/typen.
+
+    <kultunaut_export>1</kultunaut_export>
+=> ny felt til nodeform, lav også en standard-setting på admin-siden. 1 eller 0?
+
+    <kultunaut_age_group>Boern</kultunaut_age_group>
+=> mapper lige over med taksonomien Event Target. Bemærk, at kultunaut kører med specifikke værdier, som muligvis ikke matcher ding-bibliotekets. Send det, det giver ingen fejl, muligvis en forvirret kultunaut-mand.
+
+    <kultunaut_picture_uri>http://dinserver.dk/billede.png</kultunaut_picture_uri>
+=> brug listebilledets url
+
+    <kultunaut_export_category>Elektronisk</kultunaut_export_category>
+=> mapper lige over med taksonomien Event Categori. Samme regler gælder som ovenfor med ".. age group".
+
+  </event>
+    </data>

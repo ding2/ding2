@@ -22,7 +22,7 @@ function ding_place2book_schema() {
         'place2book_id' => array(
           'description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
           'type' => 'int',
-          'unsigned' => TRUE,
+          'unsigned' => FALSE,
           'not null' => TRUE,
           'default' => 0,
         ),
