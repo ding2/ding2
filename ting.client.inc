@@ -161,6 +161,14 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   $request->setStart($results_per_page * ($page - 1) + 1);
   $request->setNumResults($results_per_page);
 
+  if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
+    $options['facets'] = array();
+    // Populate facets with configured facets.
+    foreach (variable_get('ding_facetbrowser_facets') as $facet) {
+      $options['facets'][] = $facet['name'];
+    }
+  }
+
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
   if (isset($options['sort']) && $options['sort']) {
