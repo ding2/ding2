@@ -5,20 +5,19 @@
  * Provides search results as a Panels content type.
  */
 
-/**
- * Callback function to supply a list of content types.
- *
- * This is only required to make CTools know that we're providing 
- * multiple types here (since we have no single => TRUE in the array).
- */
-function ting_search_carousel_carousel_ctools_content_types() {
-  return array(
-    'title' => t('Ting search carousel'),
-    'single' => TRUE,
-    'description' => t('A carousel displaying search results against the Ting system'),
-    'category' => t('Ting'),
-  );
-}
+
+$plugin = array(
+  'title' => t('Ting search carousel'),
+  'description' => t('A carousel displaying search results against the Ting system'),
+  'single' => TRUE,
+  'content_types' => array('carousel'),
+  'render callback' => 'ting_search_carousel_carousel_content_type_render',
+  'defaults' => array(),
+  'edit form' => 'ting_search_carousel_carousel_content_type_edit_form',
+  'category' => array(t('Ting'), -9),
+  'required context' => new ctools_context_required(t('Ting object'), 'ting_object'),
+  'admin title' => 'ting_search_carousel_carousel_content_type_admin_title',
+);
 
 /**
  * Return the pane contents.
@@ -46,11 +45,7 @@ function ting_search_carousel_carousel_content_type_admin_title($subtype, $conf,
 
 /**
  * Returns an edit form for the content type.
- *
- * We're not actually doing anything here, but we need to have this hook 
- * for this content type to work.
  */
 function ting_search_carousel_carousel_content_type_edit_form(&$form, &$form_state) {
   return $form;
 }
-
