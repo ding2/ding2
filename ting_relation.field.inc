@@ -76,6 +76,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
 	  }*/
         $element[$delta][] = array(
           '#theme' => 'ting_relation',
+	  '#ac_source' => $entity->ac_source,
           '#relation' => $relation,
           '#object' => $relation->object,
           '#title' => $relation_types[$relation->type],	  
