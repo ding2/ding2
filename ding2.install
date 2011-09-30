@@ -38,7 +38,7 @@ function ding2_install() {
       'delta' => 'language',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 0,
+      'weight' => 1,
       'region' => 'header',
       'pages' => '',
       'cache' => -1,
