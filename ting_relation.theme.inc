@@ -14,7 +14,6 @@ function template_preprocess_ting_relation(&$variables) {
 
   $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
  
-  $variables['type_title'] = $variables['elements']['#title'];
   $variables['online_url'] = FALSE;
  
   switch ($relation->type) {
@@ -169,6 +168,7 @@ function ting_relation_set_subject(&$variables) {
 }
 
 function ting_relations_set_url_and_title( &$variables ) {
+  $variables['type_title'] = $variables['elements']['#title'];
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   
   if( is_object($tingentity_object) ) {
