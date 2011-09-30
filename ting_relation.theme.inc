@@ -10,14 +10,13 @@
 function template_preprocess_ting_relation(&$variables) {
   $object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
+  $ac_source = $variables['ac_source'] = $variables['elements']['#ac_source'];
 
   $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
+ 
   $variables['type_title'] = $variables['elements']['#title'];
-
-  $variables['title'] = check_plain($object->title);
-
-  $variables['online_url'] = $object->online_url ? l($object->ac_source, $object->online_url, array('attributes'=>array('target'=>'_blank') ) ): FALSE;
-
+  $variables['online_url'] = FALSE;
+ 
   switch ($relation->type) {
   case 'dbcbib:isPartOfManifestation':
     $variables['content']['body'] = ting_object_view($object, 'teaser');
@@ -37,14 +36,34 @@ function template_preprocess_ting_relation(&$variables) {
   case 'dbcaddi:hasCreatorDescription':
     ting_relation_set_author_description($variables);
     break;
+  case 'dbcaddi:hasOnlineAccess':
+    if( $ac_source == 'Ebrary' ) {
+      ting_relations_set_online_access( $variables );
+    }
+    break;
   default :
     break;
   }
 }
 
+function ting_relations_set_online_access( &$variables ) {
+  // TODO get ebrary url from somewhere
+  $ebrary_url = 'http://site.ebrary.com/lib/metropol/docDetail.action?docID=';
+
+  $variables['type_title'] = $variables['elements']['#title'];
+  $relation = $variables['relation'] = $variables['elements']['#relation'];
+
+  // simply set a button
+  $url = str_replace('[URL]',$ebrary_url,$relation->uri);
+  $variables['online_url'] = array( '#markup' => l($variables['ac_source'], $url, array('attributes'=>array('target'=>'_blank') ) ), );
+}
+
 function ting_relation_set_author_description(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
+
+  ting_relations_set_url_and_title( $variables );
+  
   if ($names = ting_relation_array2names($tingentity_object->creators)) {
     $variables['content']['byline'] = array(
       '#markup' => t('by @author', array('@author' => $names)),
@@ -64,6 +83,8 @@ function ting_relation_set_review_anmeldelser(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
 
+  ting_relations_set_url_and_title( $variables );
+  
   //creators
   if ($names = ting_relation_array2names($relation->object->creators)) {
     $variables['content']['byline'] = array(
@@ -89,6 +110,8 @@ function ting_relation_set_review_anmeldelser(&$variables) {
 function ting_relation_set_review(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
+
+  ting_relations_set_url_and_title( $variables );
 
   $variables['content']['meta'] = array(
     '#prefix' => '<div class="meta">',
@@ -120,6 +143,9 @@ function ting_relation_set_review(&$variables) {
 function ting_relation_set_subject(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
+  
+  ting_relations_set_url_and_title( $variables );
+
   //creators
   if ($tingentity_object->creators) {
     $variables['content']['byline'] = array(
@@ -140,6 +166,15 @@ function ting_relation_set_subject(&$variables) {
     '#prefix' => '<div>',
     '#suffix' => '</div>',
   );
+}
+
+function ting_relations_set_url_and_title( &$variables ) {
+  $tingentity_object = $variables['object'] = $variables['elements']['#object'];
+  
+  if( is_object($tingentity_object) ) {
+    $variables['title'] = check_plain($tingentity_object->title);
+    $variables['online_url'] = $tingentity_object->online_url ? l($tingentity_object->ac_source, $tingentity_object->online_url, array('attributes'=>array('target'=>'_blank') ) ): FALSE;
+  }
 }
 
 function ting_relation_array2names($array) {
