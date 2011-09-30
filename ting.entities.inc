@@ -22,6 +22,7 @@ class TingRelation extends DingEntityBase {
     }
   }
 
+
   public function getObject() {
     return $this->properties['object'];
   }
@@ -43,7 +44,7 @@ class TingEntity extends DingEntity {
   public $date = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
-  public $description = DingEntityBase::NULL; 
+  public $description = DingEntityBase::NULL;
   //pjo 26-09-11 added contributor and abstract for relations
   public $contributors = DingEntityBase::NULL;
   public $isPartOf = DingEntityBase::NULL;
@@ -97,7 +98,7 @@ class TingEntity extends DingEntity {
 
   function getSerieTitle() {
     $serie_title = array();
-    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : ''; 
+    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
 
     if (preg_match('/^([^;]+);/', $serie, $serie_title)) {
       return isset($serie_title[1]) ? trim($serie_title[1]) : FALSE;
