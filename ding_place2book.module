@@ -32,47 +32,44 @@ function ding_place2book_menu() {
 
 function ding_place2book_p2b_submit($form, &$form_state)
 {
-  //Save settings
-  $exists = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $form['nid']['#value']));
+  dpm($form_state); // for debugging..
   
-  // if this node already has p2b settings, modify its record
-  if ($exists) {
-    $form_state['values']['place2book_id'] = $exists;
-    //dpm for debugging.. see http://www.thingy-ma-jig.co.uk/blog/02-10-2007/hugely-useful-hugely-undocumented
-    dpm($exists);
-    dpm($form_state);
-      
-    if ($form_state['values']['maintain_copy'] == 1) {
-      //maintain_copy is on - perform UPDATE
-      
-      if ($exists == -1) {
-        //this covers the case where there is no event on place2book 
-        $place2book_id = place2book_event_op($form_state['values'], 'insert');
-        $form_state['values']['place2book_id'] = $place2book_id;
-      } else {
-        $place2book_id = place2book_event_op($form_state['values'], 'update');
-      }
-      
-      //update settings in ding_place2book table
-      db_query('UPDATE {ding_place2book} SET maintain_copy = %d, use_taxonomy = %d WHERE nid = %d', $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy'], $form['nid']['#value']);
-      drupal_set_message('Place2book: UPDATE ran, settings were UPDATED, with maintain_copy= ' . $form_state['values']['maintain_copy'] . ' and place2book_id=' . $form_state['values']['place2book_id']);
+  //get existing Place2book DB settings for this node 
+  $settings = db_fetch_array(db_query('SELECT place2book_id, maintain_copy FROM {ding_place2book} WHERE nid = %d', $form['nid']['#value']));
+  $place2book_id = $settings['place2book_id'];
+  dpm($settings);  //for debugging
+  
+  //-- Contact place2book webservice (and get and ID from it if applicable) --
+  if ($form_state['values']['maintain_copy'] == 1) {
+    if ($settings['place2book_id'] && $settings['place2book_id'] != -1) {
+      //perform UPDATE
+      $form_state['values']['place2book_id'] = $place2book_id;
+      $place2book_id = place2book_event_op($form_state['values'], 'update');
+      drupal_set_message('Place2book: requested UPDATE'); //for debugging
     } else {
-      //maintain_copy is off - perform DELETE (this to be changed to a delete request to the place2book event API instead, followed by an UPDATE on ding_place2book)
-      //only request the delete if it is there.. don't be wasteful!
-      if ($exists > 0) {
-        $place2book_id = place2book_event_op($form_state['values'], 'delete'); 
-      }
-      //update settings in ding_place2book table
-      db_query('UPDATE {ding_place2book} SET maintain_copy = %d, use_taxonomy = %d WHERE nid = %d', $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy'], $form['nid']['#value']);
-      drupal_set_message('Place2book: settings were UPDATED, with maintain_copy= ' . $form_state['values']['maintain_copy'] . ' and place2book_id=' . $form_state['values']['place2book_id']);
+      //perform INSERT - and the returning value will be the place2book ID for further operations
+      $place2book_id = place2book_event_op($form_state['values'], 'insert');
+      drupal_set_message('Place2book: requested INSERT'); //for debugging
     }
   } else {
-    //send data to place2book and retrieve the place2book_id
-    $place2book_id = place2book_event_op($form_state['values'], 'insert');
-    
-    // otherwise, insert a new record with the p2b settings for this node
-    db_query('INSERT INTO {ding_place2book} (nid, place2book_id, maintain_copy, use_taxonomy) VALUES (%d, %d, %d, %d)', $form['nid']['#value'], $place2book_id, $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy']);        
-    drupal_set_message('Place2book: UPDATE op ran, settings were INSERTED');
+    //if maintain_copy is OFF, delete event on place2book IF we had an existing place2book_id in our settings
+    if ($settings['place2book_id']) {
+      //perform DELETE
+      $form_state['values']['place2book_id'] = $place2book_id;
+      place2book_event_op($form_state['values'], 'delete');
+      $place2book_id = -1;
+      drupal_set_message('Place2book: requested DELETE'); //for debugging
+    }
+  }
+  drupal_set_message('place2book_id = ' . $place2book_id); //for debugging
+  
+  //-- Update or insert in the settings table --
+  if ($settings) {
+    db_query('UPDATE {ding_place2book} SET place2book_id = %d, maintain_copy = %d, use_taxonomy = %d WHERE nid = %d', $place2book_id, $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy'], $form['nid']['#value']);
+    drupal_set_message('Settings table UPDATE'); //for debugging
+  } else {
+    db_query('INSERT INTO {ding_place2book} (nid, place2book_id, maintain_copy, use_taxonomy) VALUES (%d, %d, %d, %d)', $form['nid']['#value'], $place2book_id, $form_state['values']['maintain_copy'], $form_state['values']['use_taxonomy']);
+    drupal_set_message('Settings table INSERT'); //for debugging
   }
 }
 
@@ -137,6 +134,19 @@ function place2book_event_op($form_state_values, $op) {
   //build event xml
   //set event name with title
   $xml->event->name = $form_state_values['title']; //'the new title from within DING';
+  //set short description
+  $xml->event->description_short = $form_state_values['field_teaser'][0]['value'];
+  //set long description
+  $xml->event->description_long = $form_state_values['body'];
+  //set sales window times to use the defaults in place2book
+  $xml->event->sale_open = '';
+  $xml->event->sale_close = '';
+  //-- set location data --
+  //if library has been selected, use location data from the library
+  if ($form_state_values['field_library_ref'][0]['nid']) { 
+    $libloc = db_result(db_query('SELECT lid, name, street, additional, postal_code, city FROM location WHERE lid = %d', $form_state_values['field_library_ref'][0]['nid'])); 
+    dpm($libloc);
+  }
   //set event time to begin
   $xml->event->begin_at = $form_state_values['field_datetime'][0]['value']; 
   //set event time to end
@@ -246,20 +256,52 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
 function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
   
   if ($node->type == "event") {
-    $place2book_defaults = variable_get('ding_place2book_defaults', array());
- 
+    
     switch ($op) {
+      case 'view':
+        if (isset($node->nid) && $node->nid) {
+
+          $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
+
+          if ($exists_p2b) {
+            $api_token = variable_get('ding_place2book_api_key', '');
+
+            $p2b_headers = array(
+              'X-PLACE2BOOK-API-TOKEN' => $api_token,
+              'X-PLACE2BOOK-EVENT-ID' => $exists_p2b,
+              );
+            $p2b_result = drupal_http_request('https://staging.place2book.com/da/event_api/available_tickets', $p2b_headers, 'GET' );  
+            dpr($p2b_result); //for debugging..
+        
+            if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
+              $place2book_infolink = '<ul class="buttons item-list">
+				  	<li class="place2book order">
+					  	<a href="' . $p2b_result->headers['Location'] . '">Buy your ticket!</a>
+					</li>
+				  </ul>';
+            } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
+              $place2book_infolink = '<div class="info place2book">' .t('There are no available tickets for this event') .'</div>';
+            } elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
+              $place2book_infolink = '<div class="info place2book">' .t('The event is closed') .'</div>';
+            }
+            
+            $node->content['place2book_infolink'] = array(
+              '#value' => $place2book_infolink, 
+              '#weight' => 10,
+              );
+            }
+          }
+        break;
+    
       case 'delete':
         if (isset($node->nid) && $node->nid) {
           $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
           if ($exists_p2b) {
             // send DELETE request to Place2book webservice
-            drupal_set_message('Place2book: DELETE request to P2B webservice');
+            drupal_set_message('Place2book: requested DELETE'); //for debugging..
           } 
-          drupal_set_message('Place2book: Requested DELETE on place2book event with id ' . $exists_p2b);
           db_query('DELETE FROM {ding_place2book} WHERE nid = %d', $node->nid);
-        
-          //drupal_set_message('Place2book: DELETE op ran on event with node id ' . $node->nid );
+          drupal_set_message('Settings table row DELETE'); //for debugging
         }
         break;
     }
