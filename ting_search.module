@@ -581,7 +581,6 @@ function search_controls_form($form_state) {
  * Process a block search form submission.
  */
 function ting_search_submit($form, &$form_state) {
-
   $controls = array();
   // The search form relies on control of the redirect destination for its
   // functionality, so we override any static destination set in the request,
@@ -642,11 +641,23 @@ function ting_search_submit($form, &$form_state) {
   if ($q == '') {
     form_set_error('keys', t('Please enter some keywords.'));
   }
+  $search_info = array();
+  $request_path = explode('/', request_path());
 
-  $info = search_get_default_module_info();
-  if ($info) {
+  if (!isset($request_path[1])) {
+    $search_info = search_get_default_module_info();
+  }
+  else {
+    foreach (search_get_info() as $search_engine) {
+      if ($search_engine['path'] == $request_path[1]) {
+        $search_info = $search_engine;
+        break;
+      }
+    }
+  }
+  if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
     $form_state['redirect'] = FALSE;
-    $url = 'search/' . $info['path'] . '/' . trim($q);
+    $url = 'search/' . $search_info['path']. '/' . trim($q);
     drupal_goto($url, array('query' => $controls));
   }
   else {
