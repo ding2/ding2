@@ -125,34 +125,50 @@ function ding_campaign_display($context, $count, $offset) {
       $node = node_load($v);
       $content = '';
 
+      $camp_settings = field_get_items('node', $node, 'field_camp_settings');
+
       // Select the display for campaign type
-      switch ($node->field_camp_settings['und'][0]['value']) {
+      switch ($camp_settings[0]['value']) {
+        case 'plain':
+          $camp_link = field_get_items('node', $node, 'field_camp_link');
+          $camp_text_plain = field_get_items('node', $node, 'field_camp_text_plain');
+          $content = '<div class="ding-campaign-item-plain"><a href="' . $camp_link[0]['value'] . '">' . $camp_text_plain[0]['value'] . '</a></div>';
+          break;
         case 'image':
-          $content = '<a href="' . $node->field_camp_link['und'][0]['value'] . '"><img src="' . file_create_url($node->field_camp_image['und'][0]['uri']) . '" alt="" /></a>';
+          $camp_link = field_get_items('node', $node, 'field_camp_link');
+          $camp_image = field_get_items('node', $node, 'field_camp_image');
+          $content = '<div class="ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '"><img src="' . file_create_url($camp_image[0]['uri']) . '" alt="" /></a></div>';
           break;
         case 'full':
-          $content = '<div class="ding-item-full"><a href="' . $node->field_camp_link['und'][0]['value'] . '">' . $node->field_camp_text_full['und'][0]['value'] . '</a></div>';
+          $camp_text_full = field_get_items('node', $node, 'field_camp_text_full');
+          $content = '<div class="ding-campaign-item-full">' . $camp_text_full[0]['value'] . '</div>';
           break;
       }
 
-      // Select the theme for campaign
-      $theme = '';
-      switch ($node->field_camp_theme['und'][0]['value']) {
-        case 'theme_orange':
-          $theme = 'ding_campaign_orange';
-          break;
-        case 'theme_blue':
-          $theme = 'ding_campaign_blue';
-          break;
-        case 'theme_green':
-          $theme = 'ding_campaign_green';
-          break;
-        case 'theme_pink':
-          $theme = 'ding_campaign_pink';
-          break;
-      }
+      // Select the theme for plain text type campaign
+      if ($camp_settings[0]['value'] == 'plain') {
+        $theme = '';
+        $camp_theme = field_get_items('node', $node, 'field_camp_theme');
+        switch ($camp_theme[0]['value']) {
+          case 'theme_orange':
+            $theme = 'ding_campaign_orange';
+            break;
+          case 'theme_blue':
+            $theme = 'ding_campaign_blue';
+            break;
+          case 'theme_green':
+            $theme = 'ding_campaign_green';
+            break;
+          case 'theme_pink':
+            $theme = 'ding_campaign_pink';
+            break;
+        }
 
-      $block .= theme($theme, array('content' => $content));
+        $block .= theme($theme, array('content' => $content));
+      }
+      else {
+        $block .= $content;
+      }
     }
 
     return $block;
@@ -169,8 +185,9 @@ function ding_campaign_display($context, $count, $offset) {
  */
 function ding_campaign_get_campaigns($context, $limit, $offset) {
   $campaigns = array();
+
   // Process page campaigns
-  if ($context['page'] != NULL)  {
+  if ($context['page'] != NULL && isset($context['page']->nid))  {
     $nid = $context['page']->nid;
 
     $result = db_query('SELECT r.cid
@@ -243,7 +260,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process library campaigns
-  if ($context['library'] != NULL && $context['library']->type == 'library') {
+  if ($context['library'] != NULL && isset($context['library']->nid) && $context['library']->type == 'library' ) {
     $nid = $context['library']->nid;
 
     $result = db_query('SELECT r.cid
@@ -262,7 +279,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process taxonomy campaigns
-  if ($context['taxonomy_term'] != NULL) {
+  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tid)) {
     $tid = $context['taxonomy_term']->tid;
 
     $result = db_query('SELECT r.cid
@@ -307,11 +324,13 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
   // Alter the Campaign addition form
   if ($form_id == 'campaign_node_form') {
     // Remove the 'N/A' type radiobox
-    unset($form['field_camp_settings']['und']['#options']['_none']);
+    unset($form['field_camp_settings'][$form['field_camp_settings']['#language']]['#options']['_none']);
     // Remove the 'None' value from weight dropdown
-    unset($form['field_camp_weight']['und']['#options']['_none']);
+    unset($form['field_camp_weight'][$form['field_camp_weight']['#language']]['#options']['_none']);
     // Remove the 'None' value from theme dropdown
-    unset($form['field_camp_theme']['und']['#options']['_none']);
+    unset($form['field_camp_theme'][$form['field_camp_theme']['#language']]['#options']['_none']);
+
+    $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
   }
   else {
     $enabled_types = variable_get('ding_campaign_node_types', array());
@@ -339,11 +358,14 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 function ding_campaign_node_insert($node) {
   // Insert the campaign type node
   if ($node->type == 'campaign') {
+    $node_type = field_get_items('node', $node, 'field_camp_settings');
+    $node_weight = field_get_items('node', $node, 'field_camp_weight');
+    $node_theme = field_get_items('node', $node, 'field_camp_theme');
     $data = array(
       'cid' => $node->nid,
-      'type' => $node->field_camp_settings['und'][0]['value'],
-      'weight' => $node->field_camp_weight['und'][0]['value'],
-      'theme' => $node->field_camp_theme['und'][0]['value'],
+      'type' => $node_type[0]['value'],
+      'weight' => $node_weight[0]['value'],
+      'theme' => $node_theme[0]['value'],
     );
 
     db_insert('ding_campaign')
@@ -383,11 +405,14 @@ function ding_campaign_node_insert($node) {
 function ding_campaign_node_update($node) {
   // Update the campaign if needed
   if ($node->type == 'campaign') {
+    $node_type = field_get_items('node', $node, 'field_camp_settings');
+    $node_weight = field_get_items('node', $node, 'field_camp_weight');
+    $node_theme = field_get_items('node', $node, 'field_camp_theme');
     // Update campaign fields
     $data = array(
-      'type' => $node->field_camp_settings['und'][0]['value'],
-      'weight' => $node->field_camp_weight['und'][0]['value'],
-      'theme' => $node->field_camp_theme['und'][0]['value'],
+      'type' => $node_type[0]['value'],
+      'weight' => $node_weight[0]['value'],
+      'theme' => $node_theme[0]['value'],
     );
 
     db_update('ding_campaign')
@@ -525,3 +550,12 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
     return 'plugins/' . $plugin;
   }
 }
+
+function ding_campaign_campaign_node_form_validate($form, &$form_state) {
+  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'plain' || $form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
+    if (empty($form_state['input']['field_camp_link'][$form['field_camp_link']['#language']][0]['value'])) {
+      form_set_error('field_camp_link', 'Empty links are not allowed for plain text and image type campaigns.');
+    }
+  }
+}
+

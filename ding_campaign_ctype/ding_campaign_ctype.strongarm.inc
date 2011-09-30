@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementis hook_strongarm().
+ * Implementation of hook_strongarm().
  */
 function ding_campaign_ctype_strongarm() {
   $export = array();

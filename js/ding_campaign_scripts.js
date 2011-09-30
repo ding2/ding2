@@ -1,10 +1,13 @@
 (function ($) {
   campaign_content_click = function(type) {
-    $('#edit-field-camp-image, #edit-field-camp-text-full').hide();
+    $('#edit-field-camp-text-plain, #edit-field-camp-image, #edit-field-camp-text-full, #edit-field-camp-link, #edit-field-camp-theme').hide();
 
     switch(type) {
+      case 'plain':
+        $('#edit-field-camp-text-plain, #edit-field-camp-link, #edit-field-camp-theme').show();
+        break;
       case 'image':
-        $('#edit-field-camp-image').show();
+        $('#edit-field-camp-image, #edit-field-camp-link').show();
         break;
       case 'full':
         $('#edit-field-camp-text-full').show();
