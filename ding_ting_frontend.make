@@ -51,7 +51,7 @@ projects[ting_search_autocomplete][download][url] = "git@github.com:ding2/ting_s
 projects[ding_availability][type] = "module"
 projects[ding_availability][download][type] = "git"
 projects[ding_availability][download][url] = "git@github.com:ding2/ding_availability.git"
-projects[ding_availability][download][tag] = "v0.4"
+projects[ding_availability][download][tag] = "7.x-0.7"
 
 projects[ding_periodical][type] = "module"
 projects[ding_periodical][download][type] = "git"
