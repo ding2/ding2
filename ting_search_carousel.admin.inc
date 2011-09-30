@@ -34,7 +34,6 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   $form['ting_search_carousel'] = array(
     '#type' => 'fieldset',
     '#title' => 'Searches',
-    '#theme' => array('ting_search_carousel_admin_form'),
     '#prefix' => '<div id="ting-search-carousel-queries">',
     '#suffix' => '</div>'
   );
@@ -95,6 +94,7 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   );
 
   // Custom form submit handler
+  $form['#theme'] = array('ting_search_carousel_admin_form');
   $form['#submit'] = array('ting_search_carousel_search_submit');
   
   return system_settings_form($form);
@@ -128,18 +128,18 @@ function theme_ting_search_carousel_admin_form($variables) {
 
   $header = array('Searches', '');
   $rows = array();
-  foreach (element_children($form['ting_searches']) as $key) {
+  foreach (element_children($form['ting_search_carousel']['ting_searches']) as $key) {
     // Add class to group weight fields for drag and drop.
-    $form['ting_searches'][$key]['sort']['#attributes']['class'][] = 'sort';
+    $form['ting_search_carousel']['ting_searches'][$key]['sort[]']['#attributes']['class'][] = 'sort';
 
     // Get sort element
-    $sort = $form['ting_searches'][$key]['sort'];
-    unset($form['ting_searches'][$key]['sort']);
+    $sort = $form['ting_search_carousel']['ting_searches'][$key]['sort[]'];
+    unset($form['ting_search_carousel']['ting_searches'][$key]['sort[]']);
 
     // Build rows
     $rows[] = array(
       'data' => array(
-        drupal_render($form['ting_searches'][$key]),
+        drupal_render($form['ting_search_carousel']['ting_searches'][$key]),
         drupal_render($sort)
       ),
       'class' => array('draggable')
