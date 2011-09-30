@@ -631,10 +631,15 @@ function ting_search_submit($form, &$form_state) {
   $search_info = array();
   $request_path = explode('/', request_path());
 
-  foreach (search_get_info() as $search_engine) {
-    if ($search_engine['path'] == $request_path[1]) {
-      $search_info = $search_engine;
-      break;
+  if (!isset($request_path[1])) {
+    $search_info = search_get_default_module_info();
+  }
+  else {
+    foreach (search_get_info() as $search_engine) {
+      if ($search_engine['path'] == $request_path[1]) {
+        $search_info = $search_engine;
+        break;
+      }
     }
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
