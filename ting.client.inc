@@ -88,7 +88,6 @@ function ting_get_object($object_id, $collection = FALSE) {
  */
 function ting_get_objects($ids) {
   $objects = array();
-
   // Prefill from cache.
   foreach ($ids as $id) {
     $objects[$id] = ting_cache_get($id);
