@@ -91,10 +91,12 @@ function ting_search_carousel_admin_form($form, &$form_state) {
     '#default_value' => variable_get('ting_search_carousel_cache_duration', 604800),
   );
 
-  // Custom form submit handler
+  // Wrap the form, due to draggable items renewal
   $form['#prefix'] = '<div id="ting-search-carousel-queries">';
   $form['#suffix'] = '</div>';
+  // Custom themer, mainly used for dragable table creation
   $form['#theme'] = array('ting_search_carousel_admin_form');
+  // Custom form submit handler
   $form['#submit'] = array('ting_search_carousel_search_submit');
   
   return system_settings_form($form);
