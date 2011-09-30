@@ -37,11 +37,6 @@ projects[mkdru_ding_frontend][type] = "module"
 projects[mkdru_ding_frontend][download][type] = "git"
 projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2/mkdru_ding_frontend.git"
 
-; Libraries
-projects[pazpar2][download][type] = "git"
-projects[pazpar2][type] = "library"
-projects[pazpar2][download][url] = "git://git.indexdata.com/pazpar2.git"
-
 ; Themes
 projects[artois][type] = "theme"
 projects[artois][download][type] = "git"
