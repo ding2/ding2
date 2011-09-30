@@ -32,9 +32,3 @@ projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
 ; projects[ding_ting_frontend][download][tag] = "7.x-0.12"
-
-; Libraries
-projects[pazpar2][download][type] = "git"
-projects[pazpar2][type] = "library"
-projects[pazpar2][download][url] = "git://git.indexdata.com/pazpar2.git"
-
