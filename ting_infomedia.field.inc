@@ -79,7 +79,7 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
   case 'ting_infomedia_default' :
     foreach($items as $delta=>$items) {
       foreach ($entity->relations as $relation) {
-        if( isset($relation_types[$relation->type]) ) {
+        if( isset($relation_types[$relation->type]) && $entity->ac_source == 'Artikler' ) {
           $element[$delta] = array(
             '#markup' => l(t('Read article'), ting_infomedia_get_article_link($id), array('attributes' => array('class' => 'infomedia_group'))),
           );
