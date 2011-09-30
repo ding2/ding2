@@ -12,7 +12,6 @@ class TingRelation extends DingEntityBase {
   public $type = DingEntityBase::NULL;
   public $uri = DingEntityBase::NULL;
   public $object = DingEntityBase::NULL;
- 
 
   public function __construct($type, $uri, $object = NULL) {
     parent::__construct();
@@ -23,9 +22,9 @@ class TingRelation extends DingEntityBase {
     }
   }
 
-
-  
-  
+  public function getObject() {
+    return $this->properties['object'];
+  }
 }
 
 /**
@@ -113,7 +112,7 @@ class TingEntity extends DingEntity {
   }
 
   function getRecord() {
-    return $this->reply->record;
+    return !empty($this->reply->record) ? $this->reply->record : false;
   }
 
   function getRelations() {
@@ -130,7 +129,7 @@ class TingEntity extends DingEntity {
     if (isset($this->reply->relationsData)) {
       $entity_ids = array();
       foreach ($this->reply->relationsData as $record) {
-        if (isset($record->relationUri)) {
+        if (isset($record->relationUri) && isset($record->relationObject)) {    
           $entity_ids[] = $record->relationUri;
         }
       }
