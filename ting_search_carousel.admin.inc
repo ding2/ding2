@@ -34,8 +34,6 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   $form['ting_search_carousel'] = array(
     '#type' => 'fieldset',
     '#title' => 'Searches',
-    '#prefix' => '<div id="ting-search-carousel-queries">',
-    '#suffix' => '</div>'
   );
 
   // Get current saved queries
@@ -69,9 +67,9 @@ function ting_search_carousel_admin_form($form, &$form_state) {
     '#value' => 'Add another',
     '#ajax' => array(
       'callback' => 'ting_search_carousel_add_query',
-      'wrapper' => 'edit-new-search-carousel-button',
-      'method' => 'before',
-      'effect' => 'slide'
+      'wrapper' => 'ting-search-carousel-queries',
+      'method' => 'replace',
+      'effect' => 'fade'
     ),
   );
 
@@ -94,6 +92,8 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   );
 
   // Custom form submit handler
+  $form['#prefix'] = '<div id="ting-search-carousel-queries">';
+  $form['#suffix'] = '</div>';
   $form['#theme'] = array('ting_search_carousel_admin_form');
   $form['#submit'] = array('ting_search_carousel_search_submit');
   
@@ -109,9 +109,9 @@ function ting_search_carousel_admin_form($form, &$form_state) {
  *   Changed field to be updated
  */
 function ting_search_carousel_add_query($form) {
-  $c = count(element_children($form['ting_search_carousel']['ting_searches']));
+  //$c = count(element_children($form['ting_search_carousel']['ting_searches']));
   
-  return $form['ting_search_carousel']['ting_searches']['search_' . ($c - 1)];
+  return $form;//['ting_search_carousel'];//['ting_searches']['search_' . ($c - 1)];
 }
 
 /**
