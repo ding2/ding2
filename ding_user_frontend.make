@@ -8,6 +8,7 @@ projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-fo
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.0-alpha4"
+projects[date][patch][] = "http://drupal.org/files/issues/date-i18n-title-1188380-3.patch"
 
 projects[features][subdir] = contrib
 projects[features][version] = 1.0-beta3
