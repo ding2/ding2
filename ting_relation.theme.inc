@@ -45,11 +45,11 @@ function template_preprocess_ting_relation(&$variables) {
 function ting_relation_set_author_description(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
-  if ($names = ting_relation_array2names($relation->object->creators)) {
-    $variables['content']['creator'] = array(
-      '#markup' => t('relation_author_portrait_creator : ') . filter_xss_admin($names),
-      '#prefix' => '<div style="border-bottom:1px solid #CCCCCC; margin-bottom:0.5em">',
-      '#suffix' => '</div >',
+  if ($names = ting_relation_array2names($tingentity_object->creators)) {
+    $variables['content']['byline'] = array(
+      '#markup' => t('by @author', array('@author' => $names)),
+      '#prefix' => '<div class="meta">',
+      '#suffix' => '</div>',
     );
   }
 
@@ -66,17 +66,17 @@ function ting_relation_set_review_anmeldelser(&$variables) {
 
   //creators
   if ($names = ting_relation_array2names($relation->object->creators)) {
-    $variables['content']['creator'] = array(
-      '#markup' => t('relation_review_creator : ') . filter_xss_admin($names),
+    $variables['content']['byline'] = array(
+      '#markup' => t('by @author', array('@author' => $names)),
       '#prefix' => '<div>',
       '#suffix' => '</div>',
     );
   }
   //ispartof
-  if($partOf = ting_relation_array2names($relation->object->isPartOf)) {
+  if ($partOf = ting_relation_array2names($relation->object->isPartOf)) {
     $extent = $relation->object->extent;
     $variables['content']['isPartOf'] = array(
-      '#markup' => t('relation_isPartOf : ') . filter_xss_admin($partOf . ', ' . $extent),
+      '#markup' => t('Part of') . ": " . filter_xss_admin($partOf . ', ' . $extent),
       '#prefix' => '<div style="padding-bottom:0.5em">',
       '#suffix' => '</div>',
     );
@@ -90,16 +90,20 @@ function ting_relation_set_review(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
 
-  $variables['content']['contributor'] = array(
-    '#markup' => t('relation_contributor : ') . filter_xss_admin(($names = ting_relation_array2names($relation->object->contributors)) ? $names : ''),
-    '#prefix' => '<div>',
+  $variables['content']['meta'] = array(
+    '#prefix' => '<div class="meta">',
     '#suffix' => '</div>',
   );
+  $names = ting_relation_array2names($relation->object->contributors);
+  if (!empty($relation->object->contributors) && sizeof($relation->object->contributors) > 0) {
+    $names = ting_relation_array2names($relation->object->contributors);
+    $variables['content']['meta']['byline'] = array(
+      '#markup' => t('by @author', array('@author' => $names)),
+    );
+  }
 
-  $variables['content']['date'] = array(
-    '#markup' => t('relation_date : ') . filter_xss_admin($relation->object->date),
-    '#prefix' => '<div style="border-bottom:1px solid #CCCCCC; margin-bottom:0.5em" >',
-    '#suffix' => '</div>',
+  $variables['content']['meta']['date'] = array(
+    '#markup' => t('Year') . ": " . filter_xss_admin($relation->object->date),
   );
 
 
@@ -120,8 +124,8 @@ function ting_relation_set_subject(&$variables) {
   if ($tingentity_object->creators) {
     $variables['content']['byline'] = array(
       '#markup' => t('by @author', array('@author' => ting_relation_array2names($tingentity_object->creators))),
-      '#prefix' => '<div>',
-      '#suffix' => '</div>',
+    '#prefix' => '<div class="meta">',
+    '#suffix' => '</div>',
     );
   }
   // abstract
