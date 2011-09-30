@@ -53,6 +53,12 @@ function ting_get_object($object_id, $collection = FALSE) {
       if ($agency = variable_get('ting_agency', FALSE)) {
         $request->setAgency($agency);
       }
+
+      $profile = variable_get('ting_search_profile', '');
+      if (!empty($profile) && method_exists($request, 'setProfile')) {
+	$request->setProfile($profile);
+      }
+     
       $request->setAllObjects(false);
       $object = ting_execute_cache($request);
     }
@@ -106,7 +112,13 @@ function ting_get_objects($ids) {
 
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
+    }  
+    
+    $profile = variable_get('ting_search_profile', '');
+    if (!empty($profile) && method_exists($request, 'setProfile')) {
+      $request->setProfile($profile);
     }
+
     $request->setQuery(join(' OR ', $query));
     $request->setStart(1);
     $request->setNumResults(1000);
