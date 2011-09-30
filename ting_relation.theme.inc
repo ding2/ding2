@@ -18,6 +18,7 @@ function template_preprocess_ting_relation(&$variables) {
  
   switch ($relation->type) {
   case 'dbcbib:isPartOfManifestation':
+    ting_relations_set_url_and_title( $variables );
     $variables['content']['body'] = ting_object_view($object, 'teaser');
     break;
   case 'dbcaddi:hasReview':
