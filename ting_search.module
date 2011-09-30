@@ -161,12 +161,34 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
 /**
  * Parse cql part for extended form elements.
  */
-function parse_cqlpart ($str,$cql_fields) {
-  $str = explode(' ', strtolower(trim($str,' ()')));
-  foreach ($str as $key => $val) {
+function parse_cqlpart ($src,$cql_fields) {
+
+  $src = strtolower(trim($src,' ()'));
+  $regCCLbool = '/^\sand\s|^\sor\s|^\snot\s+/i';
+  $buffer = '';
+
+  while( $src ){
+    if( preg_match($regCCLbool, $src, $match) ){
+      $src = substr( $src, strlen($match[0]) );
+      if ( $buffer ) {
+        $tokens[] = $buffer;
+        $buffer = '';
+      }
+      $tokens[] = $match[0];
+    }
+    else {
+      $buffer .= $src[0];
+      $src = substr( $src, 1 );
+    }
+  }
+  if ( $buffer ) {
+    $tokens[] = $buffer;
+  }
+
+  foreach ($tokens as $key => $val) {
     $extended_parts[$key] = explode('=', $val);
     $extended[ $extended_parts[$key][0] ] = ( !empty($extended_parts[$key][1]) ) ? $extended_parts[$key][1] : '';
-    if ( !array_key_exists($extended_parts[$key][0],$cql_fields) && ( empty($extended_parts[$key][1]) && strtolower($extended_parts[$key][0]) != 'and') ) {
+    if ( !array_key_exists($extended_parts[$key][0],$cql_fields) && ( empty($extended_parts[$key][1]) && strtolower(trim($extended_parts[$key][0])) != 'and') ) {
       return array();
     }
   }
