@@ -100,10 +100,12 @@ function alma_reservation_create($account, $id, $branch, $expiry) {
     throw new DingProviderReservationNotAllowed();
   }
 
-  if ($result) {
+  if (is_int($result)) {
     // Reset session cache
     alma_reservation_clear_cache();
-    return array($id => TRUE);
+    return array(
+      'queue_number' => $result,
+    );
   }
   else {
     throw new DingProviderReservationNotAvailable();

@@ -449,6 +449,7 @@ class AlmaClient {
       $doc = $this->request('patron/reservations/add', $params);
       $res_status = $doc->getElementsByTagName('reservationStatus')->item(0)->getAttribute('value');
       $res_message = $doc->getElementsByTagName('reservationStatus')->item(0)->getAttribute('key');
+      $queue_number = (int)$doc->getElementsByTagName('reservation')->item(0)->getAttribute('queueNo');
 
       // Return error code when patron is blocked.
       if ($res_message == 'reservationPatronBlocked') {
@@ -464,7 +465,7 @@ class AlmaClient {
       return FALSE;
     }
 
-    return TRUE;
+    return $queue_number;
   }
 
   /**
