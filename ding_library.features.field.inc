@@ -215,7 +215,7 @@ function ding_library_field_default_fields() {
   $fields['node-ding_library-field_library_links'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_library_links',
@@ -262,15 +262,17 @@ function ding_library_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_library_links',
       'label' => 'Links',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'attributes' => array(
           'class' => '',
+          'configurable_title' => 0,
           'rel' => '',
           'target' => 'default',
+          'title' => '',
         ),
         'display' => array(
-          'url_cutoff' => 80,
+          'url_cutoff' => '80',
         ),
         'enable_tokens' => 1,
         'title' => 'optional',
@@ -280,6 +282,7 @@ function ding_library_field_default_fields() {
         'validate_url' => 1,
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
