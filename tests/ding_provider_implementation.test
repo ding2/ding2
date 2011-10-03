@@ -133,9 +133,9 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
 
     $is_array = TRUE;
     $volumes_is_array = TRUE;
-    foreach ($response as $id => $volumes) {
-      $is_array &= is_array($volumes);
-      foreach ($volumes as $volume => $issues) {
+    foreach ($response as $id => $holding) {
+      $is_array &= is_array($holding['issues']);
+      foreach ($holding['issues'] as $volume => $issues) {
         $volumes_is_array &= is_array($issues);
         // Test that each volume's issues passes as regular holding responses.
         $this->commonCase(array_keys($issues), $issues);
