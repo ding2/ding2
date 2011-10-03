@@ -149,20 +149,20 @@ function ding_library_default_page_manager_handlers() {
     $pane->configuration = array(
       'override_pager_settings' => 0,
       'use_pager' => 0,
-      'nodes_per_page' => '10',
+      'nodes_per_page' => '6',
       'pager_id' => '0',
       'offset' => '0',
-      'more_link' => 0,
+      'more_link' => 1,
       'feed_icons' => 0,
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => '',
-      'display' => 'ctools_context_master',
+      'url' => 'library/%/events',
+      'display' => 'ctools_context_library_teaser',
       'context' => array(
         0 => 'relationship_og_group_from_node_1.gid',
       ),
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array(
