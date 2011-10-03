@@ -30,6 +30,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteNoConfig() {
+    drupal_load('module', 'ting_proxy');
     $config = array();
 
     foreach ($this->urls as $url) {
@@ -40,6 +41,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteNoHostnameMatch() {
+    drupal_load('module', 'ting_proxy');
     $config = array(
       array(
         'hostname' => 'host1.com',
@@ -59,6 +61,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteReplace() {
+    drupal_load('module', 'ting_proxy');
     $config = array(
       array(
         'hostname' => 'www.host1.com',
@@ -81,6 +84,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewritePrefix() {
+    drupal_load('module', 'ting_proxy');
     $config = array(
       array(
         'hostname' => 'www.host1.com',
@@ -99,6 +103,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
   }
 
   public function testRewriteReplacePrefix() {
+    drupal_load('module', 'ting_proxy');
     $config = array(
       array(
         'hostname' => 'www.host1.com',
@@ -122,6 +127,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
 
 
   public function testRewriteFirstConfigPriority() {
+    drupal_load('module', 'ting_proxy');
     $config = array(
       array(
         'hostname' => 'www.host1.com',
