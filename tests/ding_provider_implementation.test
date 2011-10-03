@@ -271,3 +271,19 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     }
   }
 }
+
+abstract class DingLoanProviderImplementationTestCase extends DingProviderImplementationTestCase {
+   /**
+   * Return a user that have some loans.
+   */
+  abstract function getUser();
+
+  function testLoan() {
+    $user = $this->getUser();
+    $loans = ding_provider_invoke('loan', 'list', $user);
+
+    foreach ($loans as $loan) {
+      $this->assertTrue($loan instanceof DingProviderLoan, 'Loan list returns loans');
+    }
+  }
+}

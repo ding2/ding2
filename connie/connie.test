@@ -89,3 +89,26 @@ class ConnieReservationProviderImplementationTestCase extends DingReservationPro
     );
   }
 }
+
+class ConnieLoanProviderImplementationTestCase extends DingLoanProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example lan provider',
+      'description' => 'Test Ding! provider example loan functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie', 'ding_loan'));
+    unset($_SESSION['connie_reservations']);
+
+  }
+
+  function getUser() {
+    global $user;
+    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')), $user);
+    ding_provider_invoke('reservation', 'create', $user, '123', 'here', '...');
+    return $user;
+  }
+}
