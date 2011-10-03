@@ -22,7 +22,7 @@ class DingUserFunctionalTest extends DrupalWebTestCase {
    * Attempts to get the logged in users uid from the edit link.
    */
   function getUidFromEditLink() {
-    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit user profile')));
     $res = preg_match('{^/user/(\d+)/edit$}', (string) $edit_link[0]['href'], $matches);
     $this->assertTrue($res, t('Edit link is well formed.'));
     if (!$res) {
