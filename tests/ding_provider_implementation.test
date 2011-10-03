@@ -234,7 +234,8 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     $reservations = ding_provider_invoke('reservation', 'list', $user);
     foreach ($reservations as $id => $reservation) {
       $this->assertEqual($id, $reservation->id, 'Ids match.');
-      if (in_array($reservation->ding_entity_id, $reservables)) {
+      // Only check those that we reserved.
+      if (isset($reservables[$reservation->ding_entity_id])) {
         $this->assertFalse(isset($existing_reservations[$reservation->ding_entity_id]), 'Not a dupe');
         $existing_reservations[$reservation->ding_entity_id] = $reservation;
       }
@@ -249,10 +250,10 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     );
 
     // Make sure that the reservables is now reserved and looks right.
-    foreach ($reservables as $reservable) {
-      $this->assertTrue(isset($existing_reservations[$reservable]), 'Was reserved.');
-      if (isset($existing_reservations[$reservable])) {
-        $res = $existing_reservations[$reservable];
+    foreach ($reservables as $res_id => $reservable) {
+      $this->assertTrue(isset($existing_reservations[$res_id]), 'Was reserved.');
+      if (isset($existing_reservations[$res_id])) {
+        $res = $existing_reservations[$res_id];
         // @todo display_title may not be required in the long run.
         $this->assertTrue(isset($res->display_name), 'Has a display_title.');
         $this->assertEqual($res->pickup_branch_id, $branch, 'Has a proper branch.');

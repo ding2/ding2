@@ -80,12 +80,12 @@ class ConnieReservationProviderImplementationTestCase extends DingReservationPro
   function getSomeReservables() {
     // Just return some random numbers.
     return array(
-      324,
-      34,
-      7,
-      870,
-      349,
-      'abc',
+      ':324' => 324,
+      ':34' => 34,
+      ':7' => 7,
+      ':870' => 870,
+      ':349' => 349,
+      ':abc' => 'abc',
     );
   }
 }
