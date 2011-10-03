@@ -90,11 +90,10 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Sort criterion: Content: Date and time (ding_event_date) */
+  $handler->display->display_options['sorts']['ding_event_date_value']['id'] = 'ding_event_date_value';
+  $handler->display->display_options['sorts']['ding_event_date_value']['table'] = 'field_data_ding_event_date';
+  $handler->display->display_options['sorts']['ding_event_date_value']['field'] = 'ding_event_date_value';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
