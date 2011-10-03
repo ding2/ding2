@@ -3,6 +3,7 @@
   $(document).ready(function() {
     Drupal.setSelectedLabel();
     Drupal.extendedFormOnload();
+    Drupal.extendedQueryDisplay();
   });
 
   $.TingExtendedForm = {};
@@ -118,6 +119,36 @@
     $('#edit-extendform-creator').val($('#extend_search_creator').val());
     $('#edit-extendform-title').val($('#extend_search_title').val());
     $('#edit-extendform-subject').val($('#extend_search_subject').val());
+  };
+  
+  Drupal.extendedQueryDisplay = function() {
+    
+    var queryText = $("input").filter("[name='search_block_form']").val()
+    // var queryText = $('#edit-search-block-form--2').val(); 
+
+    if ( $('#extend_search_creator').val() ) {
+      if ( queryText )
+        queryText += ' AND ';
+      queryText += $('label').filter("[for='edit-extendform-creator']").text() + ' = ';
+      queryText += $('#extend_search_creator').val();
+    }
+
+    if ( $('#extend_search_title').val() ) {
+      if ( queryText )
+        queryText += ' AND ';
+      queryText += $('label').filter("[for='edit-extendform-title']").text() + ' = ';
+      queryText += $('#extend_search_title').val();
+    }
+
+    if ( $('#extend_search_subject').val() ) {
+      if ( queryText )
+        queryText += ' AND ';
+      queryText += $('label').filter("[for='edit-extendform-subject']").text() + ' = ';
+      queryText += $('#extend_search_subject').val();
+    }
+
+    $('#search-query-string').text(queryText);
+
   };
 
 } (jQuery));
