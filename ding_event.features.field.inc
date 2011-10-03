@@ -456,6 +456,71 @@ function ding_event_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_event-ding_event_library'
+  $fields['node-ding_event-ding_event_library'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_event_library',
+      'foreign keys' => array(
+        'og' => array(
+          'columns' => array(
+            'gid' => 'gid',
+          ),
+          'table' => 'og',
+        ),
+      ),
+      'indexes' => array(
+        'gid' => array(
+          0 => 'gid',
+        ),
+      ),
+      'module' => 'og',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'group',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'og',
+          'settings' => array(),
+          'type' => 'og_list_default',
+          'weight' => 9,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_event_library',
+      'label' => 'Library',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'og',
+        'settings' => array(
+          'opt_group' => 'auto',
+        ),
+        'type' => 'group_audience',
+        'weight' => '5',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_event-ding_event_materials'
   $fields['node-ding_event-ding_event_materials'] = array(
     'field_config' => array(
@@ -582,6 +647,7 @@ function ding_event_field_default_fields() {
   t('Category');
   t('Date and time');
   t('Image');
+  t('Library');
   t('Materials');
   t('Tags');
   t('Teaser');

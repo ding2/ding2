@@ -244,7 +244,10 @@ function ding_event_default_page_manager_handlers() {
       'link_to_view' => 0,
       'args' => '',
       'url' => '',
-      'display' => 'default',
+      'display' => 'ctools_context_master',
+      'context' => array(
+        0 => 'argument_term_1.tid',
+      ),
       'override_title' => 1,
       'override_title_text' => '',
     );
