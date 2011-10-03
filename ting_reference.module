@@ -10,8 +10,8 @@
 function ting_reference_enable() {
   // Currently, the relation types are not loaded automatically, so we
   // do this manually when the module is enabled.
-  // TODO: Provide some sort of sanity check that relation is ready to
-  // receive the new relation type before calling this.
+  // Call relation_init to make sure that the relation field is created.
+  relation_init();
   foreach (ting_reference_relation_default_relation_types() as $relation_type) {
     if (!relation_type_load($relation_type->relation_type)) {
       relation_type_save($relation_type);
