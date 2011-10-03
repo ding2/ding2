@@ -297,6 +297,71 @@ function ding_news_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_news-ding_news_library'
+  $fields['node-ding_news-ding_news_library'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_news_library',
+      'foreign keys' => array(
+        'og' => array(
+          'columns' => array(
+            'gid' => 'gid',
+          ),
+          'table' => 'og',
+        ),
+      ),
+      'indexes' => array(
+        'gid' => array(
+          0 => 'gid',
+        ),
+      ),
+      'module' => 'og',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'group',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_news',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'og',
+          'settings' => array(),
+          'type' => 'og_list_default',
+          'weight' => 7,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_news_library',
+      'label' => 'Library',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'og',
+        'settings' => array(
+          'opt_group' => 'auto',
+        ),
+        'type' => 'group_audience',
+        'weight' => '7',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_news-ding_news_materials'
   $fields['node-ding_news-ding_news_materials'] = array(
     'field_config' => array(
@@ -421,6 +486,7 @@ function ding_news_field_default_fields() {
   t('Body');
   t('Category');
   t('Image');
+  t('Library');
   t('Materials');
   t('Tags');
   t('Teaser');
