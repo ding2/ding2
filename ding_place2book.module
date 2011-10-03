@@ -18,8 +18,8 @@ function ding_place2book_menu() {
   $items = array();
   
   $items['admin/settings/ding/place2book'] = array(
-    'title' => 'Place2book settings',
-    'description' => 'Settings and defaults for Place2book integration',
+    'title' => t('Place2book settings'),
+    'description' => t('Settings and defaults for Place2book integration'),
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_place2book_admin_settings_form'),
     'access callback' => TRUE,
@@ -155,7 +155,7 @@ function place2book_event_op($form_state_values, $op) {
   //-- set location data --
   //if library has been selected, use location data from the library
   if ($form_state_values['field_library_ref'][0]['nid']) { 
-    $libloc = db_fetch_array(db_query('SELECT nid, lid, title, name, street, additional, postal_code, city, country FROM node LEFT JOIN location ON node.nid = location.lid WHERE nid = %d', $form_state_values['field_library_ref'][0]['nid'])); 
+    $libloc = db_fetch_array(db_query('SELECT nid, lid, title, name, street, additional, postal_code, city, UPPER(country) AS country FROM node LEFT JOIN location ON node.nid = location.lid WHERE nid = %d', $form_state_values['field_library_ref'][0]['nid'])); 
     dpm($libloc);
     $xml->event->venue->name = $libloc['title'];
     $xml->event->venue->address1 = $libloc['street'];
@@ -172,6 +172,7 @@ function place2book_event_op($form_state_values, $op) {
     $xml->event->venue->address2 = $form_state_values['locations'][0]['additional']; 
   //NB! - event node type can have a funny default in it location settings (see /admin/content/node-type/event, Locative Info., Collection settings) - country default was US, should probably be DK. Perhaps a check should be made?
     $xml->event->venue->country_code = $form_state_values['locations'][0]['country'];
+    drupal_set_message('Address data overridden with data from node (see values -> locations[0])' );
   }
   
   //set event time to begin
@@ -216,7 +217,7 @@ function place2book_event_op($form_state_values, $op) {
       
       //update settings in ding_place2book table - "break the maintain_copy link"
       db_query('UPDATE {ding_place2book} SET place2book_id = -1, maintain_copy = %d, use_taxonomy = %d WHERE nid = %d', $form_state_values['maintain_copy'], $form_state_values['use_taxonomy'], $form_state_values['nid']);
-      drupal_set_message('Place2book: DELETE ran, settings were UPDATED for nid=' . $form_state_values['nid'] .', with maintain_copy= ' . $form_state_values['maintain_copy'] . ' and place2book_id=-1' );
+      drupal_set_message('Place2book: DELETE ran, settings were UPDATED for nid=' . $form_state_values['nid'] .', with maintain_copy= ' . $form_state_values['maintain_copy'] . ' and place2book_id=-1' ); //for debugging 
       
       //if server at p2b says 406 - Not Accepted, do this instead:
       //dont delete from ding_place2book
@@ -272,19 +273,19 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'checkbox',
       '#title' => t('Maintain copy on Place2Book'),
       '#default_value' => $p2b_values['maintain_copy'],
-      '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.')
+      '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
     );
     $form['place2book']['place2book_id'] = array(
       '#type' => 'item',
       '#title' => t('Place2Book ID'),
       '#value' => $p2b_values['place2book_id'],
-      '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book')
+      '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
     );
     $form['place2book']['use_taxonomy'] = array(
       '#type' => 'checkbox',
       '#title' => t('Categories to Place2Book'),
       '#default_value' => $p2b_values['use_taxonomy'],
-      '#description' => t('If checked, categories/taxonomy terms on this ding-event is sent to the corresponding event maintained on Place2Book.com.')
+      '#description' => t('If checked, categories/taxonomy terms on this ding-event is sent to the corresponding event maintained on Place2Book.com.'),
     );   
     //$form['#submit'][] = 'ding_place2book_p2b_submit'; 
     $form['buttons']['submit']['#submit'][]  = 'ding_place2book_p2b_submit'; 
@@ -318,7 +319,7 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
               $place2book_infolink = '<ul class="buttons item-list">
 				  	<li class="place2book order">
-					  	<a href="' . $p2b_result->headers['Location'] . '">Buy your ticket!</a>
+					  	<a href="' . $p2b_result->headers['Location'] . '">' . t('Buy your ticket!') . '</a>
 					</li>
 				  </ul>';
             } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
