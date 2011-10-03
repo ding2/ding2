@@ -19,8 +19,7 @@ function alma_debt_list($account) {
 
   // Create DingProviderDebt instances from Alma's list.
   foreach ($data['debts'] as $debt) {
-    $debtObj = new DingProviderDebt($debt['id'], $debt['date'], $debt['amount'], $debt['note']);
-    $debtObj->type = $debt['type'];
+    $debtObj = new DingProviderDebt($debt['id'], $debt);
 
     $debts[$debt['id']] = $debtObj;
   }
