@@ -23,7 +23,13 @@ function ding_event_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : { "subtask:page_ding_events_panel_context:page:ding_events:new-2" : "subtask:page_ding_events_panel_context:page:ding_events:new-2" } } } }
+        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
+                "subtask:page_ding_events_panel_context:page:ding_events:new-2" : "subtask:page_ding_events_panel_context:page:ding_events:new-2",
+                "task:term_view_panel_context_2:term_view:new-2" : "task:term_view_panel_context_2:term_view:new-2"
+              }
+            }
+          }
+        }
       ]
     }
   }');

@@ -251,7 +251,14 @@ function ding_event_default_page_manager_handlers() {
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'context',
+        'language' => 1,
+        'cache_key' => 'panel_context:term_view:term_view_panel_context_2',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
