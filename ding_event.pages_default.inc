@@ -314,7 +314,19 @@ function ding_event_default_page_manager_pages() {
   $page->admin_title = 'Ding events';
   $page->admin_description = 'Display the events';
   $page->path = 'events';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'perm',
+        'settings' => array(
+          'perm' => 'access content',
+        ),
+        'context' => 'logged-in-user',
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
@@ -455,7 +467,17 @@ function ding_event_default_page_manager_pages() {
   $page->admin_description = '';
   $page->path = 'library/%group/events';
   $page->access = array(
-    'plugins' => array(),
+    'plugins' => array(
+      0 => array(
+        'name' => 'perm',
+        'settings' => array(
+          'perm' => 'access content',
+        ),
+        'context' => 'logged-in-user',
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
   );
   $page->menu = array();
   $page->arguments = array(
