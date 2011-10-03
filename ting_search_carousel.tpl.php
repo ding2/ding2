@@ -1,3 +1,8 @@
+<?php
+/**
+ * @file
+ */
+?>
 <div class="ting-search-carousel">
   <ul class="search-results">
     <?php foreach ($searches as $i => $search) :?>

@@ -63,10 +63,10 @@ function ting_search_carousel_perm() {
  */
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   $hooks = array();
-  /*$hooks['ting_search_carousel'] = array(
+  $hooks['ting_search_carousel'] = array(
     'variables' => array('searches' => NULL),
     'template' => 'ting_search_carousel'
-  );
+  );/*
 
   $hooks['ting_search_carousel_search'] = array(
     'variables' => array('element' => NULL),
