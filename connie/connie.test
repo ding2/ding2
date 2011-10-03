@@ -49,7 +49,7 @@ class ConnieAvailabilityProviderImplementationTestCase extends DingAvailabilityP
   }
 
   function getSomePeriodicals() {
-    return array('49325703');
+    return array('06078362');
   }
 }
 
