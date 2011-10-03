@@ -60,3 +60,57 @@
   float: none;
   clear: both;
 }
+
+
+/* rs-carousel */
+#container {
+  position: relative;
+  width: 912px;
+}
+
+.rs-carousel {
+  overflow: hidden;
+}
+
+.rs-carousel .rs-carousel-mask {
+  position: relative;
+  overflow: hidden;
+  border: 6px solid #444;
+}
+
+.rs-carousel .rs-carousel-runner {
+  position: absolute;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rs-carousel .rs-carousel-item {
+  float: left;
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  color: #fff;
+  font-size: 8em;
+  text-align: center;
+  margin: 0;
+}
+
+.rs-carousel-action-disabled {
+  color: gray;
+  cursor: default;
+}
+
+/** ting-rs-carousel-1 **/
+#ting-rs-carousel-1 .rs-carousel-mask {
+  height: 150px;
+}
+
+.color-1 {background:#007cd2;}
+.color-2 {background:#1788D7;}
+.color-3 {background:#3798db;}
+.color-4 {background:#62acdf;}
+.color-5 {background:#86bbe0;}
+.color-6 {background:#a7c7de;}
+.color-7 {background:#d5dbdf;}

@@ -99,3 +99,23 @@ Drupal.tingSearchCarousel.setLoading = function(carousel, loading) {
   });
 };
 
+
+var ting_rs_carousel = {
+  init: function(view) {
+    this.view = view;
+    this.elements();
+  },
+  elements: function() {
+    var view = this.view;
+    this.elements = {};
+    this.elements.carousel = view.find('#ting-rs-carousel-1');
+  },
+};
+
+(function($) {
+  $(document).ready(function() {
+    ting_rs_carousel.init($('#container'));
+    $('#ting-rs-carousel-1').carousel();
+    ting_rs_carousel.elements.carousel.carousel('option', 'pagination', null);
+  });
+})(jQuery);
