@@ -1,6 +1,12 @@
 api = 2
 core = 7.x
 
+; Ting modules
+
+projects[ting_reference][type] = module
+projects[ting_reference][download][type] = git
+projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.git
+
 ; CONTRIB MODULES
 projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
