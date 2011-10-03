@@ -5,3 +5,36 @@
  */
 
 include_once('ding_library.features.inc');
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
+  if (isset($form['ding_library_slug'][$form['#node']->language])) {
+    $form['ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
+  }
+  elseif (isset($form['ding_library_slug']['und'])) {
+    $form['ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
+  }
+}
+
+/**
+ * Custom validate handler for the slug field.
+ * Don't allow charecters that aren't URL friendly, such as # , ect.
+ */
+function ding_library_slug_validate(&$form, &$form_state) {
+  // Try to get the slug value.
+  if (isset($form_state['values']['ding_library_slug'][$form_state['node']->language])) {
+    $slug = $form_state['values']['ding_library_slug'][$form_state['node']->language][0]['value'];
+  }
+  elseif (isset($form_state['values']['ding_library_slug']['und'])) {
+    $slug = $form_state['values']['ding_library_slug']['und'][0]['value'];
+  }
+
+  // If we found the slug do the actual validation.
+  if (!empty($slug)) {
+    if (!(preg_match('/^[a-z0-9_\-]+$/', $slug))) {
+      form_set_error(implode('][', $form['#parents']), t('Illeagal charecters detected, only small letters (a-z), numbers (0-9), dashes (-) and underscores (_) allowed'));
+    }
+  }
+}
