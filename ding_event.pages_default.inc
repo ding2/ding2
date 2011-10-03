@@ -479,7 +479,7 @@ function ding_event_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Library news',
+    'title' => 'Library events',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'css_id' => '',
@@ -565,7 +565,14 @@ function ding_event_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'context',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_events_library:page_ding_events_library_panel_context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
