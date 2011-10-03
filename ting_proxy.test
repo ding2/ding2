@@ -109,7 +109,7 @@ class TingProxyTestCase extends DrupalUnitTestCase {
         'hostname' => 'www.host1.com',
         'expression' => array(
           'regex' => '/part1/',
-          'replace' => 'part3'
+          'replacement' => 'part3'
         ),
         'disable_prefix' => 0,
       ),
