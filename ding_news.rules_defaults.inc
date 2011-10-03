@@ -23,7 +23,13 @@ function ding_news_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : { "subtask:page_ding_news_panel_context:page:ding_news:new-2" : "subtask:page_ding_news_panel_context:page:ding_news:new-2" } } } }
+        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
+                "subtask:page_ding_news_panel_context:page:ding_news:new-2" : "subtask:page_ding_news_panel_context:page:ding_news:new-2",
+                "task:term_view_panel_context:term_view:new-2" : "task:term_view_panel_context:term_view:new-2"
+              }
+            }
+          }
+        }
       ]
     }
   }');
