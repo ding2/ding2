@@ -175,6 +175,10 @@ function ding_user_user_view($account) {
     // external authentication module, then show
     // custom fields.
     $creds = ding_user_get_creds($account);
+    if (!ding_provider_implements('user', 'info')) {
+      // Provider doesn't implement any user information, we'll do nothing.
+      return;
+    }
     $user_info = ding_provider_invoke('user', 'info', $creds);
 
     $account->content['summary']['user_display_name'] = array(
