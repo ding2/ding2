@@ -62,7 +62,7 @@ function ding_campaign_admin_paths() {
  * Implements hook_node_access().
  */
 function ding_campaign_node_access($node) {
-  if ($node->type == 'campaign') {
+  if ($node->type == 'ding_campaign') {
     return TRUE;
   }
   return FALSE;
@@ -322,7 +322,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
  */
 function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
   // Alter the Campaign addition form
-  if ($form_id == 'campaign_node_form') {
+  if ($form_id == 'ding_campaign_node_form') {
     // Remove the 'N/A' type radiobox
     unset($form['field_camp_settings'][$form['field_camp_settings']['#language']]['#options']['_none']);
     // Remove the 'None' value from weight dropdown
@@ -357,7 +357,7 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
  */
 function ding_campaign_node_insert($node) {
   // Insert the campaign type node
-  if ($node->type == 'campaign') {
+  if ($node->type == 'ding_campaign') {
     $node_type = field_get_items('node', $node, 'field_camp_settings');
     $node_weight = field_get_items('node', $node, 'field_camp_weight');
     $node_theme = field_get_items('node', $node, 'field_camp_theme');
@@ -404,7 +404,7 @@ function ding_campaign_node_insert($node) {
  */
 function ding_campaign_node_update($node) {
   // Update the campaign if needed
-  if ($node->type == 'campaign') {
+  if ($node->type == 'ding_campaign') {
     $node_type = field_get_items('node', $node, 'field_camp_settings');
     $node_weight = field_get_items('node', $node, 'field_camp_weight');
     $node_theme = field_get_items('node', $node, 'field_camp_theme');
@@ -458,7 +458,7 @@ function ding_campaign_node_update($node) {
 function ding_campaign_node_load($node) {
   $nids = array_keys($node);
 
-  if ($node[$nids[0]]->type == 'campaign') {
+  if ($node[$nids[0]]->type == 'ding_campaign') {
     $result = db_select('ding_campaign_rules')
       ->fields('ding_campaign_rules', array('rule', 'type'))
       ->condition('cid', $node[$nids[0]]->nid)
@@ -500,7 +500,7 @@ function ding_campaign_node_load($node) {
  */
 function ding_campaign_node_delete($node) {
   // Delete the campaign if needed
-  if ($node->type == 'campaign') {
+  if ($node->type == 'ding_campaign') {
     db_delete('ding_campaign')
       ->condition('cid', $node->nid)
       ->execute();
@@ -529,7 +529,7 @@ function ding_campaign_node_delete($node) {
 function ding_campaign_get_list() {
   $result = db_query("SELECT n.nid, n.title FROM {node} n
     WHERE n.status <> 0
-      AND n.type = 'campaign'
+      AND n.type = 'ding_campaign'
     ORDER BY n.title")
     ->fetchAll();
 

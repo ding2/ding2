@@ -10,8 +10,8 @@
 function ding_campaign_ctype_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-campaign-field_camp_image'
-  $fields['node-campaign-field_camp_image'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_image'
+  $fields['node-ding_campaign-field_camp_image'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -40,7 +40,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -52,7 +52,7 @@ function ding_campaign_ctype_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => '2',
+          'weight' => 2,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -83,13 +83,13 @@ function ding_campaign_ctype_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '3',
+        'weight' => '-2',
       ),
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_link'
-  $fields['node-campaign-field_camp_link'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_link'
+  $fields['node-ding_campaign-field_camp_link'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -117,7 +117,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'text',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -127,7 +127,7 @@ function ding_campaign_ctype_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 8,
+          'weight' => 4,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -151,13 +151,13 @@ function ding_campaign_ctype_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '5',
+        'weight' => '0',
       ),
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_settings'
-  $fields['node-campaign-field_camp_settings'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_settings'
+  $fields['node-ding_campaign-field_camp_settings'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -183,7 +183,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'list_text',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'default_value' => array(
         0 => array(
           'value' => 'plain',
@@ -193,10 +193,11 @@ function ding_campaign_ctype_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'hidden',
+          'label' => 'above',
+          'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '3',
+          'type' => 'list_default',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -217,13 +218,13 @@ function ding_campaign_ctype_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_buttons',
-        'weight' => '1',
+        'weight' => '-4',
       ),
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_text_full'
-  $fields['node-campaign-field_camp_text_full'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_text_full'
+  $fields['node-ding_campaign-field_camp_text_full'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -249,7 +250,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -259,7 +260,7 @@ function ding_campaign_ctype_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '1',
+          'weight' => 3,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -283,13 +284,13 @@ function ding_campaign_ctype_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '4',
+        'weight' => '-1',
       ),
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_text_plain'
-  $fields['node-campaign-field_camp_text_plain'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_text_plain'
+  $fields['node-ding_campaign-field_camp_text_plain'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -315,7 +316,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -325,7 +326,7 @@ function ding_campaign_ctype_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 9,
+          'weight' => 1,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -349,13 +350,13 @@ function ding_campaign_ctype_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '2',
+        'weight' => '-3',
       ),
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_theme'
-  $fields['node-campaign-field_camp_theme'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_theme'
+  $fields['node-ding_campaign-field_camp_theme'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -382,7 +383,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'list_text',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'default_value' => array(
         0 => array(
           'value' => 'theme_orange',
@@ -396,7 +397,7 @@ function ding_campaign_ctype_field_default_fields() {
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => 7,
+          'weight' => 5,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -417,13 +418,13 @@ function ding_campaign_ctype_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '6',
+        'weight' => '1',
       ),
     ),
   );
 
-  // Exported field: 'node-campaign-field_camp_weight'
-  $fields['node-campaign-field_camp_weight'] = array(
+  // Exported field: 'node-ding_campaign-field_camp_weight'
+  $fields['node-ding_campaign-field_camp_weight'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -467,7 +468,7 @@ function ding_campaign_ctype_field_default_fields() {
       'type' => 'list_integer',
     ),
     'field_instance' => array(
-      'bundle' => 'campaign',
+      'bundle' => 'ding_campaign',
       'default_value' => array(
         0 => array(
           'value' => '0',
@@ -477,10 +478,11 @@ function ding_campaign_ctype_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'hidden',
+          'label' => 'above',
+          'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '4',
+          'type' => 'list_default',
+          'weight' => 6,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -501,7 +503,7 @@ function ding_campaign_ctype_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '7',
+        'weight' => '2',
       ),
     ),
   );

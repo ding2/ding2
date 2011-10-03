@@ -26,9 +26,9 @@
       Drupal.attachBehaviors($(obj));
     },
     attach: function(context) {
-      campaign_content_click($('.node-campaign-form #edit-field-camp-settings input[type=radio]:checked').attr('value'));
+      campaign_content_click($('.node-ding_campaign-form #edit-field-camp-settings input[type=radio]:checked').attr('value'));
 
-      $('.node-campaign-form #edit-field-camp-settings input[type=radio]').click(function() {
+      $('.node-ding_campaign-form #edit-field-camp-settings input[type=radio]').click(function() {
         var type = $(this).attr('value');
         campaign_content_click(type);
       });

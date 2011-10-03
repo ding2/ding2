@@ -32,7 +32,7 @@ function ding_campaign_configure($form, $form_state) {
   );
 
   // Prevent campaigns to be assigned to campaigns
-  unset($form['ding_campaign_node_types']['#options']['campaign_node_form']);
+  unset($form['ding_campaign_node_types']['#options']['ding_campaign_node_form']);
 
   return system_settings_form($form);
 }

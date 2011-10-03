@@ -19,7 +19,7 @@ function ding_campaign_ctype_ctools_plugin_api() {
  */
 function ding_campaign_ctype_node_info() {
   $items = array(
-    'campaign' => array(
+    'ding_campaign' => array(
       'name' => t('Campaign'),
       'base' => 'node_content',
       'description' => '',
