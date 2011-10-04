@@ -27,6 +27,7 @@ projects[panels][version] = 3.0-alpha3
 projects[pathauto][type] = module
 projects[pathauto][subdir] = contrib
 projects[pathauto][version] = 1.0-rc2
+projects[pathauto][patch][] = http://drupal.org/files/1299460.patch
 
 projects[rules][type] = module
 projects[rules][subdir] = contrib
