@@ -433,7 +433,7 @@ function ding_library_default_page_manager_pages() {
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Panel',
+    'title' => 'Ding libraries',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'css_id' => 'ding-library-page',
@@ -466,7 +466,14 @@ function ding_library_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -494,7 +501,13 @@ function ding_library_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
