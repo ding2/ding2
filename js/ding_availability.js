@@ -108,7 +108,14 @@
       function updateHoldingsAvailable(id, entity_ids) {
         var entity_id = entity_ids.pop();
         if (Drupal.DADB[entity_id] !== undefined && Drupal.DADB[entity_id]['holdings'] !== undefined) {
-          var holdings = Drupal.DADB[entity_id]['holdings_available'];
+          var holdings;
+          // Use holdings_available, if set.
+          if (Drupal.DADB[entity_id]['holdings_available'] !== undefined) {
+            holdings = Drupal.DADB[entity_id]['holdings_available'];
+          }
+          else {
+            holdings = Drupal.DADB[entity_id]['holdings'];
+          }
           if (holdings.length > 0) {
             $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
             $('#' + id).append('<ul>');
