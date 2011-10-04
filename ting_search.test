@@ -13,13 +13,61 @@ class TingSearchTestCase extends DrupalWebTestCase {
   public function setUp() {
     $this->profile = 'minimal';
 
-    parent::setUp('ting', 'search', 'ting_search', 'nanosoap');
-    variable_set('ting_agency', '721700');
-    variable_set('ting_search_url', 'http://opensearch.addi.dk/1.0/');
+    parent::setUp('ting', 'ding_entity', 'search', 'ting_search', 'nanosoap');
+    variable_set('ting_agency', '100200');
+    variable_set('ting_search_url', 'http://opensearch.addi.dk/next_2.0/');
     variable_set('ting_scan_url', 'http://openscan.addi.dk/1.5/');
     variable_set('ting_spell_url', 'http://openspell.addi.dk/1.2/');
     variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
     variable_set('search_active_modules', array('ting_search' => 'ting_search'));
+    variable_set('ting_search_profile', 'opac');
+    // Default settings for teaser viewmode hides all the fields. We unset
+    // custom settings here, instead of trying to configure the viewmode.
+    variable_set('field_bundle_settings', array(
+        'ting_collection' => array(
+          'ting_collection' => array(
+            'view_modes' => array(
+              'full' => array(
+                'custom_settings' => FALSE,
+              ),
+              'teaser' => array(
+                'custom_settings' => FALSE,
+              ),
+              'search_result' => array(
+                'custom_settings' => FALSE,
+              ),
+            ),
+            'extra_fields' => array(
+              'form' => array(
+              ),
+              'display' => array(
+              ),
+            ),
+          ),
+        ),
+        'ting_object' => array(
+          'ting_object' => array(
+            'view_modes' => array(
+              'full' => array(
+                'custom_settings' => FALSE,
+              ),
+              'teaser' => array(
+                'custom_settings' => FALSE,
+              ),
+              'search_result' => array(
+                'custom_settings' => FALSE,
+              ),
+            ),
+            'extra_fields' => array(
+              'form' => array(
+              ),
+              'display' => array(
+              ),
+            ),
+          ),
+        ),
+      ));
+
     variable_set('search_default_module', 'ting_search');
     menu_rebuild();
 
@@ -38,8 +86,8 @@ class TingSearchTestCase extends DrupalWebTestCase {
 
     $this->drupalGet('search/ting/jussi adler olsen journal 64');
 
-    $this->assertFieldByXPath("//ol[@class='search-results ting_search-results']/li[@class='search-result']/h3[@class='title']/a", 'Journal 64 krimithriller', 'We have a search result title = "Journal 64 krimithriller".');
-    $this->assertFieldByXPath("//ol[@class='search-results ting_search-results']/li[@class='search-result']/div[@class='search-snippet-info']/div[@class='ting-object clearfix']/div[@class='ting-overview clearfix']/div[@class='right-column left']/div[@class='creator']/a[@class='author']", "Jussi Adler-Olsen", 'We have a By-line = "Jussi Adler-Olsen".');
-    $this->assertFieldByXPath("//ol[@class='search-results ting_search-results']/li[@class='search-result']/div[@class='search-snippet-info']/div[@class='ting-object clearfix']/div[@class='ting-overview clearfix']/div[@class='right-column left']/div[@class='abstract']", 'Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde, da han efterforsker en sag om fem menneskers forsvinden i 1987. Sagen fører tilbage til kvindeanstalten på Sprogø, der virkede fra 1923-1961, og datidens racehygiejne og pludselig bliver Carl Mørck og hans kolleger udsat for mordforsøg, da sagen antager politiske dimensioner', 'We have a teaser text = "Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde"');
+    $this->assertFieldByXPath("//li[@class='search-result']/h3[@class='title']/a", 'Journal 64', 'We have a search result title = "Journal 64".');
+    $this->assertFieldByXPath("//li[@class='search-result']//div[contains(@class, 'field-type-ting-author')]//a[@class='author']", "Jussi Adler-Olsen", 'We have a By-line = "Jussi Adler-Olsen".');
+    $this->assertFieldByXPath("//li[@class='search-result']//div[contains(@class, 'field-type-ting-abstract')]//div[contains(@class, 'field-item')]", 'Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde, da han efterforsker en sag om fem menneskers forsvinden i 1987. Sagen fører tilbage til kvindeanstalten på Sprogø, der virkede fra 1923-1961, og datidens racehygiejne og pludselig bliver Carl Mørck og hans kolleger udsat for mordforsøg, da sagen antager politiske dimensioner', 'We have a teaser text = "Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde"');
   }
 }
