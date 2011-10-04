@@ -644,7 +644,7 @@ function ting_search_submit($form, &$form_state) {
   $search_info = array();
   $request_path = explode('/', request_path());
 
-  if (!isset($request_path[1])) {
+  if ($request_path[0] != 'search' || !isset($request_path[1])) {
     $search_info = search_get_default_module_info();
   }
   else {
