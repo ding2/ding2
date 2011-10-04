@@ -47,6 +47,22 @@
     }
   };
 
+    Drupal.behaviors.clearExtendForm = {
+	attach:function(context, settings) {
+	    $('#extend-form-clear', context).click(function() {
+		$("#extend_search_creator").val('');
+		$("#extend_search_title").val('');
+		$("#extend_search_subject").val('');
+		$("#edit-extendform-creator").val('');
+		$("#edit-extendform-title").val('');
+		$("#edit-extendform-subject").val('');
+		$("#edit-search-block-form--2").val('');
+		return false;
+	    });
+	}
+    };
+    
+
   Drupal.behaviors.toggleSize = {
     attach: function(context, settings) {
       $('.form-item-size').find('input').change(function() {
