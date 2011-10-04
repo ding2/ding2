@@ -7,38 +7,66 @@
 
 /**
  * Implements hook_field_info()
-
+ *
  * description of field
  */
-
 function ting_sfx_field_info() {
   $ret = array(
-               'ting_sfx' =>
-               array('label' => t('A link to openur (sfx)'),
-                     'description' => t('This field links sfx'),
-		     'default_formatter' => 'ting_sfx_default', 
-		     'settings' => array('max_length'=>255,),
-		     'default_widget' => 'hidden',
-                     'no_ui' => TRUE,
-                     ),
-               );
+    'ting_sfx' => array(
+      'label' => t('A link to openurl (SFX)'),
+      'description' => t('This field links SFX'),
+      'default_formatter' => 'ting_sfx_default',
+      'settings' => array('max_length' => 255,),
+      'default_widget' => 'hidden',
+      'no_ui' => TRUE,
+    ),
+  );
   return $ret;
 }
 
 /**
+ * Implements hook_form_FROM_ID_alter()
+ * Adding SFX url form field to Ting configurating form
+ */
+function ting_sfx_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+  $form['ting']['ting_sfx_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SFX link resolver URL'),
+    '#description' => t('URL to SFX link resolver, e.g. http://sfx.dbc.dk:3410/dbc_test-ph_metropol'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('ting_sfx_url', ''),
+  );
+}
+
+/**
+ * Implementing hook_requirements()
+ */
+function ting_sfx_requirements($phase) {
+  $requirements = array();
+  $url = variable_get('ting_sfx_url');
+
+  if (!isset($url)) {
+    $requirements['service_urls'] = array(
+      'title' => t('SFX settings'),
+      'value' =>  l(t('Url for SFX link resolver must be set in admin'), 'admin/config/ting/settings'),
+      'severity' => REQUIREMENT_ERROR
+    );
+  }
+
+  return $requirements;
+}
+
+/**
  * Implements hook_field_formatter_info
- *
- * pjo notes; 'field types' are passed on to hook_file_formatter_view
  */
 function ting_sfx_field_formatter_info() {
   return array(
-               'ting_sfx_default' => 
-               array('label' => t('Default'),
-                     'field types' => 
-                     array('ting_sfx',), )
-               );
+    'ting_sfx_default' => array(
+      'label' => t('Default'),
+      'field types' => array('ting_sfx', ),
+    )
+  );
 }
-
 
 /**
  * Implements hook_field_formatter_view
@@ -46,47 +74,51 @@ function ting_sfx_field_formatter_info() {
  * only one formatter is supported
  * - ting_sfx
  */
-
 function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = array(); 
-
+  $element = array();
   $relation_type = 'dbcaddi:hasOpenUrl';
 
-  switch($display['type']) {
-  case 'ting_sfx_default' :
-    foreach($items as $delta=>$items) {
-      foreach ($entity->relations as $relation) {
-        if( $relation_type == $relation->type)  {
-	  //var_dump($relation);
-          $element[$delta] = 
-	    array('#markup' => '<div onclick="location.href=\''.ting_sfx_get_open_url($relation->uri).'\'" class="ting_sfx_button">'.ting_sfx_get_logo().'<span>'.t('ting_sfx_url').'</div>',);
-	  }
+  switch ($display['type']) {
+    case 'ting_sfx_default':
+      foreach ($items as $delta => $items) {
+        foreach ($entity->relations as $relation) {
+          if ($relation_type == $relation->type && ($sfx_url = ting_sfx_get_open_url($relation->uri))) {
+            $element[$delta] = array(
+              '#markup' => l(ting_sfx_get_logo() . '<span>' . t('SFX') . '</span>',
+                             $sfx_url,
+                             array(
+                               'attributes' => array('class' => array('ting_sfx_group',),
+                                                     'target' => '_new',),
+                               'html' => TRUE,
+                             )),
+            );
+          }
+        }
       }
-    }
-    break;
-  default:
-    krumo('ERROR');    
-    }
+      break;
+    default:
+  }
+
   return $element;
 }
 
 function ting_sfx_get_open_url($uri) {
-  $baseurl = 'http://sfx.dbc.dk:3410/dbc_test-ph_metropol?';  
-  
-  $ret = str_replace('_BASEURL_',$baseurl,$uri);
+  $baseurl = variable_get('ting_sfx_url', '');
+
+  if ($baseurl) {
+    $baseurl .= '?';
+    $ret = str_replace('_BASEURL_', $baseurl, $uri);
+  }
+  else {
+    $ret = FALSE;
+  }
 
   return $ret;
 }
 
 function ting_sfx_get_logo() {
-  $ret = '<img src="';
-  $ret .= base_path();
-  $ret .='/';
-  $ret .= drupal_get_path('module','ting_sfx');
-  $ret .='/';
-  $ret .= 'sfx_logo.png';
-  $ret .= '"/>';
-
+  $logo_file = 'sfx_logo.png';
+  $ret = sprintf('<img src="%s/%s/%s"/>', base_path(), drupal_get_path('module','ting_sfx'), $logo_file);
   return $ret;
 }
 
@@ -103,52 +135,21 @@ function ting_sfx_field_validate($entity_type, $entity, $field, $instance, $lang
  *
  */
 function ting_sfx_is_empty($item, $field) {
-  // TODO; check 
+  // TODO; check
   return false;
 }
 
 /**
  * Implements hook_field_load().
- * pjo notes Define custom load behavior for this module's field types.
  */
 function ting_sfx_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
-   foreach ($entities as $id => $entity) {
-    // We could create relations as multiple values here, but it's
-    // cached after this hook, so we don't.
+  foreach ($entities as $id => $entity) {
     $items[$id][0] = array(
       'id' => $id,
     );
-  } 
   }
-
-function ting_sfx_preprocess_html(&$variables,$hook) {
-  drupal_add_css(drupal_get_path('module','ting_sfx').'/ting_sfx.css');
 }
 
-/**
-Implements hook_field_formatter_prepare_view
-*
-* 
-* pjo notes; add the field to given item(s)
-* we could also use hook_field_load or hook_field_prepare_view
- */
-
-function ting_sfx_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
-foreach ($entities as $id => $entity) {
-    // We could create relations as multiple values here, but it's
-    // cached after this hook, so we don't.
-    $items[$id][0] = array(
-      'id' => $id,
-    );   
-  } 
+function ting_sfx_preprocess_html(&$variables, $hook) {
+  drupal_add_css(drupal_get_path('module', 'ting_sfx') . '/ting_sfx.css');
 }
-
-
-
-
-
-
-
-
-
-

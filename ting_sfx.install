@@ -19,7 +19,7 @@ function ting_sfx_ding_entity_fields() {
         ),
       ),
       'instance' => array(
-        'label' => t('Link to openurl (sfx)'),
+        'label' => t('Search other sites'),
       ),
     ),
   );

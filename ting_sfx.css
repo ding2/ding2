@@ -1,21 +1,12 @@
-div.ting_sfx_button {
-color:green;
-//border:1px solid blue;
-height:1.5em;
-width:5em;
-/*background-image:url('sfx_logo.png');*/
-/*background-repeat:no-repeat;*/
-padding:0.5em;
-cursor:pointer;
-display:inline;
+.ting_sfx_group img {
+    height: 1em;
+    vertical-align: middle;
+    margin-right: 0.2em;
 }
 
-div.ting_sfx_button span {
-margin-left:5px;
-display:inline;
+.field-type-ting-sfx .field-items a:hover {
+    text-decoration: none;
 }
-
-div.ting_sfx_button img {
-vertical-align:middle;
+.field-type-ting-sfx .field-items a span:hover {
+    text-decoration: underline;
 }
-
