@@ -92,8 +92,21 @@ function ting_search_theme() {
     'ting_search_display_extended_query' => array(
       'variables' => array('query_label'=>NULL,'query_string' => NULL),
       'template' => 'ting-search-display-extended-query',
-    ),
+    ),    
+    'ting_search_extended_search' => 
+    array(
+	  'variables' => ting_search_extended_search_variables(),
+	  'template' => 'ting-search-extended-search',
+	  )
   );
+}
+
+function ting_search_get_extended_actions() {
+  return theme('ting_search_extended_search');
+}
+
+function ting_search_extended_search_variables() {
+  return array(); 
 }
 
 
@@ -101,7 +114,6 @@ function ting_search_theme() {
  * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
-
   $search_result = drupal_static('ting_search_results');
 
   // extend this list if more are added in search_extend_form()
@@ -155,12 +167,15 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#type' => 'hidden',
     '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_subject_index', 'dc.subject') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_subject_index', 'dc.subject') ] : '',
     '#attributes' => array('id' => 'extend_search_subject'),
-  );
+    ); 
+
+  // $form['form_id']['#suffix'] = '<div id="extend-form-div"><a id="extend-form-show" href="#">'.t('Advanced search').'</a><a id="extend-form-clear" href="#">'.t('clear_form_fields').'</a></div>';
+  $form['form_id']['#suffix'] = ting_search_get_extended_actions();  
+
   $form['#submit'] = array('ting_search_submit');
 
   return $form;
 }
-
 
 /**
  * Parse cql part for extended form elements.
@@ -508,7 +523,6 @@ function search_extend_content() {
 }
 
 function search_extend_form($form_state) {
-
   $form['extendform'] = array(
     '#type' => 'fieldset',
     '#title' => t('Advanced search'),
