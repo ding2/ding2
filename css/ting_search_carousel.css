@@ -1,84 +1,99 @@
-/* panel rules */
-/*here we gogo */
-.jcarousel-skin-ting-search-carousel { margin-left: 260px; width:700px; }
-.jcarousel-skin-ting-search-carousel .jcarousel-container{ width: 672px; height:200px; margin:0 auto; }
-.jcarousel-skin-ting-search-carousel .jcarousel-item { width: 112px; height: 180px; padding: 20px 0; overflow: hidden; }
+.clear {
+  clear: both;
+  float: none;
+}
 
-/** Horizontal  */
-.jcarousel-skin-ting-search-carousel .jcarousel-container-horizontal {}
-.jcarousel-skin-ting-search-carousel .jcarousel-clip-horizontal { width: 672px; height:200px; }
+.ting-search-carousel {
+  font-family: Arial,helvetica,sans-serif;
+  width: 710px;
+}
 
-.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal {position: absolute; top: 75px; right: -30px; width: 35px; height: 35px; cursor: pointer; background: transparent url(../images/buttons.png) no-repeat 0 -35px;}
-	.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal:hover {background-position: -35px -35px;}
-	.jcarousel-skin-ting-search-carousel .jcarousel-next-horizontal:active {background-position: -70px -35px;}
-	.jcarousel-skin-ting-search-carousel .jcarousel-next-disabled-horizontal,
-	.jcarousel-skin-ting-search-carousel .jcarousel-next-disabled-horizontal:hover,
-	.jcarousel-skin-ting-search-carousel .jcarousel-next-disabled-horizontal:active {cursor: default; background-position: -105px -35px;}
+.ting-search-carousel .search-controller {
+  background: none repeat scroll 0 0 #F3F5F5;
+  border-top: 1px solid #C2C4C4;
+  height: 20px;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  width: 710px;
+}
 
-.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal {position: absolute; top: 75px; left: -292px; width: 35px; height: 35px; cursor: pointer; background: transparent url(../images/buttons.png) no-repeat 0 0;}
-	.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal:hover {background-position: -35px 0;}
-	.jcarousel-skin-ting-search-carousel .jcarousel-prev-horizontal:active {background-position: -70px 0;}
-	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal,
-	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal:hover,
-	.jcarousel-skin-ting-search-carousel .jcarousel-prev-disabled-horizontal:active {cursor: default; background-position: -105px 0;}
+.ting-search-carousel .search-controller li.active {
+  background: none repeat scroll 0 0 #918F91;
+  border-top: 1px solid #918F91;
+}
 
-.ting-search-carousel .subtitle { width: 210px; padding: 10px 0 10px 10px; float: left; color: #fff; font-size: 50px; line-height: 0.9; font-weight: bold; text-transform: uppercase; text-shadow: 1px 1px #727272; }
-.ting-search-carousel .loading { background: url(../images/ajax-loader.gif) no-repeat 60% 50%; }
+.ting-search-carousel .search-controller li {
+  background: none repeat scroll 0 0 #D1D9D7;
+  border-top: 1px solid #A7AEAC;
+  color: #FFFFFF;
+  float: left;
+  font-size: 11px;
+  height: 18px;
+  line-height: 15px;
+  margin: -1px 2px 0 0;
+  padding: 0 17px;
+}
 
-.ting-search-carousel .search-results { background-color: #918F91; }
-.ting-search-carousel .search-results > li { display: none; }
-.ting-search-carousel .search-results > li.active { display: block; }
+.ting-search-carousel .search-controller li a {
+  color: #050505;
+  font-size: 11px;
+  line-height: 15px;
+}
 
-.ting-search-carousel .search-results .info { height: 39px; overflow: hidden; } 
-.ting-search-carousel .search-results img,
-.ting-search-carousel .search-results .creator,
-.ting-search-carousel .search-results .title { display: block; } 
-.ting-search-carousel .search-results img { margin: 0 auto; }
-.ting-search-carousel .search-results .creator,
-.ting-search-carousel .search-results .title { font-size: 10px; line-height: 1.25; color: #fff; text-align: center; } 
+.ting-search-carousel .search-controller li.active a {
+  color: #FFF;
+}
 
+.ting-search-carousel .ting-search-results {
+  background-color: #918F91;
+  position: relative;
+  height: 220px;
+}
 
-.ting-search-carousel .search-controller { background:#f3f5f5; border-top: 1px solid #c2c4c4;margin:0 0 0 2px; width:958px; height:20px; }
-.ting-search-carousel .search-controller li { float:left; padding:0px 17px; height:18px; margin:-1px 2px 0 0;background:#d1d9d7; border-top: 1px solid #a7aeac; color:#fff; font-size:11px; line-height:15px; }
-.ting-search-carousel .search-controller li.active { background:#918f91; border-top: 1px solid #918f91; }
-.ting-search-carousel .search-controller li a { font-size:11px; line-height:15px; color:#050505; }
+.ting-search-carousel .ting-search-results .subtitle {
+  color: #FFFFFF;
+  font-size: 42px;
+  font-weight: normal;
+  line-height: 0.9;
+  margin: 10px 0 0 40px;
+  overflow: hidden;
+  padding: 10px 0 10px 10px;
+  text-shadow: 1px 1px #727272;
+  text-transform: uppercase;
+  width: 200px;
+}
 
+.ting-search-carousel .ting-search-results .info {
+  height: 39px;
+  overflow: hidden;
+  width: 100px;
+}
 
+.ting-search-carousel .ting-search-results .info span {
+  color: #FFFFFF;
+  display: block;
+  font-size: 10px;
+  line-height: 1.25;
+  text-align: center;
+}
 
-/* admin rules */
-#ting-search-carousels .ui-sortable-helper { padding: 5px; background: #F8F8F8; width: 600px !important; }
-#edit-new-search-carousel-button { margin: 10px 0; }
-#add-another-fields { background:#FFFFFF none repeat scroll 0 0; border:1px solid #CCCCCC; padding:0.1em 0.6em; }
-
-.sort-hidden { display: none; }
-
-.search-carousel-query {
+.ting-search-carousel .ting-rs-carousel, .subtitle {
   float: left;
 }
 
-.clear, .form-item-ting-search-carousel-cache-duration {
-  float: none;
-  clear: both;
-}
-
-
-/* rs-carousel */
-#container {
-  position: relative;
-  width: 912px;
-}
-
-.rs-carousel {
+/* carousel */
+.ting-search-carousel .rs-carousel {
   overflow: hidden;
+  width: 400px;
 }
 
-.rs-carousel .rs-carousel-mask {
-  position: relative;
-  overflow: hidden;
-  border: 6px solid #444;
+.ting-search-carousel .rs-carousel .rs-carousel-mask {
+  position:relative;
+  height: 220px;
 }
 
-.rs-carousel .rs-carousel-runner {
+.ting-search-carousel .rs-carousel .rs-carousel-runner {
   position: absolute;
   overflow: hidden;
   margin: 0;
@@ -86,31 +101,103 @@
   list-style: none;
 }
 
-.rs-carousel .rs-carousel-item {
-  float: left;
-  width: 150px;
-  height: 150px;
-  line-height: 150px;
-  color: #fff;
-  font-size: 8em;
-  text-align: center;
-  margin: 0;
+.ting-search-carousel .no-js .rs-carousel .rs-carousel-runner {
+  position: static;
 }
 
-.rs-carousel-action-disabled {
+.ting-search-carousel .rs-carousel .rs-carousel-item {
+  color: #fff;
+  float: left;
+  height: 180px;
+  overflow: hidden;
+  padding: 20px 0;
+  text-align: center;
+  width: 100px;
+}
+
+.ting-search-carousel .rs-carousel.rs-carousel-vertical .rs-carousel-item {
+  float: none;
+}
+
+/* pagination */
+.ting-search-carousel .rs-carousel-pagination {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ting-search-carousel .rs-carousel-disabled .rs-carousel-pagination {
+  display: none;
+}
+
+.ting-search-carousel .rs-carousel-pagination-link {
+  display: inline;
+}
+
+.ting-search-carousel .rs-carousel-pagination-link a {
+  padding: 2px 6px;
+}
+
+.ting-search-carousel .rs-carousel-pagination-link a:hover {
+  text-decoration: none;
+}
+
+.ting-search-carousel .rs-carousel-pagination-link-active a {
+  background: #444;
+  color: #fff;
+}
+
+/* next & prev actions */
+.ting-search-carousel .rs-carousel-disabled .rs-carousel-action-next,
+.ting-search-carousel .rs-carousel-disabled .rs-carousel-action-prev {
+  display: none;
+}
+
+.ting-search-carousel .rs-carousel-action-next,
+.ting-search-carousel .rs-carousel-action-prev {
+  background-image: url('../images/buttons.png');
+  position: absolute;
+  top: 86px;
+  height: 35px;
+  outline: none;
+  text-indent: -9999px;
+  width: 35px;
+}
+
+.ting-search-carousel .rs-carousel-action-prev {
+  left: -15px;
+}
+
+.ting-search-carousel .rs-carousel-action-next {
+  right: -15px;
+  background-position: 0 -35px;
+}
+
+.ting-search-carousel .rs-carousel-action-prev:hover {
+  background-position: 70px 0;
+}
+
+.ting-search-carousel .rs-carousel-action-next:hover {
+  background-position: 70px -35px;
+}
+
+.ting-search-carousel .rs-carousel-action-disabled {
+  background-position: 35px 0 !important;
+}
+
+.ting-search-carousel .rs-carousel-action-prev + .rs-carousel-action-disabled  {
+  background-position: 35px -35px !important;
+}
+
+.ting-search-carousel .rs-carousel-action-disabled {
   color: gray;
   cursor: default;
 }
 
-/** ting-rs-carousel-1 **/
-#ting-rs-carousel-1 .rs-carousel-mask {
-  height: 150px;
+.ting-search-carousel .rs-carousel-pagination {
+  display: none;
 }
 
-.color-1 {background:#007cd2;}
-.color-2 {background:#1788D7;}
-.color-3 {background:#3798db;}
-.color-4 {background:#62acdf;}
-.color-5 {background:#86bbe0;}
-.color-6 {background:#a7c7de;}
-.color-7 {background:#d5dbdf;}
+.search-carousel-query {
+  float: left;
+}

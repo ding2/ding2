@@ -19,24 +19,17 @@ function ting_search_carousel_menu() {
     'page arguments' => array(),
     'access arguments' => array('access administration pages'),
     'file' => 'ting_search_carousel.admin.inc'
-  );/*
-
-  $items['admin/settings/ting_search_carousel/form/ahah'] = array(
-    'title' => 'Edit search carousels',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_search_carousel_form_ahah'),
-    'access arguments' => array('administer search carousel'),
-  	'file' => 'ting_search_carousel.admin.inc',
-    'type' => MENU_CALLBACK,
   );
 
-  $items['ting_search_carousel/results/ahah'] = array(
+  // @todo
+  // dummy call here, replace later with correct
+  $items['ting_search_carousel/results/ajax'] = array(
     'title' => 'Show search carousel results',
-    'page callback' => 'ting_search_carousel_result_ahah',
-    'access arguments' => array('view search carousel'),
-  	'file' => 'ting_search_carousel.pages.inc',
+    'page callback' => 'ting_search_carousel_result',
+    'access arguments' => array('access content'),
+    'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
-  );*/
+  );
 
   return $items;
 }
@@ -66,16 +59,12 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
   $hooks['ting_search_carousel'] = array(
     'variables' => array('searches' => NULL),
     'template' => 'ting_search_carousel'
-  );/*
-
-  $hooks['ting_search_carousel_search'] = array(
-    'variables' => array('element' => NULL),
   );
   
   $hooks['ting_search_carousel_collection'] = array(
     'variables' => array('collection' => NULL),
     'template' => 'ting_search_carousel_collection'
-  );*/
+  );
 
   $hooks['ting_search_carousel_admin_form'] = array(
     'render element' => 'form',

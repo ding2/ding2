@@ -72,3 +72,22 @@ function ting_search_carousel_result_ahah($search, $start, $numResults) {
 	echo $result;
 	exit;
 }
+
+// @todo
+// THIS IS DUMMY
+function ting_search_carousel_result($index, $start, $limit) {
+  $collections = array();
+  $result = '';
+
+  for ($i = 0; $i < $limit; $i++) {
+    $collections[$i] = new stdClass();
+    $collections[$i]->url = 'http://google.ru/';
+    $collections[$i]->creators_string = 'dummy creator';
+    $collections[$i]->title = 'dummy title';
+
+    $result .= theme('ting_search_carousel_collection', array('collection' => $collections[$i]));
+  }
+
+  echo drupal_json_encode(array('subtitle' => 'subtitles', 'content' => $result));
+  exit();
+}
