@@ -118,7 +118,7 @@ function ting_sfx_get_open_url($uri) {
 
 function ting_sfx_get_logo() {
   $logo_file = 'sfx_logo.png';
-  $ret = sprintf('<img src="%s/%s/%s"/>', base_path(), drupal_get_path('module','ting_sfx'), $logo_file);
+  $ret = sprintf('<img src="%s/%s/%s"/>', substr(base_path(), 0, -1), drupal_get_path('module','ting_sfx'), $logo_file);
   return $ret;
 }
 
