@@ -65,11 +65,12 @@
 
   Drupal.behaviors.toggleSize = {
     attach: function(context, settings) {
-      $('.form-item-size').find('input').change(function() {
+      $('.form-item-size').find('label').click(function() {
+        var radioVal = $('#' + $(this).attr('for')).val();
+        $('#' + $(this).attr('for')).attr('checked', true);
         Drupal.setSelectedLabel();
         var action = document.location.href;
         var query_delimiter = action.indexOf('?') > 0 ? '&' : '?';
-
         action = action + query_delimiter + 'sort=' + $('#edit-sort').val() + '&size=' + $("input[name='size']:checked").val();
         document.location.href = action;
       });

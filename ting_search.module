@@ -142,6 +142,14 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     }
     $form['search_block_form']['#default_value'] = $query_parse['base'];
   }
+  elseif (arg(0) == 'search') {
+    // For other search pages, just insert the current search terms.
+    $parts = explode('/', $_GET['q']);
+    // Lose 'search' and the search type.
+    array_shift($parts);
+    array_shift($parts);
+    $form['search_block_form']['#default_value'] = implode('/', $parts);
+  }
 
   $form['sort'] = array(
     '#type' => 'hidden',
