@@ -108,3 +108,36 @@ class OpenruthAvailabilityProviderImplementationTestCase extends DingAvailabilit
   }
 }
 
+class OpenruthReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth reservation provider',
+      'description' => 'Test Opennuth reservation functionality.',
+      'group' => 'Ding! - Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth', 'ding_reservation'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
+  }
+
+  function getUser() {
+    /* $this->drupalLogin((object) array('name' => '1111111111', 'pass_raw' => '1111')); */
+    /* $user = user_load_by_mail('1111@dbc.dk'); */
+    global $user;
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')), $user);
+    return $user;
+  }
+
+  function getBranch() {
+    return 'Lejre';
+  }
+
+  function getSomeReservables() {
+    return array(
+      '100200:43681877' => '43681877',
+    );
+  }
+}
