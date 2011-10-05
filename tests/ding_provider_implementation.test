@@ -289,6 +289,10 @@ abstract class DingLoanProviderImplementationTestCase extends DingProviderImplem
 
     foreach ($loans as $loan) {
       $this->assertTrue($loan instanceof DingProviderLoan, 'Loan list returns loans');
+      $this->assertTrue(preg_match('/^\d{4}-\d{2}-\d{2}$/', $loan->loan_date), 'Loan date is well formed.');
+      $this->assertTrue(preg_match('/^\d{4}-\d{2}-\d{2}$/', $loan->expiry), 'Expiry date is well formed.');
+      $this->assertTrue(is_bool($loan->renewable), 'Renewable is boolean');
+
     }
   }
 }
