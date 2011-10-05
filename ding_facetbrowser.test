@@ -69,37 +69,37 @@ class DingFacetbrowserWeb extends DrupalWebTestCase {
     variable_set('ding_facetbrowser_facets', array(
         0 => array(
           'name' => 'facet.subject',
-          'title' => 'Emne',
+          'title' => '!!facet.subject!!',
           'weight' => '-10',
         ),
         1 => array(
           'name' => 'facet.creator',
-          'title' => 'Forfatter',
+          'title' => '!!facet.creator!!',
           'weight' => '-9',
         ),
         2 => array(
           'name' => 'facet.type',
-          'title' => 'Materialetype',
+          'title' => '!!facet.type!!',
           'weight' => '-8',
         ),
         3 => array(
           'name' => 'facet.category',
-          'title' => 'Kategori',
+          'title' => '!!facet.category!!',
           'weight' => '-7',
         ),
         4 => array(
           'name' => 'facet.language',
-          'title' => 'Sprog',
+          'title' => '!!facet.language!!',
           'weight' => '-6',
         ),
         5 => array(
           'name' => 'facet.date',
-          'title' => 'Årstal',
+          'title' => '!!facet.date!!',
           'weight' => '-5',
         ),
         6 => array(
           'name' => 'facet.acSource',
-          'title' => 'Kilde',
+          'title' => '!!facet.acSource!!',
           'weight' => '-4',
         ),
       )
@@ -147,11 +147,12 @@ class DingFacetbrowserWeb extends DrupalWebTestCase {
 
     $this->drupalGet('search/ting/harry');
     $this->assertNoText('Da pensionisten Harry Browns gamle', 'Search for title from external search service NOT found');
-    $this->assertText('Say it with pictures', 'Search for \'Say it with words\' from external search service found.');
+    $this->assertNoText('Harry potter rocks', "We're not seeing the node.");
+    $this->assertText('Harry Blotter', "'Harry Blotter' found.");
 
     // Check if the facetbrowser has any content
 
-    $this->assertText('facet.subject', 'Found the facet.subject fieldset in the facetbrowser');
+    $this->assertText('!!facet.subject!!', 'Found the facet.subject fieldset in the facetbrowser');
     $this->assertFieldById('edit-subject-instrumental', 'instrumental', 'Found the \'instrumental\' facet in the facet.subject fieldset');
   }
 }
