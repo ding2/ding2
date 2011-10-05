@@ -292,3 +292,22 @@ abstract class DingLoanProviderImplementationTestCase extends DingProviderImplem
     }
   }
 }
+
+abstract class DingDebtProviderImplementationTestCase extends DingProviderImplementationTestCase {
+   /**
+   * Return a user that have some debts.
+   */
+  abstract function getUser();
+
+  function testLoan() {
+    $user = $this->getUser();
+    $debts = ding_provider_invoke('debt', 'list', $user);
+
+    foreach ($debts as $debt) {
+      $this->assertTrue($debt instanceof DingProviderDebt, 'Debts list returns debts');
+      $this->assertTrue(preg_match('/^\d{4}-\d{2}-\d{2}$/', $debt->date), 'Date is well formed.');
+      $this->assertTrue(preg_match('/^\d+(.?\d+)$/', $debt->amount), 'Amount is well formed.');
+      $this->assertTrue(!empty($debt->display_name), 'Date is well formed.');
+    }
+  }
+}
