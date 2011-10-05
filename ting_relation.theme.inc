@@ -12,7 +12,7 @@ function template_preprocess_ting_relation(&$variables) {
   $relation = $variables['relation'] = $variables['elements']['#relation'];
   $ac_source = $variables['ac_source'] = $variables['elements']['#ac_source'];
 
-  $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
+  
  
   $variables['online_url'] = FALSE;
  
@@ -48,10 +48,14 @@ function template_preprocess_ting_relation(&$variables) {
 
 function ting_relations_set_online_access( &$variables ) {
   // TODO get ebrary url from somewhere
-  $ebrary_url = 'http://site.ebrary.com/lib/metropol/docDetail.action?docID=';
+  $ebrary_url = variable_get('ting_ebrary_url');
+  if( !isset($ebrary_url) ) {
+    return;
+  }
 
   $variables['type_title'] = $variables['elements']['#title'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
+  $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
 
   // simply set a button
   $url = str_replace('[URL]',$ebrary_url,$relation->uri);
@@ -171,6 +175,9 @@ function ting_relation_set_subject(&$variables) {
 function ting_relations_set_url_and_title( &$variables ) {
   $variables['type_title'] = $variables['elements']['#title'];
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
+  $relation = $variables['relation'] = $variables['elements']['#relation'];
+
+  $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
   
   if( is_object($tingentity_object) ) {
     $variables['title'] = check_plain($tingentity_object->title);

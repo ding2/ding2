@@ -39,3 +39,21 @@ function ting_relation_inline() {
   return $types;
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter()
+ * Adding ebrary url form field to Ting configurating form
+ * Set required to FALSE - this is a part of the relation-module, and not everybody wants or has access to ebrary
+ * TODO this field requires configuration. Maybe it should be moved to a module of its own?  
+ * this url is restricted ;'http://site.ebrary.com/lib/metropol/docDetail.action?docID='; 
+ * - probably for metropol access.
+ */
+function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+  $form['ting']['ting_ebrary_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t(' URL to ebrary '),
+    '#description' => t('BASE URL to site.ebrary.com e.g.http://site.ebrary.com/lib/librarytitles/docDetail.action?docID='),
+    '#required' => FALSE,
+    '#default_value' => variable_get('ting_ebrary_url', ''),
+  );
+}
+
