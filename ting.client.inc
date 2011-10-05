@@ -61,7 +61,7 @@ function ting_get_object($object_id, $collection = FALSE) {
       if (!empty($profile) && method_exists($request, 'setProfile')) {
 	$request->setProfile($profile);
       }
-     
+
       $request->setAllObjects(false);
       $object = ting_execute_cache($request);
     }
@@ -114,8 +114,8 @@ function ting_get_objects($ids) {
 
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
-    }  
-    
+    }
+
     $profile = variable_get('ting_search_profile', '');
     if (!empty($profile) && method_exists($request, 'setProfile')) {
       $request->setProfile($profile);
@@ -175,7 +175,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
     $options['facets'] = array();
     // Populate facets with configured facets.
-    foreach (variable_get('ding_facetbrowser_facets') as $facet) {
+    foreach (variable_get('ding_facetbrowser_facets', array()) as $facet) {
       $options['facets'][] = $facet['name'];
     }
   }
