@@ -189,6 +189,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     $branch = $this->getBranch();
     $reservables = array_flip($this->getSomeReservables());
     $expiry = REQUEST_TIME + (14*86400);
+    $expiry_res = date('Y-m-d', $expiry);
 
     $reservations = ding_provider_invoke('reservation', 'list', $user);
     foreach ($reservations as $id => $reservation) {
@@ -234,6 +235,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     $existing_reservations = array();
     // Check that the reservations list looks OK, and make a lookup array.
     $reservations = ding_provider_invoke('reservation', 'list', $user);
+
     foreach ($reservations as $id => $reservation) {
       $this->assertEqual($id, $reservation->id, 'Ids match.');
       // Only check those that we reserved.
@@ -259,7 +261,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
         // @todo display_title may not be required in the long run.
         $this->assertTrue(isset($res->display_name), 'Has a display_title.');
         $this->assertEqual($res->pickup_branch_id, $branch, 'Has a proper branch.');
-        $this->assertEqual($res->expiry, $expiry, 'Expiry is properly set.');
+        $this->assertEqual($res->expiry, $expiry_res, 'Expiry is properly set.');
       }
     }
 
