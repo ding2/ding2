@@ -62,7 +62,7 @@ function connie_reservation_create($account, $id, $branch, $expiry) {
       throw new DingProviderReservationExists();
     }
   }
-  $_SESSION['connie_reservations'][uniqid()] = array($id, 'Reservation #' . (sizeof($_SESSION['connie_reservations']) + 1), $branch, $expiry);
+  $_SESSION['connie_reservations'][uniqid()] = array($id, 'Reservation #' . (sizeof($_SESSION['connie_reservations']) + 1), $branch, date('Y-m-d', $expiry));
   return;
 }
 

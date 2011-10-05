@@ -108,7 +108,7 @@ class ConnieLoanProviderImplementationTestCase extends DingLoanProviderImplement
   function getUser() {
     global $user;
     ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')), $user);
-    ding_provider_invoke('reservation', 'create', $user, '123', 'here', '...');
+    ding_provider_invoke('reservation', 'create', $user, '123', 'here', REQUEST_TIME + (14*86400));
     return $user;
   }
 }
