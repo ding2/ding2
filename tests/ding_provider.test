@@ -127,6 +127,7 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
 
     // Reservation crud
     $expiry = REQUEST_TIME + (14*86400);
+    $expiry_str = date('Y-m-d', $expiry);
     ding_provider_invoke('reservation', 'create', $user, 123, 'aby', $expiry);
     ding_provider_invoke('reservation', 'create', $user, 321, 'grd', $expiry);
 
@@ -137,20 +138,19 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
         'ding_entity_id' => ':123',
         'display_name' => 'Reservation #1',
         'pickup_branch_id' => 'aby',
-        'expiry' => $expiry,
+        'expiry' => $expiry_str,
       ),
       ':321' => array(
         'ding_entity_id' => ':321',
         'display_name' => 'Reservation #2',
         'pickup_branch_id' => 'grd',
-        'expiry' => $expiry,
+        'expiry' => $expiry_str,
       ),
     );
 
     foreach ($reservations as $id => $res) {
       $this->assertTrue(isset($expected[$res->ding_entity_id]), 'Expected reservation');
       $expected_res = $expected[$res->ding_entity_id];
-      debug($res);
       foreach ($expected_res as $prop => $value) {
         $this->assertEqual($res->$prop, $value, 'Property ' . $prop . ' looks OK');
       }
