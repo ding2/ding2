@@ -1,93 +1,25 @@
 <?php
+/**
+ * @file
+ */
 
 /**
- * AHAH callback to retrieve carousel items
+ * AJAX callback to retrieve carousel items.
  */
-function ting_search_carousel_result_ahah($search, $start, $numResults) {
-	module_load_include('client.inc', 'ting');	
-	
-	//retrive all searches to determine which to perform
-  $searches = variable_get('ting_search_carousel_searches', array());
-  $search_keys = array_keys($searches);
-	if (!isset($searches[$search_keys[$search]]))
-	{
-		drupal_not_found();
-		exit;
-	}
-	$search = $searches[$search_keys[$search]];
-
-	//define a carousel search with valid collections and the highest checked search
-	//result index so far
-	$carouselSearch = new stdClass();
-	$carouselSearch->collections = array();
-	$carouselSearch->lastIndex = 0;
-	$carouselSearch->more = true;
-	
-	//retrieve cached search result if it exists
-  $cache = cache_get(md5($search['query']), 'cache_ting_search_carousel');
-  if ($cache)
-  {
-  	$carouselSearch = $cache->data;
-  }
-  
-  //if the cached search contains less than the required number of collections
-  //the try to retrieve som more
-  $resultsPerPage = 10;
-  $page = ceil($carouselSearch->lastIndex / $resultsPerPage);
-  while ((sizeof($carouselSearch->collections) < ($start + $numResults)) && $carouselSearch->more) {
-    $result = ting_do_search($search['query'], ++$page, $resultsPerPage, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
-
-    if (sizeof($result->collections) > 0)	{
-      foreach ($result->collections as $collection) {
-        foreach ($collection->objects as $object) {
-          if ($object->additionalInformation->thumbnailUrl ||
-              $objects->additionalInformation->detailUrl) {
-
-            $carouselSearch->collections[] = $collection;
-            break;
-          }
-        }
-				$carouselSearch->lastIndex++;
-      }
-    }
-    else {
-      $carouselSearch->more = FALSE;
-    }
-		
-	  //cache the updated search after each query as retrieving the requested number 
-	  //of collections with cover images might take a few requests
-	  cache_set(md5($search['query']), $carouselSearch, 'cache_ting_search_carousel', time()+variable_get('ting_search_carousel_cache_duration', 604800));		
-	}
-	
-	//render the collections for the carousel
-	$result = '';
-	for ($i = $start; $i < ($start + $numResults); $i++)
-	{
-		if (isset($carouselSearch->collections[$i]))
-		{
-  		$result .= theme('ting_search_carousel_collection', $carouselSearch->collections[$i]);
-		}
-	}
-	
-	echo $result;
-	exit;
-}
-
-// @todo
-// THIS IS DUMMY
-function ting_search_carousel_result($index, $start, $limit) {
+function ting_search_carousel_result($index) {
   $collections = array();
   $result = '';
-
-  for ($i = 0; $i < $limit; $i++) {
-    $collections[$i] = new stdClass();
-    $collections[$i]->url = 'http://google.ru/';
-    $collections[$i]->creators_string = 'dummy creator';
-    $collections[$i]->title = 'dummy title';
-
-    $result .= theme('ting_search_carousel_collection', array('collection' => $collections[$i]));
+  $cache_ting_search_result = cache_get('ting_search_result');
+  $ting_seach_queries = variable_get('ting_carousel_search_queries', array());
+  $subtitle = '';
+  
+  if (isset($cache_ting_search_result->data[$index]) && isset($ting_seach_queries[$index]) && count($cache_ting_search_result->data[$index]) > 0) {
+    $subtitle = $ting_seach_queries[$index]['subtitle'];
+    foreach ($cache_ting_search_result->data[$index] as $k => $v) {
+      $result .= theme('ting_search_carousel_collection', array('collection' => $v));
+    }
   }
 
-  echo drupal_json_encode(array('subtitle' => 'subtitles', 'content' => $result));
+  echo drupal_json_encode(array('subtitle' => $subtitle, 'content' => $result));
   exit();
 }

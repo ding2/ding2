@@ -1,32 +1,39 @@
-
-/**
- * Behaviour to set up the search carousel.
- */
 (function ($) {
+  var carousel = false;
+  
   Drupal.behaviors.tingSearchCarousel = {
     attach: function(context) {
-      $.ajax({
-        type: 'get',
-        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/dorthe/0/10',
-        dataType : 'json',
-        success : function(msg) {
-          $('.ting-search-carousel .subtitle').html(msg.subtitle);
-          $('.ting-search-carousel #ting-rs-carousel .rs-carousel-runner').html(msg.content);
-          $('.ting-search-carousel #ting-rs-carousel').carousel();
-        }
+      carousel_init(0);
+
+      $('.search-controller li').click(function() {
+        $(this).parent().find('li').removeClass('active');
+        $(this).addClass('active');
+
+        carousel_init($(this).index());
+        
+        return false;
       });
     }
   }
-})(jQuery);
 
-var ting_rs_carousel = {
-  init: function(view) {
-    this.view = view;
-    this.elements();
-  },
-  elements: function() {
-    var view = this.view;
-    this.elements = {};
-    this.elements.carousel = view.find('#ting-rs-carousel-1');
+  carousel_init = function(index) {
+    $.ajax({
+      type: 'get',
+      url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
+      dataType : 'json',
+      success : function(msg) {
+        $('.ting-search-carousel .subtitle').html(msg.subtitle);
+        
+        if (!carousel) {
+          $('.ting-search-carousel .ting-rs-carousel .rs-carousel-runner').html(msg.content);
+          carousel = $('.ting-search-carousel .ting-rs-carousel').carousel();
+        }
+        else {
+          carousel.carousel('destroy');
+          $('.ting-search-carousel .ting-rs-carousel .rs-carousel-runner').html(msg.content);
+          carousel.carousel();
+        }
+      }
+    });
   }
-};
+})(jQuery);

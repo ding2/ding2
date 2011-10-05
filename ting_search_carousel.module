@@ -21,8 +21,6 @@ function ting_search_carousel_menu() {
     'file' => 'ting_search_carousel.admin.inc'
   );
 
-  // @todo
-  // dummy call here, replace later with correct
   $items['ting_search_carousel/results/ajax'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
@@ -33,23 +31,6 @@ function ting_search_carousel_menu() {
 
   return $items;
 }
-
-// @todo
-// Set permissions if needed
-/**
- * Implementation of hook_perm().
- *
- * Since we are limiting the ability to create new nodes to certain users,
- * we need to define what those permissions are here. We also define a permission
- * to allow users to edit the nodes they created.
- */
-/*
-function ting_search_carousel_perm() {
-  return array(
-  	'view search carousel',
-    'administer search carousel'
-  );
-}*/
 
 /**
  * Implements hook_theme().
@@ -73,74 +54,11 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
   return $hooks;
 }
 
-// @todo
-// Unknown purpose
-/**
- * Implementation of hook_flush_caches().
- */
-/*
-function ting_search_carousel_flush_caches() {
-	return array('cache_ting_search_carousel');
-}*/
-
 /**
  * Implements hook_ctools_plugin_directory().
- *
  */
 function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' || $module == 'panels') {
     return 'plugins/' . $plugin;
   }
 }
-
-
-// @todo
-// this hook is not available in D7
-/**
- * Implementation of hook_imagecache_default_presets()
- */
-/*
-function ting_search_carousel_imagecache_default_presets() {
-  $presets = array();
-  $presets['ting_search_carousel'] = array (
-    'presetname' => 'ting_search_carousel',
-    'actions' =>
-    array (
-      0 =>
-      array (
-        'weight' => '0',
-        'module' => 'imagecache',
-        'action' => 'imagecache_scale',
-        'data' =>
-        array (
-          'width' => 112,
-          'height' => 140,
-          'upscale' => 0,
-        ),
-      ),
-      1 =>
-      array (
-        'weight' => '1',
-        'module' => 'imagecache_canvasactions',
-        'action' => 'canvasactions_definecanvas',
-        'data' =>
-        array (
-          'ecaxt' =>
-          array (
-            'width' => '112',
-            'height' => '140',
-            'xpos' => 'center',
-            'ypos' => 'center',
-          ),
-          'RGB' =>
-          array (
-            'HEX' => '918F91',
-          ),
-          'under' => true,
-        ),
-      ),
-    ),
-  );
-  return $presets;
-}
-*/

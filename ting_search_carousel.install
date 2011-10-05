@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install, update and uninstall functions for the ding_campaign module.
@@ -75,7 +74,7 @@ function ting_search_carousel_uninstall() {
  * Implementation of hook_schema().
  */
 function ting_search_carousel_schema() {
-	$schema = array();
-	$schema['cache_ting_search_carousel'] = drupal_get_schema_unprocessed('system', 'cache');
-	return $schema;
+  $schema = array();
+  $schema['cache_ting_search_carousel'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
 }

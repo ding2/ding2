@@ -11,15 +11,15 @@
 
 <div class="ting-search-carousel">
   <div class="ting-search-results">
-    <div class="subtitle">
-    </div>
-    <div id="ting-rs-carousel">
-      <div class="rs-carousel-mask">
-        <ul class="rs-carousel-runner" style="width: 2100px; left: 0px; ">
-        </ul>
+      <div class="subtitle">
       </div>
-    </div>
-    <div class="clear"></div>
+      <div class="ting-rs-carousel">
+        <div class="rs-carousel-mask">
+          <ul class="rs-carousel-runner" style="width: 2100px; left: 0px; ">
+          </ul>
+        </div>
+      </div>
+      <div class="clear"></div>
   </div>
 
   <ul class="search-controller">
