@@ -93,7 +93,7 @@ class ConnieReservationProviderImplementationTestCase extends DingReservationPro
 class ConnieLoanProviderImplementationTestCase extends DingLoanProviderImplementationTestCase {
   public static function getInfo() {
     return array(
-      'name' => 'Connie provider example lan provider',
+      'name' => 'Connie provider example loan provider',
       'description' => 'Test Ding! provider example loan functionality.',
       'group' => 'Ding! - example provider',
     );
