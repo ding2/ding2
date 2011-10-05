@@ -110,7 +110,7 @@ function openruth_client() {
   static $client;
   if (!isset($client)) {
     $path = drupal_get_path('module', 'openruth');
-    include($path . '/lib/OpenruthClient/OpenruthClient.class.php');
+    require_once($path . '/lib/OpenruthClient/OpenruthClient.class.php');
     $wsdl = variable_get('openruth_wsdl_url', '');
     $agency_id = variable_get('openruth_agency_id', '');
     if (!empty($wsdl) && !empty($agency_id)) {
