@@ -4,7 +4,6 @@
  * ding_library.pages_default.inc
  */
 
-
 /**
  * Implementation of hook_default_page_manager_handlers().
  */
@@ -231,6 +230,133 @@ function ding_library_default_page_manager_pages() {
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'ding_libraries';
+  $page->task = 'page';
+  $page->admin_title = 'Ding libraries';
+  $page->admin_description = 'Detailed list of all local libraries on the site.';
+  $page->path = 'libraries';
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
+  $page->menu = array(
+    'type' => 'normal',
+    'title' => 'Libraries',
+    'name' => 'main-menu',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array();
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_ding_libraries_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'ding_libraries';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Ding libraries',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'css_id' => 'ding-library-page',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display;
+  $display->layout = 'threecol_25_50_25_stacked';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'top' => NULL,
+      'left' => NULL,
+      'middle' => NULL,
+      'right' => NULL,
+      'bottom' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Libraries';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_library-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['middle'][0] = 'new-1';
+    $pane = new stdClass;
+    $pane->pid = 'new-2';
+    $pane->panel = 'right';
+    $pane->type = 'campaign';
+    $pane->subtype = 'campaign';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ding_campaign_count' => 3,
+      'ding_campaign_offset' => 0,
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '3600',
+        'granularity' => 'none',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['right'][0] = 'new-2';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-1';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['ding_libraries'] = $page;
+
+  $page = new stdClass;
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'ding_library_about';
   $page->task = 'page';
   $page->admin_title = 'About library';
@@ -398,130 +524,6 @@ function ding_library_default_page_manager_pages() {
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_library_about'] = $page;
 
-  $page = new stdClass;
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'ding_libraries';
-  $page->task = 'page';
-  $page->admin_title = 'Ding libraries';
-  $page->admin_description = 'Detailed list of all local libraries on the site.';
-  $page->path = 'libraries';
-  $page->access = array();
-  $page->menu = array(
-    'type' => 'normal',
-    'title' => 'Libraries',
-    'name' => 'main-menu',
-    'weight' => '0',
-    'parent' => array(
-      'type' => 'none',
-      'title' => '',
-      'name' => 'navigation',
-      'weight' => '0',
-    ),
-  );
-  $page->arguments = array();
-  $page->conf = array(
-    'admin_paths' => FALSE,
-  );
-  $page->default_handlers = array();
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_ding_libraries_panel_context';
-  $handler->task = 'page';
-  $handler->subtask = 'ding_libraries';
-  $handler->handler = 'panel_context';
-  $handler->weight = 0;
-  $handler->conf = array(
-    'title' => 'Ding libraries',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'css_id' => 'ding-library-page',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-  );
-  $display = new panels_display;
-  $display->layout = 'threecol_25_50_25_stacked';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'top' => NULL,
-      'left' => NULL,
-      'middle' => NULL,
-      'right' => NULL,
-      'bottom' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = 'Libraries';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_library-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'none',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
-      ),
-    );
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['middle'][0] = 'new-1';
-    $pane = new stdClass;
-    $pane->pid = 'new-2';
-    $pane->panel = 'right';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'context' => array(
-        0 => 'empty',
-        1 => 'empty',
-        2 => 'empty',
-        3 => 'empty',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '3600',
-        'granularity' => 'none',
-      ),
-    );
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-1';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['ding_libraries'] = $page;
+ return $pages;
 
-  return $pages;
 }
-
