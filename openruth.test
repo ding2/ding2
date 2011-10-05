@@ -18,7 +18,7 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
     // Need ding_user to test login.
     parent::setup(array('openruth', 'ding_user'));
     variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
-    variable_set('openruth_agency_id', '100450');
+    variable_set('openruth_agency_id', '100200');
   }
 
   /**
@@ -26,19 +26,20 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
    * in. Used by parent class.
    */
   function getGoodUser() {
-    return array('0019', '0019');
+    return array('1111111111', '1111');
   }
 
   function testUserData() {
-    $login_data = array('name' => '0019', 'pass' => '0019');
+    $login_data = array('name' => '1111111111', 'pass' => '1111');
     $this->drupalGet('user/login');
     $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
 
     $this->drupalPost('user/login', $login_data, t('Log in'));
     $this->assertRaw(t('Member for'), t("Login works."));
 
-    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit user profile')));
     if (!$edit_link) {
+      $this->fail('Could not find edit link.');
       return;
     }
 
@@ -50,12 +51,13 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
     }
     $uid = $matches[1];
 
-    $this->assertRaw('Anders Andersen Boes', t('Real name is displayed'));
+    $this->assertRaw('Anders And', t('Real name is displayed'));
     $user = user_load($uid);
-    $this->assertEqual('jle@dbc.dk', $user->mail, t('User email has been properly set.'));
+    debug($user->data);
+    $this->assertEqual('1111@dbc.dk', $user->mail, t('User email has been properly set.'));
     $this->assertNoRaw($user->name, t('$user->name isn\'t shown'));
     $this->assertNoRaw($user->init, t('$user->init isn\'t shown'));
-    $this->assertEqual($user->data['preferred_branch'], 'DBCMedier', t('Preferred branch is correct.'));
+    $this->assertEqual($user->data['preferred_branch'], 'Kr. Hyl', t('Preferred branch is correct.'));
 
     user_save($user, array('mail' => 'user@example.com', 'data' => array('display_name' => 'Svend Bent')));
 
@@ -71,11 +73,14 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
     $this->drupalPost('user/login', $login_data, t('Log in'));
     $this->assertRaw(t('Member for'), t("Second login works."));
 
-    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit')));
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit user profile')));
+    if (!$edit_link) {
+      $this->fail('Could not find edit link.');
+    }
     $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
-    $this->assertRaw('Anders Andersen Boes', t('Real name was properly reset.'));
+    $this->assertRaw('Anders And', t('Real name was properly reset.'));
     $user = user_load($uid, TRUE);
-    $this->assertEqual('jle@dbc.dk', $user->mail, t('User email has been properly reset.'));
+    $this->assertEqual('1111@dbc.dk', $user->mail, t('User email has been properly reset.'));
 
   }
 }
@@ -91,8 +96,8 @@ class OpenruthAvailabilityProviderImplementationTestCase extends DingAvailabilit
 
   function setUp() {
     parent::setup(array('openruth'));
-    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.6/openruth.wsdl');
-    variable_set('openruth_agency_id', '758000'); // Temporary...
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
   }
 
   /**
