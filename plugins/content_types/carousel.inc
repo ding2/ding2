@@ -1,6 +1,6 @@
 <?php
 /**
- * @file result.inc
+ * @file
  * Provides search results as a Panels content type.
  */
 
@@ -21,9 +21,9 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
   drupal_add_js($path . '/js/ting_search_carousel.js');
   drupal_add_js(array('tingSearchCarousel' => array('resultsPerPage' => 6)), 'setting');
   drupal_add_css($path . '/css/ting_search_carousel.css');
-  
+
   $searches = variable_get('ting_carousel_search_queries', array());
-  
+
   $block->content = theme('ting_search_carousel', array('searches' => $searches));
   return $block;
 }

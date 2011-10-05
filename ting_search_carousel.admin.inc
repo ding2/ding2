@@ -12,8 +12,8 @@
  *   Admin form
  */
 function ting_search_carousel_admin_page() {
-  drupal_add_js(drupal_get_path('module', 'ting_search_carousel'). '/js/ting_search_carousel.admin.js');
-  drupal_add_css(drupal_get_path('module', 'ting_search_carousel'). '/css/ting_search_carousel.css');
+  drupal_add_js(drupal_get_path('module', 'ting_search_carousel') . '/js/ting_search_carousel.admin.js');
+  drupal_add_css(drupal_get_path('module', 'ting_search_carousel') . '/css/ting_search_carousel.css');
 
   return drupal_get_form('ting_search_carousel_admin_form');
 }
@@ -38,20 +38,20 @@ function ting_search_carousel_admin_form($form, &$form_state) {
 
   // Get current saved queries
   $searches = variable_get('ting_carousel_search_queries', array());
-  
+
   $i = 0;
   $c = 1;
 
   // Display saved queries
   if (isset($searches[0]['title'])) {
     $c = count($searches);
-    for(; $i < $c; $i++) {
+    for (; $i < $c; $i++) {
       $form['ting_search_carousel']['ting_searches']['search_' . $i] = ting_search_carousel_query_form($searches[$i]);
     }
   }
 
   // Display newly created fields
-  for(; $i < $searches_num + $c; $i++) {
+  for (; $i < $searches_num + $c; $i++) {
     $form['ting_search_carousel']['ting_searches']['search_' . $i] = ting_search_carousel_query_form();
   }
 
@@ -95,7 +95,7 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   $form['#theme'] = array('ting_search_carousel_admin_form');
   // Custom form submit handler
   $form['#submit'] = array('ting_search_carousel_search_submit');
-  
+
   return system_settings_form($form);
 }
 
@@ -109,7 +109,7 @@ function ting_search_carousel_admin_form($form, &$form_state) {
  */
 function ting_search_carousel_add_query($form) {
   //$c = count(element_children($form['ting_search_carousel']['ting_searches']));
-  
+
   return $form;//['ting_search_carousel'];//['ting_searches']['search_' . ($c - 1)];
 }
 
@@ -181,7 +181,7 @@ function ting_search_carousel_query_form($item = array()) {
     '#attributes' => array(
       'class' => array(
         'sort-hidden'
-       )
+      )
     ),
   );
 
@@ -207,7 +207,7 @@ function ting_search_carousel_query_form($item = array()) {
     '#description' => t('The query to display search results for'),
     '#default_value' => isset($item['query']) ? $item['query'] : '',
   );
-  
+
   $form['remove'] = array(
     '#type' => 'button',
     '#submit' => FALSE,
@@ -236,11 +236,11 @@ function ting_search_carousel_search_submit($form, &$form_state) {
   $search_count = $form_state['input']['ting_search_carousel_search_count'];
   $searches = array();
   $search_items = array();
-  
+
   module_load_include('client.inc', 'ting');
   $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
-  
-  for($i = 0, $j = 0; $i < $c; $i++) {
+
+  for ($i = 0, $j = 0; $i < $c; $i++) {
     // Make an array for saving, ignoring queries w/o title
     // also make TING requests
     if (!empty($form_state['input']['title'][$i])) {

@@ -41,7 +41,7 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
     'variables' => array('searches' => NULL),
     'template' => 'ting_search_carousel'
   );
-  
+
   $hooks['ting_search_carousel_collection'] = array(
     'variables' => array('collection' => NULL),
     'template' => 'ting_search_carousel_collection'

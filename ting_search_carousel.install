@@ -34,7 +34,8 @@ function ting_search_carousel_install() {
           'width' => '112',
           'height' => '140',
           'xpos' => 'center',
-          'ypos' => 'center',),
+          'ypos' => 'center'
+        ),
         'RGB' => array('HEX' => '918F91'),
         'under' => true
       ),
@@ -44,14 +45,13 @@ function ting_search_carousel_install() {
 
   // Save presets and effects
   $preset = image_style_save($preset);
-  
-  foreach ($imagecache_actions as $action)
-  {
+
+  foreach ($imagecache_actions as $action) {
     $action['isid'] = $preset['isid'];
     image_effect_save($action);
   }
-  
-  drupal_set_message(t('ImageCache preset %id: %name and corresponding actions saved.', array('%id' => $preset['isid'], '%name' => $preset['name'])));
+
+  drupal_set_message(st('ImageCache preset %id: %name and corresponding actions saved.', array('%id' => $preset['isid'], '%name' => $preset['name'])));
 }
 
 /**
@@ -63,15 +63,14 @@ function ting_search_carousel_uninstall() {
   variable_del('ting_search_carousel_searches');
 
   $preset = image_style_load('ting_search_carousel');
-  
-  if ($preset)
-  {
+
+  if ($preset) {
     image_style_delete($preset);
   }
 }
 
 /**
- * Implementation of hook_schema().
+ * Implements hook_schema().
  */
 function ting_search_carousel_schema() {
   $schema = array();
