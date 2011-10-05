@@ -213,6 +213,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     }
     catch (Exception $e) {
       $this->fail('Reserve threw ' . get_class($e) . '.');
+      debug($e);
     }
 
 
@@ -227,6 +228,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     }
     catch (Exception $e) {
       $this->fail("Re-reserving throws " . get_class($e) . ".");
+      debug($e);
     }
 
     $existing_reservations = array();
