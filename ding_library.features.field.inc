@@ -78,7 +78,7 @@ function ding_library_field_default_fields() {
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '9',
+        'weight' => '11',
       ),
     ),
   );
@@ -152,7 +152,7 @@ function ding_library_field_default_fields() {
           ),
         ),
         'type' => 'addressfield_standard',
-        'weight' => '2',
+        'weight' => '3',
       ),
     ),
   );
@@ -206,7 +206,7 @@ function ding_library_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'email_textfield',
-        'weight' => '3',
+        'weight' => '4',
       ),
     ),
   );
@@ -250,7 +250,7 @@ function ding_library_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 8,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -274,7 +274,7 @@ function ding_library_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '5',
+        'weight' => '6',
       ),
     ),
   );
@@ -321,7 +321,7 @@ function ding_library_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 5,
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -352,7 +352,7 @@ function ding_library_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '7',
+        'weight' => '8',
       ),
     ),
   );
@@ -432,7 +432,73 @@ function ding_library_field_default_fields() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_field',
-        'weight' => '6',
+        'weight' => '7',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_library-ding_library_opening_hours'
+  $fields['node-ding_library-ding_library_opening_hours'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_library_opening_hours',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_library',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Write when the library has open and is closed.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '10',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_library_opening_hours',
+      'label' => 'Opening hours',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '10',
       ),
     ),
   );
@@ -476,7 +542,7 @@ function ding_library_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 7,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -500,7 +566,7 @@ function ding_library_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '4',
+        'weight' => '5',
       ),
     ),
   );
@@ -544,7 +610,7 @@ function ding_library_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 9,
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -568,7 +634,7 @@ function ding_library_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '31',
+        'weight' => '1',
       ),
     ),
   );
@@ -615,7 +681,7 @@ function ding_library_field_default_fields() {
             'image_style' => '',
           ),
           'type' => 'image',
-          'weight' => 6,
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -646,7 +712,7 @@ function ding_library_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '8',
+        'weight' => '9',
       ),
     ),
   );
@@ -726,7 +792,7 @@ function ding_library_field_default_fields() {
           'display_label' => 0,
         ),
         'type' => 'options_onoff',
-        'weight' => '1',
+        'weight' => '2',
       ),
       'widget_type' => 'options_select',
     ),
@@ -741,11 +807,13 @@ function ding_library_field_default_fields() {
   t('If enabled, events and news can be marked as related to this library and will show up on its library page.');
   t('Links');
   t('Main image ');
+  t('Opening hours');
   t('Phone number');
   t('Show related content on library page');
   t('Slug');
   t('Teaser image');
   t('The main contact e-mail address for the library.');
+  t('Write when the library has open and is closed.');
 
   return $fields;
 }
