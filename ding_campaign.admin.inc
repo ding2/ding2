@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains admin backend related code.
@@ -8,16 +9,17 @@
  * Module main settings lay here.
  *
  * @param $form
- *   Form
+ *   Form.
  * @param $form_state
- *   Form state
+ *   Form state.
+ *
  * @return
- *   Form structure array
+ *   Form structure array.
  */
 function ding_campaign_configure($form, $form_state) {
   $types = node_type_get_names();
 
-  // Some key renaming routine, required in further module checks
+  // Some key renaming routine, required in further module checks.
   foreach ($types as $k => $v) {
     $types[$k . '_node_form'] = $v;
     unset($types[$k]);
@@ -31,7 +33,7 @@ function ding_campaign_configure($form, $form_state) {
     '#description' => t('Select node types which shall have campaign selector present in their editing form.'),
   );
 
-  // Prevent campaigns to be assigned to campaigns
+  // Prevent campaigns to be assigned to campaigns.
   unset($form['ding_campaign_node_types']['#options']['ding_campaign_node_form']);
 
   return system_settings_form($form);
@@ -41,9 +43,10 @@ function ding_campaign_configure($form, $form_state) {
  * Get rules edit form.
  *
  * @param $node
- *   Campaign node object whose rules are edited
+ *   Campaign node object whose rules are edited.
+ *
  * @return
- *   Campaign rules edit form
+ *   Campaign rules edit form.
  */
 function ding_campaign_rules_admin($node) {
   drupal_add_js(array('ding_campaing_init' => array(
@@ -56,13 +59,14 @@ function ding_campaign_rules_admin($node) {
  * Campaign rules edit form.
  *
  * @param $form
- *   Rules form
+ *   Rules form.
  * @param $form_state
- *   Form state
+ *   Form state.
  * @param $node
- *   Campaign node object whose rules are edited
+ *   Campaign node object whose rules are edited.
+ *
  * @return
- *   Campaign rules edit form
+ *   Campaign rules edit form.
  */
 function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
   $num_rules = !empty($form_state['values']['howmany_select']) ? $form_state['values']['howmany_select'] : 0;
@@ -119,11 +123,12 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
  * Appends rule form via AJAX.
  *
  * @param $form
- *   Form
+ *   Form.
  * @param $form_state
- *   Form state
+ *   Form state.
+ *
  * @return
- *   Form element - rule fields
+ *   Form element - rule fields.
  */
 function ding_campaign_add_rule($form, $form_state) {
   $c = count(element_children($form['ding_campaign_rules']['rules']));
@@ -131,18 +136,18 @@ function ding_campaign_add_rule($form, $form_state) {
 }
 
 /**
- * Implements hook_FORM_ID_submit().
+ * Implements hook_form_id_submit().
  */
 function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
   $c = count($form_state['input']['rule_type']);
 
   if ($c > 0) {
-    // Delete existing rules
+    // Delete existing rules.
     db_delete('ding_campaign_rules')
       ->condition('cid', $form_state['build_info']['args'][0]->nid)
       ->execute();
 
-    // Add new rules
+    // Add new rules.
     for ($i = 0; $i < $c; $i++) {
       if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic') {
 
@@ -174,6 +179,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
  *   Current rule.
  * @param $type
  *   Current type.
+ *
  * @return
  *   Rule fields structure.
  */
@@ -202,7 +208,7 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#maxlength' => 24,
     '#prefix' => '<div class="rule-value">',
     '#suffix' => '</div><div class="clear"></div></div>',
-    //'#autocomplete_path' => 'ding_campaign/autocomplete/567',
+    // '#autocomplete_path' => 'ding_campaign/autocomplete/567',
   );
 
   if ($type == 'rule_page' || $type == 'rule_taxonomy') {
@@ -211,11 +217,14 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
 
   return $form;
 }
+
 /**
- * Autcomplete handler.
+ * Autocomplete handler.
  *
- * @param type $type
- * @param type $input
+ * @param $type
+ *   Type.
+ * @param $input
+ *   Input.
  */
 function ding_campaign_admin_autocomplete($type, $input) {
   $matches = array();

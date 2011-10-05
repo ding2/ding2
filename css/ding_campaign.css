@@ -27,11 +27,13 @@
   padding: 0;
 }
 
-.ding-campaign-rule .rule-type, .ding-campaign-rule .rule-value {
+.ding-campaign-rule .rule-type,
+.ding-campaign-rule .rule-value {
   float: left;
 }
 
-.ding-campaign-rule .rule-type select, .ding-campaign-rule .rule-value input {
+.ding-campaign-rule .rule-type select,
+.ding-campaign-rule .rule-value input {
   margin: 2px;
   font-size: 12px;
 }

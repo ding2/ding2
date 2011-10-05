@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Ding Campaign CTools plugin file
+ * Ding Campaign CTools plugin file.
  */
 
 $plugin = array(
