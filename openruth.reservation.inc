@@ -67,7 +67,7 @@ function openruth_reservation_create($account, $id, $branch, $expiry) {
   $status = _openruth_user_status($creds, TRUE);
 
   $internal_account = ding_user_get_creds($account);
-  $order_res = openruth_client_invoke('order_item', $internal_account['name'], $id, 1, date('c', time()), date('c', $expiry), $branch);
+  $order_res = openruth_client_invoke('order_item', $internal_account['name'], $id, 1, date('c', time()), date('Y-m-d', $expiry), $branch);
   $order = array_shift($order_res);
   if ($order == 1) {
     $status = _openruth_user_status($creds, TRUE);
