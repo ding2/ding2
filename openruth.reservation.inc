@@ -73,6 +73,9 @@ function openruth_reservation_create($account, $id, $branch, $expiry) {
     $status = _openruth_user_status($creds, TRUE);
     return $order_res;
   }
+  elseif ($order == 'already reserved by user') {
+    throw new DingProviderReservationExists();
+  }
   else {
     throw new DingProviderUserException(t('Error: ' . $order));
   }
