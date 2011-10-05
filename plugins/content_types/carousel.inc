@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides search results as a Panels content type.

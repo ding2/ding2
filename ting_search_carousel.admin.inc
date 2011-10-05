@@ -1,7 +1,7 @@
 <?php
+
 /**
  * @file
- *
  * Admin related backend.
  */
 
