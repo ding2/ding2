@@ -90,4 +90,58 @@ class TingSearchTestCase extends DrupalWebTestCase {
     $this->assertFieldByXPath("//li[@class='search-result']//div[contains(@class, 'field-type-ting-author')]//a[@class='author']", "Jussi Adler-Olsen", 'We have a By-line = "Jussi Adler-Olsen".');
     $this->assertFieldByXPath("//li[@class='search-result']//div[contains(@class, 'field-type-ting-abstract')]//div[contains(@class, 'field-item')]", 'Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde, da han efterforsker en sag om fem menneskers forsvinden i 1987. Sagen fører tilbage til kvindeanstalten på Sprogø, der virkede fra 1923-1961, og datidens racehygiejne og pludselig bliver Carl Mørck og hans kolleger udsat for mordforsøg, da sagen antager politiske dimensioner', 'We have a teaser text = "Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde"');
   }
+
+  public function testTingExtended() {
+    $this->drupalGet('http://test.artesis.dev/search/ting/water%20AND%20%28dc.title%3Dchemistry%29');
+
+    $this->assertFieldByName("search_block_form", 'water', "Search field contains 'water'.");
+    $this->assertFieldById("extend_search_title", 'chemistry', "Title field contains 'chemestry'.");
+
+    $this->drupalGet('http://test.artesis.dev/search/node/water%20AND%20%28dc.title%3Dchemistry%29');
+
+    $this->assertFieldByName("search_block_form", 'water chemistry', "Search field contains 'water chemistry'.");
+    $this->assertFieldById("extend_search_title", '', "The title field is empty.");
+  }
+}
+
+class TingSearchParsingTestCase extends DrupalUnitTestCase {
+  static function getInfo() {
+    return array(
+      'name' => 'Ting search parsing',
+      'description' => 'Test search query string parsing.',
+      'group' => 'Ding! - Ting search',
+    );
+  }
+
+  function testParsing() {
+    drupal_load('module', 'ting_search');
+    $testCases = array(
+      array(
+        'string' => 'water AND (dc.title=chemestry)',
+        'keys' => array('dc.title'),
+        'expected' => array(
+          'q' => 'water',
+          'dc.title' => 'chemestry',
+        ),
+      ),
+      array(
+        'string' => 'water and one=one aNd (dc.title=test) and two="two double" And three=' . "'three 3'",
+        'keys' => array('one', 'two', 'three'),
+        'expected' => array(
+          'q' => 'water aNd (dc.title=test)',
+          'one' => 'one',
+          'two' => '"two double"',
+          'three' => "'three 3'",
+        ),
+      ),
+    );
+    foreach ($testCases as $test) {
+      drupal_static_reset('ting_search_extract_indexes');
+      $res = ting_search_extract_keys($test['string'], $test['keys']);
+      $this->assertEqual($res, $test['expected'], 'Could parse: ' . $test['string']);
+      if ($res != $test['expected']) {
+        debug($res);
+      }
+    }
+  }
 }

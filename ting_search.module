@@ -92,8 +92,8 @@ function ting_search_theme() {
     'ting_search_display_extended_query' => array(
       'variables' => array('query_label'=>NULL,'query_string' => NULL),
       'template' => 'ting-search-display-extended-query',
-    ),    
-    'ting_search_extended_search' => 
+    ),
+    'ting_search_extended_search' =>
     array(
 	  'variables' => ting_search_extended_search_variables(),
 	  'template' => 'ting-search-extended-search',
@@ -106,7 +106,7 @@ function ting_search_get_extended_actions() {
 }
 
 function ting_search_extended_search_variables() {
-  return array(); 
+  return array();
 }
 
 
@@ -116,39 +116,23 @@ function ting_search_extended_search_variables() {
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $search_result = drupal_static('ting_search_results');
 
-  // extend this list if more are added in search_extend_form()
-  $cql_fields = array(
-    variable_get('ting_search_extendform_creator_index', 'dc.creator') => t('creator'),
-    variable_get('ting_search_extendform_title_index', 'dc.title')     => t('title'),
-    variable_get('ting_search_extendform_subject_index', 'dc.subject') => t('subject'),
-  );
-
-  // parse querystring for search_extend_form elements.
-  if ($search_result instanceof TingClientSearchResult && isset($search_result->search_key)) {
-    $findme   = ' and (';
-    $pos = strpos(strtolower($search_result->search_key), $findme);
-    if ($pos === false) {
-      $query_parse['base'] = $search_result->search_key;
-      $query_parse['extended'] = parse_cqlpart($search_result->search_key,$cql_fields);
-      if ( $query_parse['extended'] ) {
-        $query_parse['base'] = '';
-      }
-    } else {
-      $query_parse['base'] = substr($search_result->search_key,0,$pos);
-      $query_parse['extended'] = parse_cqlpart (substr($search_result->search_key,$pos+5),$cql_fields);
-      if (!$query_parse['extended']) {
-        $query_parse['base'] = $search_result->search_key;
-      }
-    }
-    $form['search_block_form']['#default_value'] = $query_parse['base'];
-  }
-  elseif (arg(0) == 'search') {
+  // Parse extended search query parameters.
+  if (arg(0) == 'search') {
     // For other search pages, just insert the current search terms.
     $parts = explode('/', $_GET['q']);
     // Lose 'search' and the search type.
     array_shift($parts);
     array_shift($parts);
-    $form['search_block_form']['#default_value'] = implode('/', $parts);
+    $search_query = implode('/', $parts);
+    $indexes = ting_search_extract_keys($search_query, array('dc.title', 'dc.creator', 'dc.subject'));
+    $search_query = $indexes['q'];
+    unset($indexes['q']);
+    if (arg(1) != 'ting' and !empty($indexes)) {
+      $search_query .= " " . implode(' ', $indexes);
+      $indexes = array();
+    }
+
+    $form['search_block_form']['#default_value'] = $search_query;
   }
 
   $form['sort'] = array(
@@ -161,24 +145,17 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#default_value' => isset($_GET['size']) ? (int)$_GET['size'] : FALSE,
     '#attributes' => array('id' => 'controls_search_size'),
   );
-  $form['creator'] = array(
-    '#type' => 'hidden',
-    '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_creator_index', 'dc.creator') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_creator_index', 'dc.creator') ] : '',
-    '#attributes' => array('id' => 'extend_search_creator'),
-  );
-  $form['title'] = array(
-    '#type' => 'hidden',
-    '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_title_index', 'dc.title') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_title_index', 'dc.title') ] : '',
-    '#attributes' => array('id' => 'extend_search_title'),
-  );
-  $form['subject'] = array(
-    '#type' => 'hidden',
-    '#default_value' => isset($query_parse['extended'][ variable_get('ting_search_extendform_subject_index', 'dc.subject') ]) ? $query_parse['extended'][ variable_get('ting_search_extendform_subject_index', 'dc.subject') ] : '',
-    '#attributes' => array('id' => 'extend_search_subject'),
-    ); 
+
+  foreach (array('creator', 'title', 'subject') as $field) {
+    $form[$field] = array(
+      '#type' => 'hidden',
+      '#default_value' => isset($indexes[variable_get('ting_search_extendform_' . $field . '_index', 'dc.' . $field)]) ? $indexes[variable_get('ting_search_extendform_' . $field . '_index', 'dc.' . $field)] : '',
+      '#attributes' => array('id' => 'extend_search_' . $field),
+    );
+  }
 
   // $form['form_id']['#suffix'] = '<div id="extend-form-div"><a id="extend-form-show" href="#">'.t('Advanced search').'</a><a id="extend-form-clear" href="#">'.t('clear_form_fields').'</a></div>';
-  $form['form_id']['#suffix'] = ting_search_get_extended_actions();  
+  $form['form_id']['#suffix'] = ting_search_get_extended_actions();
 
   $form['#submit'] = array('ting_search_submit');
 
@@ -186,42 +163,50 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
 }
 
 /**
- * Parse cql part for extended form elements.
+ * Extract special field keys from search string.
+ *
+ * @param string $search_query The search query.
+ * @param array $keys Keys to extract.
+ *
+ * @return array Where the array keys are the search keys, and the remainder
+ *   search string in 'q'.
  */
-function parse_cqlpart($src,$cql_fields) {
+function ting_search_extract_keys($search_query, $keys) {
+  $indexes = &drupal_static('ting_search_extract_indexes', array());
 
-  $src = strtolower(trim($src,' ()'));
-  $regCCLbool = '/^\sand\s|^\sor\s|^\snot\s+/i';
-  $buffer = '';
-
-  while ($src){
-    if( preg_match($regCCLbool, $src, $match) ){
-      $src = substr($src, strlen($match[0]));
-      if ( $buffer ) {
-        $tokens[] = $buffer;
-        $buffer = '';
-      }
-      $tokens[] = $match[0];
-    }
-    else {
-      $buffer .= $src[0];
-      $src = substr($src, 1);
-    }
-  }
-  if ( $buffer ) {
-    $tokens[] = $buffer;
+  ting_search_extract_indexes(NULL, $keys);
+  /*
+   * We'll just use three regexps, instead of trying to construct One Regexp
+   * To rule Them All.
+   */
+  $regexpes = array(
+    '/\s+and\s+\((?P<subexpr>[^)]+)\)/i',
+    '/\s+and\s+(?P<subexpr>[^=]+=([' . "'" . '"])[^\2]+\2)/i',
+    '/\s+and\s+(?P<subexpr>[^=]+=\S+)/i',
+  );
+  foreach ($regexpes as $regexp) {
+    $search_query = preg_replace_callback($regexp, 'ting_search_extract_indexes', $search_query);
   }
 
-  foreach ($tokens as $key => $val) {
-    $extended_parts[$key] = explode('=', $val);
-    $extended[ $extended_parts[$key][0] ] = (!empty($extended_parts[$key][1])) ? $extended_parts[$key][1] : '';
-    if (!array_key_exists($extended_parts[$key][0],$cql_fields) && ( empty($extended_parts[$key][1]) && strtolower(trim($extended_parts[$key][0])) != 'and')) {
-      return array();
-    }
-  }
-  return $extended;
+  $indexes['q'] = $search_query;
+  return $indexes;
 }
 
+/**
+ * preg_replace_callback function.
+ */
+function ting_search_extract_indexes($matches, $set_keys = NULL) {
+  static $keys;
+  if ($set_keys) {
+    $keys = array_flip($set_keys);
+  }
+  $indexes = &drupal_static(__FUNCTION__, array());
+  if (preg_match('/^(?P<index>[^=]+)\=(?P<value>.*)$/', $matches['subexpr'], $rx) && array_key_exists(trim($rx['index']), $keys)) {
+    $indexes[trim($rx['index'])] = trim($rx['value']);
+    return '';
+  }
+  return $matches[0];
+}
 
 /**
  * Search conditions callback.
