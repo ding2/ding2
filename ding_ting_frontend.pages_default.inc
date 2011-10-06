@@ -218,7 +218,7 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->pid = 'new-5';
     $pane->panel = 'middle';
     $pane->type = 'block';
-    $pane->subtype = 'ding_availability-legend';
+    $pane->subtype = 'ting_search-search-display-extended-query';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -237,8 +237,8 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-6';
     $pane->panel = 'middle';
-    $pane->type = 'ting_search';
-    $pane->subtype = 'ting_search';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_availability-legend';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -256,6 +256,26 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $display->panels['middle'][4] = 'new-6';
     $pane = new stdClass;
     $pane->pid = 'new-7';
+    $pane->panel = 'middle';
+    $pane->type = 'ting_search';
+    $pane->subtype = 'ting_search';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 5;
+    $display->content['new-7'] = $pane;
+    $display->panels['middle'][5] = 'new-7';
+    $pane = new stdClass;
+    $pane->pid = 'new-8';
     $pane->panel = 'middle';
     $pane->type = 'search_result';
     $pane->subtype = 'search_result';
@@ -282,9 +302,9 @@ function ding_ting_frontend_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 5;
-    $display->content['new-7'] = $pane;
-    $display->panels['middle'][5] = 'new-7';
+    $pane->position = 6;
+    $display->content['new-8'] = $pane;
+    $display->panels['middle'][6] = 'new-8';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
