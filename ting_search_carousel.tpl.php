@@ -15,7 +15,7 @@ drupal_add_js(drupal_get_path('module', 'ting_search_carousel'). '/js/jquery.rs.
       </div>
       <div class="ting-rs-carousel">
         <div class="rs-carousel-mask">
-          <ul class="rs-carousel-runner" style="width: 2100px; left: 0px; ">
+          <ul class="rs-carousel-runner">
           </ul>
         </div>
       </div>

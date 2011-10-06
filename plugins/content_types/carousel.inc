@@ -33,7 +33,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
  * Return the pane titles.
  */
 function ting_search_carousel_carousel_content_type_admin_title($subtype, $conf, $context) {
-  return t('Søgninger');
+  return t('Search');
 }
 
 /**

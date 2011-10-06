@@ -97,11 +97,13 @@
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-runner {
-  position: absolute;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
+  left: 0;
   list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 2100px;
 }
 
 .ting-search-carousel .no-js .rs-carousel .rs-carousel-runner {
