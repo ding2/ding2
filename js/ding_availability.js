@@ -50,8 +50,7 @@
           }
           else {
             // Update holding information.
-            // updateHoldings(id, entity_ids);
-            updateHoldingsAvailable(id, entity_ids);
+            updateHoldings(id, entity_ids);
           }
         });
       }
@@ -60,7 +59,7 @@
         var available = false;
         var reservable = false;
         $.each(entity_ids, function(index, entity_id) {
-          if (Drupal.DADB[entity_id] !== undefined && Drupal.DADB[entity_id] !== null) {
+          if (Drupal.DADB[entity_id]) {
             available = available || Drupal.DADB[entity_id]['available'];
             reservable = reservable || Drupal.DADB[entity_id]['reservable'];
           }
@@ -92,25 +91,10 @@
 
       function updateHoldings(id, entity_ids) {
         var entity_id = entity_ids.pop();
-        if (Drupal.DADB[entity_id] !== undefined && Drupal.DADB[entity_id]['holdings'] !== undefined) {
-          var holdings = Drupal.DADB[entity_id]['holdings'];
-          if (holdings.length > 0) {
-            $('#' + id).append('<h2>' + Drupal.t('Holdings') + '</h2>');
-            $('#' + id).append('<ul>');
-            var container = $('#' + id + ' ul');
-            $.each(holdings, function(i, holding) {
-              container.append('<li>' + holding + '</li>');
-            });
-          }
-        }
-      }
-
-      function updateHoldingsAvailable(id, entity_ids) {
-        var entity_id = entity_ids.pop();
-        if (Drupal.DADB[entity_id] !== undefined && Drupal.DADB[entity_id]['holdings'] !== undefined) {
+          if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'] || Drupal.DADB[entity_id]['holdings_available'])) {
           var holdings;
           // Use holdings_available, if set.
-          if (Drupal.DADB[entity_id]['holdings_available'] !== undefined) {
+          if (Drupal.DADB[entity_id]['holdings_available']) {
             holdings = Drupal.DADB[entity_id]['holdings_available'];
           }
           else {
