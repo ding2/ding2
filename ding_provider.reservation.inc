@@ -156,41 +156,10 @@ class DingProviderReservation extends DingEntityBase {
     return $this->entity;
   }
 
-  /*
-   order_id
-   created
-   titel
-   type
-   forfatter
-   sprog
-   materiale nr
-   */
-
-  function getOrder_id() {
-    $this->getEntity();
-    if ($this->entity) {
-      return $this->order_id = $this->entity->orderId;
-    }
-  }
-
   function getTitle() {
     $this->getEntity();
     if ($this->entity) {
       return $this->title = $this->entity->title;
-    }
-  }
-
-  function getCreated() {
-    $this->getEntity();
-    if ($this->entity) {
-      return $this->created = $this->entity->created;
-    }
-  }
-
-  function getQueue_number() {
-    $this->getEntity();
-    if ($this->entity) {
-      return $this->queue_number = $this->entity->queue_number;
     }
   }
 
