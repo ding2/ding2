@@ -44,6 +44,13 @@ function connie_reservation_list($account) {
                      ));
     }
   }
+  // Fake a remote reservation.
+  $result['ill-123'] = new DingProviderReservation('ill-123', array(
+                         'display_name' => 'Remote loan: The algebraist',
+                         'pickup_branch_id' => 'grd',
+                         'expiry' => date('Y-m-d', REQUEST_TIME + 86400),
+                         'ready_for_pickup' => TRUE,
+                       ));
   return $result;
 }
 
