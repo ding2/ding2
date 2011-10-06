@@ -149,6 +149,5 @@ class DingReservationFunctionalTest extends DingPopupTestCase {
         $this->assertTrue(strpos($command['data'], '"Harry Potter og Fønixordenen" reserved and will be available for pickup at Gåserød bibliotek.'), 'Proper message displayed.');
       }
     }
-
   }
 }
