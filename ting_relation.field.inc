@@ -79,7 +79,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
 	  '#ac_source' => $entity->ac_source,
           '#relation' => $relation,
           '#object' => $relation->object,
-          '#title' => $relation_types[$relation->type],	  
+          '#title' => $relation_types[$relation->type],
           '#attached' => array(
             'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
           ),

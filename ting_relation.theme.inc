@@ -12,41 +12,48 @@ function template_preprocess_ting_relation(&$variables) {
   $relation = $variables['relation'] = $variables['elements']['#relation'];
   $ac_source = $variables['ac_source'] = $variables['elements']['#ac_source'];
 
-  
- 
   $variables['online_url'] = FALSE;
- 
+
   switch ($relation->type) {
-  case 'dbcbib:isPartOfManifestation':
-    ting_relations_set_url_and_title( $variables );
-    $variables['content']['body'] = ting_object_view($object, 'teaser');
-    break;
-  case 'dbcaddi:hasReview':
-    // different types of reviews - more switch?
-    if ($relation->object->ac_source == 'Anmeldelser') {
-      ting_relation_set_review_anmeldelser($variables);
-    }
-    else {
-      ting_relation_set_review($variables);
-    }
-    break;
-  case 'dbcaddi:hasSubjectDescription':
-    ting_relation_set_subject($variables);
-    break;
-  case 'dbcaddi:hasCreatorDescription':
-    ting_relation_set_author_description($variables);
-    break;
-  case 'dbcaddi:hasOnlineAccess':
-    if( $ac_source == 'Ebrary' ) {
-      ting_relations_set_online_access( $variables );
-    }
-    break;
-  default :
-    break;
+    case 'dbcbib:isPartOfManifestation':
+      ting_relations_set_url_and_title( $variables );
+      $variables['content']['body'] = ting_object_view($object, 'teaser');
+      break;
+    case 'dbcaddi:hasReview':
+      // This is so crap, but until someone figures out how to deal with this in
+      // a general way..
+      // different types of reviews - more switch?
+      if ($relation->object->ac_source == 'Anmeldelser') {
+        ting_relation_set_review_anmeldelser($variables);
+      }
+      else {
+        ting_relation_set_review($variables);
+      }
+      break;
+    case 'dbcaddi:hasSubjectDescription':
+      ting_relation_set_subject($variables);
+      break;
+    case 'dbcaddi:hasCreatorDescription':
+      ting_relation_set_author_description($variables);
+      break;
+    case 'dbcaddi:hasOnlineAccess':
+      // This is so crap, but until someone figures out how to deal with this in
+      // a general way..
+      switch ($ac_source) {
+        case 'Ebrary':
+          ting_relations_set_online_access_ebrary($variables);
+          break;
+        case 'Filmstriben (fjernlån)':
+          ting_relations_set_online_access_filmstriben($variables);
+          break;
+      }
+      break;
+    default:
+      break;
   }
 }
 
-function ting_relations_set_online_access( &$variables ) {
+function ting_relations_set_online_access_ebrary(&$variables) {
   // TODO get ebrary url from somewhere
   $ebrary_url = variable_get('ting_ebrary_url');
   if( !isset($ebrary_url) ) {
@@ -59,7 +66,17 @@ function ting_relations_set_online_access( &$variables ) {
 
   // simply set a button
   $url = str_replace('[URL]',$ebrary_url,$relation->uri);
-  $variables['online_url'] = array( '#markup' => l($variables['ac_source'], $url, array('attributes'=>array('target'=>'_blank') ) ), );
+  $variables['online_url'] = array('#markup' => l($variables['ac_source'], $url, array('attributes' => array('target'=>'_blank'))));
+}
+
+function ting_relations_set_online_access_filmstriben(&$variables) {
+  $variables['type_title'] = $variables['elements']['#title'];
+  $relation = $variables['relation'] = $variables['elements']['#relation'];
+  $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
+
+  // simply set a button
+  $url = $relation->uri;
+  $variables['online_url'] = array('#markup' => l($variables['ac_source'], $url, array('attributes' => array('target'=>'_blank'))));
 }
 
 function ting_relation_set_author_description(&$variables) {
@@ -67,7 +84,7 @@ function ting_relation_set_author_description(&$variables) {
   $relation = $variables['relation'] = $variables['elements']['#relation'];
 
   ting_relations_set_url_and_title( $variables );
-  
+
   if ($names = ting_relation_array2names($tingentity_object->creators)) {
     $variables['content']['byline'] = array(
       '#markup' => t('by @author', array('@author' => $names)),
@@ -88,7 +105,7 @@ function ting_relation_set_review_anmeldelser(&$variables) {
   $relation = $variables['relation'] = $variables['elements']['#relation'];
 
   ting_relations_set_url_and_title( $variables );
-  
+
   //creators
   if ($names = ting_relation_array2names($relation->object->creators)) {
     $variables['content']['byline'] = array(
@@ -147,7 +164,7 @@ function ting_relation_set_review(&$variables) {
 function ting_relation_set_subject(&$variables) {
   $tingentity_object = $variables['object'] = $variables['elements']['#object'];
   $relation = $variables['relation'] = $variables['elements']['#relation'];
-  
+
   ting_relations_set_url_and_title( $variables );
 
   //creators
@@ -178,7 +195,7 @@ function ting_relations_set_url_and_title( &$variables ) {
   $relation = $variables['relation'] = $variables['elements']['#relation'];
 
   $variables['classes_array'][] = 'ting-relation-' . drupal_html_class($relation->type);
-  
+
   if( is_object($tingentity_object) ) {
     $variables['title'] = check_plain($tingentity_object->title);
     $variables['online_url'] = $tingentity_object->online_url ? l($tingentity_object->ac_source, $tingentity_object->online_url, array('attributes'=>array('target'=>'_blank') ) ): FALSE;
