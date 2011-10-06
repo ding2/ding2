@@ -9,7 +9,7 @@
  * AJAX callback to retrieve carousel items.
  *
  * @param $index
- *   Array index storing specific data
+ *   Array index storing specific data.
  */
 function ting_search_carousel_result($index) {
   $collections = array();

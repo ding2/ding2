@@ -13,7 +13,7 @@ function ting_search_carousel_install() {
 
   variable_set('ting_search_carousel_searches', array());
 
-  //install ImageCache presets
+  // Install ImageCache presets.
   $preset = array(
       'name' => 'ting_search_carousel',
   );
@@ -44,7 +44,7 @@ function ting_search_carousel_install() {
     ),
   );
 
-  // Save presets and effects
+  // Save presets and effects.
   $preset = image_style_save($preset);
 
   foreach ($imagecache_actions as $action) {

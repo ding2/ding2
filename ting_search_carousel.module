@@ -71,23 +71,23 @@ function ting_search_carousel_cron() {
 }
 
 /**
- * Perform a ting search, retrieve covers and store some of data in cache
+ * Perform a ting search, retrieve covers and store some of data in cache.
  */
 function ting_search_carousel_do_search() {
   $search_queries = variable_get('ting_carousel_search_queries', array());
   $search_items = array();
 
-  // There are any queries set
+  // There are any queries set.
   if (count($search_queries) > 0) {
     module_load_include('client.inc', 'ting');
     $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
     $j = 0;
 
-    // Search for each query up to 100 items
+    // Search for each query up to 100 items.
     foreach ($search_queries as $item) {
       $result = ting_do_search($item['query'], 0, 100, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
 
-      // For each found collection, find a related item with cover
+      // For each found collection, find a related item with cover.
       foreach ($result->collections as $collection) {
         foreach ($collection->reply->objects as $object) {
           $ting_item_cover = $service->getByFaustNumber($object->localId);
@@ -110,7 +110,7 @@ function ting_search_carousel_do_search() {
     }
   }
 
-  // Clear & set the cache
+  // Clear & set the cache.
   cache_clear_all('ting_search_result', 'cache');
   cache_set('ting_search_result', serialize($search_items), 'cache');
 }

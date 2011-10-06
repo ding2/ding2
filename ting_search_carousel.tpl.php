@@ -2,6 +2,7 @@
 
 /**
  * @file
+ *
  */
 
 drupal_add_library('system', 'ui.widget');
