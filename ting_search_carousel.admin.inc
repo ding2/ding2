@@ -73,21 +73,6 @@ function ting_search_carousel_admin_form($form, &$form_state) {
     ),
   );
 
-  // Cache length
-  $form['ting_search_carousel']['ting_search_carousel_search_count'] = array(
-    '#type' => 'select',
-    '#title' => t('Items count'),
-    '#description' => t('Determines how much items to search.'),
-    '#options' => array(
-      10 => t('10'),
-      25 => t('25'),
-      50 => t('50'),
-      100 => t('100'),
-      250 => t('250'),
-    ),
-    '#default_value' => variable_get('ting_search_carousel_search_count', 25),
-  );
-
   // Wrap the form, due to draggable items renewal
   $form['#prefix'] = '<div id="ting-search-carousel-queries">';
   $form['#suffix'] = '</div>';
@@ -108,9 +93,7 @@ function ting_search_carousel_admin_form($form, &$form_state) {
  *   Changed field to be updated
  */
 function ting_search_carousel_add_query($form) {
-  //$c = count(element_children($form['ting_search_carousel']['ting_searches']));
-
-  return $form;//['ting_search_carousel'];//['ting_searches']['search_' . ($c - 1)];
+  return $form;
 }
 
 /**
@@ -233,14 +216,10 @@ function ting_search_carousel_query_form($item = array()) {
  */
 function ting_search_carousel_search_submit($form, &$form_state) {
   $c = count($form_state['input']['title']);
-  $search_count = $form_state['input']['ting_search_carousel_search_count'];
   $searches = array();
   $search_items = array();
 
-  module_load_include('client.inc', 'ting');
-  $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
-
-  for ($i = 0, $j = 0; $i < $c; $i++) {
+  for ($i = 0; $i < $c; $i++) {
     // Make an array for saving, ignoring queries w/o title
     // also make TING requests
     if (!empty($form_state['input']['title'][$i])) {
@@ -249,36 +228,12 @@ function ting_search_carousel_search_submit($form, &$form_state) {
         'subtitle' => $form_state['input']['subtitle'][$i],
         'query' => $form_state['input']['query'][$i]
       );
-
-      $query = $form_state['input']['query'][$i];
-
-      $result = ting_do_search($query, 1, $search_count, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
-
-      foreach ($result->collections as $collection) {
-        foreach ($collection->reply->objects as $object) {
-          $ting_item_cover = $service->getByFaustNumber($object->localId);
-          if (count($ting_item_cover) > 0) {
-
-            $item = new stdClass();
-            $item->id = $object->id;
-            $item->creator = isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '';
-            $item->title = isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '';
-            $k = array_keys($ting_item_cover);
-            $item->image = $ting_item_cover[$k[0]]->thumbnailUrl;
-
-            $search_items[$j][] = $item;
-            break;
-          }
-        }
-      }
-
-      $j++;
     }
   }
 
-  // Cache the results
-  cache_set('ting_search_result', $search_items);
-
   // Save the queries as a persistent variable
   variable_set('ting_carousel_search_queries', $searches);
+
+  // Make ting search requests
+  ting_search_carousel_do_search();
 }
