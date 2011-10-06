@@ -4,6 +4,3 @@ package = Ding!
 core = 7.x
 dependencies[] = ting
 dependencies[] = ting_search
-files[] = ting_search_carousel.module
-files[] = ting_search_carousel.admin.inc
-files[] = ting_search_carousel.pages.inc
