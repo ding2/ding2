@@ -93,11 +93,6 @@ function ting_search_theme() {
       'variables' => array('query_label'=>NULL,'query_string' => NULL),
       'template' => 'ting-search-display-extended-query',
     ),
-    'ting_search_extended_search' =>
-    array(
-	  'variables' => ting_search_extended_search_variables(),
-	  'template' => 'ting-search-extended-search',
-	  )
   );
 }
 
@@ -114,22 +109,39 @@ function ting_search_extended_search_variables() {
  * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
-  $search_result = drupal_static('ting_search_results');
+  $advanced_fields = array(
+    'dc.creator' => array(
+      'key' => 'creator',
+      'title' => t('Author'),
+      'description' => t('Enter the author name'),
+    ),
+    'dc.title' => array(
+      'key' => 'title',
+      'title' => t('Title'),
+      'description' => t('Enter title'),
+    ),
+    'dc.subject' => array(
+      'key' => 'subject',
+      'title' => t('Subject'),
+      'description' => t('Enter subject keywords'),
+    ),
+  );
+  $advanced = TRUE;
 
   // Parse extended search query parameters.
   if (arg(0) == 'search') {
-    // For other search pages, just insert the current search terms.
     $parts = explode('/', $_GET['q']);
     // Lose 'search' and the search type.
     array_shift($parts);
-    array_shift($parts);
+    $type = array_shift($parts);
     $search_query = implode('/', $parts);
-    $indexes = ting_search_extract_keys($search_query, array('dc.title', 'dc.creator', 'dc.subject'));
+    $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
     $search_query = $indexes['q'];
     unset($indexes['q']);
-    if (arg(1) != 'ting' and !empty($indexes)) {
+    if ($type != 'ting' and !empty($indexes)) {
       $search_query .= " " . implode(' ', $indexes);
       $indexes = array();
+      $advanced = FALSE;
     }
 
     $form['search_block_form']['#default_value'] = $search_query;
@@ -146,17 +158,44 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#attributes' => array('id' => 'controls_search_size'),
   );
 
-  foreach (array('creator', 'title', 'subject') as $field) {
-    $form[$field] = array(
-      '#type' => 'hidden',
-      '#default_value' => isset($indexes[variable_get('ting_search_extendform_' . $field . '_index', 'dc.' . $field)]) ? $indexes[variable_get('ting_search_extendform_' . $field . '_index', 'dc.' . $field)] : '',
-      '#attributes' => array('id' => 'extend_search_' . $field),
-    );
-  }
-
-  // $form['form_id']['#suffix'] = '<div id="extend-form-div"><a id="extend-form-show" href="#">'.t('Advanced search').'</a><a id="extend-form-clear" href="#">'.t('clear_form_fields').'</a></div>';
   $form['form_id']['#suffix'] = ting_search_get_extended_actions();
 
+  if ($advanced) {
+    $form['advanced'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Advanced search'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#attached' => array(
+        'css' => array(
+          drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css',
+        ),
+        'js' => array(
+          drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js',
+        ),
+      ),
+    );
+
+    $expand = FALSE;
+    foreach ($advanced_fields as $name => $field) {
+      $form['advanced'][$field['key']] = array(
+        '#type' => 'textfield',
+        '#title' => $field['title'],
+        '#size' => 30,
+        '#maxlength' => 64,
+        '#description' => $field['description'],
+        '#default_value' => isset($indexes[$name]) ? $indexes[$name] : '',
+      );
+      if (isset($indexes[$name]) && !empty($indexes[$name])) {
+        $expand = TRUE;
+      }
+    }
+    if ($expand) {
+      // @todo Remove this when the advanced search summary is in place.
+      $form['advanced']['#collapsed'] = FALSE;
+    }
+
+  }
   $form['#submit'] = array('ting_search_submit');
 
   return $form;
@@ -400,10 +439,6 @@ function theme_ting_search_mini_pager($variables) {
  * Implements hook_block_info().
  */
 function ting_search_block_info() {
-  $blocks['search-extend'] = array(
-      'info' => t('Ting search extended form'),
-      'cache' => DRUPAL_CACHE_PER_PAGE,
-    );
   $blocks['search-controls'] = array(
       'info' => t('Ting search "sort by" and "records per page"'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
@@ -421,12 +456,6 @@ function ting_search_block_info() {
 function ting_search_block_view($delta = '') {
   $block = array();
   switch ($delta) {
-    case 'search-extend':
-      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
-      drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
-      $block['subject'] = t('Ting search extended form');
-      $block['content'] = search_extend_content() ;
-      break;
     case 'search-controls':
       drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
@@ -520,6 +549,8 @@ function search_extend_form($form_state) {
     '#type' => 'fieldset',
     '#title' => t('Advanced search'),
     '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
   $form['extendform']['creator'] = array(
     '#type' => 'textfield',

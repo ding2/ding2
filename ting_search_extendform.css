@@ -1,32 +1,9 @@
-#search-extend-form {
-  display: none;
-}
 
-#search-extend-form.extend-form-show {
-  display: block;
-}
-
-#search-extend-form #edit-extendform-submit {
-  visibility: hidden;
-  position: absolute;
-}
-
-#search-controls-form div {
-  margin: 0;
-}
-
-#search-controls-form label,
-#search-controls-form label,
-#search-extend-form label {
+#edit-extend-form label {
   display: inline;
   margin-right: 1em;
 }
 
-#search-controls-form .description,
-#search-extend-form .description {
-  display: inline;
-  margin-left: 1em;
-}
 
 #search-controls-form .form-item-size .form-radios {
   display: inline;
@@ -42,7 +19,7 @@
   clear: both;
 }
 
-#search-query-display { 
+#search-query-display {
   font-size: 0.8em;
   padding-bottom: 0.2em;
   padding-top: 0.2em;
@@ -54,3 +31,4 @@ span#search-query-label {
   margin-right: 0.5em;
   font-weight: bold;
 }
+

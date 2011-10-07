@@ -12,6 +12,5 @@
 ?>
 
 <div id="extend-form-div">
-<a id="extend-form-show" href="#"><?php echo t('Advanced search') ?></a>
 <a id="extend-form-clear" href="#"><?php echo t('Clear fields')?></a>
 </div>
