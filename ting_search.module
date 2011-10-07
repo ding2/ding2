@@ -100,11 +100,6 @@ function ting_search_get_extended_actions() {
   return theme('ting_search_extended_search');
 }
 
-function ting_search_extended_search_variables() {
-  return array();
-}
-
-
 /**
  * @brief Implementation of hook_form_FORM_ID_alter() for form search_block_form.
  */
@@ -482,115 +477,17 @@ function ting_search_block_view($delta = '') {
 
 }
 
-
-/**
- * @brief Implementation of hook_form_FORM_ID_alter() for form ting_admin_register_settings.
- * @brief Add author, title & subject to ting_admin_register_settings.
- */
-function ting_search_form_ting_admin_register_settings_alter(&$form, &$form_state, $form_id) {
-  $form['ting_search_extendform_creator_index'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Author'),
-    '#description' => t('Field that contains authername, for instance dc.creator'),
-    '#default_value' => variable_get('ting_search_extendform_creator_index', 'dc.creator')
-  );
-
-  $form['ting_search_extendform_title_index'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#description' => t('Field that contains title, for instance dc.title'),
-    '#default_value' => variable_get('ting_search_extendform_title_index', 'dc.title')
-  );
-
-  $form['ting_search_extendform_subject_index'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subject'),
-    '#description' => t('Field that contains subject, for instance dc.subject'),
-    '#default_value' => variable_get('ting_search_extendform_subject_index', 'dc.subject')
-  );
-
-  $form['#validate'][] = 'ting_search_admin_register_settings_validate';
-  $form['#submit'][] = 'ting_search_admin_register_settings_submit';
-
-  return $form;
-}
-
-
-function ting_search_admin_register_settings_validate($form, &$form_state) {
-  $s = '';
-  if (isset($form_state['values']['ting_search_extendform_creator_index'])) {
-    $s = $form_state['values']['ting_search_extendform_creator_index'];
-  }
-  if ($s == '') {
-    form_set_error('ting_search_extendform_creator_index', t('Please enter a register to use with creator.'));
-  }
-
-  $s = '';
-  if (isset($form_state['values']['ting_search_extendform_title_index'])) {
-    $s = $form_state['values']['ting_search_extendform_title_index'];
-  }
-  if ($s == '') {
-    form_set_error('ting_search_extendform_title_index', t('Please enter a register to use with title.'));
-  }
-
-  $s = '';
-  if (isset($form_state['values']['ting_search_extendform_subject_index'])) {
-    $s = $form_state['values']['ting_search_extendform_subject_index'];
-  }
-  if ($s == '') {
-    form_set_error('ting_search_extendform_subject_index', t('Please enter a register to use with subjects.'));
-  }
-}
-
-
-function ting_search_admin_register_settings_submit($form, $form_state) {
-  variable_set('ting_search_extendform_creator_index', $form_state['values']['ting_search_extendform_creator_index']);
-  variable_set('ting_search_extendform_title_index', $form_state['values']['ting_search_extendform_title_index']);
-  variable_set('ting_search_extendform_subject_index', $form_state['values']['ting_search_extendform_subject_index']);
-}
-
-
 function search_extend_content() {
   return drupal_get_form('search_extend_form');
 }
 
-function search_extend_form($form_state) {
-  $form['extendform'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Advanced search'),
-    '#tree' => TRUE,
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-  $form['extendform']['creator'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Author'),
-    '#size' => 30,
-    '#maxlength' => 64,
-    '#description' => t('Enter the author name'),
-  );
-  $form['extendform']['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#size' => 30,
-    '#maxlength' => 64,
-    '#description' => t('Enter title'),
-  );
-  $form['extendform']['subject'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subject'),
-    '#size' => 30,
-    '#maxlength' => 64,
-    '#description' => t('Enter subject keywords'),
-  );
-  return $form;
+function search_controls_content() {
+  return drupal_get_form('search_controls_form');
 }
 
-/**
- * Create form for sorting search result
- */
-function ting_search_sort_form($form, &$form_state) {
-  $form['sort'] = array( 
+function search_controls_form($form_state) {
+
+  $form['sort'] = array(
     '#title' => t('Sort by:'),
     '#type' => 'select',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : '',
@@ -613,61 +510,6 @@ function ting_search_sort_form($form, &$form_state) {
     ),
   );
   return $form;
-}
-
-/**
- * Process submitted data for sorting order form
- */
-function ting_search_sort_form_submit($form, &$form_state) {
-  $pos = strlen(base_path());
-  $len = strpos($form['#action'], '?');
-  $query = drupal_get_query_parameters();
-
-  if ($len !== FALSE) { 
-    $action = urldecode(substr($form['#action'], $pos, $len - $pos));
-  }
-  else {
-    $action = urldecode(substr($form['#action'], $pos));
-  } 
-
-  if ($form_state['input']['sort']) {
-    $query = array('sort' => $form_state['input']['sort']) + $query;
-  }
-
-  $form_state['redirect'] = array($action, array('query' => $query, ), );
-}
-
-/**
- * Create links for changing how many records per page
- */
-function records_per_page_controls_content() {
-  $sizes = array('10' => t('10'), '25' => t('25'), '50' => t('50'),);
-  $size = array();
-  $size['#type'] = 'markup';
-  $size['#prefix'] = '<div id="ting-search-records-per-page">' . t('Results on page:');
-  $size['#suffix'] = '</div>';
-  $size['#markup'] = '';
-  $url = request_path();
-  $query = drupal_get_query_parameters();
-
-  foreach ($sizes as $number => $text) {
-    $sz = array('size' => $number);
-    $classes = array();
-    $keys = array_keys($sizes);
-
-    if (isset($_GET['size']) && $_GET['size'] == $number) {
-      $classes += array('selected');
-    }
-    elseif ((!isset($_GET['size']) ||
-     !in_array($_GET['size'], $sizes)) &&
-     $number == $keys[0]) {
-      $classes += array('selected');
-    }
-
-    $size['#markup'] .= l($text, $url, array('query' => $sz + $query, 'attributes' => array('class' => $classes, ), ));
-  }
-
-  return $size;
 }
 
 
