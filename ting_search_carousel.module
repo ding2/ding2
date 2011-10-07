@@ -12,7 +12,7 @@ function ting_search_carousel_menu() {
   $path = drupal_get_path('module', 'ting_search_carousel');
   $items = array();
 
-  $items['admin/settings/ting_search_carousel'] = array(
+  $items['admin/config/ting_search_carousel'] = array(
     'title' => 'Ting search carousel',
     'description' => '',
     'page callback' => 'ting_search_carousel_admin_page',
@@ -80,6 +80,8 @@ function ting_search_carousel_do_search() {
   // There are any queries set
   if (count($search_queries) > 0) {
     module_load_include('client.inc', 'ting');
+    module_load_include('pages.inc', 'ting_covers');
+    
     $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
     $j = 0;
 
@@ -90,19 +92,42 @@ function ting_search_carousel_do_search() {
       // For each found collection, find a related item with cover
       foreach ($result->collections as $collection) {
         foreach ($collection->reply->objects as $object) {
-          $ting_item_cover = $service->getByFaustNumber($object->localId);
-          if (count($ting_item_cover) > 0) {
+          $path = 'public://ting_search_carousel/' . md5($object->localId) . '.jpg';
+          
+          $ting_item_cover = '';
+          $file = '';
 
-            $item = new stdClass();
-            $item->id = $object->id;
-            $item->creator = isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '';
-            $item->title = isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '';
+          // If image is not present, try fetch it
+          if (!file_exists($path)) {
+            $ting_item_cover = $service->getByFaustNumber($object->localId);
+
+            // No cover found, go to next item in collection
+            if (count($ting_item_cover) == 0) {
+              break;
+            }
+
             $k = array_keys($ting_item_cover);
-            $item->image = $ting_item_cover[$k[0]]->thumbnailUrl;
+            $source_url = '';
 
-            $search_items[$j][] = $item;
-            break;
+            if ($ting_item_cover[$k[0]]->thumbnailUrl) {
+              $source_url = $ting_item_cover[$k[0]]->thumbnailUrl;
+            }
+            elseif ($ting_item_cover[$k[0]]->detailUrl) {
+              $source_url = $ting_item_cover[$k[0]]->detailUrl;
+            }
+
+            // Saves and returns new image file object
+            $file = _ting_covers_pages_fetch_image('public://ting_search_carousel/' . md5($object->localId) . '.jpg', $source_url);
           }
+
+          $item = new stdClass();
+          $item->id = $object->id;
+          $item->creator = isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '';
+          $item->title = isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '';
+          $item->image = image_style_url('ting_search_carousel', isset($file->uri) ? $file->uri : $path);
+
+          $search_items[$j][] = $item;
+          break;
         }
       }
 
@@ -113,4 +138,30 @@ function ting_search_carousel_do_search() {
   // Clear & set the cache
   cache_clear_all('ting_search_result', 'cache');
   cache_set('ting_search_result', serialize($search_items), 'cache');
+}
+
+function ting_search_carousel_image_default_styles() {
+  $styles = array();
+  
+  $styles['ting_search_carousel'] = array(
+    'name' => 'ting_search_carousel',
+    'effects' => array(
+      5 => array(
+        'label' => 'Resize',
+        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
+        'effect callback' => 'image_resize_effect',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_resize',
+        'data' => array(
+          'width' => '112',
+          'height' => '140',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+  
+  return $styles;
 }
