@@ -99,17 +99,6 @@ function ding2_install() {
       'cache' => -1,
       'title' => '<none>',
     ),
-    array(
-      'module' => 'ting_search',
-      'delta' => 'search-extend',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 5,
-      'region' => 'subheader',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
   );
   $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'));
   foreach ($values as $record) {
