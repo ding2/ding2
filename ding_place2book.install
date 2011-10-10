@@ -26,6 +26,13 @@ function ding_place2book_schema() {
           'not null' => TRUE,
           'default' => 0,
         ),
+        'capacity' => array(
+          'description' => t('The maximum capacity on the Place2Book event. 0 interprets as unlimited capacity on the event (default)'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
         'maintain_copy' => array(
           'description' => t('event is created and updated on Place2Book'),
           'type' => 'int',
@@ -33,8 +40,8 @@ function ding_place2book_schema() {
           'not null' => TRUE,
           'default' => 1,
         ),
-        'use_taxonomy' => array(
-          'description' => t('taxonomy terms on event is carried over to place2book event'),
+        'kultunaut_export' => array(
+          'description' => t('Place2book forwards the event to kultunaut'),
           'type' => 'int',
           'unsigned' => TRUE,
           'not null' => TRUE,
@@ -61,3 +68,9 @@ function ding_place2book_uninstall() {
   db_query("DELETE FROM {variable} WHERE name LIKE '%s_%%'", 'ding_place2book');
 }
 
+function ding_place2book_update_6100() {
+  $ret = array();
+  db_add_field($ret, 'ding_place2book', 'capacity', array('description' => t('The maximum capacity on the Place2Book event. 0 interprets as unlimited capacity on the event (default)'), 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => "0"));
+  db_add_field($ret, 'ding_place2book', 'kultunaut_export', array('description' => t('Place2book forwards the event to kultunaut'), 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => "0"));
+  return $ret;
+}

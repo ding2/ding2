@@ -42,16 +42,30 @@ function ding_place2book_admin_settings_form(&$form_state) {
     );
   }
 
-  $form['ding_place2book_defaults'] = array(
+  $form['ding_place2book_event_nodes'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Place2Book event node defaults'),
+      '#collapsible' => FALSE,
+    );
+
+  $form['ding_place2book_event_nodes']['ding_place2book_default_capacity'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Capacity'),
+    '#default_value' => variable_get('ding_place2book_default_capacity', 0),
+    '#size' => 5,
+    '#maxlength' => 5,
+    '#description' => t('The default capacity for new events. Set to 0 for unlimited capacity.'),
+    );
+
+  $form['ding_place2book_event_nodes']['ding_place2book_defaults'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Place2Book event node defaults'),
     '#options' => array
       (
       'maintain_copy' => t('Maintain copy'),
-      'use_taxonomy' => t('Use taxonomy'),
+      'kultunaut_export' => t('Kultunaut export'),
       ),
     '#default_value' => variable_get('ding_place2book_defaults', array('maintain_copy')),
     );
-
+  
   return system_settings_form($form);
 }

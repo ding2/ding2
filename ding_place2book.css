@@ -1,3 +1,7 @@
+#edit-capacity, #edit-ding-place2book-defaults-capacity {
+  width:auto;
+  }
+
 .node .content ul.buttons li.place2book {
   background: url("images/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
   background-position: right -30px;
