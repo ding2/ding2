@@ -114,11 +114,11 @@ function ding_user_frontend_block_view($delta = '') {
         // want. No credentials, no user status.
         ding_user_get_creds($user);
 
-        $block['content'] = theme('ding_user_frontend_user_status', array(
-          'loan_count' => count(ding_provider_invoke_page('loan', 'list', $user)),
-          'reservation_count' => count(ding_provider_invoke_page('reservation', 'list', $user)),
-          'debt_count' => count(ding_provider_invoke_page('debt', 'list', $user)),
-        ));
+        $status = array();
+        foreach (array('loan', 'reservation', 'debt') as $type) {
+          $status[$type . '_count'] = ding_provider_implements($type, 'list') ? count(ding_provider_invoke_page($type, 'list', $user)) : 0;
+        }
+        $block['content'] = theme('ding_user_frontend_user_status', $status);
       } catch ( Exception $e ) { return; }
 
       break;
