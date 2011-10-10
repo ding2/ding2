@@ -534,11 +534,13 @@ class AlmaClient {
           //If message is "isRenewedToday" we assumme that the renewal is successful.
           //Even if this is not the case any error in the current renewal is irrelevant
           //as the loan has previously been renewed so don't report it as such
-          if ($message == 'isRenewedToday') {
+          if ($message == 'isRenewedToday' || $renewable == 'yes') {
             $reservations[$id] = TRUE; 
           } elseif ($message == 'maxNofRenewals') {
-            $reservations[$id] = t('Maximum number of renewals reached'); 
-          } elseif (!$renewable) {
+            $reservations[$id] = t('Maximum number of renewals reached');
+          } elseif ($message == 'copyIsReserved') {
+            $reservations[$id] = t('The material is reserved by another loaner');
+          } else {
             $reservations[$id] = t('Unable to renew material');
           }
         }
