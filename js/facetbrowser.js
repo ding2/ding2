@@ -35,8 +35,6 @@
       var clickedKey = this;
       var facetGroup = $(clickedKey).parent();
 
-	var testhest;
-
       facetGroup.find('.form-type-checkbox:' + (clickedKey.id == 'expand_more' ? 'hidden': 'visible')).each(function(count, facetElement) {
         if (clickedKey.id == 'expand_more' && count < Drupal.settings.dingFacetBrowser.showCount) {
           $(facetElement).slideDown('fast', function() {
@@ -70,27 +68,4 @@
 
 })(jQuery);
 
-function typeOf(value) {
-
-    var s = typeof value; if (s === 'object') {
-
-        if (value) {
-
-            if (typeof value.length === 'number' &&
-
-                !(value.propertyIsEnumerable('length')) && typeof value.splice === 'function') {
-
-            s = 'array';
-
-        }
-
-    } else {
-
-        s = 'null';
-
-    }
-
-    } return s;
-
-} 
 
