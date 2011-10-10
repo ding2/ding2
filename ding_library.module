@@ -31,7 +31,8 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
 
 /**
  * Custom validate handler for the slug field.
- * Don't allow charecters that aren't URL friendly, such as # , ect.
+ *
+ * Don't allow charecters that aren't URL friendly, such as # , etc.
  */
 function ding_library_slug_validate(&$form, &$form_state) {
   // Try to get the slug value.
