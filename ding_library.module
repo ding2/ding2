@@ -4,8 +4,6 @@
  * Code for the Ding library feature.
  */
 
-include_once('ding_library.features.inc');
-
 /**
  * Implements hook_ctools_plugin_directory -
  * This lets ctools know to scan my module for a content_type plugin file
@@ -50,3 +48,6 @@ function ding_library_slug_validate(&$form, &$form_state) {
     }
   }
 }
+
+include_once('ding_library.features.inc');
+
