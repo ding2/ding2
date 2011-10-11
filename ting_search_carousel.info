@@ -4,4 +4,5 @@ package = Ding!
 core = 7.x
 dependencies[] = ting
 dependencies[] = ting_search
+dependencies[] = ting_covers
 configure = admin/config/ting_search_carousel

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  */
@@ -8,7 +7,6 @@ drupal_add_library('system', 'ui.widget');
 drupal_add_js(drupal_get_path('module', 'ting_search_carousel'). '/js/jquery.rs.carousel.js');
 
 ?>
-
 <div class="ting-search-carousel">
   <div class="ting-search-results">
       <div class="subtitle">

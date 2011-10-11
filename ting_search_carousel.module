@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Ting search carousel module main file.
@@ -67,13 +66,13 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  * Implements hook_cron().
  */
 function ting_search_carousel_cron() {
-  ting_search_carousel_do_search();
+  ting_search_carousel_do_request();
 }
 
 /**
- * Perform a ting search, retrieve covers and store some of data in cache
+ * Perform a ting search, retrieve covers and store some of data in cache.
  */
-function ting_search_carousel_do_search() {
+function ting_search_carousel_do_request() {
   $search_queries = variable_get('ting_carousel_search_queries', array());
   $search_items = array();
 
@@ -81,7 +80,7 @@ function ting_search_carousel_do_search() {
   if (count($search_queries) > 0) {
     module_load_include('client.inc', 'ting');
     module_load_include('pages.inc', 'ting_covers');
-    
+
     $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
     $j = 0;
 
@@ -93,7 +92,7 @@ function ting_search_carousel_do_search() {
       foreach ($result->collections as $collection) {
         foreach ($collection->reply->objects as $object) {
           $path = 'public://ting_search_carousel/' . md5($object->localId) . '.jpg';
-          
+
           $ting_item_cover = '';
           $file = '';
 
@@ -140,9 +139,12 @@ function ting_search_carousel_do_search() {
   cache_set('ting_search_result', serialize($search_items), 'cache');
 }
 
+/**
+ * Implements hook_image_default_styles().
+ */
 function ting_search_carousel_image_default_styles() {
   $styles = array();
-  
+
   $styles['ting_search_carousel'] = array(
     'name' => 'ting_search_carousel',
     'effects' => array(
@@ -162,6 +164,6 @@ function ting_search_carousel_image_default_styles() {
       ),
     ),
   );
-  
+
   return $styles;
 }

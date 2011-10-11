@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install, update and uninstall functions for the ding_campaign module.
@@ -16,12 +15,12 @@ function ting_search_carousel_install() {
  * Implements hook_uninstall().
  */
 function ting_search_carousel_uninstall() {
-  
+  @drupal_rmdir('public://ting_search_carousel');
 }
 
 /**
  * Implements hook_schema().
  */
 function ting_search_carousel_schema() {
-  
+
 }
