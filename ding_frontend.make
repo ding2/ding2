@@ -12,7 +12,7 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
 
 projects[features][subdir] = contrib
-projects[features][version] = 1.0-beta3
+projects[features][version] = 1.0-beta4
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0-beta1"
