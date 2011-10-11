@@ -485,12 +485,10 @@ function search_extend_content() {
   return drupal_get_form('search_extend_form');
 }
 
-function search_controls_content() {
-  return drupal_get_form('search_controls_form');
-}
-
-function search_controls_form($form_state) {
-
+/**
+ * Create form for sorting search result
+ */
+function ting_search_sort_form($form_state) { 
   $form['sort'] = array(
     '#title' => t('Sort by:'),
     '#type' => 'select',
