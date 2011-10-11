@@ -20,4 +20,21 @@ function ding_news_enable() {
   }
 }
 
+/**
+ * Implements hook_ding_library_menu_links().
+ */
+function ding_news_ding_library_menu_links($node) {
+  $links = array();
+
+  if (!empty($node->group_group[$node->language][0]['value'])) {
+    $links['news'] = array(
+      'title' => t('News'),
+      'url_prefix' => 'news',
+    );
+  }
+
+  return $links;
+}
+
 include_once('ding_news.features.inc');
+
