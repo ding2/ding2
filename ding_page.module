@@ -4,4 +4,20 @@
  * Code for the Ding page feature.
  */
 
+/**
+ * Implements hook_enable().
+ *
+ * Create taxonomy vocabolary if needed.
+ */
+function ding_page_enable() {
+  if (!taxonomy_vocabulary_machine_name_load('ding_page')) {
+    $vocabulary = (object) array(
+      'name' => t('Page category'),
+      'machine_name' => 'ding_page',
+      'module' => 'ding_page',
+    );
+    taxonomy_vocabulary_save($vocabulary);
+  }
+}
+
 include_once('ding_page.features.inc');
