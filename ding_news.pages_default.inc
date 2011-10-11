@@ -25,7 +25,22 @@ function ding_news_default_page_manager_handlers() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'OG group from news node',
+        'keyword' => 'group',
+        'name' => 'og_group_from_node',
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+      1 => array(
+        'identifier' => 'Library node from OG group',
+        'keyword' => 'library',
+        'name' => 'og_node_from_group',
+        'context' => 'relationship_og_group_from_node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -117,8 +132,9 @@ function ding_news_default_page_manager_handlers() {
       'ding_campaign_offset' => 0,
       'context' => array(
         0 => 'argument_entity_id:node_1',
-        1 => 'empty',
+        1 => 'relationship_og_node_from_group_1',
         2 => 'empty',
+        3 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -152,7 +168,7 @@ function ding_news_default_page_manager_handlers() {
     $pane->position = 1;
     $display->content['new-4'] = $pane;
     $display->panels['right'][1] = 'new-4';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context'] = $handler;
@@ -460,7 +476,7 @@ function ding_news_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Library news page';
   $page->admin_description = '';
-  $page->path = 'library/%group/news';
+  $page->path = 'node/%node/news';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -476,10 +492,10 @@ function ding_news_default_page_manager_pages() {
   );
   $page->menu = array();
   $page->arguments = array(
-    'group' => array(
+    'node' => array(
       'id' => 1,
-      'identifier' => 'Organic groups group: ID',
-      'name' => 'entity_id:group',
+      'identifier' => 'Library node',
+      'name' => 'entity_id:node',
       'settings' => array(),
     ),
   );
@@ -504,17 +520,17 @@ function ding_news_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(
       0 => array(
-        'identifier' => 'OG group from node',
+        'identifier' => 'OG group from library node',
         'keyword' => 'group',
         'name' => 'og_group_from_node',
         'context' => 'argument_entity_id:node_1',
         'id' => 1,
       ),
       1 => array(
-        'identifier' => 'Node from OG group',
-        'keyword' => 'node',
+        'identifier' => 'Library node from OG group',
+        'keyword' => 'library',
         'name' => 'og_node_from_group',
-        'context' => 'argument_entity_id:group_1',
+        'context' => 'relationship_og_group_from_node_1',
         'id' => 1,
       ),
     ),
@@ -576,8 +592,8 @@ function ding_news_default_page_manager_pages() {
       'url' => '',
       'display' => 'ctools_context_2',
       'context' => array(
-        0 => '',
-        1 => 'argument_entity_id:group_1.gid',
+        0 => 'relationship_og_group_from_node_1.gid',
+        1 => '',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -610,8 +626,9 @@ function ding_news_default_page_manager_pages() {
       'ding_campaign_offset' => 0,
       'context' => array(
         0 => 'empty',
-        1 => 'empty',
+        1 => 'relationship_og_node_from_group_1',
         2 => 'empty',
+        3 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -625,7 +642,7 @@ function ding_news_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
