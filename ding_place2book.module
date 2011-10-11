@@ -137,9 +137,9 @@ function place2book_event_op($form_state_values, $op) {
       <value>0</value>
     </price>
     <kultunaut_export></kultunaut_export>
-    <kultunaut_age_group>Boern</kultunaut_age_group>
-    <kultunaut_picture_uri>http://dinserver.dk/billede.png</kultunaut_picture_uri>
-    <kultunaut_export_category>Elektronisk</kultunaut_export_category>
+    <kultunaut_age_group></kultunaut_age_group>
+    <kultunaut_picture_uri></kultunaut_picture_uri>
+    <kultunaut_export_category></kultunaut_export_category>
   </event>
     </data>';
     $xml = simplexml_load_string($event_create_str);
@@ -201,12 +201,30 @@ function place2book_event_op($form_state_values, $op) {
   //set kultunaut_export setting
   $xml->event->kultunaut_export = $form_state_values['kultunaut_export'];
 
-  //set kultunaut terms
-  //I have the term ids already, so the following 2 queries will in turn give me term names to use
-  //select t.name from {term_data} t JOIN {vocabulary} v ON t.vid = v.vid WHERE v.name = 'Event category' AND t.tid IN (113, 117);
-  //select t.name from {term_data} t JOIN {vocabulary} v ON t.vid = v.vid WHERE v.name = 'Event target' AND t.tid IN (113, 117);
+  //-- set kultunaut terms --
+  $term_list = '';
+  if ($form_state_values['taxonomy']) {
+    foreach ($form_state_values['taxonomy'] as $vid => $termid) {
+      if (is_numeric($vid)) { 
+        $term_list = $term_list . $termid . ",";
+      }
+    }
+    $term_list = rtrim($term_list,",");   
+  }  
+  //I have the term ids already, so the following 2 queries will in turn give me term names to use 
+  if (!empty($term_list)) { 
+    $event_category = db_result(db_query('select t.name from {term_data} t JOIN {vocabulary} v ON t.vid = v.vid WHERE v.name = "Event category" AND t.tid IN (' . $term_list . ')'));
+    $xml->event->kultunaut_export_category = $event_category;
+    $event_target = db_result(db_query('select t.name from {term_data} t JOIN {vocabulary} v ON t.vid = v.vid WHERE v.name = "Event target" AND t.tid IN (' . $term_list . ')'));
+    $xml->event->kultunaut_age_group = $event_target;
+  }
+
+  //set kultunaut picture URI
+  if (!empty($form_state_values['field_list_image'][0]['filepath'])) {
+    $xml->event->kultunaut_picture_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/' . str_replace("files", "files/imagecache/120_120", $form_state_values['field_list_image'][0]['filepath']);
+  }
   
-  //drupal_set_message('xml: <pre>' . str_replace(array('<','>'), array('&lt;','&gt;'), $xml->asXML()) . '</pre>' ); //for debugging
+  //drupal_set_message('xml: <pre>' . str_replace(array('<','>'), array('&lt;','&gt;'), $xml->asXML()) . '</pre>'); //for debugging
 
   //-- send xml to place2book event API --
   $api_token = variable_get('ding_place2book_api_key', '');
