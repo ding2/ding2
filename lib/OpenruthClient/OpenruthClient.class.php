@@ -496,11 +496,10 @@ class OpenruthClient {
   /**
    * paying user fines
    */
-  public function add_payment($amount, $transaction_id = NULL) {
-    $creds = ding_user_get_creds($account);
+  public function add_payment($username, $amount, $transaction_id = NULL) {
     $params = array(
       'agencyId' =>  $this->agency_id,
-      'userId' => $creds['name'],
+      'userId' => $username,
       'feeAmountPaid' => $amount,
     );
     if ($transaction_id) {
