@@ -181,15 +181,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
         '#description' => $field['description'],
         '#default_value' => isset($indexes[$name]) ? $indexes[$name] : '',
       );
-      if (isset($indexes[$name]) && !empty($indexes[$name])) {
-        $expand = TRUE;
-      }
     }
-    if ($expand) {
-      // @todo Remove this when the advanced search summary is in place.
-      $form['advanced']['#collapsed'] = FALSE;
-    }
-
   }
   $form['#submit'] = array('ting_search_submit');
 

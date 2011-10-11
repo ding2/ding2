@@ -48,31 +48,22 @@
   Drupal.extendedQueryDisplay = function() {
 
     var queryText = $("input").filter("[name='search_block_form']").val()
-    // var queryText = $('#edit-search-block-form--2').val();
-
-    if ( $('#extend_search_creator').val() ) {
-      if ( queryText )
-        queryText += ' AND ';
-      queryText += $('label').filter("[for='edit-extendform-creator']").text() + ' = ';
-      queryText += $('#extend_search_creator').val();
+    var parts = [];
+    if (queryText) {
+      parts.push(queryText);
     }
+    var val;
+    var label;
+    $('#edit-advanced .form-item').each(function (i, elem) {
+      if ((val = $('input', elem).val()) && (label = $('label', elem).text())) {
+        parts.push(label + " = " + val);
+        console.dir(parts);
+      }
+    });
 
-    if ( $('#extend_search_title').val() ) {
-      if ( queryText )
-        queryText += ' AND ';
-      queryText += $('label').filter("[for='edit-extendform-title']").text() + ' = ';
-      queryText += $('#extend_search_title').val();
+    if (parts.length > 0) {
+      $('#search-query-string').text(parts.join(Drupal.t(" AND ")));
     }
-
-    if ( $('#extend_search_subject').val() ) {
-      if ( queryText )
-        queryText += ' AND ';
-      queryText += $('label').filter("[for='edit-extendform-subject']").text() + ' = ';
-      queryText += $('#extend_search_subject').val();
-    }
-
-    $('#search-query-string').text(queryText);
-
   };
 
 } (jQuery));
