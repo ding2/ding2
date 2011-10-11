@@ -1,0 +1,106 @@
+<?php
+/**
+ * @file
+ * Module for creating custom navigation menus for ding_library.
+ */
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_library_menu_menu_alter(&$items) {
+  // When the menu structure is being rebuilt, we also want to create
+  // our own links.
+  _ding_libary_menu_rebuild();
+}
+
+/**
+ * Implements hook_ding_library_menu_links().
+ */
+function ding_library_menu_ding_library_menu_links($node) {
+  $links = array();
+
+  $links['main'] = array(
+    'title' => $node->title,
+    'url_prefix' => NULL,
+  );
+
+  if (!empty($node->group_group[$node->language][0]['value'])) {
+    $links['about'] = array(
+      'title' => t('About the library'),
+      'url_prefix' => 'about',
+    );
+  }
+
+  return $links;
+}
+
+/**
+ * Rebuild our custom menu items.
+ */
+function _ding_libary_menu_rebuild() {
+  // Get the menu item we want as parent for our libraries.
+  // This should be provided by ding_library as the main list of libraries.
+  $root_link = menu_link_get_preferred('libraries');
+
+  // Get the menu links we created previously, so we won't overwrite
+  // user changes to title, etc.
+  $existing_links = db_query("
+    SELECT link_path, link_title, menu_name, weight, expanded, options, mlid, plid, router_path
+    FROM menu_links WHERE module = 'ding_library_menu';
+  ")->fetchAllAssoc('link_path', PDO::FETCH_ASSOC);
+
+  // Get all library nodes we might want to provide menus for.
+  $nodes = node_load_multiple(array(), array('type' => 'ding_library', 'status' => 1));
+
+  // Collect a list of actual links, so we'll know which are the
+  // outdated ones, so they can be removed.
+  $actual_links = array();
+
+  foreach ($nodes as $node) {
+    foreach (module_invoke_all('ding_library_menu_links', $node) as $link) {
+      $path_parts = array('node', $node->nid);
+
+      // If link has an URL prefix, it's a sub-page to the library.
+      if ($link['url_prefix']) {
+        $path_parts[] = $link['url_prefix'];
+
+        // Use the main page as parent.
+        // TODO: This does not work with deeper links (ie.
+        // node/1/events/today/whatever)
+        $parent = $existing_links['node/' . $node->nid];
+
+        // Don't create parent-less menu links.
+        if (empty($parent)) { continue; }
+      }
+      // For the main library page, we use the root link as parent.
+      else {
+        $parent = $root_link;
+      }
+
+      $path = implode('/', $path_parts);
+
+      // If link does not exist, create it.
+      if (empty($existing_links[$path])) {
+        $item = array(
+          'plid' => $parent['mlid'],
+          'menu_name' => $parent['menu_name'],
+          'link_path' => $path,
+          'link_title' => $link['title'],
+          'module' => 'ding_library_menu',
+          'customized' => 0,
+        );
+
+        menu_link_save($item);
+
+        $existing_links[$path] = $item;
+      }
+
+      $actual_links[] = $path;
+    }
+  }
+
+  foreach (array_diff(array_keys($existing_links), $actual_links) as $path) {
+    menu_link_delete($existing_links[$path]['mlid']);
+  }
+}
+
