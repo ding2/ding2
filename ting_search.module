@@ -285,7 +285,7 @@ function ting_search_conditions_callback($keys) {
       foreach ($conditions['facets'] as $facet) {
         $facets['facets'][] =  $facet;
       }
-      drupal_goto(rawurldecode(substr($url[0],1)), array('query' => $facets));
+      drupal_goto(rawurldecode(substr($url[0], strlen(base_path()))), array('query' => $facets));
     }
   }
   return $conditions;
@@ -477,12 +477,10 @@ function search_extend_content() {
   return drupal_get_form('search_extend_form');
 }
 
-function search_controls_content() {
-  return drupal_get_form('search_controls_form');
-}
-
-function search_controls_form($form_state) {
-
+/**
+ * Create form for sorting search result
+ */
+function ting_search_sort_form($form_state) { 
   $form['sort'] = array(
     '#title' => t('Sort by:'),
     '#type' => 'select',
@@ -508,6 +506,52 @@ function search_controls_form($form_state) {
   return $form;
 }
 
+/**
+ * Process submitted data for sorting order form
+ */
+function ting_search_sort_form_submit($form, &$form_state) {
+  $action = explode('?', $form['#action']);
+  $query = drupal_get_query_parameters();
+
+  if ($form_state['input']['sort']) {
+    $query = array('sort' => $form_state['input']['sort']) + $query;
+  }
+
+  $form_state['redirect'] = array(rawurldecode(substr($action[0], strlen(base_path()))), array('query' => $query, ), );
+}
+
+/**
+ * Create links for changing how many records per page
+ */
+function records_per_page_controls_content() {
+  $sizes = array('10' => t('10'), '25' => t('25'), '50' => t('50'),);
+  $size = array();
+  $size['#type'] = 'markup';
+  $size['#prefix'] = '<div id="ting-search-records-per-page">' . t('Results on page:');
+  $size['#suffix'] = '</div>';
+  $size['#markup'] = '';
+  $url = request_path();
+  $query = drupal_get_query_parameters();
+
+  foreach ($sizes as $number => $text) {
+    $sz = array('size' => $number);
+    $classes = array();
+    $keys = array_keys($sizes);
+
+    if (isset($_GET['size']) && $_GET['size'] == $number) {
+      $classes += array('selected');
+    }
+    elseif ((!isset($_GET['size']) ||
+     !in_array($_GET['size'], $sizes)) &&
+     $number == $keys[0]) {
+      $classes += array('selected');
+    }
+
+    $size['#markup'] .= l($text, $url, array('query' => $sz + $query, 'attributes' => array('class' => $classes, ), ));
+  }
+
+  return $size;
+}
 
 /**
  * Process a block search form submission.
