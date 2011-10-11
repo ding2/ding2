@@ -52,9 +52,20 @@
           });
         }
       });
+
+	if( (facetGroup.find('.form-type-checkbox:visible').size() >= facetGroup.attr('count')) && (clickedKey.id == 'expand_more') ) {
+	    facetGroup.find('#expand_more').remove();	    
+	}
+	
+	if( clickedKey.id == 'expand_less' ){
+	    if( !(facetGroup.find('#expand_more').length) ) {	
+		facetGroup.append('<span class="expand" id="expand_more">' + Drupal.t('Vis flere') + '</span>');
+	    }
+	}
     });
-  };
+};
 
 
 })(jQuery);
+
 
