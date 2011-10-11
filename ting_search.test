@@ -124,14 +124,23 @@ class TingSearchParsingTestCase extends DrupalUnitTestCase {
           'dc.title' => 'chemestry',
         ),
       ),
+      /* array( */
+      /*   'string' => 'water and one=one aNd (dc.title=test) and two="two double" And three=' . "'three 3'", */
+      /*   'keys' => array('one', 'two', 'three'), */
+      /*   'expected' => array( */
+      /*     'q' => 'water aNd (dc.title=test)', */
+      /*     'one' => 'one', */
+      /*     'two' => '"two double"', */
+      /*     'three' => "'three 3'", */
+      /*   ), */
+      /* ), */
       array(
-        'string' => 'water and one=one aNd (dc.title=test) and two="two double" And three=' . "'three 3'",
-        'keys' => array('one', 'two', 'three'),
+        'string' => 'harry AND (dc.creator=rowling AND dc.title="flammernes pokal")',
+        'keys' => array('dc.creator', 'dc.title'),
         'expected' => array(
-          'q' => 'water aNd (dc.title=test)',
-          'one' => 'one',
-          'two' => '"two double"',
-          'three' => "'three 3'",
+          'q' => 'harry',
+          'dc.creator' => 'rowling',
+          'dc.title' => 'flammernes pokal',
         ),
       ),
     );
