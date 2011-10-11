@@ -28,6 +28,7 @@ function ding_library_menu_ding_library_menu_links($node) {
     $links['about'] = array(
       'title' => t('About the library'),
       'url_prefix' => 'about',
+      'weight' => 11,
     );
   }
 
@@ -88,6 +89,7 @@ function _ding_libary_menu_rebuild() {
           'link_title' => $link['title'],
           'module' => 'ding_library_menu',
           'customized' => 0,
+          'weight' => (empty($link['weight'])) ? 0 : $link['weight'],
         );
 
         menu_link_save($item);
