@@ -49,7 +49,7 @@ function ting_search_carousel_block_info() {
  */
 function ting_search_carousel_block_view($delta) {
   $block = array();
-  
+
   switch ($delta) {
     case 'ting_search_carousel':
       $searches = variable_get('ting_carousel_search_queries', array());
@@ -116,10 +116,13 @@ function ting_search_carousel_do_request($full = FALSE) {
     // Search for each query up to 100 items.
     foreach ($search_queries as $item) {
       $result = '';
-      
+
+      // Whether we need to fetch all items, perform indepth search.
+      // Seek first 100 collections otherwise.
       if ($full) {
         $page = 1;
         $collections = array();
+        // Make recursive ting calls
         while ($result = ting_do_search($item['query'], $page++, 50, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE))) {
           if ($result->numTotalCollections == 0) {
             break;
@@ -128,10 +131,11 @@ function ting_search_carousel_do_request($full = FALSE) {
           $collections[] = $result;
         }
 
+        // Rearrange fetched results, as if they were retrieved via single call
         $result = new stdClass();
         $result->collections = array();
         foreach ($collections as $collection) {
-          foreach($collection->collections as $item) {
+          foreach ($collection->collections as $item) {
             $result->collections[] = $item;
           }
         }
@@ -139,13 +143,13 @@ function ting_search_carousel_do_request($full = FALSE) {
       else {
         $result = ting_do_search($item['query'], 1, 100, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
       }
-      
+
       // For each found collection, find a related item with cover.
       foreach ($result->collections as $collection) {
         foreach ($collection->reply->objects as $object) {
           dump_it($object->localId);
           $path = 'public://ting_search_carousel/' . md5($object->localId) . '.jpg';
-          
+
           $ting_item_cover = '';
           $file = '';
 
@@ -188,7 +192,7 @@ function ting_search_carousel_do_request($full = FALSE) {
     }
   }
 
-  
+
 
   // Clear & set the cache.
   cache_clear_all('ting_search_result', 'cache');
