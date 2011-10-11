@@ -20,4 +20,21 @@ function ding_event_enable() {
   }
 }
 
+/**
+ * Implements hook_ding_library_menu_links().
+ */
+function ding_event_ding_library_menu_links($node) {
+  $links = array();
+
+  if (!empty($node->group_group[$node->language][0]['value'])) {
+    $links['events'] = array(
+      'title' => t('Events'),
+      'url_prefix' => 'events',
+    );
+  }
+
+  return $links;
+}
+
 include_once('ding_event.features.inc');
+
