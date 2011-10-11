@@ -35,7 +35,7 @@ projects[pathauto][patch][] = http://drupal.org/files/1299460.patch
 
 projects[rules][type] = module
 projects[rules][subdir] = contrib
-projects[rules][version] = 2.0-rc2
+projects[rules][version] = 2.0
 
 projects[transliteration][type] = module
 projects[transliteration][subdir] = contrib
