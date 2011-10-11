@@ -93,7 +93,7 @@
 
 .ting-search-carousel .rs-carousel .rs-carousel-mask {
   position:relative;
-  height: 220px;
+  height: 200px;
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-runner {
@@ -115,7 +115,7 @@
   float: left;
   height: 180px;
   overflow: hidden;
-  padding: 20px 0;
+  padding-top: 20px;
   text-align: center;
   width: 100px;
 }
