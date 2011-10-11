@@ -612,7 +612,7 @@ function ding_event_default_page_manager_pages() {
       'url' => '',
       'display' => 'ctools_context_library_master',
       'context' => array(
-        0 => 'argument_entity_id:group_1.gid',
+        0 => 'relationship_og_group_from_node_1.gid',
         1 => '',
       ),
       'override_title' => 0,
