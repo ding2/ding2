@@ -1,10 +1,8 @@
 <?php
-
 /**
  * @file
  *
  */
-
 ?>
 <li class="rs-carousel-item">
   <a href="ting/collection/<?php echo $collection->id; ?>" title="<?php print check_plain($collection->creator); ?>: <?php print check_plain($collection->title); ?>">

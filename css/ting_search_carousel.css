@@ -211,3 +211,7 @@
 .search-carousel-query {
   float: left;
 }
+
+.sort-hidden, .search-query-hidden {
+  display: none;
+}
