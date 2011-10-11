@@ -14,3 +14,7 @@
   position:fixed; top:0px; left:0px; width:100%; height:100%; color:#FFFFFF; text-align:center; vertical-align:middle;
   background: transparent url(/profiles/ding2/modules/ding_facetbrowser/img/spinner.gif) no-repeat 50% 50%;
 }
+
+/* facet link color */
+.pane-ding-facetbrowser a { color: #000; }
+.pane-ding-facetbrowser a:hover { color: #000; text-decoration: none; }
