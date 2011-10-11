@@ -145,7 +145,13 @@ function place2book_event_op($form_state_values, $op) {
     $xml = simplexml_load_string($event_create_str);
     //dpm($xml); //for debugging
     
-  //build event xml
+  //-- build event xml --
+  //set provider data
+  $systemadmin = user_load(1);
+  //dpm($systemadmin); // for debugging..
+  $xml->provider->name = $systemadmin->display_name;
+  $xml->provider->email = $systemadmin->mail;
+  
   //set event name with title
   $xml->event->name = $form_state_values['title']; //'the new title from within DING';
   
