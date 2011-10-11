@@ -439,8 +439,12 @@ function theme_ting_search_mini_pager($variables) {
  * Implements hook_block_info().
  */
 function ting_search_block_info() {
-  $blocks['search-controls'] = array(
-      'info' => t('Ting search "sort by" and "records per page"'),
+  $blocks['sort-form'] = array(
+      'info' => t('Ting search "sort by" form'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    );
+  $blocks['records-per-page'] = array(
+      'info' => t('Ting search "records per page"'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     );
   $blocks['search-display-extended-query'] = array(
@@ -456,11 +460,17 @@ function ting_search_block_info() {
 function ting_search_block_view($delta = '') {
   $block = array();
   switch ($delta) {
-    case 'search-controls':
+    case 'sort-form':
       drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
-      $block['subject'] = t('Ting search controls');
-      $block['content'] = search_controls_content() ;
+      $block['subject'] = t('Ting search sort controls');
+      $block['content'] = drupal_get_form('ting_search_sort_form');
+      break;
+    case 'records-per-page':
+      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
+      drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
+      $block['subject'] = t('Ting search records per page controls');
+      $block['content'] = records_per_page_controls_content() ;
       break;
     case 'search-display-extended-query':
       drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
@@ -576,14 +586,11 @@ function search_extend_form($form_state) {
   return $form;
 }
 
-
-function search_controls_content() {
-  return drupal_get_form('search_controls_form');
-}
-
-function search_controls_form($form_state) {
-
-  $form['sort'] = array(
+/**
+ * Create form for sorting search result
+ */
+function ting_search_sort_form($form, &$form_state) {
+  $form['sort'] = array( 
     '#title' => t('Sort by:'),
     '#type' => 'select',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : '',
@@ -598,20 +605,69 @@ function search_controls_form($form_state) {
     ),
     '#description' => t('Set sort order for search result'),
   );
-
-  $form['size'] = array(
-    '#title' => t('Results on page:'),
-    '#type' => 'radios',
-    '#default_value' => isset($_GET['size']) ? (int)$_GET['size'] : '10',
-    '#options' => array(
-      '10' => t('10'),
-      '25' => t('25'),
-      '50' => t('50')
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Sort'),
+    '#states' => array(
+      'visible' => array(':input[name="op"]' => array('value' => '', ), ),
     ),
-    '#description' => t('Set number of records shown'),
   );
-
   return $form;
+}
+
+/**
+ * Process submitted data for sorting order form
+ */
+function ting_search_sort_form_submit($form, &$form_state) {
+  $pos = strlen(base_path());
+  $len = strpos($form['#action'], '?');
+  $query = drupal_get_query_parameters();
+
+  if ($len !== FALSE) { 
+    $action = urldecode(substr($form['#action'], $pos, $len - $pos));
+  }
+  else {
+    $action = urldecode(substr($form['#action'], $pos));
+  } 
+
+  if ($form_state['input']['sort']) {
+    $query = array('sort' => $form_state['input']['sort']) + $query;
+  }
+
+  $form_state['redirect'] = array($action, array('query' => $query, ), );
+}
+
+/**
+ * Create links for changing how many records per page
+ */
+function records_per_page_controls_content() {
+  $sizes = array('10' => t('10'), '25' => t('25'), '50' => t('50'),);
+  $size = array();
+  $size['#type'] = 'markup';
+  $size['#prefix'] = '<div id="ting-search-records-per-page">' . t('Results on page:');
+  $size['#suffix'] = '</div>';
+  $size['#markup'] = '';
+  $url = request_path();
+  $query = drupal_get_query_parameters();
+
+  foreach ($sizes as $number => $text) {
+    $sz = array('size' => $number);
+    $classes = array();
+    $keys = array_keys($sizes);
+
+    if (isset($_GET['size']) && $_GET['size'] == $number) {
+      $classes += array('selected');
+    }
+    elseif ((!isset($_GET['size']) ||
+     !in_array($_GET['size'], $sizes)) &&
+     $number == $keys[0]) {
+      $classes += array('selected');
+    }
+
+    $size['#markup'] .= l($text, $url, array('query' => $sz + $query, 'attributes' => array('class' => $classes, ), ));
+  }
+
+  return $size;
 }
 
 
