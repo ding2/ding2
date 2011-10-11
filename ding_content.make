@@ -20,6 +20,10 @@ projects[entity][type] = module
 projects[entity][subdir] = contrib
 projects[entity][version] = 1.0-beta10
 
+projects[media][type] = module
+projects[media][subdir] = contrib
+projects[media][version] = 1.0-rc1
+
 projects[panels][type] = module
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
@@ -49,3 +53,12 @@ projects[workbench][type] = module
 projects[workbench][subdir] = contrib
 projects[workbench][version] = 1.0
 
+projects[wysiwyg][type] = module
+projects[wysiwyg][subdir] = contrib
+projects[wysiwyg][version] = 2.1
+
+;Libraries
+libraries[ckeditor][download][type] = "get"
+libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.zip"
+libraries[ckeditor][directory_name] = "ckeditor"
+libraries[ckeditor][destination] = "libraries"
