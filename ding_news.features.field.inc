@@ -354,6 +354,7 @@ function ding_news_field_default_fields() {
         'active' => 1,
         'module' => 'og',
         'settings' => array(
+          'membership_type' => 'og_membership_type_default',
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
