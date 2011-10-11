@@ -326,6 +326,8 @@ function ding_event_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array();
   $page->arguments = array();
@@ -485,7 +487,7 @@ function ding_event_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Library events page';
   $page->admin_description = '';
-  $page->path = 'library/%group/events';
+  $page->path = 'node/%node/events';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -501,10 +503,10 @@ function ding_event_default_page_manager_pages() {
   );
   $page->menu = array();
   $page->arguments = array(
-    'group' => array(
+    'node' => array(
       'id' => 1,
-      'identifier' => 'Organic groups group: ID',
-      'name' => 'entity_id:group',
+      'identifier' => 'Library node',
+      'name' => 'entity_id:node',
       'settings' => array(),
     ),
   );
@@ -529,17 +531,10 @@ function ding_event_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(
       0 => array(
-        'identifier' => 'OG group from node',
+        'identifier' => 'OG group from library node',
         'keyword' => 'group',
         'name' => 'og_group_from_node',
         'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-      1 => array(
-        'identifier' => 'Node from OG group',
-        'keyword' => 'node',
-        'name' => 'og_node_from_group',
-        'context' => 'argument_entity_id:group_1',
         'id' => 1,
       ),
     ),
@@ -650,7 +645,7 @@ function ding_event_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['right'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
