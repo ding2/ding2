@@ -1,0 +1,10 @@
+
+#media-tab-ding_content #container {
+  padding:20px 0;
+}
+
+#media-tab-ding_content #scrollbox {
+  height: 300px;
+  overflow: auto;
+  overflow-x: hidden;
+}

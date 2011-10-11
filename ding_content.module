@@ -98,3 +98,77 @@ function ding_content_enable() {
     wysiwyg_profile_cache_clear();
   }
 }
+
+/**
+ * Implements hook_menu().
+ */
+function ding_content_menu() {
+  $items['ding_content/media'] = array(
+    'title' => 'Media browser list',
+    'description' => 'Ajax Callback for getting media',
+    'page callback' => 'ding_content_media_browser_list',
+    'access callback' => 'media_access',
+    'access arguments' => array('view'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_content.admin.inc',
+  );
+
+  return $items;
+}
+
+
+
+/**
+ * Implements hook_media_browser_plugin_info().
+ */
+function ding_content_media_browser_plugin_info() {
+  $plugins = array();
+
+  $plugins['ding_content'] = array(
+    '#weight' => 0,
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implementaion of hook_media_browser_plugin_view().
+ */
+function ding_content_media_browser_plugin_view($plugin_name, $params) {
+  $media_path = drupal_get_path('module', 'media');
+  $path = drupal_get_path('module', 'ding_content');
+
+  $params += array(
+    'types' => array(),
+    'multiselect' => FALSE,
+  );
+
+  switch ($plugin_name) {
+    case 'ding_content':
+      return array(
+        '#title' => t('Personal library'),
+        '#attached' => array(
+          'js' => array(
+            $media_path . '/js/plugins/media.library.js',
+            $path . '/js/ding_content.media.js',
+          ),
+          'css' => array(
+            //@todo: should move this.
+            $media_path . '/js/plugins/media.library.css',
+            $path . '/css/ding_content.media.css',
+          ),
+        ),
+        '#settings' => array(
+          'viewMode' => 'thumbnails',
+          'getMediaUrl' => url('ding_content/media'),
+        // We should probably change this to load dynamically when requested
+        // via the JS file.
+        ) + $params,
+        '#markup' => '<div id="container"><div id="scrollbox"><ul id="media-browser-library-list" class="media-list-thumbnails"></ul><div id="status"></div></div></div>',
+      );
+
+    break;
+  }
+
+  return array();
+}
