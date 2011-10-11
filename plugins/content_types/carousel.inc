@@ -18,11 +18,6 @@ $plugin = array(
 function ting_search_carousel_carousel_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
 
-  $path = drupal_get_path('module', 'ting_search_carousel');
-  drupal_add_js($path . '/js/ting_search_carousel.js');
-  drupal_add_js(array('tingSearchCarousel' => array('resultsPerPage' => 6)), 'setting');
-  drupal_add_css($path . '/css/ting_search_carousel.css');
-
   $searches = variable_get('ting_carousel_search_queries', array());
 
   $block->content = theme('ting_search_carousel', array('searches' => $searches));
@@ -33,7 +28,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
  * Return the pane titles.
  */
 function ting_search_carousel_carousel_content_type_admin_title($subtype, $conf, $context) {
-  return t('Search');
+  return t('Ting search carousel');
 }
 
 /**

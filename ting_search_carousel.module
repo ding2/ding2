@@ -32,6 +32,35 @@ function ting_search_carousel_menu() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function ting_search_carousel_block_info() {
+  $blocks = array();
+
+  $blocks['ting_search_carousel'] = array(
+    'info' => 'Ting search carousel'
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ting_search_carousel_block_view($delta) {
+  $block = array();
+  
+  switch ($delta) {
+    case 'ting_search_carousel':
+      $searches = variable_get('ting_carousel_search_queries', array());
+      $block['content'] = theme('ting_search_carousel', array('searches' => $searches));
+      break;
+  }
+
+  return $block;
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
@@ -86,8 +115,8 @@ function ting_search_carousel_do_request() {
 
     // Search for each query up to 100 items.
     foreach ($search_queries as $item) {
-      $result = ting_do_search($item['query'], 0, 100, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
-
+      $result = ting_do_search($item['query'], 1, 100, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
+      
       // For each found collection, find a related item with cover.
       foreach ($result->collections as $collection) {
         foreach ($collection->reply->objects as $object) {

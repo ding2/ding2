@@ -231,8 +231,8 @@ function ting_search_carousel_query_form($item = array(), $index = 0) {
 
   $form['subtitle[]'] = array(
     '#type' => 'textfield',
-    '#title' => t('subtitle'),
-    '#description' => t('The subtitle displayed next to the search results'),
+    '#title' => t('Description'),
+    '#description' => t('The subtitle displayed next to the search results.'),
     '#default_value' => isset($item['subtitle']) ? $item['subtitle'] : '',
   );
 
@@ -240,7 +240,7 @@ function ting_search_carousel_query_form($item = array(), $index = 0) {
     '#type' => 'textfield',
     '#title' => t('Query'),
     '#maxlength' => 2048,
-    '#description' => t('The query to display search results for'),
+    '#description' => t('The query to display search results for.'),
     '#default_value' => isset($item['query']) ? $item['query'] : '',
   );
 

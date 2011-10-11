@@ -18,7 +18,7 @@ function ting_search_carousel_result($index) {
   $ting_seach_queries = variable_get('ting_carousel_search_queries', array());
   $subtitle = '';
 
-  if (isset($cache_ting_search_result[$index]) && isset($ting_seach_queries[$index]) && count($cache_ting_search_result[$index]) > 0) {
+  if (isset($ting_seach_queries[$index])) {
     $subtitle = $ting_seach_queries[$index]['subtitle'];
     foreach ($cache_ting_search_result[$index] as $k => $v) {
       $result .= theme('ting_search_carousel_collection', array('collection' => $v));
