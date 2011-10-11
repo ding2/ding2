@@ -5,15 +5,23 @@
  * Various integration with panels to create panel panes and more.
  */
 
-/** 
- * Implements hook_ctools_plugin_directory -
- * This lets ctools know to scan my module for a content_type plugin file
- * Detailed docks in ctools/ctools.api.php 
- */ 
-function ding_content_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' && $plugin_type == 'content_types') {
-    return 'plugins/content_types';
-  }
+/**
+ * Implements hook_menu().
+ */
+function ding_content_menu() {
+  $items = array();
+
+  $items['ding_content/media'] = array(
+    'title' => 'Media browser list',
+    'description' => 'Ajax Callback for getting media',
+    'page callback' => 'ding_content_media_browser_list',
+    'access callback' => 'media_access',
+    'access arguments' => array('view'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_content.admin.inc',
+  );
+
+  return $items;
 }
 
 /**
@@ -99,24 +107,14 @@ function ding_content_enable() {
   }
 }
 
-/**
- * Implements hook_menu().
- */
-function ding_content_menu() {
-  $items['ding_content/media'] = array(
-    'title' => 'Media browser list',
-    'description' => 'Ajax Callback for getting media',
-    'page callback' => 'ding_content_media_browser_list',
-    'access callback' => 'media_access',
-    'access arguments' => array('view'),
-    'type' => MENU_CALLBACK,
-    'file' => 'ding_content.admin.inc',
-  );
-
-  return $items;
+/** 
+ * Implements hook_ctools_plugin_directory().
+ */ 
+function ding_content_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
 }
-
-
 
 /**
  * Implements hook_media_browser_plugin_info().
