@@ -72,9 +72,9 @@ projects[ding_news][type] = module
 projects[ding_news][download][type] = git
 projects[ding_news][download][url] = git@github.com:ding2/ding_news.git
 
-projects[ding_news][type] = module
-projects[ding_news][download][type] = git
-projects[ding_news][download][url] = git@github.com:ding2/ding_event.git
+projects[ding_event][type] = module
+projects[ding_event][download][type] = git
+projects[ding_event][download][url] = git@github.com:ding2/ding_event.git
 
 ; Libraries
 projects[pazpar2][download][type] = "git"
