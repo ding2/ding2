@@ -24,6 +24,10 @@ projects[media][type] = module
 projects[media][subdir] = contrib
 projects[media][version] = 1.0-rc1
 
+projects[menu_block][type] = module
+projects[menu_block][subdir] = contrib
+projects[menu_block][version] = 1.0-rc1
+
 projects[panels][type] = module
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
@@ -62,3 +66,4 @@ libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.zip"
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
+
