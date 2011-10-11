@@ -388,6 +388,26 @@ function ding_event_default_page_manager_pages() {
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
+    $pane->panel = 'left';
+    $pane->type = 'event';
+    $pane->subtype = 'event';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['left'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'views';
     $pane->subtype = 'ding_event';
@@ -423,10 +443,10 @@ function ding_event_default_page_manager_pages() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][0] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -450,8 +470,8 @@ function ding_event_default_page_manager_pages() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
