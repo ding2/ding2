@@ -25,7 +25,22 @@ function ding_event_default_page_manager_handlers() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(),
+    'relationships' => array(
+      0 => array(
+        'identifier' => 'OG group from event',
+        'keyword' => 'group',
+        'name' => 'og_group_from_node',
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+      1 => array(
+        'identifier' => 'Library node from OG group',
+        'keyword' => 'library',
+        'name' => 'og_node_from_group',
+        'context' => 'relationship_og_group_from_node_1',
+        'id' => 1,
+      ),
+    ),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -117,8 +132,9 @@ function ding_event_default_page_manager_handlers() {
       'ding_campaign_offset' => 0,
       'context' => array(
         0 => 'argument_entity_id:node_1',
-        1 => 'empty',
+        1 => 'relationship_og_node_from_group_1',
         2 => 'empty',
+        3 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -630,8 +646,9 @@ function ding_event_default_page_manager_pages() {
       'ding_campaign_offset' => 0,
       'context' => array(
         0 => 'empty',
-        1 => 'empty',
+        1 => 'argument_entity_id:node_1',
         2 => 'empty',
+        3 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
