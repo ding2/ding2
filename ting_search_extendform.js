@@ -32,6 +32,18 @@
     }
   };
 
+  Drupal.behaviors.clearExtendForm = {
+    attach:function(context, settings) {
+      $('#extend-form-clear', context).click(function() {
+        $("#edit-creator").val('');
+        $("#edit-title").val('');
+        $("#edit-subject").val('');
+        $("#edit-search-block-form--2").val('');
+        return false;
+      });
+    }
+  };
+
   Drupal.behaviors.toggleSort = {
     attach: function(context, settings) {
       $('#edit-sort').change(function() {

@@ -93,6 +93,9 @@ function ting_search_theme() {
       'variables' => array('query_label'=>NULL,'query_string' => NULL),
       'template' => 'ting-search-display-extended-query',
     ),
+    'ting_search_extended_search' => array(
+      'template' => 'ting-search-extended-search',
+    ),
   );
 }
 
