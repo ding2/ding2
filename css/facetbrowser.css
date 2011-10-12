@@ -16,5 +16,5 @@
 }
 
 /* facet link color */
-.pane-ding-facetbrowser a { color: #000; }
+.pane-ding-facetbrowser a,.pane-ding-facetbrowser a:visited { color: #000; }
 .pane-ding-facetbrowser a:hover { color: #000; text-decoration: none; }
