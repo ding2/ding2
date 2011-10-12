@@ -381,12 +381,20 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     switch ($op) {
       case 'view':
         if (isset($node->nid) && $node->nid) {
-
+          //dpr($node); //for debugging..
+        
           $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
 
           if ($exists_p2b) {
             $api_token = variable_get('ding_place2book_api_key', '');
-
+            //if a library has its own API key, use that instead
+            if ($node->field_library_ref[0]['nid']) {
+              $api_key_override = variable_get('ding_place2book_api_key_' . $node->field_library_ref[0]['nid'], '');
+              if (!empty($api_key_override)) {
+                $api_token = $api_key_override;
+              }
+            }
+            
             $p2b_headers = array(
               'X-PLACE2BOOK-API-TOKEN' => $api_token,
               'X-PLACE2BOOK-EVENT-ID' => $exists_p2b,
@@ -394,14 +402,16 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             $p2b_result = drupal_http_request(variable_get('ding_place2book_service_url', '') . '/available_tickets', $p2b_headers, 'GET' );  
             //dpr($p2b_result); //for debugging..
         
-            if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
-              $place2book_infolink = '<div class="place2book order">
-					  <a href="' . $p2b_result->headers['Location'] . '">' . t('Book a ticket') . '</a>
-					</div>';
-            } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
-              $place2book_infolink = '<div class="place2book info">' .t('There are no available tickets for this event') .'</div>';
-            } elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
-              $place2book_infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
+            if ($p2b_result->headers['Sales-Status']) {
+              if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
+                $place2book_infolink = '<div class="place2book order">
+  					  <a href="' . $p2b_result->headers['Location'] . '">' . t('Book a ticket') . '</a>
+  					</div>';
+              } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
+                $place2book_infolink = '<div class="place2book info">' .t('There are no available tickets for this event') .'</div>';
+              } elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
+                $place2book_infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
+              }
             }
             
             $node->content['place2book_infolink'] = array(
@@ -417,6 +427,13 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
           if ($exists_p2b) {
             $api_token = variable_get('ding_place2book_api_key', '');
+            //if a library has its own API key, use that instead
+            if ($node->field_library_ref[0]['nid']) {
+              $api_key_override = variable_get('ding_place2book_api_key_' . $node->field_library_ref[0]['nid'], '');
+              if (!empty($api_key_override)) {
+                $api_token = $api_key_override;
+              }
+            }
             
             // send DELETE request to Place2book webservice
             $p2b_headers = array(
