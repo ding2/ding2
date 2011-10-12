@@ -13,7 +13,7 @@
   Drupal.behaviors.readyFormat = {
     attach: function(context, settings) {
       $('#ding-toggle-format', context).ready(function() {
-        var format = ($.cookie("ding_toggle_format")) ? $.cookie("ding_toggle_format") : 'short';
+        var format = ($.cookie("ding_toggle_format")) ? $.cookie("ding_toggle_format") : 'long';
         Drupal.setFormat(format);
       });
     }
