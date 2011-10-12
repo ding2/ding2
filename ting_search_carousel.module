@@ -147,7 +147,6 @@ function ting_search_carousel_do_request($full = FALSE) {
       // For each found collection, find a related item with cover.
       foreach ($result->collections as $collection) {
         foreach ($collection->reply->objects as $object) {
-          dump_it($object->localId);
           $path = 'public://ting_search_carousel/' . md5($object->localId) . '.jpg';
 
           $ting_item_cover = '';
@@ -183,7 +182,6 @@ function ting_search_carousel_do_request($full = FALSE) {
           $item->image = image_style_url('ting_search_carousel', isset($file->uri) ? $file->uri : $path);
 
           $search_items[$j][] = $item;
-          dump_it($item);
           break;
         }
       }
@@ -228,9 +226,3 @@ function ting_search_carousel_image_default_styles() {
   return $styles;
 }
 
-function dump_it($s) {
-  $f = drupal_get_path('module', 'ting_search_carousel') . '/dump.txt';
-  $h = fopen($f, 'at');
-  fwrite($h, print_r($s, TRUE) . ' - ' . date('d-m-Y H:i:s') . "\n");
-  fclose($h);
-}
