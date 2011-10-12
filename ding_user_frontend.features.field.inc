@@ -41,7 +41,7 @@ function ding_user_frontend_field_default_fields() {
       'bundle' => 'user',
       'default_value' => NULL,
       'deleted' => '0',
-      'description' => '',
+      'description' => 'For how long should your reservations remain active?',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -145,6 +145,7 @@ function ding_user_frontend_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('For how long should your reservations remain active?');
   t('Interest period');
   t('Reservation pause');
 
