@@ -118,23 +118,36 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $facet_name             = explode('.', $facet->name);
           $element_name           = end($facet_name);
           $facets_string = $facet->name . ':' . $term_name;
+          $term_name_title = $term_name;
+          // Check if term name is longer than 14 chars, 
+          // if so, short it down to fit facetbrowser
+          if (drupal_strlen($term_name) > 14) {
+            $term_name_title = drupal_substr($term_name, 0, 14) . '...';
+          }
+
           if (_isFacetSet($facet->name, $term_name) === TRUE) {
             $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
 
-            $selected[$term_name] = l($term_name . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
+            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
-              )
+              ),
+              'attributes' => array(
+                'title' => $term_name,
+              ),
             ));
           }
           else {
-            $not_selected[$term_name] = l($term_name . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
+            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
-              )
+              ),
+              'attributes' => array(
+                'title' => $term_name,
+              ),
             ));
           }
 
