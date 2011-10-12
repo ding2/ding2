@@ -2,14 +2,27 @@
   width:auto;
   }
 
-.node .content ul.buttons li.place2book {
+.node .content div.place2book.order {
   background: url("images/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
   background-position: right -30px;
+  width: 160px;
   }
   
-.node .content ul.buttons li.place2book a {
+.node .content div.place2book.order a {
   background: url("images/sprite-knapper-reservering.png") no-repeat scroll left -60px transparent;
   background-position: left -90px;
-  margin: 0;
-  padding: 10px 0 10px 10px;
+  color: white;
+  display: block;
+  padding: 5px 0;
+  text-align: center;
+  width: 150px;
   }
+
+.node .content div.place2book.info {
+  background: #FFEE66;
+  border: 1px solid #EEDD55;
+  margin: 20px 0;
+  padding: 5px;
+  text-align: center;
+  color: #884400;
+}

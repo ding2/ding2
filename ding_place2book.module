@@ -395,15 +395,13 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             //dpr($p2b_result); //for debugging..
         
             if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
-              $place2book_infolink = '<ul class="buttons item-list">
-				  	<li class="place2book order">
-					  	<a href="' . $p2b_result->headers['Location'] . '">' . t('Book a ticket') . '</a>
-					</li>
-				  </ul>';
+              $place2book_infolink = '<div class="place2book order">
+					  <a href="' . $p2b_result->headers['Location'] . '">' . t('Book a ticket') . '</a>
+					</div>';
             } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
-              $place2book_infolink = '<div class="info place2book">' .t('There are no available tickets for this event') .'</div>';
+              $place2book_infolink = '<div class="place2book info">' .t('There are no available tickets for this event') .'</div>';
             } elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
-              $place2book_infolink = '<div class="info place2book">' .t('The event is closed') .'</div>';
+              $place2book_infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
             }
             
             $node->content['place2book_infolink'] = array(
