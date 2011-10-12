@@ -159,6 +159,9 @@ function ding2_install() {
   variable_set('ting_covers_user_list_style', 'ding_small');
   variable_set('ting_covers_search_result_style', 'ding_medium');
 
+  // Set default source language for i18n module
+  variable_set('i18n_string_source_language', 'en');
+
   // Disable configurable timezones for users
   variable_set('configurable_timezones', 0);
 }
