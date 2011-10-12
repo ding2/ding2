@@ -104,6 +104,7 @@ function openruth_user_profile_form($form, $form_state) {
     '#type' => 'textfield',
     '#title' => t('Mobile phone'),
     '#value' => isset($status->userInfo->userMobilePhone) ? $status->userInfo->userMobilePhone : NULL,
+    '#description' => t('Submit your mobile number to recieve SMS notifications'),
   );
 
   $form['openruth_library']['preferred_branch'] = array(
@@ -111,6 +112,7 @@ function openruth_user_profile_form($form, $form_state) {
     '#title' => t('My pickup branch'),
     '#options' => ding_provider_invoke('reservation', 'pickup_branches', $user),
     '#default_value' => $preferred_branch,
+    'description' => t('Choose the librarybranch where you want to pick up reserved materials'),
   );
 
   // Since we dont know the users internal password, we will remove the form fields
