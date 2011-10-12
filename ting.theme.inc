@@ -212,7 +212,7 @@ function template_preprocess_ting_object_details(&$variables) {
   if (!empty($object->record['dc:identifier']['dcterms:URI'])) {
     $uris = array();
     foreach ($object->record['dc:identifier']['dcterms:URI'] as $uri) {
-      $uris[] = l($uri, $uri, array('attributes'=>array('target'=>'_new')));
+      $uris[] = l(drupal_strlen($uri) > 60 ? drupal_substr($uri, 0, 60) . '...' : $uri, $uri, array('attributes'=>array('target'=>'_new', 'title' => $uri)));
       }
     $items[] = array(
       'data' => '<h4>' . t('Host publication') . '</h4>',
