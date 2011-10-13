@@ -11,11 +11,13 @@ function openruth_user_authenticate($name, $pass) {
 
   if (is_string($res)) {
     watchdog('openruth', 'Error in user_check: @error', array('@error' => $res), WATCHDOG_ERROR);
-    return $return;
+    throw new DingProviderAuthException();
+    // return $return;
   }
   elseif (!$res || !$res->userFound || !$res->userPinCodeOk) {
     // No reply or not found.
-    return $return;
+    throw new DingProviderAuthException();
+    //return $return;
   }
 
   if ($res->userBlocked) {
