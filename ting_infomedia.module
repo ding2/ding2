@@ -25,8 +25,8 @@ function ting_infomedia_menu() {
  *
  * Return a render array
  */
-function ting_infomedia_view($id) {
-  return array(
+function ting_infomedia_view($id) {  
+return array(
     '#markup' => '<div id="article-wrapper">' . render(ting_infomedia_parse_article($id)). '</div>',
     '#theme' => 'ting_infomedia_article',
     '#attached' => array(
@@ -62,10 +62,12 @@ function ting_infomedia_theme( $existing, $type, $theme, $path ) {
 /**
  * Implements hook_page_alter
  *
+ * TODO if page is a popup, page_alter should be executed - is infomedia a popup or not
+ *
  * Remove 'subheader' (search-box and user-info) from page-views
  * add stylesheet for ting_infomedia article
  */
-function ting_infomedia_page_alter(&$page) {
+/*function ting_infomedia_page_alter(&$page) {
   $items = ting_infomedia_menu();
   foreach($items as $key=>$val) {
     if( ting_infomedia_strip_path($key) == ting_infomedia_strip_path(request_path() )) {
@@ -74,7 +76,7 @@ function ting_infomedia_page_alter(&$page) {
       break;
     }
   }
-}
+  }*/
 
 /**
  * Return stripped path. e.g /ting/infomedia/33514212 -> /ting/infomedia
@@ -138,6 +140,7 @@ function ting_infomedia_requirements($phase) {
 function ting_infomedia_parse_article($id) {
   $html = FALSE;
   $obj = ting_infomedia_get_article($id);
+
   if( !empty($obj->error)) {
     return ting_infomedia_parse_for_errors($obj);
   }
