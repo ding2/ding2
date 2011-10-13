@@ -164,6 +164,9 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       '#title' => t('Advanced search'),
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
+      '#weight' => 101,
+      '#prefix' => '<div id="advanced-search-wrapper">',
+      '#suffix' => '</div>',
       '#attached' => array(
         'css' => array(
           drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css',
