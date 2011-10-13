@@ -170,4 +170,38 @@ class TingSearchParsingTestCase extends DrupalUnitTestCase {
       }
     }
   }
+
+  function testQuoting() {
+    drupal_load('module', 'ting_search');
+    $testCases = array(
+      array(
+        'string' => 'anders and',
+        'expected' => 'anders "and"',
+      ),
+      array(
+        'string' => 'anders and AND (dc.title=historie)',
+        'expected' => 'anders "and" AND (dc.title=historie)',
+      ),
+      array(
+        'string' => 'anders AND (dc.title=historie)',
+        'expected' => 'anders AND (dc.title=historie)',
+      ),
+      array(
+        'string' => '"anders and" (dc.title=historie)',
+        'expected' => '"anders and" (dc.title=historie)',
+      ),
+      array(
+        'string' => '"anders \"and\"" (dc.title=historie)',
+        'expected' => '"anders \"and\"" (dc.title=historie)',
+      ),
+
+    );
+    foreach ($testCases as $test) {
+      $res = _ting_search_quote($test['string']);
+      $this->assertEqual($res, $test['expected'], 'Properly quoted: ' . $test['string']);
+      if ($res != $test['expected']) {
+        debug($res);
+      }
+    }
+  }
 }
