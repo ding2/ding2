@@ -19,8 +19,8 @@ function ting_infomedia_get_article($id) {
   $request = $factory->getInfomediaArticleRequest();
   $request->makeGet();
   $request->setFaust($id);
-  $request->setTestUser();
-
+ 
+  ting_infomedia_add_user_creds($request);
   $ret = $request->parse(ting_execute($request->getRequest()));
 
   return $ret;
@@ -104,15 +104,22 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
  * @return TingClientInfomediaRequest
  */
 function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
-  if ($creds = ding_user_get_creds()) {
+  try {
+    $creds = ding_user_get_creds();
     $request->setUser($creds['name']);
     $request->setPin($creds['pass']);
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
+  }
+  catch(DingProviderAuthException $e) {//do nothing 
   }
 
-  if ($agency = variable_get('ting_agency', FALSE)) {
-    $request->setAgency($agency);
-  }
-
+  $name = isset($creds['name']) ? $creds['name'] : '';
+  $pass = isset($creds['pass']) ? $creds['pass'] : '';  
+ 
+  // check if user is authenticated
+  ding_provider_invoke_page('user', 'authenticate', $name, $pass); 
   return $request;
 }
 
