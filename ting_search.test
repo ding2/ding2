@@ -143,6 +143,23 @@ class TingSearchParsingTestCase extends DrupalUnitTestCase {
           'dc.title' => 'flammernes pokal',
         ),
       ),
+      array(
+        'string' => '(dc.creator=rowling)',
+        'keys' => array('dc.creator', 'dc.title'),
+        'expected' => array(
+          'q' => '',
+          'dc.creator' => 'rowling',
+        ),
+      ),
+      array(
+        'string' => '(dc.creator=rowling AND dc.title="flammernes pokal")',
+        'keys' => array('dc.creator', 'dc.title'),
+        'expected' => array(
+          'q' => '',
+          'dc.creator' => 'rowling',
+          'dc.title' => 'flammernes pokal',
+        ),
+      ),
     );
     foreach ($testCases as $test) {
       drupal_static_reset('ting_search_extract_indexes');

@@ -205,7 +205,7 @@ function ting_search_extract_keys($search_query, $keys) {
 
   ting_search_extract_indexes(NULL, $keys);
   $regexpes = array(
-    '/\s+and\s+\((?P<subexpr>[^)]+)\)$/i',
+    '/(^|\s+and\s+)\((?P<subexpr>[^)]+)\)$/i',
   );
   foreach ($regexpes as $regexp) {
     $search_query = preg_replace_callback($regexp, 'ting_search_extract_indexes', $search_query);
@@ -483,7 +483,7 @@ function search_extend_content() {
 /**
  * Create form for sorting search result
  */
-function ting_search_sort_form($form_state) { 
+function ting_search_sort_form($form_state) {
   $form['sort'] = array(
     '#title' => t('Sort by:'),
     '#type' => 'select',
@@ -570,7 +570,7 @@ function ting_search_submit($form, &$form_state) {
   }
 
   $form_id = $form['form_id']['#value']; // 'search_block_form'
-  $terms = $form_state['values'][$form_id];
+  $keys = $form_state['values'][$form_id];
   $fields = array();
 
   $extended_fields = array(
@@ -586,13 +586,14 @@ function ting_search_submit($form, &$form_state) {
     }
   }
 
-  $q = implode(' AND ', $fields);
-  if ($q == '') {
-    $q = $terms;
+  $q = array();
+  if (!empty($keys)) {
+    $q[] = $keys;
   }
-  elseif ($terms != '') {
-    $q = sprintf('%s AND (%s)', $terms, $q);
+  if (!empty($fields)) {
+    $q[] = '(' . implode(' AND ', $fields) . ')';
   }
+  $q = join(' AND ', $q);
 
   $s = $form_state['values']['sort'];
   if ( $s != "" ) {
