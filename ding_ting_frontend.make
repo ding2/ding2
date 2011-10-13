@@ -36,7 +36,7 @@ projects[ding_facetbrowser][download][url] = "git@github.com:ding2/ding_facetbro
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
 projects[ding_frontend][download][url] = "git@github.com:ding2/ding_frontend.git"
-projects[ding_frontend][download][tag] = "7.x-0.6"
+; projects[ding_frontend][download][tag] = "7.x-0.6"
 
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
@@ -66,7 +66,7 @@ projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git
 projects[ding_toggle_format][type] = "module"
 projects[ding_toggle_format][download][type] = "git"
 projects[ding_toggle_format][download][url] = "git@github.com:ding2/ding_toggle_format.git"
-projects[ding_toggle_format][download][tag] = "v0.2"
+; projects[ding_toggle_format][download][tag] = "v0.2"
 
 projects[ting_covers][type] = "module"
 projects[ting_covers][download][type] = "git"
