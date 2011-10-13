@@ -227,11 +227,11 @@ function ting_search_extract_indexes($matches, $set_keys = NULL) {
     $keys = array_flip($set_keys);
   }
   $return = array();
-  $subexps = preg_split('/\s+and\s+/i', $matches['2'], NULL, PREG_SPLIT_NO_EMPTY);
+  $subexps = preg_split('/\s+and\s+/i', $matches[2], NULL, PREG_SPLIT_NO_EMPTY);
   $indexes = &drupal_static(__FUNCTION__, array());
   foreach ($subexps as $subexp) {
-    if ((preg_match('/^(?P<index>[^=]+)\=(?P<value>[^"]*)$/', $subexp, $rx) || preg_match('/^(?P<index>[^=]+)\="(?P<value>.*)"$/', $subexp, $rx)) && array_key_exists(trim($rx['index']), $keys)) {
-      $indexes[trim($rx['index'])] = trim($rx['value']);
+    if ((preg_match('/^([^=]+)\=([^"]*)$/', $subexp, $rx) || preg_match('/^([^=]+)\="(.*)"$/', $subexp, $rx)) && array_key_exists(trim($rx[1]), $keys)) {
+      $indexes[trim($rx[1])] = trim($rx[2]);
     }
     else {
       $return[] = $subexp;
