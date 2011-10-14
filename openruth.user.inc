@@ -114,7 +114,7 @@ function openruth_user_profile_form($form, $form_state) {
     '#title' => t('My pickup branch'),
     '#options' => ding_provider_invoke('reservation', 'pickup_branches', $user),
     '#default_value' => $preferred_branch,
-    'description' => t('Choose the librarybranch where you want to pick up reserved materials'),
+    '#description' => t('Choose the librarybranch where you want to pick up reserved materials'),
   );
 
   // Since we dont know the users internal password, we will remove the form fields
