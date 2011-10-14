@@ -1,6 +1,6 @@
 name = Artesis
 description = Install a Artesis based library site.
-version = 7.x-0.2-rc1
+version = 7.x-0.2-rc2
 core = 7.x
 dependencies[] = block
 dependencies[] = contextual
