@@ -1,7 +1,7 @@
 name = Ding loan
 description = Allows users to manage their loans.
 package = Ding!
-version = "7.x-0.9"
+version = "7.x-0.10"
 core = 7.x
 files[] = ding_loan.module
 ; files[] = ding_loan.test
