@@ -8,12 +8,12 @@ projects[date][patch][] = http://drupal.org/files/1188380.patch
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
 projects[ding_base][download][url] = "git@github.com:ding2/ding_base.git"
-projects[ding_base][download][tag] = "v0.1"
+projects[ding_base][download][tag] = "7.x-0.2"
 
 projects[ding_popup][type] = "module"
 projects[ding_popup][download][type] = "git"
 projects[ding_popup][download][url] = "git@github.com:ding2/ding_popup.git"
-projects[ding_popup][download][tag] = "v0.2"
+projects[ding_popup][download][tag] = "7.x-0.3"
 
 projects[ding_user][type] = "module"
 projects[ding_user][download][type] = "git"
