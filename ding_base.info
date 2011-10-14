@@ -1,7 +1,7 @@
 name = Ding base
 description = Base module providing configuration, formats and APIs used across all Ding module.
 package = Ding!
-version = 0.1
+version = 7.x-0.2
 core = 7.x
 files[] = ding_base.module
 configure = admin/config/ding
