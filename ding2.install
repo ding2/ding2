@@ -34,6 +34,17 @@ function ding2_install() {
       'title' => '<none>',
     ),
     array(
+      'module' => 'locale',
+      'delta' => 'language',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 1,
+      'region' => 'header',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    ),
+    array(
       'module' => 'search',
       'delta' => 'form',
       'theme' => $default_theme,
@@ -67,11 +78,22 @@ function ding2_install() {
       'title' => '<none>',
     ),
     array(
-      'module' => 'ting_search',
-      'delta' => 'search-extend',
+      'module' => 'ding_user_frontend',
+      'delta' => 'ding-username',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 2,
+      'weight' => 3,
+      'region' => 'subheader',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    ),
+    array(
+      'module' => 'ding_user_frontend',
+      'delta' => 'ding-user-loan-number',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 4,
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
@@ -133,9 +155,6 @@ function ding2_install() {
   variable_set('ting_covers_teaser_style', 'ding_medium');
   variable_set('ting_covers_user_list_style', 'ding_small');
   variable_set('ting_covers_search_result_style', 'ding_medium');
-
-  // Set the date format for loan/reservation listings.
-  variable_set('date_format_date_only', 'd.m.Y');
 
   // Disable configurable timezones for users
   variable_set('configurable_timezones', 0);
