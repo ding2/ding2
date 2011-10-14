@@ -50,7 +50,8 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
       'header' => $header,
       'rows' => $rows,
     ));
-    $block->content = render($table) . render(ding_provider_get_form('ding_debt_debts_form', $debts));
+    $build = ding_provider_get_form('ding_debt_debts_form', $debts);
+    $block->content = render($table) . render($build);
   }
   else {
     $block->content = t('No debts');
