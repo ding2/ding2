@@ -81,7 +81,7 @@ projects[ting_proxy][download][url] = "git@github.com:ding2/ting_proxy.git"
 projects[ting_infomedia][type] = "module"
 projects[ting_infomedia][download][type] = "git"
 projects[ting_infomedia][download][url] = "git@github.com:ding2/ting_infomedia.git"
-projects[ting_infomedia][download][tag] = "7.x-0.4"
+; projects[ting_infomedia][download][tag] = "7.x-0.4"
 
 projects[ting_fulltext][type] = "module"
 projects[ting_fulltext][download][type] = "git"
