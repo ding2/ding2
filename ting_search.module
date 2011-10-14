@@ -160,7 +160,8 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#attributes' => array('id' => 'controls_search_size'),
   );
 
-  $form['form_id']['#suffix'] = ting_search_get_extended_actions();
+  // See line 127-130 - disable in the first version
+  //$form['form_id']['#suffix'] = ting_search_get_extended_actions();
 
   if ($advanced) {
     $form['advanced'] = array(
