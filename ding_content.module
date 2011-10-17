@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Various integration with panels to create panel panes and more.
