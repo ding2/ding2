@@ -38,7 +38,7 @@ function ding2_install() {
       'delta' => 'language',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 1,
+      'weight' => 0,
       'region' => 'header',
       'pages' => '',
       'cache' => -1,
@@ -56,11 +56,33 @@ function ding2_install() {
       'title' => '',
     ),
     array(
+      'module' => 'ding_user_frontend',
+      'delta' => 'ding-username',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 2,
+      'region' => 'subheader',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    ),
+    array(
       'module' => 'user',
       'delta' => 'login',
       'theme' => $default_theme,
       'status' => 1,
       'weight' => 1,
+      'region' => 'subheader',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    ),
+    array(
+      'module' => 'ding_user_frontend',
+      'delta' => 'ding-user-loan-number',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 2,
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
@@ -78,22 +100,11 @@ function ding2_install() {
       'title' => '<none>',
     ),
     array(
-      'module' => 'ding_user_frontend',
-      'delta' => 'ding-username',
+      'module' => 'ting_search',
+      'delta' => 'search-extend',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 3,
-      'region' => 'subheader',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
-      'module' => 'ding_user_frontend',
-      'delta' => 'ding-user-loan-number',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 4,
+      'weight' => 2,
       'region' => 'subheader',
       'pages' => '',
       'cache' => -1,
@@ -158,4 +169,7 @@ function ding2_install() {
 
   // Disable configurable timezones for users
   variable_set('configurable_timezones', 0);
+
+  // Select the ding_frontpage as front page.
+  variable_set('site_frontpage', 'ding_frontpage');
 }
