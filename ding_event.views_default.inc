@@ -32,6 +32,15 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* Header: Global: Text area */
+  $handler->display->display_options['header']['area']['id'] = 'area';
+  $handler->display->display_options['header']['area']['table'] = 'views';
+  $handler->display->display_options['header']['area']['field'] = 'area';
+  $handler->display->display_options['header']['area']['empty'] = FALSE;
+  /* Field: Content: Date and time */
+  $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
   /* Field: Content: Library */
   $handler->display->display_options['fields']['ding_event_library']['id'] = 'ding_event_library';
   $handler->display->display_options['fields']['ding_event_library']['table'] = 'field_data_ding_event_library';
@@ -110,10 +119,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_event_body']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_event_body']['field_api_classes'] = 0;
-  /* Field: Content: Date and time */
-  $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
-  $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
-  $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
   /* Sort criterion: Content: Date and time (ding_event_date) */
   $handler->display->display_options['sorts']['ding_event_date_value']['id'] = 'ding_event_date_value';
   $handler->display->display_options['sorts']['ding_event_date_value']['table'] = 'field_data_ding_event_date';
@@ -166,61 +171,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['hide_empty'] = 0;
   $handler->display->display_options['row_options']['default_field_elements'] = 0;
+  $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
-  $handler->display->display_options['fields']['title']['element_class'] = 'title';
-  $handler->display->display_options['fields']['title']['element_label_type'] = '0';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['title']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['ding_event_body']['id'] = 'ding_event_body';
-  $handler->display->display_options['fields']['ding_event_body']['table'] = 'field_data_ding_event_body';
-  $handler->display->display_options['fields']['ding_event_body']['field'] = 'ding_event_body';
-  $handler->display->display_options['fields']['ding_event_body']['label'] = '';
-  $handler->display->display_options['fields']['ding_event_body']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['max_length'] = '300';
-  $handler->display->display_options['fields']['ding_event_body']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['trim'] = 1;
-  $handler->display->display_options['fields']['ding_event_body']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['element_type'] = 'p';
-  $handler->display->display_options['fields']['ding_event_body']['element_class'] = 'teaser';
-  $handler->display->display_options['fields']['ding_event_body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['ding_event_body']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['ding_event_body']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_event_body']['field_api_classes'] = 0;
   /* Field: Content: Date and time */
   $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
@@ -252,6 +204,59 @@ function ding_event_views_default_views() {
     'show_repeat_rule' => 'show',
   );
   $handler->display->display_options['fields']['ding_event_date']['field_api_classes'] = 0;
+  /* Field: Content: Library */
+  $handler->display->display_options['fields']['ding_event_library']['id'] = 'ding_event_library';
+  $handler->display->display_options['fields']['ding_event_library']['table'] = 'field_data_ding_event_library';
+  $handler->display->display_options['fields']['ding_event_library']['field'] = 'ding_event_library';
+  $handler->display->display_options['fields']['ding_event_library']['label'] = '';
+  $handler->display->display_options['fields']['ding_event_library']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['element_type'] = 'div';
+  $handler->display->display_options['fields']['ding_event_library']['element_class'] = 'ding-event-library';
+  $handler->display->display_options['fields']['ding_event_library']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['ding_event_library']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['ding_event_library']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_library']['click_sort_column'] = 'gid';
+  $handler->display->display_options['fields']['ding_event_library']['field_api_classes'] = 0;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['title']['element_class'] = 'title';
+  $handler->display->display_options['fields']['title']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['title']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['title']['link_to_node'] = 1;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
