@@ -164,4 +164,7 @@ function ding2_install() {
 
   // Disable configurable timezones for users
   variable_set('configurable_timezones', 0);
+
+  // Select the ding_frontpage as front page.
+  variable_set('site_frontpage', 'ding_frontpage');
 }

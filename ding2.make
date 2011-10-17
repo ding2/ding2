@@ -38,6 +38,32 @@ projects[mkdru_ding_frontend][download][type] = "git"
 projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2/mkdru_ding_frontend.git"
 projects[mkdru_ding_frontend][download][tag] = "7.x-1.4"
 
+; CMS modules (Curate)
+
+projects[ding_content][type] = module
+projects[ding_content][download][type] = git
+projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
+
+projects[ding_campaign][type] = module
+projects[ding_campaign][download][type] = git
+projects[ding_campaign][download][url] = git@github.com:ding2/ding_campaign.git
+
+projects[ding_frontpage][type] = module
+projects[ding_frontpage][download][type] = git
+projects[ding_frontpage][download][url] = git@github.com:ding2/ding_frontpage.git
+
+projects[ding_library][type] = module
+projects[ding_library][download][type] = git
+projects[ding_library][download][url] = git@github.com:ding2/ding_library.git
+
+projects[ding_news][type] = module
+projects[ding_news][download][type] = git
+projects[ding_news][download][url] = git@github.com:ding2/ding_news.git
+
+projects[ding_event][type] = module
+projects[ding_event][download][type] = git
+projects[ding_event][download][url] = git@github.com:ding2/ding_event.git
+
 ; Themes
 projects[artois][type] = "theme"
 projects[artois][download][type] = "git"
