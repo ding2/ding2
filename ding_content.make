@@ -26,7 +26,7 @@ projects[entity][version] = 1.0-beta10
 
 projects[media][type] = module
 projects[media][subdir] = contrib
-projects[media][version] = 1.0-rc1
+projects[media][version] = 1.0-rc2
 
 projects[menu_block][type] = module
 projects[menu_block][subdir] = contrib
@@ -37,22 +37,9 @@ projects[panels][type] = module
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
 
-projects[pathauto][type] = module
-projects[pathauto][subdir] = contrib
-projects[pathauto][version] = 1.0-rc2
-projects[pathauto][patch][] = http://drupal.org/files/1299460.patch
-
 projects[rules][type] = module
 projects[rules][subdir] = contrib
 projects[rules][version] = 2.0
-
-projects[transliteration][type] = module
-projects[transliteration][subdir] = contrib
-projects[transliteration][version] = 3.0-alpha1
-
-projects[token][type] = module
-projects[token][subdir] = contrib
-projects[token][version] = 1.0-beta5
 
 projects[views][type] = module
 projects[views][subdir] = contrib
