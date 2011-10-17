@@ -26,8 +26,8 @@ function ding2_install() {
       'title' => '',
     ),
     array(
-      'module' => 'system',
-      'delta' => 'main-menu',
+      'module' => 'menu_block',
+      'delta' => 'ding_content-main-lvl1',
       'theme' => $default_theme,
       'status' => 1,
       'weight' => 0,
