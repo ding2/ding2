@@ -3,11 +3,15 @@ core = 7.x
 
 ; Ting modules
 
+projects[ding_path_alias][type] = module
+projects[ding_path_alias][download][type] = git
+projects[ding_path_alias][download][url] = git@github.com:ding2/ding_path_alias.git
+
 projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
 projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.git
 
-; CONTRIB MODULES
+; Contrib modules
 projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
 projects[cache_actions][version] = 2.0-alpha3
@@ -62,7 +66,7 @@ projects[wysiwyg][type] = module
 projects[wysiwyg][subdir] = contrib
 projects[wysiwyg][version] = 2.1
 
-;Libraries
+; Libraries
 libraries[ckeditor][download][type] = get
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.zip
 libraries[ckeditor][directory_name] = ckeditor
