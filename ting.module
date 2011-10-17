@@ -367,6 +367,10 @@ function ting_entity_info() {
     'ting_collection' => array(
       'label' => t('Ting collection'),
       'controller class' => 'TingCollectionController',
+      // Some modules assume that fieldable entities has a base
+      // table. Specify the object table as each collection is also an
+      // object.
+      'base table' => 'ting_object',
       'uri callback' => 'ting_collection_uri',
       'ding_entity_type' => 'ding_entity_collection',
       'ding_entity_menu' => 'ting/collection/%ting_collection',
