@@ -39,3 +39,4 @@ features[views_view][] = "ding_library"
 name = "Ding library"
 package = "Ding!"
 php = "5.2.4"
+files[] = views/handlers/ding_library_nid_to_gid_argument.inc

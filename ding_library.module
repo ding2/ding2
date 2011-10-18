@@ -47,5 +47,25 @@ function ding_library_slug_validate(&$form, &$form_state) {
   }
 }
 
-include_once('ding_library.features.inc');
+/**
+ * Implements hook_views_data_alter().
+ */
+function ding_library_views_data_alter(&$data) {
+  foreach (field_info_fields() as $name => $field) {
+    $name = 'field_data_' . $name;
+    if ($field['type'] == 'group') {
+      foreach ($data[$name] as $column => $views_data) {
+        if (strpos($column, 'gid') !== FALSE) {
+          $data[$name]['ding_library_nid'] = $views_data;
+          unset($data[$name]['ding_library_nid']['filter']);
+          unset($data[$name]['ding_library_nid']['sort']);
+          $data[$name]['ding_library_nid']['title'] = str_replace('gid', 'nid', $data[$name]['ding_library_nid']['title']);
+          $data[$name]['ding_library_nid']['title short'] = str_replace('gid', 'nid', $data[$name]['ding_library_nid']['title short']);
+          $data[$name]['ding_library_nid']['argument']['handler'] = 'ding_library_nid_to_gid_argument';
+        }
+      }
+    }
+  }
+}
 
+include_once('ding_library.features.inc');
