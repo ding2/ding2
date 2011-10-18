@@ -315,3 +315,16 @@ abstract class DingDebtProviderImplementationTestCase extends DingProviderImplem
     }
   }
 }
+
+class DingBranchProviderImplementationTestCase extends DingProviderImplementationTestCase {
+  function testBranch() {
+    $branches = ding_provider_invoke('branch', 'list');
+    $this->assertTrue(is_array($branches), 'Branch list is an array.');
+    $this->assertTrue(!empty($branches), 'Branch list is not empty');
+    // Not much we can do than check that key/values are strings.
+    foreach ($branches as $id => $name) {
+      $this->assertTrue(is_string($id), 'Id is a string');
+      $this->assertTrue(is_string($name), 'Name is a string');
+    }
+  }
+}

@@ -158,3 +158,27 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
     }
   }
 }
+
+class DingBranchProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding branch provider',
+      'description' => 'Test Ding branch provider functionality.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('connie'));
+  }
+
+  function testBranchProvider() {
+    $branches = ding_provider_invoke('branch', 'list');
+    $expected = array(
+      'aby' => 'Andeby bibliotek',
+      'grd' => 'Gåserød bibliotek',
+    );
+
+    $this->assertEqual($branches, $expected, 'Branch list looks OK.');
+  }
+}

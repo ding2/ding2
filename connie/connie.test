@@ -112,3 +112,17 @@ class ConnieLoanProviderImplementationTestCase extends DingLoanProviderImplement
     return $user;
   }
 }
+
+class ConnieBranchProviderImplementationTestCase extends DingBranchProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example branch provider',
+      'description' => 'Test Ding! provider example branch functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie'));
+  }
+}

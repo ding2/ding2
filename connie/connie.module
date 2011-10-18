@@ -32,6 +32,10 @@ function connie_ding_provider() {
         'prefix' => 'loan',
         'file' => drupal_get_path('module', 'connie') . '/connie.loan.inc',
       ),
+      'branch' => array(
+        'prefix' => 'branch',
+        'file' => drupal_get_path('module', 'connie') . '/connie.branch.inc',
+      ),
     ),
   );
 }
