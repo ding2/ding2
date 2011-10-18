@@ -12,5 +12,6 @@ function connie_branch_list() {
   return array(
     'aby' => 'Andeby bibliotek',
     'grd' => 'Gåserød bibliotek',
+    'ogf' => 'Øvre Gasefjeld bibliotek',
   );
 }
