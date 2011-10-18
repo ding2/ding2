@@ -27,21 +27,23 @@ function ding_event_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Header: Global: Text area */
+  /* Overskrift: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = FALSE;
-  /* Field: Content: Date and time */
+  /* Felt: Indhold: Date and time */
   $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
-  /* Field: Content: Library */
+  $handler->display->display_options['fields']['ding_event_date']['label'] = 'Dato og tid';
+  /* Felt: Indhold: Library */
   $handler->display->display_options['fields']['ding_event_library']['id'] = 'ding_event_library';
   $handler->display->display_options['fields']['ding_event_library']['table'] = 'field_data_ding_event_library';
   $handler->display->display_options['fields']['ding_event_library']['field'] = 'ding_event_library';
@@ -65,7 +67,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_library']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_event_library']['click_sort_column'] = 'gid';
   $handler->display->display_options['fields']['ding_event_library']['field_api_classes'] = 0;
-  /* Field: Content: Title */
+  /* Felt: Indhold: Titel */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -92,7 +94,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Body */
+  /* Felt: Indhold: Body */
   $handler->display->display_options['fields']['ding_event_body']['id'] = 'ding_event_body';
   $handler->display->display_options['fields']['ding_event_body']['table'] = 'field_data_ding_event_body';
   $handler->display->display_options['fields']['ding_event_body']['field'] = 'ding_event_body';
@@ -119,24 +121,24 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_event_body']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_event_body']['field_api_classes'] = 0;
-  /* Sort criterion: Content: Date and time (ding_event_date) */
+  /* Sort criterion: Indhold: Date and time (ding_event_date) */
   $handler->display->display_options['sorts']['ding_event_date_value']['id'] = 'ding_event_date_value';
   $handler->display->display_options['sorts']['ding_event_date_value']['table'] = 'field_data_ding_event_date';
   $handler->display->display_options['sorts']['ding_event_date_value']['field'] = 'ding_event_date_value';
-  /* Contextual filter: Content: Library (ding_event_library:gid) */
+  /* Contextual filter: Indhold: Library (ding_event_library:gid) */
   $handler->display->display_options['arguments']['ding_event_library_gid']['id'] = 'ding_event_library_gid';
   $handler->display->display_options['arguments']['ding_event_library_gid']['table'] = 'field_data_ding_event_library';
   $handler->display->display_options['arguments']['ding_event_library_gid']['field'] = 'ding_event_library_gid';
   $handler->display->display_options['arguments']['ding_event_library_gid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_event_library_gid']['summary']['format'] = 'default_summary';
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Indhold: Udgivet */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 0;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
+  /* Filter criterion: Indhold: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -149,7 +151,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Category (ding_event_category) */
+  /* Contextual filter: Indhold: Category (ding_event_category) */
   $handler->display->display_options['arguments']['ding_event_category_tid']['id'] = 'ding_event_category_tid';
   $handler->display->display_options['arguments']['ding_event_category_tid']['table'] = 'field_data_ding_event_category';
   $handler->display->display_options['arguments']['ding_event_category_tid']['field'] = 'ding_event_category_tid';
@@ -173,7 +175,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_options']['default_field_elements'] = 0;
   $handler->display->display_options['defaults']['header'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Date and time */
+  /* Felt: Indhold: Date and time */
   $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
   $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
@@ -195,6 +197,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_date']['hide_empty'] = 0;
   $handler->display->display_options['fields']['ding_event_date']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_event_date']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['type'] = 'calendar_page';
   $handler->display->display_options['fields']['ding_event_date']['settings'] = array(
     'format_type' => 'short',
     'fromto' => 'both',
@@ -204,7 +207,7 @@ function ding_event_views_default_views() {
     'show_repeat_rule' => 'show',
   );
   $handler->display->display_options['fields']['ding_event_date']['field_api_classes'] = 0;
-  /* Field: Content: Library */
+  /* Felt: Indhold: Library */
   $handler->display->display_options['fields']['ding_event_library']['id'] = 'ding_event_library';
   $handler->display->display_options['fields']['ding_event_library']['table'] = 'field_data_ding_event_library';
   $handler->display->display_options['fields']['ding_event_library']['field'] = 'ding_event_library';
@@ -230,7 +233,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_library']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_event_library']['click_sort_column'] = 'gid';
   $handler->display->display_options['fields']['ding_event_library']['field_api_classes'] = 0;
-  /* Field: Content: Title */
+  /* Felt: Indhold: Titel */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -257,22 +260,53 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
+  /* Felt: Indhold: Date and time */
+  $handler->display->display_options['fields']['ding_event_date_1']['id'] = 'ding_event_date_1';
+  $handler->display->display_options['fields']['ding_event_date_1']['table'] = 'field_data_ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date_1']['field'] = 'ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date_1']['label'] = '';
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['ding_event_date_1']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['ding_event_date_1']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['settings'] = array(
+    'format_type' => 'time_only',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_repeat_rule' => 'show',
+  );
+  $handler->display->display_options['fields']['ding_event_date_1']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Indhold: Udgivet */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 0;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
+  /* Filter criterion: Indhold: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_event' => 'ding_event',
   );
-  /* Filter criterion: Content: Promoted to front page */
+  /* Filter criterion: Indhold: Forfremmet til forside */
   $handler->display->display_options['filters']['promote']['id'] = 'promote';
   $handler->display->display_options['filters']['promote']['table'] = 'node';
   $handler->display->display_options['filters']['promote']['field'] = 'promote';
@@ -304,7 +338,39 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_options']['hide_empty'] = 0;
   $handler->display->display_options['row_options']['default_field_elements'] = 0;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Title */
+  /* Felt: Indhold: Date and time */
+  $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date']['label'] = '';
+  $handler->display->display_options['fields']['ding_event_date']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['ding_event_date']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['ding_event_date']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date']['type'] = 'calendar_page';
+  $handler->display->display_options['fields']['ding_event_date']['settings'] = array(
+    'format_type' => 'short',
+    'fromto' => 'both',
+    'multiple_number' => '',
+    'multiple_from' => '',
+    'multiple_to' => '',
+    'show_repeat_rule' => 'show',
+  );
+  $handler->display->display_options['fields']['ding_event_date']['field_api_classes'] = 0;
+  /* Felt: Indhold: Titel */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -331,7 +397,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Body */
+  /* Felt: Indhold: Body */
   $handler->display->display_options['fields']['ding_event_body']['id'] = 'ding_event_body';
   $handler->display->display_options['fields']['ding_event_body']['table'] = 'field_data_ding_event_body';
   $handler->display->display_options['fields']['ding_event_body']['field'] = 'ding_event_body';
@@ -358,39 +424,39 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['ding_event_body']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_event_body']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_event_body']['field_api_classes'] = 0;
-  /* Field: Content: Date and time */
-  $handler->display->display_options['fields']['ding_event_date']['id'] = 'ding_event_date';
-  $handler->display->display_options['fields']['ding_event_date']['table'] = 'field_data_ding_event_date';
-  $handler->display->display_options['fields']['ding_event_date']['field'] = 'ding_event_date';
-  $handler->display->display_options['fields']['ding_event_date']['label'] = '';
-  $handler->display->display_options['fields']['ding_event_date']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['ding_event_date']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['ding_event_date']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_event_date']['settings'] = array(
-    'format_type' => 'short',
+  /* Felt: Indhold: Date and time */
+  $handler->display->display_options['fields']['ding_event_date_1']['id'] = 'ding_event_date_1';
+  $handler->display->display_options['fields']['ding_event_date_1']['table'] = 'field_data_ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date_1']['field'] = 'ding_event_date';
+  $handler->display->display_options['fields']['ding_event_date_1']['label'] = '';
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['ding_event_date_1']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['ding_event_date_1']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['settings'] = array(
+    'format_type' => 'time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
     'multiple_to' => '',
     'show_repeat_rule' => 'show',
   );
-  $handler->display->display_options['fields']['ding_event_date']['field_api_classes'] = 0;
+  $handler->display->display_options['fields']['ding_event_date_1']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (ding_event_library:gid) */
+  /* Contextual filter: Indhold: Library (ding_event_library:gid) */
   $handler->display->display_options['arguments']['ding_event_library_gid']['id'] = 'ding_event_library_gid';
   $handler->display->display_options['arguments']['ding_event_library_gid']['table'] = 'field_data_ding_event_library';
   $handler->display->display_options['arguments']['ding_event_library_gid']['field'] = 'ding_event_library_gid';
@@ -402,14 +468,14 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_event_library_gid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['ding_event_library_gid']['not'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Indhold: Udgivet */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 0;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
+  /* Filter criterion: Indhold: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -422,7 +488,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (ding_event_library:gid) */
+  /* Contextual filter: Indhold: Library (ding_event_library:gid) */
   $handler->display->display_options['arguments']['ding_event_library_gid']['id'] = 'ding_event_library_gid';
   $handler->display->display_options['arguments']['ding_event_library_gid']['table'] = 'field_data_ding_event_library';
   $handler->display->display_options['arguments']['ding_event_library_gid']['field'] = 'ding_event_library_gid';
@@ -433,7 +499,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_event_library_gid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['ding_event_library_gid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['ding_event_library_gid']['not'] = 0;
-  /* Contextual filter: Content: Category (ding_event_category) */
+  /* Contextual filter: Indhold: Category (ding_event_category) */
   $handler->display->display_options['arguments']['ding_event_category_tid']['id'] = 'ding_event_category_tid';
   $handler->display->display_options['arguments']['ding_event_category_tid']['table'] = 'field_data_ding_event_category';
   $handler->display->display_options['arguments']['ding_event_category_tid']['field'] = 'ding_event_category_tid';
@@ -453,7 +519,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (ding_event_library:gid) */
+  /* Contextual filter: Indhold: Library (ding_event_library:gid) */
   $handler->display->display_options['arguments']['ding_event_library_gid']['id'] = 'ding_event_library_gid';
   $handler->display->display_options['arguments']['ding_event_library_gid']['table'] = 'field_data_ding_event_library';
   $handler->display->display_options['arguments']['ding_event_library_gid']['field'] = 'ding_event_library_gid';
@@ -478,12 +544,12 @@ function ding_event_views_default_views() {
     t('Master'),
     t('more'),
     t('Apply'),
-    t('Reset'),
+    t('Gendan'),
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Date and time'),
-    t('All'),
+    t('Dato og tid'),
+    t('Alle'),
     t('Master context'),
     t('Front page teaser list'),
     t('Feed'),
