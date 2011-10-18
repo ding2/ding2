@@ -24,3 +24,24 @@ function ting_sfx_ding_entity_fields() {
     ),
   );
 }
+
+/**
+ * Implementing hook_requirements()
+ */
+function ting_sfx_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $url = variable_get('ting_sfx_url');
+
+    if (!isset($url)) {
+      $requirements['service_urls'] = array(
+        'title' => t('SFX settings'),
+        'value' =>  l(t('Url for SFX link resolver must be set in admin'), 'admin/config/ting/settings'),
+        'severity' => REQUIREMENT_ERROR
+      );
+    }
+  }
+
+  return $requirements;
+}

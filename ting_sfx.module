@@ -39,24 +39,6 @@ function ting_sfx_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
 }
 
 /**
- * Implementing hook_requirements()
- */
-function ting_sfx_requirements($phase) {
-  $requirements = array();
-  $url = variable_get('ting_sfx_url');
-
-  if (!isset($url)) {
-    $requirements['service_urls'] = array(
-      'title' => t('SFX settings'),
-      'value' =>  l(t('Url for SFX link resolver must be set in admin'), 'admin/config/ting/settings'),
-      'severity' => REQUIREMENT_ERROR
-    );
-  }
-
-  return $requirements;
-}
-
-/**
  * Implements hook_field_formatter_info
  */
 function ting_sfx_field_formatter_info() {
