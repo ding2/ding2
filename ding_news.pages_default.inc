@@ -651,7 +651,7 @@ function ding_news_default_page_manager_pages() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => '',
+      'url' => 'node/%/news/feeds',
       'display' => 'ctools_context_2',
       'context' => array(
         0 => 'relationship_og_group_from_node_1.gid',

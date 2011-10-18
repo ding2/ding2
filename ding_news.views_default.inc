@@ -225,8 +225,8 @@ function ding_news_views_default_views() {
     'ding_news' => 'ding_news',
   );
 
-  /* Display: Master context */
-  $handler = $view->new_display('ctools_context', 'Master context', 'ctools_context_master');
+  /* Display: Full list */
+  $handler = $view->new_display('ctools_context', 'Full list', 'ctools_context_master');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -400,26 +400,27 @@ function ding_news_views_default_views() {
   );
   $handler->display->display_options['inherit_panels_path'] = '1';
 
-  /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_library');
+  /* Display: Library Feed */
+  $handler = $view->new_display('feed', 'Library Feed', 'feed_library');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (ding_news_library:gid) */
-  $handler->display->display_options['arguments']['ding_news_library_gid']['id'] = 'ding_news_library_gid';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['table'] = 'field_data_ding_news_library';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['field'] = 'ding_news_library_gid';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_news_library_gid']['not'] = 0;
-  $handler->display->display_options['path'] = 'library/%/news/feed';
+  /* Contextual filter: Content: Library (ding_news_library:nid) */
+  $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_ding_news_library';
+  $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
+  $handler->display->display_options['path'] = 'node/%/news/feed';
   $handler->display->display_options['displays'] = array(
     'ctools_context_library_list' => 'ctools_context_library_list',
     'ctools_context_2' => 'ctools_context_2',
@@ -429,8 +430,8 @@ function ding_news_views_default_views() {
   );
   $handler->display->display_options['sitename_title'] = 1;
 
-  /* Display: Master context libraries */
-  $handler = $view->new_display('ctools_context', 'Master context libraries', 'ctools_context_2');
+  /* Display: Library full list */
+  $handler = $view->new_display('ctools_context', 'Library full list', 'ctools_context_2');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -466,7 +467,7 @@ function ding_news_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('All'),
-    t('Master context'),
+    t('Full list'),
     t('more'),
     t('Items per page'),
     t('- All -'),
@@ -474,7 +475,8 @@ function ding_news_views_default_views() {
     t('Front page teaser list'),
     t('Feed'),
     t('Library teaser list'),
-    t('Master context libraries'),
+    t('Library Feed'),
+    t('Library full list'),
   );
   $export['ding_news'] = $view;
 
