@@ -645,7 +645,7 @@ function ding_event_default_page_manager_pages() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => '',
+      'url' => 'node/%/events/feed',
       'display' => 'ctools_context_library_master',
       'context' => array(
         0 => 'relationship_og_group_from_node_1.gid',

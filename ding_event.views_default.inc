@@ -146,8 +146,8 @@ function ding_event_views_default_views() {
     'ding_event' => 'ding_event',
   );
 
-  /* Display: Master context */
-  $handler = $view->new_display('ctools_context', 'Master context', 'ctools_context_master');
+  /* Display: Full list */
+  $handler = $view->new_display('ctools_context', 'Full list', 'ctools_context_master');
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -483,8 +483,8 @@ function ding_event_views_default_views() {
     'ding_event' => 'ding_event',
   );
 
-  /* Display: Master library context */
-  $handler = $view->new_display('ctools_context', 'Master library context', 'ctools_context_library_master');
+  /* Display: Library full list */
+  $handler = $view->new_display('ctools_context', 'Library full list', 'ctools_context_library_master');
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
@@ -511,27 +511,27 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_event_category_tid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['ding_event_category_tid']['not'] = 0;
 
-  /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_library');
+  /* Display: Library Feed */
+  $handler = $view->new_display('feed', 'Library Feed', 'feed_library');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Indhold: Library (ding_event_library:gid) */
-  $handler->display->display_options['arguments']['ding_event_library_gid']['id'] = 'ding_event_library_gid';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['table'] = 'field_data_ding_event_library';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['field'] = 'ding_event_library_gid';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_event_library_gid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_event_library_gid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_event_library_gid']['not'] = 0;
-  $handler->display->display_options['path'] = 'library/%/events/feed';
+  /* Contextual filter: Content: Library (ding_event_library:nid) */
+  $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_ding_event_library';
+  $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
+  $handler->display->display_options['path'] = 'node/%/events/feed';
   $handler->display->display_options['displays'] = array(
     'ctools_context_library_teaser' => 'ctools_context_library_teaser',
     'ctools_context_library_master' => 'ctools_context_library_master',
@@ -548,13 +548,14 @@ function ding_event_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Dato og tid'),
-    t('Alle'),
-    t('Master context'),
+    t('Date and time'),
+    t('All'),
+    t('Full list'),
     t('Front page teaser list'),
     t('Feed'),
     t('Library teaser list'),
-    t('Master library context'),
+    t('Library full list'),
+    t('Library Feed'),
   );
   $export['ding_event'] = $view;
 
