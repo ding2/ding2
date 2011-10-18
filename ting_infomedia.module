@@ -117,23 +117,6 @@ function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state
 }
 
 /**
- * Implementing hook_requirements()
- */
-function ting_infomedia_requirements($phase) {
-  $requirements = array();
-  $url = variable_get('ting_infomedia_url');
-  if( !isset($url) ) {
-    $requirements['service_urls'] = array(
-      'title' => t('infomedia settings'),
-      'value' =>  l(t('Url to infomedia webservice must be set in admin'), 'admin/config/ting/settings'),
-      'severity' => REQUIREMENT_ERROR
-    );
-  }
-
-  return $requirements;
-}
-
-/**
  * retrive article from infomedia. Parse for errors, clean html and add html for errorhandling if needed.
  * return the parsed html
  */
