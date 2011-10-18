@@ -5,3 +5,63 @@
  */
 
 include_once('ding_frontend.features.inc');
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_frontend_field_formatter_info() {
+  return array(
+    'calendar_page' => array(
+      'label' => t('Calendar page'),
+      'field types' => array(
+        'datetime',
+      )
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_frontend_field_formatter_view($entity_type, $entity, $field, $instances, $langcode, $items, $display) {
+  $element = array();
+  foreach ($items as $delta => $item) {
+    switch ($display['type']) {
+      case 'calendar_page':
+        $timestamp = strtotime($item['value']);
+        $vars = array(
+          'day' => format_date($timestamp, 'custom', 'j', $item['timezone']),
+          'month' => format_date($timestamp, 'custom', 'F', $item['timezone']),
+          'weekday' => format_date($timestamp, 'custom', 'l', $item['timezone']),
+          'today' => date('j.F.l') == date('j.F.l', $timestamp),
+        );
+        $element[$delta] = array(
+          '#markup' => theme('calendar_page', $vars),
+        );
+        break;
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_frontend_theme() {
+  return array(
+    'calendar_page' => array(
+      'template' => 'calendar-page',
+      'variables' => array('day' => '', 'month' => '', 'weekday' => '', '' => FALSE),
+    ),
+  );
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function ding_frontend_date_format_types() {
+  return array(
+    'time_only' => t('Time only'),
+  );
+}
