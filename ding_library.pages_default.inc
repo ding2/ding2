@@ -118,7 +118,7 @@ function ding_library_default_page_manager_handlers() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => 'library/%/news',
+      'url' => 'node/%/news',
       'display' => 'ctools_context_library_list',
       'context' => array(
         0 => 'relationship_og_group_from_node_1.gid',
@@ -160,7 +160,7 @@ function ding_library_default_page_manager_handlers() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => 'library/%/events',
+      'url' => 'node/%/events',
       'display' => 'ctools_context_library_teaser',
       'context' => array(
         0 => 'relationship_og_group_from_node_1.gid',
