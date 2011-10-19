@@ -61,7 +61,8 @@ function ding_campaign_admin_paths() {
  * Implements hook_node_access().
  */
 function ding_campaign_node_access($node) {
-  if ($node->type == 'ding_campaign') {
+
+  if ( isset($node->type) && $node->type == 'ding_campaign') {
     return TRUE;
   }
   return FALSE;
@@ -73,7 +74,13 @@ function ding_campaign_node_access($node) {
 function ding_campaign_theme($existing, $type, $theme, $path) {
   $hooks = array();
 
-  $hooks['ding_campaign_orange'] = array(
+   $hooks['ding_campaign'] = array(
+    'variables' => array('content' => NULL),
+    'template' => 'ding_campaign',
+    'path' => DING_CAMPAIGN_PATH . '/templates/',
+  );
+
+  /*  $hooks['ding_campaign_orange'] = array(
     'variables' => array('content' => NULL),
     'template' => 'ding_campaign-orange',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
@@ -95,7 +102,7 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
     'variables' => array('content' => NULL),
     'template' => 'ding_campaign-pink',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
-  );
+    );*/
 
   return $hooks;
 }
@@ -127,29 +134,30 @@ function ding_campaign_display($context, $count, $offset) {
 
       $camp_settings = field_get_items('node', $node, 'field_camp_settings');
 
+      $base_class = 'ding-campaign-item';
       // Select the display for campaign type.
       switch ($camp_settings[0]['value']) {
         case 'plain':
           $camp_link = field_get_items('node', $node, 'field_camp_link');
           $camp_text_plain = field_get_items('node', $node, 'field_camp_text_plain');
-          $content = '<div class="ding-campaign-item-plain"><a href="' . $camp_link[0]['value'] . '">' . $camp_text_plain[0]['value'] . '</a></div>';
+          $content = '<div class="'.$base_class.' ding-campaign-item-plain"><a href="' . $camp_link[0]['value'] . '">' . $camp_text_plain[0]['value'] . '</a></div>';
           break;
         case 'image':
           $camp_link = field_get_items('node', $node, 'field_camp_link');
           $camp_image = field_get_items('node', $node, 'field_camp_image');
-          $content = '<div class="ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '"><img src="' . file_create_url($camp_image[0]['uri']) . '" alt="" /></a></div>';
+          $content = '<div class="'.$base_class.' ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '"><img src="' . file_create_url($camp_image[0]['uri']) . '" alt="" /></a></div>';
           break;
         case 'full':
           $camp_text_full = field_get_items('node', $node, 'field_camp_text_full');
-          $content = '<div class="ding-campaign-item-full">' . $camp_text_full[0]['value'] . '</div>';
+          $content = '<div class="'.$base_class.' ding-campaign-item-full">' . $camp_text_full[0]['safe_value'] . '</div>';
           break;
       }
 
       // Select the theme for plain text type campaign.
-      if ($camp_settings[0]['value'] == 'plain') {
+      /* if ($camp_settings[0]['value'] == 'plain') {
         $theme = '';
         $camp_theme = field_get_items('node', $node, 'field_camp_theme');
-        switch ($camp_theme[0]['value']) {
+	 switch ($camp_theme[0]['value']) {
           case 'theme_orange':
             $theme = 'ding_campaign_orange';
             break;
@@ -162,15 +170,19 @@ function ding_campaign_display($context, $count, $offset) {
           case 'theme_pink':
             $theme = 'ding_campaign_pink';
             break;
-        }
+	    }
+	$theme = 'ding_campaign';
 
         $block .= theme($theme, array('content' => $content));
       }
       else {
         $block .= $content;
-      }
+	}*/
+	
+      $theme = 'ding_campaign';
+      
+      $block .= theme($theme, array('content' => $content));
     }
-
     return $block;
   }
 }
