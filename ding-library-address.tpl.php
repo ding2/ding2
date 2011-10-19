@@ -1,5 +1,7 @@
 <div class="address clearfix">
-    <span class="name"><?php print $name; ?></span>
+    <?php if ($name): ?>
+      <span class="name"><?php print $name; ?></span>
+    <?php endif; ?>
     <?php if ($address): ?>
       <span class="address"><?php print $address; ?></span>
     <?php endif; ?>
