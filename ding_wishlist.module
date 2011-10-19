@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Flag Ting objects.
+ * Allows users to add ting items to wish list.
  */
 
 module_load_include('inc', 'ding_wishlist', 'ding_wishlist.flag_ting');
@@ -21,6 +22,8 @@ function ding_wishlist_flag_definitions() {
 
 /**
  * Implements hook_flag_default_flags().
+ *
+ * @todo Lock link type. It should be a form button.
  */
 function ding_wishlist_flag_default_flags() {
   $flags = array();
@@ -38,7 +41,7 @@ function ding_wishlist_flag_default_flags() {
       'unflag_long' => '',
       'unflag_message' => 'Removed from wishlist',
       'unflag_denied_text' => '',
-      'link_type' => 'toggle',
+      'link_type' => 'confirm',
       'roles' => array(
           'flag' => array(
               0 => '2',
@@ -51,7 +54,7 @@ function ding_wishlist_flag_default_flags() {
           0 => 'object',
       ),
       'api_version' => 2,
-      'locked' => array('name', 'types', 'global'),
+      'locked' => array('name', 'types', 'global', 'link_type'),
   );
   return $flags;
 }
@@ -60,14 +63,15 @@ function ding_wishlist_flag_default_flags() {
  * Implements hook_ding_entity_buttons().
  */
 function ding_wishlist_ding_entity_buttons($type, $entity) {
+  // Add 'wishlist' button
   if ($type == 'ding_entity') {
     if ($entity->localId) {
       $wishlist_flag = flag_get_flag('wishlist');
       $entity_type = $entity->uri['options']['entity_type'];
 
       if (in_array($entity_type, array_filter($wishlist_flag->show_on_ting_types))) {
-        $flag['#markup'] = theme('ding_wishlist_flag', array('entity_id' => $entity->localId));
-        return array($flag);
+        $wishlist_flag_button = theme('ding_wishlist_flag', array('entity_id' => $entity->localId));
+        return array($wishlist_flag_button);
       }
     }
   }
@@ -76,9 +80,63 @@ function ding_wishlist_ding_entity_buttons($type, $entity) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
-  // Remove unnecessary field 'Node types'
-  unset($form['access']['types']);
+function ding_wishlist_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
+  if ($form['flag_name']['#value'] == 'wishlist') {
+    // Flag module does not allow flag/unflag to anonymous users.
+    // Custom submit handler will show login popup to user instead of "You are not allowed to flag..."
+    $form['#native_submit'] = $form['#submit'];
+    $form['#submit'] = array('ding_wishlist_form_flag_confirm_submit');
+
+    // Improve ajax functionality
+    $form['actions']['submit']['#ajax'] = array(
+        'callback' => 'ding_wishlist_flag_confirm_form_callback',
+        'wrapper' => 'ding-wishlist-flag-confirm-form',
+    );
+
+    // Remove 'cancel' link
+    unset($form['actions']['cancel']);
+  }
+}
+
+/**
+ * Submit handler.
+ *
+ * Provides login popup for anonymous users, otherwise invoke native handlers
+ */
+function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
+  global $user;
+
+  // Popup login form
+  if (!$user->uid) {
+    throw new DingProviderAuthException;
+    return;
+  }
+
+  // Invoke native submit handlers
+  foreach ($form['#native_submit'] as $function) {
+    if (function_exists($function)) {
+      $function($form, $form_state);
+    }
+  }
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages');
+  if ($form_state['rebuild'] || form_get_errors()) {
+    // Redisplay form.
+    $html .= drupal_render($form);
+  }
+  $response['#commands'][] = ajax_command_ding_popup('ding_wishlist', t('Add to wishlist.'), $html);
+
+  return $response;
 }
 
 /**
@@ -93,18 +151,16 @@ function ding_wishlist_theme() {
 }
 
 /**
- * Theme ting flags.
+ * Theme 'add to wishlist' button.
  */
 function theme_ding_wishlist_flag($variables) {
-  global $user;
-
-  if ($user->uid) {
-    return flag_create_link('wishlist', $variables['entity_id']);
-  }
-
-  // Anonymous users should see flag link.
-  // Link should provide login popup.
-  // @todo: Provide login popup. Add item to wishlist after user have logged in.
   $wishlist_flag = flag_get_flag('wishlist');
-  return $wishlist_flag->theme('flag', $variables['entity_id']);
+
+  // Confirm form will change page title.
+  // Store native title
+  $page_native_title = drupal_get_title();
+  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $variables['entity_id']);
+  drupal_set_title($page_native_title);
+
+  return $flag_confirm_form;
 }
