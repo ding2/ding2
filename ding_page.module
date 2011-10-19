@@ -20,4 +20,25 @@ function ding_page_enable() {
   }
 }
 
+/**
+ * Implements hook_menu_block_blocks().
+ */
+function ding_page_menu_block_blocks() {
+  // The array key is the block delta used by menu block.
+  return array(
+    'ding_page-1' => array(
+      'menu_name'   => 'menu-sider',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Normal pages',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 0,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+  );
+}
+
+
 include_once('ding_page.features.inc');
