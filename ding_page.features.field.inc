@@ -393,7 +393,7 @@ function ding_page_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'main_image',
+            'image_style' => 'main_page_image',
           ),
           'type' => 'image',
           'weight' => '0',
