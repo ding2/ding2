@@ -5,6 +5,119 @@
  */
 
 /**
+ * Implements hook_block_info().
+ */
+function ding_library_block_info() {
+  return array(
+    'library_address' => array(
+      'info' => 'Library address',
+      'cache' => DRUPAL_CACHE_GLOBAL,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function ding_library_block_configure($delta = '') {
+  $form = array();
+  $libraries = array(
+    '' => t('None selected'),
+  );
+  if ($delta == 'library_address') {
+    $query = db_select('node', 'n')
+      ->fields('n', array('nid', 'title'))
+      ->condition('type', 'ding_library')
+      ->orderBy('title', 'ASC');
+
+    foreach ($query->execute() as $row) {
+      $libraries[$row->nid] = $row->title;
+    }
+
+    $form['library_nid'] = array(
+      '#type' => 'select',
+      '#title' => t('Library'),
+      '#default_value' => variable_get('ding_library_address_nid', NULL),
+      '#options' => $libraries,
+      '#description' => t('The library whose address to display.'),
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save
+ */
+function ding_library_block_save($delta = '', $edit = array()) {
+  if ($delta == 'library_address') {
+    variable_set('ding_library_address_nid', $edit['library_nid']);
+  }
+}
+
+/**
+* Implements hook_block_view().
+ */
+function ding_library_block_view($delta = '') {
+  $block = array();
+  if ($delta == 'library_address' && ($nid = variable_get('ding_library_address_nid', '')) && ($node = node_load($nid))) {
+    $block['subject'] = t('Address');
+    $block['content'] = array(
+      '#theme' => 'ding_library_address',
+      '#node' => $node,
+    );
+  }
+  return $block;
+}
+
+/**
+* Implements hook_theme().
+ */
+function ding_library_theme() {
+  return array(
+    'ding_library_address' => array(
+      'render element' => 'element',
+      'template' => 'ding-library-address'
+    ),
+  );
+}
+
+/**
+ * Preprocessor.
+ */
+function template_preprocess_ding_library_address(&$vars) {
+  $node = $vars['element']['#node'];
+  $languages = field_language('node', $node);
+  $vars['name'] = check_plain($node->title);
+
+  // Ensure empty strings as default.
+  $vars += array(
+    'address' => '',
+    'city' => '',
+    'phone' => '',
+    'fax' => '',
+    'mail' => '',
+  );
+
+  if (!empty($node->ding_library_address[$languages['ding_library_address']][0]) && ($address = $node->ding_library_address[$languages['ding_library_address']][0])) {
+    $vars['address'] = check_plain($address['thoroughfare']);
+    if ($address['premise']) {
+      $vars['address'] .= ', ' . $address['premise'];
+    }
+    $vars['city'] = join(' ', array(check_plain($address['postal_code']), check_plain($address['locality'])));
+  }
+
+  if (!empty($node->ding_library_phone[$languages['ding_library_phone']][0]) &&
+    ($phone = $node->ding_library_phone[$languages['ding_library_phone']][0]['safe_value'])) {
+    $vars['phone'] = t('Phone: @phone_number', array('@phone_number' => $phone));
+  }
+
+  if (!empty($node->ding_library_email[$languages['ding_library_email']][0]) &&
+    ($mail = $node->ding_library_email[$languages['ding_library_email']][0])) {
+    $vars['mail'] = l($mail['email'], 'mailto:' . $mail['email']);
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
