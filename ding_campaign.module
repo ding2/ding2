@@ -80,30 +80,6 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
     'path' => DING_CAMPAIGN_PATH . '/templates/',
   );
 
-  /*  $hooks['ding_campaign_orange'] = array(
-    'variables' => array('content' => NULL),
-    'template' => 'ding_campaign-orange',
-    'path' => DING_CAMPAIGN_PATH . '/templates/',
-  );
-
-  $hooks['ding_campaign_green'] = array(
-    'variables' => array('content' => NULL),
-    'template' => 'ding_campaign-green',
-    'path' => DING_CAMPAIGN_PATH . '/templates/',
-  );
-
-  $hooks['ding_campaign_blue'] = array(
-    'variables' => array('content' => NULL),
-    'template' => 'ding_campaign-blue',
-    'path' => DING_CAMPAIGN_PATH . '/templates/',
-  );
-
-  $hooks['ding_campaign_pink'] = array(
-    'variables' => array('content' => NULL),
-    'template' => 'ding_campaign-pink',
-    'path' => DING_CAMPAIGN_PATH . '/templates/',
-    );*/
-
   return $hooks;
 }
 
@@ -152,35 +128,8 @@ function ding_campaign_display($context, $count, $offset) {
           $content = '<div class="'.$base_class.' ding-campaign-item-full">' . $camp_text_full[0]['safe_value'] . '</div>';
           break;
       }
-
-      // Select the theme for plain text type campaign.
-      /* if ($camp_settings[0]['value'] == 'plain') {
-        $theme = '';
-        $camp_theme = field_get_items('node', $node, 'field_camp_theme');
-	 switch ($camp_theme[0]['value']) {
-          case 'theme_orange':
-            $theme = 'ding_campaign_orange';
-            break;
-          case 'theme_blue':
-            $theme = 'ding_campaign_blue';
-            break;
-          case 'theme_green':
-            $theme = 'ding_campaign_green';
-            break;
-          case 'theme_pink':
-            $theme = 'ding_campaign_pink';
-            break;
-	    }
-	$theme = 'ding_campaign';
-
-        $block .= theme($theme, array('content' => $content));
-      }
-      else {
-        $block .= $content;
-	}*/
-	
-      $theme = 'ding_campaign';
       
+      $theme = 'ding_campaign';
       $block .= theme($theme, array('content' => $content));
     }
     return $block;
