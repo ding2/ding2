@@ -76,7 +76,7 @@ function ding_page_default_page_manager_handlers() {
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'block';
-    $pane->subtype = 'menu_block-1';
+    $pane->subtype = 'menu_block-ding_page-1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
