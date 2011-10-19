@@ -161,33 +161,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['ding_news_teaser']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_news_teaser']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_news_teaser']['field_api_classes'] = 0;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['ding_news_body']['id'] = 'ding_news_body';
-  $handler->display->display_options['fields']['ding_news_body']['table'] = 'field_data_ding_news_body';
-  $handler->display->display_options['fields']['ding_news_body']['field'] = 'ding_news_body';
-  $handler->display->display_options['fields']['ding_news_body']['label'] = '';
-  $handler->display->display_options['fields']['ding_news_body']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['max_length'] = '300';
-  $handler->display->display_options['fields']['ding_news_body']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['trim'] = 1;
-  $handler->display->display_options['fields']['ding_news_body']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['element_type'] = 'p';
-  $handler->display->display_options['fields']['ding_news_body']['element_class'] = 'teaser';
-  $handler->display->display_options['fields']['ding_news_body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['ding_news_body']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['ding_news_body']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_news_body']['field_api_classes'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
