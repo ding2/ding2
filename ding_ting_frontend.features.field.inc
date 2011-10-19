@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_field_default_fields().
+ * Implements hook_field_default_fields().
  */
 function ding_ting_frontend_field_default_fields() {
   $fields = array();
@@ -22,6 +22,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_collection_types',
     ),
@@ -74,6 +80,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_entities',
     ),
@@ -130,6 +142,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_primary_object',
     ),
@@ -184,6 +202,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ding_availability',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ding_availability_holdings',
     ),
@@ -254,6 +278,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ding_entity',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ding_entity_buttons',
     ),
@@ -325,6 +355,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ding_periodical',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ding_periodical_issues',
     ),
@@ -396,6 +432,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_abstract',
     ),
@@ -469,6 +511,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_author',
     ),
@@ -697,6 +745,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting_relation',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_relations',
     ),
@@ -767,6 +821,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_series',
     ),
@@ -839,6 +899,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_subjects',
     ),
@@ -913,6 +979,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_title',
     ),
@@ -997,6 +1069,12 @@ function ding_ting_frontend_field_default_fields() {
       'indexes' => array(),
       'module' => 'ting',
       'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
       'translatable' => '0',
       'type' => 'ting_type',
     ),
