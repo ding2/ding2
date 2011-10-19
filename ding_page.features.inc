@@ -37,7 +37,7 @@ function ding_page_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '540',
+          'width' => '525',
           'height' => '150',
         ),
         'weight' => '1',
