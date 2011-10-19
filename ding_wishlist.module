@@ -1,0 +1,110 @@
+<?php
+/**
+ * @file
+ * Flag Ting objects.
+ */
+
+module_load_include('inc', 'ding_wishlist', 'ding_wishlist.flag_ting');
+
+/**
+ * Implements hook_flag_definitions().
+ */
+function ding_wishlist_flag_definitions() {
+  return array(
+    'ting' => array(
+      'title' => t('Ting objects'),
+      'description' => '',
+      'handler' => 'flag_ting',
+    ),
+  );
+}
+
+/**
+ * Implements hook_flag_default_flags().
+ */
+function ding_wishlist_flag_default_flags() {
+  $flags = array();
+  // Add flag "Wishlist".
+  $flags['wishlist'] = array(
+      'content_type' => 'ting',
+      'name' => 'wishlist',
+      'title' => 'Wishlist',
+      'global' => '0',
+      'types' => array(),
+      'flag_short' => 'Add to wishlist',
+      'flag_long' => '',
+      'flag_message' => 'Added to wishlist',
+      'unflag_short' => 'Remove from wishlist',
+      'unflag_long' => '',
+      'unflag_message' => 'Removed from wishlist',
+      'unflag_denied_text' => '',
+      'link_type' => 'toggle',
+      'roles' => array(
+          'flag' => array(
+              0 => '2',
+          ),
+          'unflag' => array(
+              0 => '2',
+          ),
+      ),
+      'show_on_ting_types' => array(
+          0 => 'object',
+      ),
+      'api_version' => 2,
+      'locked' => array('name', 'types', 'global'),
+  );
+  return $flags;
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_wishlist_ding_entity_buttons($type, $entity) {
+  if ($type == 'ding_entity') {
+    if ($entity->localId) {
+      $wishlist_flag = flag_get_flag('wishlist');
+      $entity_type = $entity->uri['options']['entity_type'];
+
+      if (in_array($entity_type, array_filter($wishlist_flag->show_on_ting_types))) {
+        $flag['#markup'] = theme('ding_wishlist_flag', array('entity_id' => $entity->localId));
+        return array($flag);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
+  // Remove unnecessary field 'Node types'
+  unset($form['access']['types']);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_wishlist_theme() {
+  return array(
+    'ding_wishlist_flag' => array(
+      'arguments' => array('entity_id' => NULL),
+    ),
+  );
+}
+
+/**
+ * Theme ting flags.
+ */
+function theme_ding_wishlist_flag($variables) {
+  global $user;
+
+  if ($user->uid) {
+    return flag_create_link('wishlist', $variables['entity_id']);
+  }
+
+  // Anonymous users should see flag link.
+  // Link should provide login popup.
+  // @todo: Provide login popup. Add item to wishlist after user have logged in.
+  $wishlist_flag = flag_get_flag('wishlist');
+  return $wishlist_flag->theme('flag', $variables['entity_id']);
+}
