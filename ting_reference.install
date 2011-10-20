@@ -4,6 +4,7 @@
  * Implements hook_field_schema().
  */
 function ting_reference_field_schema($field) {
+  $columns = array();
   switch ($field['type']) {
     case 'ting_reference':
       $columns = array(
@@ -18,5 +19,24 @@ function ting_reference_field_schema($field) {
 
   return array(
     'columns' => $columns,
+  );
+}
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ting_reference_ding_entity_fields() {
+  return array(
+    'ting_reference_reverse' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Nodes referencing this Ting object.'),
+      ),
+    ),
   );
 }

@@ -73,7 +73,23 @@ function ting_reference_field_info() {
       'default_widget' => 'ting_reference_simple',
       'default_formatter' => 'ting_reference_teaser',
     ),
+    'ting_reference_reverse' => array(
+      'label' => t('Ting references'),
+      'description' => t('Nodes referencing this Ting object.'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_reference_reverse_default',
+      'no_ui' => TRUE,
+    ),
   );
+}
+
+/**
+ * Implements hook_widget_info_alter().
+ */
+function ting_reference_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ting_reference_reverse';
+  }
 }
 
 /**
@@ -102,11 +118,16 @@ function ting_reference_field_load($entity_type, $entities, $field, $instances, 
   // This could probably be more efficient if we made a function for
   // getting relations for multiple entities at once.
   foreach ($entities as $entity_id => $entity) {
-    $references = ting_reference_get_relations($entity_type, $entity);
-    $delta = 0;
-    foreach ($references as $rid => $reference) {
-      $items[$entity_id][$delta]['value'] = $reference;
-      $delta += 1;
+    switch ($field['type']) {
+      case 'ting_reference':
+      case 'ting_reference_reverse':
+        $references = ting_reference_get_relations($entity_type, $entity);
+        $delta = 0;
+        foreach ($references as $rid => $reference) {
+          $items[$entity_id][$delta]['value'] = $reference;
+          $delta += 1;
+        }
+        break;
     }
   }
 }
@@ -198,6 +219,12 @@ function ting_reference_field_formatter_info() {
       'description' => t('Displays the teaser for the referenced Ting object.'),
       'field types' => array('ting_reference'),
     ),
+    'ting_reference_reverse_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_reference_reverse',
+      ),
+    ),
   );
 }
 
@@ -217,7 +244,6 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         $id = $rel['value']->endpoints[$langcode][1]['entity_id'];
         $ids[$rel['value']->rid] = $id;
       }
-
       // Load the ting objects found.
       $materials = entity_load('ting_object', $ids);
 
@@ -230,6 +256,23 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         $element[] = ting_object_view($mat, 'teaser');
       }
 
+      break;
+    case 'ting_reference_reverse_default':
+      foreach ($items as $delta => $item) {
+        $ids = array();
+
+        // Extract the IDs for the entites we need to load.
+        foreach ($items as $rel) {
+          $id = $rel['value']->endpoints[$langcode][0]['entity_id'];
+          $ids[$rel['value']->rid] = $id;
+        }
+        // Load the ting objects found.
+        $nodes = entity_load('node', $ids);
+
+        foreach ($nodes as $id => $node) {
+          $element[] = node_view($node, 'teaser');
+        }
+      }
       break;
   }
   return $element;
