@@ -211,6 +211,29 @@ function ding_library_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-5';
     $pane->panel = 'right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Contact',
+      'title' => 'Contact',
+      'body' => 'Phone: %node:ding_library_phone<br />E-mail:  %node:ding_library_email',
+      'format' => 'ding_wysiwyg',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][1] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -240,11 +263,11 @@ function ding_library_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-5'] = $pane;
-    $display->panels['right'][1] = 'new-5';
+    $pane->position = 2;
+    $display->content['new-6'] = $pane;
+    $display->panels['right'][2] = 'new-6';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'top';
     $pane->type = 'menu_tree';
     $pane->subtype = 'main-menu';
@@ -270,8 +293,8 @@ function ding_library_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-6'] = $pane;
-    $display->panels['top'][0] = 'new-6';
+    $display->content['new-7'] = $pane;
+    $display->panels['top'][0] = 'new-7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
