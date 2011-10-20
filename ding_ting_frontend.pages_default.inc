@@ -73,17 +73,17 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'type' => 'node',
-      'log' => 1,
+      'log' => 0,
       'override_empty' => 0,
       'empty_title' => '',
       'empty' => '',
-      'empty_format' => NULL,
+      'empty_format' => 'ding_wysiwyg',
       'override_no_key' => 0,
       'no_key_title' => '',
       'no_key' => '',
-      'no_key_format' => NULL,
+      'no_key_format' => 'ding_wysiwyg',
       'context' => 'argument_string_1',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
