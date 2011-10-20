@@ -74,17 +74,32 @@ class TingObjectController extends DrupalDefaultEntityController {
       $cached_entity_ids[] = $entity->ding_entity_id;
     }
 
+    // Load any remaining entities from the database. This is the case if $ids
+    // is set to FALSE (so we load all entities), if there are any ids left to
+    // load, if loading a revision, or if $conditions was passed without $ids.
+    if ($ids === FALSE || $ids || $revision_id || ($conditions && !$passed_ids)) {
+      // Build the query.
+      $query = $this->buildQuery($ids, $conditions, $revision_id);
+      $result = $query->execute();
+      // Normally we'd use fetchAllAssoc($this->idKey, 'TingEntity'),
+      // but DatabaseStatementPrefetch is buggy.
+      $result->setFetchMode(PDO::FETCH_CLASS, 'TingEntity');
+      $queried_entities = $result->fetchAllAssoc($this->idKey);
+    }
+
     $objects = array();
     // Now load all objects in one go.
-    if (isset($conditions['ding_entity_id']) && $load_ids = array_diff($conditions['ding_entity_id'], $cached_entity_ids)) {
+    $get_ids = !empty($conditions['ding_entity_id']) ? $conditions['ding_entity_id'] : array();
+    foreach ($queried_entities as $qe) {
+      $get_ids[] = $qe->ding_entity_id;
+    }
+    if ($get_ids && $load_ids = array_diff($get_ids, $cached_entity_ids)) {
       $objects = ting_get_objects($load_ids);
-      if (!$conditions['ding_entity_id']) {
-        unset($conditions['ding_entity_id']);
-      }
     }
 
     // Not known locally. Create a proxy if it exists in the well.
     if (sizeof($unknown)) {
+      $new_ids = array();
       foreach ($unknown as $ding_entity_id) {
         if (isset($objects[$ding_entity_id])){
           // Insert a new local proxy row.
@@ -98,22 +113,18 @@ class TingObjectController extends DrupalDefaultEntityController {
             ->condition('tid', $ting_object['tid'])
             ->execute();
           // Add new id to the loaded set.
-          $ids[] = $ting_object['tid'];
+          $new_ids[] = $ting_object['tid'];
         }
       }
-    }
-
-    // Load any remaining entities from the database. This is the case if $ids
-    // is set to FALSE (so we load all entities), if there are any ids left to
-    // load, if loading a revision, or if $conditions was passed without $ids.
-    if ($ids === FALSE || $ids || $revision_id || ($conditions && !$passed_ids)) {
-      // Build the query.
-      $query = $this->buildQuery($ids, $conditions, $revision_id);
-      $result = $query->execute();
-      // Normally we'd use fetchAllAssoc($this->idKey, 'TingEntity'),
-      // but DatabaseStatementPrefetch is buggy.
-      $result->setFetchMode(PDO::FETCH_CLASS, 'TingEntity');
-      $queried_entities = $result->fetchAllAssoc($this->idKey);
+      if ($new_ids) {
+        // Build the query.
+        $query = $this->buildQuery($new_ids, array());
+        $result = $query->execute();
+        // Normally we'd use fetchAllAssoc($this->idKey, 'TingEntity'),
+        // but DatabaseStatementPrefetch is buggy.
+        $result->setFetchMode(PDO::FETCH_CLASS, 'TingEntity');
+        $queried_entities += $result->fetchAllAssoc($this->idKey);
+      }
     }
 
     foreach ($queried_entities as &$qe) {
