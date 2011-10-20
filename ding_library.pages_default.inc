@@ -187,6 +187,30 @@ function ding_library_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:ding_library_opening_hours';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'title',
+      'formatter' => 'text_default',
+      'formatter_settings' => array(),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => 'Opening hours',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
+    $pane = new stdClass;
+    $pane->pid = 'new-5';
+    $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -216,11 +240,11 @@ function ding_library_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][0] = 'new-4';
+    $pane->position = 1;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][1] = 'new-5';
     $pane = new stdClass;
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'top';
     $pane->type = 'menu_tree';
     $pane->subtype = 'main-menu';
@@ -246,8 +270,8 @@ function ding_library_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-5'] = $pane;
-    $display->panels['top'][0] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['top'][0] = 'new-6';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
