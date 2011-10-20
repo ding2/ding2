@@ -235,7 +235,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ding_availability',
           'settings' => array(),
           'type' => 'ding_availability_default',
-          'weight' => '10',
+          'weight' => '11',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -388,7 +388,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ding_periodical',
           'settings' => array(),
           'type' => 'ding_periodical_issues_default',
-          'weight' => '8',
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -778,7 +778,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ting_reference',
           'settings' => array(),
           'type' => 'ting_reference_reverse_default',
-          'weight' => 17,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -855,7 +855,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ting_relation',
           'settings' => array(),
           'type' => 'ting_relations_default',
-          'weight' => '11',
+          'weight' => '12',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -931,7 +931,7 @@ function ding_ting_frontend_field_default_fields() {
           'module' => 'ting',
           'settings' => array(),
           'type' => 'ting_series_default',
-          'weight' => '9',
+          'weight' => '10',
         ),
         'teaser' => array(
           'label' => 'inline',
