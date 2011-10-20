@@ -57,7 +57,7 @@ function ding_library_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display;
-  $display->layout = 'threecol_25_50_25_stacked';
+  $display->layout = 'twocol_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -75,7 +75,7 @@ function ding_library_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass;
     $pane->pid = 'new-1';
-    $pane->panel = 'middle';
+    $pane->panel = 'left';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:ding_library_image';
     $pane->shown = TRUE;
@@ -84,7 +84,7 @@ function ding_library_default_page_manager_handlers() {
       'label' => 'hidden',
       'formatter' => 'image',
       'formatter_settings' => array(
-        'image_style' => '',
+        'image_style' => 'ding_library_header',
         'image_link' => '',
       ),
       'context' => 'argument_entity_id:node_1',
@@ -99,10 +99,10 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $display->content['new-1'] = $pane;
-    $display->panels['middle'][0] = 'new-1';
+    $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
-    $pane->panel = 'middle';
+    $pane->panel = 'left';
     $pane->type = 'views';
     $pane->subtype = 'ding_news';
     $pane->shown = TRUE;
@@ -141,10 +141,10 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-2'] = $pane;
-    $display->panels['middle'][1] = 'new-2';
+    $display->panels['left'][1] = 'new-2';
     $pane = new stdClass;
     $pane->pid = 'new-3';
-    $pane->panel = 'middle';
+    $pane->panel = 'left';
     $pane->type = 'views';
     $pane->subtype = 'ding_event';
     $pane->shown = TRUE;
@@ -183,7 +183,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 2;
     $display->content['new-3'] = $pane;
-    $display->panels['middle'][2] = 'new-3';
+    $display->panels['left'][2] = 'new-3';
     $pane = new stdClass;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
