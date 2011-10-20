@@ -261,7 +261,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '11',
+        'weight' => '7',
       ),
     ),
   );
@@ -338,7 +338,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => '9',
       ),
     ),
   );
@@ -415,7 +415,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => '8',
       ),
     ),
   );
@@ -494,7 +494,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '6',
+        'weight' => '3',
       ),
     ),
   );
@@ -574,7 +574,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '7',
+        'weight' => '4',
       ),
     ),
   );
@@ -657,7 +657,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '3',
+        'weight' => '0',
       ),
     ),
   );
@@ -728,7 +728,84 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '10',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'ting_object-ting_object-ting_reference_reverse'
+  $fields['ting_object-ting_object-ting_reference_reverse'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ting_reference_reverse',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'blackhole',
+      ),
+      'translatable' => '0',
+      'type' => 'ting_reference_reverse',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ting_object',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'ding_entity_type' => 'ding_entity',
+      'display' => array(
+        'collection_list' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'collection_primary' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ting_reference',
+          'settings' => array(),
+          'type' => 'ting_reference_reverse_default',
+          'weight' => 17,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'user_list' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'ting_object',
+      'field_name' => 'ting_reference_reverse',
+      'label' => 'On this site',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'blackhole',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '11',
       ),
     ),
   );
@@ -804,7 +881,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 20,
+        'weight' => '12',
       ),
     ),
   );
@@ -882,7 +959,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => '10',
       ),
     ),
   );
@@ -962,7 +1039,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '8',
+        'weight' => '5',
       ),
     ),
   );
@@ -1052,7 +1129,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '4',
+        'weight' => '1',
       ),
     ),
   );
@@ -1131,7 +1208,7 @@ function ding_ting_frontend_field_default_fields() {
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '5',
+        'weight' => '2',
       ),
     ),
   );
@@ -1144,6 +1221,7 @@ function ding_ting_frontend_field_default_fields() {
   t('Holdings information');
   t('Issues');
   t('Material details');
+  t('On this site');
   t('Series');
   t('Subjects');
   t('Ting collection object types');
