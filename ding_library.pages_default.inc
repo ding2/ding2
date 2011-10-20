@@ -22,7 +22,7 @@ function ding_library_default_page_manager_handlers() {
     'title' => 'Library (organic group)',
     'no_blocks' => 0,
     'pipeline' => 'standard',
-    'css_id' => '',
+    'css_id' => 'ding-library-front',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(
@@ -226,7 +226,10 @@ function ding_library_default_page_manager_handlers() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'ding-library-contact',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $display->content['new-5'] = $pane;
