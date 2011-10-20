@@ -599,7 +599,7 @@ function ting_object_view($object, $view_mode = 'full', $langcode = NULL) {
 /**
  * Display a ting collection.
  */
-function ting_collection_view($object, $view_mode = 'full', $langcode) {
+function ting_collection_view($object, $view_mode = 'full', $langcode = NULL) {
   if (!isset($langcode)) {
     $langcode = $GLOBALS['language_content']->language;
   }
