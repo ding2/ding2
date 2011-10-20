@@ -11,13 +11,26 @@ class flag_ting extends flag_flag {
   function options() {
     $options = parent::options();
     $options += array(
-      'show_on_ting_types' => array('ting_object'),
+      'show_on_ting_types' => array(),
+      'flagged_already_message' => '',
     );
     return $options;
   }
 
   function options_form(&$form) {
     parent::options_form($form);
+    $form['messages']['flagged_already_message'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Flagged already message'),
+        '#default_value' => $this->flagged_already_message,
+    );
+    $form['messages']['flag_short']['#weight'] = 1;
+    $form['messages']['flag_long']['#weight'] = 2;
+    $form['messages']['flag_message']['#weight'] = 3;
+    $form['messages']['flagged_already_message']['#weight'] = 4;
+    $form['messages']['unflag_short']['#weight'] = 5;
+    $form['messages']['unflag_long']['#weight'] = 6;
+    $form['messages']['unflag_message']['#weight'] = 7;
 
     $form['display']['show_on_ting_types'] = array(
         '#type' => 'checkboxes',
@@ -26,6 +39,8 @@ class flag_ting extends flag_flag {
         '#default_value' => $this->show_on_ting_types,
         '#access' => empty($this->locked['show_on_ting_types']),
     );
+
+    unset($form['messages']['tokens_help']);
   }
 
   function _load_content($content_id) {
