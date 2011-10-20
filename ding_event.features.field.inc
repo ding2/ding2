@@ -545,8 +545,10 @@ function ding_event_field_default_fields() {
         'default' => array(
           'label' => 'hidden',
           'module' => 'ting_reference',
-          'settings' => array(),
-          'type' => 'ting_reference_teaser',
+          'settings' => array(
+            'view_mode' => 'collection_list',
+          ),
+          'type' => 'ting_reference_default',
           'weight' => '5',
         ),
         'teaser' => array(
