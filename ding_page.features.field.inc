@@ -142,16 +142,20 @@ function ding_page_field_default_fields() {
         ),
         'search_result' => array(
           'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
+          'module' => 'ding_base',
+          'settings' => array(
+            'body_snippet_length' => 200,
+          ),
+          'type' => 'body_snippet',
           'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
+          'module' => 'ding_base',
+          'settings' => array(
+            'body_snippet_length' => '200',
+          ),
+          'type' => 'body_snippet',
           'weight' => '1',
         ),
       ),
@@ -307,11 +311,11 @@ function ding_page_field_default_fields() {
           'weight' => '0',
         ),
         'search_result' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => 'square_thumbnail',
+            'image_style' => 'ding_medium',
           ),
           'type' => 'image',
           'weight' => '0',
@@ -321,7 +325,7 @@ function ding_page_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => 'square_thumbnail',
+            'image_style' => 'ding_small',
           ),
           'type' => 'image',
           'weight' => '0',
