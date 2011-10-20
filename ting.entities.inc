@@ -163,7 +163,7 @@ class TingEntity extends DingEntity {
     $this->subjects = array();
     if (!empty($this->reply->record['dc:subject'])) {
       foreach ($this->reply->record['dc:subject'] as $type => $dc_subject) {
-        if (in_array($type, array('dkdcplus:genre', 'dkdcplus:DK5', 'dkdcplus:DK5-Text', 'dkdcplus:DBCO', 'dkdcplus:DBCN'))) {
+        if (!in_array($type, array('dkdcplus:genre', 'dkdcplus:DK5', 'dkdcplus:DK5-Text', 'dkdcplus:DBCO', 'dkdcplus:DBCN'))) {
           $this->subjects = array_merge($this->subjects, $dc_subject);
         }
       }
