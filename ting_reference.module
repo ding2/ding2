@@ -71,7 +71,7 @@ function ting_reference_field_info() {
       'description' => t('Stores relationships between Ting objects and Drupal entities.'),
       'settings' => array(),
       'default_widget' => 'ting_reference_simple',
-      'default_formatter' => 'ting_reference_teaser',
+      'default_formatter' => 'ting_reference_default',
     ),
     'ting_reference_reverse' => array(
       'label' => t('Ting references'),
@@ -214,10 +214,13 @@ function ting_reference_field_delete($entity_type, $entity, $field, $instance, $
  */
 function ting_reference_field_formatter_info() {
   return array(
-    'ting_reference_teaser' => array(
-      'label' => t('Teaser view'),
-      'description' => t('Displays the teaser for the referenced Ting object.'),
+    'ting_reference_default' => array(
+      'label' => t('Default'),
+      'description' => t('Displays the referenced Ting object with a specific display mode.'),
       'field types' => array('ting_reference'),
+      'settings' => array(
+        'view_mode' => 'teaser',
+      ),
     ),
     'ting_reference_reverse_default' => array(
       'label' => t('Default'),
@@ -229,6 +232,54 @@ function ting_reference_field_formatter_info() {
 }
 
 /**
+ * Implements hook_field_formatter_settings_form().
+ */
+function ting_reference_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+  switch ($display['type']) {
+    case 'ting_reference_default':
+      $entity_info = entity_get_info('ting_object');
+      $view_modes = array();
+      foreach ($entity_info['view modes'] as $view_mode => $view_mode_info) {
+        $view_modes[$view_mode] = $view_mode_info['label'];
+      }
+
+      $element['view_mode'] = array(
+        '#title' => t('View mode'),
+        '#type' => 'select',
+        '#default_value' => $settings['view_mode'],
+        '#options' => $view_modes,
+      );
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function ting_reference_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = '';
+  switch ($display['type']) {
+    case 'ting_reference_default':
+      $view_mode = $settings['view_mode'];
+      $entity_info = entity_get_info('ting_object');
+      if (isset($entity_info['view modes'][$view_mode])) {
+        $view_mode = $entity_info['view modes'][$view_mode]['label'];
+      }
+
+      $summary .= t('View mode @view_mode', array('@view_mode' => $view_mode));
+      break;
+  }
+
+  return $summary;
+}
+
+/**
  * Implements hook_field_formatter_view().
  */
 function ting_reference_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
@@ -236,7 +287,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
   $settings = $display['settings'];
 
   switch ($display['type']) {
-    case 'ting_reference_teaser':
+    case 'ting_reference_default':
       $ids = array();
 
       // Extract the IDs for the ting_object entites we need to load.
@@ -248,9 +299,8 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
       $materials = entity_load('ting_object', $ids);
 
       foreach ($materials as $id => $mat) {
-        $element[] = ting_object_view($mat, 'teaser');
+        $element[] = ting_object_view($mat, $display['settings']['view_mode']);
       }
-
       break;
     case 'ting_reference_reverse_default':
       foreach ($items as $delta => $item) {
