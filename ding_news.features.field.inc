@@ -386,8 +386,10 @@ function ding_news_field_default_fields() {
         'default' => array(
           'label' => 'above',
           'module' => 'ting_reference',
-          'settings' => array(),
-          'type' => 'ting_reference_teaser',
+          'settings' => array(
+            'view_mode' => 'collection_list',
+          ),
+          'type' => 'ting_reference_default',
           'weight' => '4',
         ),
         'teaser' => array(
