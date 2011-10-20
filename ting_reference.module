@@ -248,11 +248,6 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
       $materials = entity_load('ting_object', $ids);
 
       foreach ($materials as $id => $mat) {
-        if (empty($mat->reply)) {
-          // Kinda hacky but needed. Fetch the object manually, since it wont be added when geting the ting object by id.
-          $object = ting_reference_get_object($mat->ding_entity_id);
-          $mat->reply = $object;
-        }
         $element[] = ting_object_view($mat, 'teaser');
       }
 
@@ -352,7 +347,7 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
 
   // Load the object to validate it exists.
   // Loading it should make it available for use with ting_get_object().
-  $object = ting_reference_get_object($identifier);
+  $object = ting_object_load($identifier);
 
   // Shortcut for easy access.
   $p = $element['#parents'];
@@ -364,33 +359,6 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
   else {
     form_set_error(implode('][', $p), t('Object “%identifier” could not be found.', array('%identifier' => $identifier)));
   }
-}
-
-/**
- * Utility function to get a ting object with entity data.
- *
- * @param $object_id
- *    The id of the object to get
- *
- * @return Full ting object with entity data.
- */
-function ting_reference_get_object($object_id) {
-  $objects = &drupal_static(__FUNCTION__);
-  if (!isset($objects)) {
-    $objects = array();
-  }
-  if (!empty($objects[$object_id])) {
-    return $objects[$object_id];
-  }
-  $object = ting_get_object($object_id);
-  $entity_objects = entity_load('ting_object', array(), array('ding_entity_id' => array($object_id)));
-  if ($entity_objects) {
-    $entity_object = reset($entity_objects);
-    $object->tid = $entity_object->tid;
-    $object->vid = $entity_object->vid;
-  }
-  $objects[$object_id] = $object;
-  return $object;
 }
 
 /**
