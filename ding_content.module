@@ -29,14 +29,6 @@ function ding_content_menu() {
  * Create taxonomy vocabolary if needed.
  */
 function ding_content_enable() {
-  if (!taxonomy_vocabulary_machine_name_load('ding_content_tags')) {
-    $vocabulary = (object) array(
-      'name' => t('Tags'),
-      'machine_name' => 'ding_content_tags',
-      'module' => 'ding_content',
-    );
-    taxonomy_vocabulary_save($vocabulary);
-  }
   // Create wysiwyg profile if needed.
   if (!wysiwyg_profile_load('ding_wysiwyg')) {
     $wysiwyg = array(
