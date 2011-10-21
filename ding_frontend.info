@@ -1,6 +1,8 @@
 core = "7.x"
 dependencies[] = "conditional_styles"
 dependencies[] = "ctools"
+dependencies[] = "ding_campaign"
+dependencies[] = "ding_campaign_ctype"
 dependencies[] = "features"
 dependencies[] = "languageicons"
 dependencies[] = "locale"

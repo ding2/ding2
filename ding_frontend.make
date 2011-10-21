@@ -22,6 +22,12 @@ projects[strongarm][subdir] = contrib
 projects[strongarm][version] = 2.0-beta3
 
 ; Ding! modules
+
+projects[ding_campaign][type] = module
+projects[ding_campaign][download][type] = git
+projects[ding_campaign][download][url] = git@github.com:ding2/ding_campaign.git
+projects[ding_campaign][download][tag] = 7.x-0.2
+
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
