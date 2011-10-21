@@ -70,4 +70,8 @@ class flag_ting extends flag_flag {
     }
     return $passed;
   }
+
+  function get_user_count_number($uid, $sid = NULL) {
+    return parent::get_user_count($uid, $sid)->fetchField();
+  }
 }

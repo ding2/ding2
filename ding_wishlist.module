@@ -8,6 +8,60 @@
 module_load_include('inc', 'ding_wishlist', 'ding_wishlist.flag_ting');
 
 /**
+ * Implements hook_menu().
+ */
+function ding_wishlist_menu() {
+  $items['user/%user/wishlist'] = array(
+    'title' => 'Wishlist',
+    'title arguments' => array('Wishlist', 1),
+    'page callback' => 'ding_wishlist_user_wishlist_page',
+    'page arguments' => array(1),
+    'access callback' => 'ding_wishlist_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_wishlist.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_wishlist_menu_alter(&$items) {
+  foreach ($items as $path => $item) {
+    if ($path == 'user/%user/wishlist' || $path == 'user/%pm_arg/wishlist') {
+      $items[$path]['title callback'] = 'ding_wishlist_menu_item_title';
+    }
+  }
+}
+
+/**
+ * Title callback; Alter title to add count items number.
+ *
+ * @param $title
+ *  Untranslated title
+ * @param $account
+ *  User account object, for counting wishlist items.
+ */
+function ding_wishlist_menu_item_title($title, $account = NULL) {
+  global $user;
+
+  if (is_null($account)) {
+    $account = $user;
+  }
+
+  return t($title) . ' (' . flag_load('wishlist')->get_user_count_number($account->uid) . ')';
+}
+
+/**
+ * Access callback; Check user access to wishlist.
+ */
+function ding_wishlist_view_access($account) {
+  global $user;
+  return $user->uid == $account->uid || $user->uid == 1;
+}
+
+/**
  * Implements hook_flag_definitions().
  */
 function ding_wishlist_flag_definitions() {
@@ -182,4 +236,23 @@ function theme_ding_wishlist_flag($variables) {
   drupal_set_title($page_native_title);
 
   return $flag_confirm_form;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_wishlist_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function ding_wishlist_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
 }
