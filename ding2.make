@@ -48,10 +48,6 @@ projects[ding_example_content][type] = module
 projects[ding_example_content][download][type] = git
 projects[ding_example_content][download][url] = git@github.com:ding2/ding_example_content.git
 
-projects[ding_campaign][type] = module
-projects[ding_campaign][download][type] = git
-projects[ding_campaign][download][url] = git@github.com:ding2/ding_campaign.git
-
 projects[ding_frontpage][type] = module
 projects[ding_frontpage][download][type] = git
 projects[ding_frontpage][download][url] = git@github.com:ding2/ding_frontpage.git

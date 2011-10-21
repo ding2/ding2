@@ -17,7 +17,6 @@ dependencies[] = ding_ting_frontend
 
 ; CMS (Curate)
 dependencies[] = ding_example_content
-dependencies[] = ding_campaign
 dependencies[] = ding_event
 dependencies[] = ding_frontpage
 dependencies[] = ding_library_menu
