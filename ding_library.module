@@ -13,6 +13,10 @@ function ding_library_block_info() {
       'info' => 'Library address',
       'cache' => DRUPAL_CACHE_GLOBAL,
     ),
+    'library_menu' => array(
+      'info' => 'Library menu',
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
   );
 }
 
@@ -66,6 +70,17 @@ function ding_library_block_view($delta = '') {
       '#theme' => 'ding_library_address',
       '#node' => $node,
     );
+  }
+  if ($delta == 'library_menu' && $node = node_load(arg(1))) {
+    if ($node->type == 'ding_library') {
+      $block['subject'] = check_plain($node->title);
+      // Get default config.
+      $config = menu_block_get_config();
+      // Set menu level to 3.
+      $config['level'] = 3;
+      $data = menu_tree_build($config);
+      $block['content'] = $data['content'];
+    }
   }
   return $block;
 }
