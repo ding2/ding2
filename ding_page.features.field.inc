@@ -144,7 +144,7 @@ function ding_page_field_default_fields() {
           'label' => 'hidden',
           'module' => 'ding_base',
           'settings' => array(
-            'body_snippet_length' => 200,
+            'body_snippet_length' => '200',
           ),
           'type' => 'body_snippet',
           'weight' => '1',
