@@ -32,9 +32,79 @@ function ding_base_theme() {
     'tableselect_form' => array(
       'render element' => 'element',
     ),
+    'body_snippet' => array(
+      'variables' => array('element' => NULL),
+    ),
   );
 }
 
+/**
+ * Implements s a theme function for body_snippet.
+ */
+function theme_body_snippet($element) {
+  $element_string = strip_tags($element['element']['value']);
+  $element_string = preg_replace('/\[\[.*\]\]/', '', $element_string);
+  $element_string = html_entity_decode($element_string, ENT_NOQUOTES, 'utf-8');
+  $element_string = drupal_substr($element_string, 0, $element['display']['settings']['body_snippet_length']);
+  return $element_string;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_base_field_formatter_info() {
+  return array(
+    'body_snippet' => array(
+      'label' => t('Show plaintext part of string'),
+      'field types' => array('text', 'text_long'),
+      'settings' => array('body_snippet_length' => 100),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_base_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $elements = array();
+  foreach ($items as $delta => $item) {
+    $elements[$delta] = array(
+      '#markup' => theme('body_snippet', array('element' => $item, 'field' => $instance, 'display' => $display)),
+    );
+  }
+  return $elements;
+}
+
+function ding_base_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+  if ($display['type'] == 'body_snippet') {
+    $element['body_snippet_length'] = array(
+      '#title' => t('Trim length'),
+      '#type' => 'textfield',
+      '#size' => 10,
+      '#default_value' => $settings['body_snippet_length'],
+      '#element_validate' => array('_element_validate_integer_positive'),
+      '#required' => TRUE,
+    );
+  }
+  return $element;
+}
+
+function ding_base_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = '';
+
+  if ($display['type'] == 'body_snippet') {
+    $summary = t('Trim length') . ': ' . $settings['body_snippet_length'];
+  }
+
+  return $summary;
+}
 /**
  * Implements hook_date_format_types().
  */
