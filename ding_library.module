@@ -79,6 +79,15 @@ function ding_library_block_view($delta = '') {
       // Set menu level to 3.
       $config['level'] = 3;
       $data = menu_tree_build($config);
+      // Add library font page link to menu.
+      foreach ($data['content']['#content'] as $menu) {
+        if (is_array($menu) && !empty($menu['#href'])) {
+          $data['content']['#content'] = array(0 => $menu) + $data['content']['#content'];
+          $data['content']['#content'][0] = $menu;
+          $data['content']['#content'][0]['#href'] = 'node/' . $node->nid;
+          $data['content']['#content'][0]['#title'] = t('Front page');
+        }
+      }
       $block['content'] = $data['content'];
     }
   }
