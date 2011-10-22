@@ -32,7 +32,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['row_class'] = 'vcard';
+  $handler->display->display_options['style_options']['row_class'] = 'vcard clearfix';
   $handler->display->display_options['style_options']['class'] = 'library-list';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['row_plugin'] = 'fields';
@@ -41,6 +41,34 @@ function ding_library_views_default_views() {
   $handler->display->display_options['relationships']['og_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_rel']['field'] = 'og_rel';
   $handler->display->display_options['relationships']['og_rel']['required'] = 0;
+  /* Felt: Indhold: Opening hours */
+  $handler->display->display_options['fields']['ding_library_opening_hours']['id'] = 'ding_library_opening_hours';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['table'] = 'field_data_ding_library_opening_hours';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['field'] = 'ding_library_opening_hours';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['label'] = '';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['nl2br'] = 1;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['element_type'] = 'div';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['element_class'] = 'opening-hours';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['element_label_type'] = '0';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['element_default_classes'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['ding_library_opening_hours']['type'] = 'text_plain';
+  $handler->display->display_options['fields']['ding_library_opening_hours']['field_api_classes'] = 0;
   /* Felt: Indhold: Teaser image */
   $handler->display->display_options['fields']['ding_library_teaser_image']['id'] = 'ding_library_teaser_image';
   $handler->display->display_options['fields']['ding_library_teaser_image']['table'] = 'field_data_ding_library_teaser_image';
@@ -90,7 +118,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['title']['alter']['html'] = 0;
   $handler->display->display_options['fields']['title']['element_type'] = 'h2';
-  $handler->display->display_options['fields']['title']['element_class'] = 'title fn org';
+  $handler->display->display_options['fields']['title']['element_class'] = 'title fn org middle-col';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = 0;
@@ -116,7 +144,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_address']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['ding_library_address']['alter']['html'] = 0;
   $handler->display->display_options['fields']['ding_library_address']['element_type'] = 'div';
-  $handler->display->display_options['fields']['ding_library_address']['element_class'] = 'address add';
+  $handler->display->display_options['fields']['ding_library_address']['element_class'] = 'address add middle-col';
   $handler->display->display_options['fields']['ding_library_address']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['ding_library_address']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['ding_library_address']['element_default_classes'] = 0;
@@ -154,7 +182,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_phone']['element_label_class'] = 'type';
   $handler->display->display_options['fields']['ding_library_phone']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['ding_library_phone']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['ding_library_phone']['element_wrapper_class'] = 'tel phone';
+  $handler->display->display_options['fields']['ding_library_phone']['element_wrapper_class'] = 'tel phone middle-col';
   $handler->display->display_options['fields']['ding_library_phone']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['ding_library_phone']['hide_empty'] = 1;
   $handler->display->display_options['fields']['ding_library_phone']['empty_zero'] = 0;
@@ -183,7 +211,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_fax']['element_label_class'] = 'type';
   $handler->display->display_options['fields']['ding_library_fax']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['ding_library_fax']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['ding_library_fax']['element_wrapper_class'] = 'tel fax';
+  $handler->display->display_options['fields']['ding_library_fax']['element_wrapper_class'] = 'tel fax middle-col';
   $handler->display->display_options['fields']['ding_library_fax']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['ding_library_fax']['hide_empty'] = 1;
   $handler->display->display_options['fields']['ding_library_fax']['empty_zero'] = 0;
@@ -212,36 +240,12 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_email']['element_label_class'] = 'type';
   $handler->display->display_options['fields']['ding_library_email']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['ding_library_email']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['ding_library_email']['element_wrapper_class'] = 'email';
+  $handler->display->display_options['fields']['ding_library_email']['element_wrapper_class'] = 'email middle-col';
   $handler->display->display_options['fields']['ding_library_email']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['ding_library_email']['hide_empty'] = 1;
   $handler->display->display_options['fields']['ding_library_email']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_library_email']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_library_email']['field_api_classes'] = 0;
-  /* Felt: Indhold: Opening hours */
-  $handler->display->display_options['fields']['ding_library_opening_hours']['id'] = 'ding_library_opening_hours';
-  $handler->display->display_options['fields']['ding_library_opening_hours']['table'] = 'field_data_ding_library_opening_hours';
-  $handler->display->display_options['fields']['ding_library_opening_hours']['field'] = 'ding_library_opening_hours';
-  $handler->display->display_options['fields']['ding_library_opening_hours']['label'] = '';
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['nl2br'] = 1;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_library_opening_hours']['type'] = 'text_plain';
-  $handler->display->display_options['fields']['ding_library_opening_hours']['field_api_classes'] = 0;
   /* Sort criterion: Indhold: Titel */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';

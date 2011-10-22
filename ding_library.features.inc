@@ -77,6 +77,28 @@ function ding_library_image_default_styles() {
     ),
   );
 
+  // Exported image style: ding_library_list
+  $styles['ding_library_list'] = array(
+    'name' => 'ding_library_list',
+    'effects' => array(
+      2 => array(
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
+        'effect callback' => 'image_scale_effect',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => '140',
+          'height' => '140',
+          'upscale' => 0,
+        ),
+        'weight' => '2',
+      ),
+    ),
+  );
+
   return $styles;
 }
 
