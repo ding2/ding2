@@ -165,8 +165,8 @@ function ding_library_default_page_manager_handlers() {
       'context' => array(
         0 => 'relationship_og_group_from_node_1.gid',
       ),
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Calendar',
     );
     $pane->cache = array(
       'method' => 'rules',
@@ -179,7 +179,10 @@ function ding_library_default_page_manager_handlers() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'ding-event-teaser-list',
+    );
     $pane->extras = array();
     $pane->position = 2;
     $display->content['new-3'] = $pane;
