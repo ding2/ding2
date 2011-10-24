@@ -5,6 +5,22 @@
  */
 
 /**
+ * Implements hook_enable().
+ */
+function ding_library_enable() {
+  $path = array(
+    'source' => 'libraries',
+    'language' => 'da',
+  );
+  if (!path_load($path)) {
+    $path['alias'] = 'biblioteker';
+    path_save($path);
+  }
+}
+
+
+
+/**
  * Implements hook_block_info().
  */
 function ding_library_block_info() {

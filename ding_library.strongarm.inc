@@ -38,7 +38,7 @@ function ding_library_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_library_da_pattern';
-  $strongarm->value = 'bibliotek/[node:ding_library_slug]';
+  $strongarm->value = 'biblioteker/[node:ding_library_slug]';
   $export['pathauto_node_ding_library_da_pattern'] = $strongarm;
 
   $strongarm = new stdClass;
