@@ -87,6 +87,7 @@ class flag_ting extends flag_flag {
             ->condition('fid', $this->fid)
             ->condition('uid', $uid)
             ->condition('sid', $sid)
+            ->orderBy('fcid', 'DESC')
             ->execute()
             ->fetchAllAssoc('content_id');
   }

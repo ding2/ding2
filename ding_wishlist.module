@@ -36,6 +36,23 @@ function ding_wishlist_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ding_wishlist_theme() {
+  return array(
+    'ding_wishlist_item' => array(
+      'template' => 'ding_wishlist_item',
+      'render element' => 'elements',
+      'file' => 'ding_wishlist.theme.inc'
+    ),
+    'ding_wishlist_remove_form' => array(
+      'render element' => 'form',
+      'file' => 'ding_wishlist.pages.inc',
+    ),
+  );
+}
+
+/**
  * Title callback; Alter title to add count items number.
  *
  * @param $title
@@ -131,7 +148,7 @@ function ding_wishlist_ding_entity_buttons($type, $entity) {
       $entity_type = $entity->uri['options']['entity_type'];
 
       if (in_array($entity_type, array_filter($wishlist_flag->show_on_ting_types))) {
-        $wishlist_flag_button = theme('ding_wishlist_flag', array('entity_id' => $entity->localId));
+        $wishlist_flag_button = ding_wishlist_flag_view($entity->localId);
         return array($wishlist_flag_button);
       }
     }
@@ -212,29 +229,15 @@ function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
 }
 
 /**
- * Implements hook_theme().
+ * Build 'add to wishlist' button.
  */
-function ding_wishlist_theme() {
-  return array(
-    'ding_wishlist_flag' => array(
-      'arguments' => array('entity_id' => NULL),
-    ),
-    'ding_wishlist_content' => array(
-      'arguments' => array('entity_ids' => array()),
-    ),
-  );
-}
-
-/**
- * Theme 'add to wishlist' button.
- */
-function theme_ding_wishlist_flag($variables) {
+function ding_wishlist_flag_view($entity_id) {
   $wishlist_flag = flag_get_flag('wishlist');
 
   // Confirm form will change page title.
   // Store native title.
   $page_native_title = drupal_get_title();
-  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $variables['entity_id']);
+  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $entity_id);
   // Restore title
   drupal_set_title($page_native_title);
 
@@ -242,31 +245,34 @@ function theme_ding_wishlist_flag($variables) {
 }
 
 /**
- * Theme wishlist content
+ * Display a wishlist item.
  */
-function theme_ding_wishlist_content($variables) {
-  $entity_ids = _ding_wishlist_prepend_ting_agency($variables['entity_ids']);
-  $entities = ding_entity_load_multiple($entity_ids, 'ting_object');
-
-  $output = array();
-  foreach ($entities as $entity) {
-    $output[] = ting_object_view($entity, 'teaser');
+function ding_wishlist_item_view($entity_id) {
+  if (preg_match('/^\d+$/', $entity_id)) {
+    $entity_id = _ding_wishlist_prepend_ting_agency($entity_id);
   }
-
-  return $output;
+  $entity = ding_entity_load($entity_id, 'ting_object');
+  $build = ting_object_view($entity, 'teaser');
+  $build['#theme'] = 'ding_wishlist_item';
+  return $build;
 }
 
 /**
  * Prepend ting agency number to each of ids.
  */
 function _ding_wishlist_prepend_ting_agency($ids) {
+  if (!is_array($ids)) {
+    $ids = array($ids);
+    $not_array = TRUE;
+  }
+
   $ting_agency = variable_get('ting_agency', FALSE);
   if ($ting_agency) {
     foreach ($ids as $k => $id) {
        $ids[$k] = $ting_agency . ':' . $id;
     }
   }
-  return $ids;
+  return $not_array ? array_shift($ids) : $ids;
 }
 
 /**
