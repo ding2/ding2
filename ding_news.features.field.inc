@@ -51,10 +51,9 @@ function ding_news_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => '6',
+          'type' => 'hidden',
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -78,73 +77,7 @@ function ding_news_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '6',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ding_news-ding_news_body'
-  $fields['node-ding_news-ding_news_body'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_news_body',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_news',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '3',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'ding_news_body',
-      'label' => 'Body',
-      'required' => 1,
-      'settings' => array(
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '3',
+        'weight' => '5',
       ),
     ),
   );
@@ -190,10 +123,9 @@ function ding_news_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
-          'weight' => '5',
+          'type' => 'hidden',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -214,7 +146,7 @@ function ding_news_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '1',
+        'weight' => '2',
       ),
     ),
   );
@@ -292,7 +224,7 @@ function ding_news_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '4',
+        'weight' => '3',
       ),
     ),
   );
@@ -358,7 +290,7 @@ function ding_news_field_default_fields() {
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '7',
+        'weight' => '6',
       ),
     ),
   );
@@ -384,13 +316,13 @@ function ding_news_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'ting_reference',
           'settings' => array(
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_reference_default',
-          'weight' => '4',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -411,19 +343,19 @@ function ding_news_field_default_fields() {
         'module' => 'ting_reference',
         'settings' => array(),
         'type' => 'ting_reference_simple',
-        'weight' => '5',
+        'weight' => '4',
       ),
     ),
   );
 
-  // Exported field: 'node-ding_news-ding_news_teaser'
-  $fields['node-ding_news-ding_news_teaser'] = array(
+  // Exported field: 'node-ding_news-field_ding_body'
+  $fields['node-ding_news-field_ding_body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'ding_news_teaser',
+      'field_name' => 'field_ding_body',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -438,11 +370,9 @@ function ding_news_field_default_fields() {
         ),
       ),
       'module' => 'text',
-      'settings' => array(
-        'max_length' => '255',
-      ),
+      'settings' => array(),
       'translatable' => '0',
-      'type' => 'text',
+      'type' => 'text_with_summary',
     ),
     'field_instance' => array(
       'bundle' => 'ding_news',
@@ -465,21 +395,23 @@ function ding_news_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'ding_news_teaser',
-      'label' => 'Teaser',
-      'required' => 1,
+      'field_name' => 'field_ding_body',
+      'label' => 'Body',
+      'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'display_summary' => 1,
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'size' => '60',
+          'rows' => '20',
+          'summary_rows' => 5,
         ),
-        'type' => 'text_textfield',
-        'weight' => '2',
+        'type' => 'text_textarea_with_summary',
+        'weight' => '1',
       ),
     ),
   );
@@ -492,7 +424,6 @@ function ding_news_field_default_fields() {
   t('Library');
   t('Materials');
   t('Tags');
-  t('Teaser');
 
   return $fields;
 }
