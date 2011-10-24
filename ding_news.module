@@ -10,7 +10,7 @@
 function ding_news_ding_library_menu_links($node) {
   $links = array();
 
-  if (!empty($node->group_group[$node->language][0]['value'])) {
+  if (!empty($node->group_group[LANGUAGE_NONE][0]['value']) || !empty($node->group_group[$node->language][0]['value'])) {
     $links['news'] = array(
       'title' => t('News'),
       'url_prefix' => 'news',
