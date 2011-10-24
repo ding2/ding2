@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Ding user handling module.
@@ -155,6 +154,9 @@ function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
   }
   catch (DingProviderAuthException $e) {
     // Do nothing.
+  }
+  catch (DingProviderNoProvider $e) {
+    drupal_set_message(t('Library provider not available, please enable one if you want to work with the library system.'), 'warning');
   }
 }
 
@@ -505,5 +507,4 @@ function ding_user_save_creds($auth_res, $account) {
     cache_set(session_name() . '-' . $account->uid, $auth_res['creds'], 'cache_ding_user_credentials', REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME));
   }
 }
-
 
