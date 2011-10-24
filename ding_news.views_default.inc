@@ -106,11 +106,13 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['timestamp']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['timestamp']['alter']['html'] = 0;
   $handler->display->display_options['fields']['timestamp']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['timestamp']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['timestamp']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['timestamp']['hide_empty'] = 0;
   $handler->display->display_options['fields']['timestamp']['empty_zero'] = 0;
   $handler->display->display_options['fields']['timestamp']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['timestamp']['date_format'] = 'date_only';
+  $handler->display->display_options['fields']['timestamp']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['timestamp']['custom_date_format'] = 'F Y';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -269,7 +271,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['timestamp']['hide_empty'] = 0;
   $handler->display->display_options['fields']['timestamp']['empty_zero'] = 0;
   $handler->display->display_options['fields']['timestamp']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['timestamp']['date_format'] = 'date_only';
+  $handler->display->display_options['fields']['timestamp']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['timestamp']['custom_date_format'] = 'd. F Y';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -451,6 +454,7 @@ function ding_news_views_default_views() {
     t('Library Feed'),
     t('Library full list'),
   );
+
   $export['ding_news'] = $view;
 
   return $export;
