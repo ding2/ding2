@@ -14,6 +14,28 @@ function ding_library_menu_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_node_insert().
+ */
+function ding_library_menu_node_insert($node) {
+  if ($node->type == 'ding_library') {
+    // Whenever a library is edited, we need to rebuild the menu to have
+    // the correct links generated.
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_library_menu_node_update($node) {
+  if ($node->type == 'ding_library') {
+    // Whenever a library is edited, we need to rebuild the menu to have
+    // the correct links generated.
+    variable_set('menu_rebuild_needed', TRUE);
+  }
+}
+
+/**
  * Implements hook_ding_library_menu_links().
  */
 function ding_library_menu_ding_library_menu_links($node) {
