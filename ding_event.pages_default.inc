@@ -71,7 +71,7 @@ function ding_event_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = '%node:title';
+  $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -103,7 +103,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'format' => 'small',
+      'format' => 'long_date_only',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
       'override_title_text' => '',
@@ -355,7 +355,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->position = 1;
     $display->content['new-11'] = $pane;
     $display->panels['right'][1] = 'new-11';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context_2'] = $handler;
