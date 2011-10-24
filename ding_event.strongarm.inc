@@ -70,7 +70,7 @@ function ding_event_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_ding_event';
-  $strongarm->value = '0';
+  $strongarm->value = '2';
   $export['language_content_type_ding_event'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -111,6 +111,41 @@ function ding_event_strongarm() {
   $strongarm->name = 'node_submitted_ding_event';
   $strongarm->value = 1;
   $export['node_submitted_ding_event'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_event_da_pattern';
+  $strongarm->value = 'arrangementer/[node:title]';
+  $export['pathauto_node_ding_event_da_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_event_en_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_ding_event_en_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_event_pattern';
+  $strongarm->value = 'events/[node:title]';
+  $export['pathauto_node_ding_event_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_event_und_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_ding_event_und_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_taxonomy_term_ding_event_pattern';
+  $strongarm->value = 'events/category/[term:name]';
+  $export['pathauto_taxonomy_term_ding_event_pattern'] = $strongarm;
 
   return $export;
 }
