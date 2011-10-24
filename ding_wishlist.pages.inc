@@ -7,9 +7,8 @@
 
 /**
  * Menu callback; Display user wishlist items.
- *
- * @todo Replace dummy return with real items
  */
 function ding_wishlist_user_wishlist_page($account) {
-  return 'Wishlist item 1<br /><br />Wishlist item 2<br /><br />Wishlist item 3<br /><br />Wishlist item 4<br /><br />';
+  $content_ids = flag_load('wishlist')->get_user_content_ids($account->uid);
+  return theme('ding_wishlist_content', array('entity_ids' => array_keys($content_ids)));
 }

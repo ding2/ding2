@@ -74,4 +74,20 @@ class flag_ting extends flag_flag {
   function get_user_count_number($uid, $sid = NULL) {
     return parent::get_user_count($uid, $sid)->fetchField();
   }
+
+  /**
+   * Returns array of items' ids a user has flagged.
+   */
+  function get_user_content_ids($uid, $sid = NULL) {
+    if (!isset($sid)) {
+      $sid = flag_get_sid($uid);
+    }
+    return db_select('flag_content', 'fc')
+            ->fields('fc', array('content_id'))
+            ->condition('fid', $this->fid)
+            ->condition('uid', $uid)
+            ->condition('sid', $sid)
+            ->execute()
+            ->fetchAllAssoc('content_id');
+  }
 }

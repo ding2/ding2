@@ -219,6 +219,9 @@ function ding_wishlist_theme() {
     'ding_wishlist_flag' => array(
       'arguments' => array('entity_id' => NULL),
     ),
+    'ding_wishlist_content' => array(
+      'arguments' => array('entity_ids' => array()),
+    ),
   );
 }
 
@@ -236,6 +239,45 @@ function theme_ding_wishlist_flag($variables) {
   drupal_set_title($page_native_title);
 
   return $flag_confirm_form;
+}
+
+/**
+ * Theme wishlist content
+ */
+function theme_ding_wishlist_content($variables) {
+  $entity_ids = _ding_wishlist_prepend_ting_agency($variables['entity_ids']);
+  $entities = ding_entity_load_multiple($entity_ids, 'ting_object');
+
+  $output = array();
+  foreach ($entities as $entity) {
+    $output[] = ting_object_view($entity, 'teaser');
+  }
+
+  return $output;
+}
+
+/**
+ * Prepend ting agency number to each of ids.
+ */
+function _ding_wishlist_prepend_ting_agency($ids) {
+  $ting_agency = variable_get('ting_agency', FALSE);
+  if ($ting_agency) {
+    foreach ($ids as $k => $id) {
+       $ids[$k] = $ting_agency . ':' . $id;
+    }
+  }
+  return $ids;
+}
+
+/**
+ * Alter link type
+ *
+ * At the wishlist all ting teasers should link to the object page, not to collection.
+ */
+function ding_wishlist_field_display_alter(&$display, $context) {
+  if ($display['type'] == 'ting_title_default' && $context['view_mode'] == 'teaser') {
+    $display['settings']['link_type'] = 'object';
+  }
 }
 
 /**
