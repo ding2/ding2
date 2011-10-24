@@ -77,7 +77,7 @@ function ding_page_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_ding_page';
-  $strongarm->value = '0';
+  $strongarm->value = '2';
   $export['language_content_type_ding_page'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -119,6 +119,41 @@ function ding_page_strongarm() {
   $strongarm->name = 'node_submitted_ding_page';
   $strongarm->value = 0;
   $export['node_submitted_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_page_da_pattern';
+  $strongarm->value = 'side/[node:title]';
+  $export['pathauto_node_ding_page_da_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_page_en_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_ding_page_en_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_page_pattern';
+  $strongarm->value = 'page/[node:title]';
+  $export['pathauto_node_ding_page_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_ding_page_und_pattern';
+  $strongarm->value = '';
+  $export['pathauto_node_ding_page_und_pattern'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_taxonomy_term_ding_page_pattern';
+  $strongarm->value = 'page/category/[term:name]';
+  $export['pathauto_taxonomy_term_ding_page_pattern'] = $strongarm;
 
   return $export;
 }
