@@ -55,6 +55,12 @@ function ding_news_field_default_fields() {
           'type' => 'hidden',
           'weight' => '5',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -127,6 +133,12 @@ function ding_news_field_default_fields() {
           'type' => 'hidden',
           'weight' => '4',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -194,6 +206,12 @@ function ding_news_field_default_fields() {
           ),
           'type' => 'image',
           'weight' => '1',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -268,6 +286,12 @@ function ding_news_field_default_fields() {
           'type' => 'og_list_default',
           'weight' => '0',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -323,6 +347,12 @@ function ding_news_field_default_fields() {
           ),
           'type' => 'ting_reference_default',
           'weight' => '3',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -386,6 +416,12 @@ function ding_news_field_default_fields() {
           'settings' => array(),
           'type' => 'text_default',
           'weight' => '2',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
