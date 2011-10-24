@@ -71,7 +71,7 @@ function ding_news_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = '%node:title';
+  $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
