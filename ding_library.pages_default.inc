@@ -560,7 +560,7 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:body';
+    $pane->subtype = 'node:field_ding_body';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
