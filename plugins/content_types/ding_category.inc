@@ -14,7 +14,7 @@ function ding_content_category_content_type_render($subtype, $conf, $context = N
   $terms = taxonomy_term_load_multiple(FALSE, array('vid' => $vocab->vid));
 
   $items = array();
-  // @Todo, make these links context sensitive per active library.
+  // @TODO, make these links context sensitive per active library.
   foreach ($terms as $term) {
     $items[] = l($term->name, 'taxonomy/term/' . $term->tid);
   }
