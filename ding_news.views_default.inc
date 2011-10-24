@@ -454,7 +454,6 @@ function ding_news_views_default_views() {
     t('Library Feed'),
     t('Library full list'),
   );
-
   $export['ding_news'] = $view;
 
   return $export;
