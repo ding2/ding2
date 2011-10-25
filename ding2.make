@@ -60,6 +60,10 @@ projects[ding_library][download][type] = git
 projects[ding_library][download][url] = git@github.com:ding2/ding_library.git
 projects[ding_library][download][tag] = "7.x-0.2"
 
+projects[ding_library_map][type] = module
+projects[ding_library_map][download][type] = git
+projects[ding_library_map][download][url] = git@github.com:ding2/ding_library_map.git
+
 projects[ding_news][type] = module
 projects[ding_news][download][type] = git
 projects[ding_news][download][url] = git@github.com:ding2/ding_news.git
