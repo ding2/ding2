@@ -1,6 +1,6 @@
 api = 2
 core = 7.x
 
-projects[conditional_styles][subdir] = "field_group"
-projects[conditional_styles][version] = "1.1"
+projects[field_group][subdir] = "contrib"
+projects[field_group][version] = "1.1"
 
