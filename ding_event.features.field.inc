@@ -51,9 +51,8 @@ function ding_event_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
+          'type' => 'hidden',
           'weight' => '7',
         ),
         'teaser' => array(
@@ -78,7 +77,7 @@ function ding_event_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '5',
+        'weight' => '6',
       ),
     ),
   );
@@ -114,7 +113,7 @@ function ding_event_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -123,7 +122,7 @@ function ding_event_field_default_fields() {
             'use_widget_handlers' => 1,
           ),
           'type' => 'addressfield_default',
-          'weight' => '6',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -154,7 +153,7 @@ function ding_event_field_default_fields() {
           ),
         ),
         'type' => 'addressfield_standard',
-        'weight' => '3',
+        'weight' => '4',
       ),
     ),
   );
@@ -200,9 +199,8 @@ function ding_event_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'taxonomy_term_reference_link',
+          'type' => 'hidden',
           'weight' => '8',
         ),
         'teaser' => array(
@@ -224,7 +222,7 @@ function ding_event_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '7',
+        'weight' => '8',
       ),
     ),
   );
@@ -262,7 +260,7 @@ function ding_event_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'date',
           'settings' => array(
             'format_type' => 'long',
@@ -273,7 +271,7 @@ function ding_event_field_default_fields() {
             'show_repeat_rule' => 'show',
           ),
           'type' => 'date_default',
-          'weight' => '0',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -307,7 +305,7 @@ function ding_event_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '4',
+        'weight' => '5',
       ),
     ),
   );
@@ -354,7 +352,7 @@ function ding_event_field_default_fields() {
             'image_style' => 'ding_content_middle_column',
           ),
           'type' => 'image',
-          'weight' => '2',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -427,7 +425,7 @@ function ding_event_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '1',
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -451,7 +449,7 @@ function ding_event_field_default_fields() {
           'opt_group' => 'auto',
         ),
         'type' => 'group_audience',
-        'weight' => '8',
+        'weight' => '9',
       ),
     ),
   );
@@ -483,7 +481,7 @@ function ding_event_field_default_fields() {
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_reference_default',
-          'weight' => '5',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -504,7 +502,7 @@ function ding_event_field_default_fields() {
         'module' => 'ting_reference',
         'settings' => array(),
         'type' => 'ting_reference_simple',
-        'weight' => '6',
+        'weight' => '7',
       ),
     ),
   );
@@ -542,7 +540,7 @@ function ding_event_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
