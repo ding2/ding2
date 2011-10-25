@@ -434,8 +434,8 @@ function ding_event_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => 1,
-      'use_pager' => 1,
+      'override_pager_settings' => 0,
+      'use_pager' => 0,
       'nodes_per_page' => '10',
       'pager_id' => '0',
       'offset' => '0',
@@ -445,18 +445,11 @@ function ding_event_default_page_manager_pages() {
       'link_to_view' => 0,
       'args' => '',
       'url' => '',
-      'display' => 'default',
-      'override_title' => 1,
+      'display' => 'ctools_context_master',
+      'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'none',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_events:page_ding_events_panel_context',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
