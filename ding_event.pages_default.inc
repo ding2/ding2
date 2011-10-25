@@ -56,6 +56,11 @@ function ding_event_default_page_manager_handlers() {
       ),
       'logic' => 'and',
     ),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'Events
+%node:title',
+    'panels_breadcrumbs_paths' => 'events
+<none>',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25';
@@ -71,7 +76,7 @@ function ding_event_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = '%node:title';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
@@ -170,7 +175,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->position = 1;
     $display->content['new-4'] = $pane;
     $display->panels['right'][1] = 'new-4';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context_2'] = $handler;
