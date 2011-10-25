@@ -8,6 +8,4 @@ projects[similarterms][subdir] = contrib
 projects[similarterms][download][type] = git
 projects[similarterms][download][url] = http://git.drupal.org/project/similarterms.git
 projects[similarterms][download][revision] = d0f10f5fdcb3a16855cff93094c4139a32e585f6
-projects[similarterms][patch][] = http://drupal.org/files/issues/1292650.patch
-projects[similarterms][patch][] = http://drupal.org/files/issues/1292676.patch
-projects[similarterms][patch][] = http://drupal.org/files/invalid-argument-1277256.7.patch
+projects[similarterms][patch][] = https://raw.github.com/ding2/patches/master/similarterms-combined-patches.patch
