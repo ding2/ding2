@@ -8,9 +8,6 @@ projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-fo
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.0"
 
-projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.0-alpha3"
-
 projects[features][subdir] = contrib
 projects[features][version] = 1.2
 
@@ -23,6 +20,12 @@ projects[languageicons][patch][] = "http://drupal.org/files/issues/fix_object_la
 
 projects[menu_breadcrumb][subdir] = contrib
 projects[menu_breadcrumb][version] = 1.3
+
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.0-alpha3"
+
+projects[panels_breadcrumbs][subdir] = contrib
+projects[panels_breadcrumbs][version] = 1.1
 
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = 2.0-beta3
