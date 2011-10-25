@@ -14,10 +14,10 @@ $plugin = array(
 );
 
 /**
-* Implements MODULE_CONTENT_content_type_render().
-*
-* Render the block.
-*/
+ *  Implements MODULE_CONTENT_content_type_render().
+ *
+ *  Render the block.
+ */
 function ding_wishlist_wishlist_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = $context->data;
 
@@ -32,11 +32,11 @@ function ding_wishlist_wishlist_content_type_render($subtype, $conf, $panel_args
 }
 
 /**
-* Returns an edit form for the content type.
-*
-* We're not actually doing anything here, but we need to have this hook
-* for this content type to work.
-*/
+ * Returns an edit form for the content type.
+ *
+ * We're not actually doing anything here, but we need to have this hook
+ * for this content type to work.
+ */
 function ding_wishlist_wishlist_content_type_edit_form($form, &$form_state) {
   return $form;
 }

@@ -269,7 +269,7 @@ function _ding_wishlist_prepend_ting_agency($ids) {
   $ting_agency = variable_get('ting_agency', FALSE);
   if ($ting_agency) {
     foreach ($ids as $k => $id) {
-       $ids[$k] = $ting_agency . ':' . $id;
+      $ids[$k] = $ting_agency . ':' . $id;
     }
   }
   return $not_array ? array_shift($ids) : $ids;
@@ -296,7 +296,7 @@ function ding_wishlist_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implementation of hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function ding_wishlist_ctools_plugin_api() {
   list($module, $api) = func_get_args();

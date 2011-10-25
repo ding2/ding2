@@ -80,7 +80,7 @@ function theme_ding_wishlist_remove_form($variables) {
   );
 
   // Create table rows
-  if(!empty($form['items']['#options'])) {
+  if (!empty($form['items']['#options'])) {
     foreach (element_children($form['items']) as $key) {
       $item_id = $key;
       // Clean checkbox

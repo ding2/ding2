@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file ding_wishlist.theme.inc
+ * @file
  * Theming functions for wishlist.
  */
 
