@@ -382,7 +382,7 @@ function ding_event_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Events';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
