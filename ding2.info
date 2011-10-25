@@ -1,6 +1,6 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-0.2
+version = 7.x-0.3-rc1
 core = 7.x
 dependencies[] = block
 dependencies[] = contextual
@@ -14,4 +14,12 @@ dependencies[] = translation
 
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
+
+; CMS (Curate)
+dependencies[] = ding_example_content
+dependencies[] = ding_event
+dependencies[] = ding_frontpage
+dependencies[] = ding_library_menu
+dependencies[] = ding_news
+
 files[] = ding2.profile
