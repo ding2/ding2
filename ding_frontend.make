@@ -21,6 +21,9 @@ projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0-beta1"
 projects[languageicons][patch][] = "http://drupal.org/files/issues/fix_object_language-f0-1027054-22.patch"
 
+projects[menu_breadcrumb][subdir] = contrib
+projects[menu_breadcrumb][version] = 1.3
+
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = 2.0-beta3
 

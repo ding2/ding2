@@ -123,5 +123,33 @@ function ding_frontend_strongarm() {
   );
   $export['language_negotiation_language_url'] = $strongarm;
 
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_breadcrumb_append_node_title';
+  $strongarm->value = 1;
+  $export['menu_breadcrumb_append_node_title'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_breadcrumb_append_node_url';
+  $strongarm->value = 0;
+  $export['menu_breadcrumb_append_node_url'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_breadcrumb_determine_menu';
+  $strongarm->value = 1;
+  $export['menu_breadcrumb_determine_menu'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'menu_breadcrumb_hide_on_single_item';
+  $strongarm->value = 1;
+  $export['menu_breadcrumb_hide_on_single_item'] = $strongarm;
+
   return $export;
 }
