@@ -249,9 +249,21 @@ function ding_wishlist_flag_view($entity_id) {
  */
 function ding_wishlist_item_view($entity_id) {
   if (preg_match('/^\d+$/', $entity_id)) {
-    $entity_id = _ding_wishlist_prepend_ting_agency($entity_id);
+    $entity_prepended_id = _ding_wishlist_prepend_ting_agency($entity_id);
   }
-  $entity = ding_entity_load($entity_id, 'ting_object');
+  $entity = ding_entity_load($entity_prepended_id, 'ting_object');
+
+  // Library code can be changed at any time by the site administrator.
+  // Every time when wishlist item is loaded,
+  // module should check, whether item is available in the current library.
+  // If item does not exists in the library it shoul be deleted from wishlist.
+  if (!$entity) {
+    // Remove item
+    $flag = flag_get_flag('wishlist');
+    $flag->flag('unflag', $entity_id);
+    return FALSE;
+  }
+
   $build = ting_object_view($entity, 'teaser');
   $build['#theme'] = 'ding_wishlist_item';
   return $build;
