@@ -20,9 +20,9 @@ class flag_ting extends flag_flag {
   function options_form(&$form) {
     parent::options_form($form);
     $form['messages']['flagged_already_message'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Flagged already message'),
-        '#default_value' => $this->flagged_already_message,
+      '#type' => 'textfield',
+      '#title' => t('Flagged already message'),
+      '#default_value' => $this->flagged_already_message,
     );
     $form['messages']['flag_short']['#weight'] = 1;
     $form['messages']['flag_long']['#weight'] = 2;
@@ -33,11 +33,11 @@ class flag_ting extends flag_flag {
     $form['messages']['unflag_message']['#weight'] = 7;
 
     $form['display']['show_on_ting_types'] = array(
-        '#type' => 'checkboxes',
-        '#title' => t('Wishlist allowed ting types'),
-        '#options' => array('ting_object' => t('Ting object')),
-        '#default_value' => $this->show_on_ting_types,
-        '#access' => empty($this->locked['show_on_ting_types']),
+      '#type' => 'checkboxes',
+      '#title' => t('Wishlist allowed ting types'),
+      '#options' => array('ting_object' => t('Ting object')),
+      '#default_value' => $this->show_on_ting_types,
+      '#access' => empty($this->locked['show_on_ting_types']),
     );
 
     unset($form['messages']['tokens_help']);

@@ -56,7 +56,7 @@ function ding_wishlist_theme() {
  * Title callback; Alter title to add count items number.
  *
  * @param $title
- *  Untranslated title
+ *  Untranslated title.
  * @param $account
  *  User account object, for counting wishlist items.
  */
@@ -113,15 +113,15 @@ function ding_wishlist_flag_default_flags() {
       'unflag_denied_text' => '',
       'link_type' => 'toggle',
       'roles' => array(
-          'flag' => array(
-              0 => '2',
-          ),
-          'unflag' => array(
-              0 => '2',
-          ),
+        'flag' => array(
+          0 => '2',
+        ),
+        'unflag' => array(
+          0 => '2',
+        ),
       ),
       'show_on_ting_types' => array(
-          0 => 'ting_object',
+        0 => 'ting_object',
       ),
       'api_version' => 2,
       'locked' => array('name', 'types', 'global', 'link_type', 'roles'),
@@ -133,7 +133,7 @@ function ding_wishlist_flag_default_flags() {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
-  // Remove unnecessary parameters
+  // Remove unnecessary parameters.
   unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
 }
 
@@ -141,7 +141,7 @@ function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_ding_entity_buttons().
  */
 function ding_wishlist_ding_entity_buttons($type, $entity) {
-  // Add 'wishlist' button
+  // Add 'wishlist' button.
   if ($type == 'ding_entity') {
     if ($entity->localId) {
       $wishlist_flag = flag_get_flag('wishlist');
@@ -161,17 +161,17 @@ function ding_wishlist_ding_entity_buttons($type, $entity) {
 function ding_wishlist_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
   if ($form['flag_name']['#value'] == 'wishlist') {
     // Flag module does not allow flag/unflag to anonymous users.
-    // Custom submit handler will show login popup to user instead of "You are not allowed to flag..."
+    // Custom submit handler will show login popup to user instead of "You are not allowed to flag...".
     $form['#native_submit'] = $form['#submit'];
     $form['#submit'] = array('ding_wishlist_form_flag_confirm_submit');
 
-    // Implement ajax functionality
+    // Implement ajax functionality.
     $form['actions']['submit']['#ajax'] = array(
-        'callback' => 'ding_wishlist_flag_confirm_form_callback',
-        'wrapper' => 'ding-wishlist-flag-confirm-form',
+      'callback' => 'ding_wishlist_flag_confirm_form_callback',
+      'wrapper' => 'ding-wishlist-flag-confirm-form',
     );
 
-    // Remove 'cancel' link
+    // Remove 'cancel' link.
     unset($form['actions']['cancel']);
   }
 }
@@ -184,7 +184,7 @@ function ding_wishlist_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
 function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
   global $user;
 
-  // Popup login form
+  // Popup login form.
   if (!$user->uid) {
     throw new DingProviderAuthException;
     return;
@@ -194,17 +194,17 @@ function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
   $entity_id = $form['content_id']['#value'];
 
   if ($wishlist_flag->is_flagged($entity_id)) {
-    // Generate message for the user
+    // Generate message for the user.
     $form_state['storage']['response_html'] = t($wishlist_flag->flagged_already_message);
   }
   else {
-    // Invoke native submit handlers
+    // Invoke native submit handlers.
     foreach ($form['#native_submit'] as $function) {
       if (function_exists($function)) {
         $function($form, $form_state);
       }
     }
-    // Generate message for the user
+    // Generate message for the user.
     $form_state['storage']['response_html'] = t($wishlist_flag->flag_message);
   }
 }
@@ -218,11 +218,11 @@ function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
     '#commands' => array(),
   );
 
-  // Drop messages
+  // Drop messages.
   theme('status_messages');
-  // Get generated message
+  // Get generated message.
   $html = '<div class="ding-wishlist-message">' . $form_state['storage']['response_html'] . '</div>';
-  // Popup
+  // Popup.
   $response['#commands'][] = ajax_command_ding_popup('ding_wishlist', t('Wishlist'), $html);
 
   return $response;
@@ -238,7 +238,7 @@ function ding_wishlist_flag_view($entity_id) {
   // Store native title.
   $page_native_title = drupal_get_title();
   $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $entity_id);
-  // Restore title
+  // Restore title.
   drupal_set_title($page_native_title);
 
   return $flag_confirm_form;
@@ -255,10 +255,10 @@ function ding_wishlist_item_view($entity_id) {
 
   // Library code can be changed at any time by the site administrator.
   // Every time when wishlist item is loaded,
-  // module should check, whether item is available in the current library.
+  //  module should check, whether item is available in the current library.
   // If item does not exists in the library it shoul be deleted from wishlist.
   if (!$entity) {
-    // Remove item
+    // Remove item.
     $flag = flag_get_flag('wishlist');
     $flag->flag('unflag', $entity_id);
     return FALSE;
@@ -281,7 +281,7 @@ function _ding_wishlist_prepend_ting_agency($ids) {
   $ting_agency = variable_get('ting_agency', FALSE);
   if ($ting_agency) {
     foreach ($ids as $k => $id) {
-      // id should be 8 digits length
+      // Id should be 8 digits length.
       $id = _ding_wishlist_number_to_eight_digits($id);
       $ids[$k] = $ting_agency . ':' . $id;
     }
@@ -297,7 +297,7 @@ function _ding_wishlist_number_to_eight_digits($number) {
   $delta = 8 - $length;
 
   if ($delta > 0) {
-    // Prepend id with zeros
+    // Prepend id with zeros.
     return str_repeat("0", $delta) . $number;
   }
   elseif ($delta < 0) {
@@ -308,7 +308,7 @@ function _ding_wishlist_number_to_eight_digits($number) {
 }
 
 /**
- * Alter link type
+ * Alter link type.
  *
  * At the wishlist all ting teasers should link to the object page, not to collection.
  */

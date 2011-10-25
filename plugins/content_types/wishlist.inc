@@ -14,9 +14,9 @@ $plugin = array(
 );
 
 /**
- *  Implements MODULE_CONTENT_content_type_render().
+ * Implements MODULE_CONTENT_content_type_render().
  *
- *  Render the block.
+ * Render the block.
  */
 function ding_wishlist_wishlist_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = $context->data;

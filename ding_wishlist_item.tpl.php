@@ -4,11 +4,11 @@
  *
  * Available variables:
  * - $content: Render array of content.
- *      -ting_cover
- *      -ting_author
- *      -ting_abstract
- *      -ting_subjects
- *      -ting_type - This field is hidden by default. Enable it through UI
+ *   -ting_cover
+ *   -ting_author
+ *   -ting_abstract
+ *   -ting_subjects
+ *   -ting_type - This field is hidden by default. Enable it through UI
  */
 ?>
 <div class="wishlist-item">
