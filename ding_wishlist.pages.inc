@@ -89,10 +89,12 @@ function theme_ding_wishlist_remove_form($variables) {
       $button = '<input type="button" class="form-submit" value="' . t($flag->unflag_short) . '">';
       $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_id));
       $delete_link = l($button, 'flag/unflag/wishlist/' . $item_id, array('query' => $delete_link_query, 'html' => TRUE));
+      // Build item view
+      $item_view_build = ding_wishlist_item_view($item_id);
       //Add row
       $rows[] = array(
         drupal_render($form['items'][$key]),
-        drupal_render(ding_wishlist_item_view($item_id)), // Theme item as a teaser
+        drupal_render($item_view_build), // Theme item as a teaser
         $delete_link,
       );
     }
