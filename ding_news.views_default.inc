@@ -465,17 +465,18 @@ function ding_news_views_default_views() {
   $handler->display->display_options['row_options']['hide_empty'] = 0;
   $handler->display->display_options['row_options']['default_field_elements'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (ding_news_library:gid) */
-  $handler->display->display_options['arguments']['ding_news_library_gid']['id'] = 'ding_news_library_gid';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['table'] = 'field_data_ding_news_library';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['field'] = 'ding_news_library_gid';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_news_library_gid']['not'] = 0;
+  /* Contextual filter: Indhold: Library (ding_news_library:nid) */
+  $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_ding_news_library';
+  $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -534,13 +535,19 @@ function ding_news_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (ding_news_library:gid) */
-  $handler->display->display_options['arguments']['ding_news_library_gid']['id'] = 'ding_news_library_gid';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['table'] = 'field_data_ding_news_library';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['field'] = 'ding_news_library_gid';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_news_library_gid']['summary']['format'] = 'default_summary';
-  /* Contextual filter: Content: Category (ding_news_category) */
+  /* Contextual filter: Indhold: Library (ding_news_library:nid) */
+  $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_ding_news_library';
+  $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
+  /* Contextual filter: Indhold: Category (ding_news_category) */
   $handler->display->display_options['arguments']['ding_news_category_tid']['id'] = 'ding_news_category_tid';
   $handler->display->display_options['arguments']['ding_news_category_tid']['table'] = 'field_data_ding_news_category';
   $handler->display->display_options['arguments']['ding_news_category_tid']['field'] = 'ding_news_category_tid';

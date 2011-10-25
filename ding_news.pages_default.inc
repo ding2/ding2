@@ -559,13 +559,6 @@ function ding_news_default_page_manager_pages() {
         'context' => 'argument_entity_id:node_1',
         'id' => 1,
       ),
-      1 => array(
-        'identifier' => 'Library node from OG group',
-        'keyword' => 'library',
-        'name' => 'og_node_from_group',
-        'context' => 'relationship_og_group_from_node_1',
-        'id' => 1,
-      ),
     ),
     'access' => array(
       'plugins' => array(
@@ -627,7 +620,7 @@ function ding_news_default_page_manager_pages() {
       'url' => 'node/%/news/feeds',
       'display' => 'ctools_context_2',
       'context' => array(
-        0 => 'relationship_og_group_from_node_1.gid',
+        0 => 'argument_entity_id:node_1.nid',
         1 => '',
       ),
       'override_title' => 0,
