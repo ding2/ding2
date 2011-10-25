@@ -9,6 +9,16 @@ projects[email][type] = module
 projects[email][subdir] = contrib
 projects[email][version] = 1.0
 
+projects[geocoder][type] = module
+projects[geocoder][subdir] = contrib
+projects[geocoder][download][type] = git
+projects[geocoder][download][url] = http://git.drupal.org/project/geocoder.git
+projects[geocoder][download][revision] = 4c6801e6f824adbe4d2a5919d09bce454f2c7f2b
+
+projects[geofield][type] = module
+projects[geofield][subdir] = contrib
+projects[geofield][version] = 1.0-alpha5
+
 projects[link][type] = module
 projects[link][subdir] = contrib
 projects[link][version] = 1.0-beta1
