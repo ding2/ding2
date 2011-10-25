@@ -19,3 +19,4 @@ projects[og][download][type] = git
 projects[og][download][url] = http://git.drupal.org/project/og.git
 projects[og][download][revision] = bee58bb843beacc80181ca5de584229979eac5ff
 projects[og][patch][] = http://drupal.org/files/og_context.1313166.patch
+projects[og][patch][] = http://drupal.org/files/1320778.patch
