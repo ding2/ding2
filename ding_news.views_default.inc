@@ -141,10 +141,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['field_ding_body']['id'] = 'field_ding_body';
-  $handler->display->display_options['fields']['field_ding_body']['table'] = 'field_data_field_ding_body';
-  $handler->display->display_options['fields']['field_ding_body']['field'] = 'field_ding_body';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -566,7 +562,6 @@ function ding_news_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Body'),
     t('All'),
     t('Full list'),
     t('more'),
