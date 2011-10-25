@@ -5,5 +5,5 @@ package = Ding!
 dependencies[] = ding_provider
 files[] = openruth.module
 files[] = openruth.test
-version = "7.x-0.9"
+version = "7.x-0.10"
 configure = admin/config/ding/provider/openruth
