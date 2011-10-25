@@ -281,10 +281,30 @@ function _ding_wishlist_prepend_ting_agency($ids) {
   $ting_agency = variable_get('ting_agency', FALSE);
   if ($ting_agency) {
     foreach ($ids as $k => $id) {
+      // id should be 8 digits length
+      $id = _ding_wishlist_number_to_eight_digits($id);
       $ids[$k] = $ting_agency . ':' . $id;
     }
   }
   return $not_array ? array_shift($ids) : $ids;
+}
+
+/**
+ * Convert numbers to 8 digits length.
+ */
+function _ding_wishlist_number_to_eight_digits($number) {
+  $length = drupal_strlen($number);
+  $delta = 8 - $length;
+
+  if ($delta > 0) {
+    // Prepend id with zeros
+    return str_repeat("0", $delta) . $number;
+  }
+  elseif ($delta < 0) {
+    return drupal_substr($number, 0, 8);
+  }
+
+  return $number;
 }
 
 /**
