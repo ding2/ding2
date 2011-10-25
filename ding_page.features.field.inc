@@ -311,7 +311,7 @@ function ding_page_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => '',
+            'image_style' => 'ding_small',
           ),
           'type' => 'image',
           'weight' => '0',
