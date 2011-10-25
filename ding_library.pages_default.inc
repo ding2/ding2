@@ -121,7 +121,7 @@ function ding_library_default_page_manager_handlers() {
       'url' => 'node/%/news',
       'display' => 'ctools_context_library_list',
       'context' => array(
-        0 => 'relationship_og_group_from_node_1.gid',
+        0 => 'argument_entity_id:node_1.nid',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -163,7 +163,7 @@ function ding_library_default_page_manager_handlers() {
       'url' => 'node/%/events',
       'display' => 'ctools_context_library_teaser',
       'context' => array(
-        0 => 'relationship_og_group_from_node_1.gid',
+        0 => 'argument_entity_id:node_1.nid',
       ),
       'override_title' => 1,
       'override_title_text' => 'Calendar',
