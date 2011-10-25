@@ -270,7 +270,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['timestamp']['hide_empty'] = 0;
   $handler->display->display_options['fields']['timestamp']['empty_zero'] = 0;
   $handler->display->display_options['fields']['timestamp']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['timestamp']['date_format'] = 'long_date_only';
+  $handler->display->display_options['fields']['timestamp']['date_format'] = 'custom';
   $handler->display->display_options['fields']['timestamp']['custom_date_format'] = 'F Y';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
