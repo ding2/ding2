@@ -25,3 +25,7 @@ dependencies[] = ding_news
 dependencies[] = ding_example_content
 
 files[] = ding2.profile
+
+; Profiler extensions.
+theme = bartik
+

@@ -1,5 +1,9 @@
 <?php
 
+// Initialise profiler
+!function_exists('profiler_v2') ? require_once('libraries/profiler/profiler.inc') : FALSE;
+profiler_v2('ding2');
+
 /**
  * Implements hook_form_alter().
  *
@@ -61,6 +65,8 @@ function ding2_install_tasks($install_state) {
     variable_del('ding_install_tasks');
   }
 
+  include_once('libraries/profiler/profiler_api.inc');
+
   /**
    * We need at least one task to ensure that the rest of the tasks is
    * run. Without it, install_run_tasks() can manage to run through the tasks
@@ -69,13 +75,15 @@ function ding2_install_tasks($install_state) {
    * before we have a chance to read the variable and tell it otherwise.
    *
    * Luckily, we need to flush some caches anyway.
+   *
+   * Also append the completion task for profiler.
    */
   $ret = array(
     'ding2_flush_all_caches' => array(
       'display' => FALSE,
       'run' => INSTALL_TASK_RUN_IF_REACHED,
     ),
-  ) + $tasks;
+  ) + $tasks + array('profiler_install_profile_complete' => array());
   return $ret;
 }
 
