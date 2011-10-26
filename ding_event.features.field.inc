@@ -322,17 +322,10 @@ function ding_event_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'inline',
-          'module' => 'date',
-          'settings' => array(
-            'format_type' => 'long',
-            'fromto' => 'both',
-            'multiple_from' => '',
-            'multiple_number' => '',
-            'multiple_to' => '',
-            'show_repeat_rule' => 'show',
-          ),
-          'type' => 'date_default',
+          'label' => 'hidden',
+          'module' => 'ding_event',
+          'settings' => array(),
+          'type' => 'date_time_seperate_lines',
           'weight' => '3',
         ),
         'teaser' => array(
