@@ -20,5 +20,61 @@ function ding_event_ding_library_menu_links($node) {
   return $links;
 }
 
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_event_field_formatter_info() {
+  return array(
+    'date_time_seperate_lines' => array(
+      'label' => t('Date and time on seperate lines'),
+      'field types' => array('datetime'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_event_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'date_time_seperate_lines':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array('#markup' => theme('date_time_seperate_lines', array('element' => $item, 'field' => $instance)));
+      }
+    break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_event_theme() {
+  return array(
+    'date_time_seperate_lines' => array(
+      'variables' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Theme function which shows to lines with date and time.
+ * Used on ding_events.
+ */
+function theme_date_time_seperate_lines($element) {
+  if (!empty($element['element']['value'])) {
+    $timestamp = strtotime($element['element']['value']);
+    $time = format_date($timestamp, 'custom', 'H:i');
+    $date = format_date($timestamp, 'date_only');
+
+    return '<div class="time field-label-inline clearfix"><div class="field-label">' . t('Time:') . '</div>' .
+      '<div class="field-items">' . $time . '</div></div>' .
+      '<div class="date field-label-inline clearfix"><div class="field-label">' . t('Date:') . '</div>' .
+      '<div class="field-items">' . $date . '</div></div>';
+  }
+  return FALSE;
+}
+
 include_once('ding_event.features.inc');
 
