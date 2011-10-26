@@ -102,7 +102,7 @@ function ding_page_default_page_manager_handlers() {
     $pane->configuration = array(
       'links' => 1,
       'no_extras' => 1,
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
       'identifier' => '',
       'link' => 0,
@@ -113,6 +113,7 @@ function ding_page_default_page_manager_handlers() {
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'naked',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -167,8 +168,8 @@ function ding_page_default_page_manager_handlers() {
     $pane->position = 1;
     $display->content['new-4'] = $pane;
     $display->panels['right'][1] = 'new-4';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context_4'] = $handler;
 
