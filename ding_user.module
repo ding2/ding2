@@ -247,6 +247,15 @@ function ding_user_user_view($account) {
   }
 }
 
+/**
+ * Implements hook_user_logout().
+ *
+ * Lets user stays on page, after logout.
+ */
+function ding_user_user_logout($account) {
+  session_destroy();
+  drupal_goto($_SERVER['HTTP_REFERER']);
+}
 
 /**
  * Implements hook_username_alter().
