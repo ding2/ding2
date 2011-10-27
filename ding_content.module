@@ -39,7 +39,7 @@ function ding_content_enable() {
         'user_choose' => 0,
         'show_toggle' => 1,
         'theme' => 'advanced',
-        'language' => 'en',
+        'language' => 'da',
         'buttons' => array(
           'default' => array(
             'Bold' => 1,
