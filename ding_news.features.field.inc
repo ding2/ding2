@@ -370,12 +370,12 @@ function ding_news_field_default_fields() {
       ),
       'widget' => array(
         'active' => 1,
-        'module' => 'og',
+        'module' => 'ding_content',
         'settings' => array(
           'membership_type' => 'og_membership_type_default',
           'opt_group' => 'auto',
         ),
-        'type' => 'group_audience',
+        'type' => 'ding_content_group_audience_library',
         'weight' => '6',
       ),
     ),
