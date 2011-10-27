@@ -29,8 +29,5 @@ projects[link][version] = 1.0-beta1
 
 projects[og][type] = module
 projects[og][subdir] = contrib
-projects[og][download][type] = git
-projects[og][download][url] = http://git.drupal.org/project/og.git
-projects[og][download][revision] = bee58bb843beacc80181ca5de584229979eac5ff
-projects[og][patch][] = http://drupal.org/files/og_context.1313166.patch
+projects[og][version] = 1.2
 projects[og][patch][] = http://drupal.org/files/1320778.patch
