@@ -98,9 +98,9 @@ function ding_content_enable() {
   }
 }
 
-/** 
+/**
  * Implements hook_ctools_plugin_directory().
- */ 
+ */
 function ding_content_ctools_plugin_directory($owner, $plugin_type) {
   if ($owner == 'ctools' && $plugin_type == 'content_types') {
     return 'plugins/content_types';
@@ -182,3 +182,152 @@ function ding_content_menu_block_blocks() {
   );
 }
 
+/**
+ * Implements hook_field_widget_info().
+ */
+function ding_content_field_widget_info() {
+  return array(
+    'ding_content_group_audience_library' => array(
+      'label' => t('Library audience'),
+      'field types' => array('group'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      ),
+      'settings' => array(
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ *
+ * Based on og_field_widget_form().
+ */
+function ding_content_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $base) {
+  $element = $base;
+  $widget = $instance['widget'];
+
+  switch ($widget['type']) {
+    case 'ding_content_group_audience_library':
+      // Determine if a user may see other groups as-well.
+      $opt_group = FALSE;
+
+      if (user_access('administer group')) {
+        $opt_group = TRUE;
+      }
+
+      // Get all the groups divided to "content groups" and "other groups".
+      $audience = og_field_audience_options($opt_group);
+
+      // Get all groups that should be excluded.
+      $excludes = array();
+      // If it's an existing group, then exclude itself, as in some cases a group
+      // can act also as a group content, but we want to prevent associating the
+      // group to itself.
+      if (!empty($form['#' . $element['#entity_type']])) {
+        list($id) = entity_extract_ids($element['#entity_type'], $form['#' . $element['#entity_type']]);
+        if (($group = og_get_group($element['#entity_type'], $id))) {
+          $excludes[$group->gid] = $group->gid;
+        }
+      }
+
+      // Get default values from URL, or from the edited entity.
+      $default_values = og_get_context_by_url();
+      // Keep the group ID of the selected items, as they might be needed again,
+      // and we don't want to iterate over the items again.
+      $items_gid = array();
+      if (!empty($items)) {
+        foreach ($items as $item) {
+          // Some groups might be already deleted, but we don't bulk
+          // delete the fields of the entities associated with that group.
+          // So make sure the hidden selected fields are only for existing
+          // groups.
+          if (in_array($item['gid'], $audience['content groups']) || in_array($item['gid'], $audience['other groups'])) {
+            $default_values[$item['gid']] = $item['gid'];
+            $items_gid[] = $item['gid'];
+          }
+        }
+      }
+
+      foreach (array('content groups', 'other groups') as $key) {
+        if (!empty($audience[$key])) {
+          // Get the label un-sanitized, as they will be laster sanitized
+          // according to the form type.
+          $audience[$key] = og_label_multiple($audience[$key], FALSE);
+        }
+      }
+
+      // The group options presented to the user.
+      $options = array();
+      $hidden_selected_gids = array();
+      $type = 'select';
+      if ($opt_group) {
+        // Show "My groups" and "Other groups".
+        if ($my_groups = array_diff_key($audience['content groups'], $excludes)) {
+          $options += $my_groups;
+        }
+        if ($other_groups = array_diff_key($audience['other groups'], $excludes)) {
+          $options += $other_groups;
+        }
+      }
+      else {
+        // Show only "My groups".
+        $options = array_diff_key($audience['content groups'], $excludes);
+        // If there are items that are already selected but the user doesn't
+        // have access to them, we need to keep track of them.
+        $hidden_selected_gids = drupal_map_assoc(array_diff($items_gid, array_keys($options)));
+      }
+
+      if (empty($options)) {
+        // There are no group, so don't show any input element.
+        $type = 'item';
+        $element['#description'] = t('There are no libraries you can select from.');
+        $properties = array();
+      }
+      else {
+        if (empty($element['#description'])) {
+          $element['#description'] = t('Select the libraries this content should be associated with.');
+        }
+
+        $element['#multiple'] = $field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;;
+        // Don't make the field required, if there are no groups.
+        $element['#required'] = $element['#required'] && !empty($options);
+
+        $properties = _options_properties($type, $element['#multiple'], $element['#required'], $options);
+        // If the element isn't required and cardinality is more than 1, and there
+        // are some options, and a "none" option.
+        if (!$element['#required'] && !$element['#multiple']) {
+          // Use a dummy instance in order to use theme('options_none');
+          $dummy_instance['widget']['type'] = 'options_select';
+          $options = array('_none' => t('- All libraries -')) + $options;
+        }
+      }
+
+
+      $element += array(
+        // Input should be TRUE only if there are groups that can be selected.
+        '#input' => $type != 'item',
+        '#type' => $type,
+        '#options' => $options,
+        '#default_value' => $default_values,
+        '#attributes' => array('class' => array('group-audience')),
+        '#disabled' => empty($options),
+        // Re-use options widget element validation, to correctly transform
+        // submitted values from field => delta to delta => field.
+        // @see options_field_widget().
+        '#value_key' => 'gid',
+        '#element_validate' => $type != 'item' ? array('options_field_widget_validate') : array(),
+        '#properties' => $properties,
+        // Add OG specific context.
+        '#opt_group' => $opt_group,
+        '#audience' => $audience,
+        '#hidden_selected_gids' => $hidden_selected_gids,
+      );
+
+      $return = $element;
+      break;
+  }
+
+  return $return;
+}
