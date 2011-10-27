@@ -449,8 +449,10 @@ function ding_news_views_default_views() {
   $handler->display->display_options['path'] = 'news/feed';
   $handler->display->display_options['displays'] = array(
     'default' => 'default',
+    'ctools_context_master' => 'ctools_context_master',
     'ctools_context_teaser_list' => 'ctools_context_teaser_list',
-    'ctools_context_1' => 0,
+    'ctools_context_library_list' => 0,
+    'ctools_context_2' => 0,
   );
   $handler->display->display_options['sitename_title'] = 1;
 
