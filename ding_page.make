@@ -7,5 +7,6 @@ projects[menu_block][version] = 2.2
 
 projects[og][type] = module
 projects[og][subdir] = contrib
-projects[og][version] = 1.1
+projects[og][version] = 1.2
+projects[og][patch][] = http://drupal.org/files/1320778.patch
 
