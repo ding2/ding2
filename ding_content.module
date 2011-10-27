@@ -55,7 +55,6 @@ function ding_content_enable() {
             'Link' => 1,
             'Unlink' => 1,
             'Anchor' => 1,
-            'Image' => 1,
             'TextColor' => 1,
             'BGColor' => 1,
             'Blockquote' => 1,
