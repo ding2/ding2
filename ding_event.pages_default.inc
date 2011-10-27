@@ -502,8 +502,8 @@ function ding_event_default_page_manager_pages() {
     $pane->position = 0;
     $display->content['new-4'] = $pane;
     $display->panels['right'][0] = 'new-4';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-1';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-3';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_events'] = $page;
