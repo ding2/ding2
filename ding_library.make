@@ -5,9 +5,21 @@ projects[addressfield][type] = module
 projects[addressfield][subdir] = contrib
 projects[addressfield][version] = 1.0-beta2
 
+projects[cache_actions][type] = module
+projects[cache_actions][subdir] = contrib
+projects[cache_actions][version] = 2.0-alpha3
+
+projects[ctools][subdir] = "contrib"
+projects[ctools][version] = "1.0-rc1"
+projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
+
 projects[email][type] = module
 projects[email][subdir] = contrib
 projects[email][version] = 1.0
+
+projects[features][type] = module
+projects[features][subdir] = contrib
+projects[features][version] = 1.0-beta4
 
 projects[geocoder][type] = module
 projects[geocoder][subdir] = contrib
@@ -43,3 +55,10 @@ libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers
 libraries[openlayers_themes][download][type] = git
 libraries[openlayers_themes][download][url] = git://github.com/developmentseed/openlayers_themes.git
 
+projects[strongarm][type] = module
+projects[strongarm][subdir] = contrib
+projects[strongarm][version] = 2.0-beta3
+
+projects[views][type] = module
+projects[views][subdir] = contrib
+projects[views][version] = 3.0-rc1
