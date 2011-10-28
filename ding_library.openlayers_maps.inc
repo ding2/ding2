@@ -38,19 +38,15 @@ function ding_library_openlayers_maps() {
         'activated' => 0,
       ),
       'openlayers_behavior_keyboarddefaults' => array(),
-      'openlayers_behavior_layerswitcher' => array(
-        'ascending' => 1,
-      ),
       'openlayers_behavior_navigation' => array(
         'zoomWheelEnabled' => 1,
         'documentDrag' => 0,
       ),
       'openlayers_behavior_panzoom' => array(),
     ),
-    'default_layer' => 'osm_mapnik',
+    'default_layer' => 'mapquest_osm',
     'layers' => array(
-      'mapquest_open' => 'mapquest_open',
-      'osm_mapnik' => 'osm_mapnik',
+      'mapquest_osm' => 'mapquest_osm',
       'ding_library_openlayers_1' => 'ding_library_openlayers_1',
     ),
     'layer_weight' => array(
