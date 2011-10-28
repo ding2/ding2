@@ -1,4 +1,4 @@
-Drupal install profile for Artesis Web based on Ding2
+Drupal install profile for Ding2 aka Artesis Web
 ================================================
 
 Ding2 is a continuation of [ding.TING][] [Drupal][] distribution for
