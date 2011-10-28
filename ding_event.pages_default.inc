@@ -304,7 +304,8 @@ function ding_event_default_page_manager_handlers() {
       'context' => array(
         0 => 'empty',
         1 => 'empty',
-        2 => 'argument_term_1',
+        2 => 'empty',
+        3 => 'argument_term_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -319,7 +320,7 @@ function ding_event_default_page_manager_handlers() {
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-3';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['term_view_panel_context_2'] = $handler;
 
