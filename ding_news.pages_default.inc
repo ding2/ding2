@@ -203,7 +203,7 @@ function ding_news_default_page_manager_handlers() {
           'name' => 'term_vocabulary',
           'settings' => array(
             'vids' => array(
-              1 => '1',
+              4 => '4',
             ),
           ),
           'context' => 'argument_term_1',
@@ -304,7 +304,8 @@ function ding_news_default_page_manager_handlers() {
       'context' => array(
         0 => 'empty',
         1 => 'empty',
-        2 => 'argument_term_1',
+        2 => 'empty',
+        3 => 'argument_term_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
