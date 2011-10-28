@@ -206,6 +206,70 @@ function ding_library_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_library-ding_library_geocode'
+  $fields['node-ding_library-ding_library_geocode'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'ding_library_geocode',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'geofield',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'geofield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_library',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'geofield',
+          'settings' => array(
+            'data' => '',
+          ),
+          'type' => 'geofield_wkt',
+          'weight' => 12,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'ding_library_geocode',
+      'label' => 'Geocode',
+      'required' => 0,
+      'settings' => array(
+        'local_solr' => array(
+          'enabled' => FALSE,
+          'lat_field' => 'lat',
+          'lng_field' => 'lng',
+        ),
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'geocoder',
+        'settings' => array(
+          'geocoder_field' => array(
+            'ding_library_address' => 'ding_library_address',
+          ),
+          'geocoder_handler' => 'google',
+        ),
+        'type' => 'geocoder',
+        'weight' => '31',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_library-ding_library_image'
   $fields['node-ding_library-ding_library_image'] = array(
     'field_config' => array(
@@ -708,70 +772,6 @@ function ding_library_field_default_fields() {
         ),
         'type' => 'text_textarea_with_summary',
         'weight' => '12',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ding_library-ding_library_geocode'
-  $fields['node-ding_library-ding_library_geocode'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_library_geocode',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'geofield',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'geofield',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_library',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'geofield',
-          'settings' => array(
-            'data' => '',
-          ),
-          'type' => 'geofield_wkt',
-          'weight' => 12,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'ding_library_geocode',
-      'label' => 'Geocode',
-      'required' => 0,
-      'settings' => array(
-        'local_solr' => array(
-          'enabled' => FALSE,
-          'lat_field' => 'lat',
-          'lng_field' => 'lng',
-        ),
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'geocoder',
-        'settings' => array(
-          'geocoder_field' => array(
-            'ding_library_address' => 'ding_library_address',
-          ),
-          'geocoder_handler' => 'google',
-        ),
-        'type' => 'geocoder',
-        'weight' => '31',
       ),
     ),
   );

@@ -36,7 +36,8 @@ projects[openlayers][type] = module
 projects[openlayers][subdir] = contrib
 projects[openlayers][version] = 2.0-alpha2
 
-libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers-2.11.tar.gz
+libraries[openlayers][download][type] = get
+libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers-2.10.tar.gz
 
 libraries[openlayers_themes][download][type] = git
 libraries[openlayers_themes][download][url] = git://github.com/developmentseed/openlayers_themes.git
