@@ -16,11 +16,13 @@ dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 
 ; CMS (Curate)
-dependencies[] = ding_example_content
 dependencies[] = ding_event
 dependencies[] = ding_frontpage
 dependencies[] = ding_library_map
 dependencies[] = ding_library_menu
 dependencies[] = ding_news
+
+; Funny things happen if this is higher up.
+dependencies[] = ding_example_content
 
 files[] = ding2.profile
