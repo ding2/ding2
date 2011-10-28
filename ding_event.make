@@ -6,7 +6,7 @@ core = 7.x
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
-projects[ding_page][download][tag] = "7.x-0.1"
+projects[ding_page][download][tag] = "7.x-0.2"
 
 ; Contrib modules
 
@@ -31,7 +31,7 @@ projects[date][patch][] = http://drupal.org/files/1188380.patch
 projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
-projects[ding_content][download][tag] = "7.x-0.2"
+projects[ding_content][download][tag] = "7.x-0.3"
 
 projects[features][type] = module
 projects[features][subdir] = contrib
