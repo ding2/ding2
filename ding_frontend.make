@@ -28,7 +28,7 @@ projects[panels_breadcrumbs][subdir] = contrib
 projects[panels_breadcrumbs][version] = 1.1
 
 projects[strongarm][subdir] = contrib
-projects[strongarm][version] = 2.0-beta3
+projects[strongarm][version] = 2.0-beta4
 
 ; Ding! modules
 
