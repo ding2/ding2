@@ -31,4 +31,5 @@ projects[og][patch][] = http://drupal.org/files/1320778.patch
 
 projects[strongarm][type] = module
 projects[strongarm][subdir] = contrib
-projects[strongarm][version] = 2.0-beta3
+projects[strongarm][version] = 2.0-beta4
+
