@@ -309,14 +309,14 @@ function ding_news_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_news-ding_news_library'
-  $fields['node-ding_news-ding_news_library'] = array(
+  // Exported field: 'node-ding_news-group_audience'
+  $fields['node-ding_news-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'ding_news_library',
+      'field_name' => 'group_audience',
       'foreign keys' => array(
         'og' => array(
           'columns' => array(
@@ -362,7 +362,7 @@ function ding_news_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'ding_news_library',
+      'field_name' => 'group_audience',
       'label' => 'Library',
       'required' => 0,
       'settings' => array(
