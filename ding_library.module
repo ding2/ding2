@@ -129,12 +129,26 @@ function ding_library_block_view($delta = '') {
         $data = menu_tree_build($config);
         // Add library front page link to menu.
         if (!empty($data['content']['#content'])) {
-          foreach ($data['content']['#content'] as $menu) {
-            if (is_array($menu) && !empty($menu['#href'])) {
+          foreach ($data['content']['#content'] as $mlid => $menu) {
+            if (is_array($menu) && !empty($menu['#href']) && empty($data['content']['#content'][0])) {
               $data['content']['#content'] = array(0 => $menu) + $data['content']['#content'];
               $data['content']['#content'][0] = $menu;
               $data['content']['#content'][0]['#href'] = 'node/' . $library->nid;
               $data['content']['#content'][0]['#title'] = t('Front page');
+              $attributes = array(
+                'first',
+                'leaf',
+              );
+              if (!arg(2)) {
+                $attributes[] = 'active';
+                $attributes[] = 'active-trail';
+              }
+              $data['content']['#content'][0]['#attributes'] = $attributes;
+              foreach ($data['content']['#content'][$mlid]['#attributes'] as $key => $class) {
+                if ($class == 'first') {
+                  unset($data['content']['#content'][$mlid]['#attributes'][$key]);
+                }
+              }
             }
           }
         }
