@@ -443,14 +443,14 @@ function ding_event_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_event-ding_event_library'
-  $fields['node-ding_event-ding_event_library'] = array(
+  // Exported field: 'node-ding_event-group_audience'
+  $fields['node-ding_event-group_audience'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'ding_event_library',
+      'field_name' => 'group_audience',
       'foreign keys' => array(
         'og' => array(
           'columns' => array(
@@ -490,7 +490,7 @@ function ding_event_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'ding_event_library',
+      'field_name' => 'group_audience',
       'label' => 'Library',
       'required' => 0,
       'settings' => array(
