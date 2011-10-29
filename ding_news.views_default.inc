@@ -496,32 +496,6 @@ function ding_news_views_default_views() {
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['ding_news_image']['field_api_classes'] = 0;
-  /* Felt: Indhold: Library */
-  $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
-  $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
-  $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
-  $handler->display->display_options['fields']['group_audience']['label'] = '';
-  $handler->display->display_options['fields']['group_audience']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['group_audience']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['group_audience']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['group_audience']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['group_audience']['element_type'] = 'div';
-  $handler->display->display_options['fields']['group_audience']['element_class'] = 'ding-news-library';
-  $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_audience']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['group_audience']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['group_audience']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['group_audience']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
-  $handler->display->display_options['fields']['group_audience']['field_api_classes'] = 0;
   /* Felt: Content revision: Updated date */
   $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
   $handler->display->display_options['fields']['timestamp']['table'] = 'node_revision';
