@@ -22,8 +22,8 @@ projects[panels][version] = "3.0-alpha3"
 projects[securepages][subdir] = "contrib"
 projects[securepages][version] = "1.x-dev"
 
-projects[strongarm][subdir] = "contrib"
-projects[strongarm][version] = "2.0-beta3"
+projects[strongarm][subdir] = contrib
+projects[strongarm][version] = 2.0-beta4
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "1.1"
