@@ -26,7 +26,7 @@ projects[menu_block][patch][] = http://drupal.org/files/reenable-ctools-1105372-
 
 projects[og][type] = module
 projects[og][subdir] = contrib
-projects[og][version] = 1.2
+projects[og][version] = 1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
 projects[strongarm][type] = module
