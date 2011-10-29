@@ -75,6 +75,28 @@ function ding_library_block_save($delta = '', $edit = array()) {
 }
 
 /**
+ * Implements hook_node_view().
+ */
+function ding_library_node_view($node, $view_mode, $langcode) {
+  if ($view_mode == 'full' && $node->type == 'ding_event') {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $membership = $node_wrapper->og_membership[0]->value();
+    $group = og_load($membership->gid);
+    $library = node_load($group->etid);
+    $_GET['q'] = 'node/' . $library->nid . '/events';
+  }
+  if ($view_mode == 'full' && $node->type == 'ding_news') {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $membership = $node_wrapper->og_membership[0]->value();
+    $group = og_load($membership->gid);
+    $library = node_load($group->etid);
+    $_GET['q'] = 'node/' . $library->nid . '/news';
+  }
+}
+
+
+
+/**
 * Implements hook_block_view().
  */
 function ding_library_block_view($delta = '') {
@@ -88,25 +110,36 @@ function ding_library_block_view($delta = '') {
     );
   }
   if ($delta == 'library_menu' && $node = node_load(arg(1))) {
-    if ($node->type == 'ding_library') {
-      $block['subject'] = check_plain($node->title);
-      // Get default config.
-      $config = menu_block_get_config();
-      // Set menu level to 3.
-      $config['level'] = 3;
-      $data = menu_tree_build($config);
-      // Add library front page link to menu.
-      if (!empty($data['content']['#content'])) {
-        foreach ($data['content']['#content'] as $menu) {
-          if (is_array($menu) && !empty($menu['#href'])) {
-            $data['content']['#content'] = array(0 => $menu) + $data['content']['#content'];
-            $data['content']['#content'][0] = $menu;
-            $data['content']['#content'][0]['#href'] = 'node/' . $node->nid;
-            $data['content']['#content'][0]['#title'] = t('Front page');
+    if (in_array($node->type, array('ding_library', 'ding_news', 'ding_event'))) {
+      if ($node->type == 'ding_library') {
+        $library = $node;
+      }
+      else {
+        $node_wrapper = entity_metadata_wrapper('node', $node);
+        $membership = $node_wrapper->og_membership[0]->value();
+        $group = og_load($membership->gid);
+        $node = node_load($group->etid);
+      }
+      if (isset($library)) {
+        $block['subject'] = check_plain($library->title);
+        // Get default config.
+        $config = menu_block_get_config();
+        // Set menu level to 3.
+        $config['level'] = 3;
+        $data = menu_tree_build($config);
+        // Add library front page link to menu.
+        if (!empty($data['content']['#content'])) {
+          foreach ($data['content']['#content'] as $menu) {
+            if (is_array($menu) && !empty($menu['#href'])) {
+              $data['content']['#content'] = array(0 => $menu) + $data['content']['#content'];
+              $data['content']['#content'][0] = $menu;
+              $data['content']['#content'][0]['#href'] = 'node/' . $library->nid;
+              $data['content']['#content'][0]['#title'] = t('Front page');
+            }
           }
         }
-    }
-      $block['content'] = $data['content'];
+        $block['content'] = $data['content'];
+      }
     }
   }
   return $block;
