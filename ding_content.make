@@ -30,7 +30,7 @@ projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-fo
 
 projects[entity][type] = module
 projects[entity][subdir] = contrib
-projects[entity][version] = 1.0-beta10
+projects[entity][version] = 1.0-beta11
 
 projects[entity][type] = module
 projects[features][subdir] = contrib
