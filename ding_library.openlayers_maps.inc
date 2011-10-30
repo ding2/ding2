@@ -18,7 +18,7 @@ function ding_library_openlayers_maps() {
   $openlayers_maps->description = 'Map of libraries ';
   $openlayers_maps->data = array(
     'width' => 'auto',
-    'height' => '208px',
+    'height' => '225px',
     'image_path' => 'profiles/ding2/libraries/openlayers_themes/dark/',
     'css_path' => '',
     'proxy_host' => '',
