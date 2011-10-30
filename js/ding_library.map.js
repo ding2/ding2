@@ -9,6 +9,29 @@
 var map, mapContainer, markerIDMap = {}, markerLayer;
 
 /**
+ * Resize the map to the requested height.
+ */
+function resizeMap(height) {
+  var center = map.openlayers.getCenter();
+
+  // The height is some times set on both the map container and the
+  // parent. This causes issues with resizing, so remove it.
+  mapContainer.parent().height('auto');
+
+  mapContainer.animate({'height': height + 'px'}, 1000, 'swing', function () {
+    map.openlayers.updateSize();
+    map.openlayers.panTo(center);
+  });
+}
+
+/**
+ * Change the map to its expanded state.
+ */
+function expandMap () {
+  resizeMap(450);
+}
+
+/**
  * Go to a specific marker's location.
  */
 function goToMarker(markerID) {
@@ -16,7 +39,9 @@ function goToMarker(markerID) {
       latLng = new OpenLayers.LonLat(marker.geometry.x, marker.geometry.y);
 
   map.openlayers.setCenter(latLng, 15);
+  expandMap();
 }
+
 
 $(function () {
   var page = $('#ding-library-page');
