@@ -34,6 +34,11 @@ function ding_library_openlayers_maps() {
       ),
     ),
     'behaviors' => array(
+      'openlayers_behavior_tooltip' => array(
+        'layers' => array(
+          'ding_library_openlayers_1' => 'ding_library_openlayers_1',
+        ),
+      ),
       'openlayers_behavior_fullscreen' => array(
         'activated' => 0,
       ),

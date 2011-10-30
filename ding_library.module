@@ -12,6 +12,8 @@ function ding_library_enable() {
     'source' => 'libraries',
     'language' => 'da',
   );
+
+  // Create Danish alias for libraries if needed.
   if (!path_load($path)) {
     $path['alias'] = 'biblioteker';
     path_save($path);
