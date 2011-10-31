@@ -22,6 +22,7 @@ function ding_event_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Kalender';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -656,6 +657,8 @@ function ding_event_views_default_views() {
 
   /* Display: Library full list */
   $handler = $view->new_display('ctools_context', 'Library full list', 'ctools_context_library_master');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Things happening';
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['fields'] = FALSE;
