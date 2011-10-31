@@ -165,7 +165,7 @@ function ding_library_default_page_manager_handlers() {
       'context' => array(
         0 => 'argument_entity_id:node_1.nid',
       ),
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => 'Calendar',
     );
     $pane->cache = array(
