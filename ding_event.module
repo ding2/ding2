@@ -12,7 +12,9 @@ function ding_event_ding_library_menu_links($node) {
 
   if (!empty($node->group_group[LANGUAGE_NONE][0]['value']) || !empty($node->group_group[$node->language][0]['value'])) {
     $links['events'] = array(
-      'title' => t('Events'),
+      'title' => t('Events', array(), array(
+        'langcode' => $node->language,
+      )),
       'url_prefix' => 'events',
     );
   }
