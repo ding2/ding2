@@ -115,7 +115,7 @@ function ding_frontpage_default_page_manager_pages() {
       'args' => '',
       'url' => 'events',
       'display' => 'ctools_context_teaser_list',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => 'Calendar',
     );
     $pane->cache = array(
