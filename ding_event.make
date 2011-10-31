@@ -39,12 +39,12 @@ projects[features][version] = 1.0-beta4
 
 projects[og][type] = module
 projects[og][subdir] = contrib
-projects[og][version] = 1.2
+projects[og][version] = 1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
 projects[strongarm][type] = module
 projects[strongarm][subdir] = contrib
-projects[strongarm][version] = 2.0-beta3
+projects[strongarm][version] = 2.0-beta4
 
 projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
