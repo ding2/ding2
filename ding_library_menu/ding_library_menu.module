@@ -48,7 +48,9 @@ function ding_library_menu_ding_library_menu_links($node) {
 
   if (!empty($node->group_group[LANGUAGE_NONE][0]['value']) || !empty($node->group_group[$node->language][0]['value'])) {
     $links['about'] = array(
-      'title' => t('About the library'),
+      'title' => t('About the library', array(), array(
+        'langcode' => $node->language,
+      )),
       'url_prefix' => 'about',
       'weight' => 11,
     );
