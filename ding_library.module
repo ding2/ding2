@@ -93,23 +93,26 @@ function ding_library_block_save($delta = '', $edit = array()) {
  * Implements hook_node_view().
  */
 function ding_library_node_view($node, $view_mode, $langcode) {
-  /**
-   * TODO: Fix this code.
+  // Set $_GET['q'] to fake active trail needed for library menu. Only needed
+  // if node belongs to a library.
   if ($view_mode == 'full' && $node->type == 'ding_event') {
     $node_wrapper = entity_metadata_wrapper('node', $node);
     $membership = $node_wrapper->og_membership[0]->value();
-    $group = og_load($membership->gid);
-    $library = node_load($group->etid);
-    $_GET['q'] = 'node/' . $library->nid . '/events';
+    if ($membership) {
+      $group = og_load($membership->gid);
+      $library = node_load($group->etid);
+      $_GET['q'] = 'node/' . $library->nid . '/events';
+    }
   }
   if ($view_mode == 'full' && $node->type == 'ding_news') {
     $node_wrapper = entity_metadata_wrapper('node', $node);
     $membership = $node_wrapper->og_membership[0]->value();
-    $group = og_load($membership->gid);
-    $library = node_load($group->etid);
-    $_GET['q'] = 'node/' . $library->nid . '/news';
+    if ($membership) {
+      $group = og_load($membership->gid);
+      $library = node_load($group->etid);
+      $_GET['q'] = 'node/' . $library->nid . '/news';
+    }
   }
-  */
 }
 
 /**
