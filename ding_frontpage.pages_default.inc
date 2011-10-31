@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_default_page_manager_pages().
+ * Implements hook_default_page_manager_pages().
  */
 function ding_frontpage_default_page_manager_pages() {
   $page = new stdClass;
