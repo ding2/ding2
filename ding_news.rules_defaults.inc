@@ -9,12 +9,12 @@
  */
 function ding_news_default_rules_configuration() {
   $items = array();
-  $items['rules_ding_news_content_update'] = entity_import('rules_config', '{ "rules_ding_news_content_update" : {
-      "LABEL" : "News category content update",
+  $items['rules_ding_news_node_update'] = entity_import('rules_config', '{ "rules_ding_news_node_update" : {
+      "LABEL" : "Ding news node update",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "ding_news" ],
       "REQUIRES" : [ "rules", "cache_actions" ],
-      "ON" : [ "node_insert", "node_delete", "node_update" ],
+      "ON" : [ "node_insert", "node_update", "node_delete" ],
       "IF" : [
         { "node_is_of_type" : {
             "node" : [ "node" ],
@@ -23,14 +23,7 @@ function ding_news_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
-                "subtask:page_ding_news_panel_context:page:ding_news:new-2" : "subtask:page_ding_news_panel_context:page:ding_news:new-2",
-                "subtask:page_group_audience_panel_context:page:group_audience:new-1" : "subtask:page_group_audience_panel_context:page:group_audience:new-1",
-                "task:term_view_panel_context:term_view:new-2" : "task:term_view_panel_context:term_view:new-2"
-              }
-            }
-          }
-        }
+        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_library" : "ding_library" } } } }
       ]
     }
   }');
