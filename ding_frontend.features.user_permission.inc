@@ -31,5 +31,15 @@ function ding_frontend_user_default_permissions() {
     'module' => 'comment',
   );
 
+  // Exported permission: skip comment approval
+  $permissions['skip comment approval'] = array(
+    'name' => 'skip comment approval',
+    'roles' => array(
+      0 => 'administrator',
+      1 => 'authenticated user',
+    ),
+    'module' => 'comment',
+  );
+
   return $permissions;
 }
