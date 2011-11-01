@@ -14,7 +14,7 @@ function ding_library_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "ding_library" ],
       "REQUIRES" : [ "rules", "cache_actions" ],
-      "ON" : [ "node_insert" ],
+      "ON" : [ "node_insert", "node_update", "node_delete" ],
       "IF" : [
         { "node_is_of_type" : {
             "node" : [ "node" ],
