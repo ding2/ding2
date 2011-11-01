@@ -7,7 +7,7 @@ projects[defaultcontent][version] = 1.0-alpha4
 projects[ding_library][type] = module
 projects[ding_library][download][type] = git
 projects[ding_library][download][url] = git@github.com:ding2/ding_library.git
-projects[ding_library][download][tag] = "7.x-0.3"
+projects[ding_library][download][tag] = "7.x-0.4"
 
 projects[ding_event][type] = module
 projects[ding_event][download][type] = git
