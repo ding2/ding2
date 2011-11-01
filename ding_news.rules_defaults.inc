@@ -23,7 +23,7 @@ function ding_news_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_library" : "ding_library" } } } }
+        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_news" : "ding_news" } } } }
       ]
     }
   }');
