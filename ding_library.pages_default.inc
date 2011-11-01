@@ -127,12 +127,8 @@ function ding_library_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -169,12 +165,8 @@ function ding_library_default_page_manager_handlers() {
       'override_title_text' => 'Calendar',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -254,11 +246,10 @@ function ding_library_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'rules',
+      'method' => 'simple',
       'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
+        'lifetime' => '600',
+        'granularity' => 'none',
       ),
     );
     $pane->style = array(
@@ -376,12 +367,8 @@ function ding_library_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'none',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -669,7 +656,13 @@ function ding_library_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'simple',
+      'settings' => array(
+        'lifetime' => '600',
+        'granularity' => 'none',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
