@@ -80,12 +80,8 @@ function ding_frontpage_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'none',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_frontpage:page_ding_frontpage_panel_context',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -119,12 +115,8 @@ function ding_frontpage_default_page_manager_pages() {
       'override_title_text' => 'Calendar',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'none',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_frontpage:page_ding_frontpage_panel_context',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -156,11 +148,10 @@ function ding_frontpage_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'rules',
+      'method' => 'simple',
       'settings' => array(
+        'lifetime' => '300',
         'granularity' => 'none',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_frontpage:page_ding_frontpage_panel_context',
       ),
     );
     $pane->style = array(
