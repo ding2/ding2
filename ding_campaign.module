@@ -128,7 +128,7 @@ function ding_campaign_display($context, $count, $offset) {
           $content = '<div class="'.$base_class.' ding-campaign-item-full">' . $camp_text_full[0]['safe_value'] . '</div>';
           break;
       }
-      
+
       $theme = 'ding_campaign';
       $block .= theme($theme, array('content' => $content));
     }
@@ -222,7 +222,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process library campaigns.
-  if ($context['library'] != NULL && isset($context['library']->nid) && $context['library']->type == 'library' ) {
+  if ($context['library'] != NULL && isset($context['library']->nid) && $context['library']->type == 'ding_library' ) {
     $nid = $context['library']->nid;
 
     $result = db_query('SELECT r.cid
