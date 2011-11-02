@@ -205,12 +205,6 @@ function ding2_install() {
   variable_set('admin_theme', 'seven');
   variable_set('node_admin_theme', '1');
 
-  // Set the image presets for covers.
-  variable_set('ting_covers_full_style', 'ding_large');
-  variable_set('ting_covers_teaser_style', 'ding_medium');
-  variable_set('ting_covers_user_list_style', 'ding_small');
-  variable_set('ting_covers_search_result_style', 'ding_medium');
-
   // Set default source language for i18n module
   variable_set('i18n_string_source_language', 'en');
 
