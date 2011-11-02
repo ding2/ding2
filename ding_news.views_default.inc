@@ -485,8 +485,10 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['group_audience']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['group_audience']['element_type'] = 'div';
+  $handler->display->display_options['fields']['group_audience']['element_class'] = 'ding-news-library';
   $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['group_audience']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['group_audience']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['group_audience']['hide_empty'] = 0;
   $handler->display->display_options['fields']['group_audience']['empty_zero'] = 0;
   $handler->display->display_options['fields']['group_audience']['hide_alter_empty'] = 0;
