@@ -213,6 +213,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
+      'context' => 'argument_entity_id:node_1',
     );
     $pane->cache = array();
     $pane->style = array(
