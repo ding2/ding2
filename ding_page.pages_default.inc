@@ -151,8 +151,8 @@ function ding_page_default_page_manager_handlers() {
       'ding_campaign_count' => 3,
       'ding_campaign_offset' => 0,
       'context' => array(
-        0 => 'empty',
-        1 => 'empty',
+        0 => 'argument_entity_id:node_1',
+        1 => 'relationship_og_node_from_group_1',
         2 => 'empty',
         3 => 'empty',
       ),
