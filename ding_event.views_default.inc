@@ -658,7 +658,7 @@ function ding_event_views_default_views() {
   /* Display: Library full list */
   $handler = $view->new_display('ctools_context', 'Library full list', 'ctools_context_library_master');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Things happening';
+  $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['style_plugin'] = 'ctools_context';
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['fields'] = FALSE;
