@@ -121,13 +121,6 @@ search/node',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
-    'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Search
-Well
-',
-    'panels_breadcrumbs_paths' => 'search
-search/ting
-',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25';
@@ -350,7 +343,7 @@ search/ting
       'context' => array(
         0 => 'empty',
         1 => 'empty',
-        2 => 'empty',
+        2 => 'argument_string_1',
         3 => 'empty',
       ),
       'override_title' => 0,
