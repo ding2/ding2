@@ -52,3 +52,5 @@ projects[strongarm][version] = 2.0-beta4
 projects[views][type] = module
 projects[views][subdir] = contrib
 projects[views][version] = 3.0-rc1
+; Needed until the next views release.
+projects[views][patch][] = http://drupal.org/files/issues/1192666-field-entity_type-no-revision.patch
