@@ -89,7 +89,7 @@ function ding_page_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '4',
+        'weight' => '5',
       ),
     ),
   );
@@ -170,7 +170,7 @@ function ding_page_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '5',
+        'weight' => '6',
       ),
     ),
   );
@@ -246,6 +246,59 @@ function ding_page_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_page-field_ding_material'
+  $fields['node-ding_page-field_ding_material'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_ding_material',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_page',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ting_reference',
+          'settings' => array(
+            'view_mode' => 'teaser',
+          ),
+          'type' => 'ting_reference_default',
+          'weight' => 6,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ding_material',
+      'label' => 'Materials',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'ting_reference',
+        'settings' => array(),
+        'type' => 'ting_reference_simple',
+        'weight' => '4',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_page-field_list_image'
   $fields['node-ding_page-field_list_image'] = array(
     'field_config' => array(
@@ -311,7 +364,7 @@ function ding_page_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => 'ding_small',
+            'image_style' => '',
           ),
           'type' => 'image',
           'weight' => '0',
@@ -441,6 +494,7 @@ function ding_page_field_default_fields() {
   t('Image will be used in various lists (search results etc.)');
   t('List image');
   t('Main image');
+  t('Materials');
   t('Tags');
   t('image will show up between title and body');
 
