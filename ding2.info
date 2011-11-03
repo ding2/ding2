@@ -23,9 +23,6 @@ dependencies[] = ding_frontpage
 dependencies[] = ding_library_menu
 dependencies[] = ding_news
 
-; Funny things happen if this is higher up.
-dependencies[] = ding_example_content
-
 files[] = ding2.profile
 
 ; Profiler extensions.
