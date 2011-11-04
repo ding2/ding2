@@ -8,6 +8,12 @@
  * Implements hook_menu_alter().
  */
 function ding_library_menu_menu_alter(&$items) {
+  foreach (module_invoke_all('ding_library_menu_links') as $path_suffix => $item) {
+    $full_path = 'node/%pm_arg/' . $path_suffix;
+    if (isset($items[$full_path]) && isset($item['title'])) {
+      $items[$full_path]['title'] = $item['title'];
+    }
+  }
   // When the menu structure is being rebuilt, we also want to create
   // our own links.
   _ding_libary_menu_rebuild();
@@ -38,25 +44,13 @@ function ding_library_menu_node_update($node) {
 /**
  * Implements hook_ding_library_menu_links().
  */
-function ding_library_menu_ding_library_menu_links($node) {
-  $links = array();
-
-  $links['main'] = array(
-    'title' => $node->title,
-    'url_prefix' => NULL,
-  );
-
-  if (!empty($node->group_group[LANGUAGE_NONE][0]['value']) || !empty($node->group_group[$node->language][0]['value'])) {
-    $links['about'] = array(
-      'title' => t('About the library', array(), array(
-        'langcode' => $node->language,
-      )),
-      'url_prefix' => 'about',
+function ding_library_menu_ding_library_menu_links() {
+  return array(
+    'about' => array(
+      'title' => 'About the library',
       'weight' => 11,
-    );
-  }
-
-  return $links;
+    ),
+  );
 }
 
 /**
@@ -82,41 +76,44 @@ function _ding_libary_menu_rebuild() {
   $actual_links = array();
 
   foreach ($nodes as $node) {
-    foreach (module_invoke_all('ding_library_menu_links', $node) as $link) {
+    $path_parts = array('node', $node->nid);
+
+    // For the main library page, we use the root link as parent.
+    $parent = $root_link;
+
+    $path = implode('/', $path_parts);
+    // If link does not exist, create it.
+    if (empty($existing_links[$path])) {
+      /* node/% has an empty title, and if we use the
+         same title, _menu_item_localize will use the
+         router title instead (which is translated).
+      */
+      $item = _ding_libary_menu_save($path, '', $parent);
+      $existing_links[$path] = $item;
+    }
+
+    $actual_links[] = $path;
+
+
+    foreach (module_invoke_all('ding_library_menu_links') as $path_suffix => $link) {
       $path_parts = array('node', $node->nid);
 
-      // If link has an URL prefix, it's a sub-page to the library.
-      if ($link['url_prefix']) {
-        $path_parts[] = $link['url_prefix'];
+      $path_parts[] = $path_suffix;
 
-        // Use the main page as parent.
-        // TODO: This does not work with deeper links (ie.
-        // node/1/events/today/whatever)
-        $parent = $existing_links['node/' . $node->nid];
+      // Use the main page as parent.
+      // TODO: This does not work with deeper links (ie.
+      // node/1/events/today/whatever)
+      $parent = $existing_links['node/' . $node->nid];
 
-        // Don't create parent-less menu links.
-        if (empty($parent)) { continue; }
-      }
-      // For the main library page, we use the root link as parent.
-      else {
-        $parent = $root_link;
-      }
+      // Don't create parent-less menu links.
+      if (empty($parent)) { continue; }
 
       $path = implode('/', $path_parts);
 
       // If link does not exist, create it.
       if (empty($existing_links[$path])) {
-        $item = array(
-          'plid' => $parent['mlid'],
-          'menu_name' => $parent['menu_name'],
-          'link_path' => $path,
-          'link_title' => $link['title'],
-          'module' => 'ding_library_menu',
-          'customized' => 0,
-          'weight' => (empty($link['weight'])) ? 0 : $link['weight'],
-        );
-
-        menu_link_save($item);
+        /* Using the same as the router  makes translation work. */
+        $item = _ding_libary_menu_save($path, $link['title'], $parent, empty($link['weight']) ? 0 : $link['weight']);
 
         $existing_links[$path] = $item;
       }
@@ -130,3 +127,16 @@ function _ding_libary_menu_rebuild() {
   }
 }
 
+function _ding_libary_menu_save($path, $title, $parent, $weight = NULL) {
+  $item = array(
+    'plid' => $parent['mlid'],
+    'menu_name' => $parent['menu_name'],
+    'link_path' => $path,
+    'link_title' => $title,
+    'module' => 'ding_library_menu',
+    'customized' => 0,
+    'weight' => $weight ? $weight : 0,
+  );
+
+  return menu_link_save($item) ? $item : FALSE;
+}
