@@ -289,8 +289,6 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
     unset($form['field_camp_settings'][$form['field_camp_settings']['#language']]['#options']['_none']);
     // Remove the 'None' value from weight dropdown.
     unset($form['field_camp_weight'][$form['field_camp_weight']['#language']]['#options']['_none']);
-    // Remove the 'None' value from theme dropdown.
-    unset($form['field_camp_theme'][$form['field_camp_theme']['#language']]['#options']['_none']);
 
     $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
   }
@@ -322,12 +320,11 @@ function ding_campaign_node_insert($node) {
   if ($node->type == 'ding_campaign') {
     $node_type = field_get_items('node', $node, 'field_camp_settings');
     $node_weight = field_get_items('node', $node, 'field_camp_weight');
-    $node_theme = field_get_items('node', $node, 'field_camp_theme');
+
     $data = array(
       'cid' => $node->nid,
       'type' => $node_type[0]['value'],
       'weight' => $node_weight[0]['value'],
-      'theme' => $node_theme[0]['value'],
     );
 
     db_insert('ding_campaign')
@@ -369,12 +366,10 @@ function ding_campaign_node_update($node) {
   if ($node->type == 'ding_campaign') {
     $node_type = field_get_items('node', $node, 'field_camp_settings');
     $node_weight = field_get_items('node', $node, 'field_camp_weight');
-    $node_theme = field_get_items('node', $node, 'field_camp_theme');
     // Update campaign fields.
     $data = array(
       'type' => $node_type[0]['value'],
       'weight' => $node_weight[0]['value'],
-      'theme' => $node_theme[0]['value'],
     );
 
     db_update('ding_campaign')

@@ -355,6 +355,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
+/* #588 Campaign theme skal fjernes fra Campaign sidetypen, fordi kampagnerne nu følger designet
   // Exported field: node-ding_campaign-field_camp_theme.
   $fields['node-ding_campaign-field_camp_theme'] = array(
     'field_config' => array(
@@ -422,6 +423,7 @@ function ding_campaign_ctype_field_default_fields() {
       ),
     ),
   );
+*/
 
   // Exported field: node-ding_campaign-field_camp_weight.
   $fields['node-ding_campaign-field_camp_weight'] = array(
