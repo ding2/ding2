@@ -56,7 +56,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           drupal_save_session(FALSE);
 
           // Load the user that was paying.
-          $my_user = user_load(array('uid' => $transaction['customer_uid']));
+          $my_user = user_load($transaction['customer_uid']);
 
           // If we have a saved session, let's resume it.
           if (isset($transaction['params']['session'])) {
