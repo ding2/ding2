@@ -7,19 +7,12 @@
 /**
  * Implements hook_ding_library_menu_links().
  */
-function ding_event_ding_library_menu_links($node) {
-  $links = array();
-
-  if (!empty($node->group_group[LANGUAGE_NONE][0]['value']) || !empty($node->group_group[$node->language][0]['value'])) {
-    $links['events'] = array(
-      'title' => t('Events', array(), array(
-        'langcode' => $node->language,
-      )),
-      'url_prefix' => 'events',
-    );
-  }
-
-  return $links;
+function ding_event_ding_library_menu_links() {
+  return array(
+    'events' => array(
+      'title' => 'Events',
+    ),
+  );
 }
 
 /**
