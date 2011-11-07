@@ -15,6 +15,7 @@ function ding_place2book_admin_settings_form(&$form_state) {
     '#type' => 'textfield',
     '#title' => t('Place2Book service URL'),
     '#default_value' => variable_get('ding_place2book_service_url', ''),
+    '#description' => t('Required.Enter a valid Place2book service endpoint, such as https://www.place2book.com/da/event_api'),
     '#required' => TRUE,
     '#size' => 100,
     );

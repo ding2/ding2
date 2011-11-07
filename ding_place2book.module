@@ -253,6 +253,9 @@ function place2book_event_op($form_state_values, $op) {
       if (!$req_result->headers['Event-Id']) {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
         drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        if ( variable_get('ding_place2book_service_url', '') == '' ) {
+    	  drupal_set_message(t('Place2book integration has not been configured. Go to <a href="/admin/settings/ding/place2book">/admin/settings/ding/place2book</a> to set it up.'), 'error', FALSE);
+        }
       } else {
         drupal_set_message(t('Event created on Place2book with remote ID ') . $req_result->headers['Event-Id']);
       }
@@ -266,6 +269,9 @@ function place2book_event_op($form_state_values, $op) {
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
         drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        if ( variable_get('ding_place2book_service_url', '') == '' ) {
+    	  drupal_set_message(t('Place2book integration has not been configured. Go to <a href="/admin/settings/ding/place2book">/admin/settings/ding/place2book</a> to set it up.'), 'error', FALSE);
+        }
       } else {
         drupal_set_message(t('Event updated on Place2book with remote ID ') . $form_state_values['place2book_id']);
       }
@@ -277,7 +283,10 @@ function place2book_event_op($form_state_values, $op) {
       
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'];
-        drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        if ( variable_get('ding_place2book_service_url', '') == '' ) {
+    	  drupal_set_message(t('Place2book integration has not been configured. Go to <a href="/admin/settings/ding/place2book">/admin/settings/ding/place2book</a> to set it up.'), 'error', FALSE);
+        }
       } else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
       }
@@ -378,7 +387,7 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
     );   
     //$form['#submit'][] = 'ding_place2book_p2b_submit'; 
-    $form['buttons']['submit']['#submit'][]  = 'ding_place2book_p2b_submit'; 
+    $form['buttons']['submit']['#submit'][]  = 'ding_place2book_p2b_submit';
   }
 
 }
