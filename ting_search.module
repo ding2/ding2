@@ -658,7 +658,7 @@ function ting_search_submit($form, &$form_state) {
 function _ting_search_quote($string) {
   if (preg_match('/^(.*?)(AND \(.*|$)/', $string, $rx)) {
     $keys = $rx[1];
-    $new_keys = preg_replace_callback('/(?:(".*?(?<!\\\)")|\b(and|or|not|prox)\b)/i', '_ting_search_quote_callback', $keys);
+    $new_keys = preg_replace_callback('/(?:(".*?(?<!\\\)")|\b(and|or|not|prox)\b)/', '_ting_search_quote_callback', $keys);
     $string = preg_replace('/^' . preg_quote($keys). '/', $new_keys, $string);
   }
   return $string;
