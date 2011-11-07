@@ -334,7 +334,7 @@ function place2book_settings($nid) {
 function ding_place2book_form_alter(&$form, $form_state, $form_id) {
  
   $p2b_values = place2book_settings($form['nid']['#value']);
-  if ($p2b_values['place2book_id']) {
+  if ($p2b_values['place2book_id'] && $p2b_values['place2book_id'] != -1) {
     $p2b_ID_markup = '<a href="' . str_replace('/event_api', '/events', variable_get('ding_place2book_service_url', '')) . '/' . $p2b_values['place2book_id'] . '/edit" target="_new">' . $p2b_values['place2book_id'] .'</a>';
     $p2b_extra_info_markup = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID ') . $p2b_ID_markup . t(' (Note: You may need to log on)');
   } else {
