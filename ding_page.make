@@ -19,11 +19,6 @@ projects[features][type] = module
 projects[features][subdir] = contrib
 projects[features][version] = 1.0-beta4
 
-projects[menu_block][type] = module
-projects[menu_block][subdir] = contrib
-projects[menu_block][version] = 2.x-dev
-projects[menu_block][patch][] = http://drupal.org/files/reenable-ctools-1105372-7.patch
-
 projects[og][type] = module
 projects[og][subdir] = contrib
 projects[og][version] = 1.3

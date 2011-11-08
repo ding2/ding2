@@ -90,11 +90,11 @@ function ding_page_default_page_manager_handlers() {
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'block';
-    $pane->subtype = 'menu_block-ding_page-1';
+    $pane->subtype = 'ding_library-ding_sidebar_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
