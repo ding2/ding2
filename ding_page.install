@@ -1,0 +1,12 @@
+<?php
+
+// Install and update hooks for Ding Page.
+
+/**
+ * Remove obsolete menu.
+ */
+function ding_page_update_6001() {
+  $menu = menu_load('menu-sider');
+  menu_delete($menu);
+  return t('Pages menu deleted.');
+}
