@@ -252,7 +252,7 @@ function ting_block_view($delta = '') {
         foreach ($collection->types as $type) {
           $uri = entity_uri('ting_collection', $collection);
           $uri['options']['fragment'] = $type;
-          $items[] = l($type, $uri['path'], $uri['options']);
+          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 
         $block['content'] = array(
