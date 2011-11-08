@@ -179,6 +179,16 @@ class TingSearchParsingTestCase extends DrupalUnitTestCase {
         'expected' => 'anders "and"',
       ),
       array(
+        'string' => 'anders aNd',
+        'expected' => 'anders "aNd"',
+      ),
+      array(
+        // This might seem like a pretty simple case, but this is actually a
+        // regression test for an issue not caught by the more advanced tests.
+        'string' => 'anders AND',
+        'expected' => 'anders AND',
+      ),
+      array(
         'string' => 'anders and AND (dc.title=historie)',
         'expected' => 'anders "and" AND (dc.title=historie)',
       ),

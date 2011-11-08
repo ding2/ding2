@@ -126,7 +126,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   );
   // We're going to disable advanced search in
   // the first version, and implement later on.
-  // When implementing againg, set 
+  // When implementing againg, set
   // $advanced = TRUE - just below.
   $advanced = FALSE;
 
@@ -658,7 +658,7 @@ function ting_search_submit($form, &$form_state) {
 function _ting_search_quote($string) {
   if (preg_match('/^(.*?)(AND \(.*|$)/', $string, $rx)) {
     $keys = $rx[1];
-    $new_keys = preg_replace_callback('/(?:(".*?(?<!\\\)")|\b(and|or|not|prox)\b)/', '_ting_search_quote_callback', $keys);
+    $new_keys = preg_replace_callback('/(?:(".*?(?<!\\\)")|\b(and|or|not|prox)\b)/i', '_ting_search_quote_callback', $keys);
     $string = preg_replace('/^' . preg_quote($keys). '/', $new_keys, $string);
   }
   return $string;
@@ -670,8 +670,14 @@ function _ting_search_quote($string) {
 function _ting_search_quote_callback($matches) {
   // If $matches[2] is empty, it's because the quote pattern
   // matched. Don't do anything with it.
-  if (!empty($matches[2]) && $matches[2] != drupal_strtoupper($matches[2])) {
-    return '"' . $matches[2] . '"';
+  if (!empty($matches[2])) {
+    // Boolean operator, but not uppercase, quote it.
+    if ($matches[2] != drupal_strtoupper($matches[2])) {
+      return '"' . $matches[2] . '"';
+    }
+    // Uppercase boolean operator, return as is.
+    return $matches[2];
   }
+  // We have a quote. Just return it.
   return $matches[1];
 }
