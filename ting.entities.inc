@@ -202,6 +202,7 @@ class TingEntity extends DingEntity {
 class TingCollection extends DingEntityCollection {
   public $title = DingEntityBase::NULL;
   public $types = DingEntityBase::NULL;
+  public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
   function __construct($id) {
@@ -256,6 +257,18 @@ class TingCollection extends DingEntityCollection {
       }
     }
     return $this->types = array_unique($types);
+  }
+
+  function getTypes_count() {
+    $types = array();
+    foreach ($this->entities as $object) {
+      if ( !isset($types[$object->type] ) ) {
+        $types[$object->type] = 1;
+      } else {
+        $types[$object->type]++;
+      }
+    }
+    return $this->types_count = $types;
   }
 
   function getPrimary_object() {

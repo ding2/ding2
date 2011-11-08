@@ -231,7 +231,7 @@ function ting_block_view($delta = '') {
         $block['subject'] = render($block['subject']);
         $items = array();
         foreach ($collection->types as $type) {
-          $items[] = l($type, '#' . $type, array('external' => TRUE));
+          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE ));
         }
         $block['content'] = array(
           '#theme' => 'item_list',
