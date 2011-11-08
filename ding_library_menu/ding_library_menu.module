@@ -84,14 +84,22 @@ function _ding_libary_menu_rebuild() {
     $path = implode('/', $path_parts);
     // If link does not exist, create it.
     if (empty($existing_links[$path])) {
-      /* node/% has an empty title, and if we use the
-         same title, _menu_item_localize will use the
-         router title instead (which is translated).
-      */
-      $item = _ding_libary_menu_save($path, '', $parent);
+      /*
+       * We cannot use the same title as the router item to get the
+       * link title translated, as the router item for node/% is empty
+       * and an empty string would then be used in the menu admin
+       * pages. The loss isn't that great though, as library names are
+       * proper names, and you'd translate the node itself which gets
+       * a new menu link anyway.
+       */
+      $item = _ding_libary_menu_save($path, $node->title, $parent);
       $existing_links[$path] = $item;
     }
-
+    else {
+      $item = menu_link_load($existing_links[$path]['mlid']);
+      $item['link_title'] = $node->title;
+      menu_link_save($item);
+    }
     $actual_links[] = $path;
 
 
