@@ -1,0 +1,37 @@
+<?php
+
+// Install and update hooks for ding_library.
+
+/**
+ * Update blocks.
+ */
+function ding_library_update_6001() {
+  $default_theme = variable_get('theme_default', 'bartik');
+
+  // Delete menu_block menu, not needed anymore.
+  db_delete('block')
+    ->condition('module', 'menu_block')
+    ->condition('delta','ding_content-main-lvl1')
+    ->condition('theme',$default_theme)
+    ->execute();
+  // Delete any left over library_menus.
+  db_delete('block')
+    ->condition('module', 'ding_library')
+    ->condition('delta', 'library_menu')
+    ->condition('theme', $default_theme)
+    ->execute();
+  // Add the new ding_menu.
+  db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'))->values(array(
+      'module' => 'ding_library',
+      'delta' => 'ding_menu',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 1,
+      'region' => 'header',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    )
+  )->execute();
+  return t('Updated menu block.');
+}
