@@ -162,26 +162,6 @@ function ding_content_media_browser_plugin_view($plugin_name, $params) {
 }
 
 /**
- * Implements hook_menu_block_blocks().
- */
-function ding_content_menu_block_blocks() {
-  // The array key is the block delta used by menu block.
-  return array(
-    'ding_content-main-lvl1' => array(
-      'menu_name'   => 'main-menu',
-      'parent_mlid' => 0,
-      'title_link'  => 0,
-      'admin_title' => 'Main menu, level 1',
-      'level'       => 1,
-      'follow'      => 0,
-      'depth'       => 1,
-      'expanded'    => 0,
-      'sort'        => 0,
-    ),
-  );
-}
-
-/**
  * Implements hook_field_widget_info().
  */
 function ding_content_field_widget_info() {

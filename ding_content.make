@@ -40,11 +40,6 @@ projects[media][type] = module
 projects[media][subdir] = contrib
 projects[media][version] = 1.0-rc2
 
-projects[menu_block][type] = module
-projects[menu_block][subdir] = contrib
-projects[menu_block][version] = 2.x-dev
-projects[menu_block][patch][] = http://drupal.org/files/reenable-ctools-1105372-7.patch
-
 projects[panels][type] = module
 projects[panels][subdir] = contrib
 projects[panels][version] = 3.0-alpha3
