@@ -2,6 +2,8 @@
 
 // load field hooks
 module_load_include('inc', 'ting_material_details', 'ting_material_details.field');
+// load features
+include_once('material_details_field_group.features.inc');
 
 
 /**
