@@ -1,0 +1,19 @@
+<?php
+
+// load field hooks
+module_load_include('inc', 'ting_material_details', 'ting_material_details.field');
+
+
+/**
+ * Implements hook_theme
+ */
+function ting_material_details_theme( $existing, $type, $theme, $path ) {
+  // page view definitions - view articles
+  $render_array['ting_details_default'] = array(
+    'template' => 'ting_material_details_default',
+    'render element' => 'element',
+  );  
+  return $render_array;
+}
+
+
