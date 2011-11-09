@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * material_details_field_group.field_group.inc
+ * ting_material_details.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function material_details_field_group_field_group_info() {
+function ting_material_details_field_group_info() {
   $export = array();
 
   $field_group = new stdClass;
@@ -21,7 +21,7 @@ function material_details_field_group_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Material details',
-    'weight' => '43',
+    'weight' => '7',
     'children' => array(
       0 => 'ting_details_type',
       1 => 'ting_details_format',
@@ -50,13 +50,18 @@ function material_details_field_group_field_group_info() {
       24 => 'ting_details_audience',
       25 => 'ting_details_age',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Material details',
       'instance_settings' => array(
-        'description' => '',
         'classes' => '',
+        'description' => '',
+        'show_label' => '1',
+        'label_element' => 'h2',
+        'effect' => 'none',
+        'speed' => 'fast',
       ),
+      'formatter' => 'open',
     ),
   );
   $export['group_material_details|ting_object|ting_object|default'] = $field_group;
