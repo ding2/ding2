@@ -100,3 +100,8 @@ projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
 projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.git
 projects[ting_reference][download][tag] = "7.x-0.7"
+
+projects[ting_material_details][type] = "module"
+projects[ting_material_details][download][type] = "git"
+projects[ting_material_details][download][url] = "git@github.com:ding2/ting_material_details.git"
+projects[ting_material_details][download][tag] = "7.x-0.1"
