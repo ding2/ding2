@@ -542,7 +542,7 @@ function ding_news_default_page_manager_pages() {
   $page = new stdClass;
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
-  $page->name = 'group_audience';
+  $page->name = 'ding_news_library';
   $page->task = 'page';
   $page->admin_title = 'Library news page';
   $page->admin_description = '';
@@ -579,9 +579,9 @@ function ding_news_default_page_manager_pages() {
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_group_audience_panel_context';
+  $handler->name = 'page_ding_news_library_panel_context';
   $handler->task = 'page';
-  $handler->subtask = 'group_audience';
+  $handler->subtask = 'ding_news_library';
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
@@ -671,7 +671,7 @@ function ding_news_default_page_manager_pages() {
       'settings' => array(
         'granularity' => 'context',
         'language' => 1,
-        'cache_key' => 'panel_context:page-group_audience:page_group_audience_panel_context',
+        'cache_key' => 'panel_context:page-ding_news_library:page_ding_news_library_panel_context',
       ),
     );
     $pane->style = array(
@@ -714,7 +714,7 @@ function ding_news_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['group_audience'] = $page;
+  $pages['ding_news_library'] = $page;
 
  return $pages;
 
