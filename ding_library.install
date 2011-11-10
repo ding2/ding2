@@ -5,7 +5,7 @@
 /**
  * Update blocks.
  */
-function ding_library_update_6001() {
+function ding_library_update_7001() {
   $default_theme = variable_get('theme_default', 'bartik');
 
   // Delete menu_block menu, not needed anymore.
