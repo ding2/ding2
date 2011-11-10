@@ -511,20 +511,17 @@ function ding_library_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'About the library';
+  $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'middle';
-    $pane->type = 'page_title';
-    $pane->subtype = 'page_title';
+    $pane->type = 'menu_title';
+    $pane->subtype = 'menu_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'markup' => 'h1',
-      'class' => '',
-      'id' => '',
       'override_title' => 0,
       'override_title_text' => '',
     );
