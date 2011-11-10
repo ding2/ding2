@@ -5,7 +5,7 @@
 /**
  * Remove obsolete menu.
  */
-function ding_page_update_6001() {
+function ding_page_update_7001() {
   $menu = menu_load('menu-sider');
   menu_delete($menu);
   return t('Pages menu deleted.');
