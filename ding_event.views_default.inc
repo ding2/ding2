@@ -879,6 +879,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['sitename_title'] = 1;
   $translatables['ding_event'] = array(
     t('Master'),
+    t('Kalender'),
     t('more'),
     t('Apply'),
     t('Gendan'),
@@ -886,12 +887,13 @@ function ding_event_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Brødtekst'),
-    t('Alle'),
+    t('All'),
     t('Full list'),
     t('Front page teaser list'),
     t('Feed'),
     t('Library teaser list'),
     t('Library full list'),
+    t('Events'),
     t('Library Feed'),
   );
   $export['ding_event'] = $view;
