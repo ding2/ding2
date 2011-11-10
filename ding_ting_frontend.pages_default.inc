@@ -28,9 +28,11 @@ function ding_ting_frontend_default_page_manager_handlers() {
     'relationships' => array(),
     'panels_breadcrumbs_state' => 1,
     'panels_breadcrumbs_titles' => 'Search
-Website',
+Website
+%keywords:html_safe',
     'panels_breadcrumbs_paths' => 'search
-search/node',
+search/node
+<none>',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25';
@@ -121,6 +123,14 @@ search/node',
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'Search
+Well
+%keywords:html_safe',
+    'panels_breadcrumbs_paths' => 'search
+search/ting
+<none>
+',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25';
