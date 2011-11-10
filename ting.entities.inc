@@ -45,7 +45,6 @@ class TingEntity extends DingEntity {
   public $online_url = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
   public $description = DingEntityBase::NULL;
-  //pjo 26-09-11 added contributor and abstract for relations
   public $contributors = DingEntityBase::NULL;
   public $isPartOf = DingEntityBase::NULL;
   public $extent = DingEntityBase::NULL;
