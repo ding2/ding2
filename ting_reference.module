@@ -8,11 +8,10 @@
  * Implements hook_enable().
  */
 function ting_reference_enable() {
-  // Currently, the relation types are not loaded automatically, so we
-  // do this manually when the module is enabled.
-  // Call relation_init to make sure that the relation field is created.
+  // Relations isn't properly exported/imported with beta1, so we do
+  // it by hand for the moment being.
   relation_init();
-  foreach (ting_reference_relation_default_relation_types() as $relation_type) {
+  foreach (ting_reference_relation_default_relation_types_tmp() as $relation_type) {
     if (!relation_type_load($relation_type->relation_type)) {
       relation_type_save($relation_type);
     }
@@ -20,9 +19,12 @@ function ting_reference_enable() {
 }
 
 /**
- * Implementation of hook_relation_default_relation_types().
+ * Not quite an Implementation of hook_relation_default_relation_types().
+ *
+ * Default hooks doesn't work for relations beta1, so we do it by hand
+ * for the moment being.
  */
-function ting_reference_relation_default_relation_types() {
+function ting_reference_relation_default_relation_types_tmp() {
   $export = array();
 
   $relation_type = new stdClass;
