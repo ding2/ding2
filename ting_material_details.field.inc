@@ -5,14 +5,13 @@
  */
 
 function ting_material_details_field_info() {
-  // TODO add other formatters e.g for handling lists (subject,URI,contributors etc.)
   $ret = array(
      //dc:type	       
     'ting_details_type' => array(
       'label' => t('Type'),
       'description' => t('Material type'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dc:format
@@ -20,7 +19,7 @@ function ting_material_details_field_info() {
       'label' => t('Format'),
       'description' => t('Material format'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dcterms:isPartOf (Availability)
@@ -28,7 +27,7 @@ function ting_material_details_field_info() {
       'label' => t('Available in'),
       'description' => t('dcterms:isPartOf'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dc:language
@@ -36,7 +35,7 @@ function ting_material_details_field_info() {
       'label' => t('Language'),
       'description' => t('Language'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dkdcplus:spoken
@@ -44,7 +43,7 @@ function ting_material_details_field_info() {
       'label' => t('Speech'),
       'description' => t('spoken language'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dkdcplus:subtitles 
@@ -52,7 +51,7 @@ function ting_material_details_field_info() {
       'label' => t('Subtitle'),
       'description' => t('Material subtitles'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dkdcplus:genre
@@ -60,7 +59,7 @@ function ting_material_details_field_info() {
       'label' => t('Genre'),
       'description' => t('Material genre'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dc:subjects
@@ -76,7 +75,7 @@ function ting_material_details_field_info() {
       'label' => t('Classification'),
       'description' => t('Material classification'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     //dcterms:spatial ??
@@ -84,7 +83,7 @@ function ting_material_details_field_info() {
       'label' => t('spatial'),
       'description' => t('Material spatial'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     //dc:contributor
@@ -92,7 +91,7 @@ function ting_material_details_field_info() {
       'label' => t('Reader'),
       'description' => t('Material contributor'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     //dkdcplus:mus (musician)
@@ -100,7 +99,7 @@ function ting_material_details_field_info() {
       'label' => t('Musician'),
       'description' => t('Material musician'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     //dkdcplus:track
@@ -108,7 +107,7 @@ function ting_material_details_field_info() {
       'label' => t('Contains'),
       'description' => t('Material tracks'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     //dcterms:isReferencedBy
@@ -116,7 +115,7 @@ function ting_material_details_field_info() {
       'label' => t('Referenced by'),
       'description' => t('Material referenced'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dc:description
@@ -124,7 +123,7 @@ function ting_material_details_field_info() {
       'label' => t('Description'),
       'description' => t('Material description'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     //dc:source (original title)
@@ -132,7 +131,7 @@ function ting_material_details_field_info() {
       'label' => t('Original title'),
       'description' => t('Material original title'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dcterms:replaces
@@ -140,7 +139,7 @@ function ting_material_details_field_info() {
       'label' => t('Previous title'),
       'description' => t('Material previous title'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dcterms:isReplacedBy
@@ -148,7 +147,7 @@ function ting_material_details_field_info() {
       'label' => t('Later title'),
       'description' => t('Material later title'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dkdcplus:ISBN
@@ -156,7 +155,7 @@ function ting_material_details_field_info() {
       'label' => t('ISBN no.'),
       'description' => t('Material ISBN'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dcterms:URI
@@ -164,7 +163,7 @@ function ting_material_details_field_info() {
       'label' => t('Host publication'),
       'description' => t('Material URI'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dkdcplus:version
@@ -172,7 +171,7 @@ function ting_material_details_field_info() {
       'label' => t('Version'),
       'description' => t('Material version'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dcterms:extent
@@ -180,7 +179,7 @@ function ting_material_details_field_info() {
       'label' => t('Extent'),
       'description' => t('Material extent'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dc:publisher
@@ -188,7 +187,7 @@ function ting_material_details_field_info() {
       'label' => t('Publisher'),
       'description' => t('Material publisher'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
     // dc:rights
@@ -196,7 +195,7 @@ function ting_material_details_field_info() {
       'label' => t('Rights'),
       'description' => t('Material rights'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ), 
      // dcterms:audience
@@ -204,7 +203,7 @@ function ting_material_details_field_info() {
       'label' => t('Audience'),
       'description' => t('Material audience'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ), 
     //dkdcplus:age
@@ -212,7 +211,7 @@ function ting_material_details_field_info() {
       'label' => t('Age'),
       'description' => t('Material age'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
+      'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ), 
     
@@ -229,7 +228,7 @@ function ting_material_details_field_info() {
  */
 function ting_material_details_field_formatter_info() {
   Return array(
-    'ting_details_default' => array(
+    'ting_details_single' => array(
       'label' => t('Default'),
       'field types' => array(
 	'ting_details_type',
@@ -338,12 +337,12 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
   $element = array();
   switch($display['type']) {
     //formatter for single element
-  case 'ting_details_default' :
+  case 'ting_details_single' :
     foreach($items as $delta=>$items) {
       if( $val = ting_material_details_get_record_value( $field['type'], $entity ) ) {
 	$element[$delta] = 
 	  array(
-		'#theme' => 'ting_details_default',
+		'#theme' => 'ting_details_single',
 		'#markup' => '<div style="font-size:1em">'.$val.'</div>',
 		);      
       }
@@ -355,7 +354,7 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
       if( $val = ting_material_details_get_record_value( $field['type'], $entity ) ) {
 	$element[$delta] = 
 	  array(
-		'#theme' => 'ting_details_default',
+		'#theme' => 'ting_details_single',
 		'#markup' => '<div style="font-size:1em">'.implode(", ",$val).'</div>',
 		);     
       } 
