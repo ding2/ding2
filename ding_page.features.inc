@@ -55,11 +55,11 @@ function ding_page_image_default_styles() {
 function ding_page_node_info() {
   $items = array(
     'ding_page' => array(
-      'name' => t('Page'),
+      'name' => t('Side'),
       'base' => 'node_content',
       'description' => t('A basic page'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Titel'),
       'help' => '',
     ),
   );
