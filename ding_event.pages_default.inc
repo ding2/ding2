@@ -165,7 +165,7 @@ function ding_event_default_page_manager_handlers() {
       'method' => 'simple',
       'settings' => array(
         'lifetime' => '600',
-        'granularity' => 'none',
+        'granularity' => 'context',
       ),
     );
     $pane->style = array(
