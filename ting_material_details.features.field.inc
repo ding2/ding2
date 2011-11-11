@@ -1799,7 +1799,7 @@ function ting_material_details_field_default_fields() {
           'weight' => 0,
         ),
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'ting_material_details',
           'settings' => array(),
           'type' => 'ting_details_single',
