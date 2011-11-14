@@ -77,7 +77,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_image';
+    $pane->subtype = 'node:field_main_image';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -538,7 +538,7 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_image';
+    $pane->subtype = 'node:field_main_image';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
