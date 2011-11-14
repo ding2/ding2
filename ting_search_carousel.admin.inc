@@ -253,7 +253,7 @@ function ting_search_carousel_query_form($item = array(), $index = 0) {
         'remove'
       )
     ),
-    '#suffix' => '</div><div class="clear"></div>',
+    '#suffix' => '</div><div class="clearfix"></div>',
     '#ajax' => array(
       'callback' => 'ting_search_carousel_admin_form_ajaxify',
       'wrapper' => 'ting-search-carousel-queries',

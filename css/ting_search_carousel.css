@@ -1,32 +1,21 @@
-.clear {
-  clear: both;
-  float: none;
-}
-
 .ting-search-carousel {
-  font-family: Arial,helvetica,sans-serif;
-  width: 710px;
+  width: 100%;
 }
 
 .ting-search-carousel .search-controller {
-  background: none repeat scroll 0 0 #F3F5F5;
-  border-top: 1px solid #C2C4C4;
   height: 20px;
   list-style: none outside none;
   margin: 0;
   padding: 0;
-  width: 710px;
+  width: 100%;
 }
 
 .ting-search-carousel .search-controller li.active {
   background: none repeat scroll 0 0 #918F91;
-  border-top: 1px solid #918F91;
 }
 
 .ting-search-carousel .search-controller li {
   background: none repeat scroll 0 0 #D1D9D7;
-  border-top: 1px solid #A7AEAC;
-  color: #FFFFFF;
   float: left;
   font-size: 11px;
   height: 18px;
@@ -36,33 +25,24 @@
 }
 
 .ting-search-carousel .search-controller li a {
-  color: #050505;
   font-size: 11px;
   line-height: 15px;
-  outline: none;
-}
-
-.ting-search-carousel .search-controller li.active a {
-  color: #FFF;
 }
 
 .ting-search-carousel .ting-search-results {
-  background-color: #918F91;
   position: relative;
   height: 200px;
 }
 
 .ting-search-carousel .ting-search-results .subtitle {
-  color: #FFFFFF;
   font-size: 42px;
   font-weight: normal;
   line-height: 0.9;
   margin: 10px 0 0 40px;
   overflow: hidden;
   padding: 10px 0 10px 10px;
-  text-shadow: 1px 1px #727272;
   text-transform: uppercase;
-  width: 200px;
+  width: 250px;
 }
 
 .ting-search-carousel .ting-search-results .info {
@@ -73,7 +53,6 @@
 }
 
 .ting-search-carousel .ting-search-results .info span {
-  color: #FFFFFF;
   display: block;
   font-size: 10px;
   line-height: 1.25;
@@ -88,7 +67,7 @@
 .ting-search-carousel .rs-carousel {
   opacity: 1 !important;
   overflow: hidden;
-  width: 400px;
+  width: 600px;
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-mask {
@@ -103,26 +82,24 @@
   overflow: hidden;
   padding: 0;
   position: absolute;
-  width: 2100px;
+  width: 600px;
 }
 
+.ting-search-carousel .rs-carousel .rs-carousel-item img {
+  width: 112px;
+  height: 140px;
+}
 .ting-search-carousel .no-js .rs-carousel .rs-carousel-runner {
   position: static;
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-item {
-  color: #fff;
   float: left;
   height: 180px;
   overflow: hidden;
   padding-top: 20px;
   text-align: center;
-  width: 100px;
-}
-
-.ting-search-carousel .rs-carousel .rs-carousel-item img {
-  max-height: 140px;
-  max-width: 93px;
+  padding-right: 16px;
 }
 
 .ting-search-carousel .rs-carousel.rs-carousel-vertical .rs-carousel-item {
@@ -154,7 +131,6 @@
 
 .ting-search-carousel .rs-carousel-pagination-link-active a {
   background: #444;
-  color: #fff;
 }
 
 /* next & prev actions */
@@ -215,3 +191,4 @@
 .sort-hidden, .search-query-hidden {
   display: none;
 }
+

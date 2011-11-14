@@ -8,16 +8,17 @@
  * Implements hook_menu().
  */
 function ting_search_carousel_menu() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
   $items = array();
 
-  $items['admin/config/ting_search_carousel'] = array(
+  $items['admin/config/ting/ting_search_carousel'] = array(
     'title' => 'Ting search carousel',
-    'description' => '',
+    'description' => 'Manage frontpage carousel',
     'page callback' => 'ting_search_carousel_admin_page',
     'page arguments' => array(),
     'access arguments' => array('access administration pages'),
-    'file' => 'ting_search_carousel.admin.inc'
+    'file' => 'ting_search_carousel.admin.inc',
+    'weight' => 30,
+    'position' => 'left',
   );
 
   $items['ting_search_carousel/results/ajax'] = array(
@@ -189,8 +190,6 @@ function ting_search_carousel_do_request($full = FALSE) {
       $j++;
     }
   }
-
-
 
   // Clear & set the cache.
   cache_clear_all('ting_search_result', 'cache');
