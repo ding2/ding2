@@ -9,10 +9,10 @@
  */
 function ding_event_taxonomy_default_vocabularies() {
   return array(
-    'ding_event' => array(
-      'name' => 'Event category',
-      'machine_name' => 'ding_event',
-      'description' => NULL,
+    'category' => array(
+      'name' => 'Category',
+      'machine_name' => 'category',
+      'description' => '',
       'hierarchy' => '0',
       'module' => 'ding_event',
       'weight' => '0',

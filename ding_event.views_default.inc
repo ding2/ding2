@@ -117,10 +117,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_body']['table'] = 'field_data_field_ding_body';
   $handler->display->display_options['fields']['field_ding_body']['field'] = 'field_ding_body';
   $handler->display->display_options['fields']['field_ding_body']['label'] = 'Brødtekst';
-  /* Sort criterion: Broken/missing handler */
-  $handler->display->display_options['sorts']['ding_event_date_value']['id'] = 'ding_event_date_value';
-  $handler->display->display_options['sorts']['ding_event_date_value']['table'] = 'field_data_ding_event_date';
-  $handler->display->display_options['sorts']['ding_event_date_value']['field'] = 'ding_event_date_value';
   /* Contextual filter: Broken/missing handler */
   $handler->display->display_options['arguments']['group_audience_gid']['id'] = 'group_audience_gid';
   $handler->display->display_options['arguments']['group_audience_gid']['table'] = 'field_data_group_audience';
@@ -302,17 +298,17 @@ function ding_event_views_default_views() {
   );
   $handler->display->display_options['fields']['field_ding_body']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Category (ding_event_category) */
-  $handler->display->display_options['arguments']['ding_event_category_tid']['id'] = 'ding_event_category_tid';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['table'] = 'field_data_ding_event_category';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['field'] = 'ding_event_category_tid';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_event_category_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_event_category_tid']['not'] = 0;
+  /* Contextual filter: Content: Category (field_category) */
+  $handler->display->display_options['arguments']['field_category_tid']['id'] = 'field_category_tid';
+  $handler->display->display_options['arguments']['field_category_tid']['table'] = 'field_data_field_category';
+  $handler->display->display_options['arguments']['field_category_tid']['field'] = 'field_category_tid';
+  $handler->display->display_options['arguments']['field_category_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_category_tid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['field_category_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_category_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_category_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_category_tid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['field_category_tid']['not'] = 0;
 
   /* Display: Front page teaser list */
   $handler = $view->new_display('ctools_context', 'Front page teaser list', 'ctools_context_teaser_list');
@@ -799,17 +795,17 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
-  /* Contextual filter: Content: Category (ding_event_category) */
-  $handler->display->display_options['arguments']['ding_event_category_tid']['id'] = 'ding_event_category_tid';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['table'] = 'field_data_ding_event_category';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['field'] = 'ding_event_category_tid';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_event_category_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_event_category_tid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_event_category_tid']['not'] = 0;
+  /* Contextual filter: Content: Category (field_category) */
+  $handler->display->display_options['arguments']['field_category_tid']['id'] = 'field_category_tid';
+  $handler->display->display_options['arguments']['field_category_tid']['table'] = 'field_data_field_category';
+  $handler->display->display_options['arguments']['field_category_tid']['field'] = 'field_category_tid';
+  $handler->display->display_options['arguments']['field_category_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_category_tid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['field_category_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_category_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_category_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_category_tid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['field_category_tid']['not'] = 0;
 
   /* Display: Library Feed */
   $handler = $view->new_display('feed', 'Library Feed', 'feed_library');

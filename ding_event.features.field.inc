@@ -144,75 +144,6 @@ function ding_event_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_event-ding_event_category'
-  $fields['node-ding_event-ding_event_category'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_event_category',
-      'foreign keys' => array(
-        'tid' => array(
-          'columns' => array(
-            'tid' => 'tid',
-          ),
-          'table' => 'taxonomy_term_data',
-        ),
-      ),
-      'indexes' => array(
-        'tid' => array(
-          0 => 'tid',
-        ),
-      ),
-      'module' => 'taxonomy',
-      'settings' => array(
-        'allowed_values' => array(
-          0 => array(
-            'parent' => '0',
-            'vocabulary' => 'ding_event',
-          ),
-        ),
-      ),
-      'translatable' => '0',
-      'type' => 'taxonomy_term_reference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_event',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '9',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'ding_event_category',
-      'label' => 'Category',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '9',
-      ),
-    ),
-  );
-
   // Exported field: 'node-ding_event-field_address'
   $fields['node-ding_event-field_address'] = array(
     'field_config' => array(
@@ -253,7 +184,7 @@ function ding_event_field_default_fields() {
             'use_widget_handlers' => 1,
           ),
           'type' => 'addressfield_default',
-          'weight' => '4',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -285,6 +216,78 @@ function ding_event_field_default_fields() {
         ),
         'type' => 'addressfield_standard',
         'weight' => '4',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_event-field_category'
+  $fields['node-ding_event-field_category'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_category',
+      'foreign keys' => array(
+        'tid' => array(
+          'columns' => array(
+            'tid' => 'tid',
+          ),
+          'table' => 'taxonomy_term_data',
+        ),
+      ),
+      'indexes' => array(
+        'tid' => array(
+          0 => 'tid',
+        ),
+      ),
+      'module' => 'taxonomy',
+      'settings' => array(
+        'allowed_values' => array(
+          0 => array(
+            'vocabulary' => 'category',
+            'parent' => '0',
+          ),
+        ),
+      ),
+      'translatable' => '0',
+      'type' => 'taxonomy_term_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '6',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_category',
+      'label' => 'Category',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'taxonomy',
+        'settings' => array(
+          'autocomplete_path' => 'taxonomy/autocomplete',
+          'size' => 60,
+        ),
+        'type' => 'taxonomy_autocomplete',
+        'weight' => '8',
       ),
     ),
   );
@@ -395,7 +398,7 @@ function ding_event_field_default_fields() {
           'module' => 'ding_event',
           'settings' => array(),
           'type' => 'date_time_seperate_lines',
-          'weight' => '3',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -612,7 +615,7 @@ function ding_event_field_default_fields() {
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_reference_default',
-          'weight' => '10',
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -676,7 +679,7 @@ function ding_event_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '5',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
