@@ -703,7 +703,7 @@ function ding_event_field_default_fields() {
           'opt_group' => 'auto',
         ),
         'type' => 'ding_content_group_audience_library',
-        'weight' => '10',
+        'weight' => '9',
       ),
     ),
   );
