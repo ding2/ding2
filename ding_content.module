@@ -1,4 +1,7 @@
 <?php
+
+include_once('ding_content.features.inc');
+
 /**
  * @file
  * Various integration with panels to create panel panes and more.
