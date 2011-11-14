@@ -144,82 +144,6 @@ function ding_event_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_event-ding_event_address'
-  $fields['node-ding_event-ding_event_address'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_event_address',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'addressfield',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'addressfield',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_event',
-      'default_value' => array(
-        0 => array(
-          'country' => 'DK',
-          'element_key' => 'node|ding_event|ding_event_address|und|0',
-          'locality' => '',
-          'postal_code' => '',
-          'premise' => '',
-          'thoroughfare' => '',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'inline',
-          'module' => 'addressfield',
-          'settings' => array(
-            'format_handlers' => array(
-              0 => 'address',
-            ),
-            'use_widget_handlers' => 1,
-          ),
-          'type' => 'addressfield_default',
-          'weight' => '3',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'ding_event_address',
-      'label' => 'Address',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'addressfield',
-        'settings' => array(
-          'available_countries' => array(
-            'DK' => 'DK',
-          ),
-          'format_handlers' => array(
-            'address' => 'address',
-            'name-full' => 0,
-            'name-oneline' => 0,
-            'organisation' => 0,
-          ),
-        ),
-        'type' => 'addressfield_standard',
-        'weight' => '5',
-      ),
-    ),
-  );
-
   // Exported field: 'node-ding_event-ding_event_category'
   $fields['node-ding_event-ding_event_category'] = array(
     'field_config' => array(
@@ -392,7 +316,7 @@ function ding_event_field_default_fields() {
             'view_mode' => 'collection_list',
           ),
           'type' => 'ting_reference_default',
-          'weight' => '5',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -414,6 +338,82 @@ function ding_event_field_default_fields() {
         'settings' => array(),
         'type' => 'ting_reference_simple',
         'weight' => '8',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_event-field_address'
+  $fields['node-ding_event-field_address'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_address',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'addressfield',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'addressfield',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'default_value' => array(
+        0 => array(
+          'element_key' => 'node|ding_event|field_address|und|0',
+          'thoroughfare' => '',
+          'premise' => '',
+          'postal_code' => '',
+          'locality' => '',
+          'country' => 'DK',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => '3',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_address',
+      'label' => 'Address',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'addressfield',
+        'settings' => array(
+          'available_countries' => array(
+            'DK' => 'DK',
+          ),
+          'format_handlers' => array(
+            'address' => 'address',
+            'name-full' => 0,
+            'name-oneline' => 0,
+            'organisation' => 0,
+          ),
+        ),
+        'type' => 'addressfield_standard',
+        'weight' => '4',
       ),
     ),
   );
@@ -524,7 +524,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '6',
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -676,7 +676,7 @@ function ding_event_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '4',
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
