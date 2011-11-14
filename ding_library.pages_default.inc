@@ -77,7 +77,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:ding_library_image';
+    $pane->subtype = 'node:field_image';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -538,7 +538,7 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:ding_library_image';
+    $pane->subtype = 'node:field_image';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -619,7 +619,7 @@ function ding_library_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'Contact',
       'title' => 'Contact',
-      'body' => 'Phone: %node:ding_library_phone<br />E-mail:  %node:field_email',
+      'body' => 'Phone: %node:field_phone<br />E-mail:  %node:field_email',
       'format' => 'ding_wysiwyg',
       'substitute' => 1,
     );

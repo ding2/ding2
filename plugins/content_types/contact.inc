@@ -18,10 +18,10 @@ function ding_library_contact_content_type_render($subtype, $conf, $panel_args, 
   $node = $context->data;
 
   $content = ' <div class="pane-content">';
-  if (!empty($node->ding_library_phone['und'])) {
+  if (!empty($node->field_phone['und'])) {
     $content .= '<div class="phone field-label-inline clearfix">
           <div class="field-label">' . t('Phone:') . '</div>
-          <div class="field-items">' . $node->ding_library_phone['und'][0]['value']. '</div></div>';
+          <div class="field-items">' . $node->field_phone['und'][0]['value']. '</div></div>';
   }
   if (!empty($node->field_email['und'])) {
     $content .= '

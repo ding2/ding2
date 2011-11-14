@@ -254,8 +254,8 @@ function template_preprocess_ding_library_address(&$vars) {
       $vars['city'] = join(' ', array(check_plain($address['postal_code']), check_plain($address['locality'])));
     }
 
-    if (!empty($node->ding_library_phone[$languages['ding_library_phone']][0]) &&
-      ($phone = $node->ding_library_phone[$languages['ding_library_phone']][0]['safe_value'])) {
+    if (!empty($node->field_phone[$languages['field_phone']][0]) &&
+      ($phone = $node->field_phone[$languages['field_phone']][0]['safe_value'])) {
       $vars['phone'] = t('Phone: @phone_number', array('@phone_number' => $phone));
     }
 
