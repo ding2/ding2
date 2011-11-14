@@ -20,9 +20,9 @@ function ding_content_ctools_plugin_api() {
 function ding_content_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ding_content_middle_column
-  $styles['ding_content_middle_column'] = array(
-    'name' => 'ding_content_middle_column',
+  // Exported image style: ding_content_main_image
+  $styles['ding_content_main_image'] = array(
+    'name' => 'ding_content_main_image',
     'effects' => array(
       1 => array(
         'label' => 'Scale',
