@@ -1,0 +1,338 @@
+<?php
+
+/**
+ * @file
+ * Allows users to add ting items to wish list.
+ */
+
+module_load_include('inc', 'ding_wishlist', 'ding_wishlist.flag_ting');
+
+/**
+ * Implements hook_menu().
+ */
+function ding_wishlist_menu() {
+  $items['user/%user/wishlist'] = array(
+    'title' => 'Wishlist',
+    'title arguments' => array('Wishlist', 1),
+    'page callback' => 'ding_wishlist_user_wishlist_page',
+    'page arguments' => array(1),
+    'access callback' => 'ding_wishlist_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_wishlist.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_wishlist_menu_alter(&$items) {
+  foreach ($items as $path => $item) {
+    if ($path == 'user/%user/wishlist' || $path == 'user/%pm_arg/wishlist') {
+      $items[$path]['title callback'] = 'ding_wishlist_menu_item_title';
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_wishlist_theme() {
+  return array(
+    'ding_wishlist_item' => array(
+      'template' => 'ding_wishlist_item',
+      'render element' => 'elements',
+      'file' => 'ding_wishlist.theme.inc'
+    ),
+    'ding_wishlist_remove_form' => array(
+      'render element' => 'form',
+      'file' => 'ding_wishlist.pages.inc',
+    ),
+  );
+}
+
+/**
+ * Title callback; Alter title to add count items number.
+ *
+ * @param $title
+ *  Untranslated title.
+ * @param $account
+ *  User account object, for counting wishlist items.
+ */
+function ding_wishlist_menu_item_title($title, $account = NULL) {
+  global $user;
+
+  if (is_null($account)) {
+    $account = $user;
+  }
+
+  return t($title) . ' (' . flag_load('wishlist')->get_user_count_number($account->uid) . ')';
+}
+
+/**
+ * Access callback; Check user access to wishlist.
+ */
+function ding_wishlist_view_access($account) {
+  global $user;
+  return $user->uid == $account->uid || $user->uid == 1;
+}
+
+/**
+ * Implements hook_flag_definitions().
+ */
+function ding_wishlist_flag_definitions() {
+  return array(
+    'ting' => array(
+      'title' => t('Ting objects'),
+      'description' => '',
+      'handler' => 'flag_ting',
+    ),
+  );
+}
+
+/**
+ * Implements hook_flag_default_flags().
+ */
+function ding_wishlist_flag_default_flags() {
+  $flags = array();
+  // Add flag "Wishlist".
+  $flags['wishlist'] = array(
+      'content_type' => 'ting',
+      'name' => 'wishlist',
+      'title' => 'Wishlist',
+      'global' => '0',
+      'types' => array(),
+      'flag_short' => 'Add to wishlist',
+      'flag_long' => '',
+      'flag_message' => 'Added to wishlist',
+      'flagged_already_message' => 'This item is in the wishlist already.',
+      'unflag_short' => 'Remove from wishlist',
+      'unflag_long' => '',
+      'unflag_message' => 'Removed from wishlist',
+      'unflag_denied_text' => '',
+      'link_type' => 'toggle',
+      'roles' => array(
+        'flag' => array(
+          0 => '2',
+        ),
+        'unflag' => array(
+          0 => '2',
+        ),
+      ),
+      'show_on_ting_types' => array(
+        0 => 'ting_object',
+      ),
+      'api_version' => 2,
+      'locked' => array('name', 'types', 'global', 'link_type', 'roles'),
+  );
+  return $flags;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
+  // Remove unnecessary parameters.
+  unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_wishlist_ding_entity_buttons($type, $entity) {
+  // Add 'wishlist' button.
+  if ($type == 'ding_entity') {
+    if ($entity->localId) {
+      $wishlist_flag = flag_get_flag('wishlist');
+      $entity_type = $entity->uri['options']['entity_type'];
+
+      if (in_array($entity_type, array_filter($wishlist_flag->show_on_ting_types))) {
+        $wishlist_flag_button = ding_wishlist_flag_view($entity->localId);
+        return array($wishlist_flag_button);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_wishlist_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
+  if ($form['flag_name']['#value'] == 'wishlist') {
+    // Flag module does not allow flag/unflag to anonymous users.
+    // Custom submit handler will show login popup to user instead of "You are not allowed to flag...".
+    $form['#native_submit'] = $form['#submit'];
+    $form['#submit'] = array('ding_wishlist_form_flag_confirm_submit');
+
+    // Implement ajax functionality.
+    $form['actions']['submit']['#ajax'] = array(
+      'callback' => 'ding_wishlist_flag_confirm_form_callback',
+      'wrapper' => 'ding-wishlist-flag-confirm-form',
+    );
+
+    // Remove 'cancel' link.
+    unset($form['actions']['cancel']);
+  }
+}
+
+/**
+ * Submit handler.
+ *
+ * Provides login popup for anonymous users, otherwise invoke native handlers
+ */
+function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
+  global $user;
+
+  // Popup login form.
+  if (!$user->uid) {
+    throw new DingProviderAuthException;
+    return;
+  }
+
+  $wishlist_flag = flag_get_flag('wishlist');
+  $entity_id = $form['content_id']['#value'];
+
+  if ($wishlist_flag->is_flagged($entity_id)) {
+    // Generate message for the user.
+    $form_state['storage']['response_html'] = t($wishlist_flag->flagged_already_message);
+  }
+  else {
+    // Invoke native submit handlers.
+    foreach ($form['#native_submit'] as $function) {
+      if (function_exists($function)) {
+        $function($form, $form_state);
+      }
+    }
+    // Generate message for the user.
+    $form_state['storage']['response_html'] = t($wishlist_flag->flag_message);
+  }
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  // Drop messages.
+  theme('status_messages');
+  // Get generated message.
+  $html = '<div class="ding-wishlist-message">' . $form_state['storage']['response_html'] . '</div>';
+  // Popup.
+  $response['#commands'][] = ajax_command_ding_popup('ding_wishlist', t('Wishlist'), $html);
+
+  return $response;
+}
+
+/**
+ * Build 'add to wishlist' button.
+ */
+function ding_wishlist_flag_view($entity_id) {
+  $wishlist_flag = flag_get_flag('wishlist');
+
+  // Confirm form will change page title.
+  // Store native title.
+  $page_native_title = drupal_get_title();
+  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $entity_id);
+  // Restore title.
+  drupal_set_title($page_native_title);
+
+  return $flag_confirm_form;
+}
+
+/**
+ * Display a wishlist item.
+ */
+function ding_wishlist_item_view($entity_id) {
+  if (preg_match('/^\d+$/', $entity_id)) {
+    $entity_prepended_id = _ding_wishlist_prepend_ting_agency($entity_id);
+  }
+  $entity = ding_entity_load($entity_prepended_id, 'ting_object');
+
+  // Library code can be changed at any time by the site administrator.
+  // Every time when wishlist item is loaded,
+  //  module should check, whether item is available in the current library.
+  // If item does not exists in the library it shoul be deleted from wishlist.
+  if (!$entity) {
+    // Remove item.
+    $flag = flag_get_flag('wishlist');
+    $flag->flag('unflag', $entity_id);
+    return FALSE;
+  }
+
+  $build = ting_object_view($entity, 'teaser');
+  $build['#theme'] = 'ding_wishlist_item';
+  return $build;
+}
+
+/**
+ * Prepend ting agency number to each of ids.
+ */
+function _ding_wishlist_prepend_ting_agency($ids) {
+  if (!is_array($ids)) {
+    $ids = array($ids);
+    $not_array = TRUE;
+  }
+
+  $ting_agency = variable_get('ting_agency', FALSE);
+  if ($ting_agency) {
+    foreach ($ids as $k => $id) {
+      // Id should be 8 digits length.
+      $id = _ding_wishlist_number_to_eight_digits($id);
+      $ids[$k] = $ting_agency . ':' . $id;
+    }
+  }
+  return $not_array ? array_shift($ids) : $ids;
+}
+
+/**
+ * Convert numbers to 8 digits length.
+ */
+function _ding_wishlist_number_to_eight_digits($number) {
+  $length = drupal_strlen($number);
+  $delta = 8 - $length;
+
+  if ($delta > 0) {
+    // Prepend id with zeros.
+    return str_repeat("0", $delta) . $number;
+  }
+  elseif ($delta < 0) {
+    return drupal_substr($number, 0, 8);
+  }
+
+  return $number;
+}
+
+/**
+ * Alter link type.
+ *
+ * At the wishlist all ting teasers should link to the object page, not to collection.
+ */
+function ding_wishlist_field_display_alter(&$display, $context) {
+  if ($display['type'] == 'ting_title_default' && $context['view_mode'] == 'teaser') {
+    $display['settings']['link_type'] = 'object';
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_wishlist_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ding_wishlist_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+}
