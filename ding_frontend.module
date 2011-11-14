@@ -63,5 +63,6 @@ function ding_frontend_theme() {
 function ding_frontend_date_format_types() {
   return array(
     'time_only' => t('Time only'),
+    'long_date_only' => t('Long date only'),
   );
 }
