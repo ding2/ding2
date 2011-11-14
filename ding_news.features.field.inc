@@ -150,65 +150,6 @@ function ding_news_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_news-ding_news_materials'
-  $fields['node-ding_news-ding_news_materials'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_news_materials',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'ting_reference',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'ting_reference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_news',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'ting_reference',
-          'settings' => array(
-            'view_mode' => 'collection_list',
-          ),
-          'type' => 'ting_reference_default',
-          'weight' => '2',
-        ),
-        'search_result' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'ding_news_materials',
-      'label' => 'Materials',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'ting_reference',
-        'settings' => array(),
-        'type' => 'ting_reference_simple',
-        'weight' => '6',
-      ),
-    ),
-  );
-
   // Exported field: 'node-ding_news-field_category'
   $fields['node-ding_news-field_category'] = array(
     'field_config' => array(
@@ -316,7 +257,7 @@ function ding_news_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '1',
+          'weight' => '0',
         ),
         'search_result' => array(
           'label' => 'above',
@@ -422,7 +363,7 @@ function ding_news_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '5',
+        'weight' => '4',
       ),
     ),
   );
@@ -500,7 +441,60 @@ function ding_news_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
-        'weight' => '4',
+        'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_news-field_materials'
+  $fields['node-ding_news-field_materials'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_materials',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_news',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'ting_reference',
+          'settings' => array(
+            'view_mode' => 'collection_list',
+          ),
+          'type' => 'ting_reference_default',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_materials',
+      'label' => 'Materials',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'ting_reference',
+        'settings' => array(),
+        'type' => 'ting_reference_simple',
+        'weight' => '5',
       ),
     ),
   );
