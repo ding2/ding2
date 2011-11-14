@@ -281,12 +281,12 @@ function ding_event_field_default_fields() {
       ),
       'widget' => array(
         'active' => 0,
-        'module' => 'taxonomy',
+        'module' => 'options',
         'settings' => array(
           'autocomplete_path' => 'taxonomy/autocomplete',
           'size' => 60,
         ),
-        'type' => 'taxonomy_autocomplete',
+        'type' => 'options_select',
         'weight' => '8',
       ),
     ),
