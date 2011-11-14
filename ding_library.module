@@ -246,7 +246,7 @@ function template_preprocess_ding_library_address(&$vars) {
   if ($node) {
     $languages = field_language('node', $node);
     $vars['name'] = check_plain($node->title);
-    if (!empty($node->ding_library_address[$languages['ding_library_address']][0]) && ($address = $node->ding_library_address[$languages['ding_library_address']][0])) {
+    if (!empty($node->field_address[$languages['field_address']][0]) && ($address = $node->field_address[$languages['field_address']][0])) {
       $vars['address'] = check_plain($address['thoroughfare']);
       if ($address['premise']) {
         $vars['address'] .= ', ' . $address['premise'];
@@ -259,8 +259,8 @@ function template_preprocess_ding_library_address(&$vars) {
       $vars['phone'] = t('Phone: @phone_number', array('@phone_number' => $phone));
     }
 
-    if (!empty($node->ding_library_email[$languages['ding_library_email']][0]) &&
-      ($mail = $node->ding_library_email[$languages['ding_library_email']][0])) {
+    if (!empty($node->field_email[$languages['field_email']][0]) &&
+      ($mail = $node->field_email[$languages['field_email']][0])) {
       $vars['mail'] = l($mail['email'], 'mailto:' . $mail['email']);
     }
   }
@@ -273,11 +273,11 @@ function template_preprocess_ding_library_address(&$vars) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
-  if (isset($form['ding_library_slug'][$form['#node']->language])) {
-    $form['ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
+  if (isset($form['field_slug'][$form['#node']->language])) {
+    $form['field_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
-  elseif (isset($form['ding_library_slug']['und'])) {
-    $form['ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
+  elseif (isset($form['field_slug']['und'])) {
+    $form['field_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
 }
 
@@ -297,11 +297,11 @@ function ding_library_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ding_library_slug_validate(&$form, &$form_state) {
   // Try to get the slug value.
-  if (isset($form_state['values']['ding_library_slug'][$form_state['node']->language])) {
-    $slug = $form_state['values']['ding_library_slug'][$form_state['node']->language][0]['value'];
+  if (isset($form_state['values']['field_slug'][$form_state['node']->language])) {
+    $slug = $form_state['values']['field_slug'][$form_state['node']->language][0]['value'];
   }
-  elseif (isset($form_state['values']['ding_library_slug']['und'])) {
-    $slug = $form_state['values']['ding_library_slug']['und'][0]['value'];
+  elseif (isset($form_state['values']['field_slug']['und'])) {
+    $slug = $form_state['values']['field_slug']['und'][0]['value'];
   }
 
   // If we found the slug do the actual validation.

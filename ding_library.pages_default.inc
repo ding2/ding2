@@ -619,7 +619,7 @@ function ding_library_default_page_manager_pages() {
     $pane->configuration = array(
       'admin_title' => 'Contact',
       'title' => 'Contact',
-      'body' => 'Phone: %node:ding_library_phone<br />E-mail:  %node:ding_library_email',
+      'body' => 'Phone: %node:ding_library_phone<br />E-mail:  %node:field_email',
       'format' => 'ding_wysiwyg',
       'substitute' => 1,
     );

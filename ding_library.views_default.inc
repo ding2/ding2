@@ -144,7 +144,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Address */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['ding_library_address']['id'] = 'ding_library_address';
   $handler->display->display_options['fields']['ding_library_address']['table'] = 'field_data_ding_library_address';
   $handler->display->display_options['fields']['ding_library_address']['field'] = 'ding_library_address';
@@ -169,14 +169,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_address']['hide_empty'] = 1;
   $handler->display->display_options['fields']['ding_library_address']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_library_address']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_library_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['ding_library_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(
-      'address' => 'address',
-    ),
-  );
-  $handler->display->display_options['fields']['ding_library_address']['field_api_classes'] = 0;
   /* Field: Content: Phone number */
   $handler->display->display_options['fields']['ding_library_phone']['id'] = 'ding_library_phone';
   $handler->display->display_options['fields']['ding_library_phone']['table'] = 'field_data_ding_library_phone';
@@ -236,34 +228,34 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_fax']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['ding_library_fax']['field_api_classes'] = 0;
   /* Field: Content: E-mail address */
-  $handler->display->display_options['fields']['ding_library_email']['id'] = 'ding_library_email';
-  $handler->display->display_options['fields']['ding_library_email']['table'] = 'field_data_ding_library_email';
-  $handler->display->display_options['fields']['ding_library_email']['field'] = 'ding_library_email';
-  $handler->display->display_options['fields']['ding_library_email']['label'] = 'E-mail';
-  $handler->display->display_options['fields']['ding_library_email']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['alter']['html'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['element_type'] = 'span';
-  $handler->display->display_options['fields']['ding_library_email']['element_class'] = 'value';
-  $handler->display->display_options['fields']['ding_library_email']['element_label_type'] = 'span';
-  $handler->display->display_options['fields']['ding_library_email']['element_label_class'] = 'type';
-  $handler->display->display_options['fields']['ding_library_email']['element_label_colon'] = 1;
-  $handler->display->display_options['fields']['ding_library_email']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['ding_library_email']['element_wrapper_class'] = 'email middle-col';
-  $handler->display->display_options['fields']['ding_library_email']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['hide_empty'] = 1;
-  $handler->display->display_options['fields']['ding_library_email']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_library_email']['field_api_classes'] = 0;
+  $handler->display->display_options['fields']['field_email']['id'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['table'] = 'field_data_field_email';
+  $handler->display->display_options['fields']['field_email']['field'] = 'field_email';
+  $handler->display->display_options['fields']['field_email']['label'] = 'E-mail';
+  $handler->display->display_options['fields']['field_email']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_email']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_email']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_email']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_email']['element_type'] = 'span';
+  $handler->display->display_options['fields']['field_email']['element_class'] = 'value';
+  $handler->display->display_options['fields']['field_email']['element_label_type'] = 'span';
+  $handler->display->display_options['fields']['field_email']['element_label_class'] = 'type';
+  $handler->display->display_options['fields']['field_email']['element_label_colon'] = 1;
+  $handler->display->display_options['fields']['field_email']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_email']['element_wrapper_class'] = 'email middle-col';
+  $handler->display->display_options['fields']['field_email']['element_default_classes'] = 0;
+  $handler->display->display_options['fields']['field_email']['hide_empty'] = 1;
+  $handler->display->display_options['fields']['field_email']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_email']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['field_email']['field_api_classes'] = 0;
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
@@ -404,7 +396,7 @@ function ding_library_views_default_views() {
     'data' => 'full',
   );
   $handler->display->display_options['fields']['ding_library_geocode']['field_api_classes'] = 0;
-  /* Field: Content: Address */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['ding_library_address']['id'] = 'ding_library_address';
   $handler->display->display_options['fields']['ding_library_address']['table'] = 'field_data_ding_library_address';
   $handler->display->display_options['fields']['ding_library_address']['field'] = 'ding_library_address';
@@ -426,14 +418,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['ding_library_address']['hide_empty'] = 0;
   $handler->display->display_options['fields']['ding_library_address']['empty_zero'] = 0;
   $handler->display->display_options['fields']['ding_library_address']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['ding_library_address']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['ding_library_address']['settings'] = array(
-    'use_widget_handlers' => 1,
-    'format_handlers' => array(
-      'address' => 'address',
-    ),
-  );
-  $handler->display->display_options['fields']['ding_library_address']['field_api_classes'] = 0;
   /* Field: Content: Opening hours */
   $handler->display->display_options['fields']['ding_library_opening_hours']['id'] = 'ding_library_opening_hours';
   $handler->display->display_options['fields']['ding_library_opening_hours']['table'] = 'field_data_ding_library_opening_hours';

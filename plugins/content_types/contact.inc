@@ -23,11 +23,11 @@ function ding_library_contact_content_type_render($subtype, $conf, $panel_args, 
           <div class="field-label">' . t('Phone:') . '</div>
           <div class="field-items">' . $node->ding_library_phone['und'][0]['value']. '</div></div>';
   }
-  if (!empty($node->ding_library_email['und'])) {
+  if (!empty($node->field_email['und'])) {
     $content .= '
         <div class="phone field-label-inline clearfix">
           <div class="field-label">' . t('Email:') . '</div>
-          <div class="field-items">' . l($node->ding_library_email['und'][0]['email'], 'mailto:' . $node->ding_library_email['und'][0]['email']) . '</div>
+          <div class="field-items">' . l($node->field_email['und'][0]['email'], 'mailto:' . $node->field_email['und'][0]['email']) . '</div>
         </div>
     ';
   }
