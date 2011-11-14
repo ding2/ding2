@@ -48,9 +48,19 @@ class TingEntity extends DingEntity {
   public $contributors = DingEntityBase::NULL;
   public $isPartOf = DingEntityBase::NULL;
   public $extent = DingEntityBase::NULL;
+  public $classification = DingEntityBase::NULL;
 
   public function getExtent() {
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
+  }
+
+  function getClassification() {
+    $ret = (isset($this->reply->record['dc:subject']['dkdcplus:DK5'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5'][0] : '' . 
+	    (isset($this->reply->record['dc:subject']['dkdcplus:DK5-Text']) ? ' (' . $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] . ')' : ''));
+    if( strlen($ret) > 0 ) {
+      return $ret;
+    }
+    return FALSE;      
   }
 
   function getIsPartOf() {
@@ -65,7 +75,7 @@ class TingEntity extends DingEntity {
     return $this->isPartOf;
   }
 
-  // pjo 26-09-11 ; get method contributor
+  // pjo 26-09-11 ; getmethod contributor
   function getContributors() {
     $this->contributors = array();
     if( !empty($this->reply->record['dc:contributor']) ) {
