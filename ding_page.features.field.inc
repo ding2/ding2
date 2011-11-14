@@ -53,7 +53,7 @@ function ding_page_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '4',
+          'weight' => '6',
         ),
         'search_index' => array(
           'label' => 'above',
@@ -94,14 +94,14 @@ function ding_page_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_page-ding_page_category'
-  $fields['node-ding_page-ding_page_category'] = array(
+  // Exported field: 'node-ding_page-field_category'
+  $fields['node-ding_page-field_category'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'ding_page_category',
+      'field_name' => 'field_category',
       'foreign keys' => array(
         'tid' => array(
           'columns' => array(
@@ -119,8 +119,8 @@ function ding_page_field_default_fields() {
       'settings' => array(
         'allowed_values' => array(
           0 => array(
+            'vocabulary' => 'category',
             'parent' => '0',
-            'vocabulary' => 'ding_page',
           ),
         ),
       ),
@@ -135,31 +135,20 @@ function ding_page_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
+          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '3',
-        ),
-        'search_index' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '2',
-        ),
-        'search_result' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
+          'type' => 'taxonomy_term_reference_link',
           'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '3',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'ding_page_category',
+      'field_name' => 'field_category',
       'label' => 'Category',
       'required' => 0,
       'settings' => array(
@@ -212,7 +201,7 @@ function ding_page_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '5',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -273,7 +262,7 @@ function ding_page_field_default_fields() {
             'view_mode' => 'teaser',
           ),
           'type' => 'ting_reference_default',
-          'weight' => 6,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -337,7 +326,7 @@ function ding_page_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '2',
+          'weight' => '5',
         ),
         'search_index' => array(
           'label' => 'above',
@@ -376,7 +365,7 @@ function ding_page_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
-        'file_directory' => '',
+        'file_directory' => 'list_image/page',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
@@ -436,7 +425,7 @@ function ding_page_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'ding_content_middle_column',
+            'image_style' => 'ding_content_main_image',
           ),
           'type' => 'image',
           'weight' => '0',
@@ -466,7 +455,7 @@ function ding_page_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
-        'file_directory' => '',
+        'file_directory' => 'main_image/page',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
@@ -478,7 +467,7 @@ function ding_page_field_default_fields() {
         'active' => 1,
         'module' => 'image',
         'settings' => array(
-          'preview_image_style' => 'main_image',
+          'preview_image_style' => 'thumbnail',
           'progress_indicator' => 'throbber',
         ),
         'type' => 'image_image',
