@@ -139,7 +139,7 @@ function ding_event_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '7',
+        'weight' => '6',
       ),
     ),
   );
@@ -209,59 +209,6 @@ function ding_event_field_default_fields() {
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '9',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ding_event-ding_event_materials'
-  $fields['node-ding_event-ding_event_materials'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '-1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ding_event_materials',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'ting_reference',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'ting_reference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_event',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'ting_reference',
-          'settings' => array(
-            'view_mode' => 'collection_list',
-          ),
-          'type' => 'ting_reference_default',
-          'weight' => '6',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'ding_event_materials',
-      'label' => 'Materials',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'ting_reference',
-        'settings' => array(),
-        'type' => 'ting_reference_simple',
-        'weight' => '8',
       ),
     ),
   );
@@ -481,7 +428,7 @@ function ding_event_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '6',
+        'weight' => '5',
       ),
     ),
   );
@@ -634,6 +581,59 @@ function ding_event_field_default_fields() {
         ),
         'type' => 'image_image',
         'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_event-field_materials'
+  $fields['node-ding_event-field_materials'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '-1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_materials',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'translatable' => '0',
+      'type' => 'ting_reference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'ting_reference',
+          'settings' => array(
+            'view_mode' => 'collection_list',
+          ),
+          'type' => 'ting_reference_default',
+          'weight' => '10',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_materials',
+      'label' => 'Materials',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'ting_reference',
+        'settings' => array(),
+        'type' => 'ting_reference_simple',
+        'weight' => '7',
       ),
     ),
   );
