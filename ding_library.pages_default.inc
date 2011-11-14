@@ -183,7 +183,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:ding_library_opening_hours';
+    $pane->subtype = 'node:field_opening_hours';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -589,7 +589,7 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:ding_library_opening_hours';
+    $pane->subtype = 'node:field_opening_hours';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
