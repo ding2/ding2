@@ -11,7 +11,7 @@ libraries[ting-client][destination] = "modules/ting/lib"
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
 projects[ding_entity][download][url] = "git@github.com:ding2/ding_entity.git"
-projects[ding_entity][download][tag] = "v0.2"
+projects[ding_entity][download][tag] = "7.x-0.4"
 
 projects[blackhole][type] = "module"
 projects[blackhole][download][type] = "git"
