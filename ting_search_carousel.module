@@ -205,17 +205,19 @@ function ting_search_carousel_image_default_styles() {
   $styles['ting_search_carousel'] = array(
     'name' => 'ting_search_carousel',
     'effects' => array(
-      5 => array(
-        'label' => 'Resize',
-        'help' => 'Resizing will make images an exact set of dimensions. This may cause images to be stretched or shrunk disproportionately.',
-        'effect callback' => 'image_resize_effect',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
+      0 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
         'module' => 'image',
-        'name' => 'image_resize',
+        'name' => 'image_scale',
         'data' => array(
-          'width' => '112',
+          'width' => '',
           'height' => '140',
+          'upscale' => 0,
         ),
         'weight' => '1',
       ),

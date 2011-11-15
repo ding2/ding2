@@ -67,7 +67,7 @@
 .ting-search-carousel .rs-carousel {
   opacity: 1 !important;
   overflow: hidden;
-  width: 600px;
+  width: 580px;
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-mask {
@@ -82,11 +82,11 @@
   overflow: hidden;
   padding: 0;
   position: absolute;
-  width: 600px;
+  width: 580px;
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-item img {
-  width: 112px;
+  max-width: 112px;
   height: 140px;
 }
 .ting-search-carousel .no-js .rs-carousel .rs-carousel-runner {
