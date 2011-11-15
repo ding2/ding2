@@ -7,9 +7,6 @@
  * Perform actions to set up the site for this profile.
  */
 function ding2_install() {
-  // Set theme.
-  variable_set('theme_default', 'artois');
-
   // Enable some standard blocks.
   $default_theme = variable_get('theme_default', 'bartik');
 
@@ -26,11 +23,11 @@ function ding2_install() {
       'title' => '',
     ),
     array(
-      'module' => 'menu_block',
-      'delta' => 'ding_content-main-lvl1',
+      'module' => 'ding_library',
+      'delta' => 'ding_menu',
       'theme' => $default_theme,
       'status' => 1,
-      'weight' => 0,
+      'weight' => 1,
       'region' => 'header',
       'pages' => '',
       'cache' => -1,
@@ -207,12 +204,6 @@ function ding2_install() {
     ->execute();
   variable_set('admin_theme', 'seven');
   variable_set('node_admin_theme', '1');
-
-  // Set the image presets for covers.
-  variable_set('ting_covers_full_style', 'ding_large');
-  variable_set('ting_covers_teaser_style', 'ding_medium');
-  variable_set('ting_covers_user_list_style', 'ding_small');
-  variable_set('ting_covers_search_result_style', 'ding_medium');
 
   // Set default source language for i18n module
   variable_set('i18n_string_source_language', 'en');

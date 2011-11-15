@@ -1,7 +1,9 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-0.3-rc5
+version = 7.x-0.3-rc8
 core = 7.x
+distribution_name = "Ding 2"
+
 dependencies[] = block
 dependencies[] = contextual
 dependencies[] = menu
@@ -21,7 +23,8 @@ dependencies[] = ding_frontpage
 dependencies[] = ding_library_menu
 dependencies[] = ding_news
 
-; Funny things happen if this is higher up.
-dependencies[] = ding_example_content
-
 files[] = ding2.profile
+
+; Profiler extensions.
+theme = bartik
+
