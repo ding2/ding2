@@ -65,7 +65,7 @@ function _ding_libary_menu_rebuild() {
   // user changes to title, etc.
   $existing_links = db_query("
     SELECT link_path, link_title, menu_name, weight, expanded, options, mlid, plid, router_path
-    FROM menu_links WHERE module = 'ding_library_menu';
+    FROM {menu_links} WHERE module = 'ding_library_menu';
   ")->fetchAllAssoc('link_path', PDO::FETCH_ASSOC);
 
   // Get all library nodes we might want to provide menus for.
