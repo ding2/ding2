@@ -132,7 +132,14 @@ function ding_news_default_page_manager_handlers() {
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:node_view:node_view_panel_context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
       'style' => 'naked',
@@ -468,8 +475,12 @@ function ding_news_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_news:page_ding_news_panel_context',
+      ),
     );
     $pane->style = array(
       'settings' => NULL,
