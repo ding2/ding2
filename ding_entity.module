@@ -164,6 +164,19 @@ function ding_entity_collection_load($id, $type = NULL) {
 }
 
 /**
+ * Display a ding_entity.
+ */
+function ding_entity_view($ding_entity_type, $object, $view_mode = 'full', $langcode = NULL) {
+  $type_info = ding_entity_type($ding_entity_type);
+  if ($type_info) {
+    $function = $type_info['entity_type'] . '_view';
+    if (function_exists($function)) {
+      return $function($object, $view_mode, $langcode);
+    }
+  }
+  return array();
+}
+/**
  * Base class for Ding entity types.
  *
  * Implements getters for properties.
