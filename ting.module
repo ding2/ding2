@@ -212,7 +212,22 @@ function ting_block_info() {
       'info' => t('Ting alternative material types'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
+    'ting_relation_anchors' => array(
+      'info' => t('Ting relations for material '),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
   );
+}
+
+/**
+ * helper function - get relations for an ting_entity as an array ([$type] => array($relations))
+ */
+function ting_get_relations($ting_entity) {
+  $relation_types = ting_relation_inline();
+  foreach( $ting_entity->relations as $relation ) {
+    $relations[$relation->type][] = $relation;
+  }
+  return $relations;
 }
 
 /**
@@ -221,6 +236,23 @@ function ting_block_info() {
 function ting_block_view($delta = '') {
   $block = array();
   switch ($delta) {
+  case 'ting_relation_anchors' :
+    $items = array();
+    if( $object = menu_get_object('ting_object',2) ) {
+    $relations = ting_get_relations($object);
+    $relation_types = module_invoke_all('anchor_info');
+    foreach( $relations as $key => $relation ) {
+      if( isset($relation_types[$key]) ) {
+	$items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
+      }
+    }
+    $block['content'] = 
+      array(
+	    '#theme' => 'item_list',
+	    '#items' => $items,
+	    );
+    }
+    break;
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
         $block['subject'] = array(
@@ -294,11 +326,6 @@ function ting_theme() {
   return array(
     'ting_object' => array(
       'template' => 'ting_object',
-      'render element' => 'elements',
-      'file' => 'ting.theme.inc',
-    ),
-    'ting_object_details' => array(
-      'template' => 'ting_object_details',
       'render element' => 'elements',
       'file' => 'ting.theme.inc',
     ),

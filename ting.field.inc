@@ -53,14 +53,6 @@ function ting_field_info() {
       'default_formatter' => 'ting_subjects_default',
       'no_ui' => TRUE,
     ),
-    'ting_details' => array(
-      'label' => t('Ting object details'),
-      'description' => t('Ting object details'),
-      'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_default',
-      'no_ui' => TRUE,
-    ),
-
     // ting_collection
     'ting_primary_object' => array(
       'label' => t('Ting collection primary object'),
@@ -97,8 +89,6 @@ function ting_widget_info_alter(&$info) {
       'ting_abstract',
       'ting_author',
       'ting_subjects',
-      'ting_details',
-
       'ting_primary_object',
       'ting_entities',
       'ting_collection_types',
@@ -173,13 +163,6 @@ function ting_field_formatter_info() {
         'ting_subjects',
       ),
     ),
-    'ting_details_default' => array(
-      'label' => t('Default'),
-      'field types' => array(
-        'ting_details',
-      ),
-    ),
-
     'ting_primary_object_default' => array(
       'label' => t('Default'),
       'field types' => array(
@@ -394,13 +377,6 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           );
         }
         break;
-      case 'ting_details_default':
-        $element[$delta] = array(
-          '#theme' => 'ting_object_details',
-          '#object' => $entity,
-        );
-        break;
-
       case 'ting_primary_object_default':
         $element[$delta] = ting_object_view($entity->primary_object, $display['settings']['view_mode']);
         break;
