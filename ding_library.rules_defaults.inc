@@ -23,7 +23,6 @@ function ding_library_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_library" : "ding_library" } } } },
         { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
                 "task:node_view_panel_context_3:node_view:new-1" : "task:node_view_panel_context_3:node_view:new-1",
                 "task:node_view_panel_context_3:node_view:new-4" : "task:node_view_panel_context_3:node_view:new-4",
