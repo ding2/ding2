@@ -124,7 +124,14 @@ function ding_page_default_page_manager_handlers() {
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:node_view:node_view_panel_context_4',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
       'style' => 'naked',
