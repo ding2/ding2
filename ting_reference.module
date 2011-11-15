@@ -317,7 +317,10 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         $nodes = entity_load('node', $ids);
 
         foreach ($nodes as $id => $node) {
-          $element[] = node_view($node, 'teaser');
+          $build = node_view($node, 'teaser');
+          // Don't show links. Should be an option.
+          unset($build['links']);
+          $element[] = $build;
         }
       }
       break;
