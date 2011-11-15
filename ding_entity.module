@@ -166,16 +166,39 @@ function ding_entity_collection_load($id, $type = NULL) {
 /**
  * Display a ding_entity.
  */
-function ding_entity_view($ding_entity_type, $object, $view_mode = 'full', $langcode = NULL) {
-  $type_info = ding_entity_type($ding_entity_type);
-  if ($type_info) {
-    $function = $type_info['entity_type'] . '_view';
-    if (function_exists($function)) {
-      return $function($object, $view_mode, $langcode);
+function ding_entity_view($object, $view_mode = 'full', $langcode = NULL) {
+  if (!empty($object->ding_entity_type)){
+    $type_info = ding_entity_info($ding_entity_type);
+    if ($type_info) {
+      $function = $type_info['entity_type'] . '_view';
+      if (function_exists($function)) {
+        return $function($object, $view_mode, $langcode);
+      }
     }
   }
   return array();
 }
+
+/**
+ * Implements hook_entity_load().
+ *
+ * Adds ding_entity_type to all ding_entity objects.
+ */
+function ding_entity_entity_load($entities, $type) {
+  $ding_entity_type = NULL;
+  foreach (ding_entity_info() as $type_name => $info) {
+    if ($type == $info['entity_type']) {
+      $ding_entity_type = $type_name;
+      break;
+    }
+  }
+  if ($ding_entity_type) {
+    foreach ($entities as $entity) {
+      $entity->ding_entity_type = $ding_entity_type;
+    }
+  }
+}
+
 /**
  * Base class for Ding entity types.
  *
