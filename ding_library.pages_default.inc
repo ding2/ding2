@@ -134,8 +134,12 @@ function ding_library_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
+      ),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -172,8 +176,12 @@ function ding_library_default_page_manager_handlers() {
       'override_title_text' => 'Calendar',
     );
     $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
+      ),
     );
     $pane->style = array(
       'settings' => NULL,
