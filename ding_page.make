@@ -15,6 +15,10 @@ projects[ting_reference][download][tag] = "7.x-0.9"
 
 ; Contrib modules
 
+projects[cache_actions][type] = module
+projects[cache_actions][subdir] = contrib
+projects[cache_actions][version] = 2.0-alpha3
+
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
