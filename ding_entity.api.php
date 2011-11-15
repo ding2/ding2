@@ -96,11 +96,13 @@ function hook_ding_entity_fields() {
 }
 
 /**
- * Add buttons to an ding entity
+ * Add buttons to an ding entity.
+ *
+ * Return an array of buttons to add.
  */
 function hook_ding_entity_buttons($type, $entity) {
   if ($type == 'ding_entity' && $entity->is('reservable')) {
-    return ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE);
+    return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
   }
 }
 
