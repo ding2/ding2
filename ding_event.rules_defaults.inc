@@ -23,7 +23,14 @@ function ding_event_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_event" : "ding_event" } } } }
+        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
+                "subtask:page_ding_frontpage_panel_context:page:ding_frontpage:new-2" : "subtask:page_ding_frontpage_panel_context:page:ding_frontpage:new-2",
+                "subtask:page_ding_events_panel_context:page:ding_events:new-3" : "subtask:page_ding_events_panel_context:page:ding_events:new-3",
+                "subtask:page_ding_events_library_panel_context:page:ding_events_library:new-2" : "subtask:page_ding_events_library_panel_context:page:ding_events_library:new-2"
+              }
+            }
+          }
+        }
       ]
     }
   }');

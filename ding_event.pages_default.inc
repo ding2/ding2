@@ -132,7 +132,14 @@ function ding_event_default_page_manager_handlers() {
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:node_view:node_view_panel_context_2',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
       'style' => 'naked',
@@ -487,7 +494,14 @@ function ding_event_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_events:page_ding_events_panel_context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -684,8 +698,12 @@ function ding_event_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'none',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_events_library:page_ding_events_library_panel_context',
+      ),
     );
     $pane->style = array(
       'settings' => NULL,
