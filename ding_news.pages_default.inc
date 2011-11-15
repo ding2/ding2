@@ -101,7 +101,7 @@ function ding_news_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'vocab' => 'ding_news',
+      'vocab' => 'category',
       'override_title' => 0,
       'override_title_text' => '',
     );
