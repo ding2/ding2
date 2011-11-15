@@ -26,6 +26,7 @@ function ding_news_default_rules_configuration() {
         { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
                 "task:node_view_panel_context:node_view:new-2" : "task:node_view_panel_context:node_view:new-2",
                 "subtask:page_ding_news_panel_context:page:ding_news:new-2" : "subtask:page_ding_news_panel_context:page:ding_news:new-2",
+                "subtask:page_ding_frontpage_panel_context:page:ding_frontpage:new-1" : "subtask:page_ding_frontpage_panel_context:page:ding_frontpage:new-1",
                 "subtask:page_ding_news_library_panel_context:page:ding_news_library:new-1" : "subtask:page_ding_news_library_panel_context:page:ding_news_library:new-1"
               }
             }
