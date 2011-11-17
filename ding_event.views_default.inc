@@ -151,7 +151,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_list_image']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_list_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_list_image']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['field_list_image']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_list_image']['hide_empty'] = 1;
   $handler->display->display_options['fields']['field_list_image']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_list_image']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['field_list_image']['click_sort_column'] = 'fid';
