@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_default_page_manager_handlers().
+ * Implements hook_default_page_manager_handlers().
  */
 function ding_user_frontend_default_page_manager_handlers() {
   $export = array();
@@ -216,7 +216,7 @@ function ding_user_frontend_default_page_manager_handlers() {
 }
 
 /**
- * Implementation of hook_default_page_manager_pages().
+ * Implements hook_default_page_manager_pages().
  */
 function ding_user_frontend_default_page_manager_pages() {
   $page = new stdClass;
@@ -234,6 +234,17 @@ function ding_user_frontend_default_page_manager_pages() {
         'settings' => NULL,
         'context' => array(
           0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+      1 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
         ),
         'not' => FALSE,
       ),
@@ -391,6 +402,17 @@ function ding_user_frontend_default_page_manager_pages() {
         ),
         'not' => FALSE,
       ),
+      1 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
     ),
     'logic' => 'and',
     'type' => 'none',
@@ -542,6 +564,17 @@ function ding_user_frontend_default_page_manager_pages() {
         'settings' => NULL,
         'context' => array(
           0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+      1 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
         ),
         'not' => FALSE,
       ),
