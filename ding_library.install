@@ -2,6 +2,17 @@
 
 // Install and update hooks for ding_library.
 
+function ding_library_install() {
+  // Disable default OG member rules
+  db_update('rules_config')
+    ->fields(array('active' => 0))
+    ->condition(db_or()
+    ->condition('name', 'rules_og_member_active')
+    ->condition('name', 'rules_og_member_pending')
+    ->condition('name', 'rules_og_group_content_notification'))
+    ->execute();
+}
+
 /**
  * Update blocks.
  */
@@ -35,3 +46,17 @@ function ding_library_update_7001() {
   )->execute();
   return t('Updated menu block.');
 }
+
+/**
+ * Disable default OG member rules.
+ */
+function ding_library_update_7002() {
+  db_update('rules_config')
+    ->fields(array('active' => 0))
+    ->condition(db_or()
+    ->condition('name', 'rules_og_member_active')
+    ->condition('name', 'rules_og_member_pending')
+    ->condition('name', 'rules_og_group_content_notification'))
+    ->execute();
+}
+
