@@ -254,6 +254,9 @@ function ding_user_user_view($account) {
  * Lets user stays on page, after logout.
  */
 function ding_user_user_logout($account) {
+  // Ensure the credentials is gone.
+  cache_clear_all(session_name() . '-' . $account->uid, 'cache_ding_user_credentials');
+  // Not sure about this...
   session_destroy();
   drupal_goto($_SERVER['HTTP_REFERER']);
 }
