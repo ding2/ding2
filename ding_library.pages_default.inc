@@ -658,7 +658,7 @@ function ding_library_default_page_manager_pages() {
       'formatter' => 'text_default',
       'formatter_settings' => array(),
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => 'Opening hours',
     );
     $pane->cache = array(
