@@ -147,7 +147,7 @@ function ting_relation_set_review(&$variables) {
   }
 
   $variables['content']['meta']['date'] = array(
-    '#markup' => t('Year') . ": " . filter_xss_admin($relation->object->date),
+    '#markup' => '(' . filter_xss_admin($relation->object->date) . ')',
   );
 
 
