@@ -388,7 +388,7 @@ function ting_get_request_factory() {
     );
 
     // TODO: This should probably be rethought.
-    if (module_exists('ting_infomedia')) {
+    if (module_exists('ting_infomedia') && variable_get('ting_infomedia_url', FALSE)) {
       $url_variables['infomedia'] = 'ting_infomedia_url';
     }
 
