@@ -334,8 +334,10 @@ function ding_event_field_default_fields() {
         'teaser' => array(
           'label' => 'hidden',
           'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
+          'settings' => array(
+            'trim_length' => '60',
+          ),
+          'type' => 'text_summary_or_trimmed',
           'weight' => '2',
         ),
       ),
