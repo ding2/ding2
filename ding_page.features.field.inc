@@ -207,7 +207,7 @@ function ding_page_field_default_fields() {
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(
-            'trim_length' => '200',
+            'trim_length' => '60',
           ),
           'type' => 'text_summary_or_trimmed',
           'weight' => '1',
