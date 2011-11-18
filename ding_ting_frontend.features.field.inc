@@ -662,77 +662,6 @@ function ding_ting_frontend_field_default_fields() {
     ),
   );
 
-  // Exported field: 'ting_object-ting_object-ting_details'
-  $fields['ting_object-ting_object-ting_details'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'ting_details',
-      'foreign keys' => array(),
-      'indexes' => array(),
-      'module' => 'ting',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'ting_details',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ting_object',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'ding_entity_type' => 'ding_entity',
-      'display' => array(
-        'collection_list' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '10',
-        ),
-        'collection_primary' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '7',
-        ),
-        'default' => array(
-          'label' => 'above',
-          'module' => 'ting',
-          'settings' => array(),
-          'type' => 'ting_details_default',
-          'weight' => '7',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '6',
-        ),
-        'user_list' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '4',
-        ),
-      ),
-      'entity_type' => 'ting_object',
-      'field_name' => 'ting_details',
-      'label' => 'Material details',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 0,
-        'module' => 'blackhole',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => '6',
-      ),
-    ),
-  );
-
   // Exported field: 'ting_object-ting_object-ting_reference_reverse'
   $fields['ting_object-ting_object-ting_reference_reverse'] = array(
     'field_config' => array(
@@ -1220,7 +1149,6 @@ function ding_ting_frontend_field_default_fields() {
   t('Cover');
   t('Holdings information');
   t('Issues');
-  t('Material details');
   t('On this site');
   t('Series');
   t('Subjects');
