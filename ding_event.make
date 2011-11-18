@@ -31,7 +31,7 @@ projects[date][patch][] = http://drupal.org/files/1188380.patch
 projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
-projects[ding_content][download][tag] = "7.x-0.7"
+projects[ding_content][download][tag] = "7.x-0.8"
 
 projects[features][type] = module
 projects[features][subdir] = contrib
