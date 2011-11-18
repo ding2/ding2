@@ -29,12 +29,21 @@ function ding_place2book_menu() {
     'description' => 'Settings and defaults for Place2book integration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_place2book_admin_settings_form'),
-    'access callback' => TRUE,
-    'access arguments' => array(1),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer place2book settings'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_place2book.admin.inc',
     );
   return $items;
+}
+
+/**
+ * Implementation of hook_perm().
+ */
+function ding_place2book_perm() {
+  return array(
+    'administer place2book settings',
+  );
 }
 
 function ding_place2book_p2b_submit($form, &$form_state)
