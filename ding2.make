@@ -38,7 +38,7 @@ projects[ding_user_frontend][download][tag] = "7.x-0.15"
 projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
-projects[ding_ting_frontend][download][tag] = "7.x-0.27"
+projects[ding_ting_frontend][download][tag] = "7.x-0.28"
 
 projects[mkdru_ding_frontend][type] = "module"
 projects[mkdru_ding_frontend][download][type] = "git"
@@ -55,7 +55,7 @@ projects[ding_content][download][tag] = "7.x-0.8"
 projects[ding_example_content][type] = module
 projects[ding_example_content][download][type] = git
 projects[ding_example_content][download][url] = git@github.com:ding2/ding_example_content.git
-projects[ding_example_content][download][tag] = "7.x-0.8"
+projects[ding_example_content][download][tag] = "7.x-0.9"
 
 projects[ding_frontpage][type] = module
 projects[ding_frontpage][download][type] = git
@@ -70,9 +70,9 @@ projects[ding_library][download][tag] = "7.x-0.8"
 projects[ding_news][type] = module
 projects[ding_news][download][type] = git
 projects[ding_news][download][url] = git@github.com:ding2/ding_news.git
-projects[ding_news][download][tag] = "7.x-0.7"
+projects[ding_news][download][tag] = "7.x-0.8"
 
 projects[ding_event][type] = module
 projects[ding_event][download][type] = git
 projects[ding_event][download][url] = git@github.com:ding2/ding_event.git
-projects[ding_event][download][tag] = "7.x-0.7"
+projects[ding_event][download][tag] = "7.x-0.8"
