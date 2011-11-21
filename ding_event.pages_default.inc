@@ -365,7 +365,7 @@ function ding_event_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding events';
   $page->admin_description = 'Display the events';
-  $page->path = 'events';
+  $page->path = 'events/!gid/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -393,7 +393,16 @@ function ding_event_default_page_manager_pages() {
       'weight' => '0',
     ),
   );
-  $page->arguments = array();
+  $page->arguments = array(
+    'gid' => array(
+      'settings' => array(),
+      'identifier' => 'No context',
+    ),
+    'tid' => array(
+      'settings' => array(),
+      'identifier' => 'No context',
+    ),
+  );
   $page->conf = array(
     'admin_paths' => FALSE,
   );
@@ -433,13 +442,12 @@ function ding_event_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'ding_category';
-    $pane->subtype = 'ding_category';
+    $pane->type = 'category';
+    $pane->subtype = 'category';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'vocab' => 'category',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -453,14 +461,14 @@ function ding_event_default_page_manager_pages() {
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
-    $pane->panel = 'left';
-    $pane->type = 'event';
-    $pane->subtype = 'event';
+    $pane->panel = 'middle';
+    $pane->type = 'librarylist';
+    $pane->subtype = 'librarylist';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Events',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -468,9 +476,9 @@ function ding_event_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $display->content['new-2'] = $pane;
-    $display->panels['left'][1] = 'new-2';
+    $display->panels['middle'][0] = 'new-2';
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
@@ -486,18 +494,22 @@ function ding_event_default_page_manager_pages() {
       'offset' => '0',
       'more_link' => 0,
       'feed_icons' => 0,
-      'panel_args' => 0,
+      'panel_args' => 1,
       'link_to_view' => 0,
-      'args' => '',
+      'args' => '%gid/%tid',
       'url' => '',
       'display' => 'ctools_context_master',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
+      'context' => array(
+        0 => 'argument_entity_id:group_1.gid',
+        1 => 'argument_term_1.tid',
+      ),
     );
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'args',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_events:page_ding_events_panel_context',
       ),
@@ -507,9 +519,9 @@ function ding_event_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $display->content['new-3'] = $pane;
-    $display->panels['middle'][0] = 'new-3';
+    $display->panels['middle'][1] = 'new-3';
     $pane = new stdClass;
     $pane->pid = 'new-4';
     $pane->panel = 'right';
