@@ -23,17 +23,13 @@ function ding_library_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
-                "task:node_view_panel_context_3:node_view:new-1" : "task:node_view_panel_context_3:node_view:new-1",
-                "task:node_view_panel_context_3:node_view:new-4" : "task:node_view_panel_context_3:node_view:new-4",
-                "task:node_view_panel_context_3:node_view:new-5" : "task:node_view_panel_context_3:node_view:new-5",
-                "subtask:page_ding_libraries_panel_context:page:ding_libraries:new-1" : "subtask:page_ding_libraries_panel_context:page:ding_libraries:new-1",
-                "subtask:page_ding_libraries_panel_context:page:ding_libraries:new-2" : "subtask:page_ding_libraries_panel_context:page:ding_libraries:new-2",
-                "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-1" : "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-1",
-                "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-2" : "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-2",
-                "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-3" : "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-3",
-                "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-4" : "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-4",
-                "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-5" : "subtask:page_ding_library_about_panel_context:page:ding_library_about:new-5"
+        { "cache_actions_action_clear_cache" : { "tables" : { "value" : {
+                "cache" : "cache",
+                "cache_block" : "cache_block",
+                "cache_page" : "cache_page",
+                "cache_similarterms" : "cache_similarterms",
+                "cache_token" : "cache_token",
+                "cache_views" : "cache_views"
               }
             }
           }

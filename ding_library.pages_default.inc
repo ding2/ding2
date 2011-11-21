@@ -94,7 +94,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
       ),
@@ -136,7 +136,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
       ),
@@ -178,7 +178,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
       ),
@@ -212,7 +212,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
       ),
@@ -240,7 +240,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
       ),
