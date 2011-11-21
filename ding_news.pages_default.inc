@@ -365,7 +365,7 @@ function ding_news_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding news';
   $page->admin_description = '';
-  $page->path = 'news';
+  $page->path = 'news/!gid/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -393,7 +393,20 @@ function ding_news_default_page_manager_pages() {
       'weight' => '0',
     ),
   );
-  $page->arguments = array();
+  $page->arguments = array(
+    'gid' => array(
+      'id' => '',
+      'identifier' => '',
+      'argument' => '',
+      'settings' => array(),
+    ),
+    'tid' => array(
+      'id' => '',
+      'identifier' => '',
+      'argument' => '',
+      'settings' => array(),
+    ),
+  );
   $page->conf = array(
     'admin_paths' => FALSE,
   );
@@ -433,12 +446,11 @@ function ding_news_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'ding_category';
-    $pane->subtype = 'ding_category';
+    $pane->type = 'category';
+    $pane->subtype = 'category';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'vocab' => 'ding_news',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -454,6 +466,26 @@ function ding_news_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
+    $pane->type = 'librarylist';
+    $pane->subtype = 'librarylist';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'News',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'middle';
     $pane->type = 'views';
     $pane->subtype = 'ding_news';
     $pane->shown = TRUE;
@@ -466,9 +498,9 @@ function ding_news_default_page_manager_pages() {
       'offset' => '0',
       'more_link' => 0,
       'feed_icons' => 0,
-      'panel_args' => 0,
+      'panel_args' => 1,
       'link_to_view' => 0,
-      'args' => '',
+      'args' => '%gid/%tid',
       'url' => '',
       'display' => 'ctools_context_master',
       'override_title' => 1,
@@ -477,7 +509,7 @@ function ding_news_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'args',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_news:page_ding_news_panel_context',
       ),
@@ -487,11 +519,11 @@ function ding_news_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][1] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'block';
     $pane->subtype = 'similarterms-ding_content_tags';
@@ -508,10 +540,10 @@ function ding_news_default_page_manager_pages() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -542,10 +574,10 @@ function ding_news_default_page_manager_pages() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][1] = 'new-4';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][1] = 'new-5';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-3';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_news'] = $page;
