@@ -379,7 +379,7 @@ function ding_library_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
       ),
@@ -406,7 +406,7 @@ function ding_library_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
       ),
@@ -442,7 +442,7 @@ function ding_library_default_page_manager_pages() {
       'method' => 'simple',
       'settings' => array(
         'lifetime' => '3600',
-        'granularity' => 'none',
+        'granularity' => 'context',
       ),
     );
     $pane->style = array(
@@ -568,7 +568,7 @@ function ding_library_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_library_about:page_ding_library_about_panel_context',
       ),
@@ -602,7 +602,7 @@ function ding_library_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_library_about:page_ding_library_about_panel_context',
       ),
@@ -633,7 +633,7 @@ function ding_library_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_library_about:page_ding_library_about_panel_context',
       ),
@@ -664,7 +664,7 @@ function ding_library_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_library_about:page_ding_library_about_panel_context',
       ),
@@ -689,7 +689,14 @@ function ding_library_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'context',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_library_about:page_ding_library_about_panel_context',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -721,10 +728,11 @@ function ding_library_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'simple',
+      'method' => 'rules',
       'settings' => array(
-        'lifetime' => '600',
-        'granularity' => 'none',
+        'granularity' => 'context',
+        'language' => 1,
+        'cache_key' => 'panel_context:page-ding_library_about:page_ding_library_about_panel_context',
       ),
     );
     $pane->style = array(
