@@ -509,7 +509,7 @@ function ding_news_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'context',
+        'granularity' => 'args',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_news:page_ding_news_panel_context',
       ),
