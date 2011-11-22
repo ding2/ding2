@@ -858,6 +858,8 @@ return FALSE;
 
   /* Display: Front page teaser highlight */
   $handler = $view->new_display('attachment', 'Front page teaser highlight', 'front_page_teaser_highlight');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'ding-news-highlight';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -920,6 +922,8 @@ return FALSE;
 
   /* Display: Library teaser highlight */
   $handler = $view->new_display('attachment', 'Library teaser highlight', 'library_teaser_highlight');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'ding-news-highlight';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
