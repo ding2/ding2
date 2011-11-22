@@ -15,6 +15,32 @@ function ding_library_init() {
       'weight' => 42,
     ));
   }
+  $args = arg();
+  if (sizeof($args) == 2 && $args[0] == 'node') {
+    $node = menu_get_object();
+    $types = array(
+      'ding_event' => 'events',
+      'ding_news' => 'news',
+    );
+    if (isset($types[$node->type])) {
+      // Check if node is part of a group. Get all groups.
+      if ($groups = og_get_entity_groups('node', $node)) {
+        // Load the first.
+        $group = og_load(array_shift($groups));
+        // The entity_id the group references, is the nid of the library.
+        $library_nid = $group->etid;
+        // Use the nodes path.
+        $path = 'node/' . $library_nid . '/' . $types[$node->type];
+      }
+      else {
+        // Not part of any group, put them under the site list.
+        $path = $types[$node->type];
+      }
+
+      // Set the active path for the main menu.
+      menu_tree_set_path('main-menu', $path);
+    };
+  }
 }
 
 /**
@@ -94,38 +120,6 @@ function ding_library_block_save($delta = '', $edit = array()) {
 }
 
 /**
- * Implements hook_node_view().
- *
- * Sets the active menu item for some content types that can't have a menu
- * item.
- */
-function ding_library_node_view($node, $view_mode, $langcode) {
-  $types = array(
-    'ding_event' => 'events',
-    'ding_news' => 'news',
-  );
-  if ($view_mode == 'full' && isset($types[$node->type])) {
-    // Check if node is part of a group. Get all groups.
-    if ($groups = og_get_entity_groups('node', $node)) {
-      // Load the first.
-      $group = og_load(array_shift($groups));
-      // The entity_id the group references, is the nid of the library.
-      $library_nid = $group->etid;
-      // Use the nodes path.
-      $path = 'node/' . $library_nid . '/' . $types[$node->type];
-    }
-    else {
-      // Not part of any group, put them under the site list.
-      $path = $types[$node->type];
-    }
-    // Set the active menu item.
-    menu_set_active_item($path);
-    // Reset trail cache.
-    drupal_static_reset('menu_set_active_trail');
-  }
-}
-
-/**
  * Implements hook_block_view().
  */
 function ding_library_block_view($delta = '') {
@@ -157,25 +151,39 @@ function ding_library_block_view($delta = '') {
     );
 
     $trail = menu_get_active_trail();
-    // If we have at least 3 levels in the trail and the second item is
-    // libraries, we're inside the library 'subsite'. Add the library menu.
-    if (!empty($trail[1]) && !empty($trail[2]) && $trail[1]['router_path'] == 'libraries') {
 
+    // Get the active menu item.
+    $current_item = menu_get_item(menu_tree_get_path('main-menu'));
+    // Find the menu_links for the current item and the libraries menu item.
+    $links = db_select('menu_links', 'ml')
+      ->fields('ml', array('link_path', 'mlid', 'plid', 'p1', 'p2'))
+      ->condition('menu_name', 'main-menu')
+      ->condition('link_path', array('libraries', $current_item['href']))
+      ->execute()->fetchAllAssoc('link_path');
+
+    // If p1 (first part of materialised path) is the mlid of the
+    // libraries item, the current item lies below it.
+    if (!empty($links['libraries']) && !empty($links[$current_item['href']]) && $links['libraries']->mlid == $links[$current_item['href']]->p1) {
+      // Find the library menu item, by using p2.
+      $library = db_select('menu_links', 'ml')
+        ->fields('ml', array('mlid', 'link_path', 'link_title'))
+        ->condition('mlid', $links[$current_item['href']]->p2)
+        ->execute()->fetchAssoc();
       // Add in the library as the first item of the list.
       $links = array(
-        'menu-' . $trail[2]['mlid'] => array(
-          'href' => $trail[2]['link_path'],
+        'menu-' . $library['mlid'] => array(
+          'href' => $library['link_path'],
           'title' => t('Frontpage'),
         ),
       );
       // And add the library items children.
-      $links += menu_navigation_links($trail[2]['menu_name'], 2);
+      $links += menu_navigation_links('main-menu', 2);
       // Theme the lot as a list of links.
       $block['content']['library-menu'] = array(
         '#markup' => theme('links__library_menu', array(
                      'links' => $links,
                      'heading' => array(
-                       'text' => $trail[2]['link_title'],
+                       'text' => $library['link_title'],
                        'level' => 'h2',
                      ),
                    )),
