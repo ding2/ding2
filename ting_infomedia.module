@@ -102,6 +102,10 @@ function ting_infomedia_get_ting_relations() {
   return $types;
 }
 
+function ting_infomedia_anchor_info() {
+  return ting_infomedia_get_ting_relations();
+}
+
 /**
  * Implements hook_form_FORM_ID_alter()
  * Adding infomedia url form field to ting configuration form
