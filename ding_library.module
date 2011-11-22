@@ -16,8 +16,7 @@ function ding_library_init() {
     ));
   }
   $args = arg();
-  if (sizeof($args) == 2 && $args[0] == 'node') {
-    $node = menu_get_object();
+  if (sizeof($args) == 2 && $args[0] == 'node' && $node = menu_get_object()) {
     $types = array(
       'ding_event' => 'events',
       'ding_news' => 'news',
