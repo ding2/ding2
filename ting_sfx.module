@@ -50,6 +50,21 @@ function ting_sfx_field_formatter_info() {
   );
 }
 
+function ting_sfx_inline() {
+  static $types;
+  if (!$types) {
+    $types = 
+      array(
+	    'dbcaddi:hasOpenUrl' => t('SFX'),	    
+	    );
+  }
+  return $types;  
+}
+
+function ting_sfx_anchor_info() {
+  return ting_sfx_inline();
+}
+
 /**
  * Implements hook_field_formatter_view
  *
@@ -58,22 +73,22 @@ function ting_sfx_field_formatter_info() {
  */
 function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $relation_type = 'dbcaddi:hasOpenUrl';
-
+  $relation_types = ting_sfx_inline();
   switch ($display['type']) {
     case 'ting_sfx_default':
       foreach ($items as $delta => $items) {
-        foreach ($entity->relations as $relation) {
-          if ($relation_type == $relation->type && ($sfx_url = ting_sfx_get_open_url($relation->uri))) {
-            $element[$delta] = array(
-              '#markup' => l(ting_sfx_get_logo() . '<span>' . t('SFX') . '</span>',
-                             $sfx_url,
-                             array(
-                               'attributes' => array('class' => array('ting_sfx_group',),
-                                                     'target' => '_new',),
-                               'html' => TRUE,
-                             )),
-            );
+        foreach ($entity->relations as $relation) {	 
+          if ( (isset($relation_types[$relation->type])) && ($sfx_url = ting_sfx_get_open_url($relation->uri)) ) {
+	    $element[$delta] = 
+	      array(
+		    '#markup' => l(ting_sfx_get_logo() . '<span>' . $relation_types[$relation->type] . '</span>',
+				   $sfx_url, array(
+						   'attributes' => array('class' => array('ting_sfx_group',),
+									 'target' => '_new',
+									 'name' => $relation->type),
+						   'html' => TRUE,
+						   )),
+		    );
           }
         }
       }
@@ -85,8 +100,8 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
 }
 
 function ting_sfx_get_open_url($uri) {
-  $baseurl = variable_get('ting_sfx_url', '');
-
+  $baseurl = variable_get('ting_sfx_url', FALSE);
+  
   if ($baseurl) {
     $baseurl .= '?';
     $ret = str_replace('_BASEURL_', $baseurl, $uri);
