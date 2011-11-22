@@ -468,7 +468,7 @@ function ding_event_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => 'Events',
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -499,7 +499,7 @@ function ding_event_default_page_manager_pages() {
       'args' => '%gid/%tid',
       'url' => '',
       'display' => 'ctools_context_master',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
       'context' => array(
         0 => 'argument_entity_id:group_1.gid',
@@ -509,7 +509,7 @@ function ding_event_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'args',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_events:page_ding_events_panel_context',
       ),
