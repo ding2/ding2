@@ -353,17 +353,21 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }
         $markup_string = '';
         if (count($creators)) {
-          $markup_string = 'By !author_link';
-        }
-        if ($entity->date != '') {
-          $markup_string .= ' (@year)';
+          if ($entity->date != '') {
+            $markup_string = t('By !author_link (@year)', array(
+              '!author_link' => implode(', ', $creators),
+              '@year' => $entity->date, // So wrong, but appears to
+                                        // be the way the data is.
+            ));
+          }
+          else {
+            $markup_string = t('By !author_link', array(
+              '!author_link' => implode(', ', $creators),
+            ));
+          }
         }
         $element[$delta] = array(
-          '#markup' => t($markup_string, array(
-                       '!author_link' => implode(', ', $creators),
-                       '@year' => $entity->date, // So wrong, but appears to
-                                                 // be the way the data is.
-                     )),
+          '#markup' => $markup_string,
         );
         break;
       case 'ting_subjects_default':
