@@ -3,7 +3,6 @@
  * @file
  * Template to render ting_releation content.
  */
-dpm($variables);
 ?>
 
 <?php 
