@@ -643,6 +643,15 @@ function ding_event_default_page_manager_pages() {
       ),
       'logic' => 'and',
     ),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'Libraries
+%node:title
+Events
+%tid:name',
+    'panels_breadcrumbs_paths' => 'libraries
+node/%node:nid
+node/%node:nid/events
+<none>',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25_stacked';
