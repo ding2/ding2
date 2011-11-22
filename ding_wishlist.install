@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * Ding wishlist module install.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_wishlist_install() {
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_wishlist_uninstall() {
+  drupal_uninstall_schema('ding_wishlist');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function ding_wishlist_schema() {
+  $schema = array();
+
+  $schema['ding_wishlist_ids'] = array(
+    'description' => 'Storage for alphanumeric ids.',
+    'fields' => array(
+      'wid' => array(
+        'description' => 'Ding entity wishlist id.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'ding_entity_id' => array(
+        'description' => 'Ding entity id.',
+        'type' => 'varchar',
+        'length' => '100',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('wid'),
+    'unique keys' => array(
+      'wid_ding_entity_id' => array('wid', 'ding_entity_id'),
+    ),
+  );
+
+  return $schema;
+}
