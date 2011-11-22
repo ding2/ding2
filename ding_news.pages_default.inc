@@ -472,7 +472,7 @@ function ding_news_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => 'News',
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -503,7 +503,7 @@ function ding_news_default_page_manager_pages() {
       'args' => '%gid/%tid',
       'url' => '',
       'display' => 'ctools_context_master',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array(
