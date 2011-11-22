@@ -495,6 +495,8 @@ function ding_news_default_page_manager_pages() {
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => '',
+      'url_settings_all_libraries' => '%page_type',
+      'url_settings_library' => 'node/%library_id/news/%category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -773,6 +775,28 @@ node/%node:nid/news
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
+    $pane->type = 'librarylist';
+    $pane->subtype = 'librarylist';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'url_settings_all_libraries' => 'news/all/%category',
+      'url_settings_library' => '%page_type/%library_id/news/%category',
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'middle';
     $pane->type = 'views';
     $pane->subtype = 'ding_news';
     $pane->shown = TRUE;
@@ -810,11 +834,11 @@ node/%node:nid/news
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['middle'][1] = 'new-3';
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['middle'][2] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -839,8 +863,8 @@ node/%node:nid/news
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
