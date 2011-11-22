@@ -223,7 +223,6 @@ function ting_block_info() {
  * helper function - get relations for an ting_entity as an array ([$type] => array($relations))
  */
 function ting_get_relations($ting_entity) {
-  $relation_types = ting_relation_inline();
   foreach( $ting_entity->relations as $relation ) {
     $relations[$relation->type][] = $relation;
   }
