@@ -284,7 +284,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid']['validate']['type'] = 'php';
   $handler->display->display_options['arguments']['ding_library_nid']['validate_options']['code'] = '$query = db_query("SELECT entity_id FROM {field_data_field_slug} WHERE field_slug_value = \'" . $argument . "\'");
 $result = $query->fetchObject();
-if ($result->entity_id) {
+if (is_object($result) && $result->entity_id) {
   $handler->argument = $result->entity_id;
   return TRUE;
 }
@@ -807,7 +807,7 @@ return FALSE;
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_group_audience';
   $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'empty';
   $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
@@ -815,17 +815,30 @@ return FALSE;
   $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
-  /* Contextual filter: Content: Category (field_category) */
-  $handler->display->display_options['arguments']['field_category_tid']['id'] = 'field_category_tid';
-  $handler->display->display_options['arguments']['field_category_tid']['table'] = 'field_data_field_category';
-  $handler->display->display_options['arguments']['field_category_tid']['field'] = 'field_category_tid';
-  $handler->display->display_options['arguments']['field_category_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_category_tid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['field_category_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_category_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_category_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_category_tid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['field_category_tid']['not'] = 0;
+  /* Contextual filter: Content: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = 1;
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'category' => 'category',
+    'ding_page' => 0,
+    'ding_content_tags' => 0,
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['type'] = 'convert';
+  $handler->display->display_options['arguments']['tid']['validate_options']['transform'] = 0;
+  $handler->display->display_options['arguments']['tid']['validate']['fail'] = 'ignore';
+  $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['tid']['add_table'] = 0;
+  $handler->display->display_options['arguments']['tid']['require_value'] = 0;
+  $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
+  $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
 
   /* Display: Library Feed */
   $handler = $view->new_display('feed', 'Library Feed', 'feed_library');

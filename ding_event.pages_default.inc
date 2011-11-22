@@ -449,6 +449,8 @@ function ding_event_default_page_manager_pages() {
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
+      'url_settings_all_categories' => '%page_type/%library',
+      'url_settings' => '%page_type/%library/%category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -461,6 +463,26 @@ function ding_event_default_page_manager_pages() {
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
+    $pane->panel = 'middle';
+    $pane->type = 'menu_title';
+    $pane->subtype = 'menu_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'librarylist';
     $pane->subtype = 'librarylist';
@@ -476,11 +498,11 @@ function ding_event_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][1] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'views';
     $pane->subtype = 'ding_event';
@@ -499,7 +521,7 @@ function ding_event_default_page_manager_pages() {
       'args' => '%gid/%tid',
       'url' => '',
       'display' => 'ctools_context_master',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'context' => array(
         0 => 'argument_entity_id:group_1.gid',
@@ -509,7 +531,7 @@ function ding_event_default_page_manager_pages() {
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'context',
+        'granularity' => 'args',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_events:page_ding_events_panel_context',
       ),
@@ -519,11 +541,11 @@ function ding_event_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['middle'][1] = 'new-3';
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['middle'][2] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -553,10 +575,10 @@ function ding_event_default_page_manager_pages() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-3';
+  $display->title_pane = 'new-4';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_events'] = $page;
@@ -568,7 +590,7 @@ function ding_event_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Library events page';
   $page->admin_description = '';
-  $page->path = 'node/%node/events';
+  $page->path = 'node/%node/events/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -592,6 +614,20 @@ function ding_event_default_page_manager_pages() {
       'name' => 'entity_id:node',
       'settings' => array(),
       'keyword' => 'node',
+    ),
+    'tid' => array(
+      'id' => 1,
+      'identifier' => 'Taxonomy term: ID',
+      'name' => 'term',
+      'settings' => array(
+        'input_form' => 'term',
+        'vids' => array(
+          2 => '2',
+          1 => 0,
+          3 => 0,
+        ),
+        'breadcrumb' => 0,
+      ),
     ),
   );
   $page->conf = array(
@@ -673,13 +709,14 @@ node/%node:nid/events
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'ding_category';
-    $pane->subtype = 'ding_category';
+    $pane->type = 'category';
+    $pane->subtype = 'category';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'vocab' => 'category',
-      'override_title' => 1,
+      'url_settings_all_categories' => '%page_type/%library/events',
+      'url_settings' => '%page_type/%library/events/%category',
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -694,6 +731,26 @@ node/%node:nid/events
     $pane = new stdClass;
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
+    $pane->type = 'menu_title';
+    $pane->subtype = 'menu_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-2'] = $pane;
+    $display->panels['middle'][0] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'middle';
     $pane->type = 'views';
     $pane->subtype = 'ding_event';
     $pane->shown = TRUE;
@@ -706,22 +763,22 @@ node/%node:nid/events
       'offset' => '0',
       'more_link' => 0,
       'feed_icons' => 0,
-      'panel_args' => 0,
+      'panel_args' => 1,
       'link_to_view' => 0,
-      'args' => '',
+      'args' => '@1/@3',
       'url' => 'node/%/events/feed',
       'display' => 'ctools_context_library_master',
       'context' => array(
         0 => 'argument_entity_id:node_1.nid',
-        1 => '',
+        1 => 'argument_term_1.name',
       ),
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'none',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_events_library:page_ding_events_library_panel_context',
       ),
@@ -731,11 +788,11 @@ node/%node:nid/events
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['middle'][1] = 'new-3';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -766,10 +823,10 @@ node/%node:nid/events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][0] = 'new-4';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-3';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_events_library'] = $page;
