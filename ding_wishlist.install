@@ -43,7 +43,7 @@ function ding_wishlist_schema() {
     ),
     'primary key' => array('wid'),
     'unique keys' => array(
-      'wid_ding_entity_id' => array('wid', 'ding_entity_id'),
+      'ding_entity_id' => array('ding_entity_id'),
     ),
   );
 
