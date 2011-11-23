@@ -31,14 +31,14 @@ function ding_wishlist_user_wishlist_empty_page() {
 /**
  * Wishlist manage form.
  */
-function ding_wishlist_remove_form($form, &$form_state, $entity_ids) {
+function ding_wishlist_remove_form($form, &$form_state, $entity_wids) {
   $item_options = array();
-  foreach ($entity_ids as $item_id) {
+  foreach ($entity_wids as $item_wid) {
     // Build item view.
-    $item_view_build = ding_wishlist_item_view($item_id);
+    $item_view_build = ding_wishlist_item_view($item_wid);
     if ($item_view_build) {
-      $item_options[$item_id] = $item_id;
-      $form['#builded_entities'][$item_id] = $item_view_build;
+      $item_options[$item_wid] = $item_wid;
+      $form['#builded_entities'][$item_wid] = $item_view_build;
     }
   }
 
@@ -68,8 +68,8 @@ function ding_wishlist_remove_form_submit($form, &$form_state) {
   if ($items_to_delete) {
     // Unflag all selected items.
     $flag = flag_get_flag('wishlist');
-    foreach ($items_to_delete as $item_id) {
-      $flag->flag('unflag', $item_id);
+    foreach ($items_to_delete as $item_wid) {
+      $flag->flag('unflag', $item_wid);
     }
   }
 }
@@ -94,18 +94,18 @@ function theme_ding_wishlist_remove_form($variables) {
   $rows = array();
   if (!empty($form['items']['#options'])) {
     foreach (element_children($form['items']) as $key) {
-      $item_id = $key;
+      $item_wid = $key;
       // Clean checkbox
       unset($form['items'][$key]['#title']) ;
       // Create delete link.
       $button = '<input type="button" class="form-submit" value="' . t($flag->unflag_short) . '">';
-      $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_id));
-      $delete_link = l($button, 'flag/unflag/wishlist/' . $item_id, array('query' => $delete_link_query, 'html' => TRUE));
+      $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_wid));
+      $delete_link = l($button, 'flag/unflag/wishlist/' . $item_wid, array('query' => $delete_link_query, 'html' => TRUE));
 
       //Add row.
       $rows[] = array(
         drupal_render($form['items'][$key]),
-        drupal_render($form['#builded_entities'][$item_id]), // Theme item as a teaser.
+        drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
         $delete_link,
       );
     }

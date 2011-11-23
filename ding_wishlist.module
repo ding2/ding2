@@ -143,12 +143,13 @@ function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
 function ding_wishlist_ding_entity_buttons($type, $entity) {
   // Add 'wishlist' button.
   if ($type == 'ding_entity') {
-    if ($entity->localId) {
+    if ($entity->ding_entity_id) {
       $wishlist_flag = flag_get_flag('wishlist');
+      $entity_wid = ding_wishlist_entity_id_to_wid($entity->ding_entity_id);
       $entity_type = $entity->uri['options']['entity_type'];
 
       if (in_array($entity_type, array_filter($wishlist_flag->show_on_ting_types))) {
-        $wishlist_flag_button = ding_wishlist_flag_view($entity->localId);
+        $wishlist_flag_button = ding_wishlist_flag_view($entity_wid);
         return array($wishlist_flag_button);
       }
     }
@@ -191,9 +192,9 @@ function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
   }
 
   $wishlist_flag = flag_get_flag('wishlist');
-  $entity_id = $form['content_id']['#value'];
+  $entity_wid = $form['content_id']['#value'];
 
-  if ($wishlist_flag->is_flagged($entity_id)) {
+  if ($wishlist_flag->is_flagged($entity_wid)) {
     // Generate message for the user.
     $form_state['storage']['response_html'] = t($wishlist_flag->flagged_already_message);
   }
@@ -231,13 +232,13 @@ function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
 /**
  * Build 'add to wishlist' button.
  */
-function ding_wishlist_flag_view($entity_id) {
+function ding_wishlist_flag_view($entity_wid) {
   $wishlist_flag = flag_get_flag('wishlist');
 
   // Confirm form will change page title.
   // Store native title.
   $page_native_title = drupal_get_title();
-  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $entity_id);
+  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $entity_wid);
   // Restore title.
   drupal_set_title($page_native_title);
 
@@ -247,11 +248,9 @@ function ding_wishlist_flag_view($entity_id) {
 /**
  * Display a wishlist item.
  */
-function ding_wishlist_item_view($entity_id) {
-  if (preg_match('/^\d+$/', $entity_id)) {
-    $entity_prepended_id = _ding_wishlist_prepend_ting_agency($entity_id);
-  }
-  $entity = ding_entity_load($entity_prepended_id, 'ting_object');
+function ding_wishlist_item_view($entity_wid) {
+  $ding_entity_id = ding_wishlist_wid_to_entity_id($entity_wid);
+  $entity = ding_entity_load($ding_entity_id, 'ting_object');
 
   // Library code can be changed at any time by the site administrator.
   // Every time when wishlist item is loaded,
@@ -260,7 +259,7 @@ function ding_wishlist_item_view($entity_id) {
   if (!$entity) {
     // Remove item.
     $flag = flag_get_flag('wishlist');
-    $flag->flag('unflag', $entity_id);
+    $flag->flag('unflag', $entity_wid);
     return FALSE;
   }
 
@@ -270,41 +269,36 @@ function ding_wishlist_item_view($entity_id) {
 }
 
 /**
- * Prepend ting agency number to each of ids.
+ * Get local wishlist id by ding entity id.
+ *
+ * If ding entity id does not exist in the table, function will create it.
  */
-function _ding_wishlist_prepend_ting_agency($ids) {
-  if (!is_array($ids)) {
-    $ids = array($ids);
-    $not_array = TRUE;
+function ding_wishlist_entity_id_to_wid($ding_entity_id) {
+  // Check if wishlist id exists.
+  $wid = db_select('ding_wishlist_ids', 'dwi')
+    ->fields('dwi', array('wid'))
+    ->condition('ding_entity_id', $ding_entity_id, '=')
+    ->execute()
+    ->fetchField();
+
+  // Create wishlist id.
+  if (!$wid) {
+    $options = array('return' => Database::RETURN_INSERT_ID);
+    $wid = db_insert('ding_wishlist_ids', $options)->fields(array('ding_entity_id' => $ding_entity_id))->execute();
   }
 
-  $ting_agency = variable_get('ting_agency', FALSE);
-  if ($ting_agency) {
-    foreach ($ids as $k => $id) {
-      // Id should be 8 digits length.
-      $id = _ding_wishlist_number_to_eight_digits($id);
-      $ids[$k] = $ting_agency . ':' . $id;
-    }
-  }
-  return $not_array ? array_shift($ids) : $ids;
+  return $wid;
 }
 
 /**
- * Convert numbers to 8 digits length.
+ * Get ding entity id by local wishlist id.
  */
-function _ding_wishlist_number_to_eight_digits($number) {
-  $length = drupal_strlen($number);
-  $delta = 8 - $length;
-
-  if ($delta > 0) {
-    // Prepend id with zeros.
-    return str_repeat("0", $delta) . $number;
-  }
-  elseif ($delta < 0) {
-    return drupal_substr($number, 0, 8);
-  }
-
-  return $number;
+function ding_wishlist_wid_to_entity_id($wid) {
+  return db_select('ding_wishlist_ids', 'dwi')
+    ->fields('dwi', array('ding_entity_id'))
+    ->condition('wid', $wid, '=')
+    ->execute()
+    ->fetchField();
 }
 
 /**
