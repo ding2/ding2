@@ -34,7 +34,6 @@ function template_preprocess_ting_relation(&$variables) {
  */
 function ting_relation_online( $relations ) { 
   foreach( $relations as $relation ) {
-    dpm($relation);  
     if( $relation['#ac_source'] == 'Ebrary' ) {
       $ret[] = ting_relation_online_ebrary( $relation );
     }
@@ -162,7 +161,7 @@ function ting_relation_review_other( $relation ) {
   if ($partOf = ting_relation_array2names($rel->object->isPartOf)) {
     $extent = $rel->object->extent;
     $content['isPartOf'] = filter_xss_admin($partOf . ', ' . $extent);     
-  }
+  } 
 
   // TODO online_url
   if( $url = $rel->object->online_url ) {
@@ -178,7 +177,6 @@ function ting_relation_review_other( $relation ) {
 function ting_relation_review( $relation ) {
   $ting = $relation['#object'];
   $rel = $relation['#relation'];
-
   //type title ; generel
   $content['type'] = $relation['#title'];
   //title ; generel
@@ -188,7 +186,9 @@ function ting_relation_review( $relation ) {
   //creator
   $content['creator'] = ting_relation_array2names($ting->creators);
   //text 
-  $content['text'] = isset($ting->reply->record['dc:description'][''][0]) ? $ting->reply->record['dc:description'][''][0] : FALSE;   
+  $content['text'] = isset($ting->reply->record['dc:description'][''][0]) ? $ting->reply->record['dc:description'][''][0] : FALSE;
+
+  
 
   if( $url = $rel->object->online_url ) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target'=>'_blank'))));
