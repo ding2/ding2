@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * ding_wishlist.flag_ding_entity.inc
+ * ding_bookmark.flag_ding_entity.inc
  */
 
 /**

@@ -5,21 +5,21 @@
  * Allows users to add ting items to wish list.
  */
 
-module_load_include('inc', 'ding_wishlist', 'ding_wishlist.flag_ting');
+module_load_include('inc', 'ding_bookmark', 'ding_bookmark.flag_ding_entity');
 
 /**
  * Implements hook_menu().
  */
-function ding_wishlist_menu() {
-  $items['user/%user/wishlist'] = array(
-    'title' => 'Wishlist',
-    'title arguments' => array('Wishlist', 1),
-    'page callback' => 'ding_wishlist_user_wishlist_page',
+function ding_bookmark_menu() {
+  $items['user/%user/bookmarks'] = array(
+    'title' => 'Bookmarks',
+    'title arguments' => array('Bookmarks', 1),
+    'page callback' => 'ding_bookmark_user_bookmark_page',
     'page arguments' => array(1),
-    'access callback' => 'ding_wishlist_view_access',
+    'access callback' => 'ding_bookmark_view_access',
     'access arguments' => array(1),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'ding_wishlist.pages.inc',
+    'file' => 'ding_bookmark.pages.inc',
   );
   return $items;
 }
@@ -27,10 +27,10 @@ function ding_wishlist_menu() {
 /**
  * Implements hook_menu_alter().
  */
-function ding_wishlist_menu_alter(&$items) {
+function ding_bookmark_menu_alter(&$items) {
   foreach ($items as $path => $item) {
-    if ($path == 'user/%user/wishlist' || $path == 'user/%pm_arg/wishlist') {
-      $items[$path]['title callback'] = 'ding_wishlist_menu_item_title';
+    if ($path == 'user/%user/bookmarks' || $path == 'user/%pm_arg/bookmarks') {
+      $items[$path]['title callback'] = 'ding_bookmark_menu_item_title';
     }
   }
 }
@@ -38,14 +38,28 @@ function ding_wishlist_menu_alter(&$items) {
 /**
  * Implements hook_theme().
  */
-function ding_wishlist_theme() {
+function ding_bookmark_theme() {
   return array(
-    'ding_wishlist_remove_form' => array(
+    'ding_bookmark_remove_form' => array(
       'render element' => 'form',
-      'file' => 'ding_wishlist.pages.inc',
+      'file' => 'ding_bookmark.pages.inc',
     ),
   );
 }
+
+/* /\** */
+/*  * Implements hook_views_default_views_alter(). */
+/*  * */
+/*  * Disable the views for the default book */
+/*  *\/ */
+/* function ding_bookmark_views_default_views_alter(&$views) { */
+/*   if (!empty($views['flag_bookmarks'])) { */
+/*     $views['flag_bookmarks']->disabled = TRUE; */
+/*   } */
+/*   if (!empty($views['flag_bookmarks_tabs'])) { */
+/*     $views['flag_bookmarks_tabs']->disabled = TRUE; */
+/*   } */
+/* } */
 
 /**
  * Title callback; Alter title to add count items number.
@@ -53,22 +67,22 @@ function ding_wishlist_theme() {
  * @param $title
  *  Untranslated title.
  * @param $account
- *  User account object, for counting wishlist items.
+ *  User account object, for counting bookmark items.
  */
-function ding_wishlist_menu_item_title($title, $account = NULL) {
+function ding_bookmark_menu_item_title($title, $account = NULL) {
   global $user;
 
   if (is_null($account)) {
     $account = $user;
   }
 
-  return t($title) . ' (' . flag_load('wishlist')->get_user_count_number($account->uid) . ')';
+  return t($title) . ' (' . flag_load('bookmark')->get_user_count_number($account->uid) . ')';
 }
 
 /**
- * Access callback; Check user access to wishlist.
+ * Access callback; Check user access to bookmark.
  */
-function ding_wishlist_view_access($account) {
+function ding_bookmark_view_access($account) {
   global $user;
   return $user->uid == $account->uid || $user->uid == 1;
 }
@@ -76,7 +90,7 @@ function ding_wishlist_view_access($account) {
 /**
  * Implements hook_flag_definitions().
  */
-function ding_wishlist_flag_definitions() {
+function ding_bookmark_flag_definitions() {
   return array(
     'ding_entity' => array(
       'title' => t('Ding entities'),
@@ -89,22 +103,22 @@ function ding_wishlist_flag_definitions() {
 /**
  * Implements hook_flag_default_flags().
  */
-function ding_wishlist_flag_default_flags() {
+function ding_bookmark_flag_default_flags() {
   $flags = array();
-  // Add flag "Wishlist".
-  $flags['wishlist'] = array(
+  // Add flag "Bookmark".
+  $flags['bookmark'] = array(
       'content_type' => 'ding_entity',
-      'name' => 'wishlist',
-      'title' => 'Wishlist',
+      'name' => 'bookmark',
+      'title' => 'Bookmarks',
       'global' => '0',
       'types' => array(),
-      'flag_short' => 'Add to wishlist',
+      'flag_short' => 'Add to bookmarks',
       'flag_long' => '',
-      'flag_message' => 'Added to wishlist',
-      'flagged_already_message' => 'This item is in the wishlist already.',
-      'unflag_short' => 'Remove from wishlist',
+      'flag_message' => 'Added to bookmarks',
+      'flagged_already_message' => 'This item is in bookmarks already.',
+      'unflag_short' => 'Remove from bookmarks',
       'unflag_long' => '',
-      'unflag_message' => 'Removed from wishlist',
+      'unflag_message' => 'Removed from bookmarks',
       'unflag_denied_text' => '',
       'link_type' => 'toggle',
       'roles' => array(
@@ -124,7 +138,7 @@ function ding_wishlist_flag_default_flags() {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
+function ding_bookmark_form_flag_form_alter(&$form, &$form_state, $form_id) {
   // Remove unnecessary parameters.
   unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
 }
@@ -132,28 +146,28 @@ function ding_wishlist_form_flag_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ding_wishlist_ding_entity_buttons($type, $entity) {
-  // Add 'wishlist' button.
+function ding_bookmark_ding_entity_buttons($type, $entity) {
+  // Add 'bookmark' button.
   if ($type == 'ding_entity') {
-    $wishlist_flag_button = ding_wishlist_flag_view($type, $entity);
-    return array($wishlist_flag_button);
+    $bookmark_flag_button = ding_bookmark_flag_view($type, $entity);
+    return array($bookmark_flag_button);
   }
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ding_wishlist_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
-  if ($form['flag_name']['#value'] == 'wishlist') {
+function ding_bookmark_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
+  if ($form['flag_name']['#value'] == 'bookmark') {
     // Flag module does not allow flag/unflag to anonymous users.
     // Custom submit handler will show login popup to user instead of "You are not allowed to flag...".
     $form['#native_submit'] = $form['#submit'];
-    $form['#submit'] = array('ding_wishlist_form_flag_confirm_submit');
+    $form['#submit'] = array('ding_bookmark_form_flag_confirm_submit');
 
     // Implement ajax functionality.
     $form['actions']['submit']['#ajax'] = array(
-      'callback' => 'ding_wishlist_flag_confirm_form_callback',
-      'wrapper' => 'ding-wishlist-flag-confirm-form',
+      'callback' => 'ding_bookmark_flag_confirm_form_callback',
+      'wrapper' => 'ding-bookmark-flag-confirm-form',
     );
 
     // Remove 'cancel' link.
@@ -166,7 +180,7 @@ function ding_wishlist_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
  *
  * Provides login popup for anonymous users, otherwise invoke native handlers
  */
-function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
+function ding_bookmark_form_flag_confirm_submit($form, &$form_state) {
   global $user;
 
   // Popup login form.
@@ -175,12 +189,12 @@ function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
     return;
   }
 
-  $wishlist_flag = flag_get_flag('wishlist');
+  $bookmark_flag = flag_get_flag('bookmark');
   $entity_id = $form['content_id']['#value'];
 
-  if ($wishlist_flag->is_flagged($entity_id)) {
+  if ($bookmark_flag->is_flagged($entity_id)) {
     // Generate message for the user.
-    $form_state['storage']['response_html'] = t($wishlist_flag->flagged_already_message);
+    $form_state['storage']['response_html'] = t($bookmark_flag->flagged_already_message);
   }
   else {
     // Invoke native submit handlers.
@@ -190,14 +204,14 @@ function ding_wishlist_form_flag_confirm_submit($form, &$form_state) {
       }
     }
     // Generate message for the user.
-    $form_state['storage']['response_html'] = t($wishlist_flag->flag_message);
+    $form_state['storage']['response_html'] = t($bookmark_flag->flag_message);
   }
 }
 
 /**
  * Ajax callback.
  */
-function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
+function ding_bookmark_flag_confirm_form_callback($form, &$form_state) {
   $response = array(
     '#type' => 'ajax',
     '#commands' => array(),
@@ -206,18 +220,18 @@ function ding_wishlist_flag_confirm_form_callback($form, &$form_state) {
   // Drop messages.
   theme('status_messages');
   // Get generated message.
-  $html = '<div class="ding-wishlist-message">' . $form_state['storage']['response_html'] . '</div>';
+  $html = '<div class="ding-bookmark-message">' . $form_state['storage']['response_html'] . '</div>';
   // Popup.
-  $response['#commands'][] = ajax_command_ding_popup('ding_wishlist', t('Wishlist'), $html);
+  $response['#commands'][] = ajax_command_ding_popup('ding_bookmark', t('Bookmark'), $html);
 
   return $response;
 }
 
 /**
- * Build 'add to wishlist' button.
+ * Build 'add to bookmark' button.
  */
-function ding_wishlist_flag_view($entity_type, $entity) {
-  $wishlist_flag = flag_get_flag('wishlist');
+function ding_bookmark_flag_view($entity_type, $entity) {
+  $bookmark_flag = flag_get_flag('bookmark');
 
   $ding_entity_info = ding_entity_info($entity_type);
   $entity_info = entity_get_info($ding_entity_info['entity_type']);
@@ -226,7 +240,7 @@ function ding_wishlist_flag_view($entity_type, $entity) {
   // Confirm form will change page title.
   // Store native title.
   $page_native_title = drupal_get_title();
-  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $wishlist_flag, $entity_id);
+  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $bookmark_flag, $entity_id);
   // Restore title.
   drupal_set_title($page_native_title);
 
@@ -234,19 +248,19 @@ function ding_wishlist_flag_view($entity_type, $entity) {
 }
 
 /**
- * Display a wishlist item.
+ * Display a bookmark item.
  */
-function ding_wishlist_item_view($entity_type, $entity_id) {
+function ding_bookmark_item_view($entity_type, $entity_id) {
   $type_info = ding_entity_info($entity_type);
   $entities = entity_load($type_info['entity_type'], array($entity_id));
   $entity = reset($entities);
   // Library code can be changed at any time by the site administrator.
-  // Every time when wishlist item is loaded,
+  // Every time when bookmark item is loaded,
   //  module should check, whether item is available in the current library.
-  // If item does not exists in the library it shoul be deleted from wishlist.
+  // If item does not exists in the library it shoul be deleted from bookmark.
   if (!$entity) {
     // Remove item.
-    $flag = flag_get_flag('wishlist');
+    $flag = flag_get_flag('bookmark');
     $flag->flag('unflag', $entity_id);
     return FALSE;
   }
@@ -258,7 +272,7 @@ function ding_wishlist_item_view($entity_type, $entity_id) {
 /**
  * Implements hook_ctools_plugin_directory().
  */
-function ding_wishlist_ctools_plugin_directory($module, $plugin) {
+function ding_bookmark_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return "plugins/$plugin";
   }
@@ -267,7 +281,7 @@ function ding_wishlist_ctools_plugin_directory($module, $plugin) {
 /**
  * Implements hook_ctools_plugin_api().
  */
-function ding_wishlist_ctools_plugin_api() {
+function ding_bookmark_ctools_plugin_api() {
   list($module, $api) = func_get_args();
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => "1");

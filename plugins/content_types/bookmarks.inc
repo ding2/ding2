@@ -1,12 +1,12 @@
 <?php
 /**
  * @file
- * Wishlist pane for ctools.
+ * Bookmark pane for ctools.
  */
 
 $plugin = array(
-  'title' => t('User wishlist'),
-  'description' => t('User wishlist items'),
+  'title' => t('User bookmarks'),
+  'description' => t('User bookmark items'),
   'single' => TRUE,
   'content_types' => array('list'),
   'required context' => new ctools_context_required(t('User'), 'user'),
@@ -18,15 +18,15 @@ $plugin = array(
  *
  * Render the block.
  */
-function ding_wishlist_wishlist_content_type_render($subtype, $conf, $panel_args, $context) {
+function ding_bookmark_bookmarks_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = $context->data;
 
   $block         = new stdClass();
-  $block->module = 'ding_wishlist';
-  $block->delta  = 'wishlist';
+  $block->module = 'ding_bookmark';
+  $block->delta  = 'bookmark';
 
-  module_load_include('inc', 'ding_wishlist', 'ding_wishlist.pages');
-  $block->content = ding_wishlist_user_wishlist_page($account);
+  module_load_include('inc', 'ding_bookmark', 'ding_bookmark.pages');
+  $block->content = ding_bookmark_user_bookmark_page($account);
 
   return $block;
 }
@@ -37,6 +37,6 @@ function ding_wishlist_wishlist_content_type_render($subtype, $conf, $panel_args
  * We're not actually doing anything here, but we need to have this hook
  * for this content type to work.
  */
-function ding_wishlist_wishlist_content_type_edit_form($form, &$form_state) {
+function ding_bookmark_bookmarks_content_type_edit_form($form, &$form_state) {
   return $form;
 }

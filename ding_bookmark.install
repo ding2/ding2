@@ -1,0 +1,14 @@
+<?php
+
+// Installation functions for Ding bookmark.
+
+/**
+ * Implements hook_install().
+ */
+function ding_bookmark_install() {
+  // Delete the default bookmarks flag installed by flag.
+  $flag = flag_get_flag('bookmarks', NULL, NULL, TRUE);
+  if ($flag) {
+    $flag->delete();
+  }
+}
