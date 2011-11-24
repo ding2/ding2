@@ -40,11 +40,6 @@ function ding_wishlist_menu_alter(&$items) {
  */
 function ding_wishlist_theme() {
   return array(
-    'ding_wishlist_item' => array(
-      'template' => 'ding_wishlist_item',
-      'render element' => 'elements',
-      'file' => 'ding_wishlist.theme.inc'
-    ),
     'ding_wishlist_remove_form' => array(
       'render element' => 'form',
       'file' => 'ding_wishlist.pages.inc',
@@ -256,21 +251,8 @@ function ding_wishlist_item_view($entity_type, $entity_id) {
     return FALSE;
   }
 
-  $build = ding_entity_view($entity, 'teaser');
-  $build['#theme'] = 'ding_wishlist_item';
+  $build = ding_entity_view($entity, 'user_list');
   return $build;
-}
-
-/**
- * Alter link type.
- *
- * At the wishlist all ting teasers should link to the object page, not to collection.
- * @todo: display mode should handle this.
- */
-function ding_wishlist_field_display_alter(&$display, $context) {
-  if ($display['type'] == 'ting_title_default' && $context['view_mode'] == 'teaser') {
-    $display['settings']['link_type'] = 'object';
-  }
 }
 
 /**
