@@ -16,7 +16,7 @@ projects[google_analytics][version] = 1.2
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0-beta1"
-projects[languageicons][patch][] = "http://drupal.org/files/issues/fix_object_language-f0-1027054-22.patch"
+projects[languageicons][patch][] = "http://drupal.org/files/fix_object_language-if_broken-f0-102754.patch"
 
 projects[menu_breadcrumb][subdir] = contrib
 projects[menu_breadcrumb][version] = 1.3
