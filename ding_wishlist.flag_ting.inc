@@ -5,13 +5,12 @@
  */
 
 /**
- * Implements a ting flag.
+ * Implements a ding_entity_flag.
  */
-class flag_ting extends flag_flag {
+class flag_ding_entity extends flag_flag {
   function options() {
     $options = parent::options();
     $options += array(
-      'show_on_ting_types' => array(),
       'flagged_already_message' => '',
     );
     return $options;
@@ -32,40 +31,36 @@ class flag_ting extends flag_flag {
     $form['messages']['unflag_long']['#weight'] = 6;
     $form['messages']['unflag_message']['#weight'] = 7;
 
-    $form['display']['show_on_ting_types'] = array(
-      '#type' => 'checkboxes',
-      '#title' => t('Wishlist allowed ting types'),
-      '#options' => array('ting_object' => t('Ting object')),
-      '#default_value' => $this->show_on_ting_types,
-      '#access' => empty($this->locked['show_on_ting_types']),
-    );
-
-    unset($form['messages']['tokens_help']);
+    /* unset($form['messages']['tokens_help']); */
   }
 
   function _load_content($content_id) {
-    return (object) array('ting_id' => $content_id);
+    $type_info = ding_entity_info('ding_entity');
+    $entities = entity_load($type_info['entity_type'], array($content_id));
+    return !empty($entities[$content_id]) ? $entities[$content_id] : array();
   }
 
-  function applies_to_content_object($ting_object) {
+  function applies_to_content_object($ding_entity) {
     return TRUE;
   }
 
-  function get_content_id($ting_object) {
-    return $ting_object->ting_id;
+  function get_content_id($ding_entity) {
+    $entity_info = entity_get_info($entity_type);
+    return $ding_entity->{$entity_info['entity keys']['id']};
   }
 
   function get_relevant_action_objects($content_id) {
     return array(
-      'ting_object' => $this->fetch_content($content_id),
+      'ding_entity' => $this->fetch_content($content_id),
     );
   }
 
+  // @todo: what's the meaning of this?
   function applies_to_content_id_array($content_ids) {
     $passed = array();
-    foreach ($content_ids as $ting_id) {
-      if ($this->applies_to_content_id($ting_id)) {
-        $passed[$ting_id] = TRUE;
+    foreach ($content_ids as $entity_ids) {
+      if ($this->applies_to_content_id($entity_ids)) {
+        $passed[$entity_ids] = TRUE;
       }
     }
     return $passed;
@@ -83,12 +78,12 @@ class flag_ting extends flag_flag {
       $sid = flag_get_sid($uid);
     }
     return db_select('flag_content', 'fc')
-            ->fields('fc', array('content_id'))
+      ->fields('fc', array('content_id', 'content_type'))
             ->condition('fid', $this->fid)
             ->condition('uid', $uid)
             ->condition('sid', $sid)
             ->orderBy('fcid', 'DESC')
             ->execute()
-            ->fetchAllAssoc('content_id');
+            ->fetchAllKeyed();
   }
 }

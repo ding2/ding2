@@ -12,7 +12,7 @@ function ding_wishlist_user_wishlist_page($account) {
   $content_ids = flag_load('wishlist')->get_user_content_ids($account->uid);
 
   if ($content_ids) {
-    $rendered_form = drupal_get_form('ding_wishlist_remove_form', array_keys($content_ids));
+    $rendered_form = drupal_get_form('ding_wishlist_remove_form', $content_ids);
     if (!empty($rendered_form)) {
       return $rendered_form;
     }
@@ -31,14 +31,14 @@ function ding_wishlist_user_wishlist_empty_page() {
 /**
  * Wishlist manage form.
  */
-function ding_wishlist_remove_form($form, &$form_state, $entity_wids) {
+function ding_wishlist_remove_form($form, &$form_state, $entities) {
   $item_options = array();
-  foreach ($entity_wids as $item_wid) {
+  foreach ($entities as $entity_id => $entity_type) {
     // Build item view.
-    $item_view_build = ding_wishlist_item_view($item_wid);
+    $item_view_build = ding_wishlist_item_view($entity_type, $entity_id);
     if ($item_view_build) {
-      $item_options[$item_wid] = $item_wid;
-      $form['#builded_entities'][$item_wid] = $item_view_build;
+      $item_options[$entity_id] = $entity_id;
+      $form['#builded_entities'][$entity_id] = $item_view_build;
     }
   }
 
