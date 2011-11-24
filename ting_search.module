@@ -290,13 +290,14 @@ function ting_search_conditions_callback($keys) {
       }
     }
     $conditions['facets'] = $_REQUEST['facets'];
-    $url = explode('?', request_uri());
+    $destination = drupal_get_destination();
+    $url = explode('?', $destination['destination']);
     if ($redirect === TRUE) {
       $facets = array();
       foreach ($conditions['facets'] as $facet) {
         $facets['facets'][] =  $facet;
       }
-      drupal_goto(rawurldecode(substr($url[0], strlen(base_path()))), array('query' => $facets));
+      drupal_goto(rawurldecode($url[0]), array('query' => $facets));
     }
   }
   return $conditions;
