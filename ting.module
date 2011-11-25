@@ -226,6 +226,14 @@ function ting_get_relations($ting_entity) {
   foreach( $ting_entity->relations as $relation ) {
     $relations[$relation->type][] = $relation;
   }
+
+  // get references from ting_reference
+  if( module_exists('ting_reference') ) {
+    $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);   
+    foreach( $refs as $ref ) {
+      $relations[$ref->relation_type][] = $ref;
+     }    
+  }
   return $relations;
 }
 
@@ -240,6 +248,7 @@ function ting_block_view($delta = '') {
     if( $object = menu_get_object('ting_object',2) ) {
     $relations = ting_get_relations($object);
     $relation_types = module_invoke_all('anchor_info');
+
     foreach( $relations as $key => $relation ) {
       if( isset($relation_types[$key]) ) {
 	$items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
