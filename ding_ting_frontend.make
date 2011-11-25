@@ -39,7 +39,7 @@ projects[ding_facetbrowser][download][tag] = "7.x-0.11"
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
 projects[ding_frontend][download][url] = "git@github.com:ding2/ding_frontend.git"
-projects[ding_frontend][download][tag] = "7.x-0.16"
+projects[ding_frontend][download][tag] = "7.x-0.17"
 
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
