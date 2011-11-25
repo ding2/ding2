@@ -47,19 +47,20 @@ function ding_bookmark_theme() {
   );
 }
 
-/* /\** */
-/*  * Implements hook_views_default_views_alter(). */
-/*  * */
-/*  * Disable the views for the default book */
-/*  *\/ */
-/* function ding_bookmark_views_default_views_alter(&$views) { */
-/*   if (!empty($views['flag_bookmarks'])) { */
-/*     $views['flag_bookmarks']->disabled = TRUE; */
-/*   } */
-/*   if (!empty($views['flag_bookmarks_tabs'])) { */
-/*     $views['flag_bookmarks_tabs']->disabled = TRUE; */
-/*   } */
-/* } */
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Kill the views for the default bookmarks flag. They clash with our
+ * paths. Disabling them doesn't seem to be enough.
+ */
+function ding_bookmark_views_default_views_alter(&$views) {
+  if (!empty($views['flag_bookmarks'])) {
+    unset($views['flag_bookmarks']);
+  }
+  if (!empty($views['flag_bookmarks_tab'])) {
+    unset($views['flag_bookmarks_tab']);
+  }
+}
 
 /**
  * Title callback; Alter title to add count items number.
