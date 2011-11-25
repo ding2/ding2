@@ -168,7 +168,7 @@ function ding_entity_collection_load($id, $type = NULL) {
  */
 function ding_entity_view($object, $view_mode = 'full', $langcode = NULL) {
   if (!empty($object->ding_entity_type)){
-    $type_info = ding_entity_info($ding_entity_type);
+    $type_info = ding_entity_info($object->ding_entity_type);
     if ($type_info) {
       $function = $type_info['entity_type'] . '_view';
       if (function_exists($function)) {
