@@ -18,6 +18,14 @@ function ting_reference_enable() {
   }
 }
 
+
+/**
+ * preprocess ting_object
+ */
+function ting_reference_preprocess_ting_object(&$variables) {
+  $variables['content']['ting_reference_reverse']['#prefix'] =  '<a name="ting_reference"></a>';
+}
+
 /**
  * Not quite an Implementation of hook_relation_default_relation_types().
  *
@@ -90,8 +98,6 @@ function ting_reference_field_info() {
  * Implements hook_widget_info_alter().
  */
 function ting_reference_widget_info_alter(&$info) {
-
-  dpm($info);
   if (isset($info['hidden'])) {
     $info['hidden']['field types'][] = 'ting_reference_reverse';
   }
@@ -332,7 +338,6 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
       }
       break;
   }
-  
   return $element;
 }
 
@@ -424,10 +429,10 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
   }
 }
 
-/* temporarily commented out due to deadline
-/*function ting_reference_anchor_info() {
+/* temporarily commented out due to deadline*/
+function ting_reference_anchor_info() {
   return array('ting_reference'=>t('On this site'));
-  }*/
+}
 
 /**
  * Utility function to get relations for an entity.
@@ -455,7 +460,7 @@ function ting_reference_get_relations($entity_type, $entity) {
       ->execute();
 
     if ($result) {
-      return relation_load_multiple(array_keys($result['relation']));
+       return relation_load_multiple(array_keys($result['relation']));
     }
   }
 
