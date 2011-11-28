@@ -229,10 +229,10 @@ function ting_get_relations($ting_entity) {
 
   // get references from ting_reference
   if( module_exists('ting_reference') ) {
-    $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);   
+    $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);
     foreach( $refs as $ref ) {
       $relations[$ref->relation_type][] = $ref;
-     }    
+     }
   }
   return $relations;
 }
@@ -251,14 +251,14 @@ function ting_block_view($delta = '') {
 
     foreach( $relations as $key => $relation ) {
       if( isset($relation_types[$key]) ) {
-	$items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
+  $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
       }
     }
-    $block['content'] = 
+    $block['content'] =
       array(
-	    '#theme' => 'item_list',
-	    '#items' => $items,
-	    );
+      '#theme' => 'item_list',
+      '#items' => $items,
+      );
     }
     break;
     case 'ting_collection_types':
@@ -495,6 +495,8 @@ function ting_ding_entity_buttons($type, $entity) {
     $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
     return array(
       array(
+        '#prefix' => '<p class="ding-entity-button">',
+        '#suffix' => '</p>',
         '#type' => 'markup',
         '#markup' => l($label, $entity->online_url, array('attributes'=>array('target'=>'_new')))
       ),
