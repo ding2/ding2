@@ -118,7 +118,7 @@ function ding_user_frontend_block_view($delta = '') {
         foreach (array('loan', 'reservation', 'debt') as $type) {
           $status[$type . '_count'] = ding_provider_implements($type, 'list') ? count(ding_provider_invoke_page($type, 'list', $user)) : 0;
         }
-        $status['bookmark_count'] = ding_bookmark_count_number($account);
+        $status['bookmark_count'] = ding_bookmark_count_number();
         $block['content'] = theme('ding_user_frontend_user_status', $status);
       } catch ( Exception $e ) { return; }
 
