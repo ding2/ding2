@@ -89,6 +89,21 @@ function ding_bookmark_view_access($account) {
 }
 
 /**
+ * Bookmark count callback.
+ *
+ * @param $account
+ *  User account object, for counting bookmark items.
+ */
+function ding_bookmark_count_number($account = NULL) {
+  global $user;
+  if (is_null($account)) {
+    $account = $user;
+  }
+  return flag_load('bookmark')->get_user_count_number($account->uid);
+}
+
+
+/**
  * Implements hook_flag_definitions().
  */
 function ding_bookmark_flag_definitions() {
@@ -288,3 +303,4 @@ function ding_bookmark_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
+
