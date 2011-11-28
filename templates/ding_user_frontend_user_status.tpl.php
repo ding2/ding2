@@ -19,3 +19,8 @@
   <span class="amount">(<?php print $debt_count; ?>)</span>
 </div></div>
 
+<div id="ding-user-bookmark-amount"><div class="content">
+  <span class="label"><?php print l(t('Bookmarks:'), 'user/' . $user->uid . '/status/bookmarks'); ?></span>
+  <span class="amount">(<?php print $bookmark_count; ?>)</span>
+</div></div>
+
