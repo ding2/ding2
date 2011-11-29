@@ -66,3 +66,14 @@ function ding_frontend_date_format_types() {
     'long_date_only' => t('Long date only'),
   );
 }
+
+/**
+ * Implements hook_cache_actions_panels_cache_key_alter().
+ *
+ * Add page to view panes cache keys, to not break the pager.
+ */
+function ding_frontend_cache_actions_panels_cache_key_alter($cache) {
+  if ($cache->pane->type == 'views' && isset($_GET['page'])) {
+    $cache->key .= ':p' . check_plain($_GET['page']);
+  }
+}
