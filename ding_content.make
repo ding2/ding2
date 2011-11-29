@@ -6,7 +6,7 @@ core = 7.x
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
-projects[ding_page][download][tag] = "7.x-0.9"
+projects[ding_page][download][tag] = "7.x-0.10"
 
 projects[ding_path_alias][type] = module
 projects[ding_path_alias][download][type] = git
@@ -16,7 +16,7 @@ projects[ding_path_alias][download][tag] = "7.x-0.4"
 projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
 projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.git
-projects[ting_reference][download][tag] = "7.x-0.13"
+projects[ting_reference][download][tag] = "7.x-0.14"
 
 ; Contrib modules
 projects[cache_actions][type] = module
