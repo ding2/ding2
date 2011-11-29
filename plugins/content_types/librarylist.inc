@@ -12,7 +12,7 @@ $plugin = array(
 function ding_library_librarylist_content_type_render($subtype, $conf, $context = NULL) {
   $url_placeholder_all_categories = $conf['url_settings_all_libraries'];
   $url_placeholder = $conf['url_settings_library'];
-  $path = explode('/', trim(request_uri(), '/'));
+  $path = arg();
   $page_type = array_shift($path);
   $block = new stdClass();
   $groups = og_load_multiple(FALSE, array('entity_type' => 'node'));
