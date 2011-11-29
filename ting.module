@@ -230,9 +230,11 @@ function ting_get_relations($ting_entity) {
   // get references from ting_reference
   if( module_exists('ting_reference') ) {
     $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);
-    foreach( $refs as $ref ) {
-      $relations[$ref->relation_type][] = $ref;
-     }
+    if( !empty($refs) ) {
+      foreach( $refs as $ref ) {
+	$relations[$ref->relation_type][] = $ref;
+      }
+    }
   }
   return $relations;
 }
