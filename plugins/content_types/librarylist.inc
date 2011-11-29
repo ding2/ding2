@@ -79,7 +79,8 @@ function ding_library_librarylist_select_library($form, &$form_state, $items, $c
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#suffix' => '</div>',
+    '#prefix' => '<div class="library-list-show">',
+    '#suffix' => '</div></div>',
     '#value' => t('Show'),
   );
   return $form;
