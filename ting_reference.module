@@ -23,7 +23,9 @@ function ting_reference_enable() {
  * preprocess ting_object
  */
 function ting_reference_preprocess_ting_object(&$variables) {
-  $variables['content']['ting_reference_reverse']['#prefix'] =  '<a name="ting_reference"></a>';
+  if( isset($variables['content']['ting_reference_reverse']) ) { 
+    $variables['content']['ting_reference_reverse']['#prefix'] =  '<a name="ting_reference"></a>';
+  }
 }
 
 /**
