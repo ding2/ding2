@@ -49,9 +49,9 @@ function ding_library_openlayers_maps() {
       ),
       'openlayers_behavior_panzoom' => array(),
     ),
-    'default_layer' => 'mapquest_osm',
+    'default_layer' => 'osm_mapnik',
     'layers' => array(
-      'mapquest_osm' => 'mapquest_osm',
+      'osm_mapnik' => 'osm_mapnik',
       'ding_library_openlayers_1' => 'ding_library_openlayers_1',
     ),
     'layer_weight' => array(

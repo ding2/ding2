@@ -377,12 +377,8 @@ function ding_library_default_page_manager_pages() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
