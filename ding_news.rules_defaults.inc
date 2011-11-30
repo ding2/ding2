@@ -37,5 +37,23 @@ function ding_news_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_ding_page_news_comment_update'] = entity_import('rules_config', '{ "rules_ding_page_news_comment_update" : {
+      "LABEL" : "Ding news comment update",
+      "PLUGIN" : "reaction rule",
+      "TAGS" : [ "Ding news" ],
+      "REQUIRES" : [ "rules", "cache_actions", "comment" ],
+      "ON" : [ "comment_delete", "comment_update", "comment_insert" ],
+      "IF" : [
+        { "node_is_of_type" : {
+            "node" : [ "comment:node" ],
+            "type" : { "value" : { "ding_news" : "ding_news" } }
+          }
+        }
+      ],
+      "DO" : [
+        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : { "task:node_view_panel_context:node_view:new-2" : "task:node_view_panel_context:node_view:new-2" } } } }
+      ]
+    }
+  }');
   return $items;
 }
