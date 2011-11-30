@@ -6,7 +6,7 @@ core = 7.x
 projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
-projects[ding_content][download][tag] = "7.x-0.10"
+projects[ding_content][download][tag] = "7.x-0.11"
 
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
