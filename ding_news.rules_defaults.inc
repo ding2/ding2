@@ -37,7 +37,7 @@ function ding_news_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_ding_page_news_comment_update'] = entity_import('rules_config', '{ "rules_ding_page_news_comment_update" : {
+  $items['rules_ding_news_comment_update'] = entity_import('rules_config', '{ "rules_ding_news_comment_update" : {
       "LABEL" : "Ding news comment update",
       "PLUGIN" : "reaction rule",
       "TAGS" : [ "Ding news" ],
