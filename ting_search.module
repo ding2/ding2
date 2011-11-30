@@ -522,11 +522,8 @@ function ting_search_sort_form($form_state) {
  * Process submitted data for sorting order form
  */
 function ting_search_sort_form_submit($form, &$form_state) {
-
-  $languages = language_list();
-  $path = trim($form['#action'], '/');
-  $action = language_url_split_prefix($path, $languages);
-  $url = explode('?', $action[1]);
+  $destination = drupal_get_destination();
+  $url = explode('?', $destination['destination']);
   $query = drupal_get_query_parameters();
 
   if ($form_state['input']['sort']) {
@@ -548,10 +545,8 @@ function records_per_page_controls_content() {
   $size['#suffix'] = '</div>';
   $size['#markup'] = '';
 
-  $languages = language_list();
-  $action = language_url_split_prefix(request_path(), $languages);
-  $url = explode('?', $action[1]);
-
+  $destination = drupal_get_destination();
+  $url = explode('?', $destination['destination']);
   $query = drupal_get_query_parameters();
 
   foreach ($sizes as $number => $text) {
