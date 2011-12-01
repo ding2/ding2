@@ -98,15 +98,19 @@ function theme_ding_bookmark_remove_form($variables) {
       // Clean checkbox
       unset($form['items'][$key]['#title']) ;
       // Create delete link.
-      $button = '<input type="button" class="form-submit" value="' . t($flag->unflag_short) . '">';
       $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_wid));
-      $delete_link = l($button, 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query, 'html' => TRUE));
+      $delete_link = array(
+      '#prefix' => '<p class="ding-entity-button">',
+        '#suffix' => '</p>',
+        '#type' => 'markup',
+          '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
+      );
 
       //Add row.
       $rows[] = array(
         drupal_render($form['items'][$key]),
         drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
-        $delete_link,
+        drupal_render($delete_link),
       );
     }
   }
