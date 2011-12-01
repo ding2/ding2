@@ -46,8 +46,7 @@ projects[og][patch][] = http://drupal.org/files/1320778.patch
 
 projects[openlayers][type] = module
 projects[openlayers][subdir] = contrib
-projects[openlayers][version] = 2.0-alpha2
-projects[openlayers][patch][] = http://drupal.org/files/0001-Adding-support-for-MapQuest-Open-tiles.patch
+projects[openlayers][version] = 2.0-beta1
 
 projects[strongarm][type] = module
 projects[strongarm][subdir] = contrib
@@ -60,7 +59,7 @@ projects[views][version] = 3.0-rc1
 projects[views][patch][] = http://drupal.org/files/issues/1192666-field-entity_type-no-revision.patch
 
 libraries[openlayers][download][type] = get
-libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers-2.10.tar.gz
+libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers-2.11.tar.gz
 
 libraries[openlayers_themes][download][type] = git
 libraries[openlayers_themes][download][url] = git://github.com/developmentseed/openlayers_themes.git
