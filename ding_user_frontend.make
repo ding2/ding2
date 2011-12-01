@@ -47,7 +47,7 @@ projects[ding_reservation][download][tag] = "7.x-0.14"
 projects[ding_bookmark][type] = "module"
 projects[ding_bookmark][download][type] = "git"
 projects[ding_bookmark][download][url] = "git@github.com:ding2/ding_bookmark.git"
-; projects[ding_bookmark][download][tag] = "7.x-0.2"
+projects[ding_bookmark][download][tag] = "7.x-0.2"
 
 projects[ding_wayf][type] = "module"
 projects[ding_wayf][download][type] = "git"
