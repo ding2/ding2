@@ -290,14 +290,12 @@ function ting_search_conditions_callback($keys) {
       }
     }
     $conditions['facets'] = $_REQUEST['facets'];
-    $destination = drupal_get_destination();
-    $url = explode('?', $destination['destination']);
     if ($redirect === TRUE) {
       $facets = array();
       foreach ($conditions['facets'] as $facet) {
         $facets['facets'][] =  $facet;
       }
-      drupal_goto(rawurldecode($url[0]), array('query' => $facets));
+      drupal_goto(rawurldecode($_GET['q']), array('query' => $facets));
     }
   }
   return $conditions;
@@ -522,15 +520,13 @@ function ting_search_sort_form($form_state) {
  * Process submitted data for sorting order form
  */
 function ting_search_sort_form_submit($form, &$form_state) {
-  $destination = drupal_get_destination();
-  $url = explode('?', $destination['destination']);
   $query = drupal_get_query_parameters();
 
   if ($form_state['input']['sort']) {
     $query = array('sort' => $form_state['input']['sort']) + $query;
   }
 
-  $form_state['redirect'] = array($url[0], array('query' => $query, ), );
+  $form_state['redirect'] = array($_GET['q'], array('query' => $query, ), );
 
 }
 
@@ -544,10 +540,6 @@ function records_per_page_controls_content() {
   $size['#prefix'] = '<div id="ting-search-records-per-page">' . t('Results on page:');
   $size['#suffix'] = '</div>';
   $size['#markup'] = '';
-
-  $destination = drupal_get_destination();
-  $url = explode('?', $destination['destination']);
-  $query = drupal_get_query_parameters();
 
   foreach ($sizes as $number => $text) {
     $sz = array('size' => $number);
@@ -563,7 +555,7 @@ function records_per_page_controls_content() {
       $classes += array('selected');
     }
 
-    $size['#markup'] .= l($text, $url[0], array('query' => $sz + $query, 'attributes' => array('class' => $classes, ), ));
+    $size['#markup'] .= l($text, $_GET['q'], array('query' => $sz + drupal_get_query_parameters(), 'attributes' => array('class' => $classes, ), ));
   }
 
   return $size;
