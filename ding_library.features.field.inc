@@ -135,7 +135,7 @@ function ding_library_field_default_fields() {
       'label' => 'Description',
       'required' => 0,
       'settings' => array(
-        'display_summary' => 1,
+        'display_summary' => 0,
         'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
