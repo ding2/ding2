@@ -33,6 +33,7 @@ function template_preprocess_ting_relation(&$variables) {
  * two variants(sofar) Ebrary and filmstriben
  */
 function ting_relation_online( $relations ) { 
+  $ret = array();
   foreach( $relations as $relation ) {
     if( $relation['#ac_source'] == 'Ebrary' ) {
       $ret[] = ting_relation_online_ebrary( $relation );

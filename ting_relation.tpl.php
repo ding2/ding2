@@ -10,7 +10,8 @@ if( empty($content) ) {
   return;
 }
 
-foreach( $content as $ns => $relations ){ ?>
+foreach( $content as $ns => $relations ){
+  if (!empty($relations)) { ?>
 <a name="<?php echo $ns;?>"></a>
 <div class="<?php print $classes.' ting-relation-'.drupal_html_class($ns).' clearfix'; ?>"> 
   <h2><?php echo $relations[0]['type']?></h2>
@@ -58,7 +59,7 @@ print render($relation['docbook_link']);
 }
 
 print '<div class="clearfix"></div>';
-
+ }
 } // end foreach relation
 ?>
 </div>
