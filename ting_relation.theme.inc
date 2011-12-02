@@ -70,8 +70,7 @@ function ting_relation_online_filmstriben( $relation ) {
   $content['type'] = $relation['#title'];
     // simply set a button
   $url = $rel->uri;
-  
-  $content['online_url'] = array('#markup' => l($url, $url, array('attributes' => array('target'=>'_blank'))));
+  $content['online_url'] = array('#markup' => l($relation['#ac_source'], $url, array('attributes' => array('target'=>'_blank'))));
   return $content;
 }
 
