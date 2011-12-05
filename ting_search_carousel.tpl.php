@@ -27,6 +27,7 @@ drupal_add_css($path . '/css/ting_search_carousel.css');
           <ul class="rs-carousel-runner">
 <li style="list-style:none;padding-top:5em;">
   <img src="<?php echo $path;?>/images/ajax-loader.gif" />
+</li>
           </ul>
         </div>
       </div>
