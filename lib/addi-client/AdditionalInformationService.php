@@ -91,8 +91,7 @@ class AdditionalInformationService {
     foreach($response->identifierInformation as $info)
     {
       $thumbnailUrl = $detailUrl = NULL;
-      if (isset($info->identifierKnown) &&
-          $info->identifierKnown)
+      if (isset($info->identifierKnown) && $info->identifierKnown && $info->image )
       {
         if (!is_array($info->image))
         {
