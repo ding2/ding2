@@ -36,17 +36,18 @@ function ting_search_autocomplete($query = NULL) {
 
       foreach ($terms as $type => $row) {
         foreach ($row as $term) {
+          $value = ting_search_autocomplete_substr_word_bondary($term->name);
           if ($type == 'spell') {
             $return[] = array(
               'id'    => $term->name,
-              'value' => drupal_substr($term->name, 0, 128),
+              'value' => $value,
               'label' => t('Did you mean \'@query\' ?', array('@query' => $term->name)),
             );
           }
           else {
             $return[] = array(
               'id'    => $term->name,
-              'value' => drupal_substr($term->name, 0, 128),
+              'value' => $value,
               'label' => $term->name,
             );
           }
@@ -68,5 +69,34 @@ function ting_search_autocomplete_term_sort($t1, $t2) {
   }
   else {
     return 0;
+  }
+}
+
+function ting_search_autocomplete_substr_word_bondary($text, $max = 128) {
+  global $multibyte;
+  $strlen = drupal_strlen($text);
+
+  if ($strlen <= $max) {
+    return $text;
+  }
+  else {
+    if ($multibyte == UNICODE_MULTIBYTE) {
+      if (mb_strpos($text, ' ', $max) == $max + 1) {
+        $lastspace = $max;
+      }
+      else {
+        $lastspace = mb_strrpos($text, ' ', $max - $strlen);
+      }
+    }
+    else {
+      if (strpos($text, ' ', $max) == $max + 1) {
+        $lastspace = $max;
+      }
+      else {
+        $lastspace = strrpos($text, ' ', $max - $strlen);
+      }
+    }
+
+    return drupal_substr($text, 0, $lastspace);
   }
 }
