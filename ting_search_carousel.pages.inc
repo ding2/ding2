@@ -14,6 +14,12 @@ function ting_search_carousel_result($index) {
   $collections = array();
   $result = '';
   $cache = cache_get('ting_search_result', 'cache');
+
+  if( !$cache ) {
+    ting_search_carousel_cron();
+    $cache = cache_get('ting_search_result', 'cache');    
+  }
+
   $cache_ting_search_result = unserialize($cache->data);
   $ting_seach_queries = variable_get('ting_carousel_search_queries', array());
   $subtitle = '';
