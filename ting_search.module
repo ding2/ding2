@@ -542,6 +542,7 @@ function records_per_page_controls_content() {
   $size['#markup'] = '';
 
   foreach ($sizes as $number => $text) {
+    $pg = array('page' => 0);
     $sz = array('size' => $number);
     $classes = array();
     $keys = array_keys($sizes);
@@ -554,8 +555,7 @@ function records_per_page_controls_content() {
      $number == $keys[0]) {
       $classes += array('selected');
     }
-
-    $size['#markup'] .= l($text, $_GET['q'], array('query' => $sz + drupal_get_query_parameters(), 'attributes' => array('class' => $classes, ), ));
+    $size['#markup'] .= l($text, $_GET['q'], array('query' => $sz + $pg + drupal_get_query_parameters(), 'attributes' => array('class' => $classes, ), ));
   }
 
   return $size;
