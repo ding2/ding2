@@ -245,24 +245,30 @@ function ting_get_relations($ting_entity) {
 function ting_block_view($delta = '') {
   $block = array();
   switch ($delta) {
-  case 'ting_relation_anchors' :
-    $items = array();
-    if( $object = menu_get_object('ting_object',2) ) {
-    $relations = ting_get_relations($object);
-    $relation_types = module_invoke_all('anchor_info');
+    case 'ting_relation_anchors':
+      $items = array();
+      if( $object = menu_get_object('ting_object',2) ) {
+        $relations = ting_get_relations($object);
+        $relation_types = module_invoke_all('anchor_info');
+        $block['subject'] = array(
+          '#markup' => t('About the material'),
+          '#prefix' => '<div class="ting-relations-header">',
+          '#suffix' => '</div>',
+        );
+        $block['subject'] = render($block['subject']);
 
-    foreach( $relations as $key => $relation ) {
-      if( isset($relation_types[$key]) ) {
-  $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
+        foreach( $relations as $key => $relation ) {
+          if( isset($relation_types[$key]) ) {
+            $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
+          }
+        }
+        $block['content'] =
+          array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+          );
       }
-    }
-    $block['content'] =
-      array(
-      '#theme' => 'item_list',
-      '#items' => $items,
-      );
-    }
-    break;
+      break;
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
         $block['subject'] = array(
@@ -285,7 +291,7 @@ function ting_block_view($delta = '') {
       if (($object = menu_get_object('ting_object', 2)) &&
         ($collection = ting_collection_load($object->id))) {
         $block['subject'] = array(
-          '#markup' => t('Types'),
+          '#markup' => t('Other materialtypes'),
           '#prefix' => '<div class="ting-object-types-header">',
           '#suffix' => '</div>',
         );
@@ -302,7 +308,7 @@ function ting_block_view($delta = '') {
           '#items' => $items,
         );
       }
-    break;
+      break;
   }
 
   return $block;
