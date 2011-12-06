@@ -522,7 +522,7 @@ function ting_search_sort_form($form_state) {
 function ting_search_sort_form_submit($form, &$form_state) {
   $query = drupal_get_query_parameters();
 
-  if ($form_state['input']['sort']) {
+  if (isset($form_state['input']['sort'])) {
     $query = array('sort' => $form_state['input']['sort']) + $query;
   }
 
