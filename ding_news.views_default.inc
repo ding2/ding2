@@ -146,6 +146,28 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['field_ding_body']['table'] = 'field_data_field_ding_body';
   $handler->display->display_options['fields']['field_ding_body']['field'] = 'field_ding_body';
   $handler->display->display_options['fields']['field_ding_body']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_body']['alter']['alter_text'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['make_link'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_body']['element_default_classes'] = 1;
+  $handler->display->display_options['fields']['field_ding_body']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['hide_alter_empty'] = 0;
+  $handler->display->display_options['fields']['field_ding_body']['type'] = 'text_summary_or_trimmed';
+  $handler->display->display_options['fields']['field_ding_body']['settings'] = array(
+    'trim_length' => '200',
+  );
+  $handler->display->display_options['fields']['field_ding_body']['field_api_classes'] = 0;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -155,8 +177,29 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_group_audience';
   $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_options']['argument'] = 'all';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
+  /* Contextual filter: Content: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['tid']['add_table'] = 0;
+  $handler->display->display_options['arguments']['tid']['require_value'] = 0;
+  $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
+  $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -180,8 +223,8 @@ function ding_news_views_default_views() {
     'und' => 'und',
   );
 
-  /* Display: Full list */
-  $handler = $view->new_display('ctools_context', 'Full list', 'ctools_context_master');
+  /* Display: Full list old */
+  $handler = $view->new_display('ctools_context', 'Full list old', 'ctools_context_master');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
@@ -326,51 +369,42 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['field_ding_body']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Field: Library (group_audience:nid) */
-  $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_group_audience';
-  $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_library_nid']['specify_validation'] = 1;
-  $handler->display->display_options['arguments']['ding_library_nid']['validate']['type'] = 'php';
-  $handler->display->display_options['arguments']['ding_library_nid']['validate_options']['code'] = '$query = db_query("SELECT entity_id FROM {field_data_field_slug} WHERE field_slug_value = \'" . $argument . "\'");
-$result = $query->fetchObject();
-if (is_object($result) && $result->entity_id) {
-  $handler->argument = $result->entity_id;
-  return TRUE;
-}
-return FALSE;
-';
-  $handler->display->display_options['arguments']['ding_library_nid']['validate']['fail'] = 'ignore';
-  $handler->display->display_options['arguments']['ding_library_nid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid']['not'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_group_audience';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['ding_library_nid_1']['not'] = 0;
   /* Contextual filter: Content: Has taxonomy term ID */
-  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
-  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['tid']['specify_validation'] = 1;
-  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
-  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
-    'category' => 'category',
-    'ding_page' => 0,
-    'ding_content_tags' => 0,
+  $handler->display->display_options['arguments']['tid_1']['id'] = 'tid_1';
+  $handler->display->display_options['arguments']['tid_1']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid_1']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid_1']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['tid_1']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['tid_1']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid_1']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid_1']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid_1']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['tid_1']['add_table'] = 0;
+  $handler->display->display_options['arguments']['tid_1']['require_value'] = 0;
+  $handler->display->display_options['arguments']['tid_1']['reduce_duplicates'] = 0;
+  $handler->display->display_options['arguments']['tid_1']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid_1' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+    ),
+    'tid_1' => array(
+      'type' => 'context',
+      'context' => 'entity:taxonomy_term.tid',
+      'context_optional' => 1,
+    ),
   );
-  $handler->display->display_options['arguments']['tid']['validate_options']['type'] = 'convert';
-  $handler->display->display_options['arguments']['tid']['validate_options']['transform'] = 0;
-  $handler->display->display_options['arguments']['tid']['validate']['fail'] = 'ignore';
-  $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['tid']['add_table'] = 0;
-  $handler->display->display_options['arguments']['tid']['require_value'] = 0;
-  $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
-  $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
 
   /* Display: Front page teaser list */
   $handler = $view->new_display('ctools_context', 'Front page teaser list', 'ctools_context_teaser_list');
@@ -885,6 +919,18 @@ return FALSE;
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid' => array(
+      'type' => 'none',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+    ),
+    'tid' => array(
+      'type' => 'none',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+    ),
+  );
 
   /* Display: Front page teaser highlight */
   $handler = $view->new_display('attachment', 'Front page teaser highlight', 'front_page_teaser_highlight');
@@ -1020,6 +1066,33 @@ return FALSE;
     'ctools_context_2' => 0,
   );
   $handler->display->display_options['inherit_arguments'] = 1;
+
+  /* Display: Full list */
+  $handler = $view->new_display('panel_pane', 'Full list', 'panel_pane_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Field: Library (group_audience:nid)',
+    ),
+    'tid' => array(
+      'type' => 'context',
+      'context' => 'entity:taxonomy_term.tid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
   $translatables['ding_news'] = array(
     t('Master'),
     t('Read more'),
@@ -1029,7 +1102,7 @@ return FALSE;
     t('Asc'),
     t('Desc'),
     t('All'),
-    t('Full list'),
+    t('Full list old'),
     t('more'),
     t('Items per page'),
     t('- All -'),
@@ -1043,6 +1116,8 @@ return FALSE;
     t('Brødtekst'),
     t('Front page teaser highlight'),
     t('Library teaser highlight'),
+    t('Full list'),
+    t('View panes'),
   );
   $export['ding_news'] = $view;
 

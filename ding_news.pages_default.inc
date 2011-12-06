@@ -50,17 +50,22 @@ function ding_news_default_page_manager_handlers() {
         'id' => 1,
       ),
       2 => array(
-        'identifier' => 'Multiple terms from node',
+        'identifier' => 'All terms from node',
         'keyword' => 'terms',
         'name' => 'terms_from_node',
         'context' => 'argument_entity_id:node_1',
         'vid' => array(
-          3 => '3',
-          4 => '4',
           1 => '1',
           2 => '2',
         ),
         'concatenator' => ',',
+        'id' => 1,
+      ),
+      3 => array(
+        'identifier' => 'Category terms from node being viewed',
+        'keyword' => 'taxonomy_term',
+        'name' => 'entity_from_field:field_category-node-taxonomy_term',
+        'context' => 'argument_entity_id:node_1',
         'id' => 1,
       ),
     ),
@@ -105,14 +110,21 @@ function ding_news_default_page_manager_handlers() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'ding_category';
-    $pane->subtype = 'ding_category';
+    $pane->type = 'category_menu';
+    $pane->subtype = 'category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'vocab' => 'category',
+      'url_settings_all_categories' => NULL,
+      'url_settings' => NULL,
+      'context' => array(
+        0 => 'relationship_entity_from_field:field_category-node-taxonomy_term_1',
+        1 => 'relationship_og_node_from_group_1',
+        2 => 'empty',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
+      'type' => 'news',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -374,7 +386,7 @@ function ding_news_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding news';
   $page->admin_description = '';
-  $page->path = 'news/!gid/!tid';
+  $page->path = 'news/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -403,17 +415,18 @@ function ding_news_default_page_manager_pages() {
     ),
   );
   $page->arguments = array(
-    'gid' => array(
-      'id' => '',
-      'identifier' => '',
-      'argument' => '',
-      'settings' => array(),
-    ),
     'tid' => array(
-      'id' => '',
-      'identifier' => '',
-      'argument' => '',
-      'settings' => array(),
+      'id' => 1,
+      'identifier' => 'Category term',
+      'name' => 'term',
+      'settings' => array(
+        'input_form' => 'term',
+        'vids' => array(
+          1 => '1',
+          2 => 0,
+        ),
+        'breadcrumb' => 0,
+      ),
     ),
   );
   $page->conf = array(
@@ -436,6 +449,13 @@ function ding_news_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'Home
+News
+%tid:name',
+    'panels_breadcrumbs_paths' => '<front>
+news
+news/%tid:name',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25';
@@ -455,15 +475,18 @@ function ding_news_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'category';
-    $pane->subtype = 'category';
+    $pane->type = 'category_menu';
+    $pane->subtype = 'category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'type' => 'news',
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'empty',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
-      'url_settings_all_categories' => '%page_type/%library/',
-      'url_settings' => '%page_type/%library/%category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -497,15 +520,18 @@ function ding_news_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
-    $pane->type = 'librarylist';
-    $pane->subtype = 'librarylist';
+    $pane->type = 'library_list';
+    $pane->subtype = 'library_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
+      'type' => 'news',
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'empty',
+      ),
+      'override_title' => 0,
       'override_title_text' => '',
-      'url_settings_all_libraries' => '%page_type',
-      'url_settings_library' => 'node/%library_id/news/%category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -519,30 +545,20 @@ function ding_news_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
-    $pane->type = 'views';
-    $pane->subtype = 'ding_news';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 1,
-      'nodes_per_page' => '10',
-      'pager_id' => '0',
-      'offset' => '0',
-      'more_link' => 0,
-      'feed_icons' => 0,
-      'panel_args' => 1,
-      'link_to_view' => 0,
-      'args' => '%gid/%tid',
-      'url' => '',
-      'display' => 'ctools_context_master',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'context' => array(
+        0 => 'empty',
+        1 => 'argument_term_1',
+      ),
     );
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'args',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_news:page_ding_news_panel_context',
       ),
@@ -642,20 +658,19 @@ function ding_news_default_page_manager_pages() {
   $page->arguments = array(
     'node' => array(
       'id' => 1,
-      'identifier' => 'Node: ID',
+      'identifier' => 'Library node',
       'name' => 'entity_id:node',
       'settings' => array(),
     ),
     'tid' => array(
       'id' => 1,
-      'identifier' => 'Taxonomy term: ID',
+      'identifier' => 'Category term',
       'name' => 'term',
       'settings' => array(
         'input_form' => 'term',
         'vids' => array(
-          2 => '2',
-          1 => 0,
-          3 => 0,
+          1 => '1',
+          2 => 0,
         ),
         'breadcrumb' => 0,
       ),
@@ -741,16 +756,18 @@ node/%node:nid/news
     $pane = new stdClass;
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'category';
-    $pane->subtype = 'category';
+    $pane->type = 'category_menu';
+    $pane->subtype = 'category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
+      'type' => 'news',
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
       'override_title_text' => '',
-      'settings' => '%page_type/%library/news/%category',
-      'url_settings_all_categories' => '%page_type/%library/news',
-      'url_settings' => '%page_type/%library/news/%category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -784,14 +801,17 @@ node/%node:nid/news
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
-    $pane->type = 'librarylist';
-    $pane->subtype = 'librarylist';
+    $pane->type = 'library_list';
+    $pane->subtype = 'library_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'url_settings_all_libraries' => 'news/all/%category',
-      'url_settings_library' => '%page_type/%library_id/news/%category',
-      'override_title' => 1,
+      'type' => 'news',
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -806,34 +826,20 @@ node/%node:nid/news
     $pane = new stdClass;
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
-    $pane->type = 'views';
-    $pane->subtype = 'ding_news';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 1,
-      'nodes_per_page' => '10',
-      'pager_id' => '0',
-      'offset' => '0',
-      'more_link' => 0,
-      'feed_icons' => 0,
-      'panel_args' => 1,
-      'link_to_view' => 0,
-      'args' => '@1/@3',
-      'url' => 'node/%/news/feeds',
-      'display' => 'ctools_context_2',
       'context' => array(
-        0 => 'argument_entity_id:node_1.nid',
-        1 => 'argument_term_1.name',
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_term_1',
       ),
-      'override_title' => 0,
-      'override_title_text' => '',
     );
     $pane->cache = array(
       'method' => 'rules',
       'settings' => array(
-        'granularity' => 'args',
+        'granularity' => 'context',
         'language' => 1,
         'cache_key' => 'panel_context:page-ding_news_library:page_ding_news_library_panel_context',
       ),
