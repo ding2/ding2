@@ -110,7 +110,27 @@ function ting_sfx_get_open_url($uri) {
     $ret = FALSE;
   }
 
-  return $ret;
+  $parts = parse_url($ret);
+  $query = ting_sfx_encode_dk($parts['query']);
+  $port = isset($parts['port']) ? ':'.$parts['port'] : '';
+  $ret = $parts['scheme'].'://'.$parts['host'].$port.$parts['path'].'?'.$query;
+
+  return $ret;	
+}
+
+/**
+ * Urlencode æ,ø,å
+ */
+function ting_sfx_encode_dk( $query ) {
+  $dk = array('æ','ø','å','Æ','Ø','Å');
+  $utf=array();
+  $hest = array();
+  foreach($dk as $ch) {
+    $url_enc[] = urlencode($ch);
+  }  
+  $ret = str_replace($dk,$url_enc,$query);
+
+  return $ret; 
 }
 
 function ting_sfx_get_logo() {
