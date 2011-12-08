@@ -1,6 +1,6 @@
 name = Ting relation
 description = Handles relations for ting entities.
 package = Ding!
-version = "7.x-0.12"
+version = "7.x-0.13"
 core = 7.x
 files[] = ting_relation.module
