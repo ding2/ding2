@@ -47,7 +47,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   }
 
   uasort($nodes, 'ding_content_library_list_sort_title');
-  $items = array($conf['type'] => t('All libraries'));
+  $items = array($conf['type'] . $suffix => t('All libraries'));
 
   foreach ($nodes as $node) {
     $uri = entity_uri('node', $node);
