@@ -2,6 +2,10 @@
   width:auto;
   }
 
+.node .content div.place2book {
+  clear:both;
+  }	
+	
 .node .content div.place2book.order {
   background: url("images/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
   background-position: right -30px;
