@@ -46,3 +46,8 @@ projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
 projects[ding_page][download][tag] = "7.x-0.10"
+
+projects[ding_webtrends][type] = "module"
+projects[ding_webtrends][download][type] = "git"
+projects[ding_webtrends][download][url] = "git@github.com:ding2/ding_webtrends.git"
+projects[ding_webtrends][download][tag] = "7.x-0.1"
