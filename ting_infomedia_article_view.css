@@ -8,8 +8,9 @@ h4 {
 }
 
 div.infomedia_HeadLine {
-  color:red;
   font-size:1.5em;
+  font-weight: bold;
+  padding-bottom: 0.25em;
 }
 
 div.infomedia_SubHeadLine {
@@ -75,14 +76,14 @@ div.select {
   float:left;
 }
 
-div.infomedia_image {
+div.infomedia-image {
   float:right;
   position:relative;
   top:0.5em;
   right:0.5em;
 }
 
-div.infomedia_image {
+div.infomedia-image {
   position:absolute;
   right:1em;
   top:1em;*/

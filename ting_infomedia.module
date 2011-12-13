@@ -7,6 +7,7 @@ module_load_include('inc', 'ting_infomedia' , 'ting_infomedia.wrapper');
 /**
  * Implements hook_menu
  */
+/*
 function ting_infomedia_menu() {
   $items['ting/infomedia/%'] = array(
     'title' => 'Infomedia',
@@ -18,14 +19,14 @@ function ting_infomedia_menu() {
 
   return $items;
 }
-
+*/
 
 /**
  * Page callback function
  *
  * Return a render array
  */
-function ting_infomedia_view($id) {  
+function ting_infomedia_view($id) {
 return array(
     '#markup' => '<div id="article-wrapper">' . render(ting_infomedia_parse_article($id)). '</div>',
     '#theme' => 'ting_infomedia_article',
@@ -185,5 +186,32 @@ function ting_infomedia_clean_html(&$html) {
   $replacements[2] = '</h4>';
 
   preg_replace($patterns, $replacements, $html);
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * Tells panels where to find the .inc files that define various
+ * args, contexts & content_types.
+ */
+function ting_infomedia_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implement hook_ctools_plugin_api().
+ *
+ * If you do this, CTools will pick up default panels pages in
+ * <modulename>.pages_default.inc
+ */
+function ting_infomedia_ctools_plugin_api($module, $api) {
+  if ($module == 'panels_mini' && $api == 'panels_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
 }
 
