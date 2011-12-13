@@ -119,10 +119,23 @@ function ting_sfx_get_open_url($uri) {
 }
 
 /**
- * Urlencode æ,ø,å
+ * Urlencode values of parameters 
  */
 function ting_sfx_encode_dk( $query ) {
-  $dk = array('æ','ø','å','Æ','Ø','Å');
+  $params = explode('&',$query);
+  $ret = '';
+  foreach($params as $param) {
+    $keyval = explode('=',$param);
+
+    if( strlen($ret) > 1 )
+      $ret.='&';
+
+    $ret .= $keyval[0].'='.urlencode($keyval[1]);
+  }
+
+  return $ret;
+
+  /*$dk = array('æ','ø','å','Æ','Ø','Å');
   $utf=array();
   $hest = array();
   foreach($dk as $ch) {
@@ -130,7 +143,7 @@ function ting_sfx_encode_dk( $query ) {
   }  
   $ret = str_replace($dk,$url_enc,$query);
 
-  return $ret; 
+  return $ret; */
 }
 
 function ting_sfx_get_logo() {
