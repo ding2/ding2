@@ -130,7 +130,7 @@ function ting_sfx_encode_dk( $query ) {
     if( strlen($ret) > 1 )
       $ret.='&';
 
-    $ret .= $keyval[0].'='.urlencode($keyval[1]);
+    $ret .= $keyval[0].'='.rawurlencode($keyval[1]);
   }
 
   return $ret;
