@@ -120,6 +120,7 @@ function ting_sfx_get_open_url($uri) {
 
 /**
  * Urlencode values of parameters 
+ * shitty solution - we should rely on data given from the well, and not mess with raw data.
  */
 function ting_sfx_encode_dk( $query ) {
   $params = explode('&',$query);
@@ -130,20 +131,17 @@ function ting_sfx_encode_dk( $query ) {
     if( strlen($ret) > 1 )
       $ret.='&';
 
-    $ret .= $keyval[0].'='.rawurlencode($keyval[1]);
+    // there might be an '&' in the value of the key value pair, so check
+    // if both key and value is set.
+    if( isset($keyval[0]) && isset($keyval[1]) )
+      $ret .= $keyval[0].'='.rawurlencode($keyval[1]);
+    else
+      $ret .= $param;
   }
+  // undo urlencode of '+' (%2B)
+  $ret = str_replace('%2B',' ',$ret);
 
-  return $ret;
-
-  /*$dk = array('æ','ø','å','Æ','Ø','Å');
-  $utf=array();
-  $hest = array();
-  foreach($dk as $ch) {
-    $url_enc[] = urlencode($ch);
-  }  
-  $ret = str_replace($dk,$url_enc,$query);
-
-  return $ret; */
+  return $ret; 
 }
 
 function ting_sfx_get_logo() {
