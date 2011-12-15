@@ -323,6 +323,18 @@ function ting_material_details_ding_entity_fields() {
         'label' => t('Age'),
       ),
     ),  
+    'ting_details_pegi' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'blackhole',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Pegi'),
+      ),
+    ),  
+    
   );
 }
 

@@ -214,8 +214,15 @@ function ting_material_details_field_info() {
       'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ), 
-    
-  
+
+    //dkdcplus:pegi
+    'ting_details_pegi' =>array(
+      'label' => t('Pegi'),
+      'description' => t('Material PEGI-mark'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_details_single',
+      'no_ui' => TRUE,
+    ),  
   );
  
   return $ret;
@@ -257,6 +264,7 @@ function ting_material_details_field_formatter_info() {
 	'ting_details_tracks',
 	'ting_details_genre',
 	'ting_details_contributor',
+	'ting_details_pegi',
      ),
    ),
   );
@@ -294,6 +302,7 @@ function ting_material_details_record_info() {
   $ret['ting_details_rights'] = array('dc:rights');
   $ret['ting_details_age'] = array('dcterms:audience'=>'dkdcplus:age');
   $ret['ting_details_audience'] = array('dcterms:audience');
+  $ret['ting_details_pegi'] = array('dcterms:audience'=>'dkdcplus:pegi');
   return $ret;
 }
 
