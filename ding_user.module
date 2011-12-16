@@ -142,109 +142,139 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
- * Add OpenRuth specific user profile form fields
+ * Implements hook_form_FORM_ID_alter().
  *
+ * For provider users, hide OG, Drupal password, and add in a pincode field.
  */
 function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
-  global $user;
-  try {
-    $form = ding_provider_invoke('user', 'profile_form', $form, $form_state);
-    $form['#validate'][] = 'ding_user_profile_form_validate';
-    $form['#submit'][] = 'ding_user_profile_form_submit';
+  if (ding_user_is_provider_user($form_state['user'])){
+    // Don't show og group.
+    // @todo: shouldn't this be elsewhere?
     $form['group_audience']['#access'] = FALSE;
-  }
-  catch (DingProviderAuthException $e) {
-    // Do nothing.
-  }
-  catch (DingProviderNoProvider $e) {
-    drupal_set_message(t('Library provider not available, please enable one if you want to work with the library system.'), 'warning');
-  }
-}
 
-function ding_user_profile_form_validate($form, &$form_state) {
-  ding_provider_invoke('user', 'profile_form_validate', $form, $form_state);
-}
 
-function ding_user_profile_form_submit($form, &$form_state) {
-  ding_provider_invoke('user', 'profile_form_submit', $form, $form_state);
+    // Don't show Drupal password. We don't use it.
+    $form['account']['current_pass']['#access'] = FALSE;
+    $form['account']['pass']['#access'] = FALSE;
+
+    // Add pincode change field. Defaults to 4 chars, as that seems the common
+    // option, providers may form_alter this.
+    $form['account']['pincode'] = array(
+      '#type' => 'password_confirm',
+      '#size' => 4,
+      '#maxlength' => 4,
+      '#process' => array(
+        'form_process_password_confirm',
+        // Not adding user_form_process_password_confirm here, as it only adds
+        // the strength checker, which we don't want.
+        'ding_user_form_process_password_confirm',
+      ),
+      '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
+    );
+
+    // Adjust description of mail field.
+    $form['account']['mail']['#description'] = t('The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.');
+
+    // Remove the validator requiring the current password to change email
+    // address.
+    $pos = array_search('user_validate_current_pass', $form['#validate']);
+    if ($pos !== FALSE) {
+      unset($form['#validate'][$pos]);
+    }
+  }
+};
+
+/**
+ * Password confirm element process.
+ *
+ * Add in handling of #maxlength and change the titles of the fields.
+ */
+function ding_user_form_process_password_confirm($element) {
+  if (!empty($element['#maxlength'])) {
+    $element['pass1']['#maxlength'] = $element['pass2']['#maxlength'] = $element['#maxlength'];
+    // Unset #maxlength, or _form_validate will attempt to check the length of
+    // this element, whose value will be an array.
+    unset($element['#maxlength']);
+  }
+  // Fixup the titles.
+  $element['pass1']['#title'] = t('Pincode');
+  $element['pass2']['#title'] = t('Confirm pincode');
+
+  return $element;
 }
 
 /**
- * Implements hook_user_view().
+ * Create the profile type for the given provider.
+ *
+ * This is a fallback in case the provider didn't create one.
  */
-function ding_user_user_view($account) {
-  try {
-    // If we're having a user which is handled by an
-    // external authentication module, then show
-    // custom fields.
-    $creds = ding_user_get_creds($account);
-    if (!ding_provider_implements('user', 'info')) {
-      // Provider doesn't implement any user information, we'll do nothing.
-      return;
-    }
-    $user_info = ding_provider_invoke('user', 'info', $creds);
+function ding_user_create_profile_type($provider) {
+  $provider_profile_type = 'provider_' . $provider['module'];
+  $profile_type = new ProfileType(
+    array(
+      'type' => $provider_profile_type,
+      'label' => 'Provider profile for ' . $provider['title'],
+      'userCategory' => TRUE,
+      'userView' => TRUE,
+    )
+  );
+  $profile_type->save();
+  return $profile_type;
+}
 
-    $account->content['summary']['user_display_name'] = array(
-      '#type' => 'user_profile_item',
-      '#title' => t('User name'),
-      '#markup' => check_plain($user_info->firstname) . ' ' . check_plain($user_info->lastname),
-    );
+/**
+ * Get the provider profile for the given user.
+ */
+function ding_user_provider_profile($account) {
+  $provider = _ding_provider_get_provider('user');
+  $provider_profile_type = 'provider_' . $provider['module'];
+  return profile2_load_by_user($account, $provider_profile_type);
+}
 
-    $address['data'][] =
-      array(
-        '#type' => 'markup',
-        '#prefix' => '<p>',
-        '#markup' => check_plain($user_info->address),
-        '#suffix' => '</p>',
-      );
-
-    if (isset($user_info->village) && $user_info->village !== $user_info->city) {
-      $address['data'][] =
-        array(
-          '#type' => 'markup',
-          '#prefix' => '<p>',
-          '#markup' => check_plain($user_info->village),
-          '#suffix' => '</p>',
-        );
-    }
-
-    if (isset($user_info->postal) && isset($user_info->city)) {
-      $address['data'][] =
-        array(
-          '#type' => 'markup',
-          '#prefix' => '<p>',
-          '#markup' => check_plain($user_info->postal ). ' ' . check_plain($user_info->city),
-          '#suffix' => '</p>',
-        );
-
-      $address['#prefix'] = '<div class="user-adress">';
-      $address['#suffix'] = '</div>';
-
-      $account->content['summary']['user_adress'] = array(
-        '#type' => 'user_profile_item',
-        '#title' => t('User address'),
-        '#markup' => render($address),
-      );
-    }
-
-    $account->content['summary']['user_email'] = array(
-      '#type' => 'user_profile_item',
-      '#title' => t('User email'),
-      '#markup' => check_plain($user_info->email),
-    );
-
-    if (isset($user_info->agency)) {
-      $account->content['summary']['agencyCounter'] = array(
-        '#type' => 'user_profile_item',
-        '#title' => t('Preferred branch'),
-        '#markup' => check_plain($user_info->agency),
-      );
-    }
-
-    $account->content['summary']['#title'] = t('User information');
+/**
+ * Implements hook_user_presave().
+ *
+ * Update provider with changes to email/pass.
+ */
+function ding_user_user_presave(&$edit, $account, $category) {
+  // Ensure that we're dealing with a provider user.
+  if (empty($account->uid) || !ding_user_is_provider_user($account)) {
+    return;
   }
-  catch (DingProviderAuthException $e) {
-    // Else, do nothing.
+
+  $changes = array();
+  if (isset($edit['mail']) && $edit['mail'] != $account->mail) {
+    $changes['mail'] = $edit['mail'];
+  }
+  // If pincode is not empty, it's changed.
+  if (!empty($edit['pincode'])) {
+    $changes['pass'] = $edit['pincode'];
+    // Unset it, so it doesn't get saved.
+    unset($edit['pincode']);
+  }
+  if (!empty($changes)) {
+    try {
+      $update_res = ding_provider_invoke('user', 'account_update', $account, $changes);
+      if (!empty($update_res['creds'])) {
+        ding_user_save_creds($update_res, $account);
+      }
+    }
+    catch (Exception $e) {
+      // If update_account fails, we're in trouble, as we're too far in to
+      // set form errors. So we'll just tell the user that it couldn't be, and
+      // not save the fields.
+      drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
+      watchdog_exception('ding_user', $e);
+      if (isset($changes['mail'])) {
+        drupal_set_message(t("Email not saved."), 'error');
+        // Don't save a new email address.
+        unset($edit['mail']);
+      }
+      if (isset($changes['pass'])) {
+        drupal_set_message(t("New pincode not saved."), 'error');
+        // Pass was already unset.
+      }
+    }
   }
 }
 
@@ -263,6 +293,8 @@ function ding_user_user_logout($account) {
 
 /**
  * Implements hook_username_alter().
+ *
+ * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
   if (!empty($account->data) && isset($account->data['display_name'])) {
@@ -318,6 +350,9 @@ function ding_user_default_authname($name) {
 
 /**
  * Custom validator for the login form.
+ *
+ * Handles authentication with provider, and setting up a profile2 for the
+ * user/provider.
  */
 function ding_user_user_login_validate($form, &$form_state) {
   // If $form_state['uid'] is set, Drupal already found a user, so we don't
@@ -376,13 +411,42 @@ function ding_user_user_login_validate($form, &$form_state) {
         ding_user_update_user($auth_res, $account);
       }
 
+      // Save credentials for later. Do it early as the provider might expect
+      // them in a hook_profile2_presave hook trigged by us saving a new
+      // profile, or themselves in the profile_init callback.
+      ding_user_save_creds($auth_res, $account);
+
+      $profile = ding_user_provider_profile($account);
+      if (!$profile) {
+        $provider = _ding_provider_get_provider('user');
+        $provider_profile_type = 'provider_' . $provider['module'];
+        // Check that we have a profile type for this provider.
+        if (!$profile_type = profile2_type_load($provider_profile_type)) {
+          // Create new type, if provider haven't.
+          $profile_type = ding_user_create_profile_type($provider);
+        }
+        // Create a profile for current user.
+        $profile = new Profile(
+          array(
+            'user' => $account,
+            'type' => $profile_type,
+          )
+        );
+
+        // Bind this profile to the user.
+        $profile->save();
+      }
+
+      // Let provider initialise the profile. Assume they save it if need be.
+      if (ding_provider_implements('user', 'profile_init')) {
+        ding_provider_invoke('user', 'profile_init', $profile, $auth_res);
+      }
+
       // Log user in.
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
       // does, it's already the submit handler.
 
-      // Save credentials for later.
-      ding_user_save_creds($auth_res, $account);
       // TODO: Do we still need this?
       if (ding_provider_implements('user', 'authenticate_finalize')) {
         ding_provider_invoke('user', 'authenticate_finalize', $user);
@@ -473,7 +537,6 @@ function ding_user_get_creds($account = NULL) {
   if (!$account) {
     $account = $GLOBALS['user'];
   }
-
   if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
     // Check that the credentials is valid.
     if (ding_provider_implements('user', 'is_authenticated')) {
@@ -521,3 +584,14 @@ function ding_user_save_creds($auth_res, $account) {
   }
 }
 
+/**
+ * Check if the given account is a user authenticated through a provider.
+ */
+function ding_user_is_provider_user($account) {
+  $names = db_select('authmap')
+    ->fields('authmap', array('authname'))
+    ->condition('module', 'ding_user')
+    ->condition('uid', $account->uid)
+    ->execute()->fetchAll();
+  return !empty($names);
+}
