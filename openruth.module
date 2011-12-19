@@ -5,6 +5,8 @@
  * Drupal implementation of ZRuth's openruth SOAP API
  */
 
+include_once('openruth.features.inc');
+
 /**
  * Implement hook_ding_provider().
  */
@@ -50,6 +52,30 @@ function openruth_ding_devel_timers() {
       'include in total' => FALSE,
     )
   );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add in pincode validation.
+ */
+function openruth_form_user_profile_form_alter(&$form, &$form_state) {
+  // Ensure that we're dealing with a provider user.
+  if (!ding_user_is_provider_user($form_state['user'])) {
+    return;
+  }
+  $form['#validate'][] = 'openruth_profile_form_validate';
+}
+
+/**
+ * Validate that new pincode is 4 numbers.
+ */
+function openruth_profile_form_validate(&$form, &$form_state) {
+  if (!empty($form_state['values']['pincode'])) {
+    if (!preg_match('/^\d{4}$/', $form_state['values']['pincode'])) {
+      form_error($form['account']['pincode'], t('Pincode must be four numbers.'));
+    }
+  }
 }
 
 /**
@@ -163,6 +189,100 @@ function openruth_client_invoke($method) {
 }
 
 /**
+ * Allowed values callback for field.
+ */
+function openruth_allowed_branches() {
+  $branches = openruth_client_invoke('get_agencycounters');
+  return $branches;
+}
+
+/**
+ * Update profile2 with values from Openruth userInfo.
+ */
+function openruth_profile_update($profile, $userinfo) {
+  $langs = field_language('profile2', $profile);
+  $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
+}
+
+/**
+ * Implements hook_profile2_presave().
+ *
+ * Sends changes to Openruth and updates profile with real values.
+ */
+function openruth_profile2_presave($profile) {
+  if ($profile->type == 'provider_openruth' &&
+      !isset($profile->openruth_init) &&
+      $profile->openruth_preferred_branch != $profile->original->openruth_preferred_branch) {
+    $langs = field_language('profile2', $profile);
+    $changes['preferred_branch'] = $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
+
+    $creds = ding_user_get_creds($profile);
+    $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
+    if ($res !== TRUE) {
+      // Call failed, throw exception.
+      if (is_string($res)) {
+        $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
+      }
+      else {
+        $exception_message = t('Update userinfo failed.');
+      }
+      throw new Exception($exception_message);
+    }
+
+    // Update the profile with whatever Openruth says.
+    $creds = ding_user_get_creds($profile);
+    if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
+      openruth_profile_update($profile, $userStatus->userInfo);
+    };
+  }
+}
+
+/**
+ * Implements hook_profile2_view(),
+ */
+function openruth_profile2_view($profile, $view_mode, $langcode) {
+  $creds = ding_user_get_creds($profile);
+  if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
+    $userinfo = $userStatus->userInfo;
+    $props = array(
+      'userFirstName',
+      'userLastName',
+      'userEmail',
+      'userAddress',
+      'userPostCode',
+      'userCity',
+      'userVillage',
+      'userTelephone',
+      'userMobilePhone',
+    );
+    foreach ($props as $prop) {
+      $data[$prop] = isset($userinfo->$prop) ? $userinfo->$prop : '';
+    }
+
+    $profile->content['name'] = array(
+      '#type' => 'item',
+      '#title' => t('Name'),
+      '#markup' => join(' ', array_filter(array($data['userFirstName'], $data['userLastName']))),
+    );
+
+    $address_parts = array($data['userAddress']);
+    if (!empty($data['userVillage']) && $data['userVillage'] != $data['userCity']) {
+      $address_parts[] = $data['userVillage'];
+    }
+    if (!empty($data['userPostCode']) || !empty($data['userCity'])) {
+      $address_parts[] = join(' ', array_filter(array($data['userPostCode'], $data['userCity'])));
+    }
+
+    // @todo: really, there should be a template for this.
+    $profile->content['address'] = array(
+      '#type' => 'item',
+      '#title' => t('Address'),
+      '#markup' => '<p>' . join('</p><p>', $address_parts) . '</p>',
+    );
+  };
+}
+
+/**
  * Get user status.
  *
  * Session cached for efficiency.
@@ -179,7 +299,7 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
   $id = hash('sha512', $creds['name'] . $creds['pass']);
 
   if (!isset($_SESSION['openruth_user_status'][$id]) ||
-    $_SESSION['openruth_user_status'][$id]['time'] < ($_SERVER['REQUEST_TIME'] - 300)) {
+    $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
     $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
     if ($status && !is_string($status)) {
       if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
@@ -187,7 +307,7 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
         unset($status->userInfo->userPinCode);
       }
       $_SESSION['openruth_user_status'][$id] = array(
-        'time' => $_SERVER['REQUEST_TIME'],
+        'time' => REQUEST_TIME,
         'data' => $status,
       );
     }

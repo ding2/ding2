@@ -23,46 +23,92 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
 /**
  * Get list of reserved items
  */
- function openruth_reservation_list($account) {
-   $creds = ding_user_get_creds($account);
-   $result = array();
-   $status = _openruth_user_status($creds);
+function openruth_reservation_list($account) {
+  $creds = ding_user_get_creds($account);
+  $result = array();
+  $status = _openruth_user_status($creds);
 
-   if (isset($status->orders->orderReady)) {
-     foreach ($status->orders->orderReady as $res) {
-       $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
-         'order_id' => $res->orderId,
-         'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $res->itemId,
-         'display_name' => $res->itemDisplayTitle,
-         // For some reason, we might not get a pickup date back.
-         'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
-         'pickup_branch_id' => $res->agencyCounter,
-         'created' => $res->orderDate,
-         'ready_for_pickup' => 1,
-       ));
-     }
-   }
-   if (isset($status->orders->orderNotReady)) {
-     foreach ($status->orders->orderNotReady as $res) {
-       $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
-         'order_id' => $res->orderId,
-         'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $res->itemId,
-         'display_name' => $res->itemDisplayTitle,
-         'pickup_branch_id' => $res->agencyCounter,
-         'expiry' => $res->orderLastInterestDate,
-         'created' => $res->orderDate,
-         'queue_number' => $res->orderQueuePosition,
-         'ready_for_pickup' => 0,
-       ));
-     }
-   }
-   return $result;
- }
+  if (isset($status->orders->orderReady)) {
+    foreach ($status->orders->orderReady as $res) {
+      $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+        'order_id' => $res->orderId,
+        'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $res->itemId,
+        'display_name' => $res->itemDisplayTitle,
+        // For some reason, we might not get a pickup date back.
+        'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
+        'pickup_branch_id' => $res->agencyCounter,
+        'created' => $res->orderDate,
+        'ready_for_pickup' => 1,
+                               ));
+    }
+  }
+  if (isset($status->orders->orderNotReady)) {
+    foreach ($status->orders->orderNotReady as $res) {
+      $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+        'order_id' => $res->orderId,
+        'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $res->itemId,
+        'display_name' => $res->itemDisplayTitle,
+        'pickup_branch_id' => $res->agencyCounter,
+        'expiry' => $res->orderLastInterestDate,
+        'created' => $res->orderDate,
+        'queue_number' => $res->orderQueuePosition,
+        'ready_for_pickup' => 0,
+                               ));
+    }
+  }
+  return $result;
+}
+
+/**
+ * Provide options for reservation.
+ */
+function openruth_reservation_options($type, $account, $reservables) {
+  /*
+   * While we use ding_reservation for branch handling, we don't want to
+   * depend on the module, as it would mean that ding_reservation can't be
+   * disabled. So instead we throw an exception here.
+   */
+  if (!module_exists('ding_reservation')) {
+    throw new Exception('Openruth reservation options requires ding_reservation.');
+  }
+  $form = array();
+  $profile = ding_user_provider_profile($account);
+  $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch', $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'], openruth_allowed_branches());
+
+  return $form;
+}
+
+/**
+ * Validate reservations options.
+ */
+function openruth_reservation_options_validate($type, $account, $reservables, $values) {
+  $result = array();
+  $profile = ding_user_provider_profile($account);
+  $field_language = field_language('profile2', $profile);
+  $profile_branch = $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'];
+  return ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
+}
+
+/**
+ * Submit handler for reservations options.
+ */
+function openruth_reservation_options_submit($type, $account, $reservables, $values) {
+  $profile = ding_user_provider_profile($account);
+  $field_language = field_language('profile2', $profile);
+  $profile_branch = $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'];
+  $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile_branch, $values);
+  if (!empty($update['openruth_preferred_branch'])) {
+    $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'] = $update['openruth_preferred_branch'];
+    $profile->save();
+  }
+};
 
 /**
  * Create a reservation for a given account
  */
-function openruth_reservation_create($account, $id, $branch, $expiry) {
+function openruth_reservation_create($account, $id, $options) {
+  $branch = $options['openruth_preferred_branch'];
+  $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
   $creds = ding_user_get_creds($account);
   $status = _openruth_user_status($creds, TRUE);
 
@@ -71,6 +117,7 @@ function openruth_reservation_create($account, $id, $branch, $expiry) {
   $order = array_shift($order_res);
   if ($order == 1) {
     $status = _openruth_user_status($creds, TRUE);
+    $order_res['branch'] = $branch;
     return $order_res;
   }
   elseif ($order == 'already reserved by user') {
@@ -82,16 +129,22 @@ function openruth_reservation_create($account, $id, $branch, $expiry) {
 }
 
 /**
- * Update order, by defining new expiry date or pickup branch
+ * Update order.
  */
-function openruth_reservation_update_order($account, $order_id, $pickup_branch, $expiry_date) {
-  $creds = ding_user_get_creds($account);
+function openruth_reservation_update($account, $res_ids, $options) {
+  $reservations = openruth_reservation_list($account);
+  $update = FALSE;
+  foreach ($res_ids as $res_id) {
+    $branch = !empty($options['openruth_preferred_branch']) ? $options['openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
+    $expiry = !empty($options['expiry']) ? $options['expiry'] : $reservations[$res_id]->expiry;
 
-  $res = openruth_client_invoke('update_order', $order_id, $pickup_branch, $expiry_date);
-
-  if ($res == TRUE) {
-    $status = _openruth_user_status($creds, TRUE);
+    $res = openruth_client_invoke('update_order', $res_id, $branch, $expiry);
   }
+  // Flush cache.
+  $creds = ding_user_get_creds($account);
+  _openruth_user_status($creds, TRUE);
+
+  return;
 }
 
 /**
