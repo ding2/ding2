@@ -19,6 +19,8 @@ function ding_user_frontend_preprocess_page(&$variables) {
  * Implements hook_form_FORM_ID_alter().
  *
  * Add setting for password length.
+ *
+ * @todo this doesn't work after the new pincode field was added. Fix it up.
  */
 function ding_user_frontend_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
   $form['ding_user_frontend'] = array(
