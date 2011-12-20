@@ -341,10 +341,6 @@ function ting_material_details_get_record_value( $field_type, $entity ) {
  * handle special cases 
  */
 function ting_material_details_parse( $field_type,$value ) {
- 
-dpm($field_type);
-dpm($value);
- 
   if( !$value ) {
     return FALSE;
   }
