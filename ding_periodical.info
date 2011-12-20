@@ -1,7 +1,7 @@
 name = Ding periodical
 description = Handles listing of issues on periodicals.
 package = Ding!
-version = "7.x-0.8"
+version = "7.x-0.9"
 core = 7.x
 files[] = ding_periodical.module
 dependencies[] = ding_provider
