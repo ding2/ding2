@@ -194,7 +194,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
 function ding_reservation_reserve_form_submit($form, &$form_state) {
   global $user;
   if (ding_provider_implements('reservation', 'options_submit')) {
-    ding_provider_invoke('reservation', 'options_submit', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
+    ding_provider_invoke('reservation', 'options_submit', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
   }
   if ($form_state['values']['reservable']) {
     $reservable = $form_state['values']['reservable'];
