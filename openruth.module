@@ -212,6 +212,7 @@ function openruth_profile_update($profile, $userinfo) {
 function openruth_profile2_presave($profile) {
   if ($profile->type == 'provider_openruth' &&
       !isset($profile->openruth_init) &&
+      !empty($profile->original->openruth_preferred_branch) &&
       $profile->openruth_preferred_branch != $profile->original->openruth_preferred_branch) {
     $langs = field_language('profile2', $profile);
     $changes['preferred_branch'] = $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
