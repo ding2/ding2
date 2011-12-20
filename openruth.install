@@ -1,0 +1,27 @@
+<?php
+
+// Installation and update hooks for Openruth.
+
+/**
+ * Implements hook_requirements().
+ */
+function openruth_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    $requirements['openruth'] = array(
+      'title' => $t('Openruth'),
+      'value' => $t('Openruth configured'),
+      'severity' => REQUIREMENT_OK,
+    );
+    if (!variable_get('openruth_wsdl_url', FALSE) || !variable_get('openruth_agency_id', FALSE)) {
+      $requirements['openruth']['value'] = $t('Openruth not configured');
+      $requirements['openruth']['description'] = $t('Openruth is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/openruth')));
+        $requirements['openruth']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $requirements;
+}
