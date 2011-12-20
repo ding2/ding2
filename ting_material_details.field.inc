@@ -319,11 +319,8 @@ function ting_material_details_get_record_value( $field_type, $entity ) {
     return FALSE;
   }
 
-  if( is_string($rec) ) {
-    
+  if( is_string($rec) ) {    
     $value = $entity->$rec ;
-
-
   }
 
   if( is_array($rec) ) {    
@@ -344,7 +341,10 @@ function ting_material_details_get_record_value( $field_type, $entity ) {
  * handle special cases 
  */
 function ting_material_details_parse( $field_type,$value ) {
-  
+ 
+dpm($field_type);
+dpm($value);
+ 
   if( !$value ) {
     return FALSE;
   }
