@@ -47,8 +47,11 @@ function theme_ding_user_comment_post_forbidden($variables) {
   $render_array = array();
   $form = drupal_get_form('ding_user_comment_forbidden_form');
 
+  $class = drupal_html_class('ding_user_comment_forbidden_form');
+
+  $render_array['#prefix'] = '<div class="'.$class.'">';
   $render_array['#markup'] = drupal_render($form);
-  $render_array['#suffix'] = '<span>'.t('to add comments').'</span>';
+  $render_array['#suffix'] = '<span>'.t('to add comments').'</span></div>';
 
   return drupal_render($render_array);
 }
