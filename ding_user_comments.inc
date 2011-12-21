@@ -10,18 +10,18 @@
  * hook is implented to alter the 'log in to add comment' part of comments
  * define a new theme for comments if ['comment_forbidden'] is set
  **/
-function ding_news_entity_view($comment, $type, $view_mode, $langcode ) {
+function ding_user_entity_view($comment, $type, $view_mode, $langcode ) {
   //  dpm($comment);
    if( isset($comment->content['links']['comment']['#links']['comment_forbidden']) ) {
-    $comment->content['links']['comment']['#theme'] = 'ding_news_comment_post_forbidden';
+    $comment->content['links']['comment']['#theme'] = 'ding_user_comment_post_forbidden';
   }
 }
 
 /**
  * Implements hook_theme
  */
-function ding_news_theme($existing, $type, $theme, $path){
-  return array('ding_news_comment_post_forbidden'=>
+function ding_user_theme($existing, $type, $theme, $path){
+  return array('ding_user_comment_post_forbidden'=>
 	       array('render element' => 'elements',)
 	       );
 }
@@ -30,12 +30,12 @@ function ding_news_theme($existing, $type, $theme, $path){
  * get a form for displaying the 'log in' to add comments link
  * @return form
  */
-function ding_news_comment_forbidden_form() {
+function ding_user_comment_forbidden_form() {
   $form['submit'] = 
     array('#type' => 'submit',
 	  '#value' => t('Log in'),
 	  '#ajax' => 
-	  array('callback' => 'ding_news_comment_forbidden_form_callback',),);   
+	  array('callback' => 'ding_user_comment_forbidden_form_callback',),);   
   return $form;
 }
 
@@ -43,9 +43,9 @@ function ding_news_comment_forbidden_form() {
 /**
  * Theme comment_post_forbidden (log in to add comments)
  */
-function theme_ding_news_comment_post_forbidden($variables) {
+function theme_ding_user_comment_post_forbidden($variables) {
   $render_array = array();
-  $form = drupal_get_form('ding_news_comment_forbidden_form');
+  $form = drupal_get_form('ding_user_comment_forbidden_form');
 
   $render_array['#markup'] = drupal_render($form);
   $render_array['#suffix'] = '<span>'.t('to add comments').'</span>';
@@ -56,9 +56,9 @@ function theme_ding_news_comment_post_forbidden($variables) {
 
 
 /**
- * callback for ding_news_comment_forbidden_form form
+ * callback for ding_user_comment_forbidden_form form
  */
-function ding_news_comment_forbidden_form_callback($form, $form_state) {
+function ding_user_comment_forbidden_form_callback($form, $form_state) {
   $creds = array('name'=>'','pass'=>'');
   $creds = ding_user_get_creds();
 
