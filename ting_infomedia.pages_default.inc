@@ -16,7 +16,7 @@ function ting_infomedia_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'ting_infomedia';
   $page->admin_description = 'Displays an Infomedia article';
-  $page->path = '/ting/infomedia/%infomedia';
+  $page->path = 'ting/infomedia/%infomedia';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array(
