@@ -58,7 +58,6 @@ function ctools_plugin_example_infomedia_content_type_admin_info($subtype, $conf
  *   An object with at least title and content members
  */
 function infomedia_content_type_render($subtype, $conf, $args, $context) {
-  $data = $context->data;
   $block = new stdClass();
   $id = ( isset($args[0]) ) ? (int)$args[0] : $context->original_argument;
   // The title actually used in rendering.
