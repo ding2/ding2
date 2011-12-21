@@ -595,3 +595,5 @@ function ding_user_is_provider_user($account) {
     ->execute()->fetchAll();
   return !empty($names);
 }
+
+include_once('ding_user_comments.inc');
