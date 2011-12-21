@@ -47,6 +47,9 @@ function ting_infomedia_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'Infomedia',
+    'panels_breadcrumbs_paths' => '<none>',
   );
   $display = new panels_display;
   $display->layout = 'threecol_25_50_25';
