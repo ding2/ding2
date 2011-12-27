@@ -61,25 +61,6 @@ function ting_infomedia_theme( $existing, $type, $theme, $path ) {
 
 
 /**
- * Implements hook_page_alter
- *
- * TODO if page is a popup, page_alter should be executed - is infomedia a popup or not
- *
- * Remove 'subheader' (search-box and user-info) from page-views
- * add stylesheet for ting_infomedia article
- */
-/*function ting_infomedia_page_alter(&$page) {
-  $items = ting_infomedia_menu();
-  foreach($items as $key=>$val) {
-    if( ting_infomedia_strip_path($key) == ting_infomedia_strip_path(request_path() )) {
-      unset($page['subheader']);
-      unset($page['page_top']);
-      break;
-    }
-  }
-  }*/
-
-/**
  * Return stripped path. e.g /ting/infomedia/33514212 -> /ting/infomedia
  */
 function ting_infomedia_strip_path($path) {
