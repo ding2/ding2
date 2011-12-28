@@ -23,8 +23,8 @@ projects[ding_entity][download][tag] = "7.x-0.5"
 
 projects[profile2][version] = 1.1
 projects[profile2][subdir] = contrib
-; fixes malformedEntityException
-projects[profile2][patch][] = http://drupal.org/files/issues/eva-fix-entity-notice.patch
+;fixes malformedEntityException
+;projects[profile2][patch][] = http://drupal.org/files/issues/eva-fix-entity-notice.patch
 
 projects[entity][version] = 1.0-rc1
 projects[entity][subdir] = contrib
