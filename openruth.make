@@ -12,7 +12,7 @@ projects[features][version] = 1.0-beta4
 projects[profile2][version] = 1.1
 projects[profile2][subdir] = contrib
 ;  malformedEntityException
-projects[profile2][patch][] = http://drupal.org/files/issues/eva-fix-entity-notice.patch 
+;projects[profile2][patch][] = http://drupal.org/files/issues/eva-fix-entity-notice.patch 
 
 ; Ding! modules
 
