@@ -68,6 +68,10 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
     return $element;
   }
 
+  global $user;
+  if(!ding_user_is_provider_user($user)){
+    return $element;
+  }
 
   foreach ($items as $delta => $item) {
     $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
