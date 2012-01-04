@@ -27,13 +27,17 @@ function theme_ding_periodical_issues($variables) {
   $items = array();
   foreach ($variables['elements']['#issues'] as $volume => $issues) {
     $iss = array();
-    foreach ($issues as $key => $availability) {
+      foreach ($issues as $key => $availability) {
       $issue = $key;
-      if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
-        $issue .= ' ' . ding_periodical_reservation_button($availability['local_id'], $volume, $key, $variables['elements']['#entity']);
+      // check user
+      global $user;
+      if( ding_user_is_provider_user($user) ) {
+	if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
+	  $issue .= ' ' . ding_periodical_reservation_button($availability['local_id'], $volume, $key, $variables['elements']['#entity']);
+	}
       }
       $iss[] = $issue;
-    }
+      }
     $vol = array(
       'data' => $volume,
       'children' => $iss,
