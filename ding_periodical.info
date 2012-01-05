@@ -4,5 +4,6 @@ package = Ding!
 version = "7.x-0.9"
 core = 7.x
 files[] = ding_periodical.module
+scripts[] = ding_periodical.js
 dependencies[] = ding_provider
 dependencies[] = ding_entity

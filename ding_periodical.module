@@ -37,13 +37,16 @@ function theme_ding_periodical_issues($variables) {
 	}
       }
       $iss[] = $issue;
-      }
-    $vol = array(
-      'data' => $volume,
-      'children' => $iss,
-    );
-    $items[] = $vol;
+      }  
+
+      $vol = 
+	array(
+	      'data' => '<div class="'.drupal_html_class('ding_periodical_fold').'">'.$volume.'</div>',
+	      'children' => $iss,
+	      'class' => array(drupal_html_class('ding_periodical_foldable'),),
+	      );
+      $items[] = $vol;
   }
 
-  return theme('item_list', array('items' => $items));
+  return theme('item_list', array('items' => $items,'attributes'=>array('class'=>drupal_html_class('ding_periodical_issues'))));
 }
