@@ -62,6 +62,8 @@ function theme_ding_user_comment_post_forbidden($variables) {
  * callback for ding_user_comment_forbidden_form form
  */
 function ding_user_comment_forbidden_form_callback($form, $form_state) {
+  global $base_root;
+
   $creds = array('name'=>'','pass'=>'');
   $creds = ding_user_get_creds();
 
@@ -79,13 +81,8 @@ function ding_user_comment_forbidden_form_callback($form, $form_state) {
   ctools_include('ajax');
   ctools_add_js('ajax-responder');
 
-  $url = $form['#action'];
-  $base = base_path();
-  // base_path might be '/'
-  if( strlen($base) > 1 ) {
-    $url = str_replace($base,'',$url);
-  }
- 
+  $url = $base_root.$form['#action'];
+
   $commands = array();
   $commands[] = ctools_ajax_command_redirect($url);
   return array('#type' => 'ajax','#commands' => $commands);
