@@ -62,7 +62,6 @@ function ding_periodical_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function ding_periodical_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  global $user;
   $element = array();
   foreach ($items as $delta => $item) {
 
