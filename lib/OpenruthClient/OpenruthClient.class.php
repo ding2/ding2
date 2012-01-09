@@ -101,6 +101,7 @@ class OpenruthClient {
              'agencyId' =>  $this->agency_id,
              'itemId' => $ids,
            ));
+
     $this->log();
     if (isset($res->agencyError)) {
       return $res->agencyError;
@@ -125,6 +126,7 @@ class OpenruthClient {
           'holdings_available' => array(),
           'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
           'issues' => array(),
+          'is_periodical' => FALSE,
         );
 
         $total = 0;
@@ -176,6 +178,8 @@ class OpenruthClient {
                 'reservable' => $holding_reservable,
               );
               $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
+	      // set flag for periodical
+	      $h['is_periodical'] = TRUE;
             }
           }
         }
