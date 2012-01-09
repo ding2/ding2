@@ -228,6 +228,7 @@ function ding_user_create_profile_type($provider) {
 function ding_user_provider_profile($account) {
   $provider = _ding_provider_get_provider('user');
   $provider_profile_type = 'provider_' . $provider['module'];
+
   return profile2_load_by_user($account, $provider_profile_type);
 }
 
@@ -588,11 +589,14 @@ function ding_user_save_creds($auth_res, $account) {
  * Check if the given account is a user authenticated through a provider.
  */
 function ding_user_is_provider_user($account) {
-  $names = db_select('authmap')
-    ->fields('authmap', array('authname'))
-    ->condition('module', 'ding_user')
-    ->condition('uid', $account->uid)
-    ->execute()->fetchAll();
+  static $names;
+  if( !isset($names) ){
+    $names = db_select('authmap')
+      ->fields('authmap', array('authname'))
+      ->condition('module', 'ding_user')
+      ->condition('uid', $account->uid)
+      ->execute()->fetchAll();
+  }
   return !empty($names);
 }
 
