@@ -62,8 +62,14 @@ function ding_periodical_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function ding_periodical_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  global $user;
   $element = array();
   foreach ($items as $delta => $item) {
+
+    if( !ding_provider_implements('availability','holdings') ) {
+      return $element;
+    }
+
     $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
     if (isset($availability[$entity->provider_id])) {
       $issues = $availability[$entity->provider_id]['issues'];
