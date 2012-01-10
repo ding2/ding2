@@ -93,14 +93,21 @@
         var entity_id = entity_ids.pop();
           if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'] || Drupal.DADB[entity_id]['holdings_available'])) {
           var holdings;
-          // Use holdings_available, if set.
-          if (Drupal.DADB[entity_id]['holdings_available']) {
-            holdings = Drupal.DADB[entity_id]['holdings_available'];
+	  var length;
+
+          // Use holdings_available, if set and entity is not a periodical.
+          if (Drupal.DADB[entity_id]['holdings_available'] && !Drupal.DADB[entity_id]['is_periodical'] ) {
+              holdings = Drupal.DADB[entity_id]['holdings_available'];
+              length = holdings.length;
           }
           else {
             holdings = Drupal.DADB[entity_id]['holdings'];
+            //holdings is an object - not array
+            length = Object.keys(holdings).length;
           }
-          if (holdings.length > 0) {
+
+          
+          if (length > 0) {
             $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
             $('#' + id).append('<ul>');
             var container = $('#' + id + ' ul');
