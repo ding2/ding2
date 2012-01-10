@@ -71,9 +71,17 @@ function openruth_reservation_options($type, $account, $reservables) {
   if (!module_exists('ding_reservation')) {
     throw new Exception('Openruth reservation options requires ding_reservation.');
   }
+
+  if(ding_user_is_provider_user($account)) {
+    $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
+  }
+  else {
+    $preferred_branch = NULL;
+  }
+
   $form = array();
   $profile = ding_user_provider_profile($account);
-  $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch', $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'], openruth_allowed_branches());
+  $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch',$preferred_branch, openruth_allowed_branches());
 
   return $form;
 }
