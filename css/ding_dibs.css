@@ -1,0 +1,31 @@
+#dibs-terms-of-sale, #dibs-cards-supported {
+  font-size: 0.8em;
+}
+
+#dibs-terms-of-sale p, #dibs-cards-supported p {
+  padding: 0 0 0.25em 0;
+  line-height: 1.25em;
+}
+
+/* supported credid cards */
+#dibs-cards-supported p {
+  float: left;
+  padding-bottom: 0em;
+  margin: 0 1em 0 0;
+}
+
+#dibs-cards-supported .card-name {
+  font-weight: bold;
+}
+
+#dibs-cards-supported .card-logo, #edit-cards-supported .card-logo {
+  height: 33px;
+  width: 53px;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+
+#edit-cards-supported {
+  line-height: 33px;
+}
+

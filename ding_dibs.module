@@ -43,7 +43,6 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
       }
       break;
     case 'transaction_callback':
-    dpm('hep');
       watchdog('ding_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
         '%transaction' => $transaction['payment_transaction_id'],
         '%order' => $transaction['payment_order_id'],
@@ -146,3 +145,123 @@ function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE
   return dibs_payment_prepare($params, $redirect);
 }
 
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_dibs_block_info() {
+  // Payment info, jfr. http://tech.dibs.dk/10_step_guide/
+  $blocks = array();
+
+  $blocks['dibs-terms-of-sale'] = array(
+    'info' => t('DIBS: Terms of sale'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['dibs-cards-supported'] = array(
+    'info' => t('DIBS: Cards supported'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_dibs_block_view($delta = '') {
+  $block = array();
+  drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
+  $cards = cards_ding_dibs();
+  foreach (variable_get('cards_supported') as $key=>$card) {
+    if ( $card ) {
+      if ( array_key_exists($card,$cards) ) {
+        $supported_cards[] = theme_image( array(
+            'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
+            'height' => '33px',
+            'alt' => $card,
+            'title' => $card,
+            'attributes' => array('class'=>'card-logo'),
+          )
+        ) . '<span class="card-name">' . $card . '</span></p>';
+      }
+    }
+  }
+  switch ($delta) {
+    case 'dibs-terms-of-sale':
+      $block['content'] = theme('dibs_terms_of_sale', array('terms_of_sale'=>variable_get('terms_of_sale')));
+      break;
+    case 'dibs-cards-supported':
+      $block['content'] = theme('dibs_cards_supported', array(
+        'cards_supported'=>$supported_cards
+      ));
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_dibs_theme($existing, $type, $theme, $path) {
+  return array(
+    'dibs_terms_of_sale' => array(
+      'variables' => array('terms_of_sale'=>NULL),
+      'template' => 'dibs_terms_of_sale',
+      'path' => $path . '/templates',
+    ),
+    'dibs_cards_supported' => array(
+      'variables' => array('cards_supported'=>NULL),
+      'template' => 'dibs_cards_supported',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+
+/**
+ * Implementation of hook_menu().
+ */
+function ding_dibs_menu() {
+  // Settings pages
+  $items['admin/config/payment/ding_dibs'] = array(
+    'title' => 'Ding DIBS settings',
+    'description' => 'Configure Ding for DIBS payment gateway.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_dibs_admin_settings'),
+    'access arguments' => array('administer dibs settings'),
+    'weight' => 2,
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ding_dibs.admin.inc',
+  );
+
+  return $items;
+}
+
+// list of cards and logos
+function cards_ding_dibs() {
+  $cards['Dankort'] = 'dan53-35_01.gif';
+  $cards['eDankort'] = 'edk_large.gif';
+  $cards['VISA'] = 'visa_stor.gif';
+  $cards['VISA Electron'] = 'elec_stor.gif';
+  $cards['Mastercard'] = 'card6_l_03.gif';
+  $cards['JCB'] = 'jcb-large_01.gif';
+  $cards['Diners Club'] = 'card8_l_03.gif';
+  $cards['American Express'] = 'amex_large.gif';
+  $cards['Maestro'] = 'mstro_01.gif';
+  $cards['Forbrugforeningen'] = 'ffk_large.gif';
+  $cards['Danske Netbetaling'] = 'ddb.gif';
+  $cards['Nordea Sol-E'] = 'nordea_large.gif';
+  $cards['SEB'] = 'seb_02.gif';
+  $cards['SHB direktbetaling'] = 'handelsbanken_01.gif';
+  $cards['Swedbank direktbetaling'] = 'swedbank.gif';
+  $cards['PayPal'] = 'PayPal_large.gif';
+  $cards['Bank Einzug'] = 'eolv.gif';
+  $cards['iDEAL'] = 'ideal_large.jpg';
+  $cards['Aktia'] = 'aktia_large.gif';
+  $cards['OKO'] = 'oko_large.gif';
+  $cards['Sampo'] = 'sampo_large.gif';
+  $cards['BankAxess'] = 'BankAxess_03.gif';
+  $cards['Getitcard'] = 'getitcard2_53x33.gif';
+  return $cards;
+}
