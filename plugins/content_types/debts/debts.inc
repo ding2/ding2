@@ -24,6 +24,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   $debt_list = array();
   $rows = array();
   $row = array();
+  $total_amount = 0;
 
   $block = new stdClass();
   $block->module = 'ding_debt';
@@ -44,8 +45,17 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
         array('data' => $debt->display_name, 'class' => 'feetitle'),
         array('data' => number_format($debt->amount, 2, ',', ' '), 'class' => 'feeamount'),
       );
+      $total_amount += $debt->amount;
       $rows[] = $row;
     }
+    // add total
+    $row = array(
+      array('data' => t('Total'), 'class' => 'feedate', 'header' => TRUE),
+      array('data' => '', 'class' => 'feetitle', 'header' => TRUE),
+      array('data' => number_format($total_amount, 2, ',', ' '), 'class' => 'feeamount', 'header' => TRUE),
+    );
+    $rows[] = $row;
+
     $table = theme('table', array(
       'header' => $header,
       'rows' => $rows,
