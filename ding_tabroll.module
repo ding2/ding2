@@ -44,3 +44,16 @@ function ding_tabroll_init() {
   drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
 }
 
+/**
+ * Implements hook_views_pre_render().
+ */
+function ding_tabroll_views_pre_render(&$view) {
+  // HACK / kasperg: Reset the view title. For some reason it is set to "Queue"
+  // but I cannot determine why/where. As the pre-nodequeue view had no title
+  // we remove the title by force.
+  // Site developers may want to set the title for their own views using the
+  // panel pane which supports title overrride.
+  if ($view->name == 'tabroll') {
+    $view->build_info['title'] = '';
+  }
+}

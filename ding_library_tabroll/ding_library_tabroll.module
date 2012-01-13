@@ -1,0 +1,51 @@
+<?php
+
+include_once('ding_library_tabroll.features.inc');
+
+/**
+ * Implementation of hook_init().
+ */
+function ding_library_tabroll_init() {
+  // Add our custom CSS.
+  drupal_add_css(drupal_get_path('module', 'ding_library_tabroll') . '/css/ding_library_tabroll.css');
+}
+
+/**
+ * Implementation of hook_preprocess_page().
+ */
+function ding_library_tabroll_preprocess_page(&$vars) {
+  // HACK: ding_library_tabroll adds a tabroll pane to the top region of library
+  // panels. The pane should however be shown below the seperator between top
+  // and middle regions.
+  // Due to Dynamo styling this cannot be accomplished cleanly without either
+  // defining a new panels layout specifically for ding_library_tabroll or
+  // changing Dynamo styles. Both solutions are too cumbersome for this little
+  // module.
+  // Consequently we move the tabroll pane below the seperator using CSS
+  // positioning and margin. This should only happen on library nodes which
+  // actually show a tabroll and thus we need to detect if this is the case
+  // and add a body class which can be used in our selectors.
+
+  // Extract node
+  $node = (!empty($vars['node'])) ? $vars['node'] : FALSE;
+
+  if ($node && $node->type == 'library') {
+    // We have a valid library node. Now determine if there are any entries
+    // in the associated nodequeue subqueue.
+    $library_queue = nodequeue_load_queue_by_name('ding_tabroll_library_frontpage_queue');
+    $library_subqueues = nodequeue_load_subqueues_by_queue($library_queue->qid);
+    foreach ($library_subqueues as $queue) {
+      // Subqueues are linked to nodes by title to check if got the right one.
+      if ($queue->title == $node->title) {
+        if (!empty($queue->count)) {
+          // If the queue has content then add a body class
+          $vars['body_classes'] .= ' node-type-ding-library-tabroll';
+        }
+
+        // Content or not we found the matching queue so no need to look
+        // any further.
+        break;
+      }
+    }
+  }
+}
