@@ -242,7 +242,11 @@ function openruth_profile2_presave($profile) {
  * Implements hook_profile2_view(),
  */
 function openruth_profile2_view($profile, $view_mode, $langcode) {
-  $creds = ding_user_get_creds($profile);
+  try{ $creds = ding_user_get_creds($profile);}
+  catch(DingProviderAuthException $e){
+    $creds = null;
+  }
+
   if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
     $userinfo = $userStatus->userInfo;
     $props = array(
@@ -282,6 +286,8 @@ function openruth_profile2_view($profile, $view_mode, $langcode) {
     );
   };
 }
+
+
 
 /**
  * Get user status.
