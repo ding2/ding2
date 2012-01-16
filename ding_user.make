@@ -21,7 +21,7 @@ projects[ding_entity][download][type] = "git"
 projects[ding_entity][download][url] = "git@github.com:ding2/ding_entity.git"
 projects[ding_entity][download][tag] = "7.x-0.5"
 
-projects[profile2][version] = 1.1
+projects[profile2][version] = 1.2
 projects[profile2][subdir] = contrib
 
 projects[entity][version] = 1.0-rc1
