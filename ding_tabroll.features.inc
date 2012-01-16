@@ -109,6 +109,207 @@ function ding_tabroll_nodequeue_export_features_default_settings() {
 function ding_tabroll_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_rolltab_saved' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_insert',
+        '#label' => 'rolltab_saved',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'ding_tabroll',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Created content is rolltab',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#settings' => array(
+              'type' => array(
+                'rolltab' => 'rolltab',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#type' => 'condition',
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'view' => 'tabroll',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'view' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#info' => array(
+              'label' => 'Clear the tabroll view cache',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_rolltab_saved_cloned' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_delete',
+        '#label' => 'rolltab_saved',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'ding_tabroll',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'rolltab' => 'rolltab',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Deleted content is rolltab',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the tabroll view cache',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'tabroll',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'view' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
+      'rules_rolltab_updated' => array(
+        '#type' => 'rule',
+        '#set' => 'event_node_update',
+        '#label' => 'rolltab_updated',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'ding_tabroll',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#type' => 'condition',
+            '#settings' => array(
+              'type' => array(
+                'rolltab' => 'rolltab',
+              ),
+              '#argument map' => array(
+                'node' => 'node',
+              ),
+            ),
+            '#name' => 'rules_condition_content_is_type',
+            '#info' => array(
+              'label' => 'Updated content is rolltab',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'node' => array(
+                  'type' => 'node',
+                  'label' => 'Content',
+                ),
+              ),
+              'module' => 'Node',
+            ),
+          ),
+        ),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Clear the tabroll view cache',
+              'label callback' => FALSE,
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'View',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#settings' => array(
+              'view' => 'tabroll',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'view' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
       'rules_tabroll_node_added' => array(
         '#type' => 'rule',
         '#set' => 'event_nodequeue_added_ding_tabroll_frontpage_queue',
