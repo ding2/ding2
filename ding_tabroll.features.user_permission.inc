@@ -10,7 +10,7 @@ function ding_tabroll_user_default_permissions() {
   $permissions['create rolltab content'] = array(
     'name' => 'create rolltab content',
     'roles' => array(
-      '0' => 'super-admin',
+      '0' => 'administrator',
     ),
   );
 
@@ -18,7 +18,7 @@ function ding_tabroll_user_default_permissions() {
   $permissions['delete any rolltab content'] = array(
     'name' => 'delete any rolltab content',
     'roles' => array(
-      '0' => 'super-admin',
+      '0' => 'administrator',
     ),
   );
 
@@ -26,7 +26,7 @@ function ding_tabroll_user_default_permissions() {
   $permissions['delete own rolltab content'] = array(
     'name' => 'delete own rolltab content',
     'roles' => array(
-      '0' => 'super-admin',
+      '0' => 'administrator',
     ),
   );
 
@@ -34,7 +34,7 @@ function ding_tabroll_user_default_permissions() {
   $permissions['edit any rolltab content'] = array(
     'name' => 'edit any rolltab content',
     'roles' => array(
-      '0' => 'super-admin',
+      '0' => 'administrator',
     ),
   );
 
@@ -42,7 +42,7 @@ function ding_tabroll_user_default_permissions() {
   $permissions['edit own rolltab content'] = array(
     'name' => 'edit own rolltab content',
     'roles' => array(
-      '0' => 'super-admin',
+      '0' => 'administrator',
     ),
   );
 
@@ -51,7 +51,7 @@ function ding_tabroll_user_default_permissions() {
     'name' => 'manipulate all queues',
     'roles' => array(
       '0' => 'editor',
-      '1' => 'super-admin',
+      '1' => 'administrator',
     ),
   );
 
@@ -60,7 +60,7 @@ function ding_tabroll_user_default_permissions() {
     'name' => 'manipulate queues',
     'roles' => array(
       '0' => 'editor',
-      '1' => 'super-admin',
+      '1' => 'administrator',
     ),
   );
 
@@ -70,7 +70,7 @@ function ding_tabroll_user_default_permissions() {
     'roles' => array(
       '0' => 'anonymous user',
       '1' => 'authenticated user',
-      '2' => 'super-admin',
+      '2' => 'administrator',
     ),
   );
 
