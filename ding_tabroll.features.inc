@@ -85,6 +85,7 @@ function ding_tabroll_nodequeue_export_features_default_settings() {
    'reverse' => '0',
    'link' => '',
    'link_remove' => '',
+   'owner' => '',
    'roles' => array(),
    'types' => array(
      '0' => 'rolltab',
@@ -94,11 +95,10 @@ function ding_tabroll_nodequeue_export_features_default_settings() {
    'show_in_links' => '0',
    'show_in_tab' => '1',
    'show_in_ui' => '1',
-   'subqueues' => '1',
+   'new' => TRUE,
    'add_subqueue' => array(
      '0' => 'Frontpage tabroll',
    ),
-   'new' => TRUE,
  );
  return $nodequeue_export;
 }
