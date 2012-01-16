@@ -45,9 +45,9 @@ function ding_tabroll_init() {
 }
 
 /**
- * Implements hook_views_pre_render().
+ * Implements hook_views_post_render().
  */
-function ding_tabroll_views_pre_render(&$view) {
+function ding_tabroll_views_post_render(&$view, &$output, &$cache) {
   // HACK / kasperg: Reset the view title. For some reason it is set to "Queue"
   // but I cannot determine why/where. As the pre-nodequeue view had no title
   // we remove the title by force.
