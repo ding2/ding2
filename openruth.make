@@ -9,7 +9,7 @@ projects[date][patch][] = http://drupal.org/files/1188380.patch
 projects[features][subdir] = contrib
 projects[features][version] = 1.0-beta4
 
-projects[profile2][version] = 1.1
+projects[profile2][version] = 1.2
 projects[profile2][subdir] = contrib
 
 ; Ding! modules
