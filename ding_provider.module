@@ -473,6 +473,18 @@ function ding_provider_get_destination($query_args = array()) {
 }
 
 /**
+ * Get the provide type
+ **/
+function ding_provider_get_provider_type() {
+  foreach (module_implements('ding_provider') as $module) {
+    // simply return the first - there can be only one
+    return $module;
+  }
+  $providers = _ding_provider_get_provider();
+  dpm($providers);
+}
+
+/**
  * Returns the given provider.
  */
 function _ding_provider_get_provider($type = NULL) {
