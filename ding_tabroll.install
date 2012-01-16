@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Implementation of hook_install().
+ */
+function ding_tabroll_install() {
+  ding_tabroll_nodqueue_admin_theme();
+}
+
+/**
  * Migrate to nodequeue.
  *
  * Add 5 latest tabroll nodes to frontpage queue to recreate setup from when
@@ -22,4 +29,15 @@ function ding_tabroll_update_6000() {
   while ($nid = db_result($result)) {
     nodequeue_subqueue_add($queue, $subqueue, $nid);
   }
+
+  ding_tabroll_nodqueue_admin_theme();
+}
+
+/**
+ * Use admin theme on node/?/nodequeue for improved editorial experience.
+ */
+function ding_tabroll_nodqueue_admin_theme() {
+  $admin_theme_paths = explode("\n" ,variable_get('admin_theme_path', NULL));
+  $admin_theme_paths[] = 'node/*/nodequeue';
+  variable_set('admin_theme_path', implode("\n", $admin_theme_paths));
 }
