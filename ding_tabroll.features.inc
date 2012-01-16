@@ -313,7 +313,7 @@ function ding_tabroll_rules_defaults() {
       'rules_tabroll_node_added' => array(
         '#type' => 'rule',
         '#set' => 'event_nodequeue_added_ding_tabroll_frontpage_queue',
-        '#label' => 'ding_tabroll_node_added',
+        '#label' => 'tabroll_node_added',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
