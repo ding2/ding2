@@ -480,8 +480,6 @@ function ding_provider_get_provider_type() {
     // simply return the first - there can be only one
     return $module;
   }
-  $providers = _ding_provider_get_provider();
-  dpm($providers);
 }
 
 /**
