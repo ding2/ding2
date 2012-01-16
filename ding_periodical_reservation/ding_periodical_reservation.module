@@ -15,11 +15,21 @@ class DingPeriodicalReservable implements DingReservationReservable {
     $this->id = $id;
     $this->volume = $volume;
     $this->issue = $issue;
-    $this->entity = $entity;
+    $this->entity = $entity;  
   }
 
   public function getProviderId() {
-    return array($this->entity->provider_id, $this->id);
+    // pjo 16-01-12 reservations did not work for alma-periodicals;
+    // switch on provider type
+    $type = ding_provider_get_provider_type();
+    switch($type) {
+    case 'openruth' :
+      return array($this->entity->provider_id, $this->id);
+    case 'alma' :
+      return $this->id;
+    default:
+      return $this->id;
+    }   
   }
 
   public function getEntity() {
