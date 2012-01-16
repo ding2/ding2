@@ -38,7 +38,7 @@ projects[features][version] = 1.0-beta4
 
 projects[media][type] = module
 projects[media][subdir] = contrib
-projects[media][version] = 1.0-rc2
+projects[media][version] = 1.0-rc3
 
 projects[panels][type] = module
 projects[panels][subdir] = contrib
@@ -60,13 +60,11 @@ projects[strongarm][version] = 2.0-beta4
 
 projects[views][type] = module
 projects[views][subdir] = contrib
-projects[views][version] = 3.0-rc1
-; Needed until the next views release.
-projects[views][patch][] = http://drupal.org/files/issues/1192666-field-entity_type-no-revision.patch
+projects[views][version] = 3.0
 
 projects[workbench][type] = module
 projects[workbench][subdir] = contrib
-projects[workbench][version] = 1.0
+projects[workbench][version] = 1.1
 
 projects[wysiwyg][type] = module
 projects[wysiwyg][subdir] = contrib
