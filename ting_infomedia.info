@@ -4,5 +4,5 @@ package = Ding!
 dependencies[] = ctools
 dependencies[] = panels
 dependencies[] = page_manager
-version = "7.x-0.9"
+version = "7.x-0.10"
 core = 7.x
