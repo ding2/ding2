@@ -25,15 +25,14 @@ projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
 
 projects[panels_breadcrumbs][subdir] = contrib
-projects[panels_breadcrumbs][version] = 1.1
+projects[panels_breadcrumbs][version] = 1.4
 
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = 2.0-beta4
 
 projects[views][type] = module
 projects[views][subdir] = contrib
-projects[views][version] = 3.0-rc1
-projects[views][patch][] = http://drupal.org/files/issues/1192666-field-entity_type-no-revision.patch
+projects[views][version] = 3.0
 
 ; Ding! modules
 
