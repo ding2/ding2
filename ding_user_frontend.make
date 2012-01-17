@@ -32,7 +32,7 @@ projects[variable][version] = "1.1"
 projects[ding_debt][type] = "module"
 projects[ding_debt][download][type] = "git"
 projects[ding_debt][download][url] = "git@github.com:ding2/ding_debt.git"
-projects[ding_debt][download][tag] = "7.x-0.15"
+projects[ding_debt][download][tag] = "7.x-0.15.1"
 
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
