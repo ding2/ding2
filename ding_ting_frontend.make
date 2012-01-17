@@ -10,7 +10,7 @@ projects[ctools][version] = "1.0-rc1"
 projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
 
 projects[i18n][subdir] = contrib
-projects[i18n][version] = 1.1
+projects[i18n][version] = 1.3
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.0-alpha3"
@@ -39,7 +39,7 @@ projects[ding_facetbrowser][download][tag] = "7.x-0.12"
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
 projects[ding_frontend][download][url] = "git@github.com:ding2/ding_frontend.git"
-projects[ding_frontend][download][tag] = "7.x-0.20"
+projects[ding_frontend][download][tag] = "7.x-0.20.1"
 
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
@@ -54,12 +54,12 @@ projects[ting_search_autocomplete][download][tag] = "7.x-0.16"
 projects[ding_availability][type] = "module"
 projects[ding_availability][download][type] = "git"
 projects[ding_availability][download][url] = "git@github.com:ding2/ding_availability.git"
-projects[ding_availability][download][tag] = "7.x-0.9"
+projects[ding_availability][download][tag] = "7.x-0.12"
 
 projects[ding_periodical][type] = "module"
 projects[ding_periodical][download][type] = "git"
 projects[ding_periodical][download][url] = "git@github.com:ding2/ding_periodical.git"
-projects[ding_periodical][download][tag] = "7.x-0.5"
+projects[ding_periodical][download][tag] = "7.x-0.10"
 
 projects[ting_relation][type] = "module"
 projects[ting_relation][download][type] = "git"
