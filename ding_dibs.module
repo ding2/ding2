@@ -172,7 +172,7 @@ function ding_dibs_block_info() {
 function ding_dibs_block_view($delta = '') {
   $block = array();
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
-  $cards = cards_ding_dibs();
+  $cards = ding_dibs_cards();
   foreach (variable_get('cards_supported') as $key=>$card) {
     if ( $card ) {
       if ( array_key_exists($card,$cards) ) {
@@ -239,7 +239,7 @@ function ding_dibs_menu() {
 }
 
 // list of cards and logos
-function cards_ding_dibs() {
+function ding_dibs_cards() {
   $cards['Dankort'] = 'dan53-35_01.gif';
   $cards['eDankort'] = 'edk_large.gif';
   $cards['VISA'] = 'visa_stor.gif';

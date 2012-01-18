@@ -3,7 +3,7 @@ function ding_dibs_admin_settings($form, &$form_state) {
 
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
 
-  $cards = cards_ding_dibs();
+  $cards = ding_dibs_cards();
 
   foreach ($cards as $key=>$card) {
     $cards[$key] = '<img src="' . base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $card . '" alt="' . $key . '" class="card-logo"> <b>' . $key . '</b>';
