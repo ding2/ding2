@@ -38,7 +38,7 @@ projects[ding_user_frontend][download][tag] = "7.x-0.22.1"
 projects[ding_ting_frontend][type] = "module"
 projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2/ding_ting_frontend.git"
-projects[ding_ting_frontend][download][tag] = "7.x-0.37.1"
+projects[ding_ting_frontend][download][tag] = "7.x-0.37.2"
 
 projects[mkdru_ding_frontend][type] = "module"
 projects[mkdru_ding_frontend][download][type] = "git"
