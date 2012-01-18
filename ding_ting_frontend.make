@@ -79,7 +79,7 @@ projects[ting_covers][download][tag] = "7.x-0.19"
 projects[ting_proxy][type] = "module"
 projects[ting_proxy][download][type] = "git"
 projects[ting_proxy][download][url] = "git@github.com:ding2/ting_proxy.git"
-projects[ting_proxy][download][tag] = "7.x-0.19"
+projects[ting_proxy][download][tag] = "7.x-0.18"
 
 projects[ting_infomedia][type] = "module"
 projects[ting_infomedia][download][type] = "git"
