@@ -27,7 +27,7 @@ function ding_dibs_install() {
 /**
  * Add column for storing the payment fee.
  */
-function dibs_update_7000(&$sandbox) {
+function ding_dibs_update_7000(&$sandbox) {
   db_add_field('dibs_transactions', 'provider_payment_status', array(
     'type' => 'int',
     'length' => 1,
