@@ -12,24 +12,40 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
   switch ($op) {
     case 'info':
       $info = array(1 => array('info' => t('Ding DIBS debts payment')));
-
       if (is_null($delta)) {
         return $info;
       }
-
       return (isset($info[$delta])) ? $info[$delta] : NULL;
+
     case 'transaction_cancel':
       watchdog('ding_dibs', 'DIBS  order %order cancelled by user.', array(
         '%order' => $transaction['payment_order_id'],
       ), WATCHDOG_NOTICE);
       break;
+
     case 'transaction_accept':
       if ($transaction['payment_status'] == 1) {
-        drupal_set_message(t('Your payment of @amount was received.', array('@amount' => $transaction['payment_price'])));
-        watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
-          '%transaction' => $transaction['payment_transaction_id'],
-          '%order' => $transaction['payment_order_id'],
-        ), WATCHDOG_DEBUG);
+        // check if the payment is registered in the backend.
+        $status = db_query("
+          SELECT provider_payment_status
+          FROM {dibs_transactions}
+          WHERE payment_transaction_id = :payment_transaction_id",
+          array(
+            ':payment_transaction_id' => $transaction['payment_transaction_id'],
+          )
+        )
+        ->fetchField();
+        if ( $status == TRUE ) {
+          // update user status cache
+          ding_user_get_creds($user);
+          drupal_set_message(t('Your payment of @amount was received.', array('@amount' => $transaction['payment_price'])));
+          watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
+            '%transaction' => $transaction['payment_transaction_id'],
+            '%order' => $transaction['payment_order_id'],
+          ), WATCHDOG_DEBUG);
+        } else {
+          drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])),'error');
+        }
         return drupal_goto('user/' . $user->uid . '/status/debts');
       }
       else {
@@ -42,6 +58,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
         return drupal_goto('user/' . $user->uid . '/status/debts');
       }
       break;
+
     case 'transaction_callback':
       watchdog('ding_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
         '%transaction' => $transaction['payment_transaction_id'],
@@ -72,7 +89,21 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           }
 
           // Call the callback, which may now *read* the session.
-          call_user_func($callback, $transaction);
+          $provider_payment_result = call_user_func($callback, $transaction);
+          if ( $provider_payment_result ) {
+            // Update dibs transaction with provider_payment_status = TRUE
+            $transaction_status = db_update('dibs_transactions')
+              ->fields(array(
+                'provider_payment_status' => 1,
+              ))
+              ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
+              ->execute();
+          } else {
+            watchdog('ding_dibs', 'DIBS transaction %transaction, order %order failed to update provider.', array(
+              '%transaction' => $transaction['payment_transaction_id'],
+              '%order' => $transaction['payment_order_id'],
+            ), WATCHDOG_CRITICAL);
+          }
         }
         else {
           watchdog('ding_dibs', "Callback function @function doesn't exist.", array('@function' => $callback), WATCHDOG_CRITICAL);

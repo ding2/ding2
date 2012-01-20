@@ -15,4 +15,24 @@ function ding_dibs_install() {
     ))
     ->execute();
 
+  db_add_field('dibs_transactions', 'provider_payment_status', array(
+    'type' => 'int',
+    'length' => 1,
+    'size' => 'tiny',
+    'default' => 0,
+    'description' => t('0 = payment not recieved, 1 = payment recieved'),
+  ));
+}
+
+/**
+ * Add column for storing the payment fee.
+ */
+function dibs_update_7000(&$sandbox) {
+  db_add_field('dibs_transactions', 'provider_payment_status', array(
+    'type' => 'int',
+    'length' => 1,
+    'size' => 'tiny',
+    'default' => 0,
+    'description' => t('0 = payment not recieved, 1 = payment recieved'),
+  ));
 }
