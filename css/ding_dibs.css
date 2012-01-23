@@ -1,31 +1,48 @@
-#dibs-terms-of-sale, #dibs-cards-supported {
+#dibs-terms-of-sale {
   font-size: 0.8em;
 }
 
-#dibs-terms-of-sale p, #dibs-cards-supported p {
+#dibs-terms-of-sale p, #dibs-cards-supported p, #edit-cards-cards-supported p {
   padding: 0 0 0.25em 0;
   line-height: 1.25em;
 }
 
 /* supported credid cards */
-#dibs-cards-supported p {
+#dibs-cards-supported p, #edit-cards-cards-supported p {
   float: left;
   padding-bottom: 0em;
   margin: 0 1em 0 0;
 }
 
-#dibs-cards-supported .card-name {
+#dibs-cards-supported .card-name, #edit-cards-cards-supported .card-name {
   font-weight: bold;
 }
 
-#dibs-cards-supported .card-logo, #edit-cards-supported .card-logo {
+#dibs-cards-supported .card-logo, #edit-cards-cards-supported .card-logo {
   height: 33px;
   width: 53px;
   vertical-align: middle;
   margin-right: 0.5em;
 }
 
-#edit-cards-supported {
+#dibs-cards-supported, #edit-cards-cards-supported {
   line-height: 33px;
 }
 
+.page-admin #edit-cards-cards-supported:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+.page-admin #edit-cards-cards-supported div.form-item {
+  float: left;
+  width: 33%;
+  margin-bottom: 0.5em;
+}
+
+.page-admin #edit-cards-cards-supported div.form-item label {
+  margin-left: 0.5em;
+}

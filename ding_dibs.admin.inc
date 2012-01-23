@@ -34,11 +34,28 @@ function ding_dibs_admin_settings($form, &$form_state) {
     '#required' => TRUE
   );
 
-  $form['cards_supported'] = array(
+  $form['cards'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Supported card types'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#tree' => TRUE,
+  );
+
+  $form['cards']['cards_supported'] = array(
     '#type' => 'checkboxes',
     '#options' => $cards,
-    '#title' => t('Supported card types:'),
     '#default_value' => variable_get('cards_supported'),
+  );
+
+  $form['url_dibs_capture'] = array(
+    '#type' => 'textfield',
+    '#title' => t('DIBS automatic capture URL:'),
+    '#default_value' => variable_get('url_dibs_capture'),
+    '#description' => '<p>' .
+      t('
+        DIBS URL as per http://tech.dibs.dk/10_step_guide/, ie.: https://payment.architrade.com/cgi-bin/capture.cgi
+      ') . '<p>',
   );
 
   return system_settings_form($form);

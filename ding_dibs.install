@@ -7,7 +7,7 @@ function ding_dibs_install() {
   // Inserting default order id setting
   $db_id = db_insert('dibs_order_id_settings')
     ->fields(array(
-      'api_module' => 'dibg_dibs',
+      'api_module' => 'ding_dibs',
       'api_delta' => '1',
       'order_id' => 10000,
       'order_id_prefix' => '',
@@ -22,10 +22,18 @@ function ding_dibs_install() {
     'default' => 0,
     'description' => t('0 = payment not recieved, 1 = payment recieved'),
   ));
+
+  db_add_field('dibs_transactions', 'dibs_capture_status', array(
+    'type' => 'int',
+    'length' => 1,
+    'size' => 'tiny',
+    'default' => 0,
+    'description' => t('0 = capture failed, 1 = capture succeeded'),
+  ));
 }
 
 /**
- * Add column for storing the payment fee.
+ * Add column for storing provider payment status and DIBS capture status.
  */
 function ding_dibs_update_7000(&$sandbox) {
   db_add_field('dibs_transactions', 'provider_payment_status', array(
@@ -34,5 +42,12 @@ function ding_dibs_update_7000(&$sandbox) {
     'size' => 'tiny',
     'default' => 0,
     'description' => t('0 = payment not recieved, 1 = payment recieved'),
+  ));
+  db_add_field('dibs_transactions', 'dibs_capture_status', array(
+    'type' => 'int',
+    'length' => 1,
+    'size' => 'tiny',
+    'default' => 0,
+    'description' => t('0 = capture failed, 1 = capture succeeded'),
   ));
 }

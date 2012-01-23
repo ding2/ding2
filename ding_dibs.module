@@ -90,6 +90,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
 
           // Call the callback, which may now *read* the session.
           $provider_payment_result = call_user_func($callback, $transaction);
+
           if ( $provider_payment_result ) {
             // Update dibs transaction with provider_payment_status = TRUE
             $transaction_status = db_update('dibs_transactions')
@@ -98,6 +99,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
               ))
               ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
               ->execute();
+            ding_dibs_capture($delta, $transaction);
           } else {
             watchdog('ding_dibs', 'DIBS transaction %transaction, order %order failed to update provider.', array(
               '%transaction' => $transaction['payment_transaction_id'],
@@ -174,6 +176,89 @@ function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE
   );
 
   return dibs_payment_prepare($params, $redirect);
+}
+
+
+/**
+ * Capture the payment
+ */
+function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
+
+  $url = variable_get('url_dibs_capture');
+
+  if ( !$url ) {
+    watchdog('ding_dibs', 'DIBS automatic capture URL is not configured.', array(), WATCHDOG_CRITICAL);
+    return false;
+  }
+
+  $module = 'ding_dibs';
+  $delta = 1;
+  $settings = (array) variable_get('dibs_settings_' . $module . '_' . $delta, array());
+
+  $param['merchant'] = isset($settings['general']['merchant']) ? $settings['general']['merchant'] : NULL;
+  $param['account'] = $account = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
+
+  $param['amount'] = $transaction['payment_price'];
+  $param['orderid'] = $transaction['payment_order_id'];
+  $param['transact'] = $transaction['payment_transaction_id'];
+  $param['textreply'] = TRUE;
+
+  $md5 = isset($settings['general']['md5']) ? $settings['general']['md5'] : FALSE;
+  if ( $md5 ) {
+    $md5_key1 = isset($settings['general']['md5_key1']) ? $settings['general']['md5_key1'] : NULL;
+    $md5_key2 = isset($settings['general']['md5_key2']) ? $settings['general']['md5_key2'] : NULL;
+    $param['md5key'] = MD5(
+      $md5_key1 .
+      MD5($md5_key1 .
+        "merchant=" . $param['merchant'] .
+        "&orderid=" . $param['orderid'] .
+        " &transact=" . $param['transact'] .
+        "&amount=" . $param['amount']
+      )
+    );
+  }
+
+  foreach ($param as $key=>$val) {
+    $params[] = $key . '=' . $val;
+  }
+
+  $dibs_reply = drupal_http_request($url . '?'. implode('&',$params));
+
+  $capture_data = explode('&',$dibs_reply->data);
+  foreach ($capture_data as $key=>$val) {
+    $var = explode('=',$val);
+    $capture_status[ $var[0] ] = $var[1];
+  }
+
+/*
+  watchdog('ding_dibs', 'DIBS capture debug:<br/>URL: %url<br/>DIBS reply: %reply.', array(
+    '%url' => $url . '?'. implode('&',$params),
+    '%reply' => check_plain(print_r($dibs_reply,1)),
+  ), WATCHDOG_DEBUG);
+*/
+
+  if ( isset($capture_status['status']) && $capture_status['status'] == 'ACCEPTED' ) {
+    // Update dibs transaction with dibs_capture_status = TRUE
+    $transaction_status = db_update('dibs_transactions')
+      ->fields(array(
+        'dibs_capture_status' => 1,
+      ))
+      ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
+      ->execute();
+    watchdog('ding_dibs', 'DIBS has captured transaction %transaction, order %order.', array(
+      '%transaction' => $transaction['payment_transaction_id'],
+      '%order' => $transaction['payment_order_id'],
+    ), WATCHDOG_NOTICE);
+    return TRUE;
+  } else {
+    watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', array(
+      '%url' => $url . '?'. implode('&',$params),
+      '%reply' => '<pre>' . print_r($capture_reply,1) . '</pre>',
+    ), WATCHDOG_CRITICAL);
+  }
+
+  return FALSE;
+
 }
 
 
