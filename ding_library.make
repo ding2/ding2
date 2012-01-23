@@ -39,9 +39,14 @@ projects[link][type] = module
 projects[link][subdir] = contrib
 projects[link][version] = 1.0
 
+; Changed to download as git repository due to failing when applying
+; patch when version of git is lower than 1.7.5.4 and option working-copy
+; is enabled
 projects[og][type] = module
 projects[og][subdir] = contrib
-projects[og][version] = 1.3
+projects[og][download][type] = git
+projects[og][download][url] = http://drupalcode.org/project/og.git
+projects[og][download][tag] = 7.x-1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
 projects[openlayers][type] = module
