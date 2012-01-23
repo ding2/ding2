@@ -23,9 +23,14 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.0-rc1"
 projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
 
+; Changed to download as git repository due to failing when applying
+; patch when version of git is lower than 1.7.5.4 and option working-copy
+; is enabled
 projects[date][type] = module
 projects[date][subdir] = contrib
-projects[date][version] = 2.0-alpha4
+projects[date][download][type] = git
+projects[date][download][url] = http://drupalcode.org/project/date.git
+projects[date][download][tag] = 7.x-2.0-alpha4
 projects[date][patch][] = http://drupal.org/files/1188380.patch
 
 projects[ding_content][type] = module
@@ -37,9 +42,14 @@ projects[features][type] = module
 projects[features][subdir] = contrib
 projects[features][version] = 1.0-beta4
 
+; Changed to download as git repository due to failing when applying
+; patch when version of git is lower than 1.7.5.4 and option working-copy
+; is enabled
 projects[og][type] = module
 projects[og][subdir] = contrib
-projects[og][version] = 1.3
+projects[og][download][type] = git
+projects[og][download][url] = http://drupalcode.org/project/og.git
+projects[og][download][tag] = 7.x-1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
 projects[strongarm][type] = module
