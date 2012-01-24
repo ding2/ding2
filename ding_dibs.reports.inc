@@ -1,0 +1,90 @@
+<?php
+function ding_dibs_admin_reports() {
+
+  drupal_set_title('Ding DIBS reports');
+
+  $start = ( isset($_GET['page']) ) ? (int) $_GET['page'] : 0;
+  $num_per_page = 15;
+
+  drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
+
+  $query = db_select('dibs_transactions', 'd');
+
+  $intermediate = $query->fields('d',array('tid'));
+  $maxCount = $intermediate->countQuery()->execute()->fetchField();
+
+  $query
+    ->condition('d.api_module', 'ding_dibs')
+    ->condition('d.api_delta', 1)
+    ->fields('d', array('payment_order_id','payment_transaction_id','payment_price',
+                        'order_info_short', 'order_info_long', 'order_price_info',
+                        'payment_time', 'payment_status','customer_uid','customer_name',
+                        'customer_email','payment_fee','provider_payment_status',
+                        'dibs_capture_status'))
+    ->range($start*$num_per_page, $num_per_page)
+    ->orderBy('payment_order_id', 'DESC');
+  $result = $query->execute();
+
+  $header = array(
+    array('data' => t('Order ID'), 'class' => 'payment'),
+    array('data' => t('Transaction ID'), 'class' => 'payment'),
+    array('data' => t('Date'), 'class' => 'payment'),
+    array('data' => t('User'), 'class' => 'payment'),
+    array('data' => t('Text'), 'class' => 'payment'),
+    array('data' => t('Amount'), 'class' => 'payment'),
+    array('data' => t('Cleared'), 'class' => 'payment'),
+    array('data' => t('Paid'), 'class' => 'payment'),
+    array('data' => t('Captured'), 'class' => 'payment'),
+    array('data' => '', 'class' => 'payment'),
+  );
+
+  foreach ($result as $record) {
+    $status = $record->payment_status*1 . $record->provider_payment_status*1 . $record->dibs_capture_status*1;
+    switch ($status) {
+      case '111':
+      case '000':
+        $status = 'ok';
+        break;
+      case '100':
+        $status = 'warning';
+        break;
+      default:
+        $status = 'error';
+        break;
+    }
+    $row = array(
+      array('data' => check_plain($record->payment_order_id), 'class' => 'payment'),
+      array('data' => check_plain($record->payment_transaction_id), 'class' => 'payment'),
+      array('data' => check_plain($record->payment_time), 'class' => 'payment'),
+      array('data' => check_plain($record->customer_uid), 'class' => 'payment'),
+      array('data' => check_plain($record->order_info_short), 'class' => 'payment'),
+      array('data' => check_plain($record->payment_price), 'class' => 'payment'),
+      array('data' => ( $record->payment_status ) ? t('yes') : t('no'), 'class' => 'payment'),
+      array('data' => ( $record->provider_payment_status ) ? t('yes') : t('no'), 'class' => 'payment'),
+      array('data' => ( $record->dibs_capture_status ) ? t('yes') : t('no'), 'class' => 'payment'),
+      array('data' => '', 'class' => 'icon ' . $status),
+    );
+    $rows[] = $row;
+  }
+
+  $output = theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+  ));
+
+  pager_default_initialize($maxCount, $num_per_page);
+
+  $output .= theme('pager');
+
+  $items[] = array(
+    'data' => t('Payments that have been cleared, but not registered as paid at the backend (and not captured), ought to be deleted at DIBS. Otherwise they might be manually captured by mistake.'),
+  );
+  $items[] = array(
+    'data' => t('Payments that are cleared and paid, but not captured, will have to be manually captured at DIBS.'),
+  );
+
+  $output .= theme('item_list', array('items' => $items));
+
+  return render($output);
+
+}

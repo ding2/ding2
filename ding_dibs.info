@@ -7,4 +7,4 @@ files[] = ding_dibs.module
 dependencies[] = dibs
 dependencies[] = ding_base
 dependencies[] = ding_provider
-
+configure = admin/config/payment/ding_dibs

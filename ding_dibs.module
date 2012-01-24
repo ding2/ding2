@@ -342,13 +342,34 @@ function ding_dibs_menu() {
   // Settings pages
   $items['admin/config/payment/ding_dibs'] = array(
     'title' => 'Ding DIBS settings',
-    'description' => 'Configure Ding for DIBS payment gateway.',
+    'description' => 'Configure DIBS payment gateway for Ding.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_dibs_admin_settings'),
     'access arguments' => array('administer dibs settings'),
     'weight' => 2,
     'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_dibs.admin.inc',
+  );
+
+  $items['admin/config/payment/ding_dibs/settings'] = array(
+    'title' => 'Ding DIBS settings',
+    'description' => 'Configure DIBS payment gateway for Ding.',
+    'weight' => 2,
+    'tab_parent' => 'admin/config/payment/ding_dibs',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'ding_dibs.admin.inc',
+  );
+
+  // Transactions status reports
+  $items['admin/config/payment/ding_dibs/reports'] = array(
+    'title' => 'Ding DIBS reports',
+    'description' => 'Ding DIBS payment reports.',
+    'page callback' => 'ding_dibs_admin_reports',
+    'access arguments' => array('administer dibs settings'),
+    'weight' => 4,
+    'tab_parent' => 'admin/config/payment/ding_dibs',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_dibs.reports.inc',
   );
 
   return $items;
