@@ -1,4 +1,5 @@
 core = "7.x"
+dependencies[] = "blackhole"
 dependencies[] = "ctools"
 dependencies[] = "ding_entity"
 dependencies[] = "relation"
