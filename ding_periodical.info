@@ -5,5 +5,6 @@ version = "7.x-0.10"
 core = 7.x
 files[] = ding_periodical.module
 scripts[] = ding_periodical.js
+dependencies[] = blackhole
 dependencies[] = ding_provider
 dependencies[] = ding_entity
