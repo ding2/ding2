@@ -1,4 +1,5 @@
 name = Ting relation
+dependencies[] = blackhole
 description = Handles relations for ting entities.
 package = Ding!
 version = "7.x-0.13"
