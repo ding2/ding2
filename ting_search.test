@@ -69,6 +69,16 @@ class TingSearchTestCase extends DrupalWebTestCase {
       ));
 
     variable_set('search_default_module', 'ting_search');
+
+    // enable search_block_form in the bartik theme (which the test will run
+    // against).
+    db_update('block')
+      ->fields(array('status' => 1, 'region' => 'content'))
+      ->condition('module', 'search')
+      ->condition('delta', 'form')
+      ->condition('theme', 'bartik')
+      ->execute();
+
     menu_rebuild();
 
     $this->web_user = $this->drupalCreateUser(array('administer search', 'administer blocks', 'search content'));
