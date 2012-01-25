@@ -105,12 +105,16 @@ class TingSearchTestCase extends DrupalWebTestCase {
     $this->drupalGet('search/ting/water AND (dc.title=chemistry)');
 
     $this->assertFieldByName("search_block_form", 'water', "Search field contains 'water'.");
-    $this->assertFieldById("extend_search_title", 'chemistry', "Title field contains 'chemestry'.");
+    // advanced search is disabled in ting_search.module - so assert below is
+    // also disabled.
+    //$this->assertFieldById("edit-title", 'chemistry', "Title field contains 'chemestry'.");
 
     $this->drupalGet('search/node/water AND (dc.title=chemistry)');
 
     $this->assertFieldByName("search_block_form", 'water chemistry', "Search field contains 'water chemistry'.");
-    $this->assertFieldById("extend_search_title", '', "The title field is empty.");
+    // advanced search is disabled in ting_search.module - so assert below is
+    // also disabled.
+    //$this->assertFieldById("edit-title", '', "The title field is empty.");
   }
 }
 

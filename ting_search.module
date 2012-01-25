@@ -130,7 +130,8 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // We're going to disable advanced search in
   // the first version, and implement later on.
   // When implementing againg, set
-  // $advanced = TRUE - just below.
+  // $advanced = TRUE - just below
+  // and re-enable asserts in testTingExtended() in ting_search.test.
   $advanced = FALSE;
 
   // Parse extended search query parameters.
