@@ -50,22 +50,39 @@ function openruth_ding_devel_timers() {
     'openruth_net' => array(
       'title' => 'Openruth net time was @time ms.',
       'include in total' => FALSE,
-    )
-  );
+    ));
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
- *
  * Add in pincode validation.
+ * Attach profile2 form
  */
 function openruth_form_user_profile_form_alter(&$form, &$form_state) {
   // Ensure that we're dealing with a provider user.
   if (!ding_user_is_provider_user($form_state['user'])) {
     return;
   }
+
+  // only show pincode fields once (on the general account)
+  if( $form['#user_category'] != 'account' ){
+    unset($form['account']['pincode']);
+  }
+
+  // get profile2
+  global $user;
+  $profile2 = profile2_load_by_user($user, 'provider_openruth');
+
+  // attach profile2 form to user_profile_form.
+  // profile2 form could be shown by editing people->permissions->profile2, but profile2 adds a tab and we don't want that.
+  if( ding_user_is_provider_user( $user ) && $profile2 ) { 
+    $form_state['profiles'] = array( 'provider_openruth'=>$profile2 );
+    profile2_attach_form( $form, $form_state );
+  }
+  // custom validator 
   $form['#validate'][] = 'openruth_profile_form_validate';
 }
+
 
 /**
  * Validate that new pincode is 4 numbers.
@@ -173,7 +190,6 @@ function openruth_client_invoke($method) {
   if (!$client) {
     return NULL;
   }
-
   try {
     timer_start('openruth');
     $result = call_user_func_array(array($client, $method), $args);
@@ -184,7 +200,6 @@ function openruth_client_invoke($method) {
     watchdog('openruth', '@method error: “@message”', array('@method' => $method, '@message' => $e->getMessage()), WATCHDOG_ERROR);
     return NULL;
   }
-
   return $result;
 }
 
@@ -208,6 +223,9 @@ function openruth_profile_update($profile, $userinfo) {
  * Implements hook_profile2_presave().
  *
  * Sends changes to Openruth and updates profile with real values.
+ * sofar only preferred_branch is updateable
+ * period of interest is saved locally
+ * @todo; is period of interest in zruth
  */
 function openruth_profile2_presave($profile) {
   if ($profile->type == 'provider_openruth' &&
