@@ -12,7 +12,7 @@ projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-fo
 projects[date][type] = module
 projects[date][subdir] = contrib
 projects[date][download][type] = git
-projects[date][download][url] = http://drupalcode.org/project/date.git
+projects[date][download][url] = http://git.drupal.org/project/date.git
 projects[date][download][tag] = 7.x-2.0-alpha4
 projects[date][patch][] = http://drupal.org/files/1188380.patch
 
