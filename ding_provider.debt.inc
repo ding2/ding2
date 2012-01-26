@@ -41,11 +41,15 @@ class DingProviderDebt extends DingEntityBase {
     $this->properties['id'] = $id;
     // Default display name.
     $this->properties['display_name'] = t('Title not available');
+    $this->properties['amount_paid'] = 0;
+    $this->properties['invoice_number'] = FALSE;
     $properties = array(
       'display_name',
       'pickup_branch_id',
       'date',
       'amount',
+      'amount_paid',
+      'invoice_number',
       'type',
     );
     $this->_populate($properties, $data);
