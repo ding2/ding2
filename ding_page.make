@@ -33,7 +33,7 @@ projects[features][version] = 1.0-beta4
 projects[og][type] = module
 projects[og][subdir] = contrib
 projects[og][download][type] = git
-projects[og][download][url] = http://drupalcode.org/project/og.git
+projects[og][download][url] = http://git.drupal.org/project/og.git
 projects[og][download][tag] = 7.x-1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
