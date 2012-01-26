@@ -178,8 +178,8 @@ class OpenruthClient {
                 'reservable' => $holding_reservable,
               );
               $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
-	      // set flag for periodical
-	      $h['is_periodical'] = TRUE;
+        // set flag for periodical
+        $h['is_periodical'] = TRUE;
             }
           }
         }
@@ -514,7 +514,10 @@ class OpenruthClient {
     $res = $this->client->userPayment($params);
     $this->log($creds['name']);
     if (isset($res->userPaymentError)) {
-      return $res->userPaymentError;
+      watchdog('openruth', 'openRuth error: %response', array(
+        '%response' => $res->userPaymentError,
+      ), WATCHDOG_CRITICAL);
+      return FALSE;
     }
     elseif (isset($res->userPaymentOk)) {
       return TRUE;
