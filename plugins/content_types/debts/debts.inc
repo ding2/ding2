@@ -25,6 +25,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   $rows = array();
   $row = array();
   $total_amount = 0;
+  $has_invoiced_fees = FALSE;
 
   $block = new stdClass();
   $block->module = 'ding_debt';
@@ -34,20 +35,31 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   $debts = ding_provider_invoke_page('debt', 'list', $account);
 
   if (count($debts) == TRUE) {
+
     $header = array(
       array('data' => t('Fee date'), 'class' => 'feedate'),
       array('data' => t('Material name'), 'class' => 'feetitle'),
       array('data' => t('Amount'), 'class' => 'feeamount'),
     );
+
     foreach ($debts as $debt) {
+      // invoiced fees can't be paid online.
+      $is_invoice = TRUE;
+      if ( !$debt->invoice_number ) {
+        $total_amount += $debt->amount;
+        $total_amount -= $debt->amount_paid;
+        $is_invoice = FALSE;
+      } else {
+        $has_invoiced_fees = TRUE;
+      }
       $row = array(
         array('data' => format_date(strtotime(check_plain($debt->date)), 'date_only'), 'class' => 'feedate'),
         array('data' => $debt->display_name, 'class' => 'feetitle'),
-        array('data' => number_format($debt->amount, 2, ',', ' '), 'class' => 'feeamount'),
+        array('data' => ( $is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '), 'class' => 'feeamount'),
       );
-      $total_amount += $debt->amount;
       $rows[] = $row;
     }
+
     // add total
     $row = array(
       array('data' => t('Total'), 'class' => 'feedate', 'header' => TRUE),
@@ -56,12 +68,27 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
     );
     $rows[] = $row;
 
+    if ( $has_invoiced_fees ) {
+      // add note
+      $row = array(
+        array('data' => '', 'class' => 'fee-invoice-note'),
+        array('data' => t("* Invoiced fees can't be paid online."), 'class' => 'fee-invoice-note'),
+        array('data' => '', 'class' => 'fee-invoice-note'),
+      );
+      $rows[] = $row;
+    }
+
     $table = theme('table', array(
       'header' => $header,
       'rows' => $rows,
     ));
-    $build = ding_provider_get_form('ding_debt_debts_form', $debts);
+
+    if ( $total_amount ) {
+      $build = ding_provider_get_form('ding_debt_debts_form', $debts);
+    }
+
     $block->content = render($table) . render($build);
+
   }
   else {
     $block->content = t('No debts');
@@ -106,7 +133,12 @@ function ding_debt_debts_form_submit($form, &$form_state) {
   $amount = 0;
   $debts = array_filter($form_state['values']['debt_data']);
   foreach ($debts as $debt_id => $debt_data) {
-    $amount += $form_state['values']['debt_data'][$debt_id]->amount;
+    if ( !$form_state['values']['debt_data'][$debt_id]->invoice_number ) {
+      $amount += $form_state['values']['debt_data'][$debt_id]->amount;
+      $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
+    } else {
+      unset($debts[$debt_id]);
+    }
   }
 
   if ($amount > 0) {
