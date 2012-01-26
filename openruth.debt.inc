@@ -18,6 +18,8 @@ function openruth_debt_list($account) {
                        'display_name' => $res->itemDisplayTitle,
                        'pickup_branch_id' => $res->agencyCounter,
                        'amount' => $res->feeAmount,
+                       'amount_paid' => isset($res->feeAmountPaid) ? $res->feeAmountPaid : 0,
+                       'invoice_number' => isset($res->feeInvoiceNumber) ? $res->feeInvoiceNumber : FALSE,
                        'type' => $res->feeType,
                      ));
     }
@@ -28,6 +30,21 @@ function openruth_debt_list($account) {
 
 function openruth_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
   $creds = ding_user_get_creds();
-  // TODO: We should probably check that $amount adds up to the debts
+
+  // check that $amount adds up to the debts
+  $status = _openruth_user_status($creds);
+  if ( $amount != $status->userInfo->userFeesTotal ) {
+    watchdog('openruth', 'Payment of amount %amount does not match the full amount. Payment was cancelled.', array(
+      '%amount' => $amount,
+    ), WATCHDOG_CRITICAL);
+    return FALSE;
+  }
   return openruth_client_invoke('add_payment', $creds['name'], $amount, $order_id);
 }
+
+/*
+ * Note: Debts do NOT add up to total.
+ * The payable amount is returned in <userInfo><userFeesTotal>0.00</userFeesTotal></userInfo>,
+ * and does not include items where billing are handled elsewhere.
+ * These items have a <feeInvoiceNumber> element,
+ */
