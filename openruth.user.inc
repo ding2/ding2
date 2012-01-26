@@ -90,3 +90,13 @@ function openruth_user_account_update($account, $changes) {
   }
   return $result;
 }
+
+
+/**
+ * Clear user cache.
+ */
+function openruth_user_clear_cache($account) {
+  $creds = ding_user_get_creds($account);
+  // Update user status cache.
+  _openruth_user_status($creds, TRUE);
+}
