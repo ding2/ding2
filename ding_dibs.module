@@ -37,8 +37,8 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
         ->fetchField();
         if ( $status == TRUE ) {
           // update user status cache
-          ding_user_get_creds($user);
-          drupal_set_message(t('Your payment of @amount was received.', array('@amount' => $transaction['payment_price'])));
+          ding_provider_invoke('user', 'clear_cache', $user);
+          drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', array('@amount' => $transaction['payment_price'],'@order' => $transaction['payment_order_id'],'@transaction' => $transaction['payment_transaction_id'])));
           watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
             '%transaction' => $transaction['payment_transaction_id'],
             '%order' => $transaction['payment_order_id'],
@@ -181,6 +181,9 @@ function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE
 
 /**
  * Capture the payment
+ *
+ * @param string $delta
+ * @param array $transaction
  */
 function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
 
@@ -229,13 +232,6 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
     $var = explode('=',$val);
     $capture_status[ $var[0] ] = $var[1];
   }
-
-/*
-  watchdog('ding_dibs', 'DIBS capture debug:<br/>URL: %url<br/>DIBS reply: %reply.', array(
-    '%url' => $url . '?'. implode('&',$params),
-    '%reply' => check_plain(print_r($dibs_reply,1)),
-  ), WATCHDOG_DEBUG);
-*/
 
   if ( isset($capture_status['status']) && $capture_status['status'] == 'ACCEPTED' ) {
     // Update dibs transaction with dibs_capture_status = TRUE
@@ -375,7 +371,10 @@ function ding_dibs_menu() {
   return $items;
 }
 
-// list of cards and logos
+
+/**
+ * Return list of cards and logos.
+ */
 function ding_dibs_cards() {
   $cards['Dankort'] = 'dan53-35_01.gif';
   $cards['eDankort'] = 'edk_large.gif';
