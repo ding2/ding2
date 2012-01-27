@@ -36,7 +36,8 @@ function openruth_reservation_list($account) {
         'display_name' => $res->itemDisplayTitle,
         // For some reason, we might not get a pickup date back.
         'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
-        'pickup_order_id' => $res->orderPickUpId,
+        // Only items that has been set aside for the user has a pickup order ID. Also, not all libraries use it.
+        'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
         'pickup_branch_id' => $res->agencyCounter,
         'created' => $res->orderDate,
         'ready_for_pickup' => 1,
@@ -49,7 +50,7 @@ function openruth_reservation_list($account) {
         'order_id' => $res->orderId,
         'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $res->itemId,
         'display_name' => $res->itemDisplayTitle,
-        'pickup_order_id' => $res->orderPickUpId,
+        'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
         'pickup_branch_id' => $res->agencyCounter,
         'expiry' => $res->orderLastInterestDate,
         'created' => $res->orderDate,
