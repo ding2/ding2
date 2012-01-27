@@ -15,9 +15,7 @@ function ding_user_frontend_install() {
  */
 function ding_user_frontend_update_7001() {
   // delete userfields 
-  
-  // @todo field exists?
-
+    // @todo field exists?
   // mark fields for deletion
   field_delete_field('field_period_of_interest');
   field_delete_field('field_reservation_pause');
