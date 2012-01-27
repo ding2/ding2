@@ -75,6 +75,11 @@ class DingProviderReservation extends DingEntityBase {
   protected $pickup_branch_id = DingEntityBase::NULL;
 
   /**
+   * Id of pickup place.
+   */
+  protected $pickup_order_id = DingEntityBase::NULL;
+
+  /**
    * Creation date of reservation. Format: YYYY-MM-DD.
    */
   protected $created = DingEntityBase::NULL;
@@ -128,6 +133,7 @@ class DingProviderReservation extends DingEntityBase {
       'display_name',
       'status',
       'pickup_branch',
+      'pickup_order_id',
       'pickup_branch_id',
       'created',
       'expiry',
