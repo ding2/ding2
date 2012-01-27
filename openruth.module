@@ -331,50 +331,6 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
 }
 
 
-
-/**
- * Impelements hook_user_view
- * add provider-specific fields to user->content
- */
-/*function openruth_user_view($account, $view_mode = 'full', $langcode = NULL) {
-  // get profile2
-  $profile2 = profile2_load_by_user($account, 'provider_openruth');
-  if( empty($profile2) ) {
-    return;
-  }  
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-
-  // show preferred branch
-  $pref_branch = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
-  $branches = openruth_allowed_branches();
-  $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
- 
-  if( $pref ) {
-  $account->content['preferred_branch'] = array(
-      '#type' => 'item',
-      '#title' => t('Pickup branch'),
-      '#markup' => '<span>'.$pref.'</span>',
-    );
-  }
-
-  // show interest period
-  $field_info = field_info_field('field_openruth_interest_period');  
-  $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
-  if( $int_values ) {
-    $int_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
-    $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
-  }
-
-  if( $interest_period ) {
-    $account->content['interest_period'] = array(
-      '#type' => 'item',
-      '#title' => t('Interest period'),
-      '#markup' => '<span>'.$interest_period.'</span>',
-    );
-  }  
-  }*/
-
 /**
  * Get user status.
  *
