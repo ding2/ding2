@@ -232,7 +232,7 @@ function ting_get_relations($ting_entity) {
     $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);
     if( !empty($refs) ) {
       foreach( $refs as $ref ) {
-	$relations[$ref->relation_type][] = $ref;
+  $relations[$ref->relation_type][] = $ref;
       }
     }
   }
@@ -754,12 +754,20 @@ function ting_boost_field_element_process($element, $form_state) {
 
   $element['weight'] = array(
     '#title' => t('Weight'),
-    '#type' => 'select',
-    '#options' => drupal_map_assoc(range(1, 10)),
+    '#type' => 'textfield',
+    // '#type' => 'select',
+    // '#options' => drupal_map_assoc(range(1, 10)),
     '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
+    '#element_validate' => array('boost_weight_validate'),
   );
 
   return $element;
+}
+
+function boost_weight_validate($element, &$form_state) {
+   if ( !empty($element['#value']) && ($element['#value'] != (string)(int)$element['#value']) ) {
+     form_error($element, t('Boost weight is an integer.'));
+   }
 }
 
 /**
