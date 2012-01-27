@@ -187,7 +187,7 @@ function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE
  */
 function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
 
-  $url = variable_get('url_dibs_capture');
+  $url = trim(variable_get('url_dibs_capture'));
 
   if ( !$url ) {
     watchdog('ding_dibs', 'DIBS automatic capture URL is not configured.', array(), WATCHDOG_CRITICAL);
