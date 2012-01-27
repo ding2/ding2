@@ -34,15 +34,8 @@ function ding_dibs_admin_settings($form, &$form_state) {
     '#required' => TRUE
   );
 
-  $form['cards'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Supported card types'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#tree' => TRUE,
-  );
-
   $form['cards']['cards_supported'] = array(
+    '#title' => t('Supported card types'),
     '#type' => 'checkboxes',
     '#options' => $cards,
     '#default_value' => variable_get('cards_supported'),
