@@ -5,6 +5,7 @@ function ding_dibs_admin_reports() {
 
   $start = ( isset($_GET['page']) ) ? (int) $_GET['page'] : 0;
   $num_per_page = 15;
+  $rows = array();
 
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
 
@@ -13,13 +14,24 @@ function ding_dibs_admin_reports() {
   $intermediate = $query->fields('d',array('tid'));
   $maxCount = $intermediate->countQuery()->execute()->fetchField();
 
+  $no_transactions_msg =  array(
+    'no_transactions_msg' => array(
+      '#type' => 'markup',
+      '#markup' => '<p>' . t('No transactions found.') . '</p>',
+    ),
+  );
+
   $query
     ->condition('d.api_module', 'ding_dibs')
     ->condition('d.api_delta', 1)
-    ->fields('d', array('payment_order_id','payment_transaction_id','payment_price',
-                        'order_info_short', 'order_info_long', 'order_price_info',
-                        'payment_time', 'payment_status','customer_uid','customer_name',
-                        'customer_email','payment_fee','provider_payment_status',
+    ->fields('d', array('payment_order_id',
+                        'payment_transaction_id',
+                        'payment_time',
+                        'customer_uid',
+                        'order_info_short',
+                        'payment_price',
+                        'payment_status',
+                        'provider_payment_status',
                         'dibs_capture_status'))
     ->range($start*$num_per_page, $num_per_page)
     ->orderBy('payment_order_id', 'DESC');
@@ -65,6 +77,7 @@ function ding_dibs_admin_reports() {
       array('data' => '', 'class' => 'icon ' . $status),
     );
     $rows[] = $row;
+    $no_transactions_msg = FALSE;
   }
 
   $output = theme('table', array(
@@ -82,6 +95,10 @@ function ding_dibs_admin_reports() {
   $items[] = array(
     'data' => t('Payments that are cleared and paid, but not captured, will have to be manually captured at DIBS.'),
   );
+
+  if ( $no_transactions_msg ) {
+    $output .= drupal_render($no_transactions_msg);
+  }
 
   $output .= theme('item_list', array('items' => $items));
 

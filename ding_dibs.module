@@ -301,9 +301,11 @@ function ding_dibs_block_view($delta = '') {
   }
   switch ($delta) {
     case 'dibs-terms-of-sale':
+      $block['subject'] = t('Terms and conditions of sale');
       $block['content'] = theme('dibs_terms_of_sale', array('terms_of_sale'=>variable_get('terms_of_sale')));
       break;
     case 'dibs-cards-supported':
+      $block['subject'] = t('Cards supported');
       $block['content'] = theme('dibs_cards_supported', array(
         'cards_supported'=>$supported_cards
       ));
