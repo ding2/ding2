@@ -253,7 +253,7 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
   catch(DingProviderAuthException $e){
     $creds = null;
   }
-  if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
+  if (($userStatus = _openruth_user_status($creds)) && isset($userStatus->userInfo)) {
     $userinfo = $userStatus->userInfo;
     $props = array(
       'userFirstName',
