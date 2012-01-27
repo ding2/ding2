@@ -270,7 +270,7 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
       $data[$prop] = isset($userinfo->$prop) ? $userinfo->$prop : '';
     }
 
-    $account->content['name'] = array(
+    $account->content['userinfo']['name'] = array(
       '#type' => 'item',
       '#title' => t('Name'),
       '#markup' => join(' ', array_filter(array($data['userFirstName'], $data['userLastName']))),
@@ -285,10 +285,10 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
     }
 
     // @todo: really, there should be a template for this.
-    $account->content['address'] = array(
+    $account->content['userinfo']['address'] = array(
       '#type' => 'item',
       '#title' => t('Address'),
-      '#markup' => '<p>' . join('</p><p>', $address_parts) . '</p>',
+      '#markup' =>  join($address_parts),
     );
   };
 
@@ -305,11 +305,18 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
   $branches = openruth_allowed_branches();
   $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
  
+  $account->content['profile2'] = array(
+      '#type' => 'item',
+      '#title' => t('My library'),    
+      '#prefix' => '<div class="profile2_provider_fields">',
+      '#suffix' => '</div>',
+    );
+  
   if( $pref ) {
-  $account->content['preferred_branch'] = array(
+  $account->content['profile2']['preferred_branch'] = array(
       '#type' => 'item',
       '#title' => t('Pickup branch'),
-      '#markup' => '<span>'.$pref.'</span>',
+      '#markup' => '<span>'.$pref.'</span>',      
     );
   }
 
@@ -322,7 +329,7 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
   }
 
   if( $interest_period ) {
-    $account->content['interest_period'] = array(
+    $account->content['profile2']['interest_period'] = array(
       '#type' => 'item',
       '#title' => t('Interest period'),
       '#markup' => '<span>'.$interest_period.'</span>',
