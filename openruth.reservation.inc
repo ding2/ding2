@@ -36,6 +36,7 @@ function openruth_reservation_list($account) {
         'display_name' => $res->itemDisplayTitle,
         // For some reason, we might not get a pickup date back.
         'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
+        'pickup_order_id' => $res->orderPickUpId,
         'pickup_branch_id' => $res->agencyCounter,
         'created' => $res->orderDate,
         'ready_for_pickup' => 1,
@@ -48,6 +49,7 @@ function openruth_reservation_list($account) {
         'order_id' => $res->orderId,
         'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $res->itemId,
         'display_name' => $res->itemDisplayTitle,
+        'pickup_order_id' => $res->orderPickUpId,
         'pickup_branch_id' => $res->agencyCounter,
         'expiry' => $res->orderLastInterestDate,
         'created' => $res->orderDate,
@@ -70,7 +72,7 @@ function openruth_reservation_options($type, $account, $reservables) {
    */
   if (!module_exists('ding_reservation')) {
     throw new Exception('Openruth reservation options requires ding_reservation.');
-  }  
+  }
 
   $form = array();
   $profile = ding_user_provider_profile($account);
@@ -124,14 +126,14 @@ function openruth_reservation_create($account, $id, $options) {
     if( isset($profile2->field_openruth_interest_period) ) {
       $interest_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
       $expiry = REQUEST_TIME + ($interest_period * 24 * 60 * 60 );
-    }   
+    }
   }
-  
+
   if( !isset($expiry) ) {
    $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
   }
 
-  $creds = ding_user_get_creds($account);  
+  $creds = ding_user_get_creds($account);
   $status = _openruth_user_status($creds, TRUE);
 
   $internal_account = ding_user_get_creds($account);
