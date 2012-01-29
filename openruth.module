@@ -288,53 +288,84 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
     $account->content['userinfo']['address'] = array(
       '#type' => 'item',
       '#title' => t('Address'),
-      '#markup' =>  join($address_parts),
+      '#markup' =>  join('<br/>',$address_parts),
     );
   };
+  
+  openruth_set_profile2_fields($account);
+}
 
-  // profile2 specific fields
+/**
+ * Set profile2 specific fields for account
+ */
+function openruth_set_profile2_fields($account) { 
+  // avoid dependency on profile2 module
+  if( !module_exists('profile2') ) {
+    return;
+  }
+
   $profile2 = profile2_load_by_user($account, 'provider_openruth');
   if( empty($profile2) ) {
     return;
   }  
-  // get field languages
-  $langs = field_language('profile2', $profile2);
 
-  // show preferred branch
-  $pref_branch = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
-  $branches = openruth_allowed_branches();
-  $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
- 
+  // wrapper for profile2-fields
   $account->content['profile2'] = array(
       '#type' => 'item',
       '#title' => t('My library'),    
       '#prefix' => '<div class="profile2_provider_fields">',
       '#suffix' => '</div>',
-    );
+    ); 
   
-  if( $pref ) {
-  $account->content['profile2']['preferred_branch'] = array(
+  // set preferred branch
+  if( $pref_branch =  openruth_get_preferred_branch($profile2) ) {  
+    $account->content['profile2']['preferred_branch'] = array(
       '#type' => 'item',
       '#title' => t('Pickup branch'),
-      '#markup' => '<span>'.$pref.'</span>',      
+      '#markup' => '<span>'.$pref_branch.'</span>',      
     );
   }
-
-  // show interest period
-  $field_info = field_info_field('field_openruth_interest_period');  
-  $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
-  if( $int_values ) {
-    $int_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
-    $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
-  }
-
-  if( $interest_period ) {
+  // set interest period
+  if( $interest_period = openruth_get_interest_period($profile2) ) {
     $account->content['profile2']['interest_period'] = array(
       '#type' => 'item',
       '#title' => t('Interest period'),
       '#markup' => '<span>'.$interest_period.'</span>',
     );
-  }    
+  }  
+}
+
+/**
+ * Get profile2 field; field_openruth_interest_period
+ */
+function openruth_get_interest_period($profile2) {
+  // get field languages
+  $langs = field_language('profile2', $profile2);
+  // get field-info to retrieve values for select list
+  $field_info = field_info_field('field_openruth_interest_period');  
+
+  $interest_period = FALSE;
+  $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
+  if( $int_values ) {
+    $int_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
+    $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
+  }  
+  return $interest_period;
+}
+
+/**
+ * Get profile2 field; openruth_preferred_branch
+ */
+function openruth_get_preferred_branch($profile2) {
+  // get field languages
+  $langs = field_language('profile2', $profile2);
+  
+  //get preferred branch
+  $pref_branch = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
+  $branches = openruth_allowed_branches();
+  $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
+
+  return $pref;
 }
 
 
