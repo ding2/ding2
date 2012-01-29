@@ -1,14 +1,17 @@
-name = Alma
-description = Implementation of Axiell’s Alma API for DDELibra.
-core = 7.x
-version = "7.x-0.9.1"
-package = Ding!
-dependencies[] = ding_provider
-
-files[] = alma.module
-files[] = includes/alma.availability.inc
-files[] = includes/alma.debt.inc
-files[] = includes/alma.reservation.inc
-files[] = includes/alma.user.inc
-files[] = lib/AlmaClient/AlmaClient.class.php
-
+core = "7.x"
+dependencies[] = "ding_provider"
+dependencies[] = "features"
+dependencies[] = "list"
+description = "Implementation of Axiell’s Alma API for DDELibra."
+features[field][] = "profile2-provider_alma-field_alma_preferred_branch"
+files[] = "alma.module"
+files[] = "includes/alma.availability.inc"
+files[] = "includes/alma.debt.inc"
+files[] = "includes/alma.reservation.inc"
+files[] = "includes/alma.user.inc"
+files[] = "lib/AlmaClient/AlmaClient.class.php"
+name = "Alma"
+package = "Ding!"
+php = "5.2.4"
+project = "alma"
+version = "7.x-0.9"
