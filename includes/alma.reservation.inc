@@ -8,6 +8,38 @@
 
 
 
+function alma_reservation_options($type, $account, $reservables) {
+  /*
+   * While we use ding_reservation for branch handling, we don't want to
+   * depend on the module, as it would mean that ding_reservation can't be
+   * disabled. So instead we throw an exception here.
+   */
+
+  //dpm($reservables);
+
+  if (!module_exists('ding_reservation')) {
+    throw new Exception('Alma reservation options requires ding_reservation.');
+  }  
+
+  $form = array();
+  $profile = ding_user_provider_profile($account);
+
+  $branches =  alma_reservation_pickup_branches($account);
+  // @todo; use local branches from issue - some migth not be available in all branches
+  //dpm($branches);
+
+  if(ding_user_is_provider_user($account)) {
+    $preferred_branch = 'hb';
+    // $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
+  }
+  else {
+    //$preferred_branch = NULL;
+  }
+  
+  $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch',$preferred_branch, $branches);
+
+  return $form;
+}
 
 
 
@@ -64,15 +96,47 @@ function alma_reservation_set_preferred_branch($account, $branch) {
    return $result;
  }
 
+
  /**
  * Create a reservation for a given account.
  */
-function alma_reservation_create($account, $id, $branch, $expiry) {
+function alma_reservation_create($account, $id, $branch, $expiry=null) {
   $creds = ding_user_get_creds($account);
 
   // Check if the users has this reservation and throw exception.
   if (alma_reservation_exists($creds, $id)) {
     throw new DingProviderReservationExists();
+  }
+
+  $profile2 = profile2_load_by_user($account,'provider_alma');
+  if( !empty($profile2) ) {
+    // interest period
+    if( !isset($expiry) ) {
+      // get interest period from profile2
+      $interest_period = alma_get_interest_period($profile2);
+      if( $interest_period ){
+	$expiry = REQUEST_TIME + ($interest_period * 24 * 60 * 60 );
+      }       
+    }    
+    if( !isset($expiry) ) {
+      $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+    }
+
+    dpm($branch);
+
+    // preferred branch
+    if( empty($branch) ) {
+      $pref_branch = alma_get_preferred_branch($profile2);
+      if( $pref_branch ){
+	$branches = alma_reservation_pickup_branches();
+	foreach($branches as $key => $val){
+	  if( $val == $pref_branch ) {
+	    $branch = $key;
+	    break;	    
+	  }
+	}
+      }
+    }
   }
 
   // Build the reservation parameters to send.
