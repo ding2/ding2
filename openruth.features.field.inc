@@ -73,6 +73,84 @@ function openruth_field_default_fields() {
     ),
   );
 
+  // Exported field: 'profile2-provider_openruth-field_reservation_pause'
+  $fields['profile2-provider_openruth-field_reservation_pause'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_reservation_pause',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'date',
+      'settings' => array(
+        'granularity' => array(
+          'day' => 'day',
+          'hour' => 0,
+          'minute' => 0,
+          'month' => 'month',
+          'second' => 0,
+          'year' => 'year',
+        ),
+        'profile2_private' => 0,
+        'repeat' => 0,
+        'timezone_db' => '',
+        'todate' => 'required',
+        'tz_handling' => 'none',
+      ),
+      'translatable' => '0',
+      'type' => 'date',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_openruth',
+      'deleted' => '0',
+      'description' => 'Set your reservations on pause',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+            'show_repeat_rule' => 'show',
+          ),
+          'type' => 'date_default',
+          'weight' => 2,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_reservation_pause',
+      'label' => 'Reservation pause',
+      'required' => 0,
+      'settings' => array(
+        'default_value' => 'blank',
+        'default_value2' => 'blank',
+        'default_value_code' => '',
+        'default_value_code2' => '',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'date',
+        'settings' => array(
+          'increment' => '15',
+          'input_format' => 'Y-m-d - H:i:s',
+          'input_format_custom' => '',
+          'label_position' => 'above',
+          'repeat_collapsed' => 0,
+          'text_parts' => array(),
+          'year_range' => '-3:+3',
+        ),
+        'type' => 'date_popup',
+        'weight' => '3',
+      ),
+    ),
+  );
+
   // Exported field: 'profile2-provider_openruth-openruth_preferred_branch'
   $fields['profile2-provider_openruth-openruth_preferred_branch'] = array(
     'field_config' => array(
@@ -132,7 +210,9 @@ function openruth_field_default_fields() {
   t('Interest period');
   t('Period of interest - how long is a reservation valid for');
   t('Preferred branch');
+  t('Reservation pause');
   t('Select preferred pickup branch');
+  t('Set your reservations on pause');
 
   return $fields;
 }
