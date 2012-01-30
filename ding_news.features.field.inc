@@ -514,7 +514,7 @@ function ding_news_field_default_fields() {
           'label' => 'above',
           'module' => 'ting_reference',
           'settings' => array(
-            'view_mode' => 'collection_list',
+            'view_mode' => 'teaser',
           ),
           'type' => 'ting_reference_default',
           'weight' => '2',
