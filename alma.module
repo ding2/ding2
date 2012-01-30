@@ -128,6 +128,9 @@ function alma_form_user_profile_form_alter(&$form, &$form_state) {
   $form['account']['pincode']['#size'] = 32;    
   $form['account']['pincode']['#maxlength'] = 32;
  
+  // @todo; WHAT are the rules for alma pincode
+  // HOW do we validate
+
   // custom validator ?? maybe pincode validator ??
   // $form['#validate'][] = 'alma_profile_form_validate';
 }
@@ -225,6 +228,40 @@ function alma_get_organisation($reset = FALSE) {
 
   return $organisation;
 }
+
+/**
+ * Implements hook_user_view
+ */
+function alma_user_view( $account, $view_mode, $langcode ) {
+  $creds = ding_user_get_creds($account);
+  if (($userInfo =  alma_user_info($creds)) && isset($userInfo)) {
+    foreach ($userInfo as $key=>$prop) {
+      $data[$key] = isset($prop) ? $prop : '';
+    }
+
+    $account->content['name'] = array(
+      '#type' => 'item',
+      '#title' => t('Name'),
+      '#markup' => $data['firstname'],
+    );
+
+    $address_parts = array($data['address']);   
+    if (!empty($data['postal']) || !empty($data['city'])) {
+      $address_parts[] = join('<br /> ', array_filter(array($data['postal'], $data['city'])));
+    }
+
+    // @todo: really, there should be a template for this.
+    $account->content['address'] = array(
+      '#type' => 'item',
+      '#title' => t('Address'),
+      '#markup' => '<p>' . join('<br />',$address_parts) . '</p>',
+    );
+  };
+  // @todo: add provider specific fields
+}
+
+
+
 
 /**
  * Get patron data from Alma.
