@@ -424,6 +424,8 @@ class OpenruthClient {
       'first_name' => 'userFirstName',
       'last_name' => 'userLastName',
       'preferred_branch' => 'agencyCounter',
+      'reservation_pause_start'=>'userAbsenceStartDate',
+      'reservation_pause_stop'=>'userAbsenceEndDate',
     );
     $args = array(
              'agencyId' =>  $this->agency_id,
@@ -438,6 +440,9 @@ class OpenruthClient {
 
     $this->log_start();
     $res = $this->client->updateUserInfo($args);
+
+dpm($this->client->__getLastRequest());
+
     $this->log($name, $pass);
     if (isset($res->userError)) {
       return $res->userError;
@@ -485,6 +490,9 @@ class OpenruthClient {
              'userId' => $username,
              'userPinCode' => $pin_code,
       ));
+
+    
+
     $this->log($username, $pin_code);
     if (isset($res->userError)) {
       return $res->userError;
