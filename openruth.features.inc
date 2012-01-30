@@ -10,7 +10,7 @@
 function openruth_default_profile2_type() {
   $items = array();
   $items['provider_openruth'] = entity_import('profile2_type', '{
-    "userCategory" : true,
+    "userCategory" : false,
     "userView" : true,
     "type" : "provider_openruth",
     "label" : "Openruth",
