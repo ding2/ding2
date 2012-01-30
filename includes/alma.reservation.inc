@@ -15,8 +15,6 @@ function alma_reservation_options($type, $account, $reservables) {
    * disabled. So instead we throw an exception here.
    */
 
-  //dpm($reservables);
-
   if (!module_exists('ding_reservation')) {
     throw new Exception('Alma reservation options requires ding_reservation.');
   }  
@@ -26,7 +24,6 @@ function alma_reservation_options($type, $account, $reservables) {
 
   $branches =  alma_reservation_pickup_branches($account);
   // @todo; use local branches from issue - some migth not be available in all branches
-  //dpm($branches);
 
   if(ding_user_is_provider_user($account)) {
     $preferred_branch = 'hb';
@@ -121,8 +118,6 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
     if( !isset($expiry) ) {
       $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
     }
-
-    dpm($branch);
 
     // preferred branch
     if( empty($branch) ) {
