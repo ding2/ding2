@@ -7,15 +7,9 @@
  */
 
 
-/**
- * Get list of pickup branches.
- */
-function alma_reservation_pickup_branches($account) {
-  // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
 
-  return alma_client_invoke('get_reservation_branches');
-}
+
+
 
 /**
  * Set preferred pickup branch
