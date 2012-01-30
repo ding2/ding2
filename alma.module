@@ -113,6 +113,26 @@ function alma_settings_form() {
   return system_settings_form($form);
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * pjo notes: user_profile_form
+ * Add in pincode validation.
+ */
+function alma_form_user_profile_form_alter(&$form, &$form_state) {
+  // Ensure that we're dealing with a provider user.
+  if (!ding_user_is_provider_user($form_state['user'])) {
+    return;
+  }  
+  
+  // change size and length of pincode
+  $form['account']['pincode']['#size'] = 32;    
+  $form['account']['pincode']['#maxlength'] = 32;
+ 
+  // custom validator ?? maybe pincode validator ??
+  // $form['#validate'][] = 'alma_profile_form_validate';
+}
+
+
 
 /**
  * Return a fully instantiated AlmaClient instance.
