@@ -14,7 +14,7 @@ include_once('alma.features.inc');
 function alma_reservation_pickup_branches($account=null) {
   // Throw exception if we're not logged in. ?? WHY this method needs no credentials
   // ding_user_get_creds($account);
-  return  alma_client_invoke('get_reservation_branches');
+  // return  alma_client_invoke('get_reservation_branches');
 
   // cache alma pickup branches - they are not likely to change
   static $alma_pickup_branches;
@@ -258,10 +258,77 @@ function alma_user_view( $account, $view_mode, $langcode ) {
     );
   };
   // @todo: add provider specific fields
+  alma_set_profile2_fields( $account );
+  
 }
 
 
+function alma_set_profile2_fields($account) {
+  if( !module_exists('profile2') ) {
+    return;
+  } 
 
+  $profile2 = profile2_load_by_user($account, 'provider_alma');
+  if( empty($profile2) ) {
+    return;
+  }  
+
+  
+
+  // wrapper for profile2-fields
+  $account->content['profile2'] = array(
+      '#type' => 'item',
+      '#title' => t('My library'),    
+      '#prefix' => '<div class="profile2_provider_fields">',
+      '#suffix' => '</div>',
+    ); 
+
+  // set preferred branch
+  if( $pref_branch = alma_get_preferred_branch( $profile2 ) ) {
+    $account->content['profile2']['preferred_branch'] = array(
+      '#type' => 'item',
+      '#title' => t('Pickup branch'),
+      '#markup' => '<span>'.$pref_branch.'</span>',      
+    );
+  }   
+
+  // set interest period
+  if( $interest_period = alma_get_interest_period($profile2) ) {
+    $account->content['profile2']['interest_period'] = array(
+      '#type' => 'item',
+      '#title' => t('Interest period'),
+      '#markup' => '<span>'.$interest_period.'</span>',
+    );
+  }  
+
+}
+
+function alma_get_interest_period( $profile2 ) {
+  // get field languages
+  $langs = field_language('profile2', $profile2);
+  // get field-info to retrieve values for select list
+  $field_info = field_info_field('field_alma_interest_period');  
+
+  $interest_period = FALSE;
+  $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
+  if( $int_values ) {
+    $int_period = $profile2->field_alma_interest_period[$langs['field_alma_interest_period']][0]['value'];
+    $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
+  }  
+  return $interest_period;
+}
+
+function alma_get_preferred_branch( $profile2 ) {
+  // get field languages
+  $langs = field_language('profile2', $profile2);
+  
+  //get preferred branch
+  $pref_branch = $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'];
+  $branches = alma_reservation_pickup_branches();
+  $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
+
+  return $pref;
+}
 
 /**
  * Get patron data from Alma.
