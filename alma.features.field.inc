@@ -90,7 +90,7 @@ function alma_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(),
-        'allowed_values_function' => 'alma_pickup_branches',
+        'allowed_values_function' => 'alma_reservation_pickup_branches',
         'profile2_private' => 0,
       ),
       'translatable' => '0',
