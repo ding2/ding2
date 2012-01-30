@@ -9,6 +9,28 @@ define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 include_once('alma.features.inc');
 
 /**
+ * Get list of pickup branches.
+ */
+function alma_reservation_pickup_branches($account=null) {
+  // Throw exception if we're not logged in. ?? WHY this method needs no credentials
+  // ding_user_get_creds($account);
+  return  alma_client_invoke('get_reservation_branches');
+
+  // cache alma pickup branches - they are not likely to change
+  static $alma_pickup_branches;
+  if (!isset($alma_pickup_branches) ) {
+    if ( $cache = cache_get('alma_pickup_branches') && !empty($cache->data) ) {
+      $alma_pickup_branches = unserialize($cache->data);
+    }
+    else {
+      $alma_pickup_branches = alma_client_invoke('get_reservation_branches');
+      cache_set( 'alma_pickup_branches', 'cache', serialize($alma_pickup_branches) );
+    }
+  }
+  return $alma_pickup_branches;
+}
+
+/**
  * Implements hook_requirements().
  */
 function alma_requirements($phase) {
