@@ -83,6 +83,9 @@ function alma_user_info($creds = NULL) {
   return (object)$info;
 }
 
+
+
+
 /*function alma_user_profile_form($form, $form_state) {
   $status = alma_get_patron();
   $organisation = alma_get_organisation();
@@ -145,36 +148,29 @@ function alma_user_account_update($account, $changes) {
   if( isset($changes['mail']) ) {
     // add email
     if( !isset( $account->mail ) && !empty($changes['mail'] ) ) {
-      dpm('ADD MAIL');
+      //dpm('ADD MAIL');
       $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
     }
     // change email
     elseif( isset( $account->mail ) && !empty($changes['mail'] ) ){
-      dpm('CHANGE MAIL');
+      //dpm('CHANGE MAIL');
       $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $account->mail, $changes['mail']);
-    }
-    // remove mail - email is required, so this will not happen
-    elseif(  isset( $account->mail ) && empty($changes['mail'] ) ) {
-      dpm('REMOVE MAIL');
-      $res = alma_client_invoke( 'remove_email_address', $creds['name'], $creds['pass'], $account->mail );
     }
   }
 
-  if( isset($changes['pass']) ) {
-    try{ $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changes['pass']);}
-    catch(Exception $e){
-      dpm($e->getMessage());
-    }
-    // if success; save changes locally
-    if( $res ){
-      ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $changes['pass'], $account)));
-      $creds = ding_user_get_creds($account);
+  if (isset($changes['pass'])) {
+    $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changes['pass']);
+    if( $res ) {
+      // @see ding_user.module/ding_user_user_presave
+      // Set new password.
       $creds['pass'] = $changes['pass'];
-      $updated = TRUE;
-      return 1;
-    }  
+      // Update creds.
+      $result['creds'] = $creds;    
+      return $result;
+    }
   }
 }
+
 
 /**
  * Provider specific user profile form submit handler.
