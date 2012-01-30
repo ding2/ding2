@@ -25,14 +25,20 @@ function ding_frontend_field_formatter_info() {
  */
 function ding_frontend_field_formatter_view($entity_type, $entity, $field, $instances, $langcode, $items, $display) {
   $element = array();
+  $timezone = variable_get('date_default_timezone', 0);
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'calendar_page':
-        $timestamp = strtotime($item['value']);
+        $date = new DateObject(
+          $item['value'],
+          $item['timezone_db'],
+          date_type_format($item['date_type'])
+        );
+        $timestamp = $date->format(DATE_FORMAT_UNIX);
         $vars = array(
-          'day' => format_date($timestamp, 'custom', 'j', $item['timezone']),
-          'month' => format_date($timestamp, 'custom', 'F', $item['timezone']),
-          'weekday' => format_date($timestamp, 'custom', 'l', $item['timezone']),
+          'day' => format_date($timestamp, 'custom', 'j', $timezone),
+          'month' => format_date($timestamp, 'custom', 'F', $timezone),
+          'weekday' => format_date($timestamp, 'custom', 'l', $timezone),
           'today' => date('j.F.l') == date('j.F.l', $timestamp),
         );
         $element[$delta] = array(
