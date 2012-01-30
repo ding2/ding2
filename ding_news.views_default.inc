@@ -17,7 +17,7 @@ function ding_news_views_default_views() {
   $view->base_table = 'node';
   $view->human_name = 'Ding news';
   $view->core = 7;
-  $view->api_version = '3.0-alpha1';
+  $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
@@ -372,10 +372,9 @@ function ding_news_views_default_views() {
   $handler->display->display_options['path'] = 'news/feed';
   $handler->display->display_options['displays'] = array(
     'default' => 'default',
-    'ctools_context_master' => 'ctools_context_master',
     'ctools_context_teaser_list' => 'ctools_context_teaser_list',
+    'panel_pane_1' => 'panel_pane_1',
     'ctools_context_library_list' => 0,
-    'ctools_context_2' => 0,
   );
   $handler->display->display_options['sitename_title'] = 1;
 
@@ -692,6 +691,8 @@ function ding_news_views_default_views() {
 
   /* Display: Full list */
   $handler = $view->new_display('panel_pane', 'Full list', 'panel_pane_1');
+  $handler->display->display_options['defaults']['use_more'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'Read more';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
