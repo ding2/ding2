@@ -19,12 +19,12 @@ function alma_reservation_pickup_branches($account=null) {
   // cache alma pickup branches - they are not likely to change
   static $alma_pickup_branches;
   if (!isset($alma_pickup_branches) ) {
-    if ( $cache = cache_get('alma_pickup_branches') && !empty($cache->data) ) {
-      $alma_pickup_branches = unserialize($cache->data);
+    if ( $cache = cache_get('alma_pickup_branches') ) {
+      $alma_pickup_branches = $cache->data;
     }
     else {
       $alma_pickup_branches = alma_client_invoke('get_reservation_branches');
-      cache_set( 'alma_pickup_branches', 'cache', serialize($alma_pickup_branches) );
+      cache_set( 'alma_pickup_branches',  serialize($alma_pickup_branches),'cache');
     }
   }
   return $alma_pickup_branches;
@@ -214,7 +214,7 @@ function alma_get_organisation($reset = FALSE) {
         'location' => alma_client_invoke('get_locations'),
         'sublocation' => alma_client_invoke('get_sublocations'),
         'collection' => alma_client_invoke('get_collections'),
-        'reservation' => alma_client_invoke('get_reservation_branches'),
+        'reservation' =>  alma_reservation_pickup_branches(),//alma_client_invoke('get_reservation_branches'),
       );
 
       // Cache output for 24 hours if we got all the data correctly.
