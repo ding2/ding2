@@ -27,9 +27,9 @@ function ting_relation_theme() {
  */
 function ting_relation_anchor_info() {
   $ret = ting_relation_inline();
-  unset($ret['dbcaddi:hasOnlineAccess']);
-  unset($ret['dbcaddi:isReviewOf']);
-   unset($ret['dbcbib:isPartOfManifestation']);
+  unset($ret['hasOnlineAccess']);
+  unset($ret['isReviewOf']);
+  unset($ret['isPartOfManifestation']);
   return $ret;
 }
 
@@ -40,12 +40,12 @@ function ting_relation_inline() {
   static $types;
   if (!$types) {
     $types = array(
-      'dbcaddi:hasCreatorDescription' => t('Author portrait'),
-      'dbcaddi:hasReview' => t('Review'),
-      'dbcaddi:hasSubjectDescription' => t('Subject description'),
-      'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
-      'dbcaddi:isReviewOf' => t('Is review of'),
-      'dbcaddi:hasOnlineAccess' => t('Online access'),
+      'hasCreatorDescription' => t('Author portrait'),
+      'hasReview' => t('Review'),
+      'hasSubjectDescription' => t('Subject description'),
+      'isPartOfManifestation' => t('Is part of manifestation'),
+      'isReviewOf' => t('Is review of'),
+      'hasOnlineAccess' => t('Online access'),
     );
   }
   return $types;
@@ -55,8 +55,8 @@ function ting_relation_inline() {
  * Implements hook_form_FORM_ID_alter()
  * Adding ebrary url form field to Ting configurating form
  * Set required to FALSE - this is a part of the relation-module, and not everybody wants or has access to ebrary
- * TODO this field requires configuration. Maybe it should be moved to a module of its own?  
- * this url is restricted ;'http://site.ebrary.com/lib/metropol/docDetail.action?docID='; 
+ * TODO this field requires configuration. Maybe it should be moved to a module of its own?
+ * this url is restricted ;'http://site.ebrary.com/lib/metropol/docDetail.action?docID=';
  * - probably for metropol access.
  */
 function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state) {

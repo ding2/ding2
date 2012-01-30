@@ -11,18 +11,18 @@ function template_preprocess_ting_relation(&$variables) {
   $all_relations = $variables['elements']['#relations'];
   foreach( $all_relations as $ns => $relations ) {
     switch( $ns  ) {
-    case 'dbcaddi:hasReview' :
+    case 'hasReview' :
       $variables['content'][$ns] = ting_relation_reviews( $relations );
       break;
-    case 'dbcaddi:hasSubjectDescription':
+    case 'hasSubjectDescription':
       $variables['content'][$ns] = ting_relation_subjects( $relations );
       break;
-    case 'dbcaddi:hasCreatorDescription':
+    case 'hasCreatorDescription':
       $variables['content'][$ns] = ting_relation_creator_description( $relations );
       break;
-    case 'dbcaddi:hasOnlineAccess':
+    case 'hasOnlineAccess':
       $variables['content'][$ns] = ting_relation_online( $relations );
-      break;       
+      break;
     default:
       break;
     }
@@ -32,7 +32,7 @@ function template_preprocess_ting_relation(&$variables) {
 /**
  * two variants(sofar) Ebrary and filmstriben
  */
-function ting_relation_online( $relations ) { 
+function ting_relation_online( $relations ) {
   $ret = array();
   foreach( $relations as $relation ) {
     if( $relation['#ac_source'] == 'Ebrary' ) {
@@ -40,13 +40,13 @@ function ting_relation_online( $relations ) {
     }
     elseif( $relation['#ac_source'] == 'Filmstriben (fjernlån)' ) {
       $ret[] = ting_relation_online_filmstriben( $relation );
-    }    
+    }
   }
   return $ret;
 }
 
 /**
- * a variant(Ebrary) of 'hasOnlineAccess' 
+ * a variant(Ebrary) of 'hasOnlineAccess'
  */
 function ting_relation_online_ebrary( $relation ){
   $ebrary_url = variable_get('ting_ebrary_url');
@@ -79,22 +79,22 @@ function ting_relation_creator_description( $relations ) {
     $content = array();
     $ting = $relation['#object'];
     $rel = $relation['#relation'];
-    
+
     $content['type'] = $relation['#title'];
     $content['title'] = $rel->object->title;
-    
+
     if ( $ting->creators ) {
       $variables['content']['byline'] = ting_relation_array2names($ting->creators);
     }
 
-    $content['abstract'] = filter_xss_admin($ting->abstract); 
+    $content['abstract'] = filter_xss_admin($ting->abstract);
 
     // TODO online_url
     if( $url = $rel->object->online_url ) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target'=>'_blank'))));
     }
 
-    $ret[] = $content;    
+    $ret[] = $content;
   }
   return $ret;
 }
@@ -122,9 +122,9 @@ function ting_relation_subjects( $relations ) {
     $ret[] = $content;
   }
 
-  
 
-  return $ret;  
+
+  return $ret;
 }
 
 /**
@@ -149,9 +149,9 @@ function ting_relation_reviews( $relations ) {
 function ting_relation_review_other( $relation ) {
   $ting = $relation['#object'];
   $rel = $relation['#relation'];
-  //type title 
+  //type title
   $content['type'] = $relation['#title'];
-  //title 
+  //title
   $content['title'] = $rel->object->title;
   //creators
   if ($names = ting_relation_array2names($rel->object->creators)) {
@@ -160,8 +160,8 @@ function ting_relation_review_other( $relation ) {
   //ispartof
   if ($partOf = ting_relation_array2names($rel->object->isPartOf)) {
     $extent = $rel->object->extent;
-    $content['isPartOf'] = filter_xss_admin($partOf . ', ' . $extent);     
-  } 
+    $content['isPartOf'] = filter_xss_admin($partOf . ', ' . $extent);
+  }
 
   // TODO online_url
   if( $url = $rel->object->online_url ) {
@@ -185,10 +185,10 @@ function ting_relation_review( $relation ) {
   $content['year'] = $rel->object->date;
   //creator
   $content['creator'] = ting_relation_array2names($ting->creators);
-  //text 
+  //text
   $content['text'] = isset($ting->reply->record['dc:description'][''][0]) ? $ting->reply->record['dc:description'][''][0] : FALSE;
 
-  
+
 
   if( $url = $rel->object->online_url ) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target'=>'_blank'))));

@@ -60,40 +60,31 @@ function ting_relation_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function ting_relation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  //$element = array();
   $relation_array = array();
   $relation_types = ting_relation_inline();
-  // foreach ($items as $delta => $item) {    
-    foreach ($entity->relations as $relation) {
-      if (isset($relation_types[$relation->type])) {
-        $ownerId = is_object($relation->object) ? $relation->object->ownerId : NULL;
-        if ($relation->type == 'dbcaddi:isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
-          continue;
-        }
-	/*  elseif ($relation->type == 'dbcaddi:hasReview' && is_object($relation->object) && $relation->object->ac_source == 'Anmeldelser') {
-          // Temporary filter out regular reviews. We need better
-          // handling of those.
-          continue;
-	  }*/
-        $relation_array[$relation->type][] = array(
-          '#theme' => 'ting_relation',
-	  '#ac_source' => $entity->ac_source,
-          '#relation' => $relation,
-          '#object' => $relation->object,
-          '#title' => $relation_types[$relation->type],         
-        );
-      }      
-      // }
-}
-  $element = 
+  foreach ($entity->relations as $relation) {
+    if (isset($relation_types[$relation->type])) {
+      $ownerId = is_object($relation->object) ? $relation->object->ownerId : NULL;
+      if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', -1) != $ownerId) {
+        continue;
+      }
+      $relation_array[$relation->type][] = array(
+        '#theme' => 'ting_relation',
+        '#ac_source' => $entity->ac_source,
+        '#relation' => $relation,
+        '#object' => $relation->object,
+        '#title' => $relation_types[$relation->type],
+      );
+    }
+  }
+  $element = array(
+    '#theme' => 'ting_relation',
+    '#relations' => $relation_array,
+    '#attached' =>
     array(
-          '#theme' => 'ting_relation',                      
-          '#relations' => $relation_array,
-          '#attached' => 
-          array(
-                'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
-                ),
-          );
+      'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
+    ),
+  );
 
   return $element;
 }
