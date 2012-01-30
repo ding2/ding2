@@ -83,7 +83,7 @@ function alma_user_info($creds = NULL) {
   return (object)$info;
 }
 
-function alma_user_profile_form($form, $form_state) {
+/*function alma_user_profile_form($form, $form_state) {
   $status = alma_get_patron();
   $organisation = alma_get_organisation();
 
@@ -125,7 +125,7 @@ function alma_user_profile_form($form, $form_state) {
   unset($form['account']['current_pass_required_values']);
 
   return $form;
-}
+  }*/
 
 /**
  * Provider specific user profile form validate handler.
@@ -135,9 +135,51 @@ function alma_user_profile_form_validate($form, $form_state) {
 }
 
 /**
+ * update provider user;
+ * @invoked from: ding_user/ding_user_user_presave
+ * possible changes; email, pincode, preferred_branch
+ */
+function alma_user_account_update($account, $changes) {
+  $creds = ding_user_get_creds($account);
+  
+  if( isset($changes['mail']) ) {
+    // add email
+    if( !isset( $account->mail ) && !empty($changes['mail'] ) ) {
+      dpm('ADD MAIL');
+      $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
+    }
+    // change email
+    elseif( isset( $account->mail ) && !empty($changes['mail'] ) ){
+      dpm('CHANGE MAIL');
+      $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $account->mail, $changes['mail']);
+    }
+    // remove mail - email is required, so this will not happen
+    elseif(  isset( $account->mail ) && empty($changes['mail'] ) ) {
+      dpm('REMOVE MAIL');
+      $res = alma_client_invoke( 'remove_email_address', $creds['name'], $creds['pass'], $account->mail );
+    }
+  }
+
+  if( isset($changes['pass']) ) {
+    try{ $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changes['pass']);}
+    catch(Exception $e){
+      dpm($e->getMessage());
+    }
+    // if success; save changes locally
+    if( $res ){
+      ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $changes['pass'], $account)));
+      $creds = ding_user_get_creds($account);
+      $creds['pass'] = $changes['pass'];
+      $updated = TRUE;
+      return 1;
+    }  
+  }
+}
+
+/**
  * Provider specific user profile form submit handler.
  */
-function alma_user_profile_form_submit($form, $form_state) {
+/*function alma_user_profile_form_submit($form, $form_state) {
   global $user;
 
   $updated = FALSE;
@@ -178,4 +220,4 @@ function alma_user_profile_form_submit($form, $form_state) {
     // Update local cache.
     alma_get_patron($creds, TRUE);
   }
-}
+  }*/
