@@ -12,9 +12,9 @@ projects[ding_library][download][tag] = "7.x-0.16"
 projects[ding_event][type] = module
 projects[ding_event][download][type] = git
 projects[ding_event][download][url] = git@github.com:ding2/ding_event.git
-projects[ding_event][download][tag] = "7.x-0.17"
+projects[ding_event][download][tag] = "7.x-0.18"
 
 projects[ding_news][type] = module
 projects[ding_news][download][type] = git
 projects[ding_news][download][url] = git@github.com:ding2/ding_news.git
-projects[ding_news][download][tag] = "7.x-0.19"
+projects[ding_news][download][tag] = "7.x-0.20"
