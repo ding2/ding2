@@ -362,8 +362,8 @@ function ding_news_field_default_fields() {
           'label' => 'hidden',
           'module' => 'image',
           'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
+            'image_link' => 'content',
+            'image_style' => 'ding_vert_small',
           ),
           'type' => 'image',
           'weight' => '0',
