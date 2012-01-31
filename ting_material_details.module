@@ -4,18 +4,3 @@
 module_load_include('inc', 'ting_material_details', 'ting_material_details.field');
 // load features
 include_once('ting_material_details.features.inc');
-
-
-/**
- * Implements hook_theme
- */
-function ting_material_details_theme( $existing, $type, $theme, $path ) {
-  // page view definitions - view articles
-  $render_array['ting_details_single'] = array(
-    'template' => 'ting_material_details_default',
-    'render element' => 'element',
-  );  
-  return $render_array;
-}
-
-

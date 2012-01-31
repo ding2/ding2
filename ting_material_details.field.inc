@@ -6,7 +6,7 @@
 
 function ting_material_details_field_info() {
   $ret = array(
-     //dc:type	       
+     //dc:type
     'ting_details_type' => array(
       'label' => t('Type'),
       'description' => t('Material type'),
@@ -46,7 +46,7 @@ function ting_material_details_field_info() {
       'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
     ),
-    // dkdcplus:subtitles 
+    // dkdcplus:subtitles
     'ting_details_subtitles' => array(
       'label' => t('Subtitle'),
       'description' => t('Material subtitles'),
@@ -91,7 +91,7 @@ function ting_material_details_field_info() {
       'label' => t('Reader'),
       'description' => t('Material contributor'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_single',
+      'default_formatter' => 'ting_details_creator_search',
       'no_ui' => TRUE,
     ),
     //dkdcplus:mus (musician)
@@ -197,7 +197,7 @@ function ting_material_details_field_info() {
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
-    ), 
+    ),
      // dcterms:audience
     'ting_details_audience' =>array(
       'label' => t('Audience'),
@@ -205,7 +205,7 @@ function ting_material_details_field_info() {
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
-    ), 
+    ),
     //dkdcplus:age
     'ting_details_age' =>array(
       'label' => t('Age'),
@@ -213,7 +213,7 @@ function ting_material_details_field_info() {
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
-    ), 
+    ),
 
     //dkdcplus:pegi
     'ting_details_pegi' =>array(
@@ -222,9 +222,9 @@ function ting_material_details_field_info() {
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'no_ui' => TRUE,
-    ),  
+    ),
   );
- 
+
   return $ret;
 }
 
@@ -234,7 +234,7 @@ function ting_material_details_field_info() {
  * Notes; 'field types' are passed on to hook_field_formatter_view
  */
 function ting_material_details_field_formatter_info() {
-  Return array(
+  return array(
     'ting_details_single' => array(
       'label' => t('Default'),
       'field types' => array(
@@ -257,7 +257,7 @@ function ting_material_details_field_formatter_info() {
 	'ting_details_version',
 	'ting_details_extent',
 	'ting_details_publisher',
-	'ting_details_rights',	
+	'ting_details_rights',
 	'ting_details_age',
 	'ting_details_audience',
 	'ting_details_subjects',
@@ -265,8 +265,14 @@ function ting_material_details_field_formatter_info() {
 	'ting_details_genre',
 	'ting_details_contributor',
 	'ting_details_pegi',
-     ),
-   ),
+      ),
+    ),
+    'ting_details_creator_search' => array(
+      'label' => t('Creator search link'),
+      'field types' => array(
+	'ting_details_contributor',
+      ),
+    ),
   );
 }
 
@@ -309,7 +315,7 @@ function ting_material_details_record_info() {
 
 /*
  * helper function
- * return array 
+ * return array
  */
 function ting_material_details_get_record_value( $field_type, $entity ) {
   $rec_info = ting_material_details_record_info();
@@ -319,18 +325,18 @@ function ting_material_details_get_record_value( $field_type, $entity ) {
     return FALSE;
   }
 
-  if( is_string($rec) ) {    
+  if( is_string($rec) ) {
     $value = $entity->$rec ;
   }
 
-  if( is_array($rec) ) {    
+  if( is_array($rec) ) {
     foreach( $rec as $key => $val ) {
       if( $key ) {
 	$value = isset($entity->record[$key][$val]) ? $entity->record[$key][$val] : FALSE;
       }
       else {
 	$value =  isset( $entity->record[$val][''] ) ? $entity->record[$val][''] : FALSE;
-      } 
+      }
     }
   }
   return ting_material_details_parse( $field_type,$value );
@@ -338,46 +344,53 @@ function ting_material_details_get_record_value( $field_type, $entity ) {
 
 /*
  * helper function
- * handle special cases 
+ * handle special cases
  */
-function ting_material_details_parse( $field_type,$value ) {
-  if( !$value ) {
+function ting_material_details_parse($field_type, $value) {
+  if(!$value) {
     return FALSE;
   }
 
-  switch( $field_type ) {
-  case 'ting_details_uri' :
-    foreach( $value as $key => $val ) {
-      $ret[] = l($val,$val);      
-    }
-    break;   
-  default :
-    $ret = $value;
+  switch($field_type) {
+    case 'ting_details_uri':
+      foreach ($value as $key => $val) {
+        $ret[] = l($val, $val);
+      }
+      break;
+    default :
+      $ret = $value;
   }
-  
-  if( is_array($ret) ) {
-    return implode(', ', $ret);
-  }
-  else {
-    return $ret;
-  }
-    
-}
 
+  return $ret;
+}
 
 /**
  * Implements hook_field_formatter_view()
  */
 function ting_material_details_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  foreach($items as $delta=>$items) {
-    if( $val = ting_material_details_get_record_value( $field['type'], $entity ) ) {  
-      $element[$delta] = 
-	array(
-	      '#theme' => 'ting_details_single',
-	      '#markup' => $val,
-	      ); 
-    }     
+  foreach ($items as $delta => $items) {
+    if ($val = ting_material_details_get_record_value($field['type'], $entity)) {
+      switch ($display['type']) {
+        case 'ting_details_single':
+          $element[$delta] = array(
+            '#markup' => is_array($val) ? implode(', ', $val) : $val,
+          );
+          break;
+        case 'ting_details_creator_search':
+          if (!is_array($val)) {
+            $val = array($val);
+          }
+          $links = array();
+          foreach ($val as $value) {
+            $links[] = l($value, 'search/ting/dc.creator=' . $value);
+          }
+          $element[$delta] = array(
+            '#markup' => implode(', ', $links),
+          );
+          break;
+      }
+    }
   }
   return $element;
 }
