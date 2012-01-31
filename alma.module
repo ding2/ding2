@@ -6,7 +6,6 @@
  */
 
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
-include_once('alma.features.inc');
 
 /**
  * Get list of pickup branches.
@@ -294,10 +293,11 @@ function alma_set_profile2_fields($account) {
 
   // set interest period
   if( $interest_period = alma_get_interest_period($profile2) ) {
+    dpm($interest_period);
     $account->content['profile2']['interest_period'] = array(
       '#type' => 'item',
       '#title' => t('Interest period'),
-      '#markup' => '<span>'.$interest_period.'</span>',
+      '#markup' => '<span>'.$interest_period['value'].'</span>',
     );
   }  
 
@@ -313,7 +313,7 @@ function alma_get_interest_period( $profile2 ) {
   $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
   if( $int_values ) {
     $int_period = $profile2->field_alma_interest_period[$langs['field_alma_interest_period']][0]['value'];
-    $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
+    $interest_period = isset($int_values[$int_period]) ? array('key'=>$int_period,'value'=>$int_values[$int_period]) : FALSE;
   }  
   return $interest_period;
 }
@@ -323,11 +323,37 @@ function alma_get_preferred_branch( $profile2 ) {
   $langs = field_language('profile2', $profile2);
   
   //get preferred branch
-  $pref_branch = $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'];
+  $pref_branch = 
+    isset($profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value']) ?
+    $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value']:'';
+
   $branches = alma_reservation_pickup_branches();
   $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
 
   return $pref;
+}
+
+/**
+ * Implements hook_profile2_presave().
+ *
+ * Sends changes to Alma and updates profile with real values.
+ */
+function alma_profile2_presave($profile) {
+  if( !$profile->type == 'provider_alma' ) {
+    return;
+  }
+
+  $creds = ding_user_get_creds($profile);
+  // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause
+  $langs = field_language('profile2', $profile);
+ 
+  $changes = array();
+  // alma_preferred_branch 
+  //@todo implement interest_period and reservation_pause
+
+  if( empty($changes) ) {
+    return;
+  }
 }
 
 /**

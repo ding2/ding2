@@ -111,8 +111,8 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
     if( !isset($expiry) ) {
       // get interest period from profile2
       $interest_period = alma_get_interest_period($profile2);
-      if( $interest_period ){
-	$expiry = REQUEST_TIME + ($interest_period * 24 * 60 * 60 );
+      if( $interest_period ){	
+	$expiry = REQUEST_TIME + ($interest_period['key'] * 24 * 60 * 60 );
       }       
     }    
     if( !isset($expiry) ) {
