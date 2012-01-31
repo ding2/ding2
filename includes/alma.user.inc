@@ -138,6 +138,38 @@ function alma_user_profile_form_validate($form, $form_state) {
 }
 
 /**
+ * Update profile2 with values from alma patron
+ */
+
+function alma_user_profile_init( $profile2, $auth_res ){
+  // @todo implement
+  $creds = ding_user_get_creds($profile2);
+  $patron = alma_get_patron($creds);
+
+  // reservation pause (absentPeriod)
+  // apparently alma supports multiple absentPeriods, but for now we handle one only (the first found)
+  // @todo - check if it's correct to handle the first only
+  $langs = field_language('profile2', $profile2);
+  // reservation pause
+  if( isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'] ) ) {
+    $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
+    $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
+  }  
+  else {
+    $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = ' ';
+    $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = ' ';
+  }
+
+  // preferred_branch
+  $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'] = $patron->branch;
+
+  // handle init parameter in alma.module/alma_profile2_presave
+  $profile2->alma_init = TRUE;
+  $profile2->save();
+  $profile2->alma_init = FALSE;
+}
+
+/**
  * update provider user;
  * @invoked from: ding_user/ding_user_user_presave
  * possible changes; email, pincode, preferred_branch
