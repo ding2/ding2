@@ -17,7 +17,7 @@ projects[alma][download][tag] = "7.x-0.10"
 projects[ding_devel][type] = "module"
 projects[ding_devel][download][type] = "git"
 projects[ding_devel][download][url] = "git@github.com:ding2/ding_devel.git"
-projects[ding_devel][download][tag] = "v0.2"
+projects[ding_devel][download][tag] = "7.x-0.2"
 
 projects[openruth][type] = "module"
 projects[openruth][download][type] = "git"
