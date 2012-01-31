@@ -5,4 +5,4 @@ core = 7.x
 files[] = ting_proxy.module
 files[] = ting_proxy.test
 dependencies[] = ting
-version = "7.x-0.18"
+version = "7.x-0.19"
