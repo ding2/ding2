@@ -1,7 +1,7 @@
 name = "Ding bookmark"
 description = "Allows users to bookmark Ding entities."
 package = "Ding!"
-version = "7.x-0.3.1"
+version = "7.x-0.4"
 core = 7.x
 dependencies[] = flag
 dependencies[] = ding_provider
