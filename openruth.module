@@ -200,7 +200,15 @@ function openruth_allowed_branches() {
  */
 function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
+
+  //preferred branch
   $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
+
+  // reservation pause
+  if( isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate) ) {
+    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
+    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
+  }  
 }
 
 /**
@@ -211,34 +219,70 @@ function openruth_profile_update($profile, $userinfo) {
  * period of interest is saved locally
  * @todo; is period of interest in zruth
  */
-function openruth_profile2_presave($profile) {
-  if ($profile->type == 'provider_openruth' &&
-      !isset($profile->openruth_init) &&
-      !empty($profile->original->openruth_preferred_branch) &&
-      $profile->openruth_preferred_branch != $profile->original->openruth_preferred_branch) {
-    $langs = field_language('profile2', $profile);
-    $changes['preferred_branch'] = $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
-
-    $creds = ding_user_get_creds($profile);
-    $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
-    if ($res !== TRUE) {
-      // Call failed, throw exception.
-      if (is_string($res)) {
-        $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
-      }
-      else {
-        $exception_message = t('Update userinfo failed.');
-      }
-      throw new Exception($exception_message);
-    }
-
-    // Update the profile with whatever Openruth says.
-    $creds = ding_user_get_creds($profile);
-    if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
-      openruth_profile_update($profile, $userStatus->userInfo);
-    };
+function openruth_profile2_presave($profile2) {
+  if( !$profile2->type == 'provider_openruth' ){
+    return;
   }
-}
+
+  $langs = field_language( 'profile2', $profile2 );
+  
+  // preferred branch
+  if( !empty( $profile2->original->openruth_preferred_branch ) ) {
+    if( $profile2->openruth_preferred_branch != $profile2->original->openruth_preferred_branch ) {
+      $changes['preferred_branch'] = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
+    }
+  }
+
+  // reservation pause
+  if( !empty( $profile2->original->field_reservation_pause ) ) {
+    if( $profile2->field_reservation_pause != $profile2->original->field_reservation_pause ) {
+      
+      // remove trailing T00:00:00 openruth doesn't understand that
+      $start = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
+      $start = str_replace('T00:00:00','',$start);
+      
+      $org_start = $profile2->original->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
+      $org_start = str_replace('T00:00:00','',$org_start);
+            
+      $org_stop = $profile2->original->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
+      $org_stop = str_replace('T00:00:00','',$org_stop);
+
+      $stop = 	$profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
+      $stop = str_replace('T00:00:00','',$stop);
+
+      if( $start != $org_start || $stop != $org_stop ) {
+	$changes['reservation_pause_start'] = $start;
+	$changes['reservation_pause_stop'] = $stop;
+      }
+    }
+  }
+
+  if( empty($changes) ) {
+    return;
+  }
+
+  $creds = ding_user_get_creds( $profile2 );  
+  $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
+  if ($res !== TRUE) {
+    // Call failed, throw exception.
+    if (is_string($res)) {
+      $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
+    }
+    else {
+      $exception_message = t('Update userinfo failed.');
+    }
+    drupal_set_message($exception_message);
+    //    throw new Exception($exception_message);
+  }
+  
+  // Update the profile2 with whatever Openruth says (overrule local saves).
+  $creds = ding_user_get_creds($profile2);
+  if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
+    openruth_profile_update($profile2, $userStatus->userInfo);
+  };
+}  
+
+ 
 
 /**
  * Implements hook_profile2_view(),
@@ -333,6 +377,8 @@ function openruth_set_profile2_fields($account) {
       '#markup' => '<span>'.$interest_period.'</span>',
     );
   }  
+
+  // openruth_get_reservation_pause( $profile2 );
 }
 
 /**
@@ -366,6 +412,18 @@ function openruth_get_preferred_branch($profile2) {
   $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
 
   return $pref;
+}
+
+/**
+ * Get profile2 field; field_reservation_pause 
+ */
+function openruth_get_reservation_pause( $profile2 ) {
+ // get field languages
+  $langs = field_language('profile2', $profile2);
+
+  $res_pause = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
+
+  dpm($res_pause);
 }
 
 
@@ -404,6 +462,6 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
     }
   }
   if ($_SESSION['openruth_user_status'][$id]) {
-    return $_SESSION['openruth_user_status'][$id]['data'];
+    return $_SESSION['openruth_user_status'][$id]['data'];   
   }
 }
