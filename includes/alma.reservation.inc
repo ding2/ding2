@@ -99,9 +99,9 @@ function alma_reservation_set_preferred_branch($account, $branch) {
  */
 function alma_reservation_create($account, $id, $branch, $expiry=null) {
   $creds = ding_user_get_creds($account);
-
   // Check if the users has this reservation and throw exception.
-  if (alma_reservation_exists($creds, $id)) {
+  //if (alma_reservation_exists($creds, $id)) {
+  if( alma_reservation_exists($account, $id) ){
     throw new DingProviderReservationExists();
   }
 
@@ -142,6 +142,7 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
     'pickup_branch' => $branch,
   );
 
+  alma_reservation_clear_cache();
   // Try to make the reservation.
   $result = alma_client_invoke('add_reservation', $creds['name'], $creds['pass'], $params);
 
@@ -191,8 +192,11 @@ function alma_reservation_update_order($account, $id, $pickup_branch, $expiry_da
 function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
+  
   alma_reservation_clear_cache();
-  return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
+  if( isset($reservations[$id]) ) {
+    return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
+  }
 }
 
 /**
@@ -229,14 +233,14 @@ function alma_reservation_clear_cache() {
   unset($_SESSION['alma_reservations']);
 }
 
-function alma_reservation_exists($creds, $item_id) {
-  $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
+function alma_reservation_exists($account, $item_id) {
+  $reservations = alma_reservation_get_reservations( $account );
   foreach ($reservations as $res) {
     if ($res['record_id'] == $item_id) {
       return TRUE;
     }
+    return FALSE;
   }
-  return FALSE;
 }
 
 function alma_reservation_format_date($datetime) {
