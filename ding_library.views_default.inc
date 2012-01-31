@@ -17,7 +17,7 @@ function ding_library_views_default_views() {
   $view->base_table = 'node';
   $view->human_name = 'Ding library';
   $view->core = 7;
-  $view->api_version = '3.0-alpha1';
+  $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
@@ -423,6 +423,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_opening_hours']['table'] = 'field_data_field_opening_hours';
   $handler->display->display_options['fields']['field_opening_hours']['field'] = 'field_opening_hours';
   $handler->display->display_options['fields']['field_opening_hours']['label'] = '';
+  $handler->display->display_options['fields']['field_opening_hours']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_opening_hours']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_opening_hours']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_opening_hours']['alter']['absolute'] = 0;
