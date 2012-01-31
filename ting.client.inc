@@ -228,8 +228,17 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
 
   // Apply custom boosts if any.
   $boosts = variable_get('ting_boost_fields', array());
+
   if ($boosts) {
-    $request->userDefinedBoost = $boosts;
+    $uboosts = array();
+    foreach ($boosts as $boost_field) {
+      $uboosts[] = array(
+        'fieldName' => $boost_field['field_name'],
+        'fieldValue' => $boost_field['field_value'],
+        'weight' => $boost_field['weight'],
+      );
+    }
+    $request->userDefinedBoost = array('boostField' => $uboosts);
   }
 
   $search_result = ting_execute_cache($request);
