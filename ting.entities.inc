@@ -55,12 +55,12 @@ class TingEntity extends DingEntity {
   }
 
   function getClassification() {
-    $ret = (isset($this->reply->record['dc:subject']['dkdcplus:DK5'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5'][0] : '' . 
+    $ret = (isset($this->reply->record['dc:subject']['dkdcplus:DK5'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5'][0] : '' .
 	    (isset($this->reply->record['dc:subject']['dkdcplus:DK5-Text']) ? ' (' . $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] . ')' : ''));
     if( strlen($ret) > 0 ) {
       return $ret;
     }
-    return FALSE;      
+    return FALSE;
   }
 
   function getIsPartOf() {
@@ -102,7 +102,17 @@ class TingEntity extends DingEntity {
   }
 
   function getTitle() {
-    return !empty($this->reply->record['dc:title']) ? $this->reply->record['dc:title'][''][0] : FALSE;
+    $title = FALSE;
+    if (!empty($this->reply->record['dc:title'])) {
+      // Use first title with dkdcplus:full if available.
+      if (isset($this->reply->record['dc:title']['dkdcplus:full'])) {
+        $title = $this->reply->record['dc:title']['dkdcplus:full'][0];
+      }
+      else {
+        $title = $this->reply->record['dc:title'][''][0];
+      }
+    }
+    return $title;
   }
 
   function getSerieTitle() {
@@ -223,11 +233,25 @@ class TingCollection extends DingEntityCollection {
     foreach ($this->reply->objects as &$object) {
       // Find the title of the object that was used to fetch this collection.
       if ($object->id == $this->ding_entity_id && !empty($object->record['dc:title'])) {
-        return $object->record['dc:title'][''][0];
+        if (isset($object->record['dc:title']['dkdcplus:full'])) {
+          return $object->record['dc:title']['dkdcplus:full'][0];
+        }
+        else {
+          return $object->record['dc:title'][''][0];
+        }
       }
     }
     // If we couldn't find the object, use the title of the first object.
-    return !empty($this->reply->objects[0]->record['dc:title']) ? $this->reply->objects[0]->record['dc:title'][''][0] : FALSE;
+    $title = FALSE;
+    if (isset($this->reply->objects[0]->record['dc:title'])) {
+      if (isset($this->reply->objects[0]->record['dc:title']['dkdcplus:full'])) {
+        $title = $this->reply->objects[0]->record['dc:title']['dkdcplus:full'][''][0];
+      }
+      else {
+        $title = $this->reply->objects[0]->record['dc:title'][''][0];
+      }
+    }
+    return $title;
   }
 
   function getEntities() {
