@@ -209,6 +209,10 @@ function openruth_profile_update($profile, $userinfo) {
     $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
     $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
   }  
+  else {
+    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = ' ';
+    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = ' ';
+  }
 }
 
 /**
@@ -237,19 +241,27 @@ function openruth_profile2_presave($profile2) {
   if( !empty( $profile2->original->field_reservation_pause ) ) {
     if( $profile2->field_reservation_pause != $profile2->original->field_reservation_pause ) {
       
-      // remove trailing T00:00:00 openruth doesn't understand that
-      $start = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
-      $start = str_replace('T00:00:00','',$start);
       
+      // if field is empty delete the pause (@todo delete reservation pause doesn't work. fix it)
+      if( empty($profile2->field_reservation_pause[$langs['field_reservation_pause']]) ) {
+	$start = '';
+	$stop = '';	
+      }
+      else {
+	// remove trailing T00:00:00 openruth doesn't understand that
+	$start = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
+	$start = str_replace('T00:00:00','',$start);
+
+	$stop =	$profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
+	$stop = str_replace('T00:00:00','',$stop);
+      }
+
       $org_start = $profile2->original->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
       $org_start = str_replace('T00:00:00','',$org_start);
-            
+      
       $org_stop = $profile2->original->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
       $org_stop = str_replace('T00:00:00','',$org_stop);
-
-      $stop = 	$profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
-      $stop = str_replace('T00:00:00','',$stop);
-
+      
       if( $start != $org_start || $stop != $org_stop ) {
 	$changes['reservation_pause_start'] = $start;
 	$changes['reservation_pause_stop'] = $stop;
@@ -376,9 +388,29 @@ function openruth_set_profile2_fields($account) {
       '#title' => t('Interest period'),
       '#markup' => '<span>'.$interest_period.'</span>',
     );
-  }  
+  } 
 
-  // openruth_get_reservation_pause( $profile2 );
+  if( $reservation_pause = openruth_get_reservation_pause( $profile2 ) ) {
+    //wrapper for reservation pause
+       $account->content['profile2']['reservaion_pause'] = array(
+         '#type' => 'item',
+         '#title' => t('Reservation pause'),
+         '#prefix' => '<div class="profile2_provider_reservation_pause">',
+         '#suffix' => '</div>',
+       );
+
+       $account->content['profile2']['reservaion_pause']['start'] = array(
+         '#type' => 'item',
+         '#title' => t('Start'),
+         '#markup' => '<span>'.$reservation_pause['start'].'</span>',
+       );
+
+        $account->content['profile2']['reservaion_pause']['stop'] = array(
+         '#type' => 'item',
+         '#title' => t('Stop'),
+         '#markup' => '<span>'.$reservation_pause['stop'].'</span>',
+       );       
+    }
 }
 
 /**
@@ -418,12 +450,21 @@ function openruth_get_preferred_branch($profile2) {
  * Get profile2 field; field_reservation_pause 
  */
 function openruth_get_reservation_pause( $profile2 ) {
- // get field languages
+// get field languages
   $langs = field_language('profile2', $profile2);
 
-  $res_pause = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
+  if(  empty($profile2->field_reservation_pause[$langs['field_reservation_pause']] ) ) {
+    return false;
+  }
+   
+  $res_pause['start'] = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
+  $res_pause['stop'] = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
 
-  dpm($res_pause);
+  if( strlen($res_pause['start']) < 2 || strlen($res_pause['stop']) < 2 ) {
+    return false;
+  }
+
+  return $res_pause;
 }
 
 
