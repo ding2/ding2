@@ -44,7 +44,7 @@ projects[ding_frontend][download][tag] = "7.x-0.21.1"
 projects[ting_search][type] = "module"
 projects[ting_search][download][type] = "git"
 projects[ting_search][download][url] = "git@github.com:ding2/ting_search.git"
-projects[ting_search][download][tag] = "7.x-0.23"
+projects[ting_search][download][tag] = "7.x-0.24"
 
 projects[ting_search_autocomplete][type] = "module"
 projects[ting_search_autocomplete][download][type] = "git"
@@ -59,12 +59,12 @@ projects[ding_availability][download][tag] = "7.x-0.12"
 projects[ding_periodical][type] = "module"
 projects[ding_periodical][download][type] = "git"
 projects[ding_periodical][download][url] = "git@github.com:ding2/ding_periodical.git"
-projects[ding_periodical][download][tag] = "7.x-0.10"
+projects[ding_periodical][download][tag] = "7.x-0.11"
 
 projects[ting_relation][type] = "module"
 projects[ting_relation][download][type] = "git"
 projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git"
-projects[ting_relation][download][tag] = "7.x-0.13"
+projects[ting_relation][download][tag] = "7.x-0.14"
 
 projects[ding_toggle_format][type] = "module"
 projects[ding_toggle_format][download][type] = "git"
@@ -84,7 +84,7 @@ projects[ting_proxy][download][tag] = "7.x-0.18"
 projects[ting_infomedia][type] = "module"
 projects[ting_infomedia][download][type] = "git"
 projects[ting_infomedia][download][url] = "git@github.com:ding2/ting_infomedia.git"
-projects[ting_infomedia][download][tag] = "7.x-0.10"
+projects[ting_infomedia][download][tag] = "7.x-0.11"
 
 projects[ting_fulltext][type] = "module"
 projects[ting_fulltext][download][type] = "git"
@@ -94,12 +94,12 @@ projects[ting_fulltext][download][tag] = "7.x-0.18"
 projects[ting_sfx][type] = "module"
 projects[ting_sfx][download][type] = "git"
 projects[ting_sfx][download][url] = "git@github.com:ding2/ting_sfx.git"
-projects[ting_sfx][download][tag] = "7.x-0.20"
+projects[ting_sfx][download][tag] = "7.x-0.21"
 
 projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
 projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.git
-projects[ting_reference][download][tag] = "7.x-0.15"
+projects[ting_reference][download][tag] = "7.x-0.16"
 
 projects[ting_material_details][type] = "module"
 projects[ting_material_details][download][type] = "git"
