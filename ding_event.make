@@ -29,7 +29,7 @@ projects[date][version] = 2.0-rc1
 projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2/ding_content.git
-projects[ding_content][download][tag] = "7.x-0.13.2"
+projects[ding_content][download][tag] = "7.x-0.14"
 
 projects[features][type] = module
 projects[features][subdir] = contrib
