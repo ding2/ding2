@@ -293,7 +293,6 @@ function alma_set_profile2_fields($account) {
 
   // set interest period
   if( $interest_period = alma_get_interest_period($profile2) ) {
-    dpm($interest_period);
     $account->content['profile2']['interest_period'] = array(
       '#type' => 'item',
       '#title' => t('Interest period'),
