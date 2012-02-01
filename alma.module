@@ -337,22 +337,45 @@ function alma_get_preferred_branch( $profile2 ) {
  *
  * Sends changes to Alma and updates profile with real values.
  */
-function alma_profile2_presave($profile) {
-  if( !$profile->type == 'provider_alma' ) {
+function alma_profile2_presave($profile2) {
+  if( !$profile2->type == 'provider_alma' ) {
+    return;
+  }
+  // do not presave when initializing
+  // @see alma.user/alma_user_profile_init
+  if( isset($profile2->alma_init) ) {
     return;
   }
 
-  $creds = ding_user_get_creds($profile);
+  $creds = ding_user_get_creds($profile2);
   // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause
-  $langs = field_language('profile2', $profile);
- 
-  $changes = array();
+  $langs = field_language('profile2', $profile2);
+  
   // alma_preferred_branch 
   //@todo implement interest_period and reservation_pause
+  // dpm($profile2);
+  // reservation pause
+  /* if( !empty( $profile2->original->field_alma_reservation_pause ) ) {   
+        // remove trailing T00:00:00 openruth doesn't understand that
+    $start = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
+    $start = str_replace('T00:00:00','',$start);
 
-  if( empty($changes) ) {
-    return;
-  }
+    $stop = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
+    $stop = str_replace('T00:00:00','',$stop);    
+
+    $org_start = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
+    $org_start = str_replace('T00:00:00','',$org_start);
+    
+    $org_stop = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
+    $org_stop = str_replace('T00:00:00','',$org_stop);
+    
+    if( $start != $org_start || $stop != $org_stop ) {
+      
+      $changes['reservation_pause_start'] = $start;
+      $changes['reservation_pause_stop'] = $stop;
+    }
+   
+    }*/
 }
 
 /**
@@ -365,7 +388,7 @@ function alma_profile2_presave($profile) {
  * @return stdClass
  *   Patron object.
  */
-function alma_get_patron($creds = NULL, $reset = TRUE) {
+function alma_get_patron($creds = NULL, $reset = FALSE) {
   if (is_null($creds)) {
     // Get creds, which may throw an exception that login is required.
     global $user;
@@ -385,6 +408,7 @@ function alma_get_patron($creds = NULL, $reset = TRUE) {
       'mobile' => isset($info['phones'][0]) ? $info['phones'][0]['phone'] : '',
       'branch' => $info['preferences']['patron_branch'],
       'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
+      'absentPeriods'=>isset($info['absent_periods']) ? $info['absent_periods'] : '',
     );
   }
 

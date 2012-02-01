@@ -145,7 +145,6 @@ function alma_user_profile_init( $profile2, $auth_res ){
   // @todo implement
   $creds = ding_user_get_creds($profile2);
   $patron = alma_get_patron($creds);
-
   // reservation pause (absentPeriod)
   // apparently alma supports multiple absentPeriods, but for now we handle one only (the first found)
   // @todo - check if it's correct to handle the first only
@@ -154,6 +153,7 @@ function alma_user_profile_init( $profile2, $auth_res ){
   if( isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'] ) ) {
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
+    $profile2->absentId = $patron->absentPeriods[0]['id'];;
   }  
   else {
     $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = ' ';
@@ -166,7 +166,7 @@ function alma_user_profile_init( $profile2, $auth_res ){
   // handle init parameter in alma.module/alma_profile2_presave
   $profile2->alma_init = TRUE;
   $profile2->save();
-  $profile2->alma_init = FALSE;
+  unset($profile2->alma_init);
 }
 
 /**
@@ -176,17 +176,15 @@ function alma_user_profile_init( $profile2, $auth_res ){
  */
 function alma_user_account_update($account, $changes) {
   $creds = ding_user_get_creds($account);
-  
+
   if( isset($changes['mail']) ) {
     // add email
-    if( !isset( $account->mail ) && !empty($changes['mail'] ) ) {
-      //dpm('ADD MAIL');
-      $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
+    if( empty( $account->mail ) && !empty($changes['mail'] ) ) {
+       $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
     }
     // change email
     elseif( isset( $account->mail ) && !empty($changes['mail'] ) ){
-      //dpm('CHANGE MAIL');
-      $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $account->mail, $changes['mail']);
+       $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $account->mail, $changes['mail']);
     }
   }
 
