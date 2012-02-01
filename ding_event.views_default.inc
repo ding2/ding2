@@ -230,7 +230,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['element_class'] = 'ding-event-library';
   $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_audience']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['group_audience']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['group_audience']['hide_empty'] = 1;
   $handler->display->display_options['fields']['group_audience']['empty_zero'] = 0;
   $handler->display->display_options['fields']['group_audience']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
@@ -576,7 +576,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['group_audience']['alter']['html'] = 0;
   $handler->display->display_options['fields']['group_audience']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['group_audience']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['group_audience']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['group_audience']['hide_empty'] = 1;
   $handler->display->display_options['fields']['group_audience']['empty_zero'] = 0;
   $handler->display->display_options['fields']['group_audience']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['group_audience']['click_sort_column'] = 'gid';
