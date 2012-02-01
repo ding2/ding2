@@ -283,19 +283,22 @@ function ding_dibs_block_info() {
  */
 function ding_dibs_block_view($delta = '') {
   $block = array();
+  $supported_cards = array();
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
   $cards = ding_dibs_cards();
-  foreach (variable_get('cards_supported') as $key=>$card) {
-    if ( $card ) {
-      if ( array_key_exists($card,$cards) ) {
-        $supported_cards[] = theme_image( array(
-            'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
-            'height' => '33px',
-            'alt' => $card,
-            'title' => $card,
-            'attributes' => array('class'=>'card-logo'),
-          )
-        ) . '<span class="card-name">' . $card . '</span></p>';
+  if ( is_array(variable_get('cards_supported')) ) {
+    foreach (variable_get('cards_supported') as $key=>$card) {
+      if ( $card ) {
+        if ( array_key_exists($card,$cards) ) {
+          $supported_cards[] = theme_image( array(
+              'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
+              'height' => '33px',
+              'alt' => $card,
+              'title' => $card,
+              'attributes' => array('class'=>'card-logo'),
+            )
+          ) . '<span class="card-name">' . $card . '</span></p>';
+        }
       }
     }
   }
