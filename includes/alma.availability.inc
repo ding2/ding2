@@ -1,7 +1,4 @@
 <?php
-
-<?php
-
 /**
  * Implements provider availability, holdings.
  */

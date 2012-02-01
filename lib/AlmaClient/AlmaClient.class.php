@@ -53,7 +53,6 @@ class AlmaClient {
    */
   public function request($method, $params = array(), $check_status = TRUE) {
     $startTime = explode(' ', microtime());
-
     // For use with a non-Drupal-system, we should have a way to swap
     // the HTTP client out.
     $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)));
