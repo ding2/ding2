@@ -64,7 +64,7 @@ projects[ding_periodical][download][tag] = "7.x-0.11"
 projects[ting_relation][type] = "module"
 projects[ting_relation][download][type] = "git"
 projects[ting_relation][download][url] = "git@github.com:ding2/ting_relation.git"
-projects[ting_relation][download][tag] = "7.x-0.14"
+projects[ting_relation][download][tag] = "7.x-0.15"
 
 projects[ding_toggle_format][type] = "module"
 projects[ding_toggle_format][download][type] = "git"
