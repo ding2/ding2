@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * Implementation of hook_install().
+ */
+function ding_tabroll_install() {
+  ding_tabroll_nodqueue_admin_theme();
+}
+
+/**
+ * Migrate to nodequeue.
+ *
+ * Add 5 latest tabroll nodes to frontpage queue to recreate setup from when
+ * ding_tabroll was based on a view with the latest tabroll nodes.
+ */
+function ding_tabroll_update_6000() {
+  // Get the frontpage queue and subqueue
+  $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage_queue');
+  $subqueues = nodequeue_load_subqueues_by_queue($queue->qid);
+  // The frontpage queue is a simple queue so we should only have a single
+  // subqueue. Grab the first.
+  $subqueue = array_shift($subqueues);
+
+  // Add 5 latest published tabroll nodes to the queue
+  $query = 'SELECT nid FROM node
+            WHERE type = "rolltab" AND status = 1
+            ORDER BY changed';
+  $result = db_query_range($query, 0, 5);
+  while ($nid = db_result($result)) {
+    nodequeue_subqueue_add($queue, $subqueue, $nid);
+  }
+
+  ding_tabroll_nodqueue_admin_theme();
+}
+
+/**
+ * Use admin theme on node/?/nodequeue for improved editorial experience.
+ */
+function ding_tabroll_nodqueue_admin_theme() {
+  $admin_theme_paths = explode("\n" ,variable_get('admin_theme_path', NULL));
+  $admin_theme_paths[] = 'node/*/nodequeue';
+  variable_set('admin_theme_path', implode("\n", $admin_theme_paths));
+}

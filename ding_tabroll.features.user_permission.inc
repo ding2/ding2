@@ -46,13 +46,31 @@ function ding_tabroll_user_default_permissions() {
     ),
   );
 
+  // Exported permission: manipulate all queues
+  $permissions['manipulate all queues'] = array(
+    'name' => 'manipulate all queues',
+    'roles' => array(
+      '0' => 'editor',
+      '1' => 'administrator',
+    ),
+  );
+
+  // Exported permission: manipulate queues
+  $permissions['manipulate queues'] = array(
+    'name' => 'manipulate queues',
+    'roles' => array(
+      '0' => 'editor',
+      '1' => 'administrator',
+    ),
+  );
+
   // Exported permission: view imagecache 460_240_crop
   $permissions['view imagecache 460_240_crop'] = array(
     'name' => 'view imagecache 460_240_crop',
     'roles' => array(
-      '0' => 'administrator',
-      '1' => 'anonymous user',
-      '2' => 'authenticated user',
+      '0' => 'anonymous user',
+      '1' => 'authenticated user',
+      '2' => 'administrator',
     ),
   );
 
