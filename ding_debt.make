@@ -9,7 +9,7 @@ projects[ding_base][download][tag] = "7.x-0.3"
 projects[ding_dibs][type] = module
 projects[ding_dibs][download][type] = git
 projects[ding_dibs][download][url] = git@github.com:ding2/ding_dibs.git
-projects[ding_dibs][download][tag] = "7.x-0.10"
+projects[ding_dibs][download][tag] = "7.x-0.11"
 
 projects[ding_popup][type] = module
 projects[ding_popup][download][type] = git
