@@ -440,9 +440,6 @@ class OpenruthClient {
 
     $this->log_start();
     $res = $this->client->updateUserInfo($args);
-
-dpm($this->client->__getLastRequest());
-
     $this->log($name, $pass);
     if (isset($res->userError)) {
       return $res->userError;
@@ -490,8 +487,6 @@ dpm($this->client->__getLastRequest());
              'userId' => $username,
              'userPinCode' => $pin_code,
       ));
-
-    
 
     $this->log($username, $pin_code);
     if (isset($res->userError)) {
