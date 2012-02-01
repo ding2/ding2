@@ -11,16 +11,16 @@ function template_preprocess_ting_relation(&$variables) {
   $all_relations = $variables['elements']['#relations'];
   foreach( $all_relations as $ns => $relations ) {
     switch( $ns  ) {
-    case 'hasReview' :
+    case 'dbcaddi:hasReview' :
       $variables['content'][$ns] = ting_relation_reviews( $relations );
       break;
-    case 'hasSubjectDescription':
+    case 'dbcaddi:hasSubjectDescription':
       $variables['content'][$ns] = ting_relation_subjects( $relations );
       break;
-    case 'hasCreatorDescription':
+    case 'dbcaddi:hasCreatorDescription':
       $variables['content'][$ns] = ting_relation_creator_description( $relations );
       break;
-    case 'hasOnlineAccess':
+    case 'dbcaddi:hasOnlineAccess':
       $variables['content'][$ns] = ting_relation_online( $relations );
       break;
     default:

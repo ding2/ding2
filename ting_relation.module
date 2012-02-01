@@ -27,9 +27,9 @@ function ting_relation_theme() {
  */
 function ting_relation_anchor_info() {
   $ret = ting_relation_inline();
-  unset($ret['hasOnlineAccess']);
-  unset($ret['isReviewOf']);
-  unset($ret['isPartOfManifestation']);
+  unset($ret['dbcaddi:hasOnlineAccess']);
+  unset($ret['dbcaddi:isReviewOf']);
+  unset($ret['dbcaddi:isPartOfManifestation']);
   return $ret;
 }
 
@@ -40,12 +40,12 @@ function ting_relation_inline() {
   static $types;
   if (!$types) {
     $types = array(
-      'hasCreatorDescription' => t('Author portrait'),
-      'hasReview' => t('Review'),
-      'hasSubjectDescription' => t('Subject description'),
-      'isPartOfManifestation' => t('Is part of manifestation'),
-      'isReviewOf' => t('Is review of'),
-      'hasOnlineAccess' => t('Online access'),
+      'dbcaddi:hasCreatorDescription' => t('Author portrait'),
+      'dbcaddi:hasReview' => t('Review'),
+      'dbcaddi:hasSubjectDescription' => t('Subject description'),
+      'dbcaddi:isPartOfManifestation' => t('Is part of manifestation'),
+      'dbcaddi:isReviewOf' => t('Is review of'),
+      'dbcaddi:hasOnlineAccess' => t('Online access'),
     );
   }
   return $types;
