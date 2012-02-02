@@ -84,52 +84,6 @@ function alma_user_info($creds = NULL) {
 }
 
 
-
-
-/*function alma_user_profile_form($form, $form_state) {
-  $status = alma_get_patron();
-  $organisation = alma_get_organisation();
-
-  // NOT IMPLEMNETED YET
-//  $period_of_interest = array(
-//    30 => t('1 month'),
-//    60 => t('2 months'),
-//    180 => t('6 months'),
-//    360 => t('12 months'),
-//  );
-
-  $form['alma_library']['email'] = array(
-    '#type' => 'value',
-    '#value' => TRUE,
-  );
-
-  $form['alma_library']['password'] = array(
-    '#type' => 'value',
-    '#value' => TRUE,
-  );
-
-  $form['alma_library']['mobile_phone'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Mobile phone'),
-    '#value' => $status->mobile,
-  );
-
-  $form['alma_library']['preferred_branch'] = array(
-    '#type' => 'select',
-    '#title' => t('My pickup branch'),
-    '#options' => $organisation['reservation'],
-    '#default_value' => $status->branch,
-  );
-
-  // Since we dont know the users internal password, we will remove the form fields
-  // And the validate check.
-  unset($form['#validate'][array_search('user_validate_current_pass', $form['#validate'])]);
-  unset($form['account']['current_pass']);
-  unset($form['account']['current_pass_required_values']);
-
-  return $form;
-  }*/
-
 /**
  * Provider specific user profile form validate handler.
  */
@@ -142,7 +96,6 @@ function alma_user_profile_form_validate($form, $form_state) {
  */
 
 function alma_user_profile_init( $profile2, $auth_res ){
-  // @todo implement
   $creds = ding_user_get_creds($profile2);
   $patron = alma_get_patron($creds);
   // reservation pause (absentPeriod)
@@ -153,7 +106,7 @@ function alma_user_profile_init( $profile2, $auth_res ){
   if( isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'] ) ) {
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
-    $profile2->absentId = $patron->absentPeriods[0]['id'];;
+    $profile2->field_absent_id[$langs['field_absent_id']][0]['value'] = $patron->absentPeriods[0]['id'];
   }  
   else {
     $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = ' ';
@@ -200,50 +153,3 @@ function alma_user_account_update($account, $changes) {
     }
   }
 }
-
-
-/**
- * Provider specific user profile form submit handler.
- */
-/*function alma_user_profile_form_submit($form, $form_state) {
-  global $user;
-
-  $updated = FALSE;
-  $creds = ding_user_get_creds($user);
-  $changed_settings = $form_state['input'];
-  $orig_settings = $form['alma_library'];
-
-  // Update e-mail address.
-  if ($orig_settings['email'] == TRUE && ($form['account']['mail']['#default_value'] !== $changed_settings['mail'])) {
-    alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $form['account']['mail']['#default_value'], $changed_settings['mail']);
-    $updated = TRUE;
-  }
-
-  // Update password.
-  if ($orig_settings['password'] == TRUE && ($changed_settings['pass']['pass1'])) {
-    alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changed_settings['pass']['pass1']);
-
-    // Update informations local.
-    ding_user_save_creds(array('creds' => array('name' => $creds['name'], 'pass' => $changed_settings['pass']['pass1'])), $user);
-    $creds = ding_user_get_creds($user);
-    $creds['pass'] = $changed_settings['pass']['pass1'];
-    $updated = TRUE;
-  }
-
-  // Mobile phone number.
-  if ($changed_settings['mobile_phone'] !== $orig_settings['mobile_phone']['#value']) {
-    alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $orig_settings['mobile_phone']['#value'], $changed_settings['mobile_phone']);
-    $updated = TRUE;
-  }
-
-  // Preferred branch.
-  if ($changed_settings['preferred_branch'] !== $orig_settings['preferred_branch']['#default_value']) {
-    alma_client_invoke('change_patron_preferences', $creds['name'], $creds['pass'], $changed_settings['preferred_branch']);
-    $updated = TRUE;
-  }
-
-  if ($updated) {
-    // Update local cache.
-    alma_get_patron($creds, TRUE);
-  }
-  }*/
