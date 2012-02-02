@@ -335,7 +335,7 @@ function alma_get_preferred_branch( $profile2 ) {
 /**
  * Implements hook_profile2_presave().
  *
- * Sends changes to Alma and updates profile with real values.
+ * Sends changes to Alma 
  */
 function alma_profile2_presave($profile2) {
   if( !$profile2->type == 'provider_alma' ) {
@@ -345,17 +345,13 @@ function alma_profile2_presave($profile2) {
   // @see alma.user/alma_user_profile_init
   if( isset($profile2->alma_init) ) {
     return;
-  }
-
-  $creds = ding_user_get_creds($profile2);
+  }  
   // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause
   $langs = field_language('profile2', $profile2);
   
-  // alma_preferred_branch 
-  //@todo implement interest_period and reservation_pause
-  // dpm($profile2);
+  
   // reservation pause
-  /* if( !empty( $profile2->original->field_alma_reservation_pause ) ) {   
+   if( !empty( $profile2->original->field_alma_reservation_pause ) ) {   
         // remove trailing T00:00:00 openruth doesn't understand that
     $start = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
     $start = str_replace('T00:00:00','',$start);
@@ -370,12 +366,96 @@ function alma_profile2_presave($profile2) {
     $org_stop = str_replace('T00:00:00','',$org_stop);
     
     if( $start != $org_start || $stop != $org_stop ) {
-      
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
+      $changes['absent_id'] = $profile2->field_absent_id[$langs['field_absent_id']][0]['value'];
+    }   
+   }
+
+   // alma_preferred_branch (patronBranch)
+   if( !empty( $profile2->original->field_alma_preferred_branch ) ) {
+     $org_branch = $profile2->original->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'];
+     $new_branch = $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'];
+
+     if( $org_branch != $new_branch ) {
+       $changes['preferred_branch'] = $new_branch;
+     }
+   }
+
+   // Interest period ? apparently not an alma parameter.. @todo; check if Interest period should be saved on provider 
+
+   // update provider
+   if( isset($changes) ) {
+     alma_update_provider( $changes,$profile2 );
+   }
+}
+
+function alma_update_provider( $changes, $profile2 ) {
+  $error_message = t('Error communicating with library system. ');
+
+  try{  $creds = ding_user_get_creds( $profile2 );}
+  catch(Exception $e){
+    // rethrow ??
+    throw $e;
+  }
+
+  // update reservation pause (absentPeriod)
+  if( isset( $changes['absent_id'] ) &&
+      isset($changes['reservation_pause_start']) && 
+      isset( $changes['reservation_pause_stop'] )) {
+
+     try {
+      $res =  alma_client_invoke('change_absent_period',$creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'],$changes['reservation_pause_stop'] );
     }
-   
-    }*/
+    catch(Exception $e){
+      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    }
+    if( !$res ) {
+      $error_message .= t('reservation pause not updated');
+      drupal_set_message($error_message,'warning');
+    }
+  }
+  // add reservation pause
+  elseif( isset($changes['reservation_pause_start'])  && 
+	  isset( $changes['reservation_pause_stop'] ) ) {
+    try {
+      $res = alma_client_invoke('add_absent_period',$creds['name'], $creds['pass'], $changes['reservation_pause_start'],$changes['reservation_pause_stop']);
+    }
+    catch(Exception $e){
+      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    }
+    if( !$res ) {
+      $error_message .= t('reservation pause not added');
+      drupal_set_message($error_message,'warning');
+    }
+  }
+  // delete reservation pause
+  elseif( isset( $changes['absent_id'] ) ) {
+    try {
+      $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
+    }
+    catch(Exception $e){
+      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    }
+    if( !$res ) {
+      $error_message .= t('reservation pause not deleted');
+      drupal_set_message($error_message,'warning');
+    }
+  }
+
+  // update preferred branch (patronBranch)
+  if( isset($changes['preferred_branch'] ) ) {
+    try {
+      $res = alma_client_invoke( 'change_patron_preferences' , $creds['name'], $creds['pass'], $changes['preferred_branch']);
+    }
+    catch(Exception $e){
+      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    }
+    if( !$res ) {
+      $error_message .= t('pickup branch not saved');
+      drupal_set_message($error_message,'warning');
+    }
+  }   
 }
 
 /**
@@ -388,7 +468,7 @@ function alma_profile2_presave($profile2) {
  * @return stdClass
  *   Patron object.
  */
-function alma_get_patron($creds = NULL, $reset = FALSE) {
+function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
   if (is_null($creds)) {
     // Get creds, which may throw an exception that login is required.
     global $user;
@@ -410,6 +490,9 @@ function alma_get_patron($creds = NULL, $reset = FALSE) {
       'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
       'absentPeriods'=>isset($info['absent_periods']) ? $info['absent_periods'] : '',
     );
+  }
+  if( $as_array ) {
+    return $patron;
   }
 
   return (object) $patron;
