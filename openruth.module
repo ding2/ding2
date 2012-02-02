@@ -202,16 +202,20 @@ function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
 
   //preferred branch
-  $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
+  if( !empty( $profile->openruth_preferred_branch ) ){
+    $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
+  }
 
   // reservation pause
-  if( isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate) ) {
-    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
-    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
-  }  
-  else {
-    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = ' ';
-    $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = ' ';
+  if( !empty( $profile->field_reservation_pause )){
+    if( isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate) ) {
+      $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
+      $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
+    }  
+    else {
+      $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = ' ';
+      $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = ' ';
+    }
   }
 }
 
@@ -392,20 +396,20 @@ function openruth_set_profile2_fields($account) {
 
   if( $reservation_pause = openruth_get_reservation_pause( $profile2 ) ) {
     //wrapper for reservation pause
-       $account->content['profile2']['reservaion_pause'] = array(
+       $account->content['profile2']['reservation_pause'] = array(
          '#type' => 'item',
          '#title' => t('Reservation pause'),
          '#prefix' => '<div class="profile2_provider_reservation_pause">',
          '#suffix' => '</div>',
        );
 
-       $account->content['profile2']['reservaion_pause']['start'] = array(
+       $account->content['profile2']['reservation_pause']['start'] = array(
          '#type' => 'item',
          '#title' => t('Start'),
          '#markup' => '<span>'.$reservation_pause['start'].'</span>',
        );
 
-        $account->content['profile2']['reservaion_pause']['stop'] = array(
+        $account->content['profile2']['reservation_pause']['stop'] = array(
          '#type' => 'item',
          '#title' => t('Stop'),
          '#markup' => '<span>'.$reservation_pause['stop'].'</span>',
@@ -422,6 +426,10 @@ function openruth_get_interest_period($profile2) {
   // get field-info to retrieve values for select list
   $field_info = field_info_field('field_openruth_interest_period');  
 
+  if( empty( $profile2->original->field_openruth_interest_period ) ) {
+    return FALSE;
+  }
+
   $interest_period = FALSE;
   $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
   if( $int_values ) {
@@ -436,12 +444,16 @@ function openruth_get_interest_period($profile2) {
  */
 function openruth_get_preferred_branch($profile2) {
   // get field languages
+  $pref = FALSE;
   $langs = field_language('profile2', $profile2);
-  
+  if( empty( $profile2->original->openruth_preferred_branch ) ) {
+    return FALSE;
+  }
   //get preferred branch
   $pref_branch = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
   $branches = openruth_allowed_branches();
   $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
+  
 
   return $pref;
 }
@@ -452,6 +464,9 @@ function openruth_get_preferred_branch($profile2) {
 function openruth_get_reservation_pause( $profile2 ) {
 // get field languages
   $langs = field_language('profile2', $profile2);
+  if( empty($profile2->field_reservation_pause) ) {
+    return FALSE;
+  }
 
   if(  empty($profile2->field_reservation_pause[$langs['field_reservation_pause']] ) ) {
     return false;
