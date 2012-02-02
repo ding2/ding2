@@ -300,6 +300,46 @@ function alma_set_profile2_fields($account) {
     );
   }  
 
+  // set reservation pause
+  if( $reservation_pause = alma_get_reservation_pause( $profile2 ) ) {
+        //wrapper for reservation pause
+       $account->content['profile2']['reservation_pause'] = array(
+         '#type' => 'item',
+         '#title' => t('Reservation pause'),
+         '#prefix' => '<div class="profile2_provider_reservation_pause">',
+         '#suffix' => '</div>',
+       );
+
+       $account->content['profile2']['reservation_pause']['start'] = array(
+         '#type' => 'item',
+         '#title' => t('Start'),
+         '#markup' => '<span>'.str_replace('T00:00:00','',$reservation_pause['start']).'</span>',
+       );
+
+        $account->content['profile2']['reservation_pause']['stop'] = array(
+         '#type' => 'item',
+         '#title' => t('Stop'),
+         '#markup' => '<span>'.str_replace('T00:00:00','',$reservation_pause['stop']).'</span>',
+       );       
+  }
+}
+
+function alma_get_reservation_pause($profile2){
+  // get field languages
+  $langs = field_language('profile2', $profile2);
+  
+  if(  empty($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']] ) ) {
+    return false;
+  }
+  
+  $res_pause['start'] = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
+  $res_pause['stop'] = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
+
+  if( strlen($res_pause['start']) < 2 || strlen($res_pause['stop']) < 2 ) {
+    return false;
+  }
+
+  return $res_pause;
 }
 
 function alma_get_interest_period( $profile2 ) {
@@ -349,14 +389,16 @@ function alma_profile2_presave($profile2) {
   // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause
   $langs = field_language('profile2', $profile2);
   
-  
   // reservation pause
    if( !empty( $profile2->original->field_alma_reservation_pause ) ) {   
-        // remove trailing T00:00:00 openruth doesn't understand that
-    $start = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
+     $start = 
+       isset($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value']) ?
+       $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] : '';
     $start = str_replace('T00:00:00','',$start);
 
-    $stop = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
+    $stop = 
+      isset($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2']) ?
+      $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] : '';
     $stop = str_replace('T00:00:00','',$stop);    
 
     $org_start = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
@@ -400,9 +442,9 @@ function alma_update_provider( $changes, $profile2 ) {
   }
 
   // update reservation pause (absentPeriod)
-  if( isset( $changes['absent_id'] ) &&
-      isset($changes['reservation_pause_start']) && 
-      isset( $changes['reservation_pause_stop'] )) {
+  if( !empty( $changes['absent_id'] ) &&
+      !empty($changes['reservation_pause_start']) && 
+      !empty( $changes['reservation_pause_stop'] )) {
 
      try {
       $res =  alma_client_invoke('change_absent_period',$creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'],$changes['reservation_pause_stop'] );
@@ -416,8 +458,8 @@ function alma_update_provider( $changes, $profile2 ) {
     }
   }
   // add reservation pause
-  elseif( isset($changes['reservation_pause_start'])  && 
-	  isset( $changes['reservation_pause_stop'] ) ) {
+  elseif( !empty($changes['reservation_pause_start'])  && 
+	  !empty( $changes['reservation_pause_stop'] ) ) {
     try {
       $res = alma_client_invoke('add_absent_period',$creds['name'], $creds['pass'], $changes['reservation_pause_start'],$changes['reservation_pause_stop']);
     }
@@ -430,21 +472,23 @@ function alma_update_provider( $changes, $profile2 ) {
     }
   }
   // delete reservation pause
-  elseif( isset( $changes['absent_id'] ) ) {
+  elseif( !empty( $changes['absent_id'] ) ) {
     try {
       $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
     }
     catch(Exception $e){
       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
     }
-    if( !$res ) {
+    // this one actually deletes the reservation pause, but returns an error ??
+    // for now disable messages...@todo; fix it.
+    /* if( !$res ) {
       $error_message .= t('reservation pause not deleted');
       drupal_set_message($error_message,'warning');
-    }
+      }*/
   }
 
   // update preferred branch (patronBranch)
-  if( isset($changes['preferred_branch'] ) ) {
+  if( !empty($changes['preferred_branch'] ) ) {
     try {
       $res = alma_client_invoke( 'change_patron_preferences' , $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
