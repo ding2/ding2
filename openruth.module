@@ -201,6 +201,8 @@ function openruth_allowed_branches() {
 function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
 
+  
+
   //preferred branch
   if( !empty( $profile->openruth_preferred_branch ) ){
     $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
@@ -217,6 +219,12 @@ function openruth_profile_update($profile, $userinfo) {
       $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = ' ';
     }
   }
+
+  // mobile phone
+  if( isset($profile->field_openruth_mobile_phone) ) {
+    $profile->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] = isset($userinfo->userMobilePhone) ? $userinfo->userMobilePhone : '';
+  }
+
 }
 
 /**
@@ -273,10 +281,19 @@ function openruth_profile2_presave($profile2) {
     }
   }
 
+
+  // mobile phone
+  if( !empty( $profile2->original->field_openruth_mobile_phone ) ) {
+    if( $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
+	$profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] ) {
+      $changes['mobile_phone'] = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']; 
+    }
+  }
   if( empty($changes) ) {
     return;
   }
 
+  // exit;
   $creds = ding_user_get_creds( $profile2 );  
   $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
   if ($res !== TRUE) {
