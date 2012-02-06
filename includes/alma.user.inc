@@ -76,9 +76,11 @@ function alma_user_info($creds = NULL) {
     'address' => $status->address,
     'postal' => $status->postal,
     'city' => $status->city,
-    'mobile' => $status->mobile,
+    'mobile' => $status->mobiles,
     'agency' => $status->branchName,
   );
+
+  dpm($info);
 
   return (object)$info;
 }
@@ -98,6 +100,7 @@ function alma_user_profile_form_validate($form, $form_state) {
 function alma_user_profile_init( $profile2, $auth_res ){
   $creds = ding_user_get_creds($profile2);
   $patron = alma_get_patron($creds);
+
   // reservation pause (absentPeriod)
   // apparently alma supports multiple absentPeriods, but for now we handle one only (the first found)
   // @todo - check if it's correct to handle the first only
@@ -115,6 +118,11 @@ function alma_user_profile_init( $profile2, $auth_res ){
 
   // preferred_branch
   $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'] = $patron->branch;
+
+  //mobile; also here alma supports multiple phones - again we pick the first
+  $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] = isset($patron->mobiles[0]['phone']) ? $patron->mobiles[0]['phone'] : '';
+  $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'] = isset($patron->mobiles[0]['id']) ? $patron->mobiles[0]['id'] : null;
+  //$profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'] = isset() .. etc
 
   // handle init parameter in alma.module/alma_profile2_presave
   $profile2->alma_init = TRUE;
@@ -141,6 +149,7 @@ function alma_user_account_update($account, $changes) {
     }
   }
 
+  // change password
   if (isset($changes['pass'])) {
     $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changes['pass']);
     if( $res ) {

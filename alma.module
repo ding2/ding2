@@ -272,6 +272,8 @@ function alma_set_profile2_fields($account) {
     return;
   }  
 
+  dpm($profile2);
+
   
 
   // wrapper for profile2-fields
@@ -386,7 +388,7 @@ function alma_profile2_presave($profile2) {
   if( isset($profile2->alma_init) ) {
     return;
   }  
-  // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause
+  // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause; field_alma_mobile_phone
   $langs = field_language('profile2', $profile2);
   
   // reservation pause
@@ -422,14 +424,34 @@ function alma_profile2_presave($profile2) {
      if( $org_branch != $new_branch ) {
        $changes['preferred_branch'] = $new_branch;
      }
+   } 
+
+   //change or remove
+   if( !empty($profile2->original->field_alma_mobile_phone ) ) {
+     $org_phone = $profile2->original->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];
+     $new_phone = 
+       !empty( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ? 
+       $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] :
+       'DELETE';
+     if( $org_phone != $new_phone ) {
+       $changes['mobile'] = $new_phone;
+       $changes['phone_id'] = $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'];
+     }
    }
+   // add 
+   elseif( isset( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] ) &&
+	   !isset( $profile2->original->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] )) {
+    $changes['mobile'] = $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];   
+  } 
+  
 
    // Interest period ? apparently not an alma parameter.. @todo; check if Interest period should be saved on provider 
 
    // update provider
    if( isset($changes) ) {
      alma_update_provider( $changes,$profile2 );
-   }
+   }  
+   
 }
 
 function alma_update_provider( $changes, $profile2 ) {
@@ -441,6 +463,51 @@ function alma_update_provider( $changes, $profile2 ) {
     throw $e;
   }
 
+  // mobile phone; add, change, delete
+  if( isset($changes['phone_id']) ) {    
+    // update
+    // @todo; implement
+    if( $changes['mobile'] == 'DELETE' ) {
+      //delete mobile
+      try{
+	$res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
+      }
+      catch(Exception $e){
+	watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      }
+      if( !$res ) {
+	$error_message .= t('mobile not deleted');
+	drupal_set_message($error_message,'warning');
+      }
+    }
+    else {
+      //update mobile
+       try{
+	$res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
+      }
+      catch(Exception $e){
+	watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      }
+      if( !$res ) {
+	$error_message .= t('mobile not updated');
+	drupal_set_message($error_message,'warning');
+      }      
+    }       
+  }
+  elseif( isset($changes['mobile']) ){
+    // add mobile
+    try{
+      $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile'] );
+    }
+    catch(Exception $e){
+      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    }
+    if( !$res ) {
+      $error_message .= t('mobile not added');
+      drupal_set_message($error_message,'warning');
+    }
+  }      
+  
   // update reservation pause (absentPeriod)
   if( !empty( $changes['absent_id'] ) &&
       !empty($changes['reservation_pause_start']) && 
@@ -479,6 +546,7 @@ function alma_update_provider( $changes, $profile2 ) {
     catch(Exception $e){
       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
     }
+
     // this one actually deletes the reservation pause, but returns an error ??
     // for now disable messages...@todo; fix it.
     /* if( !$res ) {
@@ -500,6 +568,9 @@ function alma_update_provider( $changes, $profile2 ) {
       drupal_set_message($error_message,'warning');
     }
   }   
+
+   // refresh patron
+  alma_get_patron($creds, TRUE); 
 }
 
 /**
@@ -529,7 +600,7 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
       'address' => isset($info['addresses'][0]) ? $info['addresses'][0]['street'] : '',
       'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
       'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
-      'mobile' => isset($info['phones'][0]) ? $info['phones'][0]['phone'] : '',
+      'mobiles' => isset($info['phones']) ? $info['phones'] : '',
       'branch' => $info['preferences']['patron_branch'],
       'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
       'absentPeriods'=>isset($info['absent_periods']) ? $info['absent_periods'] : '',
