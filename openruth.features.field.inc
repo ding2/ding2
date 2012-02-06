@@ -73,6 +73,69 @@ function openruth_field_default_fields() {
     ),
   );
 
+  // Exported field: 'profile2-provider_openruth-field_openruth_mobile_phone'
+  $fields['profile2-provider_openruth-field_openruth_mobile_phone'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_openruth_mobile_phone',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_openruth',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'Your mobile phone',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 3,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_openruth_mobile_phone',
+      'label' => 'Mobile phone',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '4',
+      ),
+    ),
+  );
+
   // Exported field: 'profile2-provider_openruth-field_reservation_pause'
   $fields['profile2-provider_openruth-field_reservation_pause'] = array(
     'field_config' => array(
@@ -137,6 +200,7 @@ function openruth_field_default_fields() {
         'active' => 1,
         'module' => 'date',
         'settings' => array(
+          'display_all_day' => 0,
           'increment' => '15',
           'input_format' => 'Y-m-d',
           'input_format_custom' => '',
@@ -208,11 +272,13 @@ function openruth_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Interest period');
+  t('Mobile phone');
   t('Period of interest - how long is a reservation valid for');
   t('Preferred branch');
   t('Reservation pause');
   t('Select preferred pickup branch');
   t('Set your reservations on pause');
+  t('Your mobile phone');
 
   return $fields;
 }
