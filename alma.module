@@ -272,10 +272,6 @@ function alma_set_profile2_fields($account) {
     return;
   }  
 
-  dpm($profile2);
-
-  
-
   // wrapper for profile2-fields
   $account->content['profile2'] = array(
       '#type' => 'item',
@@ -465,8 +461,6 @@ function alma_update_provider( $changes, $profile2 ) {
 
   // mobile phone; add, change, delete
   if( isset($changes['phone_id']) ) {    
-    // update
-    // @todo; implement
     if( $changes['mobile'] == 'DELETE' ) {
       //delete mobile
       try{
