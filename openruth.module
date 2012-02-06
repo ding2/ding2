@@ -411,6 +411,15 @@ function openruth_set_profile2_fields($account) {
     );
   } 
 
+  // set mobile phone
+  if( $mobile_phone = openruth_get_mobile_phone( $profile2 ) ){
+     $account->content['profile2']['mobile_phone'] = array(
+      '#type' => 'item',
+      '#title' => t('Mobile phone'),
+      '#markup' => '<span>'.$mobile_phone.'</span>',
+    );  
+  }
+
   if( $reservation_pause = openruth_get_reservation_pause( $profile2 ) ) {
     //wrapper for reservation pause
        $account->content['profile2']['reservation_pause'] = array(
@@ -433,6 +442,22 @@ function openruth_set_profile2_fields($account) {
        );       
     }
 }
+
+/**
+ * Get profile2 field; field_openruth_mobile_phone
+*/
+function openruth_get_mobile_phone( $profile2 ){
+  // get field languages
+  $langs = field_language('profile2', $profile2);
+  if( empty( $profile2->original->field_openruth_mobile_phone ) ) {
+    return FALSE;
+  }
+  //get preferred branch
+  $mob = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
+
+  return $mob;
+}
+
 
 /**
  * Get profile2 field; field_openruth_interest_period
