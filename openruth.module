@@ -481,6 +481,13 @@ function openruth_get_interest_period($profile2) {
   return $interest_period;
 }
 
+function openruth_get_interest_periods() {
+  $field_info = field_info_field('field_openruth_interest_period');
+  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+
+  return $interest_periods;
+}
+
 /**
  * Get profile2 field; openruth_preferred_branch
  */
