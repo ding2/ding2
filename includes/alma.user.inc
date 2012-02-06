@@ -80,7 +80,6 @@ function alma_user_info($creds = NULL) {
     'agency' => $status->branchName,
   );
 
-  dpm($info);
 
   return (object)$info;
 }
