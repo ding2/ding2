@@ -298,6 +298,15 @@ function alma_set_profile2_fields($account) {
     );
   }  
 
+  // set mobile phone
+  if( $mob = alma_get_mobile_phone($profile2) ) {
+    $account->content['profile2']['mobile'] = array(
+      '#type' => 'item',
+      '#title' => t('Mobile phone'),
+      '#markup' => '<span>'.$mob.'</span>',
+    );
+  } 
+  
   // set reservation pause
   if( $reservation_pause = alma_get_reservation_pause( $profile2 ) ) {
         //wrapper for reservation pause
@@ -320,6 +329,20 @@ function alma_set_profile2_fields($account) {
          '#markup' => '<span>'.str_replace('T00:00:00','',$reservation_pause['stop']).'</span>',
        );       
   }
+}
+
+function alma_get_mobile_phone( $profile2 ) {
+  $langs = field_language('profile2', $profile2);
+  
+  if(  empty($profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']] ) ) {
+    return false;
+  }
+
+  $mob = 
+    isset($profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ?
+    $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] : FALSE;
+  
+  return $mob;
 }
 
 function alma_get_reservation_pause($profile2){
