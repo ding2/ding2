@@ -200,9 +200,6 @@ function openruth_allowed_branches() {
  */
 function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
-
-  
-
   //preferred branch
   if( !empty( $profile->openruth_preferred_branch ) ){
     $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
@@ -281,9 +278,8 @@ function openruth_profile2_presave($profile2) {
     }
   }
 
-
   // mobile phone
-  if( !empty( $profile2->original->field_openruth_mobile_phone ) ) {
+  if( !empty( $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']] ) ) {
     if( $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
 	$profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] ) {
       $changes['mobile_phone'] = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']; 
@@ -293,7 +289,6 @@ function openruth_profile2_presave($profile2) {
     return;
   }
 
-  // exit;
   $creds = ding_user_get_creds( $profile2 );  
   $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
   if ($res !== TRUE) {
@@ -449,12 +444,11 @@ function openruth_set_profile2_fields($account) {
 function openruth_get_mobile_phone( $profile2 ){
   // get field languages
   $langs = field_language('profile2', $profile2);
-  if( empty( $profile2->original->field_openruth_mobile_phone ) ) {
+  if( empty( $profile2->field_openruth_mobile_phone ) ) {
     return FALSE;
   }
-  //get preferred branch
+ 
   $mob = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
-
   return $mob;
 }
 
@@ -495,7 +489,7 @@ function openruth_get_preferred_branch($profile2) {
   // get field languages
   $pref = FALSE;
   $langs = field_language('profile2', $profile2);
-  if( empty( $profile2->original->openruth_preferred_branch ) ) {
+  if( empty( $profile2->openruth_preferred_branch ) ) {
     return FALSE;
   }
   //get preferred branch
