@@ -80,12 +80,15 @@ function openruth_reservation_options($type, $account, $reservables) {
 
   if(ding_user_is_provider_user($account)) {
     $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
+    $interest_period = $profile->field_openruth_interest_period[field_language('profile2', $profile, 'field_openruth_interest_period')][0]['value'];
   }
   else {
     $preferred_branch = NULL;
+    $interest_period = NULL; // TO DO : get default provider period. ( openruth_get_interest_period($profile2) )?
   }
 
   $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch',$preferred_branch, openruth_allowed_branches());
+  $form += ding_reservation_interest_period_selector($type, 'expiry', $interest_period, openruth_get_interest_periods());
 
   return $form;
 }
@@ -153,6 +156,8 @@ function openruth_reservation_create($account, $id, $options) {
     throw new DingProviderUserException(t('Error: ' . $order));
   }
 }
+
+
 /**
  * Update order.
  */
@@ -160,10 +165,11 @@ function openruth_reservation_update($account, $res_ids, $options) {
   $reservations = openruth_reservation_list($account);
   $update = FALSE;
   foreach ($res_ids as $res_id) {
-    $branch = !empty($options['openruth_preferred_branch']) ? $options['openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
-    $expiry = !empty($options['expiry']) ? $options['expiry'] : $reservations[$res_id]->expiry;
-
-    $res = openruth_client_invoke('update_order', $res_id, $branch, $expiry);
+    if ( $res_id ) {
+      $branch = !empty($options['openruth_preferred_branch']) ? $options['openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
+      $expiry = !empty($options['expiry']) ? date('Y-m-d',REQUEST_TIME + ($options['expiry'] * 24 * 60 * 60)) : $reservations[$res_id]->expiry;
+      $res = openruth_client_invoke('update_order', $res_id, $branch, $expiry);
+    }
   }
   // Flush cache.
   $creds = ding_user_get_creds($account);
@@ -171,6 +177,7 @@ function openruth_reservation_update($account, $res_ids, $options) {
 
   return;
 }
+
 
 /**
  * Delete a reservation for a given account
