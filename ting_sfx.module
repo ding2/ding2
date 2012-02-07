@@ -53,12 +53,12 @@ function ting_sfx_field_formatter_info() {
 function ting_sfx_inline() {
   static $types;
   if (!$types) {
-    $types = 
+    $types =
       array(
-	    'dbcaddi:hasOpenUrl' => t('SFX'),	    
-	    );
+      'dbcaddi:hasOpenUrl' => t('SFX'),
+      );
   }
-  return $types;  
+  return $types;
 }
 
 function ting_sfx_anchor_info() {
@@ -77,18 +77,18 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
   switch ($display['type']) {
     case 'ting_sfx_default':
       foreach ($items as $delta => $items) {
-        foreach ($entity->relations as $relation) {	 
+        foreach ($entity->relations as $relation) {
           if ( (isset($relation_types[$relation->type])) && ($sfx_url = ting_sfx_get_open_url($relation->uri)) ) {
-	    $element[$delta] = 
-	      array(
-		    '#markup' => l(ting_sfx_get_logo() . '<span>' . $relation_types[$relation->type] . '</span>',
-				   $sfx_url, array(
-						   'attributes' => array('class' => array('ting_sfx_group',),
-									 'target' => '_new',
-									 'name' => $relation->type),
-						   'html' => TRUE,
-						   )),
-		    );
+      $element[$delta] =
+        array(
+        '#markup' => l(ting_sfx_get_logo() . '<span>' . $relation_types[$relation->type] . '</span>',
+           $sfx_url, array(
+               'attributes' => array('class' => array('ting_sfx_group',),
+                   'target' => '_new',
+                   'name' => $relation->type),
+               'html' => TRUE,
+               )),
+        );
           }
         }
       }
@@ -101,7 +101,7 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
 
 function ting_sfx_get_open_url($uri) {
   $baseurl = variable_get('ting_sfx_url', FALSE);
-  
+
   if ($baseurl) {
     $baseurl .= '?';
     $ret = str_replace('_BASEURL_', $baseurl, $uri);
@@ -115,16 +115,25 @@ function ting_sfx_get_open_url($uri) {
   $port = isset($parts['port']) ? ':'.$parts['port'] : '';
   $ret = $parts['scheme'].'://'.$parts['host'].$port.$parts['path'].'?'.$query;
 
-  return $ret;	
+  return $ret;
 }
 
 /**
- * Urlencode values of parameters 
+ * Urlencode values of parameters
  * shitty solution - we should rely on data given from the well, and not mess with raw data.
  */
 function ting_sfx_encode_dk( $query ) {
   $params = explode('&',$query);
   $ret = '';
+  // SFX (and IE) can't handle latin capital letter aa (U+A732) or AA
+  $replace_from = array(
+    '%EA%9C%B3',
+    '%EA%9C%B2',
+  );
+  $replace_to = array(
+    'aa',
+    'AA',
+  );
   foreach($params as $param) {
     $keyval = explode('=',$param);
 
@@ -133,15 +142,16 @@ function ting_sfx_encode_dk( $query ) {
 
     // there might be an '&' in the value of the key value pair, so check
     // if both key and value is set.
-    if( isset($keyval[0]) && isset($keyval[1]) )
-      $ret .= $keyval[0].'='.rawurlencode($keyval[1]);
-    else
+    if( isset($keyval[0]) && isset($keyval[1]) ) {
+      $ret .= $keyval[0].'='.str_replace($replace_from,$replace_to,rawurlencode($keyval[1]));
+    } else {
       $ret .= $param;
+    }
   }
   // undo urlencode of '+' (%2B)
   $ret = str_replace('%2B',' ',$ret);
 
-  return $ret; 
+  return $ret;
 }
 
 function ting_sfx_get_logo() {
