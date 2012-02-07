@@ -115,7 +115,7 @@ function ding_page_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'links' => 1,
-      'no_extras' => 1,
+      'no_extras' => 0,
       'override_title' => 0,
       'override_title_text' => '',
       'identifier' => '',
@@ -125,12 +125,8 @@ function ding_page_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
     );
     $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_4',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,

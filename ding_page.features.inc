@@ -57,7 +57,7 @@ function ding_page_node_info() {
     'ding_page' => array(
       'name' => t('Side'),
       'base' => 'node_content',
-      'description' => t('A basic page'),
+      'description' => t('Indholdsside med en venstremenu'),
       'has_title' => '1',
       'title_label' => t('Titel'),
       'help' => '',
