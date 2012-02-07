@@ -582,6 +582,31 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
   return $form;
 }
 
+
+/**
+ * Create an interest period selector.
+ *
+ * Returns form element(s) for selecting an interest period.
+ */
+function ding_reservation_interest_period_selector($type, $name, $default, $options) {
+  $create = ($type == 'create');
+  $allowed_periods = ($create ? array() : array('' => t('No change'))) + $options;
+  // $default_value = $create ? $default : '';
+  $form[$name] = array(
+    '#type' => 'select',
+    '#title' => t('Select interest period'),
+    '#options' => $allowed_periods,
+    '#default_value' => $default,
+  );
+  if ($create) {
+    $form[$name . 'description'] = array(
+      '#markup' => '<p>' . t('Select an interest period.') . '</p>',
+    );
+  }
+  return $form;
+}
+
+
 /**
  * Validate pickup branch selector.
  *
@@ -597,8 +622,10 @@ function ding_reservation_default_options_branch_validate($type, $name, $default
     else {
       $result[$name] = $default;
     }
+    return $result;
+  } else {
+    return $values;
   }
-  return $result;
 }
 
 /**
