@@ -547,7 +547,7 @@ function ding_user_get_creds($account = NULL) {
     }
   }
 
-  $roles = array_values($account->roles);
+  $roles = array_values($GLOBALS['user']->roles);
 
   // Log out user who are authenticated but has no other roles (i.e. ding user)
   if (user_is_logged_in() && sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
