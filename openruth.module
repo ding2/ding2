@@ -201,12 +201,12 @@ function openruth_allowed_branches() {
 function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
   //preferred branch
-  if( !empty( $profile->openruth_preferred_branch ) ){
+  if( isset( $profile->openruth_preferred_branch ) ){
     $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
   }
 
   // reservation pause
-  if( !empty( $profile->field_reservation_pause )){
+  if( isset( $profile->field_reservation_pause )){
     if( isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate) ) {
       $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
       $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
@@ -248,8 +248,7 @@ function openruth_profile2_presave($profile2) {
 
   // reservation pause
   if( !empty( $profile2->original->field_reservation_pause ) ) {
-    if( $profile2->field_reservation_pause != $profile2->original->field_reservation_pause ) {
-      
+    if( $profile2->field_reservation_pause != $profile2->original->field_reservation_pause ) {      
       
       // if field is empty delete the pause (@todo delete reservation pause doesn't work. fix it)
       if( empty($profile2->field_reservation_pause[$langs['field_reservation_pause']]) ) {
@@ -282,9 +281,13 @@ function openruth_profile2_presave($profile2) {
   if( !empty( $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']] ) ) {
     if( $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
 	$profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] ) {
-      $changes['mobile_phone'] = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']; 
+      
+      $changes['mobile_phone'] = 
+	isset($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']) ?
+	$profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']:'';
     }
   }
+
   if( empty($changes) ) {
     return;
   }
