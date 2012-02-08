@@ -465,7 +465,7 @@ function openruth_get_interest_period($profile2) {
   // get field-info to retrieve values for select list
   $field_info = field_info_field('field_openruth_interest_period');  
 
-  if( empty( $profile2->original->field_openruth_interest_period ) ) {
+  if( empty( $profile2->field_openruth_interest_period ) ) {
     return FALSE;
   }
 
