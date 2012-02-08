@@ -216,7 +216,6 @@ function openruth_profile_update($profile, $userinfo) {
       $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = ' ';
     }
   }
-
   // mobile phone
   if( isset($profile->field_openruth_mobile_phone) ) {
     $profile->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] = isset($userinfo->userMobilePhone) ? $userinfo->userMobilePhone : '';
@@ -278,15 +277,17 @@ function openruth_profile2_presave($profile2) {
   }
 
   // mobile phone
-  if( !empty( $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']] ) ) {
-    if( $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
-	$profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] ) {
-      
-      $changes['mobile_phone'] = 
-	isset($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']) ?
-	$profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']:'';
-    }
-  }
+   if( !empty( $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']] ) ) {
+     if( isset($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']) ) {
+       if( $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
+	   $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] ) {	 
+	 $changes['mobile_phone'] =  $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
+       }
+     }
+     else{
+       $changes['mobile_phone'] = '';
+     }
+   }
 
   if( empty($changes) ) {
     return;
@@ -533,6 +534,7 @@ function openruth_get_reservation_pause( $profile2 ) {
  * Get user status.
  *
  * Session cached for efficiency.
+ * @todo; should this be cached in drupal instead ?? there might be an issue if drupal cache is invalidated 
  */
 function _openruth_user_status($creds = NULL, $reset = FALSE) {
   // Flush cache if creds is not specified.
