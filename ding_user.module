@@ -284,13 +284,10 @@ function ding_user_user_presave(&$edit, $account, $category) {
  *
  * Lets user stays on page, after logout.
  */
-/*function ding_user_user_logout($account) {
-  // Ensure the credentials is gone.
+function ding_user_user_logout($account) {
+  // Ensure the credentials is removed from cache.
   cache_clear_all(session_name() . '-' . $account->uid, 'cache_ding_user_credentials');
-  // Not sure about this...
-  session_destroy();
-  drupal_goto($_SERVER['HTTP_REFERER']);
-  }*/
+}
 
 /**
  * Implements hook_username_alter().
@@ -550,6 +547,18 @@ function ding_user_get_creds($account = NULL) {
     }
   }
 
+  $roles = array_values($account->roles);
+
+  // Log out user who are authenticated but has no other roles (i.e. ding user)
+  if (user_is_logged_in() && sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
+    watchdog('user', 'Session timeout for %name.', array('%name' => $account->name));
+    user_module_invoke('logout', $account, 'user');
+    session_destroy();
+    $GLOBALS['user'] = drupal_anonymous_user();
+    drupal_set_message(t('Your session has timed out.'));
+    drupal_goto();
+  }
+
   throw new DingProviderAuthException;
 }
 
@@ -601,3 +610,76 @@ function ding_user_is_provider_user($account) {
 }
 
 include_once('ding_user_comments.inc');
+
+/**
+ * Implementing specific cache for DingUserCredentials due to the fact that
+ * entity module renders all non-permanent cache invalid when calling
+ * cache_clear_all. It is only necessary to override prepareItem metode because
+ * we need it to check against expire timestamp instead of created timestamp.
+ */
+class DingUserCredentialsCache extends DrupalDatabaseCache {
+  function getMultiple(&$cids) {
+    try {
+      // Garbage collection necessary when enforcing a minimum cache lifetime.
+      $this->garbageCollection($this->bin);
+
+      // When serving cached pages, the overhead of using db_select() was found
+      // to add around 30% overhead to the request. Since $this->bin is a
+      // variable, this means the call to db_query() here uses a concatenated
+      // string. This is highly discouraged under any other circumstances, and
+      // is used here only due to the performance overhead we would incur
+      // otherwise. When serving an uncached page, the overhead of using
+      // db_select() is a much smaller proportion of the request.
+      $result = db_query('SELECT cid, data, created, expire, serialized FROM {' . db_escape_table($this->bin) . '} WHERE cid IN (:cids)', array(':cids' => $cids));
+      $cache = array();
+      foreach ($result as $item) {
+        $item = $this->prepareItem($item);
+        if ($item) {
+          $cache[$item->cid] = $item;
+          // postpone expire ding user credentials
+          db_update($this->bin)
+            ->fields(array('expire' => REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME), ))
+            ->condition('cid', $item->cid)
+            ->execute();
+        }
+      }
+      $cids = array_diff($cids, array_keys($cache));
+      return $cache;
+    }
+    catch (Exception $e) {
+      // If the database is never going to be available, cache requests should
+      // return FALSE in order to allow exception handling to occur.
+      return array();
+    }
+  }
+
+  /**
+   * Prepare a cached item.
+   *
+   * Checks that items are either permanent or did not expire, and unserializes
+   * data as appropriate.
+   *
+   * @param $cache
+   *   An item loaded from cache_get() or cache_get_multiple().
+   * @return
+   *   The item with data unserialized as appropriate or FALSE if there is no
+   *   valid item to load.
+   */
+  protected function prepareItem($cache) {
+    global $user;
+
+    if (!isset($cache->data)) {
+      return FALSE;
+    }
+    if ($cache->expire != CACHE_PERMANENT && REQUEST_TIME > $cache->expire) {
+      // This cache data is too old and thus not valid for us, ignore it.
+      return FALSE;
+    }
+
+    if ($cache->serialized) {
+      $cache->data = unserialize($cache->data);
+    }
+
+    return $cache;
+  }
+}

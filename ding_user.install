@@ -1,4 +1,11 @@
 <?php
+/**
+ * Implements hook_install().
+ */
+function ding_user_install() {
+  // Use DingUserCredentialsCache instead of default DrupalDatabaseCache
+  variable_set('cache_class_cache_ding_user_credentials', 'DingUserCredentialsCache');
+}
 
 /**
  * Implements hook_schema().
@@ -15,4 +22,11 @@ function ding_user_schema() {
 function ding_user_update_7000(&$sandbox) {
   $res = drupal_install_schema('ding_user');
   return $res;
+}
+
+/**
+ * Use DingUserCredentialsCache instead of default DrupalDatabaseCache.
+ */
+function ding_user_update_7001(&$sandbox) {
+  variable_set('cache_class_cache_ding_user_credentials', 'DingUserCredentialsCache');
 }
