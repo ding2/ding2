@@ -39,14 +39,14 @@ projects[views][version] = 3.0
 projects[ding_campaign][type] = module
 projects[ding_campaign][download][type] = git
 projects[ding_campaign][download][url] = git@github.com:ding2/ding_campaign.git
-projects[ding_campaign][download][tag] = "7.x-0.3"
+projects[ding_campaign][download][tag] = "7.x-0.4"
 
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
-projects[ding_page][download][tag] = "7.x-0.11"
+projects[ding_page][download][tag] = "7.x-0.12"
 
 projects[ding_webtrends][type] = "module"
 projects[ding_webtrends][download][type] = "git"
 projects[ding_webtrends][download][url] = "git@github.com:ding2/ding_webtrends.git"
-projects[ding_webtrends][download][tag] = "7.x-0.1"
+projects[ding_webtrends][download][tag] = "7.x-0.2"
