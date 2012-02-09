@@ -15,3 +15,4 @@ projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-fo
 projects[ting_search_carousel][type] = "module"
 projects[ting_search_carousel][download][type] = "git"
 projects[ting_search_carousel][download][url] = "git@github.com:ding2/ting_search_carousel.git"
+projects[ting_search_carousel][download][tag] = "7.x-0.3"
