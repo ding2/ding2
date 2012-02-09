@@ -366,6 +366,9 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             ));
           }
         }
+	elseif($entity->date != '') {
+	  $markup_string = t('(@year)', array('@year'=>$entity->date));
+	}
         $element[$delta] = array(
           '#markup' => $markup_string,
         );
