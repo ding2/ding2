@@ -67,7 +67,8 @@ function ting_material_details_field_info() {
       'label' => t('Subject'),
       'description' => t('Material subject'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_single',
+      // 'default_formatter' => 'ting_details_single',
+      'default_formatter' => 'ting_details_subject_search',
       'no_ui' => TRUE,
     ),
     // Classification (dc:subject->dkdcplus:DK5)
@@ -273,6 +274,13 @@ function ting_material_details_field_formatter_info() {
 	'ting_details_contributor',
       ),
     ),
+    'ting_details_subject_search' =>  array(
+      'label' => t('Subject search link'),
+      'field types' => array(
+	'ting_details_subjects',
+      ),
+    ), 
+					  
   );
 }
 
@@ -389,6 +397,18 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
             '#markup' => implode(', ', $links),
           );
           break;
+      case 'ting_details_subject_search' :
+	if( !is_array($val) ) {
+	  $val = array($val);
+	}
+	$links = array();
+	foreach($val as $value) {
+	  $links[] = l($value, 'search/ting/dc.subject=' . $value);
+	}
+	$element[$delta] = array(
+            '#markup' => implode(', ', $links),
+          );
+	break;
       }
     }
   }
