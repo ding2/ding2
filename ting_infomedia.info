@@ -5,5 +5,5 @@ dependencies[] = blackhole
 dependencies[] = ctools
 dependencies[] = panels
 dependencies[] = page_manager
-version = "7.x-0.11"
+version = "7.x-0.12"
 core = 7.x
