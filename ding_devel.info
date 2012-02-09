@@ -2,5 +2,5 @@ name = Ding Devel
 description = Various helpers for Ding! developers.
 package = Development
 core = 7.x
-version = 7.x-0.2
+version = "7.x-0.3"
 tags[] = developer
