@@ -77,6 +77,27 @@ function openruth_profile_form_validate(&$form, &$form_state) {
       form_error($form['account']['pincode'], t('Pincode must be four numbers.'));
     }
   }
+
+  if( !empty($form_state['values']['profile_provider_openruth']) ) {
+    $profile2 = ding_user_provider_profile($form['#user']);
+    if( empty($profile2) ){
+      return;
+    }
+    $langs = field_language('profile2', $profile2);
+    $index = $langs['field_openruth_mobile_phone'];
+
+    if( !isset($index) ) {
+      return;
+    }
+    
+    $mob = isset($form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value']) ?
+      $form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value'] : FALSE ;
+    if( $mob ) {
+      if( !preg_match('/^\d+$/',$mob) ) {
+	form_error($form['profile_provider_openruth']['field_openruth_mobile_phone'], t('Mobile number must be digits only'));
+      }
+    }
+  }
 }
 
 /**
