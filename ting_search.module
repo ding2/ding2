@@ -68,18 +68,6 @@ function ting_search_ding_facetbrowser() {
 }
 
 /**
- * Implements hook_entity_info_alter().
- */
-function ting_search_entity_info_alter(&$entity_info) {
-  $entity_info['ting_collection']['view modes'] += array(
-    'search_result' => array(
-      'label' => t('Search result'),
-      'custom settings' => FALSE,
-    ),
-  );
-}
-
-/**
  * Implements hook_theme().
  */
 function ting_search_theme() {
@@ -354,7 +342,12 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       pager_default_initialize($total_results, $resultsPerPage);
 
       foreach ($searchResult->collections as &$collection) {
-        $build = ting_collection_view($collection, 'teaser');
+        // Get configured view mode.
+        $info = field_info_instance('ting_collection', 'ting_primary_object', 'ting_collection');
+        $view_mode = $info['display']['teaser']['settings']['view_mode'];
+
+        // Build the render array for the entity.
+        $build = ting_collection_view($collection, $view_mode);
         $uri = entity_uri('ting_collection', $collection);
         $results[] = array(
           'link' => url($uri['path'], $uri['options']),
