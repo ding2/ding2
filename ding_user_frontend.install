@@ -10,3 +10,19 @@ function ding_user_frontend_install() {
     ->condition('type', 'module')
     ->execute();
 }
+
+/**
+ */
+function ding_user_frontend_update_7001() {
+  // delete userfields 
+    // @todo field exists?
+  // mark fields for deletion
+  field_delete_field('field_period_of_interest');
+  field_delete_field('field_reservation_pause');
+
+  //actually delete the fields
+  field_purge_batch(100);
+  // todo return something
+  
+  return t('deleted field_period_of_interest and field_reservation_pause from user');
+}
