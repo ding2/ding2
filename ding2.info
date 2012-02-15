@@ -1,6 +1,6 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-0.3.1
+version = 7.x-0.4
 core = 7.x
 distribution_name = "Ding 2"
 
@@ -24,7 +24,3 @@ dependencies[] = ding_library_menu
 dependencies[] = ding_news
 
 files[] = ding2.profile
-
-; Profiler extensions.
-theme = bartik
-

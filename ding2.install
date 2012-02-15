@@ -8,13 +8,14 @@
  */
 function ding2_install() {
   // Enable some standard blocks.
-  $default_theme = variable_get('theme_default', 'bartik');
+  // Default theme is Bartik in D7
+  $ding2_theme = 'bartik';
 
   $values = array(
     array(
       'module' => 'system',
       'delta' => 'main',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 0,
       'region' => 'content',
@@ -23,31 +24,9 @@ function ding2_install() {
       'title' => '',
     ),
     array(
-      'module' => 'ding_library',
-      'delta' => 'ding_menu',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 1,
-      'region' => 'header',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
-      'module' => 'ding_library',
-      'delta' => 'library_menu',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 1,
-      'region' => 'header',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
       'module' => 'locale',
       'delta' => 'language',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 1,
       'region' => 'header',
@@ -58,10 +37,10 @@ function ding2_install() {
     array(
       'module' => 'search',
       'delta' => 'form',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 0,
-      'region' => 'subheader',
+      'region' => 'highlighted',
       'pages' => '',
       'cache' => -1,
       'title' => '',
@@ -69,21 +48,10 @@ function ding2_install() {
     array(
       'module' => 'user',
       'delta' => 'login',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 1,
-      'region' => 'subheader',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
-      'module' => 'system',
-      'delta' => 'user-menu',
-      'theme' => $default_theme,
-      'status' => 1,
-      'weight' => 2,
-      'region' => 'subheader',
+      'region' => 'sidebar_second',
       'pages' => '',
       'cache' => -1,
       'title' => '<none>',
@@ -91,10 +59,10 @@ function ding2_install() {
     array(
       'module' => 'ding_user_frontend',
       'delta' => 'ding-username',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
-      'weight' => 3,
-      'region' => 'subheader',
+      'weight' => 2,
+      'region' => 'sidebar_second',
       'pages' => '',
       'cache' => -1,
       'title' => '<none>',
@@ -102,10 +70,10 @@ function ding2_install() {
     array(
       'module' => 'ding_user_frontend',
       'delta' => 'ding-user-loan-number',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
-      'weight' => 4,
-      'region' => 'subheader',
+      'weight' => 3,
+      'region' => 'sidebar_second',
       'pages' => '',
       'cache' => -1,
       'title' => '<none>',
@@ -113,7 +81,7 @@ function ding2_install() {
     array(
       'module' => 'menu',
       'delta' => 'menu-footer-menu-1',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 1,
       'region' => 'footer',
@@ -124,7 +92,7 @@ function ding2_install() {
     array(
       'module' => 'menu',
       'delta' => 'menu-footer-menu-2',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 2,
       'region' => 'footer',
@@ -135,7 +103,7 @@ function ding2_install() {
     array(
       'module' => 'menu',
       'delta' => 'menu-footer-menu-3',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 3,
       'region' => 'footer',
@@ -146,7 +114,7 @@ function ding2_install() {
     array(
       'module' => 'menu',
       'delta' => 'menu-footer-menu-4',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 4,
       'region' => 'footer',
@@ -157,7 +125,7 @@ function ding2_install() {
     array(
       'module' => 'ding_library',
       'delta' => 'library_address',
-      'theme' => $default_theme,
+      'theme' => $ding2_theme,
       'status' => 1,
       'weight' => 5,
       'region' => 'footer',

@@ -41,22 +41,19 @@ function ding2_form_install_configure_form_alter(&$form, $form_state) {
 /**
  * Implements hook_install_tasks().
  *
- * Collects install tasks from all modules implementing
- * hook_ding_install_tasks.
- *
  * As this function is called early and often, we have to maintain a cache or
  * else the task specifying a form may not be available on form submit.
  */
-function ding2_install_tasks($install_state) {
-  $tasks = module_invoke_all('ding_install_tasks') + variable_get('ding_install_tasks', array());
-  if ($tasks && !$install_state['installation_finished']) {
-    variable_set('ding_install_tasks', $tasks);
-  }
+function ding2_install_tasks(&$install_state) {
+  $tasks = variable_get('ding_install_tasks', array());
 
-  // Allow task callbacks to be located in an include file.
-  foreach ($tasks as $name => $task) {
-    if (isset($task['file'])) {
-      require_once DRUPAL_ROOT . '/' . $task['file'];
+  if (!empty($tasks)) {
+    // Allow task callbacks to be located in an include file.
+    foreach ($tasks as $task) {#&$task) {
+
+      if (isset($task['file'])) {
+        require_once DRUPAL_ROOT . '/' . $task['file'];
+      }
     }
   }
 
@@ -67,37 +64,29 @@ function ding2_install_tasks($install_state) {
 
   include_once('libraries/profiler/profiler_api.inc');
 
-  /**
-   * We need at least one task to ensure that the rest of the tasks is
-   * run. Without it, install_run_tasks() can manage to run through the tasks
-   * up to 'install_bootstrap_full', and if there's no following tasks (when
-   * 'install_configure_form' has been completed), it will think it's done
-   * before we have a chance to read the variable and tell it otherwise.
-   *
-   * Luckily, we need to flush some caches anyway.
-   *
-   * Also append the completion task for profiler.
-   */
   $ret = array(
-    'ding2_flush_all_caches' => array(
-      'display' => FALSE,
-      'run' => INSTALL_TASK_RUN_IF_REACHED,
-    ),
+    'ding2_fetch_ding_install_tasks' =>
+      array(
+        'display_name' => '...',
+        /**
+         * This task should be skipped and hidden when ding install tasks
+         * have been fetched. Fetched tasks will appear instead.
+         */
+        'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
+        'display' => empty($tasks),
+      )
   ) + $tasks + array('profiler_install_profile_complete' => array());
   return $ret;
 }
 
 /**
- * Install task that flushes caches. Ensures that the profile modules hook
- * implementations are available so we can invoke hook_ding_install_tasks and
- * get all the module provided tasks for the next round.
+ * Install task fetching ding install tasks from modules implementing
+ * hook_ding_install_tasks. This install task is invoked when Drupal is
+ * fully functional.
  */
-function ding2_flush_all_caches() {
-  // Only flush cache if we haven't picked up any install tasks yet.
-  if (!variable_get('ding_install_tasks', NULL)){
-    drupal_flush_all_caches();
-  }
-  return;
+function ding2_fetch_ding_install_tasks(&$install_state) {
+  $ding_tasks = module_invoke_all('ding_install_tasks');
+  variable_set('ding_install_tasks', $ding_tasks);
 }
 
 /**
