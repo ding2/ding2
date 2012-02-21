@@ -23,7 +23,7 @@ function template_preprocess_ting_relation(&$variables) {
     case 'dbcaddi:hasOnlineAccess':
       $cont = ting_relation_online( $relations );
       if( !empty($cont) ) {
-	$variables['content'][$ns] = ting_relation_online( $relations );
+	$variables['content'][$ns] = $cont;
       }
       break;
     default:
