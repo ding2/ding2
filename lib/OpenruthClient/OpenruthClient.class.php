@@ -106,6 +106,8 @@ class OpenruthClient {
     if (isset($res->agencyError)) {
       return $res->agencyError;
     }
+
+   
     elseif (isset($res->holding)) {
       $holdings = array();
       foreach ($res->holding as $holding) {
@@ -188,6 +190,12 @@ class OpenruthClient {
         if (sizeof($h['issues'])) {
           $h['holdings'] = array_unique($h['holdings']);
         }
+	
+	// check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
+	if( $h['available'] && ($available < 1) ) {
+	  $h['available'] = FALSE;
+	}
+
         $holdings[$holding->itemId] = $h;
       }
       return $holdings;
