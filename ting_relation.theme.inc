@@ -21,7 +21,10 @@ function template_preprocess_ting_relation(&$variables) {
       $variables['content'][$ns] = ting_relation_creator_description( $relations );
       break;
     case 'dbcaddi:hasOnlineAccess':
-      $variables['content'][$ns] = ting_relation_online( $relations );
+      $cont = ting_relation_online( $relations );
+      if( !empty($cont) ) {
+	$variables['content'][$ns] = ting_relation_online( $relations );
+      }
       break;
     default:
       break;
@@ -41,7 +44,7 @@ function ting_relation_online( $relations ) {
     elseif( $relation['#ac_source'] == 'Filmstriben (fjernlån)' ) {
       $ret[] = ting_relation_online_filmstriben( $relation );
     }
-  }
+  }  
   return $ret;
 }
 
