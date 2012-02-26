@@ -11,37 +11,37 @@
 function ding_place2book_schema() {
   return array(
     'ding_place2book' => array(
-      'description' => t('The main table to hold the ding_place2book data.'),
+      'description' => t('Table to hold information about Place2Book tickets.'),
       'fields' => array(
         'nid' => array(
-          'description' => t('The foreign key to node.nid'),
+          'description' => t('The foreign key to {node}.nid'),
           'type' => 'int',
           'unsigned' => TRUE,
           'not null' => TRUE,
         ),
         'place2book_id' => array(
-          'description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
+          'description' => t('An ID-reference to the corresponding event on the ticket booking service'),
           'type' => 'int',
           'unsigned' => FALSE,
           'not null' => TRUE,
           'default' => 0,
         ),
         'capacity' => array(
-          'description' => t('The maximum capacity on the Place2Book event. 0 interprets as unlimited capacity on the event (default)'),
+          'description' => t('The maximum capacity on the Place2Book event. 0 is interpreted as unlimited capacity on the event (default)'),
           'type' => 'int',
           'unsigned' => TRUE,
           'not null' => TRUE,
           'default' => 0,
         ),
         'maintain_copy' => array(
-          'description' => t('event is created and updated on Place2Book'),
+          'description' => t('Event is created and updated on Place2Book'),
           'type' => 'int',
           'unsigned' => TRUE,
           'not null' => TRUE,
           'default' => 1,
         ),
         'kultunaut_export' => array(
-          'description' => t('Place2book forwards the event to kultunaut'),
+          'description' => t('Place2Book forwards the event to kultunaut'),
           'type' => 'int',
           'unsigned' => TRUE,
           'not null' => TRUE,
@@ -68,9 +68,26 @@ function ding_place2book_uninstall() {
   db_query("DELETE FROM {variable} WHERE name LIKE '%s_%%'", 'ding_place2book');
 }
 
+/**
+ * REVIEW: Missign description.
+ */
 function ding_place2book_update_6100() {
   $ret = array();
-  db_add_field($ret, 'ding_place2book', 'capacity', array('description' => t('The maximum capacity on the Place2Book event. 0 interprets as unlimited capacity on the event (default)'), 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => "0"));
-  db_add_field($ret, 'ding_place2book', 'kultunaut_export', array('description' => t('Place2book forwards the event to kultunaut'), 'type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => "0"));
+  db_add_field($ret, 'ding_place2book', 'capacity', array(
+      'description' => t('The maximum capacity on the Place2Book event. 0 interprets as unlimited capacity on the event (default)'),
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+      'default' => "0"
+    ));
+
+  db_add_field($ret, 'ding_place2book', 'kultunaut_export', array(
+      'description' => t('Place2Book forwards the event to kultunaut'),
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+      'default' => "0"
+    ));
+
   return $ret;
 }
