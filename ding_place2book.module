@@ -278,11 +278,9 @@ function place2book_event_op($form_state_values, $op) {
 
 
 function place2book_settings($nid) {
-  $settings = array();
 
   // Set defaults
-  $place2book_defaults = variable_get('ding_place2book_defaults', array());
-  $settings = $place2book_defaults;
+  $settings = variable_get('ding_place2book_defaults', array());
   $settings['capacity'] = variable_get('ding_place2book_default_capacity', 0);  
  
   // Use db values instead if they exist
