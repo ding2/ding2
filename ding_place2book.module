@@ -210,7 +210,7 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
  */
 function ding_place2book_p2b_submit($form, &$form_state) {
   // Get existing Place2book DB settings for this node.
-  $settings = db_fetch_array(db_query('SELECT place2book_id, maintain_copy, capacity FROM {ding_place2book} WHERE nid = %d', $form['nid']['#value']));
+  $settings = place2book_settings($form['nid']['#value']); // Is this safe.
   $place2book_id = $settings['place2book_id'];
   
   // Contact place2book webservice (and get and ID from it if applicable).
@@ -237,7 +237,12 @@ function ding_place2book_p2b_submit($form, &$form_state) {
   if (isset($place2book_id)) {
     if ($settings) {
       if ($form['nid']['#value']) {
-        db_query('UPDATE {ding_place2book} SET place2book_id = %d, maintain_copy = %d, capacity = %d, kultunaut_export = %d WHERE nid = %d', $place2book_id, $form_state['values']['maintain_copy'], $form_state['values']['capacity'], $form_state['values']['kultunaut_export'], $form['nid']['#value']);
+        db_query('UPDATE {ding_place2book}
+                     SET place2book_id = %d,
+                         maintain_copy = %d,
+                              capacity = %d,
+                      kultunaut_export = %d
+                   WHERE nid = %d', $place2book_id, $form_state['values']['maintain_copy'], $form_state['values']['capacity'], $form_state['values']['kultunaut_export'], $form['nid']['#value']);
       }
     } else {
       if ($form_state['nid']) {
@@ -245,13 +250,19 @@ function ding_place2book_p2b_submit($form, &$form_state) {
       }
     }
   }
-  
 }
 
 /**
- * REVIEW: Missing description.
+ * REVIEW: Missing description. Give it an event node as input
  */
 function place2book_event_op($form_state_values, $op) {
+  // Service settings.
+  $service_settings = variable_get(ding_place2book, array());
+  if (empty($service_settings)) {
+    drupal_set_message('You have not yet configure the Place2Book module', 'WARNING', FALSE);
+    return;
+  }
+  
   // Load xml string
   $event_create_str = '<?xml version="1.0" encoding="UTF-8"?>
 <data>
@@ -292,12 +303,11 @@ function place2book_event_op($form_state_values, $op) {
     
   //-- build event xml --
   // Set provider data.
-  $systemadmin = user_load(1);
-  $xml->provider->name = $systemadmin->display_name;
-  $xml->provider->email = $systemadmin->mail;
+  $xml->provider->name = $service_settings['provider_name'];
+  $xml->provider->email = $service_settings['provider_mail'];
   
   // Set event name with title.
-  $xml->event->name = $form_state_values['title']; //'the new title from within DING';
+  $xml->event->name = $form_state_values['title'];
   
   // Set short description.
   $xml->event->description_short = $form_state_values['field_teaser'][0]['value'];
@@ -312,7 +322,14 @@ function place2book_event_op($form_state_values, $op) {
   //-- set location data --
   // If library has been selected, use location data from the library.
   if ($form_state_values['field_library_ref'][0]['nid']) { 
-    $libloc = db_fetch_array(db_query('SELECT n.title, l.name, l.street, l.additional, l.postal_code, l.city, UPPER(l.country) AS country FROM node n JOIN location_instance i ON n.nid = i.nid JOIN location l ON i.lid = l.lid WHERE n.nid = %d', $form_state_values['field_library_ref'][0]['nid'])); 
+    $libloc = db_fetch_array(db_query('SELECT n.title, l.name, l.street,
+                                              l.additional, l.postal_code,
+                                              l.city, UPPER(l.country)
+                                           AS country
+                                         FROM node n JOIN location_instance i
+                                                       ON n.nid = i.nid JOIN location l
+                                                       ON i.lid = l.lid
+                                        WHERE n.nid = %d', $form_state_values['field_library_ref'][0]['nid']));
 
     $xml->event->venue->name = $libloc['title'];
     $xml->event->venue->address1 = $libloc['street'];
@@ -321,6 +338,7 @@ function place2book_event_op($form_state_values, $op) {
     $xml->event->venue->city = $libloc['city'];
     $xml->event->venue->country_code = $libloc['country'];
   }
+
   // If node provides other location data, override the above location data
   // where possible - NB: NOT OPTIMAL SOLUTION, since node lacks fields for
   // postal and city.
@@ -330,6 +348,7 @@ function place2book_event_op($form_state_values, $op) {
     $xml->event->venue->name = $form_state_values['locations'][0]['name']; 
     $xml->event->venue->address1 = $form_state_values['locations'][0]['street']; 
     $xml->event->venue->address2 = $form_state_values['locations'][0]['additional']; 
+
     // NB! - event node type can have a funny default in it location settings
     // (see /admin/content/node-type/event, Locative Info., Collection settings)
     // - country default was US, should probably be DK. Perhaps a check should be made?
@@ -367,24 +386,42 @@ function place2book_event_op($form_state_values, $op) {
 
   //I have the term ids already, so the following 2 queries will in turn give me term names to use 
   if (!empty($term_list)) { 
-    $event_category = db_result(db_query('select t.name from {term_data} t JOIN {vocabulary} v ON t.vid = v.vid WHERE v.name = "Event category" AND t.tid IN (' . $term_list . ')'));
+    $event_category = db_result(db_query('SELECT t.name
+                                            FROM {term_data} t JOIN {vocabulary} v
+                                                                 ON t.vid = v.vid
+                                                              WHERE v.name = "Event category"
+                                                                AND t.tid IN (' . $term_list . ')'));
     $xml->event->kultunaut_export_category = $event_category;
-    $event_target = db_result(db_query('select t.name from {term_data} t JOIN {vocabulary} v ON t.vid = v.vid WHERE v.name = "Event target" AND t.tid IN (' . $term_list . ')'));
+
+    /**
+     * REVIEW: What should these values be, each library has thier own values
+     *         for age groups.
+     */
+    $event_target = db_result(db_query('SELECT t.name
+                                          FROM {term_data} t JOIN {vocabulary} v
+                                                               ON t.vid = v.vid
+                                                            WHERE v.name = "Event target"
+                                                              AND t.tid IN (' . $term_list . ')'));
     $xml->event->kultunaut_age_group = $event_target;
   }
 
   // Set kultunaut picture URI
   if (!empty($form_state_values['field_list_image'][0]['filepath'])) {
+    /**
+     * REVIEW: This assums that all images are displayed using the same image
+     *         style, should be moved to configuration.
+     */
     $xml->event->kultunaut_picture_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/' . str_replace("files", "files/imagecache/120_120", $form_state_values['field_list_image'][0]['filepath']);
   }
 
   //-- send xml to place2book event API --
-  $api_token = variable_get('ding_place2book_api_key', '');
+  $api_token = $service_settings['api_key'];
+
   // If a library has its own API key, use that instead
-  if ($form_state_values['field_library_ref'][0]['nid']) {
-    $api_key_override = variable_get('ding_place2book_api_key_' . $form_state_values['field_library_ref'][0]['nid'], '');
-    if (!empty($api_key_override)) {
-      $api_token = $api_key_override;
+  if (isset($form_state_values['field_library_ref'][0]['nid'])) {
+    $library_keys = variable_get('ding_place2book_libraries', array());    
+    if (!empty($library_keys[$form_state_values['field_library_ref'][0]['nid']])) {
+      $api_token = $library_keys[$form_state_values['field_library_ref'][0]['nid']];
     }
   }
   $headers = array(
@@ -392,53 +429,56 @@ function place2book_event_op($form_state_values, $op) {
     'X-PLACE2BOOK-API-TOKEN' => $api_token,
     );
   switch ($op) {
+
     case 'insert':
-      $req_result = drupal_http_request(variable_get('ding_place2book_service_url', '') . '/create_event', $headers, 'POST', $xml->asXML() );
+      $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $headers, 'POST', $xml->asXML());
       
-      // Catch insert error by checking the event id
+      // Catch insert error by checking the event id.
       if (!$req_result->headers['Event-Id']) {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
         drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-        if ( variable_get('ding_place2book_service_url', '') == '' ) {
-    	  drupal_set_message(t('Place2book integration has not been configured. Go to <a href="/admin/settings/ding/place2book">/admin/settings/ding/place2book</a> to set it up.'), 'error', FALSE);
-        }
       } else {
         drupal_set_message(t('Event created on Place2book with remote ID ') . $req_result->headers['Event-Id']);
       }
-      
       break;
+
     case 'update':
       $headers['X-PLACE2BOOK-EVENT-ID'] = $form_state_values['place2book_id'];
-      $req_result = drupal_http_request(variable_get('ding_place2book_service_url', '') . '/update_event', $headers, 'POST', $xml->asXML() );
+      $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $headers, 'POST', $xml->asXML());
       
-      // Catch update error by checking the return code
+      // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
         drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-        if ( variable_get('ding_place2book_service_url', '') == '' ) {
-    	  drupal_set_message(t('Place2book integration has not been configured. Go to <a href="/admin/settings/ding/place2book">/admin/settings/ding/place2book</a> to set it up.'), 'error', FALSE);
-        }
       } else {
         drupal_set_message(t('Event updated on Place2book with remote ID ') . $form_state_values['place2book_id']);
       }
-      
       break;
+
     case 'delete':
       $headers['X-PLACE2BOOK-EVENT-ID'] = $form_state_values['place2book_id'];
-      $req_result = drupal_http_request(variable_get('ding_place2book_service_url', '') . '/delete_event', $headers, 'POST' );
+      $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $headers, 'POST' );
       
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'];
         drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-        if ( variable_get('ding_place2book_service_url', '') == '' ) {
-    	  drupal_set_message(t('Place2book integration has not been configured. Go to <a href="/admin/settings/ding/place2book">/admin/settings/ding/place2book</a> to set it up.'), 'error', FALSE);
-        }
       } else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
       }
-      
+
+      /**
+       * There may have been errors in the code above. So p2b_id = -1 ?
+       */
       // Update settings in ding_place2book table - "break the maintain_copy link"
-      db_query('UPDATE {ding_place2book} SET place2book_id = -1, maintain_copy = %d, capacity = %d, kultunaut_export = %d WHERE nid = %d', $form_state_values['maintain_copy'], $form_state_values['capacity'], $form_state_values['kultunaut_export'], $form_state_values['nid']);
+      db_query('UPDATE {ding_place2book}
+                   SET place2book_id = -1,
+                       maintain_copy = %d, c
+                             apacity = %d,
+                    kultunaut_export = %d
+                 WHERE nid = %d', $form_state_values['maintain_copy'],
+                                  $form_state_values['capacity'],
+                                  $form_state_values['kultunaut_export'],
+                                  $form_state_values['nid']);
       
       // If server at p2b says 406 - Not Accepted, do this instead:
       // dont delete from ding_place2book
@@ -446,7 +486,11 @@ function place2book_event_op($form_state_values, $op) {
       // message to user: server says no, some have already bought tickets
       break;
   }
-  
+
+  /**
+   * REVIEW: What happens if there where errors above. Object not defined.
+   */
+
   // Return a place2book_id
   return $req_result->headers['Event-Id'];
 }

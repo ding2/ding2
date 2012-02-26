@@ -9,20 +9,22 @@
 * The main settings form.
 */
 function ding_place2book_admin_settings_form(&$form_state) {
+  global $user;
+
   $form = array(
     '#tree' => TRUE,
   );
+
+  // Load default settings
+  $defaults = variable_get('ding_place2book', array());
 
   // Default settings
   $form['ding_place2book'] = array(
     '#type' => 'fieldset',
     '#title' => t('Place2Book service'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => isset($defaults['service_url']) ? TRUE : FALSE,
   );
-
-  // Load default settings
-  $defaults = variable_get('ding_place2book', array());
 
   $form['ding_place2book']['service_url'] = array(
     '#type' => 'textfield',
@@ -50,6 +52,21 @@ function ding_place2book_admin_settings_form(&$form_state) {
     '#description' => t('This is the default API key used when connecting to Place2book. If you provide API key for a specific library (below), events related to that library will use that key instead of the default key.'),
   );
 
+  $form['ding_place2book']['provider_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Place2Book provider name'),
+    '#default_value' => isset($defaults['provider_name']) ? $defaults['provider_name'] : $user->name,
+    '#required' => TRUE,
+    '#description' => t('Name sent to Place2Book as the provider'),
+  );
+
+  $form['ding_place2book']['provider_mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Place2Book provider e-mail'),
+    '#default_value' => isset($defaults['provider_mail']) ? $defaults['provider_mail'] : $user->mail,
+    '#required' => TRUE,
+    '#description' => t('E-mail sent to Place2Book as the provider'),
+  );
 
   $form['ding_place2book_libraries'] = array(
     '#type' => 'fieldset',
