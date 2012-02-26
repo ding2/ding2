@@ -62,7 +62,7 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
 
             /**
-             * REVIEW: Add theme function for the stuff below.
+             * REVIEW: Maybe move this to a theme function.
              */
             if ($p2b_result->headers['Sales-Status']) {
               if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
@@ -126,7 +126,7 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
          *       deleted if the above place2book-delete fails...
          *
          * REVIEW: Maybe a clean-up check could be execute by the
-         *         administrator ?
+         *         administrator or cron?
          */
         $place2book_id = db_result(db_query('SELECT place2book_id
                                                FROM {ding_place2book}
@@ -142,8 +142,6 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 /**
  * Implementation of hook_form_alter().
- *
- * TODO: Fix default values efter load fra P2B.
  */
 function ding_place2book_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'event_node_form') {
@@ -167,10 +165,6 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
     }
 
-    /**
-     * REVIEW: Test if this can be a tree, as the values in form_state do not
-     *         start place2book.
-     */
     $form['place2book'] = array(
       '#type' => 'fieldset',
       '#title' => t('Place2Book'),
@@ -313,6 +307,9 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       // update table, set maintain_copy back to selected
       // message to user: server says no, some have already bought tickets
       break;
+
+    default:
+      watchdog('place2book', t('Unknown operation to place2book_event_op(): %op'), array('%op' => $op), WATCHDOG_ERROR);
   }
 
   // Return a place2book_id
@@ -323,7 +320,8 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
  * Builds XML message used to send to the place2book web-service.
  *
  * REVIEW: Maybe move this into a communication object and use the NanoSoap
- *         module as parent.
+ *         module as parent. NanoSoap is used by the ting-client to communicate
+ *         with the data well.
  *
  * @param object $node
  *  A node object of node event type
@@ -510,6 +508,17 @@ function place2book_settings($nid = NULL) {
   return $settings;
 }
 
+/**
+ * Helper function that handles insert, update and delete database operations
+ * for the local place2book settings table.
+ *
+ * @param string $op
+ *  Operation to preform insert, update or delete
+ * @param object $node
+ *  Node event object
+ * @param int $place2book_id
+ *  Place2book identifier
+ */
 function _place2book_db_op($op, $node, $place2book_id = NULL) {
   switch ($op) {
     case 'insert':
