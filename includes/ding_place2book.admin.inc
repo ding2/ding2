@@ -27,8 +27,17 @@ function ding_place2book_admin_settings_form(&$form_state) {
   $form['ding_place2book']['service_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book service URL'),
-    '#default_value' => isset($defaults['service_url']) ? $defaults['service_url'] : '',
+    '#default_value' => isset($defaults['service_url']) ? $defaults['service_url'] : 'https://www.place2book.com/da/event_api',
     '#description' => t('Enter a valid Place2book service endpoint, such as https://www.place2book.com/da/event_api'),
+    '#required' => TRUE,
+    '#size' => 100,
+  );
+
+  $form['ding_place2book']['event_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Place2Book events URL'),
+    '#default_value' => isset($defaults['event_url']) ? $defaults['event_url'] : 'https://www.place2book.com/da/events',
+    '#description' => t('Link to events on Place2Book, such as https://www.place2book.com/da/events. It will be used to generate links to the event at Place2Book'),
     '#required' => TRUE,
     '#size' => 100,
   );

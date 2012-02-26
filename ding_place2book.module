@@ -36,11 +36,12 @@ function ding_place2book_menu() {
 
 /**
  * Implementation of hook_nodeapi().
+ *
+ *
  */
 function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
-
+  // We only handles event nodes.
   if ($node->type == "event") {
-
     switch ($op) {
       case 'view':
         if (isset($node->nid) && $node->nid) {
@@ -122,41 +123,34 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
 /**
  * Implementation of hook_form_alter()
+ *
+ * TODO: Fix default values efter load fra P2B.
  */
 function ding_place2book_form_alter(&$form, $form_state, $form_id) {
 
 
   if ($form_id == 'event_node_form') {
     // Get the nid in a PHP 5.3 safe way and load settings for this node.
-    $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
-    $p2b_values = place2book_settings($nid);
+    $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;    
+    $node_settings = place2book_settings($nid);
 
-
-
-    if ($p2b_values['place2book_id'] && $p2b_values['place2book_id'] != -1) {
-      $p2b_ID_markup = '<a href="' . str_replace('/event_api', '/events', variable_get('ding_place2book_service_url', '')) . '/' . $p2b_values['place2book_id'] . '/edit" target="_new">' . $p2b_values['place2book_id'] .'</a>';
-      $p2b_extra_info_markup = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID ') . $p2b_ID_markup . t(' (Note: You may need to log on)');
-    } else {
-      $p2b_ID_markup = t('None');
-      $p2b_extra_info_markup = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
+    // Service settings.
+    $service_settings = variable_get(ding_place2book, array());
+    if (empty($service_settings)) {
+      drupal_set_message('You have not yet configure the Place2Book module', 'WARNING', FALSE);
+      return;
     }
 
-  // Settings for Place2book on the event nodetype
+    //print_r($node_settings);
+    //print_r($service_settings);
 
-    $form['entry_price_extra_info'] = array(
-      '#value' => $p2b_extra_info_markup,
-      '#weight' => -3,
-    );
-
-    $form['capacity'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Event capacity'),
-      '#size' => 5,
-      '#maxlength' => 5,
-      '#default_value' => $p2b_values['capacity'],
-      '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
-      '#weight' => -2,
-    );
+    if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
+      $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'], array('absolute' => TRUE));
+      $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $link));
+    } else {
+      $p2b_link = t('None');
+      $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
+    }
 
     $form['place2book'] = array(
       '#type' => 'fieldset',
@@ -166,24 +160,45 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 35,
       '#group' => 'additional_settings',
     );
+
+    /*
+     * Move the two below back into the main form ?
+     */
+    $form['place2book']['entry_price_extra_info'] = array(
+      '#value' => $p2b_info,
+      '#weight' => -3,
+    );
+
+    $form['place2book']['capacity'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Event capacity'),
+      '#size' => 5,
+      '#maxlength' => 5,
+      '#default_value' => $node_settings['defaults']['capacity'],
+      '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
+      '#weight' => -2,
+    );
+
     $form['place2book']['maintain_copy'] = array(
       '#type' => 'checkbox',
       '#title' => t('Maintain copy on Place2Book'),
-      '#default_value' => $p2b_values['maintain_copy'],
+      '#default_value' => $node_settings['defaults']['maintain_copy'],
       '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
     );
     $form['place2book']['place2book_id'] = array(
       '#type' => 'item',
       '#title' => t('Place2Book ID'),
-      '#value' => $p2b_ID_markup,
+      '#value' => $p2b_link,
       '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
     );
     $form['place2book']['kultunaut_export'] = array(
       '#type' => 'checkbox',
       '#title' => t('Kultunaut export'),
-      '#default_value' => $p2b_values['kultunaut_export'],
+      '#default_value' => $node_settings['defaults']['kultunaut_export'],
       '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
     );
+
+    // MOVE SUBMIT INTO NODEAPI
     //$form['#submit'][] = 'ding_place2book_p2b_submit';
     $form['buttons']['submit']['#submit'][]  = 'ding_place2book_p2b_submit';
   }
@@ -446,12 +461,11 @@ function place2book_settings($nid = NULL) {
  
   // Check database for node specific settings, if nid is defined.
   if ($nid) {
-    $result = db_query('SELECT *
-                          FROM {ding_place2book}
-                         WHERE nid = %d', $nid);
+    $result = db_fetch_array(db_query('SELECT *
+                                         FROM {ding_place2book}
+                                        WHERE nid = %d', $nid));
     if ($result) {
-      $row = db_fetch_array($result);
-      $settings = $row;
+      $settings = $result;
     }
   }
   return $settings;
