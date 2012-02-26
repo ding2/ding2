@@ -45,39 +45,39 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
     switch ($op) {
       case 'view':
         if (isset($node->nid) && $node->nid) {
-
-          $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
-
+          $exists_p2b = db_result(db_query('SELECT place2book_id
+                                              FROM {ding_place2book}
+                                             WHERE nid = %d', $node->nid));
           if ($exists_p2b) {
-            $api_token = variable_get('ding_place2book_api_key', '');
-            // If a library has its own API key, use that instead
-            if ($node->field_library_ref[0]['nid']) {
-              $api_key_override = variable_get('ding_place2book_api_key_' . $node->field_library_ref[0]['nid'], '');
-              if (!empty($api_key_override)) {
-                $api_token = $api_key_override;
-              }
-            }
+            $service_settings = variable_get(ding_place2book, array());
+            $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
 
             $p2b_headers = array(
-              'X-PLACE2BOOK-API-TOKEN' => $api_token,
+              'X-PLACE2BOOK-API-TOKEN' => $api_key,
               'X-PLACE2BOOK-EVENT-ID' => $exists_p2b,
               );
-            $p2b_result = drupal_http_request(variable_get('ding_place2book_service_url', '') . '/available_tickets', $p2b_headers, 'GET' );
+            $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $p2b_headers, 'GET' );
 
+            /**
+             * REVIEW: Add theme function for the stuff below.
+             */
             if ($p2b_result->headers['Sales-Status']) {
               if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
-                $place2book_infolink = '<div class="place2book order">
-  					  <a href="' . $p2b_result->headers['Location'] . '">' . t('Book a ticket') . '</a>
-  					</div>';
+                $link = l(t('Book a ticket'), $p2b_result->headers['Location']);
+                $infolink = '<div class="place2book order">' . $link . '</div>';
               } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
-                $place2book_infolink = '<div class="place2book info">' .t('There are no available tickets for this event') .'</div>';
+                $infolink = '<div class="place2book info">' .t('There are no available tickets for this event') .'</div>';
               } elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
-                $place2book_infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
+                $infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
               }
             }
 
+            /**
+             * REVIEW: Maybe this should be made into a block og panel pane, so
+             *         libraries have more freedom to place it one the page.
+             */
             $node->content['place2book_infolink'] = array(
-              '#value' => $place2book_infolink,
+              '#value' => $infolink,
               '#weight' => 10,
               );
             }
@@ -85,24 +85,24 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         break;
 
       case 'delete':
+        /**
+         * REVIEW: Move logic into helper function, as the same basic delete 
+         *         code is defined in event_op function.
+         */
         if (isset($node->nid) && $node->nid) {
-          $exists_p2b = db_result(db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = %d', $node->nid));
+          $exists_p2b = db_result(db_query('SELECT place2book_id 
+                                              FROM {ding_place2book}
+                                             WHERE nid = %d', $node->nid));
           if ($exists_p2b) {
-            $api_token = variable_get('ding_place2book_api_key', '');
-            // If a library has its own API key, use that instead
-            if ($node->field_library_ref[0]['nid']) {
-              $api_key_override = variable_get('ding_place2book_api_key_' . $node->field_library_ref[0]['nid'], '');
-              if (!empty($api_key_override)) {
-                $api_token = $api_key_override;
-              }
-            }
+
+            $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
 
             // Send DELETE request to Place2book webservice
             $p2b_headers = array(
-              'X-PLACE2BOOK-API-TOKEN' => $api_token,
+              'X-PLACE2BOOK-API-TOKEN' => $api_key,
               'X-PLACE2BOOK-EVENT-ID' => $exists_p2b,
               );
-            $req_result = drupal_http_request(variable_get('ding_place2book_service_url', '') . '/delete_event', $p2b_headers, 'POST' );
+            $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $p2b_headers, 'POST');
 
             // Catch delete error by checking the return code
             if ($req_result->error != 'Accepted') {
@@ -113,7 +113,8 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             }
           }
 
-          // TO-DO: no attempt is currently made to stop the node from being deleted if the above place2book-delete fails..
+          // TODO: No attempt is currently made to stop the node from being
+          //       deleted if the above place2book-delete fails...
           db_query('DELETE FROM {ding_place2book} WHERE nid = %d', $node->nid);
         }
         break;
@@ -415,19 +416,11 @@ function place2book_event_op($form_state_values, $op) {
   }
 
   //-- send xml to place2book event API --
-  $api_token = $service_settings['api_key'];
-
-  // If a library has its own API key, use that instead
-  if (isset($form_state_values['field_library_ref'][0]['nid'])) {
-    $library_keys = variable_get('ding_place2book_libraries', array());    
-    if (!empty($library_keys[$form_state_values['field_library_ref'][0]['nid']])) {
-      $api_token = $library_keys[$form_state_values['field_library_ref'][0]['nid']];
-    }
-  }
   $headers = array(
     'Content-Type' => 'text/xml', 
-    'X-PLACE2BOOK-API-TOKEN' => $api_token,
-    );
+    'X-PLACE2BOOK-API-TOKEN' => place2book_get_api_key($form_state_values['field_library_ref'][0]['nid']),
+  );
+
   switch ($op) {
 
     case 'insert':
@@ -513,4 +506,30 @@ function place2book_settings($nid = NULL) {
     }
   }
   return $settings;
+}
+
+
+/**
+ *
+ * @param int $library_id
+ *  The nid for the library that has the current event.
+ * @return type
+ */
+function place2book_get_api_key($library_id = NULL) {
+  // Load configuration an the place2book global API key.
+  $service_settings = variable_get(ding_place2book, array());
+  if (empty($service_settings)) {
+    drupal_set_message('You have not yet configure the Place2Book module', 'WARNING', FALSE);
+    return NULL;
+  }
+
+  // Check if the library as overriden the global API key.
+  $api_key = $service_settings['api_key'];
+  if ($library_id) {
+    $library_keys = variable_get('ding_place2book_libraries', array());
+    if (!empty($library_keys[$library_id])) {
+      $api_key = $library_keys[$library_id];
+    }
+  }
+  return $api_key;
 }
