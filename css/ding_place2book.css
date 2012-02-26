@@ -1,19 +1,23 @@
 #edit-capacity, #edit-ding-place2book-defaults-capacity {
   width:auto;
-  }
+}
 
-.node .content div.place2book {
+.node .content .place2book {
   clear:both;
-  }	
-	
-.node .content div.place2book.order {
-  background: url("img/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
+}
+
+.node .content .place2book.order {
+  background: url("../img/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
   background-position: right -30px;
   width: 188px;
-  }
-  
-.node .content div.place2book.order a {
-  background: url("img/sprite-knapper-reservering.png") no-repeat scroll left -60px transparent;
+}
+
+.node .content .place2book a,
+.node .content .place2book a:link,
+.node .content .place2book a:visited,
+.node .content .place2book a:hover,
+.node .content .place2book a:active {
+  background: url("../img/sprite-knapper-reservering.png") no-repeat scroll left -60px transparent;
   background-position: left -90px;
   color: white;
   display: block;
@@ -22,9 +26,9 @@
   width: 180px;
   font-size: 1.1em;
   font-weight: bold;
-  }
+}
 
-.node .content div.place2book.info {
+.node .content .place2book.info {
   background: #FFEE66;
   border: 1px solid #EEDD55;
   margin: 20px 0;
