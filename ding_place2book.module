@@ -484,7 +484,8 @@ function place2book_build_xml($node, $service_settings) {
      * REVIEW: This assums that all images are displayed using the same image
      *         style, should be moved to configuration.
      */
-    $xml->event->kultunaut_picture_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/' . str_replace("files", "files/imagecache/120_120", $node->field_list_image[0]['filepath']);
+    $url = str_replace("files", "files/imagecache/120_120", $node->field_list_image[0]['filepath']);
+    $xml->event->kultunaut_picture_uri = url($url, array('absolute' => TRUE));
   }
   return $xml;
 }

@@ -7,13 +7,13 @@
   }	
 	
 .node .content div.place2book.order {
-  background: url("images/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
+  background: url("img/sprite-knapper-reservering.png") no-repeat scroll right 0 transparent;
   background-position: right -30px;
   width: 188px;
   }
   
 .node .content div.place2book.order a {
-  background: url("images/sprite-knapper-reservering.png") no-repeat scroll left -60px transparent;
+  background: url("img/sprite-knapper-reservering.png") no-repeat scroll left -60px transparent;
   background-position: left -90px;
   color: white;
   display: block;
