@@ -46,8 +46,8 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       case 'view':
         if (isset($node->nid) && $node->nid) {
           $place2book_id = db_result(db_query('SELECT place2book_id
-                                              FROM {ding_place2book}
-                                             WHERE nid = %d', $node->nid));
+                                                 FROM {ding_place2book}
+                                                WHERE nid = %d', $node->nid));
           if ($place2book_id) {
             $service_settings = variable_get(ding_place2book, array());
             $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
@@ -91,33 +91,33 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         break;
 
       case insert:
-        // Perform INSERT - and the returning value will be the place2book ID for further operations.
-        $place2book_id = place2book_event_op('insert', $node);
+        if ($node->place2book['maintain_copy'] == 1) {
+          // Insert - maintain_copy and new event node.
+          $place2book_id = place2book_event_op('insert', $node);
+        }
       break;
 
       case update:
-        // Get existing Place2book DB settings for this node.
+        // Get existing Place2book settings for this node.
         $settings = place2book_settings($node->nid);
         $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : FALSE;
 
-        // Contact place2book webservice.
-        if ($place2book_id) {
-          if ($node->place2book['maintain_copy'] == 1) {
-            if ($place2book_id != -1) {
-              // Perform UPDATE
-              place2book_event_op('update', $node, $place2book_id);
-            }
+        // Figure out if this is an update, delete or create. This is some what
+        // complex because node may exists before this module is introduced.
+        if ($node->place2book['maintain_copy'] == 1) {
+          if ($settings['maintain_copy']) {
+            // Update - maintain_copy and valided id
+            place2book_event_op('update', $node, $place2book_id);
           }
           else {
-            // If maintain_copy is OFF, delete event on place2book.
-            place2book_event_op('delete', $node, $place2book_id);
+            // Insert - maintain_copy and no id (or id -1 re-connect to place2book).
+            place2book_event_op('insert', $node, $place2book_id);
           }
         }
         else {
-          // No information for this event found, so insert ticket.
-          $place2book_id = place2book_event_op('insert', $node);
+          // Delete - don't maintain_copy
+          place2book_event_op('delete', $node, $place2book_id);
         }
-
         break;
 
       case 'delete':
@@ -129,8 +129,8 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
          *         administrator ?
          */
         $place2book_id = db_result(db_query('SELECT place2book_id
-                                            FROM {ding_place2book}
-                                           WHERE nid = %d', $node->nid));
+                                               FROM {ding_place2book}
+                                              WHERE nid = %d', $node->nid));
         if ($place2book_id) {
           place2book_event_op('delete', $node, $place2book_id);
           db_query('DELETE FROM {ding_place2book} WHERE nid = %d', $node->nid);
@@ -226,9 +226,6 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
  * Handles communitaction with the place2book web-services, which consists of
  * insert, update and delete opreations.
  *
- * TODO: Move this into a communication object and use the NanoSoap module as
- *       parent.
- *
  * @param string $op
  *  The operation to preform: insert, update or delete.
  * @param object $node
@@ -246,6 +243,131 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     return;
   }
 
+  // Build XML headers.
+  $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
+  if ($api_key == NULL) {
+    return;
+  }
+  $headers = array(
+    'Content-Type' => 'text/xml',
+    'X-PLACE2BOOK-API-TOKEN' => $api_key,
+  );
+
+  switch ($op) {
+    case 'insert':
+      $xml = place2book_build_xml($node, $service_settings);
+      $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $headers, 'POST', $xml->asXML());
+
+      // Catch insert error by checking the event id.
+      if (!$req_result->headers['Event-Id']) {
+        $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
+        drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+      }
+      else {
+        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
+
+        if ($place2book_id) {
+          db_query('UPDATE {ding_place2book}
+                               SET place2book_id = %d,
+                                   maintain_copy = %d,
+                                        capacity = %d,
+                                kultunaut_export = %d
+                             WHERE nid = %d', $req_result->headers['Event-Id'],
+                                              $node->place2book['maintain_copy'],
+                                              $node->place2book['capacity'],
+                                              $node->place2book['kultunaut_export'],
+                                              $node->nid);
+        }
+        else {
+          // Update local database.
+          if ($req_result->headers['Event-Id']) {
+            db_query('INSERT INTO {ding_place2book} (nid, place2book_id,
+                                                     maintain_copy, capacity,
+                                                     kultunaut_export)
+                           VALUES (%d, %d, %d, %d, %d)', $node->nid,
+                                                         $req_result->headers['Event-Id'],
+                                                         $node->place2book['maintain_copy'],
+                                                         $node->place2book['capacity'],
+                                                         $node->place2book['kultunaut_export']);
+          }
+        }
+      }
+      break;
+
+    case 'update':
+      $xml = place2book_build_xml($node, $service_settings);
+      $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
+      $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $headers, 'POST', $xml->asXML());
+
+      // Catch update error by checking the return code.
+      if ($req_result->error != 'Accepted') {
+        $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
+        drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+      }
+      else {
+        drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
+
+        // Update place2book settings table.
+        db_query('UPDATE {ding_place2book}
+                     SET place2book_id = %d,
+                         maintain_copy = %d,
+                              capacity = %d,
+                      kultunaut_export = %d
+                   WHERE nid = %d', $place2book_id,
+                                    $node->place2book['maintain_copy'],
+                                    $node->place2book['capacity'],
+                                    $node->place2book['kultunaut_export'],
+                                    $node->nid);
+      }
+      break;
+
+    case 'delete':
+      $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
+      $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $headers, 'POST');
+
+      if ($req_result->error != 'Accepted') {
+        $p2b_error = $req_result->headers['Status'];
+        drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+      }
+      else {
+        drupal_set_message(t('The related event on Place2book was deleted.'));
+        // Update settings in ding_place2book table - "break the maintain_copy link"
+        db_query('UPDATE {ding_place2book}
+                     SET place2book_id = -1,
+                         maintain_copy = %d,
+                              capacity = %d,
+                      kultunaut_export = %d
+                   WHERE nid = %d', $node->place2book['maintain_copy'],
+                                    $node->place2book['capacity'],
+                                    $node->place2book['kultunaut_export'],
+                                    $node->nid);
+      }
+
+      // If server at p2b says 406 - Not Accepted, do this instead:
+      // dont delete from ding_place2book
+      // update table, set maintain_copy back to selected
+      // message to user: server says no, some have already bought tickets
+      break;
+  }
+
+  // Return a place2book_id
+  return $req_result->headers['Event-Id'];
+}
+
+/**
+ * Builds XML message used to send to the place2book web-service.
+ *
+ * REVIEW: Maybe move this into a communication object and use the NanoSoap
+ *         module as parent.
+ *
+ * @param object $node
+ *  A node object of node event type
+ * @param array $service_settings
+ *  Service configuration settings
+ * @return object $xml
+ *  SimpleXML object
+ */
+function place2book_build_xml($node, $service_settings) {
   // Load xml string
   $event_create_str = '<?xml version="1.0" encoding="UTF-8"?>
 <data>
@@ -282,7 +404,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     <kultunaut_export_category></kultunaut_export_category>
   </event>
     </data>';
-    $xml = simplexml_load_string($event_create_str);
+  $xml = simplexml_load_string($event_create_str);
 
   // Set provider data from the settings.
   $xml->provider->name = $service_settings['provider_name'];
@@ -399,105 +521,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
      */
     $xml->event->kultunaut_picture_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/' . str_replace("files", "files/imagecache/120_120", $node->field_list_image[0]['filepath']);
   }
-
-  //-- send xml to place2book event API --
-  $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
-  if ($api_key == NULL) {
-    return;
-  }
-  $headers = array(
-    'Content-Type' => 'text/xml',
-    'X-PLACE2BOOK-API-TOKEN' => $api_key,
-  );
-
-  switch ($op) {
-
-    case 'insert':
-      $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $headers, 'POST', $xml->asXML());
-
-      // Catch insert error by checking the event id.
-      if (!$req_result->headers['Event-Id']) {
-        $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
-        drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-      }
-      else {
-        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
-
-        // Update local database.
-        if ($req_result->headers['Event-Id']) {
-          db_query('INSERT INTO {ding_place2book} (nid, place2book_id,
-                                                   maintain_copy, capacity,
-                                                   kultunaut_export)
-                         VALUES (%d, %d, %d, %d, %d)', $node->nid,
-                                                       $req_result->headers['Event-Id'],
-                                                       $node->place2book['maintain_copy'],
-                                                       $node->place2book['capacity'],
-                                                       $node->place2book['kultunaut_export']);
-        }
-      }
-      break;
-
-    case 'update':
-      $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
-      $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $headers, 'POST', $xml->asXML());
-
-      // Catch update error by checking the return code.
-      if ($req_result->error != 'Accepted') {
-        $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
-        drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-      }
-      else {
-        drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
-
-        // Update place2book settings table.
-        db_query('UPDATE {ding_place2book}
-                     SET place2book_id = %d,
-                         maintain_copy = %d,
-                              capacity = %d,
-                      kultunaut_export = %d
-                   WHERE nid = %d', $place2book_id,
-                                    $node->place2book['maintain_copy'],
-                                    $node->place2book['capacity'],
-                                    $node->place2book['kultunaut_export'],
-                                    $node->nid);
-      }
-      break;
-
-    case 'delete':
-      $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
-      $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $headers, 'POST');
-
-      if ($req_result->error != 'Accepted') {
-        $p2b_error = $req_result->headers['Status'];
-        drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-      }
-      else {
-        drupal_set_message(t('The related event on Place2book was deleted.'));
-        // Update settings in ding_place2book table - "break the maintain_copy link"
-        db_query('UPDATE {ding_place2book}
-                     SET place2book_id = -1,
-                         maintain_copy = %d,
-                               apacity = %d,
-                      kultunaut_export = %d
-                   WHERE nid = %d', $node->place2book['maintain_copy'],
-                                    $node->place2book['capacity'],
-                                    $node->place2book['kultunaut_export'],
-                                    $node->nid);
-      }
-
-      // If server at p2b says 406 - Not Accepted, do this instead:
-      // dont delete from ding_place2book
-      // update table, set maintain_copy back to selected
-      // message to user: server says no, some have already bought tickets
-      break;
-  }
-
-  /**
-   * REVIEW: What happens if there where errors above. Object not defined.
-   */
-
-  // Return a place2book_id
-  return $req_result->headers['Event-Id'];
+  return $xml;
 }
 
 /**

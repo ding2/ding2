@@ -117,7 +117,7 @@ function ding_place2book_admin_settings_form(&$form_state) {
       'maintain_copy' => t('Maintain copy'),
       'kultunaut_export' => t('Kultunaut export'),
     ),
-    '#default_value' => isset($defaults['defaults']) ? $defaults['defaults'] : array('maintain_copy'),
+    '#default_value' => isset($defaults['defaults']) ? $defaults['defaults'] : array(),
   );
 
   return system_settings_form($form);
