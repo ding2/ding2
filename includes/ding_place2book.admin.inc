@@ -1,13 +1,13 @@
 <?php
 
 /**
-* @file ding_place2book.admin.inc
-* Admin forms, page callbacks and related functions.
-*/
+ * @file ding_place2book.admin.inc
+ * Admin forms, page callbacks and related functions.
+ */
 
 /**
-* The main settings form.
-*/
+ * The main settings form.
+ */
 function ding_place2book_admin_settings_form(&$form_state) {
   global $user;
 
@@ -79,14 +79,14 @@ function ding_place2book_admin_settings_form(&$form_state) {
   $defaults = variable_get('ding_place2book_libraries', array());
 
   // Find all libraries and order them by title.
-  $query = db_query("SELECT nid, title FROM {node}
+  $query = db_query("SELECT n.nid, n.title FROM {node} n
                       WHERE type = 'library'
                       ORDER BY title");
 
   while ($row = db_fetch_object($query)) {
     $form['ding_place2book_libraries'][$row->nid] = array(
       '#type' => 'textfield',
-      '#title' => 'API key ' . $row->title,
+      '#title' => 'API key ' . check_plain($row->title),
       '#default_value' => isset($defaults[$row->nid]) ? $defaults[$row->nid] : '',
       '#description' => t('Optional. If you have several accounts at Place2book, each library can have their own API key. In that case, the base API key will be overridden by the provided key when sending data on events related to this library.'),
     );
@@ -113,12 +113,12 @@ function ding_place2book_admin_settings_form(&$form_state) {
 
   $form['ding_place2book_event_nodes']['defaults'] = array(
     '#type' => 'checkboxes',
-    '#options' => array (
+    '#options' => array(
       'maintain_copy' => t('Maintain copy'),
       'kultunaut_export' => t('Kultunaut export'),
     ),
     '#default_value' => isset($defaults['defaults']) ? $defaults['defaults'] : array('maintain_copy'),
   );
-  
+
   return system_settings_form($form);
 }

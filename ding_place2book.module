@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_init().
  */
-function ding_place2book_init(){
+function ding_place2book_init() {
   drupal_add_css(drupal_get_path('module', 'ding_place2book') .'/css/ding_place2book.css');
 }
 
@@ -21,7 +21,7 @@ function ding_place2book_perm() {
  */
 function ding_place2book_menu() {
   $items = array();
-  
+
   $items['admin/settings/ding/place2book'] = array(
     'title' => 'Place2book settings',
     'description' => 'Settings and defaults for Place2book integration',
@@ -68,10 +68,12 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
                 $link = l(t('Book a ticket'), $p2b_result->headers['Location']);
                 $infolink = '<div class="place2book order">' . $link . '</div>';
-              } elseif ($p2b_result->headers['Available-Tickets'] == 0) {
-                $infolink = '<div class="place2book info">' .t('There are no available tickets for this event') .'</div>';
-              } elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
-                $infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
+              }
+              elseif ($p2b_result->headers['Available-Tickets'] == 0) {
+                $infolink = '<div class="place2book info">' . t('There are no available tickets for this event') . '</div>';
+              }
+              elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
+                $infolink = '<div class="place2book info">' . t('The event is closed') . '</div>';
               }
             }
 
@@ -105,7 +107,8 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               // Perform UPDATE
               place2book_event_op('update', $node, $place2book_id);
             }
-          } else {
+          }
+          else {
             // If maintain_copy is OFF, delete event on place2book.
             place2book_event_op('delete', $node, $place2book_id);
           }
@@ -138,14 +141,14 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 }
 
 /**
- * Implementation of hook_form_alter()
+ * Implementation of hook_form_alter().
  *
  * TODO: Fix default values efter load fra P2B.
  */
 function ding_place2book_form_alter(&$form, $form_state, $form_id) {
   if ($form_id == 'event_node_form') {
     // Get the nid in a PHP 5.3 safe way and load settings for this node.
-    $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;    
+    $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
     $node_settings = place2book_settings($nid);
 
     // Service settings.
@@ -158,7 +161,8 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
     if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
       $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'], array('absolute' => TRUE));
       $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $link));
-    } else {
+    }
+    else {
       $p2b_link = t('None');
       $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
     }
@@ -241,7 +245,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
     return;
   }
-  
+
   // Load xml string
   $event_create_str = '<?xml version="1.0" encoding="UTF-8"?>
 <data>
@@ -279,11 +283,11 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
   </event>
     </data>';
     $xml = simplexml_load_string($event_create_str);
-    
+
   // Set provider data from the settings.
   $xml->provider->name = $service_settings['provider_name'];
   $xml->provider->email = $service_settings['provider_mail'];
-  
+
   // Set event name with title.
   $xml->event->name = $node->title;
 
@@ -292,14 +296,14 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
    */
   // Set short description.
   $xml->event->description_short = $node->field_teaser[0]['value'];
-  
+
   // Set long description.
   $xml->event->description_long = $node->body;
-  
+
   // Set sales window times empty - and they will use the defaults in place2book.
   $xml->event->sale_open = '';
   $xml->event->sale_close = '';
-  
+
   //-- set location data --
   // If library has been selected, use location data from the library.
   if ($node->field_library_ref[0]['nid']) {
@@ -333,21 +337,21 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     // NB! - event node type can have a funny default in it location settings
     // (see /admin/content/node-type/event, Locative Info., Collection settings)
     // - country default was US, should probably be DK. Perhaps a check should be made?
-    $xml->event->venue->country_code = strtoupper($node->locations[0]['country']);
+    $xml->event->venue->country_code = drupal_strtoupper($node->locations[0]['country']);
   }
- 
+
   // Set capacity - and if provided, unflag unlimited_capacity.
   if (isset($node->place2book['capacity']) && $node->place2book['capacity'] > 0) {
     $xml->event->capacity = $node->place2book['capacity'];
-    $xml->event->unlimited_capacity = 0; 
+    $xml->event->unlimited_capacity = 0;
   }
- 
+
   // Set ticket price - multiplied by 100, Place2book receives amount in oere instead of kr.
   $xml->event->price->value = $node->field_entry_price[0]['value'] * 100;
 
   // Set event time to begin
   $xml->event->begin_at = $node->field_datetime[0]['value'];
-  
+
   // Set event time to end
   $xml->event->end_at = $node->field_datetime[0]['value2'];
 
@@ -358,15 +362,16 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
   $term_list = '';
   if ($node->taxonomy) {
     foreach ($node->taxonomy as $vid => $termid) {
-      if (is_numeric($vid)) { 
+      if (is_numeric($vid)) {
         $term_list = $term_list . $termid . ",";
       }
     }
-    $term_list = rtrim($term_list,",");   
+    $term_list = rtrim($term_list, ",");
   }
 
-  //I have the term ids already, so the following 2 queries will in turn give me term names to use 
-  if (!empty($term_list)) { 
+  // I have the term ids already, so the following 2 queries will in turn give
+  // me term names to use.
+  if (!empty($term_list)) {
     $event_category = db_result(db_query('SELECT t.name
                                             FROM {term_data} t JOIN {vocabulary} v
                                                                  ON t.vid = v.vid
@@ -401,7 +406,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     return;
   }
   $headers = array(
-    'Content-Type' => 'text/xml', 
+    'Content-Type' => 'text/xml',
     'X-PLACE2BOOK-API-TOKEN' => $api_key,
   );
 
@@ -409,13 +414,14 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
 
     case 'insert':
       $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $headers, 'POST', $xml->asXML());
-      
+
       // Catch insert error by checking the event id.
       if (!$req_result->headers['Event-Id']) {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
         drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-      } else {
-        drupal_set_message(t('Event created on Place2book with remote ID ') . $req_result->headers['Event-Id']);
+      }
+      else {
+        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
 
         // Update local database.
         if ($req_result->headers['Event-Id']) {
@@ -434,13 +440,14 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     case 'update':
       $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $headers, 'POST', $xml->asXML());
-      
+
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
         drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-      } else {
-        drupal_set_message(t('Event updated on Place2book with remote ID ') . $place2book_id);
+      }
+      else {
+        drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
 
         // Update place2book settings table.
         db_query('UPDATE {ding_place2book}
@@ -463,7 +470,8 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'];
         drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
-      } else {
+      }
+      else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
         // Update settings in ding_place2book table - "break the maintain_copy link"
         db_query('UPDATE {ding_place2book}
@@ -476,7 +484,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                                     $node->place2book['kultunaut_export'],
                                     $node->nid);
       }
-      
+
       // If server at p2b says 406 - Not Accepted, do this instead:
       // dont delete from ding_place2book
       // update table, set maintain_copy back to selected
@@ -499,7 +507,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
 function place2book_settings($nid = NULL) {
   // Get default values.
   $settings = variable_get('ding_place2book_event_nodes', array());
- 
+
   // Check database for node specific settings, if nid is defined.
   if ($nid) {
     $result = db_fetch_array(db_query('SELECT *
@@ -514,7 +522,7 @@ function place2book_settings($nid = NULL) {
 
 
 /**
- * Load the API key for a given library, defined by the parameter, if non is 
+ * Load the API key for a given library, defined by the parameter, if non is
  * given the default API key is returned.
  *
  * @param int $library_id
