@@ -8,6 +8,15 @@ function ding_place2book_init(){
 }
 
 /**
+ * Implementation of hook_perm().
+ */
+function ding_place2book_perm() {
+  return array(
+    'administer place2book settings',
+  );
+}
+
+/**
  * Implementation of hook_menu().
  */
 function ding_place2book_menu() {
@@ -18,22 +27,13 @@ function ding_place2book_menu() {
     'description' => 'Settings and defaults for Place2book integration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_place2book_admin_settings_form'),
-    'access callback' => 'user_access',
     'access arguments' => array('administer place2book settings'),
     'type' => MENU_NORMAL_ITEM,
-    'file' => 'ding_place2book.admin.inc',
-    );
+    'file' => 'includes/ding_place2book.admin.inc',
+  );
   return $items;
 }
 
-/**
- * Implementation of hook_perm().
- */
-function ding_place2book_perm() {
-  return array(
-    'administer place2book settings',
-  );
-}
 
 function ding_place2book_p2b_submit($form, &$form_state)
 {
