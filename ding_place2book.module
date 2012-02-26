@@ -75,11 +75,10 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               }
             }
 
-            echo $infolink;
-
             /**
              * REVIEW: Maybe this should be made into a block og panel pane, so
-             *         libraries have more freedom to place it one the page.
+             *         libraries have more freedom to place it one the page. This
+             *         may also require changes in sub-themes.
              */
             $node->content['place2book_infolink'] = array(
               '#value' => $infolink,
@@ -87,6 +86,14 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               );
             }
           }
+        break;
+
+      case insert:
+        
+        break;
+
+      case update:
+        
         break;
 
       case 'delete':
@@ -161,6 +168,10 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
     }
 
+    /**
+     * REVIEW: Test if this can be a tree, as the values in form_state do not
+     *         start place2book.
+     */
     $form['place2book'] = array(
       '#type' => 'fieldset',
       '#title' => t('Place2Book'),
@@ -183,7 +194,7 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#title' => t('Event capacity'),
       '#size' => 5,
       '#maxlength' => 5,
-      '#default_value' => $node_settings['defaults']['capacity'],
+      '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
       '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
       '#weight' => -2,
     );
@@ -191,19 +202,21 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
     $form['place2book']['maintain_copy'] = array(
       '#type' => 'checkbox',
       '#title' => t('Maintain copy on Place2Book'),
-      '#default_value' => $node_settings['defaults']['maintain_copy'],
+      '#default_value' => isset($node_settings['maintain_copy']) ? $node_settings['maintain_copy'] : $node_settings['defaults']['maintain_copy'],
       '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
     );
+
     $form['place2book']['place2book_id'] = array(
       '#type' => 'item',
       '#title' => t('Place2Book ID'),
       '#value' => $p2b_link,
       '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
     );
+
     $form['place2book']['kultunaut_export'] = array(
       '#type' => 'checkbox',
       '#title' => t('Kultunaut export'),
-      '#default_value' => $node_settings['defaults']['kultunaut_export'],
+      '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : $node_settings['defaults']['kultunaut_export'],
       '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
     );
 
@@ -244,7 +257,7 @@ function ding_place2book_p2b_submit($form, &$form_state) {
   
   // Update or insert in the settings table.
   if (isset($place2book_id)) {
-    if ($settings) {
+    if ($settings['place2book_id']) {
       if ($form['nid']['#value']) {
         db_query('UPDATE {ding_place2book}
                      SET place2book_id = %d,
@@ -317,7 +330,11 @@ function place2book_event_op($form_state_values, $op) {
   
   // Set event name with title.
   $xml->event->name = $form_state_values['title'];
-  
+
+
+  /**
+   * REVIEW: This may have an max lenght of 255 chars.
+   */
   // Set short description.
   $xml->event->description_short = $form_state_values['field_teaser'][0]['value'];
   
