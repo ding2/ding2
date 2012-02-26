@@ -55,11 +55,11 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               return;
             }
 
-            $p2b_headers = array(
+            $headers = array(
               'X-PLACE2BOOK-API-TOKEN' => $api_key,
               'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
-              );
-            $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $p2b_headers, 'GET' );
+            );
+            $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
 
             /**
              * REVIEW: Add theme function for the stuff below.
@@ -100,7 +100,7 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
       case update:
         // Get existing Place2book settings for this node.
         $settings = place2book_settings($node->nid);
-        $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : FALSE;
+        $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
 
         // Figure out if this is an update, delete or create. This is some what
         // complex because node may exists before this module is introduced.
@@ -133,7 +133,7 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
                                               WHERE nid = %d', $node->nid));
         if ($place2book_id) {
           place2book_event_op('delete', $node, $place2book_id);
-          db_query('DELETE FROM {ding_place2book} WHERE nid = %d', $node->nid);
+          _place2book_db_op('delete', $node, $place2book_id);
         }
         break;
     }
@@ -266,30 +266,12 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       else {
         drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
 
-        if ($place2book_id) {
-          db_query('UPDATE {ding_place2book}
-                               SET place2book_id = %d,
-                                   maintain_copy = %d,
-                                        capacity = %d,
-                                kultunaut_export = %d
-                             WHERE nid = %d', $req_result->headers['Event-Id'],
-                                              $node->place2book['maintain_copy'],
-                                              $node->place2book['capacity'],
-                                              $node->place2book['kultunaut_export'],
-                                              $node->nid);
+        // Update local database.
+        if ($place2book_id != NULL) {
+          _place2book_db_op('update', $node, $req_result->headers['Event-Id']);
         }
         else {
-          // Update local database.
-          if ($req_result->headers['Event-Id']) {
-            db_query('INSERT INTO {ding_place2book} (nid, place2book_id,
-                                                     maintain_copy, capacity,
-                                                     kultunaut_export)
-                           VALUES (%d, %d, %d, %d, %d)', $node->nid,
-                                                         $req_result->headers['Event-Id'],
-                                                         $node->place2book['maintain_copy'],
-                                                         $node->place2book['capacity'],
-                                                         $node->place2book['kultunaut_export']);
-          }
+          _place2book_db_op('insert', $node, $req_result->headers['Event-Id']);
         }
       }
       break;
@@ -308,16 +290,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
         drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
 
         // Update place2book settings table.
-        db_query('UPDATE {ding_place2book}
-                     SET place2book_id = %d,
-                         maintain_copy = %d,
-                              capacity = %d,
-                      kultunaut_export = %d
-                   WHERE nid = %d', $place2book_id,
-                                    $node->place2book['maintain_copy'],
-                                    $node->place2book['capacity'],
-                                    $node->place2book['kultunaut_export'],
-                                    $node->nid);
+        _place2book_db_op('update', $node, $place2book_id);
       }
       break;
 
@@ -332,15 +305,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
         // Update settings in ding_place2book table - "break the maintain_copy link"
-        db_query('UPDATE {ding_place2book}
-                     SET place2book_id = -1,
-                         maintain_copy = %d,
-                              capacity = %d,
-                      kultunaut_export = %d
-                   WHERE nid = %d', $node->place2book['maintain_copy'],
-                                    $node->place2book['capacity'],
-                                    $node->place2book['kultunaut_export'],
-                                    $node->nid);
+        _place2book_db_op('update', $node, -1);
       }
 
       // If server at p2b says 406 - Not Accepted, do this instead:
@@ -544,6 +509,42 @@ function place2book_settings($nid = NULL) {
   return $settings;
 }
 
+function _place2book_db_op($op, $node, $place2book_id = NULL) {
+  switch ($op) {
+    case 'insert':
+      db_query('INSERT INTO {ding_place2book} (nid, place2book_id,
+                                                 maintain_copy, capacity,
+                                                 kultunaut_export)
+                       VALUES (%d, %d, %d, %d, %d)', $node->nid,
+                                                     $place2book_id,
+                                                     $node->place2book['maintain_copy'],
+                                                     $node->place2book['capacity'],
+                                                     $node->place2book['kultunaut_export']);
+      break;
+
+    case 'update':
+      db_query('UPDATE {ding_place2book}
+                   SET place2book_id = %d,
+                       maintain_copy = %d,
+                            capacity = %d,
+                    kultunaut_export = %d
+                 WHERE nid = %d', $place2book_id,
+                                  $node->place2book['maintain_copy'],
+                                  $node->place2book['capacity'],
+                                  $node->place2book['kultunaut_export'],
+                                  $node->nid);
+      break;
+
+    case 'delete':
+      db_query('DELETE FROM {ding_place2book}
+                      WHERE nid = %d
+                        AND place2book_id = %d', $node-nid, $place2book_id);
+      break;
+
+    default:
+      watchdog('place2book', t('Unknown operation to _place2book_db_op(): %op'), array('%op' => $op), WATCHDOG_ERROR);
+  }
+}
 
 /**
  * Load the API key for a given library, defined by the parameter, if non is
