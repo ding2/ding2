@@ -219,7 +219,20 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
- * REVIEW: Missing description. Give it an event node as input
+ * Handles communitaction with the place2book web-services, which consists of
+ * insert, update and delete opreations.
+ *
+ * TODO: Move this into a communication object and use the NanoSoap module as
+ *       parent.
+ *
+ * @param string $op
+ *  The operation to preform: insert, update or delete.
+ * @param object $node
+ *  A node object for the event.
+ * @param int $place2book_id
+ *  Place2Book identifier.
+ * @return int
+ *  Place2Book identifier.
  */
 function place2book_event_op($op, $node, $place2book_id = NULL) {
   // Service settings.
