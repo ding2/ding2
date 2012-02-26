@@ -51,6 +51,9 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           if ($exists_p2b) {
             $service_settings = variable_get(ding_place2book, array());
             $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
+            if ($api_key == NULL) {
+              return;
+            }
 
             $p2b_headers = array(
               'X-PLACE2BOOK-API-TOKEN' => $api_key,
@@ -71,6 +74,8 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
                 $infolink = '<div class="place2book info">' .t('The event is closed') .'</div>';
               }
             }
+
+            echo $infolink;
 
             /**
              * REVIEW: Maybe this should be made into a block og panel pane, so
@@ -96,6 +101,9 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
           if ($exists_p2b) {
 
             $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
+            if ($api_key == NULL) {
+              return;
+            }
 
             // Send DELETE request to Place2book webservice
             $p2b_headers = array(
@@ -138,7 +146,7 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
     // Service settings.
     $service_settings = variable_get(ding_place2book, array());
     if (empty($service_settings)) {
-      drupal_set_message('You have not yet configure the Place2Book module', 'WARNING', FALSE);
+      drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
       return;
     }
 
@@ -260,7 +268,7 @@ function place2book_event_op($form_state_values, $op) {
   // Service settings.
   $service_settings = variable_get(ding_place2book, array());
   if (empty($service_settings)) {
-    drupal_set_message('You have not yet configure the Place2Book module', 'WARNING', FALSE);
+    drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
     return;
   }
   
@@ -416,9 +424,13 @@ function place2book_event_op($form_state_values, $op) {
   }
 
   //-- send xml to place2book event API --
+  $api_key = place2book_get_api_key($form_state_values['field_library_ref'][0]['nid']);
+  if ($api_key == NULL) {
+    return;
+  }
   $headers = array(
     'Content-Type' => 'text/xml', 
-    'X-PLACE2BOOK-API-TOKEN' => place2book_get_api_key($form_state_values['field_library_ref'][0]['nid']),
+    'X-PLACE2BOOK-API-TOKEN' => $api_key,
   );
 
   switch ($op) {
@@ -510,16 +522,19 @@ function place2book_settings($nid = NULL) {
 
 
 /**
+ * Load the API key for a given library, defined by the parameter, if non is 
+ * given the default API key is returned.
  *
  * @param int $library_id
  *  The nid for the library that has the current event.
- * @return type
+ * @return string
+ *  API key or NULL if configuration is not found.
  */
 function place2book_get_api_key($library_id = NULL) {
   // Load configuration an the place2book global API key.
   $service_settings = variable_get(ding_place2book, array());
   if (empty($service_settings)) {
-    drupal_set_message('You have not yet configure the Place2Book module', 'WARNING', FALSE);
+    drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
     return NULL;
   }
 
