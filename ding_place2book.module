@@ -4,7 +4,7 @@
  * Implementation of hook_init().
  */
 function ding_place2book_init(){
-  drupal_add_css(drupal_get_path('module', 'ding_place2book') .'/ding_place2book.css');
+  drupal_add_css(drupal_get_path('module', 'ding_place2book') .'/css/ding_place2book.css');
 }
 
 /**
