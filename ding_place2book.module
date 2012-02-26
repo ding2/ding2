@@ -76,13 +76,6 @@ function ding_place2book_p2b_submit($form, &$form_state)
   
 }
 
-
-function ding_place2book_document_root() {
-  $absolute_dir = dirname(__FILE__);
-  $relative_dir = drupal_get_path('module', 'ding_place2book');
-  return substr($absolute_dir, 0, -1 * (1 + strlen($relative_dir)));
-}
-
 function place2book_event_op($form_state_values, $op) {
   // Load xml string
   $event_create_str = '<?xml version="1.0" encoding="UTF-8"?>
