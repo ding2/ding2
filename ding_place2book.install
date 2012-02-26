@@ -58,6 +58,10 @@ function ding_place2book_schema() {
  */
 function ding_place2book_install() {
   drupal_install_schema('ding_place2book');
+
+  // Update moduel weight to make it heavier then CCK field groups.
+  // See update_6200() below.
+  update_sql("UPDATE {system} SET weight = 10 WHERE name = 'ding_place2book';");
 }
 
 /**
@@ -89,5 +93,15 @@ function ding_place2book_update_6100() {
       'default' => "0"
     ));
 
+  return $ret;
+}
+
+/*
+ * Set module weight to be heavier than CCK field group module, so this modules
+ * hook_form_alter() has access to field groups created by CCK.
+ */
+function ding_place2book_update_6200() {
+  $ret = array();
+  $ret[] = update_sql("UPDATE {system} SET weight = 10 WHERE name = 'ding_place2book';");
   return $ret;
 }
