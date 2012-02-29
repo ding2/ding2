@@ -41,13 +41,13 @@ function alma_debt_payment_received($amount, $params = array(), $order_id = NULL
   // TODO: We should probably check that $amount adds up to the debts
   // we're going to mark paid, since Alma doesn't.
   if( !empty($params['order_ids']) ) {
-    $order_ids = $params['debt_ids'];
+    $debt_ids = $params['debt_ids'];
   }
   elseif( !empty($params['debts']) ) {
-    $order_ids = array_keys($params['debts']) ;
+    $debt_ids = array_keys($params['debts']) ;
   }
   else {
-    $order_ids = array();
+    $debt_ids = array();
   }
 
   return alma_client_invoke('add_payment', implode(',', $debt_ids), $order_id);
