@@ -39,9 +39,10 @@ function openruth_reservation_list($account) {
         // Only items that has been set aside for the user has a pickup order ID. Also, not all libraries use it.
         'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
         'pickup_branch_id' => $res->agencyCounter,
+        'order_arrived' =>  $res->orderArrived,
         'created' => $res->orderDate,
         'ready_for_pickup' => 1,
-                               ));
+      ));
     }
   }
   if (isset($status->orders->orderNotReady)) {
@@ -56,7 +57,7 @@ function openruth_reservation_list($account) {
         'created' => $res->orderDate,
         'queue_number' => $res->orderQueuePosition,
         'ready_for_pickup' => 0,
-                               ));
+      ));
     }
   }
   return $result;
