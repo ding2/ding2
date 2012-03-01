@@ -210,6 +210,13 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : $node_settings['defaults']['kultunaut_export'],
       '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
     );
+		
+		$form['place2book']['passive'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Passive event'),
+      '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : $node_settings['defaults']['passive'],
+      '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
+    );
   }
 }
 
@@ -440,6 +447,11 @@ function place2book_build_xml($node, $service_settings) {
   // Set kultunaut_export setting
   $xml->event->kultunaut_export = $node->place2book['kultunaut_export'];
 
+	// Set passive setting (events with no ticket sale)
+	if (isset($node->place2book['passive']) && $node->place2book['passive'] == '1') {
+	  $xml->event->addAttribute('passive', '1');
+	}
+	
   // -- set kultunaut terms --
   $term_list = '';
   if ($node->taxonomy) {
@@ -482,7 +494,8 @@ function place2book_build_xml($node, $service_settings) {
     $url = str_replace("files", "files/imagecache/120_120", $node->field_list_image[0]['filepath']);
     $xml->event->kultunaut_picture_uri = url($url, array('absolute' => TRUE));
   }
-  return $xml;
+  drupal_set_message('xml: <pre>' . str_replace(array('<','>'), array('&lt;','&gt;'), $xml->asXML()) . '</pre>'); //for debugging
+	return $xml;
 }
 
 /**
@@ -521,12 +534,13 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
     case 'insert':
       db_query('INSERT INTO {ding_place2book} (nid, place2book_id,
                                                  maintain_copy, capacity,
-                                                 kultunaut_export)
-                       VALUES (%d, %d, %d, %d, %d)', $node->nid,
+                                                 kultunaut_export, passive)
+                       VALUES (%d, %d, %d, %d, %d, %d)', $node->nid,
                                                      $place2book_id,
                                                      $node->place2book['maintain_copy'],
                                                      $node->place2book['capacity'],
-                                                     $node->place2book['kultunaut_export']);
+                                                     $node->place2book['kultunaut_export'],
+																										 $node->place2book['passive']);
       break;
 
     case 'update':
@@ -534,11 +548,13 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                    SET place2book_id = %d,
                        maintain_copy = %d,
                             capacity = %d,
-                    kultunaut_export = %d
+                    kultunaut_export = %d,
+                    passive = %d
                  WHERE nid = %d', $place2book_id,
                                   $node->place2book['maintain_copy'],
                                   $node->place2book['capacity'],
                                   $node->place2book['kultunaut_export'],
+																	$node->place2book['passive'],
                                   $node->nid);
       break;
 

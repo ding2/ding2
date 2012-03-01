@@ -47,6 +47,13 @@ function ding_place2book_schema() {
           'not null' => TRUE,
           'default' => 0,
         ),
+				'passive' => array(
+          'description' => t('Event on Place2Book is flagged as passive'),
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
       ),
       'primary key' => array('nid'),
     ),
@@ -149,4 +156,22 @@ function ding_place2book_update_6300() {
   variable_del('ding_place2book_defaults');
 
   return array();
+}
+
+/*
+ * Add extra field for supporting "passive events"-functionality
+ * 
+ */
+function ding_place2book_update_6400() {
+  $ret = array();
+  
+  db_add_field($ret, 'ding_place2book', 'passive', array(
+      'description' => t('Event on Place2Book is flagged as passive'),
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+      'default' => "0"
+    ));
+
+  return $ret;
 }

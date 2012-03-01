@@ -116,6 +116,7 @@ function ding_place2book_admin_settings_form(&$form_state) {
     '#options' => array(
       'maintain_copy' => t('Maintain copy'),
       'kultunaut_export' => t('Kultunaut export'),
+			'passive' => t('Passive event'),
     ),
     '#default_value' => isset($defaults['defaults']) ? $defaults['defaults'] : array(),
   );
