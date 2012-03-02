@@ -80,6 +80,11 @@ class DingProviderReservation extends DingEntityBase {
   protected $pickup_order_id = DingEntityBase::NULL;
 
   /**
+   * orderArrived. Boolean.
+   */
+  protected $order_arrived = DingEntityBase::NULL;
+
+  /**
    * Creation date of reservation. Format: YYYY-MM-DD.
    */
   protected $created = DingEntityBase::NULL;
@@ -141,6 +146,7 @@ class DingProviderReservation extends DingEntityBase {
       'pickup_number',
       'pickup_date',
       'notes',
+      'order_arrived',
       'ready_for_pickup',
     );
     $this->_populate($properties, $data);
