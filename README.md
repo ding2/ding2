@@ -18,7 +18,7 @@ Go into your Drupal installation path
 
 Clone the ding2 profile repository from github.
 
-    git clone git@github.com:DBCDK/ding2.git
+    git clone git@github.com:ding2/ding2.git
 
 Ding relies on recursive make files that might have the same projects defined in multiple places. If your drush make bombs on this, apply the latest patch from this issue: http://drupal.org/node/947158
 
