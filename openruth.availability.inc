@@ -19,6 +19,7 @@ function openruth_availability_holdings($provider_ids) {
 function _openruth_get_holdings($res)
 {
   if (isset($res->agencyError)) {
+    echo 'TESTHST';
     return $res->agencyError;
   }
   elseif (isset($res->holding)) {
@@ -41,20 +42,65 @@ function _openruth_set_holdings($res) {
       foreach ($holding->itemHoldings as $itemHolding) {
 	_openruth_set_locations($h, $itemHolding);
 	_openruth_set_periodicals($h, $itemHolding);
+	$h['html'] = _openruth_set_table($h);
       }
     }
     if (sizeof($h['issues'])) {
       $h['holdings'] = array_unique($h['holdings']);
     }
     
-    // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
-    if( $h['available'] && ($available < 1) ) {
-      $h['available'] = FALSE;
-    }
-
     $holdings[$holding->itemId] = $h;
   }
   return $holdings;
+}
+
+/**
+ * make a html-table
+ * @params $h; holding information for a given material
+ * @return; a html table
+ */
+function _openruth_set_table( &$h ) {
+  // set a classname for styling the table
+  $variables['attributes']=
+    array('class'=>array(drupal_html_class('availability_holdings_table')));
+  // set table header
+  $variables['header'] = 
+    array('branch'=>t('Branch'), 'copies'=>t('Copies'), 'Home'=>t('At home'),);
+  // set table rows
+  $variables['rows'] = _openruth_set_rows($h);    
+  // theme the table
+  // @TODO; move this to ding_availability ??
+  $html = theme('table',$variables );
+
+  return $html;
+}
+
+
+
+/**
+ * set table rows for given holdings
+ * @param $h; holding information for a given material
+ * @return array; an array for rendering
+ */
+function _openruth_set_rows( $h ) {
+  $rows = array();
+  if( isset($h['holdings']) ) {
+    foreach( $h['holdings'] as $key => $data ) {
+      $row = array();
+      $row['Library'] = $data['agencyBranchName'];
+      $row['copies'] = $data['copiesCount'];
+      $row['Home'] = $data['copiesAvailableCount'];
+      $rows[] = $row;
+    }
+    // add last row (totals)
+    $row = array();
+    $row['data']['Library'] = t('Total');
+    $row['data']['Copies'] = $h['total_count'];
+    $row['data']['Home'] = $h['reservable_count'];
+    $row['class'] = array(drupal_html_class('availability_holdings_last_row'));
+    $rows[] = $row;
+  }
+  return $rows;
 }
 
 function _openruth_set_periodicals(&$h, $itemHolding) {
@@ -73,9 +119,11 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
 
 /**
  * @param $holding; json encoded holdingpart from openruth-client (get_holdings)
- * @return array; holding array set with default values
+ * @return array; initialized holding array set with default values
  */
 function _openruth_init_holding($holding) {
+  // var_dump($holding);
+
   if (isset($holding->agencyHoldings)){
     $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
     $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
@@ -94,6 +142,14 @@ function _openruth_init_holding($holding) {
 	  'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
 	  'issues' => array(),
 	  'is_periodical' => FALSE,);
+
+  // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
+  if( $holding['available'] && ($available < 1) ) {
+    $holding['available'] = FALSE;
+  }
+
+  // pjo; while developing
+  $holding['available'] = TRUE;
 
   return $holding;
 }
