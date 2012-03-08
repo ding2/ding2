@@ -99,7 +99,7 @@ function _openruth_set_table_html( &$h ) {
     array('class'=>array(drupal_html_class('availability_holdings_table')));
   // set table header
   $variables['header'] = 
-    array('branch'=>t('Branch'), 'copies'=>t('Copies'), 'Home'=>t('At home'),);
+    array('placement'=>t('Placement'), 'copies'=>t('Copies'), 'Home'=>t('At home'),'reservations'=>t('Reservations'));
   // set table rows
   $variables['rows'] = _openruth_set_rows($h);    
   // theme the table
@@ -119,9 +119,10 @@ function _openruth_set_rows( $h ) {
   if( isset($h['holdings']) ) {
     foreach( $h['holdings'] as $key => $data ) {
       $row = array();
-      $row['Library'] = $data['agencyBranchName'];
+      $row['placement'] = $data['placement'];
       $row['copies'] = $data['copiesCount'];
       $row['Home'] = $data['copiesAvailableCount'];
+      $row['reservations'] = '';
       $rows[] = $row;
     }
     // add last row (totals)
@@ -129,6 +130,7 @@ function _openruth_set_rows( $h ) {
     $row['data']['Library'] = t('Total');
     $row['data']['Copies'] = $h['total_count'];
     $row['data']['Home'] = $h['reservable_count'];
+    $row['data']['reservations'] = $h['reserved_count'];
     $row['class'] = array(drupal_html_class('availability_holdings_last_row'));
     $rows[] = $row;
   }
