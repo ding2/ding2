@@ -147,12 +147,11 @@ function _openruth_periodicals_unique_holdings( $holdings ) {
     // first iteration or new branchcode
     if( empty($uh) || !isset($uh[$key]) ) {
       $uh[$key] = $holding;
+      continue;
     }
     // same branch; increase copiesCount and copiesAvailableCount
-    if( $key == $holding['agencyBranchCode'] ) {
       $uh[$key]['copiesCount'] += $holding['copiesCount'];
       $uh[$key]['copiesAvailableCount'] += $holding['copiesAvailableCount'];
-    }         
   }  
   return $uh;
 }
