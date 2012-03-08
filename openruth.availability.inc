@@ -16,10 +16,8 @@ function openruth_availability_holdings($provider_ids) {
  * @param $res; a json encoded response from openruth-client (get_holdings)
  * @return mixed; an array with holding-information OR an errorstring OR FALSE
  */
-function _openruth_get_holdings($res)
-{
+function _openruth_get_holdings($res) {
   if (isset($res->agencyError)) {
-    echo 'TESTHST';
     return $res->agencyError;
   }
   elseif (isset($res->holding)) {
@@ -40,18 +38,54 @@ function _openruth_set_holdings($res) {
     $h = _openruth_init_holding($holding);
     if (isset($holding->itemHoldings)) {
       foreach ($holding->itemHoldings as $itemHolding) {
-	_openruth_set_locations($h, $itemHolding);
+	_openruth_set_locations($h, $itemHolding);	
 	_openruth_set_periodicals($h, $itemHolding);
-	$h['html'] = _openruth_set_table($h);
       }
     }
-    if (sizeof($h['issues'])) {
-      $h['holdings'] = array_unique($h['holdings']);
+    if( $h['is_periodical'] ) {
+      $h['holdings'] = _openruth_periodicals_unique_holdings($h['holdings']);
     }
-    
+    _openruth_set_table_html($h);
     $holdings[$holding->itemId] = $h;
   }
   return $holdings;
+}
+
+/**
+ * @param $holding; json encoded holdingpart from openruth-client (get_holdings)
+ * @return array; initialized holding array set with default values
+ */
+function _openruth_init_holding($holding) {
+  if (isset($holding->agencyHoldings)){
+    $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
+    $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
+  }
+  else {
+    $available = FALSE;
+    $reservable = FALSE;
+  }
+  $holding = 
+    array('local_id' => $holding->itemId,
+	  'available' => $available,
+	  'reservable' => $reservable,
+	  'show_reservation_button' => $reservable,
+	  'holdings' => array(),
+	  'holdings_available' => array(),
+	  'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
+	  'total_count' => 0,
+	  'reservable_count' => 0,
+	  'issues' => array(),
+	  'is_periodical' => FALSE,);
+
+  // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
+  if( $holding['available'] && ($available < 1) ) {
+    $holding['available'] = FALSE;
+  }
+
+  // pjo; while developing
+  $holding['available'] = TRUE;
+
+  return $holding;
 }
 
 /**
@@ -59,7 +93,7 @@ function _openruth_set_holdings($res) {
  * @params $h; holding information for a given material
  * @return; a html table
  */
-function _openruth_set_table( &$h ) {
+function _openruth_set_table_html( &$h ) {
   // set a classname for styling the table
   $variables['attributes']=
     array('class'=>array(drupal_html_class('availability_holdings_table')));
@@ -72,10 +106,8 @@ function _openruth_set_table( &$h ) {
   // @TODO; move this to ding_availability ??
   $html = theme('table',$variables );
 
-  return $html;
+  $h['html'] = $html;
 }
-
-
 
 /**
  * set table rows for given holdings
@@ -103,13 +135,39 @@ function _openruth_set_rows( $h ) {
   return $rows;
 }
 
+/**
+ * special method for periodicals. iterate holdings and make a unique entry for each branch
+ * @param; $holdings; array of holdings for a periodical
+ * @return; array; with unique holdings for each branch
+ */
+function _openruth_periodicals_unique_holdings( $holdings ) {
+  $uh = array();
+  foreach( $holdings as $holding ) {
+    $key = $holding['agencyBranchCode'];
+    // first iteration or new branchcode
+    if( empty($uh) || !isset($uh[$key]) ) {
+      $uh[$key] = $holding;
+    }
+    // same branch; increase copiesCount and copiesAvailableCount
+    if( $key == $holding['agencyBranchCode'] ) {
+      $uh[$key]['copiesCount'] += $holding['copiesCount'];
+      $uh[$key]['copiesAvailableCount'] += $holding['copiesAvailableCount'];
+    }         
+  }  
+  return $uh;
+}
+
+/**
+ *
+ */
 function _openruth_set_periodicals(&$h, $itemHolding) {
   if (isset($itemHolding->itemSerialPartId) ||
       isset($itemHolding->itemSerialPartVolume) ||
       isset($itemHolding->itemSerialPartIssue)) {
+
     $issue = array(
 		   'local_id' => $itemHolding->itemSerialPartId,
-		   'reservable' => $holding_reservable,
+		   'reservable' => $itemHolding->itemLocation[0]->orderAllowed,
 		   );
     $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
     // set flag for periodical
@@ -117,47 +175,10 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
   }
 }
 
-/**
- * @param $holding; json encoded holdingpart from openruth-client (get_holdings)
- * @return array; initialized holding array set with default values
- */
-function _openruth_init_holding($holding) {
-  // var_dump($holding);
-
-  if (isset($holding->agencyHoldings)){
-    $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-    $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
-  }
-  else {
-    $available = FALSE;
-    $reservable = FALSE;
-  }
-  $holding = 
-    array('local_id' => $holding->itemId,
-	  'available' => $available,
-	  'reservable' => $reservable,
-	  'show_reservation_button' => $reservable,
-	  'holdings' => array(),
-	  'holdings_available' => array(),
-	  'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
-	  'issues' => array(),
-	  'is_periodical' => FALSE,);
-
-  // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
-  if( $holding['available'] && ($available < 1) ) {
-    $holding['available'] = FALSE;
-  }
-
-  // pjo; while developing
-  $holding['available'] = TRUE;
-
-  return $holding;
-}
-
 
 function _openruth_set_locations(&$h, $itemHolding) {
-  $total = 0;
-  $available = 0;
+  //$total = 0;
+  //$available = 0;
 
   $holding_reservable = FALSE;
   $fields = array('itemLocation', 'itemComingLocation');
@@ -172,12 +193,14 @@ function _openruth_set_locations(&$h, $itemHolding) {
 	if ($itemLocation->orderAllowed) {
 	  $holding_reservable = TRUE;
 	}
-	$total += $itemLocation->copiesCount;
+	//$total += $itemLocation->copiesCount;
+	$h['total_count'] += $itemLocation->copiesCount;
 
 	$data['copiesCount'] = $itemLocation->copiesCount;
 
 	if (isset($itemLocation->copiesAvailableCount)) {
-	  $available += $itemLocation->copiesAvailableCount;
+	  //$available += $itemLocation->copiesAvailableCount;
+	  $h['reservable_count'] += $itemLocation->copiesAvailableCount;
 	  // pjo; 
 	  $location_available += $itemLocation->copiesAvailableCount;
 
@@ -189,8 +212,10 @@ function _openruth_set_locations(&$h, $itemHolding) {
 	  $parts[] = $itemLocation->agencyBranchId->agencyBranchName;
 	  
 	  $data['agencyBranchName'] = $itemLocation->agencyBranchId->agencyBranchName;
+	  $data['agencyBranchCode'] = $itemLocation->agencyBranchId->agencyBranchCode;
 
 	}
+
 	if (isset($itemLocation->agencyDepartmentId->agencyDepartmentName)) {
 	  $parts[] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
 
@@ -217,6 +242,6 @@ function _openruth_set_locations(&$h, $itemHolding) {
       }
     }
   }
-  $h['total_count'] = $total;
-  $h['reservable_count'] = $available;
+  //$h['total_count'] = $total;
+  //$h['reservable_count'] = $available;
 }
