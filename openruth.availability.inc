@@ -176,9 +176,6 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
 
 
 function _openruth_set_locations(&$h, $itemHolding) {
-  //$total = 0;
-  //$available = 0;
-
   $holding_reservable = FALSE;
   $fields = array('itemLocation', 'itemComingLocation');
 
@@ -241,6 +238,4 @@ function _openruth_set_locations(&$h, $itemHolding) {
       }
     }
   }
-  //$h['total_count'] = $total;
-  //$h['reservable_count'] = $available;
 }
