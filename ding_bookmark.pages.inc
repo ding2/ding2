@@ -106,11 +106,26 @@ function theme_ding_bookmark_remove_form($variables) {
           '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
       );
 
+      // reservation button
+      $reservation_div = NULL;
+      if ( $form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
+           $form['#builded_entities'][$item_wid]['#object']->is('reservable')
+         ) {
+        $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($form['#builded_entities'][$item_wid]['#object']), TRUE));
+        $reservation_div = array(
+          '#prefix' => '<div class="ding-entity-button-reserve">',
+          '#suffix' => '</div>',
+          '#type' => 'markup',
+          '#markup' => drupal_render($reservation_form),
+        );
+        $reservation_div = drupal_render($reservation_div);
+      }
+
       //Add row.
       $rows[] = array(
         drupal_render($form['items'][$key]),
         drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
-        drupal_render($delete_link),
+        drupal_render($delete_link) . $reservation_div,
       );
     }
   }
@@ -119,7 +134,7 @@ function theme_ding_bookmark_remove_form($variables) {
     $output .= theme('table', array(
       'header' => $header,
       'rows' => $rows,
-      'attributes' => array('width' => '100%'),
+      'attributes' => array('width' => 'auto'),
     ));
 
     // Render all remaining elements.
