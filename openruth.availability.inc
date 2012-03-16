@@ -82,9 +82,6 @@ function _openruth_init_holding($holding) {
     $holding['available'] = FALSE;
   }
 
-  // pjo; while developing
-  $holding['available'] = TRUE;
-
   return $holding;
 }
 
