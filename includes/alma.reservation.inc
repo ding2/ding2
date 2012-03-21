@@ -192,16 +192,20 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
 /**
  * Update order, by defining new expiry date or pickup branch.
  */
-function alma_reservation_update_order($account, $id, $pickup_branch, $expiry_date) {
+function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
-  if (isset($reservations[$id])) {
-    $changes = array(
-      'valid_to' => alma_reservation_format_date($expiry_date),
-      'pickup_branch' => $pickup_branch,
-    );
-    // Alma do not return a status.
-    alma_client_invoke('change_reservation', $creds['name'], $creds['pass'], $reservations[$id], $changes);
+  foreach($ids as $id) {
+    if (isset($reservations[$id])) {
+      $expiry_date = !empty($options['expiry']) ? alma_reservation_format_date($options['expiry']) : $reservations[$id]['valid_to'];
+      $pickup_branch = !empty($options['alma_preferred_branch']) ? $options['alma_preferred_branch'] : $reservations[$id]['pickup_branch'];
+      $changes = array(
+        'valid_to' => $expiry_date,
+        'pickup_branch' => $pickup_branch,
+      );
+      // Alma do not return a status.
+      alma_client_invoke('change_reservation', $creds['name'], $creds['pass'], $reservations[$id], $changes);
+    }
     alma_reservation_clear_cache();
     return TRUE;
   }
