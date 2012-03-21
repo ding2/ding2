@@ -26,11 +26,10 @@ function alma_reservation_options($type, $account, $reservables) {
   // @todo; use local branches from issue - some migth not be available in all branches
 
   if(ding_user_is_provider_user($account)) {
-    $preferred_branch = 'hb';
-    // $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
+    $preferred_branch = $profile->alma_preferred_branch[field_language('profile2', $profile, 'alma_preferred_branch')][0]['value'];
   }
   else {
-    //$preferred_branch = NULL;
+    $preferred_branch = NULL;
   }
   
   $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch',$preferred_branch, $branches);
@@ -39,6 +38,30 @@ function alma_reservation_options($type, $account, $reservables) {
 }
 
 
+/**
+ * Validate reservations options.
+ */
+function alma_reservation_options_validate($type, $account, $reservables, $values) {
+  $result = array();
+  $profile = ding_user_provider_profile($account);
+  $field_language = field_language('profile2', $profile);
+  $profile_branch = $profile->alma_preferred_branch[$field_language['alma_preferred_branch']][0]['value'];
+  return ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $profile_branch, $values);
+}
+
+/**
+ * Submit handler for reservations options.
+ */
+function alma_reservation_options_submit($type, $account, $reservables, $values) {
+  $profile = ding_user_provider_profile($account);
+  $field_language = field_language('profile2', $profile);
+  $profile_branch = $profile->alma_preferred_branch[$field_language['alma_preferred_branch']][0]['value'];
+  $update = ding_reservation_default_options_branch_submit($type, 'alma_preferred_branch', $profile_branch, $values);
+  if (!empty($update['alma_preferred_branch'])) {
+    $profile->alma_preferred_branch[$field_language['alma_preferred_branch']][0]['value'] = $update['alma_preferred_branch'];
+    $profile->save();
+  }
+}
 
 /**
  * Set preferred pickup branch
