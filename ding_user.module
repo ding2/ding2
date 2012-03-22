@@ -355,7 +355,7 @@ function ding_user_default_authname($name) {
 function ding_user_user_login_validate($form, &$form_state) {
   // If $form_state['uid'] is set, Drupal already found a user, so we don't
   // bother. Also, we require name and pass.
-  if (isset($form_state['uid']) || empty($form_state['values']['name']) || empty($form_state['values']['name'])) {
+  if (isset($form_state['uid']) && $form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
     return;
   }
 
