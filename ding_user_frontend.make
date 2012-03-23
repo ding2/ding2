@@ -43,11 +43,6 @@ projects[ding_reservation][download][type] = "git"
 projects[ding_reservation][download][url] = "git@github.com:ding2/ding_reservation.git"
 projects[ding_reservation][download][tag] = "7.x-0.18"
 
-projects[ding_bookmark][type] = "module"
-projects[ding_bookmark][download][type] = "git"
-projects[ding_bookmark][download][url] = "git@github.com:ding2/ding_bookmark.git"
-projects[ding_bookmark][download][tag] = "7.x-0.5"
-
 projects[ding_wayf][type] = "module"
 projects[ding_wayf][download][type] = "git"
 projects[ding_wayf][download][url] = "git@github.com:ding2/ding_wayf.git"
