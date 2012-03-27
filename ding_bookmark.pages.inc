@@ -109,7 +109,7 @@ function theme_ding_bookmark_remove_form($variables) {
       );
 
       // reservation button
-      // NB: Nested forms does not validate as XHTML
+      // NB: Nested forms does NOT validate as XHTML
       $reservation_div = NULL;
       if ( $form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
            $form['#builded_entities'][$item_wid]['#object']->is('reservable')
@@ -137,9 +137,8 @@ function theme_ding_bookmark_remove_form($variables) {
   if (count($rows)) {
 
     // ugly hack : Browsers ignores first nested form in XHTML.
-    // add dummy form as first nested form.
+    //             Add dummy form as first nested form.
     $dummy_form = drupal_get_form('ding_bookmark_dummy_form');
-    // dpm(drupal_render($dummy_form));
     $rows[0][2] = drupal_render($dummy_form) . $rows[0][2];
 
     $output .= theme('table', array(
