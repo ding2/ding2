@@ -51,6 +51,7 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
   $form['actions'] = array(
     '#type' => 'actions',
   );
+
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Delete selected'),
@@ -93,6 +94,7 @@ function theme_ding_bookmark_remove_form($variables) {
   // Create table rows.
   $rows = array();
   if (!empty($form['items']['#options'])) {
+
     foreach (element_children($form['items']) as $key) {
       $item_wid = $key;
       // Clean checkbox
@@ -100,13 +102,14 @@ function theme_ding_bookmark_remove_form($variables) {
       // Create delete link.
       $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_wid));
       $delete_link = array(
-      '#prefix' => '<p class="ding-entity-button">',
+        '#prefix' => '<p class="ding-entity-button">',
         '#suffix' => '</p>',
         '#type' => 'markup',
-          '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
+        '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
       );
 
       // reservation button
+      // NB: Nested forms does not validate as XHTML
       $reservation_div = NULL;
       if ( $form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
            $form['#builded_entities'][$item_wid]['#object']->is('reservable')
@@ -130,7 +133,15 @@ function theme_ding_bookmark_remove_form($variables) {
     }
   }
 
+
   if (count($rows)) {
+
+    // ugly hack : Browsers ignores first nested form in XHTML.
+    // add dummy form as first nested form.
+    $dummy_form = drupal_get_form('ding_bookmark_dummy_form');
+    // dpm(drupal_render($dummy_form));
+    $rows[0][2] = drupal_render($dummy_form) . $rows[0][2];
+
     $output .= theme('table', array(
       'header' => $header,
       'rows' => $rows,
@@ -142,4 +153,15 @@ function theme_ding_bookmark_remove_form($variables) {
   }
 
   return $output;
+}
+
+
+
+
+/**
+ * Bookmark dummy form.
+ */
+function ding_bookmark_dummy_form($form, &$form_state) {
+  $form = array();
+  return $form;
 }
