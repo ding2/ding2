@@ -6,6 +6,7 @@
  
 function alma_availability_holdings($provider_ids) {
   $ids = join(',', $provider_ids);
+  
   $details = alma_client_invoke('catalogue_record_detail', $ids);
   $result = array();
   

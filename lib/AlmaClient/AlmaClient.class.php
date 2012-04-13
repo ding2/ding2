@@ -391,6 +391,7 @@ class AlmaClient {
    * Get patron's debts.
    */
   public function get_debts($borr_card, $pin_code) {
+    
     $doc = $this->request('patron/debts', array('borrCard' => $borr_card, 'pinCode' => $pin_code));
 
     $data = array(
@@ -401,7 +402,7 @@ class AlmaClient {
     if ($debts_attr = $doc->getElementsByTagName('debts')->item(0)) {
       $data['total_formatted'] = $debts_attr->getAttribute('totalDebtAmountFormatted');
     }
-
+    
     foreach ($doc->getElementsByTagName('debt') as $item) {
       $id = $item->getAttribute('debtId');
       $data['debts'][$id] = array(
@@ -411,9 +412,9 @@ class AlmaClient {
         'amount' => $item->getAttribute('debtAmount'),
         'amount_formatted' => $item->getAttribute('debtAmountFormatted'),
         'note' => $item->getAttribute('debtNote'),
+        'display_name' => $item->getAttribute('debtNote'),
       );
     }
-
     return $data;
   }
 
