@@ -80,42 +80,41 @@ function alma_reservation_set_preferred_branch($account, $branch) {
 /**
  * Get list of reserved items.
  */
- function alma_reservation_list($account) {
-   $creds = ding_user_get_creds($account);
-   $reservations = alma_reservation_get_reservations($account);
-   $result = array();
+function alma_reservation_list($account) {
+  $creds = ding_user_get_creds($account);
+  $reservations = alma_reservation_get_reservations($account);
+  $result = array();
 
-   // Create DingProviderReservation objects into to categories base on pickup
-   // status.
-   foreach ($reservations as $reservation) {
-     if (isset($reservation['pickup_number'])) {
-       $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
-         'order_id' => $reservation['id'],
-         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
-         'pickup_branch_id' => $reservation['pickup_branch'],
-         'pickup_date' => $reservation['pickup_expire_date'],
-         'created' => $reservation['create_date'],
-         'expiry' => $reservation['valid_to'],
-         'queue_number' => $reservation['queue_number'],
-         'ready_for_pickup' => 1,
-       ));
-     }
-     else {
-       $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
-         'order_id' => $reservation['id'],
-         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
-         'pickup_branch_id' => $reservation['pickup_branch'],
-         'created' => $reservation['create_date'],
-         'expiry' => $reservation['valid_to'],
-         'queue_number' => $reservation['queue_number'],
-         'ready_for_pickup' => 0,
-       ));
-     }
-   }
+  // Create DingProviderReservation objects into to categories base on pickup
+  // status.
+  foreach ($reservations as $reservation) {
+    if (isset($reservation['pickup_number'])) {
+      $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
+        'order_id' => $reservation['id'],
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+        'pickup_branch_id' => $reservation['pickup_branch'],
+        'pickup_date' => $reservation['pickup_expire_date'],
+        'created' => $reservation['create_date'],
+        'expiry' => $reservation['valid_to'],
+        'queue_number' => $reservation['queue_number'],
+        'ready_for_pickup' => 1,
+      ));
+    }
+    else {
+      $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
+        'order_id' => $reservation['id'],
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+        'pickup_branch_id' => $reservation['pickup_branch'],
+        'created' => $reservation['create_date'],
+        'expiry' => $reservation['valid_to'],
+        'queue_number' => $reservation['queue_number'],
+        'ready_for_pickup' => 0,
+      ));
+    }
+  }
 
-   return $result;
- }
-
+  return $result;
+}
 
  /**
  * Create a reservation for a given account.
