@@ -93,6 +93,7 @@ function alma_reservation_list($account) {
         'order_id' => $reservation['id'],
         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
         'pickup_branch_id' => $reservation['pickup_branch'],
+        'pickup_order_id' => $reservation['pickup_number'],
         'pickup_date' => $reservation['pickup_expire_date'],
         'created' => $reservation['create_date'],
         'expiry' => $reservation['valid_to'],
