@@ -28,6 +28,11 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "1.1"
 
 ; Ding! modules
+projects[ding_bookmark][type] = "module"
+projects[ding_bookmark][download][type] = "git"
+projects[ding_bookmark][download][url] = "git@github.com:ding2/ding_bookmark.git"
+projects[ding_bookmark][download][tag] = "7.x-0.5"
+
 projects[ding_debt][type] = "module"
 projects[ding_debt][download][type] = "git"
 projects[ding_debt][download][url] = "git@github.com:ding2/ding_debt.git"
