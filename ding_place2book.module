@@ -91,9 +91,13 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
         break;
 
       case insert:
-        if ($node->place2book['maintain_copy'] == 1) {
+    		if ($node->place2book['maintain_copy'] == 1) {
           // Insert - maintain_copy and new event node.
           $place2book_id = place2book_event_op('insert', $node);
+        }
+        else {
+          // Insert - no copy at place2book, save settings only 
+          _place2book_db_op('insert', $node);
         }
       break;
 
@@ -148,7 +152,7 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
     // Get the nid in a PHP 5.3 safe way and load settings for this node.
     $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
     $node_settings = place2book_settings($nid);
-
+    
     // Service settings.
     $service_settings = variable_get(ding_place2book, array());
     if (empty($service_settings)) {
@@ -494,8 +498,7 @@ function place2book_build_xml($node, $service_settings) {
     $url = str_replace("files", "files/imagecache/120_120", $node->field_list_image[0]['filepath']);
     $xml->event->kultunaut_picture_uri = url($url, array('absolute' => TRUE));
   }
-  drupal_set_message('xml: <pre>' . str_replace(array('<','>'), array('&lt;','&gt;'), $xml->asXML()) . '</pre>'); //for debugging
-	return $xml;
+  return $xml;
 }
 
 /**
@@ -505,7 +508,7 @@ function place2book_build_xml($node, $service_settings) {
 function place2book_settings($nid = NULL) {
   // Get default values.
   $settings = variable_get('ding_place2book_event_nodes', array());
-
+  
   // Check database for node specific settings, if nid is defined.
   if ($nid) {
     $result = db_fetch_array(db_query('SELECT *
@@ -514,7 +517,7 @@ function place2book_settings($nid = NULL) {
     if ($result) {
       $settings = $result;
     }
-  }
+  } 
   return $settings;
 }
 
