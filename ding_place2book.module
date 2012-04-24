@@ -477,16 +477,16 @@ function place2book_build_xml($node, $service_settings) {
   // -- set kultunaut terms --
   $term_list = '';
   if ($node->taxonomy) {
-    foreach ($node->taxonomy as $vid => $termid) {
-      if (is_numeric($vid)) {
-        $term_list = $term_list . $termid . ",";
+    foreach ($node->taxonomy as $tid => $termObj) {
+      if (is_numeric($tid)) {
+        $term_list = $term_list . $tid . ",";
       }
     }
     $term_list = rtrim($term_list, ",");
   }
-
+  
   // I have the term ids already, so the following 2 queries will in turn give
-  // me term names to use.
+  // me term names to use on kultunaut_export_category and kultunaut_age_group
   if (!empty($term_list)) {
     $event_category = db_result(db_query('SELECT t.name
                                             FROM {term_data} t JOIN {vocabulary} v
