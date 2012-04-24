@@ -139,10 +139,10 @@ function theme_ding_bookmark_remove_form($variables) {
     // ugly hack : Browsers ignores first nested form in XHTML.
     //             Add dummy form as first nested form.
     $dummy_form = drupal_get_form('ding_bookmark_dummy_form');
-    $rows[0][2] = drupal_render($dummy_form) . $rows[0][2];
+    $output .=  drupal_render($dummy_form);
 
     $output .= theme('table', array(
-      'header' => $header,
+      'header' => $header ,
       'rows' => $rows,
       'attributes' => array('width' => 'auto'),
     ));
@@ -156,11 +156,11 @@ function theme_ding_bookmark_remove_form($variables) {
 
 
 
-
 /**
  * Bookmark dummy form.
  */
 function ding_bookmark_dummy_form($form, &$form_state) {
   $form = array();
+  $form['#attributes'] = array('style' => array('visibility:hidden;'));
   return $form;
 }
