@@ -108,19 +108,37 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
         // Figure out if this is an update, delete or create. This is some what
         // complex because node may exists before this module is introduced.
+        // maintain_copy is set on node edit page
         if ($node->place2book['maintain_copy'] == 1) {
-          if ($settings['maintain_copy']) {
+          // maintain_copy matches previous state
+        	if ($settings['maintain_copy']) {
             // Update - maintain_copy and valided id
             place2book_event_op('update', $node, $place2book_id);
           }
+          // maintain_copy differs from previous state  
           else {
             // Insert - maintain_copy and no id (or id -1 re-connect to place2book).
             place2book_event_op('insert', $node, $place2book_id);
           }
         }
+        // maintain_copy is unset on node edit page
         else {
-          // Delete - don't maintain_copy
-          place2book_event_op('delete', $node, $place2book_id);
+        	// maintain_copy differs from previous state 
+        	if ($settings['maintain_copy']) {
+        		// Delete - don't maintain_copy
+          	place2book_event_op('delete', $node, $place2book_id);
+        	}
+        	// maintain_copy matches previous state
+        	else {
+        		// just update database (insert if record is not already there)
+        		$exists = db_result(db_query('SELECT nid FROM {ding_place2book} WHERE nid = %d', $node->nid));
+        		if ($exists) {
+        		  _place2book_db_op('update', $node, -1);
+        		}
+        		else {
+        		  _place2book_db_op('insert', $node, -1);
+        		}
+        	}
         }
         break;
 
