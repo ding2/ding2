@@ -243,13 +243,6 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
   }
 }
 
-/*
- * Formats data about tickets on the current event 
- */
-function getTicketData($eventid) {
-
-}
-
 /**
  * Handles communitaction with the place2book web-services, which consists of
  * insert, update and delete opreations.
@@ -343,7 +336,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       break;
 
     default:
-      watchdog('place2book', t('Unknown operation to place2book_event_op(): %op'), array('%op' => $op), WATCHDOG_ERROR);
+      watchdog('place2book', 'Unknown operation to place2book_event_op(): @op', array('@op' => $op), WATCHDOG_ERROR);
   }
 
   // Return a place2book_id
@@ -594,7 +587,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
       break;
 
     default:
-      watchdog('place2book', t('Unknown operation to _place2book_db_op(): %op'), array('%op' => $op), WATCHDOG_ERROR);
+      watchdog('place2book', 'Unknown operation to _place2book_db_op(): @op', array('@op' => $op), WATCHDOG_ERROR);
   }
 }
 
