@@ -60,8 +60,7 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
             );
             $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
-						dpm($p2b_result);
-            
+						
             /**
              * REVIEW: Maybe move this to a theme function.
              */
@@ -454,8 +453,8 @@ function place2book_build_xml($node, $service_settings) {
   }
 
   // Set capacity - and if provided, unflag unlimited_capacity.
-  if (isset($node->place2book['capacity']) && $node->place2book['capacity'] > 0) {
-    $xml->event->capacity = $node->place2book['capacity'];
+  if (isset($node->capacity) && $node->capacity > 0) {
+    $xml->event->capacity = $node->capacity;
     $xml->event->unlimited_capacity = 0;
   }
 
@@ -561,7 +560,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                        VALUES (%d, %d, %d, %d, %d, %d)', $node->nid,
                                                      $place2book_id,
                                                      $node->place2book['maintain_copy'],
-                                                     $node->place2book['capacity'],
+                                                     $node->capacity,
                                                      $node->place2book['kultunaut_export'],
 																										 $node->place2book['passive']);
       break;
@@ -575,7 +574,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                     passive = %d
                  WHERE nid = %d', $place2book_id,
                                   $node->place2book['maintain_copy'],
-                                  $node->place2book['capacity'],
+                                  $node->capacity,
                                   $node->place2book['kultunaut_export'],
 																	$node->place2book['passive'],
                                   $node->nid);
