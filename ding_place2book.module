@@ -60,12 +60,14 @@ function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
               'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
             );
             $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
-
+						dpm($p2b_result);
+            
             /**
              * REVIEW: Maybe move this to a theme function.
              */
             if ($p2b_result->headers['Sales-Status']) {
-              if ($p2b_result->headers['Sales-Status'] == 'open' && $p2b_result->headers['Available-Tickets'] > 0) {
+							// To determine if there are available tickets, we need to check for a positive number OR part of the string 'Ubegrænset antal'
+            	if ($p2b_result->headers['Sales-Status'] == 'open' && ($p2b_result->headers['Available-Tickets'] > 0 || strpos($p2b_result->headers['Available-Tickets'], 'antal') > 0)) {
                 $link = l(t('Book a ticket'), $p2b_result->headers['Location']);
                 $infolink = '<div class="place2book order">' . $link . '</div>';
               }
