@@ -199,7 +199,7 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
     );
 
     $form['entry_price_extra_info'] = array(
-      '#value' => $p2b_info,
+      '#value' => '<div class="form-item">' . $p2b_info . '</div>',
       '#weight' => -3,
     );
 
@@ -241,6 +241,13 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
     );
   }
+}
+
+/*
+ * Formats data about tickets on the current event 
+ */
+function getTicketData($eventid) {
+
 }
 
 /**
