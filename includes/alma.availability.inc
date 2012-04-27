@@ -20,7 +20,7 @@ function alma_availability_holdings($provider_ids) {
         'holdings' => array(),
         'holdings_available' => array(),
         'reserved_count' => (int) $record['reservation_count'],
-        'total_count' => 0,
+        'total_count' => _alma_count_total($record['holdings'], $record['media_class'] == 'periodical'),
         'deferred_period' => FALSE,
         'issues' => array(),
         'is_periodical' => ($record['media_class'] == 'periodical'),
@@ -33,6 +33,30 @@ function alma_availability_holdings($provider_ids) {
   }
   return $result;
   
+}
+
+/**
+ * @param type $holdings; array containing holding informations
+ * @param type $is_periodical; Boolean that indicates whether the shown record is a periodical or not
+ * @return sum of all total_count in $holdings
+ */
+function _alma_count_total($holdings, $is_periodical) {
+  $total = 0;
+  if ($is_periodical) {
+    foreach ($holdings as $year => $issues) {
+      foreach ($issues as $issue) {
+        foreach ($issue as $holding) {
+          $total += $holding['total_count'];
+        }
+      }
+    }
+  }
+  else {
+    foreach ($holdings as $holding) {
+      $total += $holding['total_count'];
+    }
+  }
+  return $total;
 }
 
 /**
