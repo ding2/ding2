@@ -12,9 +12,13 @@ function ding_bookmark_user_bookmark_page($account) {
   $content_ids = flag_load('bookmark')->get_user_content_ids($account->uid);
 
   if ($content_ids) {
-    $rendered_form = drupal_get_form('ding_bookmark_remove_form', $content_ids);
-    if (!empty($rendered_form)) {
-      return $rendered_form;
+    $bookmark_form = drupal_get_form('ding_bookmark_remove_form', $content_ids);
+    // render reservation buttons outside bookmark form, so it's valid XHTML
+    $reservation_forms = ding_bookmark_reservation_forms($content_ids);
+    drupal_add_js( drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js' );
+    drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css' );
+    if (!empty($bookmark_form)) {
+      return drupal_render($bookmark_form) . $reservation_forms;
     }
   }
 
@@ -109,37 +113,29 @@ function theme_ding_bookmark_remove_form($variables) {
       );
 
       // reservation button
-      // NB: Nested forms does NOT validate as XHTML
       $reservation_div = NULL;
       if ( $form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
            $form['#builded_entities'][$item_wid]['#object']->is('reservable')
          ) {
-        $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($form['#builded_entities'][$item_wid]['#object']), TRUE));
-        $reservation_div = array(
-          '#prefix' => '<div class="ding-entity-button-reserve">',
-          '#suffix' => '</div>',
+        $reservation_link = array(
+          '#prefix' => '<p id="wid' . $item_wid . '" class="ding-entity-button ding-bookmark-reservation-button">',
+          '#suffix' => '</p>',
           '#type' => 'markup',
-          '#markup' => drupal_render($reservation_form),
+          '#markup' => l(t('Reserve'), ''),
         );
-        $reservation_div = drupal_render($reservation_div);
       }
 
       //Add row.
       $rows[] = array(
         drupal_render($form['items'][$key]),
         drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
-        drupal_render($delete_link) . $reservation_div,
+        drupal_render($delete_link) . drupal_render($reservation_link),
       );
     }
   }
 
 
   if (count($rows)) {
-
-    // ugly hack : Browsers ignores first nested form in XHTML.
-    //             Add dummy form as first nested form.
-    $dummy_form = drupal_get_form('ding_bookmark_dummy_form');
-    $output .=  drupal_render($dummy_form);
 
     $output .= theme('table', array(
       'header' => $header ,
@@ -154,6 +150,30 @@ function theme_ding_bookmark_remove_form($variables) {
   return $output;
 }
 
+
+
+function ding_bookmark_reservation_forms($content_ids) {
+  $reservation_block = '';
+  foreach ($content_ids as $entity_id => $entity_type) {
+    // build item view.
+    $item_view_build = ding_bookmark_item_view($entity_type, $entity_id);
+    // reservation buttons
+    if ( $item_view_build['#object']->ding_entity_type == 'ding_entity' &&
+         $item_view_build['#object']->is('reservable')
+       ) {
+      $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($item_view_build['#object']), TRUE));
+      $reservation_form[0]['#id'] = 'ding-reservation-reserve-form-wid' . $entity_id;
+      $reservation_div = array(
+        '#prefix' => '<div class="ding-entity-button-reserve">',
+        '#suffix' => '</div>',
+        '#type' => 'markup',
+        '#markup' => drupal_render($reservation_form),
+      );
+      $reservation_block .= drupal_render($reservation_div);
+    }
+  }
+  return $reservation_block;
+}
 
 
 /**
