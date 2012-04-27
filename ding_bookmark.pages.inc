@@ -18,7 +18,7 @@ function ding_bookmark_user_bookmark_page($account) {
     drupal_add_js( drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js' );
     drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css' );
     if (!empty($bookmark_form)) {
-      return drupal_render($bookmark_form) . $reservation_forms;
+      return $reservation_forms . drupal_render($bookmark_form);
     }
   }
 
