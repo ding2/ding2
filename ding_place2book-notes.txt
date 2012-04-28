@@ -6,6 +6,8 @@ NOTES for CONVERTING to ding2/drupal7
 - There is only one taxonomy - Category. I might have to create event target and 
 event category-taxonomies to have data for the kultunaut part. 
 
+- fieldgroup module changed in drupal 7. It might not be needed anymore? Same with 
+optionwidgets - included in core now?
 
 
 

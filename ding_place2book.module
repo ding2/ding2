@@ -4,13 +4,13 @@
  * Implementation of hook_init().
  */
 function ding_place2book_init() {
-  drupal_add_css(drupal_get_path('module', 'ding_place2book') .'/css/ding_place2book.css');
+  drupal_add_css(drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css');
 }
 
 /**
- * Implementation of hook_perm().
+ * Implementation of hook_permission().
  */
-function ding_place2book_perm() {
+function ding_place2book_permission() {
   return array(
     'administer place2book settings',
   );
@@ -22,7 +22,7 @@ function ding_place2book_perm() {
 function ding_place2book_menu() {
   $items = array();
 
-  $items['admin/settings/ding/place2book'] = array(
+  $items['admin/config/ding/place2book'] = array(
     'title' => 'Place2book settings',
     'description' => 'Settings and defaults for Place2book integration',
     'page callback' => 'drupal_get_form',
@@ -34,131 +34,142 @@ function ding_place2book_menu() {
   return $items;
 }
 
-/**
- * Implementation of hook_nodeapi().
- *
- *
+/*
+ * Implementation of hook_node_view()
  */
-function ding_place2book_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+function ding_place2book_node_view($node) {
   // We only handles event nodes.
   if ($node->type == "event") {
-    switch ($op) {
-      case 'view':
-        if (isset($node->nid) && $node->nid) {
-          $place2book_id = db_result(db_query('SELECT place2book_id
-                                                 FROM {ding_place2book}
-                                                WHERE nid = %d', $node->nid));
-          if ($place2book_id) {
-            $service_settings = variable_get(ding_place2book, array());
-            $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
-            if ($api_key == NULL) {
-              return;
-            }
-
-            $headers = array(
-              'X-PLACE2BOOK-API-TOKEN' => $api_key,
-              'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
-            );
-            $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
-						
-            /**
-             * REVIEW: Maybe move this to a theme function.
-             */
-            if ($p2b_result->headers['Sales-Status']) {
-							// To determine if there are available tickets, we need to check for a positive number OR part of the string 'Ubegrænset antal'
-            	if ($p2b_result->headers['Sales-Status'] == 'open' && ($p2b_result->headers['Available-Tickets'] > 0 || strpos($p2b_result->headers['Available-Tickets'], 'antal') > 0)) {
-                $link = l(t('Book a ticket'), $p2b_result->headers['Location']);
-                $infolink = '<div class="place2book order">' . $link . '</div>';
-              }
-              elseif ($p2b_result->headers['Available-Tickets'] == 0) {
-                $infolink = '<div class="place2book info">' . t('There are no available tickets for this event') . '</div>';
-              }
-              elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
-                $infolink = '<div class="place2book info">' . t('The event is closed') . '</div>';
-              }
-            }
-
-            /**
-             * REVIEW: Maybe this should be made into a block og panel pane, so
-             *         libraries have more freedom to place it one the page. This
-             *         may also require changes in sub-themes.
-             */
-            $node->content['place2book_infolink'] = array(
-              '#value' => $infolink,
-              '#weight' => 10,
-              );
-            }
-          }
-        break;
-
-      case insert:
-    		if ($node->place2book['maintain_copy'] == 1) {
-          // Insert - maintain_copy and new event node.
-          $place2book_id = place2book_event_op('insert', $node);
+    if (isset($node->nid) && $node->nid) {
+      $place2book_id = db_result(db_query('SELECT place2book_id
+                                             FROM {ding_place2book}
+                                            WHERE nid = %d', $node->nid));
+      if ($place2book_id) {
+        $service_settings = variable_get(ding_place2book, array());
+        $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
+        if ($api_key == NULL) {
+          return;
         }
-        else {
-          // Insert - no copy at place2book, save settings only 
-          _place2book_db_op('insert', $node);
-        }
-      break;
+  
+        $headers = array(
+          'X-PLACE2BOOK-API-TOKEN' => $api_key,
+          'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
+        );
+        $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
 
-      case update:
-        // Get existing Place2book settings for this node.
-        $settings = place2book_settings($node->nid);
-        $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
-
-        // Figure out if this is an update, delete or create. This is some what
-        // complex because node may exists before this module is introduced.
-        // maintain_copy is set on node edit page
-        if ($node->place2book['maintain_copy'] == 1) {
-          // maintain_copy matches previous state
-        	if ($settings['maintain_copy']) {
-            // Update - maintain_copy and valided id
-            place2book_event_op('update', $node, $place2book_id);
-          }
-          // maintain_copy differs from previous state  
-          else {
-            // Insert - maintain_copy and no id (or id -1 re-connect to place2book).
-            place2book_event_op('insert', $node, $place2book_id);
-          }
-        }
-        // maintain_copy is unset on node edit page
-        else {
-        	// maintain_copy differs from previous state 
-        	if ($settings['maintain_copy']) {
-        		// Delete - don't maintain_copy
-          	place2book_event_op('delete', $node, $place2book_id);
-        	}
-        	// maintain_copy matches previous state
-        	else {
-        		// just update database (insert if record is not already there)
-        		$exists = db_result(db_query('SELECT nid FROM {ding_place2book} WHERE nid = %d', $node->nid));
-        		if ($exists) {
-        		  _place2book_db_op('update', $node, -1);
-        		}
-        		else {
-        		  _place2book_db_op('insert', $node, -1);
-        		}
-        	}
-        }
-        break;
-
-      case 'delete':
         /**
-         * TODO: No attempt is currently made to stop the node from being
-         *       deleted if the above place2book-delete fails...
-         *
-         * REVIEW: Maybe a clean-up check could be execute by the
-         *         administrator or cron?
+         * REVIEW: Maybe move this to a theme function.
          */
-        $place2book_id = db_result(db_query('SELECT place2book_id
-                                               FROM {ding_place2book}
-                                              WHERE nid = %d', $node->nid));
-        if ($place2book_id) {
-          place2book_event_op('delete', $node, $place2book_id);
-          _place2book_db_op('delete', $node, $place2book_id);
+        if ($p2b_result->headers['Sales-Status']) {
+          // To determine if there are available tickets, we need to check for a positive number OR part of the string 'Ubegrænset antal'
+          if ($p2b_result->headers['Sales-Status'] == 'open' && ($p2b_result->headers['Available-Tickets'] > 0 || strpos($p2b_result->headers['Available-Tickets'], 'antal') > 0)) {
+            $link = l(t('Book a ticket'), $p2b_result->headers['Location']);
+            $infolink = '<div class="place2book order">' . $link . '</div>';
+          }
+          elseif ($p2b_result->headers['Available-Tickets'] == 0) {
+            $infolink = '<div class="place2book info">' . t('There are no available tickets for this event') . '</div>';
+          }
+          elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
+            $infolink = '<div class="place2book info">' . t('The event is closed') . '</div>';
+          }
         }
-        break;
+
+        /**
+         * REVIEW: Maybe this should be made into a block og panel pane, so
+         *         libraries have more freedom to place it one the page. This
+         *         may also require changes in sub-themes.
+         */
+        $node->content['place2book_infolink'] = array(
+          '#value' => $infolink,
+          '#weight' => 10,
+          );
+      }
+    }
+  }
+}
+
+/*
+ * Implementation of hook_node_insert()
+ */
+function ding_place2book_node_insert($node) {
+  // We only handles event nodes.
+  if ($node->type == "event") {
+    if ($node->place2book['maintain_copy'] == 1) {
+      // Insert - maintain_copy and new event node.
+      $place2book_id = place2book_event_op('insert', $node);
+    }
+    else {
+      // Insert - no copy at place2book, save settings only 
+      _place2book_db_op('insert', $node);
+    }
+  }
+}
+
+/*
+ * Implementation of hook_node_update()
+ */
+function ding_place2book_node_update($node) {
+  if ($node->type == "event") {
+    // Get existing Place2book settings for this node.
+    $settings = place2book_settings($node->nid);
+    $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
+
+    // Figure out if this is an update, delete or create. This is some what
+    // complex because node may exists before this module is introduced.
+    // maintain_copy is set on node edit page
+    if ($node->place2book['maintain_copy'] == 1) {
+      // maintain_copy matches previous state
+      if ($settings['maintain_copy']) {
+        // Update - maintain_copy and valided id
+        place2book_event_op('update', $node, $place2book_id);
+      }
+      // maintain_copy differs from previous state  
+      else {
+        // Insert - maintain_copy and no id (or id -1 re-connect to place2book).
+        place2book_event_op('insert', $node, $place2book_id);
+      }
+    }
+    // maintain_copy is unset on node edit page
+    else {
+      // maintain_copy differs from previous state 
+      if ($settings['maintain_copy']) {
+        // Delete - don't maintain_copy
+        place2book_event_op('delete', $node, $place2book_id);
+      }
+      // maintain_copy matches previous state
+      else {
+        // just update database (insert if record is not already there)
+        $exists = db_result(db_query('SELECT nid FROM {ding_place2book} WHERE nid = %d', $node->nid));
+        if ($exists) {
+          _place2book_db_op('update', $node, -1);
+        }
+        else {
+          _place2book_db_op('insert', $node, -1);
+        }
+      }
+    }
+  }  
+}
+
+/*
+ * Implementation of hook_node_delete()
+ */
+function ding_place2book_node_delete($node) {
+  // We only handles event nodes.
+  if ($node->type == "event") {
+    /**
+     * TODO: No attempt is currently made to stop the node from being
+     *       deleted if the above place2book-delete fails...
+     *
+     * REVIEW: Maybe a clean-up check could be execute by the
+     *         administrator or cron?
+     */
+    $place2book_id = db_result(db_query('SELECT place2book_id
+                                           FROM {ding_place2book}
+                                          WHERE nid = %d', $node->nid));
+    if ($place2book_id) {
+      place2book_event_op('delete', $node, $place2book_id);
+      _place2book_db_op('delete', $node, $place2book_id);
     }
   }
 }
@@ -233,8 +244,8 @@ function ding_place2book_form_alter(&$form, $form_state, $form_id) {
       '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : $node_settings['defaults']['kultunaut_export'],
       '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
     );
-		
-		$form['place2book']['passive'] = array(
+
+    $form['place2book']['passive'] = array(
       '#type' => 'checkbox',
       '#title' => t('Passive event'),
       '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : $node_settings['defaults']['passive'],
@@ -282,7 +293,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       // Catch insert error by checking the event id.
       if (!$req_result->headers['Event-Id']) {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
-        drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
         drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
@@ -305,7 +316,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
-        drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
         drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
@@ -321,7 +332,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
 
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'];
-        drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error: ') . $p2b_error, 'error', FALSE);
+        drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
@@ -470,11 +481,11 @@ function place2book_build_xml($node, $service_settings) {
   // Set kultunaut_export setting
   $xml->event->kultunaut_export = $node->place2book['kultunaut_export'];
 
-	// Set passive setting (events with no ticket sale)
-	if (isset($node->place2book['passive']) && $node->place2book['passive'] == '1') {
-	  $xml->event->addAttribute('passive', '1');
-	}
-	
+  // Set passive setting (events with no ticket sale)
+  if (isset($node->place2book['passive']) && $node->place2book['passive'] == '1') {
+    $xml->event->addAttribute('passive', '1');
+  }
+  
   // -- set kultunaut terms --
   $term_list = '';
   if ($node->taxonomy) {
@@ -562,7 +573,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                                                      $node->place2book['maintain_copy'],
                                                      $node->capacity,
                                                      $node->place2book['kultunaut_export'],
-																										 $node->place2book['passive']);
+                                                     $node->place2book['passive']);
       break;
 
     case 'update':
@@ -576,7 +587,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                                   $node->place2book['maintain_copy'],
                                   $node->capacity,
                                   $node->place2book['kultunaut_export'],
-																	$node->place2book['passive'],
+                                  $node->place2book['passive'],
                                   $node->nid);
       break;
 
