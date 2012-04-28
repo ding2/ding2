@@ -4,3 +4,4 @@ core = 7.x
 package = Ding!
 dependencies[] = ding_event
 dependencies[] = number
+configure = admin/config/ding/place2book
