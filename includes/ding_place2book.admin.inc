@@ -8,7 +8,7 @@
 /**
  * The main settings form.
  */
-function ding_place2book_admin_settings_form(&$form_state) {
+function ding_place2book_admin_settings_form($form_state) {
   global $user;
 
   $form = array(
@@ -79,15 +79,15 @@ function ding_place2book_admin_settings_form(&$form_state) {
   $defaults = variable_get('ding_place2book_libraries', array());
 
   // Find all libraries and order them by title.
-  $query = db_query("SELECT n.nid, n.title FROM {node} n
+  $result = db_query("SELECT n.nid, n.title FROM {node} n
                       WHERE type = 'library'
                       ORDER BY title");
 
-  while ($row = db_fetch_object($query)) {
-    $form['ding_place2book_libraries'][$row->nid] = array(
+  foreach ($result as $record) {
+    $form['ding_place2book_libraries'][$record->nid] = array(
       '#type' => 'textfield',
-      '#title' => 'API key ' . check_plain($row->title),
-      '#default_value' => isset($defaults[$row->nid]) ? $defaults[$row->nid] : '',
+      '#title' => 'API key ' . check_plain($record->title),
+      '#default_value' => isset($defaults[$record->nid]) ? $defaults[$record->nid] : '',
       '#description' => t('Optional. If you have several accounts at Place2book, each library can have their own API key. In that case, the base API key will be overridden by the provided key when sending data on events related to this library.'),
     );
   }
