@@ -80,9 +80,9 @@ function ding_place2book_admin_settings_form($form_state) {
 
   // Find all libraries and order them by title.
   $result = db_query("SELECT n.nid, n.title FROM {node} n
-                      WHERE type = 'library'
+                      WHERE type = 'ding_library'
                       ORDER BY title");
-
+  
   foreach ($result as $record) {
     $form['ding_place2book_libraries'][$record->nid] = array(
       '#type' => 'textfield',
