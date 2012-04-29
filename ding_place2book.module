@@ -231,7 +231,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
   $form['place2book']['place2book_id'] = array(
     '#type' => 'item',
     '#title' => t('Place2Book ID'),
-    '#value' => $p2b_link,
+    '#markup' => $p2b_link,
     '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
   );
 
