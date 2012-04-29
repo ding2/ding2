@@ -9,6 +9,8 @@ event category-taxonomies to have data for the kultunaut part.
 - fieldgroup module changed in drupal 7. It might not be needed anymore? Same with 
 optionwidgets - included in core now?
 
+- ding_event now has no end time, only start time. Add field to handle this?
+
 
 
 NOTER FOR VERSION 2 mod den nye API
