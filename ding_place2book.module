@@ -175,15 +175,15 @@ function ding_place2book_node_delete($node) {
 }
 
 /**
- * Implementation of hook_form_alter().
+ * Implementation of hook_form_FORM_ID_alter().
  */
-function ding_place2book_form_ding_event_alter($form, $form_state, $form_id) {
+function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $form_id) {
   // Get the nid in a PHP 5.3 safe way and load settings for this node.
   $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
   $node_settings = place2book_settings($nid);
   
   // Service settings.
-  $service_settings = variable_get(ding_place2book, array());
+  $service_settings = variable_get('ding_place2book', array());
   if (empty($service_settings)) {
     drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
     return;
@@ -544,8 +544,14 @@ function place2book_settings($nid = NULL) {
                                         WHERE nid = %d', $nid));
     if ($result) {
       $settings = $result;
+    //add place2book_id to define it if no database settings found
+    } else {
+      $settings['place2book_id'] = NULL;
     }
-  } 
+  //add place2book_id to define it if nid is not defined
+  } else {
+    $settings['place2book_id'] = NULL;
+  }
   return $settings;
 }
 
