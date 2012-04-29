@@ -11,7 +11,7 @@ optionwidgets - included in core now?
 
 - ding_event now has no end time, only start time. Add field to handle this?
 
-
+- ding_event now has no field for price. Must add it, this also means adding it to the db table
 
 NOTER FOR VERSION 2 mod den nye API
 -----------------------------------

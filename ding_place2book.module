@@ -203,14 +203,12 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#title' => t('Place2Book'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-    '#weight' => 35,
     '#group' => 'additional_settings',
     '#tree' => TRUE,
   );
 
   $form['entry_price_extra_info'] = array(
     '#value' => '<div class="form-item">' . $p2b_info . '</div>',
-    '#weight' => -3,
   );
 
   $form['capacity'] = array(
@@ -220,7 +218,6 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#maxlength' => 5,
     '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
     '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
-    '#weight' => -2,
   );
 
   $form['place2book']['maintain_copy'] = array(
