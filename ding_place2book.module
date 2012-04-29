@@ -181,6 +181,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
   // Get the nid in a PHP 5.3 safe way and load settings for this node.
   $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
   $node_settings = place2book_settings($nid);
+  dpm($node_settings);
   
   // Service settings.
   $service_settings = variable_get('ding_place2book', array());
@@ -197,7 +198,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     $p2b_link = t('None');
     $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
   }
-
+  
   $form['place2book'] = array(
     '#type' => 'fieldset',
     '#title' => t('Place2Book'),
@@ -208,7 +209,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
   );
 
   $form['entry_price_extra_info'] = array(
-    '#value' => '<div class="form-item">' . $p2b_info . '</div>',
+    '#markup' => '<div class="form-item">' . $p2b_info . '</div>',
   );
 
   $form['capacity'] = array(
