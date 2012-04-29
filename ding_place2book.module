@@ -207,11 +207,17 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#group' => 'additional_settings',
     '#tree' => TRUE,
   );
-
-  $form['entry_price_extra_info'] = array(
-    '#markup' => '<div class="form-item">' . $p2b_info . '</div>',
+  
+  $form['entry_price'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Entry price'),
+    '#size' => 5,
+    '#maxlength' => 5,
+    '#default_value' => isset($node_settings['entry_price']) ? $node_settings['entry_price'] : 0,
+    //'#element_validate' => array('_place2book_setting_is_numeric'), 
+    '#description' => $p2b_info,
   );
-
+  
   $form['capacity'] = array(
     '#type' => 'textfield',
     '#title' => t('Event capacity'),
@@ -599,6 +605,15 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
 
     default:
       watchdog('place2book', 'Unknown operation to _place2book_db_op(): @op', array('@op' => $op), WATCHDOG_ERROR);
+  }
+}
+
+/*
+ * validation function for checking place2book settings that need to be integers
+ */
+function _place2book_setting_is_numeric($element, &$form_state) {
+  if (!is_numeric($element['#value'])) {
+    form_error($element, t('%name must be a number.', array('%name' => $element['#title'])));
   }
 }
 

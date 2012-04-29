@@ -33,6 +33,13 @@ function ding_place2book_schema() {
           'not null' => TRUE,
           'default' => 0,
         ),
+        'entry_price' => array(
+          'description' => 'The entry price (in DKR) for the ticket type ADGANG on the Place2Book event.',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
         'maintain_copy' => array(
           'description' => 'Event is created and updated on Place2Book',
           'type' => 'int',
