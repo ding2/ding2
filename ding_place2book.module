@@ -177,81 +177,79 @@ function ding_place2book_node_delete($node) {
 /**
  * Implementation of hook_form_alter().
  */
-function ding_place2book_form_alter(&$form, $form_state, $form_id) {
-  if ($form_id == 'event_node_form') {
-    // Get the nid in a PHP 5.3 safe way and load settings for this node.
-    $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
-    $node_settings = place2book_settings($nid);
-    
-    // Service settings.
-    $service_settings = variable_get(ding_place2book, array());
-    if (empty($service_settings)) {
-      drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
-      return;
-    }
-
-    if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
-      $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'] . '/edit', array('absolute' => TRUE));
-      $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
-    }
-    else {
-      $p2b_link = t('None');
-      $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
-    }
-
-    $form['place2book'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Place2Book'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#weight' => 35,
-      '#group' => 'additional_settings',
-      '#tree' => TRUE,
-    );
-
-    $form['entry_price_extra_info'] = array(
-      '#value' => '<div class="form-item">' . $p2b_info . '</div>',
-      '#weight' => -3,
-    );
-
-    $form['capacity'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Event capacity'),
-      '#size' => 5,
-      '#maxlength' => 5,
-      '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
-      '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
-      '#weight' => -2,
-    );
-
-    $form['place2book']['maintain_copy'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Maintain copy on Place2Book'),
-      '#default_value' => isset($node_settings['maintain_copy']) ? $node_settings['maintain_copy'] : $node_settings['defaults']['maintain_copy'],
-      '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
-    );
-
-    $form['place2book']['place2book_id'] = array(
-      '#type' => 'item',
-      '#title' => t('Place2Book ID'),
-      '#value' => $p2b_link,
-      '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
-    );
-
-    $form['place2book']['kultunaut_export'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Kultunaut export'),
-      '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : $node_settings['defaults']['kultunaut_export'],
-      '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
-    );
-
-    $form['place2book']['passive'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Passive event'),
-      '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : $node_settings['defaults']['passive'],
-      '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
-    );
+function ding_place2book_form_ding_event_alter($form, $form_state, $form_id) {
+  // Get the nid in a PHP 5.3 safe way and load settings for this node.
+  $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
+  $node_settings = place2book_settings($nid);
+  
+  // Service settings.
+  $service_settings = variable_get(ding_place2book, array());
+  if (empty($service_settings)) {
+    drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
+    return;
   }
+
+  if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
+    $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'] . '/edit', array('absolute' => TRUE));
+    $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
+  }
+  else {
+    $p2b_link = t('None');
+    $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
+  }
+
+  $form['place2book'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Place2Book'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => 35,
+    '#group' => 'additional_settings',
+    '#tree' => TRUE,
+  );
+
+  $form['entry_price_extra_info'] = array(
+    '#value' => '<div class="form-item">' . $p2b_info . '</div>',
+    '#weight' => -3,
+  );
+
+  $form['capacity'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Event capacity'),
+    '#size' => 5,
+    '#maxlength' => 5,
+    '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
+    '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
+    '#weight' => -2,
+  );
+
+  $form['place2book']['maintain_copy'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Maintain copy on Place2Book'),
+    '#default_value' => isset($node_settings['maintain_copy']) ? $node_settings['maintain_copy'] : $node_settings['defaults']['maintain_copy'],
+    '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
+  );
+
+  $form['place2book']['place2book_id'] = array(
+    '#type' => 'item',
+    '#title' => t('Place2Book ID'),
+    '#value' => $p2b_link,
+    '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
+  );
+
+  $form['place2book']['kultunaut_export'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Kultunaut export'),
+    '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : $node_settings['defaults']['kultunaut_export'],
+    '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
+  );
+
+  $form['place2book']['passive'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Passive event'),
+    '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : $node_settings['defaults']['passive'],
+    '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
+  );
 }
 
 /**
