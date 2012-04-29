@@ -13,7 +13,6 @@ optionwidgets - included in core now?
 
 - ding_event now has no field for price. Must add it, this also means adding it to the db table
 
-- several changes in Form API in D7. Corrected entry_price_extra_info, 
 
 NOTER FOR VERSION 2 mod den nye API
 -----------------------------------

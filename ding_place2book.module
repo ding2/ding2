@@ -537,11 +537,9 @@ function place2book_settings($nid = NULL) {
   
   // Check database for node specific settings, if nid is defined.
   if ($nid) {
-    $result = db_fetch_array(db_query('SELECT *
-                                         FROM {ding_place2book}
-                                        WHERE nid = %d', $nid));
-    if ($result) {
-      $settings = $result;
+    $result = db_query('SELECT * FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $nid));
+    if ($result->rowCount() > 0) {
+      $settings = $result->fetchAllKeyed();
     //add place2book_id to define it if no database settings found
     } else {
       $settings['place2book_id'] = NULL;
