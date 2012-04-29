@@ -224,7 +224,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
   $form['place2book']['maintain_copy'] = array(
     '#type' => 'checkbox',
     '#title' => t('Maintain copy on Place2Book'),
-    '#default_value' => isset($node_settings['maintain_copy']) ? $node_settings['maintain_copy'] : $node_settings['defaults']['maintain_copy'],
+    '#default_value' => isset($node_settings['maintain_copy']) ? $node_settings['maintain_copy'] : (bool) $node_settings['defaults']['maintain_copy'],
     '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
   );
 
@@ -238,14 +238,14 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
   $form['place2book']['kultunaut_export'] = array(
     '#type' => 'checkbox',
     '#title' => t('Kultunaut export'),
-    '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : $node_settings['defaults']['kultunaut_export'],
+    '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : (bool) $node_settings['defaults']['kultunaut_export'],
     '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
   );
 
   $form['place2book']['passive'] = array(
     '#type' => 'checkbox',
     '#title' => t('Passive event'),
-    '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : $node_settings['defaults']['passive'],
+    '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : (bool) $node_settings['defaults']['passive'],
     '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
   );
 }
