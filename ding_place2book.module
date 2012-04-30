@@ -272,7 +272,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
  */
 function place2book_event_op($op, $node, $place2book_id = NULL) {
   // Service settings.
-  $service_settings = variable_get(ding_place2book, array());
+  $service_settings = variable_get('ding_place2book', array());
   if (empty($service_settings)) {
     drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
     return;
@@ -650,7 +650,7 @@ function _place2book_setting_is_numeric($element, &$form_state) {
  */
 function place2book_get_api_key($library_id = NULL) {
   // Load configuration an the place2book global API key.
-  $service_settings = variable_get(ding_place2book, array());
+  $service_settings = variable_get('ding_place2book', array());
   if (empty($service_settings)) {
     drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
     return NULL;
