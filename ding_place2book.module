@@ -39,7 +39,7 @@ function ding_place2book_menu() {
  */
 function ding_place2book_node_view($node) {
   // We only handles event nodes.
-  if ($node->type == "event") {
+  if ($node->type == "ding_event") {
     if (isset($node->nid) && $node->nid) {
       $place2book_id = db_result(db_query('SELECT place2book_id
                                              FROM {ding_place2book}
@@ -93,7 +93,7 @@ function ding_place2book_node_view($node) {
  */
 function ding_place2book_node_insert($node) {
   // We only handles event nodes.
-  if ($node->type == "event") {
+  if ($node->type == "ding_event") {
     if ($node->place2book['maintain_copy'] == 1) {
       // Insert - maintain_copy and new event node.
       $place2book_id = place2book_event_op('insert', $node);
@@ -109,7 +109,7 @@ function ding_place2book_node_insert($node) {
  * Implementation of hook_node_update()
  */
 function ding_place2book_node_update($node) {
-  if ($node->type == "event") {
+  if ($node->type == "ding_event") {
     // Get existing Place2book settings for this node.
     $settings = place2book_settings($node->nid);
     $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
@@ -139,8 +139,8 @@ function ding_place2book_node_update($node) {
       // maintain_copy matches previous state
       else {
         // just update database (insert if record is not already there)
-        $exists = db_result(db_query('SELECT nid FROM {ding_place2book} WHERE nid = %d', $node->nid));
-        if ($exists) {
+        $exists = db_query('SELECT nid FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid));
+        if ($exists->rowCount() > 0) {
           _place2book_db_op('update', $node, -1);
         }
         else {
@@ -155,8 +155,8 @@ function ding_place2book_node_update($node) {
  * Implementation of hook_node_delete()
  */
 function ding_place2book_node_delete($node) {
-  // We only handles event nodes.
-  if ($node->type == "event") {
+  // We only handle event nodes.
+  if ($node->type == "ding_event") {
     /**
      * TODO: No attempt is currently made to stop the node from being
      *       deleted if the above place2book-delete fails...
