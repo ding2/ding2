@@ -178,6 +178,9 @@ function _openruth_set_locations(&$h, $itemHolding) {
   $holding_reservable = FALSE;
   $fields = array('itemLocation', 'itemComingLocation');
 
+  // remember to count ordersCount
+  $h['reserved_count'] += $itemHolding->ordersCount;
+
   foreach ($fields as $field) {
     if (isset($itemHolding->{$field})){
       foreach ($itemHolding->{$field} as $itemLocation) {
