@@ -38,6 +38,8 @@ function _openruth_set_holdings($res) {
     $h = _openruth_init_holding($holding);
     if (isset($holding->itemHoldings)) {
       foreach ($holding->itemHoldings as $itemHolding) {
+	// remember to count ordersCount
+	$h['reserved_count'] += $itemHolding->ordersCount;
 	_openruth_set_locations($h, $itemHolding);	
 	_openruth_set_periodicals($h, $itemHolding);
       }
