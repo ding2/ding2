@@ -1,7 +1,7 @@
 name = Ding periodical reservation
 description = Handles reservation of issues on periodicals.
 package = Ding!
-version = 0.1
+version = 0.1+dbc.1
 core = 7.x
 files[] = ding_periodical_reservation.module
 dependencies[] = ding_periodical
