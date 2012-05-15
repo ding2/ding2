@@ -59,7 +59,7 @@ class AdditionalInformationService {
     $client = new SoapClient($this->wsdlUrl);
     
     $startTime = explode(' ', microtime()); 
-    $response = $client->additionalInformation(array(
+    $response = $client->moreInfo(array(
                           'authentication' => $authInfo,
                           'identifier' => $identifiers));
     
@@ -91,14 +91,14 @@ class AdditionalInformationService {
     foreach($response->identifierInformation as $info)
     {
       $thumbnailUrl = $detailUrl = NULL;
-      if (isset($info->identifierKnown) && $info->identifierKnown && $info->image )
+      if (isset($info->identifierKnown) && $info->identifierKnown && $info->coverImage )
       {
-        if (!is_array($info->image))
+        if (!is_array($info->coverImage))
         {
-          $info->image = array($info->image);
+          $info->coverImage = array($info->coverImage);
         }
         
-        foreach ($info->image as $image)
+        foreach ($info->coverImage as $image)
         {
           switch ($image->imageSize) {
             case 'thumbnail':
