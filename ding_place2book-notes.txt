@@ -4,7 +4,9 @@ NOTES for CONVERTING to ding2/drupal7
 # Changed context in ding2 to consider:
 
 - There is only one taxonomy - Category. I might have to create event target and 
-event category-taxonomies to have data for the kultunaut part. 
+event category-taxonomies to have data for the kultunaut part. But the better solution would be to 
+implement the term mapping feature now, and map terms from Category taxonomy to Kultunaut target and 
+category. Then we can avoid adding extra vocabularies + give better control to the ding administrator.
 
 - fieldgroup module changed in drupal 7. It might not be needed anymore? Same with 
 optionwidgets - included in core now?
