@@ -111,35 +111,36 @@ function ding_place2book_node_update($node) {
   if ($node->type == "ding_event") {
     // Get existing Place2book settings for this node.
     $settings = place2book_settings($node->nid);
-    dpm($node);
-    dpm($settings);
     $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
 
     // Figure out if this is an update, delete or create. This is some what
     // complex because node may exists before this module is introduced.
     // maintain_copy is set on node edit page
     if ($node->place2book['maintain_copy'] == 1) {
-      // maintain_copy matches previous state
-      if ($settings['maintain_copy']) {
-        // Update - maintain_copy and valided id
+      // current maintain_copy continues the previous state
+      // - which means we perform an update
+      if ($settings['maintain_copy'] == 1) {
         place2book_event_op('update', $node, $place2book_id);
+        dpm("node 1, settings 1 = P2B UPDATE");
       }
-      // maintain_copy differs from previous state  
+      // current maintain_copy differs from previous state and is now on
+      // - which means we perform an insert  
       else {
-        // Insert - maintain_copy and no id (or id -1 re-connect to place2book).
         place2book_event_op('insert', $node, $place2book_id);
+        dpm("node 1, settings 0 = P2B INSERT");
       }
     }
     // maintain_copy is unset on node edit page
     else {
-      // maintain_copy differs from previous state 
-      if (isset($settings['maintain_copy'])) {
-        // Delete - don't maintain_copy
+      // maintain_copy was on before and is now off
+      // - which means we perform a delete
+      if ($settings['maintain_copy'] == 1) {
         place2book_event_op('delete', $node, $place2book_id);
+        dpm("node 0, settings 1 = P2B DELETE");
       }
-      // maintain_copy matches previous state
+      // maintain_copy continues previous state and is still off
+      // - which means we only update the ding_place2book table
       else {
-        // just update database (insert if record is not already there)
         $exists = db_query('SELECT nid FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid));
         if ($exists->rowCount() > 0) {
           _place2book_db_op('update', $node, -1);
@@ -147,6 +148,7 @@ function ding_place2book_node_update($node) {
         else {
           _place2book_db_op('insert', $node, -1);
         }
+        dpm("node 0, settings 0 = DB UPDATE/INSERT");
       }
     }
   }  
@@ -182,7 +184,6 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
   // Get the nid in a PHP 5.3 safe way and load settings for this node.
   $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
   $node_settings = place2book_settings($nid);
-  dpm($node_settings);
   
   // Service settings.
   $service_settings = variable_get('ding_place2book', array());
