@@ -41,9 +41,8 @@ function ding_place2book_node_view($node) {
   // We only handles event nodes.
   if ($node->type == "ding_event") {
     if (isset($node->nid) && $node->nid) {
-      $place2book_id = db_result(db_query('SELECT place2book_id
-                                             FROM {ding_place2book}
-                                            WHERE nid = %d', $node->nid));
+      $place2book_id = db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid))->fetchField();
+      
       if ($place2book_id) {
         $service_settings = variable_get(ding_place2book, array());
         $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
@@ -112,6 +111,7 @@ function ding_place2book_node_update($node) {
   if ($node->type == "ding_event") {
     // Get existing Place2book settings for this node.
     $settings = place2book_settings($node->nid);
+    dpm($node);
     dpm($settings);
     $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
 
@@ -278,8 +278,12 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     return;
   }
 
+  //get the library id for the event
+  $group_audience = field_get_items('node', $node, 'group_audience');
+  $library_id = db_query('SELECT etid FROM {og} WHERE gid = :gid', array(':gid' => $group_audience[0]['gid']))->fetchField();
+  
   // Build XML headers.
-  $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
+  $api_key = place2book_get_api_key($library_id); 
   if ($api_key == NULL) {
     return;
   }
