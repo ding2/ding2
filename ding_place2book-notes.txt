@@ -1,5 +1,13 @@
 NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
+Go over business logic in ding_place2book_node_update, maintain_copy is now always boolean
+which make checks easier, i.e.
+      ..// maintain_copy matches previous state
+      if ($settings['maintain_copy']) {..
+should be
+      ..// maintain_copy matches previous state
+      if ($settings['maintain_copy'] == 1) {..
+and so on.
 
 # Changed context in ding2 to consider:
 
