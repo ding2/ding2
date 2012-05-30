@@ -338,7 +338,7 @@ function ding_provider_build_form($form_id, &$form_state) {
     elseif ($e instanceof DingProviderAuthException) {
       if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
         // Something needs auth, save state and redirect to authentication page.
-        $expire = 21600;
+        $expire = 3600;
         $input = $form_state['method'] == 'get' ? $_GET : $_POST;
         $input['#ding_provider_messages'] = drupal_get_messages();
         cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
@@ -412,7 +412,7 @@ function ding_provider_ajax_form_callback() {
     elseif ($e instanceof DingProviderAuthException || $e instanceof EntityMalformedException) {
       if (module_exists('ding_user')) {
         // Something needs auth, save state and redirect to authentication page.
-        $expire = 21600;
+        $expire = 3600;
         $input = $form_state['method'] == 'get' ? $_GET : $_POST;
         $input['#ding_provider_messages'] = drupal_get_messages();
         $input['#ding_provider_user'] = $user;
