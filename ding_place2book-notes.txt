@@ -1,13 +1,6 @@
 NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
-Go over business logic in ding_place2book_node_update, maintain_copy is now always boolean
-which make checks easier, i.e.
-      ..// maintain_copy matches previous state
-      if ($settings['maintain_copy']) {..
-should be
-      ..// maintain_copy matches previous state
-      if ($settings['maintain_copy'] == 1) {..
-and so on.
+now updating the build_xml function, using the new field_get_items() in D7.
 
 # Changed context in ding2 to consider:
 
@@ -19,7 +12,8 @@ category. Then we can avoid adding extra vocabularies + give better control to t
 - fieldgroup module changed in drupal 7. It might not be needed anymore? Same with 
 optionwidgets - included in core now?
 
-- ding_event now has no end time, only start time. Add field to handle this?
+- ding_event now has no end time enabled, but it is in the output. If todate= fromdate is a problem, 
+make check to ensure that todate-value is only used when it is different from fromdate.
 
 - ding_event now has no field for price. Must add it, this also means adding it to the db table
 
@@ -64,6 +58,8 @@ Arni: "Men jeg opdagede en alvorlig fejl. Hvis man har angivet en salgsperiode p
 IMPLEMENTERING af TERM MAPPING til KULTUNAUT
 --------------------------------------------
 ny tabel: ding_place2book_kultunaut (rel_id, term, kultunaut_term)
+
+inspiration til admin-interface fra ThemeKey modulet.
 
 Idé er at alle vocabularies forbundet med event typen listes i en drop-down menu, hvorfra de kan vælges.
 En tilsvarende drop-down menu er dannet på baggrund af kultunaut xml filen med deres termer.
