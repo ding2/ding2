@@ -54,7 +54,11 @@ function ding_place2book_node_view($node) {
           'X-PLACE2BOOK-API-TOKEN' => $api_key,
           'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
         );
-        $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $headers, 'GET' );
+        $options = array(
+                	'method' => 'GET',
+                	'headers' => $headers,
+                );
+        $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $options);
 
         /**
          * REVIEW: Maybe move this to a theme function.
@@ -296,8 +300,14 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
   switch ($op) {
     case 'insert':
       $xml = place2book_build_xml($node, $service_settings);
-      $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $headers, 'POST', $xml->asXML());
-
+      $options = array(
+                	'method' => 'POST',
+                	'data' => $xml->asXML(),
+                	'headers' => $headers,
+                );
+      $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $options);
+      dpm($req_result);
+      
       // Catch insert error by checking the event id.
       if (!$req_result->headers['Event-Id']) {
         $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
@@ -319,7 +329,12 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
     case 'update':
       $xml = place2book_build_xml($node, $service_settings);
       $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
-      $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $headers, 'POST', $xml->asXML());
+      $options = array(
+                	'method' => 'POST',
+                	'data' => $xml->asXML(),
+                	'headers' => $headers,
+                );
+      $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
 
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
@@ -336,7 +351,11 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
 
     case 'delete':
       $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
-      $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $headers, 'POST');
+      $options = array(
+                	'method' => 'POST',
+                	'headers' => $headers,
+                );
+      $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
       
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['Status'];
