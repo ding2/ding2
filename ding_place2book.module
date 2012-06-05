@@ -309,9 +309,9 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       dpm($req_result);
       
       // Catch insert error by checking the event id.
-      if (!$req_result->headers['Event-Id']) {
-        $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
-        drupal_set_message(t('The insert or update was not performed on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
+      if (empty($req_result->headers['Event-Id'])) {
+        $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
+        drupal_set_message(t('INSERT was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
         drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
@@ -338,7 +338,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
 
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
-        $p2b_error = $req_result->headers['Status'] . ' - ' . $req_result->headers['Error-Description'];
+        $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
         drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
@@ -358,7 +358,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
       
       if ($req_result->error != 'Accepted') {
-        $p2b_error = $req_result->headers['Status'];
+        $p2b_error = $req_result->headers['status'];
         drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
@@ -378,7 +378,11 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
   }
 
   // Return a place2book_id
-  return $req_result->headers['Event-Id'];
+  if (isset($req_result->headers['Event-Id'])) {
+    return $req_result->headers['Event-Id'];
+  } else {
+    return NULL;
+  }
 }
 
 /**
@@ -507,7 +511,7 @@ function place2book_build_xml($node, $service_settings) {
   $xml->event->begin_at = $field_event_date[0]['value'];
   // Set event time to end
   $xml->event->end_at = $field_event_date[0]['value2'];
-
+  
   // Set kultunaut_export setting
   $xml->event->kultunaut_export = $node->place2book['kultunaut_export'];
 
