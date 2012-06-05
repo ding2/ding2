@@ -45,7 +45,12 @@ function ding_place2book_node_view($node) {
       
       if ($place2book_id) {
         $service_settings = variable_get(ding_place2book, array());
-        $api_key = place2book_get_api_key($node->field_library_ref[0]['nid']);
+
+        //get the library id for the event
+        $group_audience = field_get_items('node', $node, 'group_audience');
+        $library_id = db_query('SELECT etid FROM {og} WHERE gid = :gid', array(':gid' => $group_audience[0]['gid']))->fetchField();
+  
+        $api_key = place2book_get_api_key($library_id);
         if ($api_key == NULL) {
           return;
         }
