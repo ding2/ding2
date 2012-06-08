@@ -1,4 +1,6 @@
 name = Ding entity
+; pjo testing use virtual field NOT blackhole
+; dependencies[] = virtual_field
 dependencies[] = blackhole
 description = Provides a common API for materials information.
 package = Ding!
