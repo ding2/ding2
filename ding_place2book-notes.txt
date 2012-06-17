@@ -1,5 +1,9 @@
 NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
+headers from place2book: "Event-Id" changed to "event-id" 
+when called from D7?? Why is array keys changed into lowercase
+- change code to reflect it.
+
 now updating the build_xml function, using the new field_get_items() in D7.
 
 # Changed context in ding2 to consider:

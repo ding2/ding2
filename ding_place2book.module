@@ -8,6 +8,27 @@ function ding_place2book_init() {
 }
 
 /**
+* Implements hook_image_default_styles().
+*/
+function ding_place2book_image_default_styles() {
+  $styles = array();
+  
+  // Exported image style: ding_kultunaut_square
+  $styles['ding_kultunaut_square'] = array(
+    'name' => 'ding_kultunaut_square',
+    'effects' => array(
+      array(
+        'name' => 'image_scale_and_crop',
+        'data' => array('width' => 120, 'height' => 120),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  return $styles;
+}
+
+/**
  * Implementation of hook_permission().
  */
 function ding_place2book_permission() {
@@ -68,16 +89,16 @@ function ding_place2book_node_view($node) {
         /**
          * REVIEW: Maybe move this to a theme function.
          */
-        if ($p2b_result->headers['Sales-Status']) {
+        if ($p2b_result->headers['sales-status']) {
           // To determine if there are available tickets, we need to check for a positive number OR part of the string 'Ubegrænset antal'
-          if ($p2b_result->headers['Sales-Status'] == 'open' && ($p2b_result->headers['Available-Tickets'] > 0 || strpos($p2b_result->headers['Available-Tickets'], 'antal') > 0)) {
-            $link = l(t('Book a ticket'), $p2b_result->headers['Location']);
+          if ($p2b_result->headers['sales-status'] == 'open' && ($p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
+            $link = l(t('Book a ticket'), $p2b_result->headers['location']);
             $infolink = '<div class="place2book order">' . $link . '</div>';
           }
-          elseif ($p2b_result->headers['Available-Tickets'] == 0) {
+          elseif ($p2b_result->headers['available-tickets'] == 0) {
             $infolink = '<div class="place2book info">' . t('There are no available tickets for this event') . '</div>';
           }
-          elseif ($p2b_result->headers['Sales-Status'] == 'closed') {
+          elseif ($p2b_result->headers['sales-status'] == 'closed') {
             $infolink = '<div class="place2book info">' . t('The event is closed') . '</div>';
           }
         }
@@ -314,19 +335,19 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
       dpm($req_result);
       
       // Catch insert error by checking the event id.
-      if (empty($req_result->headers['Event-Id'])) {
+      if (empty($req_result->headers['event-id'])) {
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
         drupal_set_message(t('INSERT was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
       }
       else {
-        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['Event-Id'])));
+        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['event-id'])));
 
         // Update local database.
         if ($place2book_id != NULL) {
-          _place2book_db_op('update', $node, $req_result->headers['Event-Id']);
+          _place2book_db_op('update', $node, $req_result->headers['event-id']);
         }
         else {
-          _place2book_db_op('insert', $node, $req_result->headers['Event-Id']);
+          _place2book_db_op('insert', $node, $req_result->headers['event-id']);
         }
       }
       break;
@@ -383,8 +404,8 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
   }
 
   // Return a place2book_id
-  if (isset($req_result->headers['Event-Id'])) {
-    return $req_result->headers['Event-Id'];
+  if (isset($req_result->headers['event-id'])) {
+    return $req_result->headers['event-id'];
   } else {
     return NULL;
   }
@@ -540,7 +561,11 @@ function place2book_build_xml($node, $service_settings) {
   $xml->event->kultunaut_export_category = '';
 
   // Set kultunaut picture URI
-  // TODO: link properly to list image URL in the system
+  /* TODO: link properly to list image URL in the system
+   * This module should provide an image style (ding_kultunaut_square),
+   * and then we use the image_style_url() function in D7 to provide an URL
+   * to a 120x120 px version of the list_image
+   */
   $xml->event->kultunaut_picture_uri = ''; //url($url, array('absolute' => TRUE));
   
   return $xml;
