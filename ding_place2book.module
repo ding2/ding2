@@ -332,7 +332,6 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                 	'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $options);
-      dpm($req_result);
       
       // Catch insert error by checking the event id.
       if (empty($req_result->headers['event-id'])) {
@@ -361,7 +360,8 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                 	'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
-
+      dpm($req_result);
+      
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
@@ -513,7 +513,7 @@ function place2book_build_xml($node, $service_settings) {
   //
   // The check is only made for venue street address - if it is not there, the rest is not used either
   $field_address = field_get_items('node', $node, 'field_address');
-  if (isset($field_address[0]['thoroughfare'])) {
+  if (!empty($field_address[0]['thoroughfare'])) {
     $xml->event->venue->name = '';
     $xml->event->venue->address1 = $field_address[0]['thoroughfare'];
     $xml->event->venue->address2 = $field_address[0]['premise'];
@@ -521,7 +521,7 @@ function place2book_build_xml($node, $service_settings) {
     $xml->event->venue->city = $field_address[0]['locality'];
     $xml->event->venue->country_code = drupal_strtoupper($field_address[0]['country']);
   }
-
+  
   // Set capacity - and if provided, unflag unlimited_capacity.
   if (isset($node->capacity) && $node->capacity > 0) {
     $xml->event->capacity = $node->capacity;
