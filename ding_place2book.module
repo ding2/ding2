@@ -151,13 +151,11 @@ function ding_place2book_node_update($node) {
       // - which means we perform an update
       if ($settings['maintain_copy'] == 1) {
         place2book_event_op('update', $node, $place2book_id);
-        dpm("node 1, settings 1 = P2B UPDATE");
       }
       // current maintain_copy differs from previous state and is now on
       // - which means we perform an insert  
       else {
         place2book_event_op('insert', $node, $place2book_id);
-        dpm("node 1, settings 0 = P2B INSERT");
       }
     }
     // maintain_copy is unset on node edit page
@@ -166,7 +164,6 @@ function ding_place2book_node_update($node) {
       // - which means we perform a delete
       if ($settings['maintain_copy'] == 1) {
         place2book_event_op('delete', $node, $place2book_id);
-        dpm("node 0, settings 1 = P2B DELETE");
       }
       // maintain_copy continues previous state and is still off
       // - which means we only update the ding_place2book table
@@ -178,7 +175,6 @@ function ding_place2book_node_update($node) {
         else {
           _place2book_db_op('insert', $node, -1);
         }
-        dpm("node 0, settings 0 = DB UPDATE/INSERT");
       }
     }
   }  
@@ -426,8 +422,6 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
  *  SimpleXML object
  */
 function place2book_build_xml($node, $service_settings) {
-  dpm($node);
-  
   // Load xml string
   $event_create_str = '<?xml version="1.0" encoding="UTF-8"?>
 <data>
@@ -560,14 +554,14 @@ function place2book_build_xml($node, $service_settings) {
   //TODO: link this to Tags field when mapping has been implemented
   $xml->event->kultunaut_export_category = '';
 
-  // Set kultunaut picture URI
-  /* TODO: link properly to list image URL in the system
-   * This module should provide an image style (ding_kultunaut_square),
-   * and then we use the image_style_url() function in D7 to provide an URL
-   * to a 120x120 px version of the list_image
-   */
-  $xml->event->kultunaut_picture_uri = ''; //url($url, array('absolute' => TRUE));
-  
+  // Set kultunaut picture URL
+  $field_list_image = field_get_items('node', $node, 'field_list_image');
+  //the uri of the image file is not found in the updated node object - we retrieve it with file_load
+  $list_image_fileinfo = file_load($field_list_image[0]['fid']);
+  if (!empty($list_image_fileinfo->uri)) {
+    //this module provides a style, ding_kultunaut_square, which we invoke here
+    $xml->event->kultunaut_picture_uri = image_style_url('ding_kultunaut_square', $list_image_fileinfo->uri); 
+  } 
   return $xml;
 }
 
