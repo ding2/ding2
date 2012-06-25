@@ -1,10 +1,8 @@
 NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
 How to implement the reservation button area?
-- create panel pane (short tutorial at http://www.nicklewis.org/drupal/tutorials/ctools-custom-content-types)
-- admin can place the pane as he or she wishes - but activate and place it when module is installed
-- the hook_node_view populates the pane
-- provide default styling for the pane
+- create new field on ding_event content type
+- provide default styling for the field
 
 # Changed context in ding2 to consider:
 

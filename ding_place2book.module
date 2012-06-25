@@ -10,7 +10,7 @@ function ding_place2book_enable() {
         'type' => 'text',
     );
     field_create_field($field);
-
+  
     // Create the instance on the bundle.
     $instance = array(
       'field_name' => 'field_place2book_tickets', 
@@ -20,6 +20,7 @@ function ding_place2book_enable() {
       'description' => 'Placeholder for Place2book ticket information and/or order link',
       // If you don't set the "required" property then the field wont be required by default.
       'required' => TRUE, 
+      'default_value_function' => 'dummy-text',
       'display' => array(
         'default' => array(
           'weight' => 10,
@@ -28,6 +29,14 @@ function ding_place2book_enable() {
     );
     field_create_instance($instance);
   }
+}
+
+/**
+* Implementation of hook_disable().
+*/
+function ding_place2book_disable() {
+  field_delete_field('field_place2book_tickets');
+  field_purge_batch(10);
 }
 
 /**
@@ -90,7 +99,7 @@ function ding_place2book_menu() {
  */
 function ding_place2book_node_view($node, $view_mode, $langcode) {
   // We only handle event nodes.
-  if ($node->type == "ding_event" && $view_mode == 'full') {
+  if ($node->type == "ding_event") {
     
     if (isset($node->nid) && $node->nid) {
       $place2book_id = db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid))->fetchField();
@@ -139,7 +148,7 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
          *         libraries have more freedom to place it one the page. This
          *         may also require changes in sub-themes.
          */
-        $node->content['place2book_infolink'] = array(
+        $node->content['field_place2book_tickets'] = array(
           '#value' => $infolink,
           '#weight' => 10,
           );
