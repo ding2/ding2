@@ -259,7 +259,8 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
   }
   
-  //dpm($form);
+  //remove field_place2book_tickets from the form - it is only a placeholder and need not be seen nor edited
+  $form['field_place2book_tickets'] = NULL;
   
   $form['place2book'] = array(
     '#type' => 'fieldset',
