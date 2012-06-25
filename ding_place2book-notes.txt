@@ -2,6 +2,8 @@ NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
 How to implement the reservation button area?
 - create new field on ding_event content type
+- NB: the field NEEDS to have a value - create a default value for it! 
+- Default value: try to define in hook_enable - then I might be able to NULL the field out in hook_form_alter without problems..
 - provide default styling for the field
 
 # Changed context in ding2 to consider:
