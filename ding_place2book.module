@@ -149,8 +149,6 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
       }
     }
   }
-  
-  dpm($node);
 }
 
 /*
@@ -395,7 +393,6 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                 	'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
-      dpm($req_result);
       
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
@@ -645,12 +642,14 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
       db_query('INSERT INTO {ding_place2book} (	nid, 
       																					place2book_id,
                                                 maintain_copy, 
+                                                entry_price,
                                                 capacity,
                                                 kultunaut_export, 
                                                 passive)
                        								 VALUES ( :nid, 
                        								 					:place2book_id, 
-                       													:maintain_copy, 
+                       													:maintain_copy,
+                       													:entry_price, 
                        													:capacity, 
                        													:kultunaut_export, 
                        													:passive)', 
@@ -659,6 +658,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                                           			':place2book_id' => $place2book_id,
                       													':maintain_copy' => $node->place2book['maintain_copy'], 
                       													':capacity' => $node->capacity,
+                                                ':entry_price' => $node->entry_price,
                       													':kultunaut_export' => $node->place2book['kultunaut_export'], 
                       													':passive' => $node->place2book['passive']
                                                 )
@@ -670,6 +670,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                 SET place2book_id = :place2book_id,
                     maintain_copy = :maintain_copy,
                     capacity = :capacity,
+                    entry_price = :entry_price,
                  		kultunaut_export = :kultunaut_export,
                     passive = :passive
                 WHERE nid = :nid', 
@@ -677,6 +678,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                       ':place2book_id' => $place2book_id,
                       ':maintain_copy' => $node->place2book['maintain_copy'], 
                       ':capacity' => $node->capacity,
+                      ':entry_price' => $node->entry_price,
                       ':kultunaut_export' => $node->place2book['kultunaut_export'], 
                       ':passive' => $node->place2book['passive'],
                       ':nid' => $node->nid, 
