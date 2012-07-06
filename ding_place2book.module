@@ -283,6 +283,16 @@ function ding_place2book_node_delete($node) {
 }
 
 /**
+ * Implementation of hook_node_presave().
+ */
+function ding_place2book_node_presave($node){
+  //make sure that the placeholder field always gets a value
+  if ($node->type ==='ding_event') {
+    $node->field_place2book_tickets['und']['0']['value']= 'placeholder';
+  }
+}
+
+/**
  * Implementation of hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $form_id) {
