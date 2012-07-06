@@ -1,5 +1,14 @@
 NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
+Solution: 2 ways of displaying the button/info-area:
+1 (the standard) - implemented as placeholder directly in the ding-event content type.
+Caching inside the Node Template->Event Variant's node content panel pane will be turned off 
+by the module. 
+2) make a panel pane, which admin can use as an alternative or in addition to option 1 above
+Don't forget to document it in configuration options for the module!
+
+
+
 Theme function for the reservation button area - make.
 
 Is time correct? Appears as another time at staging.place2book.com
