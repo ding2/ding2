@@ -8,9 +8,6 @@ by the module.
 Don't forget to document it in configuration options for the module!
 
 
-
-Theme function for the reservation button area - make.
-
 Is time correct? Appears as another time at staging.place2book.com
 
 # Changed context in ding2 to consider:
