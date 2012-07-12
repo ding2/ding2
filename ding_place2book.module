@@ -578,9 +578,9 @@ function place2book_build_xml($node, $service_settings) {
   // -- set event times --
   $field_event_date = field_get_items('node', $node, 'field_event_date');
   // Set event time to begin
-  $xml->event->begin_at = $field_event_date[0]['value'];
+  $xml->event->begin_at = $field_event_date[0]['value'] . ' ' . $field_event_date[0]['timezone_db'];
   // Set event time to end
-  $xml->event->end_at = $field_event_date[0]['value2'];
+  $xml->event->end_at = $field_event_date[0]['value2'] . ' ' . $field_event_date[0]['timezone_db'];
   
   // Set kultunaut_export setting
   $xml->event->kultunaut_export = $node->place2book['kultunaut_export'];
@@ -611,7 +611,8 @@ function place2book_build_xml($node, $service_settings) {
   if (!empty($list_image_fileinfo->uri)) {
     //this module provides a style, ding_kultunaut_square, which we invoke here
     $xml->event->kultunaut_picture_uri = image_style_url('ding_kultunaut_square', $list_image_fileinfo->uri); 
-  } 
+  }
+  
   return $xml;
 }
 

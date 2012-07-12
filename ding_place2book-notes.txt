@@ -9,8 +9,6 @@ by the module.
 Don't forget to document it in configuration options for the module!
 
 
-Is time correct? Appears as another time at staging.place2book.com
-
 # Changed context in ding2 to consider:
 
 - There is only one taxonomy - Category. I might have to create event target and 

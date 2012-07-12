@@ -30,7 +30,7 @@ Configuration of the module
  
 * "Place2Book event node defaults": The values set here will be the standard values applied to every new event created on the site. Their meaning is explained in the section below. 
 
-### Setting at Event Node edit pages (/node/add/event)
+### Setting at Event Node edit pages (/node/add/event + /node/#/edit)
 
 Most of the fields on the add/edit event form are mapped directly to corresponding values on the related events created at Place2Book. 
 
@@ -50,6 +50,23 @@ A few fields and/or settings specific to Place2Book have been added to the form.
 
     **Passive Event**: If set, there will be no ticket sale at Place2Book. Furthermore, the ding site will not display a "Book Ticket"-link for that event.
 
+### Presenting ticket information at Event Node view page (/node/#)
+
+There are 2 options for showing the order link button/ticket information box on the page:
+
+* **Inside the node content (default)**. The module has inserted a placeholder field inside the node content. When viewing the event, this placeholder is filled with ticket information pulled real-time from www.place2book.com. However, node content i normally cached - therefore, enabling this module turns off caching inside the Node Template->Event Variant's node content panel pane. 
+
+* **As a panel pane**. In order for administrators to place the ticket information where they want on the event pages, a pane named "Place2book ticket info" is provided with the module (it can be found in the group "Ding!" among the panel panes). Remember to never put any caching on this pane - it shows real-time information!
+
+Modifying the standard ding2 caching for events (as with the default option above) may NOT be what the site administrator wants.
+If so, you WILL have to use the second option, as the "Place2book ticket info" pane has its own
+cache settings separate from the node content pane.
+
+To use the second option instead of the default above, do the following:
+1. Go to the Node Template under Pages (/admin/structure/pages/edit/node_view) and open the Event variant's Content.
+2. Add content to the area of the panel you want. The "Place2book ticket info" pane is found under the group "Ding!". Now, you have 2 places where ticket info is shown
+3. Click on settings for the "Node being viewed" content pane. Under "Caching", click "Change". Set it back to "Rules-based cache" - the specific settings here are Granularity: "Context" and "Cache per language" ON. You have now restored the original cache settings for the node content.    
+4. Go to manage the display for the Event Node content type (/admin/structure/types/manage/ding-event/display). Move the field "Place2book Tickets" into the Hidden area, and save. You should now have event pages that only show ticket information once (via the pane you placed in step 2).
 
 Usage and Tips
 --------------
