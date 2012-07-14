@@ -762,9 +762,12 @@ function render_place2book_ticketsinfo($node) {
   $url = '';
   $place2book_id = 0;
   
-  //check if the event has happened
-  if (1 == 2) {
-  //if (time() > $event_startdate) {
+  //variables for a date comparison
+  $field_event_date = field_get_items('node', $node, 'field_event_date');
+  $event_timestamp = strtotime($field_event_date[0]['value']);
+  $today_timestamp = strtotime(date("Y-m-d")); 
+  
+  if ($today_timestamp > $event_timestamp) {
     $type = 'event-over';
   } else {
     $place2book_id = db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid))->fetchField();
@@ -831,7 +834,7 @@ function theme_place2book_ticketsinfo($variables) {
   
   switch ($type) {
     case 'event-over':
-      $output = '';
+      $output = '<div class="place2book info">' . t('The event has already taken place') . '</div>';
       break;
     case 'closed-admission':
       $output = '<div class="place2book info">' . t('The event is closed for admission') . '</div>';
