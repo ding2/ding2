@@ -824,6 +824,21 @@ function render_place2book_ticketsinfo($node) {
   $type = '';  
   $url = '';
   $place2book_id = 0;
+  $maintain_copy = 0;
+  $passive = 0;
+  
+  //get data from ding_place2book table 
+  $place2book_result = db_query('SELECT place2book_id, maintain_copy, passive FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid));
+  foreach ($place2book_result as $place2book) {
+    $place2book_id = $place2book->place2book_id;
+    $maintain_copy = $place2book->maintain_copy;
+    $passive = $place2book->passive;
+  }
+  
+  //the function is to return nothing if we should not be rendering anything
+  if ($place2book_id == 0 OR $maintain_copy == 0 OR ($maintain_copy == 1 && $passive == 1)) {
+    return;
+  }
   
   //variables for a date comparison
   $field_event_date = field_get_items('node', $node, 'field_event_date');
@@ -833,8 +848,6 @@ function render_place2book_ticketsinfo($node) {
   if ($today_timestamp > $event_timestamp) {
     $type = 'event-over';
   } else {
-    $place2book_id = db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid))->fetchField();
-        
     if ($place2book_id) {
       $service_settings = variable_get('ding_place2book', array());
   
@@ -856,8 +869,6 @@ function render_place2book_ticketsinfo($node) {
               	'headers' => $headers,
               );
       $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $options);
-  
-      
       
       //we must have a sales-status header
       if ($p2b_result->headers['sales-status']) {
