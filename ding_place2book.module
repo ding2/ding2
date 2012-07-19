@@ -70,10 +70,10 @@ function ding_place2book_enable() {
     }
     $ding_event_display = panels_save_display($ding_event_display);
     drupal_set_message(t('The ding_place2book module has inserted an extra field on' 
-      . 'Events (for the order button/info). For the button/info to display properly,' 
-      . 'the content area on Events cannot be cached. Therefore, caching has been turned' 
-      . 'off for the content area of Events. For more information and more options'
-      . 'for displaying the order button/info-area, please see README for this module.'));
+      . ' Events (for the order button/info). For the button/info to display properly,' 
+      . ' the content area on Events cannot be cached. Therefore, caching has been turned' 
+      . ' off for the content area of Events. For more information and more options'
+      . ' for displaying the order button/info-area, please see README for this module.'));
   }
 }
 
@@ -137,6 +137,28 @@ function ding_place2book_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'includes/ding_place2book.admin.inc',
   );
+  
+  $items['admin/config/ding/place2book/settings'] = array(
+    'title' => 'Place2book settings',
+    'description' => 'Settings and defaults for Place2book integration',
+    'weight' => -20,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_admin_settings_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/ding_place2book.admin.inc',
+  );
+  
+  $items['admin/config/ding/place2book/kultunaut'] = array(
+    'title' => 'Kultunaut',
+    'description' => 'Kultunaut-specific settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_kultunaut_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/ding_place2book.admin.inc',
+  );
+  
   return $items;
 }
 
@@ -306,6 +328,17 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
   );
 
+  $kultunaut_category_options = array('' => t('Choose')) + place2book_get_kultunaut_categories();
+  
+  $form['kultunaut_category'] = array(
+    '#type' => 'select',
+    '#title' => t('Kultunaut category'),
+    '#options' => $kultunaut_category_options,
+    '#weight' => 8,
+    '#default_value' => isset($node_settings['kultunaut_category']) ? $node_settings['kultunaut_category'] : '',
+    '#description' => t('Optional. Choose the category that will sent to (and used by) Kultunaut.'),
+  );
+  
   $form['place2book']['maintain_copy'] = array(
     '#type' => 'checkbox',
     '#title' => t('Maintain copy on Place2Book'),
@@ -407,7 +440,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                 	'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
-      
+      dpm($req_result);
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
@@ -595,14 +628,25 @@ function place2book_build_xml($node, $service_settings) {
   // I have the term ids already, so the following query will give
   // me term name to use on kultunaut_age_group
   if (isset($field_category[0])) {
-    $event_category = db_query('SELECT name
+    $event_category_result = db_query('SELECT tid, name
                                 FROM {taxonomy_term_data} 
-                                WHERE tid = :term_id', array(':term_id'=>$field_category[0]['tid']))->fetchField();
-    $xml->event->kultunaut_age_group = $event_category;
+                                WHERE tid = :term_id', array(':term_id'=>$field_category[0]['tid']));
+    foreach ($event_category_result as $event_category) {
+      $event_cat_tid = $event_category->tid;
+      $event_cat_name = $event_category->name;
+    }
+    
+    //check configuration if we should map the term to a kultunaut term
+    $kultunaut_map_array = variable_get('ding_place2book_kultunaut_targets', array());
+    if (empty($kultunaut_map_array[$event_cat_tid])) {
+      $xml->event->kultunaut_age_group = $event_cat_name;
+    } else {
+      $xml->event->kultunaut_age_group = $kultunaut_map_array[$event_cat_tid];
+    }   
   }
   
-  //TODO: link this to Tags field when mapping has been implemented
-  $xml->event->kultunaut_export_category = '';
+  // Set kultunaut export category
+  $xml->event->kultunaut_export_category = $node->kultunaut_category;
 
   // Set kultunaut picture URL
   $field_list_image = field_get_items('node', $node, 'field_list_image');
@@ -614,6 +658,20 @@ function place2book_build_xml($node, $service_settings) {
   }
   
   return $xml;
+}
+
+/*
+ * Returns an array of all Kultunaut category terms
+ */
+function place2book_get_kultunaut_categories() {
+  $categories = array();
+  $var_kultunaut = variable_get('ding_place2book_kultunaut_categories', array());
+  
+  if (is_array(json_decode($var_kultunaut['kultunaut_cat_array'], TRUE))) {
+    $categories = json_decode($var_kultunaut['kultunaut_cat_array'], TRUE);
+  }
+  
+  return $categories;
 }
 
 /**
@@ -660,14 +718,16 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                                                 entry_price,
                                                 capacity,
                                                 kultunaut_export, 
-                                                passive)
+                                                passive,
+                                                kultunaut_category)
                        								 VALUES ( :nid, 
                        								 					:place2book_id, 
                        													:maintain_copy,
                        													:entry_price, 
                        													:capacity, 
                        													:kultunaut_export, 
-                       													:passive)', 
+                       													:passive,
+                       													:kultunaut_category)', 
                                           array(
                                           			':nid' => $node->nid, 
                                           			':place2book_id' => $place2book_id,
@@ -675,7 +735,8 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                       													':capacity' => $node->capacity,
                                                 ':entry_price' => $node->entry_price,
                       													':kultunaut_export' => $node->place2book['kultunaut_export'], 
-                      													':passive' => $node->place2book['passive']
+                      													':passive' => $node->place2book['passive'],
+                                                ':kultunaut_category' => $node->kultunaut_category,
                                                 )
       );
       break;
@@ -687,7 +748,8 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                     capacity = :capacity,
                     entry_price = :entry_price,
                  		kultunaut_export = :kultunaut_export,
-                    passive = :passive
+                    passive = :passive,
+                    kultunaut_category = :kultunaut_category
                 WHERE nid = :nid', 
                 array(
                       ':place2book_id' => $place2book_id,
@@ -696,6 +758,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                       ':entry_price' => $node->entry_price,
                       ':kultunaut_export' => $node->place2book['kultunaut_export'], 
                       ':passive' => $node->place2book['passive'],
+                      ':kultunaut_category' => $node->kultunaut_category,
                       ':nid' => $node->nid, 
                      )
       );

@@ -61,6 +61,11 @@ function ding_place2book_schema() {
           'not null' => TRUE,
           'default' => 0,
         ),
+        'kultunaut_category' => array(
+          'description' => 'Category used when Place2book forwards event to Kultunaut',
+          'type' => 'varchar',
+          'length' => 128,
+        ),
       ),
       'primary key' => array('nid'),
     ),
