@@ -22,20 +22,4 @@ function ding_place2book_ticketsinfo_content_type_render($subtype, $conf, $panel
   $block->content = render_place2book_ticketsinfo($context->data);
   
   return $block;
-}
-
-/**
- * Implements hook_content_type_edit_form().
- */
-function ding_place2book_ticketsinfo_content_type_edit_form($form, &$form_state) {
-  //Reference 
-  
-  return $form;
 } 
-
-/**
- * Implements hook_content_type_edit_form_submit().
- */
-function ding_place2book_ticketsinfo_content_type_edit_form_submit(&$form, &$form_state) {
-  //Reference
-}
