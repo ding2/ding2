@@ -1,6 +1,6 @@
 NOTES for CONVERTING to ding2/drupal7
 -------------------------------------
-- Translate the module again
+- Translate the module again (install potx first to ease this)
 - Core Review the module again
 
 

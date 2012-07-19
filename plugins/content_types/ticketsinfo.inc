@@ -1,4 +1,9 @@
 <?php
+/*
+ * @file
+ * A panel pane for showing place2book tickets info.
+ */
+
 /**
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
