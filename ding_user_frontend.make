@@ -16,7 +16,7 @@ projects[i18n][subdir] = contrib
 projects[i18n][version] = 1.3
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.0-alpha3"
+projects[panels][version] = "3.2"
 
 projects[securepages][subdir] = "contrib"
 projects[securepages][version] = "1.x-dev"
