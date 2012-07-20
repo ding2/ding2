@@ -42,7 +42,7 @@ projects[media][version] = 1.0-rc3
 
 projects[panels][type] = module
 projects[panels][subdir] = contrib
-projects[panels][version] = 3.0-alpha3
+projects[panels][version] = 3.2
 
 projects[rules][type] = module
 projects[rules][subdir] = contrib
