@@ -22,7 +22,7 @@ projects[menu_breadcrumb][subdir] = contrib
 projects[menu_breadcrumb][version] = 1.3
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.0-alpha3"
+projects[panels][version] = "3.2"
 
 projects[panels_breadcrumbs][subdir] = contrib
 projects[panels_breadcrumbs][version] = 1.4
