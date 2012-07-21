@@ -81,27 +81,11 @@ Some libraries have events they do not wish to connect to Place2Book because the
 
 ### Kultunaut
 
-The module can be used solely for transmitting event data to Kultunaut. At the settings for an event, set Maintain copy, Kultunaut Export AND Passive Event. The event will not have ticket sale on Place2Book nor a booking link on the ding site, but information will be sent to Kultunaut.
+In effect, Place2Book keeps event information and relays it to Kultunaut. An image is sent to Kultunaut for the event. The list image on the event node is reused for this. The ding2-specific taxonomy *Category* is reused for Kultunauts *Age Group*. For Kultunauts *Category*, a new field has been added to the Ding Event insert/update form. 
 
-In effect, Place2Book keeps event information and relays it to Kultunaut. An image is sent to Kultunaut for the event. The list image on the event node is reused for this. The ding-specific taxonomies *Event Target* and *Event Category* is reused for Kultunauts *Age Group* and *Category*, respectively. 
+In most cases, Kultunauts values for *Age Group* (Alle, Børn, Unge, Voksne og Ældre) will not be the same at the terms set up by a library in its taxonomy *Category*. *Category* is therefore mapped to the correct kultunaut categories - the settings for this is found at Configuration -> Ding -> Place2book settings -> Kultunaut (admin/config/ding/place2book/kultunaut). Be sure to apply your mappings here where applicable.    
 
-In most cases, Kultunauts values for *Age Group* (Alle, Børn, Unge, Voksne og Ældre) will not be the same at the terms set up by a library in its taxonomy *Event Target*. Neither will most libraries choose to set up its *Event Category* with the same set of categories used by Kultunaut (Kultunauts categories can be seen at [http://www.kultunaut.dk/perl/export/nautgenrerxml](http://www.kultunaut.dk/perl/export/nautgenrerxml)). For a later version of ding_place2book it has been planned to make it possible to configure a mapping between ding taxonomies and kultunaut categories.    
-
-
-### Installing on a ding site already using Place2Book
-
-In Vejle, we had already started using Place2Book when activating the module, and had the need to connect all our existing events to the events created at Place2book. Our events had manually inserted Place2Book-links from where the IDs could be extracted. The following SQL-statement was used to create a working ding_place2book table: 
-
-    SELECT r.nid, 
-           substring(
-             r.body, (LOCATE('place2book.com/event/', r.body)+21), (LOCATE('">Bestil billet', r.body) - (LOCATE('place2book.com/event/', r.body)) -21)) AS place2book_id, 
-           1 AS maintain_copy, 
-           0 AS kultunaut_export 
-    FROM {node} n 
-    JOIN {node_revisions} r ON n.nid=r.nid 
-    WHERE n.type = 'event' AND r.body LIKE '%place2book.com/event/%';
-
-However, we still had to manually correct the capacity on all events that did not have unlimited capacity - or ding_place2book would have overwritten the values at the Place2Book events upon any updates made on ding events.
+The module can be used solely for transmitting event data to Kultunaut (in effect only using the Place2book service for relaying data). At the settings for an event, set Maintain copy, Kultunaut Export AND Passive Event. The event will not have ticket sale on Place2Book nor a booking link on the ding site, but information will be sent to Kultunaut.
 
 
 Version information
