@@ -69,11 +69,7 @@ function ding_place2book_enable() {
       }
     }
     $ding_event_display = panels_save_display($ding_event_display);
-    drupal_set_message(t('The ding_place2book module has inserted an extra field on' 
-      . ' Events (for the order button/info). For the button/info to display properly,' 
-      . ' the content area on Events cannot be cached. Therefore, caching has been turned' 
-      . ' off for the content area of Events. For more information and more options'
-      . ' for displaying the order button/info-area, please see README for this module.'));
+    drupal_set_message(t('The ding_place2book module has inserted an extra field on Events (for the order button/info). For the button/info to display properly, the content area on Events cannot be cached. Therefore, caching has been turned off for the content area of Events. For more information and more options for displaying the order button/info-area, please see README for this module.'));
   }
 }
 
