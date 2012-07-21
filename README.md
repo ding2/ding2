@@ -14,8 +14,6 @@ Installation
 2. Login to the respective Place2Book account(s) and copy API-key(s) from the page [https://www.place2book.com/da/event_makers#tab4](https://www.place2book.com/da/event_makers#tab4).
 3. Configure the ding_place2book module at Administration > Site Configuration > Ding! > Place2book settings.
 
-Se also the last section, *Usage and Tips* > *Installing on a ding site already using Place2Book*.
-
 
 Configuration of the module
 ---------------------------
