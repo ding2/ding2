@@ -295,8 +295,16 @@ function ding_user_user_logout($account) {
  * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
-  if (!empty($account->data) && isset($account->data['display_name'])) {
-    $name = $account->data['display_name'];
+  // Check if we have correct data loaded from DB
+  if (is_string($account->data)) {
+    $data = unserialize($account->data);
+  }
+  else {
+    $data = $account->data;
+  }
+
+  if (!empty($data) && isset($data['display_name'])) {
+    $name = $data['display_name'];
   }
 }
 
