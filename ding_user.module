@@ -295,8 +295,16 @@ function ding_user_user_logout($account) {
  * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
-  if (!empty($account->data) && isset($account->data['display_name'])) {
-    $name = $account->data['display_name'];
+  // Check if we have correct data loaded from DB
+  if (is_string($account->data)) {
+    $data = unserialize($account->data);
+  }
+  else {
+    $data = $account->data;
+  }
+
+  if (!empty($data) && isset($data['display_name'])) {
+    $name = $data['display_name'];
   }
 }
 
@@ -549,14 +557,13 @@ function ding_user_get_creds($account = NULL) {
     }
   }
 
-  if (module_exists('persistent_login') && $creds = persistent_login_get_creds($account->uid)) {
-    return $creds;
-  }
-
   $roles = array_values($GLOBALS['user']->roles);
-
   // Log out user who are authenticated but has no other roles (i.e. ding user)
   if (user_is_logged_in() && sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
+    // unless we're using persistent login, and they have a persistent login cookie.
+    if (module_exists('ding_persistent_login') && $creds = ding_persistent_login_get_creds($account->uid)) {
+      return $creds;
+    }
     watchdog('user', 'Session timeout for %name.', array('%name' => $account->name));
     user_module_invoke('logout', $account, 'user');
     session_destroy();
@@ -597,6 +604,10 @@ function ding_user_update_user($auth_res, &$account) {
 function ding_user_save_creds($auth_res, $account) {
   if (isset($auth_res['creds'])) {
     cache_set(session_name() . '-' . $account->uid, $auth_res['creds'], 'cache_ding_user_credentials', REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME));
+  }
+  // also update persistent login, if installed.
+  if (module_exists('ding_persistent_login')) {
+    ding_persistent_login_save_creds($account->uid,$auth_res['creds']);
   }
 }
 
