@@ -19,6 +19,34 @@ function ting_search_carousel_admin_page() {
 }
 
 /**
+ * Admin settings form for frontend display of carousel.
+ */
+function ting_search_carousel_settings_admin_form($form, &$form_state) {
+  $form = array();
+
+  $form['ting_search_carousel_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Frontend settings'),
+  );
+  
+  $form['ting_search_carousel_settings']['ting_search_carousel_tabs_position'] = array(
+    '#title' => t('Position of navigational tabs'),
+    '#type' => 'select',
+    '#options' => array(
+      'top' => t("Top"),
+      'bottom' => t("Bottom"),
+      'left' => t("Left"),
+      'right' => t("Right"),
+    ),
+    '#default_value' => variable_get('ting_search_carousel_tabs_position', 'top'),
+    '#required' => TRUE,
+    '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
  * Search queries admin form.
  *
  * @param $form
@@ -34,7 +62,7 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   $clicked_btn = '';
   $remove_btn = '';
   $hidden = variable_get('ting_carousel_search_queries_hidden', array());
-
+  
   if (isset($form_state['clicked_button'])) {
     $clicked_btn = $form_state['clicked_button']['#name'];
 

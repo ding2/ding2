@@ -19,8 +19,9 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
   $block = new stdClass();
 
   $searches = variable_get('ting_carousel_search_queries', array());
+  $tab_position = variable_get('ting_search_carousel_tabs_position');
 
-  $block->content = theme('ting_search_carousel', array('searches' => $searches));
+  $block->content = theme('ting_search_carousel', array('searches' => $searches, 'tab_position' => $tab_position));
   return $block;
 }
 

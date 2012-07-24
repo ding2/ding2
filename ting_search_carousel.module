@@ -10,23 +10,39 @@
 function ting_search_carousel_menu() {
   $items = array();
 
-  $items['admin/config/ting/ting_search_carousel'] = array(
-    'title' => 'Ting search carousel',
-    'description' => 'Manage frontpage carousel',
-    'page callback' => 'ting_search_carousel_admin_page',
-    'page arguments' => array(),
-    'access arguments' => array('access administration pages'),
-    'file' => 'ting_search_carousel.admin.inc',
-    'weight' => 30,
-    'position' => 'left',
-  );
-
   $items['ting_search_carousel/results/ajax'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
     'access arguments' => array('access content'),
     'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
+  );
+  
+  $items['admin/config/ting/ting_search_carousel'] = array(
+    'title' => 'Ting search carousel',
+    'description' => 'Manage content for frontpage carousel.',
+  	'page callback' => 'ting_search_carousel_admin_page',
+    'page arguments' => array(),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ting_search_carousel.admin.inc',
+  );
+
+  $items['admin/config/ting/ting_search_carousel/settings'] = array(
+    'title' => 'Content',
+    'description' => 'Manage content for frontpage carousel.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );  
+  
+  $items['admin/config/ting/ting_search_carousel/frontend_settings'] = array(
+    'title' => 'Frontend settings',
+    'description' => 'Manage settings for the display of frontpage carousel',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_carousel_settings_admin_form'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ting_search_carousel.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 0,
   );
 
   return $items;
@@ -39,7 +55,7 @@ function ting_search_carousel_block_info() {
   $blocks = array();
 
   $blocks['ting_search_carousel'] = array(
-    'info' => 'Ting search carousel'
+    'info' => 'Ting search carousel, block'
   );
 
   return $blocks;
@@ -54,7 +70,8 @@ function ting_search_carousel_block_view($delta) {
   switch ($delta) {
     case 'ting_search_carousel':
       $searches = variable_get('ting_carousel_search_queries', array());
-      $block['content'] = theme('ting_search_carousel', array('searches' => $searches));
+      $tab_position = variable_get('ting_search_carousel_tabs_position');
+      $block['content'] = theme('ting_search_carousel', array('searches' => $searches, 'tab_position' => $tab_position));
       break;
   }
 
@@ -67,7 +84,10 @@ function ting_search_carousel_block_view($delta) {
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   $hooks = array();
   $hooks['ting_search_carousel'] = array(
-    'variables' => array('searches' => NULL),
+    'variables' => array(
+      'searches' => NULL,
+      'tab_position' => NULL,
+    ),
     'template' => 'ting_search_carousel'
   );
 
