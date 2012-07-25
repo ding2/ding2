@@ -1,5 +1,5 @@
 /*
- * jquery.rs.carousel.js v0.8.1
+ * jquery.rs.carousel.js v0.8.6
  *
  * Copyright (c) 2011 Richard Scarrott
  * http://www.richardscarrott.co.uk
@@ -34,31 +34,35 @@
             itemsPerPage: 'auto',
             itemsPerTransition: 'auto',
             orientation: 'horizontal',
-            pagination: true,
-            insertPagination: null,
+            loop: false,
             nextPrevActions: true,
-            insertNextAction: null,
-            insertPrevAction: null,
+            insertPrevAction: function () {
+                return $('<a href="#" class="rs-carousel-action-prev">Prev</a>').appendTo(this);
+            },
+            insertNextAction: function () {
+                return $('<a href="#" class="rs-carousel-action-next">Next</a>').appendTo(this);
+            },
+            pagination: true,
+            insertPagination: function (pagination) {
+                return $(pagination).insertAfter($(this).find('.rs-carousel-mask'));
+            },
             speed: 'normal',
             easing: 'swing',
-            startAt: null,
-            nextText: 'Next',
-            prevText: 'Previous',
-            create_: null, // widget factory uses create, but doesn't provide any useful data...
-            beforeAnimate: null,
-            afterAnimate: null
+
+            // callbacks
+            create: null,
+            before: null,
+            after: null
         },
 
         _create: function () {
 
-            this.page = 0;
+            this.page = 1;
             this._elements();
             this._defineOrientation();
             this._addMask();
             this._addNextPrevActions();
-            // pass in false to avoid re-caching items again
             this.refresh(false);
-            this._trigger('create_', null, this._getData());
 
             return;
         },
@@ -197,29 +201,23 @@
 
             var self = this,
                 elems = this.elements,
-                opts = this.options,
-                baseClass = this.widgetBaseClass;
+                opts = this.options;
                 
             this._removeNextPrevActions();
 
-            elems.prevAction = $('<a href="#" class="' + baseClass + '-action-prev">' + opts.prevText + '</a>')
+            elems.prevAction = opts.insertPrevAction.apply(this.element[0])
                 .bind('click.' + this.widgetName, function (e) {
                     e.preventDefault();
                     self.prev();
-                });;
+                });
 
-            elems.nextAction = $('<a href="#" class="' + baseClass + '-action-next">' + opts.nextText + '</a>')
+            elems.nextAction = opts.insertNextAction.apply(this.element[0])
                 .bind('click.' + this.widgetName, function (e) {
                     e.preventDefault();
                     self.next();
                 });
-
-            $.isFunction(opts.insertPrevAction) ?
-                opts.insertPrevAction.apply(elems.prevAction[0]) : elems.prevAction.appendTo(this.element);
-
-            $.isFunction(opts.insertNextAction) ?
-                opts.insertNextAction.apply(elems.nextAction[0]) : elems.nextAction.appendTo(this.element);
-
+            
+            return;
         },
 
         _removeNextPrevActions: function () {
@@ -250,8 +248,9 @@
                 elems = this.elements,
                 opts = this.options,
                 baseClass = this.widgetBaseClass,
+                pagination = $('<ol class="' + baseClass + '-pagination" />'),
                 links = [],
-                noOfPages = this._getNoOfPages(),
+                noOfPages = this.getNoOfPages(),
                 i;
                 
             this._removePagination();
@@ -260,17 +259,14 @@
                 links[i] = '<li class="' + baseClass + '-pagination-link"><a href="#page-' + i + '">' + i + '</a></li>';
             }
 
-            elems.pagination = $('<ol class="' + baseClass + '-pagination" />')
+            pagination
                 .append(links.join(''))
                 .delegate('a', 'click.' + this.widgetName, function (e) {
                     e.preventDefault();
-
                     self.goToPage(parseInt(this.hash.split('-')[1], 10));
-
                 });
-
-            $.isFunction(opts.insertPagination) ?
-                opts.insertPagination.apply(elems.pagination[0]) : elems.pagination.insertAfter(elems.mask);
+            
+            this.elements.pagination = this.options.insertPagination.call(this.element[0], pagination);
             
             return;
         },
@@ -289,11 +285,12 @@
         _setPages: function () {
 
             var index = 1,
-                page = 0;
+                page = 0,
+                noOfPages = this.getNoOfPages();
                 
             this.pages = [];
             
-            while (page < this._getNoOfPages()) {
+            while (page < noOfPages) {
                 
                 // if index is greater than total number of items just go to last
                 if (index > this.getNoOfItems()) {
@@ -301,22 +298,35 @@
                 }
 
                 this.pages[page] = index;
-                index += this._getItemsPerTransition(); // this._getItemsPerPage(index);
+                index += this.getItemsPerTransition(); // this.getItemsPerPage(index);
                 page++;
             }
 
             return;
         },
 
-        // gets noOfPages
-        _getNoOfPages: function () {
-
-            return Math.ceil((this.getNoOfItems() - this._getItemsPerPage()) / this._getItemsPerTransition()) + 1;
+        getPages: function () {
+            
+            return this.pages;
 
         },
 
-        // gets options.itemsPerPage. If set to not number it's calculated based on maskdim
-        _getItemsPerPage: function () {
+        // returns noOfPages
+        getNoOfPages: function () {
+
+            var itemsPerTransition = this.getItemsPerTransition();
+
+            // #18 - ensure we don't return Infinity
+            if (itemsPerTransition <= 0) {
+                return 0;
+            }
+
+            return Math.ceil((this.getNoOfItems() - this.getItemsPerPage()) / itemsPerTransition) + 1;
+
+        },
+
+        // returns options.itemsPerPage. If not a number it's calculated based on maskdim
+        getItemsPerPage: function () {
 
             // if itemsPerPage of type number don't dynamically calculate
             if (typeof this.options.itemsPerPage === 'number') {
@@ -327,13 +337,13 @@
 
         },
 
-        _getItemsPerTransition: function () {
+        getItemsPerTransition: function () {
 
             if (typeof this.options.itemsPerTransition === 'number') {
                 return this.options.itemsPerTransition;
             }
 
-            return this._getItemsPerPage();
+            return this.getItemsPerPage();
             
         },
 
@@ -344,15 +354,27 @@
         },
 
         next: function (animate) {
+
+            var page = this.page + 1;
+
+            if (this.options.loop && page > this.getNoOfPages()) {
+                page = 1;
+            }
             
-            this.goToPage(this.page + 1, animate);
+            this.goToPage(page, animate);
 
             return;
         },
 
         prev: function (animate) {
+
+            var page = this.page - 1;
+
+            if (this.options.loop && page < 1) {
+                page = this.getNoOfPages();
+            }
             
-            this.goToPage(this.page - 1, animate);
+            this.goToPage(page, animate);
 
             return;
         },
@@ -361,7 +383,7 @@
         goToPage: function (page, animate) {
 
             if (!this.options.disabled && this._isValid(page)) {
-                this.oldPage = this.page;
+                this.prevPage = this.page;
                 this.page = page;
                 this._go(animate);
             }
@@ -372,7 +394,7 @@
         // returns true if page index is valid, false if not
         _isValid: function (page) {
             
-            if (page <= this._getNoOfPages() && page >= 1) {
+            if (page <= this.getNoOfPages() && page >= 1) {
                 return true;
             }
             
@@ -385,24 +407,11 @@
             if (page < 1) {
                 page = 1;
             }
-            else if (page > this._getNoOfPages()) {
-                page = this._getNoOfPages();
+            else if (page > this.getNoOfPages()) {
+                page = this.getNoOfPages();
             }
 
             return page;
-        },
-
-        // returns obj with useful data to be passed into callback events
-        _getData: function () {
-        
-            return {
-                page: this.page,
-                oldPage: this.oldPage,
-                noOfItems: this.getNoOfItems(),
-                noOfPages: this._getNoOfPages(),
-                elements: this.elements
-            };
-            
         },
 
         // abstract _slide to easily override within extensions
@@ -414,14 +423,12 @@
         },
 
         _slide: function (animate) {
-        
-            this._trigger('beforeAnimate', null, this._getData());
 
             var self = this,
-                speed = animate === false ? 0 : this.options.speed, // default to animate
+                animate = animate === false ? false : true, // undefined should pass as true
+                speed = animate ? this.options.speed : 0,
                 animateProps = {},
                 lastPos = this._getAbsoluteLastPos(),
-                
                 pos = this.elements.items
                     .eq(this.pages[this.page - 1] - 1) // arrays and .eq() are zero based, carousel is 1 based
                         .position()[this.helperStr.pos];
@@ -431,12 +438,22 @@
                 pos = lastPos;
             }
 
+            // might be nice to put animate on event object:
+            // $.Event('slide', { animate: animate }) - would require jQuery 1.6+
+            this._trigger('before', null, {
+                elements: this.elements,
+                animate: animate
+            });
+
             animateProps[this.helperStr.pos] = -pos;
             this.elements.runner
                 .stop()
                 .animate(animateProps, speed, this.options.easing, function () {
-
-                    self._trigger('afterAnimate', null, self._getData());
+                    
+                    self._trigger('after', null, {
+                        elements: self.elements,
+                        animate: animate
+                    });
 
                 });
                 
@@ -492,19 +509,23 @@
             elems.nextAction
                 .add(elems.prevAction)
                     .removeClass(disabledClass);
+
+            if (!this.options.loop) {
                 
-            if (page === this._getNoOfPages()) {
-                elems.nextAction.addClass(disabledClass);
-            }
-            else if (page === 1) {
-                elems.prevAction.addClass(disabledClass);
+                if (page === this.getNoOfPages()) {
+                    elems.nextAction.addClass(disabledClass);
+                }
+                else if (page === 1) {
+                    elems.prevAction.addClass(disabledClass);
+                }
+
             }
 
             return;
         },
 
         // formalise appending items as continuous adding complexity by inserting
-        //  cloned items
+        // cloned items
         add: function (items) {
 
             this.elements.runner.append(items);
@@ -573,6 +594,12 @@
                 }
 
                 break;
+
+            case 'loop':
+
+                this._updateUi();
+
+                break;
             }
 
             if ($.inArray(option, requiresRefresh) !== -1) {
@@ -585,7 +612,7 @@
         // if no of items is less than items per page we disable carousel
         _checkDisabled: function () {
             
-            if (this.getNoOfItems() <= this._getItemsPerPage()) {
+            if (this.getNoOfItems() <= this.getItemsPerPage()) {
                 this.elements.runner.css(this.helperStr.pos, '');
                 this.disable();
             }
@@ -601,7 +628,7 @@
 
             // assume true (undefined should pass condition)
             if (recache !== false) {
-                this.recacheItems();
+                this._recacheItems();
             }
 
             this._addClasses();
@@ -618,7 +645,7 @@
         // re-cache items in case new items have been added,
         // moved to own method so continuous can easily override
         // to avoid clones
-        recacheItems: function () {
+        _recacheItems: function () {
 
             this.elements.items = this.elements.runner
                 .children('.' + this.widgetBaseClass + '-item');
@@ -651,10 +678,37 @@
             _super.destroy.apply(this, arguments);
 
             return;
+        },
+
+        getPage: function () {
+            
+            return this.page;
+
+        },
+
+        getPrevPage: function () {
+            
+            return this.prevPage;
+
+        },
+
+        // item can be $obj, element or 1 based index
+        goToItem: function (index, animate) {
+
+            // assume element or jQuery obj
+            if (typeof index !== 'number') {
+                index = this.elements.items.index(index) + 1;
+            }
+
+            if (index <= this.getNoOfItems()) {
+                this.goToPage(Math.ceil(index / this.getItemsPerTransition()), animate);
+            }
+
+            return;
         }
 
     });
     
-    $.rs.carousel.version = '0.8.1';
+    $.rs.carousel.version = '0.8.6';
 
 })(jQuery);

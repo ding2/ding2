@@ -8,12 +8,7 @@
  * - $searches: Array with each tab search.
  * 
  */
-$path = drupal_get_path('module', 'ting_search_carousel');
 
-drupal_add_library('system', 'ui.widget');
-drupal_add_js($path . '/js/jquery.rs.carousel.js');
-drupal_add_js($path . '/js/ting_search_carousel.js');
-drupal_add_css($path . '/css/ting_search_carousel.css');
 ?>
 <div class="ting-search-carousel">
   <?php if ($tab_position != 'bottom') : ?>
@@ -31,9 +26,7 @@ drupal_add_css($path . '/css/ting_search_carousel.css');
       <div class="ting-rs-carousel">
         <div class="rs-carousel-mask">
           <ul class="rs-carousel-runner">
-            <li style="list-style:none;padding-top:5em;">
-              <img src="<?php echo $path;?>/images/ajax-loader.gif" />
-            </li>
+            <li class="ajax-loader"></li>
           </ul>
         </div>
       </div>

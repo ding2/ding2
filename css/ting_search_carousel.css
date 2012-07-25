@@ -84,6 +84,11 @@
   position: absolute;
   width: 580px;
 }
+.ting-search-carousel .ajax-loader {
+  background-image: url('../images/ajax-loader.gif');
+  list-style: none;
+  padding-top: 5px;
+}
 
 .ting-search-carousel .rs-carousel .rs-carousel-item img {
   max-width: 112px;

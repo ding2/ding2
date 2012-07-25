@@ -5,6 +5,13 @@
  */
 
 /**
+ * Implements hook_init().
+ */
+function ting_search_carousel_init() {
+  theme('ting_search_carousel_javascript');
+}
+
+/**
  * Implements hook_menu().
  */
 function ting_search_carousel_menu() {
@@ -83,6 +90,9 @@ function ting_search_carousel_block_view($delta) {
  */
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   $hooks = array();
+  
+  $hooks['ting_search_carousel_javascript'] = array();
+  
   $hooks['ting_search_carousel'] = array(
     'variables' => array(
       'searches' => NULL,
@@ -245,5 +255,18 @@ function ting_search_carousel_image_default_styles() {
   );
 
   return $styles;
+}
+
+/**
+ * Theme function that just makes sure our JavaScript file
+ * gets included.
+ */
+function theme_ting_search_carousel_javascript() {
+  $path = drupal_get_path('module', 'ting_search_carousel');
+
+  drupal_add_library('system', 'ui.widget');
+  drupal_add_js($path . '/js/jquery.rs.carousel.js');
+  drupal_add_js($path . '/js/ting_search_carousel.js');
+  drupal_add_css($path . '/css/ting_search_carousel.css');
 }
 
