@@ -70,11 +70,11 @@ function ding_entity_field_formatter_view($entity_type, $entity, $field, $instan
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ding_entity_buttons_default':
-	$element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity);
-	break;
+        $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity);
+        break;
       case 'ding_entity_buttons_ajax':
-	$element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity, 'ajax');
-	break;
+        $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity, 'ajax');
+        break;
     }    
   }
 
