@@ -216,7 +216,7 @@ function ding_tabroll_content_default_fields() {
       'url_cutoff' => '80',
     ),
     'url' => 0,
-    'title' => 'optional',
+    'title' => 'none',
     'title_value' => '',
     'enable_tokens' => 0,
     'validate_url' => 1,
