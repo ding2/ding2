@@ -9,7 +9,7 @@ projects[nodequeue][patch][] = http://drupal.org/files/2012-04-25-nodequeue-6.x-
 projects[smartqueue_nodetypes][subdir] = "contrib"
 projects[smartqueue_nodetypes][version] = "1.2-beta2"
 ; Patch to automatically update subqueues when creating, updating or deleting library nodes
-projects[smartqueue_nodetypes][patch][] = http://drupal.org/files/smartqueue_subqueues_nodeapi-1116406-3.patch
+projects[smartqueue_nodetypes][patch][] = http://drupal.org/files/smartqueue_subqueues_nodeapi-1116406-4.patch
 
 projects[nodequeue_export][type] = "module"
 projects[nodequeue_export][download][type] = "git"
