@@ -17,7 +17,7 @@ function ding_event_views_default_views() {
   $view->base_table = 'node';
   $view->human_name = 'Ding event';
   $view->core = 7;
-  $view->api_version = '3.0-alpha1';
+  $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
@@ -102,7 +102,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_list_image']['id'] = 'field_list_image';
   $handler->display->display_options['fields']['field_list_image']['table'] = 'field_data_field_list_image';
   $handler->display->display_options['fields']['field_list_image']['field'] = 'field_list_image';
-  /* Sort criterion: Content: Date and time (field_event_date) */
+  /* Sort criterion: Content: Date and time -  start date (field_event_date) */
   $handler->display->display_options['sorts']['field_event_date_value']['id'] = 'field_event_date_value';
   $handler->display->display_options['sorts']['field_event_date_value']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['sorts']['field_event_date_value']['field'] = 'field_event_date_value';

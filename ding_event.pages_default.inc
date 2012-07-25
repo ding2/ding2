@@ -10,7 +10,7 @@
 function ding_event_default_page_manager_handlers() {
   $export = array();
 
-  $handler = new stdClass;
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'node_view_panel_context_2';
@@ -92,7 +92,7 @@ function ding_event_default_page_manager_handlers() {
     'panels_breadcrumbs_paths' => 'events
 <none>',
   );
-  $display = new panels_display;
+  $display = new panels_display();
   $display->layout = 'threecol_25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
@@ -109,7 +109,7 @@ function ding_event_default_page_manager_handlers() {
   $display->title = '%node:title';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'category_menu';
@@ -134,7 +134,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'node_content';
@@ -169,7 +169,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'right';
     $pane->type = 'campaign';
@@ -203,7 +203,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'block';
@@ -235,7 +235,7 @@ function ding_event_default_page_manager_handlers() {
  * Implements hook_default_page_manager_pages().
  */
 function ding_event_default_page_manager_pages() {
-  $page = new stdClass;
+  $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
   $page->name = 'ding_events';
@@ -289,7 +289,7 @@ function ding_event_default_page_manager_pages() {
     'admin_paths' => FALSE,
   );
   $page->default_handlers = array();
-  $handler = new stdClass;
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'page_ding_events_panel_context';
@@ -313,7 +313,7 @@ Events
 events
 <none>',
   );
-  $display = new panels_display;
+  $display = new panels_display();
   $display->layout = 'threecol_25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
@@ -328,7 +328,7 @@ events
   $display->title = 'Events';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'category_menu';
@@ -353,7 +353,7 @@ events
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'menu_title';
@@ -373,7 +373,7 @@ events
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'library_list';
@@ -398,7 +398,7 @@ events
     $pane->position = 1;
     $display->content['new-3'] = $pane;
     $display->panels['middle'][1] = 'new-3';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -429,7 +429,7 @@ events
     $pane->position = 2;
     $display->content['new-4'] = $pane;
     $display->panels['middle'][2] = 'new-4';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'campaign';
@@ -468,7 +468,7 @@ events
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_events'] = $page;
 
-  $page = new stdClass;
+  $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
   $page->name = 'ding_events_library';
@@ -518,7 +518,7 @@ events
     'admin_paths' => FALSE,
   );
   $page->default_handlers = array();
-  $handler = new stdClass;
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'page_ding_events_library_panel_context';
@@ -573,7 +573,7 @@ node/%node:nid
 node/%node:nid/events
 <none>',
   );
-  $display = new panels_display;
+  $display = new panels_display();
   $display->layout = 'threecol_25_50_25_stacked';
   $display->layout_settings = array();
   $display->panel_settings = array(
@@ -590,7 +590,7 @@ node/%node:nid/events
   $display->title = '';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'category_menu';
@@ -615,7 +615,7 @@ node/%node:nid/events
     $pane->position = 0;
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'menu_title';
@@ -635,7 +635,7 @@ node/%node:nid/events
     $pane->position = 0;
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'middle';
     $pane->type = 'library_list';
@@ -660,7 +660,7 @@ node/%node:nid/events
     $pane->position = 1;
     $display->content['new-3'] = $pane;
     $display->panels['middle'][1] = 'new-3';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
@@ -691,7 +691,7 @@ node/%node:nid/events
     $pane->position = 2;
     $display->content['new-4'] = $pane;
     $display->panels['middle'][2] = 'new-4';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'campaign';
@@ -731,6 +731,6 @@ node/%node:nid/events
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_events_library'] = $page;
 
- return $pages;
+  return $pages;
 
 }

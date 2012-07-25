@@ -121,7 +121,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => '9',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -194,9 +194,15 @@ function ding_event_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '6',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => '1',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -281,7 +287,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '7',
+          'weight' => '8',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -351,12 +357,9 @@ function ding_event_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(
-            'trim_length' => '60',
-          ),
-          'type' => 'text_summary_or_trimmed',
-          'weight' => '2',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '6',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -410,7 +413,7 @@ function ding_event_field_default_fields() {
         'profile2_private' => FALSE,
         'repeat' => 0,
         'timezone_db' => 'UTC',
-        'todate' => '',
+        'todate' => 'optional',
         'tz_handling' => 'site',
       ),
       'translatable' => '0',
@@ -430,9 +433,10 @@ function ding_event_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'above',
+          'module' => 'date',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '5',
+          'type' => 'date_plain',
+          'weight' => '4',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -461,12 +465,86 @@ function ding_event_field_default_fields() {
           'input_format' => 'm/d/Y - H:i:s',
           'input_format_custom' => '',
           'label_position' => 'above',
-          'repeat_collapsed' => 0,
           'text_parts' => array(),
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
         'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_event-field_event_ticket_price'
+  $fields['node-ding_event-field_event_ticket_price'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_event_ticket_price',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'module' => 'number',
+      'settings' => array(
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'number_integer',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => 9,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '3',
+        ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_event_ticket_price',
+      'label' => 'Ticket price',
+      'required' => 0,
+      'settings' => array(
+        'max' => '',
+        'min' => '',
+        'prefix' => '',
+        'suffix' => 'kr.',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 0,
+        'module' => 'number',
+        'settings' => array(),
+        'type' => 'number',
+        'weight' => '31',
       ),
     ),
   );
@@ -534,6 +612,7 @@ function ding_event_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
+        'default_image' => 0,
         'file_directory' => 'list_image/event',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -603,7 +682,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '3',
+          'weight' => '5',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -618,6 +697,7 @@ function ding_event_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
+        'default_image' => 0,
         'file_directory' => 'main_image/event',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -672,7 +752,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '4',
+          'weight' => '7',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -743,7 +823,7 @@ function ding_event_field_default_fields() {
           'module' => 'og',
           'settings' => array(),
           'type' => 'og_list_default',
-          'weight' => '1',
+          'weight' => '2',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -784,6 +864,7 @@ function ding_event_field_default_fields() {
   t('Main image');
   t('Materials');
   t('Tags');
+  t('Ticket price');
 
   return $fields;
 }
