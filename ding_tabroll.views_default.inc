@@ -17,6 +17,21 @@ function ding_tabroll_views_default_views() {
   $view->api_version = 2;
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
   $handler = $view->new_display('default', 'Standarder', 'default');
+  $handler->override_option('relationships', array(
+    'nodequeue_rel_queue_name' => array(
+      'label' => 'Queue',
+      'required' => 0,
+      'limit' => 0,
+      'names' => array(
+        'ding_tabroll_library_frontpage_queue' => 0,
+        'ding_tabroll_frontpage_queue' => 0,
+      ),
+      'id' => 'nodequeue_rel_queue_name',
+      'table' => 'node',
+      'field' => 'nodequeue_rel_queue_name',
+      'relationship' => 'none',
+    ),
+  ));
   $handler->override_option('fields', array(
     'title' => array(
       'label' => '',
@@ -202,32 +217,84 @@ function ding_tabroll_views_default_views() {
     ),
   ));
   $handler->override_option('sorts', array(
-    'changed' => array(
-      'order' => 'DESC',
-      'granularity' => 'second',
-      'id' => 'changed',
-      'table' => 'node',
-      'field' => 'changed',
-      'relationship' => 'none',
+    'position' => array(
+      'order' => 'ASC',
+      'id' => 'position',
+      'table' => 'nodequeue_nodes',
+      'field' => 'position',
+      'relationship' => 'nodequeue_rel_queue_name',
+    ),
+  ));
+  $handler->override_option('arguments', array(
+    'title' => array(
+      'default_action' => 'default',
+      'style_plugin' => 'default_summary',
+      'style_options' => array(),
+      'wildcard' => 'all',
+      'wildcard_substitution' => 'Alle',
+      'title' => 'Queue',
+      'breadcrumb' => '',
+      'default_argument_type' => 'fixed',
+      'default_argument' => '',
+      'validate_type' => 'none',
+      'validate_fail' => 'not found',
+      'glossary' => 0,
+      'limit' => '0',
+      'case' => 'none',
+      'path_case' => 'none',
+      'transform_dash' => 0,
+      'id' => 'title',
+      'table' => 'nodequeue_subqueue',
+      'field' => 'title',
+      'relationship' => 'nodequeue_rel_queue_name',
+      'validate_user_argument_type' => 'uid',
+      'validate_user_roles' => array(
+        '2' => 0,
+        '8' => 0,
+        '4' => 0,
+        '7' => 0,
+        '5' => 0,
+        '6' => 0,
+      ),
+      'default_options_div_prefix' => '',
+      'default_argument_fixed' => 'Frontpage tabroll',
+      'default_argument_user' => 0,
+      'default_argument_php' => '',
+      'validate_argument_node_type' => array(
+        'article' => 0,
+        'event' => 0,
+        'feature' => 0,
+        'flexifield_link' => 0,
+        'flexifield_text' => 0,
+        'flexifield_ting_refs' => 0,
+        'profile' => 0,
+        'topic' => 0,
+        'library' => 0,
+        'page' => 0,
+        'campaign' => 0,
+        'eresource' => 0,
+        'faq_question' => 0,
+        'rolltab' => 0,
+        'webform' => 0,
+      ),
+      'validate_argument_node_access' => 0,
+      'validate_argument_nid_type' => 'nid',
+      'validate_argument_vocabulary' => array(
+        '4' => 0,
+        '5' => 0,
+        '13' => 0,
+        '12' => 0,
+        '14' => 0,
+        '1' => 0,
+        '2' => 0,
+      ),
+      'validate_argument_type' => 'tid',
+      'validate_argument_transform' => 0,
+      'validate_user_restrict_roles' => 0,
+      'validate_argument_php' => '',
     ),
   ));
   $handler->override_option('filters', array(
-    'type' => array(
-      'operator' => 'in',
-      'value' => array(
-        'rolltab' => 'rolltab',
-      ),
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'id' => 'type',
-      'table' => 'node',
-      'field' => 'type',
-      'relationship' => 'none',
-    ),
     'status' => array(
       'operator' => '=',
       'value' => '1',
@@ -247,7 +314,7 @@ function ding_tabroll_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('cache', array(
-    'type' => 'none',
+    'type' => 'rules',
   ));
   $handler->override_option('items_per_page', 5);
   $handler = $view->new_display('panel_pane', 'Tabroll pane', 'panel_pane_1');
@@ -258,17 +325,26 @@ function ding_tabroll_views_default_views() {
     'weight' => 0,
   ));
   $handler->override_option('allow', array(
-    'use_pager' => FALSE,
-    'items_per_page' => FALSE,
-    'offset' => FALSE,
-    'link_to_view' => FALSE,
-    'more_link' => FALSE,
-    'path_override' => FALSE,
-    'title_override' => FALSE,
-    'exposed_form' => FALSE,
-    'fields_override' => FALSE,
+    'use_pager' => 0,
+    'items_per_page' => 0,
+    'offset' => 0,
+    'link_to_view' => 0,
+    'more_link' => 0,
+    'path_override' => 0,
+    'title_override' => 'title_override',
+    'exposed_form' => 0,
+    'fields_override' => 0,
   ));
-  $handler->override_option('argument_input', array());
+  $handler->override_option('argument_input', array(
+    'title' => array(
+      'type' => 'context',
+      'context' => 'node.title',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Queue title',
+    ),
+  ));
   $handler->override_option('link_to_view', 0);
   $handler->override_option('inherit_panels_path', 0);
   $handler = $view->new_display('block', 'Tabroll Block', 'block_1');
