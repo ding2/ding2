@@ -4,7 +4,7 @@ core = 6.x
 projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.11"
 ; Patch required to add events for nodequeue saving which can then clear views caches.
-projects[nodequeue][patch][] = "http://drupal.org/files/nodequeue-rules-integration.patch"
+projects[nodequeue][patch][] = http://drupal.org/files/2012-04-25-nodequeue-6.x-2.11-rules-integration.patch
 
 projects[smartqueue_nodetypes][subdir] = "contrib"
 projects[smartqueue_nodetypes][version] = "1.2-beta2"
