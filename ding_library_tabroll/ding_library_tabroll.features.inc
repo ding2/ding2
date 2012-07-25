@@ -45,75 +45,46 @@ function ding_library_tabroll_nodequeue_export_features_default_settings() {
 function ding_library_tabroll_rules_defaults() {
   return array(
     'rules' => array(
-      'rules_library_tabroll_node_added' => array(
+      'rules_ding_library_tabroll_nodequeue_updated' => array(
         '#type' => 'rule',
-        '#set' => 'event_nodequeue_added_ding_tabroll_library_frontpage_queue',
-        '#label' => 'library_tabroll_node_added',
+        '#set' => 'event_nodequeue_saved',
+        '#label' => 'Ding! tabroll Library nodequeue updated',
         '#active' => 1,
         '#weight' => '0',
         '#categories' => array(
           '0' => 'ding_library_tabroll',
         ),
         '#status' => 'default',
-        '#conditions' => array(),
-        '#actions' => array(
+        '#conditions' => array(
           '0' => array(
-            '#weight' => 0,
-            '#type' => 'action',
-            '#settings' => array(
-              'view' => 'tabroll',
-              '#eval input' => array(
-                'token_rules_input_evaluator' => array(
-                  'view' => array(
-                    '0' => ':global',
-                  ),
-                ),
-              ),
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
             '#info' => array(
-              'label' => 'Clear the tabroll view cache',
+              'label' => 'Queue is frontpage tabroll',
               'label callback' => FALSE,
+              'module' => 'Nodequeue',
               'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'Vis',
-                  'description' => 'Specify the view you want to clear.',
+                'nodequeue' => array(
+                  'type' => 'nodequeue',
+                  'label' => 'Nodekø',
                 ),
               ),
-              'module' => 'Cache Actions',
             ),
+            '#name' => 'nodequeue_rules_condition_belongs_to_nodequeue',
+            '#settings' => array(
+              'queues' => array(
+                '3' => '3',
+              ),
+              '#argument map' => array(
+                'nodequeue' => 'nodequeue',
+              ),
+            ),
+            '#type' => 'condition',
+            '#weight' => 0,
           ),
         ),
-        '#version' => 6003,
-      ),
-      'rules_library_tabroll_node_removed' => array(
-        '#type' => 'rule',
-        '#set' => 'event_nodequeue_removed_ding_tabroll_library_frontpage_queue',
-        '#label' => 'library_tabroll_node_removed',
-        '#active' => 1,
-        '#weight' => '0',
-        '#categories' => array(
-          '0' => 'ding_library_tabroll',
-        ),
-        '#status' => 'default',
-        '#conditions' => array(),
         '#actions' => array(
           '0' => array(
             '#weight' => 0,
-            '#info' => array(
-              'label' => 'Clear the tabroll view cache',
-              'label callback' => FALSE,
-              'arguments' => array(
-                'view' => array(
-                  'type' => 'string',
-                  'label' => 'Vis',
-                  'description' => 'Specify the view you want to clear.',
-                ),
-              ),
-              'module' => 'Cache Actions',
-            ),
-            '#name' => 'cache_actions_action_clear_views_cache',
+            '#type' => 'action',
             '#settings' => array(
               'view' => 'tabroll',
               '#eval input' => array(
@@ -124,7 +95,18 @@ function ding_library_tabroll_rules_defaults() {
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'cache_actions_action_clear_views_cache',
+            '#info' => array(
+              'label' => 'Clear the cache of a specific view.',
+              'arguments' => array(
+                'view' => array(
+                  'type' => 'string',
+                  'label' => 'Vis',
+                  'description' => 'Specify the view you want to clear.',
+                ),
+              ),
+              'module' => 'Cache Actions',
+            ),
           ),
         ),
         '#version' => 6003,
