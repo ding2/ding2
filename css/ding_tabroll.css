@@ -45,7 +45,7 @@
 }
 
 #featured li.ui-tabs-nav-item a {
-    background: url("images/tab.png") no-repeat scroll 0 0 transparent;
+    background: url("../images/tab.png") no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     display: block;
     font-weight: bold;
@@ -57,7 +57,7 @@
 }
 
 #featured ul.ui-tabs-nav li.ui-tabs-selected a {
-    background: url("images/tab-active.png") no-repeat scroll 0 0 transparent;
+    background: url("../images/tab-active.png") no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     height: 43px;
     overflow: hidden;
@@ -73,7 +73,7 @@
 }
 
 #featured .ui-tabs-panel .info {
-    background: url("images/bluegbg-75.png") repeat scroll 0 0 transparent;
+    background: url("../images/bluegbg-75.png") repeat scroll 0 0 transparent;
     bottom: 0;
     height: 90px;
     left: 0;
