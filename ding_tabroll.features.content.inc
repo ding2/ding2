@@ -133,19 +133,6 @@ function ding_tabroll_content_default_fields() {
     'active' => '1',
     'referenceable_types' => array(
       'library' => 'library',
-      'article' => 0,
-      'topic' => 0,
-      'event' => 0,
-      'feature' => 0,
-      'frontpageteaser' => 0,
-      'campaign' => 0,
-      'flexifield_link' => 0,
-      'profile' => 0,
-      'rolltab' => 0,
-      'page' => 0,
-      'delt' => 0,
-      'flexifield_text' => 0,
-      'flexifield_ting_refs' => 0,
     ),
     'advanced_view' => '--',
     'advanced_view_args' => '',
@@ -291,7 +278,7 @@ function ding_tabroll_content_default_fields() {
         ),
       ),
       'default_value_php' => NULL,
-      'label' => 'Beskrivelse',
+      'label' => 'Teaser',
       'weight' => '-4',
       'description' => '',
       'type' => 'text_textfield',
@@ -301,10 +288,10 @@ function ding_tabroll_content_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Beskrivelse');
   t('Bibliotek');
   t('Billede');
   t('Link');
+  t('Teaser');
 
   return $fields;
 }

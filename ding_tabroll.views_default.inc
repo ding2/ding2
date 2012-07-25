@@ -11,10 +11,9 @@ function ding_tabroll_views_default_views() {
   $view->name = 'tabroll';
   $view->description = 'viser rullefaner i en karrusel';
   $view->tag = '';
-  $view->view_php = '';
   $view->base_table = 'node';
-  $view->is_cacheable = FALSE;
-  $view->api_version = 2;
+  $view->core = 0;
+  $view->api_version = '2';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
   $handler = $view->new_display('default', 'Standarder', 'default');
   $handler->override_option('relationships', array(
@@ -249,12 +248,12 @@ function ding_tabroll_views_default_views() {
       'relationship' => 'nodequeue_rel_queue_name',
       'validate_user_argument_type' => 'uid',
       'validate_user_roles' => array(
-        '2' => 0,
-        '8' => 0,
-        '4' => 0,
-        '7' => 0,
-        '5' => 0,
-        '6' => 0,
+        2 => 0,
+        8 => 0,
+        4 => 0,
+        7 => 0,
+        5 => 0,
+        6 => 0,
       ),
       'default_options_div_prefix' => '',
       'default_argument_fixed' => 'Frontpage tabroll',
@@ -280,13 +279,13 @@ function ding_tabroll_views_default_views() {
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
       'validate_argument_vocabulary' => array(
-        '4' => 0,
-        '5' => 0,
-        '13' => 0,
-        '12' => 0,
-        '14' => 0,
-        '1' => 0,
-        '2' => 0,
+        4 => 0,
+        5 => 0,
+        13 => 0,
+        12 => 0,
+        14 => 0,
+        1 => 0,
+        2 => 0,
       ),
       'validate_argument_type' => 'tid',
       'validate_argument_transform' => 0,

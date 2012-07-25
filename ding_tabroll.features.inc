@@ -39,12 +39,6 @@ function ding_tabroll_imagecache_default_presets() {
             'yoffset' => '',
           ),
         ),
-        '2' => array(
-          'weight' => '0',
-          'module' => 'imagecache',
-          'action' => 'imagecache_desaturate',
-          'data' => array(),
-        ),
       ),
     ),
   );
