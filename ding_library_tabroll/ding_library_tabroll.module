@@ -16,7 +16,7 @@ function ding_library_tabroll_init() {
   // but since configuration managed using features is not available in these
   // hooks we do it here instead and set a variable to prevent multiple
   // execution. See http://drupal.org/node/981248.
-  if (variable_get('ding_library_tabroll_initialized', TRUE)) {
+  if (!variable_get('ding_library_tabroll_initialized', FALSE)) {
     $library_queue = nodequeue_load_queue_by_name('ding_tabroll_library_frontpage_queue');
     $node = new stdClass();
     smartqueue_nodetypes_nodequeue_subqueues($library_queue, $node);
