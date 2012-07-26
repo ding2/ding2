@@ -5,7 +5,7 @@
     attach: function(context) {
       carousel_init(0);
 
-      $('.search-controller li').click(function() {
+      $('.ting-search-controller li').click(function() {
         $(this).parent().find('li').removeClass('active');
         $(this).addClass('active');
 
@@ -22,15 +22,15 @@
       url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
       dataType : 'json',
       success : function(msg) {
-        $('.ting-search-carousel .subtitle').html(msg.subtitle);
+        $('.ting-search-carousel .carousel-subtitle').html(msg.subtitle);
         
         if (!carousel) {
-          $('.ting-search-carousel .ting-rs-carousel .rs-carousel-runner').html(msg.content);
-          carousel = $('.ting-search-carousel .ting-rs-carousel').carousel();
+          $('.ting-search-carousel .rs-carousel .rs-carousel-runner').html(msg.content);
+          carousel = $('.ting-search-carousel .rs-carousel').carousel();
         }
         else {
           carousel.carousel('destroy');
-          $('.ting-search-carousel .ting-rs-carousel .rs-carousel-runner').html(msg.content);
+          $('.ting-search-carousel .rs-carousel .rs-carousel-runner').html(msg.content);
           carousel.carousel();
         }
       }

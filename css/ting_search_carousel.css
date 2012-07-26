@@ -1,34 +1,75 @@
-.ting-search-carousel {
-  width: 100%;
+/*
+* RS-Carousel base styles.
+*/
+
+.rs-carousel .rs-carousel-mask {
+	overflow: hidden;
 }
 
-.ting-search-carousel .search-controller {
-  height: 20px;
+	.rs-carousel .rs-carousel-runner {
+	    position: relative;
+	}
+		
+		.rs-carousel.rs-carousel-horizontal .rs-carousel-item {
+			float: left;
+		}
+
+
+/*
+* TING search carousel specific.
+*/
+
+.ting-search-carousel {
+  position: relative;
+}
+  .ting-search-carousel-top {
+    margin-top: 25px;
+  }
+  .ting-search-carousel-bottom {
+    margin-bottom: 25px;
+  }
+
+.ting-search-carousel .carousel-subtitle {
+  /*display: inline-block;*/
+}
+
+.ting-search-carousel .ting-search-controller {
   list-style: none outside none;
   margin: 0;
   padding: 0;
-  width: 100%;
+}
+  .ting-search-carousel .ting-search-controller-top{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  .ting-search-carousel .ting-search-controller-bottom{
+    position: absolute;
+    bottom: -25px;
+    left: 0px;
+  }
+  .ting-search-carousel .ting-search-controller-left{
+    
+  }
+  .ting-search-carousel .ting-search-controller-right{
+    
+  }
+
+.ting-search-carousel .ting-search-controller li.active {
+  background-color: #918F91;
 }
 
-.ting-search-carousel .search-controller li.active {
-  background: none repeat scroll 0 0 #918F91;
-}
-
-.ting-search-carousel .search-controller li {
-  background: none repeat scroll 0 0 #D1D9D7;
+.ting-search-carousel .ting-search-controller li {
+  background-color: #D1D9D7;
   float: left;
-  font-size: 11px;
-  height: 18px;
-  line-height: 15px;
-  margin: -1px 2px 0 0;
-  padding: 0 17px;
+  height: 25px;
 }
 
-.ting-search-carousel .search-controller li a {
-  font-size: 11px;
-  line-height: 15px;
+.ting-search-carousel .ting-search-results {
+  background-color: white;
 }
 
+/*
 .ting-search-carousel .ting-search-results {
   position: relative;
   height: 200px;
@@ -59,20 +100,20 @@
   text-align: center;
 }
 
-.ting-search-carousel .ting-rs-carousel, .subtitle {
+.ting-search-carousel .subtitle {
   float: left;
-}
+}*/
 
 /* carousel */
 .ting-search-carousel .rs-carousel {
-  opacity: 1 !important;
-  overflow: hidden;
-  width: 580px;
+  /*opacity: 1 !important;
+  overflow: hidden;*/
+  /*display: inline-block;*/
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-mask {
-  position:relative;
-  height: 200px;
+  /*position:relative;*/
+  /*height: 200px;*/
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-runner {
@@ -81,8 +122,8 @@
   margin: 0;
   overflow: hidden;
   padding: 0;
-  position: absolute;
-  width: 580px;
+  /*position: absolute;
+  width: 580px;*/
 }
 .ting-search-carousel .ajax-loader {
   background-image: url('../images/ajax-loader.gif');
@@ -90,22 +131,60 @@
   padding-top: 5px;
 }
 
-.ting-search-carousel .rs-carousel .rs-carousel-item img {
-  max-width: 112px;
-  height: 140px;
+.ting-search-carousel .rs-carousel .rs-carousel-item img,
+.ting-search-carousel .rs-carousel .rs-carousel-item .info {
+  max-width: 100%;
+  /*height: 140px;*/
 }
+
+.ting-search-carousel .rs-carousel .rs-carousel-item .thumbnail {
+  display: block;
+  height: 130px;
+  width: 100%;
+  padding: 4px;
+  line-height: 1;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+a.thumbnail:hover {
+  border-color: #0088cc;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
+
+.thumbnail > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .ting-search-carousel .no-js .rs-carousel .rs-carousel-runner {
   position: static;
 }
 
 .ting-search-carousel .rs-carousel .rs-carousel-item {
-  float: left;
-  height: 180px;
+  /*float: left;*/
+  display: inline-block;
+  /*height: 180px;*/
   overflow: hidden;
   padding-top: 20px;
   text-align: center;
   padding-right: 16px;
-  width: 100px;
+  width:100px;
+  
 }
 
 .ting-search-carousel .rs-carousel.rs-carousel-vertical .rs-carousel-item {
@@ -117,6 +196,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  text-align: right;
 }
 
 .ting-search-carousel .rs-carousel-disabled .rs-carousel-pagination {
@@ -124,7 +204,7 @@
 }
 
 .ting-search-carousel .rs-carousel-pagination-link {
-  display: inline;
+  display: inline-block;
 }
 
 .ting-search-carousel .rs-carousel-pagination-link a {
@@ -139,7 +219,10 @@
   background: #444;
 }
 
-/* next & prev actions */
+
+/*
+* next & prev actions.
+*/
 .ting-search-carousel .rs-carousel-disabled .rs-carousel-action-next,
 .ting-search-carousel .rs-carousel-disabled .rs-carousel-action-prev {
   display: none;
@@ -157,11 +240,11 @@
 }
 
 .ting-search-carousel .rs-carousel-action-prev {
-  left: -15px;
+  left: 0px;
 }
 
 .ting-search-carousel .rs-carousel-action-next {
-  right: -15px;
+  right: 0px;
   background-position: 0 -35px;
 }
 
@@ -187,14 +270,13 @@
 }
 
 .ting-search-carousel .rs-carousel-pagination {
-  display: none;
+  /*display: none;*/
 }
 
-.search-carousel-query {
+/*.search-carousel-query {
   float: left;
 }
 
 .sort-hidden, .search-query-hidden {
   display: none;
-}
-
+}*/
