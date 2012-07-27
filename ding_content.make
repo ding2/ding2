@@ -25,8 +25,7 @@ projects[cache_actions][version] = 2.0-alpha3
 
 projects[ctools][type] = module
 projects[ctools][subdir] = contrib
-projects[ctools][version] = 1.0-rc1
-projects[ctools][patch][] = "http://drupal.org/files/issues/user_edit_form-p0-format-1184168.patch"
+projects[ctools][version] = 1.0
 
 projects[entity][type] = module
 projects[entity][subdir] = contrib
@@ -35,6 +34,7 @@ projects[entity][version] = 1.0-rc1
 projects[features][type] = module
 projects[features][subdir] = contrib
 projects[features][version] = 1.0-rc3
+projects[features][patch][] = "http://drupal.org/files/ctool_custom_content-1079440-63.patch"
 
 projects[media][type] = module
 projects[media][subdir] = contrib
