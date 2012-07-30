@@ -29,6 +29,9 @@ drupal_add_css($path . '/css/ting_search_carousel.css');
     <ul class="rs-carousel-runner">
     </ul>
   </div>
+  
+  <!-- Only print tabs if there is more than 1 -->
+  <?php if (count($searches) > 1) { ?>
   <div class="rs-carousel-tabs">
     <ul>
       <?php foreach ($searches as $i => $search) : ?>
@@ -38,4 +41,5 @@ drupal_add_css($path . '/css/ting_search_carousel.css');
       <?php endforeach; ?>
     </ul>
   </div>
+  <?php } ?>
 </div>
