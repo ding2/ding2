@@ -35,7 +35,7 @@
 }
 
 .rs-carousel-action-prev {
-  left: 255px;
+  left: 18%;
 }
 
 .rs-carousel-action-next {
@@ -70,13 +70,13 @@
   font-size: 30px;
   line-height: 100%;  
   max-width: 27%;
-  padding-top: 20px;
+  padding-top: 40px;
   padding-left: 40px;
   padding-right: 70px;
 }      
 
 .rs-carousel-mask {
-  max-height: 150px;
+  max-height: 185px;
   max-width: 72%;
 }
 
