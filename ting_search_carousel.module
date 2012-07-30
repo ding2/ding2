@@ -230,8 +230,9 @@ function ting_search_carousel_do_request($full = FALSE) {
  * Implements hook_image_default_styles().
  */
 function ting_search_carousel_image_default_styles() {
+    
   $styles = array();
-
+ 
   $styles['ting_search_carousel'] = array(
     'name' => 'ting_search_carousel',
     'effects' => array(
@@ -245,15 +246,15 @@ function ting_search_carousel_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '',
-          'height' => '140',
-          'upscale' => 0,
+          'width' => '90',
+          'height' => '130',
+          'upscale' => 1,
         ),
         'weight' => '1',
       ),
     ),
   );
-
+  
   return $styles;
 }
 

@@ -1,6 +1,10 @@
 /* ==========================================================================
-   Custom carousel styling
+   Carousel styling
    ========================================================================== */
+
+.rs-carousel {
+  margin-bottom: 20px;
+}
 
 .rs-carousel,
 .rs-carousel-mask {
