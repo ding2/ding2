@@ -117,6 +117,7 @@
 .rs-carousel-tabs ul {
   margin: 0;
   position: relative;
+  text-align: center;
 }
 
 .rs-carousel-tabs ul li {
@@ -143,18 +144,18 @@
   background-color: rgba(0, 0, 0, .75);
   color: #fff;
   position: relative;
-  text-align: center;
 }
 
-.rs-carousel-tabs ul li.active:before {
+.rs-carousel-tabs ul li.active a:before {
   content: "";
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid rgba(0, 0, 0, .75);
   height: 0;
   margin-left: -4px;
+  left: 50%;
   position: absolute;
-  top: -8px;
+  top: -9px;
   width: 0;
 }
 
