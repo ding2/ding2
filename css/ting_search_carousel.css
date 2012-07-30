@@ -26,8 +26,9 @@
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   background-image: url('../images/arrows.png');
-  position: absolute;
   height: 41px;
+  overflow: hidden;
+  position: absolute;
   text-indent: -9999px;
   top: 30%;
   width: 41px;
@@ -142,6 +143,7 @@
   background-color: rgba(0, 0, 0, .75);
   color: #fff;
   position: relative;
+  text-align: center;
 }
 
 .rs-carousel-tabs ul li.active:before {
