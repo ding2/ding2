@@ -1,220 +1,26 @@
-/*
-* RS-Carousel base styles.
-
-
-.rs-carousel .rs-carousel-mask {
-	overflow: hidden;
-}
-
-.rs-carousel .rs-carousel-runner {
-    position: relative;
-}
-		
-.rs-carousel.rs-carousel-horizontal .rs-carousel-item {
-  float: left;
-}
-
-
-
-* TING search carousel specific.
-
-
-.ting-search-carousel {
-  position: relative;
-}
-  .ting-search-carousel-top {
-    margin-top: 25px;
-  }
-  .ting-search-carousel-bottom {
-    margin-bottom: 25px;
-  }
-
-.ting-search-carousel .carousel-subtitle {
-  -moz-box-sizing: border-box;
-  font-size: 30px;
-  display: inline-block;
-  line-height: 100%;
-  padding-left: 40px;
-  padding-top: 60px;
-  padding-right: 40px;
-  vertical-align: top;
-  width: 24%;
-}
-
-.ting-search-carousel .ting-search-controller {
-  list-style: none outside none;
-  margin: 0;
-  padding: 0;
-}
-  .ting-search-carousel .ting-search-controller-top{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-  }
-  .ting-search-carousel .ting-search-controller-bottom{
-    position: absolute;
-    bottom: -25px;
-    left: 0px;
-  }
-  .ting-search-carousel .ting-search-controller-left{
-    
-  }
-  .ting-search-carousel .ting-search-controller-right{
-    
-  }
-
-.ting-search-carousel .ting-search-controller li.active {
-  background-color: #f1f1f1;
-}
-
-.ting-search-carousel .ting-search-controller li {
-  background-color: #fff;
-  float: left;
-  height: 25px;
-}
-
-.ting-search-carousel .ting-search-results {
-  background-color: rgba(0, 0, 0, .1);
-}
-
-.rs-carousel-pagination {
-  display: none;
-}
-
-.ting-search-carousel .rs-carousel {
-  display: inline-block;
-  width: 75%;
-}
-
-.ting-search-carousel .rs-carousel .rs-carousel-mask {
-
-}
-
-.ting-search-carousel .rs-carousel .rs-carousel-runner {
-  left: 0;
-  list-style: none;
-  margin: 0;
-  overflow: hidden;
-  padding: 0;
-}
-.ting-search-carousel .ajax-loader {
-  background-image: url('../images/ajax-loader.gif');
-  list-style: none;
-  padding-top: 5px;
-}
-
-.ting-search-carousel .rs-carousel .rs-carousel-item img,
-.ting-search-carousel .rs-carousel .rs-carousel-item .info {
-  max-width: 100%;
-}
-
-.ting-search-carousel .rs-carousel .rs-carousel-item .thumbnail {
-  display: block;
-  height: 130px;
-  width: 100%;
-  padding: 4px;
-  line-height: 1;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
-     -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-box-sizing: border-box;  Safari/Chrome, other WebKit 
-	-moz-box-sizing: border-box;     Firefox, other Gecko 
-	box-sizing: border-box;          Opera/IE 8+ 
-}
-
-.thumbnail > img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-.ting-search-carousel .no-js .rs-carousel .rs-carousel-runner {
-  position: static;
-}
-
-.ting-search-carousel .rs-carousel .rs-carousel-item {
-  display: inline-block;
-  padding-top: 20px;
-  text-align: center;
-  padding-right: 16px;
-}
-
-.ting-search-carousel .rs-carousel.rs-carousel-vertical .rs-carousel-item {
-  float: none;
-}
-
-
-* next & prev actions.
-
-.ting-search-carousel .rs-carousel-disabled .rs-carousel-action-next,
-.ting-search-carousel .rs-carousel-disabled .rs-carousel-action-prev {
-  display: none;
-}
-
-.ting-search-carousel .rs-carousel-action-next,
-.ting-search-carousel .rs-carousel-action-prev {
-  background-image: url('../images/arrows.png');
-  position: absolute;
-  top: 86px;
-  height: 41px;
-  outline: none;
-  text-indent: -9999px;
-  width: 41px;
-}
-
-.ting-search-carousel .rs-carousel-action-prev {
-  left: 0px;
-}
-
-.ting-search-carousel .rs-carousel-action-next {
-  right: 0px;
-  background-position: -41px 0px;
-}
-
-.ting-search-carousel .rs-carousel-action-prev:hover {
-  background-position: 0 0;
-}
-
-.ting-search-carousel .rs-carousel-action-next:hover {
-  background-position: -41px 0px;
-}
-
-.ting-search-carousel .rs-carousel-action-disabled {
-  background-position: 0 0;
-}
-
-.ting-search-carousel .rs-carousel-action-prev + .rs-carousel-action-disabled  {
-  background-position: 0 0;
-}
-
-.ting-search-carousel .rs-carousel-action-disabled {
-  color: gray;
-  cursor: default;
-}*/
-
-
-
 /* ==========================================================================
    Custom carousel styling
    ========================================================================== */
 
-.rs-carousel .rs-carousel-mask {
-	overflow: hidden;
+.rs-carousel,
+.rs-carousel-mask {
+  position: relative;
 }
 
-.rs-carousel .rs-carousel-runner {
-    position: relative;
+.rs-carousel-mask,
+.rs-carousel-runner {
+  overflow: hidden;
 }
-		
-.rs-carousel {
+
+.rs-carousel-runner {
   position: relative;
+}
+
+/* Pagination and previous and next buttons
+   ========================================================================== */
+
+.rs-carousel-pagination {
+  display: none;
 }
 
 .rs-carousel-action-prev,
@@ -236,44 +42,51 @@
   right: 20px;
 }
 
+.rs-carousel-action-disabled {
+  opacity: .25;
+}
+
+/* Carousel content, mask, title etc.
+   ========================================================================== */
+
 .rs-carousel-inner {
   background-color: rgba(0, 0, 0, .1);
   padding-top: 40px;
   padding-bottom: 40px;
-}
+}      
 
 .rs-carousel-title,
-.rs-carousel-items,
-.rs-carousel-items ul,
-.rs-carousel-items ul li {
-  display: inline-block;  
+.rs-carousel-mask,
+.rs-carousel-mask ul {
+  display: inline-block;
   vertical-align: top;
 }
 
 .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-	box-sizing: border-box;  
+  box-sizing: border-box;  
   font-size: 30px;
   line-height: 100%;  
   max-width: 27%;
-  padding-top: 40px;
+  padding-top: 20px;
   padding-left: 40px;
   padding-right: 70px;
+}      
+
+.rs-carousel-mask {
+  max-height: 150px;
+  max-width: 72%;
 }
 
-
-.rs-carousel-items {
-  width: 72%;
-}
-
-.rs-carousel-items ul {
+.rs-carousel-mask ul {
   margin: 0;
 }
 
-.rs-carousel-items ul li {
+.rs-carousel-mask ul li {
+  display: table-cell;
   max-width: 100px;
-  margin-right: 20px;
+  padding-right: 20px;
   text-align: center;
 }
 
@@ -297,6 +110,8 @@
   padding-top: 5px;
 }
 
+/* Carousel tabs
+   ========================================================================== */
 
 .rs-carousel-tabs ul {
   margin: 0;
@@ -314,11 +129,8 @@
 }
 
 .rs-carousel-tabs ul li a {
-  display: block;
-}
-
-.rs-carousel-tabs ul li a {
   background-color: #fff;
+  display: block;
   padding: 20px 40px;
 }
 
@@ -335,11 +147,44 @@
 .rs-carousel-tabs ul li.active:before {
   content: "";
   border-left: 8px solid transparent;
-	border-right: 8px solid transparent;	
-	border-bottom: 8px solid rgba(0, 0, 0, .75);
-	height: 0;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid rgba(0, 0, 0, .75);
+  height: 0;
   margin-left: -4px;
   position: absolute;
   top: -8px;
-	width: 0;
+  width: 0;
+}
+
+/* Mediaqueries
+   ========================================================================== */
+
+
+@media screen and (max-width: 960px) {
+  .rs-carousel-title {
+    display: block;
+    padding-top: 0;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    max-width: 100%;
+  }
+  
+  .rs-carousel-mask {
+    max-width: 100%;
+  }
+  
+  .rs-carousel-action-prev {
+    left: 20px;
+  }  
+ 
+  .rs-carousel-action-prev,
+  .rs-carousel-action-next {  
+    top: 45%;
+  }
+
+  .rs-carousel-tabs ul li a {
+    padding: 20px 10px;
+  }
+  
 }
