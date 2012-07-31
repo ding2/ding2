@@ -1,47 +1,72 @@
 /* ==========================================================================
    ting search carousel styling
    ========================================================================== */
+
 /* Compass includes
    ========================================================================== */
+@import "compass/css3";
+
+
 /* Mixins
    ========================================================================== */
+
 /* RGBa background (https://gist.github.com/1949202) */
-/* Variables
-   ========================================================================== */
-/* Spacing used to position arrows, below the carousel etc. */
-/* Max width and height for the cover images */
-/* Colors */
-/* Text */
-/* Tabs */
-/* line 44, ../sass/ting_search_carousel.scss */
-.rs-carousel {
-  margin-bottom: 20px;
+@mixin rgba-background($color, $alpha) {
+  $rgba: rgba($color, $alpha);
+  $ie-hex-str: ie-hex-str($rgba);
+  background-color: $rgba;
+  zoom: 1;
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str},endColorstr=#{$ie-hex-str});
 }
 
-/* line 50, ../sass/ting_search_carousel.scss */
+
+/* Variables
+   ========================================================================== */
+
+/* Spacing used to position arrows, below the carousel etc. */
+$default-spacing:   20px;
+
+/* Max width and height for the cover images */
+$image-max-height:  185px;
+$image-max-width:   100px;
+
+/* Colors */
+$background-color: #000;
+
+/* Text */
+$title-font-size: 30px;
+
+/* Tabs */
+$tabs-background-color:         #fff;
+$tabs-active-background-color:  #000;
+$tabs-active-text-color:        #fff;
+
+.rs-carousel {
+  margin-bottom: $default-spacing;
+}
+
 .rs-carousel,
 .rs-carousel-mask,
 .rs-carousel-runner {
   position: relative;
 }
 
-/* line 55, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask,
 .rs-carousel-runner {
   overflow: hidden;
 }
 
+
 /* Pagination and previous and next buttons
    ========================================================================== */
-/* line 63, ../sass/ting_search_carousel.scss */
+
 .rs-carousel-pagination {
   display: none;
 }
 
-/* line 68, ../sass/ting_search_carousel.scss */
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
-  background-image: url("../images/arrows.png");
+  background-image: url('../images/arrows.png');
   height: 41px;
   overflow: hidden;
   position: absolute;
@@ -50,35 +75,29 @@
   width: 41px;
 }
 
-/* line 78, ../sass/ting_search_carousel.scss */
 .rs-carousel-action-prev {
   left: 18%;
 }
 
-/* line 82, ../sass/ting_search_carousel.scss */
 .rs-carousel-action-next {
   background-position: right 0;
-  right: 20px;
+  right: $default-spacing;
 }
 
-/* line 87, ../sass/ting_search_carousel.scss */
 .rs-carousel-action-disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
+  @include opacity(.25);
 }
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-/* line 94, ../sass/ting_search_carousel.scss */
-.rs-carousel-inner {
-  background-color: rgba(0, 0, 0, 0.1);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1A000000,endColorstr=#1A000000);
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
 
-/* line 103, ../sass/ting_search_carousel.scss */
+.rs-carousel-inner {
+  @include rgba-background($background-color, .1);
+  
+  padding-top: $default-spacing * 2;
+  padding-bottom: $default-spacing * 2;
+}      
+
 .rs-carousel-title,
 .rs-carousel-mask,
 .rs-carousel-mask ul {
@@ -86,114 +105,92 @@
   vertical-align: top;
 }
 
-/* line 108, ../sass/ting_search_carousel.scss */
 .rs-carousel-title {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 30px;
+  @include box-sizing(border-box);
+
+  font-size: $title-font-size;
   line-height: 100%;
   max-width: 27%;
-  padding-top: 40px;
-  padding-left: 40px;
-  padding-right: 70px;
-}
+  padding-top: $default-spacing * 2;
+  padding-left: $default-spacing * 2;
+  padding-right: $default-spacing * 3.5;
+}      
 
-/* line 119, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask {
-  max-height: 185px;
+  max-height: $image-max-height;
   max-width: 72%;
 }
 
-/* line 124, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask ul {
   margin: 0;
 }
 
-/* line 128, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask ul li {
   display: table-cell;
-  max-width: 100px;
-  padding-right: 20px;
+  max-width: $image-max-width;
+  padding-right: $default-spacing;
   text-align: center;
 }
 
-/* line 135, ../sass/ting_search_carousel.scss */
 .rs-carousel-item-image {
-  background-color: rgba(0, 0, 0, 0.1);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1A000000,endColorstr=#1A000000);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
+  @include rgba-background($background-color, .1);
+  @include border-radius(4px);
   display: block;
 }
 
-/* line 141, ../sass/ting_search_carousel.scss */
 .rs-carousel-item-image img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding: 5px;
+  padding: $default-spacing / 4;
 }
 
-/* line 148, ../sass/ting_search_carousel.scss */
 .rs-carousel-item-title {
   display: block;
-  padding-top: 5px;
+  padding-top: $default-spacing / 4;
 }
 
 /* Carousel tabs
    ========================================================================== */
-/* line 156, ../sass/ting_search_carousel.scss */
+
 .rs-carousel-tabs ul {
   margin: 0;
   position: relative;
   text-align: center;
 }
 
-/* line 162, ../sass/ting_search_carousel.scss */
 .rs-carousel-tabs ul li {
-  border-top: 1px solid #cccccc;
-  border-right: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
+  border-top: 1px solid lighten(#000, 80%);
+  border-right: 1px solid lighten(#000, 80%);
+  border-bottom: 1px solid lighten(#000, 80%);
   display: table-cell;
-  min-width: 10%;
-  /* Appearantly this make them have equal width in Firefox */
+  min-width: 10%; /* Appearantly this make them have equal width in Firefox */
   vertical-align: top;
   text-align: center;
 }
 
-/* line 172, ../sass/ting_search_carousel.scss */
 .rs-carousel-tabs ul li a {
-  background-color: white;
+  background-color: $tabs-background-color;
   display: block;
-  padding: 20px 40px;
+  padding: $default-spacing $default-spacing * 2;
 }
 
-/* line 178, ../sass/ting_search_carousel.scss */
 .rs-carousel-tabs ul li.active {
-  border-color: #404040;
+  border-color: lighten(#000, 25%);
 }
 
-/* line 182, ../sass/ting_search_carousel.scss */
 .rs-carousel-tabs ul li.active a {
-  background-color: rgba(0, 0, 0, 0.75);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);
-  color: white;
+  @include rgba-background($tabs-active-background-color, .75);
+  color: $tabs-active-text-color;
   position: relative;
 }
 
 /* Create the active arrow using a pseudo element */
-/* line 189, ../sass/ting_search_carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   content: "";
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid #404040;
+  border-bottom: 8px solid lighten(#000, 25%);
   height: 0;
   margin-left: -4px;
   left: 50%;
@@ -202,37 +199,35 @@
   width: 0;
 }
 
+
 /* Mediaqueries
    ========================================================================== */
+
 @media screen and (max-width: 960px) {
-  /* line 207, ../sass/ting_search_carousel.scss */
   .rs-carousel-title {
     display: block;
     padding-top: 0;
-    padding-right: 20px;
-    padding-bottom: 40px;
-    padding-left: 20px;
+    padding-right: $default-spacing;
+    padding-bottom: $default-spacing * 2;
+    padding-left: $default-spacing;
     max-width: 100%;
   }
-
-  /* line 216, ../sass/ting_search_carousel.scss */
+  
   .rs-carousel-mask {
     max-width: 100%;
   }
-
-  /* line 220, ../sass/ting_search_carousel.scss */
+  
   .rs-carousel-action-prev {
-    left: 20px;
-  }
-
-  /* line 225, ../sass/ting_search_carousel.scss */
+    left: $default-spacing;
+  }  
+ 
   .rs-carousel-action-prev,
-  .rs-carousel-action-next {
+  .rs-carousel-action-next {  
     top: 45%;
   }
 
-  /* line 229, ../sass/ting_search_carousel.scss */
   .rs-carousel-tabs ul li a {
-    padding: 20px 10px;
+    padding: $default-spacing $default-spacing / 2;
   }
+  
 }
