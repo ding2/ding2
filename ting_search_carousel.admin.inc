@@ -33,12 +33,11 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#title' => t('Position of navigational tabs'),
     '#type' => 'select',
     '#options' => array(
-      'top' => t("Top"),
       'bottom' => t("Bottom"),
       'left' => t("Left"),
       'right' => t("Right"),
     ),
-    '#default_value' => variable_get('ting_search_carousel_tabs_position', 'top'),
+    '#default_value' => variable_get('ting_search_carousel_tabs_position', 'bottom'),
     '#required' => TRUE,
     '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
   );
