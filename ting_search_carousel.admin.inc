@@ -42,6 +42,14 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
   );
 
+  $form['ting_search_carousel_settings']['ting_search_carousel_description_toggle'] = array(
+    '#title' => t('Show descriptions for navigational tabs'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('ting_search_carousel_description_toggle', 0);
+    '#required' => TRUE,
+    '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
+  );
+
   return system_settings_form($form);
 }
 
