@@ -22,7 +22,7 @@ drupal_add_css($path . '/css/ting_search_carousel.css');
 
 ?>
 
-<div class="rs-carousel">
+<div class="rs-carousel<?php echo (variable_get('ting_search_carousel_description_toggle', 0)) ? ' rs-carousel-wide' : ' rs-carousel-compact'; ?>">
   <div class="rs-carousel-inner">
     <div class="ajax-loader"></div>
     <div class="rs-carousel-title"></div>
