@@ -46,7 +46,7 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#title' => t('Show descriptions for navigational tabs'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('ting_search_carousel_description_toggle', 0),
-    '#required' => TRUE,
+    '#required' => FALSE,
     '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
   );
 
