@@ -55,7 +55,7 @@ function ding_entity_field_formatter_info() {
 
   $format['ding_entity_buttons_ajax'] = array(
     'label' => t('Ajaxified'),
-    'field types' => array('ding_entity_buttons')
+    'field types' => array('ding_entity_buttons'),
   );
 
   return $format;
@@ -75,7 +75,7 @@ function ding_entity_field_formatter_view($entity_type, $entity, $field, $instan
       case 'ding_entity_buttons_ajax':
         $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity, 'ajax');
         break;
-    }    
+    }
   }
 
   return $element;
