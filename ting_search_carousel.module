@@ -237,7 +237,7 @@ function ting_search_carousel_image_default_styles() {
     'name' => 'ting_search_carousel',
     'effects' => array(
       0 => array(
-        'label' => 'Scale/crop',
+        'label' => 'Scale and crop',
 	/*'help' => '',*/
 	'effect callback' => 'image_scale_and_crop_effect',
 	'dimensions callback' => 'image_scale_dimensions',
@@ -251,7 +251,7 @@ function ting_search_carousel_image_default_styles() {
 	),
 	'weight' => '1',
       ),
-      /*
+      /* TODO: Keeping the original for now, we should decide if we need an option to choose between scale and scale and crop.
       1 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
