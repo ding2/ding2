@@ -73,7 +73,7 @@ function hook_ding_entity_fields() {
         'type' => 'ding_availability_item',
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -85,7 +85,7 @@ function hook_ding_entity_fields() {
         'type' => 'ding_availability_holdings',
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
