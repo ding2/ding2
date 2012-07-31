@@ -11,8 +11,8 @@
  * define a new theme for comments if ['comment_forbidden'] is set
  **/
 function ding_user_entity_view($comment, $type, $view_mode, $langcode ) {
-  //  dpm($comment);
-   if( isset($comment->content['links']['comment']['#links']['comment_forbidden']) ) {
+//  dpm($comment);
+  if ( isset($comment->content['links']['comment']['#links']['comment_forbidden']) ) {
     $comment->content['links']['comment']['#theme'] = 'ding_user_comment_post_forbidden';
   }
 }
@@ -20,10 +20,10 @@ function ding_user_entity_view($comment, $type, $view_mode, $langcode ) {
 /**
  * Implements hook_theme
  */
-function ding_user_theme($existing, $type, $theme, $path){
-  return array('ding_user_comment_post_forbidden'=>
-	       array('render element' => 'elements',)
-	       );
+function ding_user_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_user_comment_post_forbidden' => array('render element' => 'elements'),
+  );
 }
 
 /**
@@ -31,11 +31,12 @@ function ding_user_theme($existing, $type, $theme, $path){
  * @return form
  */
 function ding_user_comment_forbidden_form() {
-  $form['submit'] = 
-    array('#type' => 'submit',
-	  '#value' => t('Log in'),
-	  '#ajax' => 
-	  array('callback' => 'ding_user_comment_forbidden_form_callback',),);   
+  $form['submit'] =
+    array(
+    '#type' => 'submit',
+    '#value' => t('Log in'),
+    '#ajax' => array('callback' => 'ding_user_comment_forbidden_form_callback'),
+  );
   return $form;
 }
 
@@ -49,9 +50,9 @@ function theme_ding_user_comment_post_forbidden($variables) {
 
   $class = drupal_html_class('ding_user_comment_forbidden_form');
 
-  $render_array['#prefix'] = '<div class="'.$class.'">';
+  $render_array['#prefix'] = '<div class="' . $class . '">';
   $render_array['#markup'] = drupal_render($form);
-  $render_array['#suffix'] = '<span>'.t('to add comments').'</span></div>';
+  $render_array['#suffix'] = '<span>' . t('to add comments') . '</span></div>';
 
   return drupal_render($render_array);
 }
@@ -64,15 +65,20 @@ function theme_ding_user_comment_post_forbidden($variables) {
 function ding_user_comment_forbidden_form_callback($form, $form_state) {
   global $base_root;
 
-  $creds = array('name'=>'','pass'=>'');
+  $creds = array(
+    'name' => '',
+    'pass' => '',
+  );
   $creds = ding_user_get_creds();
 
   $name = isset($creds['name']) ? $creds['name'] : '';
   $pass = isset($creds['pass']) ? $creds['pass'] : '';
-  try{ $success = ding_provider_invoke('user', 'authenticate', $name, $pass); }
-  catch(DingProviderAuthException $e) {
+  try {
+    $success = ding_provider_invoke('user', 'authenticate', $name, $pass);
+  }
+  catch (DingProviderAuthException $e) {
     //do nothing
-  }  
+  }
   // user sucessfully logged in - reload page
 
   // @TODO .. there must be an easier way to refresh a page -- drupal_reload???
@@ -81,9 +87,9 @@ function ding_user_comment_forbidden_form_callback($form, $form_state) {
   ctools_include('ajax');
   ctools_add_js('ajax-responder');
 
-  $url = $base_root.$form['#action'];
+  $url = $base_root . $form['#action'];
 
   $commands = array();
   $commands[] = ctools_ajax_command_redirect($url);
-  return array('#type' => 'ajax','#commands' => $commands);
+  return array('#type' => 'ajax', '#commands' => $commands);
 }

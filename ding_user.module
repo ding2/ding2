@@ -123,11 +123,11 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $pos += 1;
       }
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
-    // Add our own submit handler.
-    // $form['#submit'][] = 'ding_library_user_login_submit';
+      // Add our own submit handler.
+      // $form['#submit'][] = 'ding_library_user_login_submit';
 
-    // Remove the standard user login links.
-    //unset($form['links']);
+      // Remove the standard user login links.
+      //unset($form['links']);
 
       // Falling through on purpose.
     case 'ding_user_authenticate_form':
@@ -147,7 +147,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
  * For provider users, hide OG, Drupal password, and add in a pincode field.
  */
 function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
-  if (ding_user_is_provider_user($form_state['user'])){
+  if (ding_user_is_provider_user($form_state['user'])) {
     // Don't show og group.
     // @todo: shouldn't this be elsewhere?
     $form['group_audience']['#access'] = FALSE;
@@ -182,7 +182,7 @@ function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
       unset($form['#validate'][$pos]);
     }
   }
-};
+}
 
 /**
  * Password confirm element process.
@@ -212,11 +212,11 @@ function ding_user_create_profile_type($provider) {
   $provider_profile_type = 'provider_' . $provider['module'];
   $profile_type = new ProfileType(
     array(
-      'type' => $provider_profile_type,
-      'label' => 'Provider profile for ' . $provider['title'],
-      'userCategory' => TRUE,
-      'userView' => TRUE,
-    )
+    'type' => $provider_profile_type,
+    'label' => 'Provider profile for ' . $provider['title'],
+    'userCategory' => TRUE,
+    'userView' => TRUE,
+  )
   );
   $profile_type->save();
   return $profile_type;
@@ -434,9 +434,9 @@ function ding_user_user_login_validate($form, &$form_state) {
         // Create a profile for current user.
         $profile = new Profile(
           array(
-            'user' => $account,
-            'type' => $profile_type,
-          )
+          'user' => $account,
+          'type' => $profile_type,
+        )
         );
 
         // Bind this profile to the user.
@@ -507,12 +507,12 @@ function ajax_command_ding_user_authenticate($extra_data) {
  */
 function ding_user_authenticate_form_callback($form, &$form_state) {
   switch ($form['form_id']['#value']) {
-  case 'ding_user_authenticate_form':
-    $success = $form_state['authentication_success'];
-    break;
-  case 'user_login':
-    $success = !empty($form_state['uid']);
-    break;
+    case 'ding_user_authenticate_form':
+      $success = $form_state['authentication_success'];
+      break;
+    case 'user_login':
+      $success = !empty($form_state['uid']);
+      break;
   }
 
   $response = array(
@@ -546,7 +546,7 @@ function ding_user_get_creds($account = NULL) {
   if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
     // Check that the credentials is valid.
     // note: Only the Alma provider implements 'is_authenticated', and it simply checks if login and password is set.
-    //       So: If the user is cached, $cache->data is returned in any case.
+//       So: If the user is cached, $cache->data is returned in any case.
     if (ding_provider_implements('user', 'is_authenticated')) {
       if (ding_provider_invoke('user', 'is_authenticated', $cache->data)) {
         return $cache->data;
@@ -607,7 +607,7 @@ function ding_user_save_creds($auth_res, $account) {
   }
   // also update persistent login, if installed.
   if (module_exists('ding_persistent_login')) {
-    ding_persistent_login_save_creds($account->uid,$auth_res['creds']);
+    ding_persistent_login_save_creds($account->uid, $auth_res['creds']);
   }
 }
 
@@ -616,7 +616,7 @@ function ding_user_save_creds($auth_res, $account) {
  */
 function ding_user_is_provider_user($account) {
   static $names;
-  if( !isset($names) ){
+  if ( !isset($names) ) {
     $names = db_select('authmap')
       ->fields('authmap', array('authname'))
       ->condition('module', 'ding_user')
@@ -655,7 +655,7 @@ class DingUserCredentialsCache extends DrupalDatabaseCache {
           $cache[$item->cid] = $item;
           // postpone expire ding user credentials
           db_update($this->bin)
-            ->fields(array('expire' => REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME), ))
+            ->fields(array('expire' => REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME)))
             ->condition('cid', $item->cid)
             ->execute();
         }
