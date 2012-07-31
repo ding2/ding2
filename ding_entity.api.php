@@ -27,7 +27,7 @@
  *   Index of the object loader in the path.
  */
 function hook_ding_entity_menu(&$items, $type, $path, $index) {
-  if ($type == 'ding_entity'){
+  if ($type == 'ding_entity') {
     $items[$path . '/reserve'] = array(
       'title' => t('Reserve'),
       'page callback' => 'ding_provider_get_form',
