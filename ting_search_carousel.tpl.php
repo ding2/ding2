@@ -16,8 +16,8 @@
 $path = drupal_get_path('module', 'ting_search_carousel');
 
 drupal_add_library('system', 'ui.widget');
-drupal_add_js($path . '/js/jquery.rs.carousel.js');
-drupal_add_js($path . '/js/ting_search_carousel.js');
+drupal_add_js($path . '/scripts/jquery.rs.carousel.js');
+drupal_add_js($path . '/scripts/ting_search_carousel.js');
 drupal_add_css($path . '/css/ting_search_carousel.css');
 
 ?>
