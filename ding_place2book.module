@@ -880,8 +880,8 @@ function render_place2book_ticketsinfo($node) {
         } 
         else {
           
-          //check if we have no tickets left
-          if ($p2b_result->headers['available-tickets'] == 0) {
+          //check if we have no tickets left - remember that 0 in the result must be tested as a string
+          if ($p2b_result->headers['available-tickets'] == "0") {
             $type = 'no-tickets-left';
           } 
           else {
