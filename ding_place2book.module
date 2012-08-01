@@ -195,6 +195,12 @@ function ding_place2book_node_insert($node) {
  */
 function ding_place2book_node_update($node) {
   if ($node->type == "ding_event") {
+    // Continue only if node contains place2book data - they will not be there 
+    // when performing a bulk update, updating via scheduler module etc.
+    if (empty($node->place2book)) {
+      return;
+    }
+        
     // Get existing Place2book settings for this node.
     $settings = place2book_settings($node->nid);
     $place2book_id = isset($settings['place2book_id']) ? $settings['place2book_id'] : NULL;
@@ -436,7 +442,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                   'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
-      dpm($req_result);
+      
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
