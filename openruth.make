@@ -6,7 +6,7 @@ projects[date][version] = 2.0-rc1
 
 projects[features][subdir] = contrib
 projects[features][version] = 1.0-rc3
-projects[features][patch][] = "http://drupal.org/files/ctool_custom_content-1079440-63.patch"
+
 
 projects[profile2][version] = 1.2
 projects[profile2][subdir] = contrib
