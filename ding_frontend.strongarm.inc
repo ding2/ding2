@@ -80,12 +80,11 @@ function ding_frontend_strongarm() {
       ),
       'file' => 'includes/locale.inc',
     ),
-    'locale-browser' => array(
+    'locale-user' => array(
       'callbacks' => array(
-        'language' => 'locale_language_from_browser',
+        'language' => 'locale_language_from_user',
       ),
       'file' => 'includes/locale.inc',
-      'cache' => 0,
     ),
     'language-default' => array(
       'callbacks' => array(
