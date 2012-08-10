@@ -34,8 +34,6 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#type' => 'select',
     '#options' => array(
       'bottom' => t("Bottom"),
-      'left' => t("Left"),
-      'right' => t("Right"),
     ),
     '#default_value' => variable_get('ting_search_carousel_tabs_position', 'bottom'),
     '#required' => TRUE,
