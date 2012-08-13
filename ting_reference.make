@@ -1,11 +1,13 @@
 api = 2
 core = 7.x
 
-projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.0"
+; Contrib
 
-projects[relation][subdir] = "contrib"
-projects[relation][version] = "1.0-beta1"
+projects[ctools][subdir] = contrib
+projects[ctools][version] = "1.1"
+
+projects[relation][subdir] = contrib
+projects[relation][version] = "1.0-rc3"
 
 ; Ding!
 projects[ding_entity][type] = "module"
