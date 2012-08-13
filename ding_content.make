@@ -29,7 +29,7 @@ projects[ctools][version] = "1.1"
 
 projects[entity][type] = module
 projects[entity][subdir] = contrib
-projects[entity][version] = 1.0-rc1
+projects[entity][version] = "1.0-rc3"
 
 projects[features][type] = module
 projects[features][subdir] = contrib
