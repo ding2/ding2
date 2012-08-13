@@ -39,7 +39,12 @@ function ding_entity_uri($type, $object) {
  * Implements hook_modules_enabled().
  */
 function ding_entity_modules_enabled($modules) {
-  if (!ding_entity_info('ding_entity')) {
+
+  // pjo .. commented condition out to handle other ding_entity_types .. what is it for anyway ??
+  //
+
+  /*if (!ding_entity_info('ding_entity')) {
+    dpm('DING_ENTITY::modules_enabled: NO ENTITY INFO');
     // No entity provider yet, queue for later.
     variable_set('ding_entity_delayed_field_modules', array_unique(array_merge(variable_get('ding_entity_delayed_field_modules', array()), $modules)));
     return;
@@ -47,7 +52,12 @@ function ding_entity_modules_enabled($modules) {
   elseif ($extra_modules = variable_get('ding_entity_delayed_field_modules', array())) {
     variable_del('ding_entity_delayed_field_modules');
     $modules = array_merge($modules, $extra_modules);
+    }*/
+
+  if( !ding_entity_info() ){
+    return;
   }
+
   // Ensure that Field API has discovered any new fields.
   field_info_cache_clear();
   foreach ($modules as $module) {
@@ -99,6 +109,7 @@ function ding_entity_info($ding_entity_type = NULL) {
     $types = array();
   }
   $entity_types = entity_get_info();
+
   foreach ($entity_types as $entity_type => $entity_info) {
     if (isset($entity_info['ding_entity_type'])) {
       $type = $entity_info['ding_entity_type'];
@@ -112,6 +123,7 @@ function ding_entity_info($ding_entity_type = NULL) {
       }
     }
   }
+
 
   if (empty($ding_entity_type)) {
     return $types;
