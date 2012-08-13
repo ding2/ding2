@@ -8,6 +8,9 @@
 // Load Field module hooks.
 module_load_include('inc', 'ding_periodical', 'ding_periodical.field');
 
+drupal_add_css(drupal_get_path('module', 'ding_periodical') . '/css/ding_periodical.css');
+drupal_add_library('system', 'ui.dialog');
+
 /**
  * Implements hook_theme().
  */
