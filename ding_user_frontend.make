@@ -12,7 +12,7 @@ projects[features][subdir] = contrib
 projects[features][version] = "1.0"
 
 projects[i18n][subdir] = contrib
-projects[i18n][version] = 1.3
+projects[i18n][version] = "1.7"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.2"
