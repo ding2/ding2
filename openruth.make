@@ -5,7 +5,7 @@ projects[date][subdir] = contrib
 projects[date][version] = 2.0-rc1
 
 projects[features][subdir] = contrib
-projects[features][version] = 1.0-rc3
+projects[features][version] = "1.0"
 
 
 projects[profile2][version] = 1.2
