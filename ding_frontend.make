@@ -4,7 +4,7 @@ core = 7.x
 projects[ctools][subdir] = contrib
 projects[ctools][version] = "1.1"
 
-projects[conditional_styles][subdir] = "contrib"
+projects[conditional_styles][subdir] = contrib
 projects[conditional_styles][version] = "2.1"
 
 projects[features][subdir] = contrib
@@ -13,7 +13,7 @@ projects[features][version] = "1.0"
 projects[google_analytics][subdir] = contrib
 projects[google_analytics][version] = 1.2
 
-projects[languageicons][subdir] = "contrib"
+projects[languageicons][subdir] = contrib
 projects[languageicons][version] = "1.0"
 
 projects[menu_block][subdir] = contrib
@@ -22,7 +22,7 @@ projects[menu_block][version] = 2.3
 projects[menu_breadcrumb][subdir] = contrib
 projects[menu_breadcrumb][version] = 1.3
 
-projects[panels][subdir] = "contrib"
+projects[panels][subdir] = contrib
 projects[panels][version] = "3.2"
 
 projects[panels_breadcrumbs][subdir] = contrib
