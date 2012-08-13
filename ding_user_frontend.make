@@ -24,7 +24,7 @@ projects[strongarm][subdir] = contrib
 projects[strongarm][version] = "2.0"
 
 projects[variable][subdir] = contrib
-projects[variable][version] = "1.1"
+projects[variable][version] = "2.1"
 
 ; Ding! modules
 projects[ding_bookmark][type] = "module"
