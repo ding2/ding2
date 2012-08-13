@@ -14,16 +14,16 @@ projects[features][version] = "1.0"
 projects[i18n][subdir] = contrib
 projects[i18n][version] = "1.7"
 
-projects[panels][subdir] = "contrib"
+projects[panels][subdir] = contrib
 projects[panels][version] = "3.2"
 
-projects[securepages][subdir] = "contrib"
+projects[securepages][subdir] = contrib
 projects[securepages][version] = "1.x-dev"
 
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = 2.0-beta4
 
-projects[variable][subdir] = "contrib"
+projects[variable][subdir] = contrib
 projects[variable][version] = "1.1"
 
 ; Ding! modules
