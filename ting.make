@@ -4,6 +4,9 @@ core = 7.x
 projects[nanosoap][subdir] = contrib
 projects[nanosoap][version] = 1.0-beta3
 
+;projects[virtual_field][subdir] = contrib
+;projects[virtual_field][version] = "1.0"
+
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "git@github.com:ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/ting/lib"
