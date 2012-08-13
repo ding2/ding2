@@ -33,8 +33,7 @@ projects[entity][version] = "1.0-rc3"
 
 projects[features][type] = module
 projects[features][subdir] = contrib
-projects[features][version] = 1.0-rc3
-
+projects[features][version] = "1.0"
 
 projects[media][type] = module
 projects[media][subdir] = contrib
