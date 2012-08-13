@@ -14,8 +14,8 @@ projects[ting][download][tag] = "7.x-0.22"
 
 ; Contrib modules
 
-projects[features][subdir] = "contrib"
-projects[features][version] = "1.0-beta4"
+projects[features][subdir] = contrib
+projects[features][version] = "1.0"
 
-projects[field_group][subdir] = "contrib"
+projects[field_group][subdir] = contrib
 projects[field_group][version] = "1.1"
