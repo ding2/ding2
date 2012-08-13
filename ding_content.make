@@ -55,7 +55,7 @@ projects[similarterms][download][revision] = d0f10f5fdcb3a16855cff93094c4139a32e
 projects[similarterms][patch][] = https://raw.github.com/ding2/patches/master/similarterms-combined-patches.patch
 
 projects[strongarm][subdir] = contrib
-projects[strongarm][version] = 2.0-beta4
+projects[strongarm][version] = "2.0"
 
 projects[views][type] = module
 projects[views][subdir] = contrib
