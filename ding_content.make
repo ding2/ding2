@@ -19,6 +19,7 @@ projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.gi
 projects[ting_reference][download][tag] = "7.x-0.18"
 
 ; Contrib modules
+
 projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
 projects[cache_actions][version] = "2.0-alpha5"
@@ -70,6 +71,7 @@ projects[wysiwyg][subdir] = contrib
 projects[wysiwyg][version] = "2.1"
 
 ; Libraries
+
 libraries[ckeditor][download][type] = get
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.zip
 libraries[ckeditor][directory_name] = ckeditor
