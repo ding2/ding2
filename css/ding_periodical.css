@@ -1,0 +1,27 @@
+.field-name-ding-periodical-issues .item-list ul {
+	margin-left: -23px;
+}
+.ding-periodical-issues {
+  margin-left: -23px;
+}
+.ding-periodical-fold {
+  color: #44A8A4;
+  cursor: pointer;
+  height: 17px;
+  margin-left: 35px;
+  padding: 7px 0 0;
+  font-size: 11px;
+}
+.ding-periodical-fold:hover {
+  color: #44A8A4;
+  text-decoration: underline;
+}
+.ding-periodical-foldable {
+  background: url("../images/arrows-sprite.png") no-repeat scroll 0 0 transparent;
+}
+.ui-widget-content {
+  max-height: 400px;
+}
+.ui-dialog-content ul.ding-periodical-foldable {
+  background: none
+}
