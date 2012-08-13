@@ -45,7 +45,7 @@ projects[panels][version] = 3.2
 
 projects[rules][type] = module
 projects[rules][subdir] = contrib
-projects[rules][version] = 2.0
+projects[rules][version] = "2.2"
 
 projects[similarterms][type] = module
 projects[similarterms][subdir] = contrib
