@@ -11,32 +11,32 @@ projects[features][subdir] = contrib
 projects[features][version] = "1.0"
 
 projects[google_analytics][subdir] = contrib
-projects[google_analytics][version] = 1.2
+projects[google_analytics][version] = "1.2"
 
 projects[languageicons][subdir] = contrib
 projects[languageicons][version] = "1.0"
 
 projects[menu_block][subdir] = contrib
-projects[menu_block][version] = 2.3
+projects[menu_block][version] = "2.3"
 
 projects[menu_breadcrumb][subdir] = contrib
-projects[menu_breadcrumb][version] = 1.3
+projects[menu_breadcrumb][version] = "1.3"
 
 projects[panels][subdir] = contrib
 projects[panels][version] = "3.2"
 
 projects[panels_breadcrumbs][subdir] = contrib
-projects[panels_breadcrumbs][version] = 1.4
+projects[panels_breadcrumbs][version] = "1.6"
 
 projects[panels_everywhere][subdir] = contrib
-projects[panels_everywhere][subdir] = 1.0-rc1
+projects[panels_everywhere][subdir] = "1.0-rc1"
 
 projects[strongarm][subdir] = contrib
-projects[strongarm][version] = 2.0-beta4
+projects[strongarm][version] = "2.0"
 
 projects[views][type] = module
 projects[views][subdir] = contrib
-projects[views][version] = 3.3
+projects[views][version] = "3.3"
 
 ; Ding! modules
 
