@@ -25,7 +25,7 @@ projects[cache_actions][version] = 2.0-alpha5
 
 projects[ctools][type] = module
 projects[ctools][subdir] = contrib
-projects[ctools][version] = 1.0
+projects[ctools][version] = "1.1"
 
 projects[entity][type] = module
 projects[entity][subdir] = contrib
