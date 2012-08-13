@@ -21,7 +21,7 @@ projects[ting_reference][download][tag] = "7.x-0.18"
 ; Contrib modules
 projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
-projects[cache_actions][version] = 2.0-alpha3
+projects[cache_actions][version] = 2.0-alpha5
 
 projects[ctools][type] = module
 projects[ctools][subdir] = contrib
