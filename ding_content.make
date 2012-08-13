@@ -21,7 +21,7 @@ projects[ting_reference][download][tag] = "7.x-0.18"
 ; Contrib modules
 projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
-projects[cache_actions][version] = 2.0-alpha5
+projects[cache_actions][version] = "2.0-alpha5"
 
 projects[ctools][type] = module
 projects[ctools][subdir] = contrib
@@ -37,11 +37,11 @@ projects[features][version] = "1.0"
 
 projects[media][type] = module
 projects[media][subdir] = contrib
-projects[media][version] = 1.2
+projects[media][version] = "1.2"
 
 projects[panels][type] = module
 projects[panels][subdir] = contrib
-projects[panels][version] = 3.2
+projects[panels][version] = "3.2"
 
 projects[rules][type] = module
 projects[rules][subdir] = contrib
@@ -59,15 +59,15 @@ projects[strongarm][version] = "2.0"
 
 projects[views][type] = module
 projects[views][subdir] = contrib
-projects[views][version] = 3.3
+projects[views][version] = "3.3"
 
 projects[workbench][type] = module
 projects[workbench][subdir] = contrib
-projects[workbench][version] = 1.1
+projects[workbench][version] = "1.1"
 
 projects[wysiwyg][type] = module
 projects[wysiwyg][subdir] = contrib
-projects[wysiwyg][version] = 2.1
+projects[wysiwyg][version] = "2.1"
 
 ; Libraries
 libraries[ckeditor][download][type] = get
