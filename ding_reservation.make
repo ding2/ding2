@@ -1,8 +1,12 @@
 api = 2
 core = 7.x
 
+; Contrib
+
 projects[date][subdir] = contrib
-projects[date][version] = 2.0-rc1
+projects[date][version] = "2.6"
+
+; Ding 2 modules
 
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
