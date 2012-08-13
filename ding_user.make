@@ -25,7 +25,7 @@ projects[ding_entity][download][tag] = "7.x-0.7"
 
 ; Contrib modules
 
-projects[profile2][version] = 1.2
+projects[profile2][version] = "1.2"
 projects[profile2][subdir] = contrib
 
 projects[entity][version] = "1.0-rc3"
