@@ -5,11 +5,11 @@ core = 7.x
 
 projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
-projects[cache_actions][version] = 2.0-alpha5
+projects[cache_actions][version] = "2.0-alpha5"
 
-projects[ctools][type] = "module"
-projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.0"
+projects[ctools][type] = module
+projects[ctools][subdir] = contrib
+projects[ctools][version] = "1.1"
 
 projects[ting_search_carousel][type] = "module"
 projects[ting_search_carousel][download][type] = "git"
