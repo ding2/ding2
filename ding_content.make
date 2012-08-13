@@ -37,7 +37,7 @@ projects[features][version] = "1.0"
 
 projects[media][type] = module
 projects[media][subdir] = contrib
-projects[media][version] = 1.0-rc3
+projects[media][version] = 1.2
 
 projects[panels][type] = module
 projects[panels][subdir] = contrib
