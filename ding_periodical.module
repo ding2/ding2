@@ -30,23 +30,23 @@ function theme_ding_periodical_issues($variables) {
   $items = array();
   foreach ($variables['elements']['#issues'] as $volume => $issues) {
     $iss = array();
-      foreach ($issues as $key => $availability) {
+    foreach ($issues as $key => $availability) {
       $issue = $key;
       // check user
       if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
-	  $issue .= ' ' . ding_periodical_reservation_button($availability['local_id'], $volume, $key, $variables['elements']['#entity']);
-	}
+        $issue .= ' ' . ding_periodical_reservation_button($availability['local_id'], $volume, $key, $variables['elements']['#entity']);
+      }
       $iss[] = $issue;
-      }  
+    }
 
-      $vol = 
+    $vol =
 	array(
-	      'data' => '<div class="'.drupal_html_class('ding_periodical_fold').'">'.$volume.'</div>',
+	      'data' => '<div class="' . drupal_html_class('ding_periodical_fold') . '">' . $volume . '</div>',
 	      'children' => $iss,
 	      'class' => array(drupal_html_class('ding_periodical_foldable'),),
 	      );
-      $items[] = $vol;
+    $items[] = $vol;
   }
 
-  return theme('item_list', array('items' => $items,'attributes'=>array('class'=>drupal_html_class('ding_periodical_issues'))));
+  return theme('item_list', array('items' => $items, 'attributes' => array('class' => drupal_html_class('ding_periodical_issues'))));
 }
