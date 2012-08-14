@@ -4,7 +4,7 @@ core = 7.x
 ; Contrib
 
 projects[nanosoap][subdir] = contrib
-projects[nanosoap][version] = "1.0-beta3"
+projects[nanosoap][version] = "1.0"
 
 projects[blackhole][type] = "module"
 projects[blackhole][download][type] = "git"
