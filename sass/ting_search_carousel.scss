@@ -56,6 +56,10 @@ $tabs-active-text-color:        #fff;
   overflow: hidden;
 }
 
+.ui-state-disabled {
+  @include opacity(1); 
+}
+
 
 /* Pagination and previous and next buttons
    ========================================================================== */
