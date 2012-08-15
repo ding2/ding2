@@ -29,7 +29,7 @@ projects[variable][version] = "2.1"
 ; Ding! modules
 projects[ding_bookmark][type] = "module"
 projects[ding_bookmark][download][type] = "git"
-projects[ding_bookmark][download][url] = "git@github.com:ding2/ding_bookmark.git"
+projects[ding_bookmark][download][url] = "git@github.com:ding2tal/ding_bookmark.git"
 projects[ding_bookmark][download][tag] = "7.x-0.5"
 
 projects[ding_debt][type] = "module"
@@ -44,7 +44,7 @@ projects[ding_loan][download][tag] = "7.x-0.17"
 
 projects[ding_reservation][type] = "module"
 projects[ding_reservation][download][type] = "git"
-projects[ding_reservation][download][url] = "git@github.com:ding2/ding_reservation.git"
+projects[ding_reservation][download][url] = "git@github.com:ding2tal/ding_reservation.git"
 projects[ding_reservation][download][tag] = "7.x-0.18"
 
 projects[ding_wayf][type] = "module"
