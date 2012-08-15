@@ -22,7 +22,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
 
   if (isset($context[0]->data)) {
     $selected_term = $context[0]->data;
-    $suffix = '/' . drupal_strtolower($selected_term->name);
+    $suffix = '/' . $selected_term->tid;
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
