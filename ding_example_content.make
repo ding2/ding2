@@ -1,8 +1,12 @@
 api = 2
 core = 7.x
 
+; Contrib modules
+
 projects[defaultcontent][subdir] = contrib
-projects[defaultcontent][version] = 1.0-alpha4
+projects[defaultcontent][version] = "1.0-alpha6"
+
+; Ting! modules
 
 projects[ding_library][type] = module
 projects[ding_library][download][type] = git
