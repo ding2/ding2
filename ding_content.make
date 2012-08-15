@@ -5,17 +5,17 @@ core = 7.x
 
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
-projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
+projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
 projects[ding_page][download][tag] = "7.x-0.12"
 
 projects[ding_path_alias][type] = module
 projects[ding_path_alias][download][type] = git
-projects[ding_path_alias][download][url] = git@github.com:ding2/ding_path_alias.git
+projects[ding_path_alias][download][url] = git@github.com:ding2tal/ding_path_alias.git
 projects[ding_path_alias][download][tag] = "7.x-0.6"
 
 projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
-projects[ting_reference][download][url] = git@github.com:ding2/ting_reference.git
+projects[ting_reference][download][url] = git@github.com:ding2tal/ting_reference.git
 projects[ting_reference][download][tag] = "7.x-0.18"
 
 ; Contrib modules
