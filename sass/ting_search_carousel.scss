@@ -83,17 +83,6 @@ $tabs-active-text-color:        #fff;
   left: 27%;
 }
 
-/* If description is not displayed make sure the mask and prev button a
-   positioned correct */
-.rs-carousel-compact {
-  .rs-carousel-mask {
-    max-width: 94%;    
-  }
-  .rs-carousel-action-prev {
-    left: 2%;
-  }  
-}
-
 .rs-carousel-action-next {
   background-position: right 0;
   right: $default-spacing;
@@ -167,6 +156,17 @@ $tabs-active-text-color:        #fff;
 .rs-carousel-item-title {
   display: block;
   padding-top: $default-spacing / 4;
+}
+
+/* If description is not displayed make sure the mask and prev button a
+   positioned correct */
+.rs-carousel-compact {
+  .rs-carousel-mask {
+    max-width: 94%;    
+  }
+  .rs-carousel-action-prev {
+    left: 2%;
+  }  
 }
 
 /* Carousel tabs

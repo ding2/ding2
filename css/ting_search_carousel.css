@@ -61,24 +61,13 @@
   left: 27%;
 }
 
-/* If description is not displayed make sure the mask and prev button a
-   positioned correct */
-/* line 89, ../sass/ting_search_carousel.scss */
-.rs-carousel-compact .rs-carousel-mask {
-  max-width: 94%;
-}
-/* line 92, ../sass/ting_search_carousel.scss */
-.rs-carousel-compact .rs-carousel-action-prev {
-  left: 2%;
-}
-
-/* line 97, ../sass/ting_search_carousel.scss */
+/* line 86, ../sass/ting_search_carousel.scss */
 .rs-carousel-action-next {
   background-position: right 0;
   right: 20px;
 }
 
-/* line 102, ../sass/ting_search_carousel.scss */
+/* line 91, ../sass/ting_search_carousel.scss */
 .rs-carousel-action-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -86,7 +75,7 @@
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-/* line 109, ../sass/ting_search_carousel.scss */
+/* line 98, ../sass/ting_search_carousel.scss */
 .rs-carousel-inner {
   background-color: rgba(0, 0, 0, 0.1);
   zoom: 1;
@@ -96,7 +85,7 @@
   padding-bottom: 40px;
 }
 
-/* line 119, ../sass/ting_search_carousel.scss */
+/* line 108, ../sass/ting_search_carousel.scss */
 .rs-carousel-title,
 .rs-carousel-mask,
 .rs-carousel-mask ul {
@@ -104,7 +93,7 @@
   vertical-align: top;
 }
 
-/* line 124, ../sass/ting_search_carousel.scss */
+/* line 113, ../sass/ting_search_carousel.scss */
 .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -117,7 +106,7 @@
   padding-right: 70px;
 }
 
-/* line 135, ../sass/ting_search_carousel.scss */
+/* line 124, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask {
   max-height: 185px;
   max-width: 70%;
@@ -125,12 +114,12 @@
   right: 3%;
 }
 
-/* line 143, ../sass/ting_search_carousel.scss */
+/* line 132, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask ul {
   margin: 0;
 }
 
-/* line 147, ../sass/ting_search_carousel.scss */
+/* line 136, ../sass/ting_search_carousel.scss */
 .rs-carousel-mask ul li {
   display: table-cell;
   max-width: 100px;
@@ -138,7 +127,7 @@
   text-align: center;
 }
 
-/* line 154, ../sass/ting_search_carousel.scss */
+/* line 143, ../sass/ting_search_carousel.scss */
 .rs-carousel-item-image {
   background-color: rgba(0, 0, 0, 0.1);
   zoom: 1;
@@ -151,7 +140,7 @@
   display: block;
 }
 
-/* line 160, ../sass/ting_search_carousel.scss */
+/* line 149, ../sass/ting_search_carousel.scss */
 .rs-carousel-item-image img {
   display: block;
   margin-left: auto;
@@ -159,10 +148,21 @@
   padding: 5px;
 }
 
-/* line 167, ../sass/ting_search_carousel.scss */
+/* line 156, ../sass/ting_search_carousel.scss */
 .rs-carousel-item-title {
   display: block;
   padding-top: 5px;
+}
+
+/* If description is not displayed make sure the mask and prev button a
+   positioned correct */
+/* line 164, ../sass/ting_search_carousel.scss */
+.rs-carousel-compact .rs-carousel-mask {
+  max-width: 94%;
+}
+/* line 167, ../sass/ting_search_carousel.scss */
+.rs-carousel-compact .rs-carousel-action-prev {
+  left: 2%;
 }
 
 /* Carousel tabs
