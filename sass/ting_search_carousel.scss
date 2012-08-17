@@ -80,7 +80,18 @@ $tabs-active-text-color:        #fff;
 }
 
 .rs-carousel-action-prev {
-  left: 20%;
+  left: 27%;
+}
+
+/* If description is not displayed make sure the mask and prev button a
+   positioned correct */
+.rs-carousel-compact {
+  .rs-carousel-mask {
+    max-width: 94%;    
+  }
+  .rs-carousel-action-prev {
+    left: 2%;
+  }  
 }
 
 .rs-carousel-action-next {
@@ -98,6 +109,7 @@ $tabs-active-text-color:        #fff;
 .rs-carousel-inner {
   @include rgba-background($background-color, .1);
   
+  min-height: 170px;
   padding-top: $default-spacing * 2;
   padding-bottom: $default-spacing * 2;
 }      
@@ -114,16 +126,18 @@ $tabs-active-text-color:        #fff;
 
   font-size: $title-font-size;
   line-height: 100%;
-  min-width: 24%;
-  max-width: 27%;
+  max-width: 30%;
   padding-top: $default-spacing * 2;
   padding-left: $default-spacing * 2;
   padding-right: $default-spacing * 3.5;
-}      
+}
 
 .rs-carousel-mask {
   max-height: $image-max-height;
-  max-width: 72%;
+  max-width: 70%;
+  
+  position: absolute;
+  right: 3%;
 }
 
 .rs-carousel-mask ul {
@@ -209,17 +223,24 @@ $tabs-active-text-color:        #fff;
    ========================================================================== */
 
 @media screen and (max-width: 960px) {
+  
+  .rs-carousel-inner {
+    min-height: 250px;
+    padding-top: $default-spacing;
+    padding-bottom: $default-spacing;
+  }
+  
   .rs-carousel-title {
     display: block;
     padding-top: 0;
     padding-right: $default-spacing;
-    padding-bottom: $default-spacing * 2;
+    padding-bottom: $default-spacing;
     padding-left: $default-spacing;
-    max-width: 100%;
+    max-width: 94%;
   }
   
   .rs-carousel-mask {
-    max-width: 100%;
+    max-width: 94%;
   }
   
   .rs-carousel-action-prev {
@@ -228,11 +249,23 @@ $tabs-active-text-color:        #fff;
  
   .rs-carousel-action-prev,
   .rs-carousel-action-next {  
-    top: 45%;
+    top: 35%;
   }
 
   .rs-carousel-tabs ul li a {
     padding: $default-spacing $default-spacing / 2;
+  }
+  
+  .rs-carousel-compact {
+    .rs-carousel-inner {
+      min-height: 200px;
+    }
+
+    .rs-carousel-action-prev,
+    .rs-carousel-action-next {  
+      top: 25%;
+    }    
+    
   }
   
 }
