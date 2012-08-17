@@ -169,7 +169,7 @@
             }
             
             var self = this;
-
+            
             this.elements.runner.width(function () {
                 return self._getItemDim() * self.getNoOfItems();
             });
