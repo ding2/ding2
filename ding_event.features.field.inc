@@ -117,6 +117,12 @@ function ding_event_field_default_fields() {
           'type' => 'hidden',
           'weight' => '12',
         ),
+        'rss' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '12',
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -184,6 +190,18 @@ function ding_event_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => '4',
+        ),
+        'rss' => array(
+          'label' => 'above',
           'module' => 'addressfield',
           'settings' => array(
             'format_handlers' => array(
@@ -285,6 +303,13 @@ function ding_event_field_default_fields() {
           'type' => 'text_default',
           'weight' => '8',
         ),
+        'rss' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '6',
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'settings' => array(),
@@ -366,6 +391,13 @@ function ding_event_field_default_fields() {
           'type' => 'taxonomy_term_reference_link',
           'weight' => '1',
         ),
+        'rss' => array(
+          'label' => 'hidden',
+          'module' => 'taxonomy',
+          'settings' => array(),
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => '1',
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'module' => 'taxonomy',
@@ -438,6 +470,12 @@ function ding_event_field_default_fields() {
           'settings' => array(),
           'type' => 'file_default',
           'weight' => '10',
+        ),
+        'rss' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -532,6 +570,12 @@ function ding_event_field_default_fields() {
           'type' => 'text_default',
           'weight' => '7',
         ),
+        'rss' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '10',
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'module' => 'ding_base',
@@ -615,6 +659,12 @@ function ding_event_field_default_fields() {
           'type' => 'taxonomy_term_reference_link',
           'weight' => '5',
         ),
+        'rss' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '11',
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -684,6 +734,19 @@ function ding_event_field_default_fields() {
           'module' => 'ding_event',
           'settings' => array(),
           'type' => 'date_time_seperate_lines',
+          'weight' => '3',
+        ),
+        'rss' => array(
+          'label' => 'inline',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
           'weight' => '3',
         ),
         'teaser' => array(
@@ -771,6 +834,18 @@ function ding_event_field_default_fields() {
           'type' => 'number_integer',
           'weight' => '6',
         ),
+        'rss' => array(
+          'label' => 'inline',
+          'module' => 'number',
+          'settings' => array(
+            'decimal_separator' => '.',
+            'prefix_suffix' => TRUE,
+            'scale' => 0,
+            'thousand_separator' => ' ',
+          ),
+          'type' => 'number_integer',
+          'weight' => '5',
+        ),
         'teaser' => array(
           'label' => 'hidden',
           'module' => 'number',
@@ -856,6 +931,16 @@ function ding_event_field_default_fields() {
           'settings' => array(),
           'type' => 'hidden',
           'weight' => '11',
+        ),
+        'rss' => array(
+          'label' => 'hidden',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => 'ding_vert_small',
+          ),
+          'type' => 'image',
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -954,6 +1039,12 @@ function ding_event_field_default_fields() {
           'type' => 'image',
           'weight' => '0',
         ),
+        'rss' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '7',
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1032,6 +1123,12 @@ function ding_event_field_default_fields() {
           'type' => 'ting_reference_default',
           'weight' => '9',
         ),
+        'rss' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '9',
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1098,6 +1195,13 @@ function ding_event_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
+          'label' => 'hidden',
+          'module' => 'og',
+          'settings' => array(),
+          'type' => 'og_list_default',
+          'weight' => '2',
+        ),
+        'rss' => array(
           'label' => 'hidden',
           'module' => 'og',
           'settings' => array(),
