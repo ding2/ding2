@@ -1,10 +1,14 @@
 <?php
 
+define('SERVICE_ADDI', 0);
+define('SERVICE_MOREINFO', 1);
+
 class AdditionalInformationService {
   private $wsdlUrl;
   private $username;
   private $group;
   private $password;
+  private $current_service;
 
   public function __construct($wsdlUrl, $username, $group, $password) {
     $this->wsdlUrl = $wsdlUrl;
@@ -51,10 +55,25 @@ class AdditionalInformationService {
                       'authenticationPassword' => $this->password);
     $client = new SoapClient($this->wsdlUrl);
 
-    $startTime = explode(' ', microtime()); 
-    $response = $client->moreInfo(array(
+    $startTime = explode(' ', microtime());
+    $response = NULL;
+    try {
+      $response = $client->additionalInformation(array(
                           'authentication' => $authInfo,
                           'identifier' => $identifiers));
+      $this->current_service = SERVICE_ADDI;
+    }
+    catch (Exception $e) {
+      try {
+        $response = $client->moreInfo(array(
+                          'authentication' => $authInfo,
+                          'identifier' => $identifiers));
+        $this->current_service = SERVICE_MOREINFO;
+      }
+      catch (Exception $e) {
+        return FALSE;
+      }
+    }
 
     $stopTime = explode(' ', microtime());
     $time = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
@@ -80,12 +99,14 @@ class AdditionalInformationService {
 
     foreach ($response->identifierInformation as $info) {
       $thumbnailUrl = $detailUrl = NULL;
-      if (isset($info->identifierKnown) && $info->identifierKnown && $info->coverImage) {
-        if (!is_array($info->coverImage)) {
-          $info->coverImage = array($info->coverImage);
+      $cover_image = ($this->current_service == SERVICE_MOREINFO) ? $info->coverImage : $info->image;
+
+      if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
+        if (!is_array($cover_image)) {
+          $cover_image = array($cover_image);
         }
 
-        foreach ($info->coverImage as $image) {
+        foreach ($cover_image as $image) {
           switch ($image->imageSize) {
             case 'thumbnail':
               $thumbnailUrl = $image->_; 
