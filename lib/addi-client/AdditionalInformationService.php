@@ -1,58 +1,51 @@
 <?php
 
 class AdditionalInformationService {
+  private $wsdlUrl;
+  private $username;
+  private $group;
+  private $password;
 
-	private $wsdlUrl;
-	private $username;
-	private $group;
-	private $password;
-
-	public function __construct($wsdlUrl, $username, $group, $password)
-	{
-		$this->wsdlUrl = $wsdlUrl;
-		$this->username = $username;
-		$this->group = $group;
-		$this->password = $password;
-	}
-	
-	public function getByIsbn($isbn)
-	{
-		$isbn = str_replace('-', '', $isbn);
-		
+  public function __construct($wsdlUrl, $username, $group, $password) {
+    $this->wsdlUrl = $wsdlUrl;
+    $this->username = $username;
+    $this->group = $group;
+    $this->password = $password;
+  }
+  
+  public function getByIsbn($isbn) {
+    $isbn = str_replace('-', '', $isbn);
+    
     $identifiers = $this->collectIdentifiers('isbn', $isbn);
     $response = $this->sendRequest($identifiers);
     return $this->extractAdditionalInformation('isbn', $response);
-	}
+  }
   
-  public function getByFaustNumber($faustNumber)
-  {
+  public function getByFaustNumber($faustNumber) {
     $identifiers = $this->collectIdentifiers('faust', $faustNumber);
     $response = $this->sendRequest($identifiers);
     return $this->extractAdditionalInformation('faust', $response);
   }
   
-  protected function collectIdentifiers($idName, $ids)
-  {
-    if (!is_array($ids))
-    {
+  protected function collectIdentifiers($idName, $ids) {
+    if (!is_array($ids)) {
       $ids = array($ids);
     }
+
     $identifiers = array();
-    foreach ($ids as $i)
-    {
+    foreach ($ids as $i) {
       $identifiers[] = array($idName => $i);
     }
+
     return $identifiers;
   }
   
-  protected function sendRequest($identifiers)
-  {
-  	$ids = array();
-  	foreach ($identifiers as $i)
-  	{
-  		$ids = array_merge($ids, array_values($i));
-  	}
-  	
+  protected function sendRequest($identifiers) {
+    $ids = array();
+    foreach ($identifiers as $i) {
+      $ids = array_merge($ids, array_values($i));
+    }
+    
     $authInfo = array('authenticationUser' => $this->username,
                       'authenticationGroup' => $this->group,
                       'authenticationPassword' => $this->password);
@@ -68,38 +61,31 @@ class AdditionalInformationService {
     
     //Drupal specific code - consider moving this elsewhere
     if (variable_get('addi_enable_logging', false)) {
-	    watchdog('addi', 'Completed request ('.round($time, 3).'s): Ids: %ids', array('%ids' => implode(', ', $ids)), WATCHDOG_DEBUG, 'http://'.$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+      watchdog('addi', 'Completed request (' . round($time, 3) . 's): Ids: %ids', array('%ids' => implode(', ', $ids)), WATCHDOG_DEBUG, 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
     }
     
-    if ($response->requestStatus->statusEnum != 'ok')
-    {
-      throw new AdditionalInformationServiceException($response->requestStatus->statusEnum.': '.$response->requestStatus->errorText);
+    if ($response->requestStatus->statusEnum != 'ok') {
+      throw new AdditionalInformationServiceException($response->requestStatus->statusEnum . ': ' . $response->requestStatus->errorText);
     }
         
-    if (!is_array($response->identifierInformation))
-    {
+    if (!is_array($response->identifierInformation)) {
       $response->identifierInformation = array($response->identifierInformation); 
     }
     
     return $response;
   }
   
-  protected function extractAdditionalInformation($idName, $response)
-  {
+  protected function extractAdditionalInformation($idName, $response) {
     $additionalInformations = array();
     
-    foreach($response->identifierInformation as $info)
-    {
+    foreach ($response->identifierInformation as $info) {
       $thumbnailUrl = $detailUrl = NULL;
-      if (isset($info->identifierKnown) && $info->identifierKnown && $info->coverImage )
-      {
-        if (!is_array($info->coverImage))
-        {
+      if (isset($info->identifierKnown) && $info->identifierKnown && $info->coverImage) {
+        if (!is_array($info->coverImage)) {
           $info->coverImage = array($info->coverImage);
         }
         
-        foreach ($info->coverImage as $image)
-        {
+        foreach ($info->coverImage as $image) {
           switch ($image->imageSize) {
             case 'thumbnail':
               $thumbnailUrl = $image->_; 
@@ -108,7 +94,7 @@ class AdditionalInformationService {
               $detailUrl = $image->_; 
               break;
             default:
-            	// Do nothing other image sizes may appear but ignore them for now
+              // Do nothing other image sizes may appear but ignore them for now
           }
         }     
   
@@ -119,5 +105,4 @@ class AdditionalInformationService {
 
     return $additionalInformations;
   }
-
 }
