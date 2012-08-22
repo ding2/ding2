@@ -1,4 +1,7 @@
 <?php
+/*
+ * Returns a JSON string containing the default Kultunaut category terms found at http://www.kultunaut.dk/perl/export/nautgenrerxml
+ */
 function ding_place2book_kultunaut_cat_json() {
   $json  = '{
     "Andet/Ukendt":"(Musik) Andet/Ukendt",  
@@ -380,6 +383,8 @@ function ding_place2book_node_presave($node) {
  * Implementation of hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $form_id) {
+  dpm($form);
+	
   // Get the nid in a PHP 5.3 safe way and load settings for this node.
   $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
   $node_settings = place2book_settings($nid);
@@ -393,11 +398,11 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
 
   if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
     $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'] . '/edit', array('absolute' => TRUE));
-    $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
+    $p2b_info = t('Ticket price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
   }
   else {
     $p2b_link = t('None');
-    $p2b_info = t('Entry price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
+    $p2b_info = t('Ticket price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
   }
   
   //remove field_place2book_tickets from the form - it is only a placeholder and need not be seen nor edited, and it has default value
@@ -412,15 +417,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#tree' => TRUE,
   );
   
-  $form['entry_price'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Entry price'),
-    '#size' => 5,
-    '#maxlength' => 5,
-    '#default_value' => isset($node_settings['entry_price']) ? $node_settings['entry_price'] : 0,
-    //'#element_validate' => array('_place2book_setting_is_numeric'), 
-    '#description' => $p2b_info,
-  );
+  $form['field_event_ticket_price']['und'][0]['value']['#description'] = $p2b_info;
   
   $form['capacity'] = array(
     '#type' => 'textfield',
@@ -429,17 +426,6 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#maxlength' => 5,
     '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
     '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
-  );
-
-  $kultunaut_category_options = array('' => t('Choose')) + place2book_get_kultunaut_categories();
-  
-  $form['kultunaut_category'] = array(
-    '#type' => 'select',
-    '#title' => t('Kultunaut category'),
-    '#options' => $kultunaut_category_options,
-    '#weight' => 8,
-    '#default_value' => isset($node_settings['kultunaut_category']) ? $node_settings['kultunaut_category'] : '',
-    '#description' => t('Optional. Choose the category that will sent to (and used by) Kultunaut.'),
   );
   
   $form['place2book']['maintain_copy'] = array(
@@ -710,7 +696,8 @@ function place2book_build_xml($node, $service_settings) {
   }
 
   // Set ticket price - multiplied by 100, Place2book receives amount in oere instead of kr.
-  $xml->event->price->value = $node->entry_price * 100;
+  $field_event_ticket_price = field_get_items('node', $node, 'field_event_ticket_price');
+  $xml->event->price->value = $field_event_ticket_price * 100;
 
   // -- set event times --
   $field_event_date = field_get_items('node', $node, 'field_event_date');
@@ -728,31 +715,53 @@ function place2book_build_xml($node, $service_settings) {
   }
   
   // -- set kultunaut terms --
-  $field_category = field_get_items('node', $node, 'field_category');
+  
+  // Set kultunaut age group
+  $field_ding_event_target = field_get_items('node', $node, 'field_ding_event_target');
   // I have the term ids already, so the following query will give
   // me term name to use on kultunaut_age_group
-  if (isset($field_category[0])) {
-    $event_category_result = db_query('SELECT tid, name
+  if (isset($field_ding_event_target[0])) {
+    $event_target_result = db_query('SELECT tid, name
                                 FROM {taxonomy_term_data} 
-                                WHERE tid = :term_id', array(':term_id' => $field_category[0]['tid']));
-    foreach ($event_category_result as $event_category) {
-      $event_cat_tid = $event_category->tid;
-      $event_cat_name = $event_category->name;
+                                WHERE tid = :term_id', array(':term_id' => $field_ding_event_target[0]['tid']));
+    foreach ($event_target_result as $event_target) {
+      $event_target_tid = $event_target->tid;
+      $event_target_name = $event_target->name;
     }
     
-    //check configuration if we should map the term to a kultunaut term
-    $kultunaut_map_array = variable_get('ding_place2book_kultunaut_targets', array());
-    if (empty($kultunaut_map_array[$event_cat_tid])) {
-      $xml->event->kultunaut_age_group = $event_cat_name;
+    //check configuration if we should map the event target to a kultunaut age group/target
+    $target_map_array = variable_get('ding_place2book_target_mappings', array());
+    if (empty($target_map_array[$event_target_tid])) {
+      $xml->event->kultunaut_age_group = $event_target_name;
     } 
     else {
-      $xml->event->kultunaut_age_group = $kultunaut_map_array[$event_cat_tid];
+      $xml->event->kultunaut_age_group = $target_map_array[$event_target_tid];
     }   
   }
   
   // Set kultunaut export category
-  $xml->event->kultunaut_export_category = $node->kultunaut_category;
-
+  $field_ding_event_category = field_get_items('node', $node, 'field_ding_event_category');
+  // I have the term ids already, so the following query will give
+  // me term name to use on kultunaut_export_category
+  if (isset($field_ding_event_category[0])) {
+    $event_category_result = db_query('SELECT tid, name
+                                FROM {taxonomy_term_data} 
+                                WHERE tid = :term_id', array(':term_id' => $field_ding_event_category[0]['tid']));
+    foreach ($event_category_result as $event_category) {
+      $event_category_tid = $event_category->tid;
+      $event_category_name = $event_category->name;
+    }
+    
+    //check configuration if we should map the event category to a kultunaut category
+    $category_map_array = variable_get('ding_place2book_category_mappings', array());
+    if (empty($category_map_array[$event_category_tid])) {
+      $xml->event->kultunaut_export_category = $event_category_name;
+    } 
+    else {
+      $xml->event->kultunaut_export_category = $category_map_array[$event_category_tid];
+    }   
+  }
+  
   // Set kultunaut picture URL
   $field_list_image = field_get_items('node', $node, 'field_list_image');
   //the uri of the image file is not found in the updated node object - we retrieve it with file_load
@@ -822,28 +831,22 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
       db_query('INSERT INTO {ding_place2book} ( nid, 
                                                 place2book_id,
                                                 maintain_copy, 
-                                                entry_price,
                                                 capacity,
                                                 kultunaut_export, 
-                                                passive,
-                                                kultunaut_category)
+                                                passive)
                                         VALUES (:nid, 
                                                 :place2book_id, 
                                                 :maintain_copy,
-                                                :entry_price, 
                                                 :capacity, 
                                                 :kultunaut_export, 
-                                                :passive,
-                                                :kultunaut_category)', 
+                                                :passive)', 
                                           array(
                                                 ':nid' => $node->nid, 
                                                 ':place2book_id' => $place2book_id,
                                                 ':maintain_copy' => $node->place2book['maintain_copy'], 
                                                 ':capacity' => $node->capacity,
-                                                ':entry_price' => $node->entry_price,
                                                 ':kultunaut_export' => $node->place2book['kultunaut_export'], 
                                                 ':passive' => $node->place2book['passive'],
-                                                ':kultunaut_category' => $node->kultunaut_category,
                                                 )
       );
       break;
@@ -853,19 +856,15 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                 SET place2book_id = :place2book_id,
                     maintain_copy = :maintain_copy,
                     capacity = :capacity,
-                    entry_price = :entry_price,
                     kultunaut_export = :kultunaut_export,
-                    passive = :passive,
-                    kultunaut_category = :kultunaut_category
+                    passive = :passive
                 WHERE nid = :nid', 
                 array(
                       ':place2book_id' => $place2book_id,
                       ':maintain_copy' => $node->place2book['maintain_copy'], 
                       ':capacity' => $node->capacity,
-                      ':entry_price' => $node->entry_price,
                       ':kultunaut_export' => $node->place2book['kultunaut_export'], 
                       ':passive' => $node->place2book['passive'],
-                      ':kultunaut_category' => $node->kultunaut_category,
                       ':nid' => $node->nid, 
                      )
       );
