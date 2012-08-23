@@ -8,7 +8,7 @@
   color: #44A8A4;
   cursor: pointer;
   height: 17px;
-  margin-left: 35px;
+  margin-left: 25px;
   padding: 7px 0 0;
   font-size: 11px;
 }
@@ -17,8 +17,56 @@
   text-decoration: underline;
 }
 .ding-periodical-foldable {
-  background: url("../images/arrows-sprite.png") no-repeat scroll 0 0 transparent;
+  background: url(../images/arrow-right-grey.png) no-repeat scroll 3px 9px transparent;
 }
+
+.ding-periodical-foldable:hover {
+  background: url(../images/arrow-right-blue.png) no-repeat scroll 3px 9px transparent;
+}
+
+.ding-periodical-foldable.expanded-periodicals-parent {
+  background: url(../images/arrow-down-grey.png) no-repeat scroll 0 11px transparent;
+}
+
+.ding-periodical-foldable.expanded-periodicals-parent:hover {
+  background: url(../images/arrow-down-blue.png) no-repeat scroll 0 11px transparent;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable {
+  margin: 0 0 0 20px;
+  padding: 0;
+  background: none;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable li {
+    background: url(../images/more-button-grey.png) no-repeat scroll 0 8px transparent;
+    color: #44a8a4;
+    font: 11px 'Soho Gothic W01 Light', Helvetica, Arial, sans-serif;
+    height: 24px;
+    letter-spacing: 0.2px;
+    line-height: 27px;
+    margin: 3px 0 0 0;
+    padding: 0 0 0 20px;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable li:hover {
+    background: url(../images/more-button-blue.png) no-repeat scroll 0 8px transparent;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable li:hover {
+  text-decoration: underline;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable li form {
+  text-decoration: none;
+}
+
+.ding-periodical-foldable .item-listitem-list  li {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
 .ui-widget-content {
   max-height: 400px;
 }
