@@ -82,9 +82,30 @@ function ding_place2book_disable() {
 }
 
 /**
+* Called via AJAX/JavaScript.
+* Returns (prints) JSON containing ticket information from Place2book
+*
+* @param int $nid
+* @return null
+*/
+function ding_place2book_get_ticketinfo($nid) {
+  //get the node
+  $eventnode = node_load($nid);
+	
+  $result = array();
+  $result['nid'] = $nid;
+  $result['markup'] = render_place2book_ticketsinfo($eventnode); 
+  
+  drupal_add_http_header('Content-Type', 'application/json; utf-8');
+  echo json_encode($result);
+  return;
+}
+
+/**
  * Implementation of hook_init().
  */
 function ding_place2book_init() {
+  drupal_add_js(drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js');
   drupal_add_css(drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css');
 }
 
@@ -155,6 +176,14 @@ function ding_place2book_menu() {
     'file' => 'includes/ding_place2book.admin.inc',
   );
   
+  $items['ding/place2book/ticketinfo/%'] = array(
+    'title' => 'Ding Place2book ticket info',
+    'description' => 'Returns ticket info or order button from Place2book',
+    'page callback' => 'ding_place2book_get_ticketinfo',
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+  );
+  
   return $items;
 }
 
@@ -168,7 +197,7 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
     if (isset($node->nid) && $node->nid) {
       
       //modify the existing placeholder field_place2book_tickets
-      $node->content['field_place2book_tickets'][0]['#markup'] = render_place2book_ticketsinfo($node);
+      $node->content['field_place2book_tickets'][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" value="' . $node->nid . '"/>';
     }
   }
 }
@@ -279,8 +308,6 @@ function ding_place2book_node_presave($node) {
  * Implementation of hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $form_id) {
-  dpm($form);
-	
   // Get the nid in a PHP 5.3 safe way and load settings for this node.
   $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
   $node_settings = place2book_settings($nid);
@@ -397,6 +424,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                   'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $options);
+      dpm($req_result);
       
       // Catch insert error by checking the event id.
       if (empty($req_result->headers['event-id'])) {
@@ -425,6 +453,7 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                   'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
+      dpm($req_result);
       
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
@@ -593,7 +622,7 @@ function place2book_build_xml($node, $service_settings) {
 
   // Set ticket price - multiplied by 100, Place2book receives amount in oere instead of kr.
   $field_event_ticket_price = field_get_items('node', $node, 'field_event_ticket_price');
-  $xml->event->price->value = $field_event_ticket_price * 100;
+  $xml->event->price->value = $field_event_ticket_price[0]['value'] * 100;
 
   // -- set event times --
   $field_event_date = field_get_items('node', $node, 'field_event_date');

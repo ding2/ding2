@@ -24,7 +24,7 @@ function ding_place2book_ticketsinfo_content_type_render($subtype, $conf, $panel
   $block = new stdClass();
   
   //$context->data contains the node object
-  $block->content = render_place2book_ticketsinfo($context->data);
+  $block->content = '<input type="hidden" class="place2book-ticketinfo" value="' . $context->data->nid . '"/>';
   
   return $block;
 } 
