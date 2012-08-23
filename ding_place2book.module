@@ -42,35 +42,6 @@ function ding_place2book_enable() {
     );
     field_create_instance($instance);
   }
-  
-  /*
-   * node_content panel on the Event node template is cached
-   * For ding_place2book to work out of the box, we turn caching off on that pane 
-   */
-  //get display id for node_view_panel_context_2 (Event)
-  $event_did = db_query('SELECT did FROM {page_manager_handlers} WHERE name = :name', array(':name' => 'node_view_panel_context_2'))->fetchField();
-  if ($event_did == FALSE) {
-    //We get display code and save in the database - then we can get did (display id) from the DB
-    $handler_result = ctools_export_load_object('page_manager_handlers', 'names', array('node_view_panel_context_2'));
-    page_manager_save_task_handler($handler_result['node_view_panel_context_2']);
-    $event_did = db_query('SELECT did FROM {page_manager_handlers} WHERE name = :name', array(':name' => 'node_view_panel_context_2'))->fetchField();
-  } 
-  
-  //locate the relevant node_content pane, turn off caching on it, and save it
-  if (isset($event_did) && is_numeric($event_did)) {
-    $ding_event_display = panels_load_display($event_did);
-    
-    //cycle through content - we cannot know content ID beforehand
-    foreach ($ding_event_display->content as $key => $content) {
-      if ($content->type == "node_content") {
-        
-        //set cache of the node_content pane to none
-        $ding_event_display->content[$key]->cache = array(); 
-      }
-    }
-    $ding_event_display = panels_save_display($ding_event_display);
-    drupal_set_message(t('The ding_place2book module has inserted an extra field on Events (for the order button/info). For the button/info to display properly, the content area on Events cannot be cached. Therefore, caching has been turned off for the content area of Events. For more information and more options for displaying the order button/info-area, please see README for this module.'));
-  }
 }
 
 /**
