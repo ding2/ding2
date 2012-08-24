@@ -91,13 +91,16 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
  */
 function ting_covers_admin_addi_settings_form_submit($form, $form_state) {
   $cover_service_url = $form_state['input']['addi_wsdl_url'];
+  $service_wsdl = !empty($cover_service_url) ? file_get_contents($cover_service_url) : '';
   $current_service = -1;
 
-  if (strpos($cover_service_url, 'moreinfo')) {
-    $current_service = SERVICE_MOREINFO;
-  }
-  elseif (strpos($cover_service_url, 'forside')) {
-    $current_service = SERVICE_ADDI;
+  if (!empty($service_wsdl)) {
+    if (strpos($service_wsdl, 'moreinfo')) {
+      $current_service = SERVICE_MOREINFO;
+    }
+    elseif (strpos($service_wsdl, 'additionalInformation')) {
+      $current_service = SERVICE_ADDI;
+    }
   }
 
   variable_set('current_cover_service', $current_service);
