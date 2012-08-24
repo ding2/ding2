@@ -904,10 +904,10 @@ function theme_place2book_ticketsinfo($variables) {
       $output = '<div class="place2book info">' . t('The event has already taken place') . '</div>';
       break;
     case 'closed-admission':
-      $output = '<div class="place2book info">' . t('The event is closed for admission') . '</div>';
+      $output = '<div class="place2book info">' . t('Not open for ticket sale') . '</div>';
       break;
     case 'no-tickets-left':
-      $output = '<div class="place2book info">' . t('There are no available tickets for this event') . '</div>';
+      $output = '<div class="place2book info">' . t('Sold out') . '</div>';
       break;
     case 'order-link':
       $output = '<div class="place2book order">' . l(t('Book a ticket'), $url) . '</div>';
