@@ -91,7 +91,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
  */
 function ting_covers_admin_addi_settings_form_submit($form, $form_state) {
   $cover_service_url = $form_state['input']['addi_wsdl_url'];
-  $service_wsdl = !empty($cover_service_url) ? file_get_contents($cover_service_url) : '';
+  $service_wsdl = file_get_contents($cover_service_url);
   $current_service = -1;
 
   if (!empty($service_wsdl)) {
