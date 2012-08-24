@@ -5,6 +5,8 @@
  * Provide functionality and page callbacks for retrieving covers for Ting objects and collections
  */
 
+define('SERVICE_ADDI', 0);
+define('SERVICE_MOREINFO', 1);
 define('TING_COVERS_CACHE_LIFETIME', 86400);
 
 // Load Field module hooks.

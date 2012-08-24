@@ -78,5 +78,30 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
     '#default_value' => variable_get('addi_enable_logging', FALSE),
   );
 
+  $form['#submit'][] = 'ting_covers_admin_addi_settings_form_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ *  Custom submit handler for admin form.
+ * 
+ * @ingroup forms
+ * @see ting_covers_admin_addi_settings_form()
+ */
+function ting_covers_admin_addi_settings_form_submit($form, $form_state) {
+  $cover_service_url = $form_state['input']['addi_wsdl_url'];
+  $service_wsdl = file_get_contents($cover_service_url);
+  $current_service = -1;
+
+  if (!empty($service_wsdl)) {
+    if (strpos($service_wsdl, 'moreinfo')) {
+      $current_service = SERVICE_MOREINFO;
+    }
+    elseif (strpos($service_wsdl, 'additionalInformation')) {
+      $current_service = SERVICE_ADDI;
+    }
+  }
+
+  variable_set('current_cover_service', $current_service);
 }
