@@ -395,7 +395,6 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                   'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $options);
-      dpm($req_result);
       
       // Catch insert error by checking the event id.
       if (empty($req_result->headers['event-id'])) {
@@ -424,7 +423,6 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
                   'headers' => $headers,
                 );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
-      dpm($req_result);
       
       // Catch update error by checking the return code.
       if ($req_result->error != 'Accepted') {
@@ -536,9 +534,12 @@ function place2book_build_xml($node, $service_settings) {
   // Set event name with title.
   $xml->event->name = $node->title;
 
-  // Set short and long description.
+// Set short description.
+  $field_ding_event_manchet = field_get_items('node', $node, 'field_ding_event_manchet');
+  $xml->event->description_short = $field_ding_event_manchet[0]['value'];
+  
+  // Set long description.
   $field_ding_body = field_get_items('node', $node, 'field_ding_body');
-  $xml->event->description_short = $field_ding_body[0]['summary'];
   $xml->event->description_long = $field_ding_body[0]['value'];
 
   // Set sales window times empty - and they will use the defaults in place2book.
@@ -552,8 +553,8 @@ function place2book_build_xml($node, $service_settings) {
   
   if ($library_id) {
     $libloc_result = db_query('SELECT 	n.title, 
-    														a.field_address_thoroughfare AS street,
-    														a.field_address_premise AS additional,
+    							a.field_address_thoroughfare AS street,
+    							a.field_address_premise AS additional,
                                	a.field_address_postal_code AS postal_code,
                                 a.field_address_locality AS city, 
                                 UPPER(a.field_address_country) AS country
@@ -577,7 +578,7 @@ function place2book_build_xml($node, $service_settings) {
   // The check is only made for venue street address - if it is not there, the rest is not used either
   $field_address = field_get_items('node', $node, 'field_address');
   if (!empty($field_address[0]['thoroughfare'])) {
-    $xml->event->venue->name = '';
+    $xml->event->venue->name = $field_address[0]['name_line'];
     $xml->event->venue->address1 = $field_address[0]['thoroughfare'];
     $xml->event->venue->address2 = $field_address[0]['premise'];
     $xml->event->venue->postal = $field_address[0]['postal_code'];
