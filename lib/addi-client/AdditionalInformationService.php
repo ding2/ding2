@@ -1,8 +1,5 @@
 <?php
 
-define('SERVICE_ADDI', 0);
-define('SERVICE_MOREINFO', 1);
-
 class AdditionalInformationService {
   private $wsdlUrl;
   private $username;
@@ -57,22 +54,29 @@ class AdditionalInformationService {
 
     $startTime = explode(' ', microtime());
     $response = NULL;
-    try {
-      $response = $client->additionalInformation(array(
-                          'authentication' => $authInfo,
-                          'identifier' => $identifiers));
+
+    $cover_service = variable_get('current_cover_service');
+    $method = '';
+    
+    if ($cover_service == SERVICE_ADDI) {
+      $method = 'additionalInformation';
       $this->current_service = SERVICE_ADDI;
     }
-    catch (Exception $e) {
-      try {
-        $response = $client->moreInfo(array(
+    elseif ($cover_service == SERVICE_MOREINFO) {
+      $method = 'moreInfo';
+      $this->current_service = SERVICE_MOREINFO;
+    }
+    else {
+      return FALSE;
+    }
+    
+    try {
+      $response = $client->$method(array(
                           'authentication' => $authInfo,
                           'identifier' => $identifiers));
-        $this->current_service = SERVICE_MOREINFO;
-      }
-      catch (Exception $e) {
-        return FALSE;
-      }
+    }
+    catch (Exception $e) {
+      return FALSE;
     }
 
     $stopTime = explode(' ', microtime());
