@@ -2,13 +2,13 @@ api = 2
 core = 7.x
 
 projects[date][subdir] = contrib
-projects[date][version] = 2.0-rc1
+projects[date][version] = "2.6"
 
 projects[features][subdir] = contrib
-projects[features][version] = 1.0-beta4
+projects[features][version] = "1.0"
 
-projects[profile2][version] = 1.2
 projects[profile2][subdir] = contrib
+projects[profile2][version] = "1.2"
 
 ; Ding! modules
 
