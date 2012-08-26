@@ -85,7 +85,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
 
 /**
  *  Custom submit handler for admin form.
- * 
+ *
  * @ingroup forms
  * @see ting_covers_admin_addi_settings_form()
  */

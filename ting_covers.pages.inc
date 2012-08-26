@@ -20,8 +20,9 @@ function ting_covers_objects() {
     $path = ting_covers_object_path($local_id);
     if (file_exists($path)) {
       //If we we already have a valid cover image w/o style then just use it
-      $covers[$local_id.':'.$image_style] = image_style_url($image_style, $path);
-    } else {
+      $covers[$local_id . ':' . $image_style] = image_style_url($image_style, $path);
+    }
+    else {
       //Mark the image for retrieval;
       $missing_images_local_ids[] = $local_id;
     }
@@ -32,30 +33,32 @@ function ting_covers_objects() {
     $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
     //Local ids = Faust numbers. Library object identifiers can be confusing...
     $additional_informations = $service->getByFaustNumber($missing_images_local_ids);
-    foreach($missing_images_local_ids as $local_id) {
+    foreach ($missing_images_local_ids as $local_id) {
       //Try to extract the image url from the result
       $source_url = FALSE;
       if (isset($additional_informations[$local_id]) && $ai = $additional_informations[$local_id]) {
         if ($ai->detailUrl) {
           $source_url = $ai->detailUrl;
-        } elseif ($ai->thumbnailUrl) {
+        }
+        elseif ($ai->thumbnailUrl) {
           $source_url = $ai->thumbnailUrl;
         }
       }
 
       //No cover image found? Cache this for future reference to avoid unnecessary requests
       if (!$source_url) {
-        cache_set('ting_covers:'.$local_id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_CACHE_LIFETIME);
+        cache_set('ting_covers:' . $local_id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_CACHE_LIFETIME);
         continue;
       }
 
       //Try to download the image locally
       if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id), $source_url)) {
         //Generate a path corresponding to the downloaded image, styled
-        $covers[$local_id.':'.$image_style] = image_style_url($image_style, $file->uri);
+        $covers[$local_id . ':' . $image_style] = image_style_url($image_style, $file->uri);
       }
     }
-  } catch (Exception $e) {
+  }
+  catch (Exception $e) {
     watchdog('ting_covers', 'Unable to retrieve covers from ADDI: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
   }
 

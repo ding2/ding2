@@ -26,7 +26,7 @@ class TingCoversTestCase extends DrupalWebTestCase {
 
     //All variables have been reset to set these again!
     foreach ($addi_info as $k => $v) {
-      variable_set('addi_'.$k, $v);
+      variable_set('addi_' . $k, $v);
     }
 
     $this->web_user = $this->drupalCreateUser(array('access content'));
@@ -62,7 +62,7 @@ class TingCoversTestCase extends DrupalWebTestCase {
     // Ensure that any changes to variables in the other thread are picked up.
     $this->refreshVariables();
 
-    $this->verbose('simplePost has posted data to ' . $path. '. Response: '.$out);
+    $this->verbose('simplePost has posted data to ' . $path . '. Response: ' . $out);
 
     return $out;
   }

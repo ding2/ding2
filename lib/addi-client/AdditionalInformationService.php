@@ -13,7 +13,7 @@ class AdditionalInformationService {
     $this->group = $group;
     $this->password = $password;
   }
-  
+
   public function getByIsbn($isbn) {
     $isbn = str_replace('-', '', $isbn);
 
@@ -57,7 +57,7 @@ class AdditionalInformationService {
 
     $cover_service = variable_get('current_cover_service');
     $method = '';
-    
+
     if ($cover_service == SERVICE_ADDI) {
       $method = 'additionalInformation';
       $this->current_service = SERVICE_ADDI;
@@ -69,7 +69,7 @@ class AdditionalInformationService {
     else {
       return FALSE;
     }
-    
+
     try {
       $response = $client->$method(array(
                           'authentication' => $authInfo,
@@ -80,7 +80,7 @@ class AdditionalInformationService {
     }
 
     $stopTime = explode(' ', microtime());
-    $time = floatval(($stopTime[1]+$stopTime[0]) - ($startTime[1]+$startTime[0]));
+    $time = floatval(($stopTime[1] + $stopTime[0]) - ($startTime[1] + $startTime[0]));
 
     //Drupal specific code - consider moving this elsewhere
     if (variable_get('addi_enable_logging', false)) {
@@ -92,7 +92,7 @@ class AdditionalInformationService {
     }
 
     if (!is_array($response->identifierInformation)) {
-      $response->identifierInformation = array($response->identifierInformation); 
+      $response->identifierInformation = array($response->identifierInformation);
     }
 
     return $response;
@@ -113,15 +113,15 @@ class AdditionalInformationService {
         foreach ($cover_image as $image) {
           switch ($image->imageSize) {
             case 'thumbnail':
-              $thumbnailUrl = $image->_; 
+              $thumbnailUrl = $image->_;
               break;
             case 'detail':
-              $detailUrl = $image->_; 
+              $detailUrl = $image->_;
               break;
             default:
               // Do nothing other image sizes may appear but ignore them for now
           }
-        }     
+        }
 
         $additionalInfo = new AdditionalInformation($thumbnailUrl, $detailUrl);
         $additionalInformations[$info->identifier->$idName] = $additionalInfo;

@@ -119,7 +119,7 @@ function _ting_covers_delete_old_files($time = NULL) {
   $image_dirs = array($files_dir);
 
   $styles_dir = $files_dir . 'styles';
-  foreach(scandir($styles_dir) as $style_dir) {
+  foreach (scandir($styles_dir) as $style_dir) {
     $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public';
     if (is_dir($style_dir)) {
       $image_dirs[] = $style_dir;
@@ -157,7 +157,8 @@ function _ting_covers_get_files($files_path) {
       if (!in_array($path, array('.', '..'))) {
         $files = array_merge($files, _ting_covers_get_files($file_path));
       }
-    } else {
+    }
+    else {
       $files[] = $file_path;
     }
   }
