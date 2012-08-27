@@ -34,12 +34,12 @@ projects[ding_bookmark][download][branch] = "development"
 
 projects[ding_debt][type] = "module"
 projects[ding_debt][download][type] = "git"
-projects[ding_debt][download][url] = "git@github.com:ding2/ding_debt.git"
+projects[ding_debt][download][url] = "git@github.com:ding2tal/ding_debt.git"
 projects[ding_debt][download][branch] = "development"
 
 projects[ding_loan][type] = "module"
 projects[ding_loan][download][type] = "git"
-projects[ding_loan][download][url] = "git@github.com:ding2/ding_loan.git"
+projects[ding_loan][download][url] = "git@github.com:ding2tal/ding_loan.git"
 projects[ding_loan][download][branch] = "development"
 
 projects[ding_reservation][type] = "module"
@@ -49,5 +49,5 @@ projects[ding_reservation][download][branch] = "development"
 
 projects[ding_wayf][type] = "module"
 projects[ding_wayf][download][type] = "git"
-projects[ding_wayf][download][url] = "git@github.com:ding2/ding_wayf.git"
+projects[ding_wayf][download][url] = "git@github.com:ding2tal/ding_wayf.git"
 projects[ding_wayf][download][branch] = "development"
