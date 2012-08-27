@@ -10,7 +10,7 @@ projects[blackhole][download][url] = "git@github.com:xendk/blackhole.git"
 projects[ting][type] = "module"
 projects[ting][download][type] = "git"
 projects[ting][download][url] = "git@github.com:ding2tal/ting.git"
-projects[ting][download][tag] = "7.x-0.22"
+projects[ting][download][branch] = "development"
 
 ; Contrib modules
 
