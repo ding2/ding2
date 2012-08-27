@@ -16,5 +16,5 @@ projects[ctools][version] = "1.1"
 projects[ting_search_carousel][type] = "module"
 projects[ting_search_carousel][download][type] = "git"
 projects[ting_search_carousel][download][url] = "git@github.com:ding2tal/ting_search_carousel.git"
-projects[ting_search_carousel][download][tag] = "7.x-0.3"
+projects[ting_search_carousel][download][branch] = "development"
 
