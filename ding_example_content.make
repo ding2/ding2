@@ -21,4 +21,4 @@ projects[ding_event][download][tag] = "7.x-0.20"
 projects[ding_news][type] = module
 projects[ding_news][download][type] = git
 projects[ding_news][download][url] = git@github.com:ding2tal/ding_news.git
-projects[ding_news][download][tag] = "7.x-0.22"
+projects[ding_news][download][branch] = "development"
