@@ -14,7 +14,7 @@
  */
 function alma_debt_list($account) {
   $data = alma_debt_get_debts($account);
-
+  
   $debts = array();
 
   // Create DingProviderDebt instances from Alma's list.
@@ -23,7 +23,6 @@ function alma_debt_list($account) {
 
     $debts[$debt['id']] = $debtObj;
   }
-
   return $debts;
 }
 
@@ -37,9 +36,18 @@ function alma_debt_list($account) {
  * @param mixed $order_id
  *   Order ID of the payment transaction, to be recorded in the backend system.
  */
-function alma_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
+function alma_debt_payment_received($amount, $params = array(), $order_id = NULL) {
   // TODO: We should probably check that $amount adds up to the debts
   // we're going to mark paid, since Alma doesn't.
+  if( !empty($params['order_ids']) ) {
+    $debt_ids = $params['debt_ids'];
+  }
+  elseif( !empty($params['debts']) ) {
+    $debt_ids = array_keys($params['debts']) ;
+  }
+  else {
+    $debt_ids = array();
+  } 
   return alma_client_invoke('add_payment', implode(',', $debt_ids), $order_id);
 }
 
@@ -48,7 +56,6 @@ function alma_debt_payment_received($amount, $debt_ids = array(), $order_id = NU
  */
 function alma_debt_get_debts($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
-
+  
   return alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
 }
-
