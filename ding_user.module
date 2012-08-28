@@ -557,10 +557,6 @@ function ding_user_get_creds($account = NULL) {
     }
   }
 
-  if (module_exists('persistent_login') && $creds = persistent_login_get_creds($account->uid)) {
-    return $creds;
-  }
-
   $roles = array_values($GLOBALS['user']->roles);
 
   // Log out user who are authenticated but has no other roles (i.e. ding user)
