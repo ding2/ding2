@@ -67,7 +67,7 @@ class flag_ding_entity extends flag_flag {
   }
 
   function get_user_count_number($uid, $sid = NULL) {
-    return parent::get_user_count($uid, $sid)->fetchField();
+    return parent::get_user_count($uid, $sid);
   }
 
   /**
