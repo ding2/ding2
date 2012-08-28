@@ -295,8 +295,18 @@ function ding_user_user_logout($account) {
  * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
-  if (!empty($account->data) && isset($account->data['display_name'])) {
-    $name = $account->data['display_name'];
+  if (isset($account->data)) {
+    // Check if we have correct data loaded from DB
+    if (is_string($account->data)) {
+      $data = unserialize($account->data);
+    }
+    else {
+      $data = $account->data;
+    }
+
+    if (!empty($data) && isset($data['display_name'])) {
+      $name = $data['display_name'];
+    }
   }
 }
 
@@ -353,9 +363,9 @@ function ding_user_default_authname($name) {
  * user/provider.
  */
 function ding_user_user_login_validate($form, &$form_state) {
-  // If $form_state['uid'] is set, Drupal already found a user, so we don't
-  // bother. Also, we require name and pass.
-  if ($form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['name'])) {
+  // If $form_state['uid'] is set and has a true value, Drupal already found a
+  // user, so we don't bother. Also, we require name and pass.
+  if (isset($form_state['uid']) && $form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
     return;
   }
 
@@ -537,6 +547,8 @@ function ding_user_get_creds($account = NULL) {
   }
   if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
     // Check that the credentials is valid.
+    // note: Only the Alma provider implements 'is_authenticated', and it simply checks if login and password is set.
+    //       So: If the user is cached, $cache->data is returned in any case.
     if (ding_provider_implements('user', 'is_authenticated')) {
       if (ding_provider_invoke('user', 'is_authenticated', $cache->data)) {
         return $cache->data;
