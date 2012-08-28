@@ -12,9 +12,13 @@ function ding_bookmark_user_bookmark_page($account) {
   $content_ids = flag_load('bookmark')->get_user_content_ids($account->uid);
 
   if ($content_ids) {
-    $rendered_form = drupal_get_form('ding_bookmark_remove_form', $content_ids);
-    if (!empty($rendered_form)) {
-      return $rendered_form;
+    $bookmark_form = drupal_get_form('ding_bookmark_remove_form', $content_ids);
+    // render reservation buttons outside bookmark form, so it's valid XHTML
+    $reservation_forms = ding_bookmark_reservation_forms($content_ids);
+    drupal_add_js( drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js' );
+    drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css' );
+    if (!empty($bookmark_form)) {
+      return $reservation_forms . drupal_render($bookmark_form);
     }
   }
 
@@ -51,6 +55,7 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
   $form['actions'] = array(
     '#type' => 'actions',
   );
+
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Delete selected'),
@@ -93,6 +98,7 @@ function theme_ding_bookmark_remove_form($variables) {
   // Create table rows.
   $rows = array();
   if (!empty($form['items']['#options'])) {
+
     foreach (element_children($form['items']) as $key) {
       $item_wid = $key;
       // Clean checkbox
@@ -100,26 +106,41 @@ function theme_ding_bookmark_remove_form($variables) {
       // Create delete link.
       $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_wid));
       $delete_link = array(
-      '#prefix' => '<p class="ding-entity-button">',
+        '#prefix' => '<p class="ding-entity-button">',
         '#suffix' => '</p>',
         '#type' => 'markup',
-          '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
+        '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
       );
+
+      // reservation button
+      $reservation_div = NULL;
+      if ( $form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
+           $form['#builded_entities'][$item_wid]['#object']->is('reservable')
+         ) {
+        $reservation_link = array(
+          '#prefix' => '<p id="wid' . $item_wid . '" class="ding-entity-button ding-bookmark-reservation-button">',
+          '#suffix' => '</p>',
+          '#type' => 'markup',
+          '#markup' => l(t('Reserve'), ''),
+        );
+      }
 
       //Add row.
       $rows[] = array(
         drupal_render($form['items'][$key]),
         drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
-        drupal_render($delete_link),
+        drupal_render($delete_link) . drupal_render($reservation_link),
       );
     }
   }
 
+
   if (count($rows)) {
+
     $output .= theme('table', array(
-      'header' => $header,
+      'header' => $header ,
       'rows' => $rows,
-      'attributes' => array('width' => '100%'),
+      'attributes' => array('width' => 'auto'),
     ));
 
     // Render all remaining elements.
@@ -127,4 +148,39 @@ function theme_ding_bookmark_remove_form($variables) {
   }
 
   return $output;
+}
+
+
+
+function ding_bookmark_reservation_forms($content_ids) {
+  $reservation_block = '';
+  foreach ($content_ids as $entity_id => $entity_type) {
+    // build item view.
+    $item_view_build = ding_bookmark_item_view($entity_type, $entity_id);
+    // reservation buttons
+    if ( $item_view_build['#object']->ding_entity_type == 'ding_entity' &&
+         $item_view_build['#object']->is('reservable')
+       ) {
+      $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($item_view_build['#object']), TRUE));
+      $reservation_form[0]['#id'] = 'ding-reservation-reserve-form-wid' . $entity_id;
+      $reservation_div = array(
+        '#prefix' => '<div class="ding-entity-button-reserve">',
+        '#suffix' => '</div>',
+        '#type' => 'markup',
+        '#markup' => drupal_render($reservation_form),
+      );
+      $reservation_block .= drupal_render($reservation_div);
+    }
+  }
+  return $reservation_block;
+}
+
+
+/**
+ * Bookmark dummy form.
+ */
+function ding_bookmark_dummy_form($form, &$form_state) {
+  $form = array();
+  $form['#attributes'] = array('style' => array('visibility:hidden;'));
+  return $form;
 }
