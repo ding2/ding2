@@ -121,12 +121,12 @@ function alma_form_user_profile_form_alter(&$form, &$form_state) {
   // Ensure that we're dealing with a provider user.
   if (!ding_user_is_provider_user($form_state['user'])) {
     return;
-  }  
-  
+  }
+
   // change size and length of pincode
-  $form['account']['pincode']['#size'] = 32;    
+  $form['account']['pincode']['#size'] = 32;
   $form['account']['pincode']['#maxlength'] = 32;
- 
+
   // @todo; WHAT are the rules for alma pincode
   // HOW do we validate
 
@@ -228,10 +228,15 @@ function alma_get_organisation($reset = FALSE) {
 /**
  * Implements hook_user_view
  */
-function alma_user_view( $account, $view_mode, $langcode ) {
-  $creds = ding_user_get_creds($account);
-  if (($userInfo =  alma_user_info($creds)) && isset($userInfo)) {
-    foreach ($userInfo as $key=>$prop) {
+function alma_user_view($account, $view_mode, $langcode) {
+  try{
+    $creds = ding_user_get_creds($account);
+  }
+  catch(DingProviderAuthException $e){
+    return NULL;
+  }
+  if (($userInfo =  _alma_user_info($creds)) && isset($userInfo)) {
+    foreach ($userInfo as $key => $prop) {
       $data[$key] = isset($prop) ? $prop : '';
     }
 
@@ -241,7 +246,7 @@ function alma_user_view( $account, $view_mode, $langcode ) {
       '#markup' => $data['firstname'],
     );
 
-    $address_parts = array($data['address']);   
+    $address_parts = array($data['address']);
     if (!empty($data['postal']) || !empty($data['city'])) {
       $address_parts[] = join('<br /> ', array_filter(array($data['postal'], $data['city'])));
     }
@@ -254,37 +259,57 @@ function alma_user_view( $account, $view_mode, $langcode ) {
     );
   };
   // @todo: add provider specific fields
-  alma_set_profile2_fields( $account );
-  
+  alma_set_profile2_fields($account);
 }
 
+/**
+ * Callback function to get OpenRuth user information
+ */
+function _alma_user_info($creds = NULL) {
+  // Get patron informations from ALMA.
+  $status = alma_get_patron($creds);
+
+  // Build basic information array, with patron information.
+  $info = array(
+    'firstname' => $status->name,
+    'lastname' => '',
+    'email' => $status->email,
+    'address' => $status->address,
+    'postal' => $status->postal,
+    'city' => $status->city,
+    'mobile' => $status->mobiles,
+    'agency' => $status->branchName,
+  );
+
+  return $info;
+}
 
 function alma_set_profile2_fields($account) {
   if( !module_exists('profile2') ) {
     return;
-  } 
+  }
 
   $profile2 = profile2_load_by_user($account, 'provider_alma');
   if( empty($profile2) ) {
     return;
-  }  
+  }
 
   // wrapper for profile2-fields
   $account->content['profile2'] = array(
       '#type' => 'item',
-      '#title' => t('My library'),    
+      '#title' => t('My library'),
       '#prefix' => '<div class="profile2_provider_fields">',
       '#suffix' => '</div>',
-    ); 
+    );
 
   // set preferred branch
   if( $pref_branch = alma_get_preferred_branch( $profile2 ) ) {
     $account->content['profile2']['preferred_branch'] = array(
       '#type' => 'item',
       '#title' => t('Pickup branch'),
-      '#markup' => '<span>'.$pref_branch.'</span>',      
+      '#markup' => '<span>'.$pref_branch.'</span>',
     );
-  }   
+  }
 
   // set interest period
   if( $interest_period = alma_get_interest_period($profile2) ) {
@@ -293,7 +318,7 @@ function alma_set_profile2_fields($account) {
       '#title' => t('Interest period'),
       '#markup' => '<span>'.$interest_period['value'].'</span>',
     );
-  }  
+  }
 
   // set mobile phone
   if( $mob = alma_get_mobile_phone($profile2) ) {
@@ -302,8 +327,8 @@ function alma_set_profile2_fields($account) {
       '#title' => t('Mobile phone'),
       '#markup' => '<span>'.$mob.'</span>',
     );
-  } 
-  
+  }
+
   // set reservation pause
   if( $reservation_pause = alma_get_reservation_pause( $profile2 ) ) {
         //wrapper for reservation pause
@@ -324,32 +349,32 @@ function alma_set_profile2_fields($account) {
          '#type' => 'item',
          '#title' => t('Stop'),
          '#markup' => '<span>'.str_replace('T00:00:00','',$reservation_pause['stop']).'</span>',
-       );       
+       );
   }
 }
 
 function alma_get_mobile_phone( $profile2 ) {
   $langs = field_language('profile2', $profile2);
-  
+
   if(  empty($profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']] ) ) {
     return false;
   }
 
-  $mob = 
+  $mob =
     isset($profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ?
     $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] : FALSE;
-  
+
   return $mob;
 }
 
 function alma_get_reservation_pause($profile2){
   // get field languages
   $langs = field_language('profile2', $profile2);
-  
+
   if(  empty($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']] ) ) {
     return false;
   }
-  
+
   $res_pause['start'] = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
   $res_pause['stop'] = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
 
@@ -364,23 +389,23 @@ function alma_get_interest_period( $profile2 ) {
   // get field languages
   $langs = field_language('profile2', $profile2);
   // get field-info to retrieve values for select list
-  $field_info = field_info_field('field_alma_interest_period');  
+  $field_info = field_info_field('field_alma_interest_period');
 
   $interest_period = FALSE;
   $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
   if( $int_values ) {
     $int_period = $profile2->field_alma_interest_period[$langs['field_alma_interest_period']][0]['value'];
     $interest_period = isset($int_values[$int_period]) ? array('key'=>$int_period,'value'=>$int_values[$int_period]) : FALSE;
-  }  
+  }
   return $interest_period;
 }
 
 function alma_get_preferred_branch( $profile2 ) {
   // get field languages
   $langs = field_language('profile2', $profile2);
-  
+
   //get preferred branch
-  $pref_branch = 
+  $pref_branch =
     isset($profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value']) ?
     $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value']:'';
 
@@ -393,7 +418,7 @@ function alma_get_preferred_branch( $profile2 ) {
 /**
  * Implements hook_profile2_presave().
  *
- * Sends changes to Alma 
+ * Sends changes to Alma
  */
 function alma_profile2_presave($profile2) {
   if( !$profile2->type == 'provider_alma' ) {
@@ -403,33 +428,33 @@ function alma_profile2_presave($profile2) {
   // @see alma.user/alma_user_profile_init
   if( isset($profile2->alma_init) ) {
     return;
-  }  
+  }
   // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause; field_alma_mobile_phone
   $langs = field_language('profile2', $profile2);
-  
+
   // reservation pause
-   if( !empty( $profile2->original->field_alma_reservation_pause ) ) {   
-     $start = 
+   if( !empty( $profile2->original->field_alma_reservation_pause ) ) {
+     $start =
        isset($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value']) ?
        $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] : '';
     $start = str_replace('T00:00:00','',$start);
 
-    $stop = 
+    $stop =
       isset($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2']) ?
       $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] : '';
-    $stop = str_replace('T00:00:00','',$stop);    
+    $stop = str_replace('T00:00:00','',$stop);
 
     $org_start = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
     $org_start = str_replace('T00:00:00','',$org_start);
-    
+
     $org_stop = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
     $org_stop = str_replace('T00:00:00','',$org_stop);
-    
+
     if( $start != $org_start || $stop != $org_stop ) {
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
       $changes['absent_id'] = $profile2->field_absent_id[$langs['field_absent_id']][0]['value'];
-    }   
+    }
    }
 
    // alma_preferred_branch (patronBranch)
@@ -440,13 +465,13 @@ function alma_profile2_presave($profile2) {
      if( $org_branch != $new_branch ) {
        $changes['preferred_branch'] = $new_branch;
      }
-   } 
+   }
 
    //change or remove
    if( !empty($profile2->original->field_alma_mobile_phone ) ) {
      $org_phone = $profile2->original->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];
-     $new_phone = 
-       !empty( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ? 
+     $new_phone =
+       !empty( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ?
        $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] :
        'DELETE';
      if( $org_phone != $new_phone ) {
@@ -454,80 +479,83 @@ function alma_profile2_presave($profile2) {
        $changes['phone_id'] = $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'];
      }
    }
-   // add 
+   // add
    elseif( isset( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] ) &&
 	   !isset( $profile2->original->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] )) {
-    $changes['mobile'] = $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];   
-  } 
-  
+    $changes['mobile'] = $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];
+  }
 
-   // Interest period ? apparently not an alma parameter.. @todo; check if Interest period should be saved on provider 
+
+   // Interest period ? apparently not an alma parameter.. @todo; check if Interest period should be saved on provider
 
    // update provider
    if( isset($changes) ) {
      alma_update_provider( $changes,$profile2 );
-   }  
-   
+   }
+
 }
 
 function alma_update_provider( $changes, $profile2 ) {
   $error_message = t('Error communicating with library system. ');
 
-  try{  $creds = ding_user_get_creds( $profile2 );}
-  catch(Exception $e){
+  try {
+    $creds = ding_user_get_creds($profile2);
+  }
+  catch (Exception $e){
     // rethrow ??
     throw $e;
   }
 
-  // mobile phone; add, change, delete
-  if( isset($changes['phone_id']) ) {    
-    if( $changes['mobile'] == 'DELETE' ) {
+   // mobile phone; add, change, delete
+  if (isset($changes['phone_id'])) {
+    if ($changes['mobile'] == 'DELETE') {
       //delete mobile
-      try{
-	$res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
+      try {
+        $res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
       }
-      catch(Exception $e){
-	watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $e) {
+        watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
       }
-      if( !$res ) {
-	$error_message .= t('mobile not deleted');
-	drupal_set_message($error_message,'warning');
+
+      if (!$res) {
+        $error_message .= t('mobile not deleted');
+        drupal_set_message($error_message,'warning');
       }
     }
     else {
       //update mobile
-       try{
-	$res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
+       try {
+         $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
+       }
+       catch (Exception $e) {
+	       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+       }
+       if (!$res) {
+	       $error_message .= t('mobile not updated');
+	       drupal_set_message($error_message,'warning');
       }
-      catch(Exception $e){
-	watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
-      }
-      if( !$res ) {
-	$error_message .= t('mobile not updated');
-	drupal_set_message($error_message,'warning');
-      }      
-    }       
+    }
   }
-  elseif( isset($changes['mobile']) ){
+  elseif (isset($changes['mobile'])){
     // add mobile
-    try{
+    try {
       $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile'] );
     }
-    catch(Exception $e){
+    catch (Exception $e){
       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
     }
-    if( !$res ) {
+    if (!$res) {
       $error_message .= t('mobile not added');
       drupal_set_message($error_message,'warning');
     }
-  }      
-  
-  // update reservation pause (absentPeriod)
-  if( !empty( $changes['absent_id'] ) &&
-      !empty($changes['reservation_pause_start']) && 
-      !empty( $changes['reservation_pause_stop'] )) {
+  }
 
-     try {
+  // update reservation pause (absentPeriod)
+  if (!empty( $changes['absent_id']) &&
+      !empty($changes['reservation_pause_start']) &&
+      !empty( $changes['reservation_pause_stop'])) {
+
+    try {
       $res =  alma_client_invoke('change_absent_period',$creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'],$changes['reservation_pause_stop'] );
     }
     catch(Exception $e){
@@ -539,25 +567,25 @@ function alma_update_provider( $changes, $profile2 ) {
     }
   }
   // add reservation pause
-  elseif( !empty($changes['reservation_pause_start'])  && 
-	  !empty( $changes['reservation_pause_stop'] ) ) {
+  elseif (!empty($changes['reservation_pause_start'])  &&
+	        !empty($changes['reservation_pause_stop'])) {
     try {
       $res = alma_client_invoke('add_absent_period',$creds['name'], $creds['pass'], $changes['reservation_pause_start'],$changes['reservation_pause_stop']);
     }
-    catch(Exception $e){
+    catch (Exception $e){
       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
     }
-    if( !$res ) {
+    if (!$res) {
       $error_message .= t('reservation pause not added');
       drupal_set_message($error_message,'warning');
     }
   }
   // delete reservation pause
-  elseif( !empty( $changes['absent_id'] ) ) {
+  elseif (!empty( $changes['absent_id'])) {
     try {
       $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
     }
-    catch(Exception $e){
+    catch (Exception $e){
       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
     }
 
@@ -570,21 +598,21 @@ function alma_update_provider( $changes, $profile2 ) {
   }
 
   // update preferred branch (patronBranch)
-  if( !empty($changes['preferred_branch'] ) ) {
+  if (!empty($changes['preferred_branch'])) {
     try {
       $res = alma_client_invoke( 'change_patron_preferences' , $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
     catch(Exception $e){
       watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
     }
-    if( !$res ) {
+    if (!$res) {
       $error_message .= t('pickup branch not saved');
       drupal_set_message($error_message,'warning');
     }
-  }   
+  }
 
-   // refresh patron
-  alma_get_patron($creds, TRUE); 
+  // refresh patron
+  alma_get_patron($creds, TRUE);
 }
 
 /**

@@ -62,30 +62,6 @@ function alma_user_is_authenticated($creds) {
 }
 
 /**
- * Callback function to get OpenRuth user information
- */
-function alma_user_info($creds = NULL) {
-  // Get patron informations from ALMA.
-  $status = alma_get_patron($creds);
-
-  // Build basic information array, with patron information.
-  $info = array(
-    'firstname' => $status->name,
-    'lastname' => '',
-    'email' => $status->email,
-    'address' => $status->address,
-    'postal' => $status->postal,
-    'city' => $status->city,
-    'mobile' => $status->mobiles,
-    'agency' => $status->branchName,
-  );
-
-
-  return (object)$info;
-}
-
-
-/**
  * Provider specific user profile form validate handler.
  */
 function alma_user_profile_form_validate($form, $form_state) {
@@ -115,7 +91,7 @@ function alma_user_profile_init( $profile2, $auth_res ){
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
     $profile2->field_absent_id[$langs['field_absent_id']][0]['value'] = $patron->absentPeriods[0]['id'];
-  }  
+  }
   else {
     $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = ' ';
     $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = ' ';
@@ -162,7 +138,7 @@ function alma_user_account_update($account, $changes) {
       // Set new password.
       $creds['pass'] = $changes['pass'];
       // Update creds.
-      $result['creds'] = $creds;    
+      $result['creds'] = $creds;
       return $result;
     }
   }
