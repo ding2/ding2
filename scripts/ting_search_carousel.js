@@ -62,5 +62,8 @@
         }
       }
     });
+    $(window).resize(function () {
+      carousel.carousel('refresh');
+    });
   }
 })(jQuery);
