@@ -24,7 +24,7 @@ function ding_ting_frontend_ctools_plugin_api() {
 function ding_ting_frontend_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ding_large
+  // Exported image style: ding_large.
   $styles['ding_large'] = array(
     'effects' => array(
       0 => array(
@@ -47,7 +47,7 @@ function ding_ting_frontend_image_default_styles() {
     'name' => 'ding_large',
   );
 
-  // Exported image style: ding_medium
+  // Exported image style: ding_medium.
   $styles['ding_medium'] = array(
     'effects' => array(
       0 => array(
@@ -70,7 +70,7 @@ function ding_ting_frontend_image_default_styles() {
     'name' => 'ding_medium',
   );
 
-  // Exported image style: ding_small
+  // Exported image style: ding_small.
   $styles['ding_small'] = array(
     'effects' => array(
       0 => array(
