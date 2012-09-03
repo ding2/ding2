@@ -225,6 +225,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $attached['js'][1] = array(
           'data' => array(
             'ding_availability' => $id_mapping,
+            'ding_availability_link' => $display['settings']['link'],
           ), 'type' => 'setting');
 
         $element[$delta] = array(

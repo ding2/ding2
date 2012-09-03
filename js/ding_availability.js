@@ -65,40 +65,55 @@
           }
         });
 
-        $('#' + id).removeClass('pending');
-        $('#' + id).addClass('processed');
+        var element = $('#' + id);
+        element.removeClass('pending').addClass('processed');
 
         if (available) {
-          $('#' + id).addClass('available');
+          element.addClass('available');
         }
         if (reservable) {
-          $('#' + id).addClass('reservable');
+          element.addClass('reservable');
         }
 
         if (available && reservable) {
-          $('#' + id).attr('title', Drupal.t('available'));
+          element.attr('title', Drupal.t('available'));
+          // If availability is an link extrend information.
+          if (settings.ding_availability_link === 1) {
+            $('a', element).append('<span class="availability-status">' + Drupal.t('available') + '<span>');
+          }
         }
         else if (!available && reservable) {
-          $('#' + id).attr('title', Drupal.t('on loan'));
-        }
+          element.attr('title', Drupal.t('on loan'));
+          // If availability is an link extrend information.
+          if (settings.ding_availability_link === 1) {
+            $('a', element).append('<span class="availability-status">' + Drupal.t('on loan') + '<span>');
+          }        }
         else if (available && ! reservable) {
-          $('#' + id).attr('title', Drupal.t('not reservable'));
+          element.attr('title', Drupal.t('not reservable'));
+          // If availability is an link extrend information.
+          if (settings.ding_availability_link === 1) {
+            $('a', element).append('<span class="availability-status">' + Drupal.t('not reservable') + '<span>');
+          }
         }
         else if (!available && ! reservable) {
-          $('#' + id).attr('title', Drupal.t('unavailable'));
+          element.attr('title', Drupal.t('unavailable'));
+          // If availability is an link extrend information.
+          if (settings.ding_availability_link === 1) {
+            $('a', element).append('<span class="availability-status">' + Drupal.t('unavailable') + '<span>');
+          }
         }
       }
 
       function updateHoldings(id, entity_ids) {
         var entity_id = entity_ids.pop();
-          if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'] || Drupal.DADB[entity_id]['holdings_available'])) {
+        if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'] || Drupal.DADB[entity_id]['holdings_available'])) {
           var holdings;
-	  var length;
+          var length;
 
           // Use holdings_available, if set and entity is not a periodical.
           if (Drupal.DADB[entity_id]['holdings_available'] && !Drupal.DADB[entity_id]['is_periodical'] ) {
-              holdings = Drupal.DADB[entity_id]['holdings_available'];
-              length = holdings.length;
+            holdings = Drupal.DADB[entity_id]['holdings_available'];
+            length = holdings.length;
           }
           else {
             holdings = Drupal.DADB[entity_id]['holdings'];
@@ -106,7 +121,7 @@
             length = Object.keys(holdings).length;
           }
 
-          
+
           if (length > 0) {
             $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
             $('#' + id).append('<ul>');
@@ -117,9 +132,7 @@
           }
         }
       }
-
     }
   };
-
 })(jQuery);
 
