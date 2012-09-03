@@ -204,12 +204,20 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         foreach ($typed_entities as $type => $entities) {
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entity->id . '-' . $type);
+
+          // Convert type into link.
+          if ($display['settings']['link']) {
+            $url = entity_uri('ting_object', $entity);
+            $type = l($type, $url['path'], $url['options']);
+          }
+
           // Create a list element for each type.
           $types[] = array(
             'data' => $type,
             'id' => $id,
             'class' => array('availability', drupal_html_class($type)),
           );
+
           // Map the HTML id to the list of entity ids.
           $id_mapping[$id] = $entities;
         }
@@ -227,5 +235,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         break;
     }
   }
+
   return $element;
 }
