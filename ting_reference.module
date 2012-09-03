@@ -5,19 +5,14 @@
  */
 
 /**
- * Implements hook_enable().
+ * Implements hook_ctools_plugin_api().
  */
-function ting_reference_enable() {
-  // Relations isn't properly exported/imported with beta1, so we do
-  // it by hand for the moment being.
-  relation_init();
-  foreach (ting_reference_relation_default_relation_types_tmp() as $relation_type) {
-    if (!relation_type_load($relation_type->relation_type)) {
-      relation_type_save($relation_type);
-    }
+function ting_reference_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "relation" && $api == "relation_type_default") {
+    return array("version" => "1");
   }
 }
-
 
 /**
  * preprocess ting_object
@@ -26,38 +21,6 @@ function ting_reference_preprocess_ting_object(&$variables) {
   if( isset($variables['content']['ting_reference_reverse']) ) { 
     $variables['content']['ting_reference_reverse']['#prefix'] =  '<a name="ting_reference"></a>';
   }
-}
-
-/**
- * Not quite an Implementation of hook_relation_default_relation_types().
- *
- * Default hooks doesn't work for relations beta1, so we do it by hand
- * for the moment being.
- */
-function ting_reference_relation_default_relation_types_tmp() {
-  $export = array();
-
-  $relation_type = new stdClass;
-  $relation_type->disabled = FALSE; /* Edit this to true to make a default relation_type disabled initially */
-  $relation_type->api_version = 1;
-  $relation_type->relation_type = 'ting_reference';
-  $relation_type->label = 'Ting reference';
-  $relation_type->reverse_label = 'Related content';
-  $relation_type->directional = 1;
-  $relation_type->transitive = 0;
-  $relation_type->r_unique = 1;
-  $relation_type->min_arity = 2;
-  $relation_type->max_arity = 2;
-  $relation_type->source_bundles = array(
-    0 => 'node:*',
-    1 => 'user:*',
-  );
-  $relation_type->target_bundles = array(
-    0 => 'ting_object:ting_object',
-  );
-  $export['ting_reference'] = $relation_type;
-
-  return $export;
 }
 
 /**
