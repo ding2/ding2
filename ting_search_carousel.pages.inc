@@ -11,13 +11,12 @@
  *   Array index storing specific data.
  */
 function ting_search_carousel_result($index) {
-  $collections = array();
   $result = '';
   $cache = cache_get('ting_search_result', 'cache');
 
-  if( !$cache ) {
+  if (!isset($cache)) {
     ting_search_carousel_cron();
-    $cache = cache_get('ting_search_result', 'cache');    
+    $cache = cache_get('ting_search_result', 'cache');
   }
 
   $cache_ting_search_result = unserialize($cache->data);
@@ -26,11 +25,13 @@ function ting_search_carousel_result($index) {
 
   if (isset($ting_seach_queries[$index])) {
     $subtitle = $ting_seach_queries[$index]['subtitle'];
-    foreach ($cache_ting_search_result[$index] as $k => $v) {
-      $result .= theme('ting_search_carousel_collection', array('collection' => $v));
+    if (isset($cache_ting_search_result[$index]) && !empty($cache_ting_search_result[$index])) {
+      foreach ($cache_ting_search_result[$index] as $collection) {
+        $result .= theme('ting_search_carousel_collection', array('collection' => $collection));
+      }
     }
   }
 
-  echo drupal_json_encode(array('subtitle' => $subtitle, 'content' => $result));
+  drupal_json_output(array('subtitle' => $subtitle, 'content' => $result));
   exit();
 }
