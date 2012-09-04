@@ -14,7 +14,7 @@ projects[ctools][version] = "1.1"
 
 projects[email][type] = module
 projects[email][subdir] = contrib
-projects[email][version] = "1.1"
+projects[email][version] = "1.2"
 
 projects[features][type] = module
 projects[features][subdir] = contrib
