@@ -117,7 +117,7 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
       }
     }
 
-    cache_set($cacheId, $recommended_objects, 'cache_ting_recommendation_panes', time() + variable_get('ting_recommendation_panes_cache_duration', 604800));
+    cache_set($cacheId, $recommended_objects, 'cache_ting_recommendation_panes', REQUEST_TIME + variable_get('ting_recommendation_panes_cache_duration', 604800));
   }
 
   return $recommended_objects;
