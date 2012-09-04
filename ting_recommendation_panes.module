@@ -91,10 +91,7 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
       try {
         $recommendations = ting_get_object_recommendations($id, $numResults);
         foreach ($recommendations as $recommendation) {
-          if (isset($localIds[$recommendation->localId])) {
-            $localIds[$recommendation->localId] = 0;
-          }
-          $localIds[$recommendation->localId]++;
+          $localIds[$recommendation->localId] = $recommendation;
         }
       }
       catch (TingClientException $e) {
@@ -106,8 +103,8 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
     $recommended_objects = array();
     $agency = variable_get('ting_agency', -1);
 
-    foreach(array_keys($localIds) as $localId) {
-      $ting_object = ting_get_object_by_local_id($localId, false);
+    foreach (array_keys($localIds) as $localId) {
+      $ting_object = ding_entity_load("$agency:$localId");
 
       // Only show objects belonging to our own library.
       if ($ting_object && $ting_object->ownerId == $agency) {

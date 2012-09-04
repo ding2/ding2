@@ -53,10 +53,10 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
   foreach ($context as $c) {
     switch ($c->type) {
       case 'ting_object':
-        $objects = ting_get_object($c->get_original_argument());
+        $objects = ting_get_object($c->get_original_argument()->getId());
         break 2;
       case 'ting_collection':
-        $objects = ting_get_object($c->get_original_argument(), TRUE);
+        $objects = ting_get_object($c->get_original_argument()->getId(), TRUE);
         break 2;
     }
   }
@@ -66,9 +66,19 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
   if ($objects) {
     $recommendedObjects = ting_recommendation_panes_get_recommended_objects($objects);
 
+    $model = array();
+    foreach ($recommendedObjects as $recommendedObject) {
+      $url = entity_uri("ting_object", $recommendedObject);
+      $url = $url['path'];
+      $model[] = array(
+        "url" => $url,
+        "creators" => $recommendedObject->creators,
+        "title" => $recommendedObject->title,
+        );
+    }
     switch ($subtype) {
       case 'recommendation_list':
-        $block->content = theme('ting_recommendation_panes_recommendation_list', $recommendedObjects);
+        $block->content = theme('ting_recommendation_panes_recommendation_list', array('models' => $model));
         break;
     }
   }
