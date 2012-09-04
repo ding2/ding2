@@ -115,15 +115,17 @@ function ding_availability_field_formatter_settings_summary($field, $instance, $
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
-  $linking = t('false');
-  if ($settings['link']) {
-    $linking = t('true');
-  }
+  if ($field['type'] == 'ting_collection_types') {
+    $linking = t('false');
+    if ($settings['link']) {
+      $linking = t('true');
+    }
 
-  // Check if linking to the object have been selected
-  $summary = t('Link to ting objects: @link', array(
-    '@link' => $linking,
-  ));
+    // Check if linking to the object have been selected
+    $summary = t('Link to ting objects: @link', array(
+      '@link' => $linking,
+    ));
+  }
 
   return $summary;
 }
