@@ -114,6 +114,7 @@ function ding_availability_field_formatter_settings_summary($field, $instance, $
   // Get settings information for the field instance.
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
+  $summary = NULL;
 
   if ($field['type'] == 'ting_collection_types') {
     $linking = t('false');
