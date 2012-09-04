@@ -342,12 +342,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       pager_default_initialize($total_results, $resultsPerPage);
 
       foreach ($searchResult->collections as &$collection) {
-        // Get configured view mode.
-        $info = field_info_instance('ting_collection', 'ting_primary_object', 'ting_collection');
-        $view_mode = $info['display']['teaser']['settings']['view_mode'];
-
-        // Build the render array for the entity.
-        $build = ting_collection_view($collection, $view_mode);
+        $build = ting_collection_view($collection, 'teaser');
         $uri = entity_uri('ting_collection', $collection);
         $results[] = array(
           'link' => url($uri['path'], $uri['options']),
