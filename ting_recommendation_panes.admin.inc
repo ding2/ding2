@@ -3,7 +3,7 @@
 /**
  * Ting recommendation panel admin form.
  */
-function ting_recommendation_panes_settings_form($form_state) {
+function ting_recommendation_panes_settings_form($form, $form_state) {
   $form = array();
 
   $form['ting_recommendation_panes_cache_duration'] = array(

@@ -9,14 +9,16 @@
  * Implements hook_install().
  */
 function ting_recommendation_panes_install() {
-  drupal_install_schema('ting_recommendation_panes');
+  // TODO The drupal_(un)install_schema functions are called automatically in D7.
+  // drupal_install_schema('ting_recommendation_panes')
 }
 
 /**
  * Implements hook_uninstall().
  */
 function ting_recommendation_panes_uninstall() {
-  drupal_uninstall_schema('ting_recommendation_panes');
+  // TODO The drupal_(un)install_schema functions are called automatically in D7.
+  // drupal_uninstall_schema('ting_recommendation_panes')
 }
 
 /**

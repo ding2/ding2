@@ -7,7 +7,7 @@ function ting_recommendation_panes_menu() {
   $path = drupal_get_path('module', 'ting_recommendation_panes');
   $items = array();
 
-  $items['admin/settings/ting_recommendation_panes'] = array(
+  $items['admin/config/ting_recommendation_panes'] = array(
     'title' => 'Ting recommendation panes',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_recommendation_panes_settings_form'),
@@ -22,9 +22,12 @@ function ting_recommendation_panes_menu() {
 /**
  * Implements hook_permission().
  */
-function ting_recommendation_panes_perm() {
+function ting_recommendation_panes_permission() {
   return array(
-    'administer recommendation panes'
+    'administer recommendation panes' => array(
+      'title' => t('administer recommendation panes'),
+      'description' => t('TODO Add a description for \'administer recommendation panes\''),
+    ),
   );
 }
 
@@ -36,11 +39,11 @@ function ting_recommendation_panes_perm() {
 function ting_recommendation_panes_theme() {
   return array(
     'ting_recommendation_panes_recommendation_list' => array(
-      'arguments' => array('objects' => NULL),
+      'variables' => array('objects' => NULL),
       'template' => 'ting_recommendation_panes_recommendation_list',
     ),
     'ting_recommendation_panes_recommendation_list_entry' => array(
-      'arguments' => array('object' => NULL),
+      'variables' => array('object' => NULL),
       'template' => 'ting_recommendation_panes_recommendation_list_entry',
     ),
   );

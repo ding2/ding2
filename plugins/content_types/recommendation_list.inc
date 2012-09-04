@@ -97,6 +97,6 @@ function ting_recommendation_panes_recommendation_list_content_type_admin_title(
 /**
  * Returns an edit form for the content type.
  */
-function ting_recommendation_panes_recommendation_list_content_type_edit_form(&$form, &$form_state) {
+function ting_recommendation_panes_recommendation_list_content_type_edit_form($form, &$form_state) {
   return $form;
 }
