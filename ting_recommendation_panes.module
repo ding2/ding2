@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ting_recommendation_panes_menu() {
   $path = drupal_get_path('module', 'ting_recommendation_panes');
@@ -20,7 +20,7 @@ function ting_recommendation_panes_menu() {
 }
 
 /**
- * Implementation of hook_perm().
+ * Implements hook_permission().
  */
 function ting_recommendation_panes_perm() {
   return array(
@@ -29,7 +29,7 @@ function ting_recommendation_panes_perm() {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  *
  * This lets us tell Drupal about our theme functions and their arguments.
  */
@@ -47,14 +47,14 @@ function ting_recommendation_panes_theme() {
 }
 
 /**
- * Implementation of hook_flush_caches().
+ * Implements hook_flush_caches().
  */
 function ting_recommendation_panes_flush_caches() {
   return array('cache_ting_recommendation_panes');
 }
 
 /**
- * Implementation of hook_ctools_plugin_directory().
+ * Implements hook_ctools_plugin_directory().
  *
  * Tells CTools (and thus Panels) where to look for plugin code.
  */
@@ -73,7 +73,7 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
   $cacheId = md5(implode('|', $identifiers));
   $cache = cache_get($cacheId, 'cache_ting_recommendation_panes');
   if ($cache) {
-    $recommendedObjects = $cache->data;
+    $recommended_objects = $cache->data;
   }
   else {
     $numResults = 24;
@@ -95,12 +95,12 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
         }
       }
       catch (TingClientException $e) {
-        watchdog('ting client', 'Error retrieving recommendations: '. $e->getMessage(), array($id, $e), WATCHDOG_WARNING, $_SERVER["REQUEST_URI"]);
+        watchdog('ting client', 'Error retrieving recommendations: ' . $e->getMessage(), array($id, $e), WATCHDOG_WARNING, $_SERVER["REQUEST_URI"]);
       }
     }
     arsort($localIds);
 
-    $recommendedObjects = array();
+    $recommended_objects = array();
     $agency = variable_get('ting_agency', -1);
 
     foreach(array_keys($localIds) as $localId) {
@@ -108,21 +108,25 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
 
       // Only show objects belonging to our own library.
       if ($ting_object && $ting_object->ownerId == $agency) {
-        $recommendedObjects[] = $ting_object;
+        $recommended_objects[] = $ting_object;
 
         // Don't get more than 10 valid objects.
-        if (count($recommendedObjects) >= 10) {
+        if (count($recommended_objects) >= 10) {
           break;
         }
       }
     }
 
-    cache_set($cacheId, $recommendedObjects, 'cache_ting_recommendation_panes', time()+variable_get('ting_recommendation_panes_cache_duration', 604800));
+    cache_set($cacheId, $recommended_objects, 'cache_ting_recommendation_panes', time() + variable_get('ting_recommendation_panes_cache_duration', 604800));
   }
 
-  return $recommendedObjects;
+  return $recommended_objects;
 }
 
+/**
+ * @todo Please document this function.
+ * @see http://drupal.org/node/1354
+ */
 function ting_recommendation_panes_extract_identifers($objects) {
   if (is_array($objects)) {
     //if passing an array then extract ids from each of the entries
@@ -142,15 +146,15 @@ function ting_recommendation_panes_extract_identifers($objects) {
         else {
           return array();
         }
-      break;
+        break;
       case 'TingClientObjectCollection':
         //get ids from each of the objects in the collection
         return ting_recommendation_panes_extract_identifers($objects->objects);
-      break;
+        break;
       default:
         //assume a string or integer has been passed and return it
         return array($objects);
-      break;
+        break;
     }
   }
 }

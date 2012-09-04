@@ -22,6 +22,6 @@ function ting_recommendation_panes_settings_form($form_state) {
     ),
     '#default_value' => variable_get('ting_recommendation_panes_cache_duration', 604800),
   );
-  
-  return system_settings_form($form);    
+
+  return system_settings_form($form);
 }

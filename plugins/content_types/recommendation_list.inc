@@ -8,7 +8,7 @@
 /**
  * Callback function to supply a list of content types.
  *
- * This is only required to make CTools know that we're providing 
+ * This is only required to make CTools know that we're providing
  * multiple types here (since we have no single => TRUE in the array).
  */
 function ting_recommendation_panes_recommendation_list_ctools_content_types() {
@@ -33,7 +33,7 @@ function ting_recommendation_panes_recommendation_list_content_type_content_type
     $types[$name] += array(
       'category' => t('Ting'),
       'required context' => array(
-        new ctools_context_optional(t('Ting object'), 'ting_object'), 
+        new ctools_context_optional(t('Ting object'), 'ting_object'),
         new ctools_context_optional(t('Ting collection'), 'ting_collection'),
       ),
     );
@@ -46,33 +46,33 @@ function ting_recommendation_panes_recommendation_list_content_type_content_type
  */
 function ting_recommendation_panes_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
   $basePath = drupal_get_path('module', 'ting_recommendation_panes');
-  drupal_add_css($basePath.'/css/ting_recommendation_panes.css');
-  
-	//get the objects to base the recommendation on based on the first supplied context
-	$objects = FALSE;
-	foreach ($context as $c) {
-  	switch ($c->type) {
-  		case 'ting_object':
-  		  $objects = ting_get_object_by_id($c->original_argument);
-  		break 2;
+  drupal_add_css($basePath . '/css/ting_recommendation_panes.css');
+
+  //get the objects to base the recommendation on based on the first supplied context
+  $objects = FALSE;
+  foreach ($context as $c) {
+    switch ($c->type) {
+      case 'ting_object':
+        $objects = ting_get_object($c->get_original_argument());
+        break 2;
       case 'ting_collection':
-        $objects = ting_get_collection_by_id($c->original_argument);
-      break 2;  		
-  	}
+        $objects = ting_get_object($c->get_original_argument(), TRUE);
+        break 2;
+    }
   }
-  
+
   $block = new stdClass();
-  
+
   if ($objects) {
-	  $recommendedObjects = ting_recommendation_panes_get_recommended_objects($objects);
-	  
-	  switch($subtype) {
-	    case 'recommendation_list':
-	      $block->content = theme('ting_recommendation_panes_recommendation_list', $recommendedObjects);
-	      break;
-	  }
+    $recommendedObjects = ting_recommendation_panes_get_recommended_objects($objects);
+
+    switch ($subtype) {
+      case 'recommendation_list':
+        $block->content = theme('ting_recommendation_panes_recommendation_list', $recommendedObjects);
+        break;
+    }
   }
-  
+
   return $block;
 }
 
@@ -81,16 +81,14 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
  */
 function ting_recommendation_panes_recommendation_list_content_type_admin_title($subtype, $conf, $context) {
   $contextIdentifiers =  array();
-	foreach ($context as $c)
-  {
-  	if ($c->type != 'any')
-  	{
+  foreach ($context as $c) {
+    if ($c->type != 'any') {
       $contextIdentifiers[] = $c->identifier;
-  	}
+    }
   }
   $contextIdentifiers = implode(', ', $contextIdentifiers);
-	
-	switch($subtype) {
+
+  switch ($subtype) {
     case 'recommendation_list':
       return t('“@s”: Ting recommendation list', array('@s' => $contextIdentifiers));
   }

@@ -6,24 +6,24 @@
  */
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function ting_recommendation_panes_install() {
   drupal_install_schema('ting_recommendation_panes');
 }
-  
+
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function ting_recommendation_panes_uninstall() {
   drupal_uninstall_schema('ting_recommendation_panes');
 }
 
 /**
- * Implementation of hook_schema().
+ * Implements hook_schema().
  */
 function ting_recommendation_panes_schema() {
-  $schema = array(); 
+  $schema = array();
   $schema['cache_ting_recommendation_panes'] = drupal_get_schema_unprocessed('system', 'cache');
   return $schema;
 }
