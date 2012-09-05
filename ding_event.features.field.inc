@@ -46,9 +46,11 @@ function ding_event_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_plain',
+          'module' => 'ding_base',
+          'settings' => array(
+            'body_snippet_length' => 100,
+          ),
+          'type' => 'body_snippet',
           'weight' => '0',
         ),
       ),
@@ -112,10 +114,11 @@ function ding_event_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'taxonomy',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '12',
+          'type' => 'taxonomy_term_reference_link',
+          'weight' => '11',
         ),
         'rss' => array(
           'label' => 'above',
@@ -731,9 +734,15 @@ function ding_event_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'ding_event',
-          'settings' => array(),
-          'type' => 'date_time_seperate_lines',
+          'module' => 'date',
+          'settings' => array(
+            'format_type' => 'long',
+            'fromto' => 'both',
+            'multiple_from' => '',
+            'multiple_number' => '',
+            'multiple_to' => '',
+          ),
+          'type' => 'date_default',
           'weight' => '3',
         ),
         'rss' => array(
@@ -930,7 +939,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '11',
+          'weight' => '12',
         ),
         'rss' => array(
           'label' => 'hidden',
