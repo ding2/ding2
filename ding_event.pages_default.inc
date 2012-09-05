@@ -149,6 +149,53 @@ function ding_event_default_page_manager_handlers() {
     $display->panels['grid_10_center'][0] = 'new-1';
     $pane = new stdClass;
     $pane->pid = 'new-2';
+    $pane->panel = 'grid_10_center';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_event-panel_pane_3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'empty',
+        1 => 'relationship_entity_from_field:field_category-node-taxonomy_term_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => 'Lignende arrangementer',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-2'] = $pane;
+    $display->panels['grid_10_center'][1] = 'new-2';
+    $pane = new stdClass;
+    $pane->pid = 'new-3';
+    $pane->panel = 'grid_10_center';
+    $pane->type = 'node_comments';
+    $pane->subtype = 'node_comments';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'mode' => '1',
+      'comments_per_page' => '50',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => 'KOMMENTARER',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $display->content['new-3'] = $pane;
+    $display->panels['grid_10_center'][2] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
     $pane->panel = 'grid_3_left';
     $pane->type = 'category_menu';
     $pane->subtype = 'category_menu';
@@ -170,10 +217,10 @@ function ding_event_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-2'] = $pane;
-    $display->panels['grid_3_left'][0] = 'new-2';
+    $display->content['new-4'] = $pane;
+    $display->panels['grid_3_left'][0] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-5';
     $pane->panel = 'grid_3_right';
     $pane->type = 'block';
     $pane->subtype = 'similarterms-ding_content_tags';
@@ -190,10 +237,10 @@ function ding_event_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $display->content['new-3'] = $pane;
-    $display->panels['grid_3_right'][0] = 'new-3';
+    $display->content['new-5'] = $pane;
+    $display->panels['grid_3_right'][0] = 'new-5';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-6';
     $pane->panel = 'grid_3_right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -224,8 +271,8 @@ function ding_event_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $display->content['new-4'] = $pane;
-    $display->panels['grid_3_right'][1] = 'new-4';
+    $display->content['new-6'] = $pane;
+    $display->panels['grid_3_right'][1] = 'new-6';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
