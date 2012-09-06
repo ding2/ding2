@@ -19,5 +19,9 @@ function ding_ting_frontend_entity_info_alter(&$entity_info) {
       'label' => t('Collection listing'),
       'custom settings' => TRUE,
     ),
+    'search_result' => array(
+      'label' => t('Search result'),
+      'custom settings' => TRUE,
+    ),
   );
 }

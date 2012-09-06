@@ -160,7 +160,7 @@ search/ting
     $pane->panel = 'middle';
     $pane->type = 'block';
     $pane->subtype = 'ding_availability-legend';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
