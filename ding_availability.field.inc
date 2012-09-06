@@ -71,8 +71,64 @@ function ding_availability_field_formatter_info() {
       'field types' => array(
         'ting_collection_types',
       ),
+      'settings'  => array(
+        'link' => FALSE,
+      ),
     ),
   );
+}
+
+
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function ding_availability_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  // Get display and current (or default) settings.
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  // Initialize the return element (settings form).
+  $element = array();
+
+  switch ($field['type']) {
+    case 'ting_collection_types':
+      $element['link'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Links'),
+        '#description' => t('Convert the availability texts into links.'),
+        '#default_value' => $settings['link'],
+      );
+      break;
+  }
+
+  return $element;
+}
+
+
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function ding_availability_field_formatter_settings_summary($field, $instance, $view_mode) {
+  // Get settings information for the field instance.
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = NULL;
+
+  if ($field['type'] == 'ting_collection_types') {
+    $linking = t('false');
+    if ($settings['link']) {
+      $linking = t('true');
+    }
+
+    // Check if linking to the object have been selected
+    $summary = t('Link to ting objects: @link', array(
+      '@link' => $linking,
+    ));
+  }
+
+  return $summary;
 }
 
 /**
@@ -91,6 +147,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css'
       ),
     );
+
     switch ($field['type']) {
       case 'ding_availability_holdings':
         // Generate an unique id.
@@ -106,14 +163,16 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $element[$delta] = array(
           '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"></div>',
           '#attached' => $attached,
-      );
-      break;
+        );
+        break;
+
       case 'ding_availability_item':
         $element[$delta] = array(
           '#markup' => '<div class="availability availability-' . $item['provider_id'] . '"></div>',
           '#attached' => $attached,
         );
         break;
+
       case 'ting_type':
         // Generate an unique id.
         $id = drupal_html_id('availability-' . $entity->id);
@@ -136,6 +195,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           ),
         );
         break;
+
       case 'ting_collection_types':
         $id_mapping = array();
         $typed_entities = array();
@@ -147,12 +207,20 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         foreach ($typed_entities as $type => $entities) {
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entity->id . '-' . $type);
+
+          // Convert type into link.
+          if ($display['settings']['link']) {
+            $url = entity_uri('ting_object', $entity);
+            $type = l($type, $url['path'], $url['options']);
+          }
+
           // Create a list element for each type.
           $types[] = array(
             'data' => $type,
             'id' => $id,
             'class' => array('availability', drupal_html_class($type)),
           );
+
           // Map the HTML id to the list of entity ids.
           $id_mapping[$id] = $entities;
         }
@@ -160,6 +228,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $attached['js'][1] = array(
           'data' => array(
             'ding_availability' => $id_mapping,
+            'ding_availability_link' => $display['settings']['link'],
           ), 'type' => 'setting');
 
         $element[$delta] = array(
@@ -170,5 +239,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         break;
     }
   }
+
   return $element;
 }
