@@ -1,4 +1,7 @@
 (function ($) {
+  "use strict";
+
+  var carousel_cache = [];
   var carousel = false;
   var carousel_init = function(index) {
 
@@ -24,41 +27,53 @@
       // Set the css widths
       $tabsList.children().css({'width' : childWidth + 'px'});
       $tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
-
     }
 
-    /**
-     * @TODO: Use jquery data to create a cache, so the backend do not have to
-     * be connected for shift between tabs.
-     */
+    // If the cache is not set, make ajax call to server else just update the
+    // carousel.
+    if (carousel_cache[index] === undefined) {
+      $.ajax({
+        type: 'get',
+        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
+        dataType : 'json',
+        success : function(data) {
+          carousel_cache[index] = {
+            'subtitle' : data.subtitle,
+            'content' : data.content
+          };
 
-    $.ajax({
-      type: 'get',
-      url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
-      dataType : 'json',
-      success : function(msg) {
-        $('.rs-carousel-title').html(msg.subtitle);
-
-        if (!carousel) {
-          $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
-          $('.rs-carousel .rs-carousel-runner').html(msg.content);
-          carousel = $('.rs-carousel').carousel();
+          if (!carousel) {
+            carousel_update(index);
+            carousel = $('.rs-carousel').carousel();
+          }
+          else {
+            carousel.carousel('destroy');
+            carousel_update(index);
+            carousel.carousel();
+          }
         }
-        else {
-          carousel.carousel('destroy');
-          $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
-          $('.rs-carousel .rs-carousel-runner').html(msg.content);
-          carousel.carousel();
-        }
-      }
-    });
+      });
+    }
+    else {
+      carousel.carousel('destroy');
+      carousel_update(index);
+      carousel.carousel();
+    }
   };
+
+  // Updated the carousel content.
+  function carousel_update(index) {
+    var data = carousel_cache[index];
+    $('.rs-carousel-title').html(data.subtitle);
+    $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
+    $('.rs-carousel .rs-carousel-runner').html(data.content);
+  }
 
   $(document).ready(function() {
     // Get the carousel variable initialized.
     carousel_init(0);
 
-    // Set up tab actions.
+    // Add click event to tabs.
     $('.rs-carousel-tabs li').click(function(e) {
       e.preventDefault();
 
@@ -67,10 +82,11 @@
       current.parent().find('li').removeClass('active');
       current.addClass('active');
 
-      // Set spinner and remove current content.
+      // Remove current content and show spinner.
       $('.rs-carousel .rs-carousel-runner').html('');
       $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
 
+      // Hide navigation arrows.
       $('.rs-carousel-action-prev').hide();
       $('.rs-carousel-action-next').hide();
 
