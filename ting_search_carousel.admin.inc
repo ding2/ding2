@@ -11,7 +11,7 @@
  *   Admin form.
  */
 function ting_search_carousel_admin_page() {
-  drupal_add_js(drupal_get_path('module', 'ting_search_carousel') . '/scripts/ting_search_carousel.admin.js');
+  drupal_add_js(drupal_get_path('module', 'ting_search_carousel') . '/js/ting_search_carousel.admin.js');
   drupal_add_css(drupal_get_path('module', 'ting_search_carousel') . '/css/ting_search_carousel.css');
   variable_set('ting_carousel_search_queries_hidden', array());
 
@@ -28,7 +28,7 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Frontend settings'),
   );
-  
+
   $form['ting_search_carousel_settings']['ting_search_carousel_tabs_position'] = array(
     '#title' => t('Position of navigational tabs'),
     '#type' => 'select',
@@ -67,7 +67,7 @@ function ting_search_carousel_admin_form($form, &$form_state) {
   $clicked_btn = '';
   $remove_btn = '';
   $hidden = variable_get('ting_carousel_search_queries_hidden', array());
-  
+
   if (isset($form_state['clicked_button'])) {
     $clicked_btn = $form_state['clicked_button']['#name'];
 
