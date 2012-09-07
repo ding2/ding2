@@ -8,29 +8,17 @@
  * - $searches: Array with each tab search.
  *
  */
-
-/**
-* @file
-*
-*/
-$path = drupal_get_path('module', 'ting_search_carousel');
-
-drupal_add_library('system', 'ui.widget');
-drupal_add_js($path . '/js/jquery.rs.carousel.js');
-drupal_add_js($path . '/js/ting_search_carousel.js');
-drupal_add_css($path . '/css/ting_search_carousel.css');
-
 ?>
 
 <!-- The wrapper div is important because rs-carousel replaces
      <div class="rs-carousel" so we can't add more classes -->
-<div class="rs-carousel-wrapper<?php echo (variable_get('ting_search_carousel_description_toggle', 0)) ? ' rs-carousel-wide' : ' rs-carousel-compact'; ?>">
+<div class="rs-carousel-wrapper<?php echo $toggle_description ? ' rs-carousel-wide' : ' rs-carousel-compact'; ?>">
   <div class="rs-carousel">
     <div class="rs-carousel-inner">
       <div class="ajax-loader"></div>
-  <?php if (variable_get('ting_search_carousel_description_toggle', 0)) { ?>
-      <div class="rs-carousel-title"></div>
-  <?php } ?>
+      <?php if ($toggle_description) { ?>
+        <div class="rs-carousel-title"></div>
+      <?php } ?>
       <ul class="rs-carousel-runner">
       </ul>
     </div>

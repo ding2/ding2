@@ -14,7 +14,7 @@ function ting_search_carousel_result($index) {
   $result = '';
   $cache = cache_get('ting_search_result', 'cache');
 
-  if (!isset($cache)) {
+  if (!$cache) {
     ting_search_carousel_cron();
     $cache = cache_get('ting_search_result', 'cache');
   }
