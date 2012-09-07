@@ -126,7 +126,7 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
     $this->assertNull(ding_provider_invoke('reservation', 'branch_name', 'oeu'), 'Bad branch id returns NULL.');
 
     // Reservation crud
-    $expiry = REQUEST_TIME + (14*86400);
+    $expiry = REQUEST_TIME + (14 * 86400);
     $expiry_str = date('Y-m-d', $expiry);
     ding_provider_invoke('reservation', 'create', $user, 123, 'aby', $expiry);
     ding_provider_invoke('reservation', 'create', $user, 321, 'grd', $expiry);

@@ -200,12 +200,12 @@ class DingProviderReservation extends DingEntityBase {
 /**
  * Parent class for reservation errors.
  */
-class DingProviderReservationUserError extends DingProviderUserException {}
+class DingProviderReservationUserError extends DingProviderUserException { }
 
 /**
  * Exception thrown when the item is already reserved.
  */
-class DingProviderReservationExists extends DingProviderReservationUserError{
+class DingProviderReservationExists extends DingProviderReservationUserError {
   public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t('"You have already reserved "@title".');
@@ -229,7 +229,7 @@ class DingProviderReservationNotAvailable extends DingProviderReservationUserErr
 /**
  * Reservation is not allowed.
  */
-class DingProviderReservationNotAllowed extends DingProviderReservationUserError{
+class DingProviderReservationNotAllowed extends DingProviderReservationUserError {
   public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t("You're not allowed to reserve \"@title\".");
