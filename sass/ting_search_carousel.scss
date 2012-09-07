@@ -244,6 +244,10 @@ $tabs-active-text-color:        #fff;
     min-height: 250px;
     padding-top: $default-spacing;
     padding-bottom: $default-spacing;
+
+    .ajax-loader {
+      left: 35%;
+    }
   }
 
   .rs-carousel-title {
