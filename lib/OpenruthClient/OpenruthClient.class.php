@@ -83,12 +83,13 @@ class OpenruthClient {
         $replace_values['>' . $value . '<'] = '>' . substr(md5($value . self::$salt), 0, strlen($value)) . '<';
       }
       if (isset($time)) {
-        watchdog('openruth', 'Sending request (@seconds sec): @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
+        watchdog('openruth', 'Sending request (@seconds sec): @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
 
-      } else {
-        watchdog('openruth', 'Sending request: @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
       }
-      watchdog('openruth', 'Response: @xml',array('@xml' => strtr($this->client->__getLastResponse(), $replace_values)), WATCHDOG_DEBUG);
+      else {
+        watchdog('openruth', 'Sending request: @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
+      }
+      watchdog('openruth', 'Response: @xml', array('@xml' => strtr($this->client->__getLastResponse(), $replace_values)), WATCHDOG_DEBUG);
     }
   }
 
@@ -104,7 +105,7 @@ class OpenruthClient {
 
     $this->log();
     return $res;
-   
+
   }
 
   /**
@@ -143,7 +144,7 @@ class OpenruthClient {
              'userId' => $username,
              // 'bookingNote' => '',
              'agencyCounter' => $pickup_branch,
-             'itemId' =>$provider_id,
+             'itemId' => $provider_id,
              'bookingTotalCount' => $count,
              'bookingStartDate' => $start_date,
              'bookingEndDate' => $end_date,
@@ -207,12 +208,12 @@ class OpenruthClient {
   /**
    * Get information about number of copies in a booking available at various times
    */
-  public function booking_info() {}
+  public function booking_info() { }
 
   /**
    * Updating details about a booking
    */
-  public function update_booking() {}
+  public function update_booking() { }
 
   /**
    * Cancelling a booking of an item
@@ -334,8 +335,8 @@ class OpenruthClient {
       'first_name' => 'userFirstName',
       'last_name' => 'userLastName',
       'preferred_branch' => 'agencyCounter',
-      'reservation_pause_start'=>'userAbsenceStartDate',
-      'reservation_pause_stop'=>'userAbsenceEndDate',
+      'reservation_pause_start' => 'userAbsenceStartDate',
+      'reservation_pause_stop' => 'userAbsenceEndDate',
     );
     $args = array(
              'agencyId' =>  $this->agency_id,

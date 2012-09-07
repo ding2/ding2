@@ -19,7 +19,7 @@ function openruth_requirements($phase) {
     if (!variable_get('openruth_wsdl_url', FALSE) || !variable_get('openruth_agency_id', FALSE)) {
       $requirements['openruth']['value'] = $t('Openruth not configured');
       $requirements['openruth']['description'] = $t('Openruth is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/openruth')));
-        $requirements['openruth']['severity'] = REQUIREMENT_ERROR;
+      $requirements['openruth']['severity'] = REQUIREMENT_ERROR;
     }
   }
 
