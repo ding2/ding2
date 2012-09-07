@@ -72,30 +72,24 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
  * Implements hook_block_info().
  */
 function ting_search_carousel_block_info() {
-  $blocks = array();
-
-  $blocks['ting_search_carousel'] = array(
-    'info' => 'Ting search carousel, block'
-  );
-
-  return $blocks;
+  return array(
+    'ting_search_carousel' => array(
+      'info' => 'Ting search carousel, block'
+  ));
 }
 
 /**
  * Implements hook_block_view().
+ *
+ * We ignore delta in this block view, as we only have one block.
  */
 function ting_search_carousel_block_view($delta) {
-  $block = array();
-
-  switch ($delta) {
-    case 'ting_search_carousel':
-      $searches = variable_get('ting_carousel_search_queries', array());
-      $tab_position = variable_get('ting_search_carousel_tabs_position');
-      $block['content'] = theme('ting_search_carousel', array('searches' => $searches, 'tab_position' => $tab_position));
-      break;
-  }
-
-  return $block;
+  return array(
+    'content' => theme('ting_search_carousel', array(
+        'searches' => variable_get('ting_carousel_search_queries', array()),
+        'tab_position' => variable_get('ting_search_carousel_tabs_position'),
+    )),
+  );
 }
 
 /**
@@ -208,28 +202,25 @@ function ting_search_carousel_do_request($full = FALSE) {
  * Implements hook_image_default_styles().
  */
 function ting_search_carousel_image_default_styles() {
-
-  $styles = array();
-
-  $styles['ting_search_carousel'] = array(
-    'name' => 'ting_search_carousel',
-    'effects' => array(
-      0 => array(
-        'label' => 'Scale and crop',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_scale_dimensions',
-        'module' => 'image',
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => '90',
-          'height' => '130',
+  return array(
+    'ting_search_carousel' => array(
+      'name' => 'ting_search_carousel',
+      'effects' => array(
+        array(
+          'label' => 'Scale and crop',
+          'effect callback' => 'image_scale_and_crop_effect',
+          'dimensions callback' => 'image_scale_dimensions',
+          'module' => 'image',
+          'name' => 'image_scale_and_crop',
+          'data' => array(
+            'width' => '90',
+            'height' => '130',
+          ),
+          'weight' => '1',
         ),
-        'weight' => '1',
       ),
     ),
   );
-
-  return $styles;
 }
 
 /**
@@ -248,6 +239,5 @@ function _ting_search_carousel_add_javascript() {
  */
 function _ting_search_carousel_add_css() {
   $path = drupal_get_path('module', 'ting_search_carousel');
-
   drupal_add_css($path . '/css/ting_search_carousel.css');
 }
