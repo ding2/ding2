@@ -103,6 +103,12 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 
 /**
  * Perform a ting search, retrieve covers and store some of data in cache.
+ *
+ * @TODO: Try to analyse the input query and don't cache empty search results.
+ * Basically refactore code to be tab based, so a given use only have to wait
+ * for the tab requested. This will also make the collected download for users
+ * smaller as many may not use the tabs.
+ *
  */
 function ting_search_carousel_do_request($full = FALSE) {
   $search_queries = variable_get('ting_carousel_search_queries', array());
