@@ -325,6 +325,6 @@ function ting_search_carousel_search_submit($form, &$form_state) {
   // Save the queries as a persistent variable.
   variable_set('ting_carousel_search_queries', $searches);
 
-  // Make ting search requests.
-  ting_search_carousel_do_request();
+  // Clear carousel search cache
+  cache_clear_all('ting_search_carousel_result', 'cache');
 }
