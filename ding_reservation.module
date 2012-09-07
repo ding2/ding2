@@ -287,6 +287,9 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   }
   foreach ($items as $id => $item) {
     $entity = $item->entity;
+    if (!is_object($entity)) {
+      $entity = ding_reservation_replace_entity($item->ding_entity_id);
+    }
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $item->pickup_branch_id);
     switch ($type) {
     case 'ready_for_pickup':
@@ -475,9 +478,49 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 }
 
 /**
+ * Create a dummy ting entity object, when item is not found in the ting well.
+ * Fill in data using info fetched from certain provider.
+ *
+ * @param $entity_id
+ *   Ting object id.
+ * @return
+ *   A TingEntity object or FALSE if provider failed to fetch the data.
+ */ 
+function ding_reservation_replace_entity($entity_id) {
+  // @todo
+  // Implement openruth fallback.
+  $faust_number = explode(':', $entity_id);
+  $faust_number = $faust_number[1];
+
+  $alma_object = alma_client_invoke('catalogue_record_detail', $faust_number);
+  if ($alma_object['request_status'] == 'ok' && isset($alma_object['records'][$faust_number])) {
+    $source = $alma_object['records'][$faust_number];
+    $pseudo_ting_object = new TingEntity();
+    $pseudo_ting_object->ding_entity_id = $entity_id;
+    $pseudo_ting_object->reply = new TingClientObject();
+    $pseudo_ting_object->reply->record['dc:title']['dkdcplus:full'] = array($source['titles'][0]);
+    $pseudo_ting_object->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array($source['media_class']);
+    // @todo
+    // Author from provider.
+    $pseudo_ting_object->reply->record['dc:creator']['dkdcplus:aut'] = array('');
+    $pseudo_ting_object->reply->record['dc:date'][''] = array($source['publication_year']);
+    $pseudo_ting_object->ting_title = array(LANGUAGE_NONE => array(array('id' => $entity_id)));
+    $pseudo_ting_object->ting_type = array(LANGUAGE_NONE => array(array('id' => $entity_id)));
+    $pseudo_ting_object->ting_author = array(LANGUAGE_NONE => array(array('id' => $entity_id)));
+    $pseudo_ting_object->ting_cover = array(LANGUAGE_NONE => array(array('id' => $entity_id)));
+    $pseudo_ting_object->ding_entity_type = 'ding_entity';
+    $pseudo_ting_object->provider_id = $faust_number;
+
+    return $pseudo_ting_object;
+  }
+
+  return FALSE;
+}
+
+/**
  * Submit handler for the reservations form.
  */
-function ding_reservation_reservation_delete_submit($form, &$form_state) {
+function ding_reservation_reservations_delete_submit($form, &$form_state) {
   global $user;
   if (!empty($form_state['triggering_element']['#reservation_id'])) {
     $reservations = array($form_state['triggering_element']['#reservation_id']);
