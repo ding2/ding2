@@ -104,11 +104,8 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 /**
  * Perform a ting search, retrieve covers and store some of data in cache.
  *
- * @TODO: Try to analyse the input query and don't cache empty search results.
- * Basically refactore code to be tab based, so a given use only have to wait
- * for the tab requested. This will also make the collected download for users
- * smaller as many may not use the tabs.
- *
+ * @param int $index
+ *  Search carsousel tab index.
  */
 function ting_search_carousel_do_request($index) {
   // Get query based in the index parameter.
@@ -134,8 +131,7 @@ function ting_search_carousel_do_request($index) {
     }
   }
 
-  // Loop over the search results collecting local ids and after words send on
-  // cover service request. This is much faster the sending one for each.
+  // Loop over the search results collecting basic object information.
   $local_ids = array();
   $objects = array();
   foreach ($collections as $collection) {
@@ -165,7 +161,9 @@ function ting_search_carousel_do_request($index) {
   $items = array();
 
   // The cover service have a limit on the number of id's in one request, so we
-  // split it up into 45 id's per chunk.
+  // split it up into 45 id's per chunk. It's faster to ask the service with as
+  // many id's as possible at once as the look-up-time is the same for a single
+  // and multiply id's.
   $covers = array();
   $local_ids = array_chunk($local_ids, 45);
   foreach ($local_ids as $ids) {
