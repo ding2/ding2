@@ -4,12 +4,12 @@
  * Implements provider availability, holdings.
  */
 function openruth_availability_holdings($provider_ids) {
-   $res = openruth_client_invoke('get_holdings', $provider_ids);
-   if (is_string($res->holdings)) {
-     watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $holdings), WATCHDOG_ERROR);
-     return array();
-   }
-   return _openruth_get_holdings($res);
+  $res = openruth_client_invoke('get_holdings', $provider_ids);
+  if (is_string($res->holdings)) {
+    watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $holdings), WATCHDOG_ERROR);
+    return array();
+  }
+  return _openruth_get_holdings($res);
 }
 
 /**
@@ -21,11 +21,11 @@ function _openruth_get_holdings($res) {
     return $res->agencyError;
   }
   elseif (isset($res->holding)) {
-    return _openruth_set_holdings($res);  
-  }  
+    return _openruth_set_holdings($res);
+  }
   else {
     return FALSE;
-  }  
+  }
 }
 
 /**
@@ -38,13 +38,13 @@ function _openruth_set_holdings($res) {
     $h = _openruth_init_holding($holding);
     if (isset($holding->itemHoldings)) {
       foreach ($holding->itemHoldings as $itemHolding) {
-	// remember to count ordersCount
-	$h['reserved_count'] += $itemHolding->ordersCount;
-	_openruth_set_locations($h, $itemHolding);	
-	_openruth_set_periodicals($h, $itemHolding);
+        // remember to count ordersCount
+        $h['reserved_count'] += $itemHolding->ordersCount;
+        _openruth_set_locations($h, $itemHolding);
+        _openruth_set_periodicals($h, $itemHolding);
       }
     }
-    if( $h['is_periodical'] ) {
+    if ( $h['is_periodical'] ) {
       $h['holdings'] = _openruth_periodicals_unique_holdings($h['holdings']);
     }
     _openruth_set_table_html($h);
@@ -58,7 +58,7 @@ function _openruth_set_holdings($res) {
  * @return array; initialized holding array set with default values
  */
 function _openruth_init_holding($holding) {
-  if (isset($holding->agencyHoldings)){
+  if (isset($holding->agencyHoldings)) {
     $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
     $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
   }
@@ -66,7 +66,7 @@ function _openruth_init_holding($holding) {
     $available = FALSE;
     $reservable = FALSE;
   }
-  $holding = 
+  $holding =
     array('local_id' => $holding->itemId,
 	  'available' => $available,
 	  'reservable' => $reservable,
@@ -80,7 +80,7 @@ function _openruth_init_holding($holding) {
 	  'is_periodical' => FALSE,);
 
   // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
-  if( $holding['available'] && ($available < 1) ) {
+  if ( $holding['available'] && ($available < 1) ) {
     $holding['available'] = FALSE;
   }
 
@@ -94,16 +94,16 @@ function _openruth_init_holding($holding) {
  */
 function _openruth_set_table_html( &$h ) {
   // set a classname for styling the table
-  $variables['attributes']=
-    array('class'=>array(drupal_html_class('availability_holdings_table')));
+  $variables['attributes'] =
+    array('class' => array(drupal_html_class('availability_holdings_table')));
   // set table header
-  $variables['header'] = 
-    array('placement'=>t('Placement'), 'copies'=>t('Copies'), 'Home'=>t('At home'),'reservations'=>t('Reservations'));
+  $variables['header'] =
+    array('placement' => t('Placement'), 'copies' => t('Copies'), 'Home' => t('At home'), 'reservations' => t('Reservations'));
   // set table rows
-  $variables['rows'] = _openruth_set_rows($h);    
+  $variables['rows'] = _openruth_set_rows($h);
   // theme the table
   // @TODO; move this to ding_availability ??
-  $html = theme('table',$variables );
+  $html = theme('table', $variables );
 
   $h['html'] = $html;
 }
@@ -115,8 +115,8 @@ function _openruth_set_table_html( &$h ) {
  */
 function _openruth_set_rows( $h ) {
   $rows = array();
-  if( isset($h['holdings']) ) {
-    foreach( $h['holdings'] as $key => $data ) {
+  if ( isset($h['holdings']) ) {
+    foreach ( $h['holdings'] as $key => $data ) {
       $row = array();
       $row['placement'] = $data['placement'];
       $row['copies'] = $data['copiesCount'];
@@ -143,17 +143,17 @@ function _openruth_set_rows( $h ) {
  */
 function _openruth_periodicals_unique_holdings( $holdings ) {
   $uh = array();
-  foreach( $holdings as $holding ) {
+  foreach ( $holdings as $holding ) {
     $key = $holding['agencyBranchCode'];
     // first iteration or new branchcode
-    if( empty($uh) || !isset($uh[$key]) ) {
+    if ( empty($uh) || !isset($uh[$key]) ) {
       $uh[$key] = $holding;
       continue;
     }
     // same branch; increase copiesCount and copiesAvailableCount
-      $uh[$key]['copiesCount'] += $holding['copiesCount'];
-      $uh[$key]['copiesAvailableCount'] += $holding['copiesAvailableCount'];
-  }  
+    $uh[$key]['copiesCount'] += $holding['copiesCount'];
+    $uh[$key]['copiesAvailableCount'] += $holding['copiesAvailableCount'];
+  }
   return $uh;
 }
 
@@ -181,61 +181,61 @@ function _openruth_set_locations(&$h, $itemHolding) {
   $fields = array('itemLocation', 'itemComingLocation');
 
   foreach ($fields as $field) {
-    if (isset($itemHolding->{$field})){
+    if (isset($itemHolding->{$field})) {
       foreach ($itemHolding->{$field} as $itemLocation) {
-	$data = array();
+        $data = array();
 
-	$location_available = 0;
+        $location_available = 0;
 
-	if ($itemLocation->orderAllowed) {
-	  $holding_reservable = TRUE;
-	}
-	//$total += $itemLocation->copiesCount;
-	$h['total_count'] += $itemLocation->copiesCount;
+        if ($itemLocation->orderAllowed) {
+          $holding_reservable = TRUE;
+        }
+        //$total += $itemLocation->copiesCount;
+        $h['total_count'] += $itemLocation->copiesCount;
 
-	$data['copiesCount'] = $itemLocation->copiesCount;
+        $data['copiesCount'] = $itemLocation->copiesCount;
 
-	if (isset($itemLocation->copiesAvailableCount)) {
-	  //$available += $itemLocation->copiesAvailableCount;
-	  $h['reservable_count'] += $itemLocation->copiesAvailableCount;
-	  // pjo; 
-	  $location_available += $itemLocation->copiesAvailableCount;
+        if (isset($itemLocation->copiesAvailableCount)) {
+          //$available += $itemLocation->copiesAvailableCount;
+          $h['reservable_count'] += $itemLocation->copiesAvailableCount;
+          // pjo;
+          $location_available += $itemLocation->copiesAvailableCount;
 
-	  $data['copiesAvailableCount'] =  $itemLocation->copiesAvailableCount;
+          $data['copiesAvailableCount'] =  $itemLocation->copiesAvailableCount;
 
-	}
-	$parts = array();
-	if (isset($itemLocation->agencyBranchId->agencyBranchName)) {
-	  $parts[] = $itemLocation->agencyBranchId->agencyBranchName;
-	  
-	  $data['agencyBranchName'] = $itemLocation->agencyBranchId->agencyBranchName;
-	  $data['agencyBranchCode'] = $itemLocation->agencyBranchId->agencyBranchCode;
+        }
+        $parts = array();
+        if (isset($itemLocation->agencyBranchId->agencyBranchName)) {
+          $parts[] = $itemLocation->agencyBranchId->agencyBranchName;
 
-	}
+          $data['agencyBranchName'] = $itemLocation->agencyBranchId->agencyBranchName;
+          $data['agencyBranchCode'] = $itemLocation->agencyBranchId->agencyBranchCode;
 
-	if (isset($itemLocation->agencyDepartmentId->agencyDepartmentName)) {
-	  $parts[] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
+        }
 
-	  $data['agencyDepartmentName'] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
-	}
-	if (isset($itemLocation->agencyCollectionId->agencyCollectionName)) {
-	  $parts[] = $itemLocation->agencyCollectionId->agencyCollectionName;
+        if (isset($itemLocation->agencyDepartmentId->agencyDepartmentName)) {
+          $parts[] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
 
-	  $data['agencyCollectionName'] = $itemLocation->agencyCollectionId->agencyCollectionName;
-	}
-	if (isset($itemLocation->agencyPlacementId->agencyPlacementName)) {
-	  $parts[] = $itemLocation->agencyPlacementId->agencyPlacementName;
-	  
-	  $data['agencyPlacementName'] = $itemLocation->agencyPlacementId->agencyPlacementName;
-	}
-	if ($parts) {
-	  $data['placement'] = join(' → ', $parts);
-	  // $h['holdings'][] = join(' → ', $parts);
-	  $h['holdings'][] = $data;
-	}
-	if ($parts && $available && ($location_available > 0) ) {
-	  $h['holdings_available'][] = join(' → ', $parts);		   
-	}
+          $data['agencyDepartmentName'] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
+        }
+        if (isset($itemLocation->agencyCollectionId->agencyCollectionName)) {
+          $parts[] = $itemLocation->agencyCollectionId->agencyCollectionName;
+
+          $data['agencyCollectionName'] = $itemLocation->agencyCollectionId->agencyCollectionName;
+        }
+        if (isset($itemLocation->agencyPlacementId->agencyPlacementName)) {
+          $parts[] = $itemLocation->agencyPlacementId->agencyPlacementName;
+
+          $data['agencyPlacementName'] = $itemLocation->agencyPlacementId->agencyPlacementName;
+        }
+        if ($parts) {
+          $data['placement'] = join(' → ', $parts);
+          // $h['holdings'][] = join(' → ', $parts);
+          $h['holdings'][] = $data;
+        }
+        if ($parts && $available && ($location_available > 0) ) {
+          $h['holdings_available'][] = join(' → ', $parts);
+        }
       }
     }
   }
