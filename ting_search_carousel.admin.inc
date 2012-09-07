@@ -322,6 +322,12 @@ function ting_search_carousel_search_submit($form, &$form_state) {
     }
   }
 
+  /**
+   * @TODO: Add clear cache button and detect changes in the query input fields
+   * so only partial cache can be rebuild. This will slow down the submit but
+   * may speed up the presentation for the users by kick starting the cache.
+   */
+
   // Save the queries as a persistent variable.
   variable_set('ting_carousel_search_queries', $searches);
 

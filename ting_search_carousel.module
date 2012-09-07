@@ -110,98 +110,168 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  * smaller as many may not use the tabs.
  *
  */
-function ting_search_carousel_do_request($full = FALSE) {
-  $search_queries = variable_get('ting_carousel_search_queries', array());
-  $search_items = array();
+function ting_search_carousel_do_request($index) {
+  // Get query based in the index parameter.
+  $queries = variable_get('ting_carousel_search_queries', array());
+  $query = isset($queries[$index]) ? $queries[$index] : FALSE;
 
-  // There are any queries set.
-  if (count($search_queries) > 0) {
+  // If a query is defined, do a look-up else do nothing.
+  if ($query) {
+    // Load the ting client.
     module_load_include('client.inc', 'ting');
-    module_load_include('pages.inc', 'ting_covers');
 
-    $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
-    $j = 0;
+    // Try to fetch results 50 at a time.
+    $result = NULL;
+    $page = 1;
+    $collections = array();
+    while ($result = ting_do_search($query['query'], $page++, 50, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE))) {
+      $collections[] = $result;
 
-    // Search for each query up to 100 items.
-    foreach ($search_queries as $item) {
-      $result = '';
-
-      // Whether we need to fetch all items, perform indepth search.
-      // Seek first 100 collections otherwise.
-      if ($full) {
-        $page = 1;
-        $collections = array();
-        // Make recursive ting calls
-        while ($result = ting_do_search($item['query'], $page++, 50, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE))) {
-          if ($result->numTotalCollections == 0) {
-            break;
-          }
-
-          $collections[] = $result;
-        }
-
-        // Rearrange fetched results, as if they were retrieved via single call
-        $result = new stdClass();
-        $result->collections = array();
-        foreach ($collections as $collection) {
-          foreach ($collection->collections as $item) {
-            $result->collections[] = $item;
-          }
-        }
+      if (!$result->more) {
+        // If no more result exists break the loop.
+        break;
       }
-      else {
-        $result = ting_do_search($item['query'], 1, 100, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE));
-      }
-
-      // For each found collection, find a related item with cover.
-      foreach ($result->collections as $collection) {
-        foreach ($collection->reply->objects as $object) {
-          $path = 'public://ting_search_carousel/' . md5($object->localId) . '.jpg';
-
-          $ting_item_cover = '';
-          $file = '';
-
-          // If image is not present, try fetch it
-          if (!file_exists($path)) {
-            $ting_item_cover = $service->getByFaustNumber($object->localId);
-
-            // No cover found, go to next item in collection
-            if (count($ting_item_cover) == 0) {
-              break;
-            }
-
-            $k = array_keys($ting_item_cover);
-            $source_url = '';
-
-            if ($ting_item_cover[$k[0]]->thumbnailUrl) {
-              $source_url = $ting_item_cover[$k[0]]->thumbnailUrl;
-            }
-            elseif ($ting_item_cover[$k[0]]->detailUrl) {
-              $source_url = $ting_item_cover[$k[0]]->detailUrl;
-            }
-
-            // Saves and returns new image file object
-            $file = _ting_covers_pages_fetch_image('public://ting_search_carousel/' . md5($object->localId) . '.jpg', $source_url);
-          }
-
-          $item = new stdClass();
-          $item->id = $object->id;
-          $item->creator = isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '';
-          $item->title = isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '';
-          $item->image = image_style_url('ting_search_carousel', isset($file->uri) ? $file->uri : $path);
-
-          $search_items[$j][] = $item;
-          break;
-        }
-      }
-
-      $j++;
     }
   }
 
-  // Clear & set the cache.
-  cache_clear_all('ting_search_carousel_result', 'cache');
-  cache_set('ting_search_carousel_result', $search_items, 'cache');
+  // Loop over the search results collecting local ids and after words send on
+  // cover service request. This is much faster the sending one for each.
+  $local_ids = array();
+  $objects = array();
+  foreach ($collections as $collection) {
+    foreach ($collection->collections as $ting_collection) {
+      foreach ($ting_collection->reply->objects as $object) {
+        $local_ids[] = $object->localId;
+        $objects[$object->localId] = array(
+          'id' => $object->id,
+          'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
+          'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
+        );
+      }
+    }
+  }
+
+  // Load helper function form the covers module.
+  module_load_include('pages.inc', 'ting_covers');
+
+  // Get cover service client.
+  $service = new AdditionalInformationService(
+          variable_get('addi_wsdl_url'),
+          variable_get('addi_username'),
+          variable_get('addi_group'),
+          variable_get('addi_password'));
+
+  // Initialize items array.
+  $items = array();
+
+  // The cover service have a limit on the number of id's in one request, so we
+  // split it up into 45 id's per chunk.
+  $covers = array();
+  $local_ids = array_chunk($local_ids, 45);
+  foreach ($local_ids as $ids) {
+    // Get covers for the ids.
+    $covers = $service->getByFaustNumber($ids);
+
+    // Loop over the fetched covers and build items.
+    foreach ($covers as $local_id => $cover) {
+      // Build cover filename.
+      $filename = 'public://ting_search_carousel/' . md5($local_id) . '.jpg';
+
+      // Check if file have been downloaded.
+      if (!file_exists($filename)) {
+        // Extract the image source url.
+        $source_url = FALSE;
+        if ($cover->detailUrl) {
+          $source_url = $cover->detailUrl;
+        } elseif ($cover->thumbnailUrl) {
+          $source_url = $cover->thumbnailUrl;
+        }
+
+        // Download the cover image and get local uri.
+        $file = _ting_covers_pages_fetch_image($filename, $source_url);
+        $filename = isset($file->uri) ? $file->uri : $filename;
+      }
+
+      // Build object with the information collected.
+      $item = new stdClass();
+      $item->id = $objects[$local_id]['id'];
+      $item->title = $objects[$local_id]['title'];
+      $item->creator = $objects[$local_id]['creator'];
+      $item->image = image_style_url('ting_search_carousel', $filename);
+
+      $items[] = $item;
+    }
+  }
+
+  // Update the cache with the fetched items.
+  _ting_search_carousel_set_cache($index, $items);
+}
+
+/**
+ * Returns the content for a search carousel tab. It utilizes both static and
+ * database cache to optimize the cover page search. It will slowly fill the
+ * cache based on the tab index provide. This index matches the search carousel
+ * query index set in the administration backend, when defining the tabs.
+ *
+ * If no cache is found it tries to search the data well and calls it self once
+ * more to fetch the newly fetch data. If data still do not exists in the cache
+ * an empty string is returned.
+ *
+ * @param int $index
+ *  Search carsousel tab index.
+ *
+ * @param bool $search
+ *  If FALSE an attempt to fetch data _not_ be tried. Defaults to TRUE.
+ *
+ * @return mixed
+ *  Returns an array with ting covers or the empty string if non is found.
+ */
+function _ting_search_carousel_get_content($index, $search = TRUE) {
+  // Utilize the static cache.
+  $static = &drupal_static(__FUNCTION__);
+  if (isset($static[$index]) && !empty($static[$index])) {
+    return $static[$index];
+  }
+
+  // Check if there is a database cache of the search results.
+  if ($cache = cache_get('ting_search_carousel_result')) {
+    // Get cached data and store it in the static cache.
+    $data = $cache->data;
+    $static = $data;
+
+    // Check if data exists for the index.
+    if (isset($data[$index]) && !empty($data[$index])) {
+      return $data[$index];
+    }
+  }
+
+  // No cache found for that index, so try getting information from the
+  // data well and cover service.
+  if ($search) {
+    ting_search_carousel_do_request($index);
+    return _ting_search_carousel_get_content($index, FALSE);
+  }
+
+  // No form for cached data was found.
+  return '';
+}
+
+/**
+ * Set database cache base on tab index in the front-end.
+ *
+ * @param int $index
+ *  Search carsousel tab index.
+ *
+ * @param mixed $items
+ *  Search carousel items, containing id, title, creator and image url.
+ */
+function _ting_search_carousel_set_cache($index, $items) {
+  $data = array();
+  if ($cache = cache_get('ting_search_carousel_result')) {
+    $data = $cache->data;
+  }
+  $data[$index] = $items;
+  cache_set('ting_search_carousel_result', $data, 'cache');
 }
 
 /**

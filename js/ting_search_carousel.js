@@ -27,6 +27,10 @@
 
     }
 
+    /**
+     * @TODO: Use jquery data to create a cache, so the backend do not have to
+     * be connected for shift between tabs.
+     */
 
     $.ajax({
       type: 'get',
@@ -48,7 +52,7 @@
         }
       }
     });
-  }
+  };
 
   $(document).ready(function() {
     // Get the carousel variable initialized.
