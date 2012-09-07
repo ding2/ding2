@@ -108,13 +108,6 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_cron().
- */
-function ting_search_carousel_cron() {
-  ting_search_carousel_do_request(TRUE);
-}
-
-/**
  * Perform a ting search, retrieve covers and store some of data in cache.
  */
 function ting_search_carousel_do_request($full = FALSE) {
@@ -207,8 +200,8 @@ function ting_search_carousel_do_request($full = FALSE) {
   }
 
   // Clear & set the cache.
-  cache_clear_all('ting_search_result', 'cache');
-  cache_set('ting_search_result', serialize($search_items), 'cache');
+  cache_clear_all('ting_search_carousel_result', 'cache');
+  cache_set('ting_search_carousel_result', $search_items, 'cache');
 }
 
 /**
