@@ -152,7 +152,7 @@ class DingProviderLoan extends DingEntityBase {
 /**
  * Parent class for loan errors.
  */
-class DingProviderLoanUserError extends DingProviderUserException {}
+class DingProviderLoanUserError extends DingProviderUserException { }
 
 /**
  * Exception thrown when the item is already reserved.

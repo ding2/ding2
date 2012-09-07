@@ -9,17 +9,17 @@
  * Exception that is thrown by providers when the given operation
  * cannot be completed until the user authenticates.
  */
-class DingProviderAuthException extends Exception {}
+class DingProviderAuthException extends Exception { }
 
 /**
  * Thrown when no provider is configured for the given provider.
  */
-class DingProviderNoProvider extends Exception {}
+class DingProviderNoProvider extends Exception { }
 
 /**
  * Thrown when provider doesn't implement the given function.
  */
-class DingProviderDoesntImplement extends Exception {}
+class DingProviderDoesntImplement extends Exception { }
 
 /**
  * Exception class that can provide a translated and substituted
@@ -61,19 +61,19 @@ class DingProviderUserException extends Exception {
       // Transform arguments before inserting them.
       foreach ($args as $key => $value) {
         switch ($key[0]) {
-        case '@':
-          // Escaped only.
-          $args[$key] = check_plain($value);
-          break;
+          case '@':
+            // Escaped only.
+            $args[$key] = check_plain($value);
+            break;
 
-        case '%':
-        default:
-          // Escaped and placeholder.
-          $args[$key] = drupal_placeholder($value);
-        break;
+          case '%':
+          default:
+            // Escaped and placeholder.
+            $args[$key] = drupal_placeholder($value);
+            break;
 
-        case '!':
-          // Pass-through.
+          case '!':
+            // Pass-through.
         }
       }
       return strtr($string, $args);

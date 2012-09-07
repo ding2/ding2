@@ -15,7 +15,7 @@ function connie_reservation_pickup_branches($account) {
     'aby' => 'Andeby bibliotek',
     'grd' => 'Gåserød bibliotek',
   );
-  }
+}
 
 /**
  *

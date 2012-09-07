@@ -477,8 +477,8 @@ function ding_provider_get_destination($query_args = array()) {
  * @param type, the type of module e.g reservation, availibility etc.
  **/
 function ding_provider_get_provider_module_name($type) {
-$providers = _ding_provider_get_provider();
-return $providers[$type]['module'];
+  $providers = _ding_provider_get_provider();
+  return $providers[$type]['module'];
 }
 
 /**

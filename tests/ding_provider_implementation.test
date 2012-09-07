@@ -73,7 +73,7 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
    *
    * Only required if provider implements items.
    */
-  function getSomeItems() {}
+  function getSomeItems() { }
 
   /**
    * Should return an array of ids that will return availability information
@@ -81,7 +81,7 @@ abstract class DingAvailabilityProviderImplementationTestCase extends DingProvid
    */
   abstract function getSomeHoldings();
 
-  function getSomePeriodicals() {}
+  function getSomePeriodicals() { }
 
   function testItems() {
     if (ding_provider_implements('availability', 'items')) {
@@ -188,7 +188,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
     $user = $this->getUser();
     $branch = $this->getBranch();
     $reservables = array_flip($this->getSomeReservables());
-    $expiry = REQUEST_TIME + (14*86400);
+    $expiry = REQUEST_TIME + (14 * 86400);
     $expiry_res = date('Y-m-d', $expiry);
 
     $reservations = ding_provider_invoke('reservation', 'list', $user);
@@ -278,7 +278,7 @@ abstract class DingReservationProviderImplementationTestCase extends DingProvide
 }
 
 abstract class DingLoanProviderImplementationTestCase extends DingProviderImplementationTestCase {
-   /**
+  /**
    * Return a user that have some loans.
    */
   abstract function getUser();
@@ -298,7 +298,7 @@ abstract class DingLoanProviderImplementationTestCase extends DingProviderImplem
 }
 
 abstract class DingDebtProviderImplementationTestCase extends DingProviderImplementationTestCase {
-   /**
+  /**
    * Return a user that have some debts.
    */
   abstract function getUser();
