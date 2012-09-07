@@ -1,21 +1,5 @@
 (function ($) {
   var carousel = false;
-
-  Drupal.behaviors.tingSearchCarousel = {
-    attach: function(context) {
-      carousel_init(0);
-
-      $('.rs-carousel-tabs li').click(function() {
-        $(this).parent().find('li').removeClass('active');
-        $(this).addClass('active');
-
-        carousel_init($(this).index());
-
-        return false;
-      });
-    }
-  }
-
   var carousel_init = function(index) {
 
     // Set the width of the tabs according to the width of the list.
@@ -38,8 +22,8 @@
       var childWidthLast = parentWidth - ( childWidth * ($childCount -1) );
 
       // Set the css widths
-      $tabsList.children().css({ 'width' : childWidth + 'px' });
-      $tabsList.children(':last-child').css({ 'width' : childWidthLast + 'px' });
+      $tabsList.children().css({'width' : childWidth + 'px'});
+      $tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
 
     }
 
@@ -62,8 +46,29 @@
         }
       }
     });
+  }
+
+  $(document).ready(function() {
+    // Get the carousel variable initialized.
+    carousel_init(0);
+
+    // Set up tab actions.
+    $('.rs-carousel-tabs li').click(function(e) {
+      e.preventDefault();
+
+      // Move active clase.
+      var current = $(this);
+      current.parent().find('li').removeClass('active');
+      current.addClass('active');
+
+      carousel_init(current.index());
+      return false;
+    });
+
+    // This is place inside document ready to ensure that the carousel have
+    // been initialized.
     $(window).resize(function () {
       carousel.carousel('refresh');
     });
-  }
+  });
 })(jQuery);
