@@ -152,16 +152,16 @@ function ding_event_default_page_manager_handlers() {
     $pane->pid = 'new-2';
     $pane->panel = 'grid_10_center';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-panel_pane_3';
+    $pane->subtype = 'ding_event-ding_event_headline_category_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'empty',
+        0 => 'relationship_og_node_from_group_1',
         1 => 'relationship_entity_from_field:field_category-node-taxonomy_term_1',
       ),
-      'override_title' => 1,
-      'override_title_text' => 'Lignende arrangementer',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -170,7 +170,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-2'] = $pane;
     $display->panels['grid_10_center'][1] = 'new-2';
     $pane = new stdClass();
@@ -721,7 +721,7 @@ node/%node:nid/events
     $pane->pid = 'new-9';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-panel_pane_1';
+    $pane->subtype = 'ding_event-ding_event_full_category_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -729,24 +729,17 @@ node/%node:nid/events
         0 => 'argument_entity_id:node_1',
         1 => 'argument_term_1',
       ),
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_events_library:page_ding_events_library_panel_context',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-9'] = $pane;
     $display->panels['middle'][2] = 'new-9';
     $pane = new stdClass();
@@ -785,7 +778,7 @@ node/%node:nid/events
     $display->content['new-10'] = $pane;
     $display->panels['right'][0] = 'new-10';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-9';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_events_library'] = $page;

@@ -22,7 +22,6 @@ function ding_event_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Kalender';
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -1272,7 +1271,6 @@ function ding_event_views_default_views() {
   );
   $translatables['ding_event'] = array(
     t('Master'),
-    t('Kalender'),
     t('more'),
     t('Apply'),
     t('Gendan'),
