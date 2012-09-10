@@ -6,9 +6,9 @@ libraries as part of the [TING concept][].
 
 Dependencies
 ------------
-Drush v. 4.5 http://drupal.org/project/drush
-Drush_make v. 2.3 http://drupal.org/project/drush_make
-Drupal v. 7.10 (latest stable version of core working with ding2)
+* [Drupal 7.10](http://drupal.org/node/1361968) (This is the latest stable version of Drupal Core working with ding2)
+* [Drush 4.6](http://drupal.org/project/drush) (This is the latest stable version of Drush working with ding2)
+* [Drush Make 2.3](http://drupal.org/project/drush_make)
 
 Build instructions
 ------------------
@@ -38,4 +38,3 @@ If you want to have some dummy content added and a pre-filled main menu, you can
 [ding.TING]: http://ting.dk/groups/dingting
 [Drupal]: http://drupal.org/
 [TING concept]: http://ting.dk/
-
