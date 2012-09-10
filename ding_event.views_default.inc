@@ -22,7 +22,6 @@ function ding_event_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Kalender';
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -165,8 +164,8 @@ function ding_event_views_default_views() {
     'und' => 'und',
   );
 
-  /* Display: Front page teaser list */
-  $handler = $view->new_display('ctools_context', 'Front page teaser list', 'ctools_context_teaser_list');
+  /* Display: Teaser listing */
+  $handler = $view->new_display('ctools_context', 'Teaser listing', 'ding_event_teaser_list');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '6';
@@ -395,8 +394,8 @@ function ding_event_views_default_views() {
     'und' => 'und',
   );
 
-  /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  /* Display: RSS Feed (all) */
+  $handler = $view->new_display('feed', 'RSS Feed (all)', 'ding_event_rss_feed_all');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -413,8 +412,8 @@ function ding_event_views_default_views() {
   );
   $handler->display->display_options['sitename_title'] = 1;
 
-  /* Display: Library teaser list */
-  $handler = $view->new_display('ctools_context', 'Library teaser list', 'ctools_context_library_teaser');
+  /* Display: Teaser listing (library) */
+  $handler = $view->new_display('ctools_context', 'Teaser listing (library)', 'ctools_context_library_teaser');
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '6';
@@ -653,7 +652,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['sitename_title'] = 1;
 
   /* Display: Full list (category) */
-  $handler = $view->new_display('panel_pane', 'Full list (category)', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'Full list (category)', 'ding_event_full_category_list');
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: List image */
@@ -888,6 +887,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_manchet']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_ding_event_manchet']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_event_manchet']['field_api_classes'] = 0;
+  $handler->display->display_options['pane_category']['name'] = 'Ding events';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -917,7 +918,7 @@ function ding_event_views_default_views() {
   );
 
   /* Display: Full list (library) */
-  $handler = $view->new_display('panel_pane', 'Full list (library)', 'panel_pane_2');
+  $handler = $view->new_display('panel_pane', 'Full list (library)', 'ding_event_full_library_list');
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: List image */
@@ -1126,6 +1127,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_manchet']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_ding_event_manchet']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_event_manchet']['field_api_classes'] = 0;
+  $handler->display->display_options['pane_category']['name'] = 'Ding events';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -1154,8 +1157,8 @@ function ding_event_views_default_views() {
     ),
   );
 
-  /* Display: headline list (category) */
-  $handler = $view->new_display('panel_pane', 'headline list (category)', 'panel_pane_3');
+  /* Display: Headline list (category) */
+  $handler = $view->new_display('panel_pane', 'Headline list (category)', 'ding_event_headline_category_list');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Lignende arrangementer';
   $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -1164,7 +1167,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['group_rendered'] = 1;
   $handler->display->display_options['style_options']['class'] = 'unstyled';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1238,6 +1240,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
+  $handler->display->display_options['pane_category']['name'] = 'Ding events';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -1267,7 +1271,6 @@ function ding_event_views_default_views() {
   );
   $translatables['ding_event'] = array(
     t('Master'),
-    t('Kalender'),
     t('more'),
     t('Apply'),
     t('Gendan'),
@@ -1280,21 +1283,21 @@ function ding_event_views_default_views() {
     t('Brødtekst'),
     t('List image'),
     t('All'),
-    t('Front page teaser list'),
+    t('Teaser listing'),
     t('[field_event_date-value]'),
     t('Sted'),
     t('Tid'),
     t('[field_event_date] - '),
     t('Entré'),
-    t('Feed'),
-    t('Library teaser list'),
+    t('RSS Feed (all)'),
+    t('Teaser listing (library)'),
     t('Library Feed'),
     t('Full list (category)'),
     t('event-category/[field_ding_event_category-tid]'),
     t('[group_audience]'),
-    t('View panes'),
+    t('Ding events'),
     t('Full list (library)'),
-    t('headline list (category)'),
+    t('Headline list (category)'),
     t('Lignende arrangementer'),
   );
   $export['ding_event'] = $view;
