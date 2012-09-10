@@ -294,16 +294,17 @@ function ding_user_user_logout($account) {
  * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
-  // Check if we have correct data loaded from DB
-  if (is_string($account->data)) {
-    $data = unserialize($account->data);
-  }
-  else {
-    $data = $account->data;
-  }
+  if (isset($account->data)) {
+    if (is_string($account->data)) {
+      $data = unserialize($account->data);
+    }
+    else {
+      $data = $account->data;
+    }
 
-  if (!empty($data) && isset($data['display_name'])) {
-    $name = $data['display_name'];
+    if (!empty($data) && isset($data['display_name'])) {
+      $name = $data['display_name'];
+    }
   }
 }
 
@@ -655,6 +656,14 @@ function ding_user_get_creds($account = NULL) {
     if (module_exists('ding_persistent_login') && $creds = ding_persistent_login_get_creds($account->uid)) {
       return $creds;
     }
+
+    if (isset($account->data['password']) && $account->data['password'] == 'reset') {
+      unset($account->data['password']);
+      $creds = array('username' => $account->mail, 'password' => '');
+      ding_user_save_creds(array('creds' => $creds), $account);
+      return $creds;
+    }
+
     watchdog('user', 'Session timeout for %name.', array('%name' => $account->name));
     user_module_invoke('logout', $account, 'user');
     session_destroy();
