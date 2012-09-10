@@ -497,9 +497,9 @@ function _ding_user_profile2_tabs ($account) {
   // load profiles by invoking hook_user_profile2_tab
   $profile_tabs = module_invoke_all('user_profile2_tabs');
   foreach ($profile_tabs as $profile_tab) {
-    $profile = profile2_load_by_user ($account, $profile_tab->type);
+    $profile_type = profile2_get_types ($profile_tab->type);
     // special case - profile_type has not yet been created
-    if (!$profile) {
+    if (!$profile_type) {
       $profile_type = new ProfileType(
         array(
           'type' => $profile_tab->type,
@@ -512,9 +512,6 @@ function _ding_user_profile2_tabs ($account) {
       $profile_type->save();
     }
     // normal case; get the profile type
-    else {
-      $profile_type = profile2_get_types($profile_tab->type);
-    }
     // Create a profile for current user.
     $profile = new Profile(
       array(
