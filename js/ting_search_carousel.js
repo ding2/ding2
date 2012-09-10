@@ -1,6 +1,8 @@
 (function ($) {
   "use strict";
 
+  var carousel_request_sent = [];
+  var carousel_current_index = 0;
   var carousel_cache = [];
   var carousel = false;
   var carousel_init = function(index) {
@@ -29,30 +31,41 @@
       $tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
     }
 
+    // Save current index, used later on to ensure that AJAX callback insert
+    // content into the right tab/page.
+    carousel_current_index = index;
+
     // If the cache is not set, make ajax call to server else just update the
     // carousel.
     if (carousel_cache[index] === undefined) {
-      $.ajax({
-        type: 'get',
-        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
-        dataType : 'json',
-        success : function(data) {
-          carousel_cache[index] = {
-            'subtitle' : data.subtitle,
-            'content' : data.content
-          };
+      // Prevent users from sending the same request more than once.
+      if (carousel_request_sent[index] === undefined) {
+        carousel_request_sent[index] = true;
+        $.ajax({
+          type: 'get',
+          url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
+          dataType : 'json',
+          success : function(data) {
+            carousel_cache[index] = {
+              'subtitle' : data.subtitle,
+              'content' : data.content
+            };
 
-          if (!carousel) {
-            carousel_update(index);
-            carousel = $('.rs-carousel').carousel();
+            // Check that the AJAX call is still validate (on the same tab).
+            if (carousel_current_index == data.index) {
+              if (!carousel) {
+                carousel_update(index);
+                carousel = $('.rs-carousel').carousel();
+              }
+              else {
+                carousel.carousel('destroy');
+                carousel_update(index);
+                carousel.carousel();
+              }
+            }
           }
-          else {
-            carousel.carousel('destroy');
-            carousel_update(index);
-            carousel.carousel();
-          }
-        }
-      });
+        });
+      }
     }
     else {
       carousel.carousel('destroy');
