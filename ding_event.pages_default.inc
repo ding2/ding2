@@ -185,7 +185,7 @@ function ding_event_default_page_manager_handlers() {
       'comments_per_page' => '50',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
-      'override_title_text' => 'KOMMENTARER',
+      'override_title_text' => 'Comments',
     );
     $pane->cache = array();
     $pane->style = array(
