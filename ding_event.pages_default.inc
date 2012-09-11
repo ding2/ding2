@@ -13,7 +13,7 @@ function ding_event_default_page_manager_handlers() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'node_view_panel_context_2';
+  $handler->name = 'ding_event_node_view';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
@@ -135,7 +135,7 @@ function ding_event_default_page_manager_handlers() {
       'settings' => array(
         'granularity' => 'context',
         'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_2',
+        'cache_key' => 'panel_context:node_view:ding_event_node_view',
       ),
     );
     $pane->style = array(
@@ -282,7 +282,7 @@ function ding_event_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
-  $export['node_view_panel_context_2'] = $handler;
+  $export['ding_event_node_view'] = $handler;
 
   return $export;
 }
