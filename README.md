@@ -1,11 +1,10 @@
-# Ding News
+# Ding event
 
-Provide the content type Events and views to display Events in various contexts.
+Provides the "event" content type and its fields. The module also defines the
+different views used to display the events. It provides some panel panes and
+panels variants to better control the layout-
 
-## Dependencies
+# Dependencies
+It uses the panels layouts provided by ding_latto_frontned, but is not dependent
+on the latto theme framework.
 
-Ding Event is dependent on the following module versions:
-- Media 7.x-2.0-unstable6
-- File Entity 7.x-2.0-unstable6
-
-Out of the box Ding Event use panel layouts provided by the module ding_frontend_layouts.
