@@ -23,7 +23,7 @@ function ding_event_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : { "task:ding_event_node_view:node_view:new-2" : "task:ding_event_node_view:node_view:new-2" } } } }
+        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_event" : "ding_event" } } } }
       ]
     }
   }');
