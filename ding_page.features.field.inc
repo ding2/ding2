@@ -10,16 +10,14 @@
 function ding_page_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'comment-comment_node_ding_page-comment_body'.
-  $fields['comment-comment_node_ding_page-comment_body'] = array(
+  // Exported field: 'comment-comment_node_ding_page-field_ding_page_comment_body'.
+  $fields['comment-comment_node_ding_page-field_ding_page_comment_body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
-      'entity_types' => array(
-        0 => 'comment',
-      ),
-      'field_name' => 'comment_body',
+      'entity_types' => array(),
+      'field_name' => 'field_ding_page_comment_body',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -35,7 +33,9 @@ function ding_page_field_default_fields() {
       ),
       'locked' => '0',
       'module' => 'text',
-      'settings' => array(),
+      'settings' => array(
+        'profile2_private' => FALSE,
+      ),
       'translatable' => '0',
       'type' => 'text_long',
     ),
@@ -49,25 +49,26 @@ function ding_page_field_default_fields() {
           'label' => 'hidden',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 0,
+          'type' => 'text_plain',
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'comment',
-      'field_name' => 'comment_body',
-      'label' => 'Comment',
-      'required' => TRUE,
+      'field_name' => 'field_ding_page_comment_body',
+      'label' => 'Comment body',
+      'required' => 1,
       'settings' => array(
-        'text_processing' => 1,
+        'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => 5,
+          'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => 0,
+        'weight' => '1',
       ),
     ),
   );
@@ -116,7 +117,7 @@ function ding_page_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '6',
+          'weight' => '5',
         ),
         'search_index' => array(
           'label' => 'above',
@@ -134,7 +135,7 @@ function ding_page_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '4',
+          'weight' => '6',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -158,19 +159,19 @@ function ding_page_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'taxonomy_autocomplete',
-        'weight' => '12',
+        'weight' => '7',
       ),
     ),
   );
 
-  // Exported field: 'node-ding_page-field_ding_page_content'.
-  $fields['node-ding_page-field_ding_page_content'] = array(
+  // Exported field: 'node-ding_page-field_ding_page_body'.
+  $fields['node-ding_page-field_ding_page_body'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_ding_page_content',
+      'field_name' => 'field_ding_page_body',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -199,17 +200,17 @@ function ding_page_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'hidden',
+          'label' => 'above',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '11',
+          'weight' => 7,
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => '2',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -219,8 +220,8 @@ function ding_page_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_ding_page_content',
-      'label' => 'Brødtekst',
+      'field_name' => 'field_ding_page_body',
+      'label' => 'Body',
       'required' => 1,
       'settings' => array(
         'text_processing' => '1',
@@ -280,13 +281,13 @@ function ding_page_field_default_fields() {
           'module' => 'file',
           'settings' => array(),
           'type' => 'file_default',
-          'weight' => '12',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => '5',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -297,7 +298,7 @@ function ding_page_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_ding_page_files',
-      'label' => 'Filer',
+      'label' => 'Files',
       'required' => 0,
       'settings' => array(
         'description_field' => 0,
@@ -314,6 +315,82 @@ function ding_page_field_default_fields() {
         ),
         'type' => 'file_generic',
         'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ding_page-field_ding_page_lead'.
+  $fields['node-ding_page-field_ding_page_lead'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_ding_page_lead',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'profile2_private' => FALSE,
+      ),
+      'translatable' => '0',
+      'type' => 'text_long',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_page',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 8,
+        ),
+        'teaser' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_plain',
+          'weight' => '1',
+        ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ding_page_lead',
+      'label' => 'Lead',
+      'required' => 1,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => '5',
+        ),
+        'type' => 'text_textarea',
+        'weight' => '3',
       ),
     ),
   );
@@ -358,17 +435,13 @@ function ding_page_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '10',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => 'ding_small',
-          ),
-          'type' => 'image',
-          'weight' => '0',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '3',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -379,7 +452,7 @@ function ding_page_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_ding_page_list_image',
-      'label' => 'Listevisningsbillede',
+      'label' => 'List image',
       'required' => 1,
       'settings' => array(
         'alt_field' => 0,
@@ -400,6 +473,7 @@ function ding_page_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
+            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
@@ -416,82 +490,6 @@ function ding_page_field_default_fields() {
         ),
         'type' => 'media_generic',
         'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ding_page-field_ding_page_manchet'.
-  $fields['node-ding_page-field_ding_page_manchet'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_ding_page_manchet',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(
-        'profile2_private' => FALSE,
-      ),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_page',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '8',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_plain',
-          'weight' => '0',
-        ),
-        'teaser_highlight' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_ding_page_manchet',
-      'label' => 'Manchet',
-      'required' => 1,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '3',
       ),
     ),
   );
@@ -526,13 +524,13 @@ function ding_page_field_default_fields() {
             'view_mode' => 'teaser',
           ),
           'type' => 'ting_reference_default',
-          'weight' => '13',
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => '4',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -543,7 +541,7 @@ function ding_page_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_ding_page_materials',
-      'label' => 'Materialer',
+      'label' => 'Materials',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -602,12 +600,16 @@ function ding_page_field_default_fields() {
             'image_style' => 'ding_large',
           ),
           'type' => 'image',
-          'weight' => '9',
+          'weight' => '0',
         ),
         'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
+          'label' => 'hidden',
+          'module' => 'image',
+          'settings' => array(
+            'image_link' => '',
+            'image_style' => '',
+          ),
+          'type' => 'image',
           'weight' => '0',
         ),
         'teaser_highlight' => array(
@@ -619,7 +621,7 @@ function ding_page_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_ding_page_titel_image',
-      'label' => 'Titelbillede',
+      'label' => 'Title image',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
@@ -640,6 +642,7 @@ function ding_page_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
+            0 => 0,
             'audio' => 0,
             'default' => 0,
             'image' => 'image',
@@ -662,14 +665,14 @@ function ding_page_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Brødtekst');
-  t('Comment');
-  t('Filer');
-  t('Listevisningsbillede');
-  t('Manchet');
-  t('Materialer');
+  t('Body');
+  t('Comment body');
+  t('Files');
+  t('Lead');
+  t('List image');
+  t('Materials');
   t('Tags');
-  t('Titelbillede');
+  t('Title image');
 
   return $fields;
 }
