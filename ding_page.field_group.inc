@@ -13,8 +13,8 @@ function ding_page_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_ding_event_attachments|node|ding_page|form';
-  $field_group->group_name = 'group_ding_event_attachments';
+  $field_group->identifier = 'group_ding_page_attachments|node|ding_page|form';
+  $field_group->group_name = 'group_ding_page_attachments';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'ding_page';
   $field_group->mode = 'form';
@@ -24,6 +24,7 @@ function ding_page_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_ding_page_files',
+      1 => 'field_ding_page_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -35,13 +36,13 @@ function ding_page_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_event_attachments|node|ding_page|form'] = $field_group;
+  $export['group_ding_page_attachments|node|ding_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_ding_event_content|node|ding_page|form';
-  $field_group->group_name = 'group_ding_event_content';
+  $field_group->identifier = 'group_ding_page_content|node|ding_page|form';
+  $field_group->group_name = 'group_ding_page_content';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'ding_page';
   $field_group->mode = 'form';
@@ -50,8 +51,8 @@ function ding_page_field_group_info() {
     'label' => 'Content',
     'weight' => '2',
     'children' => array(
-      0 => 'field_ding_page_content',
-      1 => 'field_ding_page_manchet',
+      0 => 'field_ding_page_lead',
+      1 => 'field_ding_page_body',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -63,13 +64,13 @@ function ding_page_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_event_content|node|ding_page|form'] = $field_group;
+  $export['group_ding_page_content|node|ding_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_ding_event_images|node|ding_page|form';
-  $field_group->group_name = 'group_ding_event_images';
+  $field_group->identifier = 'group_ding_page_images|node|ding_page|form';
+  $field_group->group_name = 'group_ding_page_images';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'ding_page';
   $field_group->mode = 'form';
@@ -91,20 +92,20 @@ function ding_page_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_event_images|node|ding_page|form'] = $field_group;
+  $export['group_ding_page_images|node|ding_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_ding_event_tagging|node|ding_page|form';
-  $field_group->group_name = 'group_ding_event_tagging';
+  $field_group->identifier = 'group_ding_page_tagging|node|ding_page|form';
+  $field_group->group_name = 'group_ding_page_tagging';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'ding_page';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Tagging',
-    'weight' => '5',
+    'weight' => '4',
     'children' => array(
       0 => 'field_ding_page_tags',
     ),
@@ -118,34 +119,7 @@ function ding_page_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_event_tagging|node|ding_page|form'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_ding_event_ting|node|ding_page|form';
-  $field_group->group_name = 'group_ding_event_ting';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'ding_page';
-  $field_group->mode = 'form';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Ting',
-    'weight' => '4',
-    'children' => array(
-      0 => 'field_ding_page_materials',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'formatter' => 'collapsible',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
-        'required_fields' => 1,
-      ),
-    ),
-  );
-  $export['group_ding_event_ting|node|ding_page|form'] = $field_group;
+  $export['group_ding_page_tagging|node|ding_page|form'] = $field_group;
 
   return $export;
 }

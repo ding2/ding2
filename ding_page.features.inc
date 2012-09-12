@@ -28,7 +28,7 @@ function ding_page_node_info() {
       'base' => 'node_content',
       'description' => t('Indholdsside med en venstremenu'),
       'has_title' => '1',
-      'title_label' => t('Titel'),
+      'title_label' => t('Heading'),
       'help' => '',
     ),
   );
