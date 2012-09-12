@@ -23,17 +23,18 @@ function ding_page_field_group_info() {
     'label' => 'Attachments',
     'weight' => '3',
     'children' => array(
-      0 => 'field_ding_page_files',
-      1 => 'field_ding_page_materials',
+      0 => 'field_ding_page_materials',
+      1 => 'field_ding_page_files',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Attachments',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_ding_page_attachments|node|ding_page|form'] = $field_group;
@@ -51,17 +52,18 @@ function ding_page_field_group_info() {
     'label' => 'Content',
     'weight' => '2',
     'children' => array(
-      0 => 'field_ding_page_lead',
-      1 => 'field_ding_page_body',
+      0 => 'field_ding_page_body',
+      1 => 'field_ding_page_lead',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Content',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_ding_page_content|node|ding_page|form'] = $field_group;
@@ -84,12 +86,13 @@ function ding_page_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Images',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_ding_page_images|node|ding_page|form'] = $field_group;
@@ -111,12 +114,13 @@ function ding_page_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Tagging',
       'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
         'required_fields' => 1,
+        'classes' => '',
+        'description' => '',
       ),
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_ding_page_tagging|node|ding_page|form'] = $field_group;
