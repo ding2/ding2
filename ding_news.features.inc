@@ -9,6 +9,10 @@
  */
 function ding_news_ctools_plugin_api() {
   list($module, $api) = func_get_args();
+  if ($module == "field_group" && $api == "field_group") {
+    return array("version" => "1");
+  }
+  list($module, $api) = func_get_args();
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => "1");
   }
@@ -22,10 +26,7 @@ function ding_news_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function ding_news_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("version" => "3.0");
 }
 
 /**
@@ -38,7 +39,7 @@ function ding_news_node_info() {
       'base' => 'node_content',
       'description' => t('A content type for news concerning libraries.'),
       'has_title' => '1',
-      'title_label' => t('Titel'),
+      'title_label' => t('Heading'),
       'help' => '',
     ),
   );
