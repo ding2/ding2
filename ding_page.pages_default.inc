@@ -10,7 +10,7 @@
 function ding_page_default_page_manager_handlers() {
   $export = array();
 
-  $handler = new stdClass;
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'node_view_panel_context_4';
@@ -71,7 +71,7 @@ function ding_page_default_page_manager_handlers() {
       'logic' => 'and',
     ),
   );
-  $display = new panels_display;
+  $display = new panels_display();
   $display->layout = 'threecol_25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
@@ -86,7 +86,7 @@ function ding_page_default_page_manager_handlers() {
   $display->title = '';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
     $pane->type = 'block';
@@ -104,9 +104,10 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
+    $pane->locks = '';
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'middle';
     $pane->type = 'node_content';
@@ -135,9 +136,10 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
+    $pane->locks = '';
     $display->content['new-2'] = $pane;
     $display->panels['middle'][0] = 'new-2';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'right';
     $pane->type = 'campaign';
@@ -169,9 +171,10 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
+    $pane->locks = '';
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'right';
     $pane->type = 'block';
@@ -189,6 +192,7 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
+    $pane->locks = '';
     $display->content['new-4'] = $pane;
     $display->panels['right'][1] = 'new-4';
   $display->hide_title = PANELS_TITLE_PANE;
