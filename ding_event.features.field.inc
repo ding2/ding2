@@ -826,7 +826,7 @@ function ding_event_field_default_fields() {
         'module' => 'ting_reference',
         'settings' => array(),
         'type' => 'ting_reference_simple',
-        'weight' => '9',
+        'weight' => '11',
       ),
     ),
   );
