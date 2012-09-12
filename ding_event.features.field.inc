@@ -488,14 +488,14 @@ function ding_event_field_default_fields() {
       'label' => 'Lead',
       'required' => 1,
       'settings' => array(
-        'text_processing' => '1',
+        'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
         'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => '2',
+          'rows' => '5',
         ),
         'type' => 'text_textarea',
         'weight' => '5',
