@@ -24,7 +24,7 @@ function ding_page_ctools_plugin_api() {
 function ding_page_node_info() {
   $items = array(
     'ding_page' => array(
-      'name' => t('Side'),
+      'name' => t('Page'),
       'base' => 'node_content',
       'description' => t('Indholdsside med en venstremenu'),
       'has_title' => '1',
