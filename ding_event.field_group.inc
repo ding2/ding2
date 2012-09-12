@@ -80,9 +80,9 @@ function ding_event_field_group_info() {
     'label' => 'Date, location and price',
     'weight' => '4',
     'children' => array(
-      0 => 'field_ding_event_location',
-      1 => 'field_ding_event_price',
-      2 => 'field_ding_event_date',
+      0 => 'field_ding_event_date',
+      1 => 'field_ding_event_location',
+      2 => 'field_ding_event_price',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -167,7 +167,7 @@ function ding_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Ting',
-    'weight' => '7',
+    'weight' => '6',
     'children' => array(
       0 => 'field_ding_event_materials',
     ),
