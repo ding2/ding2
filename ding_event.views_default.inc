@@ -41,7 +41,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = FALSE;
-  /* Field: Field: Library */
+  /* Field: Field: Groups audience */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
@@ -101,11 +101,11 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_list_image']['id'] = 'field_list_image';
   $handler->display->display_options['fields']['field_list_image']['table'] = 'field_data_field_list_image';
   $handler->display->display_options['fields']['field_list_image']['field'] = 'field_list_image';
-  /* Sort criterion: Content: Date and time -  start date (field_event_date) */
+  /* Sort criterion: Broken/missing handler */
   $handler->display->display_options['sorts']['field_event_date_value']['id'] = 'field_event_date_value';
   $handler->display->display_options['sorts']['field_event_date_value']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['sorts']['field_event_date_value']['field'] = 'field_event_date_value';
-  /* Contextual filter: Field: Library (group_audience:nid) */
+  /* Contextual filter: Field: Groups audience (group_audience:nid) */
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_group_audience';
   $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
@@ -201,7 +201,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date']['id'] = 'field_event_date';
   $handler->display->display_options['fields']['field_event_date']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
@@ -227,16 +227,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date']['type'] = 'calendar_page';
-  $handler->display->display_options['fields']['field_event_date']['settings'] = array(
-    'format_type' => 'long',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date']['field_api_classes'] = 0;
-  /* Field: Field: Library */
+  /* Field: Field: Groups audience */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
@@ -294,7 +285,7 @@ function ding_event_views_default_views() {
     ),
   );
   $handler->display->display_options['fields']['field_address']['field_api_classes'] = 0;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date_1']['id'] = 'field_event_date_1';
   $handler->display->display_options['fields']['field_event_date_1']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date_1']['field'] = 'field_event_date';
@@ -319,15 +310,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date_1']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date_1']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date_1']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date_1']['settings'] = array(
-    'format_type' => 'time_only',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date_1']['field_api_classes'] = 0;
-  /* Field: Content: Ticket price */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_ticket_price']['id'] = 'field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['table'] = 'field_data_field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['field'] = 'field_event_ticket_price';
@@ -351,11 +334,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_event_ticket_price']['settings'] = array(
-    'thousand_separator' => ' ',
-    'prefix_suffix' => 1,
-  );
-  $handler->display->display_options['fields']['field_event_ticket_price']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -448,7 +426,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date']['id'] = 'field_event_date';
   $handler->display->display_options['fields']['field_event_date']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
@@ -473,15 +451,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date']['type'] = 'calendar_page';
-  $handler->display->display_options['fields']['field_event_date']['settings'] = array(
-    'format_type' => 'long',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date']['field_api_classes'] = 0;
   /* Field: Content: Address */
   $handler->display->display_options['fields']['field_address']['id'] = 'field_address';
   $handler->display->display_options['fields']['field_address']['table'] = 'field_data_field_address';
@@ -514,7 +483,7 @@ function ding_event_views_default_views() {
     ),
   );
   $handler->display->display_options['fields']['field_address']['field_api_classes'] = 0;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date_1']['id'] = 'field_event_date_1';
   $handler->display->display_options['fields']['field_event_date_1']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date_1']['field'] = 'field_event_date';
@@ -538,15 +507,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date_1']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date_1']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date_1']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date_1']['settings'] = array(
-    'format_type' => 'time_only',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date_1']['field_api_classes'] = 0;
-  /* Field: Content: Ticket price */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_ticket_price']['id'] = 'field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['table'] = 'field_data_field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['field'] = 'field_event_ticket_price';
@@ -570,13 +531,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_event_ticket_price']['settings'] = array(
-    'thousand_separator' => ' ',
-    'prefix_suffix' => 1,
-  );
-  $handler->display->display_options['fields']['field_event_ticket_price']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Field: Library (group_audience:nid) */
+  /* Contextual filter: Field: Groups audience (group_audience:nid) */
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_group_audience';
   $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
@@ -629,7 +585,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Field: Library (group_audience:nid) */
+  /* Contextual filter: Field: Groups audience (group_audience:nid) */
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_group_audience';
   $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
@@ -740,7 +696,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_category']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_event_category']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_ding_event_category']['field_api_classes'] = 0;
-  /* Field: Field: Library */
+  /* Field: Field: Groups audience */
   $handler->display->display_options['fields']['group_audience']['id'] = 'group_audience';
   $handler->display->display_options['fields']['group_audience']['table'] = 'field_data_group_audience';
   $handler->display->display_options['fields']['group_audience']['field'] = 'group_audience';
@@ -799,7 +755,7 @@ function ding_event_views_default_views() {
     ),
   );
   $handler->display->display_options['fields']['field_address']['field_api_classes'] = 0;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date']['id'] = 'field_event_date';
   $handler->display->display_options['fields']['field_event_date']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
@@ -824,15 +780,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date']['settings'] = array(
-    'format_type' => 'long_date_only',
-    'fromto' => 'value',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date']['field_api_classes'] = 0;
-  /* Field: Content: Ticket price */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_ticket_price']['id'] = 'field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['table'] = 'field_data_field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['field'] = 'field_event_ticket_price';
@@ -857,12 +805,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_event_ticket_price']['settings'] = array(
-    'thousand_separator' => ' ',
-    'prefix_suffix' => 1,
-  );
-  $handler->display->display_options['fields']['field_event_ticket_price']['field_api_classes'] = 0;
-  /* Field: Content: Manchet */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_ding_event_manchet']['id'] = 'field_ding_event_manchet';
   $handler->display->display_options['fields']['field_ding_event_manchet']['table'] = 'field_data_field_ding_event_manchet';
   $handler->display->display_options['fields']['field_ding_event_manchet']['field'] = 'field_ding_event_manchet';
@@ -886,7 +829,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_manchet']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_event_manchet']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_ding_event_manchet']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_ding_event_manchet']['field_api_classes'] = 0;
   $handler->display->display_options['pane_category']['name'] = 'Ding events';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -1039,7 +981,7 @@ function ding_event_views_default_views() {
     ),
   );
   $handler->display->display_options['fields']['field_address']['field_api_classes'] = 0;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date']['id'] = 'field_event_date';
   $handler->display->display_options['fields']['field_event_date']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
@@ -1064,15 +1006,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date']['settings'] = array(
-    'format_type' => 'long_date_only',
-    'fromto' => 'value',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date']['field_api_classes'] = 0;
-  /* Field: Content: Ticket price */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_ticket_price']['id'] = 'field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['table'] = 'field_data_field_event_ticket_price';
   $handler->display->display_options['fields']['field_event_ticket_price']['field'] = 'field_event_ticket_price';
@@ -1097,12 +1031,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_ticket_price']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_event_ticket_price']['settings'] = array(
-    'thousand_separator' => ' ',
-    'prefix_suffix' => 1,
-  );
-  $handler->display->display_options['fields']['field_event_ticket_price']['field_api_classes'] = 0;
-  /* Field: Content: Manchet */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_ding_event_manchet']['id'] = 'field_ding_event_manchet';
   $handler->display->display_options['fields']['field_ding_event_manchet']['table'] = 'field_data_field_ding_event_manchet';
   $handler->display->display_options['fields']['field_ding_event_manchet']['field'] = 'field_ding_event_manchet';
@@ -1126,7 +1055,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_manchet']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_event_manchet']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_ding_event_manchet']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_ding_event_manchet']['field_api_classes'] = 0;
   $handler->display->display_options['pane_category']['name'] = 'Ding events';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -1182,7 +1110,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Date and time */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_event_date']['id'] = 'field_event_date';
   $handler->display->display_options['fields']['field_event_date']['table'] = 'field_data_field_event_date';
   $handler->display->display_options['fields']['field_event_date']['field'] = 'field_event_date';
@@ -1206,14 +1134,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_event_date']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_event_date']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_event_date']['hide_alter_empty'] = 0;
-  $handler->display->display_options['fields']['field_event_date']['settings'] = array(
-    'format_type' => 'long_date_only',
-    'fromto' => 'value',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  $handler->display->display_options['fields']['field_event_date']['field_api_classes'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
