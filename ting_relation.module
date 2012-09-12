@@ -21,7 +21,6 @@ function ting_relation_theme() {
   );
 }
 
-
 /**
  * kind of a hook - called from ting.module
  */
@@ -29,7 +28,6 @@ function ting_relation_anchor_info() {
   $ret = ting_relation_inline();
   unset($ret['dbcaddi:hasOnlineAccess']);
   unset($ret['dbcaddi:isReviewOf']);
-  unset($ret['dbcaddi:isPartOfManifestation']);
   return $ret;
 }
 
@@ -43,7 +41,7 @@ function ting_relation_inline() {
       'dbcaddi:hasCreatorDescription' => t('Author portrait'),
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
-      'dbcaddi:isPartOfManifestation' => t('Is part of manifestation'),
+      'isPartOfManifestation' => t('Is part of manifestation'),
       'dbcaddi:isReviewOf' => t('Is review of'),
       'dbcaddi:hasOnlineAccess' => t('Online access'),
     );
@@ -68,4 +66,3 @@ function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state)
     '#default_value' => variable_get('ting_ebrary_url', ''),
   );
 }
-
