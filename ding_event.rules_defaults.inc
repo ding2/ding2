@@ -23,7 +23,7 @@ function ding_event_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : { "task:node_view_panel_context_2:node_view:new-2" : "task:node_view_panel_context_2:node_view:new-2" } } } }
+        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_event" : "ding_event" } } } }
       ]
     }
   }');
@@ -41,17 +41,7 @@ function ding_event_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_panels_pane_cache" : { "panes" : { "value" : {
-                "task:term_view_panel_context_2:term_view:new-2" : "task:term_view_panel_context_2:term_view:new-2",
-                "subtask:page_ding_events_panel_context:page:ding_events:new-4" : "subtask:page_ding_events_panel_context:page:ding_events:new-4",
-                "subtask:page_ding_events_library_panel_context:page:ding_events_library:new-4" : "subtask:page_ding_events_library_panel_context:page:ding_events_library:new-4",
-                "subtask:page_ding_frontpage_panel_context:page:ding_frontpage:new-2" : "subtask:page_ding_frontpage_panel_context:page:ding_frontpage:new-2",
-                "task:node_view_panel_context_2:node_view:new-2" : "task:node_view_panel_context_2:node_view:new-2",
-                "task:node_view_panel_context_3:node_view:new-3" : "task:node_view_panel_context_3:node_view:new-3"
-              }
-            }
-          }
-        }
+        { "cache_actions_action_clear_views_cache" : { "view" : { "value" : { "ding_event" : "ding_event" } } } }
       ]
     }
   }');

@@ -35,8 +35,8 @@ function ding_event_node_info() {
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',
-      'title_label' => t('Titel'),
-      'help' => '',
+      'title_label' => t('Heading'),
+      'help' => t('This is the heading usually displayed with a big font size (h1) on the top of the page.'),
     ),
   );
   return $items;
