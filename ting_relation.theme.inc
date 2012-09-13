@@ -23,9 +23,11 @@ function template_preprocess_ting_relation(&$variables) {
     case 'dbcaddi:hasOnlineAccess':
       $cont = ting_relation_online( $relations );
       if( !empty($cont) ) {
-	$variables['content'][$ns] = $cont;
+        $variables['content'][$ns] = $cont;
       }
       break;
+    case 'isPartOfManifestation':
+      $variables['content'][$ns] = ting_relation_ispartofmanifestation($relations);
     default:
       break;
     }
@@ -44,7 +46,7 @@ function ting_relation_online( $relations ) {
     elseif( $relation['#ac_source'] == 'Filmstriben (fjernlån)' ) {
       $ret[] = ting_relation_online_filmstriben( $relation );
     }
-  }  
+  }
   return $ret;
 }
 
@@ -99,6 +101,21 @@ function ting_relation_creator_description( $relations ) {
 
     $ret[] = $content;
   }
+  return $ret;
+}
+
+function ting_relation_ispartofmanifestation($relations) {
+  $ret = array();
+  foreach ($relations as $relation_id => $relation) {
+    $content = array();
+    $content['type'] = $relation['#title'];
+    $related_object = $relation['#relation'];
+    $content['title'] = $related_object->object->title;
+    $rendered_item = ting_object_view($related_object->object, 'teaser');
+    $content['text'] = render($rendered_item);
+    $ret []= $content;
+  }
+
   return $ret;
 }
 
