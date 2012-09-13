@@ -5,8 +5,19 @@
  */
 
 /**
- * Implements hook_entity_info_alter().
+ * Implements hook_ding_library_menu_links().
  */
+function ding_news_ding_library_menu_links() {
+  return array(
+    'news' => array(
+      'title' => 'News',
+    ),
+  );
+}
+
+/**
+* Implements hook_entity_info_alter().
+*/
 function ding_news_entity_info_alter(&$entity_info) {
   $entity_info['node']['view modes']['teaser_highlight'] = array(
     'label' => t('Teaser highlight'),
