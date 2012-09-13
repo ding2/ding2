@@ -23,8 +23,8 @@ function ding_page_field_group_info() {
     'label' => 'Attachments',
     'weight' => '3',
     'children' => array(
-      0 => 'field_ding_page_materials',
-      1 => 'field_ding_page_files',
+      0 => 'field_ding_page_files',
+      1 => 'field_ding_page_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -52,8 +52,8 @@ function ding_page_field_group_info() {
     'label' => 'Content',
     'weight' => '2',
     'children' => array(
-      0 => 'field_ding_page_body',
-      1 => 'field_ding_page_lead',
+      0 => 'field_ding_page_lead',
+      1 => 'field_ding_page_body',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
