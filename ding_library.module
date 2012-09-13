@@ -341,5 +341,17 @@ function ding_library_views_data_alter(&$data) {
   }
 }
 
+/**
+ * Implements hook_ding_library_menu_links().
+ */
+function ding_library_menu_ding_library_menu_links() {
+  return array(
+    'about' => array(
+      'title' => 'About the library',
+      'weight' => 11,
+    ),
+  );
+}
+
 include_once('ding_library.features.inc');
 

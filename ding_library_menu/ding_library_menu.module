@@ -42,18 +42,6 @@ function ding_library_menu_node_update($node) {
 }
 
 /**
- * Implements hook_ding_library_menu_links().
- */
-function ding_library_menu_ding_library_menu_links() {
-  return array(
-    'about' => array(
-      'title' => 'About the library',
-      'weight' => 11,
-    ),
-  );
-}
-
-/**
  * Rebuild our custom menu items.
  */
 function _ding_libary_menu_rebuild() {
