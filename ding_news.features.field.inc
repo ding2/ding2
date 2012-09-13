@@ -520,11 +520,12 @@ function ding_news_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'file_entity',
+          'module' => 'image',
           'settings' => array(
-            'file_view_mode' => 'default',
+            'image_link' => 'content',
+            'image_style' => 'ding_small',
           ),
-          'type' => 'file_rendered',
+          'type' => 'image',
           'weight' => '0',
         ),
         'teaser_highlight' => array(
