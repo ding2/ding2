@@ -8,6 +8,8 @@
  * Implements hook_init().
  */
 function ding_library_init() {
+  // Load ding library map javascript code if we have loaded the library
+  // overview page.
   if ($_GET['q'] == 'libraries') {
     drupal_add_js(drupal_get_path('module', 'ding_library') .  '/js/ding_library.map.js', array(
       'defer' => TRUE,
@@ -15,6 +17,10 @@ function ding_library_init() {
       'weight' => 42,
     ));
   }
+
+  /**
+   * @TODO: What does this next part do and why is it needed.
+   */
   $args = arg();
   if (sizeof($args) == 2 && $args[0] == 'node' && $node = menu_get_object()) {
     $types = array(
