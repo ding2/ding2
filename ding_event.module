@@ -5,17 +5,6 @@
  */
 
 /**
- * Implements hook_ding_library_menu_links().
- */
-function ding_event_ding_library_menu_links() {
-  return array(
-    'events' => array(
-      'title' => 'Events',
-    ),
-  );
-}
-
-/**
  * Implements hook_field_formatter_info().
  */
 function ding_event_field_formatter_info() {
