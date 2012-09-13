@@ -558,6 +558,7 @@ function ding_news_views_default_views() {
   $handler = $view->new_display('attachment', 'Front page teaser highlight', 'ding_news_front_page_teaser_highlight');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'ding-news-highlight';
+  $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '1';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -611,11 +612,10 @@ function ding_news_views_default_views() {
   $handler->display->display_options['filters']['promote']['field'] = 'promote';
   $handler->display->display_options['filters']['promote']['value'] = '1';
   $handler->display->display_options['displays'] = array(
-    'ctools_context_teaser_list' => 'ctools_context_teaser_list',
+    'ding_news_front_page_teaser_list' => 'ding_news_front_page_teaser_list',
     'default' => 0,
-    'ctools_context_master' => 0,
-    'ctools_context_library_list' => 0,
-    'ctools_context_2' => 0,
+    'ding_news_library_teaser_list' => 0,
+    'ding_news_full_list_panel_pane' => 0,
   );
 
   /* Display: Library teaser highlight */

@@ -523,7 +523,7 @@ function ding_news_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => 'ding_small',
+            'image_style' => 'large',
           ),
           'type' => 'image',
           'weight' => '0',
@@ -778,7 +778,7 @@ function ding_news_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => 'ding_medium',
+            'image_style' => 'large',
           ),
           'type' => 'image',
           'weight' => '0',
