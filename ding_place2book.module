@@ -869,14 +869,21 @@ function render_place2book_ticketsinfo($node) {
         } 
         else {
           
-          //check if we have no tickets left - remember that 0 in the result must be tested as a string
-          if ($p2b_result->headers['available-tickets'] == "0") {
+          /*
+           * check if we have no tickets left
+           * number from Available-Tickets header is a string and must be tested as such
+           * also, Available-Tickets header can have a negative value, which we also interpret as "no ticket left"
+           */
+          if ($p2b_result->headers['Available-Tickets'] == "0" || (int)$p2b_result->headers['Available-Tickets'] < 0) {
             $type = 'no-tickets-left';
           } 
           else {
             
-            //check to see if we should present an link for ordering a ticket
-            //number from Available-Tickets header is a string and must be typecast when used as integer
+            /*
+             * check to see if we should present an link for ordering a ticket
+             * number from Available-Tickets header is a string and must be typecast as integer
+             * Available-Tickets header can also be the string "Ubegraenset antal" (unlimited), so we check for existence of "antal" in the string
+             */
             if ($p2b_result->headers['sales-status'] == 'open' && ((int)$p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
               $type = 'order-link';
               $url = $p2b_result->headers['location'];
