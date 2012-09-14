@@ -336,7 +336,7 @@ class DingEntityBase {
   }
 
   public function __isset($prop) {
-    return isset($this->properties[$prop]) && $this->properties[$prop] !== self::NULL;
+    return isset($this->properties[$prop]);
   }
 
   /**
