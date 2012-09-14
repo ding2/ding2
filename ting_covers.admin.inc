@@ -36,14 +36,14 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
   $form['addi'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Information settings'),
-    '#description' => t('The Additional Information service is used to retrieve cover images and other information about objects. <a href="http://www.danbib.dk/index.php?doc=forsideservice">More information about the service (in Danish)</a>'),
+    '#description' => t('The Additional Information service is used to retrieve cover images. <a href="http://www.danbib.dk/index.php?doc=moreinfo">More information about the service (in Danish)</a>'),
     '#tree' => FALSE,
   );
 
   $form['addi']['addi_wsdl_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Service URL'),
-    '#description' => t('URL to the Additional Information webservice, e.g. http://forside.addi.dk/addi.wsdl'),
+    '#description' => t('URL to the Additional Information webservice, e.g. http://moreinfo.addi.dk/2.1/'),
     '#required' => TRUE,
     '#default_value' => variable_get('addi_wsdl_url', ''),
   );
@@ -51,7 +51,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
   $form['addi']['addi_username'] = array(
     '#type' => 'textfield',
     '#title' => t('Username'),
-    '#description' => t('Username for the Additional information webservice'),
+    '#description' => t('VIP database username'),
     '#required' => TRUE,
     '#default_value' => variable_get('addi_username', ''),
   );
@@ -59,7 +59,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
   $form['addi']['addi_group'] = array(
     '#type' => 'textfield',
     '#title' => t('Group'),
-    '#description' => t('User group for the Additional information webservice'),
+    '#description' => t('User group (normally library ID)'),
     '#required' => TRUE,
     '#default_value' => variable_get('addi_group', ''),
   );
@@ -67,7 +67,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
   $form['addi']['addi_password'] = array(
     '#type' => 'textfield',
     '#title' => t('Password'),
-    '#description' => t('Password for the Additional information webservice'),
+    '#description' => t('VIP database password'),
     '#required' => TRUE,
     '#default_value' => variable_get('addi_password', ''),
   );
