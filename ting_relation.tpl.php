@@ -19,7 +19,7 @@ foreach( $content as $ns => $relations ){
 <?php foreach( $relations as $key=>$relation ) { ?>
 
 <div class="meta">
-<?php 
+<?php
 if( isset($relation['title']) ) {
 print '<h3>'.$relation['title'].'</h3>';
 }
@@ -65,10 +65,3 @@ print '<div class="clearfix"></div>';
 </div>
 <?php } // end foreach content
 ?>
-
-
-
-
-
-
-
