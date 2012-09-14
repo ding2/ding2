@@ -37,10 +37,10 @@ function ding_user_update_7001(&$sandbox) {
  **/
 function ding_user_update_7002(&$sandbox) {
   $updated = db_update('system')
-    ->fields (array(
+    ->fields(array(
         'weight' => -1,
       ))
-    ->condition('name','ding_user','=')
+    ->condition('name', 'ding_user', '=')
     ->execute();
 }
 

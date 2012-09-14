@@ -383,17 +383,17 @@ function ding_user_user_login_validate($form, &$form_state) {
         $auth_name = ding_user_default_authname($form_state['values']['name']);
       }
 
-      $account = _ding_user_create_account ($auth_name,$auth_res);
+      $account = _ding_user_create_account($auth_name, $auth_res);
 
       // Save credentials for later. Do it early as the provider might expect
       // them in a hook_profile2_presave hook trigged by us saving a new
       // profile, or themselves in the profile_init callback.
       ding_user_save_creds($auth_res, $account);
 
-      $profile = _ding_user_create_profile2 ($account);
+      $profile = _ding_user_create_profile2($account);
 
       // set additional tabs in profile2
-      _ding_user_profile2_tabs ($account);
+      _ding_user_profile2_tabs($account);
 
       // Let provider initialise the profile. Assume they save it if need be.
       if (ding_provider_implements('user', 'profile_init')) {
@@ -434,7 +434,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * Create a provider account for drupal. Username will be a hashvalue of authname.
  * This account will be coupled with the provider user via the authmap table
  **/
-function _ding_user_create_account ($auth_name,$auth_res) {
+function _ding_user_create_account($auth_name, $auth_res) {
   // We'd like to use user_external_login_register(), but it saves the user
   // and invokes hook_user_login before we have a chance to mess with it. So
   // we do what it would do.
@@ -476,10 +476,10 @@ function _ding_user_create_account ($auth_name,$auth_res) {
  * is it enough to check for provider_user ?
  **/
 function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
-  if (empty ($profile) ) {
+  if (empty($profile) ) {
     return FALSE;
   }
-  elseif( ding_user_is_provider_user($profile) ) {
+  elseif ( ding_user_is_provider_user($profile) ) {
     return TRUE;
   }
 
@@ -493,11 +493,11 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
  * load the profile
  * bind profile to user
  **/
-function _ding_user_profile2_tabs ($account) {
+function _ding_user_profile2_tabs($account) {
   // load profiles by invoking hook_user_profile2_tab
   $profile_tabs = module_invoke_all('user_profile2_tabs');
   foreach ($profile_tabs as $profile_tab) {
-    $profile_type = profile2_get_types ($profile_tab->type);
+    $profile_type = profile2_get_types($profile_tab->type);
     // special case - profile_type has not yet been created
     if (!$profile_type) {
       $profile_type = new ProfileType(
@@ -538,12 +538,12 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     if ($form['#user_category'] == $profile_tab->type) {
       // unset account info (password and pincode)
       unset($form['account']);
-      $form+=drupal_get_form($profile_tab->form);
+      $form += drupal_get_form($profile_tab->form);
     }
   }
 }
 
-function _ding_user_create_profile2 ($account) {
+function _ding_user_create_profile2($account) {
   $profile = ding_user_provider_profile($account);
   if (!$profile) {
     $provider = _ding_provider_get_provider('user');
