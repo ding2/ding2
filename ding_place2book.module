@@ -106,7 +106,10 @@ function ding_place2book_image_default_styles() {
  */
 function ding_place2book_permission() {
   return array(
-    'administer place2book settings',
+    'administer place2book settings' => array(
+      'title' => t('Administer place2book settings'), 
+      'description' => t('Perform administration tasks for ding_place2book.'),
+    ),
   );
 }
 
