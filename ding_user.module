@@ -295,16 +295,18 @@ function ding_user_user_logout($account) {
  * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
-  // Check if we have correct data loaded from DB
-  if (is_string($account->data)) {
-    $data = unserialize($account->data);
-  }
-  else {
-    $data = $account->data;
-  }
+  if (isset($account->data)) {
+    // Check if we have correct data loaded from DB
+    if (is_string($account->data)) {
+      $data = unserialize($account->data);
+    }
+    else {
+      $data = $account->data;
+    }
 
-  if (!empty($data) && isset($data['display_name'])) {
-    $name = $data['display_name'];
+    if (!empty($data) && isset($data['display_name'])) {
+      $name = $data['display_name'];
+    }
   }
 }
 
@@ -546,7 +548,7 @@ function ding_user_get_creds($account = NULL) {
   if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
     // Check that the credentials is valid.
     // note: Only the Alma provider implements 'is_authenticated', and it simply checks if login and password is set.
-//       So: If the user is cached, $cache->data is returned in any case.
+    //       So: If the user is cached, $cache->data is returned in any case.
     if (ding_provider_implements('user', 'is_authenticated')) {
       if (ding_provider_invoke('user', 'is_authenticated', $cache->data)) {
         return $cache->data;
