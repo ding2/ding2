@@ -1,5 +1,5 @@
 ;----------// Theme Information
-  name        = DD Basic
+  name        = DDBasic
   description = A sub theme to Latto framework
   core        = 7.x
   release     = 7.x-1.x
