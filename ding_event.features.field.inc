@@ -256,7 +256,7 @@ function ding_event_field_default_fields() {
         ),
         'profile2_private' => FALSE,
         'timezone_db' => 'UTC',
-        'todate' => '',
+        'todate' => 'optional',
         'tz_handling' => 'site',
       ),
       'translatable' => '0',

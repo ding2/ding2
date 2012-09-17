@@ -144,7 +144,7 @@ function ding_event_views_default_views() {
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['field_ding_event_list_image']['field_api_classes'] = 0;
-  /* Sort criterion: Content: Date (field_ding_event_date) */
+  /* Sort criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['sorts']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
   $handler->display->display_options['sorts']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
   $handler->display->display_options['sorts']['field_ding_event_date_value']['field'] = 'field_ding_event_date_value';
