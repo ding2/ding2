@@ -1,0 +1,22 @@
+;----------// Theme Information
+  name        = DD Basic
+  description = A sub theme to Latto framework
+  core        = 7.x
+  release     = 7.x-1.x
+  base theme  = latto
+
+;----------// Stylesheets
+
+  ; Unset Module CSS or other Stylesheets
+  ;
+  ; In your theme settings you can unset many stylesheets using the Unset CSS Extension. If for some
+  ; reason the file you want to unset is not showing, you can explicitly declare it here. Once you have
+  ; finished adding your declarations you must clear the sites cache, then go to your theme settings and
+  ; check the checkbox for the file, then save the theme settings and the file will be unset thereafter.
+  ;
+  ; Follow the syntax:
+  ;
+  ; unset_css[path/to/css/file.css] = 1
+  ;
+  ; For example to unset foobar_module.css you might use something like this:
+  ; unset_css[sites/all/modules/foobar_module/foobar_module.css] = 1
