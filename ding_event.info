@@ -31,6 +31,7 @@ features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
+features[field][] = comment-comment_node_ding_event-field_ding_event_comment
 features[field][] = node-ding_event-field_ding_event_body
 features[field][] = node-ding_event-field_ding_event_category
 features[field][] = node-ding_event-field_ding_event_date
