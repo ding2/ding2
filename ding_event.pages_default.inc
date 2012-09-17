@@ -329,15 +329,18 @@ function ding_event_default_page_manager_pages() {
   $page->arguments = array(
     'tid' => array(
       'id' => 1,
-      'identifier' => 'Category term',
+      'identifier' => 'Event category term',
       'name' => 'term',
       'settings' => array(
-        'input_form' => 'term',
+        'input_form' => 'tid',
         'vids' => array(
-          1 => '1',
+          3 => '3',
+          1 => 0,
+          4 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
+        'transform' => 0,
       ),
     ),
   );
@@ -556,15 +559,18 @@ events
     ),
     'tid' => array(
       'id' => 1,
-      'identifier' => 'Category term',
+      'identifier' => 'Event category term',
       'name' => 'term',
       'settings' => array(
-        'input_form' => 'term',
+        'input_form' => 'tid',
         'vids' => array(
-          1 => '1',
+          3 => '3',
+          1 => 0,
+          4 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
+        'transform' => 0,
       ),
     ),
   );
