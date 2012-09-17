@@ -63,7 +63,7 @@ function ding_event_field_group_info() {
         'classes' => '',
         'description' => '',
       ),
-      'formatter' => 'collapsed',
+      'formatter' => 'collapsible',
     ),
   );
   $export['group_ding_event_content|node|ding_event|form'] = $field_group;
@@ -94,7 +94,7 @@ function ding_event_field_group_info() {
         'classes' => '',
         'description' => '',
       ),
-      'formatter' => 'collapsed',
+      'formatter' => 'collapsible',
     ),
   );
   $export['group_ding_event_date_loc_price|node|ding_event|form'] = $field_group;
@@ -153,7 +153,7 @@ function ding_event_field_group_info() {
         'classes' => '',
         'description' => '',
       ),
-      'formatter' => 'collapsed',
+      'formatter' => 'collapsible',
     ),
   );
   $export['group_ding_event_tagging|node|ding_event|form'] = $field_group;

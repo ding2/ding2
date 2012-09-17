@@ -37,7 +37,7 @@ function ding_event_node_info() {
     'ding_event' => array(
       'name' => t('Event'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('A content type for events concerning libraries.'),
       'has_title' => '1',
       'title_label' => t('Heading'),
       'help' => t('This is the heading usually displayed with a big font size (h1) on the top of the page.'),
