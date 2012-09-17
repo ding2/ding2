@@ -10,71 +10,6 @@
 function ding_event_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'comment-comment_node_ding_event-comment_body'.
-  $fields['comment-comment_node_ding_event-comment_body'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(
-        0 => 'comment',
-      ),
-      'field_name' => 'comment_body',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'comment_node_ding_event',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'hidden',
-          'module' => 'ding_base',
-          'settings' => array(
-            'body_snippet_length' => 100,
-          ),
-          'type' => 'body_snippet',
-          'weight' => '0',
-        ),
-      ),
-      'entity_type' => 'comment',
-      'field_name' => 'comment_body',
-      'label' => 'Comment',
-      'required' => 1,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '0',
-      ),
-    ),
-  );
-
   // Exported field: 'node-ding_event-field_ding_event_body'.
   $fields['node-ding_event-field_ding_event_body'] = array(
     'field_config' => array(
@@ -146,7 +81,7 @@ function ding_event_field_default_fields() {
           'rows' => '3',
         ),
         'type' => 'text_textarea',
-        'weight' => '7',
+        'weight' => '6',
       ),
     ),
   );
@@ -320,7 +255,7 @@ function ding_event_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '4',
+        'weight' => '3',
       ),
     ),
   );
@@ -422,7 +357,7 @@ function ding_event_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '10',
+        'weight' => '9',
       ),
     ),
   );
@@ -498,7 +433,7 @@ function ding_event_field_default_fields() {
           'rows' => '5',
         ),
         'type' => 'text_textarea',
-        'weight' => '5',
+        'weight' => '4',
       ),
     ),
   );
@@ -570,7 +505,7 @@ function ding_event_field_default_fields() {
         'module' => 'ding_content',
         'settings' => array(),
         'type' => 'ding_content_group_audience_library',
-        'weight' => '8',
+        'weight' => '7',
       ),
     ),
   );
@@ -677,7 +612,7 @@ function ding_event_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '3',
+        'weight' => '2',
       ),
     ),
   );
@@ -763,7 +698,7 @@ function ding_event_field_default_fields() {
           ),
         ),
         'type' => 'addressfield_standard',
-        'weight' => '6',
+        'weight' => '5',
       ),
     ),
   );
@@ -826,7 +761,7 @@ function ding_event_field_default_fields() {
         'module' => 'ting_reference',
         'settings' => array(),
         'type' => 'ting_reference_simple',
-        'weight' => '11',
+        'weight' => '10',
       ),
     ),
   );
@@ -1166,91 +1101,6 @@ function ding_event_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'media_generic',
-        'weight' => '2',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ding_news-field_ding_news_image'.
-  $fields['node-ding_news-field_ding_news_image'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_ding_news_image',
-      'foreign keys' => array(
-        'fid' => array(
-          'columns' => array(
-            'fid' => 'fid',
-          ),
-          'table' => 'file_managed',
-        ),
-      ),
-      'indexes' => array(
-        'fid' => array(
-          0 => 'fid',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'image',
-      'settings' => array(
-        'default_image' => 0,
-        'uri_scheme' => 'public',
-      ),
-      'translatable' => '0',
-      'type' => 'image',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_news',
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'image',
-          'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
-          ),
-          'type' => 'image',
-          'weight' => 9,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser_highlight' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_ding_news_image',
-      'label' => 'Image',
-      'required' => FALSE,
-      'settings' => array(
-        'alt_field' => 0,
-        'default_image' => 0,
-        'file_directory' => '',
-        'file_extensions' => 'png gif jpg jpeg',
-        'max_filesize' => '',
-        'max_resolution' => '',
-        'min_resolution' => '',
-        'title_field' => 0,
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'module' => 'image',
-        'settings' => array(
-          'preview_image_style' => 'thumbnail',
-          'progress_indicator' => 'throbber',
-        ),
-        'type' => 'image_image',
         'weight' => '1',
       ),
     ),
@@ -1260,10 +1110,8 @@ function ding_event_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Category');
-  t('Comment');
   t('Date');
   t('Files');
-  t('Image');
   t('Lead');
   t('Library');
   t('List image');
