@@ -568,7 +568,7 @@ function ding_event_field_default_fields() {
         'module' => 'ding_content',
         'settings' => array(),
         'type' => 'ding_content_group_audience_library',
-        'weight' => '7',
+        'weight' => '4',
       ),
     ),
   );
@@ -895,7 +895,7 @@ function ding_event_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '8',
+        'weight' => '6',
       ),
     ),
   );
