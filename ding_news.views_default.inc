@@ -22,7 +22,6 @@ function ding_news_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['css_class'] = 'list';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Read more';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -227,7 +226,7 @@ function ding_news_views_default_views() {
   );
 
   /* Display: Default news list */
-  $handler = $view->new_display('ctools_context', 'Default news list', 'ding_news_front_page_teaser_list');
+  $handler = $view->new_display('ctools_context', 'Default news list', 'ding_news_default_list');
   $handler->display->display_options['display_description'] = 'This is the default news list used for displaying news in a block/pane';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
