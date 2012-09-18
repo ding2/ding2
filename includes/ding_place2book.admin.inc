@@ -150,7 +150,7 @@ function ding_place2book_kultunaut_form($form_state) {
   // Find all terms in the event category vocabulary
   $result = db_query("SELECT t.tid, t.name FROM {taxonomy_term_data} t JOIN {taxonomy_vocabulary} v
                       ON t.vid = v.vid
-  					  WHERE v.machine_name = 'event_category'
+                      WHERE v.machine_name = 'event_category'
                       ORDER BY name");
   
   // Load default settings
@@ -178,7 +178,7 @@ function ding_place2book_kultunaut_form($form_state) {
   // Find all terms in the event target vocabulary
   $result = db_query("SELECT t.tid, t.name FROM {taxonomy_term_data} t JOIN {taxonomy_vocabulary} v
                       ON t.vid = v.vid
-  					  WHERE v.machine_name = 'event_target'
+                      WHERE v.machine_name = 'event_target'
                       ORDER BY name");
   
   // Load default settings
