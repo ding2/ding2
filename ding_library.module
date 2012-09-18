@@ -163,7 +163,7 @@ function template_preprocess_ding_library_address(&$vars) {
   if ($node) {
     $languages = field_language('node', $node);
     $vars['name'] = check_plain($node->title);
-    if (!empty($node->field_address[$languages['field_address']][0]) && ($address = $node->field_address[$languages['field_address']][0])) {
+    if (!empty($node->field_ding_library_address[$languages['field_ding_library_address']][0]) && ($address = $node->field_ding_library_address[$languages['field_ding_library_address']][0])) {
       $vars['address'] = check_plain($address['thoroughfare']);
       if ($address['premise']) {
         $vars['address'] .= ', ' . $address['premise'];
@@ -190,11 +190,11 @@ function template_preprocess_ding_library_address(&$vars) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
-  if (isset($form['field_slug'][$form['#node']->language])) {
-    $form['field_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
+  if (isset($form['field_ding_library_slug'][$form['#node']->language])) {
+    $form['field_ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
-  elseif (isset($form['field_slug']['und'])) {
-    $form['field_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
+  elseif (isset($form['field_ding_library_slug']['und'])) {
+    $form['field_ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
 }
 
@@ -214,11 +214,11 @@ function ding_library_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ding_library_slug_validate(&$form, &$form_state) {
   // Try to get the slug value.
-  if (isset($form_state['values']['field_slug'][$form_state['node']->language])) {
-    $slug = $form_state['values']['field_slug'][$form_state['node']->language][0]['value'];
+  if (isset($form_state['values']['field_ding_library_slug'][$form_state['node']->language])) {
+    $slug = $form_state['values']['field_ding_library_slug'][$form_state['node']->language][0]['value'];
   }
-  elseif (isset($form_state['values']['field_slug']['und'])) {
-    $slug = $form_state['values']['field_slug']['und'][0]['value'];
+  elseif (isset($form_state['values']['field_ding_library_slug']['und'])) {
+    $slug = $form_state['values']['field_ding_library_slug']['und'][0]['value'];
   }
 
   // If we found the slug do the actual validation.
