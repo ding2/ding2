@@ -26,10 +26,7 @@ function ding_library_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function ding_library_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("version" => "3.0");
 }
 
 /**
@@ -38,7 +35,7 @@ function ding_library_views_api() {
 function ding_library_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ding_library_about
+  // Exported image style: ding_library_about.
   $styles['ding_library_about'] = array(
     'name' => 'ding_library_about',
     'effects' => array(
@@ -61,7 +58,7 @@ function ding_library_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_library_header
+  // Exported image style: ding_library_header.
   $styles['ding_library_header'] = array(
     'name' => 'ding_library_header',
     'effects' => array(
@@ -83,7 +80,7 @@ function ding_library_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_library_list
+  // Exported image style: ding_library_list.
   $styles['ding_library_list'] = array(
     'name' => 'ding_library_list',
     'effects' => array(
