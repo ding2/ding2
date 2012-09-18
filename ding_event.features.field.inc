@@ -755,9 +755,10 @@ function ding_event_field_default_fields() {
           ),
           'format_handlers' => array(
             'address' => 'address',
+            'name-oneline' => 'name-oneline',
+            'address-hide-country' => 0,
             'organisation' => 0,
             'name-full' => 0,
-            'name-oneline' => 0,
           ),
         ),
         'type' => 'addressfield_standard',
