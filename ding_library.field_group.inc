@@ -23,12 +23,9 @@ function ding_library_field_group_info() {
     'label' => 'Attachments',
     'weight' => '6',
     'children' => array(
-      0 => 'field_geocode',
-      1 => 'field_links',
-      2 => 'field_opening_hours',
-      3 => 'field_ding_library_links',
-      4 => 'field_ding_library_geocode',
-      5 => 'field_ding_library_opening_hours',
+      0 => 'field_ding_library_geocode',
+      1 => 'field_ding_library_links',
+      2 => 'field_ding_library_opening_hours',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -56,14 +53,10 @@ function ding_library_field_group_info() {
     'label' => 'Contact',
     'weight' => '3',
     'children' => array(
-      0 => 'field_address',
-      1 => 'field_email',
-      2 => 'field_fax',
-      3 => 'field_phone',
-      4 => 'field_ding_library_addresse',
-      5 => 'field_ding_library_mail',
-      6 => 'field_ding_library_phone_number',
-      7 => 'field_ding_library_fax_number',
+      0 => 'field_ding_library_addresse',
+      1 => 'field_ding_library_fax_number',
+      2 => 'field_ding_library_mail',
+      3 => 'field_ding_library_phone_number',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -91,9 +84,8 @@ function ding_library_field_group_info() {
     'label' => 'Content',
     'weight' => '5',
     'children' => array(
-      0 => 'field_ding_body',
-      1 => 'field_ding_library_body',
-      2 => 'field_ding_library_lead',
+      0 => 'field_ding_library_body',
+      1 => 'field_ding_library_lead',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -121,10 +113,8 @@ function ding_library_field_group_info() {
     'label' => 'Images',
     'weight' => '4',
     'children' => array(
-      0 => 'field_list_image',
-      1 => 'field_main_image',
-      2 => 'field_ding_library_title_image',
-      3 => 'field_ding_library_list_image',
+      0 => 'field_ding_library_list_image',
+      1 => 'field_ding_library_title_image',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
