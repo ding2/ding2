@@ -42,7 +42,6 @@ features[field][] = node-ding_library-field_ding_library_opening_hours
 features[field][] = node-ding_library-field_ding_library_phone_number
 features[field][] = node-ding_library-field_ding_library_slug
 features[field][] = node-ding_library-field_ding_library_title_image
-features[field][] = node-ding_library-field_slug
 features[field][] = node-ding_library-group_group
 features[field_group][] = group_ding_library_attachments|node|ding_library|form
 features[field_group][] = group_ding_library_contact|node|ding_library|form
