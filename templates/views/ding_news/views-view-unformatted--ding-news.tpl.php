@@ -8,7 +8,7 @@
 ?>
 
 <?php foreach ($rows as $id => $row): ?>
-  <li class="<?php print $classes_array[$id]; ?>">
-    <?php print $row; ?>
+  <li class="<?php echo $classes_array[$id]; ?>">
+    <?php echo $row; ?>
   </li>
 <?php endforeach; ?>

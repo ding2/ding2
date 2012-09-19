@@ -27,6 +27,6 @@
  */
 ?>
 
-<ul class="list<?php if (isset($css_class)) print " " . $css_class; ?>">
-  <?php print $rows; ?>  
+<ul class="list <?php if (isset($css_class)) echo $css_class; ?>">
+  <?php echo $rows; ?>  
 </ul>
