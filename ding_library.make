@@ -41,6 +41,10 @@ projects[link][type] = module
 projects[link][subdir] = contrib
 projects[link][version] = "1.0"
 
+projects[menu_block][type] = module
+projects[menu_block][subdir] = contrib
+projects[menu_block][version] = 2.3
+
 ; Changed to download as git repository due to failing when applying
 ; patch when version of git is lower than 1.7.5.4 and option working-copy
 ; is enabled
