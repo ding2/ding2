@@ -94,7 +94,18 @@ function ding_library_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'rules',
+      'settings' => array(
+        'granularity' => 'context',
+        'language' => 1,
+        'language_content' => 1,
+        'advanced' => array(),
+        'cache_key' => '5059aa6197020',
+        'substitute' => 0,
+        'new' => TRUE,
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -136,7 +147,11 @@ function ding_library_default_page_manager_handlers() {
       'settings' => array(
         'granularity' => 'context',
         'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
+        'language_content' => 1,
+        'advanced' => array(),
+        'cache_key' => '5059a97880024',
+        'substitute' => 0,
+        'new' => TRUE,
       ),
     );
     $pane->style = array(
@@ -180,7 +195,11 @@ function ding_library_default_page_manager_handlers() {
       'settings' => array(
         'granularity' => 'context',
         'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
+        'language_content' => 1,
+        'advanced' => array(),
+        'cache_key' => '5059a99c38c06',
+        'substitute' => 0,
+        'new' => TRUE,
       ),
     );
     $pane->style = array(
@@ -236,11 +255,10 @@ function ding_library_default_page_manager_handlers() {
       'context' => 'argument_entity_id:node_1',
     );
     $pane->cache = array(
-      'method' => 'rules',
+      'method' => 'simple',
       'settings' => array(
+        'lifetime' => '600',
         'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:node_view:node_view_panel_context_3',
       ),
     );
     $pane->style = array(
@@ -275,10 +293,15 @@ function ding_library_default_page_manager_handlers() {
       'override_title_text' => '',
     );
     $pane->cache = array(
-      'method' => 'simple',
+      'method' => 'rules',
       'settings' => array(
-        'lifetime' => '600',
-        'granularity' => 'context',
+        'granularity' => 'none',
+        'language' => 1,
+        'language_content' => 1,
+        'advanced' => array(),
+        'cache_key' => '5059a9c678e8e',
+        'substitute' => 0,
+        'new' => TRUE,
       ),
     );
     $pane->style = array(
