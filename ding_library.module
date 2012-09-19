@@ -75,8 +75,8 @@ function ding_library_block_info() {
       'info' => 'Library address',
       'cache' => DRUPAL_CACHE_GLOBAL,
     ),
-    'ding_menu' => array(
-      'info' => 'Ding main menu',
+    'ding_library_menu' => array(
+      'info' => 'Ding library menu',
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
     'ding_sidebar_menu' => array(
@@ -137,24 +137,7 @@ function ding_library_block_view($delta = '') {
       '#node' => $node,
     );
   }
-  if ($delta == 'ding_menu') {
-    $block['subject'] = t('Main menu');
-    // First level of main menu.
-    $links = menu_navigation_links('main-menu', 0);
-    // Theme the lot as a list of links.
-    $block['content']['main-menu'] = array(
-      '#markup' => theme('links__library_menu', array(
-                   'links' => $links,
-                   'heading' => array(
-                     'text' => t('Main menu'),
-                     'level' => 'h2',
-                     'class' => array('element-invisible'),
-                   ),
-                 )),
-      '#prefix' => '<div class="main-menu">',
-      '#suffix' => '</div>',
-    );
-
+  if ($delta == 'ding_library_menu') {
     $trail = menu_get_active_trail();
 
     // Get the active menu item.
