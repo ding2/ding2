@@ -1006,6 +1006,7 @@ function ding_library_field_default_fields() {
           1 => 'Show related content on library page',
         ),
         'allowed_values_function' => '',
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'list_boolean',
