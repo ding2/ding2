@@ -82,6 +82,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_ding_library_opening_hours']['type'] = 'text_plain';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field_api_classes'] = 0;
   /* Field: Content: List image */
   $handler->display->display_options['fields']['field_ding_library_list_image']['id'] = 'field_ding_library_list_image';
@@ -156,7 +157,10 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['field_ding_library_addresse']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['element_class'] = 'address add middle-col';
   $handler->display->display_options['fields']['field_ding_library_addresse']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_library_addresse']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_library_addresse']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['field_ding_library_addresse']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['empty_zero'] = 0;
@@ -173,6 +177,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_phone_number']['id'] = 'field_ding_library_phone_number';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['table'] = 'field_data_field_ding_library_phone_number';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['field'] = 'field_ding_library_phone_number';
+  $handler->display->display_options['fields']['field_ding_library_phone_number']['label'] = 'Phone';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_phone_number']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_ding_library_phone_number']['alter']['absolute'] = 0;
@@ -196,6 +201,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_fax_number']['id'] = 'field_ding_library_fax_number';
   $handler->display->display_options['fields']['field_ding_library_fax_number']['table'] = 'field_data_field_ding_library_fax_number';
   $handler->display->display_options['fields']['field_ding_library_fax_number']['field'] = 'field_ding_library_fax_number';
+  $handler->display->display_options['fields']['field_ding_library_fax_number']['label'] = 'Fax';
   $handler->display->display_options['fields']['field_ding_library_fax_number']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_fax_number']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_ding_library_fax_number']['alter']['absolute'] = 0;
@@ -265,8 +271,10 @@ function ding_library_views_default_views() {
     'und' => 'und',
   );
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  /* Display: Libraries list */
+  $handler = $view->new_display('panel_pane', 'Libraries list', 'ding_library_libraries_list');
+  $handler->display->display_options['pane_category']['name'] = 'Library panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -341,6 +349,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['more_link'] = 0;
   $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
   $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
   $handler->display->display_options['fields']['title']['alter']['html'] = 0;
@@ -355,6 +364,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_geocode']['table'] = 'field_data_field_ding_library_geocode';
   $handler->display->display_options['fields']['field_ding_library_geocode']['field'] = 'field_ding_library_geocode';
   $handler->display->display_options['fields']['field_ding_library_geocode']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_library_geocode']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_geocode']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_ding_library_geocode']['alter']['absolute'] = 0;
@@ -414,6 +424,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_library_opening_hours']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['alter']['absolute'] = 0;
@@ -441,11 +452,11 @@ function ding_library_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Phone number'),
-    t('Fax number'),
+    t('Phone'),
+    t('Fax'),
     t('E-mail'),
-    t('Content pane'),
-    t('View panes'),
+    t('Libraries list'),
+    t('Library panes'),
     t('OpenLayers Data Overlay'),
   );
   $export['ding_library'] = $view;

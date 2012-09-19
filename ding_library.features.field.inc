@@ -309,7 +309,7 @@ function ding_library_field_default_fields() {
         'module' => 'geocoder',
         'settings' => array(
           'geocoder_field' => array(
-            'field_address' => 'field_address',
+            'field_ding_library_addresse' => 'field_ding_library_addresse',
           ),
           'geocoder_handler' => 'google',
         ),
@@ -1065,7 +1065,7 @@ function ding_library_field_default_fields() {
           'display_label' => 0,
         ),
         'type' => 'options_onoff',
-        'weight' => '7',
+        'weight' => '6',
       ),
       'widget_type' => 'options_select',
     ),

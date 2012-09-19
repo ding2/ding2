@@ -393,28 +393,21 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'left';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_library-panel_pane_1';
+    $pane->subtype = 'ding_library-ding_library_libraries_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => 'rules',
-      'settings' => array(
-        'granularity' => 'context',
-        'language' => 1,
-        'cache_key' => 'panel_context:page-ding_libraries:page_ding_libraries_panel_context',
-      ),
-    );
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-2'] = $pane;
     $display->panels['left'][1] = 'new-2';
     $pane = new stdClass();
@@ -453,7 +446,7 @@ function ding_library_default_page_manager_pages() {
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-2';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_libraries'] = $page;
