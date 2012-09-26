@@ -41,6 +41,9 @@ function openruth_reservation_list($account) {
         'pickup_branch_id' => $res->agencyCounter,
         'order_arrived' =>  $res->orderArrived,
         'created' => $res->orderDate,
+        'author' => $res->itemAuthor,
+        'title' => $res->itemTitle,
+        'publication_year' => $res->itemPublicationYear,
         'ready_for_pickup' => 1,
       ));
     }
@@ -57,6 +60,9 @@ function openruth_reservation_list($account) {
         'created' => $res->orderDate,
         'queue_number' => $res->orderQueuePosition,
         'ready_for_pickup' => 0,
+        'author' => $res->itemAuthor,
+        'title' => $res->itemTitle,
+        'publication_year' => $res->itemPublicationYear,
       ));
     }
   }
