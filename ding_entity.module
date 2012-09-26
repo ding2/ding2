@@ -37,20 +37,21 @@ function ding_entity_uri($type, $object) {
 function ding_entity_modules_enabled($modules) {
 
   // pjo .. commented condition out to handle other ding_entity_types .. what is it for anyway ??
-  //
 
-  /*if (!ding_entity_info('ding_entity')) {
-    dpm('DING_ENTITY::modules_enabled: NO ENTITY INFO');
-    // No entity provider yet, queue for later.
-    variable_set('ding_entity_delayed_field_modules', array_unique(array_merge(variable_get('ding_entity_delayed_field_modules', array()), $modules)));
-    return;
+  /*
+  if (!ding_entity_info('ding_entity')) {
+   dpm('DING_ENTITY::modules_enabled: NO ENTITY INFO');
+   // No entity provider yet, queue for later.
+   variable_set('ding_entity_delayed_field_modules', array_unique(array_merge(variable_get('ding_entity_delayed_field_modules', array()), $modules)));
+   return;
   }
-  elseif ($extra_modules = variable_get('ding_entity_delayed_field_modules', array())) {
-    variable_del('ding_entity_delayed_field_modules');
-    $modules = array_merge($modules, $extra_modules);
-    }*/
+   elseif ($extra_modules = variable_get('ding_entity_delayed_field_modules', array())) {
+   variable_del('ding_entity_delayed_field_modules');
+   $modules = array_merge($modules, $extra_modules);
+  }
+  */
 
-  if( !ding_entity_info() ){
+  if (!ding_entity_info()) {
     return;
   }
 
