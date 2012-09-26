@@ -11,12 +11,15 @@ function openruth_loan_list($account) {
   if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
-                       'ding_entity_id' => variable_get('openruth_agency_id', '') . ':' . $loan->itemId,
+                       'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan->itemId,
                        'display_name' => $loan->itemDisplayTitle,
                        'loan_date' => $loan->loanDate,
                        'expiry' => $loan->loanReturnDate,
                        'renewable' => $loan->loanRenewable == 'renewable',
                        'materials_number' => $loan->copyId,
+                       'author' => $loan->itemAuthor,
+                       'title' => $loan->itemTitle,
+                       'publication_year' => $loan->itemPublicationYear,
                      ));
 
     }
