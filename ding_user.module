@@ -111,6 +111,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
+      $form['name']['#type'] = 'password';
       // Add our own validation handler, after the default Drupal login
       // validator.
       $pos = array_search('user_login_authenticate_validate', $form['#validate']);
