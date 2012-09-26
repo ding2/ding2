@@ -148,6 +148,9 @@ class DingProviderReservation extends DingEntityBase {
       'notes',
       'order_arrived',
       'ready_for_pickup',
+      'author',
+      'title',
+      'publication_year',
     );
     $this->_populate($properties, $data);
   }
