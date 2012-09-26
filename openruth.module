@@ -67,8 +67,8 @@ function openruth_form_user_profile_form_alter(&$form, &$form_state) {
   $profile2 = profile2_load_by_user($user, 'provider_openruth');
   // attach profile2 form to user_profile_form.
   // profile2 form could be shown by editing people->permissions->profile2, but profile2 adds a tab and we don't want that.
-  if( ding_user_is_provider_user( $user ) && $profile2 ) {
-    $form_state['profiles'] = array( 'provider_openruth'=>$profile2 );
+  if ( ding_user_is_provider_user( $user ) && $profile2 ) {
+    $form_state['profiles'] = array('provider_openruth' => $profile2 );
     profile2_attach_form( $form, $form_state );
   }
 
@@ -596,9 +596,9 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
 }
 
 /**
-*
-* Replace entity for the reservation in the case object in not in Ting anymore.
-*/
+ *
+ * Replace entity for the reservation in the case object in not in Ting anymore.
+ */
 function openruth_replace_entity($item) {
   $faust_number = explode(':', $item->ding_entity_id);
   $faust_number = $faust_number[1];
