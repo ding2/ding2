@@ -71,6 +71,11 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
   foreach ($items as $id => $item) {
     $item->creator = 'fake';
     $entity = $item->entity;
+
+    if (!is_object($entity)) {
+      // @todo Add dependency or refactor it.
+      $entity = ding_reservation_replace_entity($item);
+    }
     $options[$item->id] = array(
       '#disabled' => $item->renewable,
       'title' => array(
