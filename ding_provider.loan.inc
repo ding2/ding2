@@ -96,6 +96,9 @@ class DingProviderLoan extends DingEntityBase {
       'renewable',
       'remote_loan',
       'notes',
+      'author',
+      'title',
+      'publication_year',
     );
     $this->_populate($properties, $data);
   }
