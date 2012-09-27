@@ -464,17 +464,10 @@ events
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_full_category_list';
+    $pane->subtype = 'ding_event-ding_event_floated_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'empty',
-        1 => 'argument_term_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -727,17 +720,10 @@ node/%node:nid/events
     $pane->pid = 'new-9';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_full_category_list';
+    $pane->subtype = 'ding_event-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'argument_term_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
