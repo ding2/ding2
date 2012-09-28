@@ -390,14 +390,13 @@ events
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'event_category_menu';
+    $pane->subtype = 'event_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'empty',
       ),
       'override_title' => 0,
@@ -410,7 +409,7 @@ events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass();
@@ -646,14 +645,13 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'event_category_menu';
+    $pane->subtype = 'event_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'argument_entity_id:node_1',
       ),
       'override_title' => 0,
@@ -666,7 +664,7 @@ node/%node:nid/events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-6'] = $pane;
     $display->panels['left'][0] = 'new-6';
     $pane = new stdClass();
