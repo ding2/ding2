@@ -737,7 +737,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
 
   /* Display: Floated event list (library) */
-  $handler = $view->new_display('panel_pane', 'Floated event list (library)', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'Floated event list (library)', 'ding_event_floated_list_library');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'list-item';
@@ -1286,7 +1286,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_price']['field_api_classes'] = 0;
 
   /* Display: Event date-list (library) */
-  $handler = $view->new_display('panel_pane', 'Event date-list (library)', 'panel_pane_2');
+  $handler = $view->new_display('panel_pane', 'Event date-list (library)', 'ding_event_date_list_library');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'list-item';
@@ -1703,7 +1703,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_price']['field_api_classes'] = 0;
 
   /* Display: Event date-list icons (library) */
-  $handler = $view->new_display('panel_pane', 'Event date-list icons (library)', 'panel_pane_3');
+  $handler = $view->new_display('panel_pane', 'Event date-list icons (library)', 'ding_event_date_list_icons_library');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'list-item';

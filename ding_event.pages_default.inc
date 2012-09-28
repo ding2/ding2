@@ -720,7 +720,7 @@ node/%node:nid/events
     $pane->pid = 'new-9';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-panel_pane_1';
+    $pane->subtype = 'ding_event-ding_event_floated_list_library';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
