@@ -24,24 +24,31 @@
  */
 ?>
 <?php foreach ($fields as $id => $field): ?>
-  
-  <?php if($id == 'group_audience'): ?>
+  <?php if($id == 'field_ding_event_library'): ?>
     <?php print '<div class="content">'; ?>
   <?php endif; ?>
   
   <?php if (!empty($field->separator)): ?>
     <?php print $field->separator; ?>
   <?php endif; ?>
-
-  <?php if($id != 'group_audience' || ($id == 'group_audience' && empty($fields['field_address']->content)) ): ?>
+  
+  <?php if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ): ?>
     <?php print $field->wrapper_prefix; ?>
+    <?php if($id == 'field_ding_event_library' || $id == 'field_ding_event_location'): ?>
+      <?php print '<i class="icon-home"></i> '; ?>
+    <?php endif; ?>
+    <?php if($id == 'field_ding_event_date_1'): ?>
+      <?php print '<i class="icon-time"></i> '; ?>
+    <?php endif; ?>
+    <?php if($id == 'field_ding_event_price'): ?>
+      <?php print '<i class="icon-credit-card"></i> '; ?>
+    <?php endif; ?>
     <?php print $field->label_html; ?>
     <?php print $field->content; ?>
     <?php print $field->wrapper_suffix; ?>
   <?php endif; ?>
   
-  <?php if($id == 'field_event_ticket_price'): ?>
+  <?php if($id == 'field_ding_event_price'): ?>
     <?php print "</div>"; ?>
   <?php endif; ?>
-  
 <?php endforeach; ?>

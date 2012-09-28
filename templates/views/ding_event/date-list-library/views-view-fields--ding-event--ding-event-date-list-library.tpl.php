@@ -24,22 +24,22 @@
  */
 ?>
 <?php foreach ($fields as $id => $field): ?>
-  
-  <?php if($id == 'field_address' || ($id == 'field_event_date_1' && empty($fields['field_address']->content)) ): ?>
+  <?php if($id == 'field_ding_event_library'): ?>
     <?php print '<div class="content">'; ?>
   <?php endif; ?>
   
   <?php if (!empty($field->separator)): ?>
     <?php print $field->separator; ?>
   <?php endif; ?>
-
-  <?php print $field->wrapper_prefix; ?>
-  <?php print $field->label_html; ?>
-  <?php print $field->content; ?>
-  <?php print $field->wrapper_suffix; ?>
   
-  <?php if($id == 'field_event_ticket_price'): ?>
-    <?php print "</div>"; ?>
+  <?php if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ): ?>
+    <?php print $field->wrapper_prefix; ?>
+    <?php print $field->label_html; ?>
+    <?php print $field->content; ?>
+    <?php print $field->wrapper_suffix; ?>
   <?php endif; ?>
   
+  <?php if($id == 'field_ding_event_price'): ?>
+    <?php print "</div>"; ?>
+  <?php endif; ?>
 <?php endforeach; ?>
