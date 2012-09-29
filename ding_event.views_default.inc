@@ -710,26 +710,14 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing_1']['hide_alter_empty'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (field_ding_event_library:nid) */
-  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid_1']['not'] = 0;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '1';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = 0;
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['node'] = 0;
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['limit'] = 0;
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -744,6 +732,16 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'terms.tid',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '%tid',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Floated event list (library) */
   $handler = $view->new_display('panel_pane', 'Floated event list (library)', 'ding_event_floated_list_library');
@@ -1063,7 +1061,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
   $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'node';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
@@ -1075,7 +1072,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
@@ -1087,6 +1083,24 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid_1' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Library (field_ding_event_library:nid)',
+    ),
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Event date-list */
   $handler = $view->new_display('panel_pane', 'Event date-list', 'ding_event_date_list');
@@ -1296,24 +1310,10 @@ function ding_event_views_default_views() {
   );
   $handler->display->display_options['fields']['field_ding_event_price']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (field_ding_event_library:nid) */
-  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid_1']['not'] = 0;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '1';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
@@ -1325,6 +1325,16 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Event date-list (library) */
   $handler = $view->new_display('panel_pane', 'Event date-list (library)', 'ding_event_date_list_library');
@@ -1538,7 +1548,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
   $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
@@ -1551,7 +1560,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
@@ -1563,6 +1571,24 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid_1' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Library (field_ding_event_library:nid)',
+    ),
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Event date-list icons */
   $handler = $view->new_display('panel_pane', 'Event date-list icons', 'ding_event_date_list_icons');
@@ -1773,24 +1799,10 @@ function ding_event_views_default_views() {
   );
   $handler->display->display_options['fields']['field_ding_event_price']['field_api_classes'] = 0;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Library (field_ding_event_library:nid) */
-  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['ding_library_nid_1']['not'] = 0;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '1';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
@@ -1802,6 +1814,16 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Event date-list icons (library) */
   $handler = $view->new_display('panel_pane', 'Event date-list icons (library)', 'ding_event_date_list_icons_library');
@@ -2016,7 +2038,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
   $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_skip_url'] = 0;
@@ -2029,7 +2050,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
@@ -2041,6 +2061,24 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
   $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
   $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid_1' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Library (field_ding_event_library:nid)',
+    ),
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Simple event list */
   $handler = $view->new_display('panel_pane', 'Simple event list', 'ding_event_simple_list');
@@ -2125,6 +2163,47 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['nid']['not'] = 1;
+  /* Contextual filter: Content: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = 0;
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['node'] = 1;
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['limit'] = 1;
+  $handler->display->display_options['arguments']['tid']['default_argument_options']['vocabularies'] = array(
+    'event_category' => 'event_category',
+  );
+  $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = 1;
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'event_category' => 'event_category',
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['transform'] = 0;
+  $handler->display->display_options['arguments']['tid']['validate']['fail'] = 'ignore';
+  $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['tid']['add_table'] = 0;
+  $handler->display->display_options['arguments']['tid']['require_value'] = 0;
+  $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
+  $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
@@ -2136,21 +2215,21 @@ function ding_event_views_default_views() {
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
-    'ding_library_nid_1' => array(
+    'tid' => array(
+      'type' => 'context',
+      'context' => 'terms.tids',
+      'context_optional' => 1,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID',
+    ),
+    'nid' => array(
       'type' => 'context',
       'context' => 'entity:node.nid',
       'context_optional' => 1,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Library (field_ding_event_library:nid)',
-    ),
-    'tid' => array(
-      'type' => 'context',
-      'context' => 'entity:taxonomy_term.tid',
-      'context_optional' => 1,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Has taxonomy term ID',
+      'label' => 'Content: Nid',
     ),
   );
 
