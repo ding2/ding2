@@ -118,7 +118,12 @@
           <i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?>
       </p>
       <p>
-          <i class="icon-shopping-cart"></i> <?php print render($content['field_ding_event_price'][0]); ?>
+          <i class="icon-shopping-cart"></i> 
+          <?php if ($content['field_ding_event_price'][0]): ?>
+	          <?php print render($content['field_ding_event_price'][0]); ?>
+	        <?php else: ?>
+	          <?php print t('Free'); ?>
+	        <?php endif; ?>
       </p>
   </div>
 </div>
