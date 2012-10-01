@@ -27,6 +27,52 @@
  */
 ?>
 
-<ul class="list <?php if (isset($css_class)) echo $css_class; ?>">
-  <?php echo $rows; ?>  
-</ul>
+<?php if ($title): ?>
+  <?php print render($title_prefix); ?>
+  <?php print $title; ?>
+  <?php print render($title_suffix); ?>
+<?php endif; ?>
+
+<?php if ($header): ?>
+  <?php print $header; ?>
+<?php endif; ?>
+
+<?php if ($exposed): ?>
+  <div class="view-filters">
+    <?php print $exposed; ?>
+  </div>
+<?php endif; ?>
+
+<?php if ($attachment_before): ?>
+  <?php print $attachment_before; ?>
+<?php endif; ?>
+
+<?php if ($rows): ?>
+  <ul class="list <?php if (isset($css_class)) echo $css_class; ?>">
+    
+    <?php echo $rows; ?>
+
+  </ul>
+<?php elseif ($empty): ?>
+  <?php print $empty; ?>
+<?php endif; ?>
+
+<?php if ($attachment_after): ?>
+  <?php print $attachment_after; ?>
+<?php endif; ?>
+
+<?php if ($pager): ?>
+  <?php print $pager; ?>
+<?php endif; ?>
+
+<?php if ($more): ?>
+  <?php print $more; ?>
+<?php endif; ?>
+
+<?php if ($footer): ?>
+  <?php print $footer; ?>
+<?php endif; ?>
+
+<?php if ($feed_icon): ?>
+  <?php print $feed_icon; ?>
+<?php endif; ?>
