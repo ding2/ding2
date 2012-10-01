@@ -35,6 +35,7 @@ features[field][] = node-ding_news-field_ding_body
 features[field][] = node-ding_news-field_ding_news_body
 features[field][] = node-ding_news-field_ding_news_category
 features[field][] = node-ding_news-field_ding_news_files
+features[field][] = node-ding_news-field_ding_news_image
 features[field][] = node-ding_news-field_ding_news_lead
 features[field][] = node-ding_news-field_ding_news_library
 features[field][] = node-ding_news-field_ding_news_list_image
