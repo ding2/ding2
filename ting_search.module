@@ -68,18 +68,6 @@ function ting_search_ding_facetbrowser() {
 }
 
 /**
- * Implements hook_entity_info_alter().
- */
-function ting_search_entity_info_alter(&$entity_info) {
-  $entity_info['ting_collection']['view modes'] += array(
-    'search_result' => array(
-      'label' => t('Search result'),
-      'custom settings' => FALSE,
-    ),
-  );
-}
-
-/**
  * Implements hook_theme().
  */
 function ting_search_theme() {
