@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Pre-installation routine.
+ * Module installation and updates routine.
  *
  */
 
