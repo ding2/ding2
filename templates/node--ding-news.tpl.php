@@ -97,7 +97,7 @@
 </div>
 <h2 class="heading"><?php print $title; ?></h2>
   <div class="grid-row">
-  <div class="lead grid-8-left">
+  <div class="lead">
     <p>
       <?php print render($content['field_ding_news_lead'][0]); ?>
     </p>
