@@ -28,7 +28,12 @@ function alma_availability_holdings($provider_ids) {
       
       $result[$alma_id] = $holding;
       
-      $result[$alma_id]['html'] = _alma_get_holdings($details, $holding['is_periodical']);
+      if($holding['is_periodical']){
+        $result[$alma_id]['html'] = _alma_get_holdings($details, TRUE);
+      }
+      else{
+        $result[$alma_id]['html'] = _alma_get_holdings($details, FALSE);
+      }
     }
   }
   return $result;
@@ -118,7 +123,7 @@ function _alma_set_holdings_periodical($res){
    * @params $h; holding information for a given material
    * @return html-table
    */
-function _alma_set_table_html($h) {
+function _alma_set_table_html(&$h) {
   // set a classname for styling the table
   $variables['attributes']=
     array('class'=>array(drupal_html_class('availability_holdings_table')));
@@ -149,15 +154,6 @@ function _alma_set_rows($h) {
   foreach ($h as $key => $data) {
     $row = array();
     $row['placement'] = $org['branch'][$data['branch_id']];
-    
-    if(!empty($data['department_id'])){
-      $row['placement'] = $row['placement'] .' → '. $org['department'][$data['department_id']];
-    }
-    
-    if(!empty($data['collection_id'])){
-      $row['placement'] = $row['placement'] .' → '. $org['collection'][$data['collection_id']];
-    }
-    
     $row['copies'] = (int) $data['total_count'];
     $copies_total += $row['copies'];
     $row['home'] = (int) $data['available_count'];
