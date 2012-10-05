@@ -66,6 +66,22 @@ function openruth_reservation_list($account) {
       ));
     }
   }
+  if (isset($status->illOrders->illOrder)) {
+    foreach ($status->illOrders->illOrder as $res) {
+      $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+        'order_id' => $res->orderId,
+        'ding_entity_id' => variable_get('ting_agency', '')  . ':' . $res->itemId,
+        'display_name' => $res->itemDisplayTitle,
+        'pickup_branch_id' => $res->agencyCounter,
+        'expiry' => $res->orderLastInterestDate,
+        'created' => $res->orderDate,
+        'author' => $res->itemAuthor,
+        'title' => $res->itemTitle,
+        'publication_year' => $res->itemPublicationYear,
+        'ill_status' => $res->illStatus,
+      ));
+    }
+  }
   return $result;
 }
 
