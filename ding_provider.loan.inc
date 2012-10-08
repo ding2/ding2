@@ -72,14 +72,6 @@ class DingProviderLoan extends DingEntityBase {
    */
   protected $notes  = DingEntityBase::NULL;
 
-  /*
-   titel
-   type
-   forfatter
-   sprog
-   materiale nr
-   */
-
   public function __construct($id, $data = array()) {
     parent::__construct();
     $this->properties['id'] = $id;
@@ -111,14 +103,6 @@ class DingProviderLoan extends DingEntityBase {
     }
     return $this->entity;
   }
-
-  /*
-   titel
-   type
-   forfatter
-   sprog
-   materiale nr
-   */
 
   function getTitle() {
     $this->getEntity();
@@ -153,15 +137,3 @@ class DingProviderLoan extends DingEntityBase {
  * Parent class for loan errors.
  */
 class DingProviderLoanUserError extends DingProviderUserException {}
-
-/**
- * Exception thrown when the item is already reserved.
- */
-// class DingProviderReservationExists extends DingProviderReservationUserError{
-//   public function __construct($message = "", $code = 0) {
-//     if (empty($message)) {
-//       $message = t('"You have already reserved "@title".');
-//     }
-//     parent::__construct($message);
-//   }
-// }
