@@ -152,16 +152,16 @@ function ding_event_default_page_manager_handlers() {
     $pane->pid = 'new-2';
     $pane->panel = 'grid_10_center';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_headline_category_list';
+    $pane->subtype = 'ding_event-ding_event_simple_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'relationship_og_node_from_group_1',
-        1 => 'relationship_entity_from_field:field_category-node-taxonomy_term_1',
+        0 => 'empty',
+        1 => 'empty',
       ),
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Other events',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -200,14 +200,13 @@ function ding_event_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'grid_3_left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'event_category_menu';
+    $pane->subtype = 'event_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
       'context' => array(
-        0 => 'relationship_entity_from_field:field_category-node-taxonomy_term_1',
+        0 => 'empty',
         1 => 'relationship_og_node_from_group_1',
       ),
       'override_title' => 0,
@@ -220,32 +219,11 @@ function ding_event_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-4'] = $pane;
     $display->panels['grid_3_left'][0] = 'new-4';
     $pane = new stdClass();
     $pane->pid = 'new-5';
-    $pane->panel = 'grid_3_right';
-    $pane->type = 'block';
-    $pane->subtype = 'similarterms-ding_content_tags';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['grid_3_right'][0] = 'new-5';
-    $pane = new stdClass();
-    $pane->pid = 'new-6';
     $pane->panel = 'grid_3_right';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -275,10 +253,10 @@ function ding_event_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['grid_3_right'][1] = 'new-6';
+    $display->content['new-5'] = $pane;
+    $display->panels['grid_3_right'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
@@ -390,14 +368,13 @@ events
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'event_category_menu';
+    $pane->subtype = 'event_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'empty',
       ),
       'override_title' => 0,
@@ -410,7 +387,7 @@ events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass();
@@ -464,17 +441,10 @@ events
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_full_category_list';
+    $pane->subtype = 'ding_event-ding_event_floated_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'empty',
-        1 => 'argument_term_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -653,14 +623,13 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'event_category_menu';
+    $pane->subtype = 'event_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'argument_entity_id:node_1',
       ),
       'override_title' => 0,
@@ -673,7 +642,7 @@ node/%node:nid/events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-6'] = $pane;
     $display->panels['left'][0] = 'new-6';
     $pane = new stdClass();
@@ -727,17 +696,10 @@ node/%node:nid/events
     $pane->pid = 'new-9';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_full_category_list';
+    $pane->subtype = 'ding_event-ding_event_floated_list_library';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'argument_term_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
