@@ -264,7 +264,14 @@ class DingEntityBase {
   }
 
   public function __isset($prop) {
-    return isset($this->properties[$prop]) && $this->properties[$prop] !== self::NULL;
+    // isset() is defined as whether "a variable is set and is not NULL"
+    // If the property does not exist then isset() should always be false...
+    if (!isset($this->properties[$prop])) {
+      return FALSE;
+    }
+    // $this->properties[$prop] needs proper initialization which __get() takes
+    // Check whether the value of existing properties is in fact NULL
+    return $this->__get($prop) !== NULL;
   }
 
   /**
