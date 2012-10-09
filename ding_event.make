@@ -13,6 +13,11 @@ projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2tal/ding_content.git
 projects[ding_content][download][tag] = "7.x-0.15"
 
+projects[ding_user_roles][type] = "module"
+projects[ding_user_roles][download][type] = "git"
+projects[ding_user_roles][download][url] = "git@github.com:ding2tal/ding_user_roles.git"
+projects[ding_user_roles][download][branch] = "development"
+
 projects[ting_reference][type] = module
 projects[ting_reference][download][type] = git
 projects[ting_reference][download][url] = git@github.com:ding2tal/ting_reference.git
