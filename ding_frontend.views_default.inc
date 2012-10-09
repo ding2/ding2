@@ -17,7 +17,7 @@ function ding_frontend_views_default_views() {
   $view->base_table = 'node';
   $view->human_name = 'Ding node search';
   $view->core = 7;
-  $view->api_version = '3.0-alpha1';
+  $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */

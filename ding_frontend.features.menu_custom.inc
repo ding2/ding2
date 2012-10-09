@@ -10,25 +10,25 @@
 function ding_frontend_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-footer-menu-1
+  // Exported menu: menu-footer-menu-1.
   $menus['menu-footer-menu-1'] = array(
     'menu_name' => 'menu-footer-menu-1',
     'title' => 'Footer menu 1',
     'description' => '',
   );
-  // Exported menu: menu-footer-menu-2
+  // Exported menu: menu-footer-menu-2.
   $menus['menu-footer-menu-2'] = array(
     'menu_name' => 'menu-footer-menu-2',
     'title' => 'Footer menu 2',
     'description' => '',
   );
-  // Exported menu: menu-footer-menu-3
+  // Exported menu: menu-footer-menu-3.
   $menus['menu-footer-menu-3'] = array(
     'menu_name' => 'menu-footer-menu-3',
     'title' => 'Footer menu 3',
     'description' => '',
   );
-  // Exported menu: menu-footer-menu-4
+  // Exported menu: menu-footer-menu-4.
   $menus['menu-footer-menu-4'] = array(
     'menu_name' => 'menu-footer-menu-4',
     'title' => 'Footer menu 4',
