@@ -24,11 +24,10 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
  * Get list of reserved items
  */
 function openruth_reservation_list($account) {
-  $loans = &drupal_static(__FUNCTION__);
+  $result = &drupal_static(__FUNCTION__, array());
 
-  if (!isset($result)) {
+  if (empty($result)) {
     $creds = ding_user_get_creds($account);
-    $result = array();
     $status = _openruth_user_status($creds);
 
     if (isset($status->orders->orderReady)) {
@@ -85,11 +84,9 @@ function openruth_reservation_list($account) {
         ));
       }
     }
-
-    $loans = $result;
   }
 
-  return $loans;
+  return $result;
 }
 
 /**
