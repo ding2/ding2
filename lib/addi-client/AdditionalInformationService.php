@@ -67,7 +67,7 @@ class AdditionalInformationService {
       $this->current_service = SERVICE_MOREINFO;
     }
     else {
-      return FALSE;
+       throw new AdditionalInformationServiceException('Current cover service not set, check the settings.');
     }
 
     try {
@@ -76,7 +76,8 @@ class AdditionalInformationService {
                           'identifier' => $identifiers));
     }
     catch (Exception $e) {
-      return FALSE;
+      // Re-throw Addi specific exception.
+      throw new AdditionalInformationServiceException($e->getMessage());
     }
 
     $stopTime = explode(' ', microtime());
