@@ -644,8 +644,9 @@ function openruth_replace_entity($item) {
  *   Provider reservation object, containing data about the specific loan.
  */
 function openruth_seek_reserved_item($faust_number) {
+  global $user;
   $agency = variable_get('openruth_agency_id', '');
-  $orders = $_SESSION['openruth']['orders'];
+  $orders = openruth_reservation_list($user);
   $ding_id = $agency . ':' . $faust_number;
   $item = FALSE;
 
