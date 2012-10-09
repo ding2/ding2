@@ -82,6 +82,9 @@ function openruth_reservation_list($account) {
       ));
     }
   }
+
+  $_SESSION['openruth']['orders'] = $result;
+
   return $result;
 }
 
