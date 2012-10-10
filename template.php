@@ -101,7 +101,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
  * @TODO: Is there an render array for this, str replacement is not cheap.
  * @TODO: Why do we replace and insert span2 thumbnail classes? Aren't they
  *        bootstrap specific?
- * 
+ *
  * @param $variables
  *   An array of variables to pass to the theme template.
  */
@@ -109,7 +109,7 @@ function ddbasic_preprocess_user_picture(&$variables) {
   // inject the class we need into the A tag of user_picture
   $variables['user_picture'] = str_replace('<a ', '<a class="span2 thumbnail" ', $variables['user_picture']);
   // inject the class we need into the IMG tag of user_picture
-  $variables['user_picture'] = str_replace('<img ', '<img class="pull-left" ', $variables['user_picture']);  
+  $variables['user_picture'] = str_replace('<img ', '<img class="pull-left" ', $variables['user_picture']);
 }
 
 /**
@@ -216,13 +216,13 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
   // Add suggestion for ddbasic specific field.
   $vars['theme_hook_suggestions'][] = 'field__' . 'ddbasic';
-  
+
   // Add suggestion for ddbasic field with specific name.
-  $vars['theme_hook_suggestions'][] = 'field__' . 'ddbasic_' . $field_name;  
-  
+  $vars['theme_hook_suggestions'][] = 'field__' . 'ddbasic_' . $field_name;
+
   // Add suggestion for ddbasic field in specific view mode.
   $vars['theme_hook_suggestions'][] = 'field__' . 'ddbasic_' . $view_mode;
-  
+
   // Clean up fields in search result view mode aka. search result page.
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
@@ -250,4 +250,47 @@ function ddbasic_preprocess_field(&$vars, $hook) {
     // Add class to availability list.
 
   }
+}
+
+/**
+ * Implements ding_footer_preprocess().
+ *
+ * Find the right grid classes to add to the different footer columns.
+ */
+function ddbasic_preprocess_ding_footer_blocks(&$vars) {
+  $number_of_blocks = count($vars['blocks']);
+  switch ($number_of_blocks) {
+    case 1:
+      $classes = array('grid-full');
+      break;
+
+    case 2:
+      $classes = array(
+        'grid-8-left',
+        'grid-8-right'
+      );
+      break;
+
+    case 3:
+      $classes = array(
+        'grid-4-left',
+        'grid-8-center',
+        'grid-4-right'
+      );
+      break;
+    case 4:
+      $classes = array(
+        'grid-4-left',
+        'grid-4-center-left',
+        'grid-4-center-right',
+        'grid-4-right'
+      );
+      break;
+
+    default:
+      $classes = array('grid-full');
+      break;
+  }
+
+  $vars['grid_classes'] = $classes;
 }
