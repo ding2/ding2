@@ -82,7 +82,7 @@ function ding_page_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'field_ding_page_list_image',
-      1 => 'field_ding_page_titel_image',
+      1 => 'field_ding_page_title_image',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
