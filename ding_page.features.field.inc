@@ -554,14 +554,14 @@ function ding_page_field_default_fields() {
     ),
   );
 
-  // Exported field: 'node-ding_page-field_ding_page_titel_image'.
-  $fields['node-ding_page-field_ding_page_titel_image'] = array(
+  // Exported field: 'node-ding_page-field_ding_page_title_image'.
+  $fields['node-ding_page-field_ding_page_title_image'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_ding_page_titel_image',
+      'field_name' => 'field_ding_page_title_image',
       'foreign keys' => array(
         'fid' => array(
           'columns' => array(
@@ -614,7 +614,7 @@ function ding_page_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_ding_page_titel_image',
+      'field_name' => 'field_ding_page_title_image',
       'label' => 'Title image',
       'required' => 0,
       'settings' => array(
