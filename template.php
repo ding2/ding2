@@ -144,19 +144,23 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['ddbasic_place2book_tickets'] = (isset($variables['content']['field_place2book_tickets'])) ? 1: 0;
   }
 
-  // Add ddbasic_ding_content_tags  to variables.
-  $variables['ddbasic_ding_content_tags'] = '';
-  if (isset($variables['content']['ding_content_tags'])) {
-    $ddbasic_ding_content_tags = '';
-    $items = $variables['content']['ding_content_tags']['#items'];
-    if (count($items) > 0) {
-      foreach ($items as $delta => $item) {
-        $ddbasic_ding_content_tags .= render($variables['content']['ding_content_tags'][$delta]);
-        if ($delta != count($items)-1) {
-          $ddbasic_ding_content_tags .=  ',&nbsp;';
+  $tags_fields = array(
+    'event',
+    'news',
+    'page',
+  );
+  foreach ($tags_fields as $tag_field) {
+    // Add ddbasic_ding_xxx_tags  to variables.
+    $variables['ddbasic_ding_' . $tags_field . '_tags'] = '';
+    if (isset($variables['content']['field_ding_' . $tags_field . '_tags'])) {
+      $ddbasic_tags = '';
+      $items = $variables['content']['field_ding_' . $tags_field . '_tags']['#items'];
+      if (count($items) > 0) {
+        foreach ($items as $delta => $item) {
+          $ddbasic_tags .= render($variables['content']['field_ding_' . $tags_field . '_tags'][$delta]);
         }
+        $variables['ddbasic_ding_' . $tags_field . '_tags'] = t('Tags: ') . $ddbasic_tags;
       }
-      $variables['ddbasic_ding_content_tags'] = t('Tags: ') . $ddbasic_ding_content_tags;
     }
   }
 
