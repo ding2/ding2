@@ -485,23 +485,20 @@ return $providers[$type]['module'];
  * Returns the given provider.
  */
 function _ding_provider_get_provider($type = NULL) {
-  static $providers;
-  if (!isset($providers)) {
-    $providers = array();
-    foreach (module_implements('ding_provider') as $module) {
-      $module_provides = module_invoke($module, 'ding_provider') + array(
-        'title' => $module . '.module',
-        'settings' => NULL,
-        'file' => NULL,
-        'provides' => array(),
-      );
-      foreach ($module_provides['provides'] as $name => $module_provider) {
-        $module_provider['module'] = $module;
-        $module_provider['title'] = $module_provides['title'];
-        $module_provider['global settings'] = $module_provides['settings'];
-        $module_provider['global settings file'] = $module_provides['file'];
-        $providers[$name] = $module_provider;
-      }
+  $providers = array();
+  foreach (module_implements('ding_provider') as $module) {
+    $module_provides = module_invoke($module, 'ding_provider') + array(
+      'title' => $module . '.module',
+      'settings' => NULL,
+      'file' => NULL,
+      'provides' => array(),
+    );
+    foreach ($module_provides['provides'] as $name => $module_provider) {
+      $module_provider['module'] = $module;
+      $module_provider['title'] = $module_provides['title'];
+      $module_provider['global settings'] = $module_provides['settings'];
+      $module_provider['global settings file'] = $module_provides['file'];
+      $providers[$name] = $module_provider;
     }
   }
 
