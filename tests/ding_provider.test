@@ -176,6 +176,7 @@ class DingBranchProviderTestCase extends DingProviderTestCase {
     $expected = array(
       'aby' => 'Andeby bibliotek',
       'grd' => 'Gåserød bibliotek',
+      'ogf' => 'Øvre Gasefjeld bibliotek',
     );
 
     $this->assertEqual($branches, $expected, 'Branch list looks OK.');
