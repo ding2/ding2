@@ -116,6 +116,11 @@ class DingProviderReservation extends DingEntityBase {
    */
   protected $notes = DingEntityBase::NULL;
 
+  /**
+   * Status - status for interlibrary loans
+   */
+  protected $ill_status = DingEntityBase::NULL;
+
   /*
    titel
    type
@@ -151,6 +156,7 @@ class DingProviderReservation extends DingEntityBase {
       'author',
       'title',
       'publication_year',
+      'ill_status',
     );
     $this->_populate($properties, $data);
   }
