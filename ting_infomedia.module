@@ -85,7 +85,14 @@ function ting_infomedia_get_ting_relations() {
 }
 
 function ting_infomedia_anchor_info() {
-  return ting_infomedia_get_ting_relations();
+  $relations =  ting_infomedia_get_ting_relations();
+  // We need to know what kind of hasOnlineAccess
+  // is provided with this object and return relevant anchor information.
+  $object = menu_get_object('ting_object', 2);
+  if ($object->getAc_source() != 'Artikler') {
+    unset($relations['dbcaddi:hasOnlineAccess']);
+  }
+  return $relations;
 }
 
 /**
