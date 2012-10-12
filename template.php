@@ -144,37 +144,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['ddbasic_place2book_tickets'] = (isset($variables['content']['field_place2book_tickets'])) ? 1: 0;
   }
 
-  // Add ddbasic_ding_content_tags  to variables.
-  $variables['ddbasic_ding_event_tags'] = '';
-  if (isset($variables['content']['field_ding_event_tags'])) {
-    $ddbasic_ding_event_tags = '';
-    $items = $variables['content']['field_ding_event_tags']['#items'];
-    if (count($items) > 0) {
-      foreach ($items as $delta => $item) {
-        $ddbasic_ding_event_tags .= render($variables['content']['field_ding_event_tags'][$delta]);
-        if ($delta != count($items)-1) {
-          $ddbasic_ding_event_tags .=  ',&nbsp;';
-        }
-      }
-      $variables['ddbasic_ding_event_tags'] = t('Tags: ') . $ddbasic_ding_event_tags;
-    }
-  }
-
-    // Add ddbasic_ding_news_tags  to variables.
-  $variables['ddbasic_ding_news_tags'] = '';
-  if (isset($variables['content']['field_ding_news_tags'])) {
-    $ddbasic_ding_news_tags = '';
-    $items = $variables['content']['field_ding_news_tags']['#items'];
-    if (count($items) > 0) {
-      foreach ($items as $delta => $item) {
-        $ddbasic_ding_news_tags .= render($variables['content']['field_ding_news_tags'][$delta]);
-        if ($delta != count($items)-1) {
-          $ddbasic_ding_news_tags .=  ',&nbsp;';
-        }
-      }
-      $variables['ddbasic_ding_news_tags'] = t('Tags: ') . $ddbasic_ding_news_tags;
-    }
-  }
   /**
    * @TODO Use date-formats defined in the backend, do not hardcode formats...
    *       ever
