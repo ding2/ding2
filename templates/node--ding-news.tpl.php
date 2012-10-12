@@ -153,8 +153,12 @@
               <i class="icon-time"></i>
               <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
               <br>
-              <i class="icon-tag"></i>
-              <?php print $ddbasic_ding_news_tags; ?>
+              <?php if ($ddbasic_ding_news_tags): ?>
+                  <span class="tags">
+                      <i class="icon-tag"></i>
+                      <?php print $ddbasic_ding_news_tags; ?>
+                  </span>
+              <?php endif; ?>
           </p>
       </div>
   </div>
