@@ -67,7 +67,7 @@ class AdditionalInformationService {
       $this->current_service = SERVICE_MOREINFO;
     }
     else {
-       throw new AdditionalInformationServiceException('Current cover service not set, check the settings.');
+      throw new AdditionalInformationServiceException('Current cover service not set, check the settings.');
     }
 
     try {
