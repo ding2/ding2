@@ -95,5 +95,5 @@ function _ting_covers_pages_fetch_image($filename, $image_url) {
     return FALSE;
   }
 
-  return file_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
+  return file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
 }
