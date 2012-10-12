@@ -177,7 +177,7 @@
               <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
               <br>
               <i class="icon-tag"></i>
-              <?php print $ddbasic_ding_event_tags; ?>
+              <?php print t('Tags: ') . $ddbasic_ding_event_tags; ?>
           </p>
       </div>
   </div>

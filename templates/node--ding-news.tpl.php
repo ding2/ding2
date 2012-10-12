@@ -157,7 +157,7 @@
               <?php if ($ddbasic_ding_news_tags): ?>
                   <span class="tags">
                       <i class="icon-tag"></i>
-                      <?php print $ddbasic_ding_news_tags; ?>
+                      <?php print t('Tags: ') . $ddbasic_ding_news_tags; ?>
                   </span>
               <?php endif; ?>
           </p>
