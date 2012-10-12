@@ -110,7 +110,7 @@
 <?php
   // hide fields we have already rendered
   hide($content['field_ding_news_title_image']);
-    hide($content['field_ding_news_list_image']);
+  hide($content['field_ding_news_list_image']);
   hide($content['field_ding_news_category']);
   hide($content['field_ding_news_library']);
   hide($content['field_ding_news_lead']);
