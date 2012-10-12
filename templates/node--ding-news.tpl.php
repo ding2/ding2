@@ -87,20 +87,20 @@
  */
 ?>
 <div class="image-container">
-  <?php print render($content['field_ding_news_title_image'][0]); ?>
-  <?php print render($content['field_ding_news_list_image'][0]); ?>
+  <?php print render($content['field_ding_news_title_image']); ?>
+  <?php print render($content['field_ding_news_list_image']); ?>
 </div>
 <div class="super-heading">
   <p>
     <?php print render($content['field_ding_news_category']); ?>
-    <?php print render($content['field_ding_news_library'][0]); ?>
+    <?php print render($content['field_ding_news_library']); ?>
   </p>
 </div>
 <h2 class="heading"><?php print $title; ?></h2>
   <div class="grid-row">
   <div class="lead">
     <p>
-      <?php print render($content['field_ding_news_lead'][0]); ?>
+      <?php print render($content['field_ding_news_lead']); ?>
     </p>
   </div>
 </div>
