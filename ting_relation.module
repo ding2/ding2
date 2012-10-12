@@ -25,10 +25,15 @@ function ting_relation_theme() {
  * kind of a hook - called from ting.module
  */
 function ting_relation_anchor_info() {
-  $ret = ting_relation_inline();
-  unset($ret['dbcaddi:hasOnlineAccess']);
-  unset($ret['dbcaddi:isReviewOf']);
-  return $ret;
+  $relations = ting_relation_inline();
+  // We need to know what kind of hasOnlineAccess
+  // is provided with this object and return relevant anchor information.
+  $object = menu_get_object('ting_object', 2);
+  if ($object->getAc_source() != 'Ebrary') {
+    unset($relations['dbcaddi:hasOnlineAccess']);
+  }
+  unset($relations['dbcaddi:isReviewOf']);
+  return $relations;
 }
 
 /**
