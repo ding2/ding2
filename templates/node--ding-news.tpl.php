@@ -88,6 +88,7 @@
 ?>
 <div class="image-container">
   <?php print render($content['field_ding_news_title_image'][0]); ?>
+  <?php print render($content['field_ding_news_list_image'][0]); ?>
 </div>    
 <div class="super-heading">
   <p>
