@@ -89,7 +89,7 @@
 ?>
 <div class="image-container">
   <?php print render($content['field_ding_event_title_image'][0]); ?>
-</div>    
+</div>
 <div class="super-heading">
   <p>
     <?php print render($content['field_ding_event_category']); ?>
@@ -136,10 +136,10 @@
   hide($content['field_ding_event_location']);
   hide($content['field_ding_event_target']);
   hide($content['field_ding_event_price']);
-  
+
   // Hide fields that will be displayed as panel panes instead
   hide($content['comments']);
-  
+
   // Hide fields now so that we can render them later.
   hide($content['links']);
   hide($content['field_ding_event_tags']);
@@ -181,5 +181,5 @@
           </p>
       </div>
   </div>
-    
+
 <?php endif; ?>
