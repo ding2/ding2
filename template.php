@@ -159,7 +159,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
         foreach ($items as $delta => $item) {
           $ddbasic_tags .= render($variables['content']['field_ding_' . $tags_field . '_tags'][$delta]);
         }
-        $variables['ddbasic_ding_' . $tags_field . '_tags'] = t('Tags: ') . $ddbasic_tags;
+        $variables['ddbasic_ding_' . $tags_field . '_tags'] = $ddbasic_tags;
       }
     }
   }
