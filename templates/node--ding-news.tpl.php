@@ -144,24 +144,23 @@
 
 <?php if ($display_submitted): ?>
   <div class="grid-row">
-      <?php print $user_picture; ?>
-      <div class="grid-10">
-          <h4>
-              <?php print $ddbasic_byline; ?>
-              <?php print $name; ?>
-          </h4>
-          <p>
-              <i class="icon-time"></i>
-              <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
-              <br>
-              <?php if ($ddbasic_ding_news_tags): ?>
-                  <span class="tags">
-                      <i class="icon-tag"></i>
-                      <?php print t('Tags: ') . $ddbasic_ding_news_tags; ?>
-                  </span>
-              <?php endif; ?>
-          </p>
-      </div>
+    <?php print $user_picture; ?>
+    <div class="grid-10">
+      <h4>
+        <?php print $ddbasic_byline; ?>
+        <?php print $name; ?>
+      </h4>
+      <p>
+        <i class="icon-time"></i>
+        <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
+        <br>
+        <?php if ($ddbasic_ding_news_tags): ?>
+          <span class="tags">
+            <i class="icon-tag"></i>
+            <?php print t('Tags: ') . $ddbasic_ding_news_tags; ?>
+          </span>
+        <?php endif; ?>
+      </p>
+    </div>
   </div>
-
 <?php endif; ?>

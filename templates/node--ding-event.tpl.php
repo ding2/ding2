@@ -166,20 +166,19 @@
 
 <?php if ($display_submitted): ?>
   <div class="grid-row">
-      <?php print $user_picture; ?>
-      <div class="grid-10">
-          <h4>
-              <?php print $ddbasic_byline; ?>
-              <?php print $name; ?>
-          </h4>
-          <p>
-              <i class="icon-time"></i>
-              <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
-              <br>
-              <i class="icon-tag"></i>
-              <?php print t('Tags: ') . $ddbasic_ding_event_tags; ?>
-          </p>
-      </div>
+    <?php print $user_picture; ?>
+    <div class="grid-10">
+      <h4>
+        <?php print $ddbasic_byline; ?>
+        <?php print $name; ?>
+      </h4>
+      <p>
+        <i class="icon-time"></i>
+        <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
+        <br>
+        <i class="icon-tag"></i>
+        <?php print t('Tags: ') . $ddbasic_ding_event_tags; ?>
+      </p>
+    </div>
   </div>
-
 <?php endif; ?>
