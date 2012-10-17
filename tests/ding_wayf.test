@@ -1,0 +1,227 @@
+<?php
+
+/**
+ * @file
+ * Contains test cases for ding_wayf
+ *
+ * Classes:
+ *   - DingWayfTestCase
+ *   - DingWayfUnitTestCase
+ */
+
+class DingWayfTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding WAYF test',
+      'description' => 'Test Ding WAYF login and logout.',
+      'group' => 'Ding! - WAYF',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('wyrna', 'ding_user', 'ding_wayf', 'ding_provider'/*, 'ding_popup',*/));
+  }
+
+  public function testProviderPersistens() {
+    $modules = ding_provider_implements('wayf', 'authenticate');
+    $this->assertTrue(!empty($modules), 'ding_provider_implements');
+
+    $module_name = ding_provider_get_provider_module_name('wayf');
+    $this->assertTrue(!empty($module_name), print_r($module_name, TRUE));
+    $this->verbose(print_r(_ding_provider_get_provider('wayf'), TRUE));
+    $this->verbose(print_r(ding_provider_get_provider_module_name('wayf')), TRUE);
+    $this->assertTrue(ding_provider_invoke('wayf', 'authenticate', array('dummy', 'id')), 'failing');
+  }
+}
+
+class DingWayfUnitTestCase extends DrupalUnitTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding WAYF unit test',
+      'description' => 'Test Ding WAYF functions.',
+      'group' => 'Ding! - WAYF',
+    );
+  }
+
+  public function setUp() {
+    drupal_load('module', 'ding_wayf');
+    module_load_include('install', 'ding_wayf');
+    parent::setUp();
+  }
+
+  public function testExtractData() {
+    $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
+    $field = 'CPR';
+    $expected = '0708741234';
+    $result = ding_wayf_extract_data($data, $field);
+    $this->assertEqual($result, $expected, t('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
+
+    $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
+    $field = 'dk';
+    $expected = 'CPR:0708741234';
+    $result = ding_wayf_extract_data($data, $field);
+    $this->assertEqual($result, $expected, t('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
+
+    // field not existing
+    $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
+    $field = 'garbage';
+    $expected = '';
+    $result = ding_wayf_extract_data($data, $field);
+    $this->assertEqual($result, $expected, t('Nothing found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0])));
+
+    // empty/unspecified field
+    $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
+    $expected = 'urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234';
+    $result = ding_wayf_extract_data($data);
+    $this->assertEqual($result, $expected, t('Extracted all data cause no field was specified'));
+  }
+
+  public function testGetRequiredAttributes() {
+    $wayf = array();
+    $required = array();
+    $result = ding_wayf_get_required_attributes($wayf, $required);
+    $expected = array();
+    $this->assertEqual($result, $expected, 'Nothing return from empty attribute set.');
+
+
+    $wayf = array('test' => 'yes');
+    $required = array();
+    $result = ding_wayf_get_required_attributes($wayf, $required);
+    $expected = array();
+    $this->assertEqual($result, $expected, 'Nothing return from attribute set when nothing required.');
+
+    $wayf = array();
+    $required = array('test');
+    $result = ding_wayf_get_required_attributes($wayf, $required);
+    $expected = array();
+    $this->assertEqual($result, $expected, 'Nothing could be return from empty attribute set.');
+
+    $wayf = array('test' => 'yes', 'attribute' => 'test', 'mixed' => 3);
+    $required = array('test', 'mixed');
+    $result = ding_wayf_get_required_attributes($wayf, $required);
+    $expected = array('test' => 'yes', 'mixed' => 3);
+    $this->assertEqual($result, $expected, 'Returned two required attributes from set of three.');
+
+    $wayf = array('test' => 'yes', 'attribute' => 'test', 'mixed' => 3);
+    $required = array('test', 'mixed', 'no existing');
+    $result = ding_wayf_get_required_attributes($wayf, $required);
+    $expected = array();
+    $this->assertEqual($result, $expected, 'Returned nothing because of missing attribute.');
+  }
+
+  public function testRegexLine() {
+    $path = 'wayf';
+    $expected_pattern = '/(^|\n)wayf(\r\n|$)/';
+    $result = ding_wayf_regex_line($path);
+    $this->assertEqual($result, $expected_pattern, 'Simple string transformed correctly.');
+
+    $path = 'wayf/';
+    $expected_pattern = '/(^|\n)wayf\/(\r\n|$)/';
+    $result = ding_wayf_regex_line($path);
+    $this->assertEqual($result, $expected_pattern, 'String with slash transformed correctly.');
+
+    $path = 'wayf/*';
+    $expected_pattern = '/(^|\n)wayf\/\*(\r\n|$)/';
+    $result = ding_wayf_regex_line($path);
+    $this->assertEqual($result, $expected_pattern, 'String with slash and wildcard transformed correctly.');
+  }
+} 
+
+class DingWayfRequirementsTestCase extends DrupalWebTestCase {
+  private $https;
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding WAYF requirements test',
+      'description' => 'Test Ding WAYF requirements.',
+      'group' => 'Ding! - WAYF',
+    );
+  }
+
+  public function setUp() {
+    parent::setUp(array('ding_wayf', 'securepages'));
+  }
+
+  public function testRequirements() {
+    $account = $this->drupalCreateUser(array('administer site configuration'));
+    $this->drupalLogin($account);
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('Access denied'), t('Has rights to access status report.'));
+
+    $this->testHttpsConfigured();
+    $this->testSecurePagesActivated();
+    $this->testNonSecureBasePath();
+    $this->testSecureBasePath();
+    $this->testSecurePagesPages();
+    $this->testSecurePagesIgnore();
+    $this->testInstallDir();
+  }
+
+  private function testHttpsConfigured() {
+    variable_set('https', FALSE);
+    $this->drupalGet('admin/reports/status');
+    $this->assertText(t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'), t('Missing $conf[\'https\'] = TRUE in settings.php. (May fail if $conf[\'https\'] is present in settings.php)'));
+    variable_set('https', TRUE);
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'), t('$conf[\'https\'] = TRUE present in settings.php.(May fail if $conf[\'https\'] is present in settings.php)'));
+  }
+
+  private function testSecurePagesActivated() {
+    $this->drupalGet('admin/reports/status');
+    $this->assertText(t('WAYF requires Secure Pages to be activated'), t('Missing activation of secure pages.'));
+    variable_set('securepages_enable', TRUE);
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('WAYF requires Secure Pages to be activated'), t('Secure pages is activated.'));
+  }
+
+  private function testNonSecureBasePath() {
+    $this->drupalGet('admin/reports/status');
+    $this->assertText(t('WAYF requires Secure Pages to have non-secure base path set'), t('Missing non-secure base path.'));
+    variable_set('securepages_basepath', 'something');
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('WAYF requires Secure Pages to have non-secure base path set'), t('Non-secure base path set.'));
+  }
+
+  private function testSecureBasePath() {
+    $this->drupalGet('admin/reports/status');
+    $this->assertText(t('WAYF requires Secure Pages to have secure base path set'), t('Missing secure base path.'));
+    variable_set('securepages_basepath_ssl', 'something-ssl');
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('WAYF requires Secure Pages to have secure base path set:'), t('Secure base path set.'));
+  }
+
+  private function testSecurePagesPages() {
+    variable_set('securepages_secure', TRUE);
+    $this->drupalGet('admin/reports/status');
+    $this->assertTrue(variable_get('securepages_secure'), t('Activate Secure Pages for selected pages.'));
+    $this->assertText(t('WAYF requires "wayf" and "wayf/*" added to Pages at Secure Pages configuration page'), t('"wayf" and "wayf/*" must be added to Secure Pages page configuration.'));
+    $pages = variable_get('securepages_pages');
+    variable_set('securepages_pages', $pages . "\r\n\nwayf\r\n\nwayf/*");
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('WAYF requires "wayf" and "wayf/*" added to Pages at Secure Pages configuration page'), t('"wayf" and "wayf/*" added to Secure Pages page configuration.'));
+  }
+
+  private function testSecurePagesIgnore() {
+    variable_set('securepages_secure', FALSE);
+    $this->drupalGet('admin/reports/status');
+    $this->assertFalse(variable_get('securepages_secure'), t('Activate Secure Pages for other than selected pages.'));
+    $this->assertNoText(t('WAYF requires that "wayf" and "wayf/*" are not included in Ignore Pages at Secure Pages configuration page'), t('"wayf" and "wayf/*" not present Secure Pages ignore configuration.'));
+    $ignore = variable_get('securepages_ignore');
+    variable_set('securepages_ignore', $ignore . "\r\n\nwayf\r\n\nwayf/*");
+    $this->drupalGet('admin/reports/status');
+    $this->assertText(t('WAYF requires that "wayf" and "wayf/*" are not included in Ignore Pages at Secure Pages configuration page'), t('"wayf" and "wayf/*" must not be included in Secure Pages ignore configuration.'));
+  }
+
+  private function testInstallDir() {
+    global $base_path;
+    $this->drupalGet('admin/reports/status');
+    $this->assertText(t('SimpleSAMLphp installation not defined'), t('installdir not defined.'));
+    variable_set('ding_wayf', array('installdir' => 'test'));
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('SimpleSAMLphp installation not defined'), t('installdir defined.'));
+    $this->assertText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php not found.'));
+    variable_set('ding_wayf', array('installdir' => drupal_dirname($_SERVER['SCRIPT_FILENAME']) . '/' . drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock'));
+    $this->drupalGet('admin/reports/status');
+    $this->assertNoText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php found.'));
+  }
+}
