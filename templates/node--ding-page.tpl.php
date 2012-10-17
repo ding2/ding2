@@ -143,7 +143,7 @@
                 <?php print $submitted; ?> • <?php print $latto_updated; ?>
                 <br />
                 <i class="icon-tag"></i>
-                <?php print $ddbasic_ding_page_tags; ?>
+                <?php print t('Tags: ') . $ddbasic_ding_page_tags; ?>
             </p>
         </div>
     </footer>
