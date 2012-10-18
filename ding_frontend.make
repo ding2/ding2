@@ -29,7 +29,7 @@ projects[panels_breadcrumbs][subdir] = contrib
 projects[panels_breadcrumbs][version] = "1.6"
 
 projects[panels_everywhere][subdir] = contrib
-projects[panels_everywhere][subdir] = "1.0-rc1"
+projects[panels_everywhere][version] = "1.0-rc1"
 
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = "2.0"
