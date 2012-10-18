@@ -7,6 +7,5 @@ projects[ting][download][type] = "git"
 projects[ting][download][url] = "git@github.com:ding2tal/ting.git"
 projects[ting][download][branch] = "development"
 
-projects[blackhole][type] = "module"
-projects[blackhole][download][type] = "git"
-projects[blackhole][download][url] = "git@github.com:xendk/blackhole.git"
+projects[blackhole][subdir] = contrib
+projects[blackhole][version] = "1.1"
