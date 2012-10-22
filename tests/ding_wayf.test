@@ -164,14 +164,19 @@ class DingWayfRequirementsTestCase extends DrupalWebTestCase {
     variable_set('https', TRUE);
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'), t('$conf[\'https\'] = TRUE present in settings.php.(May fail if $conf[\'https\'] is present in settings.php)'));
+    variable_set('https', FALSE);
   }
 
   private function testSecurePagesActivated() {
+    variable_set('securepages_enable', FALSE);
     $this->drupalGet('admin/reports/status');
     $this->assertText(t('WAYF requires Secure Pages to be activated'), t('Missing activation of secure pages.'));
     variable_set('securepages_enable', TRUE);
+    variable_set('securepages_secure', FALSE); // prevent switching to https during GET requst
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('WAYF requires Secure Pages to be activated'), t('Secure pages is activated.'));
+    variable_set('securepages_enable', FALSE);
+    variable_set('securepages_secure', TRUE); // switch back to default operation
   }
 
   private function testNonSecureBasePath() {
@@ -220,7 +225,7 @@ class DingWayfRequirementsTestCase extends DrupalWebTestCase {
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('SimpleSAMLphp installation not defined'), t('installdir defined.'));
     $this->assertText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php not found.'));
-    variable_set('ding_wayf', array('installdir' => drupal_dirname($_SERVER['SCRIPT_FILENAME']) . '/' . drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock'));
+    variable_set('ding_wayf', array('installdir' => drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock'));
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php found.'));
   }
