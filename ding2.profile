@@ -18,7 +18,7 @@ profiler_v2('ding2');
  * they do not know how to handle and thus prevent them from completing the
  * installation.
  */
-function ding2_form_alter(&$form, $form_state, $form_id) {
+function ding2_form_alter(&$form, &$form_state, $form_id) {
   // Proces all forms during installation except the Drupal default
   // configuration form
   if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install' &&
@@ -33,7 +33,7 @@ function ding2_form_alter(&$form, $form_state, $form_id) {
  *
  * Allows the profile to alter the site configuration form.
  */
-function ding2_form_install_configure_form_alter(&$form, $form_state) {
+function ding2_form_install_configure_form_alter(&$form, &$form_state, $form_id) {
   // Pre-populate the site name with the server name.
   $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
 }
