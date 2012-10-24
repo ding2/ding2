@@ -19,10 +19,10 @@ Install the dependencies and start by downloading a fresh copy of drupal and mak
 
 Go into your web-root and execute this command to download drupal
 
-	~$ drush dl drupal-7.15
-	~$ mv drupal-7.15/* .
-	~$ mv drupal-7.15/.* .
-	~$ rm -r drupal-7.15
+	~$ drush dl drupal-7.16
+	~$ mv drupal-7.16/* .
+	~$ mv drupal-7.16/.* .
+	~$ rm -r drupal-7.16
 
 To use the ding2 installation profile you need to patch drupal-7 core as of this writing. The patch can be download from drupal.org here http://drupal.org/files/menu-get-item-rebuild-1232346-22_0.patch from issue [#1232346](http://drupal.org/node/1232346)
 
@@ -43,7 +43,7 @@ Place the install profile inside your Drupal installation, and run this command 
 
 	~$ drush make --concurrency=1 --no-core --contrib-destination=. ding2.make
 
-You should not that the _--concurrency=1_ only apply to drush make that comes with drush-5.x.
+You should note that the _--concurrency=1_ only apply to drush make that comes with drush-5.x.
 
 If you want a developer version with Git working copies, run this command instead:
 
