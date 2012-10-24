@@ -89,6 +89,7 @@
 ?>
 <div class="image-container">
   <?php print render($content['field_ding_event_title_image'][0]); ?>
+  <?php print render($content['field_ding_event_list_image']); ?>
 </div>
 <div class="super-heading">
   <p>
@@ -127,6 +128,7 @@
 <div class="content">
 <?php
   // hide fields we have already rendered
+  hide($content['field_ding_event_list_image']);
   hide($content['field_ding_event_title_image']);
   hide($content['field_ding_event_category']);
   hide($content['field_ding_event_library']);
