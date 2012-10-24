@@ -7,15 +7,15 @@
  * - $options['type'] will either be ul or ol.
  * @ingroup views_templates
  */
-?>
-<?php print $wrapper_prefix; ?>
-  <?php if (!empty($title)) : ?>
-    <h3><?php print $title; ?></h3>
-  <?php endif; ?>
-  <?php print $list_type_prefix; ?>
-    <?php foreach ($rows as $id => $row): ?>
-      <li class="list-item"><?php print $row; ?></li>
-    <?php endforeach; ?>
-  <?php print $list_type_suffix; ?>
-<?php print $wrapper_suffix; ?>
+
+print $wrapper_prefix;
+  if (!empty($title)):
+    print '<h3>' . $title . '</h3>';
+  endif;
+  print $list_type_prefix;
+    foreach ($rows as $id => $row):
+      print '<li class="list-item">' . $row . '</li>';
+    endforeach;
+  print $list_type_suffix;
+print $wrapper_suffix;
 

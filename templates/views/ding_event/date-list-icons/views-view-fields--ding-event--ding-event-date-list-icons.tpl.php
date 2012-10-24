@@ -22,33 +22,33 @@
  *
  * @ingroup views_templates
  */
-?>
-<?php foreach ($fields as $id => $field): ?>
-  <?php if($id == 'field_ding_event_library'): ?>
-    <?php print '<div class="content">'; ?>
-  <?php endif; ?>
+
+foreach ($fields as $id => $field):
+  if($id == 'field_ding_event_library'):
+    print '<div class="content">';
+  endif;
   
-  <?php if (!empty($field->separator)): ?>
-    <?php print $field->separator; ?>
-  <?php endif; ?>
+  if (!empty($field->separator)):
+    print $field->separator;
+  endif;
   
-  <?php if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ): ?>
-    <?php print $field->wrapper_prefix; ?>
-    <?php if($id == 'field_ding_event_library' || $id == 'field_ding_event_location'): ?>
-      <?php print '<i class="icon-home"></i> '; ?>
-    <?php endif; ?>
-    <?php if($id == 'field_ding_event_date_1'): ?>
-      <?php print '<i class="icon-time"></i> '; ?>
-    <?php endif; ?>
-    <?php if($id == 'field_ding_event_price'): ?>
-      <?php print '<i class="icon-credit-card"></i> '; ?>
-    <?php endif; ?>
-    <?php print $field->label_html; ?>
-    <?php print $field->content; ?>
-    <?php print $field->wrapper_suffix; ?>
-  <?php endif; ?>
+  if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ):
+    print $field->wrapper_prefix;
+    if($id == 'field_ding_event_library' || $id == 'field_ding_event_location'):
+      print '<i class="icon-home"></i> ';
+    endif;
+    if($id == 'field_ding_event_date_1'):
+      print '<i class="icon-time"></i> ';
+    endif;
+    if($id == 'field_ding_event_price'):
+      print '<i class="icon-credit-card"></i> ';
+    endif;
+    print $field->label_html;
+    print $field->content;
+    print $field->wrapper_suffix;
+  endif;
   
-  <?php if($id == 'field_ding_event_price'): ?>
-    <?php print "</div>"; ?>
-  <?php endif; ?>
-<?php endforeach; ?>
+  if($id == 'field_ding_event_price'):
+    print "</div>";
+  endif;
+endforeach;

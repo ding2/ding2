@@ -22,24 +22,24 @@
  *
  * @ingroup views_templates
  */
-?>
-<?php foreach ($fields as $id => $field): ?>
-  <?php if($id == 'field_ding_event_category'): ?>
-    <?php print '<div class="subheading">'; ?>
-  <?php endif; ?>
+
+foreach ($fields as $id => $field):
+  if($id == 'field_ding_event_category'):
+    print '<div class="subheading">';
+  endif;
   
-  <?php if (!empty($field->separator)): ?>
-    <?php print $field->separator; ?>
-  <?php endif; ?>
+  if (!empty($field->separator)):
+    print $field->separator;
+  endif;
   
-  <?php if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ): ?>
-    <?php print $field->wrapper_prefix; ?>
-    <?php print $field->label_html; ?>
-    <?php print $field->content; ?>
-    <?php print $field->wrapper_suffix; ?>
-  <?php endif; ?>
+  if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ):
+    print $field->wrapper_prefix;
+    print $field->label_html;
+    print $field->content;
+    print $field->wrapper_suffix;
+  endif;
   
-  <?php if($id == 'field_ding_event_price'): ?>
-    <?php print "</div>"; ?>
-  <?php endif; ?>
-<?php endforeach; ?>
+  if($id == 'field_ding_event_price'):
+    print "</div>";
+  endif;
+endforeach;
