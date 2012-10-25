@@ -100,7 +100,7 @@
   <div class="grid-row">
   <div class="lead">
     <p>
-      <?php print render($content['field_ding_news_lead']); ?>
+      <?php print render($content['field_ding_news_lead'][0]); ?>
     </p>
   </div>
 </div>
