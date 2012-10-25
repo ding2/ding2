@@ -88,13 +88,13 @@
  */
 ?>
 <div class="image-container">
-  <?php print render($content['field_ding_event_title_image'][0]); ?>
+  <?php print render($content['field_ding_event_title_image']); ?>
   <?php print render($content['field_ding_event_list_image']); ?>
 </div>
 <div class="super-heading">
   <p>
     <?php print render($content['field_ding_event_category']); ?>
-    <?php print render($content['field_ding_event_library'][0]); ?>
+    <?php print render($content['field_ding_event_library']); ?>
   </p>
 </div>
 <h2 class="heading"><?php print $title; ?></h2>
