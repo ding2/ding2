@@ -11,10 +11,11 @@ $plugin = array(
   'single' => TRUE,
   'defaults' => array('ding_campaign_count' => 3, 'ding_campaign_offset' => 0),
   'required context' => array(
-      new ctools_context_optional(t('Page node'), 'node'),
-      new ctools_context_optional(t('Related library'), 'node'),
-      new ctools_context_optional(t('Search term'), 'string'),
-      new ctools_context_optional(t('Taxonomy terms'), 'terms')),
+    new ctools_context_optional(t('Page node'), 'node'),
+    new ctools_context_optional(t('Related library'), 'node'),
+    new ctools_context_optional(t('Search term'), 'string'),
+    new ctools_context_optional(t('Taxonomy term'), array('entity:taxonomy_term', 'taxonomy_term')),
+  ),
   'category' => t('Ding!'),
 );
 
