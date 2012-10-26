@@ -58,6 +58,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '38',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -135,6 +141,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '37',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -211,6 +223,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '21',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -372,6 +390,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '27',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -448,6 +472,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '34',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -526,6 +556,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '14',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -602,6 +638,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '19',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -680,6 +722,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '31',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -756,6 +804,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '15',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -834,6 +888,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '16',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -910,6 +970,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '24',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -990,6 +1056,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '39',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1068,6 +1140,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '35',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1144,6 +1222,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '26',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1222,6 +1306,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '30',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1298,6 +1388,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '29',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1376,6 +1472,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '36',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1452,6 +1554,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '28',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1530,6 +1638,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '22',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1606,6 +1720,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '17',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1684,6 +1804,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_subject_search',
           'weight' => '20',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1760,6 +1886,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '18',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1838,6 +1970,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '25',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -1914,6 +2052,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '13',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -1992,6 +2136,12 @@ function ting_material_details_field_default_fields() {
           'type' => 'ting_details_single',
           'weight' => '32',
         ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
@@ -2068,6 +2218,12 @@ function ting_material_details_field_default_fields() {
           'settings' => array(),
           'type' => 'ting_details_single',
           'weight' => '33',
+        ),
+        'search_result' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
