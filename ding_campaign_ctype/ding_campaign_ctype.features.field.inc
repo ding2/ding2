@@ -1,7 +1,7 @@
 <?php
-
 /**
  * @file
+ * ding_campaign_ctype.features.field.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function ding_campaign_ctype_field_default_fields() {
   $fields = array();
 
-  // Exported field: node-ding_campaign-field_camp_image.
+  // Exported field: 'node-ding_campaign-field_camp_image'.
   $fields['node-ding_campaign-field_camp_image'] = array(
     'field_config' => array(
       'active' => '1',
@@ -88,7 +88,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_link.
+  // Exported field: 'node-ding_campaign-field_camp_link'.
   $fields['node-ding_campaign-field_camp_link'] = array(
     'field_config' => array(
       'active' => '1',
@@ -156,7 +156,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_settings.
+  // Exported field: 'node-ding_campaign-field_camp_settings'.
   $fields['node-ding_campaign-field_camp_settings'] = array(
     'field_config' => array(
       'active' => '1',
@@ -223,7 +223,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_text_full.
+  // Exported field: 'node-ding_campaign-field_camp_text_full'.
   $fields['node-ding_campaign-field_camp_text_full'] = array(
     'field_config' => array(
       'active' => '1',
@@ -289,7 +289,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_text_plain.
+  // Exported field: 'node-ding_campaign-field_camp_text_plain'.
   $fields['node-ding_campaign-field_camp_text_plain'] = array(
     'field_config' => array(
       'active' => '1',
@@ -355,7 +355,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_weight.
+  // Exported field: 'node-ding_campaign-field_camp_weight'.
   $fields['node-ding_campaign-field_camp_weight'] = array(
     'field_config' => array(
       'active' => '1',
@@ -440,7 +440,8 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Translatables - included for use with string extractors like potx.
+  // Translatables
+  // Included for use with string extractors like potx.
   t('Campaign image');
   t('Campaign link');
   t('Campaign settings');
