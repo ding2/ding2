@@ -54,7 +54,7 @@ function ting_covers_objects() {
       //Try to download the image locally
       if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id), $source_url)) {
         //Generate a path corresponding to the downloaded image, styled
-        $covers[$local_id . ':' . $image_style] = image_style_url($image_style, $file->uri);
+        $covers[$local_id . ':' . $image_style] = image_style_url($image_style, $file);
       }
     }
   }
