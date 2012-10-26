@@ -355,76 +355,6 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-/* #588 Campaign theme skal fjernes fra Campaign sidetypen, fordi kampagnerne nu følger designet
-  // Exported field: node-ding_campaign-field_camp_theme.
-  $fields['node-ding_campaign-field_camp_theme'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_camp_theme',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'theme_blue' => 'Blue',
-          'theme_green' => 'Green',
-          'theme_orange' => 'Orange',
-          'theme_pink' => 'Pink',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_campaign',
-      'default_value' => array(
-        0 => array(
-          'value' => 'theme_orange',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 5,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_camp_theme',
-      'label' => 'Campaign theme',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '1',
-      ),
-    ),
-  );
-*/
-
   // Exported field: node-ding_campaign-field_camp_weight.
   $fields['node-ding_campaign-field_camp_weight'] = array(
     'field_config' => array(
@@ -515,7 +445,6 @@ function ding_campaign_ctype_field_default_fields() {
   t('Campaign link');
   t('Campaign settings');
   t('Campaign text');
-  t('Campaign theme');
   t('Weight');
 
   return $fields;
