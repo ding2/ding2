@@ -48,7 +48,7 @@ function ting_relation_inline() {
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
       'isPartOfManifestation' => t('Is part of manifestation'),
       'dbcaddi:isReviewOf' => t('Is review of'),
-      'dbcaddi:hasOnlineAccess' => t('Online access'),
+      'dbcaddi:hasOnlineAccess' => t('Article from Ebrary'),
     );
   }
   return $types;
