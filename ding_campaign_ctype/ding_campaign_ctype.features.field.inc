@@ -31,6 +31,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => 0,
@@ -60,6 +61,12 @@ function ding_campaign_ctype_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
       'field_name' => 'field_camp_image',
@@ -67,6 +74,7 @@ function ding_campaign_ctype_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
+        'default_image' => 0,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -109,6 +117,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -130,6 +139,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 4,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -170,6 +185,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -200,6 +216,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 0,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -244,6 +266,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -263,6 +286,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 3,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -310,6 +339,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -329,6 +359,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 1,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -369,6 +405,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -417,6 +454,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 6,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
