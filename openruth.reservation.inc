@@ -47,6 +47,7 @@ function openruth_reservation_list($account) {
           'title' => $res->itemTitle,
           'publication_year' => $res->itemPublicationYear,
           'ready_for_pickup' => 1,
+          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
     }
@@ -65,6 +66,7 @@ function openruth_reservation_list($account) {
           'author' => $res->itemAuthor,
           'title' => $res->itemTitle,
           'publication_year' => $res->itemPublicationYear,
+          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
     }
@@ -81,6 +83,7 @@ function openruth_reservation_list($account) {
           'title' => $res->itemTitle,
           'publication_year' => $res->itemPublicationYear,
           'ill_status' => $res->illStatus,
+          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
     }
