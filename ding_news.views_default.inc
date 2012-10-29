@@ -756,6 +756,31 @@ function ding_news_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Floated news list', 'panel_pane_3');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['css_class'] = 'floated';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Indhold: Has taxonomy term ID */
+  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
+  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['tid']['add_table'] = 0;
+  $handler->display->display_options['arguments']['tid']['require_value'] = 0;
+  $handler->display->display_options['arguments']['tid']['reduce_duplicates'] = 0;
+  $handler->display->display_options['arguments']['tid']['set_breadcrumb'] = 0;
+  $handler->display->display_options['argument_input'] = array(
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:user.cancel-url',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Indhold: Has taxonomy term ID',
+    ),
+  );
 
   /* Display: Floated news list (highlight) */
   $handler = $view->new_display('panel_pane', 'Floated news list (highlight)', 'panel_pane_4');
@@ -1012,6 +1037,32 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['nothing_1']['hide_empty'] = 0;
   $handler->display->display_options['fields']['nothing_1']['empty_zero'] = 0;
   $handler->display->display_options['fields']['nothing_1']['hide_alter_empty'] = 0;
+
+  /* Display: Floated news list (library) */
+  $handler = $view->new_display('panel_pane', 'Floated news list (library)', 'panel_pane_5');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'floated';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'none';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['argument_input'] = array(
+    'ding_library_nid_1' => array(
+      'type' => 'panel',
+      'context' => 'entity:user.cancel-url',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Indhold: Library (field_ding_news_library:nid)',
+    ),
+    'tid' => array(
+      'type' => 'panel',
+      'context' => 'entity:user.cancel-url',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '',
+      'label' => 'Indhold: Has taxonomy term ID',
+    ),
+  );
   $translatables['ding_news'] = array(
     t('Master'),
     t('Read more'),
@@ -1045,6 +1096,7 @@ function ding_news_views_default_views() {
     t('Floated news list'),
     t('Floated news list (highlight)'),
     t('[field_ding_news_lead][view_node]'),
+    t('Floated news list (library)'),
   );
   $export['ding_news'] = $view;
 

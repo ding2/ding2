@@ -17,7 +17,7 @@ function ding_news_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -27;
   $handler->conf = array(
     'title' => 'News story',
     'no_blocks' => 0,
@@ -110,21 +110,17 @@ function ding_news_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'news_category_menu';
+    $pane->subtype = 'news_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'url_settings_all_categories' => NULL,
-      'url_settings' => NULL,
       'context' => array(
-        0 => 'relationship_entity_from_field:field_category-node-taxonomy_term_1',
-        1 => 'relationship_og_node_from_group_1',
-        2 => 'empty',
+        0 => 'empty',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
-      'type' => 'news',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -133,7 +129,7 @@ function ding_news_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass();
@@ -337,14 +333,13 @@ news/%tid:name',
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'news_category_menu';
+    $pane->subtype = 'news_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'news',
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'empty',
       ),
       'override_title' => 0,
@@ -357,7 +352,7 @@ news/%tid:name',
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['left'][0] = 'new-1';
     $pane = new stdClass();
@@ -411,15 +406,10 @@ news/%tid:name',
     $pane->pid = 'new-4';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-ding_news_full_list_panel_pane';
+    $pane->subtype = 'ding_news-panel_pane_3';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'empty',
-        1 => 'argument_term_1',
-      ),
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -617,14 +607,13 @@ node/%node:nid/news
     $pane = new stdClass();
     $pane->pid = 'new-7';
     $pane->panel = 'left';
-    $pane->type = 'category_menu';
-    $pane->subtype = 'category_menu';
+    $pane->type = 'news_category_menu';
+    $pane->subtype = 'news_category_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'news',
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'argument_entity_id:node_1',
       ),
       'override_title' => 0,
@@ -637,7 +626,7 @@ node/%node:nid/news
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-7'] = $pane;
     $display->panels['left'][0] = 'new-7';
     $pane = new stdClass();
@@ -691,15 +680,10 @@ node/%node:nid/news
     $pane->pid = 'new-10';
     $pane->panel = 'middle';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-ding_news_full_list_panel_pane';
+    $pane->subtype = 'ding_news-panel_pane_5';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'argument_term_1',
-      ),
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
