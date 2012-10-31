@@ -1,0 +1,5 @@
+name = Wyrna - Ding WAYF test provider
+description = Test provider for WAYF
+core = 7.x
+dependencies[] = ding_provider
+hidden = TRUE
