@@ -62,7 +62,7 @@ function ding_event_category_menu_content_type_edit_form($form, &$form_state) {
   return $form;
 }
 
-function ding_event_category_menu_content_type_edit_form_submit(&$form, &$form_state) {
+function ding_event_category_menu_content_type_edit_form_submit($form, &$form_state) {
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
     $form_state['conf'][$key] = $form_state['values'][$key];
   }
