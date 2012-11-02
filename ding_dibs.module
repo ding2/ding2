@@ -215,7 +215,7 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
       md5($md5_key1 .
         "merchant=" . $param['merchant'] .
         "&orderid=" . $param['orderid'] .
-        " &transact=" . $param['transact'] .
+        "&transact=" . $param['transact'] .
         "&amount=" . $param['amount']
       )
     );
