@@ -201,7 +201,7 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   $param['merchant'] = isset($settings['general']['merchant']) ? $settings['general']['merchant'] : NULL;
   $param['account'] = $account = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
 
-  $param['amount'] = $transaction['payment_price'];
+  $param['amount'] = $transaction['payment_price'] * 100;
   $param['orderid'] = $transaction['payment_order_id'];
   $param['transact'] = $transaction['payment_transaction_id'];
   $param['textreply'] = TRUE;
