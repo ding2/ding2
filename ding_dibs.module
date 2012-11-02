@@ -210,9 +210,9 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   if ( $md5 ) {
     $md5_key1 = isset($settings['general']['md5_key1']) ? $settings['general']['md5_key1'] : NULL;
     $md5_key2 = isset($settings['general']['md5_key2']) ? $settings['general']['md5_key2'] : NULL;
-    $param['md5key'] = MD5(
+    $param['md5key'] = md5(
       $md5_key2 .
-      MD5($md5_key1 .
+      md5($md5_key1 .
         "merchant=" . $param['merchant'] .
         "&orderid=" . $param['orderid'] .
         " &transact=" . $param['transact'] .
