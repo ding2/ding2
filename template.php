@@ -294,3 +294,42 @@ function ddbasic_preprocess_ding_footer_blocks(&$vars) {
 
   $vars['grid_classes'] = $classes;
 }
+
+
+/**
+ *   OLD FUNCTION FROM LATTO MOVED HERE
+ * 
+ *  * Implements theme_form_alter().
+ *
+ * Adds two bootstrap classes to the default Drupal search form submit button.
+ * Adds the default-value to the search field.
+ *
+ * @param type $vars
+ *
+function latto_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == "search_block_form") {
+    $form['search_block_form']['#attributes']['title'] = t('Søg efter materialer fra biblioteket..');
+    // Add a specify class to the search form to tell JavaScript this should
+    // have the example functionallyty functionality.
+    $form['search_block_form']['#attributes']['class'][] = 'has-example';
+    
+    $form['actions']['submit']['#attributes']['class'][] = 'btn';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn-large';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn-info';
+  }
+}
+
+ * /**
+ * Implement theme_breadcrumb().
+ * 
+ * Implemented for the purpose of changing >> to > in the default breadcrumb.
+ *
+function latto_breadcrumb ($variables) {
+  $breadcrumb = $variables['breadcrumb'];
+  
+  if(!empty($breadcrumb)) {
+    return '<div class="breadcrumb">' . implode(' > ', $breadcrumb) . '</div>';
+  }
+} 
+ 
+ */
