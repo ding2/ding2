@@ -42,14 +42,24 @@ function ding2_install() {
     ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
     ->execute();
 
-  // Enable the admin theme.
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', 'seven')
-    ->execute();
-  variable_set('admin_theme', 'seven');
+  // enable the themes and set the default themes
+  $enable = array(
+    'theme_default' => 'ddbasic',
+    'admin_theme' => 'seven',
+  );
+  theme_enable($enable);
+
+  foreach ($enable as $var => $theme) {
+    if (!is_numeric($var)) {
+      variable_set($var, $theme);
+    }
+  }
+
+  // Use the admin theme when editing nodes
   variable_set('node_admin_theme', '1');
+
+  // Disable the default Bartik theme
+  theme_disable(array('bartik'));
 
   // Set default source language for i18n module
   variable_set('i18n_string_source_language', 'en');
