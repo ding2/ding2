@@ -1,0 +1,97 @@
+@import "compass/css3";
+@import "../latto/sass/_latto.mixins.scss";
+@import "../latto/sass/_latto.variables.scss";
+@import "../latto/sass/_latto.grid.scss";
+@import "../latto/sass/_latto.mediaqueries.scss";
+
+
+$theme-font-size:	15px;
+
+$header-text-color: #fff;
+$header-font-size: 30px;
+$header-min-height: 60px;
+
+$font-weight-light: 	300;
+$font-weight-regular: 400;
+$font-weight-bold: 		700;
+
+$color-primary: #ff5b00;
+
+body {
+	background: url('../images/body.jpg') no-repeat;
+	background-size: cover;
+	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+	font-weight: $font-weight-light;
+}
+
+input,
+textarea {
+	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+	font-weight: $font-weight-light;	
+}
+
+
+.grid-inner {
+	max-width: 1350px;	
+}
+
+.topbar {
+	@extend .grid-wrapper;
+	@include rgba-background(#000, .85);
+
+	min-height: $header-min-height;
+
+	h1 {
+		font-size: $header-font-size;
+		font-weight: $font-weight-regular;
+		line-height: $header-min-height;
+
+		margin-top: 0;
+		margin-bottom: 0;
+
+		a,
+		a:link,
+		a:visited {
+			color: $header-text-color;
+		}
+	}
+}
+
+.topbar-inner {
+	@extend .grid-inner;
+}
+
+.logo {
+  @include zen-grid-item($grid-50, 1);  	
+}
+
+.header-wrapper {
+	@extend .grid-wrapper;
+
+	background-image: url('../images/pattern.png');
+
+	.header-inner {
+		@extend .grid-inner;
+	}
+	
+}
+
+.search {
+  @include zen-grid-item($grid-50, 1);
+
+	padding-top: 70px;
+	padding-bottom: 70px;
+}
+
+.search-input {
+	@include box-sizing(border-box);
+	@include border-radius(12px);
+
+	border: 0;
+	font-size: $theme-font-size * 1.75;
+
+	min-height: 60px;
+	min-width: 600px;
+	padding-top: 8px;
+	padding-left: 40px;
+}
