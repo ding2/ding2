@@ -1,0 +1,298 @@
+
+// -----------------------------------------------------------------------------
+// This is a temporary file containing possible DDBasic styling
+// -----------------------------------------------------------------------------
+//
+.search-wrapper {
+  @include rgba-background($black, .15);
+
+  margin-top: $default-spacing;
+  margin-right: $default-spacing / 2;
+  margin-bottom: $default-spacing;
+  margin-left: $default-spacing / 2;
+  overflow: hidden;
+  
+  .search-inner-wrapper {
+    margin: $default-spacing * 2 auto;
+    max-width: 70%;
+    position: relative;
+  }  
+}
+
+
+// -----------------------------------------------------------------------------
+// Place icon and button inside a input field
+// ----------------------------------------------------------------------------- 
+//
+// The icon is placed to the left (if any), the button will be place right
+// 
+// $height is the height of the textfield, icon and button height will be 
+// calculated from this value.
+//
+@mixin input-inline($height: 30px) {  
+  position: relative;
+  
+  // Style the input field inside the wrapper.
+  .form-text {
+    @include rem('font-size', $height * .5);   
+    @include box-sizing(border-box);
+    
+    height: $height;
+    width: 100%; 
+  }
+  // Style the submit button inside the wrapper.
+  .form-actions {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    input {
+      height: $height - 8px;
+      line-height: $height - 16px;
+      padding-right: $height / 2;
+      padding-left: $height / 2; 
+      width: 100%;
+    }
+  }
+  
+  i {
+    @include rem('font-size', $height * .5);
+
+    left: $height * 0.25;
+    position: absolute;      
+    bottom: $height * 0.45;      
+
+    color: $gray-dark;
+  } 
+  i + .form-text {
+    padding-left: $height * .8;
+  }
+}
+
+.form-inside {
+  @include input-inline(); 
+}
+.form-inside-large {
+  @include input-inline(50px);  
+}
+
+
+@import "compass/css3";
+
+.input-prepend,
+.input-append {
+  margin-bottom: 5px;
+  
+  input,
+  select,
+  .uneditable-input {
+    position: relative; // placed here by default so that on :focus we can place the input above the .add-on for full border and box-shadow goodness
+    *margin-left: 0;
+    @include border-radius(0 $form-border-radius $form-border-radius 0);
+    // Make input on top when focused so blue border and shadow always show
+    &:focus {
+      z-index: 2;
+    }@include box-sizing(content-box);
+  }
+  .uneditable-input {
+    border-left-color: #ccc;
+  }
+  
+  .add-on {
+    @include box-sizing(content-box);
+    display: inline-block;
+    width: auto;
+    height: $theme-line-height;
+    min-width: 16px;
+    padding: 4px 5px;
+    font-weight: normal;
+    line-height: $theme-line-height;
+    text-align: center;
+    text-shadow: 0 1px 0 $white;
+    background-color: $gray-light;
+    border: 1px solid #ccc;
+  }
+  .add-on,
+  .btn {
+    margin-left: -1px;
+    @include border-radius(0);
+  }
+  .active {
+    background-color: lighten($green, 30);
+    border-color: $green;
+  }
+}
+.input-prepend {
+  .add-on,
+  .btn {
+    margin-right: -1px;
+  }
+  .add-on:first-child,
+  .btn:first-child {
+    @include border-radius($form-border-radius 0 0 $form-border-radius);
+  }
+}
+.input-append {
+  input,
+  select,
+  .uneditable-input {
+    @include border-radius($form-border-radius 0 0 $form-border-radius);
+  }
+  .uneditable-input {
+    border-right-color: #ccc;
+    border-left-color: #eee;
+  }
+  .add-on:last-child,
+  .btn:last-child {
+    @include border-radius(0 $form-border-radius $form-border-radius 0);
+  }
+}
+// Remove all border-radius for inputs with both prepend and append
+.input-prepend.input-append {
+  input,
+  select,
+  .uneditable-input {
+    @include border-radius(0);
+  }
+  .add-on:first-child,
+  .btn:first-child {
+    margin-right: -1px;
+    @include border-radius($form-border-radius 0 0 $form-border-radius);
+  }
+  .add-on:last-child,
+  .btn:last-child {
+    margin-left: -1px;
+    @include border-radius(0 $form-border-radius $form-border-radius 0);
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Breadcrumb
+// -----------------------------------------------------------------------------
+//
+.breadcrumb {
+  background-color: rgba(0, 0, 0, 0.07);
+  margin: $default-spacing $default-spacing / 2;
+  padding: $default-spacing / 4 $default-spacing / 2;
+}
+
+
+// -----------------------------------------------------------------------------
+// List with images
+// -----------------------------------------------------------------------------
+//
+.list-image {
+  @extend %list;
+
+  > .list-item {
+
+    .image-container {
+      display: table-cell;
+      margin-bottom: $list-item-spacing;
+      max-width: $list-picture-width;
+
+      img {
+        @include box-sizing(border-box);
+
+        padding-right: $list-item-spacing;
+        margin-top: 3px; /* Adding margin to make sure top of image align with top of text */
+        height: auto;
+        max-width: 100%;
+      }
+    }
+
+    .content {
+      @include box-sizing(border-box);
+
+      display: table-cell;
+
+      vertical-align: top;
+    }
+  }
+
+  &.highlighted {
+    margin-top: $default-spacing;
+
+    .list-item {
+      border-bottom: 0;
+      display: inline-block;
+      margin-right: -4px; // Fix for using display inline-block
+      max-width: 50%;
+    }
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// .list-compact
+// -----------------------------------------------------------------------------
+//
+// A compact list in one line, can include a date
+//
+.list-compact {
+  @extend .list;
+
+  > .list-item {
+    display: table;
+
+    .date {
+      display: table-cell;
+      min-width: 60px;
+
+      color: lighten($text-primary-color, 25%);
+    }
+    .heading {
+      @include rem('font-size', $theme-font-size * 1.4);
+      
+      display: table-cell;
+      margin-left: $default-spacing;
+    }
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// .date-list
+// -----------------------------------------------------------------------------
+//
+// Styling of a default date-list in Latto theme. Suitable for displaying
+// upcomming events.
+//
+.date-list {
+  @extend .list;
+
+  .date-wrapper {
+    @include single-box-shadow;
+    @include box-shadow(rgba(black, .2) 0 4px 15px -2px);
+    @include rem('font-size', $theme-font-size * .9);
+
+    display: inline-block;
+    margin-top : $default-spacing / 5;
+    margin-right: $default-spacing / 2;
+    min-width: 60px;
+
+    color: lighten($text-primary-color, 25%);
+    text-align: center;
+    vertical-align: top;
+
+    .day {
+      background-color: $theme-secondary-color;
+      color: $white;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    }
+    .date-wrapper-inner {
+      border: 1px solid lighten($black, 85%);
+
+      background: $theme-primary-color;
+
+      .date {
+        @include rem('font-size', $theme-font-size * 1.5);
+
+        margin-top: $default-spacing / 4;
+      }
+    }
+  }
+  .content {
+    display: inline-block;
+  }
+}
