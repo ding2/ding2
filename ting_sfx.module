@@ -73,30 +73,47 @@ function ting_sfx_anchor_info() {
  */
 function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $relation_types = ting_sfx_inline();
   switch ($display['type']) {
     case 'ting_sfx_default':
       foreach ($items as $delta => $items) {
-        foreach ($entity->relations as $relation) {
-          if ( (isset($relation_types[$relation->type])) && ($sfx_url = ting_sfx_get_open_url($relation->uri)) ) {
-      $element[$delta] =
-        array(
-        '#markup' => l(ting_sfx_get_logo() . '<span>' . $relation_types[$relation->type] . '</span>',
-           $sfx_url, array(
-               'attributes' => array('class' => array('ting_sfx_group',),
-                   'target' => '_new',
-                   'name' => $relation->type),
-               'html' => TRUE,
-               )),
-        );
-          }
-        }
+        $element[$delta] = ting_sfx_get_markup($entity);
       }
       break;
     default:
   }
 
   return $element;
+}
+
+/**
+ * Get markup for the sfx button.
+ * 
+ * @param $entity
+ *   TingObject object, sfx value which is to be rendered.
+ * @return
+ *   Array, containing output markup, in the FieldAPI form.
+ */
+function ting_sfx_get_markup($entity = NULL) {
+  $markup = array();
+  if (is_object($entity)) {
+    $relation_types = ting_sfx_inline();
+    foreach ($entity->relations as $relation) {
+      if ( (isset($relation_types[$relation->type])) && ($sfx_url = ting_sfx_get_open_url($relation->uri)) ) {
+        $markup = array(
+         '#markup' => l(ting_sfx_get_logo() . '<span>' . $relation_types[$relation->type] . '</span>',
+            $sfx_url, array(
+            'attributes' => array('class' => array('ting_sfx_group',),
+              'target' => '_new',
+              'name' => $relation->type),
+            'html' => TRUE,
+           )),
+         );
+        break;
+      }
+    }
+  }
+  
+  return $markup;
 }
 
 function ting_sfx_get_open_url($uri) {
@@ -190,4 +207,11 @@ function ting_sfx_field_load($entity_type, $entities, $field, $instances, $langc
 
 function ting_sfx_preprocess_html(&$variables, $hook) {
   drupal_add_css(drupal_get_path('module', 'ting_sfx') . '/ting_sfx.css');
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ting_sfx_ding_entity_buttons($type, $entity, $widget = 'default') {
+  return array(ting_sfx_get_markup($entity));
 }
