@@ -11,7 +11,7 @@ if( empty($content) ) {
 }
 
 foreach( $content as $ns => $relations ){
-  if (!empty($relations)) { ?>
+  if (!empty($relations) && $ns != 'dbcaddi:hasOnlineAccess') { ?>
 <a name="<?php echo $ns;?>"></a>
 <div class="<?php print $classes.' ting-relation-'.drupal_html_class($ns).' clearfix'; ?>"> 
   <h2><?php echo $relations[0]['type']?></h2>
