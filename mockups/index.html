@@ -21,11 +21,26 @@
   <header class="header-wrapper">
 
     <div class="header-inner">
+
       <section class="search">
-        <input type="text" placeholder="Søg på biblioteket..." class="search-input" />
+        <div class="search-field-wrapper">
+          <i class="icon-search"></i>
+          <input type="text" placeholder="Søg på biblioteket..." class="search-input" />
+          <input type="submit" value="Søg" />
+        </div>
       </section>
+
       <section class="user">
-        
+        <div class="user-field-wrapper">
+          <i class="icon-user"></i>
+          <input type="text" placeholder="Låner- eller cpr-nr" class="search-input" />
+
+          <i class="icon-lock"></i>
+          <input type="password" placeholder="Kodeord" class="search-input" />
+        </div>
+
+        <input type="submit" value="Log ind" />
+
       </section>
     </div>
 
@@ -56,7 +71,7 @@
     </div>
 
   </article>
-    
+
 <script type="text/javascript" src="//use.typekit.net/woc3zhc.js"></script>
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 

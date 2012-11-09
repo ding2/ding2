@@ -794,7 +794,7 @@
   }
 }
 
-/* line 20, ../sass/ddbasic.styles.scss */
+/* line 25, ../sass/ddbasic.styles.scss */
 body {
   background: url("../images/body.jpg") no-repeat;
   background-size: cover;
@@ -802,26 +802,26 @@ body {
   font-weight: 300;
 }
 
-/* line 28, ../sass/ddbasic.styles.scss */
+/* line 33, ../sass/ddbasic.styles.scss */
 input,
 textarea {
   font-family: "ff-scala-sans-web-pro", arial, sans-serif;
   font-weight: 300;
 }
 
-/* line 34, ../sass/ddbasic.styles.scss */
+/* line 39, ../sass/ddbasic.styles.scss */
 .grid-inner, .topbar-inner, .header-wrapper .header-inner {
   max-width: 1350px;
 }
 
-/* line 38, ../sass/ddbasic.styles.scss */
+/* line 43, ../sass/ddbasic.styles.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
   min-height: 60px;
 }
-/* line 44, ../sass/ddbasic.styles.scss */
+/* line 49, ../sass/ddbasic.styles.scss */
 .topbar h1 {
   font-size: 30px;
   font-weight: 400;
@@ -829,14 +829,14 @@ textarea {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 54, ../sass/ddbasic.styles.scss */
+/* line 59, ../sass/ddbasic.styles.scss */
 .topbar h1 a,
 .topbar h1 a:link,
 .topbar h1 a:visited {
   color: white;
 }
 
-/* line 64, ../sass/ddbasic.styles.scss */
+/* line 69, ../sass/ddbasic.styles.scss */
 .logo {
   float: left;
   width: 50%;
@@ -855,12 +855,59 @@ textarea {
   _overflow-y: visible;
 }
 
-/* line 68, ../sass/ddbasic.styles.scss */
+/* line 73, ../sass/ddbasic.styles.scss */
 .header-wrapper {
   background-image: url("../images/pattern.png");
 }
 
-/* line 79, ../sass/ddbasic.styles.scss */
+/* line 84, ../sass/ddbasic.styles.scss */
+.search, .user {
+  margin-top: 70px;
+  margin-bottom: 70px;
+  position: relative;
+}
+
+/* line 90, ../sass/ddbasic.styles.scss */
+.search i[class^="icon-search"], .user i[class^="icon-"] {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  opacity: 0.25;
+  margin-left: 20px;
+  position: absolute;
+  top: 25px;
+  font-size: 33.75px;
+}
+
+/* line 100, ../sass/ddbasic.styles.scss */
+.search input[type="text"], .user input[type="text"],
+.user input[type="password"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  display: inline;
+  min-height: 60px;
+  padding-top: 10px;
+  padding-left: 60px;
+  border: 0;
+}
+
+/* line 112, ../sass/ddbasic.styles.scss */
+.search input[type="submit"], .user input[type="submit"] {
+  padding-top: 14px;
+  padding-right: 20px;
+  padding-bottom: 9px;
+  padding-left: 20px;
+  background-color: #1a1a1a;
+  border: 0;
+  color: white;
+  font-size: 26.25px;
+}
+
+/* line 124, ../sass/ddbasic.styles.scss */
 .search {
   float: left;
   width: 50%;
@@ -877,24 +924,65 @@ textarea {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  padding-top: 70px;
-  padding-bottom: 70px;
+  border-right: 1px solid #f78443;
 }
-
-/* line 86, ../sass/ddbasic.styles.scss */
-.search-input {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+/* line 130, ../sass/ddbasic.styles.scss */
+.search i[class^="icon-search"] {
+  z-index: 10;
+}
+/* line 136, ../sass/ddbasic.styles.scss */
+.search input[type="text"] {
+  left: 0;
+  width: 90%;
+  font-size: 26.25px;
+}
+/* line 146, ../sass/ddbasic.styles.scss */
+.search input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
   -o-border-radius: 12px;
   border-radius: 12px;
-  border: 0;
-  font-size: 26.25px;
-  min-height: 60px;
-  min-width: 600px;
-  padding-top: 8px;
-  padding-left: 40px;
+  position: absolute;
+  right: 10%;
+}
+
+/* line 157, ../sass/ddbasic.styles.scss */
+.user {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 67px;
+}
+/* line 167, ../sass/ddbasic.styles.scss */
+.user .user-field-wrapper {
+  display: inline;
+}
+/* line 172, ../sass/ddbasic.styles.scss */
+.user input[type="text"],
+.user input[type="password"] {
+  max-width: 35%;
+  margin-right: 10px;
+  font-size: 20.25px;
+}
+/* line 181, ../sass/ddbasic.styles.scss */
+.user input[type="submit"] {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  display: inline;
 }

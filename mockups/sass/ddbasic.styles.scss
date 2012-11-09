@@ -17,6 +17,11 @@ $font-weight-bold: 		700;
 
 $color-primary: #ff5b00;
 
+// Form elements
+$form-button-text-color:  #fff;
+$form-button-bg-color:    lighten(#000, 10%);
+
+
 body {
 	background: url('../images/body.jpg') no-repeat;
 	background-size: cover;
@@ -27,12 +32,12 @@ body {
 input,
 textarea {
 	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
-	font-weight: $font-weight-light;	
+	font-weight: $font-weight-light;
 }
 
 
 .grid-inner {
-	max-width: 1350px;	
+	max-width: 1350px;
 }
 
 .topbar {
@@ -62,7 +67,7 @@ textarea {
 }
 
 .logo {
-  @include zen-grid-item($grid-50, 1);  	
+  @include zen-grid-item($grid-50, 1);
 }
 
 .header-wrapper {
@@ -73,25 +78,111 @@ textarea {
 	.header-inner {
 		@extend .grid-inner;
 	}
-	
+
+}
+
+%header-sections {
+	margin-top: 70px;
+	margin-bottom: 70px;
+  position: relative;
+}
+
+%header-icons {
+  @include opacity(.25);
+
+  margin-left: 20px;
+  position: absolute;
+  top: 25px;
+
+  font-size: $theme-font-size * 2.25;
+}
+
+%header-input {
+  @include box-sizing(border-box);
+  @include border-radius(12px);
+
+  display: inline;
+  min-height: 60px;
+  padding-top: 10px;
+  padding-left: 60px;
+
+  border: 0;
+}
+
+%header-button {
+  padding-top: 14px;
+  padding-right: 20px;
+  padding-bottom: 9px;
+  padding-left: 20px;
+
+  background-color: $form-button-bg-color;
+  border: 0;
+  color: $form-button-text-color;
+  font-size: $theme-font-size * 1.75;
 }
 
 .search {
   @include zen-grid-item($grid-50, 1);
+  @extend %header-sections;
 
-	padding-top: 70px;
-	padding-bottom: 70px;
+  border-right: 1px solid #f78443;
+
+  i[class^="icon-search"] {
+    @extend %header-icons;
+
+    z-index: 10;
+  }
+
+  input[type="text"] {
+    @extend %header-input;
+
+    left: 0;
+    width: 90%;
+
+    font-size: $theme-font-size * 1.75;
+  }
+
+
+  input[type="submit"] {
+    @include border-radius(12px);
+    @extend %header-button;
+
+    position: absolute;
+    right: 10%;
+  }
+
 }
 
-.search-input {
-	@include box-sizing(border-box);
-	@include border-radius(12px);
 
-	border: 0;
-	font-size: $theme-font-size * 1.75;
+.user {
+  @include zen-grid-item($grid-50, 1, right);
+  @extend %header-sections;
 
-	min-height: 60px;
-	min-width: 600px;
-	padding-top: 8px;
-	padding-left: 40px;
+  padding-left: 67px;
+
+  i[class^="icon-"] {
+    @extend %header-icons;
+  }
+
+  .user-field-wrapper {
+    display: inline;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    @extend %header-input;
+
+    max-width: 35%;
+    margin-right: $default-spacing / 2;
+    
+    font-size: $theme-font-size * 1.35;
+  }
+
+  input[type="submit"] {
+    @include border-radius(12px);
+    @extend %header-button;
+
+    display: inline;
+  }
+
 }
