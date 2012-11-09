@@ -225,7 +225,10 @@ function ting_block_info() {
 function ting_get_relations($ting_entity) {
   $relations = array();
 
-  foreach( $ting_entity->relations as $relation ) {
+  foreach ($ting_entity->relations as $k => $relation) {
+    if ($k == 'dbcaddi:hasOpenUrl' || $k == 'dbcaddi:hasOnlineAccess') {
+      continue;
+    }
     $relations[$relation->type][] = $relation;
   }
 
@@ -265,11 +268,10 @@ function ting_block_view($delta = '') {
               $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
             }
           }
-          $block['content'] =
-            array(
+          $block['content'] = array(
             '#theme' => 'item_list',
             '#items' => $items,
-            );
+          );
         }
       }
 
