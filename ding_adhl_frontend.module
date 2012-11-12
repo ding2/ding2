@@ -71,60 +71,72 @@ function ding_adhl_frontend_ctools_plugin_directory($module, $plugin) {
 
 /**
  * Load TingClientObjects for each recommendation.
+ *
+ * @param ting $objects
+ *  Ting objects (ting entities) that repesent a datawell object. (This may be different stuff array, object, collection ?)
+ * @param bool $reset
+ *  Reset the cache. Defaults to FALSE.
+ * @return ting_entities
+ *  An array of recommendataions as ting entities.
  */
-function ding_adhl_frontend_get_recommended_objects($objects) {
-  $identifiers = ding_adhl_frontend_extract_identifers($objects);
+function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
+  $recommended_objects = &drupal_static(__FUNCTION__);
+  if (!isset($recommended_objects) || $reset) {
 
-  $cacheId = md5(implode('|', $identifiers));
-  $cache = cache_get($cacheId, 'cache_ding_adhl_frontend');
-  if ($cache) {
-    $recommended_objects = $cache->data;
-  }
-  else {
-    $num_results = variable_get('ding_adhl_frontend_number_to_fetch', 24);
+    $identifiers = ding_adhl_frontend_extract_identifers($objects);
+    $cid = md5(implode('', $identifiers));
 
-    $local_ids = array();
-    foreach ($identifiers as $id) {
-      // Don't fetch more recommendations that the configured number.
-      if (count($local_ids) >= $num_results) {
-        break;
-      }
-
-      try {
-        $recommendations = ting_get_object_recommendations($id, $num_results);
-        foreach ($recommendations as $recommendation) {
-          $local_ids[$recommendation->localId] = $recommendation;
-        }
-      }
-      catch (TingClientException $e) {
-        watchdog('ding ADHL frontend', 'Error retrieving ADHL recommendations: ' . $e->getMessage(), NULL, WATCHDOG_WARNING, request_uri());
-      }
+    if (!$reset && $cache = cache_get($cid, 'cache_ding_adhl_frontend')) {
+      $recommended_objects = $cache->data;
     }
-    arsort($local_ids);
+    else {
+      $num_results = variable_get('ding_adhl_frontend_number_to_fetch', 24);
 
-    $recommended_objects = array();
-    $agency = variable_get('ting_agency', -1);
-
-    foreach (array_keys($local_ids) as $local_id) {
-      $ting_object = ding_entity_load("$agency:$local_id");
-
-      // Only show objects belonging to our own library.
-      if ($ting_object && $ting_object->ownerId == $agency) {
-        $recommended_objects[] = $ting_object;
-
-        // Don't get more than 10 valid objects.
-        if (count($recommended_objects) >= 10) {
+      $local_ids = array();
+      foreach ($identifiers as $identifier) {
+        // Don't fetch more recommendations that the configured number.
+        if (count($local_ids) >= $num_results) {
           break;
         }
+
+        try {
+          $recommendations = ting_get_object_recommendations($identifier, $num_results);
+          foreach ($recommendations as $recommendation) {
+            $local_ids[$recommendation->localId] = $recommendation;
+          }
+        }
+        catch (TingClientException $e) {
+          watchdog('ding ADHL frontend', 'Error retrieving ADHL recommendations: ' . $e->getMessage(), NULL, WATCHDOG_WARNING, request_uri());
+        }
       }
+      arsort($local_ids);
+
+      $recommended_objects = array();
+      $agency = variable_get('ting_agency', -1);
+
+      foreach (array_keys($local_ids) as $local_id) {
+        $ting_object = ding_entity_load("$agency:$local_id");
+
+        // Only show objects belonging to our own library.
+        if ($ting_object && $ting_object->ownerId == $agency) {
+          $recommended_objects[] = $ting_object;
+
+          // Don't get more than 10 valid objects.
+          if (count($recommended_objects) >= 10) {
+            break;
+          }
+        }
+      }
+
+      cache_set($cid, $recommended_objects, 'cache_ding_adhl_frontend', REQUEST_TIME + variable_get('ding_adhl_frontend_cache_duration', 604800));
     }
-    cache_set($cacheId, $recommended_objects, 'cache_ding_adhl_frontend', REQUEST_TIME + variable_get('ding_adhl_frontend_cache_duration', 604800));
   }
 
   return $recommended_objects;
 }
 
 /**
+ *
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
  */
