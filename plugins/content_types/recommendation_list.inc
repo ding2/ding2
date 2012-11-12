@@ -64,20 +64,17 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
   if ($objects) {
     $recommended_objects = ding_adhl_frontend_get_recommended_objects($objects);
 
-    $model = array();
+    $recommendations = array();
     foreach ($recommended_objects as $recommended_object) {
       $url = entity_uri("ting_object", $recommended_object);
-      $model[] = array(
+      $recommendations[] = array(
         "url" => $url['path'],
         "creators" => $recommended_object->creators,
         "title" => $recommended_object->title,
-        );
+      );
     }
-    switch ($subtype) {
-      case 'recommendation_list':
-        $block->content = theme('ding_adhl_frontend_recommendation_list', array('models' => $model));
-        break;
-    }
+
+    $block->content = theme('ding_adhl_frontend_recommendation_list', array('recommendations' => $recommendations));
   }
 
   return $block;

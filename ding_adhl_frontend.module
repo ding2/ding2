@@ -41,14 +41,29 @@ function ding_adhl_frontend_permission() {
 function ding_adhl_frontend_theme() {
   return array(
     'ding_adhl_frontend_recommendation_list' => array(
-      'variables' => array('objects' => NULL),
-      'template' => 'ding_adhl_frontend_recommendation_list',
+      'variables' => array('recommendations' => array()),
+      'template' => 'templates/ding_adhl_frontend_recommendation_list',
     ),
     'ding_adhl_frontend_recommendation_list_entry' => array(
-      'variables' => array('object' => NULL),
-      'template' => 'ding_adhl_frontend_recommendation_list_entry',
+      'variables' => array('recommendation' => NULL),
+      'template' => 'templates/ding_adhl_frontend_recommendation_list_entry',
     ),
   );
+}
+
+/**
+ * Implements hook_preprocess().
+ *
+ * Default implementation of preprocess function for ding_adhl_frontend_recommendation_list_entry
+ * theme function.
+ *
+ * @param type $vars
+ */
+function template_preprocess_ding_adhl_frontend_recommendation_list_entry(&$vars) {
+  // Create better title to use in link tag.
+  $creators = implode(", ", $vars['recommendation']['creators']);
+  $vars['recommendation']['link_title'] = $vars['recommendation']['title'] . (!empty($creators) ? ': ' . $creators : '');
+  $vars['recommendation']['creators_str'] = $creators;
 }
 
 /**
