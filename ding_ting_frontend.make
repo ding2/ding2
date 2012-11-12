@@ -29,6 +29,11 @@ projects[field_group][subdir] = contrib
 projects[field_group][version] = "1.1"
 
 ; Ding! modules
+projects[ding_adhl_frontend][type] = "module"
+projects[ding_adhl_frontend][download][type] = "git"
+projects[ding_adhl_frontend][download][url] = "git@github.com:ding2tal/ding_adhl_frontend.git"
+projects[ding_adhl_frontend][download][branch] = "development"
+
 projects[ding_facetbrowser][type] = "module"
 projects[ding_facetbrowser][download][type] = "git"
 projects[ding_facetbrowser][download][url] = "git@github.com:ding2tal/ding_facetbrowser.git"
