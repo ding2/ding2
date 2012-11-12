@@ -8,13 +8,13 @@
 /**
  * Implementation of hook_ctools_relationships().
  */
-function ting_recommendation_panes_ting_objects_ctools_relationships() {
+function ding_adhl_frontend_ting_objects_ctools_relationships() {
   $args = array();
   $args['ting_objects'] = array(
     'title' => t('Ting objects'),
     'keyword' => 'ting_objects',
     'description' => t('Finds the related library from a node context.'),
-    'context' => 'ting_recommendation_panes_ting_objects_context',
+    'context' => 'ding_adhl_frontend_ting_objects_context',
     'settings form' => 'ding_panels_related_library_settings_form',
   );
   return $args;
@@ -23,7 +23,7 @@ function ting_recommendation_panes_ting_objects_ctools_relationships() {
 /**
  * Return a new context based on an existing context
  */
-function ting_recommendation_panes_ting_objects_context($context = NULL, $conf) {
+function ding_adhl_frontend_ting_objects_context($context = NULL, $conf) {
   // If unset it wants a generic, unfilled context, which is just NULL
   if (empty($context->data)) {
     return ctools_context_create_empty('node');
@@ -41,6 +41,6 @@ function ting_recommendation_panes_ting_objects_context($context = NULL, $conf) 
 /**
  * Settings form for the relationship
  */
-function ting_recommendation_panes_ting_objects_settings_form($conf) {
+function ding_adhl_frontend_ting_objects_settings_form($conf) {
   return $form;
 }

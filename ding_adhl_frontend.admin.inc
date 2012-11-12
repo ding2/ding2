@@ -3,10 +3,10 @@
 /**
  * Ting recommendation panel admin form.
  */
-function ting_recommendation_panes_settings_form($form, $form_state) {
+function ding_adhl_frontend_settings_form($form, $form_state) {
   $form = array();
 
-  $form['ting_recommendation_panes_cache_duration'] = array(
+  $form['ding_adhl_frontend_cache_duration'] = array(
     '#type' => 'select',
     '#title' => t('Cache duration'),
     '#description' => t('Determines how long recommendations will be cached for.'),
@@ -20,7 +20,7 @@ function ting_recommendation_panes_settings_form($form, $form_state) {
       1209600 => t('2 weeks'),
       2592000 => t('1 month'),
     ),
-    '#default_value' => variable_get('ting_recommendation_panes_cache_duration', 604800),
+    '#default_value' => variable_get('ding_adhl_frontend_cache_duration', 604800),
   );
 
   return system_settings_form($form);

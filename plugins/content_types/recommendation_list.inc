@@ -11,7 +11,7 @@
  * This is only required to make CTools know that we're providing
  * multiple types here (since we have no single => TRUE in the array).
  */
-function ting_recommendation_panes_recommendation_list_ctools_content_types() {
+function ding_adhl_frontend_recommendation_list_ctools_content_types() {
   return array(
     'title' => t('Recommendation list'),
   );
@@ -20,7 +20,7 @@ function ting_recommendation_panes_recommendation_list_ctools_content_types() {
 /**
  * Callback function to supply a list of content types.
  */
-function ting_recommendation_panes_recommendation_list_content_type_content_types() {
+function ding_adhl_frontend_recommendation_list_content_type_content_types() {
   $types = array(
     'recommendation_list' => array(
       'title' => t('Ting recommendation list'),
@@ -44,9 +44,9 @@ function ting_recommendation_panes_recommendation_list_content_type_content_type
 /**
  * Return the pane contents.
  */
-function ting_recommendation_panes_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
-  $basePath = drupal_get_path('module', 'ting_recommendation_panes');
-  drupal_add_css($basePath . '/css/ting_recommendation_panes.css');
+function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
+  $basePath = drupal_get_path('module', 'ding_adhl_frontend');
+  drupal_add_css($basePath . '/css/ding_adhl_frontend.css');
 
   //get the objects to base the recommendation on based on the first supplied context
   $objects = FALSE;
@@ -64,7 +64,7 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
   $block = new stdClass();
 
   if ($objects) {
-    $recommendedObjects = ting_recommendation_panes_get_recommended_objects($objects);
+    $recommendedObjects = ding_adhl_frontend_get_recommended_objects($objects);
 
     $model = array();
     foreach ($recommendedObjects as $recommendedObject) {
@@ -78,7 +78,7 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
     }
     switch ($subtype) {
       case 'recommendation_list':
-        $block->content = theme('ting_recommendation_panes_recommendation_list', array('models' => $model));
+        $block->content = theme('ding_adhl_frontend_recommendation_list', array('models' => $model));
         break;
     }
   }
@@ -89,7 +89,7 @@ function ting_recommendation_panes_recommendation_list_content_type_render($subt
 /**
  * Return the pane titles.
  */
-function ting_recommendation_panes_recommendation_list_content_type_admin_title($subtype, $conf, $context) {
+function ding_adhl_frontend_recommendation_list_content_type_admin_title($subtype, $conf, $context) {
   $contextIdentifiers =  array();
   foreach ($context as $c) {
     if ($c->type != 'any') {
@@ -107,6 +107,6 @@ function ting_recommendation_panes_recommendation_list_content_type_admin_title(
 /**
  * Returns an edit form for the content type.
  */
-function ting_recommendation_panes_recommendation_list_content_type_edit_form($form, &$form_state) {
+function ding_adhl_frontend_recommendation_list_content_type_edit_form($form, &$form_state) {
   return $form;
 }

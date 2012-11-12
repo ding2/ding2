@@ -3,16 +3,16 @@
 /**
  * Implements hook_menu().
  */
-function ting_recommendation_panes_menu() {
-  $path = drupal_get_path('module', 'ting_recommendation_panes');
+function ding_adhl_frontend_menu() {
+  $path = drupal_get_path('module', 'ding_adhl_frontend');
   $items = array();
 
-  $items['admin/config/ting_recommendation_panes'] = array(
+  $items['admin/config/ding_adhl_frontend'] = array(
     'title' => 'Ting recommendation panes',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_recommendation_panes_settings_form'),
+    'page arguments' => array('ding_adhl_frontend_settings_form'),
     'access arguments' => array('administer recommendation panes'),
-    'file' => 'ting_recommendation_panes.admin.inc',
+    'file' => 'ding_adhl_frontend.admin.inc',
     'file path' => $path,
   );
 
@@ -22,7 +22,7 @@ function ting_recommendation_panes_menu() {
 /**
  * Implements hook_permission().
  */
-function ting_recommendation_panes_permission() {
+function ding_adhl_frontend_permission() {
   return array(
     'administer recommendation panes' => array(
       'title' => t('administer recommendation panes'),
@@ -36,15 +36,15 @@ function ting_recommendation_panes_permission() {
  *
  * This lets us tell Drupal about our theme functions and their arguments.
  */
-function ting_recommendation_panes_theme() {
+function ding_adhl_frontend_theme() {
   return array(
-    'ting_recommendation_panes_recommendation_list' => array(
+    'ding_adhl_frontend_recommendation_list' => array(
       'variables' => array('objects' => NULL),
-      'template' => 'ting_recommendation_panes_recommendation_list',
+      'template' => 'ding_adhl_frontend_recommendation_list',
     ),
-    'ting_recommendation_panes_recommendation_list_entry' => array(
+    'ding_adhl_frontend_recommendation_list_entry' => array(
       'variables' => array('object' => NULL),
-      'template' => 'ting_recommendation_panes_recommendation_list_entry',
+      'template' => 'ding_adhl_frontend_recommendation_list_entry',
     ),
   );
 }
@@ -52,8 +52,8 @@ function ting_recommendation_panes_theme() {
 /**
  * Implements hook_flush_caches().
  */
-function ting_recommendation_panes_flush_caches() {
-  return array('cache_ting_recommendation_panes');
+function ding_adhl_frontend_flush_caches() {
+  return array('cache_ding_adhl_frontend');
 }
 
 /**
@@ -61,7 +61,7 @@ function ting_recommendation_panes_flush_caches() {
  *
  * Tells CTools (and thus Panels) where to look for plugin code.
  */
-function ting_recommendation_panes_ctools_plugin_directory($module, $plugin) {
+function ding_adhl_frontend_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' || $module == 'panels') {
     return 'plugins/' . $plugin;
   }
@@ -70,11 +70,11 @@ function ting_recommendation_panes_ctools_plugin_directory($module, $plugin) {
 /**
  * Load TingClientObjects for each recommendation.
  */
-function ting_recommendation_panes_get_recommended_objects($objects) {
-  $identifiers = ting_recommendation_panes_extract_identifers($objects);
+function ding_adhl_frontend_get_recommended_objects($objects) {
+  $identifiers = ding_adhl_frontend_extract_identifers($objects);
 
   $cacheId = md5(implode('|', $identifiers));
-  $cache = cache_get($cacheId, 'cache_ting_recommendation_panes');
+  $cache = cache_get($cacheId, 'cache_ding_adhl_frontend');
   if ($cache) {
     $recommended_objects = $cache->data;
   }
@@ -117,7 +117,7 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
       }
     }
 
-    cache_set($cacheId, $recommended_objects, 'cache_ting_recommendation_panes', REQUEST_TIME + variable_get('ting_recommendation_panes_cache_duration', 604800));
+    cache_set($cacheId, $recommended_objects, 'cache_ding_adhl_frontend', REQUEST_TIME + variable_get('ding_adhl_frontend_cache_duration', 604800));
   }
 
   return $recommended_objects;
@@ -127,12 +127,12 @@ function ting_recommendation_panes_get_recommended_objects($objects) {
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
  */
-function ting_recommendation_panes_extract_identifers($objects) {
+function ding_adhl_frontend_extract_identifers($objects) {
   if (is_array($objects)) {
     //if passing an array then extract ids from each of the entries
     $ids = array();
     foreach ($objects as $o) {
-      $ids = array_merge($ids, ting_recommendation_panes_extract_identifers($o));
+      $ids = array_merge($ids, ding_adhl_frontend_extract_identifers($o));
     }
     return array_unique($ids);
   }
@@ -149,7 +149,7 @@ function ting_recommendation_panes_extract_identifers($objects) {
         break;
       case 'TingClientObjectCollection':
         //get ids from each of the objects in the collection
-        return ting_recommendation_panes_extract_identifers($objects->objects);
+        return ding_adhl_frontend_extract_identifers($objects->objects);
         break;
       default:
         //assume a string or integer has been passed and return it

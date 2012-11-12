@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Defines a cache table to store recommendation in based on the default system
+ * cache table. *
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * Defines an new cache table for ADHL recommendations.
+ */
+function ding_adhl_frontend_schema() {
+  $schema = array();
+  $schema['cache_ding_adhl_frontend'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}

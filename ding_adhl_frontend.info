@@ -1,0 +1,6 @@
+name = Ding ADHL frontend
+description = Provides Panels panes for displaying ADHL recommendations
+package = Ding!
+core = 7.x
+dependencies[] = panels
+dependencies[] = ting

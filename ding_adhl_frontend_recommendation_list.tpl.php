@@ -3,7 +3,7 @@
 <ul class="list simple">
   <?php foreach ($models as $i => $model) : ?>
     <li class="<?php echo (($i % 2) == 0) ? 'odd' : 'even' ?>">
-      <?php echo theme('ting_recommendation_panes_recommendation_list_entry', array("model" => $model)); ?>
+      <?php echo theme('ding_adhl_frontend_recommendation_list_entry', array("model" => $model)); ?>
     </li>
   <?php endforeach; ?>
 </ul>

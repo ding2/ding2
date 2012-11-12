@@ -1,6 +1,0 @@
-name = Ting recommendation panes
-description = Provides Panels panes for displaying recommendations
-package = Ding!
-core = 7.x
-dependencies[] = panels
-dependencies[] = ting
