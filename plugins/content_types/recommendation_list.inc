@@ -45,8 +45,6 @@ function ding_adhl_frontend_recommendation_list_content_type_content_types() {
  * Return the pane contents.
  */
 function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
-  drupal_add_css(drupal_get_path('module', 'ding_adhl_frontend') . '/css/ding_adhl_frontend.css');
-
   //get the objects to base the recommendation on based on the first supplied context
   $objects = FALSE;
   foreach ($context as $c) {
