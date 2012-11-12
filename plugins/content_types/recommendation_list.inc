@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file recommendation_list.inc
+ * @file
  * Provides several list of recommended Ting objects as Panels content types.
  */
 
@@ -45,8 +45,7 @@ function ding_adhl_frontend_recommendation_list_content_type_content_types() {
  * Return the pane contents.
  */
 function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
-  $basePath = drupal_get_path('module', 'ding_adhl_frontend');
-  drupal_add_css($basePath . '/css/ding_adhl_frontend.css');
+  drupal_add_css(drupal_get_path('module', 'ding_adhl_frontend') . '/css/ding_adhl_frontend.css');
 
   //get the objects to base the recommendation on based on the first supplied context
   $objects = FALSE;
@@ -64,16 +63,16 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
   $block = new stdClass();
 
   if ($objects) {
-    $recommendedObjects = ding_adhl_frontend_get_recommended_objects($objects);
+    $recommended_objects = ding_adhl_frontend_get_recommended_objects($objects);
 
     $model = array();
-    foreach ($recommendedObjects as $recommendedObject) {
-      $url = entity_uri("ting_object", $recommendedObject);
+    foreach ($recommended_objects as $recommended_object) {
+      $url = entity_uri("ting_object", $recommended_object);
       $url = $url['path'];
       $model[] = array(
         "url" => $url,
-        "creators" => $recommendedObject->creators,
-        "title" => $recommendedObject->title,
+        "creators" => $recommended_object->creators,
+        "title" => $recommended_object->title,
         );
     }
     switch ($subtype) {
@@ -90,17 +89,17 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
  * Return the pane titles.
  */
 function ding_adhl_frontend_recommendation_list_content_type_admin_title($subtype, $conf, $context) {
-  $contextIdentifiers =  array();
+  $context_identifiers =  array();
   foreach ($context as $c) {
     if ($c->type != 'any') {
-      $contextIdentifiers[] = $c->identifier;
+      $context_identifiers[] = $c->identifier;
     }
   }
-  $contextIdentifiers = implode(', ', $contextIdentifiers);
+  $context_identifiers = implode(', ', $context_identifiers);
 
   switch ($subtype) {
     case 'recommendation_list':
-      return t('“@s”: Ting recommendation list', array('@s' => $contextIdentifiers));
+      return t('“@s”: Ting recommendation list', array('@s' => $context_identifiers));
   }
 }
 

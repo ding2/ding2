@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @file ting_objects.inc
+ * @file
  * Provide an array of Ting objects as a Panels relation.
  */
 
 /**
- * Implementation of hook_ctools_relationships().
+ * Implements hook_ctools_relationships().
  */
 function ding_adhl_frontend_ting_objects_ctools_relationships() {
   $args = array();

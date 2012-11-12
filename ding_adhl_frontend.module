@@ -1,19 +1,22 @@
 <?php
+/**
+ * @file
+ *
+ */
+
 
 /**
  * Implements hook_menu().
  */
 function ding_adhl_frontend_menu() {
-  $path = drupal_get_path('module', 'ding_adhl_frontend');
   $items = array();
 
   $items['admin/config/ding_adhl_frontend'] = array(
-    'title' => 'Ting recommendation panes',
+    'title' => 'Ding ADHL frontend',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_adhl_frontend_settings_form'),
-    'access arguments' => array('administer recommendation panes'),
+    'access arguments' => array('administer adhl recommendations'),
     'file' => 'ding_adhl_frontend.admin.inc',
-    'file path' => $path,
   );
 
   return $items;
@@ -24,17 +27,15 @@ function ding_adhl_frontend_menu() {
  */
 function ding_adhl_frontend_permission() {
   return array(
-    'administer recommendation panes' => array(
-      'title' => t('administer recommendation panes'),
-      'description' => t('TODO Add a description for \'administer recommendation panes\''),
+    'administer adhl recommendations' => array(
+      'title' => t('Administer ADHL'),
+      'description' => t('Administer ADHL recommedation settings'),
     ),
   );
 }
 
 /**
  * Implements hook_theme().
- *
- * This lets us tell Drupal about our theme functions and their arguments.
  */
 function ding_adhl_frontend_theme() {
   return array(

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ *
+ */
+?>
 <?php if ($models && (sizeof($models) > 0)) :?>
 <h3><?php print t("Others borrowed:"); ?></h3>
 <ul class="list simple">

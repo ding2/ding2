@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ *
+ */
 
 /**
  * Ting recommendation panel admin form.
