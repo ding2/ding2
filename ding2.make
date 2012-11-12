@@ -46,7 +46,6 @@ projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2tal/mkdru_di
 projects[mkdru_ding_frontend][download][branch] = "development"
 
 ; CMS modules (Curate)
-
 projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2tal/ding_content.git
@@ -76,3 +75,14 @@ projects[ding_event][type] = module
 projects[ding_event][download][type] = git
 projects[ding_event][download][url] = git@github.com:ding2tal/ding_event.git
 projects[ding_event][download][branch] = "development"
+
+; Themes
+projects[latto][type] = theme
+projects[latto][download][type] = git
+projects[latto][download][url] = git@github.com:ding2tal/latto.git
+projects[latto][download][branch] = "development"
+
+projects[ddbasic][type] = theme
+projects[ddbasic][download][type] = git
+projects[ddbasic][download][url] = git@github.com:ding2tal/ddbasic.git
+projects[ddbasic][download][branch] = "development"
