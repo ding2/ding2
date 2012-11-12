@@ -15,7 +15,7 @@
 }
 
 /* line 20, ../latto/sass/_latto.grid.scss */
-.grid-wrapper, .topbar, .header-wrapper {
+.grid-wrapper, .topbar, .header-wrapper, .main-menu-wrapper {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
@@ -23,7 +23,7 @@
 }
 
 /* line 27, ../latto/sass/_latto.grid.scss */
-.grid-inner, .topbar-inner, .header-wrapper .header-inner {
+.grid-inner, .topbar-inner, .header-wrapper .header-inner, .main-menu-inner {
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px;
@@ -893,18 +893,18 @@ a:focus {
 }
 
 /* line 62, ../sass/ddbasic.styles.scss */
-.grid-inner, .topbar-inner, .header-wrapper .header-inner {
+.grid-inner, .topbar-inner, .header-wrapper .header-inner, .main-menu-inner {
   max-width: 1350px;
 }
 
-/* line 66, ../sass/ddbasic.styles.scss */
+/* line 67, ../sass/ddbasic.styles.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
   min-height: 60px;
 }
-/* line 72, ../sass/ddbasic.styles.scss */
+/* line 73, ../sass/ddbasic.styles.scss */
 .topbar h1 {
   font-size: 30px;
   font-weight: 400;
@@ -912,14 +912,21 @@ a:focus {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 82, ../sass/ddbasic.styles.scss */
+/* line 83, ../sass/ddbasic.styles.scss */
 .topbar h1 a,
 .topbar h1 a:link,
 .topbar h1 a:visited {
   color: white;
 }
 
-/* line 92, ../sass/ddbasic.styles.scss */
+/* line 89, ../sass/ddbasic.styles.scss */
+.topbar {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+
+/* line 99, ../sass/ddbasic.styles.scss */
 .logo {
   float: left;
   width: 50%;
@@ -938,19 +945,169 @@ a:focus {
   _overflow-y: visible;
 }
 
-/* line 96, ../sass/ddbasic.styles.scss */
+/* line 103, ../sass/ddbasic.styles.scss */
 .header-wrapper {
   background-image: url("../images/pattern.png");
+  margin-top: 60px;
+}
+/* line 113, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed {
+  background: none;
+  margin-top: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 99;
+}
+/* line 121, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search {
+  float: right;
+  width: 33.33333%;
+  margin-right: 25%;
+  margin-left: -58.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 124, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search .search-field-wrapper {
+  margin-right: 0;
+  padding-right: 0;
+}
+/* line 129, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search input[type="submit"] {
+  right: 0;
+}
+/* line 133, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search .help-link {
+  display: none;
+}
+/* line 138, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .user {
+  float: right;
+  width: 25%;
+  margin-right: 0%;
+  margin-left: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  display: none;
+}
+/* line 145, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .user i[class^="icon-"],
+.header-wrapper.fixed .user input[type="text"],
+.header-wrapper.fixed .user input[type="password"] {
+  display: none;
+}
+/* line 149, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .user input[type="submit"] {
+  right: 0;
+}
+/* line 156, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search,
+.header-wrapper.fixed .user {
+  border-right: 0;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+/* line 162, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search input[type="text"],
+.header-wrapper.fixed .search input[type="password"],
+.header-wrapper.fixed .user input[type="text"],
+.header-wrapper.fixed .user input[type="password"] {
+  font-size: 16.5px;
+  min-height: 30px;
+  padding-left: 35px;
+}
+/* line 168, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search input[type="submit"],
+.header-wrapper.fixed .user input[type="submit"] {
+  min-height: 37px;
+  padding-right: 10px;
+  padding-left: 10px;
+  position: absolute;
+  background-color: #ff5b00;
+  border: 0;
+  color: white;
+  font-size: 16.5px;
+  cursor: pointer;
+}
+/* line 180, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search input[type="submit"]:hover,
+.header-wrapper.fixed .user input[type="submit"]:hover {
+  background-color: black;
+}
+/* line 185, ../sass/ddbasic.styles.scss */
+.header-wrapper.fixed .search i[class^="icon-"],
+.header-wrapper.fixed .user i[class^="icon-"] {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  opacity: 0.25;
+  margin-left: 10px;
+  position: absolute;
+  top: 12px;
+  font-size: 19.5px;
 }
 
-/* line 107, ../sass/ddbasic.styles.scss */
+/* line 200, ../sass/ddbasic.styles.scss */
+.user-compact {
+  float: right;
+  width: 8.33333%;
+  margin-right: 0%;
+  margin-left: -8.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  display: none;
+  font-size: 22.5px;
+  margin-top: 20px;
+  text-align: right;
+}
+/* line 208, ../sass/ddbasic.styles.scss */
+.user-compact a {
+  color: white;
+}
+/* line 212, ../sass/ddbasic.styles.scss */
+.user-compact i[class^="icon-"] {
+  color: white;
+  margin-right: 5px;
+}
+/* line 217, ../sass/ddbasic.styles.scss */
+.user-compact.fixed {
+  display: block;
+}
+
+/* line 222, ../sass/ddbasic.styles.scss */
 .search, .user {
   margin-top: 70px;
   margin-bottom: 70px;
   position: relative;
 }
 
-/* line 113, ../sass/ddbasic.styles.scss */
+/* line 228, ../sass/ddbasic.styles.scss */
 .search i[class^="icon-search"], .user i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -960,7 +1117,7 @@ a:focus {
   font-size: 33px;
 }
 
-/* line 123, ../sass/ddbasic.styles.scss */
+/* line 238, ../sass/ddbasic.styles.scss */
 .search input[type="text"], .user input[type="text"],
 .user input[type="password"] {
   -webkit-box-sizing: border-box;
@@ -978,24 +1135,29 @@ a:focus {
   border: 0;
 }
 
-/* line 135, ../sass/ddbasic.styles.scss */
+/* line 250, ../sass/ddbasic.styles.scss */
 .search input[type="submit"], .user input[type="submit"] {
-  padding-top: 14px;
-  padding-right: 20px;
-  padding-bottom: 9px;
-  padding-left: 20px;
+  min-height: 60px;
+  padding-right: 18px;
+  padding-left: 18px;
   background-color: #262626;
   border: 0;
   color: white;
   font-size: 25.5px;
   cursor: pointer;
 }
-/* line 147, ../sass/ddbasic.styles.scss */
+/* line 261, ../sass/ddbasic.styles.scss */
 .search input[type="submit"]:hover, .user input[type="submit"]:hover {
   background-color: black;
 }
 
-/* line 152, ../sass/ddbasic.styles.scss */
+/* line 266, ../sass/ddbasic.styles.scss */
+.main-menu {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* line 272, ../sass/ddbasic.styles.scss */
 .search {
   float: left;
   width: 50%;
@@ -1014,21 +1176,21 @@ a:focus {
   _overflow-y: visible;
   border-right: 1px solid #f78443;
 }
-/* line 158, ../sass/ddbasic.styles.scss */
+/* line 278, ../sass/ddbasic.styles.scss */
 .search .search-field-wrapper {
   margin-right: 67px;
 }
-/* line 162, ../sass/ddbasic.styles.scss */
+/* line 282, ../sass/ddbasic.styles.scss */
 .search i[class^="icon-search"] {
   z-index: 10;
 }
-/* line 168, ../sass/ddbasic.styles.scss */
+/* line 288, ../sass/ddbasic.styles.scss */
 .search input[type="text"] {
   left: 0;
   width: 100%;
   font-size: 25.5px;
 }
-/* line 177, ../sass/ddbasic.styles.scss */
+/* line 297, ../sass/ddbasic.styles.scss */
 .search input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -1038,17 +1200,18 @@ a:focus {
   position: absolute;
   right: 77px;
 }
-/* line 185, ../sass/ddbasic.styles.scss */
+/* line 305, ../sass/ddbasic.styles.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 191, ../sass/ddbasic.styles.scss */
+/* line 311, ../sass/ddbasic.styles.scss */
 .search .help-link:hover {
+  color: black;
   text-decoration: none;
 }
 
-/* line 199, ../sass/ddbasic.styles.scss */
+/* line 321, ../sass/ddbasic.styles.scss */
 .user {
   float: right;
   width: 50%;
@@ -1067,18 +1230,18 @@ a:focus {
   _overflow-y: visible;
   padding-left: 67px;
 }
-/* line 209, ../sass/ddbasic.styles.scss */
+/* line 332, ../sass/ddbasic.styles.scss */
 .user .user-field-wrapper {
   display: inline;
 }
-/* line 214, ../sass/ddbasic.styles.scss */
+/* line 337, ../sass/ddbasic.styles.scss */
 .user input[type="text"],
 .user input[type="password"] {
   max-width: 37%;
   margin-right: 10px;
   font-size: 19.5px;
 }
-/* line 223, ../sass/ddbasic.styles.scss */
+/* line 346, ../sass/ddbasic.styles.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -1086,4 +1249,32 @@ a:focus {
   -o-border-radius: 12px;
   border-radius: 12px;
   display: inline;
+}
+
+/* line 356, ../sass/ddbasic.styles.scss */
+.main-menu-wrapper {
+  background-color: rgba(255, 255, 255, 0.85);
+  zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9FFFFFF,endColorstr=#D9FFFFFF);
+  position: absolute;
+  width: 100%;
+}
+/* line 363, ../sass/ddbasic.styles.scss */
+.main-menu-wrapper.fixed {
+  margin-top: 60px;
+  position: fixed;
+  top: 0;
+}
+
+/* line 378, ../sass/ddbasic.styles.scss */
+.main-menu > a {
+  display: inline-block;
+  padding: 25px 25px 20px 0;
+  color: black;
+  font-size: 19.5px;
+}
+/* line 385, ../sass/ddbasic.styles.scss */
+.main-menu > a.active {
+  font-weight: 400;
+  text-decoration: underline;
 }

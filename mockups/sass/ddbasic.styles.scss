@@ -63,9 +63,10 @@ a {
 	max-width: 1350px;
 }
 
+
 .topbar {
+	@include rgba-background($black, .85);
 	@extend .grid-wrapper;
-	@include rgba-background(#000, .85);
 
 	min-height: $header-min-height;
 
@@ -85,6 +86,12 @@ a {
 	}
 }
 
+.topbar {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+
 .topbar-inner {
 	@extend .grid-inner;
 }
@@ -97,11 +104,119 @@ a {
 	@extend .grid-wrapper;
 
 	background-image: url('../images/pattern.png');
+  margin-top: 60px;
 
 	.header-inner {
 		@extend .grid-inner;
 	}
 
+  &.fixed {
+    background: none;
+    margin-top: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+
+    .search {
+      @include zen-grid-item($grid-33, 4, right);
+
+      .search-field-wrapper {
+        margin-right: 0;
+        padding-right: 0;
+      }
+
+      input[type="submit"] {
+        right: 0;
+      }
+
+      .help-link {
+        display: none;
+      }
+    }
+
+    .user {
+      @include zen-grid-item($grid-25, 1, right);
+
+      display: none;
+
+      i[class^="icon-"],
+      input[type="text"],
+      input[type="password"] {
+        display: none;
+      }
+
+      input[type="submit"] {
+        right: 0;
+      }
+
+    }
+
+    .search,
+    .user {
+      border-right: 0;
+      margin-top: 10px;
+      margin-bottom: 0;
+
+      input[type="text"],
+      input[type="password"] {
+        font-size: $theme-font-size * 1.1;
+        min-height: 30px;
+        padding-left: 35px;
+      }
+
+      input[type="submit"] {
+        min-height: 37px;
+        padding-right: 10px;
+        padding-left: 10px;
+        position: absolute;
+
+        background-color: #ff5b00;
+        border: 0;
+        color: $form-button-text-color;
+        font-size: $theme-font-size * 1.1;
+        cursor: pointer;
+
+        &:hover {
+          background-color: darken($form-button-bg-color, 15%);
+        }
+      }
+
+      i[class^="icon-"] {
+        @include opacity(.25);
+
+        margin-left: 10px;
+        position: absolute;
+        top: 12px;
+
+        font-size: $theme-font-size * 1.3;
+      }
+
+    }
+  }
+
+}
+
+.user-compact {
+  @include zen-grid-item(1, 1, right);
+
+  display: none;
+  font-size: $theme-font-size * 1.5;
+  margin-top: 20px;
+  text-align: right;
+
+  a {
+    color: $white;
+  }
+
+  i[class^="icon-"] {
+    color: $white;
+    margin-right: 5px;
+  }
+
+  &.fixed {
+    display: block;
+  }
 }
 
 %header-sections {
@@ -133,10 +248,9 @@ a {
 }
 
 %header-button {
-  padding-top: 14px;
-  padding-right: 20px;
-  padding-bottom: 9px;
-  padding-left: 20px;
+  min-height: 60px;
+  padding-right: 18px;
+  padding-left: 18px;
 
   background-color: $form-button-bg-color;
   border: 0;
@@ -148,6 +262,12 @@ a {
     background-color: darken($form-button-bg-color, 15%);
   }
 }
+
+%grid-padding {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 
 .search {
   @include zen-grid-item($grid-50, 1);
@@ -181,16 +301,18 @@ a {
     position: absolute;
     right: 77px;
   }
-  
+
   .help-link {
     @extend .pull-right;
-    
+
     display: block;
     margin-top: $default-spacing / 2;
-    
+
     &:hover {
+      color: $black;
       text-decoration: none;
     }
+
   }
 
 }
@@ -199,6 +321,7 @@ a {
 .user {
   @include zen-grid-item($grid-50, 1, right);
   @extend %header-sections;
+
 
   padding-left: 67px;
 
@@ -227,4 +350,42 @@ a {
     display: inline;
   }
 
+}
+
+
+.main-menu-wrapper {
+ 	@include rgba-background($white, .85);
+  @extend .grid-wrapper;
+
+  position: absolute;
+  width: 100%;
+
+  &.fixed {
+    margin-top: 60px;
+    position: fixed;
+    top: 0;
+  }
+
+}
+
+.main-menu-inner {
+  @extend .grid-inner;
+}
+
+.main-menu {
+  @extend %grid-padding;
+
+  > a {
+    display: inline-block;
+    padding: 25px 25px 20px 0;
+
+    color: $black;
+    font-size: $theme-font-size * 1.3;
+
+    &.active {
+      font-weight: $font-weight-regular;
+      text-decoration: underline;
+    }
+
+  }
 }
