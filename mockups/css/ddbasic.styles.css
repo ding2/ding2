@@ -1051,7 +1051,7 @@ a:focus {
 /* line 180, ../sass/ddbasic.styles.scss */
 .header-wrapper.fixed .search input[type="submit"]:hover,
 .header-wrapper.fixed .user input[type="submit"]:hover {
-  background-color: black;
+  background-color: #ff7c33;
 }
 /* line 185, ../sass/ddbasic.styles.scss */
 .header-wrapper.fixed .search i[class^="icon-"],
@@ -1253,27 +1253,42 @@ a:focus {
 
 /* line 356, ../sass/ddbasic.styles.scss */
 .main-menu-wrapper {
+  float: left;
+  width: 66.66667%;
+  margin-left: 0%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
   background-color: rgba(255, 255, 255, 0.85);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9FFFFFF,endColorstr=#D9FFFFFF);
   position: absolute;
   width: 100%;
 }
-/* line 363, ../sass/ddbasic.styles.scss */
+/* line 364, ../sass/ddbasic.styles.scss */
 .main-menu-wrapper.fixed {
   margin-top: 60px;
   position: fixed;
   top: 0;
 }
 
-/* line 378, ../sass/ddbasic.styles.scss */
+/* line 379, ../sass/ddbasic.styles.scss */
 .main-menu > a {
   display: inline-block;
   padding: 25px 25px 20px 0;
   color: black;
   font-size: 19.5px;
 }
-/* line 385, ../sass/ddbasic.styles.scss */
+/* line 386, ../sass/ddbasic.styles.scss */
 .main-menu > a.active {
   font-weight: 400;
   text-decoration: underline;

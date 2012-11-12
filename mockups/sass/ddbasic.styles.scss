@@ -178,7 +178,7 @@ a {
         cursor: pointer;
 
         &:hover {
-          background-color: darken($form-button-bg-color, 15%);
+          background-color: lighten(#ff5b00, 10%);
         }
       }
 
@@ -354,6 +354,7 @@ a {
 
 
 .main-menu-wrapper {
+  @include zen-grid-item(8, 1);
  	@include rgba-background($white, .85);
   @extend .grid-wrapper;
 
