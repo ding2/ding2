@@ -80,26 +80,28 @@ function ding_adhl_frontend_ctools_plugin_directory($module, $plugin) {
  *  An array of recommendataions as ting entities.
  */
 function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
+  // Check static cache for recommendations.
   $recommended_objects = &drupal_static(__FUNCTION__);
   if (!isset($recommended_objects) || $reset) {
-
+    // Build cache id to try persistent cache.
     $identifiers = ding_adhl_frontend_extract_identifers($objects);
     $cid = md5(implode('', $identifiers));
-
     if (!$reset && $cache = cache_get($cid, 'cache_ding_adhl_frontend')) {
       $recommended_objects = $cache->data;
     }
     else {
-      $num_results = variable_get('ding_adhl_frontend_number_to_fetch', 24);
-
+      // No cached information was found, so try getting recommendation form the
+      // service.
+      $number_of_recommendations = variable_get('ding_adhl_frontend_number_to_fetch', 24);
       $local_ids = array();
       foreach ($identifiers as $identifier) {
         // Don't fetch more recommendations that the configured number.
-        if (count($local_ids) >= $num_results) {
+        if (count($local_ids) >= $number_of_recommendations) {
           break;
         }
 
-        $recommendations = ting_get_object_recommendations($identifier, $num_results);
+        // Get the recommendations from the ting client (ADHL service).
+        $recommendations = ting_get_object_recommendations($identifier, $number_of_recommendations);
         if (isset($recommendations) && is_array($recommendations)) {
           foreach ($recommendations as $recommendation) {
             $local_ids[$recommendation->localId] = $recommendation;
@@ -107,9 +109,10 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
         }
       }
 
+      // Fetch objects/entities representing the recommendations.
       $recommended_objects = array();
+      $number_of_objects = variable_get('ding_adhl_frontend_number_to_display', 10);
       $agency = variable_get('ting_agency', -1);
-
       foreach (array_keys($local_ids) as $local_id) {
         $ting_object = ding_entity_load("$agency:$local_id");
 
@@ -118,12 +121,13 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
           $recommended_objects[] = $ting_object;
 
           // Don't get more than 10 valid objects.
-          if (count($recommended_objects) >= 10) {
+          if (count($recommended_objects) >= $number_of_objects) {
             break;
           }
         }
       }
 
+      // Cache the result.
       cache_set($cid, $recommended_objects, 'cache_ding_adhl_frontend', REQUEST_TIME + variable_get('ding_adhl_frontend_cache_duration', 604800));
     }
   }
@@ -132,13 +136,17 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
 }
 
 /**
+ * Helper function that finds ting objects/entites id's based on the type of
+ * input given.
  *
- * @todo Please document this function.
- * @see http://drupal.org/node/1354
+ * @todo: There most be a more clean way to get these ids -- cableman.
+ *
+ * @param mixed $objects
+ *  The parameter can be anything from an array to ting object collections.
  */
 function ding_adhl_frontend_extract_identifers($objects) {
   if (is_array($objects)) {
-    //if passing an array then extract ids from each of the entries
+    // If passing an array then extract ids from each of the entries.
     $ids = array();
     foreach ($objects as $o) {
       $ids = array_merge($ids, ding_adhl_frontend_extract_identifers($o));
@@ -146,7 +154,7 @@ function ding_adhl_frontend_extract_identifers($objects) {
     return array_unique($ids);
   }
   else {
-    //if passing a single value then extract ids depending on type
+    // If passing a single value then extract ids depending on type.
     switch (get_class($objects)) {
       case 'TingClientObject':
         if (!empty($objects->record['dc:identifier']['dkdcplus:ISBN'])) {
@@ -157,11 +165,11 @@ function ding_adhl_frontend_extract_identifers($objects) {
         }
         break;
       case 'TingClientObjectCollection':
-        //get ids from each of the objects in the collection
+        // Get ids from each of the objects in the collection.
         return ding_adhl_frontend_extract_identifers($objects->objects);
         break;
       default:
-        //assume a string or integer has been passed and return it
+        // Assume a string or integer has been passed and return it.
         return array($objects);
         break;
     }

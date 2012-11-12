@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Provides several list of recommended Ting objects as Panels content types.
+ * Provides lists of recommended ting objects/entities as panels content types
+ * based on the object/entity being display.
  */
 
 /**
@@ -24,7 +25,7 @@ function ding_adhl_frontend_recommendation_list_content_type_content_types() {
   $types = array(
     'recommendation_list' => array(
       'title' => t('Ting recommendation list'),
-      'description' => t('Displays a list of recommended Ting objects.'),
+      'description' => t('Displays a list of recommended ting entities.'),
     ),
   );
 
@@ -45,7 +46,8 @@ function ding_adhl_frontend_recommendation_list_content_type_content_types() {
  * Return the pane contents.
  */
 function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
-  //get the objects to base the recommendation on based on the first supplied context
+  // Get the objects to base the recommendation on based on the first supplied
+  // context
   $objects = FALSE;
   foreach ($context as $c) {
     switch ($c->type) {
@@ -59,16 +61,14 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
   }
 
   $block = new stdClass();
-
   if ($objects) {
     $recommended_objects = ding_adhl_frontend_get_recommended_objects($objects);
 
     $model = array();
     foreach ($recommended_objects as $recommended_object) {
       $url = entity_uri("ting_object", $recommended_object);
-      $url = $url['path'];
       $model[] = array(
-        "url" => $url,
+        "url" => $url['path'],
         "creators" => $recommended_object->creators,
         "title" => $recommended_object->title,
         );

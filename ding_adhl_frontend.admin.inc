@@ -14,7 +14,7 @@ function ding_adhl_frontend_settings_form($form, $form_state) {
   $form['ding_adhl_frontend_cache_duration'] = array(
     '#type' => 'select',
     '#title' => t('Cache duration'),
-    '#description' => t('Determines how long recommendations will be cached for.'),
+    '#description' => t('Determines how long recommendations will be cached for (default 7 days).'),
     '#options' => array(
       3600 => t('1 hour'),
       10800 => t('3 hours'),
@@ -35,6 +35,15 @@ function ding_adhl_frontend_settings_form($form, $form_state) {
     '#size' => 2,
     '#element_validate' => array('element_validate_integer_positive'),
     '#default_value' => variable_get('ding_adhl_frontend_number_to_fetch', 24),
+  );
+
+  $form['ding_adhl_frontend_number_to_display'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Number of recommendations to display',
+    '#description' => t('The maximum number of elements to display that are found belonging to own library (default 10).'),
+    '#size' => 2,
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#default_value' => variable_get('ding_adhl_frontend_number_to_display', 10),
   );
 
   $service_link = l('ting service settings', 'admin/config/ting/settings');
