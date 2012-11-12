@@ -11,8 +11,9 @@
 function ding_adhl_frontend_menu() {
   $items = array();
 
-  $items['admin/config/ding_adhl_frontend'] = array(
-    'title' => 'Ding ADHL frontend',
+  $items['admin/config/ding/adhl'] = array(
+    'title' => 'Ding ADHL settings',
+    'description' => 'Configure ADHL caching duration and number of elements to fetch.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_adhl_frontend_settings_form'),
     'access arguments' => array('administer adhl recommendations'),
@@ -80,32 +81,32 @@ function ding_adhl_frontend_get_recommended_objects($objects) {
     $recommended_objects = $cache->data;
   }
   else {
-    $numResults = 24;
+    $num_results = variable_get('ding_adhl_frontend_number_to_fetch', 24);
 
-    $localIds = array();
+    $local_ids = array();
     foreach ($identifiers as $id) {
-      // Don't get more than 24 local ids..
-      if (count($localIds) >= 24) {
+      // Don't fetch more recommendations that the configured number.
+      if (count($local_ids) >= $num_results) {
         break;
       }
 
       try {
-        $recommendations = ting_get_object_recommendations($id, $numResults);
+        $recommendations = ting_get_object_recommendations($id, $num_results);
         foreach ($recommendations as $recommendation) {
-          $localIds[$recommendation->localId] = $recommendation;
+          $local_ids[$recommendation->localId] = $recommendation;
         }
       }
       catch (TingClientException $e) {
-        watchdog('ting client', 'Error retrieving recommendations: ' . $e->getMessage(), array($id, $e), WATCHDOG_WARNING, request_uri());
+        watchdog('ding ADHL frontend', 'Error retrieving ADHL recommendations: ' . $e->getMessage(), NULL, WATCHDOG_WARNING, request_uri());
       }
     }
-    arsort($localIds);
+    arsort($local_ids);
 
     $recommended_objects = array();
     $agency = variable_get('ting_agency', -1);
 
-    foreach (array_keys($localIds) as $localId) {
-      $ting_object = ding_entity_load("$agency:$localId");
+    foreach (array_keys($local_ids) as $local_id) {
+      $ting_object = ding_entity_load("$agency:$local_id");
 
       // Only show objects belonging to our own library.
       if ($ting_object && $ting_object->ownerId == $agency) {
@@ -117,7 +118,6 @@ function ding_adhl_frontend_get_recommended_objects($objects) {
         }
       }
     }
-
     cache_set($cacheId, $recommended_objects, 'cache_ding_adhl_frontend', REQUEST_TIME + variable_get('ding_adhl_frontend_cache_duration', 604800));
   }
 
