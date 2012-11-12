@@ -99,17 +99,13 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
           break;
         }
 
-        try {
-          $recommendations = ting_get_object_recommendations($identifier, $num_results);
+        $recommendations = ting_get_object_recommendations($identifier, $num_results);
+        if (isset($recommendations) && is_array($recommendations)) {
           foreach ($recommendations as $recommendation) {
             $local_ids[$recommendation->localId] = $recommendation;
           }
         }
-        catch (TingClientException $e) {
-          watchdog('ding ADHL frontend', 'Error retrieving ADHL recommendations: ' . $e->getMessage(), NULL, WATCHDOG_WARNING, request_uri());
-        }
       }
-      arsort($local_ids);
 
       $recommended_objects = array();
       $agency = variable_get('ting_agency', -1);
