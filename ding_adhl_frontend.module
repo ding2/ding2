@@ -95,7 +95,7 @@ function ding_adhl_frontend_get_recommended_objects($objects) {
         }
       }
       catch (TingClientException $e) {
-        watchdog('ting client', 'Error retrieving recommendations: ' . $e->getMessage(), array($id, $e), WATCHDOG_WARNING, $_SERVER["REQUEST_URI"]);
+        watchdog('ting client', 'Error retrieving recommendations: ' . $e->getMessage(), array($id, $e), WATCHDOG_WARNING, request_uri());
       }
     }
     arsort($localIds);
