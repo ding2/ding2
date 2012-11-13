@@ -1,7 +1,7 @@
 <?php
-
 /**
  * @file
+ * ding_campaign_ctype.features.field.inc
  */
 
 /**
@@ -10,7 +10,7 @@
 function ding_campaign_ctype_field_default_fields() {
   $fields = array();
 
-  // Exported field: node-ding_campaign-field_camp_image.
+  // Exported field: 'node-ding_campaign-field_camp_image'.
   $fields['node-ding_campaign-field_camp_image'] = array(
     'field_config' => array(
       'active' => '1',
@@ -31,6 +31,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'fid',
         ),
       ),
+      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => 0,
@@ -60,6 +61,12 @@ function ding_campaign_ctype_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
       'field_name' => 'field_camp_image',
@@ -67,6 +74,7 @@ function ding_campaign_ctype_field_default_fields() {
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
+        'default_image' => 0,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
@@ -88,7 +96,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_link.
+  // Exported field: 'node-ding_campaign-field_camp_link'.
   $fields['node-ding_campaign-field_camp_link'] = array(
     'field_config' => array(
       'active' => '1',
@@ -109,6 +117,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -135,6 +144,12 @@ function ding_campaign_ctype_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
       'field_name' => 'field_camp_link',
@@ -156,7 +171,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_settings.
+  // Exported field: 'node-ding_campaign-field_camp_settings'.
   $fields['node-ding_campaign-field_camp_settings'] = array(
     'field_config' => array(
       'active' => '1',
@@ -170,6 +185,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -205,6 +221,12 @@ function ding_campaign_ctype_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
       'field_name' => 'field_camp_settings',
@@ -223,7 +245,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_text_full.
+  // Exported field: 'node-ding_campaign-field_camp_text_full'.
   $fields['node-ding_campaign-field_camp_text_full'] = array(
     'field_config' => array(
       'active' => '1',
@@ -244,6 +266,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -263,6 +286,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 3,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -289,7 +318,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Exported field: node-ding_campaign-field_camp_text_plain.
+  // Exported field: 'node-ding_campaign-field_camp_text_plain'.
   $fields['node-ding_campaign-field_camp_text_plain'] = array(
     'field_config' => array(
       'active' => '1',
@@ -310,6 +339,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(),
       'translatable' => '0',
@@ -329,6 +359,12 @@ function ding_campaign_ctype_field_default_fields() {
           'weight' => 1,
         ),
         'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
@@ -355,77 +391,7 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-/* #588 Campaign theme skal fjernes fra Campaign sidetypen, fordi kampagnerne nu følger designet
-  // Exported field: node-ding_campaign-field_camp_theme.
-  $fields['node-ding_campaign-field_camp_theme'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_camp_theme',
-      'foreign keys' => array(),
-      'indexes' => array(
-        'value' => array(
-          0 => 'value',
-        ),
-      ),
-      'module' => 'list',
-      'settings' => array(
-        'allowed_values' => array(
-          'theme_blue' => 'Blue',
-          'theme_green' => 'Green',
-          'theme_orange' => 'Orange',
-          'theme_pink' => 'Pink',
-        ),
-        'allowed_values_function' => '',
-      ),
-      'translatable' => '0',
-      'type' => 'list_text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_campaign',
-      'default_value' => array(
-        0 => array(
-          'value' => 'theme_orange',
-        ),
-      ),
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'list',
-          'settings' => array(),
-          'type' => 'list_default',
-          'weight' => 5,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_camp_theme',
-      'label' => 'Campaign theme',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '1',
-      ),
-    ),
-  );
-*/
-
-  // Exported field: node-ding_campaign-field_camp_weight.
+  // Exported field: 'node-ding_campaign-field_camp_weight'.
   $fields['node-ding_campaign-field_camp_weight'] = array(
     'field_config' => array(
       'active' => '1',
@@ -439,6 +405,7 @@ function ding_campaign_ctype_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
@@ -492,6 +459,12 @@ function ding_campaign_ctype_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
       'field_name' => 'field_camp_weight',
@@ -510,12 +483,12 @@ function ding_campaign_ctype_field_default_fields() {
     ),
   );
 
-  // Translatables - included for use with string extractors like potx.
+  // Translatables
+  // Included for use with string extractors like potx.
   t('Campaign image');
   t('Campaign link');
   t('Campaign settings');
   t('Campaign text');
-  t('Campaign theme');
   t('Weight');
 
   return $fields;
