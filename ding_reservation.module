@@ -180,6 +180,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
      * result.
      */
     $provider_options = array();
+    $provider = ding_provider_get_provider_module_name('reservation');
     foreach ($res as $key => $value) {
       if (is_array($value) && !empty($value['#error'])) {
         if (!$form_state['options_hidden']) {
@@ -188,6 +189,15 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
         }
         else {
           // Else simply rebuild the form.
+          $removal = '';
+          if ($key == $provider . '_preferred_branch') {
+            $removal = $provider . '_interest_period';
+          }
+          elseif ($key == $provider . '_interest_period') {
+            $removal = $provider . '_preferred_branch';
+          }
+          
+          $form_state['removable'] = $removal;
           $form_state['rebuild'] = TRUE;
         }
       }
@@ -252,6 +262,12 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 
   $html = theme('status_messages');
   if ($form_state['rebuild'] || form_get_errors()) {
+    // Hide certain fields, if any.
+    if (!empty($form_state['removable'])) {
+      $removal = $form_state['removable'];
+      unset($form['provider_options'][$removal]);
+      unset($form['provider_options'][$removal . 'description']);
+    }
     // Redisplay form.
     $html .= drupal_render($form);
   }
@@ -867,9 +883,33 @@ function ding_reservation_interest_period_selector($type, $name, $default, $opti
  */
 function ding_reservation_default_options_branch_validate($type, $name, $default, $values) {
   if (empty($values[$name])) {
+    $provider = ding_provider_get_provider_module_name('reservation');
     if ($type == 'create' && empty($default)) {
-      $result['openruth_preferred_branch'] = array(
-        '#error' => 'You must select a branch',
+      $result[$provider . '_preferred_branch'] = array(
+        '#error' => t('You must select a branch'),
+      );
+    }
+    else {
+      $result[$name] = $default;
+    }
+    return $result;
+  }
+  else {
+    return $values;
+  }
+}
+
+/**
+ * Validate interest period selector.
+ *
+ * Returns what ding_reservation expects.
+ */
+function ding_reservation_default_options_interest_period_validate($type, $name, $default, $values) {
+  if (empty($values[$name])) {
+    $provider = ding_provider_get_provider_module_name('reservation');
+    if ($type == 'create' && empty($default)) {
+      $result[$provider . '_interest_period'] = array(
+        '#error' => t('You must select an interest period'),
       );
     }
     else {
