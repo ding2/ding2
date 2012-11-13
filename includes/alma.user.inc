@@ -70,7 +70,7 @@ function alma_user_profile_form_validate($form, $form_state) {
 
 
 function alma_user_clear_cache($creds=NULL) {
-  $status = alma_get_patron();
+  $status = alma_get_patron($creds, TRUE);
 }
 
 
