@@ -34,7 +34,7 @@ function ding_periodical_reservation_menu() {
 }
 
 /**
- * Implement hook_init().
+ * Implements hook_init().
  */
 function ding_periodical_reservation_init() {
   // We need those only for item landing page.
