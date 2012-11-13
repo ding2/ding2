@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Latto's theme implementation to display event nodes.
+ * Latto's theme implementation to display news nodes.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -76,11 +76,10 @@
  * ddbasic specific variables:
  * - $ddbasic_updated: Information about latest update on the node created from $date during
  *   ddbasic_preprocess_node().  
- * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with leading text "Tags: "    
- * - $ddbasic_event_location: String containing adress info for either field_address or group_audience,
- *   as relevant for the event node 
+ * - $ddbasic_ding_news_tags: Tags, as a comma-separated list of links with leading text "Tags: "    
+ * - $ddbasic_news_location: String containing adress info for either field_address or group_audience,
+ *   as relevant for the news node 
  * - $ddbasic_byline: outputs byline to be used before $name  
- * - $ddbasic_place2book_tickets: flag for field_place2book_tickets   
  * 
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -88,38 +87,21 @@
  */
 ?>
 <div class="image-container">
-  <?php print render($content['field_ding_event_title_image']); ?>
-  <?php print render($content['field_ding_event_list_image']); ?>
+  <?php print render($content['field_ding_news_title_image']); ?>
+  <?php print render($content['field_ding_news_list_image']); ?>
 </div>
 <div class="super-heading">
   <p>
-    <?php print render($content['field_ding_event_category']); ?>
-    <?php print render($content['field_ding_event_library']); ?>
+    <?php print render($content['field_ding_news_category']); ?>
+    <?php print render($content['field_ding_news_library']); ?>
   </p>
 </div>
 <h2 class="heading"><?php print $title; ?></h2>
   <div class="grid-row">
-  <div class="lead grid-8-left">
+  <div class="lead">
     <p>
-      <?php print render($content['field_ding_event_lead'][0]); ?>
+      <?php print render($content['field_ding_news_lead'][0]); ?>
     </p>
-    <?php if ($latto_place2book_tickets): ?>
-      <p><?php print render($content['field_place2book_tickets'][0]); ?><p>
-    <?php endif; ?>
-  </div>
-  <div class="grid-8-right">
-      <p>
-          <i class="icon-calendar"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?>
-      </p>
-      <p>
-          <i class="icon-home"></i> <?php print $ddbasic_event_location; ?>
-      </p>
-      <p>
-          <i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?>
-      </p>
-      <p>
-          <i class="icon-shopping-cart"></i> <?php print render($content['field_ding_event_price'][0]); ?>
-      </p>
   </div>
 </div>
 
@@ -128,23 +110,17 @@
 <div class="content">
 <?php
   // hide fields we have already rendered
-  hide($content['field_ding_event_list_image']);
-  hide($content['field_ding_event_title_image']);
-  hide($content['field_ding_event_category']);
-  hide($content['field_ding_event_library']);
-  hide($content['field_ding_event_lead']);
-  hide($content['field_place2book_tickets']); //<-- field provided by optional module ding_place2book
-  hide($content['field_ding_event_date']);
-  hide($content['field_ding_event_location']);
-  hide($content['field_ding_event_target']);
-  hide($content['field_ding_event_price']);
-
+  hide($content['field_ding_news_title_image']);
+  hide($content['field_ding_news_list_image']);
+  hide($content['field_ding_news_category']);
+  hide($content['field_ding_news_library']);
+  hide($content['field_ding_news_lead']);
   // Hide fields that will be displayed as panel panes instead
   hide($content['comments']);
-
+  
   // Hide fields now so that we can render them later.
   hide($content['links']);
-  hide($content['field_ding_event_tags']);
+  hide($content['field_ding_news_tags']);
   print render($content);
 ?>
 </div>
@@ -178,10 +154,10 @@
         <i class="icon-time"></i>
         <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
         <br>
-        <?php if ($ddbasic_ding_event_tags): ?>
+        <?php if ($ddbasic_ding_news_tags): ?>
           <span class="tags">
             <i class="icon-tag"></i>
-            <?php print t('Tags: ') . $ddbasic_ding_event_tags; ?>
+            <?php print t('Tags: ') . $ddbasic_ding_news_tags; ?>
           </span>
         <?php endif; ?>
       </p>

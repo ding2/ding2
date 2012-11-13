@@ -129,35 +129,19 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   // Add ddbasic_event_location and ddbasic_place2book_tickets to variables (only for ding_event node template)
   if (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'ding_event') {
     $event_location = 'location';
-    if (!empty($variables['content']['field_address'][0]['#address']['name_line'])) {
-      $event_location = $variables['content']['field_address'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_address'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_address'][0]['#address']['locality'];
+    if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
+      $event_location = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
     }
     else {
       /**
        *  @TODO: the full address wil have to be retrieved from the database
        */
-      $event_location = render($variables['content']['group_audience'][0]);
+      $event_location = render($variables['content']['field_ding_event_library'][0]);
     }
     $variables['ddbasic_event_location'] = $event_location;
 
     // Set a flag for existence of field_place2book_tickets
     $variables['ddbasic_place2book_tickets'] = (isset($variables['content']['field_place2book_tickets'])) ? 1: 0;
-  }
-
-  // Add ddbasic_ding_content_tags  to variables.
-  $variables['ddbasic_ding_content_tags'] = '';
-  if (isset($variables['content']['ding_content_tags'])) {
-    $ddbasic_ding_content_tags = '';
-    $items = $variables['content']['ding_content_tags']['#items'];
-    if (count($items) > 0) {
-      foreach ($items as $delta => $item) {
-        $ddbasic_ding_content_tags .= render($variables['content']['ding_content_tags'][$delta]);
-        if ($delta != count($items)-1) {
-          $ddbasic_ding_content_tags .=  ',&nbsp;';
-        }
-      }
-      $variables['ddbasic_ding_content_tags'] = t('Tags: ') . $ddbasic_ding_content_tags;
-    }
   }
 
   /**
