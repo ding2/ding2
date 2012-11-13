@@ -201,7 +201,8 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   $param['merchant'] = isset($settings['general']['merchant']) ? $settings['general']['merchant'] : NULL;
   $param['account'] = $account = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
 
-  $param['amount'] = $transaction['payment_price'];
+  // DIBS' parameter amount contains the price measured in the smallest unit, eg. ore in DK
+  $param['amount'] = $transaction['payment_price'] * 100;
   $param['orderid'] = $transaction['payment_order_id'];
   $param['transact'] = $transaction['payment_transaction_id'];
   $param['textreply'] = TRUE;
@@ -210,12 +211,12 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   if ( $md5 ) {
     $md5_key1 = isset($settings['general']['md5_key1']) ? $settings['general']['md5_key1'] : NULL;
     $md5_key2 = isset($settings['general']['md5_key2']) ? $settings['general']['md5_key2'] : NULL;
-    $param['md5key'] = MD5(
-      $md5_key1 .
-      MD5($md5_key1 .
+    $param['md5key'] = md5(
+      $md5_key2 .
+      md5($md5_key1 .
         "merchant=" . $param['merchant'] .
         "&orderid=" . $param['orderid'] .
-        " &transact=" . $param['transact'] .
+        "&transact=" . $param['transact'] .
         "&amount=" . $param['amount']
       )
     );
