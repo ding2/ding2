@@ -926,7 +926,12 @@ a:focus {
   z-index: 99;
 }
 
-/* line 99, ../sass/ddbasic.styles.scss */
+/* line 95, ../sass/ddbasic.styles.scss */
+.topbar-inner {
+  position: relative;
+}
+
+/* line 101, ../sass/ddbasic.styles.scss */
 .logo {
   float: left;
   width: 50%;
@@ -945,170 +950,25 @@ a:focus {
   _overflow-y: visible;
 }
 
-/* line 103, ../sass/ddbasic.styles.scss */
+/* line 105, ../sass/ddbasic.styles.scss */
 .header-wrapper {
   background-image: url("../images/pattern.png");
   margin-top: 60px;
 }
-/* line 113, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed {
-  background: none;
-  margin-top: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 99;
-}
-/* line 121, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search {
-  float: right;
-  width: 33.33333%;
-  margin-right: 25%;
-  margin-left: -58.33333%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 124, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search .search-field-wrapper {
-  margin-right: 0;
-  padding-right: 0;
-}
-/* line 129, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search input[type="submit"] {
-  right: 0;
-}
-/* line 133, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search .help-link {
-  display: none;
-}
-/* line 138, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .user {
-  float: right;
-  width: 25%;
-  margin-right: 0%;
-  margin-left: -25%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  display: none;
-}
-/* line 145, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .user i[class^="icon-"],
-.header-wrapper.fixed .user input[type="text"],
-.header-wrapper.fixed .user input[type="password"] {
-  display: none;
-}
-/* line 149, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .user input[type="submit"] {
-  right: 0;
-}
-/* line 156, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search,
-.header-wrapper.fixed .user {
-  border-right: 0;
-  margin-top: 10px;
-  margin-bottom: 0;
-}
-/* line 162, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search input[type="text"],
-.header-wrapper.fixed .search input[type="password"],
-.header-wrapper.fixed .user input[type="text"],
-.header-wrapper.fixed .user input[type="password"] {
-  font-size: 16.5px;
-  min-height: 30px;
-  padding-left: 35px;
-}
-/* line 168, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search input[type="submit"],
-.header-wrapper.fixed .user input[type="submit"] {
-  min-height: 37px;
-  padding-right: 10px;
-  padding-left: 10px;
-  position: absolute;
-  background-color: #ff5b00;
-  border: 0;
-  color: white;
-  font-size: 16.5px;
-  cursor: pointer;
-}
-/* line 180, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search input[type="submit"]:hover,
-.header-wrapper.fixed .user input[type="submit"]:hover {
-  background-color: #ff7c33;
-}
-/* line 185, ../sass/ddbasic.styles.scss */
-.header-wrapper.fixed .search i[class^="icon-"],
-.header-wrapper.fixed .user i[class^="icon-"] {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
-  margin-left: 10px;
-  position: absolute;
-  top: 12px;
-  font-size: 19.5px;
+/* line 111, ../sass/ddbasic.styles.scss */
+.header-wrapper .header-inner {
+  position: relative;
 }
 
-/* line 200, ../sass/ddbasic.styles.scss */
-.user-compact {
-  float: right;
-  width: 8.33333%;
-  margin-right: 0%;
-  margin-left: -8.33333%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  display: none;
-  font-size: 22.5px;
-  margin-top: 20px;
-  text-align: right;
-}
-/* line 208, ../sass/ddbasic.styles.scss */
-.user-compact a {
-  color: white;
-}
-/* line 212, ../sass/ddbasic.styles.scss */
-.user-compact i[class^="icon-"] {
-  color: white;
-  margin-right: 5px;
-}
-/* line 217, ../sass/ddbasic.styles.scss */
-.user-compact.fixed {
-  display: block;
-}
-
-/* line 222, ../sass/ddbasic.styles.scss */
+/* line 119, ../sass/ddbasic.styles.scss */
 .search, .user {
   margin-top: 70px;
   margin-bottom: 70px;
   position: relative;
 }
 
-/* line 228, ../sass/ddbasic.styles.scss */
-.search i[class^="icon-search"], .user i[class^="icon-"] {
+/* line 125, ../sass/ddbasic.styles.scss */
+.search i[class^="icon-search"], .search-compact i[class^="icon-search"], .user i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 20px;
@@ -1117,8 +977,8 @@ a:focus {
   font-size: 33px;
 }
 
-/* line 238, ../sass/ddbasic.styles.scss */
-.search input[type="text"], .user input[type="text"],
+/* line 135, ../sass/ddbasic.styles.scss */
+.search input[type="text"], .search-compact input[type="text"], .user input[type="text"],
 .user input[type="password"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1135,29 +995,46 @@ a:focus {
   border: 0;
 }
 
-/* line 250, ../sass/ddbasic.styles.scss */
-.search input[type="submit"], .user input[type="submit"] {
+/* line 147, ../sass/ddbasic.styles.scss */
+.main-menu {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* line 152, ../sass/ddbasic.styles.scss */
+.search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"] {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
   min-height: 60px;
   padding-right: 18px;
   padding-left: 18px;
   background-color: #262626;
   border: 0;
   color: white;
-  font-size: 25.5px;
   cursor: pointer;
+  font-size: 25.5px;
+  position: absolute;
 }
-/* line 261, ../sass/ddbasic.styles.scss */
-.search input[type="submit"]:hover, .user input[type="submit"]:hover {
+/* line 166, ../sass/ddbasic.styles.scss */
+.search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover {
   background-color: black;
 }
 
-/* line 266, ../sass/ddbasic.styles.scss */
-.main-menu {
-  padding-left: 10px;
-  padding-right: 10px;
+/* line 174, ../sass/ddbasic.styles.scss */
+.search i[class^="icon-search"], .search-compact i[class^="icon-search"] {
+  z-index: 10;
+}
+/* line 180, ../sass/ddbasic.styles.scss */
+.search input[type="text"], .search-compact input[type="text"] {
+  left: 0;
+  width: 96%;
+  font-size: 25.5px;
 }
 
-/* line 272, ../sass/ddbasic.styles.scss */
+/* line 196, ../sass/ddbasic.styles.scss */
 .search {
   float: left;
   width: 50%;
@@ -1176,72 +1053,79 @@ a:focus {
   _overflow-y: visible;
   border-right: 1px solid #f78443;
 }
-/* line 278, ../sass/ddbasic.styles.scss */
+/* line 203, ../sass/ddbasic.styles.scss */
 .search .search-field-wrapper {
   margin-right: 67px;
 }
-/* line 282, ../sass/ddbasic.styles.scss */
-.search i[class^="icon-search"] {
-  z-index: 10;
-}
-/* line 288, ../sass/ddbasic.styles.scss */
-.search input[type="text"] {
-  left: 0;
-  width: 100%;
-  font-size: 25.5px;
-}
-/* line 297, ../sass/ddbasic.styles.scss */
+/* line 207, ../sass/ddbasic.styles.scss */
 .search input[type="submit"] {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-  position: absolute;
-  right: 77px;
+  right: 100px;
 }
-/* line 305, ../sass/ddbasic.styles.scss */
+/* line 211, ../sass/ddbasic.styles.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 311, ../sass/ddbasic.styles.scss */
+/* line 217, ../sass/ddbasic.styles.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 321, ../sass/ddbasic.styles.scss */
-.user {
-  float: right;
-  width: 50%;
-  margin-right: 0%;
-  margin-left: -50%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  padding-left: 67px;
+/* line 225, ../sass/ddbasic.styles.scss */
+.search-compact {
+  margin-top: 10px;
+  margin-right: 20px;
+  position: absolute;
+  right: 132px;
 }
-/* line 332, ../sass/ddbasic.styles.scss */
+/* line 233, ../sass/ddbasic.styles.scss */
+.search-compact .search-field-wrapper {
+  min-width: 400px;
+  position: relative;
+}
+/* line 238, ../sass/ddbasic.styles.scss */
+.search-compact input[type="text"] {
+  font-size: 22.5px;
+  min-height: 30px;
+  padding-top: 5px;
+  padding-left: 40px;
+}
+/* line 245, ../sass/ddbasic.styles.scss */
+.search-compact input[type="submit"] {
+  background-color: #ff5b00;
+  font-size: 21px;
+  min-height: 40px;
+  right: 0;
+}
+/* line 254, ../sass/ddbasic.styles.scss */
+.search-compact i[class^="icon-"] {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  opacity: 0.25;
+  margin-left: 15px;
+  position: absolute;
+  top: 13px;
+  font-size: 25.5px;
+}
+
+/* line 266, ../sass/ddbasic.styles.scss */
+.user {
+  padding-left: 67px;
+  position: absolute;
+  right: -4px;
+}
+/* line 277, ../sass/ddbasic.styles.scss */
 .user .user-field-wrapper {
   display: inline;
 }
-/* line 337, ../sass/ddbasic.styles.scss */
+/* line 282, ../sass/ddbasic.styles.scss */
 .user input[type="text"],
 .user input[type="password"] {
   max-width: 37%;
   margin-right: 10px;
   font-size: 19.5px;
 }
-/* line 346, ../sass/ddbasic.styles.scss */
+/* line 291, ../sass/ddbasic.styles.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -1251,7 +1135,49 @@ a:focus {
   display: inline;
 }
 
-/* line 356, ../sass/ddbasic.styles.scss */
+/* line 301, ../sass/ddbasic.styles.scss */
+.user-compact {
+  display: block;
+  font-size: 21px;
+  margin-top: 9px;
+  text-align: right;
+  position: absolute;
+  right: 0;
+}
+/* line 312, ../sass/ddbasic.styles.scss */
+.user-compact a {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  background-color: black;
+  color: white;
+  display: inline-block;
+  padding: 12px 25px 10px;
+  text-align: center;
+}
+/* line 321, ../sass/ddbasic.styles.scss */
+.user-compact a:hover {
+  background-color: #ff5b00;
+  text-decoration: none;
+}
+/* line 327, ../sass/ddbasic.styles.scss */
+.user-compact i[class^="icon-"] {
+  float: left;
+  margin-right: 5px;
+}
+/* line 332, ../sass/ddbasic.styles.scss */
+.user-compact.fixed {
+  display: block;
+}
+
+/* line 338, ../sass/ddbasic.styles.scss */
+.js-fixed-element {
+  display: none;
+}
+
+/* line 343, ../sass/ddbasic.styles.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -1274,21 +1200,21 @@ a:focus {
   position: absolute;
   width: 100%;
 }
-/* line 364, ../sass/ddbasic.styles.scss */
+/* line 351, ../sass/ddbasic.styles.scss */
 .main-menu-wrapper.fixed {
   margin-top: 60px;
   position: fixed;
   top: 0;
 }
 
-/* line 379, ../sass/ddbasic.styles.scss */
+/* line 366, ../sass/ddbasic.styles.scss */
 .main-menu > a {
   display: inline-block;
   padding: 25px 25px 20px 0;
   color: black;
   font-size: 19.5px;
 }
-/* line 386, ../sass/ddbasic.styles.scss */
+/* line 373, ../sass/ddbasic.styles.scss */
 .main-menu > a.active {
   font-weight: 400;
   text-decoration: underline;

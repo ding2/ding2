@@ -7,10 +7,13 @@
 
     if ($(window).scrollTop() > pos.top-$(menu).height()) {
       $('body').css('padding-bottom', $(menu).height());
-      
+
       $(menu).addClass('fixed');
-      $('.header-wrapper').addClass('fixed');
-      $('.user-compact').addClass('fixed');
+      
+      $('.js-fixed-element').each(function() {
+        $(this).show();
+      });      
+      
     }
 
 
@@ -20,12 +23,18 @@
 
 			if ($(window).scrollTop() > pos.top-$(menu).height()) {
 				$(menu).addClass('fixed');
-				$('.header-wrapper').addClass('fixed');
-				$('.user-compact').addClass('fixed');
+
+        $('.js-fixed-element').each(function() {
+          $(this).show();
+        });
+
 			} else if($(menu).scrollTop() <= pos.top && $(menu).hasClass('fixed')) {
   			$(menu).removeClass('fixed');
-				$('.header-wrapper').removeClass('fixed');
-				$('.user-compact').removeClass('fixed');
+
+        $('.js-fixed-element').each(function() {
+          $(this).hide();
+        });
+
 			}
 
     });

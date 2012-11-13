@@ -94,6 +94,8 @@ a {
 
 .topbar-inner {
 	@extend .grid-inner;
+
+  position: relative;
 }
 
 .logo {
@@ -108,116 +110,11 @@ a {
 
 	.header-inner {
 		@extend .grid-inner;
+
+    position: relative;
 	}
-
-  &.fixed {
-    background: none;
-    margin-top: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 99;
-
-    .search {
-      @include zen-grid-item($grid-33, 4, right);
-
-      .search-field-wrapper {
-        margin-right: 0;
-        padding-right: 0;
-      }
-
-      input[type="submit"] {
-        right: 0;
-      }
-
-      .help-link {
-        display: none;
-      }
-    }
-
-    .user {
-      @include zen-grid-item($grid-25, 1, right);
-
-      display: none;
-
-      i[class^="icon-"],
-      input[type="text"],
-      input[type="password"] {
-        display: none;
-      }
-
-      input[type="submit"] {
-        right: 0;
-      }
-
-    }
-
-    .search,
-    .user {
-      border-right: 0;
-      margin-top: 10px;
-      margin-bottom: 0;
-
-      input[type="text"],
-      input[type="password"] {
-        font-size: $theme-font-size * 1.1;
-        min-height: 30px;
-        padding-left: 35px;
-      }
-
-      input[type="submit"] {
-        min-height: 37px;
-        padding-right: 10px;
-        padding-left: 10px;
-        position: absolute;
-
-        background-color: #ff5b00;
-        border: 0;
-        color: $form-button-text-color;
-        font-size: $theme-font-size * 1.1;
-        cursor: pointer;
-
-        &:hover {
-          background-color: lighten(#ff5b00, 10%);
-        }
-      }
-
-      i[class^="icon-"] {
-        @include opacity(.25);
-
-        margin-left: 10px;
-        position: absolute;
-        top: 12px;
-
-        font-size: $theme-font-size * 1.3;
-      }
-
-    }
-  }
-
 }
 
-.user-compact {
-  @include zen-grid-item(1, 1, right);
-
-  display: none;
-  font-size: $theme-font-size * 1.5;
-  margin-top: 20px;
-  text-align: right;
-
-  a {
-    color: $white;
-  }
-
-  i[class^="icon-"] {
-    color: $white;
-    margin-right: 5px;
-  }
-
-  &.fixed {
-    display: block;
-  }
-}
 
 %header-sections {
 	margin-top: 70px;
@@ -247,7 +144,14 @@ a {
   border: 0;
 }
 
+%grid-padding {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 %header-button {
+  @include border-radius(12px);
+
   min-height: 60px;
   padding-right: 18px;
   padding-left: 18px;
@@ -255,29 +159,17 @@ a {
   background-color: $form-button-bg-color;
   border: 0;
   color: $form-button-text-color;
-  font-size: $theme-font-size * 1.7;
   cursor: pointer;
+  font-size: $theme-font-size * 1.7;
+  position: absolute;
 
   &:hover {
     background-color: darken($form-button-bg-color, 15%);
   }
 }
 
-%grid-padding {
-  padding-left: 10px;
-  padding-right: 10px;
-}
 
-
-.search {
-  @include zen-grid-item($grid-50, 1);
-  @extend %header-sections;
-
-  border-right: 1px solid #f78443;
-
-  .search-field-wrapper {
-    margin-right: 67px;
-  }
+%search {
 
   i[class^="icon-search"] {
     @extend %header-icons;
@@ -289,17 +181,31 @@ a {
     @extend %header-input;
 
     left: 0;
-    width: 100%;
+    width: 96%;
 
     font-size: $theme-font-size * 1.7;
   }
 
   input[type="submit"] {
-    @include border-radius(12px);
     @extend %header-button;
+  }
 
-    position: absolute;
-    right: 77px;
+}
+
+
+.search {
+  @include zen-grid-item($grid-50, 1);
+  @extend %header-sections;
+  @extend %search;
+
+  border-right: 1px solid #f78443;
+
+  .search-field-wrapper {
+    margin-right: 67px;
+  }
+
+  input[type="submit"] {
+    right: 100px;
   }
 
   .help-link {
@@ -312,18 +218,57 @@ a {
       color: $black;
       text-decoration: none;
     }
+  }
+}
 
+
+.search-compact {
+  @extend %search;
+
+  margin-top: 10px;
+  margin-right: 20px;
+  position: absolute;
+  right: 132px;
+
+  .search-field-wrapper {
+    min-width: 400px;
+    position: relative;
   }
 
+  input[type="text"] {
+    font-size: $theme-font-size * 1.5;
+    min-height: 30px;
+    padding-top: 5px;
+    padding-left: 40px;
+  }
+
+  input[type="submit"] {
+    @extend %header-button;
+
+    background-color: $color-primary;
+    font-size: $theme-font-size * 1.4;
+    min-height: 40px;
+    right: 0;
+  }
+
+  i[class^="icon-"] {
+    @include opacity(.25);
+
+    margin-left: 15px;
+    position: absolute;
+    top: 13px;
+
+    font-size: $theme-font-size * 1.7;
+  }
 }
 
 
 .user {
-  @include zen-grid-item($grid-50, 1, right);
   @extend %header-sections;
 
-
   padding-left: 67px;
+  position: absolute;
+  right: -4px;
 
   i[class^="icon-"] {
     @extend %header-icons;
@@ -350,6 +295,48 @@ a {
     display: inline;
   }
 
+}
+
+
+.user-compact {
+  display: block;
+  font-size: $theme-font-size * 1.4;
+  margin-top: 9px;
+  text-align: right;
+  position: absolute;
+  right: 0;
+
+  .user-field-wrapper {
+  }
+
+  a {
+    @include border-radius(12px);
+
+    background-color: $black;
+    color: $white;
+    display: inline-block;
+    padding: 12px 25px 10px;
+    text-align: center;
+
+    &:hover {
+      background-color: $color-primary;
+      text-decoration: none;
+    }
+  }
+
+  i[class^="icon-"] {
+    float: left;
+    margin-right: 5px;
+  }
+
+  &.fixed {
+    display: block;
+  }
+}
+
+
+.js-fixed-element {
+  display: none;
 }
 
 
