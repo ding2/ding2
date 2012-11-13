@@ -1,7 +1,7 @@
 (function($) {
   $(document).ready(function () {
 
-    var menu = $('.main-menu-wrapper');
+    var menu = $('.navigation-wrapper');
 
 		pos = menu.offset();
 

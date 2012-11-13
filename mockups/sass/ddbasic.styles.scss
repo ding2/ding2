@@ -117,15 +117,18 @@ a {
 
 
 %header-sections {
+  @include zen-grid-item($grid-50, 1);
+  
 	margin-top: 70px;
 	margin-bottom: 70px;
+  padding: 0;
   position: relative;
 }
 
 %header-icons {
   @include opacity(.25);
 
-  margin-left: 20px;
+  margin-left: 15px;
   position: absolute;
   top: 25px;
 
@@ -139,7 +142,7 @@ a {
   display: inline;
   min-height: 60px;
   padding-top: 10px;
-  padding-left: 60px;
+  padding-left: 45px;
 
   border: 0;
 }
@@ -181,7 +184,7 @@ a {
     @extend %header-input;
 
     left: 0;
-    width: 96%;
+    width: 100%;
 
     font-size: $theme-font-size * 1.7;
   }
@@ -199,13 +202,15 @@ a {
   @extend %search;
 
   border-right: 1px solid #f78443;
+  
+  padding-right: 0;
 
   .search-field-wrapper {
-    margin-right: 67px;
+    margin-right: 50px;
   }
 
   input[type="submit"] {
-    right: 100px;
+    right: 50px;
   }
 
   .help-link {
@@ -252,37 +257,35 @@ a {
   }
 
   i[class^="icon-"] {
-    @include opacity(.25);
-
-    margin-left: 15px;
-    position: absolute;
-    top: 13px;
+    @extend %header-icons;
 
     font-size: $theme-font-size * 1.7;
+    top: 13px;
   }
 }
 
 
 .user {
+  @include zen-float(right);
   @extend %header-sections;
 
-  padding-left: 67px;
-  position: absolute;
-  right: -4px;
-
-  i[class^="icon-"] {
-    @extend %header-icons;
-  }
+  margin-right: 0;
 
   .user-field-wrapper {
     display: inline;
+    margin-left: 50px;
   }
 
+
+  i[class^="icon-"] {
+    @extend %header-icons;
+  }  
+  
   input[type="text"],
   input[type="password"] {
     @extend %header-input;
 
-    max-width: 37%;
+    max-width: 240px;
     margin-right: $default-spacing / 2;
 
     font-size: $theme-font-size * 1.3;
@@ -340,8 +343,33 @@ a {
 }
 
 
-.main-menu-wrapper {
-  @include zen-grid-item(8, 1);
+%navigation {
+  > a {
+    display: inline-block;
+    margin-top: 20px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    padding-top: 6px;
+    padding-right: 14px;
+    padding-bottom: 4px;
+
+    color: $black;
+
+    &.active {
+      font-weight: $font-weight-regular;
+      text-decoration: underline;
+    }
+
+    &.last {
+      border-right: 0;
+      margin-right: 0;
+      padding-right: 0;
+    }
+
+  }
+}
+
+.navigation-wrapper {
  	@include rgba-background($white, .85);
   @extend .grid-wrapper;
 
@@ -356,24 +384,36 @@ a {
 
 }
 
-.main-menu-inner {
+.navigation-inner {
   @extend .grid-inner;
 }
 
+.main-menu-inner {
+  @include zen-grid-item($grid-66, 1);
+}
+
 .main-menu {
-  @extend %grid-padding;
+  @extend %navigation;
 
-  > a {
-    display: inline-block;
-    padding: 25px 25px 20px 0;
+  font-size: $theme-font-size * 1.3;
+}
 
-    color: $black;
-    font-size: $theme-font-size * 1.3;
 
-    &.active {
-      font-weight: $font-weight-regular;
-      text-decoration: underline;
-    }
+.secondary-menu-inner {
+  @include zen-grid-item($grid-33, 1, right);
 
+  padding: 0;
+}
+
+.secondary-menu {
+  @include zen-float(right);
+  @extend %navigation;
+
+  font-size: $theme-font-size * 1;
+
+  a {
+    border-right: 1px solid $gray;
+    color: lighten($black, 25%);
   }
+
 }
