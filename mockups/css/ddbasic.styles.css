@@ -15,7 +15,7 @@
 }
 
 /* line 20, ../latto/sass/_latto.grid.scss */
-.grid-wrapper, .topbar, .header-wrapper, .navigation-wrapper {
+.grid-wrapper, .topbar, .header-wrapper, .content-wrapper, .navigation-wrapper {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
@@ -853,11 +853,11 @@ hr {
 }
 
 /* line 97, ../latto/sass/_latto.base.scss */
-.pull-right, .image-inline-pull-right, .search .help-link {
+.pull-right, .image-inline-pull-right, .search .help-link, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
   float: right;
 }
 
-/* line 29, ../sass/ddbasic.styles.scss */
+/* line 40, ../sass/ddbasic.styles.scss */
 body {
   background: url("../images/body.jpg") no-repeat;
   background-size: cover;
@@ -866,45 +866,60 @@ body {
   font-weight: 300;
 }
 
-/* line 38, ../sass/ddbasic.styles.scss */
+/* line 53, ../sass/ddbasic.styles.scss */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+}
+
+/* line 58, ../sass/ddbasic.styles.scss */
 input,
 textarea {
   font-family: "ff-scala-sans-web-pro", arial, sans-serif;
   font-weight: 300;
 }
 
-/* line 45, ../sass/ddbasic.styles.scss */
+/* line 65, ../sass/ddbasic.styles.scss */
 a:link {
-  color: white;
+  color: #4d1500;
   text-decoration: none;
 }
-/* line 49, ../sass/ddbasic.styles.scss */
+/* line 69, ../sass/ddbasic.styles.scss */
 a:visited {
-  color: #d9d9d9;
+  color: black;
 }
-/* line 52, ../sass/ddbasic.styles.scss */
+/* line 72, ../sass/ddbasic.styles.scss */
 a:hover {
-  color: #cccccc;
+  color: black;
   text-decoration: underline;
 }
-/* line 56, ../sass/ddbasic.styles.scss */
+/* line 76, ../sass/ddbasic.styles.scss */
 a:focus {
-  color: #cccccc;
+  color: black;
 }
 
-/* line 62, ../sass/ddbasic.styles.scss */
+/* line 86, ../sass/ddbasic.styles.scss */
 .grid-inner, .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
   max-width: 1350px;
 }
 
-/* line 67, ../sass/ddbasic.styles.scss */
+/* line 91, ../sass/ddbasic.styles.scss */
+.js-fixed-element {
+  display: none;
+}
+
+/* line 100, ../sass/ddbasic.styles.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
   min-height: 60px;
 }
-/* line 73, ../sass/ddbasic.styles.scss */
+/* line 106, ../sass/ddbasic.styles.scss */
 .topbar h1 {
   font-size: 30px;
   font-weight: 400;
@@ -912,26 +927,26 @@ a:focus {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* line 83, ../sass/ddbasic.styles.scss */
+/* line 116, ../sass/ddbasic.styles.scss */
 .topbar h1 a,
 .topbar h1 a:link,
 .topbar h1 a:visited {
   color: white;
 }
 
-/* line 89, ../sass/ddbasic.styles.scss */
+/* line 122, ../sass/ddbasic.styles.scss */
 .topbar {
   position: fixed;
   width: 100%;
   z-index: 99;
 }
 
-/* line 95, ../sass/ddbasic.styles.scss */
+/* line 128, ../sass/ddbasic.styles.scss */
 .topbar-inner {
   position: relative;
 }
 
-/* line 101, ../sass/ddbasic.styles.scss */
+/* line 134, ../sass/ddbasic.styles.scss */
 .logo {
   float: left;
   width: 50%;
@@ -950,17 +965,22 @@ a:focus {
   _overflow-y: visible;
 }
 
-/* line 105, ../sass/ddbasic.styles.scss */
+/* line 138, ../sass/ddbasic.styles.scss */
 .header-wrapper {
   background-image: url("../images/pattern.png");
   margin-top: 60px;
 }
-/* line 111, ../sass/ddbasic.styles.scss */
+/* line 144, ../sass/ddbasic.styles.scss */
 .header-wrapper .header-inner {
   position: relative;
 }
 
-/* line 119, ../sass/ddbasic.styles.scss */
+/* line 152, ../sass/ddbasic.styles.scss */
+.content-wrapper {
+  margin-top: 68px;
+}
+
+/* line 177, ../sass/ddbasic.styles.scss */
 .search, .user {
   float: left;
   width: 50%;
@@ -983,19 +1003,19 @@ a:focus {
   position: relative;
 }
 
-/* line 128, ../sass/ddbasic.styles.scss */
-.search i[class^="icon-search"], .search-compact i[class^="icon-search"], .search-compact i[class^="icon-"], .user i[class^="icon-"] {
+/* line 187, ../sass/ddbasic.styles.scss */
+.search i[class^="icon-search"], .search-compact i[class^="icon-search"], .search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
   position: absolute;
-  top: 25px;
   font-size: 33px;
 }
 
-/* line 138, ../sass/ddbasic.styles.scss */
+/* line 197, ../sass/ddbasic.styles.scss */
 .search input[type="text"], .search-compact input[type="text"], .user input[type="text"],
-.user input[type="password"] {
+.user input[type="password"], .user-login-block input[type="text"],
+.user-login-block input[type="password"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1005,20 +1025,19 @@ a:focus {
   -o-border-radius: 12px;
   border-radius: 12px;
   display: inline;
-  min-height: 60px;
   padding-top: 10px;
   padding-left: 45px;
   border: 0;
 }
 
-/* line 155, ../sass/ddbasic.styles.scss */
-.search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"] {
+/* line 209, ../sass/ddbasic.styles.scss */
+.search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
   -o-border-radius: 12px;
   border-radius: 12px;
-  min-height: 60px;
+  padding-top: 7px;
   padding-right: 18px;
   padding-left: 18px;
   background-color: #262626;
@@ -1026,25 +1045,50 @@ a:focus {
   color: white;
   cursor: pointer;
   font-size: 25.5px;
-  position: absolute;
 }
-/* line 169, ../sass/ddbasic.styles.scss */
-.search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover {
+/* line 222, ../sass/ddbasic.styles.scss */
+.search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover {
   background-color: black;
 }
 
-/* line 177, ../sass/ddbasic.styles.scss */
+/* line 228, ../sass/ddbasic.styles.scss */
+.user-login-block {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #ff5b00;
+  color: #fff;
+  padding: 20px;
+}
+/* line 236, ../sass/ddbasic.styles.scss */
+.user-login-block h2 {
+  color: #fff;
+  margin-top: 0;
+}
+
+/* line 248, ../sass/ddbasic.styles.scss */
 .search i[class^="icon-search"], .search-compact i[class^="icon-search"] {
+  top: 25px;
   z-index: 10;
 }
-/* line 183, ../sass/ddbasic.styles.scss */
+/* line 255, ../sass/ddbasic.styles.scss */
 .search input[type="text"], .search-compact input[type="text"] {
+  min-height: 60px;
   left: 0;
   width: 100%;
   font-size: 25.5px;
 }
+/* line 266, ../sass/ddbasic.styles.scss */
+.search input[type="submit"], .search-compact input[type="submit"] {
+  position: absolute;
+}
 
-/* line 199, ../sass/ddbasic.styles.scss */
+/* line 274, ../sass/ddbasic.styles.scss */
 .search {
   float: left;
   width: 50%;
@@ -1064,75 +1108,82 @@ a:focus {
   border-right: 1px solid #f78443;
   padding-right: 0;
 }
-/* line 208, ../sass/ddbasic.styles.scss */
+/* line 283, ../sass/ddbasic.styles.scss */
 .search .search-field-wrapper {
   margin-right: 50px;
 }
-/* line 212, ../sass/ddbasic.styles.scss */
+/* line 287, ../sass/ddbasic.styles.scss */
 .search input[type="submit"] {
+  min-height: 60px;
   right: 50px;
 }
-/* line 216, ../sass/ddbasic.styles.scss */
+/* line 292, ../sass/ddbasic.styles.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 222, ../sass/ddbasic.styles.scss */
+/* line 298, ../sass/ddbasic.styles.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 230, ../sass/ddbasic.styles.scss */
+/* line 306, ../sass/ddbasic.styles.scss */
 .search-compact {
   margin-top: 10px;
   margin-right: 20px;
   position: absolute;
   right: 132px;
 }
-/* line 238, ../sass/ddbasic.styles.scss */
+/* line 314, ../sass/ddbasic.styles.scss */
 .search-compact .search-field-wrapper {
   min-width: 400px;
   position: relative;
 }
-/* line 243, ../sass/ddbasic.styles.scss */
+/* line 319, ../sass/ddbasic.styles.scss */
 .search-compact input[type="text"] {
   font-size: 22.5px;
   min-height: 30px;
   padding-top: 5px;
   padding-left: 40px;
 }
-/* line 250, ../sass/ddbasic.styles.scss */
+/* line 326, ../sass/ddbasic.styles.scss */
 .search-compact input[type="submit"] {
   background-color: #ff5b00;
   font-size: 21px;
-  min-height: 40px;
+  height: 40px;
+  position: absolute;
   right: 0;
 }
-/* line 259, ../sass/ddbasic.styles.scss */
+/* line 336, ../sass/ddbasic.styles.scss */
 .search-compact i[class^="icon-"] {
   font-size: 25.5px;
   top: 13px;
 }
 
-/* line 268, ../sass/ddbasic.styles.scss */
+/* line 349, ../sass/ddbasic.styles.scss */
 .user {
   float: right;
   margin-right: 0;
 }
-/* line 274, ../sass/ddbasic.styles.scss */
+/* line 355, ../sass/ddbasic.styles.scss */
 .user .user-field-wrapper {
   display: inline;
   margin-left: 50px;
 }
-/* line 285, ../sass/ddbasic.styles.scss */
+/* line 360, ../sass/ddbasic.styles.scss */
+.user i[class^="icon-"] {
+  top: 25px;
+}
+/* line 367, ../sass/ddbasic.styles.scss */
 .user input[type="text"],
 .user input[type="password"] {
   max-width: 240px;
+  min-height: 60px;
   margin-right: 10px;
   font-size: 19.5px;
 }
-/* line 294, ../sass/ddbasic.styles.scss */
+/* line 377, ../sass/ddbasic.styles.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -1140,18 +1191,19 @@ a:focus {
   -o-border-radius: 12px;
   border-radius: 12px;
   display: inline;
+  min-height: 60px;
+  position: absolute;
 }
 
-/* line 304, ../sass/ddbasic.styles.scss */
+/* line 389, ../sass/ddbasic.styles.scss */
 .user-compact {
-  display: block;
   font-size: 21px;
   margin-top: 9px;
   text-align: right;
   position: absolute;
   right: 0;
 }
-/* line 315, ../sass/ddbasic.styles.scss */
+/* line 396, ../sass/ddbasic.styles.scss */
 .user-compact a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -1164,27 +1216,98 @@ a:focus {
   padding: 12px 25px 10px;
   text-align: center;
 }
-/* line 324, ../sass/ddbasic.styles.scss */
+/* line 405, ../sass/ddbasic.styles.scss */
 .user-compact a:hover {
   background-color: #ff5b00;
   text-decoration: none;
 }
-/* line 330, ../sass/ddbasic.styles.scss */
+/* line 411, ../sass/ddbasic.styles.scss */
 .user-compact i[class^="icon-"] {
   float: left;
   margin-right: 5px;
 }
-/* line 335, ../sass/ddbasic.styles.scss */
+/* line 416, ../sass/ddbasic.styles.scss */
 .user-compact.fixed {
   display: block;
 }
 
-/* line 341, ../sass/ddbasic.styles.scss */
-.js-fixed-element {
-  display: none;
+/* line 466, ../sass/ddbasic.styles.scss */
+.user-login-block {
+  margin-left: 50px;
+  max-width: 425px;
+  position: relative;
+}
+/* line 473, ../sass/ddbasic.styles.scss */
+.user-login-block:before {
+  content: "";
+  border: 25px solid transparent;
+  border-right-color: #ff5b00;
+  left: -50px;
+  top: 20px;
+  margin-top: -25px;
+  top: 50%;
+  height: 0;
+  position: absolute;
+  width: 0;
+}
+/* line 477, ../sass/ddbasic.styles.scss */
+.user-login-block .user-field-wrapper {
+  position: relative;
+}
+/* line 480, ../sass/ddbasic.styles.scss */
+.user-login-block .user-field-wrapper i[class^="icon-"] {
+  color: #000;
+  top: 15px;
+}
+/* line 488, ../sass/ddbasic.styles.scss */
+.user-login-block .user-close-container {
+  color: #fff;
+  font-size: 18.75px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+/* line 495, ../sass/ddbasic.styles.scss */
+.user-login-block .user-close-container:hover {
+  text-decoration: none;
+}
+/* line 500, ../sass/ddbasic.styles.scss */
+.user-login-block .user-login-link {
+  margin-top: 15px;
+  margin-right: 10px;
+}
+/* line 506, ../sass/ddbasic.styles.scss */
+.user-login-block .user-login-link a {
+  color: #fff;
+}
+/* line 509, ../sass/ddbasic.styles.scss */
+.user-login-block .user-login-link a:hover {
+  text-decoration: none;
+}
+/* line 515, ../sass/ddbasic.styles.scss */
+.user-login-block .user-create-link {
+  clear: both;
+  padding-top: 20px;
+  text-align: right;
+}
+/* line 522, ../sass/ddbasic.styles.scss */
+.user-login-block input[type="text"],
+.user-login-block input[type="password"] {
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 19.5px;
+}
+/* line 531, ../sass/ddbasic.styles.scss */
+.user-login-block input[type="submit"] {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  display: inline;
 }
 
-/* line 347, ../sass/ddbasic.styles.scss */
+/* line 547, ../sass/ddbasic.styles.scss */
 .main-menu > a, .secondary-menu > a {
   display: inline-block;
   margin-top: 20px;
@@ -1195,19 +1318,19 @@ a:focus {
   padding-bottom: 4px;
   color: black;
 }
-/* line 358, ../sass/ddbasic.styles.scss */
+/* line 558, ../sass/ddbasic.styles.scss */
 .main-menu > a.active, .secondary-menu > a.active {
   font-weight: 400;
   text-decoration: underline;
 }
-/* line 363, ../sass/ddbasic.styles.scss */
+/* line 563, ../sass/ddbasic.styles.scss */
 .main-menu > a.last, .secondary-menu > a.last {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
 }
 
-/* line 372, ../sass/ddbasic.styles.scss */
+/* line 572, ../sass/ddbasic.styles.scss */
 .navigation-wrapper {
   background-color: rgba(255, 255, 255, 0.85);
   zoom: 1;
@@ -1215,14 +1338,14 @@ a:focus {
   position: absolute;
   width: 100%;
 }
-/* line 379, ../sass/ddbasic.styles.scss */
+/* line 579, ../sass/ddbasic.styles.scss */
 .navigation-wrapper.fixed {
   margin-top: 60px;
   position: fixed;
   top: 0;
 }
 
-/* line 391, ../sass/ddbasic.styles.scss */
+/* line 591, ../sass/ddbasic.styles.scss */
 .main-menu-inner {
   float: left;
   width: 66.66667%;
@@ -1241,12 +1364,12 @@ a:focus {
   _overflow-y: visible;
 }
 
-/* line 395, ../sass/ddbasic.styles.scss */
+/* line 595, ../sass/ddbasic.styles.scss */
 .main-menu {
   font-size: 19.5px;
 }
 
-/* line 402, ../sass/ddbasic.styles.scss */
+/* line 602, ../sass/ddbasic.styles.scss */
 .secondary-menu-inner {
   float: right;
   width: 33.33333%;
@@ -1266,12 +1389,12 @@ a:focus {
   padding: 0;
 }
 
-/* line 408, ../sass/ddbasic.styles.scss */
+/* line 608, ../sass/ddbasic.styles.scss */
 .secondary-menu {
   float: right;
   font-size: 15px;
 }
-/* line 414, ../sass/ddbasic.styles.scss */
+/* line 614, ../sass/ddbasic.styles.scss */
 .secondary-menu a {
   border-right: 1px solid #d5d5d5;
   color: #404040;

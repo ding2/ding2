@@ -1,3 +1,7 @@
+// =============================================================================
+// DDBasic styling
+// =============================================================================
+//
 @import "compass/css3";
 @import "../latto/sass/_latto.mixins.scss";
 @import "../latto/sass/_latto.variables.scss";
@@ -6,7 +10,11 @@
 @import "../latto/sass/_latto.base.scss";
 
 
-$link-color:              #fff;
+// -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
+//
+$link-color:              #4d1500;
 $link-color-hover:        darken($link-color, 20%);
 
 $theme-font-size:	15px;
@@ -21,17 +29,29 @@ $font-weight-bold: 		700;
 
 $color-primary: #ff5b00;
 
-// Form elements
 $form-button-text-color:  #fff;
 $form-button-bg-color:    lighten(#000, 15%);
 
 
+// -----------------------------------------------------------------------------
+// Basic styling
+// -----------------------------------------------------------------------------
+//
 body {
 	background: url('../images/body.jpg') no-repeat;
 	background-size: cover;
 	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
   font-size: $theme-font-size;
 	font-weight: $font-weight-light;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-light;
 }
 
 input,
@@ -59,11 +79,24 @@ a {
 }
 
 
+// -----------------------------------------------------------------------------
+// Miscellaneous
+// -----------------------------------------------------------------------------
+//
 .grid-inner {
 	max-width: 1350px;
 }
 
 
+.js-fixed-element {
+  display: none;
+}
+
+
+// -----------------------------------------------------------------------------
+// Layout elements
+// -----------------------------------------------------------------------------
+//
 .topbar {
 	@include rgba-background($black, .85);
 	@extend .grid-wrapper;
@@ -116,46 +149,67 @@ a {
 }
 
 
+.content-wrapper {
+  @extend .grid-wrapper;
+
+  margin-top: 68px;
+}
+
+
+// -----------------------------------------------------------------------------
+// Mixins
+// -----------------------------------------------------------------------------
+//
+
+
+
+
+// -----------------------------------------------------------------------------
+// Extend classes
+// -----------------------------------------------------------------------------
+//
+%grid-padding {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
 %header-sections {
   @include zen-grid-item($grid-50, 1);
-  
+
 	margin-top: 70px;
 	margin-bottom: 70px;
   padding: 0;
   position: relative;
 }
 
-%header-icons {
+
+%inline-icons {
   @include opacity(.25);
 
   margin-left: 15px;
   position: absolute;
-  top: 25px;
 
   font-size: $theme-font-size * 2.2;
 }
 
-%header-input {
+
+%inline-icon-input {
   @include box-sizing(border-box);
   @include border-radius(12px);
 
   display: inline;
-  min-height: 60px;
   padding-top: 10px;
   padding-left: 45px;
 
   border: 0;
 }
 
-%grid-padding {
-  padding-left: 10px;
-  padding-right: 10px;
-}
 
-%header-button {
+%button {
   @include border-radius(12px);
 
-  min-height: 60px;
+  padding-top: 7px;
   padding-right: 18px;
   padding-left: 18px;
 
@@ -164,7 +218,6 @@ a {
   color: $form-button-text-color;
   cursor: pointer;
   font-size: $theme-font-size * 1.7;
-  position: absolute;
 
   &:hover {
     background-color: darken($form-button-bg-color, 15%);
@@ -172,16 +225,37 @@ a {
 }
 
 
+%block {
+  @include border-radius(12px);
+  @include box-sizing(border-box);
+
+  background-color: $color-primary;
+  color: #fff;
+  padding: 20px;
+
+  h2 {
+    color: #fff;
+    margin-top: 0;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Search
+// -----------------------------------------------------------------------------
+//
 %search {
-
   i[class^="icon-search"] {
-    @extend %header-icons;
+    @extend %inline-icons;
 
+    top: 25px;
     z-index: 10;
   }
 
   input[type="text"] {
-    @extend %header-input;
+    @extend %inline-icon-input;
+
+    min-height: 60px;
 
     left: 0;
     width: 100%;
@@ -190,9 +264,10 @@ a {
   }
 
   input[type="submit"] {
-    @extend %header-button;
-  }
+    @extend %button;
 
+    position: absolute;
+  }
 }
 
 
@@ -202,7 +277,7 @@ a {
   @extend %search;
 
   border-right: 1px solid #f78443;
-  
+
   padding-right: 0;
 
   .search-field-wrapper {
@@ -210,6 +285,7 @@ a {
   }
 
   input[type="submit"] {
+    min-height: 60px;
     right: 50px;
   }
 
@@ -248,16 +324,17 @@ a {
   }
 
   input[type="submit"] {
-    @extend %header-button;
+    @extend %button;
 
     background-color: $color-primary;
     font-size: $theme-font-size * 1.4;
-    min-height: 40px;
+    height: 40px;
+    position: absolute;
     right: 0;
   }
 
   i[class^="icon-"] {
-    @extend %header-icons;
+    @extend %inline-icons;
 
     font-size: $theme-font-size * 1.7;
     top: 13px;
@@ -265,6 +342,10 @@ a {
 }
 
 
+// -----------------------------------------------------------------------------
+// User
+// -----------------------------------------------------------------------------
+//
 .user {
   @include zen-float(right);
   @extend %header-sections;
@@ -276,16 +357,18 @@ a {
     margin-left: 50px;
   }
 
-
   i[class^="icon-"] {
-    @extend %header-icons;
-  }  
-  
+    @extend %inline-icons;
+
+    top: 25px;
+  }
+
   input[type="text"],
   input[type="password"] {
-    @extend %header-input;
+    @extend %inline-icon-input;
 
     max-width: 240px;
+    min-height: 60px;
     margin-right: $default-spacing / 2;
 
     font-size: $theme-font-size * 1.3;
@@ -293,24 +376,22 @@ a {
 
   input[type="submit"] {
     @include border-radius(12px);
-    @extend %header-button;
+    @extend %button;
 
     display: inline;
+    min-height: 60px;
+    position: absolute;
   }
 
 }
 
 
 .user-compact {
-  display: block;
   font-size: $theme-font-size * 1.4;
   margin-top: 9px;
   text-align: right;
   position: absolute;
   right: 0;
-
-  .user-field-wrapper {
-  }
 
   a {
     @include border-radius(12px);
@@ -338,11 +419,130 @@ a {
 }
 
 
-.js-fixed-element {
-  display: none;
+@mixin pseudo-arrow($size, $direction, $alignment, $color) {
+  content: "";
+  border: $size solid transparent;
+
+  @if ($direction == "top") {
+    border-bottom-color: $color;
+    top: -$size * 2;
+    right: 20px;
+  }
+
+  @if ($direction == "right") {
+    border-left-color: $color;
+    right: -$size * 2;
+    top: 20px;
+  }
+
+  @if ($direction == "bottom") {
+    border-top-color: $color;
+    bottom: -$size * 2;
+    right: 20px;       
+  }
+
+  @if ($direction == "left") {
+    border-right-color: $color;
+    left: -$size * 2;
+    top: 20px;    
+  }
+  
+  @if ($alignment == "center") {
+    margin-left: -$size;
+    left: 50%;
+  }  
+  
+  @if ($alignment == "middle") {
+    margin-top: -$size;
+    top: 50%;
+  }  
+
+  height: 0;
+  position: absolute;
+  width: 0;
 }
 
 
+.user-login-block {
+  @extend %block;
+
+  margin-left: 50px;
+  max-width: 425px;
+  position: relative;
+
+  &:before {
+    @include pseudo-arrow(25px, left, middle, $color-primary);
+  }
+
+  .user-field-wrapper {
+    position: relative;
+
+    i[class^="icon-"] {
+      @extend %inline-icons;
+
+      color: #000;
+      top: 15px;
+    }
+  }
+
+  .user-close-container {
+    color: #fff;
+    font-size: $theme-font-size * 1.25;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .user-login-link {
+    @extend .pull-right;
+
+    margin-top: 15px;
+    margin-right: 10px;
+
+    a {
+      color: #fff;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .user-create-link {
+    clear: both;
+    padding-top: 20px;
+    text-align: right;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    @extend %inline-icon-input;
+
+    margin-bottom: $default-spacing;
+    width: 100%;
+
+    font-size: $theme-font-size * 1.3;
+  }
+
+  input[type="submit"] {
+    @include border-radius(12px);
+    @extend %button;
+    @extend .pull-right;
+
+    display: inline;
+  }
+
+}
+
+
+// -----------------------------------------------------------------------------
+// Navigation
+// -----------------------------------------------------------------------------
+//
 %navigation {
   > a {
     display: inline-block;
