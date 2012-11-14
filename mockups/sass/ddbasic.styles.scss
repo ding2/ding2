@@ -99,7 +99,6 @@ a {
 //
 .topbar {
 	@include rgba-background($black, .85);
-	@extend .grid-wrapper;
 
 	min-height: $header-min-height;
 
@@ -160,8 +159,38 @@ a {
 // Mixins
 // -----------------------------------------------------------------------------
 //
+@mixin pseudo-arrow($size, $color, $direction, $alignment, $offset: 20px) {
 
+  border: $size solid transparent;
+  content: "";
+  height: 0;
+  position: absolute;
+  width: 0;
 
+  // Place the arrow based on $direction
+  #{$direction}: -$size * 2;
+
+  // Set the border-color based on $direction
+  border-#{opposite-position($direction)}-color: $color;
+
+  // Place the arrow based on alignment (center/middle or $offset)
+  @if ($alignment == "center") {
+
+    margin-left: -$size;
+    left: 50%;
+
+  } @else if $alignment == "middle" {
+
+    margin-top: -$size;
+    top: 50%;
+
+  } @else {
+
+    #{$alignment}: $offset;
+
+  }
+
+}
 
 
 // -----------------------------------------------------------------------------
@@ -398,13 +427,17 @@ a {
 
     background-color: $black;
     color: $white;
+    cursor: pointer;
     display: inline-block;
     padding: 12px 25px 10px;
     text-align: center;
 
     &:hover {
-      background-color: $color-primary;
       text-decoration: none;
+    }
+
+    &.active {
+      background-color: $color-primary;
     }
   }
 
@@ -419,59 +452,16 @@ a {
 }
 
 
-@mixin pseudo-arrow($size, $direction, $alignment, $color) {
-  content: "";
-  border: $size solid transparent;
-
-  @if ($direction == "top") {
-    border-bottom-color: $color;
-    top: -$size * 2;
-    right: 20px;
-  }
-
-  @if ($direction == "right") {
-    border-left-color: $color;
-    right: -$size * 2;
-    top: 20px;
-  }
-
-  @if ($direction == "bottom") {
-    border-top-color: $color;
-    bottom: -$size * 2;
-    right: 20px;       
-  }
-
-  @if ($direction == "left") {
-    border-right-color: $color;
-    left: -$size * 2;
-    top: 20px;    
-  }
-  
-  @if ($alignment == "center") {
-    margin-left: -$size;
-    left: 50%;
-  }  
-  
-  @if ($alignment == "middle") {
-    margin-top: -$size;
-    top: 50%;
-  }  
-
-  height: 0;
-  position: absolute;
-  width: 0;
-}
-
-
 .user-login-block {
   @extend %block;
 
-  margin-left: 50px;
+  display: none;
   max-width: 425px;
-  position: relative;
+  position: absolute;
+  z-index: 99;
 
   &:before {
-    @include pseudo-arrow(25px, left, middle, $color-primary);
+    @include pseudo-arrow(25px, $color-primary, top, right, 50px);
   }
 
   .user-field-wrapper {
@@ -487,6 +477,7 @@ a {
 
   .user-close-container {
     color: #fff;
+    cursor: pointer;
     font-size: $theme-font-size * 1.25;
     position: absolute;
     right: 15px;

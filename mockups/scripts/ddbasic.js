@@ -1,6 +1,7 @@
 (function($) {
   $(document).ready(function () {
 
+    // Fixed elements and scroll
     var menu = $('.navigation-wrapper');
 
 		pos = menu.offset();
@@ -9,11 +10,11 @@
       $('body').css('padding-bottom', $(menu).height());
 
       $(menu).addClass('fixed');
-      
+
       $('.js-fixed-element').each(function() {
         $(this).show();
-      });      
-      
+      });
+
     }
 
 
@@ -38,6 +39,33 @@
 			}
 
     });
+
+
+    // Toggle element
+
+    $(".js-show-element").click(function() {
+
+      var $element = $("." + $(this).attr("rel"));
+      var offset = $(this).offset();
+
+      if ($(this).hasClass("active")) {
+        $(this).removeClass("active");        
+      } else {
+        $(this).addClass("active");        
+      }
+
+      $element.toggle();
+
+      $element.css({"top": offset.top + 72, "left": offset.left - 275});
+
+    });
+
+
+    // Hide element
+    $(".js-hide-element").click(function() {
+      $(this).parent().hide();
+    });
+
 
   });
 
