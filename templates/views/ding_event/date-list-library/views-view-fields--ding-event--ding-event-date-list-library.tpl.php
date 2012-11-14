@@ -22,26 +22,24 @@
  *
  * @ingroup views_templates
  */
-?>
-<?php foreach ($fields as $id => $field): ?>
-  
-  <?php if($id == 'group_audience'): ?>
-    <?php print '<div class="content">'; ?>
-  <?php endif; ?>
-  
-  <?php if (!empty($field->separator)): ?>
-    <?php print $field->separator; ?>
-  <?php endif; ?>
 
-  <?php if($id != 'group_audience' || ($id == 'group_audience' && empty($fields['field_address']->content)) ): ?>
-    <?php print $field->wrapper_prefix; ?>
-    <?php print $field->label_html; ?>
-    <?php print $field->content; ?>
-    <?php print $field->wrapper_suffix; ?>
-  <?php endif; ?>
+foreach ($fields as $id => $field) {
+  if($id == 'field_ding_event_library') {
+    print '<div class="content">';
+  }
   
-  <?php if($id == 'field_event_ticket_price'): ?>
-    <?php print "</div>"; ?>
-  <?php endif; ?>
+  if (!empty($field->separator)) {
+    print $field->separator;
+  }
   
-<?php endforeach; ?>
+  if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ) {
+    print $field->wrapper_prefix;
+    print $field->label_html;
+    print $field->content;
+    print $field->wrapper_suffix;
+  }
+  
+  if($id == 'field_ding_event_price') {
+    print "</div>";
+  }
+}

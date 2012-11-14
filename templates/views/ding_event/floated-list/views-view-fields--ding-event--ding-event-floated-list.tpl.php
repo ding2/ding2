@@ -23,23 +23,23 @@
  * @ingroup views_templates
  */
 
-foreach ($fields as $id => $field):
-  if($id == 'field_ding_event_category'):
+foreach ($fields as $id => $field) {
+  if($id == 'field_ding_event_category') {
     print '<div class="subheading">';
-  endif;
+  }
   
-  if (!empty($field->separator)):
+  if (!empty($field->separator)) {
     print $field->separator;
-  endif;
+  }
   
-  if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ):
+  if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ) {
     print $field->wrapper_prefix;
     print $field->label_html;
     print $field->content;
     print $field->wrapper_suffix;
-  endif;
+  }
   
-  if($id == 'field_ding_event_price'):
+  if($id == 'field_ding_event_price') {
     print "</div>";
-  endif;
-endforeach;
+  }
+}
