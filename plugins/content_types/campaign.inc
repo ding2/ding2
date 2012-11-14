@@ -75,7 +75,7 @@ function ding_campaign_campaign_content_type_edit_form_validate($form, &$form_st
 
     // Give an error if a value less than 1 was entered.
     if (!empty($val) && $count < $min_value) {
-      form_set_error($value, t('%value must be a number larger than zero.', array('%value' => ucfirst(str_replace('_', ' ', $value)))));
+      form_set_error($value, t('%value must be a number larger than zero.', array('%value' => drupal_ucfirst(str_replace('_', ' ', $value)))));
     }
     // Otherwise, store the sanitised value in the form state.
     else {
