@@ -112,11 +112,12 @@ function theme_ding_bookmark_remove_form($variables) {
         '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
       );
 
-      // reservation button
+      // Reservation button
       $reservation_div = NULL;
-      if ( $form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
-           $form['#builded_entities'][$item_wid]['#object']->is('reservable')
-         ) {
+      if ($form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
+          $form['#builded_entities'][$item_wid]['#object']->is('reservable')) {
+        // @TODO Create theme function for this, so class can be change in the
+        // theme layer.
         $reservation_link = array(
           '#prefix' => '<p id="wid' . $item_wid . '" class="ding-entity-button ding-bookmark-reservation-button">',
           '#suffix' => '</p>',
@@ -158,11 +159,10 @@ function ding_bookmark_reservation_forms($content_ids) {
     // build item view.
     $item_view_build = ding_bookmark_item_view($entity_type, $entity_id);
     // reservation buttons
-    if ( $item_view_build['#object']->ding_entity_type == 'ding_entity' &&
-         $item_view_build['#object']->is('reservable')
-       ) {
+    if ($item_view_build['#object']->ding_entity_type == 'ding_entity' && $item_view_build['#object']->is('reservable')) {
       $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($item_view_build['#object']), TRUE));
       $reservation_form[0]['#id'] = 'ding-reservation-reserve-form-wid' . $entity_id;
+      // @TODO Update this, so class can be change in the theme layer.
       $reservation_div = array(
         '#prefix' => '<div class="ding-entity-button-reserve">',
         '#suffix' => '</div>',
