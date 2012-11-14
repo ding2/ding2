@@ -9,7 +9,7 @@
  * AJAX Callback function to return a list of media files
  *
  * More or less a copy of the media_browser_list callback.
- * @see media_browser_list
+ * @see media_browser_list()
  */
 function ding_content_media_browser_list() {
   module_load_include('inc', 'media', 'includes/media.browser');

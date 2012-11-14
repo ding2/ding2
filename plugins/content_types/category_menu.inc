@@ -24,7 +24,7 @@ function ding_content_category_menu_content_type_render($subtype, $conf, $panel_
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  $uri['path']. '/' . $conf['type'];
+    $base = $uri['path'] . '/' . $conf['type'];
   }
   else {
     $base = $conf['type'];

@@ -27,8 +27,8 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  $uri['path']. '/' . $conf['type'] . $suffix;
-    $selected_url = $uri['path']. '/' . $conf['type'] . $suffix;
+    $base = $uri['path'] . '/' . $conf['type'] . $suffix;
+    $selected_url = $uri['path'] . '/' . $conf['type'] . $suffix;
   }
   else {
     $base = $conf['type'];
