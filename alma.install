@@ -3,20 +3,12 @@
 // Installation and update hooks for Openruth.
 
 /**
- * Implements hook_update_N.
- * update system table set alma weight=10
- * to ensure form_alter hooks are called AFTER ding_user and ding_provider
+ * Update system table set alma weight=10 to ensure form_alter hooks are called
+ * AFTER ding_user and ding_provider
  */
-
-
 function alma_update_7001() {
   $num_upd = db_update('system')
-    ->fields(array(
-      'weight'=>10,
-    ))
-    ->condition('name','alma','=')
-    ->execute(); 
-
-  echo $num_upd;
-  return t('system weight for alma updated to 10');
+    ->fields(array('weight' => 10))
+    ->condition('name', 'alma', '=')
+    ->execute();
 }
