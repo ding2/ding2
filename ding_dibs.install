@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function ding_dibs_install() {
   // Inserting default order id setting
@@ -20,7 +20,7 @@ function ding_dibs_install() {
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => t('0 = payment not recieved, 1 = payment recieved'),
+    'description' => st('0 = payment not recieved, 1 = payment recieved'),
   ));
 
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
@@ -28,7 +28,7 @@ function ding_dibs_install() {
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => t('0 = capture failed, 1 = capture succeeded'),
+    'description' => st('0 = capture failed, 1 = capture succeeded'),
   ));
 }
 
@@ -43,6 +43,7 @@ function ding_dibs_update_7000(&$sandbox) {
     'default' => 0,
     'description' => t('0 = payment not recieved, 1 = payment recieved'),
   ));
+
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
     'type' => 'int',
     'length' => 1,

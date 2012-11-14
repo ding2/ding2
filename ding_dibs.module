@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of hook_dibsapi().
+ * Implements of hook_dibsapi().
  */
 function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
   global $user;
@@ -33,18 +33,19 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           array(
             ':payment_transaction_id' => $transaction['payment_transaction_id'],
           )
-        )
-        ->fetchField();
-        if ( $status == TRUE ) {
+        )->fetchField();
+
+        if ($status == TRUE) {
           // update user status cache
           ding_provider_invoke('user', 'clear_cache', $user);
-          drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', array('@amount' => $transaction['payment_price'],'@order' => $transaction['payment_order_id'],'@transaction' => $transaction['payment_transaction_id'])));
+          drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', array('@amount' => $transaction['payment_price'], '@order' => $transaction['payment_order_id'], '@transaction' => $transaction['payment_transaction_id'])));
           watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
             '%transaction' => $transaction['payment_transaction_id'],
             '%order' => $transaction['payment_order_id'],
           ), WATCHDOG_DEBUG);
-        } else {
-          drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])),'error');
+        }
+        else {
+          drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])), 'error');
         }
         return drupal_goto('user/' . $user->uid . '/status/debts');
       }
@@ -100,7 +101,8 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
               ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
               ->execute();
             ding_dibs_capture($delta, $transaction);
-          } else {
+          }
+          else {
             watchdog('ding_dibs', 'DIBS transaction %transaction, order %order failed to update provider.', array(
               '%transaction' => $transaction['payment_transaction_id'],
               '%order' => $transaction['payment_order_id'],
@@ -189,9 +191,9 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
 
   $url = trim(variable_get('url_dibs_capture'));
 
-  if ( !$url ) {
+  if (!$url) {
     watchdog('ding_dibs', 'DIBS automatic capture URL is not configured.', array(), WATCHDOG_CRITICAL);
-    return false;
+    return FALSE;
   }
 
   $module = 'ding_dibs';
@@ -222,19 +224,19 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
     );
   }
 
-  foreach ($param as $key=>$val) {
+  foreach ($param as $key => $val) {
     $params[] = $key . '=' . $val;
   }
 
-  $dibs_reply = drupal_http_request($url . '?'. implode('&',$params));
+  $dibs_reply = drupal_http_request($url . '?' . implode('&', $params));
 
-  $capture_data = explode('&',$dibs_reply->data);
-  foreach ($capture_data as $key=>$val) {
-    $var = explode('=',$val);
-    $capture_status[ $var[0] ] = $var[1];
+  $capture_data = explode('&', $dibs_reply->data);
+  foreach ($capture_data as $key => $val) {
+    $var = explode('=', $val);
+    $capture_status[$var[0]] = $var[1];
   }
 
-  if ( isset($capture_status['status']) && $capture_status['status'] == 'ACCEPTED' ) {
+  if (isset($capture_status['status']) && $capture_status['status'] == 'ACCEPTED') {
     // Update dibs transaction with dibs_capture_status = TRUE
     $transaction_status = db_update('dibs_transactions')
       ->fields(array(
@@ -242,15 +244,18 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
       ))
       ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
       ->execute();
+
     watchdog('ding_dibs', 'DIBS has captured transaction %transaction, order %order.', array(
       '%transaction' => $transaction['payment_transaction_id'],
       '%order' => $transaction['payment_order_id'],
     ), WATCHDOG_NOTICE);
+
     return TRUE;
-  } else {
+  }
+  else {
     watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', array(
-      '%url' => $url . '?'. implode('&',$params),
-      '%reply' => '<pre>' . print_r($capture_reply,1) . '</pre>',
+      '%url' => $url . '?' . implode('&', $params),
+      '%reply' => '<pre>' . print_r($capture_reply, 1) . '</pre>',
     ), WATCHDOG_CRITICAL);
   }
 
@@ -287,16 +292,16 @@ function ding_dibs_block_view($delta = '') {
   $supported_cards = array();
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
   $cards = ding_dibs_cards();
-  if ( is_array(variable_get('cards_supported')) ) {
-    foreach (variable_get('cards_supported') as $key=>$card) {
-      if ( $card ) {
-        if ( array_key_exists($card,$cards) ) {
-          $supported_cards[] = theme_image( array(
+  if (is_array(variable_get('cards_supported'))) {
+    foreach (variable_get('cards_supported') as $key => $card) {
+      if ($card) {
+        if (array_key_exists($card, $cards)) {
+          $supported_cards[] = theme_image(array(
               'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
               'height' => '33px',
               'alt' => $card,
               'title' => $card,
-              'attributes' => array('class'=>'card-logo'),
+              'attributes' => array('class' => 'card-logo'),
             )
           ) . '<span class="card-name">' . $card . '</span></p>';
         }
@@ -307,15 +312,17 @@ function ding_dibs_block_view($delta = '') {
     case 'dibs-terms-of-sale':
       global $language;
       $block['subject'] = t('Terms and conditions of sale');
-      $block['content'] = theme('dibs_terms_of_sale', array('terms_of_sale'=>variable_get('terms_of_sale_' . $language->language)));
+      $block['content'] = theme('dibs_terms_of_sale', array('terms_of_sale' => variable_get('terms_of_sale_' . $language->language)));
       break;
+
     case 'dibs-cards-supported':
       $block['subject'] = t('Cards supported');
       $block['content'] = theme('dibs_cards_supported', array(
-        'cards_supported'=>$supported_cards
+        'cards_supported' => $supported_cards
       ));
       break;
   }
+
   return $block;
 }
 
@@ -325,12 +332,12 @@ function ding_dibs_block_view($delta = '') {
 function ding_dibs_theme($existing, $type, $theme, $path) {
   return array(
     'dibs_terms_of_sale' => array(
-      'variables' => array('terms_of_sale'=>NULL),
+      'variables' => array('terms_of_sale' => NULL),
       'template' => 'dibs_terms_of_sale',
       'path' => $path . '/templates',
     ),
     'dibs_cards_supported' => array(
-      'variables' => array('cards_supported'=>NULL),
+      'variables' => array('cards_supported' => NULL),
       'template' => 'dibs_cards_supported',
       'path' => $path . '/templates',
     ),
@@ -339,7 +346,7 @@ function ding_dibs_theme($existing, $type, $theme, $path) {
 
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ding_dibs_menu() {
   // Settings pages

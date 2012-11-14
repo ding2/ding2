@@ -1,7 +1,8 @@
 <?php
+
 function ding_dibs_admin_reports() {
 
-  drupal_set_title('Ding DIBS reports');
+  drupal_set_title(t('Ding DIBS reports'));
 
   $start = ( isset($_GET['page']) ) ? (int) $_GET['page'] : 0;
   $num_per_page = 15;
@@ -11,8 +12,10 @@ function ding_dibs_admin_reports() {
 
   $query = db_select('dibs_transactions', 'd');
 
-  $intermediate = $query->fields('d',array('tid'));
-  $maxCount = $intermediate->countQuery()->execute()->fetchField();
+  $max_count = $query->fields('d', array('tid'))
+    ->countQuery()
+    ->execute()
+    ->fetchField();
 
   $no_transactions_msg =  array(
     'no_transactions_msg' => array(
@@ -85,7 +88,7 @@ function ding_dibs_admin_reports() {
     'rows' => $rows,
   ));
 
-  pager_default_initialize($maxCount, $num_per_page);
+  pager_default_initialize($max_count, $num_per_page);
 
   $output .= theme('pager');
 
