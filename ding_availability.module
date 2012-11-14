@@ -159,7 +159,7 @@ function ding_availability_render_legend() {
   // render image html using theme_image (returns NULL if file doesn't exist)
   foreach ( $availability_legend as $key => $val ) {
     $format_label = '<span class="availability-label">' . $val . '</span>';
-    $format_image = theme('image', array('path'=>$image_path, 'alt'=>$val, 'title'=>$val));
+    $format_image = theme('image', array('path' => $image_path, 'alt' => $val, 'title' => $val));
     $format_items[] = '<div class="availability-legend-item ' . $key . '">' . $format_image . $format_label . '</div>';
   };
   $format_items[] = '<div class="clearfix"></div>';
