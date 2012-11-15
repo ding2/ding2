@@ -118,9 +118,7 @@ function openruth_reservation_options($type, $account, $reservables) {
   }
 
   $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
-  // We don't need this for current solution,
-  // since new profiles always do get a default interest period of 30 days.
-  //$form += ding_reservation_interest_period_selector($type, 'expiry', $interest_period, openruth_get_interest_periods());
+  $form += ding_reservation_interest_period_selector($type, 'openruth_interest_period', $interest_period, openruth_get_interest_periods());
 
   return $form;
 }
@@ -132,13 +130,16 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
   $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
-  // Perform a check to whether a show an interest period select dropdown.
+  $interest_period = $profile->field_openruth_interest_period[$field_language['field_openruth_interest_period']][0]['value'];
+  // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
-  if (!empty($profile_branch)) {
+  if (!empty($profile_branch) && !empty($interest_period)) {
     return NULL;
   }
   else {
-    return ding_reservation_default_options_branch_validate($type, 'field_openruth_preferred_branch', $profile_branch, $values);
+    $branch_valid = ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
+    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'openruth_interest_period', $interest_period, $values);
+    return array_merge($branch_valid, $period_valid);
   }
 }
 
