@@ -457,7 +457,7 @@ function ding_user_user_login_validate($form, &$form_state) {
 
       // TODO: Do we still need this?
       if (ding_provider_implements('user', 'authenticate_finalize')) {
-        ding_provider_invoke('user', 'authenticate_finalize', $user);
+        ding_provider_invoke('user', 'authenticate_finalize', $account);
       }
     }
     else {
