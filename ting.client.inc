@@ -379,9 +379,14 @@ function ting_cache_set($id, $value) {
 }
 
 /**
- * @param string $isbn ISBN number to get recommendations from
- * @param $numResults The number of results to return
- * @return array An array of TingClientObjectRecommendation objects
+ * Get recommendations for a given ISBN.
+ *
+ * @param string $isbn
+ *  ISBN number to get recommendations from.
+ * @param $numResults
+ *  The number of results to return.
+ * @return array
+ *  An array of TingClientObjectRecommendation objects.
  */
 function ting_get_object_recommendations($isbn, $numResults = 10) {
   $request = ting_get_request_factory()->getObjectRecommendationRequest();
