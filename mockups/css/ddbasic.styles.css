@@ -18,15 +18,16 @@
 .rs-carousel-mask,
 .rs-carousel-runner {
   position: relative;
+  width: 100%;
 }
 
-/* line 50, ../sass/ting.search.carousel.scss */
+/* line 51, ../sass/ting.search.carousel.scss */
 .rs-carousel-mask,
 .rs-carousel-runner {
   overflow: hidden;
 }
 
-/* line 54, ../sass/ting.search.carousel.scss */
+/* line 55, ../sass/ting.search.carousel.scss */
 .ui-state-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
@@ -34,12 +35,12 @@
 
 /* Pagination and previous and next buttons
    ========================================================================== */
-/* line 62, ../sass/ting.search.carousel.scss */
+/* line 63, ../sass/ting.search.carousel.scss */
 .rs-carousel-pagination {
   display: none;
 }
 
-/* line 67, ../sass/ting.search.carousel.scss */
+/* line 68, ../sass/ting.search.carousel.scss */
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   background-image: url("../images/arrows.png");
@@ -51,24 +52,24 @@
   width: 41px;
 }
 
-/* line 77, ../sass/ting.search.carousel.scss */
+/* line 78, ../sass/ting.search.carousel.scss */
 .rs-carousel-action-prev {
   left: 240px;
 }
 
-/* line 81, ../sass/ting.search.carousel.scss */
+/* line 82, ../sass/ting.search.carousel.scss */
 .rs-carousel-action-next {
   background-position: right 0;
   right: 20px;
 }
 
-/* line 86, ../sass/ting.search.carousel.scss */
+/* line 87, ../sass/ting.search.carousel.scss */
 .rs-carousel-action-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
 }
 
-/* line 91, ../sass/ting.search.carousel.scss */
+/* line 92, ../sass/ting.search.carousel.scss */
 .rs-carousel-disabled .rs-carousel-action-prev,
 .rs-carousel-disabled .rs-carousel-action-next {
   display: none;
@@ -76,11 +77,11 @@
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-/* line 98, ../sass/ting.search.carousel.scss */
+/* line 99, ../sass/ting.search.carousel.scss */
 .rs-carousel-inner {
   min-height: 170px;
 }
-/* line 101, ../sass/ting.search.carousel.scss */
+/* line 102, ../sass/ting.search.carousel.scss */
 .rs-carousel-inner .ajax-loader {
   background: transparent url("../images/ajax-loader.gif") no-repeat right top;
   left: 53%;
@@ -90,7 +91,7 @@
   width: 220px;
 }
 
-/* line 113, ../sass/ting.search.carousel.scss */
+/* line 114, ../sass/ting.search.carousel.scss */
 .rs-carousel-title,
 .rs-carousel-mask,
 .rs-carousel-mask ul {
@@ -98,7 +99,7 @@
   vertical-align: top;
 }
 
-/* line 118, ../sass/ting.search.carousel.scss */
+/* line 119, ../sass/ting.search.carousel.scss */
 .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -111,13 +112,13 @@
   padding-right: 70px;
 }
 
-/* line 130, ../sass/ting.search.carousel.scss */
+/* line 131, ../sass/ting.search.carousel.scss */
 .rs-carousel-mask ul {
   margin: 0;
   list-style: none;
 }
 
-/* line 135, ../sass/ting.search.carousel.scss */
+/* line 136, ../sass/ting.search.carousel.scss */
 .rs-carousel-mask ul li {
   float: left;
   max-width: 112px;
@@ -125,19 +126,19 @@
   text-align: center;
 }
 
-/* line 142, ../sass/ting.search.carousel.scss */
+/* line 143, ../sass/ting.search.carousel.scss */
 .rs-carousel-item-image {
   display: block;
 }
 
-/* line 146, ../sass/ting.search.carousel.scss */
+/* line 147, ../sass/ting.search.carousel.scss */
 .rs-carousel-item-image img {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 152, ../sass/ting.search.carousel.scss */
+/* line 153, ../sass/ting.search.carousel.scss */
 .rs-carousel-item-title {
   display: block;
   padding-top: 10px;
@@ -145,18 +146,18 @@
 
 /* If description is not displayed make sure the mask and prev button a
    positioned correct */
-/* line 160, ../sass/ting.search.carousel.scss */
+/* line 161, ../sass/ting.search.carousel.scss */
 .rs-carousel-compact .rs-carousel-mask {
   max-width: 94%;
 }
-/* line 163, ../sass/ting.search.carousel.scss */
+/* line 164, ../sass/ting.search.carousel.scss */
 .rs-carousel-compact .rs-carousel-action-prev {
   left: 2%;
 }
 
 /* Carousel tabs
    ========================================================================== */
-/* line 171, ../sass/ting.search.carousel.scss */
+/* line 172, ../sass/ting.search.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
@@ -165,19 +166,19 @@
   text-align: center;
 }
 
-/* line 179, ../sass/ting.search.carousel.scss */
+/* line 180, ../sass/ting.search.carousel.scss */
 .rs-carousel-tabs ul li {
   list-style: none;
   text-align: center;
 }
 
-/* line 184, ../sass/ting.search.carousel.scss */
+/* line 185, ../sass/ting.search.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
   display: block;
 }
 
-/* line 189, ../sass/ting.search.carousel.scss */
+/* line 190, ../sass/ting.search.carousel.scss */
 .rs-carousel-tabs ul li.active a {
   background-color: rgba(255, 82, 0, 0.75);
   zoom: 1;
@@ -188,18 +189,18 @@
 /* Mediaqueries
    ========================================================================== */
 @media screen and (max-width: 960px) {
-  /* line 200, ../sass/ting.search.carousel.scss */
+  /* line 201, ../sass/ting.search.carousel.scss */
   .rs-carousel-inner {
     min-height: 250px;
     padding-top: 20px;
     padding-bottom: 20px;
   }
-  /* line 205, ../sass/ting.search.carousel.scss */
+  /* line 206, ../sass/ting.search.carousel.scss */
   .rs-carousel-inner .ajax-loader {
     left: 35%;
   }
 
-  /* line 210, ../sass/ting.search.carousel.scss */
+  /* line 211, ../sass/ting.search.carousel.scss */
   .rs-carousel-title {
     display: block;
     padding-top: 0;
@@ -209,32 +210,32 @@
     max-width: 94%;
   }
 
-  /* line 219, ../sass/ting.search.carousel.scss */
+  /* line 220, ../sass/ting.search.carousel.scss */
   .rs-carousel-mask {
     max-width: 94%;
   }
 
-  /* line 223, ../sass/ting.search.carousel.scss */
+  /* line 224, ../sass/ting.search.carousel.scss */
   .rs-carousel-action-prev {
     left: 20px;
   }
 
-  /* line 228, ../sass/ting.search.carousel.scss */
+  /* line 229, ../sass/ting.search.carousel.scss */
   .rs-carousel-action-prev,
   .rs-carousel-action-next {
     top: 35%;
   }
 
-  /* line 232, ../sass/ting.search.carousel.scss */
+  /* line 233, ../sass/ting.search.carousel.scss */
   .rs-carousel-tabs ul li a {
     padding: 20px 10px;
   }
 
-  /* line 237, ../sass/ting.search.carousel.scss */
+  /* line 238, ../sass/ting.search.carousel.scss */
   .rs-carousel-compact .rs-carousel-inner {
     min-height: 200px;
   }
-  /* line 242, ../sass/ting.search.carousel.scss */
+  /* line 243, ../sass/ting.search.carousel.scss */
   .rs-carousel-compact .rs-carousel-action-prev,
   .rs-carousel-compact .rs-carousel-action-next {
     top: 25%;
