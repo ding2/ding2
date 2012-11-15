@@ -38,6 +38,8 @@ function ding_user_ctools_plugin_api($module, $api) {
  * Implements hook_menu().
  */
 function ding_user_menu() {
+  $items = array();
+
   $items['user/%user/authenticate'] = array(
     'title' => 'Authenticate',
     'page callback' => 'drupal_get_form',
@@ -147,7 +149,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
  * For provider users, hide OG, Drupal password, and add in a pincode field.
  */
 function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
-  if (ding_user_is_provider_user($form_state['user'])){
+  if (ding_user_is_provider_user($form_state['user'])) {
     // Don't show og group.
     // @todo: shouldn't this be elsewhere?
     $form['group_audience']['#access'] = FALSE;
@@ -353,7 +355,7 @@ function ding_user_default_authname($name) {
    * characters, leaving enough room for our suffix.
    */
   $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
-  return _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+  return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
 }
 
 /**
@@ -469,7 +471,7 @@ function ding_user_user_login_validate($form, &$form_state) {
           else {
             $type = 'warning';
           }
-          drupal_set_message($message, $type);
+          drupal_set_message(check_plain($message), $type);
         }
       }
     }
@@ -611,7 +613,7 @@ function ding_user_save_creds($auth_res, $account) {
  */
 function ding_user_is_provider_user($account) {
   static $names;
-  if( !isset($names) ){
+  if (!isset($names)) {
     $names = db_select('authmap')
       ->fields('authmap', array('authname'))
       ->condition('module', 'ding_user')
