@@ -71,3 +71,41 @@ function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state)
     '#default_value' => variable_get('ting_ebrary_url', ''),
   );
 }
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ting_relation_ding_entity_buttons($type, $entity) {
+  if ($entity instanceof TingEntity) {
+    $relation = NULL;
+    $markup = '';
+    // Seek for a online version of related material.
+    foreach ($entity->relations as $rel) {
+      if ($rel->type == 'dbcaddi:hasOnlineAccess') {
+        $relation = $rel;
+        break;
+      }
+    }
+    // Replace the online material link to related stuff if present.
+    if ($relation) {
+      $ebrary_url = variable_get('ting_ebrary_url');
+      $url = str_replace('[URL]', $ebrary_url, $relation->uri);
+      $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank')));
+    }
+    elseif ($entity->online_url) {
+      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+      $type = drupal_strtolower($entity->type);
+      $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+      $markup = l($label, $entity->online_url, array('attributes' => array('target' => '_new')));
+    }
+
+    return array(
+      array(
+        '#prefix' => '<p class="ding-entity-button">',
+        '#suffix' => '</p>',
+        '#type' => 'markup',
+        '#markup' => $markup,
+      ),
+    );
+  }
+}
