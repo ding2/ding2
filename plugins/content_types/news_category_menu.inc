@@ -21,10 +21,10 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  $uri['path']. '/news';
+    $base = $uri['path'] . '/news-category';
   }
   else {
-    $base = 'news';
+    $base = 'news-category';
   }
 
   $options = array();
@@ -35,8 +35,8 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   // but we'll go with that for the moment being.
   $items = array(l(t('All categories'), $base . '/all', $options));
 
-  $vocabulary = taxonomy_vocabulary_machine_name_load('category');
-  $terms = taxonomy_get_tree($vocabulary->vid);
+  $vocabulary = taxonomy_vocabulary_machine_name_load('news_category');
+  $terms = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
 
   foreach ($terms as $term) {
     if ($selected_term && $selected_term->tid == $term->tid) {
@@ -45,7 +45,8 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
     else {
       $options = array();
     }
-    $items[] = l($term->name, $base . '/' . $term->tid, $options);
+    $uri = entity_uri('taxonomy_term', $term);
+    $items[] = l($term->name, $uri['path'], $options);
   }
   $block->content = theme('item_list', array('items' => $items));
 

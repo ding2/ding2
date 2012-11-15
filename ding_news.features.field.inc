@@ -174,7 +174,7 @@ function ding_news_field_default_fields() {
       'settings' => array(
         'allowed_values' => array(
           0 => array(
-            'vocabulary' => 'category',
+            'vocabulary' => 'news_category',
             'parent' => '0',
           ),
         ),
@@ -807,11 +807,11 @@ function ding_news_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'browser_plugins' => array(
             'ding_content' => 0,
