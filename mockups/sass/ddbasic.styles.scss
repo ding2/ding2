@@ -3,6 +3,7 @@
 // =============================================================================
 //
 @import "compass/css3";
+@import "ting.search.carousel.scss";
 @import "../latto/sass/_latto.mixins.scss";
 @import "../latto/sass/_latto.variables.scss";
 @import "../latto/sass/_latto.grid.scss";
@@ -31,6 +32,201 @@ $color-primary: #ff5b00;
 
 $form-button-text-color:  #fff;
 $form-button-bg-color:    lighten(#000, 15%);
+
+$default-block-border: 12px;
+
+
+// -----------------------------------------------------------------------------
+// Mixins
+// -----------------------------------------------------------------------------
+//
+
+// -----------------------------------------------------------------------------
+// Pseudo arrows
+// -----------------------------------------------------------------------------
+//
+@mixin pseudo-arrow($size, $color, $direction, $alignment, $offset: 20px) {
+
+  border: $size solid transparent;
+  content: "";
+  height: 0;
+  position: absolute;
+  width: 0;
+
+  // Place the arrow based on $direction
+  #{$direction}: -$size * 2;
+
+  // Set the border-color based on $direction
+  border-#{opposite-position($direction)}-color: $color;
+
+  // Place the arrow based on alignment (center/middle or $offset)
+  @if ($alignment == "center") {
+
+    margin-left: -$size;
+    left: 50%;
+
+  } @else if $alignment == "middle" {
+
+    margin-top: -$size;
+    top: 50%;
+
+  } @else {
+
+    #{$alignment}: $offset;
+
+  }
+
+}
+
+// -----------------------------------------------------------------------------
+// Primary 33% secondary 66% tertiary 100% stacked
+// -----------------------------------------------------------------------------
+//
+// -------------------------------
+// |     Secondary     |  Prim.  |
+// -------------------------------
+// -------------------------------
+// |           Tertiary          |
+// -------------------------------
+//
+@mixin display-33-66-stacked {
+  .primary-content {
+    @include zen-grid-item($grid-33, 1, right);
+  }
+
+  .secondary-content {
+    @include zen-grid-item($grid-66, 1);
+  }
+
+  .tertiary-content {
+    @include zen-clear(both);
+    @include zen-grid-item($grid-column-count, 1);
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Extend classes
+// -----------------------------------------------------------------------------
+//
+%grid-padding {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+%header-sections {
+  @include zen-grid-item($grid-50, 1);
+
+	margin-top: 70px;
+	margin-bottom: 70px;
+  padding: 0;
+  position: relative;
+}
+
+
+%read-more-icon {
+  float: left;
+  margin-right: 5px;
+}
+
+
+%read-more-link {
+  display: block;
+  margin-top: $default-spacing;
+}
+
+%inline-icons {
+  @include opacity(.25);
+
+  margin-left: 15px;
+  position: absolute;
+
+  font-size: $theme-font-size * 2.2;
+}
+
+
+%inline-icon-input {
+  @include box-sizing(border-box);
+  @include border-radius(12px);
+
+  display: inline;
+  padding-top: 10px;
+  padding-left: 45px;
+
+  border: 0;
+}
+
+
+%button {
+  @include border-radius(12px);
+
+  padding-top: 7px;
+  padding-right: 18px;
+  padding-left: 18px;
+
+  background-color: $form-button-bg-color;
+  border: 0;
+  color: $form-button-text-color;
+  cursor: pointer;
+  font-size: $theme-font-size * 1.7;
+
+  &:hover {
+    background-color: darken($form-button-bg-color, 15%);
+  }
+}
+
+
+%block {
+  @include border-radius($default-block-border);
+  @include box-sizing(border-box);
+
+  background-color: $color-primary;
+  color: #fff;
+  padding: 20px;
+
+  h2 {
+    color: #fff;
+    margin-top: 0;
+  }
+
+  select {
+    width: 100%;
+  }
+
+  i[class^="icon-"] {
+    @extend %read-more-icon;
+  }
+
+  .read-more {
+    @extend %read-more-link;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Displays
+// -----------------------------------------------------------------------------
+//
+
+%frontpage-display {
+  @include medium() {
+    @include display-100-50-50;
+  }
+
+  @include large() {
+    @include display-33-66-stacked;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Layout templates
+// -----------------------------------------------------------------------------
+//
+.frontpage-layout {
+  @extend %frontpage-display;
+  @extend %attachments-display-three;
+}
 
 
 // -----------------------------------------------------------------------------
@@ -72,6 +268,10 @@ a {
   &:hover {
     color: $link-color-hover;
     text-decoration: underline;
+
+    i[class^="icon-"] {
+      text-decoration: none;
+    }
   }
   &:focus {
     color: $link-color-hover;
@@ -151,123 +351,74 @@ a {
 .content-wrapper {
   @extend .grid-wrapper;
 
-  margin-top: 68px;
+  margin-top: 88px;
 }
 
 
 // -----------------------------------------------------------------------------
-// Mixins
+// Opening hours
 // -----------------------------------------------------------------------------
 //
-@mixin pseudo-arrow($size, $color, $direction, $alignment, $offset: 20px) {
+.block-opening-hours {
+  @extend %block;
 
-  border: $size solid transparent;
-  content: "";
-  height: 0;
-  position: absolute;
-  width: 0;
-
-  // Place the arrow based on $direction
-  #{$direction}: -$size * 2;
-
-  // Set the border-color based on $direction
-  border-#{opposite-position($direction)}-color: $color;
-
-  // Place the arrow based on alignment (center/middle or $offset)
-  @if ($alignment == "center") {
-
-    margin-left: -$size;
-    left: 50%;
-
-  } @else if $alignment == "middle" {
-
-    margin-top: -$size;
-    top: 50%;
-
-  } @else {
-
-    #{$alignment}: $offset;
-
+  .read-more {
+    margin-left: 3px;
   }
-
 }
 
 
 // -----------------------------------------------------------------------------
-// Extend classes
+// Carousel
 // -----------------------------------------------------------------------------
 //
-%grid-padding {
-  padding-left: 10px;
-  padding-right: 10px;
-}
+.rs-carousel {
+  @include zen-grid-container;
+  @extend %block;
 
-
-%header-sections {
-  @include zen-grid-item($grid-50, 1);
-
-	margin-top: 70px;
-	margin-bottom: 70px;
   padding: 0;
-  position: relative;
-}
 
+  .rs-carousel-inner {
+    @include zen-grid-item(9, 1, right);
+  }
 
-%inline-icons {
-  @include opacity(.25);
+  .rs-carousel-runner {
+    margin-top: 63px;
+    margin-left: 67px;
+    padding-left: 0;
+  }
 
-  margin-left: 15px;
-  position: absolute;
+  .rs-carousel-tabs {
+    @include border-radius($default-block-border 0 0 $default-block-border);
+    @include zen-grid-item(3, 1);
 
-  font-size: $theme-font-size * 2.2;
-}
+    padding-left: 0;
+    padding-right: 0;
 
+    li {
+      border-bottom: 1px solid lighten($black, 90%);
+    }
 
-%inline-icon-input {
-  @include box-sizing(border-box);
-  @include border-radius(12px);
+    a {
+      padding-top: 25px;
+      padding-bottom: 20px;
+    }
 
-  display: inline;
-  padding-top: 10px;
-  padding-left: 45px;
+    .active {
+      a {
+        @include border-radius($default-block-border 0 0);
+      }
+    }
 
-  border: 0;
-}
+    .last {
+      border-bottom: 0;
 
-
-%button {
-  @include border-radius(12px);
-
-  padding-top: 7px;
-  padding-right: 18px;
-  padding-left: 18px;
-
-  background-color: $form-button-bg-color;
-  border: 0;
-  color: $form-button-text-color;
-  cursor: pointer;
-  font-size: $theme-font-size * 1.7;
-
-  &:hover {
-    background-color: darken($form-button-bg-color, 15%);
+      a {
+        @include border-radius(0 0 0 $default-block-border);
+      }
+    }
   }
 }
-
-
-%block {
-  @include border-radius(12px);
-  @include box-sizing(border-box);
-
-  background-color: $color-primary;
-  color: #fff;
-  padding: 20px;
-
-  h2 {
-    color: #fff;
-    margin-top: 0;
-  }
-}
-
 
 // -----------------------------------------------------------------------------
 // Search
@@ -442,8 +593,7 @@ a {
   }
 
   i[class^="icon-"] {
-    float: left;
-    margin-right: 5px;
+    @extend %read-more-icon;
   }
 
   &.fixed {
