@@ -30,6 +30,9 @@ $font-weight-bold: 		700;
 
 $color-primary: #ff5b00;
 
+$block-bg-primary:    #ff5b00;
+$block-bg-secondary:  #fff;
+
 $form-button-text-color:  #fff;
 $form-button-bg-color:    lighten(#000, 15%);
 
@@ -81,13 +84,6 @@ $default-block-border: 12px;
 // -----------------------------------------------------------------------------
 // Primary 33% secondary 66% tertiary 100% stacked
 // -----------------------------------------------------------------------------
-//
-// -------------------------------
-// |     Secondary     |  Prim.  |
-// -------------------------------
-// -------------------------------
-// |           Tertiary          |
-// -------------------------------
 //
 @mixin display-33-66-stacked {
   .primary-content {
@@ -181,7 +177,7 @@ $default-block-border: 12px;
   @include border-radius($default-block-border);
   @include box-sizing(border-box);
 
-  background-color: $color-primary;
+  background-color: $block-bg-primary;
   color: #fff;
   padding: 20px;
 
@@ -204,6 +200,34 @@ $default-block-border: 12px;
 }
 
 
+%block-alternate {
+  @include box-shadow(inset 0 0 15px lighten($black, 95%));
+  @include border-radius($default-block-border);
+  @include box-sizing(border-box);
+
+  background-color: $block-bg-secondary;
+  padding: 20px;
+
+  h2 {
+    color: $color-primary;
+    margin-top: 0;
+  }
+
+  .image {
+    margin-bottom: $default-spacing;
+  }
+
+  i[class^="icon-"] {
+    @extend %read-more-icon;
+  }
+
+  .read-more {
+    @extend %read-more-link;
+
+    color: $color-primary;
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Displays
 // -----------------------------------------------------------------------------
@@ -225,7 +249,7 @@ $default-block-border: 12px;
 //
 .frontpage-layout {
   @extend %frontpage-display;
-  @extend %attachments-display-three;
+  @extend %attachments-display-two;
 }
 
 
@@ -235,11 +259,13 @@ $default-block-border: 12px;
 //
 body {
 	background: url('../images/body.jpg') no-repeat;
+  background-attachment: fixed;
 	background-size: cover;
 	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
   font-size: $theme-font-size;
 	font-weight: $font-weight-light;
 }
+
 
 h1,
 h2,
@@ -249,6 +275,7 @@ h5,
 h6 {
   font-weight: $font-weight-light;
 }
+
 
 input,
 textarea {
@@ -287,6 +314,25 @@ a {
 	max-width: 1350px;
 }
 
+
+.blocks-wrapper {
+  @include rgba-background($white, .85);
+	@extend .grid-wrapper;
+
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+.blocks-wrapper-two {
+  @include rgba-background($black, .85);
+  @include attachment-50-50-50-50;
+  @extend .blocks-wrapper;
+
+  img {
+    max-height: 150px;
+    width: 100%;
+  }
+}
 
 .js-fixed-element {
   display: none;
@@ -355,12 +401,25 @@ a {
 }
 
 
+.primary-content,
+.secondary-content,
+.tertiary-content,
+.attachment-first,
+.attachment-second,
+.attachment-third,
+.attachment-fourth {
+  margin-bottom: $default-spacing;
+}
+
+
 // -----------------------------------------------------------------------------
 // Opening hours
 // -----------------------------------------------------------------------------
 //
 .block-opening-hours {
   @extend %block;
+
+  min-height: 279px;
 
   .read-more {
     margin-left: 3px;
@@ -418,6 +477,14 @@ a {
       }
     }
   }
+}
+
+// -----------------------------------------------------------------------------
+// Themes
+// -----------------------------------------------------------------------------
+//
+.theme-block {
+  @extend %block-alternate;
 }
 
 // -----------------------------------------------------------------------------
@@ -711,7 +778,7 @@ a {
 }
 
 .navigation-wrapper {
- 	@include rgba-background($white, .85);
+ 	@include rgba-background($white, .95);
   @extend .grid-wrapper;
 
   position: absolute;
@@ -721,6 +788,7 @@ a {
     margin-top: 60px;
     position: fixed;
     top: 0;
+    z-index: 99;
   }
 
 }
