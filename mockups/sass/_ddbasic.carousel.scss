@@ -247,3 +247,56 @@ $tabs-active-text-color:        #fff;
   }
 
 }
+
+
+// -----------------------------------------------------------------------------
+// Carousel
+// -----------------------------------------------------------------------------
+//
+.rs-carousel {
+  @include zen-grid-container;
+  @extend %block;
+
+  padding: 0;
+
+  .rs-carousel-inner {
+    @include zen-grid-item(9, 1, right);
+  }
+
+  .rs-carousel-runner {
+    margin-top: 63px;
+    margin-left: 67px;
+    padding-left: 0;
+  }
+
+  .rs-carousel-tabs {
+    @include border-radius($default-block-border 0 0 $default-block-border);
+    @include zen-grid-item(3, 1);
+
+    padding-left: 0;
+    padding-right: 0;
+
+    li {
+      border-bottom: 1px solid lighten($black, 90%);
+    }
+
+    a {
+      padding-top: 25px;
+      padding-bottom: 20px;
+    }
+
+    .active {
+      a {
+        @include border-radius($default-block-border 0 0);
+      }
+    }
+
+    .last {
+      border-bottom: 0;
+
+      a {
+        @include border-radius(0 0 0 $default-block-border);
+      }
+    }
+  }
+}
