@@ -2,8 +2,10 @@
 // Variables
 // =============================================================================
 //
-$link-color:              #4d1500;
-$link-color-hover:        darken($link-color, 20%);
+$link-color:                #4d1500;
+$link-color-hover:          darken($link-color, 20%);
+$link-color-inverted:       #fff;
+$link-color-inverted-hover: darken($link-color-inverted, 20%);
 
 $theme-font-size:	15px;
 
@@ -19,6 +21,11 @@ $color-primary: #ff5b00;
 
 $block-bg-primary:    #ff5b00;
 $block-bg-secondary:  #fff;
+
+$block-bg:              #fff;
+$block-color:           #000;
+$block-bg-inverted:     #ff5b00;
+$block-color-inverted:  #fff;
 
 $form-button-text-color:  #fff;
 $form-button-bg-color:    lighten(#000, 15%);

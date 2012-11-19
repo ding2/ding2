@@ -188,7 +188,7 @@ $tabs-active-text-color:        #fff;
 }
 
 .rs-carousel-tabs ul li.active a {
-  @include rgba-background($tabs-active-background-color, .75);
+  background-color: transparent;
   position: relative;
 }
 
@@ -255,10 +255,9 @@ $tabs-active-text-color:        #fff;
 //
 .rs-carousel {
   @include zen-grid-container;
+  @include rgba-background($color-primary, .75);
   @extend %block;
-
-  padding: 0;
-
+  
   .rs-carousel-inner {
     @include zen-grid-item(9, 1, right);
   }

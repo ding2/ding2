@@ -61,8 +61,6 @@
 
 .secondary-menu-inner {
   @include zen-grid-item($grid-33, 1, right);
-
-  padding: 0;
 }
 
 .secondary-menu {
