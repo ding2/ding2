@@ -8,27 +8,27 @@
 // Links
 // -----------------------------------------------------------------------------
 //
-$link-color:                #4d1500;
-$link-color-hover:          darken($link-color, 20%);
-$link-color-inverted:       #fff;
-$link-color-inverted-hover: darken($link-color-inverted, 20%);
+$link-color:                  #4d1500;
+$link-color-hover:            darken($link-color, 20%);
+$link-color-inverted:         #fff;
+$link-color-inverted-hover:   darken($link-color-inverted, 20%);
 
 
 // -----------------------------------------------------------------------------
 // Typography
 // -----------------------------------------------------------------------------
 //
-$font-size:           15px;
-$font-weight-light: 	300;
-$font-weight-regular: 400;
-$font-weight-bold: 		700;
-$font-color-primary:  #ff5b00;
+$font-size:                   15px;
+$font-weight-light:           300;
+$font-weight-regular:         400;
+$font-weight-bold:            700;
+$font-color-primary:          #ff5b00;
 
 
 
-$header-text-color: #fff;
-$header-font-size: 30px;
-$header-min-height: 60px;
+$header-text-color:           #fff;
+$header-font-size:            30px;
+$header-min-height:           60px;
 
 
 // -----------------------------------------------------------------------------
@@ -50,5 +50,5 @@ $block-wrapper-transparency:  .85;
 // Forms
 // -----------------------------------------------------------------------------
 //
-$form-button-text-color:  #fff;
-$form-button-bg-color:    lighten(#000, 15%);
+$form-button-text-color:      #fff;
+$form-button-bg-color:        lighten(#000, 15%);
