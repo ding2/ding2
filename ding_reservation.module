@@ -181,6 +181,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
      */
     $provider_options = array();
     $provider = ding_provider_get_provider_module_name('reservation');
+    $removal = array();
     foreach ($res as $key => $value) {
       if (is_array($value) && !empty($value['#error'])) {
         if (!$form_state['options_hidden']) {
@@ -189,14 +190,18 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
         }
         else {
           // Else simply rebuild the form.
-          $removal = '';
           if ($key == $provider . '_preferred_branch') {
-            $removal = $provider . '_interest_period';
+            $removal[] = $provider . '_interest_period';
           }
           elseif ($key == $provider . '_interest_period') {
-            $removal = $provider . '_preferred_branch';
+            $removal[] = $provider . '_preferred_branch';
           }
-          
+
+          // In case both fields are not set, remove nothing.
+          if (count($removal) == 2) {
+            $removal = array();
+          }
+
           $form_state['removable'] = $removal;
           $form_state['rebuild'] = TRUE;
         }
@@ -263,10 +268,13 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
   $html = theme('status_messages');
   if ($form_state['rebuild'] || form_get_errors()) {
     // Hide certain fields, if any.
-    if (!empty($form_state['removable'])) {
+    if (is_array($form_state['removable'])) {
       $removal = $form_state['removable'];
-      unset($form['provider_options'][$removal]);
-      unset($form['provider_options'][$removal . 'description']);
+      foreach ($removal as $v) {
+        unset($form['provider_options'][$v]);
+        unset($form['provider_options'][$v . 'description']);
+      }
+
     }
     // Redisplay form.
     $html .= drupal_render($form);
