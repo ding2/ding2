@@ -255,7 +255,7 @@ $tabs-active-text-color:        #fff;
 //
 .rs-carousel {
   @include zen-grid-container;
-  @include rgba-background($color-primary, .75);
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
   @extend %block;
   
   .rs-carousel-inner {
@@ -269,7 +269,7 @@ $tabs-active-text-color:        #fff;
   }
 
   .rs-carousel-tabs {
-    @include border-radius($default-block-border 0 0 $default-block-border);
+    @include border-radius($block-border 0 0 $block-border);
     @include zen-grid-item(3, 1);
 
     padding-left: 0;
@@ -286,7 +286,7 @@ $tabs-active-text-color:        #fff;
 
     .active {
       a {
-        @include border-radius($default-block-border 0 0);
+        @include border-radius($block-border 0 0);
       }
     }
 
@@ -294,7 +294,7 @@ $tabs-active-text-color:        #fff;
       border-bottom: 0;
 
       a {
-        @include border-radius(0 0 0 $default-block-border);
+        @include border-radius(0 0 0 $block-border);
       }
     }
   }

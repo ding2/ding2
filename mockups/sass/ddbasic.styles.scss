@@ -20,7 +20,7 @@
 // -----------------------------------------------------------------------------
 //
 body {
-  @include rem('font-size', $theme-font-size);
+  @include rem('font-size', $font-size);
 
 	background: url('../images/body.jpg') no-repeat;
   background-attachment: fixed;
@@ -80,7 +80,7 @@ ul {
 // -----------------------------------------------------------------------------
 //
 .topbar {
-	@include rgba-background($black, .85);
+	@include rgba-background($black, $block-bg-transparency);
 
 	min-height: $header-min-height;
 
@@ -158,7 +158,7 @@ ul {
 // -----------------------------------------------------------------------------
 //
 %block {
-  @include border-radius($default-block-border);
+  @include border-radius($block-border);
   @include box-sizing(border-box);
 
   select {
@@ -179,19 +179,17 @@ ul {
 
   .read-more {
     @extend %read-more-link;
-
-    color: $color-primary;
   }
 }
 
 
 .block {
   @include box-shadow(inset 0 0 15px darken($block-bg, 10%));
-  @include border-radius($default-block-border);
+  @include border-radius($block-border);
   @include box-sizing(border-box);
+  @include rgba-background($block-bg, $block-bg-transparency);
   @extend %block;
 
-  background-color: $block-bg;
   color: $block-color;
 }
 
@@ -204,31 +202,23 @@ ul {
   color: $block-color-inverted;
 
   h2 {
-    color: $color-primary;
+    color: $block-color-inverted;;
     margin-top: 0;
+  }
+
+  i[class^="icon-"] {
+    @extend %read-more-icon;
+    
+    color: $block-color-inverted;
   }
 
   .image {
     margin-bottom: $default-spacing;
   }
 
-  i[class^="icon-"] {
-    @extend %read-more-icon;
+  .read-more {
+    color: $block-color-inverted;
   }
-}
-
-
-.block-color {
-  @extend .block;
-
-  background-color: $block-bg-primary;
-  color: #fff;
-
-  h2 {
-    color: #fff;
-    margin-top: 0;
-  }
-
 }
 
 
@@ -247,7 +237,7 @@ ul {
 
 
 .blocks-wrapper {
-  @include rgba-background($white, .85);
+  @include rgba-background($block-wrapper-bg, $block-wrapper-transparency);
 	@extend .grid-wrapper;
 
   padding-top: 30px;
@@ -257,6 +247,7 @@ ul {
 
 .blocks-wrapper-inverted {
   @include attachment-50-50-50-50;
+  @include rgba-background($block-wrapper-bg-inverted, $block-wrapper-transparency);
   @extend .blocks-wrapper;
 
   .block-title {
@@ -270,13 +261,12 @@ ul {
 
 
 .blocks-wrapper-two {
-  @include rgba-background($black, .85);
   @extend .blocks-wrapper-inverted;
 }
 
 
 .footer {
-  @include rgba-background($black, .85);
+  @include rgba-background($block-wrapper-bg, $block-wrapper-transparency);
 
   padding-top: 30px;
 }
@@ -303,16 +293,16 @@ ul {
   margin-left: 10px;
 }
 
+
 // -----------------------------------------------------------------------------
 // Opening hours
 // -----------------------------------------------------------------------------
 //
 .block-opening-hours {
+  @include rgba-background($block-bg, $block-bg-transparency);
   @extend %block;
 
   min-height: 279px;
-
-  background-color: $color-primary;
 
   .read-more {
     margin-left: 3px;
@@ -325,6 +315,7 @@ ul {
 // -----------------------------------------------------------------------------
 //
 .theme-block {
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
   @extend .block-inverted;
 }
 
@@ -342,7 +333,7 @@ ul {
   }
 
   input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.7);
+    @include rem('font-size', $font-size * 1.7);
     @extend %inline-icon-input;
 
     min-height: 60px;
@@ -404,7 +395,7 @@ ul {
   }
 
   input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.5);
+    @include rem('font-size', $font-size * 1.5);
 
     min-height: 30px;
     padding-top: 5px;
@@ -412,17 +403,17 @@ ul {
   }
 
   input[type="submit"] {
-    @include rem('font-size', $theme-font-size * 1.4);
+    @include rem('font-size', $font-size * 1.4);
     @extend %button;
 
-    background-color: $color-primary;
+    background-color: $font-color-primary;
     height: 40px;
     position: absolute;
     right: -1px;
   }
 
   i[class^="icon-"] {
-    @include rem('font-size', $theme-font-size * 1.7);
+    @include rem('font-size', $font-size * 1.7);
     @extend %inline-icons;
 
     top: 13px;
@@ -453,7 +444,7 @@ ul {
 
   input[type="text"],
   input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
+    @include rem('font-size', $font-size * 1.3);
     @extend %inline-icon-input;
 
     max-width: 240px;
@@ -474,7 +465,7 @@ ul {
 
 
 .user-compact {
-  @include rem('font-size', $theme-font-size * 1.4);
+  @include rem('font-size', $font-size * 1.4);
 
   margin-top: 9px;
   text-align: right;
@@ -496,7 +487,7 @@ ul {
     }
 
     &.active {
-      background-color: $color-primary;
+      background-color: $font-color-primary;
     }
   }
 
@@ -519,7 +510,7 @@ ul {
   z-index: 99;
 
   &:before {
-    @include pseudo-arrow(25px, $color-primary, top, right, 50px);
+    @include pseudo-arrow(25px, $font-color-primary, top, right, 50px);
   }
 
   .user-field-wrapper {
@@ -534,7 +525,7 @@ ul {
   }
 
   .user-close-container {
-    @include rem('font-size', $theme-font-size * 1.25);
+    @include rem('font-size', $font-size * 1.25);
 
     color: #fff;
     cursor: pointer;
@@ -570,7 +561,7 @@ ul {
 
   input[type="text"],
   input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
+    @include rem('font-size', $font-size * 1.3);
     @extend %inline-icon-input;
 
     margin-bottom: $default-spacing;
