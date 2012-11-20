@@ -196,9 +196,11 @@ ul {
 
 .block-inverted {
   @include box-shadow(inset 0 0 15px darken($block-bg-inverted, 10%));
+  @include border-radius($block-border);
+  @include box-sizing(border-box);
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);  
   @extend %block;
 
-  background-color: $block-bg-inverted;
   color: $block-color-inverted;
 
   h2 {
@@ -218,6 +220,7 @@ ul {
 
   .read-more {
     color: $block-color-inverted;
+    text-decoration: underline;    
   }
 }
 
@@ -237,7 +240,7 @@ ul {
 
 
 .blocks-wrapper {
-  @include rgba-background($section-bg, $section-transparency);
+  @include rgba-background($section-bg, $section-bg-transparency);
 	@extend .grid-wrapper;
 
   padding-top: 30px;
@@ -247,7 +250,7 @@ ul {
 
 .blocks-wrapper-inverted {
   @include attachment-50-50-50-50;
-  @include rgba-background($section-bg-inverted, $section-transparency);
+  @include rgba-background($section-bg-inverted, $section-bg-transparency);
   @extend .blocks-wrapper;
 
   .block-title {
@@ -266,7 +269,7 @@ ul {
 
 
 .footer {
-  @include rgba-background($section-bg, $section-transparency);
+  @include rgba-background($section-bg, $section-bg-transparency);
 
   padding-top: 30px;
 }
