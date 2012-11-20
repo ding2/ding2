@@ -378,18 +378,12 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
     );
 
     $address_parts = array($data['userAddress']);
-    if (!empty($data['userVillage']) && $data['userVillage'] != $data['userCity']) {
-      $address_parts[] = $data['userVillage'];
-    }
-    if (!empty($data['userPostCode']) || !empty($data['userCity'])) {
-      $address_parts[] = join(' ', array_filter(array($data['userPostCode'], $data['userCity'])));
-    }
 
     // @todo: really, there should be a template for this.
     $account->content['userinfo']['address'] = array(
       '#type' => 'item',
       '#title' => t('Address'),
-      '#markup' =>  join(', ', $address_parts),	
+      '#markup' =>  '<p>' . $data['userAddress'] . '<br />' . $data['userPostCode'] . ' ' . $data['userCity'] . '</p>',
     );
   }
 
@@ -412,11 +406,12 @@ function openruth_set_profile2_fields($account) {
 
   // wrapper for profile2-fields
   $account->content['profile2'] = array(
-      '#type' => 'item',
-      '#title' => t('My library'),
-      '#prefix' => '<div class="profile2_provider_fields">',
-      '#suffix' => '</div>',
-    );
+    '#type' => 'item',
+    //'#title' => t('My library'),
+    '#prefix' => '<div class="profile2_provider_fields">',
+    '#suffix' => '</div>',
+    '#weight' => 10,
+  );
 
   // set preferred branch
   if ( $pref_branch =  openruth_get_preferred_branch($profile2) ) {
@@ -447,23 +442,23 @@ function openruth_set_profile2_fields($account) {
   if ( $reservation_pause = openruth_get_reservation_pause( $profile2 ) ) {
     //wrapper for reservation pause
     $account->content['profile2']['reservation_pause'] = array(
-         '#type' => 'item',
-         '#title' => t('Reservation pause'),
-         '#prefix' => '<div class="profile2_provider_reservation_pause">',
-         '#suffix' => '</div>',
-       );
+      '#type' => 'item',
+      '#title' => '<h4>' . t('Reservation pause') . '</h4>',
+      '#prefix' => '<div class="profile2_provider_reservation_pause">',
+      '#suffix' => '</div>',
+    );
 
     $account->content['profile2']['reservation_pause']['start'] = array(
-         '#type' => 'item',
-         '#title' => t('Start'),
-         '#markup' => '<span>' . $reservation_pause['start'] . '</span>',
-       );
+      '#type' => 'item',
+      '#title' => t('Start'),
+      '#markup' => '<span>' . $reservation_pause['start'] . '</span>',
+    );
 
     $account->content['profile2']['reservation_pause']['stop'] = array(
-         '#type' => 'item',
-         '#title' => t('Stop'),
-         '#markup' => '<span>' . $reservation_pause['stop'] . '</span>',
-       );
+      '#type' => 'item',
+      '#title' => t('Stop'),
+      '#markup' => '<span>' . $reservation_pause['stop'] . '</span>',
+    );
   }
 }
 
