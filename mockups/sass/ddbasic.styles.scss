@@ -237,7 +237,7 @@ ul {
 
 
 .blocks-wrapper {
-  @include rgba-background($block-wrapper-bg, $block-wrapper-transparency);
+  @include rgba-background($section-bg, $section-transparency);
 	@extend .grid-wrapper;
 
   padding-top: 30px;
@@ -247,7 +247,7 @@ ul {
 
 .blocks-wrapper-inverted {
   @include attachment-50-50-50-50;
-  @include rgba-background($block-wrapper-bg-inverted, $block-wrapper-transparency);
+  @include rgba-background($section-bg-inverted, $section-transparency);
   @extend .blocks-wrapper;
 
   .block-title {
@@ -266,7 +266,7 @@ ul {
 
 
 .footer {
-  @include rgba-background($block-wrapper-bg, $block-wrapper-transparency);
+  @include rgba-background($section-bg, $section-transparency);
 
   padding-top: 30px;
 }
@@ -283,14 +283,25 @@ ul {
   }
 }
 
+%section-title {
+  line-height: 100%;
+  margin-top: 0;
+  margin-left: 10px;  
+}
 
 .section-title {
   @include rem('font-size', $header-font-size);
-  @extend .block-title;
+  @extend %section-title;
+  
+  color: $section-color;
+}
 
-  line-height: 100%;
-  margin-top: 0;
-  margin-left: 10px;
+
+.section-title-inverted {
+  @include rem('font-size', $header-font-size);
+  @extend %section-title;
+  
+  color: $section-color-inverted;
 }
 
 
@@ -299,6 +310,7 @@ ul {
 // -----------------------------------------------------------------------------
 //
 .block-opening-hours {
+  @include box-shadow(inset 0 0 15px darken($block-bg, 10%));
   @include rgba-background($block-bg, $block-bg-transparency);
   @extend %block;
 

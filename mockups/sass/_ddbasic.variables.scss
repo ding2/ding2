@@ -8,47 +8,55 @@
 // Links
 // -----------------------------------------------------------------------------
 //
-$link-color:                  #4d1500;
-$link-color-hover:            darken($link-color, 20%);
-$link-color-inverted:         #fff;
-$link-color-inverted-hover:   darken($link-color-inverted, 20%);
+$link-color:                      #4d1500;
+$link-color-hover:                darken($link-color, 20%);
+$link-color-inverted:             #fff;
+$link-color-inverted-hover:       darken($link-color-inverted, 20%);
 
 
 // -----------------------------------------------------------------------------
 // Typography
 // -----------------------------------------------------------------------------
 //
-$font-size:                   15px;
-$font-weight-light:           300;
-$font-weight-regular:         400;
-$font-weight-bold:            700;
-$font-color-primary:          #ff5b00;
+$font-size:                       15px;
+$font-weight-light:               300;
+$font-weight-regular:             400;
+$font-weight-bold:                700;
+$font-color-primary:              #ff5b00;
 
 
 
-$header-text-color:           #fff;
-$header-font-size:            30px;
-$header-min-height:           60px;
+$header-text-color:               #fff;
+$header-font-size:                30px;
+$header-min-height:               60px;
 
 
 // -----------------------------------------------------------------------------
 // Blocks
 // -----------------------------------------------------------------------------
 //
-$block-bg:                    #fff;
-$block-bg-transparency:       1;
-$block-color:                 #000;
-$block-bg-inverted:           #ff5b00;
-$block-color-inverted:        #fff;
-$block-border:                12px;
-$block-wrapper-bg:            #000;
-$block-wrapper-bg-inverted:   #fff;
-$block-wrapper-transparency:  .85;
+$block-bg:                          #fff;
+$block-bg-transparency:           1;
+$block-color:                     #000;
+$block-bg-inverted:               #ff5b00;
+$block-color-inverted:            #fff;
+$block-border:                    12px;
+
+
+// -----------------------------------------------------------------------------
+// Sections
+// -----------------------------------------------------------------------------
+//
+$section-bg:                      #000;
+$section-color:                   #fff;
+$section-bg-inverted:             #fff;
+$section-color-inverted:          #000;
+$section-transparency:            .85;
 
 
 // -----------------------------------------------------------------------------
 // Forms
 // -----------------------------------------------------------------------------
 //
-$form-button-text-color:      #fff;
-$form-button-bg-color:        lighten(#000, 15%);
+$form-button-text-color:          #fff;
+$form-button-bg-color:            lighten(#000, 15%);
