@@ -599,6 +599,8 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
  *   Ting entity object, filled with data from provider service.
  */
 function openruth_replace_entity($item) {
+  module_load_include('reservation.inc', 'openruth');
+
   $faust_number = explode(':', $item->ding_entity_id);
   $faust_number = $faust_number[1];
   $openruth_object = openruth_seek_reserved_item($faust_number);
