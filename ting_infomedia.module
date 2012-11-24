@@ -78,7 +78,7 @@ function ting_infomedia_get_ting_relations() {
   static $types;
   if (!$types) {
     $types = array(
-      'dbcaddi:hasOnlineAccess' => t('Article from infomedia'),
+      'dbcaddi:hasOnlineAccess' => t('Article from Infomedia'),
     );
   }
   return $types;
