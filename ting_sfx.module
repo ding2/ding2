@@ -45,7 +45,7 @@ function ting_sfx_field_formatter_info() {
   return array(
     'ting_sfx_default' => array(
       'label' => t('Default'),
-      'field types' => array('ting_sfx', ),
+      'field types' => array('ting_sfx',),
     )
   );
 }
@@ -87,7 +87,7 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
 
 /**
  * Get markup for the sfx button.
- * 
+ *
  * @param $entity
  *   TingObject object, sfx value which is to be rendered.
  * @return
@@ -114,7 +114,7 @@ function ting_sfx_get_markup($entity = NULL) {
       }
     }
   }
-  
+
   return $markup;
 }
 
@@ -131,8 +131,8 @@ function ting_sfx_get_open_url($uri) {
 
   $parts = parse_url($ret);
   $query = ting_sfx_encode_dk($parts['query']);
-  $port = isset($parts['port']) ? ':'.$parts['port'] : '';
-  $ret = $parts['scheme'].'://'.$parts['host'].$port.$parts['path'].'?'.$query;
+  $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+  $ret = $parts['scheme'] . '://' . $parts['host'] . $port . $parts['path'] . '?' . $query;
 
   return $ret;
 }
@@ -142,7 +142,7 @@ function ting_sfx_get_open_url($uri) {
  * shitty solution - we should rely on data given from the well, and not mess with raw data.
  */
 function ting_sfx_encode_dk( $query ) {
-  $params = explode('&',$query);
+  $params = explode('&', $query);
   $ret = '';
   // SFX (and IE) can't handle latin capital letter aa (U+A732) or AA
   $replace_from = array(
@@ -153,29 +153,31 @@ function ting_sfx_encode_dk( $query ) {
     'aa',
     'AA',
   );
-  foreach($params as $param) {
-    $keyval = explode('=',$param);
+  foreach ($params as $param) {
+    $keyval = explode('=', $param);
 
-    if( strlen($ret) > 1 )
-      $ret.='&';
+    if ( strlen($ret) > 1 ) {
+      $ret .= '&';
+    }
 
     // there might be an '&' in the value of the key value pair, so check
     // if both key and value is set.
-    if( isset($keyval[0]) && isset($keyval[1]) ) {
-      $ret .= $keyval[0].'='.str_replace($replace_from,$replace_to,rawurlencode($keyval[1]));
-    } else {
+    if ( isset($keyval[0]) && isset($keyval[1]) ) {
+      $ret .= $keyval[0] . '=' . str_replace($replace_from, $replace_to, rawurlencode($keyval[1]));
+    }
+    else {
       $ret .= $param;
     }
   }
   // undo urlencode of '+' (%2B)
-  $ret = str_replace('%2B',' ',$ret);
+  $ret = str_replace('%2B', ' ', $ret);
 
   return $ret;
 }
 
 function ting_sfx_get_logo() {
   $logo_file = 'sfx_logo.png';
-  $ret = sprintf('<img src="%s/%s/%s"/>', substr(base_path(), 0, -1), drupal_get_path('module','ting_sfx'), $logo_file);
+  $ret = sprintf('<img src="%s/%s/%s"/>', substr(base_path(), 0, -1), drupal_get_path('module', 'ting_sfx'), $logo_file);
   return $ret;
 }
 
