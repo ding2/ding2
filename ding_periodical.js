@@ -1,10 +1,9 @@
 (function ($) {
   $(document).ready(function(){
     $('.field-name-ding-periodical-issues li').children('.item-list').hide();
-    $('.field-name-ding-periodical-issues li').children('.item-list form').hide();
   });
 
-  Drupal.behaviors.dingPeriodicalIssueToggle = {
+  Drupal.behaviors.ding_periodical = {
     attach: function (context, settings) {
       $('.field-name-ding-periodical-issues .ding-periodical-fold').toggle(function() {
         $(this).next().show();
@@ -18,12 +17,6 @@
         $(this).next().toggleClass('expanded-periodicals');
         $(this).parent().toggleClass('expanded-periodicals-parent');
       });
-      $('.ding-periodical-foldable .item-list .ding-periodical-foldable li').click(function() {
-        $(this).find('form').clone().appendTo($(this));
-        $(this).find('form:first').dialog({
-          title: Drupal.t('Reserve')
-        });
-      });
     }
-  }    
+  }
 }(jQuery));

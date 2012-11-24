@@ -33,17 +33,22 @@ function theme_ding_periodical_issues($variables) {
       $issue = $key;
       // check user
       if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
-        $issue .= ' ' . ding_periodical_reservation_button($availability['reservable'], $volume, $key, $variables['elements']['#entity']);
+        $_SESSION['ding_periodical_reservation'][$availability['reservable']] = array(
+          'volume' => $volume,
+          'key' => $key,
+          'entity' => $variables['elements']['#entity'],
+        );
       }
-      $iss[] = $issue;
+
+      $iss[] = '<span id="periodical-id-' . $availability['reservable'] . '" class="ding-reservable-periodical periodical-id-' . $availability['reservable'] . '">' . $issue . '</span>';
     }
 
-    $vol =
-	array(
-	      'data' => '<div class="' . drupal_html_class('ding_periodical_fold') . '">' . $volume . '</div>',
-	      'children' => $iss,
-	      'class' => array(drupal_html_class('ding_periodical_foldable'),),
-	      );
+    $vol = array(
+	     'data' => '<div class="' . drupal_html_class('ding_periodical_fold') . '">' . $volume . '</div>',
+	     'children' => $iss,
+	     'class' => array(drupal_html_class('ding_periodical_foldable')),
+	   );
+
     $items[] = $vol;
   }
 
