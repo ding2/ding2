@@ -47,6 +47,7 @@ function openruth_reservation_list($account) {
           'title' => $res->itemTitle,
           'publication_year' => $res->itemPublicationYear,
           'ready_for_pickup' => 1,
+          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
     }
@@ -65,6 +66,7 @@ function openruth_reservation_list($account) {
           'author' => $res->itemAuthor,
           'title' => $res->itemTitle,
           'publication_year' => $res->itemPublicationYear,
+          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
     }
@@ -81,6 +83,7 @@ function openruth_reservation_list($account) {
           'title' => $res->itemTitle,
           'publication_year' => $res->itemPublicationYear,
           'ill_status' => $res->illStatus,
+          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
     }
@@ -106,7 +109,7 @@ function openruth_reservation_options($type, $account, $reservables) {
   $profile = ding_user_provider_profile($account);
 
   if (ding_user_is_provider_user($account)) {
-    $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
+    $preferred_branch = $profile->field_openruth_preferred_branch[field_language('profile2', $profile, 'field_openruth_preferred_branch')][0]['value'];
     $interest_period = $profile->field_openruth_interest_period[field_language('profile2', $profile, 'field_openruth_interest_period')][0]['value'];
   }
   else {
@@ -115,7 +118,7 @@ function openruth_reservation_options($type, $account, $reservables) {
   }
 
   $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
-  $form += ding_reservation_interest_period_selector($type, 'expiry', $interest_period, openruth_get_interest_periods());
+  $form += ding_reservation_interest_period_selector($type, 'openruth_interest_period', $interest_period, openruth_get_interest_periods());
 
   return $form;
 }
@@ -124,11 +127,20 @@ function openruth_reservation_options($type, $account, $reservables) {
  * Validate reservations options.
  */
 function openruth_reservation_options_validate($type, $account, $reservables, $values) {
-  $result = array();
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'];
-  return ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
+  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
+  $interest_period = $profile->field_openruth_interest_period[$field_language['field_openruth_interest_period']][0]['value'];
+  // Perform a check to whether a show specific select dropdown.
+  // Returning NULL means to skip this check, therefore to reserve instantly.
+  if (!empty($profile_branch) && !empty($interest_period)) {
+    return NULL;
+  }
+  else {
+    $branch_valid = ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
+    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'openruth_interest_period', $interest_period, $values);
+    return array_merge($branch_valid, $period_valid);
+  }
 }
 
 /**
