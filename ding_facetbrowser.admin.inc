@@ -48,6 +48,8 @@ function ding_facetbrowser_settings($form_state) {
         'default' => t('Ranking (default)'),
         'alphabetical' => t('Alphabetic'),
         'aphabetical_reverse' => t('Alphabetic (reverse)'),
+        'numeric' => t('Numeric'),
+        'numeric_reverse' => t('Numeric (reverse)'),
        ),
       '#default_value' => $facet['sorting'],
     );
@@ -89,6 +91,8 @@ function ding_facetbrowser_settings($form_state) {
       'default' => t('Ranking (default)'),
       'alphabetical' => t('Alphabetic'),
       'aphabetical_reverse' => t('Alphabetic (reverse)'),
+      'numeric' => t('Numeric'),
+      'numeric_reverse' => t('Numeric (reverse)'),
      ),
     '#default_value' => 'default',
   );
