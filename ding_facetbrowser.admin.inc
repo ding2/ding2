@@ -40,6 +40,18 @@ function ding_facetbrowser_settings($form_state) {
       '#default_value' => $facet['title'],
     );
 
+    $form['ding_facetbrowser_facets'][$i]['sorting'] = array(
+      '#type' => 'select',
+      '#title' => t('Facet name sorting'),
+      '#title_display' => 'invisible',
+      '#options' => array(
+        'default' => t('Ranking (default)'),
+        'alphabetical' => t('Alphabetic'),
+        'aphabetical_reverse' => t('Alphabetic (reverse)'),
+       ),
+      '#default_value' => $facet['sorting'],
+    );
+
     $form['ding_facetbrowser_facets'][$i]['weight'] = array(
       '#type' => 'weight',
       '#title' => t('Weight'),
@@ -68,6 +80,17 @@ function ding_facetbrowser_settings($form_state) {
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#default_value' => '',
+  );
+
+  $form['ding_facetbrowser_facets'][$i]['sorting'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet name sorting'),
+    '#options' => array(
+      'default' => t('Ranking (default)'),
+      'alphabetical' => t('Alphabetic'),
+      'aphabetical_reverse' => t('Alphabetic (reverse)'),
+     ),
+    '#default_value' => 'default',
   );
 
   $form['ding_facetbrowser_facets'][$i]['weight'] = array(
@@ -119,6 +142,7 @@ function theme_ding_facetbrowser_settings($variables) {
     $row = array();
     $row[] = drupal_render($facet['name']);
     $row[] = drupal_render($facet['title']);
+    $row[] = drupal_render($facet['sorting']);
     $row[] = drupal_render($facet['weight']);
     $row[] = drupal_render($facet['delete']);
     $rows[] = array(
@@ -127,7 +151,7 @@ function theme_ding_facetbrowser_settings($variables) {
     );
   }
 
-  $header = array(t('Name'), t('Title'), t('Weight'), t('Operations'));
+  $header = array(t('Name'), t('Title'), t('Facet name sorting'), t('Weight'), t('Operations'));
   $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'facets')));
   $output .= drupal_render($form['actions']);
   $output = drupal_render_children($form) . $output;

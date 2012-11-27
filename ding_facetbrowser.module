@@ -114,6 +114,18 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           '#attributes'  => array('id' => str_replace('.', '-', $facet->name), 'data' => array($facet->name),'count' => count($facet->terms)),
         );
 
+        switch ($configured_facet['sorting']) {
+          case 'alphabetical':
+            ksort($facet->terms);
+            break;
+          case 'alphabetical_reverse':
+            krsort($facet->terms);
+            break;
+          default:
+            
+            break;
+        }
+
         foreach ($facet->terms as $term_name => $term_count) {
           $facet_name             = explode('.', $facet->name);
           $element_name           = end($facet_name);
