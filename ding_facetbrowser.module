@@ -105,7 +105,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 
   // Building the facets fieldsets
   $i = 0;
-  $facet_show_count = 5;
+  $facet_show_count = variable_get('ding_facetbrowser_showcount');
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
 
     if (isset($facets[$configured_facet['name']])) {

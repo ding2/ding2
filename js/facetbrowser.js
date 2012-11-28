@@ -12,9 +12,12 @@
       $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').hide();
 
       $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand-facets').live('click', function() {
-        $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').toggle();
+        $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').toggle('fast', function () {
+          $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand-facets').text(
+            $(this).is(':visible') ? Drupal.t('Show less filters') : Drupal.t('Show more filters')
+          );
+        });
       });
-
 
       // Check for click in checkbox, and execute search.
       $(Drupal.settings.dingFacetBrowser.mainElement + ' .form-type-checkbox input').change(function(e) {

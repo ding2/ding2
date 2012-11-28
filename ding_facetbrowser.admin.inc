@@ -14,10 +14,35 @@ function ding_facetbrowser_settings($form_state) {
   form_load_include($form_state, 'inc', 'ding_facetbrowser', 'ding_facetbrowser.admin');
   $form = array();
   $facets = variable_get('ding_facetbrowser_facets', array());
+  $showcount = variable_get('ding_facetbrowser_showcount');
 
   $form['description'] = array(
     '#markup' => '<p>' . t('Configure facets shown in the facetbrowser. Facet names can be found at <a href="http://oss.dbc.dk/wiki/bin/view/Databroend/OpenSearchDocIndexes">DBC wiki</a> and is usually named <em>facet.something</em>.') . '</p>',
-);
+  );
+
+  $form['ding_facetbrowser_showcount'] = array(
+    '#type' => 'select',
+    '#title' => t('Visible facets amount'),
+    '#description' => t('The amount of facets that will be visible on the search page by default. The rest of the facets will be hidden and the user have to click to show them.'),
+    '#options' => array(
+      1 => '1',
+      2 => '2',
+      3 => '3',
+      4 => '4',
+      5 => '5',
+      6 => '6',
+      7 => '7',
+      8 => '8',
+      9 => '9',
+      10 => '10',
+      11 => '11',
+      12 => '12',
+      13 => '13',
+      14 => '14',
+      15 => '15',
+     ),
+    '#default_value' => $showcount,
+  );
 
   $form['ding_facetbrowser_facets'] = array(
     '#tree' => TRUE,
@@ -127,6 +152,7 @@ function ding_facetbrowser_settings_submit($form, &$form_state) {
   }
   usort($facets, 'drupal_sort_weight');
   variable_set('ding_facetbrowser_facets', $facets);
+  variable_set('ding_facetbrowser_showcount', $form_state['values']['ding_facetbrowser_showcount']);
   drupal_set_message(t('The configuration options have been saved.'));
 }
 
