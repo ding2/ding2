@@ -103,15 +103,27 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     '#value' => $search,
   );
 
+  // Building the facets fieldsets
+    $i = 0;
+  $facet_show_count = 4;
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
+
     if (isset($facets[$configured_facet['name']])) {
       $facet = $facets[$configured_facet['name']];
+
+      // Decide if the facet is to have the hidden class or not
+      $facet_class = ($i >= $facet_show_count) ? 'hidden' : 'visible';
 
       if (count($facet->terms) > 0) {
         $form[$facet->name] = array(
           '#type'        => 'fieldset',
           '#title'       => $configured_facet['title'],
-          '#attributes'  => array('id' => str_replace('.', '-', $facet->name), 'data' => array($facet->name),'count' => count($facet->terms)),
+          '#attributes'  => array(
+            'id' => str_replace('.', '-', $facet->name),
+            'data' => array($facet->name),
+            'count' => count($facet->terms),
+            'class' => array($facet_class),
+          ),
         );
 
         switch ($configured_facet['sorting']) {
@@ -180,6 +192,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           );
         }
       }
+      $i++; // Loop is done so time to up that counter
     }
 
     // Reset previous set variables

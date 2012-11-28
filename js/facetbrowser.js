@@ -5,7 +5,18 @@
     attach: function(context, settings) {
       Drupal.FoldFacetGroup();
 
-      // Check for click in checkbox, and execute search
+      
+      // Wrap all facet fieldsets marked as hidden in a container so we can hide em.
+      $(Drupal.settings.dingFacetBrowser.mainElement + ' fieldset.hidden').wrapAll('<div id="hidden-facets" />');
+      $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').after('<span class="expand-facets">' + Drupal.t('Show more filters') + '</span>');
+      $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').hide();
+
+      $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand-facets').live('click', function() {
+        $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').toggle();
+      });
+
+
+      // Check for click in checkbox, and execute search.
       $(Drupal.settings.dingFacetBrowser.mainElement + ' .form-type-checkbox input').change(function(e) {
         $('body').prepend('<div class="facetbrowser_overlay"><div class="spinner"></div></div>');
         window.location = $(e.target).parent().find('a').attr('href');
@@ -30,14 +41,14 @@
         }
       }
       
-      // Add some classes to checkbox wrappers
+      // Add some classes to checkbox wrappers.
       facetGroup.find('.form-type-checkbox input:checked').parent().addClass('selected-checkbox');
       facetGroup.find('.form-type-checkbox input:not(:checked)').parent().addClass('unselected-checkbox');
       
-      //Add some div wrappers around selected and unselected checkboxes
+      //Add some div wrappers around selected and unselected checkboxes.
       facetGroup.find('.selected-checkbox').wrapAll('<div class="selected-checkbox-group" />');
       facetGroup.find('.unselected-checkbox').wrapAll('<div class="unselected-checkbox-group" />');
-      // Add a unselect all link
+      // Add a unselect all link.
       if (facetGroup.find('.selected-checkbox-group').length) {
         facetGroup.find('.selected-checkbox-group').append('<span class="unselect">' + Drupal.t('Remove all selected') + '</span>');
       }
@@ -45,7 +56,7 @@
     });
 
     /**
-    * Bind click function to show more and show less links
+    * Bind click function to show more and show less links.
     */
     $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand').live('click', function() {
       var clickedKey = this;
@@ -69,7 +80,7 @@
         }
       });
       
-      // Need to make sure we have the correct amount of unselected checkboxes to check against when wanting to remove the show more link
+      // Need to make sure we have the correct amount of unselected checkboxes to check against when wanting to remove the show more link.
       var unselectedSize = facetGroup.attr('count')-facetGroup.find('.form-type-checkbox.selected-checkbox').size();
       
       if( (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= unselectedSize) && (clickedKey.id == 'expand_more') ) {
@@ -84,16 +95,16 @@
     });
 
     /**
-    * Bind click function to the unselect all selected checkboxes link
+    * Bind click function to the unselect all selected checkboxes link.
     */
     $(Drupal.settings.dingFacetBrowser.mainElement + ' .unselect').live('click', function() {
       var clickedKey = this;
       var facetGroup = $(clickedKey).parent();
       var checkedFacets = '';
       facetGroup.find('.form-type-checkbox.selected-checkbox').each(function(count, facetElement) {
-        // uncheck checkboxes (for the visual effect)
+        // uncheck checkboxes (for the visual effect).
         $(facetElement).find('input').click();
-        // Find the facets to be deselected and generate new URL
+        // Find the facets to be deselected and generate new URL.
         facetMatch = $(facetElement).find('a').attr('href').match(/&facets\[\]=-facet.*/);
         checkedFacets += facetMatch[0];
         if (checkedFacets) {
