@@ -233,7 +233,7 @@ function _openruth_set_locations(&$h, $itemHolding) {
           // $h['holdings'][] = join(' → ', $parts);
           $h['holdings'][] = $data;
         }
-        if ($parts && $available && ($location_available > 0) ) {
+        if ($parts && ($location_available > 0) ) {
           $h['holdings_available'][] = join(' → ', $parts);
         }
       }
