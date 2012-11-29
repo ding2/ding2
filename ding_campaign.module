@@ -372,6 +372,7 @@ function ding_campaign_node_update($node) {
     $data = array(
       'type' => $node_type[0]['value'],
       'weight' => $node_weight[0]['value'],
+      'pane_id' => !empty($node_pane_id[0]['value']) ? $node_pane_id[0]['value'] : '0',
     );
 
     db_update('ding_campaign')
