@@ -1006,7 +1006,7 @@ class DingReservationReservableEntity implements DingReservationReservable {
   }
 
   public function getTitle() {
-    return $this->entity->title;
+    return isset($this->entity->title) ? $this->entity->title : NULL;
   }
 }
 
