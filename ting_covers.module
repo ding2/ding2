@@ -78,7 +78,7 @@ function ting_covers_cron() {
  * Implementation of hook_cache_clear().
  */
 function ting_covers_flush_caches() {
-  _ting_covers_delete_old_files();
+  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME));
 }
 
 /**
