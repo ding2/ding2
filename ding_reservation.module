@@ -173,6 +173,11 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
   global $user;
   if (ding_provider_implements('reservation', 'options_validate')) {
     $res = ding_provider_invoke('reservation', 'options_validate', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
+    // No valudation options returned by provider.
+    if (is_null($res)) {
+      return;
+    }
+
     /**
      * We cannot set the value of the individual provider form elements, as
      * they might not have been show, and thus not exist. However, setting the
@@ -993,12 +998,13 @@ class DingReservationReservableEntity implements DingReservationReservable {
   }
 
   public function getProviderId() {
-    return $this->entity->provider_id;
+    return isset($this->entity->provider_id) ? $this->entity->provider_id : NULL;
   }
 
   public function getEntity() {
     return $this->entity;
   }
+
   public function getTitle() {
     return $this->entity->title;
   }
