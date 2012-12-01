@@ -104,7 +104,8 @@ class AdditionalInformationService {
 
     foreach ($response->identifierInformation as $info) {
       $thumbnailUrl = $detailUrl = NULL;
-      $cover_image = ($this->current_service == SERVICE_MOREINFO) ? $info->coverImage : $info->image;
+      $cover_image = ($this->current_service == SERVICE_MOREINFO && isset($info->coverImage))
+                        ? $info->coverImage : (isset($info->image) ? $info->image : NULL);
 
       if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
         if (!is_array($cover_image)) {
