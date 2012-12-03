@@ -69,4 +69,7 @@ function ding2_install() {
 
   // Select the ding_frontpage as front page.
   variable_set('site_frontpage', 'ding_frontpage');
+
+  // Select the siden-fundet as 404.
+  variable_set('site_404', 'page/siden-fundet');
 }

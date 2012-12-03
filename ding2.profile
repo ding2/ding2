@@ -98,3 +98,19 @@ function _ding2_remove_form_requirements(&$value, $key) {
     $value = FALSE;
   }
 }
+
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ding2_ding_install_tasks() {
+
+    $node = array();
+    ob_start();
+    require 'content/page-not-found.inc';
+    ob_end_clean();
+
+    $node = (object) $node;
+    $node->uid = 1;
+
+    node_save($node);
+}

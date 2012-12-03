@@ -13,6 +13,7 @@ dependencies[] = toolbar
 dependencies[] = overlay
 dependencies[] = color
 dependencies[] = translation
+dependencies[] = wysiwyg
 
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
