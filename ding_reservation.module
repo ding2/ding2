@@ -207,7 +207,7 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
         drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $reservable->getTitle(), '@branch' => $branch_name)));
       }
       else {
-        drupal_set_message(t('"@title" reserved.', array('@title' => $reservable->getProviderId())));
+        drupal_set_message(t('"@title" reserved.', array('@title' => $reservable->getTitle())));
       }
 
       if (is_array($reservation_result) and !empty($reservation_result['queue_number'])) {
