@@ -37,6 +37,7 @@ h4,
 h5,
 h6 {
   font-weight: $font-weight-light;
+  line-height: 100%;
   margin-top: 0;
 }
 
@@ -134,11 +135,16 @@ ul {
 	}
 }
 
+.frontpage-layout {
+  .content-wrapper {
+    margin-top: 88px;
+  }
+}
 
 .content-wrapper {
   @extend .grid-wrapper;
 
-  margin-top: 88px;
+  margin-top: 148px;
 }
 
 
@@ -198,7 +204,7 @@ ul {
   @include box-shadow(inset 0 0 15px darken($block-bg-inverted, 10%));
   @include border-radius($block-border);
   @include box-sizing(border-box);
-  @include rgba-background($block-bg-inverted, $block-bg-transparency);  
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
   @extend %block;
 
   color: $block-color-inverted;
@@ -210,7 +216,7 @@ ul {
 
   i[class^="icon-"] {
     @extend %read-more-icon;
-    
+
     color: $block-color-inverted;
   }
 
@@ -220,7 +226,7 @@ ul {
 
   .read-more {
     color: $block-color-inverted;
-    text-decoration: underline;    
+    text-decoration: underline;
   }
 }
 
@@ -287,15 +293,14 @@ ul {
 }
 
 %section-title {
-  line-height: 100%;
   margin-top: 0;
-  margin-left: 10px;  
+  margin-left: 10px;
 }
 
 .section-title {
   @include rem('font-size', $header-font-size);
   @extend %section-title;
-  
+
   color: $section-color;
 }
 
@@ -303,7 +308,7 @@ ul {
 .section-title-inverted {
   @include rem('font-size', $header-font-size);
   @extend %section-title;
-  
+
   color: $section-color-inverted;
 }
 

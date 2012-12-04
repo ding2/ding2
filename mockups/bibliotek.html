@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div id="page" class="frontpage-layout">
+<div id="page" class="layout-template-two">
 
   <section class="topbar">
 
@@ -16,7 +16,7 @@
 
       <div class="logo"><h1><a href="/" title="Aarhus Kommunes Biblioteker">Aarhus Kommunes Biblioteker</a></h1></div>
 
-      <div class="search-compact js-fixed-element">
+      <div class="search-compact">
         <div class="search-field-wrapper">
           <i class="icon-search"></i>
           <input type="text" placeholder="Søg på biblioteket..." class="search-input" />
@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="user-compact js-fixed-element">
+      <div class="user-compact">
         <div class="user-field-wrapper"><a class="js-show-element" rel="user-login-block"><i class="icon-lock"></i>Log ind</a></div>
       </div>
 
@@ -48,36 +48,6 @@
     </div>
   </div>
 
-  <header class="header-wrapper">
-
-    <div class="header-inner">
-
-      <section class="search">
-        <div class="search-field-wrapper">
-          <i class="icon-search"></i>
-          <input type="text" placeholder="Søg på biblioteket..." class="search-input" />
-          <input type="submit" value="Søg" />
-          <a href="#" class="help-link"><i class="icon-question-sign"></i> <span>Hjælp til søgning</span></a>
-        </div>
-      </section>
-
-      <section class="user">
-        <div class="user-field-wrapper">
-          <i class="icon-user"></i>
-          <input type="text" placeholder="Låner- eller cpr-nr" class="search-input" />
-
-          <i class="icon-lock"></i>
-          <input type="password" placeholder="Kodeord" class="search-input" />
-        </div>
-
-        <input type="submit" value="Log ind" />
-
-      </section>
-
-    </div>
-
-  </header>
-
   <section class="navigation-wrapper">
 
     <div class="navigation-inner">
@@ -85,8 +55,8 @@
       <div class="main-menu-inner">
         <nav class="main-menu">
 
-          <a href="#" class="active"><span>Forside</span></a>
-          <a href="biblioteker.html"><span>Biblioteker</span></a>
+          <a href="#"><span>Forside</span></a>
+          <a href="biblioteker.html" class="active"><span>Biblioteker</span></a>
           <a href="#"><span>Arrangementer</span></a>
           <a href="#"><span>Netmedier</span></a>
           <a href="#"><span>Inspiration</span></a>
@@ -109,20 +79,36 @@
 
   </section>
 
-  <article class="content-wrapper">
+  <section class="content-wrapper">
 
     <div class="grid-inner">
 
       <div class="primary-content">
         <div class="content-inner">
-          <ul>
-            <li><a href="bibliotek.html">Bibliotek</a></li>
-          </ul>
+          <h1>Biblioteksnavn</h1>
+
         </div>
       </div>
+
+      <aside class="secondary-content">
+        <div class="grid-inner">
+          <div class="tertiary-menu-wrapper">
+            <nav class="tertiary-menu">
+
+              <ul>
+                <li><a href="#"><span>Åbningstider</span></a></li>
+                <li><a href="#"><span>Om biblioteket</span></a></li>
+                <li><a href="#" class="last"><span>Kontakt</span></a></li>
+              </ul>
+
+            </nav>
+          </div>
+        </div>
+      </aside>
+
     </div>
-  </article>
-  
+  </section>
+
   <footer class="footer">
     <div class="grid-inner">
 
@@ -193,8 +179,8 @@
     </div>
   </footer>
 
-</div>  
-  
+</div>
+
 <script type="text/javascript" src="//use.typekit.net/woc3zhc.js"></script>
 <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
