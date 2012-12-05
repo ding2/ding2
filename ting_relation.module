@@ -90,9 +90,14 @@ function ting_relation_ding_entity_buttons($type, $entity) {
     if ($relation) {
       $ebrary_url = variable_get('ting_ebrary_url');
       $url = str_replace('[URL]', $ebrary_url, $relation->uri);
-      $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank')));
+      // @todo: find why relation uri is different.
+      // Check if replacement actually took place.
+      if ($url != $relation->uri) {
+        $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank')));
+      }
     }
-    elseif ($entity->online_url) {
+
+    if (!$markup && $entity->online_url) {
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);
       $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
