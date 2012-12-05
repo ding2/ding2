@@ -4,12 +4,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -1020,14 +1020,14 @@ hr {
 }
 
 /* line 53, ../sass/_ddbasic.extends.scss */
-.rs-carousel i[class^="icon-"], .block i[class^="icon-"], .tertiary-menu-wrapper i[class^="icon-"], .block-inverted i[class^="icon-"], .theme-block i[class^="icon-"], .footer-block i[class^="icon-"], .block-opening-hours i[class^="icon-"], .user-login-block i[class^="icon-"], .user-compact i[class^="icon-"] {
+.rs-carousel i[class^="icon-"], .block i[class^="icon-"], .tertiary-menu-wrapper i[class^="icon-"], .search-result-block i[class^="icon-"], .block-inverted i[class^="icon-"], .theme-block i[class^="icon-"], .footer-block i[class^="icon-"], .block-opening-hours i[class^="icon-"], .user-login-block i[class^="icon-"], .user-compact i[class^="icon-"] {
   float: left;
   margin-right: 5px;
   text-decoration: none;
 }
 
 /* line 60, ../sass/_ddbasic.extends.scss */
-.rs-carousel .read-more, .block .read-more, .tertiary-menu-wrapper .read-more, .block-inverted .read-more, .theme-block .read-more, .footer-block .read-more, .block-opening-hours .read-more, .user-login-block .read-more {
+.rs-carousel .read-more, .block .read-more, .tertiary-menu-wrapper .read-more, .search-result-block .read-more, .block-inverted .read-more, .theme-block .read-more, .footer-block .read-more, .block-opening-hours .read-more, .user-login-block .read-more {
   display: block;
   margin-top: 20px;
 }
@@ -1427,12 +1427,12 @@ hr {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
 }
-/* line 52, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:after {
   clear: both;
 }
@@ -1659,7 +1659,7 @@ ul {
 }
 
 /* line 166, ../sass/ddbasic.styles.scss */
-.rs-carousel, .block, .tertiary-menu-wrapper, .block-inverted, .theme-block, .footer-block, .block-opening-hours, .user-login-block {
+.rs-carousel, .block, .tertiary-menu-wrapper, .search-result-block, .block-inverted, .theme-block, .footer-block, .block-opening-hours, .user-login-block {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
@@ -1670,21 +1670,21 @@ ul {
   box-sizing: border-box;
 }
 /* line 170, ../sass/ddbasic.styles.scss */
-.rs-carousel select, .block select, .tertiary-menu-wrapper select, .block-inverted select, .theme-block select, .footer-block select, .block-opening-hours select, .user-login-block select {
+.rs-carousel select, .block select, .tertiary-menu-wrapper select, .search-result-block select, .block-inverted select, .theme-block select, .footer-block select, .block-opening-hours select, .user-login-block select {
   width: 100%;
 }
 /* line 178, ../sass/ddbasic.styles.scss */
-.rs-carousel .block-title, .block .block-title, .tertiary-menu-wrapper .block-title, .block-inverted .block-title, .theme-block .block-title, .footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title {
+.rs-carousel .block-title, .block .block-title, .tertiary-menu-wrapper .block-title, .search-result-block .block-title, .block-inverted .block-title, .theme-block .block-title, .footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title {
   font-size: 33px;
   font-size: 2.0625rem;
 }
 /* line 182, ../sass/ddbasic.styles.scss */
-.rs-carousel .block-content, .block .block-content, .tertiary-menu-wrapper .block-content, .block-inverted .block-content, .theme-block .block-content, .footer-block .block-content, .block-opening-hours .block-content, .user-login-block .block-content {
+.rs-carousel .block-content, .block .block-content, .tertiary-menu-wrapper .block-content, .search-result-block .block-content, .block-inverted .block-content, .theme-block .block-content, .footer-block .block-content, .block-opening-hours .block-content, .user-login-block .block-content {
   padding: 20px;
 }
 
 /* line 192, ../sass/ddbasic.styles.scss */
-.block, .tertiary-menu-wrapper {
+.block, .tertiary-menu-wrapper, .search-result-block {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
   -moz-box-shadow: inset 0 0 15px #e6e6e6;
   box-shadow: inset 0 0 15px #e6e6e6;
@@ -1983,21 +1983,210 @@ ul {
   top: 13px;
 }
 
-/* line 448, ../sass/ddbasic.styles.scss */
+/* line 451, ../sass/ddbasic.styles.scss */
+.search-result-block .filter {
+  clear: left;
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #d9d9d9;
+  padding: 10px 0;
+  margin: 10px 0;
+}
+/* line 459, ../sass/ddbasic.styles.scss */
+.search-result-block .filter select {
+  padding: 10px;
+}
+/* line 461, ../sass/ddbasic.styles.scss */
+.search-result-block .filter .number-items {
+  float: left;
+  width: 33.33333%;
+  margin-left: 0%;
+  margin-right: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 465, ../sass/ddbasic.styles.scss */
+.search-result-block .filter .order-by {
+  float: left;
+  width: 33.33333%;
+  margin-left: 33.33333%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 469, ../sass/ddbasic.styles.scss */
+.search-result-block .filter .display-types {
+  float: left;
+  width: 33.33333%;
+  margin-left: 66.66667%;
+  margin-right: -100.0%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 474, ../sass/ddbasic.styles.scss */
+.search-result-block .item {
+  background: #f2f2f2;
+  padding: 20px 10px;
+  margin: 10px 0;
+}
+/* line 480, ../sass/ddbasic.styles.scss */
+.search-result-block .cover {
+  float: left;
+  width: 8.33333%;
+  margin-left: 0%;
+  margin-right: -8.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 484, ../sass/ddbasic.styles.scss */
+.search-result-block .record {
+  float: left;
+  width: 91.66667%;
+  margin-left: 8.33333%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 487, ../sass/ddbasic.styles.scss */
+.search-result-block .record .description {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  border-right: 1px solid #d9d9d9;
+  padding: 0 19px 0 0;
+}
+/* line 493, ../sass/ddbasic.styles.scss */
+.search-result-block .record .properties {
+  float: left;
+  width: 50%;
+  margin-left: 50%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding: 0 0 0 20px;
+}
+/* line 498, ../sass/ddbasic.styles.scss */
+.search-result-block .record .properties dt {
+  float: left;
+  width: 25%;
+  margin-left: 0%;
+  margin-right: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  clear: left;
+  padding-left: 0;
+}
+/* line 503, ../sass/ddbasic.styles.scss */
+.search-result-block .record .properties dd {
+  float: left;
+  width: 75%;
+  margin-left: 25%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  clear: none;
+  padding-bottom: 0;
+  margin-bottom: 1em;
+}
+
+/* line 517, ../sass/ddbasic.styles.scss */
 .user {
   float: right;
   margin-right: 0;
 }
-/* line 454, ../sass/ddbasic.styles.scss */
+/* line 523, ../sass/ddbasic.styles.scss */
 .user .user-field-wrapper {
   display: inline;
   margin-left: 50px;
 }
-/* line 459, ../sass/ddbasic.styles.scss */
+/* line 528, ../sass/ddbasic.styles.scss */
 .user i[class^="icon-"] {
   top: 25px;
 }
-/* line 466, ../sass/ddbasic.styles.scss */
+/* line 535, ../sass/ddbasic.styles.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 19.5px;
@@ -2006,7 +2195,7 @@ ul {
   min-height: 60px;
   margin-right: 10px;
 }
-/* line 475, ../sass/ddbasic.styles.scss */
+/* line 544, ../sass/ddbasic.styles.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -2018,7 +2207,7 @@ ul {
   position: absolute;
 }
 
-/* line 487, ../sass/ddbasic.styles.scss */
+/* line 556, ../sass/ddbasic.styles.scss */
 .user-compact {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -2027,7 +2216,7 @@ ul {
   position: absolute;
   right: 10px;
 }
-/* line 495, ../sass/ddbasic.styles.scss */
+/* line 564, ../sass/ddbasic.styles.scss */
 .user-compact a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -2041,27 +2230,27 @@ ul {
   padding: 12px 25px 10px;
   text-align: center;
 }
-/* line 505, ../sass/ddbasic.styles.scss */
+/* line 574, ../sass/ddbasic.styles.scss */
 .user-compact a:hover {
   text-decoration: none;
 }
-/* line 509, ../sass/ddbasic.styles.scss */
+/* line 578, ../sass/ddbasic.styles.scss */
 .user-compact a.active {
   background-color: #ff5b00;
 }
-/* line 518, ../sass/ddbasic.styles.scss */
+/* line 587, ../sass/ddbasic.styles.scss */
 .user-compact.fixed {
   display: block;
 }
 
-/* line 524, ../sass/ddbasic.styles.scss */
+/* line 593, ../sass/ddbasic.styles.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 532, ../sass/ddbasic.styles.scss */
+/* line 601, ../sass/ddbasic.styles.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -2072,16 +2261,16 @@ ul {
   border-bottom-color: #ff5b00;
   right: 50px;
 }
-/* line 536, ../sass/ddbasic.styles.scss */
+/* line 605, ../sass/ddbasic.styles.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 539, ../sass/ddbasic.styles.scss */
+/* line 608, ../sass/ddbasic.styles.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 547, ../sass/ddbasic.styles.scss */
+/* line 616, ../sass/ddbasic.styles.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -2091,30 +2280,30 @@ ul {
   right: 15px;
   top: 15px;
 }
-/* line 556, ../sass/ddbasic.styles.scss */
+/* line 625, ../sass/ddbasic.styles.scss */
 .user-login-block .user-close-container:hover {
   text-decoration: none;
 }
-/* line 561, ../sass/ddbasic.styles.scss */
+/* line 630, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link {
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 567, ../sass/ddbasic.styles.scss */
+/* line 636, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 570, ../sass/ddbasic.styles.scss */
+/* line 639, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link a:hover {
   text-decoration: none;
 }
-/* line 576, ../sass/ddbasic.styles.scss */
+/* line 645, ../sass/ddbasic.styles.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 583, ../sass/ddbasic.styles.scss */
+/* line 652, ../sass/ddbasic.styles.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -2122,7 +2311,7 @@ ul {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 591, ../sass/ddbasic.styles.scss */
+/* line 660, ../sass/ddbasic.styles.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;

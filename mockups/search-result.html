@@ -89,45 +89,52 @@
             <div class="block-content">
               <h1 class="block-title">Du s&oslash;gte p&aring;: <span class="search-term">Harry Potter og d&oslash;dsregalierne</span> - over <span class="result-stats">100</span> resultater</h1>
 
-              <form>
-
-                <select>
-                  <option>Antal resultater pr. side: 25</option>
-                </select>
-
-                <select>
-                  <option>Sorter efter: Relevans</option>
-                </select>
-
-                <select>
-                  <option>Vis: Alle materialer</option>
-                </select>
-
+              <form class="filter grid-wrapper">
+              
+                <div class="grid-inner">
+                  <div class="number-items">
+                    <select>
+                      <option><span>Antal resultater pr. side:</span> 25</option>
+                    </select>
+                  </div>
+                  
+                  <div class="order-by">
+                    <select>
+                      <option>Sorter efter: Relevans</option>
+                    </select>
+                  </div>
+                  
+                  <div class="display-types">
+                    <select>
+                      <option>Vis: Alle materialer</option>
+                    </select>
+                  </div>
+                  
+                </div>
               </form>
 
-              <article class="item search-short">
-                <header>   
-                  <h2><a href="search-result-full-rec-book.php">Harry Potter og dødsregalierne</a></h2>
-                  <p>
-                    af 
-                    <a href="#">Joanne K. Rowling</a>
-                    <span class=”acc-year”>(2010)</span>
-                    <span class=”material-type”>Materialetype</span>
-                    <span class=”genre”>Fantasy</span>
-                  </p>
-                </header>
-                <div class=”description”>
-                  <p>Harry Potter er sammen med sine gode venner Ron og Hermione taget ud på en farlig færd. De skal finde den onde troldmand Voldemorts Horcruxer og ødelægge dem. Deres søgen bringer dem mange steder hen &hellip;</p>
-                </div>
-                <footer class="properties">
-                  <p class="availability"><a href="#">Bog (tilg&aelig;ngelig)</a></p>
-                  <dl>
-                    <dt class="series">Serie:</dt>
-                    <dl>7. del af <a href="#">Harry Potter</a></dl>
-                    <dt class="classification">Klassem&aelig;rke:</dt>
-                    <dl>sk</dl>
-                  </dl>
-                </footer>
+              <article class="item search-short grid-wrapper">
+                <div class="grid-inner">
+                  <a class="cover" href="#"><img src="http://lorempixel.com/75/110/city/"></a>
+                  <div class="record">
+                    <header>
+                      <h2><a href="#">Harry Potter og dødsregalierne</a></h2>
+                    </header>
+                    <div class="description">
+                      <p>af <a class="author" href="#">Joanne K. Rowling</a> <span class=”acc-year”>(2010)</span></p>
+                      <p>Harry Potter er sammen med sine gode venner Ron og Hermione taget ud på en farlig færd. De skal finde den onde troldmand Voldemorts Horcruxer og ødelægge dem. Deres søgen bringer dem mange steder hen &hellip;</p>
+                    </div><!--.description-->
+                    <footer class="properties">
+                      <p class="availability"><a class="btn available" href="#">Bog (tilg&aelig;ngelig)</a></p>
+                      <dl>
+                        <dt class="series">Serie:</dt>
+                        <dd>7. del af <a href="#">Harry Potter</a></dd>
+                        <dt class="classification">Klassem&aelig;rke:</dt>
+                        <dd>sk</dd>
+                      </dl>
+                    </footer><!--.properties-->
+                  </div><!--.record-->
+                </div><!--.grid-inner-->
               </article>
               
             </div>
