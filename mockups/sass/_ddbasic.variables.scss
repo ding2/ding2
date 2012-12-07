@@ -60,3 +60,10 @@ $section-color-inverted:          #000;
 //
 $form-button-text-color:          #fff;
 $form-button-bg-color:            lighten(#000, 15%);
+
+// -----------------------------------------------------------------------------
+// Buttons
+// -----------------------------------------------------------------------------
+//
+$button-bg-color:                 #ff5200;
+$button-border-color:             darken($button-bg-color,15%);
