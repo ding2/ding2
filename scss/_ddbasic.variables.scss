@@ -1,0 +1,39 @@
+// -----------------------------------------------------------------------------
+// The default font
+// -----------------------------------------------------------------------------
+//
+@include font-face("Amble Light Condensed", font-files("amble/Amble-LightCondensed-webfont.woff", "amble/Amble-LightCondensed-webfont.ttf", "amble/Amble-LightCondensed-webfont.svg"), "amble/Amble-LightCondensed-webfont.eot", 'normal', 'normal');
+
+
+$theme-background-color:        #fff !default;
+$theme-background-pattern:      url('../images/default-bg-pattern.png') !default;
+$theme-header-background:       #fff !default;
+$theme-header-pattern:          #fff !default; //url('../images/primary-pattern.png') !default;
+$theme-content-background:      #fff !default;
+
+
+$theme-font-family:   "Amble Light Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+
+// -----------------------------------------------------------------------------
+// Forms
+// -----------------------------------------------------------------------------
+//
+$form-border-radius: 5px !default;
+
+
+// -----------------------------------------------------------------------------
+// Lists
+// -----------------------------------------------------------------------------
+//
+$list-item-spacing:         10px !default;
+$list-picture-width:        25% !default;
+
+
+// -----------------------------------------------------------------------------
+// Sidebar
+// -----------------------------------------------------------------------------
+//
+$sidebar-background-color:  White !default;
+$sidebar-text-color:        Black !default;
+$sidebar-item-spacing:      $default-spacing / 2;
