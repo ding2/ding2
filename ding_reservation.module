@@ -883,6 +883,14 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
  */
 function ding_reservation_interest_period_selector($type, $name, $default, $options) {
   $create = ($type == 'create');
+
+  // Used for options translation.
+  if (is_array($options)) {
+    foreach ($options as $k => $v) {
+      $options[$k] = t(check_plain($v));
+    }
+  }
+
   $allowed_periods = ($create ? array() : array('' => t('No change'))) + $options;
   // $default_value = $create ? $default : '';
   $form[$name] = array(
