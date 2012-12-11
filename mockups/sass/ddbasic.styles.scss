@@ -3,15 +3,15 @@
 // =============================================================================
 //
 @import "compass/css3";
-@import "../latto/sass/_latto.variables.scss";
-@import "../latto/sass/_latto.grid.scss";
-@import '../latto/sass/_latto.mediaqueries.scss';
-@import "../latto/sass/_latto.mixins.scss";
-@import '../latto/sass/_latto.tables.scss';
-@import '../latto/sass/_latto.nav.scss';
-@import '../latto/sass/_latto.lists.scss';
-@import '../latto/sass/_latto.font-awesome.scss';
-@import "../latto/sass/_latto.base.scss";
+@import "../../latto/sass/_latto.variables.scss";
+@import "../../latto/sass/_latto.grid.scss";
+@import '../../latto/sass/_latto.mediaqueries.scss';
+@import "../../latto/sass/_latto.mixins.scss";
+@import '../../latto/sass/_latto.tables.scss';
+@import '../../latto/sass/_latto.nav.scss';
+@import '../../latto/sass/_latto.lists.scss';
+@import '../../latto/sass/_latto.font-awesome.scss';
+@import "../../latto/sass/_latto.base.scss";
 @import "_ddbasic.variables.scss";
 @import "_ddbasic.mediaqueries.scss";
 @import "_ddbasic.mixins.scss";
@@ -354,7 +354,7 @@ ul {
   i[class^="icon-search"] {
     @extend %inline-icons;
 
-    top: 25px;
+    top: 17px;
     z-index: 10;
   }
 
@@ -534,7 +534,7 @@ ul {
   i[class^="icon-"] {
     @extend %inline-icons;
 
-    top: 25px;
+    top: 17px;
   }
 
   input[type="text"],
