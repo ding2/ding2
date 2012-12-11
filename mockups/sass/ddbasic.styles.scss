@@ -18,6 +18,7 @@
 @import "_ddbasic.extends.scss";
 @import "_ddbasic.navigation.scss";
 @import "_ddbasic.carousel.scss";
+@import "_ddbasic.buttons.scss";
 
 
 // -----------------------------------------------------------------------------
@@ -445,6 +446,75 @@ ul {
   }
 }
 
+// -----------------------------------------------------------------------------
+// Search Result
+// -----------------------------------------------------------------------------
+//
+.search-result-block {
+  @extend .block;
+  
+  
+  .filter {
+    @include zen-clear();
+    
+    border-bottom: 1px solid darken($block-bg,15%);
+    border-top: 1px solid darken($block-bg,15%);
+    padding: 10px 0;
+    margin: 10px 0;
+    
+    select {padding:10px;}
+    
+    .number-items {
+      @include zen-grid-item($grid-33, 1);
+    }
+
+    .order-by {
+      @include zen-grid-item($grid-33, 5);
+    }
+
+    .display-types {
+      @include zen-grid-item($grid-33, 9);
+    }
+  }
+
+  .item {
+    background: darken($block-bg,5%);
+    padding: 20px 10px;
+    margin: 10px 0;
+  }
+
+  .cover {
+    @include zen-grid-item(1, 1);
+  }
+
+  .record {
+    @include zen-grid-item(11, 2);
+    
+    .description {
+      @include zen-grid-item($grid-50, 1);
+      
+      border-right: 1px solid darken($block-bg,15%);
+      padding: 0 19px 0 0;
+    }
+    .properties {
+      @include zen-grid-item($grid-50, 7);
+
+      padding: 0 0 0 20px;
+      
+      dt {
+        @include zen-grid-item($grid-25, 1);
+        clear: left;
+        padding-left: 0;
+      }
+      dd {
+        @include zen-grid-item($grid-75, 4);
+        clear: none;
+        padding-bottom: 0;
+        margin-bottom: 1em;
+      }
+    }
+  }
+}
 
 // -----------------------------------------------------------------------------
 // User
