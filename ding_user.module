@@ -243,6 +243,12 @@ function ding_user_user_presave(&$edit, $account, $category) {
     return;
   }
 
+  // Do not presave during login phase.
+  if (!empty($account->ding_user_login_process)) {
+    unset($account->ding_user_login_process);
+    return;
+  }
+
   $changes = array();
   if (isset($edit['mail']) && $edit['mail'] != $account->mail) {
     $changes['mail'] = $edit['mail'];
@@ -466,6 +472,9 @@ function _ding_user_create_account($auth_name, $auth_res) {
     user_set_authmaps($account, array("authname_ding_user" => $auth_name));
   }
   else {
+    // Let us know in ding_user_user_presave that no special presave
+    // is required while user is logging in.
+    $account->ding_user_login_process = TRUE;
     ding_user_update_user($auth_res, $account);
   }
   return $account;
