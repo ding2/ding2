@@ -89,7 +89,6 @@ function ting_relation_ding_entity_buttons($type, $entity) {
     // Replace the online material link to related stuff if present.
     if ($relation) {
       $ebrary_url = variable_get('ting_ebrary_url');
-      $infomedia_url = variable_get('ting_infomedia_url');
 
       $url = '';
       if (strstr($relation->uri, '[URL]')) {
