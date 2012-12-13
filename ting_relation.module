@@ -89,10 +89,17 @@ function ting_relation_ding_entity_buttons($type, $entity) {
     // Replace the online material link to related stuff if present.
     if ($relation) {
       $ebrary_url = variable_get('ting_ebrary_url');
-      $url = str_replace('[URL]', $ebrary_url, $relation->uri);
-      // @todo: find why relation uri is different.
-      // Check if replacement actually took place.
-      if ($url != $relation->uri) {
+      $infomedia_url = variable_get('ting_infomedia_url');var_dump($infomedia_url);
+
+      $url = '';var_dump($relation->uri);
+      if (strstr($relation->uri, '[URL]')) {
+        $url = str_replace('[URL]', $ebrary_url, $relation->uri);
+      }
+      elseif (strstr($relation->uri, '[useraccessinfomedia]')) {
+        $url = 'ting/infomedia/' . $entity->localId;
+      }
+
+      if (!empty($url)) {
         $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank')));
       }
     }
@@ -100,7 +107,7 @@ function ting_relation_ding_entity_buttons($type, $entity) {
     if (!$markup && $entity->online_url) {
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);
-      //$label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];     
+      //$label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
       $markup = l(t('See online'), $entity->online_url, array('attributes' => array('target' => '_new')));
     }
 
