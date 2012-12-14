@@ -1,12 +1,13 @@
 #featured {
-    background: none repeat scroll 0 0 #555;
     height: 240px;
     position: relative;
+    background-color: transparent;
+    overflow: hidden;
     width: 670px;
+    margin-bottom: 15px;
 }
 
 #featured ul.ui-tabs-nav {
-    left: 447px;
     list-style: none outside none;
     margin: 0;
     padding: 0;
@@ -14,6 +15,10 @@
     top: 0;
     width: 220px;
     z-index: 20;
+    border: 0 none;
+    font-family: inherit;
+    left: 460px;
+
 }
 
 .ui-tabs-nav {
@@ -34,31 +39,36 @@
 }
 
 #featured ul.ui-tabs-nav li {
-    border: medium none;
+    border: 0 none;
     color: #666666;
 		border-right: 1px solid #666;
 		
 }
 
-.ui-tabs-nav li.ui-tabs-selected {
+#featured .ui-tabs-nav li.ui-tabs-selected {
     border-bottom-color: #FFFFFF;
+    background: url("../images/tab-active.png") no-repeat scroll left top transparent;
+    margin-left: -12px;
+    padding-left: 12px;
 }
 
 #featured li.ui-tabs-nav-item a {
-    background: url("../images/tab.png") no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     display: block;
-    font-weight: bold;
-    height: 43px;
     line-height: 17px;
     overflow: hidden;
-    padding: 5px 0 0 20px;
-    width: 202px;
+    padding: 5px 5px 0 20px;
+    background: none repeat scroll 0 0 #999999;
+    border-bottom: 1px solid #fff;
+    font-weight: normal;
+    height: 42px;
+    width: 195px;
+    text-transform: uppercase;
 }
 
 #featured ul.ui-tabs-nav li.ui-tabs-selected a {
-    background: url("../images/tab-active.png") no-repeat scroll 0 0 transparent;
-    color: #FFFFFF;
+    background: none repeat scroll 0 0 #99D7DB;
+    color: #fff;
     height: 43px;
     overflow: hidden;
     padding-top: 5px;
@@ -101,4 +111,22 @@
 
 #featured .ui-tabs-hide {
     display: none;
+}
+
+#featured ul.ui-tabs-nav a:hover {
+    background-color: #D9D9D9;
+    text-decoration: none !important;
+}
+
+#featured li.count-4 a {
+    border-bottom: 0 none;
+}
+.node-eresource .field-teaser, .node-eresource .field-ding-eresource-availabilit {
+    margin-bottom: 1em;
+}
+.node-eresource .field-link, .node-eresource .field-ding-eresource-availabilit {
+    font-weight: bold;
+}
+.node-eresource .field-link span, .node-eresource .field-ding-eresource-availabilit span {
+    font-weight: normal;
 }

@@ -1,43 +1,69 @@
 <?php
+/**
+ * @file installs frontpage and libraries nodequeue.
+ * 
+ */
 
 /**
- * Implementation of hook_install().
+ * implements create_nodequeues
  */
-function ding_tabroll_install() {
-  ding_tabroll_nodqueue_admin_theme();
-}
+function ding_tabroll_create_nodequeues() {
 
-/**
- * Migrate to nodequeue.
- *
- * Add 5 latest tabroll nodes to frontpage queue to recreate setup from when
- * ding_tabroll was based on a view with the latest tabroll nodes.
- */
-function ding_tabroll_update_6000() {
-  // Get the frontpage queue and subqueue
-  $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage_queue');
-  $subqueues = nodequeue_load_subqueues_by_queue($queue->qid);
-  // The frontpage queue is a simple queue so we should only have a single
-  // subqueue. Grab the first.
-  $subqueue = array_shift($subqueues);
+  variable_set('nodequeue_view_per_queue', 0);
+  $export = array();
 
-  // Add 5 latest published tabroll nodes to the queue
-  $query = 'SELECT nid FROM node
-            WHERE type = "rolltab" AND status = 1
-            ORDER BY changed';
-  $result = db_query_range($query, 0, 5);
-  while ($nid = db_result($result)) {
-    nodequeue_subqueue_add($queue, $subqueue, $nid);
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_tabroll';
+  $nodequeue->title = 'frontpage tabroll';
+  $nodequeue->subqueue_title = '';
+  $nodequeue->subqueues = '1';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->add_subqueue = array(
+    0 => '',
+  );
+  $export['ding_tabroll'] = $nodequeue;
+
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_tabroll_for_libraries';
+  $nodequeue->title = 'libraries';
+  $nodequeue->owner = 'smartqueue_nodetypes';
+  $nodequeue->reference = 'ding_library';
+  $nodequeue->subqueue_title = 'biblioteker';
+  $export['ding_tabroll_for_libraries'] = $nodequeue;
+
+  foreach ($export as $name => $nodequeue) {
+    // $nodequeue->name = $name;
+    $nodequeue->api_version = 2;
+    $nodequeue->link = '';
+    $nodequeue->link_remove = '';
+    $nodequeue->show_in_ui = 1;
+    $nodequeue->show_in_tab = 1;
+    $nodequeue->show_in_links = 0;
+    $nodequeue->i18n = 0;
+    $nodequeue->roles = array();
+    $nodequeue->size = 5;
+    $nodequeue->reverse = 0;
+    $nodequeue->new = TRUE;
+    $nodequeue->types = array(
+      0 => 'ding_tabroll',
+    );
+    $nodequeue->reverse = 0;
+
+    nodequeue_save($nodequeue);
   }
-
-  ding_tabroll_nodqueue_admin_theme();
+   $queues = nodequeue_load_queues(nodequeue_get_all_qids(200));
+  foreach ($queues as $queue) {
+    if ($queue->owner == 'smartqueue_nodetypes') {
+      nodequeue_api_subqueues($queue, $node);
+    }
+  }
 }
 
-/**
- * Use admin theme on node/?/nodequeue for improved editorial experience.
- */
-function ding_tabroll_nodqueue_admin_theme() {
-  $admin_theme_paths = explode("\n" ,variable_get('admin_theme_path', NULL));
-  $admin_theme_paths[] = 'node/*/nodequeue';
-  variable_set('admin_theme_path', implode("\n", $admin_theme_paths));
+
+ /**
+  * Implements hook_install().
+  */
+function ding_tabroll_install() {
+  ding_tabroll_create_nodequeues();
+
 }

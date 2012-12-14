@@ -2,15 +2,17 @@
 // $Id$
 
 // We need jQuery UI tabs for this.
-jquery_ui_add('ui.tabs');
+
+drupal_add_library('system', 'ui.tabs');
+
 ?>
  <div id="featured">
   <ul class="ui-tabs-nav">
     <?php
-      for ($i=0; $i < 5 ; $i++) { 
-        if($i == 0){
+      for ($i = 0; $i < min(5, count($view->result)); $i++) {
+        if($i == 0) {
           print '<li class="ui-tabs-nav-item  ui-tabs-selected"><a href="#fragment-'.$i.' ">' .$view->result[$i]->node_title .'</a></li>';
-        }else{
+        } else {
           print '<li class="ui-tabs-nav-item count-'.$i.'"><a href="#fragment-'.$i.' ">' .$view->result[$i]->node_title .'</a></li>';
         }
       }

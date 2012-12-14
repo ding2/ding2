@@ -1,59 +1,104 @@
 <?php
 
-include_once('ding_tabroll.features.inc');
+/**
+ * @file
+ * Code for the tabroll feature.
+ */
+
+include_once 'ding_tabroll.features.inc';
+
+/**
+ * Implements hook_init().
+ */
+function ding_tabroll_init() {
+  // Add default CSS and JavaScript.
+  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
+  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
+}
 
 /**
  * Implements hook_theme().
  *
- * See http://views-help.doc.logrus.com/help/views/api-default-views for help with providing default .tpl files for your views
+ * See http://views-help.doc.logrus.com/help/views/api-default-views
+ * for help with providing default .tpl files for your views
  */
-function ding_tabroll_theme($existing) {
+function ding_tabroll_theme($existing, $path) {
   $path = drupal_get_path('module', 'ding_tabroll') . '/templates';
   return array(
-    'views_view_unformatted__tabroll' => array (
+    'views_view_unformatted__ding_tabroll' => array(
       'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
-      'template' => 'views-view-unformatted--tabroll',
+      'template' => 'views-view-unformatted--ding-tabroll',
       'original hook' => 'views_view_unformatted',
       'path' => $path,
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_unformatted',
-        'ding_tabroll_preprocess_views_view_unformatted__tabroll',
+        'ding_tabroll_preprocess_views_view_unformatted__ding_tabroll',
       ),
     ),
-    'views_view_fields__tabroll' => array (
+    'views_view_fields__ding_tabroll' => array(
       'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-      'template' => 'views-view-fields--tabroll',
+      'template' => 'views-view-fields--ding-tabroll',
       'original hook' => 'views_view_fields',
       'path' => $path,
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_fields',
-        'ding_tabroll_preprocess_views_view_fields__tabroll',
+        'ding_tabroll_preprocess_views_view_fields__ding_tabroll',
+      ),
+    ),
+    'views_view_unformatted__libraries_tabroll' => array(
+      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+      'template' => 'views-view-unformatted--libraries-tabroll',
+      'original hook' => 'views_view_unformatted',
+      'path' => $path,
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess_views_view_unformatted__libraries_tabroll',
+      ),
+    ),
+    'views_view_fields__libraries_tabroll' => array(
+      'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'views-view-fields--libraries-tabroll',
+      'original hook' => 'views_view_fields',
+      'path' => $path,
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_fields',
+        'ding_tabroll_preprocess_views_view_fields__libraries_tabroll',
       ),
     ),
   );
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_node_insert().
+ *  auto inserts nodequeue when submitting tabrolls
  */
-function ding_tabroll_init() {
-  // Add default CSS and JavaScript
-  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
-  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
-}
-
-/**
- * Implements hook_views_post_render().
- */
-function ding_tabroll_views_post_render(&$view, &$output, &$cache) {
-  // HACK / kasperg: Reset the view title. For some reason it is set to "Queue"
-  // but I cannot determine why/where. As the pre-nodequeue view had no title
-  // we remove the title by force.
-  // Site developers may want to set the title for their own views using the
-  // panel pane which supports title overrride.
-  if ($view->name == 'tabroll') {
-    $view->build_info['title'] = '';
+function ding_tabroll_node_insert($node) {
+  $nid = $node->nid;
+  $type = $node->type;
+  // Only process project node.
+  if ($type != 'ding_tabroll') {
+    return FALSE;
   }
+
+  if (isset($node->field_ding_tabroll_library_ref['und'][0])) {
+    $libraries = $node->field_ding_tabroll_library_ref['und'][0]['target_id'];
+    $queue = nodequeue_load_queue_by_name('ding_tabroll_for_libraries');
+    $subqueues = nodequeue_load_subqueues_by_reference(array($queue->qid => array($libraries)));
+  }
+  else {
+    $queue = nodequeue_load_queue_by_name('ding_tabroll');
+    $subqueues = nodequeue_load_subqueues_by_queue($queue->qid);
+  }
+  $subqueues = array_values($subqueues);
+  $subqueue = $subqueues[0];
+
+  if (function_exists('views_invalidate_cache')) {
+    views_invalidate_cache();
+  }
+
+  nodequeue_subqueue_add($queue, $subqueue, $nid);
 }

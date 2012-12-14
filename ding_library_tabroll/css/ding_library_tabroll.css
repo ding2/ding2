@@ -1,3 +1,0 @@
-/* Move the tabroll pane below the top-middle separator on library pages */
-.node-type-ding-library-tabroll .pane-tabroll-panel_pane_1 { position: absolute; bottom: -250px; }
-.node-type-ding-library-tabroll .content-top { margin-bottom: 270px; }
