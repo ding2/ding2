@@ -31,16 +31,17 @@ function theme_ding_periodical_issues($variables) {
     $iss = array();
     foreach ($issues as $key => $availability) {
       $issue = $key;
-      // check user
-      if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
-        $_SESSION['ding_periodical_reservation'][$availability['reservable']] = array(
+      // @todo
+      // This is to be refactored to prevent segfaults.
+      if ($availability['local_id'] && module_exists('ding_periodical_reservation')) {
+        $_SESSION['ding_periodical_reservation'][$availability['local_id']] = array(
           'volume' => $volume,
           'key' => $key,
           'entity' => $variables['elements']['#entity'],
         );
       }
 
-      $iss[] = '<span id="periodical-id-' . $availability['reservable'] . '" class="ding-reservable-periodical periodical-id-' . $availability['reservable'] . '">' . $issue . '</span>';
+      $iss[] = '<span id="periodical-id-' . $availability['local_id'] . '" class="ding-reservable-periodical periodical-id-' . $availability['local_id'] . '">' . $issue . '</span>';
     }
 
     $vol = array(
