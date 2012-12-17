@@ -53,7 +53,6 @@ function alma_user_authenticate($uid, $pass) {
       'country' => $res['addresses'][0]['country'],
     );
   }
-
   return $return;
 }
 
@@ -87,7 +86,7 @@ function alma_user_profile_init($profile2, $auth_res) {
   // @todo - check if it's correct to handle the first only
   $langs = field_language('profile2', $profile2);
   // Reservation pause.
-  if (isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
+  if (is_array($patron) && isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
     $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
     $profile2->field_absent_id[$langs['field_absent_id']][0]['value'] = $patron->absentPeriods[0]['id'];
