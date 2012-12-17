@@ -56,7 +56,7 @@ function ding_wayf_redirect_login() {
   if (!$config || !isset($conf['ding_wayf_passwd'])) {
     // The configuration have not be created yet, so send user to the front page
     // with an error message.
-    drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
+    drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.', array(), array('context' => 'ding_wayf')), 'error', FALSE);
 
     // Redirect user to previous context or fallback to the front page.
     ding_wayf_redirect_user('<front>');
@@ -117,7 +117,7 @@ function ding_wayf_login($creds) {
 
   // Test that the response was valided.
   if (!is_array($auth_res) || !isset($auth_res['success'])) {
-    drupal_set_message(t('You could not be logged into the library system, so you have been logged out of WAYF.'), 'warning');
+    drupal_set_message(t('You could not be logged into the library system, so you have been logged out of WAYF.', array(), array('context' => 'ding_wayf')), 'warning');
     watchdog('ding_wayf', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
     ding_wayf_logout();
     return;
@@ -160,7 +160,7 @@ function ding_wayf_login($creds) {
       $account = user_save(drupal_anonymous_user(), $userinfo);
       // Terminate if an error occurred during user_save().
       if (!$account) {
-        drupal_set_message(t("Error saving user account."), 'error');
+        drupal_set_message(t('Error saving user account.', array(), array('context' => 'ding_wayf')), 'error');
         ding_wayf_logout();
         return;
       }
@@ -173,7 +173,7 @@ function ding_wayf_login($creds) {
     // Login user
     $form_state['uid'] = $account->uid;
     user_login_submit(array(), $form_state);
-    
+
     // Save credentials for later.
     ding_user_save_creds($auth_res, $account);
     // TODO: Do we still need this?
@@ -189,7 +189,7 @@ function ding_wayf_login($creds) {
         } else {
           $type = 'warning';
         }
-        drupal_set_message($message, $type);
+        drupal_set_message(t($message, array(), array('context' => 'ding_wayf')), $type);
       }
     }
     // We need to logout of wayf at this point, as we never got logged into the
