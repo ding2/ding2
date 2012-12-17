@@ -266,7 +266,7 @@ function ding_user_is_shared_email($form, &$form_state) {
       return $mail;
     }
   }
-  // return nothing.
+  return false;
 }
 
 /**
