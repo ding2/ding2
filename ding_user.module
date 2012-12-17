@@ -184,15 +184,14 @@ function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
       unset($form['#validate'][$pos]);
     }
 
-    //In order to bypass the problem with unique email adresses we use our own validator.
-    //Taken from sharedemail module. 
-    // Find the $form['#validate'] entry for user_profile_form's default validater,
-    // and replace it with the name of this module's #validate function.
+    // In order to bypass the problem with unique email adresses we use our own validator.
+    // Find the $form['#validate'] entry for the default validator,
+    // and replace it with our validator. Based on the sharedemail module.
     if (is_array($form['#validate'])) {
       $key = array_search('user_account_form_validate', $form['#validate'], TRUE);
       if ($key !== FALSE) {
         $form['#validate'][$key] = 'ding_user_account_form_validate';
-  }
+      }
     }
   }
 }
