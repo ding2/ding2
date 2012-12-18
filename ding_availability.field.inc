@@ -201,17 +201,24 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $typed_entities = array();
         // Sort entities into type -> ids.
         foreach ($entity->entities as $ent) {
-          $typed_entities[$ent->type][] = $ent->localId;
+          $typed_entities[$ent->type][] = $ent;
         }
 
         foreach ($typed_entities as $type => $entities) {
           // Generate an unique id.
-          $id = drupal_html_id('availability-' . $entity->id . '-' . $type);
+          $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
 
           // Convert type into link.
           if ($display['settings']['link']) {
-            $url = entity_uri('ting_object', $entity);
+            // If there is only 1 object there is a direct link 
+            // else there is a link to the collection.
+            if (count($entities) == 1) {
+              $url = entity_uri('ting_object', $entities[0]);
+            } else {
+              $url = entity_uri('ting_collection', $entities[0]);
+            }
             $type = l($type, $url['path'], $url['options']);
+            
           }
 
           // Create a list element for each type.
@@ -221,8 +228,12 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             'class' => array('availability', drupal_html_class($type)),
           );
 
+          $ids = array();
+          foreach ($entities as $object_entity) {
+             $ids[] = $object_entity->localId;
+          }
           // Map the HTML id to the list of entity ids.
-          $id_mapping[$id] = $entities;
+          $id_mapping[$id] = $ids;
         }
 
         $attached['js'][1] = array(
