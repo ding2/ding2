@@ -12,6 +12,12 @@
 class DingProviderAuthException extends Exception {}
 
 /**
+ * Exception that is thrown by providers when the given operation
+ * cannot be completed until the user either gives or denies consent.
+ */
+class DingProviderConsentException extends Exception {}
+
+/**
  * Thrown when no provider is configured for the given provider.
  */
 class DingProviderNoProvider extends Exception {}
@@ -77,6 +83,16 @@ class DingProviderUserException extends Exception {
         }
       }
       return strtr($string, $args);
+    }
+  }
+}
+
+class DingProviderException extends Exception {
+  private $callback;
+  
+  public function getCallback() {
+    if(isset($this->callback)) {
+      return $callback;
     }
   }
 }

@@ -346,6 +346,18 @@ function ding_provider_build_form($form_id, &$form_state) {
         drupal_goto($authpage, $options);
       }
     }
+    elseif ($e instanceof DingProviderConsentException) {
+      if (module_exists('ding_user_concent') && ($authpage = ding_user_consent_page())) {
+        // Something needs auth, save state and redirect to authentication page.
+        $expire = 21600;
+        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+        $input['#ding_provider_messages'] = drupal_get_messages();
+        
+        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+        $options = array('query' => ding_provider_get_destination(array('dp_form_id' => $form_id)));
+        drupal_goto($authpage, $options);
+      }
+    }
     watchdog('ding_provider', 'Uncaught exception in ding_provider_build_form: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
     // Redirect to error page.
     drupal_goto('ding_provider_error');
@@ -423,6 +435,23 @@ function ding_provider_ajax_form_callback() {
           '#type' => 'ajax',
           '#commands' => array(
             ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id))
+          ),
+        );
+      }
+    }
+    elseif ($e instanceof DingProviderConsentException) {
+      if (module_exists('ding_user_consent')) {
+        // Something needs auth, save state and redirect to authentication page.
+        $expire = 21600;
+        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+        $input['#ding_provider_messages'] = drupal_get_messages();
+        $input['#ding_provider_user'] = $user;
+        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+        $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
+        return array(
+          '#type' => 'ajax',
+          '#commands' => array(
+            ajax_command_ding_user_consent(array('dp_form_id' => $form_id))
           ),
         );
       }

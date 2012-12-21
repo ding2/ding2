@@ -72,6 +72,10 @@ class DingProviderLoan extends DingEntityBase {
    */
   protected $notes  = DingEntityBase::NULL;
 
+  /**
+   * Message - A message with a reason for why a loan is not renewable
+   */
+  protected $message  = DingEntityBase::NULL;
   /*
    titel
    type
@@ -96,6 +100,7 @@ class DingProviderLoan extends DingEntityBase {
       'renewable',
       'remote_loan',
       'notes',
+      'message',
     );
     $this->_populate($properties, $data);
   }

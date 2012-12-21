@@ -41,6 +41,10 @@ function connie_ding_provider() {
         'prefix' => 'branch',
         'file' => drupal_get_path('module', 'connie') . '/connie.branch.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => $path . '/connie.user_consent.inc',
+      ),
     ),
   );
 }
