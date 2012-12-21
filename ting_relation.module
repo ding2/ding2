@@ -91,7 +91,12 @@ function ting_relation_ding_entity_buttons($type, $entity) {
       $ebrary_url = variable_get('ting_ebrary_url');
 
       $url = '';
-      if (strstr($relation->uri, '[URL]')) {
+      $use_absolute = FALSE;
+      if (strstr($relation->uri, '[URL]http')) {
+        $url = str_replace('[URL]', '', htmlspecialchars_decode($relation->uri));
+        $use_absolute = TRUE;
+      }
+      elseif (strstr($relation->uri, '[URL]')) {
         $url = str_replace('[URL]', $ebrary_url, $relation->uri);
       }
       elseif (strstr($relation->uri, '[useraccessinfomedia]')) {
@@ -99,7 +104,7 @@ function ting_relation_ding_entity_buttons($type, $entity) {
       }
 
       if (!empty($url)) {
-        $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank')));
+        $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank'), 'absolute' => $use_absolute));
       }
     }
 
