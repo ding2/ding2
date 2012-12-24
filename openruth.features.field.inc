@@ -202,7 +202,7 @@ function openruth_field_default_fields() {
         'settings' => array(
           'display_all_day' => 0,
           'increment' => '15',
-          'input_format' => 'Y-m-d',
+          'input_format' => 'd/m/Y',
           'input_format_custom' => '',
           'label_position' => 'above',
           'repeat_collapsed' => 0,
