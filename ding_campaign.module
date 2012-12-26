@@ -121,7 +121,15 @@ function ding_campaign_display($context, $count, $offset) {
         case 'image':
           $camp_link = field_get_items('node', $node, 'field_camp_link');
           $camp_image = field_get_items('node', $node, 'field_camp_image');
-          $content = '<div class="' . $base_class . ' ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '"><img src="' . file_create_url($camp_image[0]['uri']) . '" alt="" /></a></div>';
+
+          $image_title = field_get_items('file', (object)($camp_image[0]), 'field_dams_title');
+          $image_title = isset($image_title[0]['safe_value']) ? $image_title[0]['safe_value'] : '';
+          $image_alt = field_get_items('file', (object)($camp_image[0]), 'field_dams_alt_name');
+          $image_alt = isset($image_alt[0]['safe_value']) ? $image_alt[0]['safe_value'] : '';
+
+          $content =
+            '<div class="' . $base_class . ' ' . $base_class . '-id-' . $v . ' ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '">'
+            . '<img src="' . file_create_url($camp_image[0]['uri']) . '" alt="' . $image_alt . '" title="' . $image_title  . '" /></a></div>';
           break;
 
         case 'full':
