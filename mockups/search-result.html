@@ -87,6 +87,7 @@
         <div class="content-inner">
           <div class="search-result-block">
             <div class="block-content">
+              <a class="search-feed" href="#"><i class="icon-rss"></i></a>
               <h1 class="block-title">Du s&oslash;gte p&aring;: <span class="search-term">Harry Potter og d&oslash;dsregalierne</span> - over <span class="result-stats">100</span> resultater</h1>
 
               <form class="filter grid-wrapper">
@@ -113,31 +114,41 @@
                 </div>
               </form>
 
+
+
+
+
               <article class="item search-short grid-wrapper">
                 <div class="grid-inner">
-                  <a class="cover" href="#"><img src="http://lorempixel.com/75/110/city/"></a>
+                  <a class="cover" href="#"><img src="images/cover-harry-potter.jpg"></a>
                   <div class="record">
-                    <header>
+                    <header class="title">
                       <h2><a href="#">Harry Potter og dødsregalierne</a></h2>
+                      <h3>7. del af <a href="#">Harry Potter</a></h3>
                     </header>
                     <div class="description">
-                      <p>af <a class="author" href="#">Joanne K. Rowling</a> <span class=”acc-year”>(2010)</span></p>
+                      <p class="by">af <a class="author" href="#">Joanne K. Rowling</a> <span class=”acc-year”>(2010)</span></p>
                       <p>Harry Potter er sammen med sine gode venner Ron og Hermione taget ud på en farlig færd. De skal finde den onde troldmand Voldemorts Horcruxer og ødelægge dem. Deres søgen bringer dem mange steder hen &hellip;</p>
                     </div><!--.description-->
                     <footer class="properties">
-                      <p class="availability"><a class="radius button available" href="#">Bog (tilg&aelig;ngelig) <span class="icon-info-sign"></span></a></p>
-                      <dl>
-                        <dt class="series">Serie:</dt>
-                        <dd>7. del af <a href="#">Harry Potter</a></dd>
-                        <dt class="classification">Klassem&aelig;rke:</dt>
-                        <dd>sk</dd>
-                      </dl>
+                      <p class="availability"><a class="radius button available" href="#">Tilg&aelig;ngelig <span class="icon-info-sign"></span></a></p>
+                      <h3>Titlen findes som</h3>
+                      <ul>
+                        <li><a href="#">Bog <span class="status">Udl&aring;nt</span></a></li>
+                        <li><a href="#">Lydbog (CD) <span class="status">Udl&aring;nt</span></a></li>
+                        <li><a href="#">Lydog (MP3) <span class="status">Kan l&aring;nes</span></a></li>
+                        <li><a href="#">Se alle formater og udgaver</a></li>
+                      </ul>
                     </footer><!--.properties-->
                   </div><!--.record-->
-                  <a class="more">L&aelig;s mere</a>
+                  <a class="more">L&aelig;s mere <i class="icon-arrow-right"></i></a>
                 </div><!--.grid-inner-->
               </article>
-              
+
+
+
+
+
             </div>
           </div>
         </div>
@@ -145,16 +156,60 @@
 
       <aside class="secondary-content">
         <div class="grid-inner">
-          <div class="tertiary-menu-wrapper">
-            <nav class="tertiary-menu">
+          <div class="facet-browser">
+            <h2>Filtr&eacute;r din s&oslash;gning</h2>            
+            <form>
+            
+              <fieldset class="form-wrapper">
+                  <legend>S&oslash;g</legend>
+                  <ul>
+                  
+                    <li>
+                      <input type="radio" checked="checked" id="materialer" name="materialer" value="materialer">
+                      <label for="materialer">I materialer <span class="count">(over 2000)</span></label>
+                    </li>
+                    <li>
+                      <input type="radio" id="hjemmesiden" name="hjemmesiden" value="hjemmesiden" class="form-checkbox">
+                      <label for="hjemmesiden">P&aring; hjemmesiden <span class="count">(6)</span></label>
+                    </li>
+                    
+                  </ul>
+              </fieldset>
+            
+              <fieldset class="form-wrapper">
+                  <legend>Materialetype</legend>
+                  <ul>
 
-              <ul>
-                <li><a href="#"><span>Åbningstider</span></a></li>
-                <li><a href="#"><span>Om biblioteket</span></a></li>
-                <li><a href="#" class="last"><span>Kontakt</span></a></li>
-              </ul>
+                    <li>
+                      <input type="checkbox" id="" name="" value="">
+                      <label for="">musik (net) <span class="count">(87)</span></label>
+                    </li>
 
-            </nav>
+                    <li>
+                      <input type="checkbox" id="" name="" value="">
+                      <label for="">avisartikel <span class="count">(84)</span></label>
+                    </li>
+
+                    <li>
+                      <input type="checkbox" id="" name="" value="">
+                      <label for="">bog <span class="count">(36)</span></label>
+                    </li>
+
+                    <li>
+                      <input type="checkbox" id="" name="" value="">
+                      <label for="">tidsskriftsartikel <span class="count">(31)</span></label>
+                    </li>
+
+                    <li>
+                      <input type="checkbox" id="" name="" value="">
+                      <label for="">spørgsmål og svar <span class="count">(20)</span></label>
+                    </li>
+
+                  </ul>
+                  <p><a href="#">Flere kategorier</a></p>
+              </fieldset>
+              
+            </form>
           </div>
         </div>
       </aside>
@@ -198,22 +253,6 @@
       </div>
 
       <div class="attachment-third">
-        <div class="footer-block">
-          <div class="block-content">
-            <h3 class="block-title">Lorem ipsum</h3>
-            <ul>
-              <li><a href="#">Adgang for alle</a></li>
-              <li><a href="#">Bibliotekets Nyhedsliste</a></li>
-              <li><a href="#">FAQ - sådan gør du</a></li>
-              <li><a href="#">Nyhedslister</a></li>
-              <li><a href="#">Publikationer</a></li>
-              <li><a href="#">Temalister</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="attachment-fourth">
         <div class="footer-block">
           <div class="block-content">
             <h3 class="block-title">Lorem ipsum</h3>

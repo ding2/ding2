@@ -65,5 +65,9 @@ $form-button-bg-color:            lighten(#000, 15%);
 // Buttons
 // -----------------------------------------------------------------------------
 //
-$button-bg-color:                 #ff5200;
-$button-border-color:             darken($button-bg-color,15%);
+$button-bg-color:                 #545454;
+$button-primary-bg-color:         #ff5200;
+$button-success-bg-color:         #60a500;
+$button-warning-bg-color:         #f6d346;
+$button-danger-bg-color:          #bf3600;
+$button-info-bg-color:            #73b4e0;

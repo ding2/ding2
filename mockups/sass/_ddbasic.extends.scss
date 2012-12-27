@@ -104,7 +104,6 @@
   border: 0;
   color: $form-button-text-color;
   cursor: pointer;
-  font-size: $theme-font-size * 1.7;
 
   &:hover {
     background-color: darken($form-button-bg-color, 15%);

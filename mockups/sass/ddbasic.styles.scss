@@ -164,6 +164,10 @@ ul {
   margin-bottom: $default-spacing;
 }
 
+.facet-browser {
+  @extend .tertiary-menu-wrapper;
+}
+
 
 // -----------------------------------------------------------------------------
 // Blocks
@@ -372,6 +376,7 @@ ul {
     @extend %button;
 
     position: absolute;
+    font-size: $theme-font-size * 1.7;
   }
 }
 
@@ -391,7 +396,8 @@ ul {
 
   input[type="submit"] {
     min-height: 60px;
-    right: 50px;
+    right: 48px;
+    top:0;
   }
 
   .help-link {
@@ -432,10 +438,12 @@ ul {
     @include rem('font-size', $font-size * 1.4);
     @extend %button;
 
+    font-size: $theme-font-size * 1.7;
     background-color: $font-color-primary;
     height: 40px;
     position: absolute;
-    right: -1px;
+    right: -2px;
+    top:0;
   }
 
   i[class^="icon-"] {
@@ -453,6 +461,11 @@ ul {
 .search-result-block {
   @extend .block;
   
+  .search-feed {
+    @include zen-float(right);
+    
+    padding: .5em 0;
+  }
   
   .filter {
     @include zen-clear();
@@ -484,35 +497,27 @@ ul {
   }
 
   .cover {
-    @include zen-grid-item(1, 1);
+    @include zen-grid-item(2, 1);
   }
 
   .record {
-    @include zen-grid-item(11, 2);
+    @include zen-grid-item(9, 3);
     
     .description {
-      @include zen-grid-item($grid-50, 1);
+      @include zen-grid-item(8, 1);
       
       border-right: 1px solid darken($block-bg,15%);
       padding: 0 19px 0 0;
     }
     .properties {
-      @include zen-grid-item($grid-50, 7);
+      @include zen-grid-item(4, 9);
 
       padding: 0 0 0 20px;
-      
-      dt {
-        @include zen-grid-item($grid-25, 1);
-        clear: left;
-        padding-left: 0;
-      }
-      dd {
-        @include zen-grid-item($grid-75, 4);
-        clear: none;
-        padding-bottom: 0;
-        margin-bottom: 1em;
-      }
     }
+  }
+
+  .more {
+    @include zen-grid-item(1,12);
   }
 }
 
@@ -554,6 +559,7 @@ ul {
     display: inline;
     min-height: 60px;
     position: absolute;
+    font-size: $theme-font-size * 1.7;
   }
 
 }
