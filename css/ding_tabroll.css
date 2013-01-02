@@ -3,24 +3,26 @@
     position: relative;
     background-color: transparent;
     overflow: hidden;
-    width: 670px;
+    width: 100%;
+    max-width: 1260px;
+    overflow: hidden;
     margin-bottom: 15px;
 }
-
 #featured ul.ui-tabs-nav {
     list-style: none outside none;
     margin: 0;
     padding: 0;
     position: absolute;
     top: 0;
-    width: 220px;
+    width: 30%;
     z-index: 20;
     border: 0 none;
     font-family: inherit;
-    left: 460px;
-
+    right: 0;
 }
-
+a img{
+  width: 70%
+}
 .ui-tabs-nav {
     border-style: none solid none none;
     border-width: 0 1px 0 0;
@@ -62,7 +64,6 @@
     border-bottom: 1px solid #fff;
     font-weight: normal;
     height: 42px;
-    width: 195px;
     text-transform: uppercase;
 }
 
@@ -72,7 +73,6 @@
     height: 43px;
     overflow: hidden;
     padding-top: 5px;
-    width: 202px;
 }
 
 #featured .ui-tabs-panel .image {
@@ -80,15 +80,15 @@
     z-index: 1;
 		top:0;
 		left:0;
+    
 }
-
 #featured .ui-tabs-panel .info {
     background: url("../images/bluegbg-75.png") repeat scroll 0 0 transparent;
     bottom: 0;
     height: 90px;
     left: 0;
     position: absolute;
-    width: 460px;
+    width: 70%;
     z-index: 10;
 }
 
@@ -107,6 +107,7 @@
 #featured .ui-tabs-panel .info p {
     color: #FFFFFF;
     margin: 0 20px;
+    width: 70%;
 }
 
 #featured .ui-tabs-hide {
