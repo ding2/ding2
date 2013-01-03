@@ -41,7 +41,7 @@ function ding_tabroll_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '480',
+          'width' => '460',
           'height' => '240',
         ),
         'weight' => '1',
