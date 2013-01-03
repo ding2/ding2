@@ -240,6 +240,10 @@ function ding_user_provider_profile($account) {
  * Update provider with changes to email/pass.
  */
 function ding_user_user_presave(&$edit, $account, $category) {
+  // If the changes originate from the provider we don't need to update them back to the provider.
+  if (isset($edit['from_provider']) && $edit['from_provider']) {
+    return;
+  }
   // Ensure that we're dealing with a provider user.
   if (empty($account->uid) || !ding_user_is_provider_user($account)) {
     return;
@@ -595,6 +599,8 @@ function ding_user_update_user($auth_res, &$account) {
   }
   if (!empty($auth_res['user'])) {
     // Save account if there's any changes.
+    // We don't need to save data back to the provider so we mark this as changes from provider.
+    $auth_res['user']['from_provider'] = true;
     $account = user_save($account, $auth_res['user']);
   }
 }
