@@ -132,22 +132,24 @@
 
   <?php if ($display_submitted): ?>
     <footer class="row-fluid">
-        <?php print $user_picture; ?>
-        <div class="span10">
-            <h4>
-                <?php print $latto_byline; ?>
-                <?php print $name; ?>
-            </h4>
-            <p>
-                <i class="icon-time"></i>
-                <?php print $submitted; ?> • <?php print $latto_updated; ?>
-                <br />
-                <i class="icon-tag"></i>
-                <?php print $latto_ding_content_tags; ?>
-            </p>
-        </div>
+      <?php print $user_picture; ?>
+      <div class="span10">
+        <h4>
+          <?php print $latto_byline; ?>
+          <?php print $name; ?>
+        </h4>
+        <p>
+          <i class="icon-time"></i>
+          <?php print $submitted; ?> • <?php print $latto_updated; ?>
+          <?php if ($ddbasic_ding_page_tags): ?>
+            <br />
+            <span class="tags">
+              <i class="icon-tag"></i>
+              <?php print t('Tags: ') . $ddbasic_ding_page_tags; ?>
+            </span>
+          <?php endif; ?>
+        </p>
+      </div>
     </footer>
-
   <?php endif; ?>
-
 </section>

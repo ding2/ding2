@@ -144,6 +144,26 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['ddbasic_place2book_tickets'] = (isset($variables['content']['field_place2book_tickets'])) ? 1: 0;
   }
 
+  $tags_fields = array(
+    'event',
+    'news',
+    'page',
+  );
+  foreach ($tags_fields as $tag_field) {
+    // Add ddbasic_ding_xxx_tags  to variables.
+    $variables['ddbasic_ding_' . $tags_field . '_tags'] = '';
+    if (isset($variables['content']['field_ding_' . $tags_field . '_tags'])) {
+      $ddbasic_tags = '';
+      $items = $variables['content']['field_ding_' . $tags_field . '_tags']['#items'];
+      if (count($items) > 0) {
+        foreach ($items as $delta => $item) {
+          $ddbasic_tags .= render($variables['content']['field_ding_' . $tags_field . '_tags'][$delta]);
+        }
+        $variables['ddbasic_ding_' . $tags_field . '_tags'] = $ddbasic_tags;
+      }
+    }
+  }
+
   /**
    * @TODO Use date-formats defined in the backend, do not hardcode formats...
    *       ever
