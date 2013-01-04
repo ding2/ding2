@@ -82,6 +82,24 @@ ul {
 }
 
 
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  display: block;
+  
+  border-top: 1px solid $gray;
+  margin: 0;
+  padding: 0;  
+  width: 100%;
+  
+  line-height: $font-size * 3;
+}
+
+
 // -----------------------------------------------------------------------------
 // Layout elements
 // -----------------------------------------------------------------------------
@@ -323,6 +341,11 @@ ul {
 }
 
 
+.navigation-inner,
+.rs-carousel {
+  @extend %link-special;
+}
+
 // -----------------------------------------------------------------------------
 // Opening hours
 // -----------------------------------------------------------------------------
@@ -454,19 +477,79 @@ ul {
   }
 }
 
+
+// -----------------------------------------------------------------------------
+// Facet Browser
+// -----------------------------------------------------------------------------
+//
+.facet-browser {
+
+  h2 {
+    @include rem('font-size', $font-size * 1.2);
+  }
+
+  h2,
+  legend,
+  .count {
+    color: darken($gray-darker, 5%);
+  }
+
+  .remove {
+    float:right;
+    color: $button-danger-bg-color;
+    
+    &:hover {
+      color: darken($button-danger-bg-color, 15%);
+    }
+  }
+
+  ul {
+    
+    padding: 1px 0 0;
+    list-style: none;
+  }
+
+  li {
+    @include rem('padding', $default-spacing / 6 $default-spacing / 2);
+    
+    margin-bottom: 1px;
+    
+    label {
+      color: $font-color-primary;
+    }
+  }
+
+  .checked {
+    background: $gray-light;
+  }
+
+}
+
+
 // -----------------------------------------------------------------------------
 // Search Result
 // -----------------------------------------------------------------------------
 //
 .search-result-block {
   @extend .block;
-  
+
+  .block-title {
+    @include rem('font-size', $font-size * 1.5);
+    
+    color: $gray-darker;
+  }
+
+  .search-term,
+  .result-stats {
+    color: $black;
+  }
+
   .search-feed {
     @include zen-float(right);
     
     padding: .5em 0;
   }
-  
+
   .filter {
     @include zen-clear();
     

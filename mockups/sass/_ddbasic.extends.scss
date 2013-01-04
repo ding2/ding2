@@ -46,6 +46,30 @@
 }
 
 
+%link-special {
+  a {
+    &:link {
+      color: $link-color-special;
+      text-decoration: none;
+    }
+    &:visited {
+      color: darken($link-color-special, 15%);
+    }
+    &:hover {
+      color: $link-color-special-hover;
+      text-decoration: underline;
+
+      i[class^="icon-"] {
+        text-decoration: none;
+      }
+    }
+    &:focus {
+      color: $link-color-special-hover;
+    }
+  }
+}
+
+
 // -----------------------------------------------------------------------------
 // Read more
 // -----------------------------------------------------------------------------
