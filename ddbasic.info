@@ -1,22 +1,30 @@
 ;----------// Theme Information
   name        = DDBasic
-  description = A sub theme to Latto framework
+  description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
   base theme  = latto
 
 ;----------// Stylesheets
+  ; Import stylesheets.
+  stylesheets[all][] = css/ddbasic.styles.css
+  
+  ; Override stylesheets
+  ; stylesheets[all][] = css/override.css
 
-  ; Unset Module CSS or other Stylesheets
-  ;
-  ; In your theme settings you can unset many stylesheets using the Unset CSS Extension. If for some
-  ; reason the file you want to unset is not showing, you can explicitly declare it here. Once you have
-  ; finished adding your declarations you must clear the sites cache, then go to your theme settings and
-  ; check the checkbox for the file, then save the theme settings and the file will be unset thereafter.
-  ;
-  ; Follow the syntax:
-  ;
-  ; unset_css[path/to/css/file.css] = 1
-  ;
-  ; For example to unset foobar_module.css you might use something like this:
-  ; unset_css[sites/all/modules/foobar_module/foobar_module.css] = 1
+;----------// JavaScripts
+  ; Import javascripts.
+  ; scripts[] = scripts/ddbasic.common.js
+    
+;----------// Regions
+  regions[header]            = Header
+  regions[navigation]        = Navigation
+  regions[content_top]       = Content top
+  regions[content]           = Primary content
+  regions[secondary_content] = Secondary content
+  regions[tertiary_content]  = Tertiary content
+  regions[attachment_first]  = Attachment first
+  regions[attachment_second] = Attachment second
+  regions[attachment_third]  = Attachment third
+  regions[attachment_fourth] = Attachment fourth
+  regions[footer]            = Footer
