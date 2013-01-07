@@ -1,0 +1,50 @@
+// =============================================================================
+// Media queries
+// =============================================================================
+//
+@import "../../latto/sass/_latto.mediaqueries.scss";
+
+
+// -----------------------------------------------------------------------------
+// Primary 33% secondary 66% tertiary 100% stacked
+// -----------------------------------------------------------------------------
+//
+@mixin display-33-66-stacked {
+  .primary-content {
+    @include zen-grid-item($grid-33, 1, right);
+  }
+
+  .secondary-content {
+    @include zen-grid-item($grid-66, 1);
+  }
+
+  .tertiary-content {
+    @include zen-clear(both);
+    @include zen-grid-item($grid-column-count, 1);
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Displays
+// -----------------------------------------------------------------------------
+//
+%frontpage-display {
+  @include medium() {
+    @include display-100-50-50;
+  }
+
+  @include large() {
+    @include display-33-66-stacked;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Layout templates
+// -----------------------------------------------------------------------------
+//
+.frontpage-layout {
+  @extend %frontpage-display;
+  @extend %attachments-display-two;
+}

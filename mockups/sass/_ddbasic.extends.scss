@@ -1,0 +1,135 @@
+// =============================================================================
+// Extend classes
+// =============================================================================
+//
+%grid-padding {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+%header-sections {
+  @include zen-grid-item($grid-50, 1);
+
+	margin-top: 70px;
+	margin-bottom: 70px;
+  padding: 0;
+  position: relative;
+}
+
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+%link-inverted {
+  a {
+    &:link {
+      color: $link-color-inverted;
+      text-decoration: none;
+    }
+    &:visited {
+      color: darken($link-color-inverted, 15%);
+    }
+    &:hover {
+      color: $link-color-inverted-hover;
+      text-decoration: underline;
+
+      i[class^="icon-"] {
+        text-decoration: none;
+      }
+    }
+    &:focus {
+      color: $link-color-inverted-hover;
+    }
+  }
+}
+
+
+%link-special {
+  a {
+    &:link {
+      color: $link-color-special;
+      text-decoration: none;
+    }
+    &:visited {
+      color: darken($link-color-special, 15%);
+    }
+    &:hover {
+      color: $link-color-special-hover;
+      text-decoration: underline;
+
+      i[class^="icon-"] {
+        text-decoration: none;
+      }
+    }
+    &:focus {
+      color: $link-color-special-hover;
+    }
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Read more
+// -----------------------------------------------------------------------------
+//
+%read-more-icon {
+  float: left;
+  margin-right: 5px;
+  text-decoration: none;
+}
+
+
+%read-more-link {
+  display: block;
+  margin-top: $default-spacing;
+}
+
+
+// -----------------------------------------------------------------------------
+// Icons
+// -----------------------------------------------------------------------------
+//
+%inline-icons {
+  @include opacity(.25);
+
+  margin-left: 15px;
+  position: absolute;
+
+  font-size: $theme-font-size * 2.2;
+}
+
+
+%inline-icon-input {
+  @include box-sizing(border-box);
+  @include border-radius(12px);
+
+  display: inline;
+  padding-top: 10px;
+  padding-left: 45px;
+
+  border: 0;
+}
+
+
+// -----------------------------------------------------------------------------
+// Buttons
+// -----------------------------------------------------------------------------
+//
+%button {
+  @include border-radius(12px);
+
+  padding-top: 7px;
+  padding-right: 18px;
+  padding-left: 18px;
+
+  background-color: $form-button-bg-color;
+  border: 0;
+  color: $form-button-text-color;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($form-button-bg-color, 15%);
+  }
+}

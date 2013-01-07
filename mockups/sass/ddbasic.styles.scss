@@ -1,0 +1,763 @@
+// =============================================================================
+// DDBasic styling
+// =============================================================================
+//
+@import "compass/css3";
+@import "../../latto/sass/_latto.variables.scss";
+@import "../../latto/sass/_latto.grid.scss";
+@import '../../latto/sass/_latto.mediaqueries.scss';
+@import "../../latto/sass/_latto.mixins.scss";
+@import '../../latto/sass/_latto.tables.scss';
+@import '../../latto/sass/_latto.nav.scss';
+@import '../../latto/sass/_latto.lists.scss';
+@import '../../latto/sass/_latto.font-awesome.scss';
+@import "../../latto/sass/_latto.base.scss";
+@import "_ddbasic.variables.scss";
+@import "_ddbasic.mediaqueries.scss";
+@import "_ddbasic.mixins.scss";
+@import "_ddbasic.extends.scss";
+@import "_ddbasic.navigation.scss";
+@import "_ddbasic.carousel.scss";
+@import "_ddbasic.buttons.scss";
+
+
+// -----------------------------------------------------------------------------
+// Basic styling
+// -----------------------------------------------------------------------------
+//
+body {
+  @include rem('font-size', $font-size);
+
+	background: url('../images/body.jpg') no-repeat;
+  background-attachment: fixed;
+	background-size: cover;
+	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+	font-weight: $font-weight-light;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: $font-weight-light;
+  line-height: 100%;
+  margin-top: 0;
+}
+
+
+input,
+textarea {
+	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+	font-weight: $font-weight-light;
+}
+
+
+a {
+  &:link {
+    color: $link-color;
+    text-decoration: none;
+  }
+  &:visited {
+    color: darken($link-color, 15%);
+  }
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+
+    i[class^="icon-"] {
+      text-decoration: none;
+    }
+  }
+  &:focus {
+    color: $link-color-hover;
+  }
+}
+
+
+ul {
+  padding-left: $default-spacing;
+}
+
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  display: block;
+  
+  border-top: 1px solid $gray;
+  margin: 0;
+  padding: 0;  
+  width: 100%;
+  
+  line-height: $font-size * 3;
+}
+
+
+// -----------------------------------------------------------------------------
+// Layout elements
+// -----------------------------------------------------------------------------
+//
+.topbar {
+	@include rgba-background($black, $block-bg-transparency);
+
+	min-height: $header-min-height;
+
+	h1 {
+    @include rem('font-size', $header-font-size);
+
+		font-weight: $font-weight-regular;
+		line-height: $header-min-height;
+
+		margin-top: 0;
+		margin-bottom: 0;
+
+		a,
+		a:link,
+		a:visited {
+			color: $header-text-color;
+		}
+	}
+}
+
+
+.topbar {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+
+
+.topbar-inner {
+	@extend .grid-inner;
+
+  position: relative;
+}
+
+
+.logo {
+  @include zen-grid-item($grid-50, 1);
+}
+
+
+.header-wrapper {
+	@extend .grid-wrapper;
+
+	background-image: url('../images/pattern.png');
+  margin-top: 60px;
+
+	.header-inner {
+		@extend .grid-inner;
+
+    position: relative;
+	}
+}
+
+.frontpage-layout {
+  .content-wrapper {
+    margin-top: 88px;
+  }
+}
+
+.content-wrapper {
+  @extend .grid-wrapper;
+
+  margin-top: 148px;
+}
+
+
+.primary-content,
+.secondary-content,
+.tertiary-content,
+.attachment-first,
+.attachment-second,
+.attachment-third,
+.attachment-fourth {
+  margin-bottom: $default-spacing;
+}
+
+.facet-browser {
+  @extend .tertiary-menu-wrapper;
+}
+
+
+// -----------------------------------------------------------------------------
+// Blocks
+// -----------------------------------------------------------------------------
+//
+%block {
+  @include border-radius($block-border);
+  @include box-sizing(border-box);
+
+  select {
+    width: 100%;
+  }
+
+  i[class^="icon-"] {
+    @extend %read-more-icon;
+  }
+
+  .block-title {
+    @include rem('font-size', $header-font-size * 1.1);
+  }
+
+  .block-content {
+    padding: 20px;
+  }
+
+  .read-more {
+    @extend %read-more-link;
+  }
+}
+
+
+.block {
+  @include box-shadow(inset 0 0 15px darken($block-bg, 10%));
+  @include border-radius($block-border);
+  @include box-sizing(border-box);
+  @include rgba-background($block-bg, $block-bg-transparency);
+  @extend %block;
+
+  color: $block-color;
+}
+
+
+.block-inverted {
+  @include box-shadow(inset 0 0 15px darken($block-bg-inverted, 10%));
+  @include border-radius($block-border);
+  @include box-sizing(border-box);
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
+  @extend %block;
+
+  color: $block-color-inverted;
+
+  h2 {
+    color: $block-color-inverted;;
+    margin-top: 0;
+  }
+
+  i[class^="icon-"] {
+    @extend %read-more-icon;
+
+    color: $block-color-inverted;
+  }
+
+  .image {
+    margin-bottom: $default-spacing;
+  }
+
+  .read-more {
+    color: $block-color-inverted;
+    text-decoration: underline;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Miscellaneous
+// -----------------------------------------------------------------------------
+//
+.grid-inner {
+	max-width: 1350px;
+}
+
+
+.js-fixed-element {
+  display: none;
+}
+
+
+.blocks-wrapper {
+  @include rgba-background($section-bg, $section-bg-transparency);
+	@extend .grid-wrapper;
+
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+
+.blocks-wrapper-inverted {
+  @include attachment-50-50-50-50;
+  @include rgba-background($section-bg-inverted, $section-bg-transparency);
+  @extend .blocks-wrapper;
+
+  .block-title {
+    color: $link-color-inverted;
+  }
+
+  img {
+    max-height: 150px;
+  }
+}
+
+
+.blocks-wrapper-two {
+  @extend .blocks-wrapper-inverted;
+}
+
+
+.footer {
+  @include rgba-background($section-bg, $section-bg-transparency);
+
+  padding-top: 30px;
+}
+
+.footer-block {
+  @extend %block;
+  @extend %link-inverted;
+
+  background-color: transparent;
+  color: $white;
+
+  .block-title {
+    color: $white;
+  }
+}
+
+%section-title {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+.section-title {
+  @include rem('font-size', $header-font-size);
+  @extend %section-title;
+
+  color: $section-color;
+}
+
+
+.section-title-inverted {
+  @include rem('font-size', $header-font-size);
+  @extend %section-title;
+
+  color: $section-color-inverted;
+}
+
+
+.navigation-inner,
+.rs-carousel {
+  @extend %link-special;
+}
+
+// -----------------------------------------------------------------------------
+// Opening hours
+// -----------------------------------------------------------------------------
+//
+.block-opening-hours {
+  @include box-shadow(inset 0 0 15px darken($block-bg, 10%));
+  @include rgba-background($block-bg, $block-bg-transparency);
+  @extend %block;
+
+  min-height: 279px;
+
+  .read-more {
+    margin-left: 3px;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Themes
+// -----------------------------------------------------------------------------
+//
+.theme-block {
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
+  @extend .block-inverted;
+}
+
+
+// -----------------------------------------------------------------------------
+// Search
+// -----------------------------------------------------------------------------
+//
+%search {
+  i[class^="icon-search"] {
+    @extend %inline-icons;
+
+    top: 17px;
+    z-index: 10;
+  }
+
+  input[type="text"] {
+    @include rem('font-size', $font-size * 1.7);
+    @extend %inline-icon-input;
+
+    min-height: 60px;
+
+    left: 0;
+    width: 100%;
+  }
+
+  input[type="submit"] {
+    @extend %button;
+
+    position: absolute;
+    font-size: $theme-font-size * 1.7;
+  }
+}
+
+
+.search {
+  @include zen-grid-item($grid-50, 1);
+  @extend %header-sections;
+  @extend %search;
+
+  border-right: 1px solid #f78443;
+
+  padding-right: 0;
+
+  .search-field-wrapper {
+    margin-right: 50px;
+  }
+
+  input[type="submit"] {
+    min-height: 60px;
+    right: 48px;
+    top:0;
+  }
+
+  .help-link {
+    @extend .pull-right;
+
+    display: block;
+    margin-top: $default-spacing / 2;
+
+    &:hover {
+      color: $black;
+      text-decoration: none;
+    }
+  }
+}
+
+
+.search-compact {
+  @extend %search;
+
+  margin-top: 10px;
+  position: absolute;
+  right: 160px;
+
+  .search-field-wrapper {
+    min-width: 400px;
+    position: relative;
+  }
+
+  input[type="text"] {
+    @include rem('font-size', $font-size * 1.5);
+
+    min-height: 30px;
+    padding-top: 5px;
+    padding-left: 40px;
+  }
+
+  input[type="submit"] {
+    @include rem('font-size', $font-size * 1.4);
+    @extend %button;
+
+    font-size: $theme-font-size * 1.7;
+    background-color: $font-color-primary;
+    height: 40px;
+    position: absolute;
+    right: -2px;
+    top:0;
+  }
+
+  i[class^="icon-"] {
+    @include rem('font-size', $font-size * 1.7);
+    @extend %inline-icons;
+
+    top: 13px;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Facet Browser
+// -----------------------------------------------------------------------------
+//
+.facet-browser {
+
+  h2 {
+    @include rem('font-size', $font-size * 1.2);
+  }
+
+  h2,
+  legend,
+  .count {
+    color: darken($gray-darker, 5%);
+  }
+
+  .remove {
+    float:right;
+    color: $button-danger-bg-color;
+    
+    &:hover {
+      color: darken($button-danger-bg-color, 15%);
+    }
+  }
+
+  ul {
+    
+    padding: 1px 0 0;
+    list-style: none;
+  }
+
+  li {
+    @include rem('padding', $default-spacing / 6 $default-spacing / 2);
+    
+    margin-bottom: 1px;
+    
+    label {
+      color: $font-color-primary;
+    }
+  }
+
+  .checked {
+    background: $gray-light;
+  }
+
+}
+
+
+// -----------------------------------------------------------------------------
+// Search Result
+// -----------------------------------------------------------------------------
+//
+.search-result-block {
+  @extend .block;
+
+  .block-title {
+    @include rem('font-size', $font-size * 1.5);
+    
+    color: $gray-darker;
+  }
+
+  .search-term,
+  .result-stats {
+    color: $black;
+  }
+
+  .search-feed {
+    @include zen-float(right);
+    
+    padding: .5em 0;
+  }
+
+  .filter {
+    @include zen-clear();
+    
+    border-bottom: 1px solid darken($block-bg,15%);
+    border-top: 1px solid darken($block-bg,15%);
+    padding: 10px 0;
+    margin: 10px 0;
+    
+    select {padding:10px;}
+    
+    .number-items {
+      @include zen-grid-item($grid-33, 1);
+    }
+
+    .order-by {
+      @include zen-grid-item($grid-33, 5);
+    }
+
+    .display-types {
+      @include zen-grid-item($grid-33, 9);
+    }
+  }
+
+  .item {
+    background: darken($block-bg,5%);
+    padding: 20px 10px;
+    margin: 10px 0;
+  }
+
+  .cover {
+    @include zen-grid-item(2, 1);
+  }
+
+  .record {
+    @include zen-grid-item(9, 3);
+    
+    .description {
+      @include zen-grid-item(8, 1);
+      
+      border-right: 1px solid darken($block-bg,15%);
+      padding: 0 19px 0 0;
+    }
+    .properties {
+      @include zen-grid-item(4, 9);
+
+      padding: 0 0 0 20px;
+    }
+  }
+
+  .more {
+    @include zen-grid-item(1,12);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// User
+// -----------------------------------------------------------------------------
+//
+.user {
+  @include zen-float(right);
+  @extend %header-sections;
+
+  margin-right: 0;
+
+  .user-field-wrapper {
+    display: inline;
+    margin-left: 50px;
+  }
+
+  i[class^="icon-"] {
+    @extend %inline-icons;
+
+    top: 17px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    @include rem('font-size', $font-size * 1.3);
+    @extend %inline-icon-input;
+
+    max-width: 240px;
+    min-height: 60px;
+    margin-right: $default-spacing / 2;
+  }
+
+  input[type="submit"] {
+    @include border-radius(12px);
+    @extend %button;
+
+    display: inline;
+    min-height: 60px;
+    position: absolute;
+    font-size: $theme-font-size * 1.7;
+  }
+
+}
+
+
+.user-compact {
+  @include rem('font-size', $font-size * 1.4);
+
+  margin-top: 9px;
+  text-align: right;
+  position: absolute;
+  right: 10px;
+
+  a {
+    @include border-radius(12px);
+
+    background-color: $black;
+    color: $white;
+    cursor: pointer;
+    display: inline-block;
+    padding: 12px 25px 10px;
+    text-align: center;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.active {
+      background-color: $font-color-primary;
+    }
+  }
+
+  i[class^="icon-"] {
+    @extend %read-more-icon;
+  }
+
+  &.fixed {
+    display: block;
+  }
+}
+
+
+.user-login-block {
+  @extend %block;
+
+  display: none;
+  max-width: 425px;
+  position: absolute;
+  z-index: 99;
+
+  &:before {
+    @include pseudo-arrow(25px, $font-color-primary, top, right, 50px);
+  }
+
+  .user-field-wrapper {
+    position: relative;
+
+    i[class^="icon-"] {
+      @extend %inline-icons;
+
+      color: #000;
+      top: 15px;
+    }
+  }
+
+  .user-close-container {
+    @include rem('font-size', $font-size * 1.25);
+
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .user-login-link {
+    @extend .pull-right;
+
+    margin-top: 15px;
+    margin-right: 10px;
+
+    a {
+      color: #fff;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .user-create-link {
+    clear: both;
+    padding-top: 20px;
+    text-align: right;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    @include rem('font-size', $font-size * 1.3);
+    @extend %inline-icon-input;
+
+    margin-bottom: $default-spacing;
+    width: 100%;
+  }
+
+  input[type="submit"] {
+    @include border-radius(12px);
+    @extend %button;
+    @extend .pull-right;
+
+    display: inline;
+  }
+
+}

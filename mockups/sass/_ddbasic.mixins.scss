@@ -1,0 +1,41 @@
+// =============================================================================
+// Mixins
+// =============================================================================
+//
+
+// -----------------------------------------------------------------------------
+// Pseudo arrow
+// -----------------------------------------------------------------------------
+//
+@mixin pseudo-arrow($size, $color, $direction, $alignment, $offset: 20px) {
+
+  border: $size solid transparent;
+  content: "";
+  height: 0;
+  position: absolute;
+  width: 0;
+
+  // Place the arrow based on $direction
+  #{$direction}: -$size * 2;
+
+  // Set the border-color based on $direction
+  border-#{opposite-position($direction)}-color: $color;
+
+  // Place the arrow based on alignment (center/middle or $offset)
+  @if ($alignment == "center") {
+
+    margin-left: -$size;
+    left: 50%;
+
+  } @else if $alignment == "middle" {
+
+    margin-top: -$size;
+    top: 50%;
+
+  } @else {
+
+    #{$alignment}: $offset;
+
+  }
+
+}
