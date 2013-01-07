@@ -14,7 +14,6 @@ dependencies[] = date_all_day
 dependencies[] = date_views
 dependencies[] = ding_base
 dependencies[] = ding_content
-dependencies[] = ding_latto_frontend
 dependencies[] = ding_page
 dependencies[] = features
 dependencies[] = field_group
