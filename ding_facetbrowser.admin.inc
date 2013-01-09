@@ -14,43 +14,36 @@ function ding_facetbrowser_settings($form_state) {
   form_load_include($form_state, 'inc', 'ding_facetbrowser', 'ding_facetbrowser.admin');
   $form = array();
   $facets = variable_get('ding_facetbrowser_facets', array());
-  $showcount = variable_get('ding_facetbrowser_showcount');
-
+  
   $form['description'] = array(
     '#markup' => '<p>' . t('Configure facets shown in the facetbrowser. Facet names can be found at <a href="http://oss.dbc.dk/wiki/bin/view/Databroend/OpenSearchDocIndexes">DBC wiki</a> and is usually named <em>facet.something</em>.') . '</p>',
   );
 
+  $showcount = variable_get('ding_facetbrowser_showcount', count($facets));
   $form['ding_facetbrowser_showcount'] = array(
     '#type' => 'select',
     '#title' => t('Visible facets amount'),
     '#description' => t('The amount of facets that will be visible on the search page by default. The rest of the facets will be hidden and the user have to click to show them.'),
-    '#options' => array(
-      1 => '1',
-      2 => '2',
-      3 => '3',
-      4 => '4',
-      5 => '5',
-      6 => '6',
-      7 => '7',
-      8 => '8',
-      9 => '9',
-      10 => '10',
-      11 => '11',
-      12 => '12',
-      13 => '13',
-      14 => '14',
-      15 => '15',
-     ),
+    '#options' => drupal_map_assoc(range(1, 15)),
     '#default_value' => $showcount,
   );
 
+  $number_of_terms = variable_get('ding_facetbrowser_number_of_terms', 5);
+  $form['ding_facetbrowser_number_of_terms'] = array(
+    '#type' => 'select',
+    '#title' => t('Number of terms'),
+    '#description' => t('The number of fact terms to display in each fact group.'),
+    '#options' => drupal_map_assoc(range(1, 15)),
+    '#default_value' => $number_of_terms,
+  );
+  
   $form['ding_facetbrowser_facets'] = array(
     '#tree' => TRUE,
     '#weight' => -20,
   );
 
   $i = 0;
-  foreach($facets as $facet) {
+  foreach ($facets as $facet) {
     $form['ding_facetbrowser_facets'][$i]['name'] = array(
       '#type' => 'textfield',
       '#title' => t('Facet id'),
@@ -75,8 +68,8 @@ function ding_facetbrowser_settings($form_state) {
         'aphabetical_reverse' => t('Alphabetic (reverse)'),
         'numeric' => t('Numeric'),
         'numeric_reverse' => t('Numeric (reverse)'),
-       ),
-      '#default_value' => $facet['sorting'],
+      ),
+      '#default_value' => isset($facet['sorting']) ? $facet['sorting'] : 'default',
     );
 
     $form['ding_facetbrowser_facets'][$i]['weight'] = array(
@@ -118,7 +111,7 @@ function ding_facetbrowser_settings($form_state) {
       'aphabetical_reverse' => t('Alphabetic (reverse)'),
       'numeric' => t('Numeric'),
       'numeric_reverse' => t('Numeric (reverse)'),
-     ),
+    ),
     '#default_value' => 'default',
   );
 
@@ -153,6 +146,7 @@ function ding_facetbrowser_settings_submit($form, &$form_state) {
   usort($facets, 'drupal_sort_weight');
   variable_set('ding_facetbrowser_facets', $facets);
   variable_set('ding_facetbrowser_showcount', $form_state['values']['ding_facetbrowser_showcount']);
+  variable_set('ding_facetbrowser_number_of_terms', $form_state['values']['ding_facetbrowser_number_of_terms']);
   drupal_set_message(t('The configuration options have been saved.'));
 }
 

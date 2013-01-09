@@ -1,20 +1,19 @@
 <?php
 
 /**
- * Implements hook_block_info()
- *
- * @return array
+ * Implements hook_block_info().
  */
 function ding_facetbrowser_block_info() {
-  $blocks['facetbrowser'] = array(
-    'info'  => t('Facet browser'),
-    'cache' => DRUPAL_NO_CACHE,
+  return array(
+    'facetbrowser' => array(
+      'info'  => t('Facet browser'),
+      'cache' => DRUPAL_NO_CACHE,
+    ),
   );
-  return $blocks;
 }
 
 /**
- * Implements hook_menu()
+ * Implements hook_menu().
  */
 function ding_facetbrowser_menu() {
   $items['admin/config/ting/facets'] = array(
@@ -40,21 +39,21 @@ function ding_facetbrowser_menu() {
 }
 
 /**
- * Implements hook_theme()
+ * Implements hook_theme().
  *
  * @return array
  */
 function ding_facetbrowser_theme() {
   return array(
-   'facetbrowser' => array(
-     'variables' => array(
-       'facets'    => NULL,
-       'searchkey' => NULL,
-     ),
+    'facetbrowser' => array(
+      'variables' => array(
+        'facets' => NULL,
+        'searchkey' => NULL,
+      ),
     ),
-   'ding_facetbrowser_settings' => array(
-     'render element' => 'form',
-     'file' => 'ding_facetbrowser.admin.inc',
+    'ding_facetbrowser_settings' => array(
+      'render element' => 'form',
+      'file' => 'ding_facetbrowser.admin.inc',
     ),
   );
 }
@@ -72,7 +71,7 @@ function ding_facetbrowser_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implement hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function ding_facetbrowser_ctools_plugin_api($module, $api) {
   if ($module == 'panels_mini' && $api == 'panels_default') {
@@ -116,8 +115,8 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 
       if (count($facet->terms) > 0) {
         $form[$facet->name] = array(
-          '#type'        => 'fieldset',
-          '#title'       => $configured_facet['title'],
+          '#type' => 'fieldset',
+          '#title' => check_plain($configured_facet['title']),
           '#attributes'  => array(
             'id' => str_replace('.', '-', $facet->name),
             'data' => array($facet->name),
@@ -134,26 +133,26 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             krsort($facet->terms);
             break;
           case 'numeric':
-            ksort($facet->terms,SORT_NUMERIC);
+            ksort($facet->terms, SORT_NUMERIC);
             break;
           case 'numeric_reverse':
-            krsort($facet->terms,SORT_NUMERIC);
+            krsort($facet->terms, SORT_NUMERIC);
             break;
           default:
-          
+
             break;
         }
 
         foreach ($facet->terms as $term_name => $term_count) {
-          $facet_name             = explode('.', $facet->name);
-          $element_name           = end($facet_name);
+          $facet_name = explode('.', $facet->name);
+          $element_name = end($facet_name);
           $facets_string = $facet->name . ':' . $term_name;
           $term_name_title = $term_name;
           // Check if term name is longer than 14 chars,
           // if so, short it down to fit facetbrowser
           $substr_length = 19
-            + substr_count(drupal_substr($term_name, 0, 20),'l')
-            + strtolower(substr_count(drupal_substr($term_name, 0, 20),'i'))
+            + substr_count(drupal_substr($term_name, 0, 20), 'l')
+            + drupal_strtolower(substr_count(drupal_substr($term_name, 0, 20), 'i'))
             - drupal_strlen((string)$term_count);
           if (drupal_strlen($term_name) > $substr_length + 3) {
             $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
@@ -203,7 +202,6 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 
   }
 
-
   return $form;
 }
 
@@ -218,7 +216,6 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 function _isFacetSet($term_cat, $term_name) {
   $facets = &drupal_static('ding_facetbrowser_facets');
   if (!isset($facets)) {
-    $new_query_part = array();
     $request_uri_parts = explode('?', request_uri());
     $facets = explode('&', rawurldecode(end($request_uri_parts)));
     drupal_static('ding_facetbrowser_facets', $facets);
@@ -281,7 +278,7 @@ function _facetString($form_state = NULL) {
 }
 
 /**
- * facetbrowser theme function
+ * Facetbrowser theming function.
  *
  * @param array $all_facets
  * @return string
@@ -298,7 +295,7 @@ function theme_facetbrowser($search_result = FALSE) {
 }
 
 /**
- * Implements hook_block_view()
+ * Implements hook_block_view().
  *
  * @return Array
  */

@@ -5,22 +5,23 @@
     attach: function(context, settings) {
       Drupal.FoldFacetGroup();
 
+      var main_element = Drupal.settings.dingFacetBrowser.mainElement;
       
       // Wrap all facet fieldsets marked as hidden in a container so we can hide em.
-      $(Drupal.settings.dingFacetBrowser.mainElement + ' fieldset.hidden').wrapAll('<div id="hidden-facets" />');
-      $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').after('<span class="expand-facets">' + Drupal.t('Show more filters') + '</span>');
-      $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').hide();
+      $(main_element + ' fieldset.hidden').wrapAll('<div id="hidden-facets" />');
+      $(main_element + ' #hidden-facets').after('<span class="expand-facets">' + Drupal.t('Show more filters') + '</span>');
+      $(main_element + ' #hidden-facets').hide();
 
-      $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand-facets').live('click', function() {
-        $(Drupal.settings.dingFacetBrowser.mainElement + ' #hidden-facets').toggle('fast', function () {
-          $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand-facets').text(
+      $(main_element + ' .expand-facets').live('click', function() {
+        $(main_element + ' #hidden-facets').toggle('fast', function () {
+          $(main_element + ' .expand-facets').text(
             $(this).is(':visible') ? Drupal.t('Show less filters') : Drupal.t('Show more filters')
           );
         });
       });
 
       // Check for click in checkbox, and execute search.
-      $(Drupal.settings.dingFacetBrowser.mainElement + ' .form-type-checkbox input').change(function(e) {
+      $(main_element + ' .form-type-checkbox input').change(function(e) {
         $('body').prepend('<div class="facetbrowser_overlay"><div class="spinner"></div></div>');
         window.location = $(e.target).parent().find('a').attr('href');
       });
@@ -31,11 +32,15 @@
   * Fold facet groups to show only 5 unselected checkboxes per group.
   */
   Drupal.FoldFacetGroup = function() {
-    $(Drupal.settings.dingFacetBrowser.mainElement + ' fieldset.form-wrapper').each(function() {
+    
+    var main_element = Drupal.settings.dingFacetBrowser.mainElement;
+    
+    $(main_element + ' fieldset.form-wrapper').each(function() {
       var facetGroup = $(this);
-      if (facetGroup.find('.form-type-checkbox input:not(:checked)').size() > Drupal.settings.dingFacetBrowser.showCount) {
+      console.log(Drupal.settings.dingFacetBrowser.number_of_terms)
+      if (facetGroup.find('.form-type-checkbox input:not(:checked)').size() > Drupal.settings.dingFacetBrowser.number_of_terms) {
         facetGroup.find('.form-type-checkbox input:not(:checked)').each(function(counter, facetElement) {
-          if (counter >= Drupal.settings.dingFacetBrowser.showCount) {
+          if (counter >= Drupal.settings.dingFacetBrowser.number_of_terms) {
             $(facetElement).parent().hide();
           }
         });
@@ -61,21 +66,21 @@
     /**
     * Bind click function to show more and show less links.
     */
-    $(Drupal.settings.dingFacetBrowser.mainElement + ' .expand').live('click', function() {
+    $(main_element + ' .expand').live('click', function() {
       var clickedKey = this;
       var facetGroup = $(clickedKey).parent();
 
       facetGroup.find('.form-type-checkbox.unselected-checkbox:' + (clickedKey.id == 'expand_more' ? 'hidden': 'visible')).each(function(count, facetElement) {
-        if (clickedKey.id == 'expand_more' && count < Drupal.settings.dingFacetBrowser.showCount) {
+        if (clickedKey.id == 'expand_more' && count < Drupal.settings.dingFacetBrowser.number_of_terms) {
           $(facetElement).slideDown('fast', function() {
-            if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= Drupal.settings.dingFacetBrowser.showCount && facetGroup.find('#expand_less').size() === 0 && count % Drupal.settings.dingFacetBrowser.showCount === 0) {
+            if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= Drupal.settings.dingFacetBrowser.number_of_terms && facetGroup.find('#expand_less').size() === 0 && count % Drupal.settings.dingFacetBrowser.number_of_terms === 0) {
               facetGroup.append('<span class="expand" id="expand_less">' + Drupal.t('Show less') + '</span>');
             }
           });
         }
-        else if (clickedKey.id == 'expand_less' && count >= Drupal.settings.dingFacetBrowser.showCount) {
+        else if (clickedKey.id == 'expand_less' && count >= Drupal.settings.dingFacetBrowser.number_of_terms) {
           $(facetElement).slideUp('fast', function() {
-            if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() == Drupal.settings.dingFacetBrowser.showCount && facetGroup.find('#expand_less:visible')) {
+            if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() == Drupal.settings.dingFacetBrowser.number_of_terms && facetGroup.find('#expand_less:visible')) {
               facetGroup.find('#expand_less').fadeOut().remove();
             }
 
@@ -100,7 +105,7 @@
     /**
     * Bind click function to the unselect all selected checkboxes link.
     */
-    $(Drupal.settings.dingFacetBrowser.mainElement + ' .unselect').live('click', function() {
+    $(main_element + ' .unselect').live('click', function() {
       var clickedKey = this;
       var facetGroup = $(clickedKey).parent();
       var checkedFacets = '';
