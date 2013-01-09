@@ -305,13 +305,14 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $content_in_facet       = FALSE;
   $executed_search_module = FALSE;
 
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
   drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
   // TODO: Get the facetbrowser dom id automatic
   drupal_add_js(
     array('dingFacetBrowser' => array(
       'mainElement' => '.pane-ding-facetbrowser',
-      'showCount' => 5)
+      'showCount' => variable_get('ding_facetbrowser_number_of_terms', 5)),
     ), 'setting');
 
 

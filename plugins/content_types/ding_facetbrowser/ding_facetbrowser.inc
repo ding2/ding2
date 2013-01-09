@@ -23,6 +23,7 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
   $block->delta  = 'ding_facetbrowser';
 
   drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
   drupal_add_js(array(
     'dingFacetBrowser' => array(
