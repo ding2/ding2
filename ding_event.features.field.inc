@@ -547,7 +547,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -617,12 +617,19 @@ function ding_event_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'ding_medium',
+            'styles' => array(
+              'breakpoint_1' => '768',
+              'breakpoint_2' => '500',
+              'fallback_style' => 'ding_list_large',
+              'max_style' => 'ding_list_large',
+              'style_1' => 'ding_list_medium',
+              'style_2' => 'ding_list_small',
+            ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '0',
         ),
         'teaser_highlight' => array(
@@ -1101,12 +1108,19 @@ function ding_event_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'hidden',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'ding_large',
+            'styles' => array(
+              'breakpoint_1' => '768',
+              'breakpoint_2' => '500',
+              'fallback_style' => 'ding_primary_large',
+              'max_style' => 'ding_primary_large',
+              'style_1' => 'ding_primary_medium',
+              'style_2' => 'ding_primary_small',
+            ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '2',
         ),
         'teaser' => array(

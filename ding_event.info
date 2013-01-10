@@ -8,6 +8,7 @@ project = ding_event
 dependencies[] = addressfield
 dependencies[] = cache_actions
 dependencies[] = comment
+dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_all_day
