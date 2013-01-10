@@ -29,7 +29,6 @@ features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:1
-features[image][] = ding_vert_small
 features[menu_custom][] = menu-footer-menu-1
 features[menu_custom][] = menu-footer-menu-2
 features[menu_custom][] = menu-footer-menu-3
