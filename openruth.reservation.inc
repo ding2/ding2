@@ -113,8 +113,8 @@ function openruth_reservation_options($type, $account, $reservables) {
     $interest_period = $profile->field_openruth_interest_period[field_language('profile2', $profile, 'field_openruth_interest_period')][0]['value'];
   }
   else {
-    $preferred_branch = NULL;
-    $interest_period = NULL; // TO DO : get default provider period. ( openruth_get_interest_period($profile2) )?
+    $preferred_branch = '';
+    $interest_period = ''; // TO DO : get default provider period. ( openruth_get_interest_period($profile2) )?
   }
 
   $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
@@ -139,6 +139,7 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
   else {
     $branch_valid = ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
     $period_valid = ding_reservation_default_options_interest_period_validate($type, 'openruth_interest_period', $interest_period, $values);
+
     return array_merge($branch_valid, $period_valid);
   }
 }
