@@ -118,7 +118,9 @@
 // -----------------------------------------------------------------------------
 //
 %button {
-  @include border-radius(12px);
+  @include border-radius($button-border-radius);
+
+  position: relative;
 
   padding-top: 7px;
   padding-right: 18px;
@@ -126,10 +128,101 @@
 
   background-color: $form-button-bg-color;
   border: 0;
-  color: $form-button-text-color;
+  color: $form-button-text-color !important;
   cursor: pointer;
 
-  &:hover {
+  .icon {
+    @include border-right-radius($button-border-radius);
+
+    position: absolute;
+    right: -23px;
+    top: 0;
+    bottom: 0;
+
+    border-left: 1px solid rgba(0,0,0,.3);
+    padding: 7px 10px;
+  }
+  &:hover,
+  &:active,
+  &:focus {
     background-color: darken($form-button-bg-color, 15%);
+  }
+  &:visited {
+    color: $form-button-text-color;
+  }
+}
+%primary {
+  background-color: $button-primary-bg-color;
+
+  .icon {
+    background-color: darken($button-primary-bg-color, 5%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($button-primary-bg-color, 15%);
+    .icon {
+      background-color: darken($button-primary-bg-color, 20%);
+    }
+  }
+}
+%success {
+  background-color: $button-success-bg-color;
+
+  .icon {
+    background-color: darken($button-success-bg-color, 5%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($button-success-bg-color, 15%);
+    .icon {
+      background-color: darken($button-success-bg-color, 20%);
+    }
+  }
+}
+%warning {
+  background-color: $button-warning-bg-color;
+
+  .icon {
+    background-color: darken($button-warning-bg-color, 5%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($button-warning-bg-color, 15%);
+    .icon {
+      background-color: darken($button-warning-bg-color, 20%);
+    }
+  }
+}
+%danger {
+  background-color: $button-danger-bg-color;
+
+  .icon {
+    background-color: darken($button-danger-bg-color, 5%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($button-danger-bg-color, 15%);
+    .icon {
+      background-color: darken($button-danger-bg-color, 20%);
+    }
+  }
+}
+%info {
+  background-color: $button-info-bg-color;
+
+  .icon {
+    background-color: darken($button-info-bg-color, 5%);
+  }
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($button-info-bg-color, 15%);
+    .icon {
+      background-color: darken($button-info-bg-color, 20%);
+    }
   }
 }
