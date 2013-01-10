@@ -17,15 +17,30 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-<div class="search-wrapper <?php print $classes; ?>" <?php print $id; ?>>
-  <div class="search-inner-wrapper">
-    <?php if ($admin_links): ?>
-      <?php print $admin_links; ?>
-    <?php endif; ?>
+<div class="header-wrapper">
+  <section class="search <?php print $classes; ?>" <?php print $id; ?>>
+    <div class="search-field-wrapper">
+      <?php if ($admin_links): ?>
+        <?php print $admin_links; ?>
+      <?php endif; ?>
 
-    <?php if ($title): ?>
-      <h2><?php print $title; ?></h2>
-    <?php endif; ?> 
-    <?php print render($content); ?>
-  </div>
+      <?php if ($title): ?>
+        <h2><?php print $title; ?></h2>
+      <?php endif; ?> 
+      <?php print render($content); ?>
+    </div>
+  </section>
+  <section class="user">
+<!--    <div class="user-field-wrapper">
+      <i class="icon-user"></i>
+      <input type="text" placeholder="Låner- eller cpr-nr" class="search-input" />
+
+      <i class="icon-lock"></i>
+      <input type="password" placeholder="Kodeord" class="search-input" />
+    </div>
+
+    <input type="submit" value="Log ind" />-->
+
+  </section>
+
 </div>
