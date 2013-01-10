@@ -1,49 +1,41 @@
 <div id="page<?php print $css_id ? " $css_id" : ''; ?>" class="<?php print $classes; ?>">
 
   <?php if (!empty($content['branding'])): ?>
-    <div class="branding">
-      <div class="grid-inner">
+    <section class="topbar">
+      <div class="topbar-inner">
         <?php print render($content['branding']); ?>
       </div>
-    </div>
+    </section>
   <?php endif; ?>
 
   <?php if (!empty($content['header'])): ?>
-    <header>
-      <div class="grid-inner">
-        <div class="header-inner">
-          <?php print render($content['header']); ?>
-        </div>
+    <header class="header-wrapper">
+      <div class="header-inner">
+        <?php print render($content['header']); ?>
       </div>
     </header>
   <?php endif; ?>
 
-  <div class="main-content">
-    <div class="content-wrapper">
-      <div class="content-inner">
-        <?php print render($content['content']); ?>
+  <?php if (!empty($content['navigation'])): ?>
+    <section class="navigation-wrapper fixed">
+      <div class="navigation-inner">
+        <?php print render($content['navigation']); ?>
       </div>
+    </section>
+  <?php endif; ?>
+
+  <div class="content-wrapper">
+    <div class="grid-inner">
+      <?php print render($content['content']); ?>
     </div>
   </div>
 
   <?php if (!empty($content['footer'])): ?>
     <footer>
       <div class="grid-inner">
-        <div class="footer-wrapper">
-          <div class="footer-content">
-            <?php print render($content['footer']); ?>
-          </div>
-        </div>
+        <?php print render($content['footer']); ?>
       </div>
     </footer>
   <?php endif; ?>
   
-  <?php if (!empty($content['bottom'])): ?>
-    <div class="bottom">
-      <div class="grid-inner">
-        <?php print render($content['bottom']); ?>
-      </div>
-    </div>
-  <?php endif; ?>
-
 </div>

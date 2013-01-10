@@ -135,6 +135,7 @@ search/node',
       'branding_bottom' => NULL,
       'branding' => NULL,
       'bottom' => NULL,
+      'navigation' => NULL,
     ),
   );
   $display->cache = array();
@@ -143,51 +144,9 @@ search/node',
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'bottom';
-    $pane->type = 'block';
-    $pane->subtype = 'system-powered-by';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-1'] = $pane;
-    $display->panels['bottom'][0] = 'new-1';
-    $pane = new stdClass();
-    $pane->pid = 'new-2';
-    $pane->panel = 'content';
-    $pane->type = 'block';
-    $pane->subtype = 'menu_block-1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['content'][0] = 'new-2';
-    $pane = new stdClass();
-    $pane->pid = 'new-3';
-    $pane->panel = 'content';
-    $pane->type = 'page_breadcrumb';
-    $pane->subtype = 'page_breadcrumb';
+    $pane->panel = 'branding';
+    $pane->type = 'pane_header';
+    $pane->subtype = 'pane_header';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -197,33 +156,12 @@ search/node',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['content'][1] = 'new-3';
-    $pane = new stdClass();
-    $pane->pid = 'new-4';
-    $pane->panel = 'content';
-    $pane->type = 'block';
-    $pane->subtype = 'search-form';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['content'][2] = 'new-4';
+    $display->content['new-1'] = $pane;
+    $display->panels['branding'][0] = 'new-1';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-2';
     $pane->panel = 'content';
     $pane->type = 'page_messages';
     $pane->subtype = 'page_messages';
@@ -236,12 +174,12 @@ search/node',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['content'][3] = 'new-5';
+    $display->content['new-2'] = $pane;
+    $display->panels['content'][0] = 'new-2';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-3';
     $pane->panel = 'content';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -258,30 +196,12 @@ search/node',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['content'][4] = 'new-6';
+    $display->content['new-3'] = $pane;
+    $display->panels['content'][1] = 'new-3';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
-    $pane->panel = 'content';
-    $pane->type = 'page_breadcrumb';
-    $pane->subtype = 'page_breadcrumb';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 5;
-    $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['content'][5] = 'new-7';
-    $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-4';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-1';
@@ -295,14 +215,17 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attachment-first',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-8'] = $pane;
-    $display->panels['footer'][0] = 'new-8';
+    $display->content['new-4'] = $pane;
+    $display->panels['footer'][0] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-5';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-2';
@@ -316,14 +239,17 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attachment-second',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-9'] = $pane;
-    $display->panels['footer'][1] = 'new-9';
+    $display->content['new-5'] = $pane;
+    $display->panels['footer'][1] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-6';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-3';
@@ -337,14 +263,17 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attachment-third',
+    );
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-10'] = $pane;
-    $display->panels['footer'][2] = 'new-10';
+    $display->content['new-6'] = $pane;
+    $display->panels['footer'][2] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-7';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-4';
@@ -358,20 +287,26 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'attachment-fourth',
+    );
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = '';
-    $display->content['new-11'] = $pane;
-    $display->panels['footer'][3] = 'new-11';
+    $display->content['new-7'] = $pane;
+    $display->panels['footer'][3] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-8';
     $pane->panel = 'header';
-    $pane->type = 'pane_header';
-    $pane->subtype = 'pane_header';
+    $pane->type = 'block';
+    $pane->subtype = 'search-form';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -379,9 +314,51 @@ search/node',
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-12'] = $pane;
-    $display->panels['header'][0] = 'new-12';
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['header'][0] = 'new-8';
+    $pane = new stdClass();
+    $pane->pid = 'new-9';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'user-login';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-9'] = $pane;
+    $display->panels['header'][1] = 'new-9';
+    $pane = new stdClass();
+    $pane->pid = 'new-10';
+    $pane->panel = 'navigation';
+    $pane->type = 'block';
+    $pane->subtype = 'menu_block-1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-10'] = $pane;
+    $display->panels['navigation'][0] = 'new-10';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
