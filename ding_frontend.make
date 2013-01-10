@@ -3,6 +3,9 @@ core = 7.x
 
 ; Contrib modules
 
+projects[cs_adaptive_image][subdir] = contrib
+projects[cs_adaptive_image][version] = "1.0-alpha2"
+
 projects[ctools][subdir] = contrib
 projects[ctools][version] = "1.1"
 
