@@ -8,6 +8,11 @@ libraries[profiler][download][revision] = d0137cb42bc7a4e9ce0a0431f875806285d097
 ; Patch from http://drupal.org/node/1328796
 libraries[profiler][patch][] = http://drupal.org/files/profiler-reverse.patch
 
+; Contrib modules
+
+projects[eu_cookie_compliance][version] = "1.8"
+projects[eu_cookie_compliance][subdir] = contrib
+
 ; Modules
 projects[alma][type] = module
 projects[alma][download][type] = git
