@@ -100,9 +100,9 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_covers_large.
-  $styles['ding_covers_large'] = array(
-    'name' => 'ding_covers_large',
+  // Exported image style: ding_list_large.
+  $styles['ding_list_large'] = array(
+    'name' => 'ding_list_large',
     'effects' => array(
       3 => array(
         'label' => 'Scale',
@@ -123,9 +123,9 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_covers_medium.
-  $styles['ding_covers_medium'] = array(
-    'name' => 'ding_covers_medium',
+  // Exported image style: ding_list_medium.
+  $styles['ding_list_medium'] = array(
+    'name' => 'ding_list_medium',
     'effects' => array(
       4 => array(
         'label' => 'Scale',
@@ -146,9 +146,9 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_covers_small.
-  $styles['ding_covers_small'] = array(
-    'name' => 'ding_covers_small',
+  // Exported image style: ding_list_small.
+  $styles['ding_list_small'] = array(
+    'name' => 'ding_list_small',
     'effects' => array(
       5 => array(
         'label' => 'Scale',
