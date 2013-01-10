@@ -273,7 +273,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_title_image']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_event_title_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_ding_event_title_image']['settings'] = array(
-    'image_style' => 'ding_content_main_image',
+    'image_style' => 'ding_large',
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['field_ding_event_title_image']['field_api_classes'] = 0;
