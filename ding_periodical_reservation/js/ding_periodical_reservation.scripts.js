@@ -7,7 +7,12 @@
     classname = $(ele).attr('class');
     id = classname.match(/periodical-id-(\S+)/);
 
-    return id[1];
+    if (id != null) {
+      return id[1];
+    }
+    else {
+      return false;
+    }
   }
 
   trigger_periodical_reservation = function(ajax, response, status) {
