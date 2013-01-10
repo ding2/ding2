@@ -7,6 +7,19 @@
 include_once('ding_frontend.features.inc');
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_frontend_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'panels' && $plugin_type == 'layouts') {
+    return "plugins/$plugin_type";
+  }
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function ding_frontend_field_formatter_info() {

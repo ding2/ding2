@@ -43,6 +43,20 @@ projects[views][type] = module
 projects[views][subdir] = contrib
 projects[views][version] = "3.3"
 
+projects[panels_everywhere][type] = module
+projects[panels_everywhere][subdir] = contrib
+projects[panels_everywhere][version] = "1.0-rc1"
+
+projects[menu_block][type] = module
+projects[menu_block][subdir] = contrib
+projects[menu_block][version] = "2.3"
+
+projects[fences][type] = module
+projects[fences][subdir] = contrib
+projects[fences][version] = "1.0"
+projects[fences][patch][] = http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch
+
+
 ; Ding! modules
 
 projects[ding_campaign][type] = module
@@ -59,6 +73,11 @@ projects[ding_footer][type] = "module"
 projects[ding_footer][download][type] = "git"
 projects[ding_footer][download][url] = "git@github.com:ding2tal/ding_footer.git"
 projects[ding_footer][download][branch] = "development"
+
+projects[ding_footer][type] = "module"
+projects[ding_footer][download][type] = "git"
+projects[ding_footer][download][url] = "git@github.com:ding2/ding_footer.git"
+;projects[ding_footer][download][tag] = "7.x-1.x"
 
 projects[ding_webtrends][type] = "module"
 projects[ding_webtrends][download][type] = "git"
