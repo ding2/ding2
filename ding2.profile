@@ -113,4 +113,16 @@ function ding2_ding_install_tasks() {
     $node->uid = 1;
 
     node_save($node);
+    
+    //Provide default page for EU Cookie Compliance module
+    $node = array();
+    ob_start();
+    require 'content/cookies.inc';
+    ob_end_clean();
+
+    $node = (object) $node;
+    $node->uid = 1;
+
+    node_save($node);
+    
 }
