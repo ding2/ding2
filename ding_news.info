@@ -7,6 +7,7 @@ version = 7.x-0.22
 project = ding_news
 dependencies[] = cache_actions
 dependencies[] = comment
+dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = ding_content
 dependencies[] = ding_event
