@@ -522,12 +522,19 @@ function ding_library_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
-            'image_link' => '',
-            'image_style' => '',
+            'image_link' => 'content',
+            'styles' => array(
+              'breakpoint_1' => '768',
+              'breakpoint_2' => '500',
+              'fallback_style' => 'ding_list_large',
+              'max_style' => 'ding_list_large',
+              'style_1' => 'ding_list_medium',
+              'style_2' => 'ding_list_small',
+            ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '18',
         ),
         'teaser' => array(
@@ -914,22 +921,36 @@ function ding_library_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => '',
+            'styles' => array(
+              'breakpoint_1' => '768',
+              'breakpoint_2' => '500',
+              'fallback_style' => 'ding_primary_large',
+              'max_style' => 'ding_primary_large',
+              'style_1' => 'ding_primary_medium',
+              'style_2' => 'ding_primary_small',
+            ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '17',
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
-            'image_link' => '',
-            'image_style' => 'ding_large',
+            'image_link' => 'content',
+            'styles' => array(
+              'breakpoint_1' => '768',
+              'breakpoint_2' => '500',
+              'fallback_style' => 'ding_primary_large',
+              'max_style' => 'ding_primary_large',
+              'style_1' => 'ding_primary_medium',
+              'style_2' => 'ding_primary_small',
+            ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '0',
         ),
         'teaser_highlight' => array(

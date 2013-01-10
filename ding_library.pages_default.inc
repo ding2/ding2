@@ -82,13 +82,21 @@ function ding_library_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'hidden',
-      'formatter' => 'image',
+      'formatter' => 'cs_adaptive_image',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
       'formatter_settings' => array(
         'image_style' => 'ding_large',
         'image_link' => '',
+        'styles' => array(
+          'breakpoint_1' => '768',
+          'style_1' => 'ding_secondary_medium',
+          'breakpoint_2' => '500',
+          'style_2' => 'ding_secondary_small',
+          'max_style' => 'ding_secondary_large',
+          'fallback_style' => 'ding_secondary_large',
+        ),
       ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
@@ -652,13 +660,21 @@ function ding_library_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'hidden',
-      'formatter' => 'image',
+      'formatter' => 'cs_adaptive_image',
       'delta_limit' => 0,
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
       'formatter_settings' => array(
         'image_style' => 'ding_medium',
         'image_link' => '',
+        'styles' => array(
+          'breakpoint_1' => '768',
+          'style_1' => 'ding_primary_medium',
+          'breakpoint_2' => '500',
+          'style_2' => 'ding_primary_small',
+          'max_style' => 'ding_primary_large',
+          'fallback_style' => 'ding_primary_large',
+        ),
       ),
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
