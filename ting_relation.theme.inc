@@ -110,7 +110,6 @@ function ting_relation_ispartofmanifestation($relations) {
     $content = array();
     $content['type'] = $relation['#title'];
     $related_object = $relation['#relation'];
-    $content['title'] = $related_object->object->title;
     $rendered_item = ting_object_view($related_object->object, 'teaser');
     $content['text'] = render($rendered_item);
     $ret[] = $content;
