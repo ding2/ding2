@@ -1,5 +1,5 @@
 /* See: http://zengrids.com/help/#vars-legacy */
-/* line 16, ../../latto/sass/_latto.grid.scss */
+/* line 23, ../../latto/sass/_latto.grid.scss */
 #page {
   *position: relative;
   *zoom: 1;
@@ -14,7 +14,7 @@
   clear: both;
 }
 
-/* line 20, ../../latto/sass/_latto.grid.scss */
+/* line 27, ../../latto/sass/_latto.grid.scss */
 .grid-wrapper, .navigation-wrapper, .header-wrapper, .content-wrapper, .blocks-wrapper, .blocks-wrapper-inverted, .blocks-wrapper-two {
   margin-left: auto;
   margin-right: auto;
@@ -22,7 +22,7 @@
   overflow: hidden;
 }
 
-/* line 27, ../../latto/sass/_latto.grid.scss */
+/* line 34, ../../latto/sass/_latto.grid.scss */
 .grid-inner, .navigation-inner, .topbar-inner, .header-wrapper .header-inner {
   margin-left: auto;
   margin-right: auto;
@@ -30,7 +30,7 @@
   overflow: hidden;
 }
 
-/* line 70, ../../latto/sass/_latto.mediaqueries.scss */
+/* line 63, ../../latto/sass/_latto.mediaqueries.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content,
@@ -1005,17 +1005,16 @@ table {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-calendar, .list-compact {
+dl, .list-content, .list-news, .list-compact {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-calendar > li, .list-compact > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
-.list-calendar > dd,
 .list-compact > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
@@ -1025,51 +1024,22 @@ dl > dd,
   overflow: hidden;
 }
 
-/* line 59, ../../latto/sass/_latto.lists.scss */
-.list-calendar i[class^=icon] {
-  margin-right: 5px;
-}
-/* line 63, ../../latto/sass/_latto.lists.scss */
-.list-calendar .list-date-wrapper {
-  display: inline-block;
-  margin-right: 5px;
-  min-width: 60px;
-  color: #5b5b5b;
-  text-align: center;
-  vertical-align: top;
-}
-/* line 72, ../../latto/sass/_latto.lists.scss */
-.list-calendar .list-date-wrapper .list-day {
-  background-color: #00b7e7;
-  color: white;
-}
-/* line 76, ../../latto/sass/_latto.lists.scss */
-.list-calendar .list-date-wrapper .list-date-wrapper-inner {
-  background: white;
-  border: 1px solid #d9d9d9;
-}
-/* line 85, ../../latto/sass/_latto.lists.scss */
-.list-calendar .list-content {
-  display: inline-block;
-  margin-top: 0;
-}
-
-/* line 95, ../../latto/sass/_latto.lists.scss */
+/* line 58, ../../latto/sass/_latto.lists.scss */
 .list-compact .list-date {
   margin-right: 5px;
 }
-/* line 99, ../../latto/sass/_latto.lists.scss */
+/* line 62, ../../latto/sass/_latto.lists.scss */
 .list-compact .list-heading {
   display: inline;
   margin: 0;
 }
 
-/* line 111, ../../latto/sass/_latto.lists.scss */
+/* line 74, ../../latto/sass/_latto.lists.scss */
 .list-heading {
   margin-top: 0;
 }
 
-/* line 117, ../../latto/sass/_latto.lists.scss */
+/* line 80, ../../latto/sass/_latto.lists.scss */
 .list-meta,
 .list-content,
 .list-image {
@@ -2244,7 +2214,7 @@ header .site-name {
 /* line 31, ../../latto/sass/_latto.base.scss */
 img {
   display: inline;
-  max-width: 100%;
+  width: 100%;
 }
 
 /* line 36, ../../latto/sass/_latto.base.scss */
@@ -2291,7 +2261,7 @@ hr {
   float: right;
 }
 
-/* line 70, ../../latto/sass/_latto.mediaqueries.scss */
+/* line 63, ../../latto/sass/_latto.mediaqueries.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content,
