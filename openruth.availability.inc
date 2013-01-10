@@ -5,8 +5,8 @@
  */
 function openruth_availability_holdings($provider_ids) {
   $res = openruth_client_invoke('get_holdings', $provider_ids);
-  if (is_string($res->holdings)) {
-    watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $holdings), WATCHDOG_ERROR);
+  if (is_string($res->holding)) {
+    watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $res->holding), WATCHDOG_ERROR);
     return array();
   }
   return _openruth_get_holdings($res);
@@ -233,7 +233,7 @@ function _openruth_set_locations(&$h, $itemHolding) {
           // $h['holdings'][] = join(' → ', $parts);
           $h['holdings'][] = $data;
         }
-        if ($parts && $available && ($location_available > 0) ) {
+        if ($parts && ($location_available > 0) ) {
           $h['holdings_available'][] = join(' → ', $parts);
         }
       }
