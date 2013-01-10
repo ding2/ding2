@@ -208,7 +208,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_list_image']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
-    'image_style' => 'ding_content_main_image',
+    'image_style' => 'ding_large',
     'image_link' => '',
   );
   $handler->display->display_options['fields']['field_ding_news_list_image']['field_api_classes'] = 0;
@@ -960,7 +960,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_list_image']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
-    'image_style' => 'ding_content_main_image',
+    'image_style' => 'ding_large',
     'image_link' => '',
   );
   $handler->display->display_options['fields']['field_ding_news_list_image']['field_api_classes'] = 0;

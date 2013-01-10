@@ -762,7 +762,7 @@ function ding_news_field_default_fields() {
           'module' => 'image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'ding_content_main_image',
+            'image_style' => 'ding_large',
           ),
           'type' => 'image',
           'weight' => '0',
