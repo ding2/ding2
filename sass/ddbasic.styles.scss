@@ -557,10 +557,14 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 .search-result-block {
   @extend .block;
 
-  .block-title {
+  h1 {
     @include rem('font-size', $font-size * 1.5);
     
     color: $gray-darker;
+  }
+
+  h2 {
+    @extend %link-special;
   }
 
   .search-term,
@@ -613,16 +617,13 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     border-right: 1px solid darken($block-bg,15%);
   }
 
-  h2 {
-    @extend %link-special;
-  }
-
   .properties {
     @include zen-grid-item(3, 9);
     @include rem('padding-left', $default-spacing);
   }
 
   ul {
+    margin-left:0;
     padding: 0;
     list-style: none;
   }
