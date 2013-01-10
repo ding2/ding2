@@ -87,7 +87,7 @@ function ding_library_default_page_manager_handlers() {
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
       'formatter_settings' => array(
-        'image_style' => 'ding_library_header',
+        'image_style' => 'ding_large',
         'image_link' => '',
       ),
       'context' => 'argument_entity_id:node_1',
@@ -657,7 +657,7 @@ function ding_library_default_page_manager_pages() {
       'delta_offset' => '0',
       'delta_reversed' => FALSE,
       'formatter_settings' => array(
-        'image_style' => 'ding_library_list',
+        'image_style' => 'ding_medium',
         'image_link' => '',
       ),
       'context' => 'argument_entity_id:node_1',
