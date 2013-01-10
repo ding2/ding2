@@ -31,7 +31,7 @@
   </div>
 
   <?php if (!empty($content['footer'])): ?>
-    <footer>
+    <footer class="footer">
       <div class="grid-inner">
         <?php print render($content['footer']); ?>
       </div>
