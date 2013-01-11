@@ -13,7 +13,7 @@
  *   Ting object, parent of the periodical.
  */
 function ding_periodical_reservation_button($id, $volume, $issue, $entity) {
-  return drupal_render(ding_provider_get_form('ding_reservation_reserve_form', new DingPeriodicalReservable($id, $volume, $issue, $entity), TRUE));
+  return drupal_render(ding_provider_get_form('ding_reservation_reserve_form', new DingPeriodicalReservable($id, $volume, $issue, $entity), FALSE));
 }
 
 /**

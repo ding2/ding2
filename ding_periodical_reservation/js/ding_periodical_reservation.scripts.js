@@ -4,14 +4,19 @@
  */
 (function ($) {
   Drupal.extractPeriodicalId = function(ele) {
-    classname = $(ele).attr('class');
-    id = classname.match(/periodical-id-(\S+)/);
+    classname = $(ele).attr('id');
+    id = classname.match(/periodical-id-(.+)/);
 
-    return id[1];
+    if (id != null) {
+      return id[1];
+    }
+    else {
+      return false;
+    }
   }
 
   trigger_periodical_reservation = function(ajax, response, status) {
-    var entity_id = response.data;
+    var entity_id = response.data.replace(' ', '%20');
     var forms = $('form');
     var regex = new RegExp(entity_id, 'g');
     // Loop through all forms on a page, deeper filtering comes next.
@@ -19,9 +24,9 @@
       form = $(this);
       // Wee seek for reservations forms, thus specific form whose item was clicked.
       if (form.attr('id').match(/ding-reservation-reserve-form/g) && form.attr('action').match(regex)) {
+        form.hide();
         // Make sure we don't miss the form.
         setTimeout(function() {
-          form.hide();
           // Call mousedown(), since click() event is forbidden by #ajax['prevent'].
           form.find('.form-submit').mousedown();
         }, 500);
@@ -41,7 +46,7 @@
           element_settings.progress = { type: 'throbber' };
           base = $(this).attr('id');
 
-          Drupal.ajax[base] = new Drupal.ajax(base, this, element_settings);
+          Drupal.ajax[base] = new Drupal.ajax(base, $(this).next().find('.periodical-reserve button'), element_settings);
         }
       });
     }

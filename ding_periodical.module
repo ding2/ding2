@@ -27,30 +27,66 @@ function ding_periodical_theme() {
  */
 function theme_ding_periodical_issues($variables) {
   $items = array();
+
   foreach ($variables['elements']['#issues'] as $volume => $issues) {
     $iss = array();
     foreach ($issues as $key => $availability) {
       $issue = $key;
-      // check user
-      if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
-        $_SESSION['ding_periodical_reservation'][$availability['reservable']] = array(
+      $issue_id = '';
+      if (isset($availability['local_id'])) {
+        $issue_id = $availability['local_id'];
+      }
+      elseif (isset($availability['reservable'])) {
+        $issue_id = $availability['reservable'];
+      }
+      // @todo
+      // This is to be refactored to prevent segfaults.
+      if (!empty($issue_id) && module_exists('ding_periodical_reservation')) {
+        $_SESSION['ding_periodical_reservation'][$issue_id] = array(
           'volume' => $volume,
           'key' => $key,
           'entity' => $variables['elements']['#entity'],
         );
       }
 
-      $iss[] = '<span id="periodical-id-' . $availability['reservable'] . '" class="ding-reservable-periodical periodical-id-' . $availability['reservable'] . '">' . $issue . '</span>';
+      $holding_data = ding_periodical_holding_data($variables['elements']['#entity']->localId);
+      $holding_data .= '<div class="periodical-reserve"><button>' . t('Reserve') . '</button></div>';
+
+      $holding = array(array(
+        'data' => '<div class="periodical-holdings">' . $holding_data . '</div>',
+      ));
+      $iss[] = array(
+        'data' => '<span id="periodical-id-' . $issue_id . '" class="' . drupal_html_class('ding_periodical_fold') . ' ding-reservable-periodical periodical-id-' . $issue_id . '">' . $issue . '</span>',
+        'children' => $holding,
+        'class' => array(drupal_html_class('ding-periodical-container')),
+      );
     }
 
     $vol = array(
-	     'data' => '<div class="' . drupal_html_class('ding_periodical_fold') . '">' . $volume . '</div>',
-	     'children' => $iss,
-	     'class' => array(drupal_html_class('ding_periodical_foldable')),
-	   );
+      'data' => '<div class="' . drupal_html_class('ding_periodical_fold') . '">' . $volume . '</div>',
+      'children' => $iss,
+      'class' => array(drupal_html_class('ding_periodical_foldable')),
+    );
 
     $items[] = $vol;
   }
 
   return theme('item_list', array('items' => $items, 'attributes' => array('class' => drupal_html_class('ding_periodical_issues'))));
+}
+
+/**
+ * Fetch periodicals availability data.
+ *
+ * @param $item
+ *   Ting object local id, parent of periodicals.
+ * @return type
+ *   HTML markup.
+ */
+function ding_periodical_holding_data($item) {
+  $holdings = &drupal_static(__FUNCTION__, array());
+  if (!isset($holdings[$item]['html'])) {
+    $holdings = ding_provider_invoke('availability', 'holdings', array($item));
+  }
+
+  return $holdings[$item]['html'];
 }
