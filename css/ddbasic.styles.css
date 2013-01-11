@@ -3746,9 +3746,9 @@ a.button.available {
 .rs-carousel {
   *position: relative;
   *zoom: 1;
-  background-color: #ff5b00;
+  background-color: #d1e02b;
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
 /* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
@@ -3927,16 +3927,16 @@ textarea {
 
 /* line 60, ../sass/ddbasic.styles.scss */
 a:link {
-  color: #ff5b00;
+  color: #264917;
   text-decoration: none;
 }
 /* line 64, ../sass/ddbasic.styles.scss */
 a:visited {
-  color: #b34000;
+  color: #080f05;
 }
 /* line 67, ../sass/ddbasic.styles.scss */
 a:hover {
-  color: #993700;
+  color: black;
   text-decoration: underline;
 }
 /* line 71, ../sass/ddbasic.styles.scss */
@@ -3945,7 +3945,7 @@ a:hover i[class^="icon-"] {
 }
 /* line 75, ../sass/ddbasic.styles.scss */
 a:focus {
-  color: #993700;
+  color: black;
 }
 
 /* line 81, ../sass/ddbasic.styles.scss */
@@ -4026,12 +4026,12 @@ legend {
 
 /* line 150, ../sass/ddbasic.styles.scss */
 .header-wrapper {
-  background-image: url("../images/pattern.png");
+  background-color: #d1e02b;
   margin-top: 60px;
 }
 /* line 156, ../sass/ddbasic.styles.scss */
 .header-wrapper .header-inner {
-  position: relative;
+  /*position: relative;*/
 }
 
 /* line 164, ../sass/ddbasic.styles.scss */
@@ -4101,9 +4101,9 @@ legend {
 
 /* line 232, ../sass/ddbasic.styles.scss */
 .block-inverted, .theme-block {
-  -webkit-box-shadow: inset 0 0 15px #cc4900;
-  -moz-box-shadow: inset 0 0 15px #cc4900;
-  box-shadow: inset 0 0 15px #cc4900;
+  -webkit-box-shadow: inset 0 0 15px #afbc1c;
+  -moz-box-shadow: inset 0 0 15px #afbc1c;
+  box-shadow: inset 0 0 15px #afbc1c;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
@@ -4112,9 +4112,9 @@ legend {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #ff5b00;
+  background-color: #d1e02b;
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
   color: white;
 }
 /* line 241, ../sass/ddbasic.styles.scss */
@@ -4295,9 +4295,9 @@ input[type=submit].button, button.button {
 
 /* line 395, ../sass/ddbasic.styles.scss */
 .theme-block {
-  background-color: #ff5b00;
+  background-color: #d1e02b;
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
 
 /* line 406, ../sass/ddbasic.styles.scss */
@@ -4336,7 +4336,7 @@ input[type=submit].button, button.button {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  border-right: 1px solid #f78443;
+  border-right: 1px solid #264917;
   padding-right: 0;
 }
 /* line 441, ../sass/ddbasic.styles.scss */
@@ -4384,7 +4384,7 @@ input[type=submit].button, button.button {
   font-size: 21px;
   font-size: 1.3125rem;
   font-size: 22.1px;
-  background-color: #ff5b00;
+  background-color: #d1e02b;
   height: 40px;
   position: absolute;
   right: -2px;
@@ -4430,7 +4430,7 @@ input[type=submit].button, button.button {
 }
 /* line 542, ../sass/ddbasic.styles.scss */
 .facet-browser li label {
-  color: #ff5b00;
+  color: #d1e02b;
 }
 /* line 547, ../sass/ddbasic.styles.scss */
 .facet-browser .checked {
@@ -4684,7 +4684,7 @@ input[type=submit].button, button.button {
 }
 /* line 728, ../sass/ddbasic.styles.scss */
 .user-compact a.active {
-  background-color: #ff5b00;
+  background-color: #d1e02b;
 }
 /* line 737, ../sass/ddbasic.styles.scss */
 .user-compact.fixed {
@@ -4706,7 +4706,7 @@ input[type=submit].button, button.button {
   position: absolute;
   width: 0;
   top: -50px;
-  border-bottom-color: #ff5b00;
+  border-bottom-color: #d1e02b;
   right: 50px;
 }
 /* line 755, ../sass/ddbasic.styles.scss */

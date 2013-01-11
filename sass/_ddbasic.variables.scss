@@ -3,12 +3,17 @@
 // =============================================================================
 //
 
+//
+// Theme
+//
+$theme-background-pattern:        '../images/pattern.png';
+$theme-background-color:          #d1e02b;
 
 // -----------------------------------------------------------------------------
 // Links
 // -----------------------------------------------------------------------------
 //
-$link-color:                      #ff5b00;
+$link-color:                      #264917;
 $link-color-hover:                darken($link-color, 20%);
 $link-color-inverted:             #fff;
 $link-color-inverted-hover:       darken($link-color-inverted, 20%);
@@ -24,7 +29,7 @@ $font-size:                       15px;
 $font-weight-light:               300;
 $font-weight-regular:             400;
 $font-weight-bold:                700;
-$font-color-primary:              #ff5b00;
+$font-color-primary:              #d1e02b;
 
 
 
@@ -40,7 +45,7 @@ $header-min-height:               60px;
 $block-bg:                        #fff;
 $block-bg-transparency:           1;
 $block-color:                     #000;
-$block-bg-inverted:               #ff5b00;
+$block-bg-inverted:               #d1e02b;
 $block-color-inverted:            #fff;
 $block-border:                    12px;
 
