@@ -3,12 +3,17 @@
 // =============================================================================
 //
 
+//
+// Theme
+//
+$theme-background-pattern:        '../images/pattern.png';
+$theme-background-color:          #13aa12;
 
 // -----------------------------------------------------------------------------
 // Links
 // -----------------------------------------------------------------------------
 //
-$link-color:                      #ff5b00;
+$link-color:                      #264917;
 $link-color-hover:                darken($link-color, 20%);
 $link-color-inverted:             #fff;
 $link-color-inverted-hover:       darken($link-color-inverted, 20%);
@@ -24,7 +29,7 @@ $font-size:                       15px;
 $font-weight-light:               300;
 $font-weight-regular:             400;
 $font-weight-bold:                700;
-$font-color-primary:              #ff5b00;
+$font-color-primary:              #13aa12;
 
 
 
@@ -40,7 +45,7 @@ $header-min-height:               60px;
 $block-bg:                        #fff;
 $block-bg-transparency:           1;
 $block-color:                     #000;
-$block-bg-inverted:               #ff5b00;
+$block-bg-inverted:               #13aa12;
 $block-color-inverted:            #fff;
 $block-border:                    12px;
 
@@ -68,7 +73,7 @@ $form-button-bg-color:            lighten(#000, 15%);
 // -----------------------------------------------------------------------------
 //
 $button-bg-color:                 #545454;
-$button-primary-bg-color:         #ff5200;
+$button-primary-bg-color:         #13aa12;
 $button-success-bg-color:         #60a500;
 $button-warning-bg-color:         #f6d346;
 $button-danger-bg-color:          #bf3600;

@@ -149,13 +149,14 @@ legend {
 .header-wrapper {
 	@extend .grid-wrapper;
 
-	background-image: url('../images/pattern.png');
+	//background-image: url($theme-background-pattern);
+  background-color: $theme-background-color;
   margin-top: 60px;
 
 	.header-inner {
 		@extend .grid-inner;
 
-    position: relative;
+    /*position: relative;*/
 	}
 }
 
@@ -409,7 +410,7 @@ legend {
   @extend %header-sections;
   @extend %search;
 
-  border-right: 1px solid #f78443;
+  border-right: 1px solid $link-color;
 
   padding-right: 0;
 

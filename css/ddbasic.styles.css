@@ -3707,9 +3707,9 @@ hr {
 .rs-carousel {
   *position: relative;
   *zoom: 1;
-  background-color: #ff5b00;
+  background-color: #13aa12;
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF13AA12,endColorstr=#FF13AA12);
 }
 /* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
@@ -3883,16 +3883,16 @@ textarea {
 
 /* line 59, ../sass/ddbasic.styles.scss */
 a:link {
-  color: #ff5b00;
+  color: #264917;
   text-decoration: none;
 }
 /* line 63, ../sass/ddbasic.styles.scss */
 a:visited {
-  color: #b34000;
+  color: #080f05;
 }
 /* line 66, ../sass/ddbasic.styles.scss */
 a:hover {
-  color: #993700;
+  color: black;
   text-decoration: underline;
 }
 /* line 70, ../sass/ddbasic.styles.scss */
@@ -3901,7 +3901,7 @@ a:hover i[class^="icon-"] {
 }
 /* line 74, ../sass/ddbasic.styles.scss */
 a:focus {
-  color: #993700;
+  color: black;
 }
 
 /* line 80, ../sass/ddbasic.styles.scss */
@@ -3982,25 +3982,25 @@ legend {
 
 /* line 149, ../sass/ddbasic.styles.scss */
 .header-wrapper {
-  background-image: url("../images/pattern.png");
+  background-color: #13aa12;
   margin-top: 60px;
 }
-/* line 155, ../sass/ddbasic.styles.scss */
+/* line 156, ../sass/ddbasic.styles.scss */
 .header-wrapper .header-inner {
-  position: relative;
+  /*position: relative;*/
 }
 
-/* line 163, ../sass/ddbasic.styles.scss */
+/* line 164, ../sass/ddbasic.styles.scss */
 .frontpage-layout .content-wrapper {
   margin-top: 88px;
 }
 
-/* line 168, ../sass/ddbasic.styles.scss */
+/* line 169, ../sass/ddbasic.styles.scss */
 .content-wrapper {
   margin-top: 148px;
 }
 
-/* line 181, ../sass/ddbasic.styles.scss */
+/* line 182, ../sass/ddbasic.styles.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content,
@@ -4011,7 +4011,7 @@ legend {
   margin-bottom: 20px;
 }
 
-/* line 194, ../sass/ddbasic.styles.scss */
+/* line 195, ../sass/ddbasic.styles.scss */
 .rs-carousel, .block, .tertiary-menu-wrapper, .facet-browser, .search-result-block, .block-inverted, .theme-block, .footer-block, .block-opening-hours, .user-login-block {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -4022,21 +4022,21 @@ legend {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 198, ../sass/ddbasic.styles.scss */
+/* line 199, ../sass/ddbasic.styles.scss */
 .rs-carousel select, .block select, .tertiary-menu-wrapper select, .facet-browser select, .search-result-block select, .block-inverted select, .theme-block select, .footer-block select, .block-opening-hours select, .user-login-block select {
   width: 100%;
 }
-/* line 206, ../sass/ddbasic.styles.scss */
+/* line 207, ../sass/ddbasic.styles.scss */
 .rs-carousel .block-title, .block .block-title, .tertiary-menu-wrapper .block-title, .facet-browser .block-title, .search-result-block .block-title, .block-inverted .block-title, .theme-block .block-title, .footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title {
   font-size: 33px;
   font-size: 2.0625rem;
 }
-/* line 210, ../sass/ddbasic.styles.scss */
+/* line 211, ../sass/ddbasic.styles.scss */
 .rs-carousel .block-content, .block .block-content, .tertiary-menu-wrapper .block-content, .facet-browser .block-content, .search-result-block .block-content, .block-inverted .block-content, .theme-block .block-content, .footer-block .block-content, .block-opening-hours .block-content, .user-login-block .block-content {
   padding: 20px;
 }
 
-/* line 220, ../sass/ddbasic.styles.scss */
+/* line 221, ../sass/ddbasic.styles.scss */
 .block, .tertiary-menu-wrapper, .facet-browser, .search-result-block {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
   -moz-box-shadow: inset 0 0 15px #e6e6e6;
@@ -4055,11 +4055,11 @@ legend {
   color: black;
 }
 
-/* line 231, ../sass/ddbasic.styles.scss */
+/* line 232, ../sass/ddbasic.styles.scss */
 .block-inverted, .theme-block {
-  -webkit-box-shadow: inset 0 0 15px #cc4900;
-  -moz-box-shadow: inset 0 0 15px #cc4900;
-  box-shadow: inset 0 0 15px #cc4900;
+  -webkit-box-shadow: inset 0 0 15px #0e7c0d;
+  -moz-box-shadow: inset 0 0 15px #0e7c0d;
+  box-shadow: inset 0 0 15px #0e7c0d;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
@@ -4068,41 +4068,41 @@ legend {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background-color: #ff5b00;
+  background-color: #13aa12;
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF13AA12,endColorstr=#FF13AA12);
   color: white;
 }
-/* line 240, ../sass/ddbasic.styles.scss */
+/* line 241, ../sass/ddbasic.styles.scss */
 .block-inverted h2, .theme-block h2 {
   color: white;
   margin-top: 0;
 }
-/* line 245, ../sass/ddbasic.styles.scss */
+/* line 246, ../sass/ddbasic.styles.scss */
 .block-inverted i[class^="icon-"], .theme-block i[class^="icon-"] {
   color: white;
 }
-/* line 251, ../sass/ddbasic.styles.scss */
+/* line 252, ../sass/ddbasic.styles.scss */
 .block-inverted .image, .theme-block .image {
   margin-bottom: 20px;
 }
-/* line 255, ../sass/ddbasic.styles.scss */
+/* line 256, ../sass/ddbasic.styles.scss */
 .block-inverted .read-more, .theme-block .read-more {
   color: white;
   text-decoration: underline;
 }
 
-/* line 266, ../sass/ddbasic.styles.scss */
+/* line 267, ../sass/ddbasic.styles.scss */
 .grid-inner, .navigation-inner, .topbar-inner, .header-wrapper .header-inner {
   max-width: 1350px;
 }
 
-/* line 271, ../sass/ddbasic.styles.scss */
+/* line 272, ../sass/ddbasic.styles.scss */
 .js-fixed-element {
   display: none;
 }
 
-/* line 276, ../sass/ddbasic.styles.scss */
+/* line 277, ../sass/ddbasic.styles.scss */
 .blocks-wrapper, .blocks-wrapper-inverted, .blocks-wrapper-two {
   background-color: rgba(0, 0, 0, 0.85);
   zoom: 1;
@@ -4111,7 +4111,7 @@ legend {
   padding-bottom: 30px;
 }
 
-/* line 285, ../sass/ddbasic.styles.scss */
+/* line 286, ../sass/ddbasic.styles.scss */
 .blocks-wrapper-inverted, .blocks-wrapper-two {
   background-color: rgba(255, 255, 255, 0.85);
   zoom: 1;
@@ -4174,16 +4174,16 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 290, ../sass/ddbasic.styles.scss */
+/* line 291, ../sass/ddbasic.styles.scss */
 .blocks-wrapper-inverted .block-title, .blocks-wrapper-two .block-title {
   color: white;
 }
-/* line 294, ../sass/ddbasic.styles.scss */
+/* line 295, ../sass/ddbasic.styles.scss */
 .blocks-wrapper-inverted img, .blocks-wrapper-two img {
   max-height: 150px;
 }
 
-/* line 305, ../sass/ddbasic.styles.scss */
+/* line 306, ../sass/ddbasic.styles.scss */
 .footer {
   background-color: rgba(0, 0, 0, 0.85);
   zoom: 1;
@@ -4191,37 +4191,37 @@ legend {
   padding-top: 30px;
 }
 
-/* line 311, ../sass/ddbasic.styles.scss */
+/* line 312, ../sass/ddbasic.styles.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 318, ../sass/ddbasic.styles.scss */
+/* line 319, ../sass/ddbasic.styles.scss */
 .footer-block .block-title {
   color: white;
 }
 
-/* line 323, ../sass/ddbasic.styles.scss */
+/* line 324, ../sass/ddbasic.styles.scss */
 .section-title, .section-title-inverted {
   margin-top: 0;
   margin-left: 10px;
 }
 
-/* line 328, ../sass/ddbasic.styles.scss */
+/* line 329, ../sass/ddbasic.styles.scss */
 .section-title {
   font-size: 30px;
   font-size: 1.875rem;
   color: white;
 }
 
-/* line 336, ../sass/ddbasic.styles.scss */
+/* line 337, ../sass/ddbasic.styles.scss */
 .section-title-inverted {
   font-size: 30px;
   font-size: 1.875rem;
   color: black;
 }
 
-/* line 353, ../sass/ddbasic.styles.scss */
+/* line 354, ../sass/ddbasic.styles.scss */
 .block-opening-hours {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
   -moz-box-shadow: inset 0 0 15px #e6e6e6;
@@ -4231,24 +4231,24 @@ legend {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFFFF,endColorstr=#FFFFFFFF);
   min-height: 279px;
 }
-/* line 360, ../sass/ddbasic.styles.scss */
+/* line 361, ../sass/ddbasic.styles.scss */
 .block-opening-hours .read-more {
   margin-left: 3px;
 }
 
-/* line 370, ../sass/ddbasic.styles.scss */
+/* line 371, ../sass/ddbasic.styles.scss */
 .theme-block {
-  background-color: #ff5b00;
+  background-color: #13aa12;
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFF5B00,endColorstr=#FFFF5B00);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF13AA12,endColorstr=#FF13AA12);
 }
 
-/* line 381, ../sass/ddbasic.styles.scss */
+/* line 382, ../sass/ddbasic.styles.scss */
 .search i[class^="icon-search"], .search-compact i[class^="icon-search"] {
   top: 17px;
   z-index: 10;
 }
-/* line 388, ../sass/ddbasic.styles.scss */
+/* line 389, ../sass/ddbasic.styles.scss */
 .search input[type="text"], .search-compact input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -4256,13 +4256,13 @@ legend {
   left: 0;
   width: 100%;
 }
-/* line 398, ../sass/ddbasic.styles.scss */
+/* line 399, ../sass/ddbasic.styles.scss */
 .search input[type="submit"], .search-compact input[type="submit"] {
   position: absolute;
   font-size: 22.1px;
 }
 
-/* line 407, ../sass/ddbasic.styles.scss */
+/* line 408, ../sass/ddbasic.styles.scss */
 .search {
   float: left;
   width: 50%;
@@ -4279,42 +4279,42 @@ legend {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  border-right: 1px solid #f78443;
+  border-right: 1px solid #264917;
   padding-right: 0;
 }
-/* line 416, ../sass/ddbasic.styles.scss */
+/* line 417, ../sass/ddbasic.styles.scss */
 .search .search-field-wrapper {
   margin-right: 50px;
 }
-/* line 420, ../sass/ddbasic.styles.scss */
+/* line 421, ../sass/ddbasic.styles.scss */
 .search input[type="submit"] {
   min-height: 60px;
   right: 48px;
   top: 0;
 }
-/* line 426, ../sass/ddbasic.styles.scss */
+/* line 427, ../sass/ddbasic.styles.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 432, ../sass/ddbasic.styles.scss */
+/* line 433, ../sass/ddbasic.styles.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 440, ../sass/ddbasic.styles.scss */
+/* line 441, ../sass/ddbasic.styles.scss */
 .search-compact {
   margin-top: 10px;
   position: absolute;
   right: 160px;
 }
-/* line 447, ../sass/ddbasic.styles.scss */
+/* line 448, ../sass/ddbasic.styles.scss */
 .search-compact .search-field-wrapper {
   min-width: 400px;
   position: relative;
 }
-/* line 452, ../sass/ddbasic.styles.scss */
+/* line 453, ../sass/ddbasic.styles.scss */
 .search-compact input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -4322,81 +4322,81 @@ legend {
   padding-top: 5px;
   padding-left: 40px;
 }
-/* line 460, ../sass/ddbasic.styles.scss */
+/* line 461, ../sass/ddbasic.styles.scss */
 .search-compact input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
   font-size: 22.1px;
-  background-color: #ff5b00;
+  background-color: #13aa12;
   height: 40px;
   position: absolute;
   right: -2px;
   top: 0;
 }
-/* line 472, ../sass/ddbasic.styles.scss */
+/* line 473, ../sass/ddbasic.styles.scss */
 .search-compact i[class^="icon-"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
   top: 13px;
 }
 
-/* line 487, ../sass/ddbasic.styles.scss */
+/* line 488, ../sass/ddbasic.styles.scss */
 .facet-browser h2 {
   font-size: 18px;
   font-size: 1.125rem;
 }
-/* line 493, ../sass/ddbasic.styles.scss */
+/* line 494, ../sass/ddbasic.styles.scss */
 .facet-browser h2,
 .facet-browser legend,
 .facet-browser .count {
   color: #898989;
 }
-/* line 497, ../sass/ddbasic.styles.scss */
+/* line 498, ../sass/ddbasic.styles.scss */
 .facet-browser .remove {
   float: right;
   color: #bf3600;
 }
-/* line 501, ../sass/ddbasic.styles.scss */
+/* line 502, ../sass/ddbasic.styles.scss */
 .facet-browser .remove:hover {
   color: #732000;
 }
-/* line 506, ../sass/ddbasic.styles.scss */
+/* line 507, ../sass/ddbasic.styles.scss */
 .facet-browser ul {
   padding: 1px 0 0;
   list-style: none;
 }
-/* line 512, ../sass/ddbasic.styles.scss */
+/* line 513, ../sass/ddbasic.styles.scss */
 .facet-browser li {
   padding: 3.33333px 10px;
   padding:  0.20833rem 0.625rem;
   margin-bottom: 1px;
 }
-/* line 517, ../sass/ddbasic.styles.scss */
+/* line 518, ../sass/ddbasic.styles.scss */
 .facet-browser li label {
-  color: #ff5b00;
+  color: #13aa12;
 }
-/* line 522, ../sass/ddbasic.styles.scss */
+/* line 523, ../sass/ddbasic.styles.scss */
 .facet-browser .checked {
   background: #efefef;
 }
 
-/* line 536, ../sass/ddbasic.styles.scss */
+/* line 537, ../sass/ddbasic.styles.scss */
 .search-result-block .block-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
   color: #959595;
 }
-/* line 543, ../sass/ddbasic.styles.scss */
+/* line 544, ../sass/ddbasic.styles.scss */
 .search-result-block .search-term,
 .search-result-block .result-stats {
   color: black;
 }
-/* line 547, ../sass/ddbasic.styles.scss */
+/* line 548, ../sass/ddbasic.styles.scss */
 .search-result-block .search-feed {
   float: right;
   padding: .5em 0;
 }
-/* line 553, ../sass/ddbasic.styles.scss */
+/* line 554, ../sass/ddbasic.styles.scss */
 .search-result-block .filter {
   clear: left;
   border-bottom: 1px solid #d9d9d9;
@@ -4404,11 +4404,11 @@ legend {
   padding: 10px 0;
   margin: 10px 0;
 }
-/* line 561, ../sass/ddbasic.styles.scss */
+/* line 562, ../sass/ddbasic.styles.scss */
 .search-result-block .filter select {
   padding: 10px;
 }
-/* line 563, ../sass/ddbasic.styles.scss */
+/* line 564, ../sass/ddbasic.styles.scss */
 .search-result-block .filter .number-items {
   float: left;
   width: 33.33333%;
@@ -4426,7 +4426,7 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 567, ../sass/ddbasic.styles.scss */
+/* line 568, ../sass/ddbasic.styles.scss */
 .search-result-block .filter .order-by {
   float: left;
   width: 33.33333%;
@@ -4444,7 +4444,7 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 571, ../sass/ddbasic.styles.scss */
+/* line 572, ../sass/ddbasic.styles.scss */
 .search-result-block .filter .display-types {
   float: left;
   width: 33.33333%;
@@ -4462,13 +4462,13 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 576, ../sass/ddbasic.styles.scss */
+/* line 577, ../sass/ddbasic.styles.scss */
 .search-result-block .item {
   background: #f2f2f2;
   padding: 20px 10px;
   margin: 10px 0;
 }
-/* line 582, ../sass/ddbasic.styles.scss */
+/* line 583, ../sass/ddbasic.styles.scss */
 .search-result-block .cover {
   float: left;
   width: 16.66667%;
@@ -4486,7 +4486,7 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 586, ../sass/ddbasic.styles.scss */
+/* line 587, ../sass/ddbasic.styles.scss */
 .search-result-block .record {
   float: left;
   width: 75%;
@@ -4504,7 +4504,7 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 589, ../sass/ddbasic.styles.scss */
+/* line 590, ../sass/ddbasic.styles.scss */
 .search-result-block .record .description {
   float: left;
   width: 66.66667%;
@@ -4524,7 +4524,7 @@ legend {
   border-right: 1px solid #d9d9d9;
   padding: 0 19px 0 0;
 }
-/* line 595, ../sass/ddbasic.styles.scss */
+/* line 596, ../sass/ddbasic.styles.scss */
 .search-result-block .record .properties {
   float: left;
   width: 33.33333%;
@@ -4543,7 +4543,7 @@ legend {
   _overflow-y: visible;
   padding: 0 0 0 20px;
 }
-/* line 602, ../sass/ddbasic.styles.scss */
+/* line 603, ../sass/ddbasic.styles.scss */
 .search-result-block .more {
   float: left;
   width: 8.33333%;
@@ -4562,21 +4562,21 @@ legend {
   _overflow-y: visible;
 }
 
-/* line 611, ../sass/ddbasic.styles.scss */
+/* line 612, ../sass/ddbasic.styles.scss */
 .user {
   float: right;
   margin-right: 0;
 }
-/* line 617, ../sass/ddbasic.styles.scss */
+/* line 618, ../sass/ddbasic.styles.scss */
 .user .user-field-wrapper {
   display: inline;
   margin-left: 50px;
 }
-/* line 622, ../sass/ddbasic.styles.scss */
+/* line 623, ../sass/ddbasic.styles.scss */
 .user i[class^="icon-"] {
   top: 17px;
 }
-/* line 629, ../sass/ddbasic.styles.scss */
+/* line 630, ../sass/ddbasic.styles.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 19.5px;
@@ -4585,7 +4585,7 @@ legend {
   min-height: 60px;
   margin-right: 10px;
 }
-/* line 638, ../sass/ddbasic.styles.scss */
+/* line 639, ../sass/ddbasic.styles.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -4598,7 +4598,7 @@ legend {
   font-size: 22.1px;
 }
 
-/* line 651, ../sass/ddbasic.styles.scss */
+/* line 652, ../sass/ddbasic.styles.scss */
 .user-compact {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -4607,7 +4607,7 @@ legend {
   position: absolute;
   right: 10px;
 }
-/* line 659, ../sass/ddbasic.styles.scss */
+/* line 660, ../sass/ddbasic.styles.scss */
 .user-compact a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -4621,27 +4621,27 @@ legend {
   padding: 12px 25px 10px;
   text-align: center;
 }
-/* line 669, ../sass/ddbasic.styles.scss */
+/* line 670, ../sass/ddbasic.styles.scss */
 .user-compact a:hover {
   text-decoration: none;
 }
-/* line 673, ../sass/ddbasic.styles.scss */
+/* line 674, ../sass/ddbasic.styles.scss */
 .user-compact a.active {
-  background-color: #ff5b00;
+  background-color: #13aa12;
 }
-/* line 682, ../sass/ddbasic.styles.scss */
+/* line 683, ../sass/ddbasic.styles.scss */
 .user-compact.fixed {
   display: block;
 }
 
-/* line 688, ../sass/ddbasic.styles.scss */
+/* line 689, ../sass/ddbasic.styles.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 696, ../sass/ddbasic.styles.scss */
+/* line 697, ../sass/ddbasic.styles.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -4649,19 +4649,19 @@ legend {
   position: absolute;
   width: 0;
   top: -50px;
-  border-bottom-color: #ff5b00;
+  border-bottom-color: #13aa12;
   right: 50px;
 }
-/* line 700, ../sass/ddbasic.styles.scss */
+/* line 701, ../sass/ddbasic.styles.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 703, ../sass/ddbasic.styles.scss */
+/* line 704, ../sass/ddbasic.styles.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 711, ../sass/ddbasic.styles.scss */
+/* line 712, ../sass/ddbasic.styles.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -4671,30 +4671,30 @@ legend {
   right: 15px;
   top: 15px;
 }
-/* line 720, ../sass/ddbasic.styles.scss */
+/* line 721, ../sass/ddbasic.styles.scss */
 .user-login-block .user-close-container:hover {
   text-decoration: none;
 }
-/* line 725, ../sass/ddbasic.styles.scss */
+/* line 726, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link {
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 731, ../sass/ddbasic.styles.scss */
+/* line 732, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 734, ../sass/ddbasic.styles.scss */
+/* line 735, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link a:hover {
   text-decoration: none;
 }
-/* line 740, ../sass/ddbasic.styles.scss */
+/* line 741, ../sass/ddbasic.styles.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 747, ../sass/ddbasic.styles.scss */
+/* line 748, ../sass/ddbasic.styles.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -4702,7 +4702,7 @@ legend {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 755, ../sass/ddbasic.styles.scss */
+/* line 756, ../sass/ddbasic.styles.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
