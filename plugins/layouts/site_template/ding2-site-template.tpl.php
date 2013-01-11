@@ -17,7 +17,7 @@
   <?php endif; ?>
 
   <?php if (!empty($content['navigation'])): ?>
-    <section class="navigation-wrapper fixed">
+    <section class="navigation-wrapper">
       <div class="navigation-inner">
         <?php print render($content['navigation']); ?>
       </div>
