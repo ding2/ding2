@@ -12,6 +12,7 @@
   padding: 7px 0 0;
   font-size: 11px;
 }
+
 .ding-periodical-fold:hover {
   color: #44A8A4;
   text-decoration: underline;
@@ -42,15 +43,22 @@
   background: url(../images/more-button-grey.png) no-repeat scroll 0 8px transparent;
   color: #44a8a4;
   font: 11px 'Soho Gothic W01 Light', Helvetica, Arial, sans-serif;
-  height: 24px;
   letter-spacing: 0.2px;
   line-height: 27px;
-  margin: 3px 0 0 0;
   padding: 0 0 0 20px;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable li span {
+  margin: 0;
 }
 
 .ding-periodical-foldable .item-list ul.ding-periodical-foldable li:hover {
   background: url(../images/more-button-blue.png) no-repeat scroll 0 8px transparent;
+}
+
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable .ding-periodical-container li {
+  background: transparent;
+  padding: 0;
 }
 
 .ding-periodical-foldable .item-list ul.ding-periodical-foldable li:hover {
