@@ -46,7 +46,7 @@
           element_settings.progress = { type: 'throbber' };
           base = $(this).attr('id');
 
-          Drupal.ajax[base] = new Drupal.ajax(base, this, element_settings);
+          Drupal.ajax[base] = new Drupal.ajax(base, $(this).next().find('.periodical-reserve button'), element_settings);
         }
       });
     }
