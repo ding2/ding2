@@ -1,0 +1,61 @@
+
+// -----------------------------------------------------------------------------
+// Layout template for 3 column panel layout delivered by ding_frontend
+// Left and Right sidebar content is optional
+// This template extends on latto displays and ddbasic displays
+// -----------------------------------------------------------------------------
+.sidebars {
+  @include medium() {
+    @include display-25-50-25;
+  }
+
+  @include large() {
+    @include display-25-50-25;
+  }
+
+  .grid-inner {
+    background-color: $theme-content-background;
+  }
+}
+
+.no-sidebars {
+  @include medium() {
+    @include display-100-50-50;
+  }
+
+  @include large() {
+    @include display-100-50-50;
+  }
+
+  .grid-inner {
+    background-color: $theme-content-background;
+  }
+}
+
+.left-sidebar {
+  @include medium() {
+    @include ddbasic-display-33-66-secondary;
+  }
+
+  @include large() {
+    @include ddbasic-display-33-66-secondary;
+  }
+
+  .grid-inner {
+    background-color: $theme-content-background;
+  }
+}
+
+.right-sidebar {
+  @include medium() {
+    @include ddbasic-display-66-33-tertiary;
+  }
+
+  @include large() {
+    @include ddbasic-display-66-33-tertiary;
+  }
+
+  .grid-inner {
+    background-color: $theme-content-background;
+  }
+}
