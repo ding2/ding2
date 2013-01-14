@@ -795,33 +795,18 @@
   }
 }
 
-/*
- *
- * ---- VARIABLES ----
- *
-*/
-/*
- *
- * ---- DEFAULT STYLING ----
- *
-*/
-/* line 26, ../../latto/sass/_latto.tables.scss */
+/* line 25, ../../latto/sass/_latto.tables.scss */
 table {
   max-width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/*
- *
- * ---- EXTENDS ----
- *
-*/
-/* line 45, ../../latto/sass/_latto.tables.scss */
+/* line 44, ../../latto/sass/_latto.tables.scss */
 .table, table {
   width: 100%;
 }
-/* line 49, ../../latto/sass/_latto.tables.scss */
+/* line 48, ../../latto/sass/_latto.tables.scss */
 .table th, table th,
 .table td,
 table td {
@@ -830,15 +815,15 @@ table td {
   text-align: left;
   vertical-align: top;
 }
-/* line 57, ../../latto/sass/_latto.tables.scss */
+/* line 56, ../../latto/sass/_latto.tables.scss */
 .table th, table th {
   font-weight: bold;
 }
-/* line 61, ../../latto/sass/_latto.tables.scss */
+/* line 60, ../../latto/sass/_latto.tables.scss */
 .table thead th, table thead th {
   vertical-align: bottom;
 }
-/* line 70, ../../latto/sass/_latto.tables.scss */
+/* line 69, ../../latto/sass/_latto.tables.scss */
 .table caption + thead tr:first-child th, table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
 table caption + thead tr:first-child td,
@@ -852,18 +837,18 @@ table thead:first-child tr:first-child th,
 table thead:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 74, ../../latto/sass/_latto.tables.scss */
+/* line 73, ../../latto/sass/_latto.tables.scss */
 .table tbody + tbody, table tbody + tbody {
   border-top: 2px solid #d5d5d5;
 }
 
-/* line 85, ../../latto/sass/_latto.tables.scss */
+/* line 84, ../../latto/sass/_latto.tables.scss */
 .table-condensed th,
 .table-condensed td {
   padding: 3.33333px;
 }
 
-/* line 94, ../../latto/sass/_latto.tables.scss */
+/* line 93, ../../latto/sass/_latto.tables.scss */
 .table-bordered {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -875,12 +860,12 @@ table thead:first-child tr:first-child td {
   *border-collapse: collapsed;
   border-left: 0;
 }
-/* line 103, ../../latto/sass/_latto.tables.scss */
+/* line 102, ../../latto/sass/_latto.tables.scss */
 .table-bordered th,
 .table-bordered td {
   border-left: 1px solid #d5d5d5;
 }
-/* line 115, ../../latto/sass/_latto.tables.scss */
+/* line 114, ../../latto/sass/_latto.tables.scss */
 .table-bordered caption + thead tr:first-child th,
 .table-bordered caption + tbody tr:first-child th,
 .table-bordered caption + tbody tr:first-child td,
@@ -892,7 +877,7 @@ table thead:first-child tr:first-child td {
 .table-bordered tbody:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 120, ../../latto/sass/_latto.tables.scss */
+/* line 119, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0;
@@ -901,7 +886,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 4px 0 0;
   border-radius: 4px 0 0;
 }
-/* line 125, ../../latto/sass/_latto.tables.scss */
+/* line 124, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -910,7 +895,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
-/* line 130, ../../latto/sass/_latto.tables.scss */
+/* line 129, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
@@ -919,7 +904,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
 }
-/* line 134, ../../latto/sass/_latto.tables.scss */
+/* line 133, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -929,24 +914,19 @@ table thead:first-child tr:first-child td {
   border-radius: 0 4px 0 0;
 }
 
-/* line 146, ../../latto/sass/_latto.tables.scss */
+/* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: white;
 }
 
-/* line 160, ../../latto/sass/_latto.tables.scss */
+/* line 159, ../../latto/sass/_latto.tables.scss */
 .table tbody tr:hover td, table tbody tr:hover td,
 .table tbody tr:hover th,
 table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/*
- *
- * ---- MEDIAQUERIES ----
- *
-*/
 /* line 23, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu, .main-menu {
   font-size: 16.25px;
@@ -4263,7 +4243,17 @@ a.button.available {
   border-radius: 0 0 0 12px;
 }
 
-/* line 8, ../sass/_ddbasic.buttons.scss */
+/*
+ *
+ * ---- VARIABLES ----
+ *
+*/
+/*
+ *
+ * ---- DEFAULT STYLING ----
+ *
+*/
+/* line 20, ../sass/_ddbasic.buttons.scss */
 .button {
   background: #262626;
   display: inline-block;
@@ -4276,19 +4266,19 @@ a.button.available {
   border: none;
   *border: 0;
 }
-/* line 21, ../sass/_ddbasic.buttons.scss */
+/* line 33, ../sass/_ddbasic.buttons.scss */
 .button:hover {
   background: #0d0d0d;
   text-decoration: none;
 }
-/* line 32, ../sass/_ddbasic.buttons.scss */
+/* line 44, ../sass/_ddbasic.buttons.scss */
 .button.active, .button:active {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   outline: 0;
 }
-/* line 40, ../sass/_ddbasic.buttons.scss */
+/* line 52, ../sass/_ddbasic.buttons.scss */
 .button.disabled, .button[disabled] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
   opacity: 0.65;
@@ -4298,13 +4288,13 @@ a.button.available {
   cursor: default;
 }
 
-/* line 50, ../sass/_ddbasic.buttons.scss */
+/* line 62, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, button.button {
   -webkit-appearance: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 58, ../sass/_ddbasic.buttons.scss */
+  /* line 70, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
