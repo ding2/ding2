@@ -5,7 +5,6 @@
 @import "compass/css3";
 @import "../../latto/sass/_latto.variables.scss";
 @import "../../latto/sass/_latto.grid.scss";
-@import '../../latto/sass/_latto.mediaqueries.scss';
 @import "../../latto/sass/_latto.mixins.scss";
 @import '../../latto/sass/_latto.tables.scss';
 @import '../../latto/sass/_latto.nav.scss';
@@ -13,15 +12,11 @@
 @import '../../latto/sass/_latto.font-awesome.scss';
 @import "../../latto/sass/_latto.base.scss";
 @import "_ddbasic.variables.scss";
-@import "_ddbasic.mq.displays.scss";
-@import "_ddbasic.mq.layouts.scss";
-@import "_ddbasic.mediaqueries.scss";
 @import "_ddbasic.mixins.scss";
 @import "_ddbasic.extends.scss";
 @import "_ddbasic.navigation.scss";
 @import "_ddbasic.carousel.scss";
 @import "_ddbasic.buttons.scss";
-@import "_ddbasic.header.scss";
 
 
 // -----------------------------------------------------------------------------
