@@ -3,13 +3,9 @@
 // =============================================================================
 //
 body {
-  @include rem('font-size', $font-size);
-
   background: url('../images/body.jpg') no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  font-family: "ff-scala-sans-web-pro", arial, sans-serif;
-  font-weight: $font-weight-light;
 }
 
 
@@ -19,18 +15,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: $font-weight-light;
-  line-height: 100%;
   margin-top: 0;
 }
-
-
-input,
-textarea {
-  font-family: "ff-scala-sans-web-pro", arial, sans-serif;
-  font-weight: $font-weight-light;
-}
-
 
 a {
   &:link {

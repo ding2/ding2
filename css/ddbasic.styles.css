@@ -1,11 +1,11 @@
 /*
 Syntax error: Undefined mixin 'attachment-50-50-50-50'.
-        on line 312 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss, in `attachment-50-50-50-50'
-        from line 312 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss
+        on line 303 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss, in `attachment-50-50-50-50'
+        from line 303 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss
 
 Backtrace:
-/home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss:312:in `attachment-50-50-50-50'
-/home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss:312
+/home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss:303:in `attachment-50-50-50-50'
+/home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss:303
 /var/lib/gems/1.8/gems/sass-3.2.5/lib/sass/../sass/tree/visitors/perform.rb:251:in `visit_mixin'
 /var/lib/gems/1.8/gems/sass-3.2.5/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
 /var/lib/gems/1.8/gems/sass-3.2.5/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
@@ -85,4 +85,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'attachment-50-50-50-50'.\A         on line 312 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss, in `attachment-50-50-50-50'\A         from line 312 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss"; }
+  content: "Syntax error: Undefined mixin 'attachment-50-50-50-50'.\A         on line 303 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss, in `attachment-50-50-50-50'\A         from line 303 of /home/quickstart/websites/ding2tal.dev/profiles/ding2/themes/ddbasic/sass/ddbasic.styles.scss"; }
