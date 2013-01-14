@@ -57,7 +57,7 @@ function ding_library_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display();
-  $display->layout = 'twocol_stacked';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -67,6 +67,9 @@ function ding_library_default_page_manager_handlers() {
       'top' => NULL,
       'middle' => NULL,
       'bottom' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
@@ -75,7 +78,28 @@ function ding_library_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'left';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_library-ding_library_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-1'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-1';
+    $pane = new stdClass();
+    $pane->pid = 'new-2';
+    $pane->panel = 'main_content';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_ding_library_title_image';
     $pane->shown = TRUE;
@@ -121,11 +145,11 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-1'] = $pane;
-    $display->panels['left'][0] = 'new-1';
+    $display->content['new-2'] = $pane;
+    $display->panels['main_content'][0] = 'new-2';
     $pane = new stdClass();
-    $pane->pid = 'new-2';
-    $pane->panel = 'left';
+    $pane->pid = 'new-3';
+    $pane->panel = 'main_content';
     $pane->type = 'views';
     $pane->subtype = 'ding_news';
     $pane->shown = TRUE;
@@ -169,11 +193,11 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-2'] = $pane;
-    $display->panels['left'][1] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['main_content'][1] = 'new-3';
     $pane = new stdClass();
-    $pane->pid = 'new-3';
-    $pane->panel = 'left';
+    $pane->pid = 'new-4';
+    $pane->panel = 'main_content';
     $pane->type = 'views';
     $pane->subtype = 'ding_event';
     $pane->shown = TRUE;
@@ -220,11 +244,11 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['left'][2] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][2] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
-    $pane->panel = 'right';
+    $pane->pid = 'new-5';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_ding_library_opening_hours';
     $pane->shown = TRUE;
@@ -248,11 +272,11 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
-    $pane->panel = 'right';
+    $pane->pid = 'new-6';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'contact';
     $pane->subtype = 'contact';
     $pane->shown = TRUE;
@@ -279,11 +303,11 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['right'][1] = 'new-5';
+    $display->content['new-6'] = $pane;
+    $display->panels['right_sidebar'][1] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
-    $pane->panel = 'right';
+    $pane->pid = 'new-7';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -319,29 +343,8 @@ function ding_library_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['right'][2] = 'new-6';
-    $pane = new stdClass();
-    $pane->pid = 'new-7';
-    $pane->panel = 'top';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_library-ding_library_menu';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
     $display->content['new-7'] = $pane;
-    $display->panels['top'][0] = 'new-7';
+    $display->panels['right_sidebar'][2] = 'new-7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -401,7 +404,7 @@ function ding_library_default_page_manager_pages() {
     'relationships' => array(),
   );
   $display = new panels_display();
-  $display->layout = 'twocol_stacked';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -419,7 +422,7 @@ function ding_library_default_page_manager_pages() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'left';
+    $pane->panel = 'main_content';
     $pane->type = 'openlayers_map';
     $pane->subtype = 'ding_library_map';
     $pane->shown = TRUE;
@@ -440,10 +443,10 @@ function ding_library_default_page_manager_pages() {
     $pane->position = 0;
     $pane->locks = '';
     $display->content['new-1'] = $pane;
-    $display->panels['left'][0] = 'new-1';
+    $display->panels['main_content'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'left';
+    $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_library-ding_library_libraries_list';
     $pane->shown = TRUE;
@@ -461,10 +464,10 @@ function ding_library_default_page_manager_pages() {
     $pane->position = 1;
     $pane->locks = array();
     $display->content['new-2'] = $pane;
-    $display->panels['left'][1] = 'new-2';
+    $display->panels['main_content'][1] = 'new-2';
     $pane = new stdClass();
     $pane->pid = 'new-3';
-    $pane->panel = 'right';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -496,7 +499,7 @@ function ding_library_default_page_manager_pages() {
     $pane->position = 0;
     $pane->locks = '';
     $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
+    $display->panels['right_sidebar'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
