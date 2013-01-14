@@ -1,13 +1,59 @@
 // =============================================================================
-// Variables
+// This file holds all the variables for the DDBasic theme
 // =============================================================================
 //
 
+
+// -----------------------------------------------------------------------------
+// Basic settings: Grid, spacing etc.
+// -----------------------------------------------------------------------------
 //
-// Theme
+$grid-max-width:        1200px !default;
+$grid-column-count:     12 !default;
+
+$default-spacing:       20px !default;
+
+
+// -----------------------------------------------------------------------------
+// Standard color definitions
+// -----------------------------------------------------------------------------
 //
-$theme-background-pattern:        '../images/pattern.png';
-$theme-background-color:          #d1e02b;
+$white:                 #fff    !default;
+$black:                 #000    !default;
+$gray:                  #d5d5d5 !default;
+$gray-light:            lighten($gray, 10%) !default;
+$gray-lighter:          lighten($gray, 25%) !default;
+$gray-dark:             darken($gray, 10%) !default;
+$gray-darker:           darken($gray, 25%) !default;
+
+
+// -----------------------------------------------------------------------------
+// Theme color definitions
+// -----------------------------------------------------------------------------
+//
+$theme-primary-color:           #fff !default;
+$theme-secondary-color:         #00b7e7 !default;
+$theme-content-background:      #fff !default;
+
+
+// -----------------------------------------------------------------------------
+// Font variables
+// -----------------------------------------------------------------------------
+//
+$theme-font-size:     15px !default;
+$theme-line-height:   18px !default;
+$theme-font-family:   "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+$font-weight-light:               300;
+$font-weight-regular:             400;
+$font-weight-bold:                700;
+$font-color-primary:              #d1e02b;
+
 
 // -----------------------------------------------------------------------------
 // Links
@@ -21,18 +67,11 @@ $link-color-special:              #4d1500;
 $link-color-special-hover:        darken($link-color-special, 20%);
 
 
+
 // -----------------------------------------------------------------------------
-// Typography
+// Header
 // -----------------------------------------------------------------------------
 //
-$font-size:                       15px;
-$font-weight-light:               300;
-$font-weight-regular:             400;
-$font-weight-bold:                700;
-$font-color-primary:              #d1e02b;
-
-
-
 $header-text-color:               #fff;
 $header-font-size:                30px;
 $header-min-height:               60px;
