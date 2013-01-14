@@ -40,7 +40,7 @@ else if (!empty($content['left_sidebar']) && !empty($content['right_sidebar'])) 
     </aside>
   <?php endif ?>
   <?php if (!empty($content['right_sidebar'])): ?>
-    <aside class="tertiary-sidebar">
+    <aside class="tertiary-content">
       <div class="grid-inner"><?php print $content['right_sidebar']; ?></div>
     </aside>
   <?php endif ?>
