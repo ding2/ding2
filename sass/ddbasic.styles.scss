@@ -6,17 +6,10 @@
 @import "../../latto/sass/_latto.variables.scss";
 @import "../../latto/sass/_latto.grid.scss";
 @import "../../latto/sass/_latto.mixins.scss";
-@import '../../latto/sass/_latto.tables.scss';
-@import '../../latto/sass/_latto.nav.scss';
-@import '../../latto/sass/_latto.lists.scss';
-@import '../../latto/sass/_latto.font-awesome.scss';
 @import "../../latto/sass/_latto.base.scss";
 @import "_ddbasic.variables.scss";
 @import "_ddbasic.mixins.scss";
 @import "_ddbasic.extends.scss";
-@import "_ddbasic.navigation.scss";
-@import "_ddbasic.carousel.scss";
-@import "_ddbasic.buttons.scss";
 
 // -----------------------------------------------------------------------------
 // Default element styling
@@ -52,31 +45,32 @@
 // Lists
 // -----------------------------------------------------------------------------
 //
-
+@import '../../latto/sass/_latto.lists.scss';
 
 // -----------------------------------------------------------------------------
 // Tables
 // -----------------------------------------------------------------------------
 //
-
+@import '../../latto/sass/_latto.tables.scss';
 
 // -----------------------------------------------------------------------------
 // Buttons
 // -----------------------------------------------------------------------------
 //
-
+@import "_ddbasic.buttons.scss";
 
 // -----------------------------------------------------------------------------
 // Icons
 // -----------------------------------------------------------------------------
 //
-
+@import '../../latto/sass/_latto.font-awesome.scss';
 
 // -----------------------------------------------------------------------------
 // Navigation
 // -----------------------------------------------------------------------------
 //
-
+@import '../../latto/sass/_latto.nav.scss';
+@import "_ddbasic.navigation.scss";
 
 // -----------------------------------------------------------------------------
 // Pagers
@@ -99,7 +93,7 @@
 // Carousel
 // -----------------------------------------------------------------------------
 //
-
+@import "_ddbasic.carousel.scss";
 
 // -----------------------------------------------------------------------------
 // Facet Browser
