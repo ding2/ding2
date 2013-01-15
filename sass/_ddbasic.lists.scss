@@ -15,6 +15,11 @@
   
   > dt {
     @extend strong;
+
+    .horizontal {
+      float:left;
+      width: 20%;
+    }
   }
 
   > li,
@@ -26,6 +31,10 @@
     margin-left: 0;
     padding-bottom: $default-spacing; 
     overflow: hidden;
+
+    .horizontal {
+      padding-left: 25%;
+    }
   }
 }
 

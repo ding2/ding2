@@ -19,8 +19,53 @@
 // Library list
 // -----------------------------------------------------------------------------
 //
+.pane-ding-library-map {
+  @include rem('margin-bottom', $default-spacing);  
+}
+
+.library-list {
+  @extend %list;
+  @include rem('padding', $default-spacing 0);
+
+  .views-row {
+    @include rem('padding', $default-spacing);
+
+    background: $gray-light;
+  }
+}
 
 
+.views-field-field-ding-library-opening-hours {
+  @include zen-float(right);
+  
+  width: 25%;
+}
+
+
+.views-field-field-ding-library-list-image {
+  @include zen-float(left);
+
+  width: 25%;
+}
+
+
+h2.org,
+.address,
+.views-field-field-ding-library-phone-number,
+.views-field-field-ding-library-fax-number,
+.views-field-field-ding-library-mail {
+  @include rem('padding', 0 $default-spacing);
+
+  margin: 0 25%;
+
+  .views-label {
+    @extend %term-horizontal;
+  }
+
+  .field-content {
+    @extend %data-horizontal;
+  }
+}
 
 // -----------------------------------------------------------------------------
 // Images
@@ -38,8 +83,12 @@
 // EXTENDS
 // =============================================================================
 //
-%default-extend-class {
-  // SASS CSS rules go here
+%term-horizontal {
+  float:left;
+  width: 20%;
+}
+%data-horizontal {
+  padding-left: 25%;
 }
 
 
