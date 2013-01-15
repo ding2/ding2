@@ -45,9 +45,6 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
       $form['pass']['#attributes']['placeholder'] = t('Adgangskode:');
       unset($form['pass']['#title']);
-      $form['links']['#markup'] = "";
-      $form['actions']['submit']['#attributes']['class'][] = 'btn';
-      $form['actions']['submit']['#attributes']['class'][] = 'btn-info';
       break;
   }
 }

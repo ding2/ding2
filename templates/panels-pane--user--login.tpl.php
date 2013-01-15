@@ -24,9 +24,6 @@
         <?php print $admin_links; ?>
       <?php endif; ?>
 
-      <?php if ($title): ?>
-        <h2><?php print $title; ?></h2>
-      <?php endif; ?> 
       <?php print render($content); ?>
     </div>
   </section>
