@@ -4,12 +4,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -795,75 +795,54 @@
   }
 }
 
-/*
- *
- * ---- VARIABLES ----
- *
-*/
-/*
- *
- * ---- DEFAULT STYLING ----
- *
-*/
-/* line 26, ../../latto/sass/_latto.tables.scss */
+/* line 16, ../../latto/sass/_latto.tables.scss */
 table {
   max-width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/*
- *
- * ---- EXTENDS ----
- *
-*/
-/* line 45, ../../latto/sass/_latto.tables.scss */
-.table, table {
+/* line 27, ../../latto/sass/_latto.tables.scss */
+.table {
   width: 100%;
 }
-/* line 49, ../../latto/sass/_latto.tables.scss */
-.table th, table th,
-.table td,
-table td {
+/* line 31, ../../latto/sass/_latto.tables.scss */
+.table th,
+.table td {
   border-top: 1px solid #d5d5d5;
   padding: 6.66667px;
   text-align: left;
   vertical-align: top;
 }
-/* line 57, ../../latto/sass/_latto.tables.scss */
-.table th, table th {
+/* line 39, ../../latto/sass/_latto.tables.scss */
+.table th {
   font-weight: bold;
 }
-/* line 61, ../../latto/sass/_latto.tables.scss */
-.table thead th, table thead th {
+/* line 43, ../../latto/sass/_latto.tables.scss */
+.table thead th {
   vertical-align: bottom;
 }
-/* line 70, ../../latto/sass/_latto.tables.scss */
-.table caption + thead tr:first-child th, table caption + thead tr:first-child th,
+/* line 52, ../../latto/sass/_latto.tables.scss */
+.table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
-table caption + thead tr:first-child td,
 .table colgroup + thead tr:first-child th,
-table colgroup + thead tr:first-child th,
 .table colgroup + thead tr:first-child td,
-table colgroup + thead tr:first-child td,
 .table thead:first-child tr:first-child th,
-table thead:first-child tr:first-child th,
-.table thead:first-child tr:first-child td,
-table thead:first-child tr:first-child td {
+.table thead:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 74, ../../latto/sass/_latto.tables.scss */
-.table tbody + tbody, table tbody + tbody {
+/* line 56, ../../latto/sass/_latto.tables.scss */
+.table tbody + tbody {
   border-top: 2px solid #d5d5d5;
 }
 
-/* line 85, ../../latto/sass/_latto.tables.scss */
+/* line 68, ../../latto/sass/_latto.tables.scss */
 .table-condensed th,
 .table-condensed td {
-  padding: 3.33333px;
+  padding: 4px 5px;
 }
 
-/* line 94, ../../latto/sass/_latto.tables.scss */
+/* line 78, ../../latto/sass/_latto.tables.scss */
 .table-bordered {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -875,12 +854,12 @@ table thead:first-child tr:first-child td {
   *border-collapse: collapsed;
   border-left: 0;
 }
-/* line 103, ../../latto/sass/_latto.tables.scss */
+/* line 87, ../../latto/sass/_latto.tables.scss */
 .table-bordered th,
 .table-bordered td {
   border-left: 1px solid #d5d5d5;
 }
-/* line 115, ../../latto/sass/_latto.tables.scss */
+/* line 99, ../../latto/sass/_latto.tables.scss */
 .table-bordered caption + thead tr:first-child th,
 .table-bordered caption + tbody tr:first-child th,
 .table-bordered caption + tbody tr:first-child td,
@@ -892,7 +871,7 @@ table thead:first-child tr:first-child td {
 .table-bordered tbody:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 120, ../../latto/sass/_latto.tables.scss */
+/* line 104, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0;
@@ -901,7 +880,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 4px 0 0;
   border-radius: 4px 0 0;
 }
-/* line 125, ../../latto/sass/_latto.tables.scss */
+/* line 109, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -910,7 +889,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
-/* line 130, ../../latto/sass/_latto.tables.scss */
+/* line 114, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
@@ -919,7 +898,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
 }
-/* line 134, ../../latto/sass/_latto.tables.scss */
+/* line 118, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -929,24 +908,18 @@ table thead:first-child tr:first-child td {
   border-radius: 0 4px 0 0;
 }
 
-/* line 146, ../../latto/sass/_latto.tables.scss */
+/* line 131, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: white;
 }
 
-/* line 160, ../../latto/sass/_latto.tables.scss */
-.table tbody tr:hover td, table tbody tr:hover td,
-.table tbody tr:hover th,
-table tbody tr:hover th {
+/* line 146, ../../latto/sass/_latto.tables.scss */
+.table tbody tr:hover td,
+.table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/*
- *
- * ---- MEDIAQUERIES ----
- *
-*/
 /* line 23, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu, .main-menu {
   font-size: 16.25px;
@@ -1121,15 +1094,14 @@ table tbody tr:hover th {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list, .list-content, .list-news, .list-compact {
+dl, .list-content, .list-news, .list-compact {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list > li, .list-content > li, .list-news > li, .list-compact > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li,
 dl > dd,
-.list > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd {
@@ -1141,22 +1113,22 @@ dl > dd,
   overflow: hidden;
 }
 
-/* line 62, ../../latto/sass/_latto.lists.scss */
+/* line 58, ../../latto/sass/_latto.lists.scss */
 .list-compact .list-date {
   margin-right: 5px;
 }
-/* line 66, ../../latto/sass/_latto.lists.scss */
+/* line 62, ../../latto/sass/_latto.lists.scss */
 .list-compact .list-heading {
   display: inline;
   margin: 0;
 }
 
-/* line 78, ../../latto/sass/_latto.lists.scss */
+/* line 74, ../../latto/sass/_latto.lists.scss */
 .list-heading {
   margin-top: 0;
 }
 
-/* line 84, ../../latto/sass/_latto.lists.scss */
+/* line 80, ../../latto/sass/_latto.lists.scss */
 .list-meta,
 .list-content,
 .list-image {
@@ -2455,30 +2427,30 @@ ul.icons li .icon-large:before {
 }
 
 /* line 51, ../sass/_ddbasic.extends.scss */
-.search-result-block h2 a:link, .navigation-inner a:link,
-.rs-carousel a:link {
+.navigation-inner a:link,
+.rs-carousel a:link, .search-result-block h2 a:link {
   color: #4d1500;
   text-decoration: none;
 }
 /* line 55, ../sass/_ddbasic.extends.scss */
-.search-result-block h2 a:visited, .navigation-inner a:visited,
-.rs-carousel a:visited {
+.navigation-inner a:visited,
+.rs-carousel a:visited, .search-result-block h2 a:visited {
   color: black;
 }
 /* line 58, ../sass/_ddbasic.extends.scss */
-.search-result-block h2 a:hover, .navigation-inner a:hover,
-.rs-carousel a:hover {
+.navigation-inner a:hover,
+.rs-carousel a:hover, .search-result-block h2 a:hover {
   color: black;
   text-decoration: underline;
 }
 /* line 62, ../sass/_ddbasic.extends.scss */
-.search-result-block h2 a:hover i[class^="icon-"], .navigation-inner a:hover i[class^="icon-"],
-.rs-carousel a:hover i[class^="icon-"] {
+.navigation-inner a:hover i[class^="icon-"],
+.rs-carousel a:hover i[class^="icon-"], .search-result-block h2 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
 /* line 66, ../sass/_ddbasic.extends.scss */
-.search-result-block h2 a:focus, .navigation-inner a:focus,
-.rs-carousel a:focus {
+.navigation-inner a:focus,
+.rs-carousel a:focus, .search-result-block h2 a:focus {
   color: black;
 }
 
@@ -4197,7 +4169,6 @@ a:focus {
 b,
 strong,
 dl > dt,
-.list > dt,
 .list-content > dt,
 .list-news > dt,
 .list-compact > dt,
@@ -4469,15 +4440,14 @@ textarea {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list, .list-content, .list-news, .list-compact {
+dl, .list-content, .list-news, .list-compact {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list > li, .list-content > li, .list-news > li, .list-compact > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li,
 dl > dd,
-.list > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd {
@@ -4489,22 +4459,22 @@ dl > dd,
   overflow: hidden;
 }
 
-/* line 62, ../../latto/sass/_latto.lists.scss */
+/* line 58, ../../latto/sass/_latto.lists.scss */
 .list-compact .list-date {
   margin-right: 5px;
 }
-/* line 66, ../../latto/sass/_latto.lists.scss */
+/* line 62, ../../latto/sass/_latto.lists.scss */
 .list-compact .list-heading {
   display: inline;
   margin: 0;
 }
 
-/* line 78, ../../latto/sass/_latto.lists.scss */
+/* line 74, ../../latto/sass/_latto.lists.scss */
 .list-heading {
   margin-top: 0;
 }
 
-/* line 84, ../../latto/sass/_latto.lists.scss */
+/* line 80, ../../latto/sass/_latto.lists.scss */
 .list-meta,
 .list-content,
 .list-image {
@@ -4513,75 +4483,54 @@ dl > dd,
   margin-bottom: 10px;
 }
 
-/*
- *
- * ---- VARIABLES ----
- *
-*/
-/*
- *
- * ---- DEFAULT STYLING ----
- *
-*/
-/* line 26, ../../latto/sass/_latto.tables.scss */
+/* line 16, ../../latto/sass/_latto.tables.scss */
 table {
   max-width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/*
- *
- * ---- EXTENDS ----
- *
-*/
-/* line 45, ../../latto/sass/_latto.tables.scss */
-.table, table {
+/* line 27, ../../latto/sass/_latto.tables.scss */
+.table {
   width: 100%;
 }
-/* line 49, ../../latto/sass/_latto.tables.scss */
-.table th, table th,
-.table td,
-table td {
+/* line 31, ../../latto/sass/_latto.tables.scss */
+.table th,
+.table td {
   border-top: 1px solid #d5d5d5;
   padding: 6.66667px;
   text-align: left;
   vertical-align: top;
 }
-/* line 57, ../../latto/sass/_latto.tables.scss */
-.table th, table th {
+/* line 39, ../../latto/sass/_latto.tables.scss */
+.table th {
   font-weight: bold;
 }
-/* line 61, ../../latto/sass/_latto.tables.scss */
-.table thead th, table thead th {
+/* line 43, ../../latto/sass/_latto.tables.scss */
+.table thead th {
   vertical-align: bottom;
 }
-/* line 70, ../../latto/sass/_latto.tables.scss */
-.table caption + thead tr:first-child th, table caption + thead tr:first-child th,
+/* line 52, ../../latto/sass/_latto.tables.scss */
+.table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
-table caption + thead tr:first-child td,
 .table colgroup + thead tr:first-child th,
-table colgroup + thead tr:first-child th,
 .table colgroup + thead tr:first-child td,
-table colgroup + thead tr:first-child td,
 .table thead:first-child tr:first-child th,
-table thead:first-child tr:first-child th,
-.table thead:first-child tr:first-child td,
-table thead:first-child tr:first-child td {
+.table thead:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 74, ../../latto/sass/_latto.tables.scss */
-.table tbody + tbody, table tbody + tbody {
+/* line 56, ../../latto/sass/_latto.tables.scss */
+.table tbody + tbody {
   border-top: 2px solid #d5d5d5;
 }
 
-/* line 85, ../../latto/sass/_latto.tables.scss */
+/* line 68, ../../latto/sass/_latto.tables.scss */
 .table-condensed th,
 .table-condensed td {
-  padding: 3.33333px;
+  padding: 4px 5px;
 }
 
-/* line 94, ../../latto/sass/_latto.tables.scss */
+/* line 78, ../../latto/sass/_latto.tables.scss */
 .table-bordered {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -4593,12 +4542,12 @@ table thead:first-child tr:first-child td {
   *border-collapse: collapsed;
   border-left: 0;
 }
-/* line 103, ../../latto/sass/_latto.tables.scss */
+/* line 87, ../../latto/sass/_latto.tables.scss */
 .table-bordered th,
 .table-bordered td {
   border-left: 1px solid #d5d5d5;
 }
-/* line 115, ../../latto/sass/_latto.tables.scss */
+/* line 99, ../../latto/sass/_latto.tables.scss */
 .table-bordered caption + thead tr:first-child th,
 .table-bordered caption + tbody tr:first-child th,
 .table-bordered caption + tbody tr:first-child td,
@@ -4610,7 +4559,7 @@ table thead:first-child tr:first-child td {
 .table-bordered tbody:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 120, ../../latto/sass/_latto.tables.scss */
+/* line 104, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0;
@@ -4619,7 +4568,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 4px 0 0;
   border-radius: 4px 0 0;
 }
-/* line 125, ../../latto/sass/_latto.tables.scss */
+/* line 109, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -4628,7 +4577,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
-/* line 130, ../../latto/sass/_latto.tables.scss */
+/* line 114, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
@@ -4637,7 +4586,7 @@ table thead:first-child tr:first-child td {
   -o-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
 }
-/* line 134, ../../latto/sass/_latto.tables.scss */
+/* line 118, ../../latto/sass/_latto.tables.scss */
 .table-bordered thead:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -4647,24 +4596,18 @@ table thead:first-child tr:first-child td {
   border-radius: 0 4px 0 0;
 }
 
-/* line 146, ../../latto/sass/_latto.tables.scss */
+/* line 131, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: white;
 }
 
-/* line 160, ../../latto/sass/_latto.tables.scss */
-.table tbody tr:hover td, table tbody tr:hover td,
-.table tbody tr:hover th,
-table tbody tr:hover th {
+/* line 146, ../../latto/sass/_latto.tables.scss */
+.table tbody tr:hover td,
+.table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/*
- *
- * ---- MEDIAQUERIES ----
- *
-*/
 /* line 15, ../sass/_ddbasic.buttons.scss */
 .button {
   display: inline-block;
@@ -5966,6 +5909,53 @@ ul.icons li .icon-large:before {
   padding: 20px;
 }
 
+/* line 15, ../sass/_ddbasic.miscellaneous.scss */
+.js-fixed-element {
+  display: none;
+}
+
+/* line 20, ../sass/_ddbasic.miscellaneous.scss */
+.footer {
+  background-color: rgba(0, 0, 0, 0.85);
+  zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
+  padding-top: 30px;
+}
+
+/* line 26, ../sass/_ddbasic.miscellaneous.scss */
+.footer-block {
+  background-color: transparent;
+  color: white;
+}
+/* line 33, ../sass/_ddbasic.miscellaneous.scss */
+.footer-block .block-title {
+  color: white;
+}
+
+/* line 38, ../sass/_ddbasic.miscellaneous.scss */
+.section-title {
+  color: white;
+}
+
+/* line 45, ../sass/_ddbasic.miscellaneous.scss */
+.section-title-inverted {
+  color: black;
+}
+
+/* line 58, ../sass/_ddbasic.miscellaneous.scss */
+.assistive-text {
+  clip: rect(1px 1px 1px 1px);
+  /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+}
+
+/* line 68, ../sass/_ddbasic.miscellaneous.scss */
+.section-title, .section-title-inverted {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
 /* line 26, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
@@ -6331,53 +6321,6 @@ ul.icons li .icon-large:before {
   color: #cccccc;
 }
 
-/* line 192, ../sass/ddbasic.styles.scss */
-.js-fixed-element {
-  display: none;
-}
-
-/* line 197, ../sass/ddbasic.styles.scss */
-.footer {
-  background-color: rgba(0, 0, 0, 0.85);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
-  padding-top: 30px;
-}
-
-/* line 203, ../sass/ddbasic.styles.scss */
-.footer-block {
-  background-color: transparent;
-  color: white;
-}
-/* line 210, ../sass/ddbasic.styles.scss */
-.footer-block .block-title {
-  color: white;
-}
-
-/* line 215, ../sass/ddbasic.styles.scss */
-.section-title, .section-title-inverted {
-  margin-top: 0;
-  margin-left: 10px;
-}
-
-/* line 220, ../sass/ddbasic.styles.scss */
-.section-title {
-  color: white;
-}
-
-/* line 227, ../sass/ddbasic.styles.scss */
-.section-title-inverted {
-  color: black;
-}
-
-/* line 240, ../sass/ddbasic.styles.scss */
-.assistive-text {
-  clip: rect(1px 1px 1px 1px);
-  /* IE6, IE7 */
-  clip: rect(1px, 1px, 1px, 1px);
-  position: absolute !important;
-}
-
 /* line 22, ../sass/_ddbasic.carousel.scss */
 .rs-carousel,
 .rs-carousel-mask,
@@ -6406,12 +6349,12 @@ ul.icons li .icon-large:before {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:after {
   clear: both;
 }
@@ -6691,7 +6634,7 @@ ul.icons li .icon-large:before {
     top: 25%;
   }
 }
-/* line 278, ../sass/ddbasic.styles.scss */
+/* line 226, ../sass/ddbasic.styles.scss */
 .block-opening-hours {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
   -moz-box-shadow: inset 0 0 15px #e6e6e6;
@@ -6701,33 +6644,33 @@ ul.icons li .icon-large:before {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFFFF,endColorstr=#FFFFFFFF);
   min-height: 279px;
 }
-/* line 285, ../sass/ddbasic.styles.scss */
+/* line 233, ../sass/ddbasic.styles.scss */
 .block-opening-hours .read-more {
   margin-left: 3px;
 }
 
-/* line 295, ../sass/ddbasic.styles.scss */
+/* line 243, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: #d1e02b;
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
 
-/* line 304, ../sass/ddbasic.styles.scss */
+/* line 252, ../sass/ddbasic.styles.scss */
 .user {
   float: right;
   margin-right: 0;
 }
-/* line 310, ../sass/ddbasic.styles.scss */
+/* line 258, ../sass/ddbasic.styles.scss */
 .user .user-field-wrapper {
   display: inline;
   margin-left: 50px;
 }
-/* line 315, ../sass/ddbasic.styles.scss */
+/* line 263, ../sass/ddbasic.styles.scss */
 .user i[class^="icon-"] {
   top: 17px;
 }
-/* line 322, ../sass/ddbasic.styles.scss */
+/* line 270, ../sass/ddbasic.styles.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 16.9px;
@@ -6736,7 +6679,7 @@ ul.icons li .icon-large:before {
   min-height: 60px;
   margin-right: 10px;
 }
-/* line 331, ../sass/ddbasic.styles.scss */
+/* line 279, ../sass/ddbasic.styles.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -6748,7 +6691,7 @@ ul.icons li .icon-large:before {
   position: absolute;
 }
 
-/* line 343, ../sass/ddbasic.styles.scss */
+/* line 291, ../sass/ddbasic.styles.scss */
 .user-compact {
   font-size: 18.2px;
   font-size: 1.1375rem;
@@ -6757,7 +6700,7 @@ ul.icons li .icon-large:before {
   position: absolute;
   right: 10px;
 }
-/* line 351, ../sass/ddbasic.styles.scss */
+/* line 299, ../sass/ddbasic.styles.scss */
 .user-compact a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -6771,27 +6714,27 @@ ul.icons li .icon-large:before {
   padding: 12px 25px 10px;
   text-align: center;
 }
-/* line 361, ../sass/ddbasic.styles.scss */
+/* line 309, ../sass/ddbasic.styles.scss */
 .user-compact a:hover {
   text-decoration: none;
 }
-/* line 365, ../sass/ddbasic.styles.scss */
+/* line 313, ../sass/ddbasic.styles.scss */
 .user-compact a.active {
   background-color: #d1e02b;
 }
-/* line 374, ../sass/ddbasic.styles.scss */
+/* line 322, ../sass/ddbasic.styles.scss */
 .user-compact.fixed {
   display: block;
 }
 
-/* line 380, ../sass/ddbasic.styles.scss */
+/* line 328, ../sass/ddbasic.styles.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 388, ../sass/ddbasic.styles.scss */
+/* line 336, ../sass/ddbasic.styles.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -6802,16 +6745,16 @@ ul.icons li .icon-large:before {
   border-bottom-color: #d1e02b;
   right: 50px;
 }
-/* line 392, ../sass/ddbasic.styles.scss */
+/* line 340, ../sass/ddbasic.styles.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 395, ../sass/ddbasic.styles.scss */
+/* line 343, ../sass/ddbasic.styles.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 403, ../sass/ddbasic.styles.scss */
+/* line 351, ../sass/ddbasic.styles.scss */
 .user-login-block .user-close-container {
   font-size: 16.25px;
   font-size: 1.01563rem;
@@ -6821,22 +6764,22 @@ ul.icons li .icon-large:before {
   right: 15px;
   top: 15px;
 }
-/* line 414, ../sass/ddbasic.styles.scss */
+/* line 362, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link {
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 420, ../sass/ddbasic.styles.scss */
+/* line 368, ../sass/ddbasic.styles.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 425, ../sass/ddbasic.styles.scss */
+/* line 373, ../sass/ddbasic.styles.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 432, ../sass/ddbasic.styles.scss */
+/* line 380, ../sass/ddbasic.styles.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 16.9px;
@@ -6844,7 +6787,7 @@ ul.icons li .icon-large:before {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 440, ../sass/ddbasic.styles.scss */
+/* line 388, ../sass/ddbasic.styles.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;

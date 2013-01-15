@@ -168,6 +168,13 @@
 //
 
 
+// -----------------------------------------------------------------------------
+// Miscellaneous
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.miscellaneous.scss";
+
+
 // =============================================================================
 // Ding modules
 // =============================================================================
@@ -183,65 +190,6 @@
 
 // ---
 
-
-
-// -----------------------------------------------------------------------------
-// Miscellaneous (elements found across pages, but not included in the above)
-// -----------------------------------------------------------------------------
-//
-.js-fixed-element {
-  display: none;
-}
-
-
-.footer {
-  @include rgba-background($section-bg, $section-bg-transparency);
-
-  padding-top: 30px;
-}
-
-.footer-block {
-  @extend %block;
-  @extend %link-inverted;
-
-  background-color: transparent;
-  color: $white;
-
-  .block-title {
-    color: $white;
-  }
-}
-
-%section-title {
-  margin-top: 0;
-  margin-left: 10px;
-}
-
-.section-title {
-  @extend %section-title;
-
-  color: $section-color;
-}
-
-
-.section-title-inverted {
-  @extend %section-title;
-
-  color: $section-color-inverted;
-}
-
-
-.navigation-inner,
-.rs-carousel {
-  @extend %link-special;
-}
-
-
-.assistive-text {
-  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-  clip: rect(1px, 1px, 1px, 1px);
-  position: absolute !important;
-}
 
 
 // ** MODULE STYLING **
