@@ -1079,7 +1079,7 @@ table tbody tr:hover th {
 }
 /* line 179, ../../latto/sass/_latto.nav.scss */
 .action-links li {
-  color: #264917;
+  color: #295586;
   display: inline-block;
   padding: 0 10px 0 10px;
 }
@@ -1087,7 +1087,7 @@ table tbody tr:hover th {
 .action-links li:before {
   font-size: 15.6px;
   font-size: 0.975rem;
-  color: #264917;
+  color: #295586;
   float: left;
   font-family: FontAwesome;
   margin-top: 2px;
@@ -2554,16 +2554,16 @@ h6 {
 
 /* line 22, ../sass/_ddbasic.elements.scss */
 a:link {
-  color: #264917;
+  color: #295586;
   text-decoration: none;
 }
 /* line 26, ../sass/_ddbasic.elements.scss */
 a:visited {
-  color: #080f05;
+  color: #17304b;
 }
 /* line 29, ../sass/_ddbasic.elements.scss */
 a:hover {
-  color: black;
+  color: #112338;
   text-decoration: underline;
 }
 /* line 33, ../sass/_ddbasic.elements.scss */
@@ -2572,7 +2572,7 @@ a:hover i[class^="icon-"] {
 }
 /* line 37, ../sass/_ddbasic.elements.scss */
 a:focus {
-  color: black;
+  color: #112338;
 }
 
 /* line 43, ../sass/_ddbasic.elements.scss */
@@ -2868,6 +2868,7 @@ legend {
 /* line 16, ../sass/_ddbasic.mq.layouts.scss */
 .sidebars .grid-inner, .sidebars .topbar-inner, .sidebars .header-wrapper .header-inner, .header-wrapper .sidebars .header-inner, .sidebars .navigation-inner {
   background-color: white;
+  padding: 20px;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
@@ -2984,9 +2985,10 @@ legend {
     _overflow-y: visible;
   }
 }
-/* line 30, ../sass/_ddbasic.mq.layouts.scss */
+/* line 31, ../sass/_ddbasic.mq.layouts.scss */
 .no-sidebars .grid-inner, .no-sidebars .topbar-inner, .no-sidebars .header-wrapper .header-inner, .header-wrapper .no-sidebars .header-inner, .no-sidebars .navigation-inner {
   background-color: white;
+  padding: 20px;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
@@ -3065,9 +3067,10 @@ legend {
     _overflow-y: visible;
   }
 }
-/* line 44, ../sass/_ddbasic.mq.layouts.scss */
+/* line 46, ../sass/_ddbasic.mq.layouts.scss */
 .left-sidebar .grid-inner, .left-sidebar .topbar-inner, .left-sidebar .header-wrapper .header-inner, .header-wrapper .left-sidebar .header-inner, .left-sidebar .navigation-inner {
   background-color: white;
+  padding: 20px;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
@@ -3146,9 +3149,10 @@ legend {
     _overflow-y: visible;
   }
 }
-/* line 58, ../sass/_ddbasic.mq.layouts.scss */
+/* line 61, ../sass/_ddbasic.mq.layouts.scss */
 .right-sidebar .grid-inner, .right-sidebar .topbar-inner, .right-sidebar .header-wrapper .header-inner, .header-wrapper .right-sidebar .header-inner, .right-sidebar .navigation-inner {
   background-color: white;
+  padding: 20px;
 }
 
 /* line 63, ../../latto/sass/_latto.mediaqueries.scss */
@@ -6172,7 +6176,7 @@ ul.icons li .icon-large:before {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  border-right: 1px solid #264917;
+  border-right: 1px solid #295586;
   padding-right: 0;
 }
 /* line 347, ../sass/ddbasic.styles.scss */
