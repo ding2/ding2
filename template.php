@@ -33,6 +33,26 @@ function ddbasic_preprocess_html(&$vars) {
 }
 
 /**
+ * alters forms.
+ */
+function ddbasic_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login_block':
+      unset($form['name']['#title']);
+      $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
+      $form['name']['#attributes']['placeholder'] = t('Cpr- eller kortnummer:');
+      $form['name']['#type'] = 'password';
+      $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
+      $form['pass']['#attributes']['placeholder'] = t('Adgangskode:');
+      unset($form['pass']['#title']);
+      $form['links']['#markup'] = "";
+      $form['actions']['submit']['#attributes']['class'][] = 'btn';
+      $form['actions']['submit']['#attributes']['class'][] = 'btn-info';
+      break;
+  }
+}
+
+/**
  * Implements hook_preprocess_panels_pane().
  *
  */
