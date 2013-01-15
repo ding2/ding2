@@ -54,6 +54,17 @@
 
 }
 
+
+.button,
+a.button {
+  @extend %button;
+
+  &.available {
+    @extend %success;
+  }
+}
+
+
 // Don't use native buttons on iOS
 input[type=submit].button, button.button { -webkit-appearance: none; }
 
@@ -77,4 +88,3 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 // =============================================================================
 // MEDIAQUERIES
 // =============================================================================
-

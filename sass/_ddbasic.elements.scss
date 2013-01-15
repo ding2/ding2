@@ -1,0 +1,63 @@
+// =============================================================================
+// DDBasic Default element styles
+// =============================================================================
+//
+body {
+  background: url('../images/body.jpg') no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+}
+
+a {
+  &:link {
+    color: $link-color;
+    text-decoration: none;
+  }
+  &:visited {
+    color: darken($link-color, 15%);
+  }
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+
+    i[class^="icon-"] {
+      text-decoration: none;
+    }
+  }
+  &:focus {
+    color: $link-color-hover;
+  }
+}
+
+
+ul {
+  padding-left: $default-spacing;
+}
+
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  display: block;
+  
+  border-top: 1px solid $gray;
+  margin: 0;
+  padding: 0;  
+  width: 100%;
+  
+  line-height: $theme-font-size * 3;
+}

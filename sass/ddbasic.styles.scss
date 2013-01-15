@@ -2,274 +2,171 @@
 // DDBasic styling
 // =============================================================================
 //
+
+
+// -----------------------------------------------------------------------------
+// Compass
+// -----------------------------------------------------------------------------
+//
 @import "compass/css3";
+
+
+// -----------------------------------------------------------------------------
+// First we need to import latto variables and mixins
+// -----------------------------------------------------------------------------
+//
 @import "../../latto/sass/_latto.variables.scss";
+@import '../../latto/sass/_latto.mixins.scss';
+
+
+// -----------------------------------------------------------------------------
+// Then we need to import the theme variables
+// -----------------------------------------------------------------------------
+//
+@import '_ddbasic.variables.scss';
+
+
+// -----------------------------------------------------------------------------
+// Overwrite latto styles with theme variables
+// -----------------------------------------------------------------------------
+//
 @import "../../latto/sass/_latto.grid.scss";
 @import '../../latto/sass/_latto.mediaqueries.scss';
-@import "../../latto/sass/_latto.mixins.scss";
 @import '../../latto/sass/_latto.tables.scss';
 @import '../../latto/sass/_latto.nav.scss';
 @import '../../latto/sass/_latto.lists.scss';
-@import '../../latto/sass/_latto.font-awesome.scss';
 @import "../../latto/sass/_latto.base.scss";
-@import "_ddbasic.variables.scss";
-@import "_ddbasic.mq.displays.scss";
-@import "_ddbasic.mq.layouts.scss";
-@import "_ddbasic.mediaqueries.scss";
-@import "_ddbasic.mixins.scss";
-@import "_ddbasic.extends.scss";
-@import "_ddbasic.navigation.scss";
-@import "_ddbasic.carousel.scss";
-@import "_ddbasic.buttons.scss";
+@import '../../latto/sass/_latto.font-awesome.scss';
+
+
+// =============================================================================
+// Then our theme specific styles
+// =============================================================================
+//
+
+
+// -----------------------------------------------------------------------------
+// Header
+// -----------------------------------------------------------------------------
+//
 @import "_ddbasic.header.scss";
 
 
 // -----------------------------------------------------------------------------
-// Basic styling
+// Mixins
 // -----------------------------------------------------------------------------
 //
-body {
-  @include rem('font-size', $theme-font-size);
-
-	background: url('../images/body.jpg') no-repeat;
-  background-attachment: fixed;
-	background-size: cover;
-	font-family: "ff-scala-sans-web-pro", arial, sans-serif;
-	font-weight: $font-weight-light;
-}
-
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: $font-weight-light;
-  line-height: 100%;
-  margin-top: 0;
-}
-
-
-input,
-textarea {
-	font-family: $theme-font-family;
-	font-weight: $font-weight-light;
-}
-
-
-a {
-  &:link {
-    color: $link-color;
-    text-decoration: none;
-  }
-  &:visited {
-    color: darken($link-color, 15%);
-  }
-  &:hover {
-    color: $link-color-hover;
-    text-decoration: underline;
-
-    i[class^="icon-"] {
-      text-decoration: none;
-    }
-  }
-  &:focus {
-    color: $link-color-hover;
-  }
-}
-
-
-ul {
-  padding-left: $default-spacing;
-}
-
-
-fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
-legend {
-  display: block;
-  
-  border-top: 1px solid $gray;
-  margin: 0;
-  padding: 0;  
-  width: 100%;
-  
-  line-height: $theme-font-size * 3;
-}
+@import "_ddbasic.mixins.scss";
 
 
 // -----------------------------------------------------------------------------
-// Layout elements
+// Extends
 // -----------------------------------------------------------------------------
 //
-.topbar {
-	@include rgba-background($black, $block-bg-transparency);
-
-	min-height: $header-min-height;
-
-	h1 {
-    @include rem('font-size', $header-font-size);
-
-		font-weight: $font-weight-regular;
-		line-height: $header-min-height;
-
-		margin-top: 0;
-		margin-bottom: 0;
-
-		a,
-		a:link,
-		a:visited {
-			color: $header-text-color;
-		}
-	}
-}
-
-
-.topbar {
-  position: fixed;
-  width: 100%;
-  z-index: 99;
-}
-
-
-.topbar-inner {
-	@extend .grid-inner;
-
-  position: relative;
-}
-
-
-.logo {
-  @include zen-grid-item($grid-50, 1);
-}
-
-
-.header-wrapper {
-	@extend .grid-wrapper;
-
-  margin-top: 60px;
-
-	.header-inner {
-		@extend .grid-inner;
-
-    /*position: relative;*/
-	}
-}
-
-.frontpage-layout {
-  .content-wrapper {
-    margin-top: 88px;
-  }
-}
-
-.content-wrapper {
-  @extend .grid-wrapper;
-
-  margin-top: 148px;
-}
-
-
-.primary-content,
-.secondary-content,
-.tertiary-content,
-.attachment-first,
-.attachment-second,
-.attachment-third,
-.attachment-fourth {
-  margin-bottom: $default-spacing;
-}
-
-.facet-browser {
-  @extend .tertiary-menu-wrapper;
-}
+@import "_ddbasic.extends.scss";
 
 
 // -----------------------------------------------------------------------------
-// Blocks
+// Default element styling
 // -----------------------------------------------------------------------------
 //
-%block {
-  @include border-radius($block-border);
-  @include box-sizing(border-box);
-
-  select {
-    width: 100%;
-  }
-
-  i[class^="icon-"] {
-    @extend %read-more-icon;
-  }
-
-  .block-title {
-    @include rem('font-size', $header-font-size * 1.1);
-  }
-
-  .block-content {
-    padding: 20px;
-  }
-
-  .read-more {
-    @extend %read-more-link;
-  }
-}
-
-
-.block {
-  @include box-shadow(inset 0 0 15px darken($block-bg, 10%));
-  @include border-radius($block-border);
-  @include box-sizing(border-box);
-  @include rgba-background($block-bg, $block-bg-transparency);
-  @extend %block;
-
-  color: $block-color;
-}
-
-
-.block-inverted {
-  @include box-shadow(inset 0 0 15px darken($block-bg-inverted, 10%));
-  @include border-radius($block-border);
-  @include box-sizing(border-box);
-  @include rgba-background($block-bg-inverted, $block-bg-transparency);
-  @extend %block;
-
-  color: $block-color-inverted;
-
-  h2 {
-    color: $block-color-inverted;;
-    margin-top: 0;
-  }
-
-  i[class^="icon-"] {
-    @extend %read-more-icon;
-
-    color: $block-color-inverted;
-  }
-
-  .image {
-    margin-bottom: $default-spacing;
-  }
-
-  .read-more {
-    color: $block-color-inverted;
-    text-decoration: underline;
-  }
-}
+@import "_ddbasic.elements.scss";
 
 
 // -----------------------------------------------------------------------------
-// Miscellaneous
+// Layout
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.layout.scss";
+
+
+// -----------------------------------------------------------------------------
+// Media queries
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.mq.displays.scss";
+@import "_ddbasic.mq.layouts.scss";
+@import "_ddbasic.mediaqueries.scss";
+
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.typography.scss";
+
+
+// -----------------------------------------------------------------------------
+// Forms
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Labels
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Links
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Lists
+// -----------------------------------------------------------------------------
+//
+@import "../../latto/sass/_latto.lists.scss";
+
+
+// -----------------------------------------------------------------------------
+// Tables
+// -----------------------------------------------------------------------------
+//
+@import "../../latto/sass/_latto.tables.scss";
+
+
+// -----------------------------------------------------------------------------
+// Buttons
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.buttons.scss";
+
+
+// -----------------------------------------------------------------------------
+// Icons
+// -----------------------------------------------------------------------------
+//
+@import "../../latto/sass/_latto.font-awesome.scss";
+
+
+// -----------------------------------------------------------------------------
+// Navigation
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.navigation.scss";
+
+
+// -----------------------------------------------------------------------------
+// Pagers
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Pagination
 // -----------------------------------------------------------------------------
 //
 .grid-inner {
 	max-width: $grid-max-width;
 }
 
-
+// -----------------------------------------------------------------------------
+// Miscellaneous (elements found across pages, but not included in the above)
+// -----------------------------------------------------------------------------
+//
 .js-fixed-element {
   display: none;
 }
@@ -277,7 +174,7 @@ legend {
 
 .blocks-wrapper {
   @include rgba-background($section-bg, $section-bg-transparency);
-	@extend .grid-wrapper;
+  @extend .grid-wrapper;
 
   padding-top: 30px;
   padding-bottom: 30px;
@@ -328,7 +225,6 @@ legend {
 }
 
 .section-title {
-  @include rem('font-size', $header-font-size);
   @extend %section-title;
 
   color: $section-color;
@@ -336,7 +232,6 @@ legend {
 
 
 .section-title-inverted {
-  @include rem('font-size', $header-font-size);
   @extend %section-title;
 
   color: $section-color-inverted;
@@ -350,26 +245,37 @@ legend {
 
 
 .assistive-text {
-	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-	clip: rect(1px, 1px, 1px, 1px);
-	position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
 }
 
 
+// ** MODULE STYLING **
+
 // -----------------------------------------------------------------------------
-// Buttons
+// Carousel
 // -----------------------------------------------------------------------------
 //
-.button,
-a.button {
-  @extend %button;
+@import "_ddbasic.carousel.scss";
 
-  &.available {
-    @extend %success;
-  }
-}
-// Don't use native buttons on iOS
-input[type=submit].button, button.button { -webkit-appearance: none; }
+
+// -----------------------------------------------------------------------------
+// Facet Browser
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Search Result
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// User
+// -----------------------------------------------------------------------------
+//
 
 
 // -----------------------------------------------------------------------------
@@ -425,7 +331,6 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     @extend %button;
 
     position: absolute;
-    font-size: $theme-font-size * 1.7;
   }
 }
 
@@ -487,7 +392,6 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     @include rem('font-size', $theme-font-size * 1.4);
     @extend %button;
 
-    font-size: $theme-font-size * 1.7;
     background-color: $font-color-primary;
     height: 40px;
     position: absolute;
@@ -523,23 +427,23 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
   .remove {
     float:right;
     color: $button-danger-bg-color;
-    
+
     &:hover {
       color: darken($button-danger-bg-color, 15%);
     }
   }
 
   ul {
-    
+
     padding: 1px 0 0;
     list-style: none;
   }
 
   li {
     @include rem('padding', $default-spacing / 6 $default-spacing / 2);
-    
+
     margin-bottom: 1px;
-    
+
     label {
       color: $font-color-primary;
     }
@@ -561,7 +465,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 
   h1 {
     @include rem('font-size', $theme-font-size * 1.5);
-    
+
     color: $gray-darker;
   }
 
@@ -576,20 +480,20 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 
   .search-feed {
     @include zen-float(right);
-    
+
     padding: .5em 0;
   }
 
   .filter {
     @include zen-clear();
-    
+
     border-bottom: 1px solid darken($block-bg,15%);
     border-top: 1px solid darken($block-bg,15%);
     padding: 10px 0;
     margin: 10px 0;
-    
+
     select {padding:10px;}
-    
+
     .number-items {
       @include zen-grid-item($grid-33, 1);
     }
@@ -629,7 +533,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     padding: 0;
     list-style: none;
   }
-  
+
   .status {
     @include rem('font-size', $theme-font-size / 1.25);
 
@@ -698,7 +602,6 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     display: inline;
     min-height: 60px;
     position: absolute;
-    font-size: $theme-font-size * 1.7;
   }
 
 }
@@ -773,9 +676,6 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     right: 15px;
     top: 15px;
 
-    &:hover {
-      text-decoration: none;
-    }
   }
 
   .user-login-link {
@@ -786,10 +686,6 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 
     a {
       color: #fff;
-
-      &:hover {
-        text-decoration: none;
-      }
     }
   }
 
