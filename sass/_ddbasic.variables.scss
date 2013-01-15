@@ -8,41 +8,41 @@
 // Basic settings: Grid, spacing etc.
 // -----------------------------------------------------------------------------
 //
-$grid-max-width:        1200px !default;
-$grid-column-count:     12 !default;
+$grid-max-width:                  1200px !default;
+$grid-column-count:               12 !default;
 
-$default-spacing:       20px !default;
+$default-spacing:                 20px !default;
 
 
 // -----------------------------------------------------------------------------
 // Standard color definitions
 // -----------------------------------------------------------------------------
 //
-$white:                 #fff    !default;
-$black:                 #000    !default;
-$gray:                  #999 !default;
-$gray-light:            lighten($gray, 10%) !default;
-$gray-lighter:          lighten($gray, 25%) !default;
-$gray-dark:             darken($gray, 20%) !default;
-$gray-darker:           darken($gray, 40%) !default;
+$white:                           #fff    !default;
+$black:                           #000    !default;
+$gray:                            #999 !default;
+$gray-light:                      lighten($gray, 10%) !default;
+$gray-lighter:                    lighten($gray, 25%) !default;
+$gray-dark:                       darken($gray, 20%) !default;
+$gray-darker:                     darken($gray, 40%) !default;
 
 
 // -----------------------------------------------------------------------------
 // Theme color definitions
 // -----------------------------------------------------------------------------
 //
-$theme-primary-color:           #fff !default;
-$theme-secondary-color:         #00b7e7 !default;
-$theme-content-background:      #fff !default;
+$theme-primary-color:             #fff !default;
+$theme-secondary-color:           #00b7e7 !default;
+$theme-content-background:        #fff !default;
 
 
 // -----------------------------------------------------------------------------
 // Font variables
 // -----------------------------------------------------------------------------
 //
-$theme-font-size:     15px !default;
-$theme-line-height:   18px !default;
-$theme-font-family:   "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$theme-font-size:                 15px !default;
+$theme-line-height:               18px !default;
+$theme-font-family:               "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 
 
 // -----------------------------------------------------------------------------
