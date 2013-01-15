@@ -22,6 +22,8 @@
 @import "_ddbasic.carousel.scss";
 @import "_ddbasic.buttons.scss";
 @import "_ddbasic.header.scss";
+@import "_ddbasic.libraries.scss";
+@import "_ddbasic.lists.scss";
 
 
 // -----------------------------------------------------------------------------
@@ -93,12 +95,12 @@ fieldset {
 
 legend {
   display: block;
-  
+
   border-top: 1px solid $gray;
   margin: 0;
-  padding: 0;  
+  padding: 0;
   width: 100%;
-  
+
   line-height: $theme-font-size * 3;
 }
 
@@ -171,6 +173,10 @@ legend {
   @extend .grid-wrapper;
 
   margin-top: 148px;
+
+  .grid-inner {
+    padding: $default-spacing;
+  }
 }
 
 
@@ -523,23 +529,23 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
   .remove {
     float:right;
     color: $button-danger-bg-color;
-    
+
     &:hover {
       color: darken($button-danger-bg-color, 15%);
     }
   }
 
   ul {
-    
+
     padding: 1px 0 0;
     list-style: none;
   }
 
   li {
     @include rem('padding', $default-spacing / 6 $default-spacing / 2);
-    
+
     margin-bottom: 1px;
-    
+
     label {
       color: $font-color-primary;
     }
@@ -561,7 +567,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 
   h1 {
     @include rem('font-size', $theme-font-size * 1.5);
-    
+
     color: $gray-darker;
   }
 
@@ -576,20 +582,20 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
 
   .search-feed {
     @include zen-float(right);
-    
+
     padding: .5em 0;
   }
 
   .filter {
     @include zen-clear();
-    
+
     border-bottom: 1px solid darken($block-bg,15%);
     border-top: 1px solid darken($block-bg,15%);
     padding: 10px 0;
     margin: 10px 0;
-    
+
     select {padding:10px;}
-    
+
     .number-items {
       @include zen-grid-item($grid-33, 1);
     }
@@ -629,7 +635,7 @@ input[type=submit].button, button.button { -webkit-appearance: none; }
     padding: 0;
     list-style: none;
   }
-  
+
   .status {
     @include rem('font-size', $theme-font-size / 1.25);
 

@@ -1,0 +1,92 @@
+// =============================================================================
+// Lists
+// =============================================================================
+
+
+// -----------------------------------------------------------------------------
+// Default list @extend
+// -----------------------------------------------------------------------------
+//
+%list {
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+  
+  > dt {
+    @extend strong;
+  }
+
+  > li,
+  > dd {
+    border-bottom: 1px solid $gray-light;
+
+    clear: both;
+    margin-bottom: $default-spacing;
+    margin-left: 0;
+    padding-bottom: $default-spacing; 
+    overflow: hidden;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Standard HTML modifications
+// -----------------------------------------------------------------------------
+//
+dl {
+  @extend %list;
+}
+
+
+// -----------------------------------------------------------------------------
+// Specific list classes
+// -----------------------------------------------------------------------------
+//
+.list-content {
+  @extend %list;
+}
+
+
+.list-news {
+  @extend %list;
+}
+
+.list-compact {
+  @extend %list;
+  
+  .list-date {
+    margin-right: $default-spacing / 4;
+  }
+  
+  .list-heading {
+    display: inline;
+    margin: 0;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// List element classes
+// -----------------------------------------------------------------------------
+//
+
+.list-heading {
+  margin-top: 0;
+}
+
+.list-meta,
+.list-content,
+.list-image {
+  display: block;
+  margin-top: $default-spacing / 2;
+  margin-bottom: $default-spacing / 2;
+}
+
+.list-image-inline {
+  @extend .image-inline;
+}
+
+.list-meta {
+  @extend .meta;
+}
