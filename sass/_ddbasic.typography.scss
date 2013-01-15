@@ -32,6 +32,7 @@ textarea {
 .topbar {
   h1 {
     @include rem('font-size', $header-font-size);
+    
     font-weight: $font-weight-regular;
     line-height: $header-min-height;
   }
