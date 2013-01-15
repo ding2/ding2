@@ -5590,7 +5590,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 6, ../sass/_ddbasic.navigation.scss */
-.main-menu > a, .secondary-menu > a {
+.main-menu a, .secondary-menu a {
   display: inline-block;
   margin-top: 20px;
   margin-right: 10px;
@@ -5601,12 +5601,12 @@ ul.icons li .icon-large:before {
   color: black;
 }
 /* line 17, ../sass/_ddbasic.navigation.scss */
-.main-menu > a.active, .secondary-menu > a.active {
+.main-menu a.active, .secondary-menu a.active {
   font-weight: 400;
   text-decoration: underline;
 }
 /* line 22, ../sass/_ddbasic.navigation.scss */
-.main-menu > a.last, .secondary-menu > a.last {
+.main-menu a.last, .secondary-menu a.last {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
