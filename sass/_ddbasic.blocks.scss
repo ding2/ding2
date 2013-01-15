@@ -81,6 +81,35 @@
 }
 
 
+.blocks-wrapper {
+  @include rgba-background($section-bg, $section-bg-transparency);
+  @extend .grid-wrapper;
+
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+
+.blocks-wrapper-inverted {
+  @include attachment-50-50-50-50;
+  @include rgba-background($section-bg-inverted, $section-bg-transparency);
+  @extend .blocks-wrapper;
+
+  .block-title {
+    color: $link-color-inverted;
+  }
+
+  img {
+    max-height: 150px;
+  }
+}
+
+
+.blocks-wrapper-two {
+  @extend .blocks-wrapper-inverted;
+}
+
+
 // =============================================================================
 // EXTENDS
 // =============================================================================
