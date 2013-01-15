@@ -2,13 +2,6 @@
 // DDBasic layout (ddbasic.layout.scss)
 // =============================================================================
 //
-@import '../../latto/sass/_latto.mediaqueries.scss';
-@import "_ddbasic.mq.displays.scss";
-@import "_ddbasic.mq.layouts.scss";
-@import "_ddbasic.mediaqueries.scss";
-@import "_ddbasic.header.scss";
-
-
 .topbar {
   @include rgba-background($black, $block-bg-transparency);
 
