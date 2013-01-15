@@ -12,18 +12,18 @@
 // DEFAULT STYLING
 // =============================================================================
 
-// Core
 .button {
-  background: $button-bg-color;
   display: inline-block;
+  margin-bottom: 0;
   padding: 4px 12px;
-  margin-bottom: 0; // For input.btn
+
+  background: $button-bg-color;
+  border: none;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
+  cursor: pointer;
   font-size: $theme-font-size;
   text-align: center;
   vertical-align: middle;
-  cursor: pointer;
-  border: none;
-  *border: 0; // Remove the border to prevent IE7's black border on input:focus
 
   // Hover state
   &:hover {
@@ -31,9 +31,11 @@
     text-decoration: none;
   }
 
+
   // Focus state for keyboard and accessibility
   &:focus {
   }
+
 
   // Active state
   &.active,
@@ -66,7 +68,11 @@ a.button {
 
 
 // Don't use native buttons on iOS
-input[type=submit].button, button.button { -webkit-appearance: none; }
+input[type=submit].button,
+button.button {
+  -webkit-appearance: none;
+}
+
 
 // Correct FF button padding
 @-moz-document url-prefix() {
