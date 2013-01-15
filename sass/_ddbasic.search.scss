@@ -16,10 +16,60 @@
 // =============================================================================
 //
 
-// Facet title
-.fieldset-legend {
-  @extend .text-largest;
+// Facet browser styling
+.pane-ding-facetbrowser {
+
+  // General link rules for facet browser.
+  a:link {
+    text-decoration:none;
+  }
+  a:visited {
+    color: $link-color;
+  }
+
+  // Facetbrowser title
+  h2 {
+    @extend .text-largest;
+  }
+
+  // Specific font color for headings and result count
+  h2,
+  .fieldset-legend,
+  .count {
+    color: darken($gray-darker, 5%);
+  }
+
+  // Facet group spacing
+  .form-wrapper {
+    margin-top: $default-spacing;
+  }
+
+
+  // Facet title.
+  .fieldset-legend {
+    @extend .text-larger;
+  }
+
+  // Expand facets link.
+  .expand {
+    margin-right: $default-spacing / 2;
+
+    &:before {
+      font-family: "FontAwesome";
+      padding-right: $default-spacing / 4;
+      text-decoration: none;
+    }
+  }
+  .expand-more {
+    @extend .icon-plus-sign;
+  }
+  .expand-less {
+    @extend .icon-minus-sign;
+  }
 }
+
+
+
 
 // =============================================================================
 // EXTENDS
