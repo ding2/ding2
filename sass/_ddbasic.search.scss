@@ -16,7 +16,11 @@
 // =============================================================================
 //
 
+
+// -----------------------------------------------------------------------------
 // Facet browser styling
+// -----------------------------------------------------------------------------
+//
 .pane-ding-facetbrowser {
 
   // General link rules for facet browser.
@@ -27,19 +31,19 @@
     color: $link-color;
   }
 
-  // Facetbrowser title
+  // Facetbrowser title.
   h2 {
     @extend .text-largest;
   }
 
-  // Specific font color for headings and result count
+  // Specific font color for headings and result count.
   h2,
   .fieldset-legend,
   .count {
     color: $gray-darker;
   }
 
-  // Facet group spacing
+  // Facet group spacing.
   .form-wrapper {
     margin-top: $default-spacing;
   }
@@ -51,40 +55,59 @@
   }
 
   // Expand facets link.
-  .expand,
-  .unselect {
+  .expand {
     margin-right: $default-spacing / 2;
 
     &:before {
       font-family: "FontAwesome";
       padding-right: $default-spacing / 4;
       text-decoration: none;
+      font-size: 1.1em;
     }
   }
   .expand-more {
     @extend .icon-plus-sign;
   }
-  .expand-less,
-  .unselect {
+  .expand-less {
     @extend .icon-minus-sign;
   }
 
-  // Group for selected facets
+  // Group for selected facets.
   .selected-checkbox-group {
+    overflow: hidden;
+
     .selected-checkbox {
       background-color: $gray;
       padding: $default-spacing / 4;
     }
 
     .unselect {
+      @extend .expand;
       @extend .pull-right;
+      @extend .icon-remove-sign;
     }
   }
 
-  // Group for unselected facets
+  // Group for unselected facets.
   .unselected-checkbox-group {
     clear: right;
     margin-top: $default-spacing;
+  }
+
+  // Group with hidden facets.
+  .hidden-facets-group {
+    margin-bottom: $default-spacing;
+  }
+
+  .expand-facets {
+    @extend .expand;
+    @extend .pull-right;
+  }
+  .expand-facets-visible {
+    @extend .icon-minus-sign;
+  }
+  .expand-facets-hidden {
+    @extend .icon-plus-sign;
   }
 }
 

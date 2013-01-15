@@ -1645,18 +1645,17 @@ ul.icons li .icon-large:before {
 }
 
 /* line 190, ../../latto/sass/_latto.font-awesome.scss */
-.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before {
   content: "\f055";
 }
 
 /* line 191, ../../latto/sass/_latto.font-awesome.scss */
-.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before,
-.pane-ding-facetbrowser .unselect:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before {
   content: "\f056";
 }
 
 /* line 192, ../../latto/sass/_latto.font-awesome.scss */
-.icon-remove-sign:before {
+.icon-remove-sign:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before {
   content: "\f057";
 }
 
@@ -2354,7 +2353,7 @@ hr {
 }
 
 /* line 97, ../../latto/sass/_latto.base.scss */
-.pull-right, .image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .search .help-link, .search-result-block .more, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
+.pull-right, .image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .search .help-link, .search-result-block .more, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
   float: right;
 }
 
@@ -2546,13 +2545,13 @@ blockquote {
   padding-left: 13.33333px;
 }
 /* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .search blockquote.help-link, .search-result-block blockquote.more, .user-login-block blockquote.user-login-link {
+blockquote.pull-right, blockquote.image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .pane-ding-facetbrowser blockquote.expand-facets, .search blockquote.help-link, .search-result-block blockquote.more, .user-login-block blockquote.user-login-link {
   border-left: 0;
   border-right: 5px solid #efefef;
   padding-right: 13.33333px;
 }
 /* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
+blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .pane-ding-facetbrowser blockquote.expand-facets .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
   display: block;
   text-align: right;
 }
@@ -4609,45 +4608,52 @@ input[type=submit].button, button.button {
   margin-top: 0em;
 }
 
-/* line 23, ../sass/_ddbasic.search.scss */
+/* line 27, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 26, ../sass/_ddbasic.search.scss */
+/* line 30, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #295586;
 }
-/* line 38, ../sass/_ddbasic.search.scss */
+/* line 42, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 43, ../sass/_ddbasic.search.scss */
+/* line 47, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-top: 20px;
 }
-/* line 55, ../sass/_ddbasic.search.scss */
-.pane-ding-facetbrowser .expand,
-.pane-ding-facetbrowser .unselect {
+/* line 58, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
 }
-/* line 58, ../sass/_ddbasic.search.scss */
-.pane-ding-facetbrowser .expand:before,
-.pane-ding-facetbrowser .unselect:before {
+/* line 61, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
+  font-size: 1.1em;
 }
-/* line 74, ../sass/_ddbasic.search.scss */
+/* line 76, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .selected-checkbox-group {
+  overflow: hidden;
+}
+/* line 79, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #d5d5d5;
   padding: 5px;
 }
-/* line 85, ../sass/_ddbasic.search.scss */
+/* line 92, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
   margin-top: 20px;
+}
+/* line 98, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .hidden-facets-group {
+  margin-bottom: 20px;
 }
 
 /* line 33, ../sass/ddbasic.styles.scss */
