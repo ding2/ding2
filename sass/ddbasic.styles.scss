@@ -199,6 +199,12 @@
 @import "_ddbasic.openinghours.scss";
 
 
+// -----------------------------------------------------------------------------
+// User (ding_user, ding_user_frontend)
+// -----------------------------------------------------------------------------
+//
+@import "_ddbasic.user.scss";
+
 
 //------------- BELOW MUST BE MOVED INTO THE VARIOUS FILES
 // Move to the below mockups file
@@ -209,18 +215,6 @@
 
 
 
-// ** MODULE STYLING **
-
-// -----------------------------------------------------------------------------
-// Search Result
-// -----------------------------------------------------------------------------
-//
-
-
-// -----------------------------------------------------------------------------
-// User
-// -----------------------------------------------------------------------------
-//
 
 
 // -----------------------------------------------------------------------------
@@ -232,152 +226,3 @@
   @extend .block-inverted;
 }
 
-// -----------------------------------------------------------------------------
-// User
-// -----------------------------------------------------------------------------
-//
-.user {
-  @include zen-float(right);
-  @extend %header-sections;
-
-  margin-right: 0;
-
-  .user-field-wrapper {
-    display: inline;
-    margin-left: 50px;
-  }
-
-  i[class^="icon-"] {
-    @extend %inline-icons;
-
-    top: 17px;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
-    @extend %inline-icon-input;
-
-    max-width: 240px;
-    min-height: 60px;
-    margin-right: $default-spacing / 2;
-  }
-
-  input[type="submit"] {
-    @include border-radius(12px);
-    @extend %button;
-
-    display: inline;
-    min-height: 60px;
-    position: absolute;
-  }
-
-}
-
-
-.user-compact {
-  @include rem('font-size', $theme-font-size * 1.4);
-
-  margin-top: 9px;
-  text-align: right;
-  position: absolute;
-  right: 10px;
-
-  a {
-    @include border-radius(12px);
-
-    background-color: $black;
-    color: $white;
-    cursor: pointer;
-    display: inline-block;
-    padding: 12px 25px 10px;
-    text-align: center;
-
-    &:hover {
-      text-decoration: none;
-    }
-
-    &.active {
-      background-color: $font-color-primary;
-    }
-  }
-
-  i[class^="icon-"] {
-    @extend %read-more-icon;
-  }
-
-  &.fixed {
-    display: block;
-  }
-}
-
-
-.user-login-block {
-  @extend %block;
-
-  display: none;
-  max-width: 425px;
-  position: absolute;
-  z-index: 99;
-
-  &:before {
-    @include pseudo-arrow(25px, $font-color-primary, top, right, 50px);
-  }
-
-  .user-field-wrapper {
-    position: relative;
-
-    i[class^="icon-"] {
-      @extend %inline-icons;
-
-      color: #000;
-      top: 15px;
-    }
-  }
-
-  .user-close-container {
-    @include rem('font-size', $theme-font-size * 1.25);
-
-    color: #fff;
-    cursor: pointer;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-
-  }
-
-  .user-login-link {
-    @extend .pull-right;
-
-    margin-top: 15px;
-    margin-right: 10px;
-
-    a {
-      color: #fff;
-    }
-  }
-
-  .user-create-link {
-    clear: both;
-    padding-top: 20px;
-    text-align: right;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
-    @extend %inline-icon-input;
-
-    margin-bottom: $default-spacing;
-    width: 100%;
-  }
-
-  input[type="submit"] {
-    @include border-radius(12px);
-    @extend %button;
-    @extend .pull-right;
-
-    display: inline;
-  }
-
-}

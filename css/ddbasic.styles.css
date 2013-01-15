@@ -1196,7 +1196,7 @@ hr {
 }
 
 /* line 97, ../../latto/sass/_latto.base.scss */
-.pull-right, .image-inline-pull-right, .search .help-link, .search-result-block .more, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
+.pull-right, .image-inline-pull-right, .user-login-block .user-login-link, .user-login-block input[type="submit"], .search .help-link, .search-result-block .more {
   float: right;
 }
 
@@ -2381,7 +2381,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 11, ../sass/_ddbasic.extends.scss */
-.search, .user {
+.user, .search {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -2462,7 +2462,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 94, ../sass/_ddbasic.extends.scss */
-.search i[class^="icon-search"], .search-compact i[class^="icon-search"], .search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
+.user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"], .search i[class^="icon-search"], .search-compact i[class^="icon-search"], .search-compact i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
@@ -2471,9 +2471,9 @@ ul.icons li .icon-large:before {
 }
 
 /* line 104, ../sass/_ddbasic.extends.scss */
-.search input[type="text"], .search-compact input[type="text"], .user input[type="text"],
+.user input[type="text"],
 .user input[type="password"], .user-login-block input[type="text"],
-.user-login-block input[type="password"] {
+.user-login-block input[type="password"], .search input[type="text"], .search-compact input[type="text"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -2490,7 +2490,7 @@ ul.icons li .icon-large:before {
 
 /* line 120, ../sass/_ddbasic.extends.scss */
 .button,
-a.button, .search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"], .user-login-block input[type="submit"] {
+a.button, .user input[type="submit"], .user-login-block input[type="submit"], .search input[type="submit"], .search-compact input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
@@ -2506,7 +2506,7 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .u
   cursor: pointer;
 }
 /* line 134, ../sass/_ddbasic.extends.scss */
-.button .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
+.button .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
   -webkit-border-top-right-radius: 12px;
   border-top-right-radius: 12px;
@@ -2521,11 +2521,11 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .u
   padding: 7px 10px;
 }
 /* line 147, ../sass/_ddbasic.extends.scss */
-.button:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
+.button:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .button:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .button:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus {
   background-color: black;
 }
 /* line 150, ../sass/_ddbasic.extends.scss */
-.button:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
+.button:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited {
   color: white;
 }
 
@@ -4185,13 +4185,13 @@ blockquote {
   padding-left: 13.33333px;
 }
 /* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right, .search blockquote.help-link, .search-result-block blockquote.more, .user-login-block blockquote.user-login-link {
+blockquote.pull-right, blockquote.image-inline-pull-right, .user-login-block blockquote.user-login-link, .search blockquote.help-link, .search-result-block blockquote.more {
   border-left: 0;
   border-right: 5px solid #efefef;
   padding-right: 13.33333px;
 }
 /* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
+blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source {
   display: block;
   text-align: right;
 }
@@ -6284,6 +6284,147 @@ ul.icons li .icon-large:before {
   margin-left: 3px;
 }
 
+/* line 17, ../sass/_ddbasic.user.scss */
+.user {
+  float: right;
+  margin-right: 0;
+}
+/* line 23, ../sass/_ddbasic.user.scss */
+.user .user-field-wrapper {
+  display: inline;
+  margin-left: 50px;
+}
+/* line 28, ../sass/_ddbasic.user.scss */
+.user i[class^="icon-"] {
+  top: 17px;
+}
+/* line 35, ../sass/_ddbasic.user.scss */
+.user input[type="text"],
+.user input[type="password"] {
+  font-size: 16.9px;
+  font-size: 1.05625rem;
+  max-width: 240px;
+  min-height: 60px;
+  margin-right: 10px;
+}
+/* line 44, ../sass/_ddbasic.user.scss */
+.user input[type="submit"] {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  display: inline;
+  min-height: 60px;
+  position: absolute;
+}
+
+/* line 56, ../sass/_ddbasic.user.scss */
+.user-compact {
+  font-size: 18.2px;
+  font-size: 1.1375rem;
+  margin-top: 9px;
+  text-align: right;
+  position: absolute;
+  right: 10px;
+}
+/* line 64, ../sass/_ddbasic.user.scss */
+.user-compact a {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  padding: 12px 25px 10px;
+  text-align: center;
+}
+/* line 74, ../sass/_ddbasic.user.scss */
+.user-compact a:hover {
+  text-decoration: none;
+}
+/* line 78, ../sass/_ddbasic.user.scss */
+.user-compact a.active {
+  background-color: #d1e02b;
+}
+/* line 87, ../sass/_ddbasic.user.scss */
+.user-compact.fixed {
+  display: block;
+}
+
+/* line 93, ../sass/_ddbasic.user.scss */
+.user-login-block {
+  display: none;
+  max-width: 425px;
+  position: absolute;
+  z-index: 99;
+}
+/* line 101, ../sass/_ddbasic.user.scss */
+.user-login-block:before {
+  border: 25px solid transparent;
+  content: "";
+  height: 0;
+  position: absolute;
+  width: 0;
+  top: -50px;
+  border-bottom-color: #d1e02b;
+  right: 50px;
+}
+/* line 105, ../sass/_ddbasic.user.scss */
+.user-login-block .user-field-wrapper {
+  position: relative;
+}
+/* line 108, ../sass/_ddbasic.user.scss */
+.user-login-block .user-field-wrapper i[class^="icon-"] {
+  color: #000;
+  top: 15px;
+}
+/* line 116, ../sass/_ddbasic.user.scss */
+.user-login-block .user-close-container {
+  font-size: 16.25px;
+  font-size: 1.01563rem;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+/* line 127, ../sass/_ddbasic.user.scss */
+.user-login-block .user-login-link {
+  margin-top: 15px;
+  margin-right: 10px;
+}
+/* line 133, ../sass/_ddbasic.user.scss */
+.user-login-block .user-login-link a {
+  color: #fff;
+}
+/* line 138, ../sass/_ddbasic.user.scss */
+.user-login-block .user-create-link {
+  clear: both;
+  padding-top: 20px;
+  text-align: right;
+}
+/* line 145, ../sass/_ddbasic.user.scss */
+.user-login-block input[type="text"],
+.user-login-block input[type="password"] {
+  font-size: 16.9px;
+  font-size: 1.05625rem;
+  margin-bottom: 20px;
+  width: 100%;
+}
+/* line 153, ../sass/_ddbasic.user.scss */
+.user-login-block input[type="submit"] {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  display: inline;
+}
+
 /* line 14, ../sass/_ddbasic.mockups.scss */
 .search i[class^="icon-search"], .search-compact i[class^="icon-search"] {
   top: 17px;
@@ -6601,150 +6742,9 @@ ul.icons li .icon-large:before {
   color: #cccccc;
 }
 
-/* line 230, ../sass/ddbasic.styles.scss */
+/* line 224, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: #d1e02b;
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
-}
-
-/* line 239, ../sass/ddbasic.styles.scss */
-.user {
-  float: right;
-  margin-right: 0;
-}
-/* line 245, ../sass/ddbasic.styles.scss */
-.user .user-field-wrapper {
-  display: inline;
-  margin-left: 50px;
-}
-/* line 250, ../sass/ddbasic.styles.scss */
-.user i[class^="icon-"] {
-  top: 17px;
-}
-/* line 257, ../sass/ddbasic.styles.scss */
-.user input[type="text"],
-.user input[type="password"] {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
-  max-width: 240px;
-  min-height: 60px;
-  margin-right: 10px;
-}
-/* line 266, ../sass/ddbasic.styles.scss */
-.user input[type="submit"] {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-  display: inline;
-  min-height: 60px;
-  position: absolute;
-}
-
-/* line 278, ../sass/ddbasic.styles.scss */
-.user-compact {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
-  margin-top: 9px;
-  text-align: right;
-  position: absolute;
-  right: 10px;
-}
-/* line 286, ../sass/ddbasic.styles.scss */
-.user-compact a {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-  background-color: black;
-  color: white;
-  cursor: pointer;
-  display: inline-block;
-  padding: 12px 25px 10px;
-  text-align: center;
-}
-/* line 296, ../sass/ddbasic.styles.scss */
-.user-compact a:hover {
-  text-decoration: none;
-}
-/* line 300, ../sass/ddbasic.styles.scss */
-.user-compact a.active {
-  background-color: #d1e02b;
-}
-/* line 309, ../sass/ddbasic.styles.scss */
-.user-compact.fixed {
-  display: block;
-}
-
-/* line 315, ../sass/ddbasic.styles.scss */
-.user-login-block {
-  display: none;
-  max-width: 425px;
-  position: absolute;
-  z-index: 99;
-}
-/* line 323, ../sass/ddbasic.styles.scss */
-.user-login-block:before {
-  border: 25px solid transparent;
-  content: "";
-  height: 0;
-  position: absolute;
-  width: 0;
-  top: -50px;
-  border-bottom-color: #d1e02b;
-  right: 50px;
-}
-/* line 327, ../sass/ddbasic.styles.scss */
-.user-login-block .user-field-wrapper {
-  position: relative;
-}
-/* line 330, ../sass/ddbasic.styles.scss */
-.user-login-block .user-field-wrapper i[class^="icon-"] {
-  color: #000;
-  top: 15px;
-}
-/* line 338, ../sass/ddbasic.styles.scss */
-.user-login-block .user-close-container {
-  font-size: 16.25px;
-  font-size: 1.01563rem;
-  color: #fff;
-  cursor: pointer;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-}
-/* line 349, ../sass/ddbasic.styles.scss */
-.user-login-block .user-login-link {
-  margin-top: 15px;
-  margin-right: 10px;
-}
-/* line 355, ../sass/ddbasic.styles.scss */
-.user-login-block .user-login-link a {
-  color: #fff;
-}
-/* line 360, ../sass/ddbasic.styles.scss */
-.user-login-block .user-create-link {
-  clear: both;
-  padding-top: 20px;
-  text-align: right;
-}
-/* line 367, ../sass/ddbasic.styles.scss */
-.user-login-block input[type="text"],
-.user-login-block input[type="password"] {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
-  margin-bottom: 20px;
-  width: 100%;
-}
-/* line 375, ../sass/ddbasic.styles.scss */
-.user-login-block input[type="submit"] {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-  display: inline;
 }
