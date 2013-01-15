@@ -7,3 +7,16 @@
 .user .form-item {margin-top: 0em; display: inline;}
 .user .form-actions {display: inline;}
 .header-wrapper .user .user-field-wrapper {display: block;}
+
+
+.header-wrapper {
+  @extend .grid-wrapper;
+
+  margin-top: 60px;
+
+  .header-inner {
+    @extend .grid-inner;
+
+    /*position: relative;*/
+  }
+}
