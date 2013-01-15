@@ -1227,7 +1227,7 @@ li .icon-large:before {
 ul.icons {
   list-style-type: none;
   margin-left: 2em;
-  text-indent: -0.8em;
+  text-indent: -.8em;
 }
 /* line 90, ../../latto/sass/_latto.font-awesome.scss */
 ul.icons li [class^="icon-"],
@@ -4855,7 +4855,7 @@ input[type=submit].button, button.button {
 /* line 577, ../sass/ddbasic.styles.scss */
 .search-result-block .search-feed {
   float: right;
-  padding: .5em 0;
+  padding: 0.5em 0;
 }
 /* line 583, ../sass/ddbasic.styles.scss */
 .search-result-block .filter {
