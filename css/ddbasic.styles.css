@@ -2362,6 +2362,22 @@ ul.icons li .icon-large:before {
   margin-top: 0em;
 }
 
+/* line 7, ../sass/_ddbasic.header.scss */
+.user .form-item {
+  margin-top: 0em;
+  display: inline;
+}
+
+/* line 8, ../sass/_ddbasic.header.scss */
+.user .form-actions {
+  display: inline;
+}
+
+/* line 9, ../sass/_ddbasic.header.scss */
+.header-wrapper .user .user-field-wrapper {
+  display: block;
+}
+
 /* line 11, ../sass/_ddbasic.extends.scss */
 .search, .user {
   float: left;
