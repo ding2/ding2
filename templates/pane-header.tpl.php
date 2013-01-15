@@ -1,4 +1,4 @@
-<section class="topbar">
+
 
   <div class="topbar-inner">
     <?php if ($logo || $site_name || $site_slogan): ?>
@@ -40,5 +40,3 @@
     </div>
 
   </div>
-
-</section>
