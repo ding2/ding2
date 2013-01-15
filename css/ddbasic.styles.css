@@ -6019,16 +6019,16 @@ ul.icons li .icon-large:before {
 /* line 76, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
+  margin-bottom: 20px;
 }
-/* line 79, ../sass/_ddbasic.search.scss */
+/* line 80, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #d5d5d5;
   padding: 5px;
 }
-/* line 92, ../sass/_ddbasic.search.scss */
+/* line 93, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
-  margin-top: 20px;
 }
 /* line 98, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
