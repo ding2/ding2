@@ -10,14 +10,15 @@
       // Wrap all facet fieldsets marked as hidden in a container so we can hide
       // em. The link text is show less and will be changed to show more if the
       // cookie is false.
-      var show_more = $('<a href="#" class="expand-facets">' + Drupal.t('Show less filters') + '</a>');
-      main_element.find('fieldset.hidden').wrapAll('<div id="hidden-facets" />');
+      var show_more = $('<a href="#" class="expand-facets expand-facets-visible">' + Drupal.t('Show less filters') + '</a>');
+      main_element.find('fieldset.hidden').wrapAll('<div id="hidden-facets" class="hidden-facets-group" />');
       main_element.find('#hidden-facets').after(show_more);
 
       // Check the cookie.
       if ($.cookie("ding_factbrowers_toggle") != 'true') {
         main_element.find('#hidden-facets').hide();
         show_more.text(Drupal.t('Show more filters'));
+        show_more.removeClass().addClass("expand-facets expand-facets-hidden");
       }
 
       show_more.click(function(e) {
@@ -28,6 +29,9 @@
           var visible = $(this).is(':visible');
           show_more.text(
             visible ? Drupal.t('Show less filters') : Drupal.t('Show more filters')
+          );
+          show_more.removeClass().addClass(
+            visible ? "expand-facets expand-facets-visible" : "expand-facets expand-facets-hidden"
           );
 
           // Set cookie, so to remember if they where shown.
