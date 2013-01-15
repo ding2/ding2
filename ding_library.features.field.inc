@@ -522,9 +522,10 @@ function ding_library_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'cs_adaptive_image',
+          'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
+            'image_style' => '',
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
@@ -534,7 +535,7 @@ function ding_library_field_default_fields() {
               'style_2' => 'ding_list_small',
             ),
           ),
-          'type' => 'cs_adaptive_image',
+          'type' => 'image',
           'weight' => '18',
         ),
         'teaser' => array(
@@ -921,9 +922,10 @@ function ding_library_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'cs_adaptive_image',
+          'module' => 'image',
           'settings' => array(
             'image_link' => '',
+            'image_style' => '',
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
@@ -933,14 +935,15 @@ function ding_library_field_default_fields() {
               'style_2' => 'ding_primary_small',
             ),
           ),
-          'type' => 'cs_adaptive_image',
+          'type' => 'image',
           'weight' => '17',
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'cs_adaptive_image',
+          'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
+            'image_style' => '',
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
@@ -950,7 +953,7 @@ function ding_library_field_default_fields() {
               'style_2' => 'ding_primary_small',
             ),
           ),
-          'type' => 'cs_adaptive_image',
+          'type' => 'image',
           'weight' => '0',
         ),
         'teaser_highlight' => array(
@@ -983,11 +986,11 @@ function ding_library_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'audio' => 0,
-            'default' => 0,
-            0 => 0,
             'image' => 'image',
             'video' => 0,
+            0 => 0,
+            'audio' => 0,
+            'default' => 0,
           ),
           'browser_plugins' => array(
             'ding_content' => 0,
