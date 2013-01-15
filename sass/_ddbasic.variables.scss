@@ -20,11 +20,11 @@ $default-spacing:       20px !default;
 //
 $white:                 #fff    !default;
 $black:                 #000    !default;
-$gray:                  #d5d5d5 !default;
+$gray:                  #999 !default;
 $gray-light:            lighten($gray, 10%) !default;
 $gray-lighter:          lighten($gray, 25%) !default;
-$gray-dark:             darken($gray, 10%) !default;
-$gray-darker:           darken($gray, 25%) !default;
+$gray-dark:             darken($gray, 20%) !default;
+$gray-darker:           darken($gray, 40%) !default;
 
 
 // -----------------------------------------------------------------------------
@@ -59,7 +59,7 @@ $font-color-primary:              #d1e02b;
 // Links
 // -----------------------------------------------------------------------------
 //
-$link-color:                      #264917;
+$link-color:                      #295586;
 $link-color-hover:                darken($link-color, 20%);
 $link-color-inverted:             #fff;
 $link-color-inverted-hover:       darken($link-color-inverted, 20%);
