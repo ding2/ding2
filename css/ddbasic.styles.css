@@ -1650,7 +1650,8 @@ ul.icons li .icon-large:before {
 }
 
 /* line 191, ../../latto/sass/_latto.font-awesome.scss */
-.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before,
+.pane-ding-facetbrowser .unselect:before {
   content: "\f056";
 }
 
@@ -2353,7 +2354,7 @@ hr {
 }
 
 /* line 97, ../../latto/sass/_latto.base.scss */
-.pull-right, .image-inline-pull-right, .search .help-link, .search-result-block .more, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
+.pull-right, .image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .search .help-link, .search-result-block .more, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
   float: right;
 }
 
@@ -2545,13 +2546,13 @@ blockquote {
   padding-left: 13.33333px;
 }
 /* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right, .search blockquote.help-link, .search-result-block blockquote.more, .user-login-block blockquote.user-login-link {
+blockquote.pull-right, blockquote.image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .search blockquote.help-link, .search-result-block blockquote.more, .user-login-block blockquote.user-login-link {
   border-left: 0;
   border-right: 5px solid #efefef;
   padding-right: 13.33333px;
 }
 /* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
+blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
   display: block;
   text-align: right;
 }
@@ -4620,21 +4621,33 @@ input[type=submit].button, button.button {
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
-  color: #898989;
+  color: #959595;
 }
 /* line 43, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-top: 20px;
 }
-/* line 54, ../sass/_ddbasic.search.scss */
-.pane-ding-facetbrowser .expand {
+/* line 55, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .expand,
+.pane-ding-facetbrowser .unselect {
   margin-right: 10px;
 }
-/* line 57, ../sass/_ddbasic.search.scss */
-.pane-ding-facetbrowser .expand:before {
+/* line 58, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .expand:before,
+.pane-ding-facetbrowser .unselect:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
+}
+/* line 74, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
+  background-color: #d5d5d5;
+  padding: 5px;
+}
+/* line 85, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .unselected-checkbox-group {
+  clear: right;
+  margin-top: 20px;
 }
 
 /* line 33, ../sass/ddbasic.styles.scss */

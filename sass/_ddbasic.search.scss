@@ -36,7 +36,7 @@
   h2,
   .fieldset-legend,
   .count {
-    color: darken($gray-darker, 5%);
+    color: $gray-darker;
   }
 
   // Facet group spacing
@@ -51,7 +51,8 @@
   }
 
   // Expand facets link.
-  .expand {
+  .expand,
+  .unselect {
     margin-right: $default-spacing / 2;
 
     &:before {
@@ -63,8 +64,27 @@
   .expand-more {
     @extend .icon-plus-sign;
   }
-  .expand-less {
+  .expand-less,
+  .unselect {
     @extend .icon-minus-sign;
+  }
+
+  // Group for selected facets
+  .selected-checkbox-group {
+    .selected-checkbox {
+      background-color: $gray;
+      padding: $default-spacing / 4;
+    }
+
+    .unselect {
+      @extend .pull-right;
+    }
+  }
+
+  // Group for unselected facets
+  .unselected-checkbox-group {
+    clear: right;
+    margin-top: $default-spacing;
   }
 }
 
