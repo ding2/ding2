@@ -72,6 +72,10 @@
 .attachment-third,
 .attachment-fourth {
   margin-bottom: $default-spacing;
+
+  .grid-inner {
+    padding: $default-spacing;
+  }
 }
 
 .facet-browser {

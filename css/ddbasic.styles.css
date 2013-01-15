@@ -2697,8 +2697,42 @@ legend {
 .attachment-fourth {
   margin-bottom: 20px;
 }
+/* line 76, ../sass/_ddbasic.layout.scss */
+.primary-content .grid-inner, .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
+.secondary-content .grid-inner,
+.secondary-content .topbar-inner,
+.secondary-content .header-wrapper .header-inner,
+.header-wrapper .secondary-content .header-inner,
+.secondary-content .navigation-inner,
+.tertiary-content .grid-inner,
+.tertiary-content .topbar-inner,
+.tertiary-content .header-wrapper .header-inner,
+.header-wrapper .tertiary-content .header-inner,
+.tertiary-content .navigation-inner,
+.attachment-first .grid-inner,
+.attachment-first .topbar-inner,
+.attachment-first .header-wrapper .header-inner,
+.header-wrapper .attachment-first .header-inner,
+.attachment-first .navigation-inner,
+.attachment-second .grid-inner,
+.attachment-second .topbar-inner,
+.attachment-second .header-wrapper .header-inner,
+.header-wrapper .attachment-second .header-inner,
+.attachment-second .navigation-inner,
+.attachment-third .grid-inner,
+.attachment-third .topbar-inner,
+.attachment-third .header-wrapper .header-inner,
+.header-wrapper .attachment-third .header-inner,
+.attachment-third .navigation-inner,
+.attachment-fourth .grid-inner,
+.attachment-fourth .topbar-inner,
+.attachment-fourth .header-wrapper .header-inner,
+.header-wrapper .attachment-fourth .header-inner,
+.attachment-fourth .navigation-inner {
+  padding: 20px;
+}
 
-/* line 86, ../sass/_ddbasic.layout.scss */
+/* line 90, ../sass/_ddbasic.layout.scss */
 .block, .tertiary-menu-wrapper, .facet-browser, .search-result-block, .block-inverted, .theme-block, .footer-block, .rs-carousel, .block-opening-hours, .user-login-block {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -2709,16 +2743,16 @@ legend {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-/* line 90, ../sass/_ddbasic.layout.scss */
+/* line 94, ../sass/_ddbasic.layout.scss */
 .block select, .tertiary-menu-wrapper select, .facet-browser select, .search-result-block select, .block-inverted select, .theme-block select, .footer-block select, .rs-carousel select, .block-opening-hours select, .user-login-block select {
   width: 100%;
 }
-/* line 98, ../sass/_ddbasic.layout.scss */
+/* line 102, ../sass/_ddbasic.layout.scss */
 .block .block-content, .tertiary-menu-wrapper .block-content, .facet-browser .block-content, .search-result-block .block-content, .block-inverted .block-content, .theme-block .block-content, .footer-block .block-content, .rs-carousel .block-content, .block-opening-hours .block-content, .user-login-block .block-content {
   padding: 20px;
 }
 
-/* line 108, ../sass/_ddbasic.layout.scss */
+/* line 112, ../sass/_ddbasic.layout.scss */
 .block, .tertiary-menu-wrapper, .facet-browser, .search-result-block {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
   -moz-box-shadow: inset 0 0 15px #e6e6e6;
@@ -2737,7 +2771,7 @@ legend {
   color: black;
 }
 
-/* line 119, ../sass/_ddbasic.layout.scss */
+/* line 123, ../sass/_ddbasic.layout.scss */
 .block-inverted, .theme-block {
   -webkit-box-shadow: inset 0 0 15px #afbc1c;
   -moz-box-shadow: inset 0 0 15px #afbc1c;
@@ -2755,20 +2789,20 @@ legend {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
   color: white;
 }
-/* line 128, ../sass/_ddbasic.layout.scss */
+/* line 132, ../sass/_ddbasic.layout.scss */
 .block-inverted h2, .theme-block h2 {
   color: white;
   margin-top: 0;
 }
-/* line 133, ../sass/_ddbasic.layout.scss */
+/* line 137, ../sass/_ddbasic.layout.scss */
 .block-inverted i[class^="icon-"], .theme-block i[class^="icon-"] {
   color: white;
 }
-/* line 139, ../sass/_ddbasic.layout.scss */
+/* line 143, ../sass/_ddbasic.layout.scss */
 .block-inverted .image, .theme-block .image {
   margin-bottom: 20px;
 }
-/* line 143, ../sass/_ddbasic.layout.scss */
+/* line 147, ../sass/_ddbasic.layout.scss */
 .block-inverted .read-more, .theme-block .read-more {
   color: white;
   text-decoration: underline;
