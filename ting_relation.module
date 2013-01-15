@@ -103,6 +103,9 @@ function ting_relation_ding_entity_buttons($type, $entity) {
         $url = 'ting/infomedia/' . $entity->localId;
       }
 
+      $altered_url = module_invoke_all('ting_online_url_alter', $url);
+      $url = $altered_url[0];
+
       if (!empty($url)) {
         $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank'), 'absolute' => $use_absolute));
       }
