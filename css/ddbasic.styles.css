@@ -1101,17 +1101,18 @@ table tbody tr:hover th {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact {
+dl, .list-content, .list-news, .list-compact, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
-.list-compact > dd {
+.list-compact > dd,
+.library-list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
   margin-bottom: 20px;
@@ -3101,14 +3102,76 @@ ul.icons li [class*=" icon-"] {
   position: relative;
 }
 
-/* line 37, ../sass/_ddbasic.extends.scss */
+/* line 39, ../sass/_ddbasic.extends.scss */
+.footer-block a:link {
+  color: white;
+  text-decoration: none;
+}
+/* line 43, ../sass/_ddbasic.extends.scss */
+.footer-block a:visited {
+  color: #d9d9d9;
+}
+/* line 46, ../sass/_ddbasic.extends.scss */
+.footer-block a:hover {
+  color: #cccccc;
+  text-decoration: underline;
+}
+/* line 50, ../sass/_ddbasic.extends.scss */
+.footer-block a:hover i[class^="icon-"] {
+  text-decoration: none;
+}
+/* line 54, ../sass/_ddbasic.extends.scss */
+.footer-block a:focus {
+  color: #cccccc;
+}
+
+/* line 63, ../sass/_ddbasic.extends.scss */
+.navigation-inner a:link,
+.rs-carousel a:link {
+  color: #4d1500;
+  text-decoration: none;
+}
+/* line 67, ../sass/_ddbasic.extends.scss */
+.navigation-inner a:visited,
+.rs-carousel a:visited {
+  color: black;
+}
+/* line 70, ../sass/_ddbasic.extends.scss */
+.navigation-inner a:hover,
+.rs-carousel a:hover {
+  color: black;
+  text-decoration: underline;
+}
+/* line 74, ../sass/_ddbasic.extends.scss */
+.navigation-inner a:hover i[class^="icon-"],
+.rs-carousel a:hover i[class^="icon-"] {
+  text-decoration: none;
+}
+/* line 78, ../sass/_ddbasic.extends.scss */
+.navigation-inner a:focus,
+.rs-carousel a:focus {
+  color: black;
+}
+
+/* line 91, ../sass/_ddbasic.extends.scss */
+.dl .dt {
+  float: left;
+  width: 20%;
+}
+
+/* line 97, ../sass/_ddbasic.extends.scss */
+.dl .dd {
+  padding-left: 25%;
+}
+
+/* line 106, ../sass/_ddbasic.extends.scss */
 .user-compact i[class^="icon-"] {
   float: left;
   margin-right: 5px;
   text-decoration: none;
 }
 
-/* line 54, ../sass/_ddbasic.extends.scss */
+/* line 123, ../sass/_ddbasic.extends.scss */
 .search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -3117,7 +3180,7 @@ ul.icons li [class*=" icon-"] {
   font-size: 28.6px;
 }
 
-/* line 64, ../sass/_ddbasic.extends.scss */
+/* line 133, ../sass/_ddbasic.extends.scss */
 .user input[type="text"],
 .user input[type="password"], .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
@@ -3132,7 +3195,7 @@ ul.icons li [class*=" icon-"] {
   border: 0;
 }
 
-/* line 79, ../sass/_ddbasic.extends.scss */
+/* line 148, ../sass/_ddbasic.extends.scss */
 .button,
 a.button, .search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
@@ -3147,7 +3210,7 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .u
   color: white !important;
   cursor: pointer;
 }
-/* line 93, ../sass/_ddbasic.extends.scss */
+/* line 162, ../sass/_ddbasic.extends.scss */
 .button .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
   -webkit-border-top-right-radius: 12px;
@@ -3162,29 +3225,29 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .u
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   padding: 7px 10px;
 }
-/* line 106, ../sass/_ddbasic.extends.scss */
+/* line 175, ../sass/_ddbasic.extends.scss */
 .button:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
 }
-/* line 109, ../sass/_ddbasic.extends.scss */
+/* line 178, ../sass/_ddbasic.extends.scss */
 .button:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
 }
 
-/* line 128, ../sass/_ddbasic.extends.scss */
+/* line 197, ../sass/_ddbasic.extends.scss */
 .button.available,
 a.button.available {
   background-color: #60a500;
 }
-/* line 131, ../sass/_ddbasic.extends.scss */
+/* line 200, ../sass/_ddbasic.extends.scss */
 .button.available .icon {
   background-color: #518b00;
 }
-/* line 136, ../sass/_ddbasic.extends.scss */
+/* line 205, ../sass/_ddbasic.extends.scss */
 .button.available:hover, .button.available:active, .button.available:focus {
   background-color: #335900;
 }
-/* line 138, ../sass/_ddbasic.extends.scss */
+/* line 207, ../sass/_ddbasic.extends.scss */
 .button.available:hover .icon, .button.available:active .icon, .button.available:focus .icon {
   background-color: #253f00;
 }
@@ -4708,6 +4771,7 @@ dl > dt,
 .list-content > dt,
 .list-news > dt,
 .list-compact > dt,
+.library-list > dt,
 .lead,
 .strong {
   font-weight: bold;
@@ -5019,17 +5083,18 @@ textarea {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact {
+dl, .list-content, .list-news, .list-compact, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
-.list-compact > dd {
+.list-compact > dd,
+.library-list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
   margin-bottom: 20px;
@@ -7690,6 +7755,71 @@ input#edit-search-block-form--2.spinner {
     top: 25%;
   }
 }
+/* line 22, ../sass/_ddbasic.libraries.scss */
+.pane-ding-library-map {
+  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
+}
+
+/* line 28, ../sass/_ddbasic.libraries.scss */
+.libraries-title,
+.opening-hours-title {
+  margin: 0 0 20px;
+  margin:  0 0 1.25rem;
+  padding: 0 0 20px;
+  padding:  0 0 1.25rem;
+  font-size: 23.4px;
+  font-size: 1.4625rem;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+/* line 37, ../sass/_ddbasic.libraries.scss */
+.library-list {
+  padding: 20px 0;
+  padding:  1.25rem 0;
+}
+/* line 41, ../sass/_ddbasic.libraries.scss */
+.library-list .views-row {
+  padding: 20px;
+  padding: 1.25rem;
+  background: #efefef;
+  line-height: 26px;
+}
+
+/* line 50, ../sass/_ddbasic.libraries.scss */
+.libraries-content {
+  float: left;
+  width: 73%;
+}
+
+/* line 57, ../sass/_ddbasic.libraries.scss */
+.photo {
+  float: left;
+  width: 25%;
+}
+
+/* line 63, ../sass/_ddbasic.libraries.scss */
+.dl {
+  padding-left: 20px;
+  padding-left: 1.25rem;
+  margin-left: 25%;
+}
+/* line 68, ../sass/_ddbasic.libraries.scss */
+.dl .dt {
+  font-weight: 700;
+}
+
+/* line 80, ../sass/_ddbasic.libraries.scss */
+.opening-hours {
+  margin-left: 75%;
+}
+
+/* line 89, ../sass/_ddbasic.libraries.scss */
+.image-container img {
+  height: auto;
+  width: 25%;
+}
+
 /* line 23, ../sass/_ddbasic.openinghours.scss */
 .block-opening-hours {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
@@ -7873,7 +8003,7 @@ input#edit-search-block-form--2.spinner {
   display: inline;
 }
 
-/* line 219, ../sass/ddbasic.styles.scss */
+/* line 222, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: #d1e02b;
   zoom: 1;

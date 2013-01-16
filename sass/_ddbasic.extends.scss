@@ -31,6 +31,75 @@
 
 
 // -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+%link-inverted {
+  a {
+    &:link {
+      color: $link-color-inverted;
+      text-decoration: none;
+    }
+    &:visited {
+      color: darken($link-color-inverted, 15%);
+    }
+    &:hover {
+      color: $link-color-inverted-hover;
+      text-decoration: underline;
+
+      i[class^="icon-"] {
+        text-decoration: none;
+      }
+    }
+    &:focus {
+      color: $link-color-inverted-hover;
+    }
+  }
+}
+
+
+%link-special {
+  a {
+    &:link {
+      color: $link-color-special;
+      text-decoration: none;
+    }
+    &:visited {
+      color: darken($link-color-special, 15%);
+    }
+    &:hover {
+      color: $link-color-special-hover;
+      text-decoration: underline;
+
+      i[class^="icon-"] {
+        text-decoration: none;
+      }
+    }
+    &:focus {
+      color: $link-color-special-hover;
+    }
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Horizontal definition lists
+// -----------------------------------------------------------------------------
+//
+
+
+%term-horizontal {
+  float:left;
+  width: 20%;
+}
+
+
+%data-horizontal {
+  padding-left: 25%;
+}
+
+
+// -----------------------------------------------------------------------------
 // Read more
 // -----------------------------------------------------------------------------
 //
