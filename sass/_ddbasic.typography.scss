@@ -75,7 +75,7 @@
 //
 body {
   @include rem('font-size', $theme-font-size);
-  font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+  font-family: $theme-font-family;
   font-weight: $font-weight-light;
 }
 
@@ -91,7 +91,7 @@ h6 {
 
 input,
 textarea {
-  font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+  font-family: $theme-font-family;
   font-weight: $font-weight-light;
 }
 

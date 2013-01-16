@@ -109,12 +109,14 @@ $button-danger-bg-color:          #bf3600;
 $button-info-bg-color:            #73b4e0;
 $button-border-radius:            12px;
 
+
 // -----------------------------------------------------------------------------
 // Navigation
 // -----------------------------------------------------------------------------
 //
-$navbar-bg-color:           transparentize($white,0.95);
-$navbar-bg-active-color:    transparentize($white,0.95);
-$navbar-text-color:         lighten($black, 30%);
-$navbar-text-color-active:  lighten($black, 30%);
-$navbar-item-spacing:       $default-spacing / 2 !default;
+$navbar-bg-color:                 transparentize($white,0.95);
+$navbar-bg-active-color:          transparentize($white,0.95);
+$navbar-text-color:               lighten($black, 30%);
+$navbar-text-color-active:        lighten($black, 30%);
+$navbar-item-spacing:             $default-spacing / 2 !default;
+

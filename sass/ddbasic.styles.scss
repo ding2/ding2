@@ -184,12 +184,10 @@
 // -----------------------------------------------------------------------------
 //
 
-
 // **
 // Search
 // **
 @import "_ddbasic.search.scss";
-
 
 // **
 // Carousel (ting_search_carousel)
@@ -197,6 +195,11 @@
 //
 @import "_ddbasic.carousel.scss";
 
+// **
+// Libraries
+// **
+//
+@import "_ddbasic.libraries.scss";
 
 // **
 // Opening hours (opening_hours)
@@ -220,12 +223,3 @@
   @include rgba-background($block-bg-inverted, $block-bg-transparency);
   @extend .block-inverted;
 }
-
-
-// **
-// Mockups styling
-// **
-//
-@import "_ddbasic.mockups.scss";
-
-
