@@ -1161,15 +1161,16 @@ header .site-name {
 img {
   display: inline;
   width: 100%;
+  height: auto;
 }
 
-/* line 36, ../../latto/sass/_latto.base.scss */
+/* line 37, ../../latto/sass/_latto.base.scss */
 p {
   margin-top: 0;
   margin-bottom: 6.66667px;
 }
 
-/* line 43, ../../latto/sass/_latto.base.scss */
+/* line 44, ../../latto/sass/_latto.base.scss */
 select,
 textarea,
 input {
@@ -1178,7 +1179,7 @@ input {
   padding: 4px;
 }
 
-/* line 57, ../../latto/sass/_latto.base.scss */
+/* line 58, ../../latto/sass/_latto.base.scss */
 hr {
   background: #d5d5d5;
   color: #d5d5d5;
@@ -1191,18 +1192,18 @@ hr {
   margin-bottom: 10px;
 }
 
-/* line 77, ../../latto/sass/_latto.base.scss */
+/* line 78, ../../latto/sass/_latto.base.scss */
 .image-inline, .list-image-inline {
   float: left;
   margin-right: 5px;
 }
 
-/* line 82, ../../latto/sass/_latto.base.scss */
+/* line 83, ../../latto/sass/_latto.base.scss */
 .image-inline-pull-right {
   margin-left: 5px;
 }
 
-/* line 97, ../../latto/sass/_latto.base.scss */
+/* line 98, ../../latto/sass/_latto.base.scss */
 .pull-right, .image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .user-login-block .user-login-link, .user-login-block input[type="submit"], .search .help-link, .search-result-block .more {
   float: right;
 }
