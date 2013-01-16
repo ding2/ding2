@@ -1,0 +1,112 @@
+// =============================================================================
+// Styling of library pages.
+// =============================================================================
+//
+
+// =============================================================================
+// VARIABLES
+// =============================================================================
+//
+
+
+// =============================================================================
+// DEFAULT STYLING
+// =============================================================================
+//
+
+
+// -----------------------------------------------------------------------------
+// Library list
+// -----------------------------------------------------------------------------
+//
+.pane-ding-library-map {
+  @include rem('margin-bottom', $default-spacing);  
+}
+
+
+.libraries-title,
+.opening-hours-title {
+  @include rem('margin', 0 0 $default-spacing);
+  @include rem('padding', 0 0 $default-spacing);
+  @include rem('font-size', $theme-font-size * 1.8);
+  
+  border-bottom: 1px solid $gray;
+}
+
+
+.library-list {
+  @extend %list;
+  @include rem('padding', $default-spacing 0);
+
+  .views-row {
+    @include rem('padding', $default-spacing);
+
+    background: $gray-light;
+    line-height: $theme-font-size * 2;
+  }
+}
+
+
+.libraries-content {
+  @include zen-float(left);
+
+  width: 73%;
+}
+
+
+.photo {
+  @include zen-float(left);
+
+  width: 25%;
+}
+
+.dl {
+  @include rem('padding-left', $default-spacing);
+
+  margin-left: 25%;
+
+  .dt {
+    @extend %term-horizontal;
+    
+    font-weight: $font-weight-bold;
+  }
+
+  .dd {
+    @extend %data-horizontal;
+  }
+}
+
+
+.opening-hours {
+  margin-left: 75%;
+}
+
+// -----------------------------------------------------------------------------
+// Images
+// -----------------------------------------------------------------------------
+//
+.image-container {
+  img {
+    height: auto;
+    width: 25%;
+  }
+}
+
+
+// =============================================================================
+// EXTENDS
+// =============================================================================
+//
+
+
+// =============================================================================
+// MEDIAQUERIES
+// =============================================================================
+//
+
+
+// Extend class with rules to be used on breakpoints small and medium.
+//
+%small-medium-example {
+  // SASS CSS rules go here
+}

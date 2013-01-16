@@ -12,6 +12,7 @@
 $search-border-size: 1px;
 $search-border-type: solid;
 
+
 // -----------------------------------------------------------------------------
 // Extends
 // -----------------------------------------------------------------------------
@@ -36,11 +37,140 @@ $search-border-type: solid;
   border: 0;
 }
 
+
+// -----------------------------------------------------------------------------
+// Markup overrides
+// -----------------------------------------------------------------------------
+//
+input#edit-search-block-form--2.spinner {
+  background-image: none;
+}
+
 // -----------------------------------------------------------------------------
 // Default styling
 // -----------------------------------------------------------------------------
 //
+%search {
+  i[class^="icon-"] {
+    @include opacity(.25);
 
+    margin-left: 15px;
+    position: absolute;
+
+    font-size: $theme-font-size * 2;
+
+    top: 15px;
+    z-index: 10;
+  }
+
+  input[type="text"] {
+    @include rem('font-size', $theme-font-size * 1.7);
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    display: inline;
+    padding-top: 0;
+    padding-left: 45px;
+
+    border: 0;
+
+    min-height: 60px;
+
+    left: 0;
+    width: 100%;
+
+  }
+
+  input[type="submit"] {
+    @extend %button;
+
+    position: absolute;
+  }
+
+  .spinner {
+    i[class^="icon-"] {
+      @extend .icon-spin;
+      @extend .icon-spinner;
+
+      font-size: $theme-font-size * 1.5;
+      margin-left: 17px;
+      top: 22px;
+    }
+  }
+}
+
+
+.search {
+  @include zen-grid-item($grid-50, 1);
+  @extend %header-sections;
+  @extend %search;
+
+  border-right: 1px solid $link-color;
+
+  padding-right: 0;
+
+  .search-field-wrapper {
+    margin-right: 50px;
+  }
+
+  input[type="submit"] {
+    min-height: 60px;
+    right: 48px;
+    top:0;
+  }
+
+  .help-link {
+    @extend .pull-right;
+
+    display: block;
+    margin-top: $default-spacing / 2;
+
+    &:hover {
+      color: $black;
+      text-decoration: none;
+    }
+  }
+}
+
+
+.search-compact {
+  @extend %search;
+
+  margin-top: 10px;
+  position: absolute;
+  right: 160px;
+
+  .search-field-wrapper {
+    min-width: 400px;
+    position: relative;
+  }
+
+  input[type="text"] {
+    @include rem('font-size', $theme-font-size * 1.5);
+
+    min-height: 30px;
+    padding-top: 5px;
+    padding-left: 40px;
+  }
+
+  input[type="submit"] {
+    @include rem('font-size', $theme-font-size * 1.4);
+    @extend %button;
+
+    background-color: $font-color-primary;
+    height: 40px;
+    position: absolute;
+    right: -2px;
+    top:0;
+  }
+
+  i[class^="icon-"] {
+    @include rem('font-size', $theme-font-size * 1.7);
+    @extend %inline-icons;
+
+    top: 13px;
+  }
+}
 
 // **
 // Search form styling
@@ -152,8 +282,8 @@ $search-border-type: solid;
 // **
 //
 
-// Search query & results amount.
-// Combine these as a page title.
+// Search query & results amount
+// Combine these as a page title
 .pane-ting-search-search-display-extended-query {
   @extend .pull-left;
   overflow: hidden;
@@ -169,7 +299,7 @@ $search-border-type: solid;
     #search-query-string {
       color: $black;
     }
-  }  
+  }
 }
 .pane-ting-search {
   @extend .pull-right;
@@ -180,8 +310,8 @@ $search-border-type: solid;
   }
 }
 
-// Sorting, display amount and display format groups.
-// Combine these as a group floating left and right.
+// Sorting, display amount and display format groups
+// Combine these as a group floating left and right
 .pane-ting-search-sort-form {
   clear: both;
   @extend .pull-left;
@@ -225,7 +355,7 @@ $search-border-type: solid;
     }
   }
 }
-.pane-ding-toggle-format-toggle { 
+.pane-ding-toggle-format-toggle {
   @extend .pull-right;
   @extend .pane-ting-search-records-per-page;
 
@@ -234,7 +364,7 @@ $search-border-type: solid;
   }
 }
 
-// Availability explaination legend.
+// Availability explaination legend
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
@@ -257,7 +387,7 @@ $search-border-type: solid;
   }
 }
 
-// The search results.
+// The search results
 .pane-search-result {
   clear: both;
   overflow: hidden;
