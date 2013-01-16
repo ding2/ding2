@@ -23,6 +23,7 @@
 
 .header-wrapper {
   @extend .grid-wrapper;
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
 
   margin-top: 60px;
 

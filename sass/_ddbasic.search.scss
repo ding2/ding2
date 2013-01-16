@@ -9,6 +9,8 @@
 // -----------------------------------------------------------------------------
 //
 
+$search-border-size: 1px;
+$search-border-type: solid;
 
 // -----------------------------------------------------------------------------
 // Extends
@@ -250,6 +252,128 @@
   }
   .expand-facets-hidden {
     @extend .icon-plus-sign;
+  }
+}
+
+// **
+// Search results list
+// **
+//
+
+// Search query & results amount.
+// Combine these as a page title.
+.pane-ting-search-search-display-extended-query {
+  @extend .pull-left;
+  overflow: hidden;
+  margin-bottom: $default-spacing;
+
+  #search-query-display {
+    @extend .text-largest;
+
+    #search-query-label {
+      color: $gray-darker;
+    }
+
+    #search-query-string {
+      color: $black;
+    }
+  }  
+}
+.pane-ting-search {
+  @extend .pull-right;
+
+  .ting-search-amount-block {
+    @extend .text-larger;
+    color: $gray-darker;
+  }
+}
+
+// Sorting, display amount and display format groups.
+// Combine these as a group floating left and right.
+.pane-ting-search-sort-form {
+  clear: both;
+  @extend .pull-left;
+  overflow: hidden;
+  color: $gray-darker;
+
+  .form-item {
+    margin: 0;
+  }
+
+  label {
+    display: inline;
+    margin-right: $default-spacing / 4;
+  }
+
+  .description {
+    color: $gray-dark;
+    text-align: right;
+  }
+
+}
+.pane-ting-search-records-per-page {
+  @extend .pull-right;
+  overflow: hidden;
+  color: $gray-darker;
+  margin-left: $default-spacing;
+
+  a {
+    margin-left: $default-spacing / 2;
+    padding-right: $default-spacing / 2;
+    border-right: $search-border-size $search-border-type $link-color-hover;
+    text-decoration: underline;
+
+    &.selected {
+      font-weight: bold;
+      color: $link-color-hover;
+      text-decoration: none;
+    }
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+.pane-ding-toggle-format-toggle { 
+  @extend .pull-right;
+  @extend .pane-ting-search-records-per-page;
+
+  #ding-toggle-format-image {
+    height: 0;
+  }
+}
+
+// Availability explaination legend.
+.pane-ding-availability-legend {
+  clear: both;
+  overflow: hidden;
+
+  .availability-legend {
+    @extend .pull-right;
+    border: none;
+    padding: 0;
+
+    .availability-legend-item {
+      margin: 0;
+      margin-left: $default-spacing / 2;
+
+      .availability-label {
+        @extend .text-smallest;
+        font-weight: normal;
+        color: $gray-darker;
+      }
+    }
+  }
+}
+
+// The search results.
+.pane-search-result {
+  clear: both;
+  overflow: hidden;
+  padding-top: $default-spacing;
+
+  .pane-content {
+    padding-top: $default-spacing;
+    border-top: $search-border-size $search-border-type $gray;
   }
 }
 
