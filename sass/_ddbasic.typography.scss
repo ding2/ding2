@@ -66,9 +66,16 @@
 // DEFAULT STYLING
 // =============================================================================
 //
+
+
+
+// =============================================================================
+// DEFAULT STYLING
+// =============================================================================
+//
 body {
   @include rem('font-size', $theme-font-size);
-  font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+  font-family: $theme-font-family;
   font-weight: $font-weight-light;
 }
 
@@ -84,22 +91,8 @@ h6 {
 
 input,
 textarea {
-  font-family: "ff-scala-sans-web-pro", arial, sans-serif;
+  font-family: $theme-font-family;
   font-weight: $font-weight-light;
-}
-
-
-// -----------------------------------------------------------------------------
-// Layout elements
-// -----------------------------------------------------------------------------
-//
-.topbar {
-  h1 {
-    @include rem('font-size', $header-font-size);
-    
-    font-weight: $font-weight-regular;
-    line-height: $header-min-height;
-  }
 }
 
 
@@ -109,7 +102,7 @@ textarea {
 //
 %block {
   .block-title {
-    @include rem('font-size', $header-font-size * 1.1);
+    @include rem('font-size', $topbar-font-size * 1.1);
   }
 }
 
@@ -119,11 +112,11 @@ textarea {
 // -----------------------------------------------------------------------------
 //
 .section-title {
-  @include rem('font-size', $header-font-size);
+  @include rem('font-size', $topbar-font-size);
 }
 
 .section-title-inverted {
-  @include rem('font-size', $header-font-size);
+  @include rem('font-size', $topbar-font-size);
 }
 
 
@@ -234,7 +227,7 @@ textarea {
 }
 
 
-// =============================================================================
-// MEDIAQUERIES
-// =============================================================================
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
 //
