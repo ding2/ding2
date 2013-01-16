@@ -3711,20 +3711,31 @@ hr {
   color: black;
 }
 
-/* line 77, ../sass/_ddbasic.extends.scss */
+/* line 79, ../sass/_ddbasic.extends.scss */
+.dl .dt {
+  float: left;
+  width: 20%;
+}
+
+/* line 85, ../sass/_ddbasic.extends.scss */
+.dl .dd {
+  padding-left: 25%;
+}
+
+/* line 94, ../sass/_ddbasic.extends.scss */
 .rs-carousel i[class^="icon-"], .block i[class^="icon-"], .tertiary-menu-wrapper i[class^="icon-"], .facet-browser i[class^="icon-"], .search-result-block i[class^="icon-"], .block-inverted i[class^="icon-"], .theme-block i[class^="icon-"], .footer-block i[class^="icon-"], .block-opening-hours i[class^="icon-"], .user-login-block i[class^="icon-"], .user-compact i[class^="icon-"] {
   float: left;
   margin-right: 5px;
   text-decoration: none;
 }
 
-/* line 84, ../sass/_ddbasic.extends.scss */
+/* line 101, ../sass/_ddbasic.extends.scss */
 .rs-carousel .read-more, .block .read-more, .tertiary-menu-wrapper .read-more, .facet-browser .read-more, .search-result-block .read-more, .block-inverted .read-more, .theme-block .read-more, .footer-block .read-more, .block-opening-hours .read-more, .user-login-block .read-more {
   display: block;
   margin-top: 20px;
 }
 
-/* line 94, ../sass/_ddbasic.extends.scss */
+/* line 111, ../sass/_ddbasic.extends.scss */
 .search i[class^="icon-search"], .search-compact i[class^="icon-search"], .search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -3733,7 +3744,7 @@ hr {
   font-size: 28.6px;
 }
 
-/* line 104, ../sass/_ddbasic.extends.scss */
+/* line 121, ../sass/_ddbasic.extends.scss */
 .search input[type="text"], .search-compact input[type="text"], .user input[type="text"],
 .user input[type="password"], .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
@@ -3751,7 +3762,7 @@ hr {
   border: 0;
 }
 
-/* line 120, ../sass/_ddbasic.extends.scss */
+/* line 137, ../sass/_ddbasic.extends.scss */
 .button,
 a.button, .search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
@@ -3768,7 +3779,7 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .u
   color: white !important;
   cursor: pointer;
 }
-/* line 134, ../sass/_ddbasic.extends.scss */
+/* line 151, ../sass/_ddbasic.extends.scss */
 .button .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
   -webkit-border-top-right-radius: 12px;
@@ -3783,29 +3794,29 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .u
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   padding: 7px 10px;
 }
-/* line 147, ../sass/_ddbasic.extends.scss */
+/* line 164, ../sass/_ddbasic.extends.scss */
 .button:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
 }
-/* line 150, ../sass/_ddbasic.extends.scss */
+/* line 167, ../sass/_ddbasic.extends.scss */
 .button:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
 }
 
-/* line 169, ../sass/_ddbasic.extends.scss */
+/* line 186, ../sass/_ddbasic.extends.scss */
 .button.available,
 a.button.available {
   background-color: #60a500;
 }
-/* line 172, ../sass/_ddbasic.extends.scss */
+/* line 189, ../sass/_ddbasic.extends.scss */
 .button.available .icon {
   background-color: #518b00;
 }
-/* line 177, ../sass/_ddbasic.extends.scss */
+/* line 194, ../sass/_ddbasic.extends.scss */
 .button.available:hover, .button.available:active, .button.available:focus {
   background-color: #335900;
 }
-/* line 179, ../sass/_ddbasic.extends.scss */
+/* line 196, ../sass/_ddbasic.extends.scss */
 .button.available:hover .icon, .button.available:active .icon, .button.available:focus .icon {
   background-color: #253f00;
 }
@@ -4318,64 +4329,63 @@ input[type=submit].button, button.button {
   margin-bottom: 1.25rem;
 }
 
-/* line 26, ../sass/_ddbasic.libraries.scss */
+/* line 28, ../sass/_ddbasic.libraries.scss */
+.libraries-title,
+.opening-hours-title {
+  margin: 0 0 20px;
+  margin:  0 0 1.25rem;
+  padding: 0 0 20px;
+  padding:  0 0 1.25rem;
+  font-size: 23.4px;
+  font-size: 1.4625rem;
+  border-bottom: 1px solid #d5d5d5;
+}
+
+/* line 37, ../sass/_ddbasic.libraries.scss */
 .library-list {
   padding: 20px 0;
   padding:  1.25rem 0;
 }
-/* line 30, ../sass/_ddbasic.libraries.scss */
+/* line 41, ../sass/_ddbasic.libraries.scss */
 .library-list .views-row {
   padding: 20px;
   padding: 1.25rem;
   background: #efefef;
+  line-height: 26px;
 }
 
-/* line 38, ../sass/_ddbasic.libraries.scss */
-.views-field-field-ding-library-opening-hours {
-  float: right;
-  width: 25%;
+/* line 50, ../sass/_ddbasic.libraries.scss */
+.libraries-content {
+  float: left;
+  width: 73%;
 }
 
-/* line 45, ../sass/_ddbasic.libraries.scss */
-.views-field-field-ding-library-list-image {
+/* line 57, ../sass/_ddbasic.libraries.scss */
+.photo {
   float: left;
   width: 25%;
 }
 
-/* line 56, ../sass/_ddbasic.libraries.scss */
-h2.org,
-.address,
-.views-field-field-ding-library-phone-number,
-.views-field-field-ding-library-fax-number,
-.views-field-field-ding-library-mail {
-  padding: 0 20px;
-  padding:  0 1.25rem;
-  margin: 0 25%;
+/* line 63, ../sass/_ddbasic.libraries.scss */
+.dl {
+  padding-left: 20px;
+  padding-left: 1.25rem;
+  margin-left: 25%;
+}
+/* line 68, ../sass/_ddbasic.libraries.scss */
+.dl .dt {
+  font-weight: 700;
 }
 
-/* line 75, ../sass/_ddbasic.libraries.scss */
+/* line 80, ../sass/_ddbasic.libraries.scss */
+.opening-hours {
+  margin-left: 75%;
+}
+
+/* line 89, ../sass/_ddbasic.libraries.scss */
 .image-container img {
   height: auto;
   width: 25%;
-}
-
-/* line 86, ../sass/_ddbasic.libraries.scss */
-h2.org .views-label,
-.address .views-label,
-.views-field-field-ding-library-phone-number .views-label,
-.views-field-field-ding-library-fax-number .views-label,
-.views-field-field-ding-library-mail .views-label {
-  float: left;
-  width: 20%;
-}
-
-/* line 90, ../sass/_ddbasic.libraries.scss */
-h2.org .field-content,
-.address .field-content,
-.views-field-field-ding-library-phone-number .field-content,
-.views-field-field-ding-library-fax-number .field-content,
-.views-field-field-ding-library-mail .field-content {
-  padding-left: 25%;
 }
 
 /* line 10, ../sass/_ddbasic.lists.scss */

@@ -11,7 +11,7 @@
   
   ; Override stylesheets
   ; stylesheets[all][] = css/override.css
-  stylesheets[all][] = css/addressfield.css ; Overrides broken clearfix in module.
+  stylesheets[all][] = css/addressfield.css
 
 ;----------// JavaScripts
   ; Import javascripts.

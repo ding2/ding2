@@ -23,6 +23,17 @@
   @include rem('margin-bottom', $default-spacing);  
 }
 
+
+.libraries-title,
+.opening-hours-title {
+  @include rem('margin', 0 0 $default-spacing);
+  @include rem('padding', 0 0 $default-spacing);
+  @include rem('font-size', $theme-font-size * 1.8);
+  
+  border-bottom: 1px solid $gray;
+}
+
+
 .library-list {
   @extend %list;
   @include rem('padding', $default-spacing 0);
@@ -31,40 +42,43 @@
     @include rem('padding', $default-spacing);
 
     background: $gray-light;
+    line-height: $theme-font-size * 2;
   }
 }
 
 
-.views-field-field-ding-library-opening-hours {
-  @include zen-float(right);
-  
-  width: 25%;
+.libraries-content {
+  @include zen-float(left);
+
+  width: 73%;
 }
 
 
-.views-field-field-ding-library-list-image {
+.photo {
   @include zen-float(left);
 
   width: 25%;
 }
 
+.dl {
+  @include rem('padding-left', $default-spacing);
 
-h2.org,
-.address,
-.views-field-field-ding-library-phone-number,
-.views-field-field-ding-library-fax-number,
-.views-field-field-ding-library-mail {
-  @include rem('padding', 0 $default-spacing);
+  margin-left: 25%;
 
-  margin: 0 25%;
-
-  .views-label {
+  .dt {
     @extend %term-horizontal;
+    
+    font-weight: $font-weight-bold;
   }
 
-  .field-content {
+  .dd {
     @extend %data-horizontal;
   }
+}
+
+
+.opening-hours {
+  margin-left: 75%;
 }
 
 // -----------------------------------------------------------------------------
@@ -83,13 +97,6 @@ h2.org,
 // EXTENDS
 // =============================================================================
 //
-%term-horizontal {
-  float:left;
-  width: 20%;
-}
-%data-horizontal {
-  padding-left: 25%;
-}
 
 
 // =============================================================================
