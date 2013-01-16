@@ -208,6 +208,11 @@ input#edit-search-block-form--2.spinner {
     color: $gray-darker;
   }
 
+  // Override Drupal system style
+  input.form-checkbox {
+    vertical-align: bottom;
+  }
+
   // Facet group spacing.
   .form-wrapper {
     margin-top: $default-spacing;
@@ -392,9 +397,27 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   padding-top: $default-spacing;
 
-  .pane-content {
+  .search-results {
     padding-top: $default-spacing;
     border-top: $search-border-size $search-border-type $gray;
+
+    .list {
+      @extend %list;
+
+      .heading {
+        margin-bottom: $default-spacing / 2;
+      }
+
+      .ting-cover {
+        @extend .pull-left;
+        width: 15%;
+        max-width: 150px;
+      }
+
+      .content {
+        @extend .pull-left;
+      }
+    }
   }
 }
 
