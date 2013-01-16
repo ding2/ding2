@@ -205,7 +205,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['field'] = 'field_ding_library_addresse';
-  $handler->display->display_options['fields']['field_ding_library_addresse']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['label'] = 'Address';
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['absolute'] = 0;
@@ -221,8 +221,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['element_type'] = 'div';
   $handler->display->display_options['fields']['field_ding_library_addresse']['element_class'] = 'address add middle-col';
-  $handler->display->display_options['fields']['field_ding_library_addresse']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_addresse']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['element_label_colon'] = 1;
   $handler->display->display_options['fields']['field_ding_library_addresse']['element_default_classes'] = 1;
   $handler->display->display_options['fields']['field_ding_library_addresse']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['empty_zero'] = 0;
@@ -514,6 +513,7 @@ function ding_library_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
+    t('Address'),
     t('Phone'),
     t('Fax'),
     t('E-mail'),
