@@ -26,8 +26,16 @@
   margin-right: 0;
 
   .user-field-wrapper {
-    display: inline;
+    display: block;
     margin-left: 50px;
+  }
+
+  .form-item {
+    margin-top: 0em; 
+    display: inline;
+  }
+  .form-actions {
+    display: inline;
   }
 
   i[class^="icon-"] {
