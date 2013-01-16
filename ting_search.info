@@ -7,4 +7,3 @@ files[] = ting_search.module
 files[] = ting_search.test
 dependencies[] = ting
 dependencies[] = search
-stylesheets[all][] = ting_search.css

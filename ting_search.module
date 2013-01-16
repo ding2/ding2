@@ -168,9 +168,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       '#prefix' => '<div id="advanced-search-wrapper">',
       '#suffix' => '</div>',
       '#attached' => array(
-        'css' => array(
-          drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css',
-        ),
         'js' => array(
           drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js',
         ),
@@ -590,19 +587,16 @@ function ting_search_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'sort-form':
-      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
       $block['subject'] = t('Ting search sort controls');
       $block['content'] = drupal_get_form('ting_search_sort_form');
       break;
     case 'records-per-page':
-      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
       $block['subject'] = t('Ting search records per page controls');
       $block['content'] = records_per_page_controls_content() ;
       break;
     case 'search-display-extended-query':
-      drupal_add_css(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.css');
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
       $block['content'] = theme('ting_search_display_extended_query', array('query_label'=>t('Your query:'),'query_string'=>NULL));
       break;
