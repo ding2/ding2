@@ -4,12 +4,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -1161,16 +1161,15 @@ header .site-name {
 img {
   display: inline;
   width: 100%;
-  height: auto;
 }
 
-/* line 37, ../../latto/sass/_latto.base.scss */
+/* line 36, ../../latto/sass/_latto.base.scss */
 p {
   margin-top: 0;
   margin-bottom: 6.66667px;
 }
 
-/* line 44, ../../latto/sass/_latto.base.scss */
+/* line 43, ../../latto/sass/_latto.base.scss */
 select,
 textarea,
 input {
@@ -1179,7 +1178,7 @@ input {
   padding: 4px;
 }
 
-/* line 58, ../../latto/sass/_latto.base.scss */
+/* line 57, ../../latto/sass/_latto.base.scss */
 hr {
   background: #d5d5d5;
   color: #d5d5d5;
@@ -1192,19 +1191,19 @@ hr {
   margin-bottom: 10px;
 }
 
-/* line 78, ../../latto/sass/_latto.base.scss */
+/* line 77, ../../latto/sass/_latto.base.scss */
 .image-inline, .list-image-inline {
   float: left;
   margin-right: 5px;
 }
 
-/* line 83, ../../latto/sass/_latto.base.scss */
+/* line 82, ../../latto/sass/_latto.base.scss */
 .image-inline-pull-right {
   margin-left: 5px;
 }
 
-/* line 98, ../../latto/sass/_latto.base.scss */
-.pull-right, .image-inline-pull-right, .user-login-block .user-login-link, .user-login-block input[type="submit"], .search .help-link, .search-result-block .more {
+/* line 97, ../../latto/sass/_latto.base.scss */
+.pull-right, .image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .user-login-block .user-login-link, .user-login-block input[type="submit"], .search .help-link, .search-result-block .more {
   float: right;
 }
 
@@ -1709,17 +1708,17 @@ ul.icons li .icon-large:before {
 }
 
 /* line 190, ../../latto/sass/_latto.font-awesome.scss */
-.icon-plus-sign:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before {
   content: "\f055";
 }
 
 /* line 191, ../../latto/sass/_latto.font-awesome.scss */
-.icon-minus-sign:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before {
   content: "\f056";
 }
 
 /* line 192, ../../latto/sass/_latto.font-awesome.scss */
-.icon-remove-sign:before {
+.icon-remove-sign:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before {
   content: "\f057";
 }
 
@@ -4193,13 +4192,13 @@ blockquote {
   padding-left: 13.33333px;
 }
 /* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right, .user-login-block blockquote.user-login-link, .search blockquote.help-link, .search-result-block blockquote.more {
+blockquote.pull-right, blockquote.image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .pane-ding-facetbrowser blockquote.expand-facets, .user-login-block blockquote.user-login-link, .search blockquote.help-link, .search-result-block blockquote.more {
   border-left: 0;
   border-right: 5px solid #efefef;
   padding-right: 13.33333px;
 }
 /* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source {
+blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .pane-ding-facetbrowser blockquote.expand-facets .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source {
   display: block;
   text-align: right;
 }
@@ -4280,13 +4279,13 @@ dd {
 }
 
 /* line 231, ../../latto/sass/_latto.typography.scss */
-.text-largest {
+.text-largest, .pane-ding-facetbrowser h2 {
   font-size: 19.5px;
   font-size: 1.21875rem;
 }
 
 /* line 235, ../../latto/sass/_latto.typography.scss */
-.text-larger {
+.text-larger, .pane-ding-facetbrowser .fieldset-legend {
   font-size: 16.25px;
   font-size: 1.01563rem;
 }
@@ -5177,17 +5176,17 @@ ul.icons li .icon-large:before {
 }
 
 /* line 190, ../../latto/sass/_latto.font-awesome.scss */
-.icon-plus-sign:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before {
   content: "\f055";
 }
 
 /* line 191, ../../latto/sass/_latto.font-awesome.scss */
-.icon-minus-sign:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before {
   content: "\f056";
 }
 
 /* line 192, ../../latto/sass/_latto.font-awesome.scss */
-.icon-remove-sign:before {
+.icon-remove-sign:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before {
   content: "\f057";
 }
 
@@ -5971,6 +5970,54 @@ ul.icons li .icon-large:before {
   margin-left: 10px;
 }
 
+/* line 26, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser a:link {
+  text-decoration: none;
+}
+/* line 29, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser a:visited {
+  color: #295586;
+}
+/* line 41, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser h2,
+.pane-ding-facetbrowser .fieldset-legend,
+.pane-ding-facetbrowser .count {
+  color: #959595;
+}
+/* line 46, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .form-wrapper {
+  margin-top: 20px;
+}
+/* line 57, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
+  margin-right: 10px;
+}
+/* line 60, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
+  font-family: "FontAwesome";
+  padding-right: 5px;
+  text-decoration: none;
+  font-size: 1.1em;
+}
+/* line 75, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .selected-checkbox-group {
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+/* line 79, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
+  background-color: #d5d5d5;
+  padding: 5px;
+}
+/* line 92, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .unselected-checkbox-group {
+  clear: right;
+}
+/* line 97, ../sass/_ddbasic.search.scss */
+.pane-ding-facetbrowser .hidden-facets-group {
+  margin-bottom: 20px;
+}
+
 /* line 22, ../sass/_ddbasic.carousel.scss */
 .rs-carousel,
 .rs-carousel-mask,
@@ -5999,12 +6046,12 @@ ul.icons li .icon-large:before {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:after {
   clear: both;
 }
