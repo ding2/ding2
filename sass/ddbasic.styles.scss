@@ -220,12 +220,3 @@
   @include rgba-background($block-bg-inverted, $block-bg-transparency);
   @extend .block-inverted;
 }
-
-
-// **
-// Mockups styling
-// **
-//
-@import "_ddbasic.mockups.scss";
-
-

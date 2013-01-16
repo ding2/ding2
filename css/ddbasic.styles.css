@@ -1225,7 +1225,7 @@ hr {
 }
 
 /* line 97, ../../latto/sass/_latto.base.scss */
-.pull-right, .image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .user-login-block .user-login-link, .user-login-block input[type="submit"], .search .help-link, .search-result-block .more {
+.pull-right, .image-inline-pull-right, .search .help-link, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .user-login-block .user-login-link, .user-login-block input[type="submit"] {
   float: right;
 }
 
@@ -2540,7 +2540,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 23, ../sass/_ddbasic.extends.scss */
-.user, .search {
+.search, .user {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -2570,7 +2570,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 54, ../sass/_ddbasic.extends.scss */
-.user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"], .search-compact i[class^="icon-"] {
+.search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
@@ -2591,14 +2591,13 @@ ul.icons li .icon-large:before {
   -o-border-radius: 12px;
   border-radius: 12px;
   display: inline;
-  padding-top: 10px;
   padding-left: 45px;
   border: 0;
 }
 
-/* line 80, ../sass/_ddbasic.extends.scss */
+/* line 79, ../sass/_ddbasic.extends.scss */
 .button,
-a.button, .user input[type="submit"], .user-login-block input[type="submit"], .search input[type="submit"], .search-compact input[type="submit"] {
+a.button, .search input[type="submit"], .search-compact input[type="submit"], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   -ms-border-radius: 12px;
@@ -2613,8 +2612,8 @@ a.button, .user input[type="submit"], .user-login-block input[type="submit"], .s
   color: white !important;
   cursor: pointer;
 }
-/* line 94, ../sass/_ddbasic.extends.scss */
-.button .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon {
+/* line 93, ../sass/_ddbasic.extends.scss */
+.button .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
   -webkit-border-top-right-radius: 12px;
   border-top-right-radius: 12px;
@@ -2628,29 +2627,29 @@ a.button, .user input[type="submit"], .user-login-block input[type="submit"], .s
   border-left: 1px solid rgba(0, 0, 0, 0.3);
   padding: 7px 10px;
 }
-/* line 107, ../sass/_ddbasic.extends.scss */
-.button:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .button:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .button:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus {
+/* line 106, ../sass/_ddbasic.extends.scss */
+.button:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
 }
-/* line 110, ../sass/_ddbasic.extends.scss */
-.button:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited {
+/* line 109, ../sass/_ddbasic.extends.scss */
+.button:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
 }
 
-/* line 129, ../sass/_ddbasic.extends.scss */
+/* line 128, ../sass/_ddbasic.extends.scss */
 .button.available,
 a.button.available {
   background-color: #60a500;
 }
-/* line 132, ../sass/_ddbasic.extends.scss */
+/* line 131, ../sass/_ddbasic.extends.scss */
 .button.available .icon {
   background-color: #518b00;
 }
-/* line 137, ../sass/_ddbasic.extends.scss */
+/* line 136, ../sass/_ddbasic.extends.scss */
 .button.available:hover, .button.available:active, .button.available:focus {
   background-color: #335900;
 }
-/* line 139, ../sass/_ddbasic.extends.scss */
+/* line 138, ../sass/_ddbasic.extends.scss */
 .button.available:hover .icon, .button.available:active .icon, .button.available:focus .icon {
   background-color: #253f00;
 }
@@ -4188,13 +4187,13 @@ blockquote {
   padding-left: 13.33333px;
 }
 /* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .pane-ding-facetbrowser blockquote.expand-facets, .user-login-block blockquote.user-login-link, .search blockquote.help-link, .search-result-block blockquote.more {
+blockquote.pull-right, blockquote.image-inline-pull-right, .search blockquote.help-link, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .pane-ding-facetbrowser blockquote.expand-facets, .user-login-block blockquote.user-login-link {
   border-left: 0;
   border-right: 5px solid #efefef;
   padding-right: 13.33333px;
 }
 /* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .pane-ding-facetbrowser blockquote.expand-facets .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source, .search blockquote.help-link .blockquote-source, .search-result-block blockquote.more .blockquote-source {
+blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .search blockquote.help-link .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .pane-ding-facetbrowser blockquote.expand-facets .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
   display: block;
   text-align: right;
 }
@@ -4329,29 +4328,29 @@ dd {
 
 /* line 43, ../sass/_ddbasic.typography.scss */
 .navigation-inner a:link,
-.rs-carousel a:link, .search-result-block h2 a:link {
+.rs-carousel a:link {
   color: #4d1500;
   text-decoration: none;
 }
 /* line 47, ../sass/_ddbasic.typography.scss */
 .navigation-inner a:visited,
-.rs-carousel a:visited, .search-result-block h2 a:visited {
+.rs-carousel a:visited {
   color: black;
 }
 /* line 50, ../sass/_ddbasic.typography.scss */
 .navigation-inner a:hover,
-.rs-carousel a:hover, .search-result-block h2 a:hover {
+.rs-carousel a:hover {
   color: black;
   text-decoration: underline;
 }
 /* line 54, ../sass/_ddbasic.typography.scss */
 .navigation-inner a:hover i[class^="icon-"],
-.rs-carousel a:hover i[class^="icon-"], .search-result-block h2 a:hover i[class^="icon-"] {
+.rs-carousel a:hover i[class^="icon-"] {
   text-decoration: none;
 }
 /* line 58, ../sass/_ddbasic.typography.scss */
 .navigation-inner a:focus,
-.rs-carousel a:focus, .search-result-block h2 a:focus {
+.rs-carousel a:focus {
   color: black;
 }
 
@@ -6031,7 +6030,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 17, ../sass/_ddbasic.search.scss */
-.user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"], .search-compact i[class^="icon-"] {
+.search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
@@ -6056,55 +6055,167 @@ ul.icons li .icon-large:before {
   border: 0;
 }
 
-/* line 48, ../sass/_ddbasic.search.scss */
+/* line 42, ../sass/_ddbasic.search.scss */
+.search i[class^="icon-search"], .search-compact i[class^="icon-search"] {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  opacity: 0.25;
+  margin-left: 15px;
+  position: absolute;
+  font-size: 28.6px;
+  top: 20px;
+  z-index: 10;
+}
+/* line 54, ../sass/_ddbasic.search.scss */
+.search input[type="text"], .search-compact input[type="text"] {
+  font-size: 22.1px;
+  font-size: 1.38125rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+  display: inline;
+  padding-top: 0;
+  padding-left: 45px;
+  border: 0;
+  min-height: 60px;
+  left: 0;
+  width: 100%;
+}
+/* line 71, ../sass/_ddbasic.search.scss */
+.search input[type="submit"], .search-compact input[type="submit"] {
+  position: absolute;
+}
+
+/* line 79, ../sass/_ddbasic.search.scss */
+.search {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  border-right: 1px solid #295586;
+  padding-right: 0;
+}
+/* line 88, ../sass/_ddbasic.search.scss */
+.search .search-field-wrapper {
+  margin-right: 50px;
+}
+/* line 92, ../sass/_ddbasic.search.scss */
+.search input[type="submit"] {
+  min-height: 60px;
+  right: 48px;
+  top: 0;
+}
+/* line 98, ../sass/_ddbasic.search.scss */
+.search .help-link {
+  display: block;
+  margin-top: 10px;
+}
+/* line 104, ../sass/_ddbasic.search.scss */
+.search .help-link:hover {
+  color: black;
+  text-decoration: none;
+}
+
+/* line 112, ../sass/_ddbasic.search.scss */
+.search-compact {
+  margin-top: 10px;
+  position: absolute;
+  right: 160px;
+}
+/* line 119, ../sass/_ddbasic.search.scss */
+.search-compact .search-field-wrapper {
+  min-width: 400px;
+  position: relative;
+}
+/* line 124, ../sass/_ddbasic.search.scss */
+.search-compact input[type="text"] {
+  font-size: 19.5px;
+  font-size: 1.21875rem;
+  min-height: 30px;
+  padding-top: 5px;
+  padding-left: 40px;
+}
+/* line 132, ../sass/_ddbasic.search.scss */
+.search-compact input[type="submit"] {
+  font-size: 18.2px;
+  font-size: 1.1375rem;
+  background-color: #d1e02b;
+  height: 40px;
+  position: absolute;
+  right: -2px;
+  top: 0;
+}
+/* line 143, ../sass/_ddbasic.search.scss */
+.search-compact i[class^="icon-"] {
+  font-size: 22.1px;
+  font-size: 1.38125rem;
+  top: 13px;
+}
+
+/* line 156, ../sass/_ddbasic.search.scss */
 .search .form-item {
   margin-top: 0em;
 }
 
-/* line 61, ../sass/_ddbasic.search.scss */
+/* line 169, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 64, ../sass/_ddbasic.search.scss */
+/* line 172, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #295586;
 }
-/* line 76, ../sass/_ddbasic.search.scss */
+/* line 184, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 81, ../sass/_ddbasic.search.scss */
+/* line 189, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-top: 20px;
 }
-/* line 92, ../sass/_ddbasic.search.scss */
+/* line 200, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
 }
-/* line 95, ../sass/_ddbasic.search.scss */
+/* line 203, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 1.1em;
 }
-/* line 110, ../sass/_ddbasic.search.scss */
+/* line 218, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 114, ../sass/_ddbasic.search.scss */
+/* line 222, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #d5d5d5;
   padding: 5px;
 }
-/* line 127, ../sass/_ddbasic.search.scss */
+/* line 235, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 132, ../sass/_ddbasic.search.scss */
+/* line 240, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
@@ -6438,7 +6549,7 @@ ul.icons li .icon-large:before {
 }
 
 /* line 21, ../sass/_ddbasic.user.scss */
-.user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"], .search-compact i[class^="icon-"] {
+.search-compact i[class^="icon-"], .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
@@ -6618,337 +6729,4 @@ ul.icons li .icon-large:before {
   background-color: #d1e02b;
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
-}
-
-/* line 28, ../sass/_ddbasic.mockups.scss */
-.search i[class^="icon-search"], .search-compact i[class^="icon-search"] {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
-  margin-left: 15px;
-  position: absolute;
-  font-size: 28.6px;
-  top: 17px;
-  z-index: 10;
-}
-/* line 40, ../sass/_ddbasic.mockups.scss */
-.search input[type="text"], .search-compact input[type="text"] {
-  font-size: 22.1px;
-  font-size: 1.38125rem;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-  display: inline;
-  padding-left: 45px;
-  border: 0;
-  min-height: 60px;
-  left: 0;
-  width: 100%;
-}
-/* line 56, ../sass/_ddbasic.mockups.scss */
-.search input[type="submit"], .search-compact input[type="submit"] {
-  position: absolute;
-}
-
-/* line 64, ../sass/_ddbasic.mockups.scss */
-.search {
-  float: left;
-  width: 50%;
-  margin-left: 0%;
-  margin-right: -50%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  border-right: 1px solid #295586;
-  padding-right: 0;
-}
-/* line 73, ../sass/_ddbasic.mockups.scss */
-.search .search-field-wrapper {
-  margin-right: 50px;
-}
-/* line 77, ../sass/_ddbasic.mockups.scss */
-.search input[type="submit"] {
-  min-height: 60px;
-  right: 48px;
-  top: 0;
-}
-/* line 83, ../sass/_ddbasic.mockups.scss */
-.search .help-link {
-  display: block;
-  margin-top: 10px;
-}
-/* line 89, ../sass/_ddbasic.mockups.scss */
-.search .help-link:hover {
-  color: black;
-  text-decoration: none;
-}
-
-/* line 97, ../sass/_ddbasic.mockups.scss */
-.search-compact {
-  margin-top: 10px;
-  position: absolute;
-  right: 160px;
-}
-/* line 104, ../sass/_ddbasic.mockups.scss */
-.search-compact .search-field-wrapper {
-  min-width: 400px;
-  position: relative;
-}
-/* line 109, ../sass/_ddbasic.mockups.scss */
-.search-compact input[type="text"] {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-  min-height: 30px;
-  padding-top: 5px;
-  padding-left: 40px;
-}
-/* line 117, ../sass/_ddbasic.mockups.scss */
-.search-compact input[type="submit"] {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
-  background-color: #d1e02b;
-  height: 40px;
-  position: absolute;
-  right: -2px;
-  top: 0;
-}
-/* line 128, ../sass/_ddbasic.mockups.scss */
-.search-compact i[class^="icon-"] {
-  font-size: 22.1px;
-  font-size: 1.38125rem;
-  top: 13px;
-}
-
-/* line 143, ../sass/_ddbasic.mockups.scss */
-.facet-browser h2 {
-  font-size: 15.6px;
-  font-size: 0.975rem;
-}
-/* line 149, ../sass/_ddbasic.mockups.scss */
-.facet-browser h2,
-.facet-browser legend,
-.facet-browser .count {
-  color: #898989;
-}
-/* line 153, ../sass/_ddbasic.mockups.scss */
-.facet-browser .remove {
-  float: right;
-  color: #bf3600;
-}
-/* line 157, ../sass/_ddbasic.mockups.scss */
-.facet-browser .remove:hover {
-  color: #732000;
-}
-/* line 162, ../sass/_ddbasic.mockups.scss */
-.facet-browser ul {
-  padding: 1px 0 0;
-  list-style: none;
-}
-/* line 168, ../sass/_ddbasic.mockups.scss */
-.facet-browser li {
-  padding: 3.33333px 10px;
-  padding:  0.20833rem 0.625rem;
-  margin-bottom: 1px;
-}
-/* line 173, ../sass/_ddbasic.mockups.scss */
-.facet-browser li label {
-  color: #d1e02b;
-}
-/* line 178, ../sass/_ddbasic.mockups.scss */
-.facet-browser .checked {
-  background: #efefef;
-}
-
-/* line 192, ../sass/_ddbasic.mockups.scss */
-.search-result-block h1 {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-  color: #959595;
-}
-/* line 203, ../sass/_ddbasic.mockups.scss */
-.search-result-block .search-term,
-.search-result-block .result-stats {
-  color: black;
-}
-/* line 207, ../sass/_ddbasic.mockups.scss */
-.search-result-block .search-feed {
-  float: right;
-  padding: 0.5em 0;
-}
-/* line 213, ../sass/_ddbasic.mockups.scss */
-.search-result-block .filter {
-  clear: left;
-  border-bottom: 1px solid #d9d9d9;
-  border-top: 1px solid #d9d9d9;
-  padding: 10px 0;
-  margin: 10px 0;
-}
-/* line 221, ../sass/_ddbasic.mockups.scss */
-.search-result-block .filter select {
-  padding: 10px;
-}
-/* line 223, ../sass/_ddbasic.mockups.scss */
-.search-result-block .filter .number-items {
-  float: left;
-  width: 33.33333%;
-  margin-left: 0%;
-  margin-right: -33.33333%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 227, ../sass/_ddbasic.mockups.scss */
-.search-result-block .filter .order-by {
-  float: left;
-  width: 33.33333%;
-  margin-left: 33.33333%;
-  margin-right: -66.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 231, ../sass/_ddbasic.mockups.scss */
-.search-result-block .filter .display-types {
-  float: left;
-  width: 33.33333%;
-  margin-left: 66.66667%;
-  margin-right: -100.0%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 236, ../sass/_ddbasic.mockups.scss */
-.search-result-block .item {
-  background: #f2f2f2;
-  padding: 20px 10px;
-  margin: 10px 0;
-}
-/* line 242, ../sass/_ddbasic.mockups.scss */
-.search-result-block .cover {
-  float: left;
-  width: 16.66667%;
-  margin-left: 0%;
-  margin-right: -16.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 246, ../sass/_ddbasic.mockups.scss */
-.search-result-block .description {
-  float: left;
-  width: 50%;
-  margin-left: 16.66667%;
-  margin-right: -66.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  border-right: 1px solid #d9d9d9;
-}
-/* line 252, ../sass/_ddbasic.mockups.scss */
-.search-result-block .properties {
-  float: left;
-  width: 25%;
-  margin-left: 66.66667%;
-  margin-right: -91.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  padding-left: 20px;
-  padding-left: 1.25rem;
-}
-/* line 257, ../sass/_ddbasic.mockups.scss */
-.search-result-block ul {
-  margin-left: 0;
-  padding: 0;
-  list-style: none;
-}
-/* line 263, ../sass/_ddbasic.mockups.scss */
-.search-result-block .status {
-  font-size: 10.4px;
-  font-size: 0.65rem;
-  color: #959595;
-}
-/* line 269, ../sass/_ddbasic.mockups.scss */
-.search-result-block .more {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  border-radius: 12px;
-  font-size: 22.75px;
-  font-size: 1.42188rem;
-  margin-right: 10px;
-  margin-right: 0.625rem;
-  display: block;
-  padding: 90px 8px;
-  width: 20px;
-  background: #b3b3b3;
-  color: white;
-  cursor: pointer;
-  text-align: center;
-}
-/* line 286, ../sass/_ddbasic.mockups.scss */
-.search-result-block .more:hover, .search-result-block .more:active, .search-result-block .more:focus {
-  background: #999999;
-  color: #cccccc;
 }
