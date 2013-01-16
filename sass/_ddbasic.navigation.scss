@@ -45,6 +45,7 @@
 // =============================================================================
 //
 .navigation-wrapper {
+  @include zen-grid-item($grid-66, 1);
  	@include rgba-background($white, .95);
   @extend .grid-wrapper;
 

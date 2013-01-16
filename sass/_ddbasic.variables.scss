@@ -115,6 +115,6 @@ $button-border-radius:            12px;
 //
 $navbar-bg-color:           transparentize($white,0.95);
 $navbar-bg-active-color:    transparentize($white,0.95);
-$navbar-text-color:         lighten($gray-light, 25%) !default;
-$navbar-text-color-active:  lighten($gray-light, 25%) !default;
+$navbar-text-color:         lighten($black, 30%);
+$navbar-text-color-active:  lighten($black, 30%);
 $navbar-item-spacing:       $default-spacing / 2 !default;
