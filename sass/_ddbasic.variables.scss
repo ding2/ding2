@@ -67,16 +67,6 @@ $link-color-special:              #4d1500;
 $link-color-special-hover:        darken($link-color-special, 20%);
 
 
-
-// -----------------------------------------------------------------------------
-// Header
-// -----------------------------------------------------------------------------
-//
-$header-text-color:               #fff;
-$header-font-size:                30px;
-$header-min-height:               60px;
-
-
 // -----------------------------------------------------------------------------
 // Blocks
 // -----------------------------------------------------------------------------
@@ -118,3 +108,14 @@ $button-warning-bg-color:         #f6d346;
 $button-danger-bg-color:          #bf3600;
 $button-info-bg-color:            #73b4e0;
 $button-border-radius:            12px;
+
+
+// -----------------------------------------------------------------------------
+// Navigation
+// -----------------------------------------------------------------------------
+//
+$navbar-bg-color:                 transparentize($white, 0.95);
+$navbar-bg-active-color:          transparentize($white, 0.95);
+$navbar-text-color:               lighten($gray-light, 25%) !default;
+$navbar-text-color-active:        lighten($gray-light, 25%) !default;
+$navbar-item-spacing:             $default-spacing / 2 !default;

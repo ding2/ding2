@@ -37,6 +37,10 @@ function ddbasic_preprocess_html(&$vars) {
  */
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
+    case 'search_block_form':
+      $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
+      $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
+    break;  
     case 'user_login_block':
       unset($form['name']['#title']);
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
