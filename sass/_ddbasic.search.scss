@@ -12,6 +12,7 @@
 $search-border-size: 1px;
 $search-border-type: solid;
 
+
 // -----------------------------------------------------------------------------
 // Extends
 // -----------------------------------------------------------------------------
@@ -35,6 +36,7 @@ $search-border-type: solid;
 
   border: 0;
 }
+
 
 // -----------------------------------------------------------------------------
 // Default styling
@@ -260,8 +262,8 @@ $search-border-type: solid;
 // **
 //
 
-// Search query & results amount.
-// Combine these as a page title.
+// Search query & results amount
+// Combine these as a page title
 .pane-ting-search-search-display-extended-query {
   @extend .pull-left;
   overflow: hidden;
@@ -288,8 +290,8 @@ $search-border-type: solid;
   }
 }
 
-// Sorting, display amount and display format groups.
-// Combine these as a group floating left and right.
+// Sorting, display amount and display format groups
+// Combine these as a group floating left and right
 .pane-ting-search-sort-form {
   clear: both;
   @extend .pull-left;
@@ -342,7 +344,7 @@ $search-border-type: solid;
   }
 }
 
-// Availability explaination legend.
+// Availability explaination legend
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
@@ -365,7 +367,7 @@ $search-border-type: solid;
   }
 }
 
-// The search results.
+// The search results
 .pane-search-result {
   clear: both;
   overflow: hidden;
