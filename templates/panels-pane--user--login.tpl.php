@@ -28,14 +28,5 @@
     </div>
   </section>
 
-<!--    <div class="user-field-wrapper">
-      <i class="icon-user"></i>
-      <input type="text" placeholder="Låner- eller cpr-nr" class="search-input" />
-
-      <i class="icon-lock"></i>
-      <input type="password" placeholder="Kodeord" class="search-input" />
-    </div>
-
-    <input type="submit" value="Log ind" />-->
 
 
