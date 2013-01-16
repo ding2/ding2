@@ -949,7 +949,7 @@ table tbody tr:hover th {
 }
 /* line 41, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a, .main-menu > li a {
-  color: white;
+  color: #4d4d4d;
   display: block;
   height: 100%;
   margin-right: 10px;
@@ -964,7 +964,7 @@ table tbody tr:hover th {
 }
 /* line 57, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.active, .main-menu > li a.active, .horizontal-menu > li a.active-trail, .main-menu > li a.active-trail {
-  color: white;
+  color: #4d4d4d;
   background-color: rgba(255, 255, 255, 0.05);
 }
 /* line 62, ../../latto/sass/_latto.nav.scss */
@@ -982,7 +982,7 @@ table tbody tr:hover th {
 }
 /* line 82, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li a, .sub-menu > li a {
-  color: white;
+  color: #4d4d4d;
   display: block;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -3126,29 +3126,24 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 63, ../sass/_ddbasic.extends.scss */
-.navigation-inner a:link,
 .rs-carousel a:link {
   color: #4d1500;
   text-decoration: none;
 }
 /* line 67, ../sass/_ddbasic.extends.scss */
-.navigation-inner a:visited,
 .rs-carousel a:visited {
   color: black;
 }
 /* line 70, ../sass/_ddbasic.extends.scss */
-.navigation-inner a:hover,
 .rs-carousel a:hover {
   color: black;
   text-decoration: underline;
 }
 /* line 74, ../sass/_ddbasic.extends.scss */
-.navigation-inner a:hover i[class^="icon-"],
 .rs-carousel a:hover i[class^="icon-"] {
   text-decoration: none;
 }
 /* line 78, ../sass/_ddbasic.extends.scss */
-.navigation-inner a:focus,
 .rs-carousel a:focus {
   color: black;
 }
@@ -4925,29 +4920,24 @@ dd {
 }
 
 /* line 43, ../sass/_ddbasic.typography.scss */
-.navigation-inner a:link,
 .rs-carousel a:link {
   color: #4d1500;
   text-decoration: none;
 }
 /* line 47, ../sass/_ddbasic.typography.scss */
-.navigation-inner a:visited,
 .rs-carousel a:visited {
   color: black;
 }
 /* line 50, ../sass/_ddbasic.typography.scss */
-.navigation-inner a:hover,
 .rs-carousel a:hover {
   color: black;
   text-decoration: underline;
 }
 /* line 54, ../sass/_ddbasic.typography.scss */
-.navigation-inner a:hover i[class^="icon-"],
 .rs-carousel a:hover i[class^="icon-"] {
   text-decoration: none;
 }
 /* line 58, ../sass/_ddbasic.typography.scss */
-.navigation-inner a:focus,
 .rs-carousel a:focus {
   color: black;
 }
@@ -7028,13 +7018,28 @@ ul.icons li [class*=" icon-"] {
 
 /* line 47, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
+  float: left;
+  width: 66.66667%;
+  margin-left: 0%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
   background-color: rgba(255, 255, 255, 0.95);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F2FFFFFF,endColorstr=#F2FFFFFF);
   position: absolute;
   width: 100%;
 }
-/* line 54, ../sass/_ddbasic.navigation.scss */
+/* line 55, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.fixed {
   margin-top: 60px;
   position: fixed;
@@ -7042,7 +7047,7 @@ ul.icons li [class*=" icon-"] {
   z-index: 99;
 }
 
-/* line 73, ../sass/_ddbasic.navigation.scss */
+/* line 74, ../sass/_ddbasic.navigation.scss */
 .main-menu-inner {
   float: left;
   width: 66.66667%;
@@ -7061,13 +7066,13 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 78, ../sass/_ddbasic.navigation.scss */
+/* line 79, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 16.9px;
   font-size: 1.05625rem;
 }
 
-/* line 88, ../sass/_ddbasic.navigation.scss */
+/* line 89, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-inner {
   float: right;
   width: 33.33333%;
@@ -7086,17 +7091,17 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 93, ../sass/_ddbasic.navigation.scss */
+/* line 94, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
 }
-/* line 97, ../sass/_ddbasic.navigation.scss */
+/* line 98, ../sass/_ddbasic.navigation.scss */
 .secondary-menu a {
   border-right: 1px solid #d5d5d5;
   color: #404040;
 }
 
-/* line 109, ../sass/_ddbasic.navigation.scss */
+/* line 110, ../sass/_ddbasic.navigation.scss */
 .tertiary-menu-wrapper, .facet-browser {
   padding: 20px;
 }
