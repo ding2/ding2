@@ -46,6 +46,11 @@ input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
+// Override Drupal system style
+.pane-ding-facetbrowser input.form-checkbox {
+  vertical-align: bottom;
+}
+
 
 // -----------------------------------------------------------------------------
 // Default styling
@@ -201,11 +206,6 @@ input#edit-search-block-form--2.spinner {
   .fieldset-legend,
   .count {
     color: $gray-darker;
-  }
-
-  // Override Drupal system style
-  input.form-checkbox {
-    vertical-align: bottom;
   }
 
   // Facet group spacing.
@@ -399,18 +399,24 @@ input#edit-search-block-form--2.spinner {
     .list {
       @extend %list;
 
+      .list-item {
+        background-color: $gray-light;
+        padding: $default-spacing / 2;
+      }
+
       .heading {
         margin-bottom: $default-spacing / 2;
+        margin-left: 10%;
       }
 
       .ting-cover {
         @extend .pull-left;
-        width: 15%;
-        max-width: 150px;
+        width: 10%;
+
       }
 
       .content {
-        @extend .pull-left;
+        margin-left: 10%;
       }
     }
   }
