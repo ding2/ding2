@@ -4,27 +4,30 @@
 //
 
 
-// =============================================================================
-// VARIABLES
-// =============================================================================
+// -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
 //
+$topbar-text-color:               #fff;
+$topbar-font-size:                30px;
+$topbar-min-height:               85px;
 
 
-// =============================================================================
-// EXTENDS
-// =============================================================================
-//
-
-
-// =============================================================================
-// DEFAULT STYLING
-// =============================================================================
+// -----------------------------------------------------------------------------
+// Extends
+// -----------------------------------------------------------------------------
 //
 
 
 // -----------------------------------------------------------------------------
+// Default styling
+// -----------------------------------------------------------------------------
+//
+
+
+// **
 // Grid styling
-// -----------------------------------------------------------------------------
+// **
 //
 .grid-inner {
 	max-width: $grid-max-width;
@@ -32,49 +35,65 @@
 
 
 // -----------------------------------------------------------------------------
-// Topbar
+// Topbar, site name, slogan and logo
 // -----------------------------------------------------------------------------
 //
 .topbar {
   @include rgba-background($black, $block-bg-transparency);
 
-  min-height: $header-min-height;
+  min-height: $topbar-min-height;
   position: fixed;
   width: 100%;
-  z-index: 99;   
+  z-index: 99;
 
-  h1 {
-    margin-top: 0;
-    margin-bottom: 0;
+  .topbar-inner {
+    @extend .grid-inner;
 
-    a,
-    a:link,
-    a:visited {
-      color: $header-text-color;
-    }
+    position: relative;
+  }  
+}
+
+.site-name-wrapper {
+  @include zen-grid-item($grid-33, 1);
+}
+
+.site-name {
+  @include rem('font-size', $topbar-font-size);
+
+  margin-top: ($topbar-min-height / 2) - ($topbar-font-size / 2) - 3px;
+  margin-bottom: 0;
+
+  font-weight: $font-weight-regular;
+
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    background-color: transparent;
+    color: $topbar-text-color;
   }
 }
 
+.site-name-with-slogan {
+  @extend .site-name;
 
-.topbar-inner {
-  @extend .grid-inner;
-
-  position: relative;
+  margin-top: ($topbar-min-height / 2) - $topbar-font-size;
 }
 
+.site-slogan {
+  color: $topbar-text-color;
+  margin-top: $default-spacing / 2;
+  margin-left: 2px;
+}
 
-// -----------------------------------------------------------------------------
-// Logo, site name etc.
-// -----------------------------------------------------------------------------
-//
 .logo {
-  @include zen-grid-item($grid-50, 1);
+  @include zen-grid-item($grid-33, 1);
 }
 
 
-// -----------------------------------------------------------------------------
+// **
 // Layout
-// -----------------------------------------------------------------------------
+// **
 //
 .frontpage-layout {
   .content-wrapper {
@@ -108,3 +127,10 @@
 .facet-browser {
   @extend .tertiary-menu-wrapper;
 }
+
+
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
+//
+

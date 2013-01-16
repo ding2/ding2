@@ -97,26 +97,12 @@ textarea {
 
 
 // -----------------------------------------------------------------------------
-// Layout elements
-// -----------------------------------------------------------------------------
-//
-.topbar {
-  h1 {
-    @include rem('font-size', $header-font-size);
-    
-    font-weight: $font-weight-regular;
-    line-height: $header-min-height;
-  }
-}
-
-
-// -----------------------------------------------------------------------------
 // Blocks
 // -----------------------------------------------------------------------------
 //
 %block {
   .block-title {
-    @include rem('font-size', $header-font-size * 1.1);
+    @include rem('font-size', $topbar-font-size * 1.1);
   }
 }
 
@@ -126,11 +112,11 @@ textarea {
 // -----------------------------------------------------------------------------
 //
 .section-title {
-  @include rem('font-size', $header-font-size);
+  @include rem('font-size', $topbar-font-size);
 }
 
 .section-title-inverted {
-  @include rem('font-size', $header-font-size);
+  @include rem('font-size', $topbar-font-size);
 }
 
 
@@ -241,7 +227,7 @@ textarea {
 }
 
 
-// =============================================================================
-// MEDIAQUERIES
-// =============================================================================
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
 //
