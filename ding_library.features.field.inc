@@ -522,10 +522,9 @@ function ding_library_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => '',
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
@@ -535,7 +534,7 @@ function ding_library_field_default_fields() {
               'style_2' => 'ding_list_small',
             ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '18',
         ),
         'teaser' => array(
@@ -922,10 +921,9 @@ function ding_library_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => '',
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
@@ -935,15 +933,14 @@ function ding_library_field_default_fields() {
               'style_2' => 'ding_primary_small',
             ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '17',
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => 'content',
-            'image_style' => '',
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
@@ -953,7 +950,7 @@ function ding_library_field_default_fields() {
               'style_2' => 'ding_primary_small',
             ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '0',
         ),
         'teaser_highlight' => array(

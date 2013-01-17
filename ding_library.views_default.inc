@@ -265,6 +265,35 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_mail']['empty_zero'] = 0;
   $handler->display->display_options['fields']['field_ding_library_mail']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_library_mail']['field_api_classes'] = 0;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
+  $handler->display->display_options['fields']['title_1']['table'] = 'node';
+  $handler->display->display_options['fields']['title_1']['field'] = 'title';
+  $handler->display->display_options['fields']['title_1']['label'] = '';
+  $handler->display->display_options['fields']['title_1']['alter']['alter_text'] = 1;
+  $handler->display->display_options['fields']['title_1']['alter']['text'] = '<i class="icon-chevron-right"></i> [title_1]';
+  $handler->display->display_options['fields']['title_1']['alter']['make_link'] = 1;
+  $handler->display->display_options['fields']['title_1']['alter']['path'] = '[title_1]';
+  $handler->display->display_options['fields']['title_1']['alter']['absolute'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['external'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['replace_spaces'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['trim_whitespace'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['nl2br'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['word_boundary'] = 1;
+  $handler->display->display_options['fields']['title_1']['alter']['ellipsis'] = 1;
+  $handler->display->display_options['fields']['title_1']['alter']['more_link'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['strip_tags'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['trim'] = 0;
+  $handler->display->display_options['fields']['title_1']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['title_1']['element_type'] = 'p';
+  $handler->display->display_options['fields']['title_1']['element_class'] = 'library-link';
+  $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['title_1']['element_default_classes'] = 0;
+  $handler->display->display_options['fields']['title_1']['hide_empty'] = 0;
+  $handler->display->display_options['fields']['title_1']['empty_zero'] = 0;
+  $handler->display->display_options['fields']['title_1']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['title_1']['link_to_node'] = 1;
   /* Field: /div */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -535,6 +564,8 @@ function ding_library_views_default_views() {
     t('Phone'),
     t('Fax'),
     t('E-mail'),
+    t('<i class="icon-chevron-right"></i> [title_1]'),
+    t('[title_1]'),
     t('</div>'),
     t('Opening Hours'),
     t('Libraries list'),
