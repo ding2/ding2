@@ -38,7 +38,6 @@
   border-bottom: 1px solid $gray;
 }
 
-
 .library-list {
   @extend %list;
 
@@ -50,13 +49,11 @@
   }
 }
 
-
 .libraries-content {
   @include zen-float(left);
 
   width: 73%;
 }
-
 
 .photo {
   @include zen-float(left);
@@ -85,9 +82,18 @@
   @include rem('padding', $default-spacing 0 0 $default-spacing);  
 }
 
-
 .opening-hours {
   margin-left: 75%;
+}
+
+
+// **
+// Single Library
+// **
+//
+
+.library-title {
+  @extend .block-title;
 }
 
 
