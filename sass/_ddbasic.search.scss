@@ -429,6 +429,19 @@ input#edit-search-block-form--2.spinner {
         padding-left: $default-spacing;
       }
 
+      .subjects {
+        margin-bottom: 0;
+        padding-bottom: $default-spacing;
+
+        // Sorry I will die in hell for this
+        strong {
+          font-weight: inherit;
+        }
+        a {
+          margin-right: $default-spacing / 4;
+        }
+      }
+
       .availability {
         ul {
           @extend %list;
