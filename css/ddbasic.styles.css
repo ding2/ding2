@@ -810,7 +810,7 @@ table {
 .table th, table th,
 .table td,
 table td {
-  border-top: 1px solid #d5d5d5;
+  border-top: 1px solid #999999;
   padding: 6.66667px;
   text-align: left;
   vertical-align: top;
@@ -839,7 +839,7 @@ table thead:first-child tr:first-child td {
 }
 /* line 73, ../../latto/sass/_latto.tables.scss */
 .table tbody + tbody, table tbody + tbody {
-  border-top: 2px solid #d5d5d5;
+  border-top: 2px solid #999999;
 }
 
 /* line 84, ../../latto/sass/_latto.tables.scss */
@@ -855,7 +855,7 @@ table thead:first-child tr:first-child td {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  border: 1px solid #d5d5d5;
+  border: 1px solid #999999;
   border-collapse: separate;
   *border-collapse: collapsed;
   border-left: 0;
@@ -863,7 +863,7 @@ table thead:first-child tr:first-child td {
 /* line 102, ../../latto/sass/_latto.tables.scss */
 .table-bordered th,
 .table-bordered td {
-  border-left: 1px solid #d5d5d5;
+  border-left: 1px solid #999999;
 }
 /* line 114, ../../latto/sass/_latto.tables.scss */
 .table-bordered caption + thead tr:first-child th,
@@ -917,20 +917,20 @@ table thead:first-child tr:first-child td {
 /* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: white;
+  background-color: #b3b3b3;
 }
 
 /* line 159, ../../latto/sass/_latto.tables.scss */
 .table tbody tr:hover td, table tbody tr:hover td,
 .table tbody tr:hover th,
 table tbody tr:hover th {
-  background-color: #efefef;
+  background-color: #a6a6a6;
 }
 
 /* line 23, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu, .main-menu {
-  font-size: 16.25px;
-  font-size: 1.01563rem;
+  font-size: 18.75px;
+  font-size: 1.17188rem;
   display: table;
   margin: 0;
   width: 100%;
@@ -1002,11 +1002,11 @@ table tbody tr:hover th {
 /* line 105, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li, .tabs ul.secondary li {
   display: inline-block;
-  background-color: #efefef;
+  background-color: #a6a6a6;
 }
 /* line 108, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover, .tabs ul.secondary li:hover {
-  background-color: #bcbcbc;
+  background-color: #666666;
 }
 /* line 110, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover a, .tabs ul.secondary li:hover a {
@@ -1025,17 +1025,17 @@ table tbody tr:hover th {
 }
 /* line 124, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover {
-  background-color: white;
+  background-color: #b3b3b3;
 }
 /* line 126, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a {
-  color: #959595;
+  color: #333333;
   text-decoration: none;
 }
 /* line 131, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active a, .tabs ul.secondary li.active a {
   background-color: transparent;
-  color: #959595;
+  color: #333333;
 }
 /* line 138, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary {
@@ -1046,7 +1046,7 @@ table tbody tr:hover th {
 .tabs ul.secondary li {
   display: table-cell;
   background-color: white;
-  border-color: white;
+  border-color: #b3b3b3;
   padding: 0 10px 0 10px;
 }
 /* line 148, ../../latto/sass/_latto.nav.scss */
@@ -1059,8 +1059,8 @@ table tbody tr:hover th {
 }
 /* line 154, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a:hover {
-  color: #959595;
-  background-color: #efefef;
+  color: #333333;
+  background-color: #a6a6a6;
 }
 /* line 161, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active:hover {
@@ -1068,8 +1068,8 @@ table tbody tr:hover th {
 }
 /* line 164, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active a {
-  color: #959595;
-  background-color: #efefef;
+  color: #333333;
+  background-color: #a6a6a6;
 }
 
 /* line 176, ../../latto/sass/_latto.nav.scss */
@@ -1085,8 +1085,8 @@ table tbody tr:hover th {
 }
 /* line 186, ../../latto/sass/_latto.nav.scss */
 .action-links li:before {
-  font-size: 15.6px;
-  font-size: 0.975rem;
+  font-size: 18px;
+  font-size: 1.125rem;
   color: #295586;
   float: left;
   font-family: FontAwesome;
@@ -1095,26 +1095,27 @@ table tbody tr:hover th {
 }
 /* line 196, ../../latto/sass/_latto.nav.scss */
 .action-links li a {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
   padding-left: 25px;
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
+.pane-search-result .search-results .list .availability ul > dd,
 .library-list > dd {
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #a6a6a6;
   clear: both;
   margin-bottom: 20px;
   margin-left: 0;
@@ -1177,15 +1178,15 @@ p {
 select,
 textarea,
 input {
-  font-size: 13px;
-  font-size: 0.8125rem;
+  font-size: 15px;
+  font-size: 0.9375rem;
   padding: 4px;
 }
 
 /* line 58, ../../latto/sass/_latto.base.scss */
 hr {
-  background: #d5d5d5;
-  color: #d5d5d5;
+  background: #999999;
+  color: #999999;
   clear: both;
   float: none;
   width: 100%;
@@ -2926,6 +2927,313 @@ ul.icons li [class*=" icon-"] {
   content: "\f115";
 }
 
+/* line 5, ../../latto/sass/_latto.typography.scss */
+html {
+  font-size: 16px;
+  font-size: 1rem;
+}
+
+/* line 9, ../../latto/sass/_latto.typography.scss */
+body {
+  font-size: 15px;
+  font-size: 0.9375rem;
+  line-height: 18px;
+  line-height: 1.125rem;
+  color: #1b1b1b;
+  font-family: "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::-webkit-selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::-moz-selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::-o-selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 40, ../../latto/sass/_latto.typography.scss */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #1b1b1b;
+  font-weight: normal;
+}
+/* line 44, ../../latto/sass/_latto.typography.scss */
+h1 a:link,
+h2 a:link,
+h3 a:link,
+h4 a:link,
+h5 a:link,
+h6 a:link {
+  color: #1b1b1b;
+  text-decoration: none;
+}
+/* line 48, ../../latto/sass/_latto.typography.scss */
+h1 a:visited,
+h2 a:visited,
+h3 a:visited,
+h4 a:visited,
+h5 a:visited,
+h6 a:visited {
+  color: #1b1b1b;
+}
+/* line 51, ../../latto/sass/_latto.typography.scss */
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover {
+  color: black;
+}
+/* line 54, ../../latto/sass/_latto.typography.scss */
+h1 a:focus,
+h2 a:focus,
+h3 a:focus,
+h4 a:focus,
+h5 a:focus,
+h6 a:focus {
+  color: #112338;
+}
+/* line 57, ../../latto/sass/_latto.typography.scss */
+h1 a:active,
+h2 a:active,
+h3 a:active,
+h4 a:active,
+h5 a:active,
+h6 a:active {
+  background-color: #efefef;
+  color: #1b1b1b;
+}
+
+/* line 64, ../../latto/sass/_latto.typography.scss */
+h1 {
+  font-size: 30px;
+  font-size: 1.875rem;
+}
+
+/* line 68, ../../latto/sass/_latto.typography.scss */
+h2 {
+  font-size: 27px;
+  font-size: 1.6875rem;
+}
+
+/* line 72, ../../latto/sass/_latto.typography.scss */
+h3 {
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 22.5px;
+  line-height: 1.40625rem;
+}
+
+/* line 77, ../../latto/sass/_latto.typography.scss */
+h4 {
+  font-size: 21px;
+  font-size: 1.3125rem;
+}
+
+/* line 81, ../../latto/sass/_latto.typography.scss */
+h5 {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+}
+
+/* line 85, ../../latto/sass/_latto.typography.scss */
+h6 {
+  font-size: 15px;
+  font-size: 0.9375rem;
+}
+
+/* line 94, ../../latto/sass/_latto.typography.scss */
+.page-title {
+  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
+}
+
+/* line 99, ../../latto/sass/_latto.typography.scss */
+.block-title {
+  margin-bottom: 13.33333px;
+  margin-bottom: 0.83333rem;
+  line-height: 100%;
+}
+
+/* line 111, ../../latto/sass/_latto.typography.scss */
+a:link {
+  color: #295586;
+  text-decoration: none;
+}
+/* line 115, ../../latto/sass/_latto.typography.scss */
+a:visited {
+  color: #17304b;
+}
+/* line 118, ../../latto/sass/_latto.typography.scss */
+a:hover {
+  color: #112338;
+  text-decoration: underline;
+}
+/* line 122, ../../latto/sass/_latto.typography.scss */
+a:focus {
+  color: #112338;
+}
+
+/* line 134, ../../latto/sass/_latto.typography.scss */
+b,
+strong,
+dl > dt,
+.list-content > dt,
+.list-news > dt,
+.list-compact > dt,
+.pane-search-result .search-results .list > dt,
+.pane-search-result .search-results .list .availability ul > dt,
+.library-list > dt,
+.lead,
+.strong {
+  font-weight: bold;
+}
+
+/* line 142, ../../latto/sass/_latto.typography.scss */
+blockquote {
+  border-left: 5px solid #a6a6a6;
+  margin: 0;
+  margin-bottom: 20px;
+  padding-left: 13.33333px;
+}
+/* line 148, ../../latto/sass/_latto.typography.scss */
+blockquote.pull-right, blockquote.image-inline-pull-right, .search blockquote.help-link, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .pane-ding-facetbrowser blockquote.expand-facets, blockquote.pane-ting-search, blockquote.pane-ting-search-records-per-page, blockquote.pane-ding-toggle-format-toggle, .pane-ding-availability-legend blockquote.availability-legend, .user-login-block blockquote.user-login-link {
+  border-left: 0;
+  border-right: 5px solid #a6a6a6;
+  padding-right: 13.33333px;
+}
+/* line 153, ../../latto/sass/_latto.typography.scss */
+blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .search blockquote.help-link .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .pane-ding-facetbrowser blockquote.expand-facets .blockquote-source, blockquote.pane-ting-search .blockquote-source, blockquote.pane-ting-search-records-per-page .blockquote-source, blockquote.pane-ding-toggle-format-toggle .blockquote-source, .pane-ding-availability-legend blockquote.availability-legend .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
+  display: block;
+  text-align: right;
+}
+/* line 162, ../../latto/sass/_latto.typography.scss */
+blockquote .blockquote-source:before {
+  content: '\2014 \00A0';
+}
+
+/* line 173, ../../latto/sass/_latto.typography.scss */
+ul, ol {
+  padding: 0;
+  margin: 0 0 9px 25px;
+}
+
+/* line 177, ../../latto/sass/_latto.typography.scss */
+ul {
+  list-style-type: disc;
+}
+
+/* line 180, ../../latto/sass/_latto.typography.scss */
+ol {
+  list-style-type: decimal;
+}
+
+/* line 186, ../../latto/sass/_latto.typography.scss */
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin-bottom: 0;
+}
+
+/* line 189, ../../latto/sass/_latto.typography.scss */
+li {
+  line-height: 18px;
+}
+
+/* line 195, ../../latto/sass/_latto.typography.scss */
+ul.unstyled,
+ol.unstyled {
+  margin-left: 0;
+  list-style: none;
+}
+
+/* line 202, ../../latto/sass/_latto.typography.scss */
+ul.inline,
+ol.inline {
+  margin-left: 0;
+  list-style: none;
+}
+/* line 205, ../../latto/sass/_latto.typography.scss */
+ul.inline > li,
+ol.inline > li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* line 213, ../../latto/sass/_latto.typography.scss */
+dl {
+  margin-bottom: 18px;
+}
+
+/* line 217, ../../latto/sass/_latto.typography.scss */
+dt,
+dd {
+  line-height: 18px;
+}
+
+/* line 220, ../../latto/sass/_latto.typography.scss */
+dt {
+  font-weight: bold;
+}
+
+/* line 223, ../../latto/sass/_latto.typography.scss */
+dd {
+  margin-left: 9px;
+}
+
+/* line 231, ../../latto/sass/_latto.typography.scss */
+.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+}
+
+/* line 235, ../../latto/sass/_latto.typography.scss */
+.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
+  font-size: 18.75px;
+  font-size: 1.17188rem;
+}
+
+/* line 239, ../../latto/sass/_latto.typography.scss */
+.text-large, .lead {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+}
+
+/* line 243, ../../latto/sass/_latto.typography.scss */
+.text-small, blockquote .blockquote-source {
+  font-size: 13.5px;
+  font-size: 0.84375rem;
+}
+
+/* line 247, ../../latto/sass/_latto.typography.scss */
+.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
+  font-size: 12px;
+  font-size: 0.75rem;
+}
+
 /* line 32, ../sass/_ddbasic.layout.scss */
 .grid-inner, .topbar .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
   max-width: 1200px;
@@ -3169,7 +3477,7 @@ ul.icons li [class*=" icon-"] {
   opacity: 0.25;
   margin-left: 15px;
   position: absolute;
-  font-size: 28.6px;
+  font-size: 33px;
 }
 
 /* line 123, ../sass/_ddbasic.extends.scss */
@@ -3242,11 +3550,11 @@ fieldset {
 /* line 72, ../sass/_ddbasic.elements.scss */
 legend {
   display: block;
-  border-top: 1px solid #d5d5d5;
+  border-top: 1px solid #999999;
   margin: 0;
   padding: 0;
   width: 100%;
-  line-height: 39px;
+  line-height: 45px;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
@@ -4531,312 +4839,6 @@ legend {
   }
 }
 
-/* line 5, ../../latto/sass/_latto.typography.scss */
-html {
-  font-size: 16px;
-  font-size: 1rem;
-}
-
-/* line 9, ../../latto/sass/_latto.typography.scss */
-body {
-  font-size: 13px;
-  font-size: 0.8125rem;
-  line-height: 18px;
-  line-height: 1.125rem;
-  color: #1b1b1b;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::-webkit-selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::-moz-selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::-o-selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 40, ../../latto/sass/_latto.typography.scss */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #1b1b1b;
-  font-weight: normal;
-}
-/* line 44, ../../latto/sass/_latto.typography.scss */
-h1 a:link,
-h2 a:link,
-h3 a:link,
-h4 a:link,
-h5 a:link,
-h6 a:link {
-  color: #1b1b1b;
-  text-decoration: none;
-}
-/* line 48, ../../latto/sass/_latto.typography.scss */
-h1 a:visited,
-h2 a:visited,
-h3 a:visited,
-h4 a:visited,
-h5 a:visited,
-h6 a:visited {
-  color: #1b1b1b;
-}
-/* line 51, ../../latto/sass/_latto.typography.scss */
-h1 a:hover,
-h2 a:hover,
-h3 a:hover,
-h4 a:hover,
-h5 a:hover,
-h6 a:hover {
-  color: black;
-}
-/* line 54, ../../latto/sass/_latto.typography.scss */
-h1 a:focus,
-h2 a:focus,
-h3 a:focus,
-h4 a:focus,
-h5 a:focus,
-h6 a:focus {
-  color: #112338;
-}
-/* line 57, ../../latto/sass/_latto.typography.scss */
-h1 a:active,
-h2 a:active,
-h3 a:active,
-h4 a:active,
-h5 a:active,
-h6 a:active {
-  background-color: #efefef;
-  color: #1b1b1b;
-}
-
-/* line 64, ../../latto/sass/_latto.typography.scss */
-h1 {
-  font-size: 26px;
-  font-size: 1.625rem;
-}
-
-/* line 68, ../../latto/sass/_latto.typography.scss */
-h2 {
-  font-size: 23.4px;
-  font-size: 1.4625rem;
-}
-
-/* line 72, ../../latto/sass/_latto.typography.scss */
-h3 {
-  font-size: 20.8px;
-  font-size: 1.3rem;
-  line-height: 22.5px;
-  line-height: 1.40625rem;
-}
-
-/* line 77, ../../latto/sass/_latto.typography.scss */
-h4 {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
-}
-
-/* line 81, ../../latto/sass/_latto.typography.scss */
-h5 {
-  font-size: 14.3px;
-  font-size: 0.89375rem;
-}
-
-/* line 85, ../../latto/sass/_latto.typography.scss */
-h6 {
-  font-size: 13px;
-  font-size: 0.8125rem;
-}
-
-/* line 94, ../../latto/sass/_latto.typography.scss */
-.page-title {
-  margin-bottom: 10px;
-  margin-bottom: 0.625rem;
-}
-
-/* line 99, ../../latto/sass/_latto.typography.scss */
-.block-title {
-  margin-bottom: 13.33333px;
-  margin-bottom: 0.83333rem;
-  line-height: 100%;
-}
-
-/* line 111, ../../latto/sass/_latto.typography.scss */
-a:link {
-  color: #295586;
-  text-decoration: none;
-}
-/* line 115, ../../latto/sass/_latto.typography.scss */
-a:visited {
-  color: #17304b;
-}
-/* line 118, ../../latto/sass/_latto.typography.scss */
-a:hover {
-  color: #112338;
-  text-decoration: underline;
-}
-/* line 122, ../../latto/sass/_latto.typography.scss */
-a:focus {
-  color: #112338;
-}
-
-/* line 134, ../../latto/sass/_latto.typography.scss */
-b,
-strong,
-dl > dt,
-.list-content > dt,
-.list-news > dt,
-.list-compact > dt,
-.pane-search-result .search-results .list > dt,
-.library-list > dt,
-.lead,
-.strong {
-  font-weight: bold;
-}
-
-/* line 142, ../../latto/sass/_latto.typography.scss */
-blockquote {
-  border-left: 5px solid #efefef;
-  margin: 0;
-  margin-bottom: 20px;
-  padding-left: 13.33333px;
-}
-/* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right, .search blockquote.help-link, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect, .pane-ding-facetbrowser blockquote.expand-facets, blockquote.pane-ting-search, blockquote.pane-ting-search-records-per-page, blockquote.pane-ding-toggle-format-toggle, .pane-ding-availability-legend blockquote.availability-legend, .user-login-block blockquote.user-login-link {
-  border-left: 0;
-  border-right: 5px solid #efefef;
-  padding-right: 13.33333px;
-}
-/* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source, .search blockquote.help-link .blockquote-source, .pane-ding-facetbrowser .selected-checkbox-group blockquote.unselect .blockquote-source, .pane-ding-facetbrowser blockquote.expand-facets .blockquote-source, blockquote.pane-ting-search .blockquote-source, blockquote.pane-ting-search-records-per-page .blockquote-source, blockquote.pane-ding-toggle-format-toggle .blockquote-source, .pane-ding-availability-legend blockquote.availability-legend .blockquote-source, .user-login-block blockquote.user-login-link .blockquote-source {
-  display: block;
-  text-align: right;
-}
-/* line 162, ../../latto/sass/_latto.typography.scss */
-blockquote .blockquote-source:before {
-  content: '\2014 \00A0';
-}
-
-/* line 173, ../../latto/sass/_latto.typography.scss */
-ul, ol {
-  padding: 0;
-  margin: 0 0 9px 25px;
-}
-
-/* line 177, ../../latto/sass/_latto.typography.scss */
-ul {
-  list-style-type: disc;
-}
-
-/* line 180, ../../latto/sass/_latto.typography.scss */
-ol {
-  list-style-type: decimal;
-}
-
-/* line 186, ../../latto/sass/_latto.typography.scss */
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-  margin-bottom: 0;
-}
-
-/* line 189, ../../latto/sass/_latto.typography.scss */
-li {
-  line-height: 18px;
-}
-
-/* line 195, ../../latto/sass/_latto.typography.scss */
-ul.unstyled,
-ol.unstyled {
-  margin-left: 0;
-  list-style: none;
-}
-
-/* line 202, ../../latto/sass/_latto.typography.scss */
-ul.inline,
-ol.inline {
-  margin-left: 0;
-  list-style: none;
-}
-/* line 205, ../../latto/sass/_latto.typography.scss */
-ul.inline > li,
-ol.inline > li {
-  display: inline-block;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-/* line 213, ../../latto/sass/_latto.typography.scss */
-dl {
-  margin-bottom: 18px;
-}
-
-/* line 217, ../../latto/sass/_latto.typography.scss */
-dt,
-dd {
-  line-height: 18px;
-}
-
-/* line 220, ../../latto/sass/_latto.typography.scss */
-dt {
-  font-weight: bold;
-}
-
-/* line 223, ../../latto/sass/_latto.typography.scss */
-dd {
-  margin-left: 9px;
-}
-
-/* line 231, ../../latto/sass/_latto.typography.scss */
-.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-}
-
-/* line 235, ../../latto/sass/_latto.typography.scss */
-.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
-  font-size: 16.25px;
-  font-size: 1.01563rem;
-}
-
-/* line 239, ../../latto/sass/_latto.typography.scss */
-.text-large, .lead {
-  font-size: 14.3px;
-  font-size: 0.89375rem;
-}
-
-/* line 243, ../../latto/sass/_latto.typography.scss */
-.text-small, blockquote .blockquote-source {
-  font-size: 11.7px;
-  font-size: 0.73125rem;
-}
-
-/* line 247, ../../latto/sass/_latto.typography.scss */
-.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
-  font-size: 10.4px;
-  font-size: 0.65rem;
-}
-
 /* line 19, ../sass/_ddbasic.typography.scss */
 .footer-block a:link {
   color: white;
@@ -4885,13 +4887,14 @@ dd {
 
 /* line 76, ../sass/_ddbasic.typography.scss */
 body {
-  font-size: 13px;
-  font-size: 0.8125rem;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-size: 0.9375rem;
+  font-family: "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   font-weight: 100;
+  letter-spacing: .05;
 }
 
-/* line 87, ../sass/_ddbasic.typography.scss */
+/* line 89, ../sass/_ddbasic.typography.scss */
 h1,
 h2,
 h3,
@@ -4902,132 +4905,135 @@ h6 {
   line-height: 100%;
 }
 
-/* line 93, ../sass/_ddbasic.typography.scss */
+/* line 96, ../sass/_ddbasic.typography.scss */
 input,
-textarea {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+textarea,
+select {
+  font-family: "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   font-weight: 100;
+  letter-spacing: 1px;
 }
 
-/* line 104, ../sass/_ddbasic.typography.scss */
+/* line 108, ../sass/_ddbasic.typography.scss */
 .footer-block .block-title, .rs-carousel .block-title, .block-opening-hours .block-title, .user-login-block .block-title {
   font-size: 33px;
   font-size: 2.0625rem;
 }
 
-/* line 114, ../sass/_ddbasic.typography.scss */
+/* line 118, ../sass/_ddbasic.typography.scss */
 .section-title {
   font-size: 30px;
   font-size: 1.875rem;
 }
 
-/* line 118, ../sass/_ddbasic.typography.scss */
+/* line 122, ../sass/_ddbasic.typography.scss */
 .section-title-inverted {
   font-size: 30px;
   font-size: 1.875rem;
 }
 
-/* line 128, ../sass/_ddbasic.typography.scss */
-.search input[type="text"], .search-compact input[type="text"] {
-  font-size: 22.1px;
-  font-size: 1.38125rem;
-}
 /* line 132, ../sass/_ddbasic.typography.scss */
+.search input[type="text"], .search-compact input[type="text"] {
+  font-size: 25.5px;
+  font-size: 1.59375rem;
+}
+/* line 136, ../sass/_ddbasic.typography.scss */
 .search input[type="submit"], .search-compact input[type="submit"] {
-  font-size: 22.1px;
+  font-size: 25.5px;
 }
 
-/* line 138, ../sass/_ddbasic.typography.scss */
-.search-compact input[type="text"] {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-}
 /* line 142, ../sass/_ddbasic.typography.scss */
+.search-compact input[type="text"] {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+}
+/* line 146, ../sass/_ddbasic.typography.scss */
 .search-compact input[type="submit"] {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
-  font-size: 22.1px;
+  font-size: 21px;
+  font-size: 1.3125rem;
+  font-size: 25.5px;
 }
-/* line 147, ../sass/_ddbasic.typography.scss */
+/* line 151, ../sass/_ddbasic.typography.scss */
 .search-compact i[class^="icon-"] {
-  font-size: 22.1px;
-  font-size: 1.38125rem;
+  font-size: 25.5px;
+  font-size: 1.59375rem;
 }
 
-/* line 158, ../sass/_ddbasic.typography.scss */
+/* line 162, ../sass/_ddbasic.typography.scss */
 .facet-browser h2 {
-  font-size: 15.6px;
-  font-size: 0.975rem;
+  font-size: 18px;
+  font-size: 1.125rem;
 }
 
-/* line 169, ../sass/_ddbasic.typography.scss */
-.search-result-block h1 {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-}
 /* line 173, ../sass/_ddbasic.typography.scss */
-.search-result-block .status {
-  font-size: 10.4px;
-  font-size: 0.65rem;
+.search-result-block h1 {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
 }
 /* line 177, ../sass/_ddbasic.typography.scss */
+.search-result-block .status {
+  font-size: 12px;
+  font-size: 0.75rem;
+}
+/* line 181, ../sass/_ddbasic.typography.scss */
 .search-result-block .more {
-  font-size: 22.75px;
-  font-size: 1.42188rem;
+  font-size: 26.25px;
+  font-size: 1.64063rem;
 }
 
-/* line 189, ../sass/_ddbasic.typography.scss */
+/* line 193, ../sass/_ddbasic.typography.scss */
 .user input[type="text"],
 .user input[type="password"] {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
+  font-size: 19.5px;
+  font-size: 1.21875rem;
 }
-/* line 193, ../sass/_ddbasic.typography.scss */
+/* line 197, ../sass/_ddbasic.typography.scss */
 .user input[type="submit"] {
-  font-size: 22.1px;
+  font-size: 25.5px;
 }
 
-/* line 200, ../sass/_ddbasic.typography.scss */
+/* line 204, ../sass/_ddbasic.typography.scss */
 .user-compact {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
+  font-size: 21px;
+  font-size: 1.3125rem;
 }
 
-/* line 207, ../sass/_ddbasic.typography.scss */
+/* line 211, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container {
-  font-size: 16.25px;
-  font-size: 1.01563rem;
+  font-size: 18.75px;
+  font-size: 1.17188rem;
 }
-/* line 209, ../sass/_ddbasic.typography.scss */
+/* line 213, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container:hover {
   text-decoration: none;
 }
-/* line 216, ../sass/_ddbasic.typography.scss */
+/* line 220, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-login-link a:hover {
   text-decoration: none;
 }
-/* line 223, ../sass/_ddbasic.typography.scss */
+/* line 227, ../sass/_ddbasic.typography.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
+  font-size: 19.5px;
+  font-size: 1.21875rem;
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
+.pane-search-result .search-results .list .availability ul > dd,
 .library-list > dd {
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #a6a6a6;
   clear: both;
   margin-bottom: 20px;
   margin-left: 0;
@@ -5074,7 +5080,7 @@ table {
 .table th, table th,
 .table td,
 table td {
-  border-top: 1px solid #d5d5d5;
+  border-top: 1px solid #999999;
   padding: 6.66667px;
   text-align: left;
   vertical-align: top;
@@ -5103,7 +5109,7 @@ table thead:first-child tr:first-child td {
 }
 /* line 73, ../../latto/sass/_latto.tables.scss */
 .table tbody + tbody, table tbody + tbody {
-  border-top: 2px solid #d5d5d5;
+  border-top: 2px solid #999999;
 }
 
 /* line 84, ../../latto/sass/_latto.tables.scss */
@@ -5117,7 +5123,7 @@ table thead:first-child tr:first-child td {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  border: 1px solid #d5d5d5;
+  border: 1px solid #999999;
   border-collapse: separate;
   *border-collapse: collapsed;
   border-left: 0;
@@ -5125,7 +5131,7 @@ table thead:first-child tr:first-child td {
 /* line 102, ../../latto/sass/_latto.tables.scss */
 .table-bordered th,
 .table-bordered td {
-  border-left: 1px solid #d5d5d5;
+  border-left: 1px solid #999999;
 }
 /* line 114, ../../latto/sass/_latto.tables.scss */
 .table-bordered caption + thead tr:first-child th,
@@ -5171,14 +5177,14 @@ table thead:first-child tr:first-child td {
 /* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: white;
+  background-color: #b3b3b3;
 }
 
 /* line 159, ../../latto/sass/_latto.tables.scss */
 .table tbody tr:hover td, table tbody tr:hover td,
 .table tbody tr:hover th,
 table tbody tr:hover th {
-  background-color: #efefef;
+  background-color: #a6a6a6;
 }
 
 /* line 21, ../sass/_ddbasic.buttons.scss */
@@ -5248,7 +5254,7 @@ a.button.available {
   border: none;
   *border: 0;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
   vertical-align: middle;
 }
@@ -7077,8 +7083,8 @@ ul.icons li [class*=" icon-"] {
 
 /* line 79, ../sass/_ddbasic.navigation.scss */
 .main-menu {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
+  font-size: 19.5px;
+  font-size: 1.21875rem;
 }
 
 /* line 89, ../sass/_ddbasic.navigation.scss */
@@ -7106,7 +7112,7 @@ ul.icons li [class*=" icon-"] {
 }
 /* line 98, ../sass/_ddbasic.navigation.scss */
 .secondary-menu a {
-  border-right: 1px solid #d5d5d5;
+  border-right: 1px solid #999999;
   color: #404040;
 }
 
@@ -7178,14 +7184,14 @@ input#edit-search-block-form--2.spinner {
   opacity: 0.25;
   margin-left: 15px;
   position: absolute;
-  font-size: 26px;
+  font-size: 30px;
   top: 15px;
   z-index: 10;
 }
 /* line 53, ../sass/_ddbasic.search.scss */
 .search input[type="text"], .search-compact input[type="text"] {
-  font-size: 22.1px;
-  font-size: 1.38125rem;
+  font-size: 25.5px;
+  font-size: 1.59375rem;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -7207,7 +7213,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 79, ../sass/_ddbasic.search.scss */
 .search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
-  font-size: 19.5px;
+  font-size: 22.5px;
   margin-left: 17px;
   top: 22px;
 }
@@ -7270,16 +7276,16 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 140, ../sass/_ddbasic.search.scss */
 .search-compact input[type="text"] {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
+  font-size: 22.5px;
+  font-size: 1.40625rem;
   min-height: 30px;
   padding-top: 5px;
   padding-left: 40px;
 }
 /* line 148, ../sass/_ddbasic.search.scss */
 .search-compact input[type="submit"] {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
+  font-size: 21px;
+  font-size: 1.3125rem;
   background-color: #d1e02b;
   height: 40px;
   position: absolute;
@@ -7288,13 +7294,13 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 159, ../sass/_ddbasic.search.scss */
 .search-compact i[class^="icon-"] {
-  font-size: 22.1px;
-  font-size: 1.38125rem;
+  font-size: 25.5px;
+  font-size: 1.59375rem;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
   position: absolute;
-  font-size: 28.6px;
+  font-size: 33px;
   top: 13px;
 }
 
@@ -7310,7 +7316,7 @@ input#edit-search-block-form--2.spinner {
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
-  color: #959595;
+  color: #333333;
 }
 /* line 199, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
@@ -7334,7 +7340,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 232, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
-  background-color: #d5d5d5;
+  background-color: #999999;
   padding: 5px;
 }
 /* line 245, ../sass/_ddbasic.search.scss */
@@ -7353,7 +7359,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 281, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
-  color: #959595;
+  color: #333333;
 }
 /* line 285, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
@@ -7362,14 +7368,14 @@ input#edit-search-block-form--2.spinner {
 
 /* line 293, ../sass/_ddbasic.search.scss */
 .pane-ting-search .ting-search-amount-block {
-  color: #959595;
+  color: #333333;
 }
 
 /* line 301, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   overflow: hidden;
-  color: #959595;
+  color: #333333;
 }
 /* line 307, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .form-item {
@@ -7382,14 +7388,14 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 316, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .description {
-  color: #bcbcbc;
+  color: #666666;
   text-align: right;
 }
 
 /* line 322, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   overflow: hidden;
-  color: #959595;
+  color: #333333;
   margin-left: 20px;
 }
 /* line 328, ../sass/_ddbasic.search.scss */
@@ -7433,7 +7439,7 @@ input#edit-search-block-form--2.spinner {
 /* line 367, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
-  color: #959595;
+  color: #333333;
 }
 
 /* line 377, ../sass/_ddbasic.search.scss */
@@ -7445,11 +7451,11 @@ input#edit-search-block-form--2.spinner {
 /* line 382, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
-  border-top: 1px solid #d5d5d5;
+  border-top: 1px solid #999999;
 }
 /* line 389, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
-  background-color: #efefef;
+  background-color: #a6a6a6;
   padding: 10px;
 }
 /* line 394, ../sass/_ddbasic.search.scss */
@@ -7482,19 +7488,62 @@ input#edit-search-block-form--2.spinner {
   background-position: center;
   min-height: 100px;
 }
-/* line 426, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .content {
+/* line 427, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .content,
+.pane-search-result .search-results .list .field {
   margin-left: 10%;
   margin-bottom: 10px;
   padding-left: 20px;
 }
 /* line 433, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .subjects {
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+/* line 438, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .lead {
+  font-weight: inherit;
+}
+/* line 441, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .subjects a {
+  margin-right: 5px;
+}
+/* line 447, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul {
   display: inline;
 }
-/* line 437, ../sass/_ddbasic.search.scss */
+/* line 451, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline;
+  padding: 5px;
+}
+/* line 454, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li a {
+  color: #fff;
+}
+/* line 457, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.pending {
+  background-color: #696a69;
+}
+/* line 460, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.processed {
+  background-color: #ed1e88;
+}
+/* line 463, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available {
+  background-color: #0072bc;
+}
+/* line 466, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.reservable {
+  background-color: #ea9123;
+}
+/* line 469, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.reservable {
+  background-color: #4c9f45;
+}
+/* line 473, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li .availability-status:before {
+  content: " - ";
 }
 
 /* line 28, ../sass/_ddbasic.carousel.scss */
@@ -7817,9 +7866,9 @@ input#edit-search-block-form--2.spinner {
   margin:  0 0 1.25rem;
   padding: 0 0 20px;
   padding:  0 0 1.25rem;
-  font-size: 23.4px;
-  font-size: 1.4625rem;
-  border-bottom: 1px solid #d5d5d5;
+  font-size: 27px;
+  font-size: 1.6875rem;
+  border-bottom: 1px solid #999999;
 }
 
 /* line 42, ../sass/_ddbasic.libraries.scss */
@@ -7831,8 +7880,8 @@ input#edit-search-block-form--2.spinner {
 .library-list .views-row {
   padding: 20px;
   padding: 1.25rem;
-  background: #efefef;
-  line-height: 26px;
+  background: #a6a6a6;
+  line-height: 30px;
 }
 
 /* line 55, ../sass/_ddbasic.libraries.scss */
@@ -7892,7 +7941,7 @@ input#edit-search-block-form--2.spinner {
   opacity: 0.25;
   margin-left: 15px;
   position: absolute;
-  font-size: 28.6px;
+  font-size: 33px;
 }
 
 /* line 31, ../sass/_ddbasic.user.scss */
@@ -7951,8 +8000,8 @@ input#edit-search-block-form--2.spinner {
 /* line 72, ../sass/_ddbasic.user.scss */
 .user input[type="text"],
 .user input[type="password"] {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
+  font-size: 19.5px;
+  font-size: 1.21875rem;
   min-width: 218px;
   min-height: 60px;
   margin-right: 10px;
@@ -7969,8 +8018,8 @@ input#edit-search-block-form--2.spinner {
 
 /* line 93, ../sass/_ddbasic.user.scss */
 .user-compact {
-  font-size: 18.2px;
-  font-size: 1.1375rem;
+  font-size: 21px;
+  font-size: 1.3125rem;
   margin-top: 9px;
   text-align: right;
   position: absolute;
@@ -8030,8 +8079,8 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 153, ../sass/_ddbasic.user.scss */
 .user-login-block .user-close-container {
-  font-size: 16.25px;
-  font-size: 1.01563rem;
+  font-size: 18.75px;
+  font-size: 1.17188rem;
   color: #fff;
   cursor: pointer;
   position: absolute;
@@ -8056,8 +8105,8 @@ input#edit-search-block-form--2.spinner {
 /* line 182, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
-  font-size: 16.9px;
-  font-size: 1.05625rem;
+  font-size: 19.5px;
+  font-size: 1.21875rem;
   margin-bottom: 20px;
   width: 100%;
 }
@@ -8069,7 +8118,7 @@ input#edit-search-block-form--2.spinner {
   display: inline;
 }
 
-/* line 222, ../sass/ddbasic.styles.scss */
+/* line 216, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: #d1e02b;
   zoom: 1;
