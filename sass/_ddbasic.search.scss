@@ -59,6 +59,7 @@ input#edit-search-block-form--2.spinner {
 
     display: inline;
     padding-top: 0;
+    padding-right: 120px;
     padding-bottom: 0;
     padding-left: 48px;
 
@@ -471,13 +472,14 @@ input#edit-search-block-form--2.spinner {
       }
 
       .availability {
+        margin-bottom: 0;
         ul {
           @extend %list;
-          display: inline;
 
           li {
-            display: inline;
+            display: inline-block;
             padding: $default-spacing / 4;
+            margin-bottom: $default-spacing / 4;
             a {
               color: #fff;
             }
@@ -506,7 +508,8 @@ input#edit-search-block-form--2.spinner {
       }
 
       // Compact search result display
-      .ding-format-short {
+      // Currently the module put -long class to the display that ought to be short
+      .ding-format-long {
         .ting-cover,
         .content,
         .field {
