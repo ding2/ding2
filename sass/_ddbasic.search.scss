@@ -431,7 +431,7 @@ input#edit-search-block-form--2.spinner {
 
       .availability {
         ul {
-          @extend %list;
+          //@extend %list;
           display: inline;
 
           li {
