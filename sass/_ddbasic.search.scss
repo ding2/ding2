@@ -192,7 +192,7 @@ input#edit-search-block-form--2.spinner {
     margin-left: 15px;
     position: absolute;
 
-    font-size: $theme-font-size * 2.2;    
+    font-size: $theme-font-size * 2.2;
 
     top: 13px;
   }
@@ -470,6 +470,7 @@ input#edit-search-block-form--2.spinner {
         strong {
           font-weight: inherit;
         }
+
         a {
           margin-right: $default-spacing / 4;
         }
@@ -477,31 +478,35 @@ input#edit-search-block-form--2.spinner {
 
       .availability {
         margin-bottom: 0;
+
         ul {
           @extend %list;
 
           li {
             display: inline-block;
-            padding: $default-spacing / 4;
             margin-bottom: $default-spacing / 4;
-            a {
-              color: #fff;
-            }
+            padding: 0;
+
             &.pending {
-              background-color: #696a69;
+              @extend %availability-pending;
             }
+
             &.availability.processed {
-              background-color: #ed1e88;
+              @extend %availability-processed;
             }
+
             &.availability.available {
-              background-color: #0072bc;
+              @extend %availability-available;
             }
+
             &.availability.reservable {
-              background-color: #ea9123;
+              @extend %availability-reservable;
             }
+
             &.availability.available.reservable {
-              background-color: #4c9f45;
+              @extend %availability-available-reservable;
             }
+
             .availability-status {
               &:before {
                 content: " - ";
@@ -519,37 +524,37 @@ input#edit-search-block-form--2.spinner {
         .field {
           display: none;
         }
-        
+
         // Display the author
         .heading + div.content {
           display: inline;
           margin-left: $default-spacing / 4;
         }
-        
+
         .heading,
         .content,
         .field {
           margin-left: 0;
           padding-left: 0;
         }
-        
+
         .heading {
           display: inline;
-          
+
           h2 {
             display: inline;
           }
         }
-        
+
         .subjects {
           display: none;
         }
-        
+
         .availability {
           clear: both;
           display: block;
           margin-top: $default-spacing;
-          
+
           li {
             display: inline;
           }
@@ -563,8 +568,50 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-collection {
   .ting-cover {
     @extend %search-ting-cover;
-    width: 25%;
+
+    width: 10%;
     min-height: 250px;
+  }
+
+  .view-mode-collection-list {
+    background-color: $gray-light;
+    margin-bottom: $default-spacing;
+    padding: $default-spacing;
+  }
+
+  .field-name-ting-title,
+  .field-name-ting-author,
+  .field-name-ting-abstract {
+    margin-left: 10%;
+    padding-left: $default-spacing;
+  }
+
+  .field-name-ting-type {
+    float: right;
+
+    li {
+      list-style: none;
+
+      &.pending {
+        @extend %availability-pending;
+      }
+
+      &.availability.processed {
+        @extend %availability-processed;
+      }
+
+      &.availability.available {
+        @extend %availability-available;
+      }
+
+      &.availability.reservable {
+        @extend %availability-reservable;
+      }
+
+      &.availability.available.reservable {
+        @extend %availability-available-reservable;
+      }
+    }
   }
 }
 
@@ -572,6 +619,7 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object {
   .ting-cover {
     @extend %search-ting-cover;
+
     width: 25%;
     min-height: 250px;
   }

@@ -3523,6 +3523,45 @@ dd {
   border: 0;
 }
 
+/* line 137, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable {
+  color: #fff;
+  padding: 5px;
+}
+/* line 141, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a {
+  color: #fff;
+}
+/* line 144, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover {
+  text-decoration: none;
+}
+
+/* line 150, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending {
+  background-color: #696a69;
+}
+
+/* line 156, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed {
+  background-color: #ed1e88;
+}
+
+/* line 162, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available {
+  background-color: #0072bc;
+}
+
+/* line 168, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable {
+  background-color: #ea9123;
+}
+
+/* line 174, ../sass/_ddbasic.extends.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable {
+  background-color: #4c9f45;
+}
+
 /* line 23, ../sass/_ddbasic.elements.scss */
 body {
   background: url("../images/body.jpg") no-repeat;
@@ -7602,96 +7641,93 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .lead {
   font-weight: inherit;
 }
-/* line 473, ../sass/_ddbasic.search.scss */
+/* line 474, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects a {
   margin-right: 5px;
 }
-/* line 478, ../sass/_ddbasic.search.scss */
+/* line 479, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability {
   margin-bottom: 0;
 }
-/* line 483, ../sass/_ddbasic.search.scss */
+/* line 485, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
-  padding: 5px;
   margin-bottom: 5px;
+  padding: 0;
 }
-/* line 487, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul li a {
-  color: #fff;
-}
-/* line 490, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul li.pending {
-  background-color: #696a69;
-}
-/* line 493, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul li.availability.processed {
-  background-color: #ed1e88;
-}
-/* line 496, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul li.availability.available {
-  background-color: #0072bc;
-}
-/* line 499, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul li.availability.reservable {
-  background-color: #ea9123;
-}
-/* line 502, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul li.availability.available.reservable {
-  background-color: #4c9f45;
-}
-/* line 506, ../sass/_ddbasic.search.scss */
+/* line 511, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 519, ../sass/_ddbasic.search.scss */
+/* line 524, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .ting-cover,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   display: none;
 }
-/* line 524, ../sass/_ddbasic.search.scss */
+/* line 529, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 531, ../sass/_ddbasic.search.scss */
+/* line 536, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 536, ../sass/_ddbasic.search.scss */
+/* line 541, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading {
   display: inline;
 }
-/* line 539, ../sass/_ddbasic.search.scss */
+/* line 544, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading h2 {
   display: inline;
 }
-/* line 544, ../sass/_ddbasic.search.scss */
+/* line 549, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .subjects {
   display: none;
 }
-/* line 548, ../sass/_ddbasic.search.scss */
+/* line 553, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability {
   clear: both;
   display: block;
   margin-top: 20px;
 }
-/* line 553, ../sass/_ddbasic.search.scss */
+/* line 558, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability li {
   display: inline;
 }
 
-/* line 564, ../sass/_ddbasic.search.scss */
+/* line 569, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .ting-cover {
-  width: 25%;
+  width: 10%;
   min-height: 250px;
 }
+/* line 576, ../sass/_ddbasic.search.scss */
+.pane-ting-collection .view-mode-collection-list {
+  background-color: #efefef;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+/* line 584, ../sass/_ddbasic.search.scss */
+.pane-ting-collection .field-name-ting-title,
+.pane-ting-collection .field-name-ting-author,
+.pane-ting-collection .field-name-ting-abstract {
+  margin-left: 10%;
+  padding-left: 20px;
+}
+/* line 589, ../sass/_ddbasic.search.scss */
+.pane-ting-collection .field-name-ting-type {
+  float: right;
+}
+/* line 592, ../sass/_ddbasic.search.scss */
+.pane-ting-collection .field-name-ting-type li {
+  list-style: none;
+}
 
-/* line 557, ../sass/_ddbasic.search.scss */
+/* line 620, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-cover {
   width: 25%;
   min-height: 250px;
