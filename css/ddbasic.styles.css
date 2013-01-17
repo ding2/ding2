@@ -3144,13 +3144,15 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 81, ../sass/_ddbasic.extends.scss */
-.dl .dt {
+.dl .dt,
+.library-link .dt {
   float: left;
   width: 20%;
 }
 
 /* line 87, ../sass/_ddbasic.extends.scss */
-.dl .dd {
+.dl .dd,
+.library-link .dd {
   padding-left: 25%;
 }
 
@@ -7802,13 +7804,13 @@ input#edit-search-block-form--2.spinner {
     top: 25%;
   }
 }
-/* line 22, ../sass/_ddbasic.libraries.scss */
+/* line 28, ../sass/_ddbasic.libraries.scss */
 .pane-ding-library-map {
   margin-bottom: 20px;
   margin-bottom: 1.25rem;
 }
 
-/* line 28, ../sass/_ddbasic.libraries.scss */
+/* line 33, ../sass/_ddbasic.libraries.scss */
 .libraries-title,
 .opening-hours-title {
   margin: 0 0 20px;
@@ -7820,12 +7822,12 @@ input#edit-search-block-form--2.spinner {
   border-bottom: 1px solid #d5d5d5;
 }
 
-/* line 37, ../sass/_ddbasic.libraries.scss */
+/* line 42, ../sass/_ddbasic.libraries.scss */
 .library-list {
   padding: 20px 0;
   padding:  1.25rem 0;
 }
-/* line 41, ../sass/_ddbasic.libraries.scss */
+/* line 46, ../sass/_ddbasic.libraries.scss */
 .library-list .views-row {
   padding: 20px;
   padding: 1.25rem;
@@ -7833,38 +7835,40 @@ input#edit-search-block-form--2.spinner {
   line-height: 26px;
 }
 
-/* line 50, ../sass/_ddbasic.libraries.scss */
+/* line 55, ../sass/_ddbasic.libraries.scss */
 .libraries-content {
   float: left;
   width: 73%;
 }
 
-/* line 57, ../sass/_ddbasic.libraries.scss */
+/* line 62, ../sass/_ddbasic.libraries.scss */
 .photo {
   float: left;
   width: 25%;
 }
 
-/* line 63, ../sass/_ddbasic.libraries.scss */
-.dl {
+/* line 69, ../sass/_ddbasic.libraries.scss */
+.dl,
+.library-link {
   padding-left: 20px;
   padding-left: 1.25rem;
   margin-left: 25%;
 }
-/* line 68, ../sass/_ddbasic.libraries.scss */
-.dl .dt {
+/* line 74, ../sass/_ddbasic.libraries.scss */
+.dl .dt,
+.library-link .dt {
   font-weight: 600;
 }
 
-/* line 80, ../sass/_ddbasic.libraries.scss */
-.opening-hours {
-  margin-left: 75%;
+/* line 85, ../sass/_ddbasic.libraries.scss */
+.library-link {
+  padding: 20px 0 0 20px;
+  padding:  1.25rem 0 0 1.25rem;
 }
 
-/* line 89, ../sass/_ddbasic.libraries.scss */
-.image-container img {
-  height: auto;
-  width: 25%;
+/* line 90, ../sass/_ddbasic.libraries.scss */
+.opening-hours {
+  margin-left: 75%;
 }
 
 /* line 23, ../sass/_ddbasic.openinghours.scss */
