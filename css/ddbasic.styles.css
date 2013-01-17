@@ -7568,66 +7568,63 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .subjects a {
   margin-right: 5px;
 }
-/* line 474, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .availability ul {
-  display: inline;
-}
 /* line 478, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
-  display: inline;
+  display: inline-block;
   padding: 5px;
+  margin-bottom: 5px;
 }
-/* line 481, ../sass/_ddbasic.search.scss */
+/* line 482, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li a {
   color: #fff;
 }
-/* line 484, ../sass/_ddbasic.search.scss */
+/* line 485, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.pending {
   background-color: #696a69;
 }
-/* line 487, ../sass/_ddbasic.search.scss */
+/* line 488, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed {
   background-color: #ed1e88;
 }
-/* line 490, ../sass/_ddbasic.search.scss */
+/* line 491, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available {
   background-color: #0072bc;
 }
-/* line 493, ../sass/_ddbasic.search.scss */
+/* line 494, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable {
   background-color: #ea9123;
 }
-/* line 496, ../sass/_ddbasic.search.scss */
+/* line 497, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable {
   background-color: #4c9f45;
 }
-/* line 500, ../sass/_ddbasic.search.scss */
+/* line 501, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 513, ../sass/_ddbasic.search.scss */
+/* line 514, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .ting-cover,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   display: none;
 }
-/* line 517, ../sass/_ddbasic.search.scss */
+/* line 518, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading + div.content {
   display: block;
 }
-/* line 522, ../sass/_ddbasic.search.scss */
+/* line 523, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 527, ../sass/_ddbasic.search.scss */
+/* line 528, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability,
 .pane-search-result .search-results .list .ding-format-long .subjects {
   display: block;
 }
-/* line 531, ../sass/_ddbasic.search.scss */
+/* line 532, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability li {
   display: inline;
 }

@@ -473,11 +473,12 @@ input#edit-search-block-form--2.spinner {
       .availability {
         ul {
           @extend %list;
-          display: inline;
+          //display: inline;
 
           li {
-            display: inline;
+            display: inline-block;
             padding: $default-spacing / 4;
+            margin-bottom: $default-spacing / 4;
             a {
               color: #fff;
             }
