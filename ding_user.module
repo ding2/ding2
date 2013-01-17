@@ -38,6 +38,8 @@ function ding_user_ctools_plugin_api($module, $api) {
  * Implements hook_menu().
  */
 function ding_user_menu() {
+  $items = array();
+
   $items['user/%user/authenticate'] = array(
     'title' => 'Authenticate',
     'page callback' => 'drupal_get_form',
@@ -181,7 +183,88 @@ function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
     if ($pos !== FALSE) {
       unset($form['#validate'][$pos]);
     }
+
+    // In order to bypass the problem with unique email adresses we use our own validator.
+    // Find the $form['#validate'] entry for the default validator,
+    // and replace it with our validator. Based on the sharedemail module.
+    if (is_array($form['#validate'])) {
+      $key = array_search('user_account_form_validate', $form['#validate'], TRUE);
+      if ($key !== FALSE) {
+        $form['#validate'][$key] = 'ding_user_account_form_validate';
+      }
+    }
   }
+}
+
+/**
+ * To bypass the problem that a users email address must be unique
+ * we implement our own validator.
+ * Taken from shared email module.
+ *
+ * Form validation handler for user_account_form().
+ *
+ * This function adds a prefix to the e-mail address before calling
+ * user_account_form_validate() to perform the default form validation,
+ * then restores the e-mail address.
+ *
+ * @param $form
+ *  The user form that was submitted.
+ * @param $form_state
+ *  The state of the form.
+ *
+ * @see user_account_form()
+ * @see user_account_form_validate()
+ */
+function ding_user_account_form_validate($form, &$form_state) {
+  // Test whether the e-mail address should be disguised.
+  $mail = ding_user_is_shared_email($form, $form_state);
+  if ($mail) {
+    $form_state['values']['mail'] = 'dingusermail_'. $mail;
+  }
+
+  // Call the User module's validate function.
+  user_account_form_validate($form, $form_state);
+
+  // Restore the actual e-mail address.
+  if ($mail) {
+    $form_state['values']['mail'] = $mail;
+  }
+}
+
+/**
+ * Taken from shared email module
+ * Check whether the e-mail address should be disguised during validation.
+ *
+ * If the e-mail address is valid, check whether there are any other users
+ * with the same address.  If there are, the address must be modified
+ * so that the User module's validation function will think it's unique.
+ *
+ * @param $form
+ *  The user form that was submitted.
+ * @param $form_state
+ *  The state of the form.
+ * @return
+ *  Returns the e-mail address if it's a duplicate and is allowed.
+ *  Otherwise nothing is returned.
+ */
+function ding_user_is_shared_email($form, &$form_state) {
+  $mail = trim($form_state['values']['mail']);
+
+  // If e-mail address is invalid, don't have to disguise it.
+  if (!user_validate_mail($mail)) {
+    // Get the UIDs of all other users who have this e-mail address.
+    $account = $form['#user'];
+    $existing = db_select('users')
+      ->fields('users', array('uid'))
+      ->condition('uid', $account->uid, '<>')
+      ->condition('mail', db_like($mail), 'LIKE')
+      ->execute()
+      ->fetchCol();
+    if (count($existing) > 0) {
+      return $mail;
+    }
+  }
+  return FALSE;
 }
 
 /**
