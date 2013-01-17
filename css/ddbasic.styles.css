@@ -1213,7 +1213,7 @@ hr {
 }
 
 /* line 101, ../../latto/sass/_latto.base.scss */
-.pull-left, .pane-ding-facetbrowser .expand-more, .pane-ding-facetbrowser .expand-less, .pane-ting-search-search-display-extended-query, .pane-ting-search-sort-form, .pane-search-result .search-results .list .ting-cover {
+.pull-left, .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ding-facetbrowser .expand-more, .pane-ding-facetbrowser .expand-less, .pane-ting-search-search-display-extended-query, .pane-ting-search-sort-form {
   float: left;
 }
 
@@ -1435,18 +1435,19 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 186, ../../latto/sass/_latto.font-awesome.scss */
-.pull-left, .pane-ding-facetbrowser .expand-more, .pane-ding-facetbrowser .expand-less, .pane-ting-search-search-display-extended-query, .pane-ting-search-sort-form, .pane-search-result .search-results .list .ting-cover {
+.pull-left, .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ding-facetbrowser .expand-more, .pane-ding-facetbrowser .expand-less, .pane-ting-search-search-display-extended-query, .pane-ting-search-sort-form {
   float: left;
 }
 
 /* line 190, ../../latto/sass/_latto.font-awesome.scss */
-[class^="icon-"].pull-left, .pane-ding-facetbrowser [class^="icon-"].expand-more, .pane-ding-facetbrowser [class^="icon-"].expand-less, [class^="icon-"].pane-ting-search-search-display-extended-query, [class^="icon-"].pane-ting-search-sort-form, .pane-search-result .search-results .list [class^="icon-"].ting-cover,
+[class^="icon-"].pull-left, .pane-search-result .search-results .list [class^="icon-"].ting-cover, .pane-ting-collection [class^="icon-"].ting-cover, .pane-ding-facetbrowser [class^="icon-"].expand-more, .pane-ding-facetbrowser [class^="icon-"].expand-less, [class^="icon-"].pane-ting-search-search-display-extended-query, [class^="icon-"].pane-ting-search-sort-form,
 [class*=" icon-"].pull-left,
+.pane-search-result .search-results .list [class*=" icon-"].ting-cover,
+.pane-ting-collection [class*=" icon-"].ting-cover,
 .pane-ding-facetbrowser [class*=" icon-"].expand-more,
 .pane-ding-facetbrowser [class*=" icon-"].expand-less,
 [class*=" icon-"].pane-ting-search-search-display-extended-query,
-[class*=" icon-"].pane-ting-search-sort-form,
-.pane-search-result .search-results .list [class*=" icon-"].ting-cover {
+[class*=" icon-"].pane-ting-search-sort-form {
   margin-right: .3em;
 }
 /* line 193, ../../latto/sass/_latto.font-awesome.scss */
@@ -1465,16 +1466,18 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 202, ../../latto/sass/_latto.font-awesome.scss */
-.btn [class^="icon-"].pull-left.icon-2x, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-more, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-less, .btn [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn [class^="icon-"].icon-2x.ting-cover, .btn [class^="icon-"].pull-right.icon-2x, .btn [class^="icon-"].icon-2x.image-inline-pull-right, .btn .search [class^="icon-"].icon-2x.help-link, .search .btn [class^="icon-"].icon-2x.help-link, .btn .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn [class^="icon-"].icon-2x.unselect, .btn [class^="icon-"].icon-2x.pane-ting-search, .btn [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn [class^="icon-"].icon-2x.availability-legend, .btn .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn [class^="icon-"].icon-2x.user-login-link, .btn .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn input[class^="icon-"].icon-2x[type="submit"],
+.btn [class^="icon-"].pull-left.icon-2x, .btn .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn [class^="icon-"].icon-2x.ting-cover, .btn .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn [class^="icon-"].icon-2x.ting-cover, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-more, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-less, .btn [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn [class^="icon-"].pull-right.icon-2x, .btn [class^="icon-"].icon-2x.image-inline-pull-right, .btn .search [class^="icon-"].icon-2x.help-link, .search .btn [class^="icon-"].icon-2x.help-link, .btn .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn [class^="icon-"].icon-2x.unselect, .btn [class^="icon-"].icon-2x.pane-ting-search, .btn [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn [class^="icon-"].icon-2x.availability-legend, .btn .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn [class^="icon-"].icon-2x.user-login-link, .btn .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn input[class^="icon-"].icon-2x[type="submit"],
 .btn [class*=" icon-"].pull-left.icon-2x,
+.btn .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn [class*=" icon-"].icon-2x.ting-cover,
+.btn .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn [class*=" icon-"].icon-2x.ting-cover,
 .btn .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn [class*=" icon-"].icon-2x.expand-more,
 .btn .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn [class*=" icon-"].icon-2x.expand-less,
 .btn [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
 .btn [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn [class*=" icon-"].icon-2x.ting-cover,
 .btn [class*=" icon-"].pull-right.icon-2x,
 .btn [class*=" icon-"].icon-2x.image-inline-pull-right,
 .btn .search [class*=" icon-"].icon-2x.help-link,
@@ -1503,16 +1506,18 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 212, ../../latto/sass/_latto.font-awesome.scss */
-.btn.btn-small [class^="icon-"].pull-left.icon-2x, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-more, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-less, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-small .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-small [class^="icon-"].icon-2x.ting-cover, .btn.btn-small [class^="icon-"].pull-right.icon-2x, .btn.btn-small [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-small .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-small [class^="icon-"].icon-2x.help-link, .btn.btn-small .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-small [class^="icon-"].icon-2x.unselect, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-small [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-small .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-small [class^="icon-"].icon-2x.availability-legend, .btn.btn-small .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-small [class^="icon-"].icon-2x.user-login-link, .btn.btn-small .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-small input[class^="icon-"].icon-2x[type="submit"],
+.btn.btn-small [class^="icon-"].pull-left.icon-2x, .btn.btn-small .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-small [class^="icon-"].icon-2x.ting-cover, .btn.btn-small .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn.btn-small [class^="icon-"].icon-2x.ting-cover, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-more, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-less, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-small [class^="icon-"].pull-right.icon-2x, .btn.btn-small [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-small .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-small [class^="icon-"].icon-2x.help-link, .btn.btn-small .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-small [class^="icon-"].icon-2x.unselect, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-small [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-small .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-small [class^="icon-"].icon-2x.availability-legend, .btn.btn-small .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-small [class^="icon-"].icon-2x.user-login-link, .btn.btn-small .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-small input[class^="icon-"].icon-2x[type="submit"],
 .btn.btn-small [class*=" icon-"].pull-left.icon-2x,
+.btn.btn-small .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn.btn-small [class*=" icon-"].icon-2x.ting-cover,
+.btn.btn-small .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn.btn-small [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-small .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn.btn-small [class*=" icon-"].icon-2x.expand-more,
 .btn.btn-small .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn.btn-small [class*=" icon-"].icon-2x.expand-less,
 .btn.btn-small [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
 .btn.btn-small [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn.btn-small .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn.btn-small [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-small [class*=" icon-"].pull-right.icon-2x,
 .btn.btn-small [class*=" icon-"].icon-2x.image-inline-pull-right,
 .btn.btn-small .search [class*=" icon-"].icon-2x.help-link,
@@ -1537,16 +1542,18 @@ ul.icons li [class*=" icon-"] {
   margin-top: 0;
 }
 /* line 222, ../../latto/sass/_latto.font-awesome.scss */
-.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large [class^="icon-"].pull-right.icon-2x, .btn.btn-large [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-large .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-large [class^="icon-"].icon-2x.help-link, .btn.btn-large .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-large [class^="icon-"].icon-2x.unselect, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-large [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-large .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-large [class^="icon-"].icon-2x.availability-legend, .btn.btn-large .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-large [class^="icon-"].icon-2x.user-login-link, .btn.btn-large .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-large input[class^="icon-"].icon-2x[type="submit"],
+.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-large [class^="icon-"].pull-right.icon-2x, .btn.btn-large [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-large .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-large [class^="icon-"].icon-2x.help-link, .btn.btn-large .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-large [class^="icon-"].icon-2x.unselect, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-large [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-large .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-large [class^="icon-"].icon-2x.availability-legend, .btn.btn-large .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-large [class^="icon-"].icon-2x.user-login-link, .btn.btn-large .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-large input[class^="icon-"].icon-2x[type="submit"],
 .btn.btn-large [class*=" icon-"].pull-left.icon-2x,
+.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
+.btn.btn-large .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-more,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-less,
 .btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
 .btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-large [class*=" icon-"].pull-right.icon-2x,
 .btn.btn-large [class*=" icon-"].icon-2x.image-inline-pull-right,
 .btn.btn-large .search [class*=" icon-"].icon-2x.help-link,
@@ -1565,16 +1572,18 @@ ul.icons li [class*=" icon-"] {
   margin-top: .05em;
 }
 /* line 224, ../../latto/sass/_latto.font-awesome.scss */
-.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover,
+.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form,
 .btn.btn-large [class*=" icon-"].pull-left.icon-2x,
+.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
+.btn.btn-large .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-more,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-less,
 .btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
-.btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover {
+.btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-sort-form {
   margin-right: .2em;
 }
 /* line 225, ../../latto/sass/_latto.font-awesome.scss */
@@ -5525,18 +5534,19 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 186, ../../latto/sass/_latto.font-awesome.scss */
-.pull-left, .pane-ding-facetbrowser .expand-more, .pane-ding-facetbrowser .expand-less, .pane-ting-search-search-display-extended-query, .pane-ting-search-sort-form, .pane-search-result .search-results .list .ting-cover {
+.pull-left, .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ding-facetbrowser .expand-more, .pane-ding-facetbrowser .expand-less, .pane-ting-search-search-display-extended-query, .pane-ting-search-sort-form {
   float: left;
 }
 
 /* line 190, ../../latto/sass/_latto.font-awesome.scss */
-[class^="icon-"].pull-left, .pane-ding-facetbrowser [class^="icon-"].expand-more, .pane-ding-facetbrowser [class^="icon-"].expand-less, [class^="icon-"].pane-ting-search-search-display-extended-query, [class^="icon-"].pane-ting-search-sort-form, .pane-search-result .search-results .list [class^="icon-"].ting-cover,
+[class^="icon-"].pull-left, .pane-search-result .search-results .list [class^="icon-"].ting-cover, .pane-ting-collection [class^="icon-"].ting-cover, .pane-ding-facetbrowser [class^="icon-"].expand-more, .pane-ding-facetbrowser [class^="icon-"].expand-less, [class^="icon-"].pane-ting-search-search-display-extended-query, [class^="icon-"].pane-ting-search-sort-form,
 [class*=" icon-"].pull-left,
+.pane-search-result .search-results .list [class*=" icon-"].ting-cover,
+.pane-ting-collection [class*=" icon-"].ting-cover,
 .pane-ding-facetbrowser [class*=" icon-"].expand-more,
 .pane-ding-facetbrowser [class*=" icon-"].expand-less,
 [class*=" icon-"].pane-ting-search-search-display-extended-query,
-[class*=" icon-"].pane-ting-search-sort-form,
-.pane-search-result .search-results .list [class*=" icon-"].ting-cover {
+[class*=" icon-"].pane-ting-search-sort-form {
   margin-right: .3em;
 }
 /* line 193, ../../latto/sass/_latto.font-awesome.scss */
@@ -5555,16 +5565,18 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 202, ../../latto/sass/_latto.font-awesome.scss */
-.btn [class^="icon-"].pull-left.icon-2x, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-more, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-less, .btn [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn [class^="icon-"].icon-2x.ting-cover, .btn [class^="icon-"].pull-right.icon-2x, .btn [class^="icon-"].icon-2x.image-inline-pull-right, .btn .search [class^="icon-"].icon-2x.help-link, .search .btn [class^="icon-"].icon-2x.help-link, .btn .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn [class^="icon-"].icon-2x.unselect, .btn [class^="icon-"].icon-2x.pane-ting-search, .btn [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn [class^="icon-"].icon-2x.availability-legend, .btn .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn [class^="icon-"].icon-2x.user-login-link, .btn .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn input[class^="icon-"].icon-2x[type="submit"],
+.btn [class^="icon-"].pull-left.icon-2x, .btn .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn [class^="icon-"].icon-2x.ting-cover, .btn .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn [class^="icon-"].icon-2x.ting-cover, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-more, .btn .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn [class^="icon-"].icon-2x.expand-less, .btn [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn [class^="icon-"].pull-right.icon-2x, .btn [class^="icon-"].icon-2x.image-inline-pull-right, .btn .search [class^="icon-"].icon-2x.help-link, .search .btn [class^="icon-"].icon-2x.help-link, .btn .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn [class^="icon-"].icon-2x.unselect, .btn [class^="icon-"].icon-2x.pane-ting-search, .btn [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn [class^="icon-"].icon-2x.availability-legend, .btn .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn [class^="icon-"].icon-2x.user-login-link, .btn .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn input[class^="icon-"].icon-2x[type="submit"],
 .btn [class*=" icon-"].pull-left.icon-2x,
+.btn .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn [class*=" icon-"].icon-2x.ting-cover,
+.btn .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn [class*=" icon-"].icon-2x.ting-cover,
 .btn .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn [class*=" icon-"].icon-2x.expand-more,
 .btn .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn [class*=" icon-"].icon-2x.expand-less,
 .btn [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
 .btn [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn [class*=" icon-"].icon-2x.ting-cover,
 .btn [class*=" icon-"].pull-right.icon-2x,
 .btn [class*=" icon-"].icon-2x.image-inline-pull-right,
 .btn .search [class*=" icon-"].icon-2x.help-link,
@@ -5593,16 +5605,18 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 212, ../../latto/sass/_latto.font-awesome.scss */
-.btn.btn-small [class^="icon-"].pull-left.icon-2x, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-more, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-less, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-small .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-small [class^="icon-"].icon-2x.ting-cover, .btn.btn-small [class^="icon-"].pull-right.icon-2x, .btn.btn-small [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-small .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-small [class^="icon-"].icon-2x.help-link, .btn.btn-small .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-small [class^="icon-"].icon-2x.unselect, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-small [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-small .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-small [class^="icon-"].icon-2x.availability-legend, .btn.btn-small .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-small [class^="icon-"].icon-2x.user-login-link, .btn.btn-small .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-small input[class^="icon-"].icon-2x[type="submit"],
+.btn.btn-small [class^="icon-"].pull-left.icon-2x, .btn.btn-small .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-small [class^="icon-"].icon-2x.ting-cover, .btn.btn-small .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn.btn-small [class^="icon-"].icon-2x.ting-cover, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-more, .btn.btn-small .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-small [class^="icon-"].icon-2x.expand-less, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-small [class^="icon-"].pull-right.icon-2x, .btn.btn-small [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-small .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-small [class^="icon-"].icon-2x.help-link, .btn.btn-small .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-small [class^="icon-"].icon-2x.unselect, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-small [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-small [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-small .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-small [class^="icon-"].icon-2x.availability-legend, .btn.btn-small .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-small [class^="icon-"].icon-2x.user-login-link, .btn.btn-small .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-small input[class^="icon-"].icon-2x[type="submit"],
 .btn.btn-small [class*=" icon-"].pull-left.icon-2x,
+.btn.btn-small .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn.btn-small [class*=" icon-"].icon-2x.ting-cover,
+.btn.btn-small .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn.btn-small [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-small .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn.btn-small [class*=" icon-"].icon-2x.expand-more,
 .btn.btn-small .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn.btn-small [class*=" icon-"].icon-2x.expand-less,
 .btn.btn-small [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
 .btn.btn-small [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn.btn-small .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn.btn-small [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-small [class*=" icon-"].pull-right.icon-2x,
 .btn.btn-small [class*=" icon-"].icon-2x.image-inline-pull-right,
 .btn.btn-small .search [class*=" icon-"].icon-2x.help-link,
@@ -5627,16 +5641,18 @@ ul.icons li [class*=" icon-"] {
   margin-top: 0;
 }
 /* line 222, ../../latto/sass/_latto.font-awesome.scss */
-.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large [class^="icon-"].pull-right.icon-2x, .btn.btn-large [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-large .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-large [class^="icon-"].icon-2x.help-link, .btn.btn-large .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-large [class^="icon-"].icon-2x.unselect, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-large [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-large .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-large [class^="icon-"].icon-2x.availability-legend, .btn.btn-large .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-large [class^="icon-"].icon-2x.user-login-link, .btn.btn-large .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-large input[class^="icon-"].icon-2x[type="submit"],
+.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-large [class^="icon-"].pull-right.icon-2x, .btn.btn-large [class^="icon-"].icon-2x.image-inline-pull-right, .btn.btn-large .search [class^="icon-"].icon-2x.help-link, .search .btn.btn-large [class^="icon-"].icon-2x.help-link, .btn.btn-large .pane-ding-facetbrowser .selected-checkbox-group [class^="icon-"].icon-2x.unselect, .pane-ding-facetbrowser .selected-checkbox-group .btn.btn-large [class^="icon-"].icon-2x.unselect, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-records-per-page, .btn.btn-large [class^="icon-"].icon-2x.pane-ding-toggle-format-toggle, .btn.btn-large .pane-ding-availability-legend [class^="icon-"].icon-2x.availability-legend, .pane-ding-availability-legend .btn.btn-large [class^="icon-"].icon-2x.availability-legend, .btn.btn-large .user-login-block [class^="icon-"].icon-2x.user-login-link, .user-login-block .btn.btn-large [class^="icon-"].icon-2x.user-login-link, .btn.btn-large .user-login-block input[class^="icon-"].icon-2x[type="submit"], .user-login-block .btn.btn-large input[class^="icon-"].icon-2x[type="submit"],
 .btn.btn-large [class*=" icon-"].pull-left.icon-2x,
+.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
+.btn.btn-large .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-more,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-less,
 .btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
 .btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-large [class*=" icon-"].pull-right.icon-2x,
 .btn.btn-large [class*=" icon-"].icon-2x.image-inline-pull-right,
 .btn.btn-large .search [class*=" icon-"].icon-2x.help-link,
@@ -5655,16 +5671,18 @@ ul.icons li [class*=" icon-"] {
   margin-top: .05em;
 }
 /* line 224, ../../latto/sass/_latto.font-awesome.scss */
-.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover,
+.btn.btn-large [class^="icon-"].pull-left.icon-2x, .btn.btn-large .pane-search-result .search-results .list [class^="icon-"].icon-2x.ting-cover, .pane-search-result .search-results .list .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ting-collection [class^="icon-"].icon-2x.ting-cover, .pane-ting-collection .btn.btn-large [class^="icon-"].icon-2x.ting-cover, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-more, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-more, .btn.btn-large .pane-ding-facetbrowser [class^="icon-"].icon-2x.expand-less, .pane-ding-facetbrowser .btn.btn-large [class^="icon-"].icon-2x.expand-less, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-search-display-extended-query, .btn.btn-large [class^="icon-"].icon-2x.pane-ting-search-sort-form,
 .btn.btn-large [class*=" icon-"].pull-left.icon-2x,
+.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
+.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
+.btn.btn-large .pane-ting-collection [class*=" icon-"].icon-2x.ting-cover,
+.pane-ting-collection .btn.btn-large [class*=" icon-"].icon-2x.ting-cover,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-more,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-more,
 .btn.btn-large .pane-ding-facetbrowser [class*=" icon-"].icon-2x.expand-less,
 .pane-ding-facetbrowser .btn.btn-large [class*=" icon-"].icon-2x.expand-less,
 .btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-search-display-extended-query,
-.btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-sort-form,
-.btn.btn-large .pane-search-result .search-results .list [class*=" icon-"].icon-2x.ting-cover,
-.pane-search-result .search-results .list .btn.btn-large [class*=" icon-"].icon-2x.ting-cover {
+.btn.btn-large [class*=" icon-"].icon-2x.pane-ting-search-sort-form {
   margin-right: .2em;
 }
 /* line 225, ../../latto/sass/_latto.font-awesome.scss */
@@ -7186,22 +7204,47 @@ ul.icons li [class*=" icon-"] {
   margin-left: 10px;
 }
 
-/* line 26, ../sass/_ddbasic.search.scss */
+/* line 21, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover {
+  position: relative;
+  width: 10%;
+  min-height: 100px;
+  z-index: 1;
+}
+/* line 30, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ting-cover:after, .pane-ting-collection .ting-cover:after {
+  content: "";
+  background: url("../images/image-missing.png");
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top center;
+  min-height: 100px;
+}
+
+/* line 52, ../sass/_ddbasic.search.scss */
 input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
-/* line 31, ../sass/_ddbasic.search.scss */
+/* line 57, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser input.form-checkbox {
   vertical-align: bottom;
 }
 
-/* line 34, ../sass/_ddbasic.search.scss */
+/* line 60, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser label.option {
   font-weight: inherit;
 }
 
-/* line 43, ../sass/_ddbasic.search.scss */
+/* line 69, ../sass/_ddbasic.search.scss */
 .search i[class^="icon-"], .search-compact i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -7211,7 +7254,7 @@ input#edit-search-block-form--2.spinner {
   top: 15px;
   z-index: 10;
 }
-/* line 55, ../sass/_ddbasic.search.scss */
+/* line 81, ../sass/_ddbasic.search.scss */
 .search input[type="text"], .search-compact input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -7230,18 +7273,18 @@ input#edit-search-block-form--2.spinner {
   left: 0;
   width: 100%;
 }
-/* line 74, ../sass/_ddbasic.search.scss */
+/* line 100, ../sass/_ddbasic.search.scss */
 .search input[type="submit"], .search-compact input[type="submit"] {
   position: absolute;
 }
-/* line 81, ../sass/_ddbasic.search.scss */
+/* line 107, ../sass/_ddbasic.search.scss */
 .search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
   font-size: 22.5px;
   margin-left: 17px;
   top: 22px;
 }
 
-/* line 93, ../sass/_ddbasic.search.scss */
+/* line 119, ../sass/_ddbasic.search.scss */
 .search {
   float: left;
   width: 50%;
@@ -7261,43 +7304,43 @@ input#edit-search-block-form--2.spinner {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   padding-right: 0;
 }
-/* line 102, ../sass/_ddbasic.search.scss */
+/* line 128, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
   margin-right: 50px;
 }
-/* line 106, ../sass/_ddbasic.search.scss */
+/* line 132, ../sass/_ddbasic.search.scss */
 .search .form-item {
   margin-top: 0em;
 }
-/* line 110, ../sass/_ddbasic.search.scss */
+/* line 136, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   min-height: 60px;
   right: 48px;
   top: 0;
 }
-/* line 116, ../sass/_ddbasic.search.scss */
+/* line 142, ../sass/_ddbasic.search.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 122, ../sass/_ddbasic.search.scss */
+/* line 148, ../sass/_ddbasic.search.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 130, ../sass/_ddbasic.search.scss */
+/* line 156, ../sass/_ddbasic.search.scss */
 .search-compact {
   margin-top: 10px;
   position: absolute;
   right: 160px;
 }
-/* line 137, ../sass/_ddbasic.search.scss */
+/* line 163, ../sass/_ddbasic.search.scss */
 .search-compact .search-field-wrapper {
   min-width: 400px;
   position: relative;
 }
-/* line 142, ../sass/_ddbasic.search.scss */
+/* line 168, ../sass/_ddbasic.search.scss */
 .search-compact input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -7305,7 +7348,7 @@ input#edit-search-block-form--2.spinner {
   padding-top: 5px;
   padding-left: 40px;
 }
-/* line 150, ../sass/_ddbasic.search.scss */
+/* line 176, ../sass/_ddbasic.search.scss */
 .search-compact input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -7315,7 +7358,7 @@ input#edit-search-block-form--2.spinner {
   right: -2px;
   top: 0;
 }
-/* line 161, ../sass/_ddbasic.search.scss */
+/* line 187, ../sass/_ddbasic.search.scss */
 .search-compact i[class^="icon-"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -7327,82 +7370,82 @@ input#edit-search-block-form--2.spinner {
   top: 13px;
 }
 
-/* line 181, ../sass/_ddbasic.search.scss */
+/* line 207, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 184, ../sass/_ddbasic.search.scss */
+/* line 210, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #295586;
 }
-/* line 189, ../sass/_ddbasic.search.scss */
+/* line 215, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2 {
   margin-bottom: 20px;
 }
-/* line 194, ../sass/_ddbasic.search.scss */
+/* line 220, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser legend {
   line-height: inherit;
   padding-top: 20px;
   padding-bottom: 10px;
 }
-/* line 203, ../sass/_ddbasic.search.scss */
+/* line 229, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 208, ../sass/_ddbasic.search.scss */
+/* line 234, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 211, ../sass/_ddbasic.search.scss */
+/* line 237, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 0;
 }
-/* line 224, ../sass/_ddbasic.search.scss */
+/* line 250, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
 }
-/* line 227, ../sass/_ddbasic.search.scss */
+/* line 253, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 1.1em;
 }
-/* line 234, ../sass/_ddbasic.search.scss */
+/* line 260, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-more {
   display: block;
   margin-top: 20px;
 }
-/* line 240, ../sass/_ddbasic.search.scss */
+/* line 266, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-less {
   display: block;
   margin-top: 20px;
 }
-/* line 248, ../sass/_ddbasic.search.scss */
+/* line 274, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 252, ../sass/_ddbasic.search.scss */
+/* line 278, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 257, ../sass/_ddbasic.search.scss */
+/* line 283, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect {
   margin-top: 10px;
 }
-/* line 267, ../sass/_ddbasic.search.scss */
+/* line 293, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 272, ../sass/_ddbasic.search.scss */
+/* line 298, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 276, ../sass/_ddbasic.search.scss */
+/* line 302, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-facets {
   display: block;
   text-align: right;
@@ -7412,225 +7455,207 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 
-/* line 300, ../sass/_ddbasic.search.scss */
+/* line 326, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 308, ../sass/_ddbasic.search.scss */
+/* line 334, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 312, ../sass/_ddbasic.search.scss */
+/* line 338, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 320, ../sass/_ddbasic.search.scss */
+/* line 346, ../sass/_ddbasic.search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
-/* line 328, ../sass/_ddbasic.search.scss */
+/* line 354, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   overflow: hidden;
   color: #959595;
 }
-/* line 334, ../sass/_ddbasic.search.scss */
+/* line 360, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 338, ../sass/_ddbasic.search.scss */
+/* line 364, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 343, ../sass/_ddbasic.search.scss */
+/* line 369, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 349, ../sass/_ddbasic.search.scss */
+/* line 375, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   overflow: hidden;
   color: #959595;
   margin-left: 20px;
 }
-/* line 355, ../sass/_ddbasic.search.scss */
+/* line 381, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #112338;
   text-decoration: underline;
 }
-/* line 361, ../sass/_ddbasic.search.scss */
+/* line 387, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #112338;
   text-decoration: none;
 }
-/* line 366, ../sass/_ddbasic.search.scss */
+/* line 392, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 375, ../sass/_ddbasic.search.scss */
+/* line 401, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
-/* line 381, ../sass/_ddbasic.search.scss */
+/* line 407, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 385, ../sass/_ddbasic.search.scss */
+/* line 411, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend {
   border: none;
   padding: 0;
 }
-/* line 390, ../sass/_ddbasic.search.scss */
+/* line 416, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
 }
-/* line 394, ../sass/_ddbasic.search.scss */
+/* line 420, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* line 404, ../sass/_ddbasic.search.scss */
+/* line 430, ../sass/_ddbasic.search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 409, ../sass/_ddbasic.search.scss */
+/* line 435, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 416, ../sass/_ddbasic.search.scss */
+/* line 442, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 10px;
 }
-/* line 421, ../sass/_ddbasic.search.scss */
+/* line 447, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
   margin-left: 10%;
   padding-left: 20px;
 }
-/* line 427, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ting-cover {
-  position: relative;
-  width: 10%;
-  min-height: 100px;
-  z-index: 1;
-}
-/* line 436, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ting-cover:after {
-  content: "";
-  background: url("../images/image-missing.png");
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-  opacity: 0.3;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top center;
-  min-height: 100px;
-}
-/* line 454, ../sass/_ddbasic.search.scss */
+/* line 458, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-left: 10%;
   margin-bottom: 10px;
   padding-left: 20px;
 }
-/* line 460, ../sass/_ddbasic.search.scss */
+/* line 464, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 465, ../sass/_ddbasic.search.scss */
+/* line 469, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .lead {
   font-weight: inherit;
 }
-/* line 468, ../sass/_ddbasic.search.scss */
+/* line 472, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects a {
   margin-right: 5px;
 }
-/* line 473, ../sass/_ddbasic.search.scss */
+/* line 477, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability {
   margin-bottom: 0;
 }
-/* line 478, ../sass/_ddbasic.search.scss */
+/* line 482, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
   padding: 5px;
   margin-bottom: 5px;
 }
-/* line 482, ../sass/_ddbasic.search.scss */
+/* line 486, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li a {
   color: #fff;
 }
-/* line 485, ../sass/_ddbasic.search.scss */
+/* line 489, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.pending {
   background-color: #696a69;
 }
-/* line 488, ../sass/_ddbasic.search.scss */
+/* line 492, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed {
   background-color: #ed1e88;
 }
-/* line 491, ../sass/_ddbasic.search.scss */
+/* line 495, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available {
   background-color: #0072bc;
 }
-/* line 494, ../sass/_ddbasic.search.scss */
+/* line 498, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable {
   background-color: #ea9123;
 }
-/* line 497, ../sass/_ddbasic.search.scss */
+/* line 501, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable {
   background-color: #4c9f45;
 }
-/* line 501, ../sass/_ddbasic.search.scss */
+/* line 505, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 514, ../sass/_ddbasic.search.scss */
+/* line 518, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .ting-cover,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   display: none;
 }
-/* line 518, ../sass/_ddbasic.search.scss */
+/* line 522, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading + div.content {
   display: block;
 }
-/* line 523, ../sass/_ddbasic.search.scss */
+/* line 527, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 528, ../sass/_ddbasic.search.scss */
+/* line 532, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability,
 .pane-search-result .search-results .list .ding-format-long .subjects {
   display: block;
 }
-/* line 532, ../sass/_ddbasic.search.scss */
+/* line 536, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability li {
   display: inline;
+}
+
+/* line 547, ../sass/_ddbasic.search.scss */
+.pane-ting-collection .ting-cover {
+  width: 25%;
+  min-height: 250px;
 }
 
 /* line 28, ../sass/_ddbasic.carousel.scss */

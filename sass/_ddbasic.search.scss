@@ -18,6 +18,32 @@ $search-border-type: solid;
 // -----------------------------------------------------------------------------
 //
 
+%search-ting-cover {
+  @extend .pull-left;
+
+  position: relative;
+  width: 10%;
+  min-height: 100px;
+  z-index: 1;
+
+  // Insert a background with image missing icon
+  &:after {
+    content: "";
+    background: url("../images/image-missing.png");
+    @include opacity(0.3);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+    min-height: 100px;
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // Markup overrides
@@ -425,29 +451,7 @@ input#edit-search-block-form--2.spinner {
       }
 
       .ting-cover {
-        @extend .pull-left;
-
-        position: relative;
-        width: 10%;
-        min-height: 100px;
-        z-index: 1;
-
-        // Insert a background with image missing icon
-        &:after {
-          content: "";
-          background: url("../images/image-missing.png");
-          @include opacity(0.3);
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          position: absolute;
-          z-index: -1;
-          background-size: contain;
-          background-repeat: no-repeat;
-          background-position: top center;
-          min-height: 100px;
-        }
+        @extend %search-ting-cover;
       }
 
       .content,
@@ -535,6 +539,15 @@ input#edit-search-block-form--2.spinner {
         }
       }
     }
+  }
+}
+
+// Collection display
+.pane-ting-collection {
+  .ting-cover {
+    @extend %search-ting-cover;
+    width: 25%;
+    min-height: 250px;
   }
 }
 
