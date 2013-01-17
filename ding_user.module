@@ -216,9 +216,9 @@ function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
  * @see user_account_form_validate()
  */
 function ding_user_account_form_validate($form, &$form_state) {
-
   // Test whether the e-mail address should be disguised.
-  if ($mail = ding_user_is_shared_email($form, $form_state)) {
+  $mail = ding_user_is_shared_email($form, $form_state);
+  if ($mail) {
     $form_state['values']['mail'] = 'dingusermail_'. $mail;
   }
 
@@ -248,12 +248,10 @@ function ding_user_account_form_validate($form, &$form_state) {
  *  Otherwise nothing is returned.
  */
 function ding_user_is_shared_email($form, &$form_state) {
-
   $mail = trim($form_state['values']['mail']);
 
   // If e-mail address is invalid, don't have to disguise it.
   if (!user_validate_mail($mail)) {
-
     // Get the UIDs of all other users who have this e-mail address.
     $account = $form['#user'];
     $existing = db_select('users')
