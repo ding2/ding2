@@ -3079,7 +3079,7 @@ h6 {
 }
 
 /* line 99, ../../latto/sass/_latto.typography.scss */
-.block-title {
+.block-title, .library-title {
   margin-bottom: 13.33333px;
   margin-bottom: 0.83333rem;
   line-height: 100%;
@@ -4924,7 +4924,7 @@ select {
 }
 
 /* line 108, ../sass/_ddbasic.typography.scss */
-.footer-block .block-title, .rs-carousel .block-title, .block-opening-hours .block-title, .user-login-block .block-title {
+.footer-block .block-title, .rs-carousel .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .rs-carousel .library-title, .block-opening-hours .library-title, .user-login-block .library-title {
   font-size: 33px;
   font-size: 2.0625rem;
 }
@@ -7158,7 +7158,7 @@ ul.icons li [class*=" icon-"] {
   color: white;
 }
 /* line 38, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block .block-title {
+.footer-block .block-title, .footer-block .library-title {
   color: white;
 }
 
@@ -7957,7 +7957,7 @@ input#edit-search-block-form--2.spinner {
   border-bottom: 1px solid #d5d5d5;
 }
 
-/* line 45, ../sass/_ddbasic.libraries.scss */
+/* line 44, ../sass/_ddbasic.libraries.scss */
 .library-list .views-row {
   padding: 20px;
   padding: 1.25rem;
@@ -7965,38 +7965,38 @@ input#edit-search-block-form--2.spinner {
   line-height: 30px;
 }
 
-/* line 54, ../sass/_ddbasic.libraries.scss */
+/* line 52, ../sass/_ddbasic.libraries.scss */
 .libraries-content {
   float: left;
   width: 73%;
 }
 
-/* line 61, ../sass/_ddbasic.libraries.scss */
+/* line 58, ../sass/_ddbasic.libraries.scss */
 .photo {
   float: left;
   width: 25%;
 }
 
-/* line 68, ../sass/_ddbasic.libraries.scss */
+/* line 65, ../sass/_ddbasic.libraries.scss */
 .dl,
 .library-link {
   padding-left: 20px;
   padding-left: 1.25rem;
   margin-left: 25%;
 }
-/* line 73, ../sass/_ddbasic.libraries.scss */
+/* line 70, ../sass/_ddbasic.libraries.scss */
 .dl .dt,
 .library-link .dt {
   font-weight: 600;
 }
 
-/* line 84, ../sass/_ddbasic.libraries.scss */
+/* line 81, ../sass/_ddbasic.libraries.scss */
 .library-link {
   padding: 20px 0 0 20px;
   padding:  1.25rem 0 0 1.25rem;
 }
 
-/* line 89, ../sass/_ddbasic.libraries.scss */
+/* line 85, ../sass/_ddbasic.libraries.scss */
 .opening-hours {
   margin-left: 75%;
 }
