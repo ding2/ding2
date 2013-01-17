@@ -445,7 +445,7 @@ input#edit-search-block-form--2.spinner {
           z-index: -1;
           background-size: contain;
           background-repeat: no-repeat;
-          background-position: center;
+          background-position: top center;
           min-height: 100px;
         }
       }
@@ -471,13 +471,14 @@ input#edit-search-block-form--2.spinner {
       }
 
       .availability {
+        margin-bottom: 0;
         ul {
           @extend %list;
-          display: inline;
 
           li {
-            display: inline;
+            display: inline-block;
             padding: $default-spacing / 4;
+            margin-bottom: $default-spacing / 4;
             a {
               color: #fff;
             }
@@ -501,6 +502,35 @@ input#edit-search-block-form--2.spinner {
                 content: " - ";
               }
             }
+          }
+        }
+      }
+
+      // Compact search result display
+      // Currently the module put -long class to the display that ought to be short
+      .ding-format-long {
+        .ting-cover,
+        .content,
+        .field {
+          display: none;
+        }
+        // Display the author
+        .heading + div.content {
+          display: block;
+        }
+        .heading,
+        .content,
+        .field {
+          margin-left: 0;
+          padding-left: 0;
+        }
+        .availability,
+        .subjects {
+          display: block;
+        }
+        .availability {
+          li {
+            display: inline;
           }
         }
       }
