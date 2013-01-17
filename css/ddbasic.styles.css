@@ -1102,20 +1102,21 @@ table tbody tr:hover th {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list, .list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li, .list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
 .pane-search-result .search-results .list .availability ul > dd,
-.library-list > dd {
+.library-list > dd,
+.list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
   margin-bottom: 20px;
@@ -3115,6 +3116,7 @@ dl > dt,
 .pane-search-result .search-results .list > dt,
 .pane-search-result .search-results .list .availability ul > dt,
 .library-list > dt,
+.list > dt,
 .lead,
 .strong {
   font-weight: bold;
@@ -5028,20 +5030,21 @@ select {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list, .list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li, .list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
 .pane-search-result .search-results .list .availability ul > dd,
-.library-list > dd {
+.library-list > dd,
+.list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
   margin-bottom: 20px;
@@ -7562,7 +7565,7 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 20px;
 }
 /* line 466, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .lead {
+.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead {
   font-weight: inherit;
 }
 /* line 469, ../sass/_ddbasic.search.scss */
