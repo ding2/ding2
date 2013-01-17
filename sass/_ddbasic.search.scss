@@ -552,6 +552,15 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
+// Object display
+.pane-ting-object {
+  .ting-cover {
+    @extend %search-ting-cover;
+    width: 25%;
+    min-height: 250px;
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // Mediaqueries
