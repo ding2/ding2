@@ -7613,23 +7613,37 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .ding-format-long .field {
   display: none;
 }
-/* line 519, ../sass/_ddbasic.search.scss */
+/* line 520, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading + div.content {
-  display: block;
+  display: inline;
+  margin-left: 5px;
 }
-/* line 524, ../sass/_ddbasic.search.scss */
+/* line 527, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .heading,
 .pane-search-result .search-results .list .ding-format-long .content,
 .pane-search-result .search-results .list .ding-format-long .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 529, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .availability,
-.pane-search-result .search-results .list .ding-format-long .subjects {
-  display: block;
+/* line 532, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .heading {
+  display: inline;
 }
-/* line 533, ../sass/_ddbasic.search.scss */
+/* line 535, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .heading h2 {
+  display: inline;
+}
+/* line 540, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .subjects {
+  display: none;
+}
+/* line 544, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .availability {
+  clear: both;
+  display: block;
+  margin-top: 20px;
+}
+/* line 549, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-long .availability li {
   display: inline;
 }

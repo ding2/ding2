@@ -515,21 +515,37 @@ input#edit-search-block-form--2.spinner {
         .field {
           display: none;
         }
+        
         // Display the author
         .heading + div.content {
-          display: block;
+          display: inline;
+          margin-left: $default-spacing / 4;
         }
+        
         .heading,
         .content,
         .field {
           margin-left: 0;
           padding-left: 0;
         }
-        .availability,
-        .subjects {
-          display: block;
+        
+        .heading {
+          display: inline;
+          
+          h2 {
+            display: inline;
+          }
         }
+        
+        .subjects {
+          display: none;
+        }
+        
         .availability {
+          clear: both;
+          display: block;
+          margin-top: $default-spacing;
+          
           li {
             display: inline;
           }
