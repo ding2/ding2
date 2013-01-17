@@ -431,11 +431,30 @@ input#edit-search-block-form--2.spinner {
 
       .availability {
         ul {
-          //@extend %list;
+          @extend %list;
           display: inline;
 
           li {
             display: inline;
+            padding: $default-spacing / 4;
+            a {
+              color: #fff;
+            }
+            &.pending {
+              background-color: #696a69;
+            }
+            &.availability.processed {
+              background-color: #ed1e88;
+            }
+            &.availability.available {
+              background-color: #0072bc;
+            }
+            &.availability.reservable {
+              background-color: #ea9123;
+            }
+            &.availability.available.reservable {
+              background-color: #4c9f45;
+            }
           }
         }
       }

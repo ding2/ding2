@@ -1101,18 +1101,19 @@ table tbody tr:hover th {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
+.pane-search-result .search-results .list .availability ul > dd,
 .library-list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
@@ -4705,6 +4706,7 @@ dl > dt,
 .list-news > dt,
 .list-compact > dt,
 .pane-search-result .search-results .list > dt,
+.pane-search-result .search-results .list .availability ul > dt,
 .library-list > dt,
 .lead,
 .strong {
@@ -5012,18 +5014,19 @@ textarea {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
+.pane-search-result .search-results .list .availability ul > dd,
 .library-list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
@@ -7493,6 +7496,31 @@ input#edit-search-block-form--2.spinner {
 /* line 437, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline;
+  padding: 5px;
+}
+/* line 440, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li a {
+  color: #fff;
+}
+/* line 443, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.pending {
+  background-color: #696a69;
+}
+/* line 446, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.processed {
+  background-color: #ed1e88;
+}
+/* line 449, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available {
+  background-color: #0072bc;
+}
+/* line 452, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.reservable {
+  background-color: #ea9123;
+}
+/* line 455, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.reservable {
+  background-color: #4c9f45;
 }
 
 /* line 28, ../sass/_ddbasic.carousel.scss */
