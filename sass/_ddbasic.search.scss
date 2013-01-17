@@ -456,14 +456,9 @@ input#edit-search-block-form--2.spinner {
               background-color: #4c9f45;
             }
             .availability-status {
-              margin-left: $default-spacing / 4;
-
               &:before {
-                content: "- ";
+                content: " - ";
               }
-              /*&:after {
-                content: ")";
-              }*/
             }
           }
         }
