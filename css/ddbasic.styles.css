@@ -1101,18 +1101,19 @@ table tbody tr:hover th {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
+.pane-search-result .search-results .list .availability ul > dd,
 .library-list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
@@ -4777,6 +4778,7 @@ dl > dt,
 .list-news > dt,
 .list-compact > dt,
 .pane-search-result .search-results .list > dt,
+.pane-search-result .search-results .list .availability ul > dt,
 .library-list > dt,
 .lead,
 .strong {
@@ -5084,18 +5086,19 @@ textarea {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .library-list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .library-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .library-list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .library-list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
 .list-compact > dd,
 .pane-search-result .search-results .list > dd,
+.pane-search-result .search-results .list .availability ul > dd,
 .library-list > dd {
   border-bottom: 1px solid #efefef;
   clear: both;
@@ -7487,14 +7490,45 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
   margin-left: 10%;
+  padding-left: 20px;
 }
-/* line 419, ../sass/_ddbasic.search.scss */
+/* line 420, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover {
+  position: relative;
   width: 10%;
+  min-height: 100px;
+  z-index: 1;
 }
-/* line 425, ../sass/_ddbasic.search.scss */
+/* line 429, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ting-cover:after {
+  content: "";
+  background: url("../images/image-missing.png");
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100px;
+}
+/* line 446, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content {
   margin-left: 10%;
+  margin-bottom: 10px;
+  padding-left: 20px;
+}
+/* line 453, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul {
+  display: inline;
+}
+/* line 457, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li {
+  display: inline;
 }
 
 /* line 28, ../sass/_ddbasic.carousel.scss */

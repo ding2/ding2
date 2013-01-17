@@ -414,16 +414,50 @@ input#edit-search-block-form--2.spinner {
       .heading {
         margin-bottom: $default-spacing / 2;
         margin-left: 10%;
+        padding-left: $default-spacing;
       }
 
       .ting-cover {
         @extend .pull-left;
-        width: 10%;
 
+        position: relative;
+        width: 10%;
+        min-height: 100px;
+        z-index: 1;
+
+        // Insert a background with image missing icon
+        &:after {
+          content: "";
+          background: url("../images/image-missing.png");
+          @include opacity(0.3);
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          position: absolute;
+          z-index: -1;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+          min-height: 100px;
+        }
       }
 
       .content {
         margin-left: 10%;
+        margin-bottom: $default-spacing / 2;
+        padding-left: $default-spacing;
+      }
+
+      .availability {
+        ul {
+          @extend %list;
+          display: inline;
+
+          li {
+            display: inline;
+          }
+        }
       }
     }
   }
