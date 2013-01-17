@@ -7522,6 +7522,18 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable {
   background-color: #4c9f45;
 }
+/* line 458, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li .availability-status {
+  margin-left: 5px;
+}
+/* line 461, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li .availability-status:before {
+  content: "(";
+}
+/* line 464, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li .availability-status:after {
+  content: ")";
+}
 
 /* line 28, ../sass/_ddbasic.carousel.scss */
 .rs-carousel,
