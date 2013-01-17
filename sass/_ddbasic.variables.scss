@@ -21,8 +21,8 @@ $default-spacing:                 20px !default;
 $white:                           #fff    !default;
 $black:                           #000    !default;
 $gray:                            #999 !default;
-$gray-light:                      lighten($gray, 10%) !default;
-$gray-lighter:                    lighten($gray, 25%) !default;
+$gray-light:                      lighten($gray, 5%) !default;
+$gray-lighter:                    lighten($gray, 10%) !default;
 $gray-dark:                       darken($gray, 20%) !default;
 $gray-darker:                     darken($gray, 40%) !default;
 

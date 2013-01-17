@@ -27,6 +27,11 @@ input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
+// Override Drupal system style
+.pane-ding-facetbrowser input.form-checkbox {
+  vertical-align: bottom;
+}
+
 
 // -----------------------------------------------------------------------------
 // Default styling
@@ -96,6 +101,10 @@ input#edit-search-block-form--2.spinner {
     margin-right: 50px;
   }
 
+  .form-item {
+     margin-top: 0em;
+  }
+
   input[type="submit"] {
     min-height: 60px;
     right: 48px;
@@ -160,18 +169,7 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// **
-// Search form styling
-// **
-//
-.search {
-  .form-item {
-     margin-top: 0em;
-  }
-}
 
-
-// **
 // Facet browser styling
 // **
 //
@@ -381,9 +379,33 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   padding-top: $default-spacing;
 
-  .pane-content {
+  .search-results {
     padding-top: $default-spacing;
     border-top: $search-border-size $search-border-type $gray;
+
+    .list {
+      @extend %list;
+
+      .list-item {
+        background-color: $gray-light;
+        padding: $default-spacing / 2;
+      }
+
+      .heading {
+        margin-bottom: $default-spacing / 2;
+        margin-left: 10%;
+      }
+
+      .ting-cover {
+        @extend .pull-left;
+        width: 10%;
+
+      }
+
+      .content {
+        margin-left: 10%;
+      }
+    }
   }
 }
 
