@@ -7871,12 +7871,7 @@ input#edit-search-block-form--2.spinner {
   border-bottom: 1px solid #999999;
 }
 
-/* line 42, ../sass/_ddbasic.libraries.scss */
-.library-list {
-  padding: 20px 0;
-  padding:  1.25rem 0;
-}
-/* line 46, ../sass/_ddbasic.libraries.scss */
+/* line 45, ../sass/_ddbasic.libraries.scss */
 .library-list .views-row {
   padding: 20px;
   padding: 1.25rem;
@@ -7884,38 +7879,38 @@ input#edit-search-block-form--2.spinner {
   line-height: 30px;
 }
 
-/* line 55, ../sass/_ddbasic.libraries.scss */
+/* line 54, ../sass/_ddbasic.libraries.scss */
 .libraries-content {
   float: left;
   width: 73%;
 }
 
-/* line 62, ../sass/_ddbasic.libraries.scss */
+/* line 61, ../sass/_ddbasic.libraries.scss */
 .photo {
   float: left;
   width: 25%;
 }
 
-/* line 69, ../sass/_ddbasic.libraries.scss */
+/* line 68, ../sass/_ddbasic.libraries.scss */
 .dl,
 .library-link {
   padding-left: 20px;
   padding-left: 1.25rem;
   margin-left: 25%;
 }
-/* line 74, ../sass/_ddbasic.libraries.scss */
+/* line 73, ../sass/_ddbasic.libraries.scss */
 .dl .dt,
 .library-link .dt {
   font-weight: 600;
 }
 
-/* line 85, ../sass/_ddbasic.libraries.scss */
+/* line 84, ../sass/_ddbasic.libraries.scss */
 .library-link {
   padding: 20px 0 0 20px;
   padding:  1.25rem 0 0 1.25rem;
 }
 
-/* line 90, ../sass/_ddbasic.libraries.scss */
+/* line 89, ../sass/_ddbasic.libraries.scss */
 .opening-hours {
   margin-left: 75%;
 }

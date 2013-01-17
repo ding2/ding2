@@ -41,7 +41,6 @@
 
 .library-list {
   @extend %list;
-  @include rem('padding', $default-spacing 0);
 
   .views-row {
     @include rem('padding', $default-spacing);
