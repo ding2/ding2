@@ -7605,30 +7605,30 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 512, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-short .ting-cover,
-.pane-search-result .search-results .list .ding-format-short .content,
-.pane-search-result .search-results .list .ding-format-short .field {
+/* line 513, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .ting-cover,
+.pane-search-result .search-results .list .ding-format-long .content,
+.pane-search-result .search-results .list .ding-format-long .field {
   display: none;
 }
-/* line 516, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-short .heading + div.content {
+/* line 517, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .heading + div.content {
   display: block;
 }
-/* line 521, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-short .heading,
-.pane-search-result .search-results .list .ding-format-short .content,
-.pane-search-result .search-results .list .ding-format-short .field {
+/* line 522, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .heading,
+.pane-search-result .search-results .list .ding-format-long .content,
+.pane-search-result .search-results .list .ding-format-long .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 526, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-short .availability,
-.pane-search-result .search-results .list .ding-format-short .subjects {
+/* line 527, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .availability,
+.pane-search-result .search-results .list .ding-format-long .subjects {
   display: block;
 }
-/* line 530, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-short .availability li {
+/* line 531, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-long .availability li {
   display: inline;
 }
 

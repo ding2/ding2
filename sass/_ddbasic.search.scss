@@ -506,7 +506,8 @@ input#edit-search-block-form--2.spinner {
       }
 
       // Compact search result display
-      .ding-format-short {
+      // Currently the module put -long class to the display that ought to be short
+      .ding-format-long {
         .ting-cover,
         .content,
         .field {
