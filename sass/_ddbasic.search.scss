@@ -17,25 +17,6 @@ $search-border-type: solid;
 // Extends
 // -----------------------------------------------------------------------------
 //
-%inline-icons {
-  @include opacity(.25);
-
-  margin-left: 15px;
-  position: absolute;
-
-  font-size: $theme-font-size * 2.2;
-}
-
-
-%inline-icon-input {
-  @include box-sizing(border-box);
-  @include border-radius(12px);
-
-  display: inline;
-  padding-left: 45px;
-
-  border: 0;
-}
 
 
 // -----------------------------------------------------------------------------
@@ -71,7 +52,8 @@ input#edit-search-block-form--2.spinner {
 
     display: inline;
     padding-top: 0;
-    padding-left: 45px;
+    padding-bottom: 0;
+    padding-left: 48px;
 
     border: 0;
 
@@ -106,7 +88,7 @@ input#edit-search-block-form--2.spinner {
   @extend %header-sections;
   @extend %search;
 
-  border-right: 1px solid $link-color;
+  border-right: 1px solid transparentize($black, .9);
 
   padding-right: 0;
 
@@ -167,7 +149,12 @@ input#edit-search-block-form--2.spinner {
 
   i[class^="icon-"] {
     @include rem('font-size', $theme-font-size * 1.7);
-    @extend %inline-icons;
+    @include opacity(.25);
+
+    margin-left: 15px;
+    position: absolute;
+
+    font-size: $theme-font-size * 2.2;    
 
     top: 13px;
   }
