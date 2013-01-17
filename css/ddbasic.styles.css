@@ -7568,6 +7568,10 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .subjects a {
   margin-right: 5px;
 }
+/* line 473, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability {
+  margin-bottom: 0;
+}
 /* line 478, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
