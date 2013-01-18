@@ -7210,7 +7210,7 @@ ul.icons li [class*=" icon-"] {
 .main-menu li a,
 .secondary-menu li a {
   display: inline-block;
-  margin-right: 30px;
+  margin-right: 25px;
   padding: 20px 0;
   color: gray;
 }
@@ -8347,7 +8347,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 65, ../sass/_ddbasic.user.scss */
 .user i[class^="icon-"] {
-  top: 17px;
+  top: 13px;
 }
 /* line 72, ../sass/_ddbasic.user.scss */
 .user input[type="text"],
