@@ -44,6 +44,9 @@ search/ting
       'middle' => NULL,
       'left' => NULL,
       'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
@@ -75,7 +78,7 @@ search/ting
     $pane->pid = 'new-2';
     $pane->panel = 'main_content';
     $pane->type = 'block';
-    $pane->subtype = 'ding_toggle_format-toggle';
+    $pane->subtype = 'ting_search-search-display-extended-query';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -95,8 +98,8 @@ search/ting
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'ting_search-sort-form';
+    $pane->type = 'ting_search';
+    $pane->subtype = 'ting_search';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -117,7 +120,7 @@ search/ting
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'block';
-    $pane->subtype = 'ting_search-records-per-page';
+    $pane->subtype = 'ting_search-sort-form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -138,7 +141,7 @@ search/ting
     $pane->pid = 'new-5';
     $pane->panel = 'main_content';
     $pane->type = 'block';
-    $pane->subtype = 'ting_search-search-display-extended-query';
+    $pane->subtype = 'ding_toggle_format-toggle';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -159,8 +162,8 @@ search/ting
     $pane->pid = 'new-6';
     $pane->panel = 'main_content';
     $pane->type = 'block';
-    $pane->subtype = 'ding_availability-legend';
-    $pane->shown = FALSE;
+    $pane->subtype = 'ting_search-records-per-page';
+    $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
@@ -179,8 +182,8 @@ search/ting
     $pane = new stdClass();
     $pane->pid = 'new-7';
     $pane->panel = 'main_content';
-    $pane->type = 'ting_search';
-    $pane->subtype = 'ting_search';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_availability-legend';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
