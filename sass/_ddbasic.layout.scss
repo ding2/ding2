@@ -49,6 +49,7 @@ $topbar-min-height:               85px;
   .topbar-inner {
     @extend .grid-inner;
 
+    min-height: $topbar-min-height;
     position: relative;
   }  
 }
