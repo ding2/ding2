@@ -747,10 +747,6 @@ input#edit-search-block-form--2.spinner {
   }
 
   .subjects {
-    .field-items {
-      max-width: 72%;
-    }
-
     // forget that clearfix
     &:after {
       clear: none;
@@ -765,6 +761,9 @@ input#edit-search-block-form--2.spinner {
       width: 25%;
       min-width: 200px;
       margin-right: $default-spacing / 2;
+    }
+    .field-items {
+      max-width: 72%;
     }
   }
 
