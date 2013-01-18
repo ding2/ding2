@@ -8063,6 +8063,20 @@ input#edit-search-block-form--2.spinner {
   margin-top: 20px;
   padding-top: 20px;
 }
+/* line 749, ../sass/_ddbasic.search.scss */
+.pane-ting-object .field-name-ding-availability-holdings ul {
+  padding: 20px;
+  background-color: #efefef;
+}
+/* line 755, ../sass/_ddbasic.search.scss */
+.pane-ting-object .field-name-ding-availability-holdings ul li {
+  border: none;
+  padding: 0;
+}
+/* line 759, ../sass/_ddbasic.search.scss */
+.pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
+  margin-bottom: 0;
+}
 
 /* line 28, ../sass/_ddbasic.carousel.scss */
 .rs-carousel,

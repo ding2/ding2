@@ -748,7 +748,18 @@ input#edit-search-block-form--2.spinner {
 
     ul {
       @extend %list;
-      
+
+      padding: $default-spacing;
+      background-color: $gray-light;
+
+      li {
+        border: none;
+        padding: 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
     }
   }
 }
