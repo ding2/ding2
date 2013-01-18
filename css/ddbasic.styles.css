@@ -8062,18 +8062,19 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
   margin-top: 20px;
   padding-top: 20px;
+  margin-bottom: 0;
 }
-/* line 749, ../sass/_ddbasic.search.scss */
+/* line 750, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 755, ../sass/_ddbasic.search.scss */
+/* line 756, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 759, ../sass/_ddbasic.search.scss */
+/* line 760, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
