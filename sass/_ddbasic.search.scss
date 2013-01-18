@@ -729,6 +729,37 @@ input#edit-search-block-form--2.spinner {
 
   .group-material-details {
     clear: both;
+    padding-top: $default-spacing;
+
+    .field-label {
+      width: 25%;
+      min-width: 200px;
+      margin-right: $default-spacing / 2;
+    }
+  }
+
+  .field-name-ding-availability-holdings {
+    clear: both;
+    border-top: $search-border-size $search-border-type $gray;
+    margin-top: $default-spacing;
+    padding-top: $default-spacing;
+    margin-bottom: 0;
+
+    ul {
+      @extend %list;
+
+      padding: $default-spacing;
+      background-color: $gray-light;
+
+      li {
+        border: none;
+        padding: 0;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }
 
