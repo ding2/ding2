@@ -14,18 +14,20 @@
 // =============================================================================
 //
 %navigation {
-   a {
+   a,
+   li a {
     display: inline-block;
-    margin-top: 20px;
-    margin-right: 10px;
-    margin-bottom: 20px;
-    padding-top: 6px;
-    padding-right: 14px;
-    padding-bottom: 4px;
+    margin-right: $default-spacing * 1.5;
+    padding: $default-spacing 0;
 
-    color: $black;
+    color: lighten($black, 50%);
+
+    &:hover {
+      color: $black;
+    }
 
     &.active {
+      color: $black;
       font-weight: $font-weight-regular;
       text-decoration: underline;
     }
@@ -71,7 +73,7 @@
 // Main menu
 // -----------------------------------------------------------------------------
 //
-.main-menu-inner {
+.nav-wrapper {
   @include zen-grid-item($grid-66, 1);
 }
 
@@ -79,6 +81,16 @@
 .main-menu {
   @include rem('font-size', $theme-font-size * 1.3);
   @extend %navigation;
+
+  padding-left: 0;
+
+  li {
+    display: inline;
+  }
+
+  a {
+    text-align: left;
+  }
 }
 
 
