@@ -954,34 +954,33 @@ table tbody tr:hover th {
   display: block;
   height: 100%;
   margin-right: 10px;
-  min-width: 100px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.05);
   text-decoration: none;
 }
-/* line 52, ../../latto/sass/_latto.nav.scss */
+/* line 51, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a:hover, .main-menu > li a:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
-/* line 57, ../../latto/sass/_latto.nav.scss */
+/* line 56, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.active, .main-menu > li a.active, .horizontal-menu > li a.active-trail, .main-menu > li a.active-trail {
   color: #4d4d4d;
   background-color: rgba(255, 255, 255, 0.05);
 }
-/* line 62, ../../latto/sass/_latto.nav.scss */
+/* line 61, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.last, .main-menu > li a.last {
   margin-right: 0;
 }
 
-/* line 75, ../../latto/sass/_latto.nav.scss */
+/* line 74, ../../latto/sass/_latto.nav.scss */
 .vertical-menu, .sub-menu {
   margin: 0;
 }
-/* line 78, ../../latto/sass/_latto.nav.scss */
+/* line 77, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li, .sub-menu > li {
   display: block;
 }
-/* line 82, ../../latto/sass/_latto.nav.scss */
+/* line 81, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li a, .sub-menu > li a {
   color: #4d4d4d;
   display: block;
@@ -989,102 +988,102 @@ table tbody tr:hover th {
   padding-bottom: 10px;
 }
 
-/* line 96, ../../latto/sass/_latto.nav.scss */
+/* line 95, ../../latto/sass/_latto.nav.scss */
 .tabs {
   margin: 0;
   padding: 0;
 }
-/* line 100, ../../latto/sass/_latto.nav.scss */
+/* line 99, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary, .tabs ul.secondary {
   margin: 0;
   border: none;
   padding-left: 20px;
 }
-/* line 105, ../../latto/sass/_latto.nav.scss */
+/* line 104, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li, .tabs ul.secondary li {
   display: inline-block;
   background-color: #efefef;
 }
-/* line 108, ../../latto/sass/_latto.nav.scss */
+/* line 107, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover, .tabs ul.secondary li:hover {
   background-color: #bcbcbc;
 }
-/* line 110, ../../latto/sass/_latto.nav.scss */
+/* line 109, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover a, .tabs ul.secondary li:hover a {
   color: black;
 }
-/* line 114, ../../latto/sass/_latto.nav.scss */
+/* line 113, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li a, .tabs ul.secondary li a {
   background-color: transparent;
   margin: 0;
   line-height: 18px;
   border: none;
 }
-/* line 122, ../../latto/sass/_latto.nav.scss */
+/* line 121, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active, .tabs ul.secondary li.active {
   background-color: white;
 }
-/* line 124, ../../latto/sass/_latto.nav.scss */
+/* line 123, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover {
   background-color: #fbfbfb;
 }
-/* line 126, ../../latto/sass/_latto.nav.scss */
+/* line 125, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a {
   color: #959595;
   text-decoration: none;
 }
-/* line 131, ../../latto/sass/_latto.nav.scss */
+/* line 130, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active a, .tabs ul.secondary li.active a {
   background-color: transparent;
   color: #959595;
 }
-/* line 138, ../../latto/sass/_latto.nav.scss */
+/* line 137, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary {
   background-color: white;
   padding: 10px 20px;
 }
-/* line 143, ../../latto/sass/_latto.nav.scss */
+/* line 142, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li {
   display: table-cell;
   background-color: white;
   border-color: #fbfbfb;
   padding: 0 10px 0 10px;
 }
-/* line 148, ../../latto/sass/_latto.nav.scss */
+/* line 147, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li:hover {
   background-color: transparent;
 }
-/* line 151, ../../latto/sass/_latto.nav.scss */
+/* line 150, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a {
   padding: 3.33333px 5px 3.33333px 5px;
 }
-/* line 154, ../../latto/sass/_latto.nav.scss */
+/* line 153, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a:hover {
   color: #959595;
   background-color: #efefef;
 }
-/* line 161, ../../latto/sass/_latto.nav.scss */
+/* line 160, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active:hover {
   background-color: transparent;
 }
-/* line 164, ../../latto/sass/_latto.nav.scss */
+/* line 163, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active a {
   color: #959595;
   background-color: #efefef;
 }
 
-/* line 176, ../../latto/sass/_latto.nav.scss */
+/* line 175, ../../latto/sass/_latto.nav.scss */
 .action-links {
   background-color: white;
   padding: 10px 20px;
 }
-/* line 179, ../../latto/sass/_latto.nav.scss */
+/* line 178, ../../latto/sass/_latto.nav.scss */
 .action-links li {
   color: #295586;
   display: inline-block;
   padding: 0 10px 0 10px;
 }
-/* line 186, ../../latto/sass/_latto.nav.scss */
+/* line 185, ../../latto/sass/_latto.nav.scss */
 .action-links li:before {
   font-size: 18px;
   font-size: 1.125rem;
@@ -1094,7 +1093,7 @@ table tbody tr:hover th {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 196, ../../latto/sass/_latto.nav.scss */
+/* line 195, ../../latto/sass/_latto.nav.scss */
 .action-links li a {
   font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -7305,30 +7304,56 @@ ul.icons li [class*=" icon-"] {
   content: "\f115";
 }
 
-/* line 17, ../sass/_ddbasic.navigation.scss */
-.main-menu a, .secondary-menu a {
+/* line 16, ../sass/_ddbasic.navigation.scss */
+.main-menu, .secondary-menu {
+  margin: 0;
+  padding-left: 0;
+}
+/* line 20, ../sass/_ddbasic.navigation.scss */
+.main-menu li, .secondary-menu li {
+  display: inline;
+}
+/* line 26, ../sass/_ddbasic.navigation.scss */
+.main-menu .last span, .secondary-menu .last span,
+.main-menu .last a,
+.secondary-menu .last a {
+  border-right: 0;
+  margin-right: 0;
+  padding-right: 0;
+}
+/* line 34, ../sass/_ddbasic.navigation.scss */
+.main-menu a, .secondary-menu a,
+.main-menu li a,
+.secondary-menu li a {
   display: inline-block;
-  margin-top: 20px;
-  margin-right: 10px;
-  margin-bottom: 20px;
-  padding-top: 6px;
-  padding-right: 14px;
-  padding-bottom: 4px;
+  margin-right: 25px;
+  padding: 20px 0;
+  color: gray;
+}
+/* line 41, ../sass/_ddbasic.navigation.scss */
+.main-menu a:hover, .secondary-menu a:hover,
+.main-menu li a:hover,
+.secondary-menu li a:hover {
   color: black;
 }
-/* line 28, ../sass/_ddbasic.navigation.scss */
-.main-menu a.active, .secondary-menu a.active {
+/* line 45, ../sass/_ddbasic.navigation.scss */
+.main-menu a.active, .secondary-menu a.active,
+.main-menu li a.active,
+.secondary-menu li a.active {
+  color: black;
   font-weight: 200;
   text-decoration: underline;
 }
-/* line 33, ../sass/_ddbasic.navigation.scss */
-.main-menu a.last, .secondary-menu a.last {
+/* line 51, ../sass/_ddbasic.navigation.scss */
+.main-menu a.last, .secondary-menu a.last,
+.main-menu li a.last,
+.secondary-menu li a.last {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
 }
 
-/* line 47, ../sass/_ddbasic.navigation.scss */
+/* line 64, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
   float: left;
   width: 66.66667%;
@@ -7351,7 +7376,7 @@ ul.icons li [class*=" icon-"] {
   position: absolute;
   width: 100%;
 }
-/* line 55, ../sass/_ddbasic.navigation.scss */
+/* line 72, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.fixed {
   margin-top: 60px;
   position: fixed;
@@ -7359,7 +7384,7 @@ ul.icons li [class*=" icon-"] {
   z-index: 99;
 }
 
-/* line 74, ../sass/_ddbasic.navigation.scss */
+/* line 90, ../sass/_ddbasic.navigation.scss */
 .main-menu-inner {
   float: left;
   width: 66.66667%;
@@ -7378,13 +7403,17 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 79, ../sass/_ddbasic.navigation.scss */
+/* line 94, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 19.5px;
   font-size: 1.21875rem;
 }
+/* line 98, ../sass/_ddbasic.navigation.scss */
+.main-menu a {
+  text-align: left;
+}
 
-/* line 89, ../sass/_ddbasic.navigation.scss */
+/* line 108, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-inner {
   float: right;
   width: 33.33333%;
@@ -7403,17 +7432,26 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 94, ../sass/_ddbasic.navigation.scss */
+/* line 112, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
+  font-size: 15px;
+  font-size: 0.9375rem;
 }
-/* line 98, ../sass/_ddbasic.navigation.scss */
-.secondary-menu a {
+/* line 117, ../sass/_ddbasic.navigation.scss */
+.secondary-menu span {
   border-right: 1px solid #d5d5d5;
-  color: #404040;
+}
+/* line 121, ../sass/_ddbasic.navigation.scss */
+.secondary-menu li a {
+  color: gray;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-/* line 110, ../sass/_ddbasic.navigation.scss */
+/* line 136, ../sass/_ddbasic.navigation.scss */
 .tertiary-menu-wrapper, .facet-browser {
   padding: 20px;
 }
@@ -7568,7 +7606,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 129, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
-  margin-right: 50px;
+  margin-right: 40px;
 }
 /* line 133, ../sass/_ddbasic.search.scss */
 .search .form-item {
@@ -7577,7 +7615,7 @@ input#edit-search-block-form--2.spinner {
 /* line 137, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   min-height: 60px;
-  right: 48px;
+  right: 38px;
   top: 0;
 }
 /* line 143, ../sass/_ddbasic.search.scss */
@@ -8439,7 +8477,7 @@ input#edit-search-block-form--2.spinner {
 /* line 52, ../sass/_ddbasic.user.scss */
 .user .user-field-wrapper {
   display: block;
-  margin-left: 50px;
+  margin-left: 40px;
 }
 /* line 57, ../sass/_ddbasic.user.scss */
 .user .form-item {
@@ -8452,7 +8490,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 65, ../sass/_ddbasic.user.scss */
 .user i[class^="icon-"] {
-  top: 17px;
+  top: 13px;
 }
 /* line 72, ../sass/_ddbasic.user.scss */
 .user input[type="text"],

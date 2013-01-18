@@ -51,7 +51,7 @@
 
   .user-field-wrapper {
     display: block;
-    margin-left: 50px;
+    margin-left: 40px;
   }
 
   .form-item {
@@ -65,7 +65,7 @@
   i[class^="icon-"] {
     @extend %inline-icons;
 
-    top: 17px;
+    top: 13px;
   }
 
   input[type="text"],

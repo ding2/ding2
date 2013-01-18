@@ -17,7 +17,7 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-<div class="main-menu-inner <?php print $classes; ?>" <?php print $id; ?>>
+<div class="secondary-menu-inner <?php print $classes; ?>" <?php print $id; ?>>
    
   <?php if ($admin_links): ?>
     <?php print $admin_links; ?>

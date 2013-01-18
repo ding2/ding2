@@ -71,6 +71,23 @@ function ddbasic_preprocess_panels_pane(&$vars) {
 
 
 /**
+ * Implements theme_menu_tree().
+ *
+ * Addes wrapper clases for the main menu and secondary menu.
+ */
+
+// Main menu
+function ddbasic_menu_tree__menu_block__1($vars) {
+  return '<ul class="main-menu">' . $vars['tree'] . '</ul>';
+}
+
+// Secondary menu
+function ddbasic_menu_tree__menu_block__2($vars) {
+  return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
+}
+
+
+/**
  * Implements hook_preprocess_views_view_unformatted().
  *
  * Overwrite views row classes
@@ -280,6 +297,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
   }
 }
+
 
 /**
  * Implements ding_footer_preprocess().
