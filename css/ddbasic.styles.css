@@ -918,7 +918,7 @@ table thead:first-child tr:first-child td {
 /* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: #fbfbfb;
+  background-color: white;
 }
 
 /* line 159, ../../latto/sass/_latto.tables.scss */
@@ -1026,7 +1026,7 @@ table tbody tr:hover th {
 }
 /* line 124, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover {
-  background-color: #fbfbfb;
+  background-color: white;
 }
 /* line 126, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a {
@@ -1047,7 +1047,7 @@ table tbody tr:hover th {
 .tabs ul.secondary li {
   display: table-cell;
   background-color: white;
-  border-color: #fbfbfb;
+  border-color: white;
   padding: 0 10px 0 10px;
 }
 /* line 148, ../../latto/sass/_latto.nav.scss */
@@ -5243,7 +5243,7 @@ table thead:first-child tr:first-child td {
 /* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: #fbfbfb;
+  background-color: white;
 }
 
 /* line 159, ../../latto/sass/_latto.tables.scss */
