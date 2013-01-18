@@ -791,7 +791,7 @@ class AlmaClient {
     $doc = $this->request('catalogue/availability', array('catalogueRecordKey' => $alma_ids));
     foreach ($doc->getElementsByTagName('catalogueRecord') as $record) {
       $data[$record->getAttribute('id')] = array(
-        'reservable' => ($record->getAttribute('isReservable') == 'yes') ? TRUE : FALSE,
+        'reservable' => ($record->getAttribute('isReservable') == 'true') ? TRUE : FALSE,
         'available' => ($record->getAttribute('isAvailable') == 'yes') ? TRUE : FALSE,
       );
     }
