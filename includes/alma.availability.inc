@@ -1,6 +1,18 @@
 <?php
 
 /**
+ * Implements provider availability, items.
+ */
+function alma_availability_items($provider_ids) {
+  $ids = join(',', $provider_ids);
+  $result = alma_client_invoke('get_availability', $ids);
+  if (!$result) {
+    $result = array();
+  }
+
+  return $result;
+}
+/**
  * Implements provider availability, holdings.
  */
 function alma_availability_holdings($provider_ids) {
