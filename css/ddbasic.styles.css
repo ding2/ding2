@@ -954,33 +954,34 @@ table tbody tr:hover th {
   display: block;
   height: 100%;
   margin-right: 10px;
+  min-width: 100px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.05);
   text-decoration: none;
 }
-/* line 51, ../../latto/sass/_latto.nav.scss */
+/* line 52, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a:hover, .main-menu > li a:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
-/* line 56, ../../latto/sass/_latto.nav.scss */
+/* line 57, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.active, .main-menu > li a.active, .horizontal-menu > li a.active-trail, .main-menu > li a.active-trail {
   color: #4d4d4d;
   background-color: rgba(255, 255, 255, 0.05);
 }
-/* line 61, ../../latto/sass/_latto.nav.scss */
+/* line 62, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.last, .main-menu > li a.last {
   margin-right: 0;
 }
 
-/* line 74, ../../latto/sass/_latto.nav.scss */
+/* line 75, ../../latto/sass/_latto.nav.scss */
 .vertical-menu, .sub-menu {
   margin: 0;
 }
-/* line 77, ../../latto/sass/_latto.nav.scss */
+/* line 78, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li, .sub-menu > li {
   display: block;
 }
-/* line 81, ../../latto/sass/_latto.nav.scss */
+/* line 82, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li a, .sub-menu > li a {
   color: #4d4d4d;
   display: block;
@@ -988,102 +989,102 @@ table tbody tr:hover th {
   padding-bottom: 10px;
 }
 
-/* line 95, ../../latto/sass/_latto.nav.scss */
+/* line 96, ../../latto/sass/_latto.nav.scss */
 .tabs {
   margin: 0;
   padding: 0;
 }
-/* line 99, ../../latto/sass/_latto.nav.scss */
+/* line 100, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary, .tabs ul.secondary {
   margin: 0;
   border: none;
   padding-left: 20px;
 }
-/* line 104, ../../latto/sass/_latto.nav.scss */
+/* line 105, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li, .tabs ul.secondary li {
   display: inline-block;
   background-color: #efefef;
 }
-/* line 107, ../../latto/sass/_latto.nav.scss */
+/* line 108, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover, .tabs ul.secondary li:hover {
   background-color: #bcbcbc;
 }
-/* line 109, ../../latto/sass/_latto.nav.scss */
+/* line 110, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover a, .tabs ul.secondary li:hover a {
   color: black;
 }
-/* line 113, ../../latto/sass/_latto.nav.scss */
+/* line 114, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li a, .tabs ul.secondary li a {
   background-color: transparent;
   margin: 0;
   line-height: 18px;
   border: none;
 }
-/* line 121, ../../latto/sass/_latto.nav.scss */
+/* line 122, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active, .tabs ul.secondary li.active {
   background-color: white;
 }
-/* line 123, ../../latto/sass/_latto.nav.scss */
+/* line 124, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover {
   background-color: #fbfbfb;
 }
-/* line 125, ../../latto/sass/_latto.nav.scss */
+/* line 126, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a {
   color: #959595;
   text-decoration: none;
 }
-/* line 130, ../../latto/sass/_latto.nav.scss */
+/* line 131, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active a, .tabs ul.secondary li.active a {
   background-color: transparent;
   color: #959595;
 }
-/* line 137, ../../latto/sass/_latto.nav.scss */
+/* line 138, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary {
   background-color: white;
   padding: 10px 20px;
 }
-/* line 142, ../../latto/sass/_latto.nav.scss */
+/* line 143, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li {
   display: table-cell;
   background-color: white;
   border-color: #fbfbfb;
   padding: 0 10px 0 10px;
 }
-/* line 147, ../../latto/sass/_latto.nav.scss */
+/* line 148, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li:hover {
   background-color: transparent;
 }
-/* line 150, ../../latto/sass/_latto.nav.scss */
+/* line 151, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a {
   padding: 3.33333px 5px 3.33333px 5px;
 }
-/* line 153, ../../latto/sass/_latto.nav.scss */
+/* line 154, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a:hover {
   color: #959595;
   background-color: #efefef;
 }
-/* line 160, ../../latto/sass/_latto.nav.scss */
+/* line 161, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active:hover {
   background-color: transparent;
 }
-/* line 163, ../../latto/sass/_latto.nav.scss */
+/* line 164, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active a {
   color: #959595;
   background-color: #efefef;
 }
 
-/* line 175, ../../latto/sass/_latto.nav.scss */
+/* line 176, ../../latto/sass/_latto.nav.scss */
 .action-links {
   background-color: white;
   padding: 10px 20px;
 }
-/* line 178, ../../latto/sass/_latto.nav.scss */
+/* line 179, ../../latto/sass/_latto.nav.scss */
 .action-links li {
   color: #295586;
   display: inline-block;
   padding: 0 10px 0 10px;
 }
-/* line 185, ../../latto/sass/_latto.nav.scss */
+/* line 186, ../../latto/sass/_latto.nav.scss */
 .action-links li:before {
   font-size: 18px;
   font-size: 1.125rem;
@@ -1093,7 +1094,7 @@ table tbody tr:hover th {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 195, ../../latto/sass/_latto.nav.scss */
+/* line 196, ../../latto/sass/_latto.nav.scss */
 .action-links li a {
   font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -1101,13 +1102,13 @@ table tbody tr:hover th {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .pane-ting-ting-collection-types ul, .library-list, .list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .pane-ting-ting-collection-types ul, .pane-ting-object .field-name-ding-availability-holdings ul, .library-list, .list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .pane-ting-ting-collection-types ul > li, .library-list > li, .list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .pane-ting-ting-collection-types ul > li, .pane-ting-object .field-name-ding-availability-holdings ul > li, .library-list > li, .list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
@@ -1115,6 +1116,7 @@ dl > dd,
 .pane-search-result .search-results .list > dd,
 .pane-search-result .search-results .list .availability ul > dd,
 .pane-ting-ting-collection-types ul > dd,
+.pane-ting-object .field-name-ding-availability-holdings ul > dd,
 .library-list > dd,
 .list > dd {
   border-bottom: 1px solid #efefef;
@@ -3228,6 +3230,7 @@ dl > dt,
 .pane-search-result .search-results .list > dt,
 .pane-search-result .search-results .list .availability ul > dt,
 .pane-ting-ting-collection-types ul > dt,
+.pane-ting-object .field-name-ding-availability-holdings ul > dt,
 .library-list > dt,
 .list > dt,
 .lead,
@@ -5182,13 +5185,13 @@ select {
 }
 
 /* line 10, ../../latto/sass/_latto.lists.scss */
-dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .pane-ting-ting-collection-types ul, .library-list, .list {
+dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .pane-ting-ting-collection-types ul, .pane-ting-object .field-name-ding-availability-holdings ul, .library-list, .list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
 /* line 21, ../../latto/sass/_latto.lists.scss */
-dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .pane-ting-ting-collection-types ul > li, .library-list > li, .list > li,
+dl > li, .list-content > li, .list-news > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .pane-ting-ting-collection-types ul > li, .pane-ting-object .field-name-ding-availability-holdings ul > li, .library-list > li, .list > li,
 dl > dd,
 .list-content > dd,
 .list-news > dd,
@@ -5196,6 +5199,7 @@ dl > dd,
 .pane-search-result .search-results .list > dd,
 .pane-search-result .search-results .list .availability ul > dd,
 .pane-ting-ting-collection-types ul > dd,
+.pane-ting-object .field-name-ding-availability-holdings ul > dd,
 .library-list > dd,
 .list > dd {
   border-bottom: 1px solid #efefef;
@@ -7880,7 +7884,7 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 20px;
 }
 /* line 473, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead {
+.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead {
   font-weight: inherit;
 }
 /* line 477, ../sass/_ddbasic.search.scss */
@@ -7980,7 +7984,7 @@ input#edit-search-block-form--2.spinner {
   margin-top: 0;
 }
 /* line 626, ../sass/_ddbasic.search.scss */
-.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .lead, .pane-ting-object .subjects .lead {
+.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .subjects ul > dt, .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .lead, .pane-ting-object .subjects .lead {
   font-weight: inherit;
 }
 /* line 630, ../sass/_ddbasic.search.scss */
@@ -8044,6 +8048,20 @@ input#edit-search-block-form--2.spinner {
 /* line 732, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details {
   clear: both;
+  padding-top: 20px;
+}
+/* line 736, ../sass/_ddbasic.search.scss */
+.pane-ting-object .group-material-details .field-label {
+  width: 25%;
+  min-width: 200px;
+  margin-right: 10px;
+}
+/* line 743, ../sass/_ddbasic.search.scss */
+.pane-ting-object .field-name-ding-availability-holdings {
+  clear: both;
+  border-top: 1px solid #d5d5d5;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 
 /* line 28, ../sass/_ddbasic.carousel.scss */
