@@ -198,7 +198,7 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-
+// **
 // Facet browser styling
 // **
 //
@@ -427,7 +427,10 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// The search results
+// **
+// Seach results list
+// **
+//
 .pane-search-result {
   clear: both;
   overflow: hidden;
@@ -563,8 +566,35 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
+// **
 // Collection display
+// **
+//
+
+// Navigation
+.pane-ting-ting-collection-types {
+  ul {
+    @extend %list;
+
+    .last {
+      margin-bottom: 0;
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+}
+
 .pane-ting-collection {
+  
+  h2 {
+    margin-bottom: $default-spacing;
+    margin-top: $default-spacing * 2;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   .ting-cover {
     @extend %search-ting-cover;
   }
@@ -575,15 +605,35 @@ input#edit-search-block-form--2.spinner {
     padding: $default-spacing;
   }
 
-  .field-name-ting-title,
-  .field-name-ting-author,
-  .field-name-ting-abstract {
+  .field {
     margin-left: 10%;
     padding-left: $default-spacing;
+    margin-bottom: $default-spacing / 2;
+  }
+  .field-name-ting-entities {
+    margin: 0;
+    padding: 0;
+  }
+
+  .field-name-ting-title {
+    h2 {
+      margin-top: 0;
+    } 
+  }
+
+  .subjects {
+    // Sorry I will die in hell for this
+    strong {
+      font-weight: inherit;
+    }
+
+    a {
+      margin-right: $default-spacing / 4;
+    }
   }
 
   .field-name-ting-type {
-    float: right;
+    @extend .pull-right;
 
     li {
       list-style: none;
@@ -609,9 +659,47 @@ input#edit-search-block-form--2.spinner {
       }
     }
   }
+
+  .field-name-ding-entity-buttons {
+    @extend .pull-right;
+
+    margin: 0;
+
+    form,
+    .ding-entity-button {
+      @extend .pull-left;
+    }
+
+    .ding-entity-button {
+      a {
+        color: $form-button-text-color;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    .form-actions {
+      margin: 0;
+      margin-right: $default-spacing / 2;
+    }
+  }
+
+  .form-submit,
+  .ding-entity-button {
+    @extend %button;
+    @include border-radius($button-border-radius / 2);
+
+    padding: 6px;
+
+  }
 }
 
+// **
 // Object display
+// **
+//
 .pane-ting-object {
   .ting-cover {
     @extend %search-ting-cover;
