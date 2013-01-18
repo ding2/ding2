@@ -7389,7 +7389,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 90, ../sass/_ddbasic.navigation.scss */
-.main-menu-inner {
+.main-menu-wrapper {
   float: left;
   width: 66.66667%;
   margin-left: 0%;
@@ -7418,7 +7418,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 108, ../sass/_ddbasic.navigation.scss */
-.secondary-menu-inner {
+.secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
   margin-right: 0%;

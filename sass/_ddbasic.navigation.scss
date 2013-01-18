@@ -87,7 +87,7 @@
 // Main menu
 // -----------------------------------------------------------------------------
 //
-.main-menu-inner {
+.main-menu-wrapper {
   @include zen-grid-item($grid-66, 1);
 }
 
@@ -105,7 +105,7 @@
 // Secondary menu
 // -----------------------------------------------------------------------------
 //
-.secondary-menu-inner {
+.secondary-menu-wrapper {
   @include zen-grid-item($grid-33, 1, right);
 }
 
