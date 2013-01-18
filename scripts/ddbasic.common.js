@@ -7,8 +7,6 @@
 		pos = menu.offset();
 
     if ($(window).scrollTop() > pos.top-$(menu).height()) {
-      //$('body').css('padding-bottom', $(menu).height());
-
       $(menu).addClass('fixed');
 
       $('.js-fixed-element').each(function() {
@@ -20,11 +18,9 @@
 
 		$(window).scroll(function(){
 
-      // $('body').css('padding-bottom', $(menu).height());
-
 			if ($(window).scrollTop() > pos.top-$(menu).height()) {
 				$(menu).addClass('fixed');
-
+        
         $('.js-fixed-element').each(function() {
           $(this).show();
         });

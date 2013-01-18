@@ -70,7 +70,7 @@
   width: 100%;
 
   &.fixed {
-    margin-top: 60px;
+    margin-top: $topbar-min-height; // Variable in: _ddbasic.layout.scss
     position: fixed;
     top: 0;
     z-index: 99;

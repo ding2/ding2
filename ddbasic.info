@@ -15,7 +15,7 @@
 
 ;----------// JavaScripts
   ; Import javascripts.
-  ; scripts[] = scripts/ddbasic.common.js
+  scripts[] = scripts/ddbasic.common.js
     
 ;----------// Regions
   regions[header]            = Header
