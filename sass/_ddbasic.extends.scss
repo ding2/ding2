@@ -130,6 +130,53 @@
   border: 0;
 }
 
+// -----------------------------------------------------------------------------
+// Availability
+// -----------------------------------------------------------------------------
+//
+%availability {
+  color: #fff;
+  padding: $default-spacing / 4;
+
+  a {
+    color: #fff;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+%availability-pending {
+  @extend %availability;
+
+  background-color: #696a69;
+}
+
+%availability-processed {
+  @extend %availability;
+
+  background-color: #ed1e88;
+}
+
+%availability-available {
+  @extend %availability;
+
+  background-color: #0072bc;
+}
+
+%availability-reservable {
+  @extend %availability;
+
+  background-color: #ea9123;
+}
+
+%availability-available-reservable {
+  @extend %availability;
+
+  background-color: #4c9f45;
+}
+
 
 // =============================================================================
 // MEDIAQUERIES
