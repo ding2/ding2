@@ -517,8 +517,7 @@ input#edit-search-block-form--2.spinner {
       }
 
       // Compact search result display
-      // Currently the module put -long class to the display that ought to be short
-      .ding-format-long {
+      .ding-format-short {
         .ting-cover,
         .content,
         .field {
@@ -568,9 +567,6 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-collection {
   .ting-cover {
     @extend %search-ting-cover;
-
-    width: 10%;
-    min-height: 250px;
   }
 
   .view-mode-collection-list {

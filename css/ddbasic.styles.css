@@ -918,7 +918,7 @@ table thead:first-child tr:first-child td {
 /* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: white;
+  background-color: #fbfbfb;
 }
 
 /* line 159, ../../latto/sass/_latto.tables.scss */
@@ -1026,7 +1026,7 @@ table tbody tr:hover th {
 }
 /* line 124, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover {
-  background-color: white;
+  background-color: #fbfbfb;
 }
 /* line 126, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a {
@@ -1047,7 +1047,7 @@ table tbody tr:hover th {
 .tabs ul.secondary li {
   display: table-cell;
   background-color: white;
-  border-color: white;
+  border-color: #fbfbfb;
   padding: 0 10px 0 10px;
 }
 /* line 148, ../../latto/sass/_latto.nav.scss */
@@ -5243,7 +5243,7 @@ table thead:first-child tr:first-child td {
 /* line 145, ../../latto/sass/_latto.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
-  background-color: white;
+  background-color: #fbfbfb;
 }
 
 /* line 159, ../../latto/sass/_latto.tables.scss */
@@ -7659,75 +7659,70 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 524, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .ting-cover,
-.pane-search-result .search-results .list .ding-format-long .content,
-.pane-search-result .search-results .list .ding-format-long .field {
+/* line 523, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .ting-cover,
+.pane-search-result .search-results .list .ding-format-short .content,
+.pane-search-result .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 529, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .heading + div.content {
+/* line 528, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 536, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .heading,
-.pane-search-result .search-results .list .ding-format-long .content,
-.pane-search-result .search-results .list .ding-format-long .field {
+/* line 535, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .heading,
+.pane-search-result .search-results .list .ding-format-short .content,
+.pane-search-result .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 541, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .heading {
+/* line 540, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 544, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .heading h2 {
+/* line 543, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 549, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .subjects {
+/* line 548, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 553, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .availability {
+/* line 552, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .availability {
   clear: both;
   display: block;
   margin-top: 20px;
 }
-/* line 558, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ding-format-long .availability li {
+/* line 557, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ding-format-short .availability li {
   display: inline;
 }
 
-/* line 569, ../sass/_ddbasic.search.scss */
-.pane-ting-collection .ting-cover {
-  width: 10%;
-  min-height: 250px;
-}
-/* line 576, ../sass/_ddbasic.search.scss */
+/* line 572, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 584, ../sass/_ddbasic.search.scss */
+/* line 580, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-title,
 .pane-ting-collection .field-name-ting-author,
 .pane-ting-collection .field-name-ting-abstract {
   margin-left: 10%;
   padding-left: 20px;
 }
-/* line 589, ../sass/_ddbasic.search.scss */
+/* line 585, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type {
   float: right;
 }
-/* line 592, ../sass/_ddbasic.search.scss */
+/* line 588, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type li {
   list-style: none;
 }
 
-/* line 620, ../sass/_ddbasic.search.scss */
+/* line 616, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-cover {
   width: 25%;
   min-height: 250px;
