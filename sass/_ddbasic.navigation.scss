@@ -14,8 +14,24 @@
 // =============================================================================
 //
 %navigation {
-   a,
-   li a {
+  margin: 0;
+  padding-left: 0;
+
+  li {
+    display: inline;
+  }
+
+  .last {
+    span,
+    a {
+      border-right: 0;
+      margin-right: 0;
+      padding-right: 0;
+    }
+  }
+
+  a,
+  li a {
     display: inline-block;
     margin-right: $default-spacing * 1.25;
     padding: $default-spacing 0;
@@ -37,7 +53,6 @@
       margin-right: 0;
       padding-right: 0;
     }
-
   }
 }
 
@@ -63,7 +78,6 @@
 
 }
 
-
 .navigation-inner {
   @extend .grid-inner;
 }
@@ -73,20 +87,13 @@
 // Main menu
 // -----------------------------------------------------------------------------
 //
-.nav-wrapper {
+.main-menu-inner {
   @include zen-grid-item($grid-66, 1);
 }
-
 
 .main-menu {
   @include rem('font-size', $theme-font-size * 1.3);
   @extend %navigation;
-
-  padding-left: 0;
-
-  li {
-    display: inline;
-  }
 
   a {
     text-align: left;
@@ -102,14 +109,21 @@
   @include zen-grid-item($grid-33, 1, right);
 }
 
-
 .secondary-menu {
   @include zen-float(right);
+  @include rem('font-size', $theme-font-size);
   @extend %navigation;
 
-  a {
+  span {
     border-right: 1px solid $gray;
-    color: lighten($black, 25%);
+  }
+
+  li a {
+    color: lighten($black, 50%);
+    margin-top: $default-spacing;
+    margin-left: $default-spacing;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
 }

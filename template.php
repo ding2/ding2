@@ -282,6 +282,23 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 }
 
 /**
+ * Implements theme_menu_tree().
+ *
+ * Addes wrapper clases for the main menu and secondary menu.
+ */
+
+// Main menu
+function ddbasic_menu_tree__menu_block__1($vars) {
+  return '<ul class="main-menu">' . $vars['tree'] . '</ul>';
+}
+
+// Secondary menu
+function ddbasic_menu_tree__menu_block__2($vars) {
+  return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
+}
+
+
+/**
  * Implements ding_footer_preprocess().
  *
  * Find the right grid classes to add to the different footer columns.

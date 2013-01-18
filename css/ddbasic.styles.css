@@ -7205,7 +7205,24 @@ ul.icons li [class*=" icon-"] {
   content: "\f115";
 }
 
-/* line 18, ../sass/_ddbasic.navigation.scss */
+/* line 16, ../sass/_ddbasic.navigation.scss */
+.main-menu, .secondary-menu {
+  margin: 0;
+  padding-left: 0;
+}
+/* line 20, ../sass/_ddbasic.navigation.scss */
+.main-menu li, .secondary-menu li {
+  display: inline;
+}
+/* line 26, ../sass/_ddbasic.navigation.scss */
+.main-menu .last span, .secondary-menu .last span,
+.main-menu .last a,
+.secondary-menu .last a {
+  border-right: 0;
+  margin-right: 0;
+  padding-right: 0;
+}
+/* line 34, ../sass/_ddbasic.navigation.scss */
 .main-menu a, .secondary-menu a,
 .main-menu li a,
 .secondary-menu li a {
@@ -7214,13 +7231,13 @@ ul.icons li [class*=" icon-"] {
   padding: 20px 0;
   color: gray;
 }
-/* line 25, ../sass/_ddbasic.navigation.scss */
+/* line 41, ../sass/_ddbasic.navigation.scss */
 .main-menu a:hover, .secondary-menu a:hover,
 .main-menu li a:hover,
 .secondary-menu li a:hover {
   color: black;
 }
-/* line 29, ../sass/_ddbasic.navigation.scss */
+/* line 45, ../sass/_ddbasic.navigation.scss */
 .main-menu a.active, .secondary-menu a.active,
 .main-menu li a.active,
 .secondary-menu li a.active {
@@ -7228,7 +7245,7 @@ ul.icons li [class*=" icon-"] {
   font-weight: 200;
   text-decoration: underline;
 }
-/* line 35, ../sass/_ddbasic.navigation.scss */
+/* line 51, ../sass/_ddbasic.navigation.scss */
 .main-menu a.last, .secondary-menu a.last,
 .main-menu li a.last,
 .secondary-menu li a.last {
@@ -7237,7 +7254,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 0;
 }
 
-/* line 49, ../sass/_ddbasic.navigation.scss */
+/* line 64, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
   float: left;
   width: 66.66667%;
@@ -7260,7 +7277,7 @@ ul.icons li [class*=" icon-"] {
   position: absolute;
   width: 100%;
 }
-/* line 57, ../sass/_ddbasic.navigation.scss */
+/* line 72, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.fixed {
   margin-top: 60px;
   position: fixed;
@@ -7268,8 +7285,8 @@ ul.icons li [class*=" icon-"] {
   z-index: 99;
 }
 
-/* line 76, ../sass/_ddbasic.navigation.scss */
-.nav-wrapper {
+/* line 90, ../sass/_ddbasic.navigation.scss */
+.main-menu-inner {
   float: left;
   width: 66.66667%;
   margin-left: 0%;
@@ -7287,22 +7304,17 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 81, ../sass/_ddbasic.navigation.scss */
+/* line 94, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 19.5px;
   font-size: 1.21875rem;
-  padding-left: 0;
 }
-/* line 87, ../sass/_ddbasic.navigation.scss */
-.main-menu li {
-  display: inline;
-}
-/* line 91, ../sass/_ddbasic.navigation.scss */
+/* line 98, ../sass/_ddbasic.navigation.scss */
 .main-menu a {
   text-align: left;
 }
 
-/* line 101, ../sass/_ddbasic.navigation.scss */
+/* line 108, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-inner {
   float: right;
   width: 33.33333%;
@@ -7321,17 +7333,26 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 106, ../sass/_ddbasic.navigation.scss */
+/* line 112, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
+  font-size: 15px;
+  font-size: 0.9375rem;
 }
-/* line 110, ../sass/_ddbasic.navigation.scss */
-.secondary-menu a {
+/* line 117, ../sass/_ddbasic.navigation.scss */
+.secondary-menu span {
   border-right: 1px solid #d5d5d5;
-  color: #404040;
+}
+/* line 121, ../sass/_ddbasic.navigation.scss */
+.secondary-menu li a {
+  color: gray;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-/* line 122, ../sass/_ddbasic.navigation.scss */
+/* line 136, ../sass/_ddbasic.navigation.scss */
 .tertiary-menu-wrapper, .facet-browser {
   padding: 20px;
 }
@@ -7486,7 +7507,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 129, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
-  margin-right: 50px;
+  margin-right: 40px;
 }
 /* line 133, ../sass/_ddbasic.search.scss */
 .search .form-item {
@@ -7495,7 +7516,7 @@ input#edit-search-block-form--2.spinner {
 /* line 137, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   min-height: 60px;
-  right: 48px;
+  right: 38px;
   top: 0;
 }
 /* line 143, ../sass/_ddbasic.search.scss */
@@ -8334,7 +8355,7 @@ input#edit-search-block-form--2.spinner {
 /* line 52, ../sass/_ddbasic.user.scss */
 .user .user-field-wrapper {
   display: block;
-  margin-left: 50px;
+  margin-left: 40px;
 }
 /* line 57, ../sass/_ddbasic.user.scss */
 .user .form-item {
