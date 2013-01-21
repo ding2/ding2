@@ -547,7 +547,7 @@ function ding_event_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => 0,
         ),
         'teaser_highlight' => array(
           'label' => 'above',
