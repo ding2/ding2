@@ -5,12 +5,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -5366,7 +5366,7 @@ table tbody tr:hover th {
 .button,
 a.button, .search input[type="submit"], .search-compact input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
-.pane-ting-object .ding-entity-button, .user input[type="submit"], .user-login-block input[type="submit"] {
+.pane-ting-object .ding-entity-button, .ui-widget-content input[type=submit], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
@@ -5383,7 +5383,7 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .p
 /* line 36, ../sass/_ddbasic.buttons.scss */
 .button .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon, .pane-ting-collection .form-submit .icon, .pane-ting-object .form-submit .icon,
 .pane-ting-collection .ding-entity-button .icon,
-.pane-ting-object .ding-entity-button .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
+.pane-ting-object .ding-entity-button .icon, .ui-widget-content input[type=submit] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
   -webkit-border-top-right-radius: 12px;
   border-top-right-radius: 12px;
@@ -5400,17 +5400,17 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .p
 /* line 49, ../sass/_ddbasic.buttons.scss */
 .button:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
-.pane-ting-object .ding-entity-button:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
+.pane-ting-object .ding-entity-button:focus, .ui-widget-content input[type=submit]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
 }
 /* line 52, ../sass/_ddbasic.buttons.scss */
 .button:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
 .pane-ting-collection .ding-entity-button:visited,
-.pane-ting-object .ding-entity-button:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
+.pane-ting-object .ding-entity-button:visited, .ui-widget-content input[type=submit]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
 }
 
@@ -8186,12 +8186,12 @@ input#edit-search-block-form--2.spinner {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:after {
   clear: both;
 }
@@ -8527,6 +8527,101 @@ input#edit-search-block-form--2.spinner {
   margin-left: 75%;
 }
 
+/* line 24, ../sass/_ddbasic.modal.scss */
+.ui-corner-all, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+}
+
+/* line 28, ../sass/_ddbasic.modal.scss */
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  background-color: white;
+  width: 100% !important;
+}
+
+/* line 33, ../sass/_ddbasic.modal.scss */
+.ui-widget {
+  background-color: #d1e02b;
+  zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
+  background-image: none;
+  border: none;
+  width: 350px !important;
+  box-shadow: 5px 5px 10px black;
+}
+
+/* line 41, ../sass/_ddbasic.modal.scss */
+.ui-widget-content {
+  color: white;
+  margin-bottom: 1em;
+}
+
+/* line 46, ../sass/_ddbasic.modal.scss */
+.ui-widget-header {
+  background: none;
+  border: none;
+  color: white;
+}
+
+/* line 53, ../sass/_ddbasic.modal.scss */
+.ui-widget-content input[type=submit] {
+  min-height: 40px;
+  width: 100%;
+}
+
+/* line 61, ../sass/_ddbasic.modal.scss */
+.ui-widget-header {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+  font-weight: 100;
+}
+
+/* line 66, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar {
+  padding: 10px 20px;
+}
+
+/* line 70, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar-close {
+  height: inherit;
+  width: inherit;
+  top: 20px;
+  padding: 7px;
+  margin-top: -15px;
+}
+
+/* line 78, ../sass/_ddbasic.modal.scss */
+.ui-dialog-titlebar-close .ui-icon {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+  background-image: none;
+  text-indent: 0;
+  width: inherit;
+  height: inherit;
+  color: white;
+}
+
+/* line 87, ../sass/_ddbasic.modal.scss */
+.ui-dialog-titlebar-close .ui-icon:before {
+  content: "× ";
+}
+
+/* line 91, ../sass/_ddbasic.modal.scss */
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+  padding: 5px;
+  margin-top: -15px;
+}
+
+/* line 96, ../sass/_ddbasic.modal.scss */
+.ui-widget-header .ui-state-hover, .ui-widget-header .ui-state-focus {
+  background-image: none;
+  background-color: #9aa618;
+  padding: 5px;
+  margin-top: -14px;
+  text-decoration: none;
+}
+
 /* line 23, ../sass/_ddbasic.openinghours.scss */
 .block-opening-hours {
   -webkit-box-shadow: inset 0 0 15px #e6e6e6;
@@ -8725,7 +8820,7 @@ input#edit-search-block-form--2.spinner {
   display: inline;
 }
 
-/* line 223, ../sass/ddbasic.styles.scss */
+/* line 229, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: #d1e02b;
   zoom: 1;

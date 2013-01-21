@@ -1,0 +1,108 @@
+// =============================================================================
+// Modal popup styling (from jquery ui library)
+// =============================================================================
+//
+
+
+// -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Extends
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Default styling
+// -----------------------------------------------------------------------------
+//
+
+.ui-corner-all, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+  @include border-radius($button-border-radius);
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+   background-color: white;
+   width: 100% !important;
+}
+
+.ui-widget {
+  @include rgba-background($block-bg-inverted, $block-bg-transparency);
+  background-image:none;
+  border: none;
+  width: 350px !important;
+  box-shadow: 5px 5px 10px #000;
+}
+
+.ui-widget-content {
+  color: $block-color-inverted;
+  margin-bottom: 1em;
+}
+
+.ui-widget-header {
+  background:none;
+  border:none;
+  color: $block-color-inverted;
+}
+
+
+.ui-widget-content input[type=submit] {
+  @extend %button;
+  min-height:40px;
+  width:100%;
+}
+
+//, .ui-widget-content select {
+
+.ui-widget-header {
+  @include rem('font-size', $theme-font-size * 1.5);
+  font-weight: $font-weight-light;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+  padding: $default-spacing / 2 $default-spacing;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+  height:inherit;
+  width:inherit;
+  top: $default-spacing;
+  padding:7px;
+  margin-top:-15px;
+}
+
+.ui-dialog-titlebar-close .ui-icon {
+  @include rem('font-size', $theme-font-size * 1.1);
+  background-image: none;
+  text-indent: 0;
+  width:inherit;
+  height:inherit;
+  color: $block-color-inverted;
+}
+
+.ui-dialog-titlebar-close .ui-icon:before {
+  content: "× ";
+}
+
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+  padding:5px;
+  margin-top:-15px;
+}
+
+.ui-widget-header .ui-state-hover, .ui-widget-header .ui-state-focus {
+  background-image: none;
+  background-color: darken($block-bg-inverted,15%);
+  padding:5px;
+  margin-top:-14px;
+  text-decoration:none;
+}
+
+
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
+//
