@@ -56,8 +56,6 @@
   width:100%;
 }
 
-//, .ui-widget-content select {
-
 .ui-widget-header {
   @include rem('font-size', $theme-font-size * 1.5);
   font-weight: $font-weight-light;
