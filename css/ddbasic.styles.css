@@ -5,12 +5,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -3518,7 +3518,7 @@ dd {
 }
 
 /* line 17, ../sass/_ddbasic.header.scss */
-.search, .user {
+.search, .user, .pane-system-user-menu {
   margin-top: 70px;
   margin-bottom: 70px;
   padding: 0;
@@ -7315,49 +7315,54 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 16, ../sass/_ddbasic.navigation.scss */
-.main-menu, .secondary-menu {
+.main-menu, .secondary-menu, .pane-system-user-menu ul {
   margin: 0;
   padding-left: 0;
 }
 /* line 20, ../sass/_ddbasic.navigation.scss */
-.main-menu li, .secondary-menu li {
+.main-menu li, .secondary-menu li, .pane-system-user-menu ul li {
   display: inline;
 }
 /* line 26, ../sass/_ddbasic.navigation.scss */
-.main-menu .last span, .secondary-menu .last span,
+.main-menu .last span, .secondary-menu .last span, .pane-system-user-menu ul .last span,
 .main-menu .last a,
-.secondary-menu .last a {
+.secondary-menu .last a,
+.pane-system-user-menu ul .last a {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
 }
 /* line 34, ../sass/_ddbasic.navigation.scss */
-.main-menu a, .secondary-menu a,
+.main-menu a, .secondary-menu a, .pane-system-user-menu ul a,
 .main-menu li a,
-.secondary-menu li a {
+.secondary-menu li a,
+.pane-system-user-menu ul li a {
   display: inline-block;
   margin-right: 25px;
   padding: 20px 0;
   color: gray;
 }
 /* line 41, ../sass/_ddbasic.navigation.scss */
-.main-menu a:hover, .secondary-menu a:hover,
+.main-menu a:hover, .secondary-menu a:hover, .pane-system-user-menu ul a:hover,
 .main-menu li a:hover,
-.secondary-menu li a:hover {
+.secondary-menu li a:hover,
+.pane-system-user-menu ul li a:hover {
   color: black;
 }
 /* line 45, ../sass/_ddbasic.navigation.scss */
-.main-menu a.active, .secondary-menu a.active,
+.main-menu a.active, .secondary-menu a.active, .pane-system-user-menu ul a.active,
 .main-menu li a.active,
-.secondary-menu li a.active {
+.secondary-menu li a.active,
+.pane-system-user-menu ul li a.active {
   color: black;
   font-weight: 200;
   text-decoration: underline;
 }
 /* line 51, ../sass/_ddbasic.navigation.scss */
-.main-menu a.last, .secondary-menu a.last,
+.main-menu a.last, .secondary-menu a.last, .pane-system-user-menu ul a.last,
 .main-menu li a.last,
-.secondary-menu li a.last {
+.secondary-menu li a.last,
+.pane-system-user-menu ul li a.last {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
@@ -8186,12 +8191,12 @@ input#edit-search-block-form--2.spinner {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:after {
   clear: both;
 }
@@ -8818,6 +8823,25 @@ input#edit-search-block-form--2.spinner {
   -moz-border-radius: 12px;
   border-radius: 12px;
   display: inline;
+}
+
+/* line 201, ../sass/_ddbasic.user.scss */
+.pane-system-user-menu {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
 }
 
 /* line 229, ../sass/ddbasic.styles.scss */

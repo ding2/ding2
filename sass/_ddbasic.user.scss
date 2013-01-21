@@ -197,6 +197,16 @@
 
 }
 
+// PLacing the user menu in header
+.pane-system-user-menu {
+  @include zen-grid-item($grid-50, 1, right);
+  @extend %header-sections;
+
+  ul {
+    @extend %navigation;
+  }
+}
+
 
 // =============================================================================
 // MEDIAQUERIES
