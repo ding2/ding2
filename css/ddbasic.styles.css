@@ -3366,9 +3366,9 @@ dd {
 
 /* line 41, ../sass/_ddbasic.layout.scss */
 .topbar {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.9);
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FF000000,endColorstr=#FF000000);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6000000,endColorstr=#E6000000);
   min-height: 85px;
   position: fixed;
   width: 100%;
@@ -3521,9 +3521,9 @@ dd {
 
 /* line 29, ../sass/_ddbasic.header.scss */
 .header-wrapper {
-  background-color: #d1e02b;
+  background-color: rgba(51, 153, 255, 0.9);
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E63399FF,endColorstr=#E63399FF);
   margin-top: 60px;
 }
 
@@ -5365,7 +5365,7 @@ a.button, .search input[type="submit"], .topbar .search input[type="submit"], .p
   padding-right: 18px;
   padding-bottom: 1px;
   padding-left: 18px;
-  background-color: #ff5200;
+  background-color: black;
   border: 0;
   color: white;
   cursor: pointer;
@@ -5395,7 +5395,7 @@ a.button, .search input[type="submit"], .topbar .search input[type="submit"], .p
 .pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .topbar .search input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .ui-widget-content input[type=submit]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
-  background-color: #cc4200;
+  background-color: black;
 }
 /* line 52, ../sass/_ddbasic.buttons.scss */
 .button:visited, .search input[type="submit"]:visited, .topbar .search input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
@@ -7676,7 +7676,7 @@ input#edit-search-block-form--2.spinner {
 .topbar .search input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
-  background-color: #ff5200;
+  background-color: black;
   min-height: 50px;
   position: absolute;
   right: -2px;
@@ -8199,9 +8199,9 @@ input#edit-search-block-form--2.spinner {
 .rs-carousel {
   *position: relative;
   *zoom: 1;
-  background-color: #d1e02b;
+  background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
 }
 /* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
@@ -8566,9 +8566,9 @@ input#edit-search-block-form--2.spinner {
 
 /* line 40, ../sass/_ddbasic.modal.scss */
 .ui-widget {
-  background-color: #d1e02b;
+  background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
   background-image: none;
   border: none;
   width: 350px !important;
@@ -8577,7 +8577,7 @@ input#edit-search-block-form--2.spinner {
 
 /* line 48, ../sass/_ddbasic.modal.scss */
 .ui-widget-content {
-  color: white;
+  color: #3399ff;
   margin-bottom: 1em;
 }
 
@@ -8585,7 +8585,7 @@ input#edit-search-block-form--2.spinner {
 .ui-widget-header {
   background: none;
   border: none;
-  color: white;
+  color: #3399ff;
 }
 
 /* line 60, ../sass/_ddbasic.modal.scss */
@@ -8623,7 +8623,7 @@ input#edit-search-block-form--2.spinner {
   text-indent: 0;
   width: inherit;
   height: inherit;
-  color: white;
+  color: #3399ff;
 }
 
 /* line 92, ../sass/_ddbasic.modal.scss */
@@ -8642,7 +8642,7 @@ input#edit-search-block-form--2.spinner {
 .ui-widget-header .ui-state-hover,
 .ui-widget-header .ui-state-focus {
   background-image: none;
-  background-color: #9aa618;
+  background-color: #d9d9d9;
   padding: 5px;
   margin-top: -14px;
   text-decoration: none;
@@ -8650,12 +8650,12 @@ input#edit-search-block-form--2.spinner {
 
 /* line 23, ../sass/_ddbasic.openinghours.scss */
 .block-opening-hours {
-  -webkit-box-shadow: inset 0 0 15px #e6e6e6;
-  -moz-box-shadow: inset 0 0 15px #e6e6e6;
-  box-shadow: inset 0 0 15px #e6e6e6;
-  background-color: white;
+  -webkit-box-shadow: inset 0 0 15px #007fff;
+  -moz-box-shadow: inset 0 0 15px #007fff;
+  box-shadow: inset 0 0 15px #007fff;
+  background-color: rgba(51, 153, 255, 0.9);
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFFFFFFF,endColorstr=#FFFFFFFF);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E63399FF,endColorstr=#E63399FF);
   min-height: 279px;
 }
 /* line 30, ../sass/_ddbasic.openinghours.scss */
@@ -8865,7 +8865,7 @@ input#edit-search-block-form--2.spinner {
 
 /* line 229, ../sass/ddbasic.styles.scss */
 .theme-block {
-  background-color: #d1e02b;
+  background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
 }
