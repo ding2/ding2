@@ -8593,19 +8593,19 @@ input#edit-search-block-form--2.spinner {
   width: 100%;
 }
 
-/* line 68, ../sass/_ddbasic.modal.scss */
+/* line 66, ../sass/_ddbasic.modal.scss */
 .ui-widget-header {
   font-size: 22.5px;
   font-size: 1.40625rem;
   font-weight: 100;
 }
 
-/* line 73, ../sass/_ddbasic.modal.scss */
+/* line 71, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar {
   padding: 10px 20px;
 }
 
-/* line 77, ../sass/_ddbasic.modal.scss */
+/* line 75, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close {
   height: inherit;
   width: inherit;
@@ -8614,7 +8614,7 @@ input#edit-search-block-form--2.spinner {
   margin-top: -15px;
 }
 
-/* line 85, ../sass/_ddbasic.modal.scss */
+/* line 83, ../sass/_ddbasic.modal.scss */
 .ui-dialog-titlebar-close .ui-icon {
   font-size: 16.5px;
   font-size: 1.03125rem;
@@ -8625,19 +8625,19 @@ input#edit-search-block-form--2.spinner {
   color: white;
 }
 
-/* line 94, ../sass/_ddbasic.modal.scss */
+/* line 92, ../sass/_ddbasic.modal.scss */
 .ui-dialog-titlebar-close .ui-icon:before {
   content: "× ";
 }
 
-/* line 99, ../sass/_ddbasic.modal.scss */
+/* line 97, ../sass/_ddbasic.modal.scss */
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
   padding: 5px;
   margin-top: -15px;
 }
 
-/* line 105, ../sass/_ddbasic.modal.scss */
+/* line 103, ../sass/_ddbasic.modal.scss */
 .ui-widget-header .ui-state-hover,
 .ui-widget-header .ui-state-focus {
   background-image: none;
