@@ -30,7 +30,7 @@
   @extend .grid-wrapper;
   @include rgba-background($block-bg, $block-bg-transparency);
 
-  margin-top: 60px;
+  margin-top: $topbar-min-height; // Defined in _ddbasic.layout.scss
 
   .header-inner {
     @extend .grid-inner;
