@@ -58,11 +58,11 @@ $link-color-special-hover:        darken($link-color-special, 20%);
 // Blocks
 // -----------------------------------------------------------------------------
 //
-$block-bg:                        #fff;
-$block-bg-transparency:           1;
-$block-color:                     #000;
-$block-bg-inverted:               #d1e02b;
-$block-color-inverted:            #fff;
+$block-bg:                        #3399ff;
+$block-bg-transparency:           .9;
+$block-color:                     #fff;
+$block-bg-inverted:               #fff;
+$block-color-inverted:            #3399ff;
 $block-border:                    12px;
 
 
@@ -89,7 +89,8 @@ $form-button-bg-color:            lighten(#000, 15%);
 // -----------------------------------------------------------------------------
 //
 $button-bg-color:                 $form-button-bg-color;
-$button-primary-bg-color:         #ff5200;
+$button-text-color:               $form-button-text-color;
+$button-primary-bg-color:         $black;
 $button-success-bg-color:         #60a500;
 $button-warning-bg-color:         #f6d346;
 $button-danger-bg-color:          #bf3600;

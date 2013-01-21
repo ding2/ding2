@@ -28,9 +28,9 @@
   padding-bottom: 1px;
   padding-left: 18px;
 
-  background-color: $form-button-bg-color;
+  background-color: $button-primary-bg-color;
   border: 0;
-  color: $form-button-text-color;
+  color: $button-text-color;
   cursor: pointer;
 
   .icon {
@@ -47,10 +47,10 @@
   &:hover,
   &:active,
   &:focus {
-    background-color: darken($form-button-bg-color, 15%);
+    background-color: darken($button-primary-bg-color, 10%);
   }
   &:visited {
-    color: $form-button-text-color;
+    color: $button-text-color;
   }
 }
 
