@@ -954,34 +954,33 @@ table tbody tr:hover th {
   display: block;
   height: 100%;
   margin-right: 10px;
-  min-width: 100px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.05);
   text-decoration: none;
 }
-/* line 52, ../../latto/sass/_latto.nav.scss */
+/* line 51, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a:hover, .main-menu > li a:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
-/* line 57, ../../latto/sass/_latto.nav.scss */
+/* line 56, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.active, .main-menu > li a.active, .horizontal-menu > li a.active-trail, .main-menu > li a.active-trail {
   color: #4d4d4d;
   background-color: rgba(255, 255, 255, 0.05);
 }
-/* line 62, ../../latto/sass/_latto.nav.scss */
+/* line 61, ../../latto/sass/_latto.nav.scss */
 .horizontal-menu > li a.last, .main-menu > li a.last {
   margin-right: 0;
 }
 
-/* line 75, ../../latto/sass/_latto.nav.scss */
+/* line 74, ../../latto/sass/_latto.nav.scss */
 .vertical-menu, .sub-menu {
   margin: 0;
 }
-/* line 78, ../../latto/sass/_latto.nav.scss */
+/* line 77, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li, .sub-menu > li {
   display: block;
 }
-/* line 82, ../../latto/sass/_latto.nav.scss */
+/* line 81, ../../latto/sass/_latto.nav.scss */
 .vertical-menu > li a, .sub-menu > li a {
   color: #4d4d4d;
   display: block;
@@ -989,102 +988,102 @@ table tbody tr:hover th {
   padding-bottom: 10px;
 }
 
-/* line 96, ../../latto/sass/_latto.nav.scss */
+/* line 95, ../../latto/sass/_latto.nav.scss */
 .tabs {
   margin: 0;
   padding: 0;
 }
-/* line 100, ../../latto/sass/_latto.nav.scss */
+/* line 99, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary, .tabs ul.secondary {
   margin: 0;
   border: none;
   padding-left: 20px;
 }
-/* line 105, ../../latto/sass/_latto.nav.scss */
+/* line 104, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li, .tabs ul.secondary li {
   display: inline-block;
   background-color: #efefef;
 }
-/* line 108, ../../latto/sass/_latto.nav.scss */
+/* line 107, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover, .tabs ul.secondary li:hover {
   background-color: #bcbcbc;
 }
-/* line 110, ../../latto/sass/_latto.nav.scss */
+/* line 109, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li:hover a, .tabs ul.secondary li:hover a {
   color: black;
 }
-/* line 114, ../../latto/sass/_latto.nav.scss */
+/* line 113, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li a, .tabs ul.secondary li a {
   background-color: transparent;
   margin: 0;
   line-height: 18px;
   border: none;
 }
-/* line 122, ../../latto/sass/_latto.nav.scss */
+/* line 121, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active, .tabs ul.secondary li.active {
   background-color: white;
 }
-/* line 124, ../../latto/sass/_latto.nav.scss */
+/* line 123, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover {
   background-color: #fbfbfb;
 }
-/* line 126, ../../latto/sass/_latto.nav.scss */
+/* line 125, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a {
   color: #959595;
   text-decoration: none;
 }
-/* line 131, ../../latto/sass/_latto.nav.scss */
+/* line 130, ../../latto/sass/_latto.nav.scss */
 .tabs ul.primary li.active a, .tabs ul.secondary li.active a {
   background-color: transparent;
   color: #959595;
 }
-/* line 138, ../../latto/sass/_latto.nav.scss */
+/* line 137, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary {
   background-color: white;
   padding: 10px 20px;
 }
-/* line 143, ../../latto/sass/_latto.nav.scss */
+/* line 142, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li {
   display: table-cell;
   background-color: white;
   border-color: #fbfbfb;
   padding: 0 10px 0 10px;
 }
-/* line 148, ../../latto/sass/_latto.nav.scss */
+/* line 147, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li:hover {
   background-color: transparent;
 }
-/* line 151, ../../latto/sass/_latto.nav.scss */
+/* line 150, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a {
   padding: 3.33333px 5px 3.33333px 5px;
 }
-/* line 154, ../../latto/sass/_latto.nav.scss */
+/* line 153, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li a:hover {
   color: #959595;
   background-color: #efefef;
 }
-/* line 161, ../../latto/sass/_latto.nav.scss */
+/* line 160, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active:hover {
   background-color: transparent;
 }
-/* line 164, ../../latto/sass/_latto.nav.scss */
+/* line 163, ../../latto/sass/_latto.nav.scss */
 .tabs ul.secondary li.active a {
   color: #959595;
   background-color: #efefef;
 }
 
-/* line 176, ../../latto/sass/_latto.nav.scss */
+/* line 175, ../../latto/sass/_latto.nav.scss */
 .action-links {
   background-color: white;
   padding: 10px 20px;
 }
-/* line 179, ../../latto/sass/_latto.nav.scss */
+/* line 178, ../../latto/sass/_latto.nav.scss */
 .action-links li {
   color: #295586;
   display: inline-block;
   padding: 0 10px 0 10px;
 }
-/* line 186, ../../latto/sass/_latto.nav.scss */
+/* line 185, ../../latto/sass/_latto.nav.scss */
 .action-links li:before {
   font-size: 18px;
   font-size: 1.125rem;
@@ -1094,7 +1093,7 @@ table tbody tr:hover th {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 196, ../../latto/sass/_latto.nav.scss */
+/* line 195, ../../latto/sass/_latto.nav.scss */
 .action-links li a {
   font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
