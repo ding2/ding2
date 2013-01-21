@@ -35,7 +35,7 @@ else if (!empty($content['left_sidebar']) && !empty($content['right_sidebar'])) 
     <div class="grid-inner"><?php print $content['main_content']; ?></div>
   </div>
   <?php if (!empty($content['left_sidebar'])): ?>
-    **<aside class="secondary-content">
+    <aside class="secondary-content">
       <div class="grid-inner"><?php print $content['left_sidebar']; ?></div>
     </aside>
   <?php endif ?>
