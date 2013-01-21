@@ -116,14 +116,20 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
+.header-wrapper {
+  .search {
+    @include zen-grid-item($grid-50, 1);
+    @extend %header-sections;
+  }
+}
 
 .search {
-  @include zen-grid-item($grid-50, 1);
-  @extend %header-sections;
   @extend %search;
 
   border-right: 1px solid transparentize($black, .9);
 
+  margin-top: 0;
+  margin-bottom: 0;
   padding-right: 0;
 
   .search-field-wrapper {
@@ -154,45 +160,50 @@ input#edit-search-block-form--2.spinner {
 }
 
 
-.search-compact {
-  @extend %search;
+.topbar {
+  .search {
+    @include zen-grid-item($grid-33, 1, right);
+    @extend %search;
 
-  margin-top: 17px;
-  position: absolute;
-  right: 160px;
-
-  .search-field-wrapper {
-    min-width: 400px;
-    position: relative;
-  }
-
-  input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.5);
-
-    min-height: 50px;
-  }
-
-  input[type="submit"] {
-    @include rem('font-size', $theme-font-size * 1.4);
-    @extend %button;
-
-    background-color: $font-color-primary;
-    height: 50px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    margin-top: 17px;
     position: absolute;
-    right: -2px;
-    top:0;
-  }
+    right: 160px;
 
-  i[class^="icon-"] {
-    @include rem('font-size', $theme-font-size * 1.5);
-    @include opacity(.25);
+    .search-field-wrapper {
+      min-width: 400px;
+      position: relative;
+    }
 
-    margin-left: 15px;
-    position: absolute;
+    input[type="text"] {
+      @include rem('font-size', $theme-font-size * 1.5);
 
-    top: 13px;
+      min-height: 50px;
+    }
+
+    input[type="submit"] {
+      @include rem('font-size', $theme-font-size * 1.4);
+      @extend %button;
+
+      min-height: 50px;
+      position: absolute;
+      right: -2px;
+    }
+
+    i[class^="icon-"] {
+      @include rem('font-size', $theme-font-size * 1.5);
+      @include opacity(.25);
+
+      margin-left: 15px;
+      position: absolute;
+
+      top: 13px;
+    }
+    
+    .spinner {
+      i[class^="icon-"] {
+        top: 16px;
+      }
+    }     
   }
 }
 
@@ -588,7 +599,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 .pane-ting-collection {
-  
+
   h2 {
     margin-bottom: $default-spacing;
     margin-top: $default-spacing * 2;
@@ -621,7 +632,7 @@ input#edit-search-block-form--2.spinner {
   .field-name-ting-title {
     h2 {
       margin-top: 0;
-    } 
+    }
   }
 
   .subjects {

@@ -21,11 +21,18 @@
 // -----------------------------------------------------------------------------
 //
 
-.ui-corner-all, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+.ui-corner-all,
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
   @include border-radius($button-border-radius);
 }
 
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
    background-color: white;
    width: 100% !important;
 }
@@ -88,12 +95,14 @@
   content: "× ";
 }
 
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon {
   padding:5px;
   margin-top:-15px;
 }
 
-.ui-widget-header .ui-state-hover, .ui-widget-header .ui-state-focus {
+.ui-widget-header .ui-state-hover,
+.ui-widget-header .ui-state-focus {
   background-image: none;
   background-color: darken($block-bg-inverted,15%);
   padding:5px;

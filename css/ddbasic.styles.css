@@ -1330,17 +1330,13 @@ a [class*=" icon-"] {
   line-height: .9em;
 }
 /* line 106, ../../latto/sass/_latto.font-awesome.scss */
-.btn [class^="icon-"].icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .search-compact .spinner i[class^="icon-"], .search-compact .spinner .btn i[class^="icon-"],
+.btn [class^="icon-"].icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"],
 .btn [class*=" icon-"].icon-spin,
 .btn .search .spinner i[class*=" icon-"][class^="icon-"],
-.search .spinner .btn i[class*=" icon-"][class^="icon-"],
-.btn .search-compact .spinner i[class*=" icon-"][class^="icon-"],
-.search-compact .spinner .btn i[class*=" icon-"][class^="icon-"], .nav [class^="icon-"].icon-spin, .nav .search .spinner i[class^="icon-"], .search .spinner .nav i[class^="icon-"], .nav .search-compact .spinner i[class^="icon-"], .search-compact .spinner .nav i[class^="icon-"],
+.search .spinner .btn i[class*=" icon-"][class^="icon-"], .nav [class^="icon-"].icon-spin, .nav .search .spinner i[class^="icon-"], .search .spinner .nav i[class^="icon-"],
 .nav [class*=" icon-"].icon-spin,
 .nav .search .spinner i[class*=" icon-"][class^="icon-"],
-.search .spinner .nav i[class*=" icon-"][class^="icon-"],
-.nav .search-compact .spinner i[class*=" icon-"][class^="icon-"],
-.search-compact .spinner .nav i[class*=" icon-"][class^="icon-"] {
+.search .spinner .nav i[class*=" icon-"][class^="icon-"] {
   display: inline-block;
 }
 
@@ -1538,12 +1534,10 @@ ul.icons li [class*=" icon-"] {
   margin-top: .18em;
 }
 /* line 204, ../../latto/sass/_latto.font-awesome.scss */
-.btn [class^="icon-"].icon-spin.icon-large, .btn .search .spinner i[class^="icon-"].icon-large, .search .spinner .btn i[class^="icon-"].icon-large, .btn .search-compact .spinner i[class^="icon-"].icon-large, .search-compact .spinner .btn i[class^="icon-"].icon-large,
+.btn [class^="icon-"].icon-spin.icon-large, .btn .search .spinner i[class^="icon-"].icon-large, .search .spinner .btn i[class^="icon-"].icon-large,
 .btn [class*=" icon-"].icon-spin.icon-large,
 .btn .search .spinner i[class*=" icon-"].icon-large[class^="icon-"],
-.search .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"],
-.btn .search-compact .spinner i[class*=" icon-"].icon-large[class^="icon-"],
-.search-compact .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"] {
+.search .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"] {
   line-height: .8em;
 }
 
@@ -1715,7 +1709,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 230, ../../latto/sass/_latto.font-awesome.scss */
-.icon-spin, .search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
+.icon-spin, .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
   display: inline-block;
   -moz-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;
@@ -1785,22 +1779,22 @@ ul.icons li [class*=" icon-"] {
 
 @-moz-document url-prefix() {
   /* line 260, ../../latto/sass/_latto.font-awesome.scss */
-  .icon-spin, .search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
+  .icon-spin, .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
     height: .9em;
   }
 
   /* line 261, ../../latto/sass/_latto.font-awesome.scss */
-  .btn .icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .search-compact .spinner i[class^="icon-"], .search-compact .spinner .btn i[class^="icon-"] {
+  .btn .icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"] {
     height: auto;
   }
 
   /* line 262, ../../latto/sass/_latto.font-awesome.scss */
-  .icon-spin.icon-large, .search .spinner i.icon-large[class^="icon-"], .search-compact .spinner i.icon-large[class^="icon-"] {
+  .icon-spin.icon-large, .search .spinner i.icon-large[class^="icon-"] {
     height: 1.25em;
   }
 
   /* line 263, ../../latto/sass/_latto.font-awesome.scss */
-  .btn .icon-spin.icon-large, .btn .search .spinner i.icon-large[class^="icon-"], .search .spinner .btn i.icon-large[class^="icon-"], .btn .search-compact .spinner i.icon-large[class^="icon-"], .search-compact .spinner .btn i.icon-large[class^="icon-"] {
+  .btn .icon-spin.icon-large, .btn .search .spinner i.icon-large[class^="icon-"], .search .spinner .btn i.icon-large[class^="icon-"] {
     height: .75em;
   }
 }
@@ -3024,7 +3018,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 529, ../../latto/sass/_latto.font-awesome.scss */
-.icon-spinner:before, .search .spinner i[class^="icon-"]:before, .search-compact .spinner i[class^="icon-"]:before {
+.icon-spinner:before, .search .spinner i[class^="icon-"]:before {
   content: "\f110";
 }
 
@@ -3387,7 +3381,7 @@ dd {
 }
 
 /* line 57, ../sass/_ddbasic.layout.scss */
-.site-name-wrapper {
+.pane-pane-header {
   float: left;
   width: 33.33333%;
   margin-left: 0%;
@@ -3518,7 +3512,7 @@ dd {
 }
 
 /* line 17, ../sass/_ddbasic.header.scss */
-.search, .user, .pane-system-user-menu {
+.header-wrapper .search, .header-wrapper .user, .pane-system-user-menu {
   margin-top: 70px;
   margin-bottom: 70px;
   padding: 0;
@@ -3531,10 +3525,6 @@ dd {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#FFD1E02B,endColorstr=#FFD1E02B);
   margin-top: 60px;
-}
-/* line 35, ../sass/_ddbasic.header.scss */
-.header-wrapper .header-inner {
-  /*position: relative;*/
 }
 
 /* line 29, ../sass/_ddbasic.extends.scss */
@@ -3597,7 +3587,7 @@ dd {
 }
 
 /* line 96, ../sass/_ddbasic.extends.scss */
-.user-compact i[class^="icon-"] {
+.topbar .user i[class^="icon-"] {
   float: left;
   margin-right: 5px;
   text-decoration: none;
@@ -5103,12 +5093,12 @@ select {
 }
 
 /* line 131, ../sass/_ddbasic.typography.scss */
-.search input[type="text"], .search-compact input[type="text"] {
+.search input[type="text"], .topbar .search input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
 }
 /* line 135, ../sass/_ddbasic.typography.scss */
-.search input[type="submit"], .search-compact input[type="submit"] {
+.search input[type="submit"], .topbar .search input[type="submit"] {
   font-size: 25.5px;
 }
 
@@ -5364,7 +5354,7 @@ table tbody tr:hover th {
 
 /* line 21, ../sass/_ddbasic.buttons.scss */
 .button,
-a.button, .search input[type="submit"], .search-compact input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+a.button, .search input[type="submit"], .topbar .search input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button, .ui-widget-content input[type=submit], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
@@ -5377,11 +5367,11 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .p
   padding-left: 18px;
   background-color: #262626;
   border: 0;
-  color: white !important;
+  color: white;
   cursor: pointer;
 }
 /* line 36, ../sass/_ddbasic.buttons.scss */
-.button .icon, .search input[type="submit"] .icon, .search-compact input[type="submit"] .icon, .pane-ting-collection .form-submit .icon, .pane-ting-object .form-submit .icon,
+.button .icon, .search input[type="submit"] .icon, .topbar .search input[type="submit"] .icon, .pane-ting-collection .form-submit .icon, .pane-ting-object .form-submit .icon,
 .pane-ting-collection .ding-entity-button .icon,
 .pane-ting-object .ding-entity-button .icon, .ui-widget-content input[type=submit] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
@@ -5398,17 +5388,17 @@ a.button, .search input[type="submit"], .search-compact input[type="submit"], .p
   padding: 7px 10px;
 }
 /* line 49, ../sass/_ddbasic.buttons.scss */
-.button:hover, .search input[type="submit"]:hover, .search-compact input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.button:hover, .search input[type="submit"]:hover, .topbar .search input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .search-compact input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .topbar .search input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
-.pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .search-compact input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .topbar .search input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .ui-widget-content input[type=submit]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
 }
 /* line 52, ../sass/_ddbasic.buttons.scss */
-.button:visited, .search input[type="submit"]:visited, .search-compact input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
+.button:visited, .search input[type="submit"]:visited, .topbar .search input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
 .pane-ting-collection .ding-entity-button:visited,
 .pane-ting-object .ding-entity-button:visited, .ui-widget-content input[type=submit]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
@@ -5591,17 +5581,17 @@ a [class*=" icon-"] {
   line-height: .9em;
 }
 /* line 106, ../../latto/sass/_latto.font-awesome.scss */
-.btn [class^="icon-"].icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .search-compact .spinner i[class^="icon-"], .search-compact .spinner .btn i[class^="icon-"],
+.btn [class^="icon-"].icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .topbar .search .spinner i[class^="icon-"], .topbar .search .spinner .btn i[class^="icon-"],
 .btn [class*=" icon-"].icon-spin,
 .btn .search .spinner i[class*=" icon-"][class^="icon-"],
 .search .spinner .btn i[class*=" icon-"][class^="icon-"],
-.btn .search-compact .spinner i[class*=" icon-"][class^="icon-"],
-.search-compact .spinner .btn i[class*=" icon-"][class^="icon-"], .nav [class^="icon-"].icon-spin, .nav .search .spinner i[class^="icon-"], .search .spinner .nav i[class^="icon-"], .nav .search-compact .spinner i[class^="icon-"], .search-compact .spinner .nav i[class^="icon-"],
+.btn .topbar .search .spinner i[class*=" icon-"][class^="icon-"],
+.topbar .search .spinner .btn i[class*=" icon-"][class^="icon-"], .nav [class^="icon-"].icon-spin, .nav .search .spinner i[class^="icon-"], .search .spinner .nav i[class^="icon-"], .nav .topbar .search .spinner i[class^="icon-"], .topbar .search .spinner .nav i[class^="icon-"],
 .nav [class*=" icon-"].icon-spin,
 .nav .search .spinner i[class*=" icon-"][class^="icon-"],
 .search .spinner .nav i[class*=" icon-"][class^="icon-"],
-.nav .search-compact .spinner i[class*=" icon-"][class^="icon-"],
-.search-compact .spinner .nav i[class*=" icon-"][class^="icon-"] {
+.nav .topbar .search .spinner i[class*=" icon-"][class^="icon-"],
+.topbar .search .spinner .nav i[class*=" icon-"][class^="icon-"] {
   display: inline-block;
 }
 
@@ -5799,12 +5789,12 @@ ul.icons li [class*=" icon-"] {
   margin-top: .18em;
 }
 /* line 204, ../../latto/sass/_latto.font-awesome.scss */
-.btn [class^="icon-"].icon-spin.icon-large, .btn .search .spinner i[class^="icon-"].icon-large, .search .spinner .btn i[class^="icon-"].icon-large, .btn .search-compact .spinner i[class^="icon-"].icon-large, .search-compact .spinner .btn i[class^="icon-"].icon-large,
+.btn [class^="icon-"].icon-spin.icon-large, .btn .search .spinner i[class^="icon-"].icon-large, .search .spinner .btn i[class^="icon-"].icon-large, .btn .topbar .search .spinner i[class^="icon-"].icon-large, .topbar .search .spinner .btn i[class^="icon-"].icon-large,
 .btn [class*=" icon-"].icon-spin.icon-large,
 .btn .search .spinner i[class*=" icon-"].icon-large[class^="icon-"],
 .search .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"],
-.btn .search-compact .spinner i[class*=" icon-"].icon-large[class^="icon-"],
-.search-compact .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"] {
+.btn .topbar .search .spinner i[class*=" icon-"].icon-large[class^="icon-"],
+.topbar .search .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"] {
   line-height: .8em;
 }
 
@@ -5976,7 +5966,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 230, ../../latto/sass/_latto.font-awesome.scss */
-.icon-spin, .search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
+.icon-spin, .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
   display: inline-block;
   -moz-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;
@@ -6046,22 +6036,22 @@ ul.icons li [class*=" icon-"] {
 
 @-moz-document url-prefix() {
   /* line 260, ../../latto/sass/_latto.font-awesome.scss */
-  .icon-spin, .search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
+  .icon-spin, .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
     height: .9em;
   }
 
   /* line 261, ../../latto/sass/_latto.font-awesome.scss */
-  .btn .icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .search-compact .spinner i[class^="icon-"], .search-compact .spinner .btn i[class^="icon-"] {
+  .btn .icon-spin, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .topbar .search .spinner i[class^="icon-"], .topbar .search .spinner .btn i[class^="icon-"] {
     height: auto;
   }
 
   /* line 262, ../../latto/sass/_latto.font-awesome.scss */
-  .icon-spin.icon-large, .search .spinner i.icon-large[class^="icon-"], .search-compact .spinner i.icon-large[class^="icon-"] {
+  .icon-spin.icon-large, .search .spinner i.icon-large[class^="icon-"], .topbar .search .spinner i.icon-large[class^="icon-"] {
     height: 1.25em;
   }
 
   /* line 263, ../../latto/sass/_latto.font-awesome.scss */
-  .btn .icon-spin.icon-large, .btn .search .spinner i.icon-large[class^="icon-"], .search .spinner .btn i.icon-large[class^="icon-"], .btn .search-compact .spinner i.icon-large[class^="icon-"], .search-compact .spinner .btn i.icon-large[class^="icon-"] {
+  .btn .icon-spin.icon-large, .btn .search .spinner i.icon-large[class^="icon-"], .search .spinner .btn i.icon-large[class^="icon-"], .btn .topbar .search .spinner i.icon-large[class^="icon-"], .topbar .search .spinner .btn i.icon-large[class^="icon-"] {
     height: .75em;
   }
 }
@@ -7285,7 +7275,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 529, ../../latto/sass/_latto.font-awesome.scss */
-.icon-spinner:before, .search .spinner i[class^="icon-"]:before, .search-compact .spinner i[class^="icon-"]:before {
+.icon-spinner:before, .search .spinner i[class^="icon-"]:before, .topbar .search .spinner i[class^="icon-"]:before {
   content: "\f110";
 }
 
@@ -7559,7 +7549,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 69, ../sass/_ddbasic.search.scss */
-.search i[class^="icon-"], .search-compact i[class^="icon-"] {
+.search i[class^="icon-"], .topbar .search i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
@@ -7569,7 +7559,7 @@ input#edit-search-block-form--2.spinner {
   z-index: 10;
 }
 /* line 81, ../sass/_ddbasic.search.scss */
-.search input[type="text"], .search-compact input[type="text"] {
+.search input[type="text"], .topbar .search input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
   -webkit-box-sizing: border-box;
@@ -7589,18 +7579,18 @@ input#edit-search-block-form--2.spinner {
   width: 100%;
 }
 /* line 101, ../sass/_ddbasic.search.scss */
-.search input[type="submit"], .search-compact input[type="submit"] {
+.search input[type="submit"], .topbar .search input[type="submit"] {
   position: absolute;
 }
 /* line 108, ../sass/_ddbasic.search.scss */
-.search .spinner i[class^="icon-"], .search-compact .spinner i[class^="icon-"] {
+.search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
   font-size: 22.5px;
   margin-left: 17px;
   top: 22px;
 }
 
 /* line 120, ../sass/_ddbasic.search.scss */
-.search {
+.header-wrapper .search {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -7616,65 +7606,82 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+}
+
+/* line 126, ../sass/_ddbasic.search.scss */
+.search {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+  margin-bottom: 0;
   padding-right: 0;
 }
-/* line 129, ../sass/_ddbasic.search.scss */
+/* line 135, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
   margin-right: 40px;
 }
-/* line 133, ../sass/_ddbasic.search.scss */
+/* line 139, ../sass/_ddbasic.search.scss */
 .search .form-item {
   margin-top: 0em;
 }
-/* line 137, ../sass/_ddbasic.search.scss */
+/* line 143, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   min-height: 60px;
   right: 38px;
   top: 0;
 }
-/* line 143, ../sass/_ddbasic.search.scss */
+/* line 149, ../sass/_ddbasic.search.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 149, ../sass/_ddbasic.search.scss */
+/* line 155, ../sass/_ddbasic.search.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 157, ../sass/_ddbasic.search.scss */
-.search-compact {
+/* line 164, ../sass/_ddbasic.search.scss */
+.topbar .search {
+  float: right;
+  width: 33.33333%;
+  margin-right: 0%;
+  margin-left: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
   margin-top: 17px;
   position: absolute;
   right: 160px;
 }
-/* line 164, ../sass/_ddbasic.search.scss */
-.search-compact .search-field-wrapper {
+/* line 172, ../sass/_ddbasic.search.scss */
+.topbar .search .search-field-wrapper {
   min-width: 400px;
   position: relative;
 }
-/* line 169, ../sass/_ddbasic.search.scss */
-.search-compact input[type="text"] {
+/* line 177, ../sass/_ddbasic.search.scss */
+.topbar .search input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
   min-height: 50px;
 }
-/* line 175, ../sass/_ddbasic.search.scss */
-.search-compact input[type="submit"] {
+/* line 183, ../sass/_ddbasic.search.scss */
+.topbar .search input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
-  background-color: #d1e02b;
-  height: 50px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  min-height: 50px;
   position: absolute;
   right: -2px;
-  top: 0;
 }
-/* line 188, ../sass/_ddbasic.search.scss */
-.search-compact i[class^="icon-"] {
+/* line 192, ../sass/_ddbasic.search.scss */
+.topbar .search i[class^="icon-"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
@@ -7683,83 +7690,87 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   top: 13px;
 }
+/* line 203, ../sass/_ddbasic.search.scss */
+.topbar .search .spinner i[class^="icon-"] {
+  top: 16px;
+}
 
-/* line 206, ../sass/_ddbasic.search.scss */
+/* line 217, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 209, ../sass/_ddbasic.search.scss */
+/* line 220, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #295586;
 }
-/* line 214, ../sass/_ddbasic.search.scss */
+/* line 225, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2 {
   margin-bottom: 20px;
 }
-/* line 219, ../sass/_ddbasic.search.scss */
+/* line 230, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser legend {
   line-height: inherit;
   padding-top: 20px;
   padding-bottom: 10px;
 }
-/* line 228, ../sass/_ddbasic.search.scss */
+/* line 239, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 233, ../sass/_ddbasic.search.scss */
+/* line 244, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 236, ../sass/_ddbasic.search.scss */
+/* line 247, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 0;
 }
-/* line 249, ../sass/_ddbasic.search.scss */
+/* line 260, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
 }
-/* line 252, ../sass/_ddbasic.search.scss */
+/* line 263, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 1.1em;
 }
-/* line 259, ../sass/_ddbasic.search.scss */
+/* line 270, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-more {
   display: block;
   margin-top: 20px;
 }
-/* line 265, ../sass/_ddbasic.search.scss */
+/* line 276, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-less {
   display: block;
   margin-top: 20px;
 }
-/* line 273, ../sass/_ddbasic.search.scss */
+/* line 284, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 277, ../sass/_ddbasic.search.scss */
+/* line 288, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 282, ../sass/_ddbasic.search.scss */
+/* line 293, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect {
   margin-top: 10px;
 }
-/* line 292, ../sass/_ddbasic.search.scss */
+/* line 303, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 297, ../sass/_ddbasic.search.scss */
+/* line 308, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 301, ../sass/_ddbasic.search.scss */
+/* line 312, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-facets {
   display: block;
   text-align: right;
@@ -7769,265 +7780,265 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 
-/* line 325, ../sass/_ddbasic.search.scss */
+/* line 336, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 333, ../sass/_ddbasic.search.scss */
+/* line 344, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 337, ../sass/_ddbasic.search.scss */
+/* line 348, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 345, ../sass/_ddbasic.search.scss */
+/* line 356, ../sass/_ddbasic.search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
-/* line 353, ../sass/_ddbasic.search.scss */
+/* line 364, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   overflow: hidden;
   color: #959595;
 }
-/* line 359, ../sass/_ddbasic.search.scss */
+/* line 370, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 363, ../sass/_ddbasic.search.scss */
+/* line 374, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 368, ../sass/_ddbasic.search.scss */
+/* line 379, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 374, ../sass/_ddbasic.search.scss */
+/* line 385, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   overflow: hidden;
   color: #959595;
   margin-left: 20px;
 }
-/* line 380, ../sass/_ddbasic.search.scss */
+/* line 391, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #112338;
   text-decoration: underline;
 }
-/* line 386, ../sass/_ddbasic.search.scss */
+/* line 397, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #112338;
   text-decoration: none;
 }
-/* line 391, ../sass/_ddbasic.search.scss */
+/* line 402, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 400, ../sass/_ddbasic.search.scss */
+/* line 411, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
-/* line 406, ../sass/_ddbasic.search.scss */
+/* line 417, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 410, ../sass/_ddbasic.search.scss */
+/* line 421, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend {
   border: none;
   padding: 0;
 }
-/* line 415, ../sass/_ddbasic.search.scss */
+/* line 426, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
 }
-/* line 419, ../sass/_ddbasic.search.scss */
+/* line 430, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* line 432, ../sass/_ddbasic.search.scss */
+/* line 443, ../sass/_ddbasic.search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 437, ../sass/_ddbasic.search.scss */
+/* line 448, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 444, ../sass/_ddbasic.search.scss */
+/* line 455, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 449, ../sass/_ddbasic.search.scss */
+/* line 460, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
   margin-left: 10%;
   padding-left: 20px;
 }
-/* line 460, ../sass/_ddbasic.search.scss */
+/* line 471, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-left: 10%;
   margin-bottom: 10px;
   padding-left: 20px;
 }
-/* line 466, ../sass/_ddbasic.search.scss */
+/* line 477, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 471, ../sass/_ddbasic.search.scss */
+/* line 482, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead {
   font-weight: inherit;
 }
-/* line 475, ../sass/_ddbasic.search.scss */
+/* line 486, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects a {
   margin-right: 5px;
 }
-/* line 480, ../sass/_ddbasic.search.scss */
+/* line 491, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability {
   margin-bottom: 0;
 }
-/* line 486, ../sass/_ddbasic.search.scss */
+/* line 497, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 512, ../sass/_ddbasic.search.scss */
+/* line 523, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 524, ../sass/_ddbasic.search.scss */
+/* line 535, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 529, ../sass/_ddbasic.search.scss */
+/* line 540, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 536, ../sass/_ddbasic.search.scss */
+/* line 547, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 541, ../sass/_ddbasic.search.scss */
+/* line 552, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 544, ../sass/_ddbasic.search.scss */
+/* line 555, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 549, ../sass/_ddbasic.search.scss */
+/* line 560, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 553, ../sass/_ddbasic.search.scss */
+/* line 564, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .availability {
   clear: both;
   display: block;
   margin-top: 20px;
 }
-/* line 558, ../sass/_ddbasic.search.scss */
+/* line 569, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .availability li {
   display: inline;
 }
 
-/* line 577, ../sass/_ddbasic.search.scss */
+/* line 588, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul li, .pane-ting-ting-object-types ul li, .pane-ting-ting-relation-anchors ul li {
   margin-bottom: 10px;
   padding-bottom: default-spacing/2;
 }
-/* line 582, ../sass/_ddbasic.search.scss */
+/* line 593, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul .last, .pane-ting-ting-object-types ul .last, .pane-ting-ting-relation-anchors ul .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 592, ../sass/_ddbasic.search.scss */
+/* line 603, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 596, ../sass/_ddbasic.search.scss */
+/* line 607, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 605, ../sass/_ddbasic.search.scss */
+/* line 616, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 611, ../sass/_ddbasic.search.scss */
+/* line 622, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-left: 10%;
   padding-left: 20px;
   margin-bottom: 10px;
 }
-/* line 616, ../sass/_ddbasic.search.scss */
+/* line 627, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 622, ../sass/_ddbasic.search.scss */
+/* line 633, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 629, ../sass/_ddbasic.search.scss */
+/* line 640, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .subjects ul > dt, .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .lead, .pane-ting-object .subjects .lead {
   font-weight: inherit;
 }
-/* line 633, ../sass/_ddbasic.search.scss */
+/* line 644, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .subjects a, .pane-ting-object .subjects a {
   margin-right: 5px;
 }
-/* line 641, ../sass/_ddbasic.search.scss */
+/* line 652, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type li, .pane-ting-object .field-name-ting-type li {
   list-style: none;
 }
-/* line 666, ../sass/_ddbasic.search.scss */
+/* line 677, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   margin: 0;
 }
-/* line 677, ../sass/_ddbasic.search.scss */
+/* line 688, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: white;
 }
-/* line 680, ../sass/_ddbasic.search.scss */
+/* line 691, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 686, ../sass/_ddbasic.search.scss */
+/* line 697, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
   margin-right: 10px;
 }
-/* line 693, ../sass/_ddbasic.search.scss */
+/* line 704, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
@@ -8037,33 +8048,33 @@ input#edit-search-block-form--2.spinner {
   padding: 6px;
 }
 
-/* line 708, ../sass/_ddbasic.search.scss */
+/* line 719, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
-/* line 713, ../sass/_ddbasic.search.scss */
+/* line 724, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   color: #959595;
   margin-bottom: 20px;
 }
 
-/* line 721, ../sass/_ddbasic.search.scss */
+/* line 732, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 730, ../sass/_ddbasic.search.scss */
+/* line 741, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-cover {
   width: 25%;
   min-height: 250px;
 }
-/* line 735, ../sass/_ddbasic.search.scss */
+/* line 746, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 744, ../sass/_ddbasic.search.scss */
+/* line 755, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-title,
 .pane-ting-object .field-name-ting-author,
 .pane-ting-object .field-name-ting-abstract,
@@ -8071,67 +8082,67 @@ input#edit-search-block-form--2.spinner {
   margin-left: 25%;
   padding-left: 20px;
 }
-/* line 751, ../sass/_ddbasic.search.scss */
+/* line 762, ../sass/_ddbasic.search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 756, ../sass/_ddbasic.search.scss */
+/* line 767, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details, .pane-ting-object .field-name-ting-series {
   clear: both;
   padding-top: 20px;
 }
-/* line 760, ../sass/_ddbasic.search.scss */
+/* line 771, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-label, .pane-ting-object .field-name-ting-series .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 765, ../sass/_ddbasic.search.scss */
+/* line 776, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-items, .pane-ting-object .field-name-ting-series .field-items {
   max-width: 72%;
 }
-/* line 770, ../sass/_ddbasic.search.scss */
+/* line 781, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-series {
   padding-top: 0;
 }
-/* line 776, ../sass/_ddbasic.search.scss */
+/* line 787, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   clear: both;
 }
-/* line 779, ../sass/_ddbasic.search.scss */
+/* line 790, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 785, ../sass/_ddbasic.search.scss */
+/* line 796, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 789, ../sass/_ddbasic.search.scss */
+/* line 800, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 795, ../sass/_ddbasic.search.scss */
+/* line 806, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   border-top: 1px solid #d5d5d5;
   margin-top: 20px;
   padding-top: 20px;
   margin-bottom: 0;
 }
-/* line 802, ../sass/_ddbasic.search.scss */
+/* line 813, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 808, ../sass/_ddbasic.search.scss */
+/* line 819, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 814, ../sass/_ddbasic.search.scss */
+/* line 825, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -8140,23 +8151,23 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 822, ../sass/_ddbasic.search.scss */
+/* line 833, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 826, ../sass/_ddbasic.search.scss */
+/* line 837, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 830, ../sass/_ddbasic.search.scss */
+/* line 841, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 834, ../sass/_ddbasic.search.scss */
+/* line 845, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 839, ../sass/_ddbasic.search.scss */
+/* line 850, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation .meta, .pane-ting-object .ting-relation .list-meta {
   padding: 20px;
   padding-bottom: 10px;
@@ -8532,20 +8543,27 @@ input#edit-search-block-form--2.spinner {
   margin-left: 75%;
 }
 
-/* line 24, ../sass/_ddbasic.modal.scss */
-.ui-corner-all, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+/* line 28, ../sass/_ddbasic.modal.scss */
+.ui-corner-all,
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
 }
 
-/* line 28, ../sass/_ddbasic.modal.scss */
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+/* line 35, ../sass/_ddbasic.modal.scss */
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
   background-color: white;
   width: 100% !important;
 }
 
-/* line 33, ../sass/_ddbasic.modal.scss */
+/* line 40, ../sass/_ddbasic.modal.scss */
 .ui-widget {
   background-color: #d1e02b;
   zoom: 1;
@@ -8556,38 +8574,38 @@ input#edit-search-block-form--2.spinner {
   box-shadow: 5px 5px 10px black;
 }
 
-/* line 41, ../sass/_ddbasic.modal.scss */
+/* line 48, ../sass/_ddbasic.modal.scss */
 .ui-widget-content {
   color: white;
   margin-bottom: 1em;
 }
 
-/* line 46, ../sass/_ddbasic.modal.scss */
+/* line 53, ../sass/_ddbasic.modal.scss */
 .ui-widget-header {
   background: none;
   border: none;
   color: white;
 }
 
-/* line 53, ../sass/_ddbasic.modal.scss */
+/* line 60, ../sass/_ddbasic.modal.scss */
 .ui-widget-content input[type=submit] {
   min-height: 40px;
   width: 100%;
 }
 
-/* line 61, ../sass/_ddbasic.modal.scss */
+/* line 68, ../sass/_ddbasic.modal.scss */
 .ui-widget-header {
   font-size: 22.5px;
   font-size: 1.40625rem;
   font-weight: 100;
 }
 
-/* line 66, ../sass/_ddbasic.modal.scss */
+/* line 73, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar {
   padding: 10px 20px;
 }
 
-/* line 70, ../sass/_ddbasic.modal.scss */
+/* line 77, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close {
   height: inherit;
   width: inherit;
@@ -8596,7 +8614,7 @@ input#edit-search-block-form--2.spinner {
   margin-top: -15px;
 }
 
-/* line 78, ../sass/_ddbasic.modal.scss */
+/* line 85, ../sass/_ddbasic.modal.scss */
 .ui-dialog-titlebar-close .ui-icon {
   font-size: 16.5px;
   font-size: 1.03125rem;
@@ -8607,19 +8625,21 @@ input#edit-search-block-form--2.spinner {
   color: white;
 }
 
-/* line 87, ../sass/_ddbasic.modal.scss */
+/* line 94, ../sass/_ddbasic.modal.scss */
 .ui-dialog-titlebar-close .ui-icon:before {
   content: "× ";
 }
 
-/* line 91, ../sass/_ddbasic.modal.scss */
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {
+/* line 99, ../sass/_ddbasic.modal.scss */
+.ui-state-hover .ui-icon,
+.ui-state-focus .ui-icon {
   padding: 5px;
   margin-top: -15px;
 }
 
-/* line 96, ../sass/_ddbasic.modal.scss */
-.ui-widget-header .ui-state-hover, .ui-widget-header .ui-state-focus {
+/* line 105, ../sass/_ddbasic.modal.scss */
+.ui-widget-header .ui-state-hover,
+.ui-widget-header .ui-state-focus {
   background-image: none;
   background-color: #9aa618;
   padding: 5px;
@@ -8666,8 +8686,8 @@ input#edit-search-block-form--2.spinner {
   border: 0;
 }
 
-/* line 45, ../sass/_ddbasic.user.scss */
-.user {
+/* line 46, ../sass/_ddbasic.user.scss */
+.header-wrapper .user {
   float: right;
   width: 50%;
   margin-right: 0%;
@@ -8686,25 +8706,26 @@ input#edit-search-block-form--2.spinner {
   margin-right: 0;
   padding-left: 0;
 }
-/* line 52, ../sass/_ddbasic.user.scss */
+
+/* line 56, ../sass/_ddbasic.user.scss */
 .user .user-field-wrapper {
   display: block;
   margin-left: 40px;
 }
-/* line 57, ../sass/_ddbasic.user.scss */
+/* line 61, ../sass/_ddbasic.user.scss */
 .user .form-item {
   margin-top: 0em;
   display: inline;
 }
-/* line 61, ../sass/_ddbasic.user.scss */
+/* line 65, ../sass/_ddbasic.user.scss */
 .user .form-actions {
   display: inline;
 }
-/* line 65, ../sass/_ddbasic.user.scss */
+/* line 69, ../sass/_ddbasic.user.scss */
 .user i[class^="icon-"] {
   top: 13px;
 }
-/* line 72, ../sass/_ddbasic.user.scss */
+/* line 76, ../sass/_ddbasic.user.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 19.5px;
@@ -8713,7 +8734,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 60px;
   margin-right: 10px;
 }
-/* line 81, ../sass/_ddbasic.user.scss */
+/* line 85, ../sass/_ddbasic.user.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -8723,17 +8744,14 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
 }
 
-/* line 93, ../sass/_ddbasic.user.scss */
-.user-compact {
+/* line 97, ../sass/_ddbasic.user.scss */
+.topbar .user {
   font-size: 21px;
   font-size: 1.3125rem;
-  margin-top: 9px;
-  text-align: right;
-  position: absolute;
-  right: 10px;
+  display: none;
 }
-/* line 101, ../sass/_ddbasic.user.scss */
-.user-compact a {
+/* line 102, ../sass/_ddbasic.user.scss */
+.topbar .user a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
@@ -8744,27 +8762,27 @@ input#edit-search-block-form--2.spinner {
   padding: 12px 25px 10px;
   text-align: center;
 }
-/* line 111, ../sass/_ddbasic.user.scss */
-.user-compact a:hover {
+/* line 112, ../sass/_ddbasic.user.scss */
+.topbar .user a:hover {
   text-decoration: none;
 }
-/* line 115, ../sass/_ddbasic.user.scss */
-.user-compact a.active {
+/* line 116, ../sass/_ddbasic.user.scss */
+.topbar .user a.active {
   background-color: #d1e02b;
 }
-/* line 124, ../sass/_ddbasic.user.scss */
-.user-compact.fixed {
+/* line 125, ../sass/_ddbasic.user.scss */
+.topbar .user.fixed {
   display: block;
 }
 
-/* line 130, ../sass/_ddbasic.user.scss */
+/* line 131, ../sass/_ddbasic.user.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 138, ../sass/_ddbasic.user.scss */
+/* line 139, ../sass/_ddbasic.user.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -8775,16 +8793,16 @@ input#edit-search-block-form--2.spinner {
   border-bottom-color: #d1e02b;
   right: 50px;
 }
-/* line 142, ../sass/_ddbasic.user.scss */
+/* line 143, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 145, ../sass/_ddbasic.user.scss */
+/* line 146, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 153, ../sass/_ddbasic.user.scss */
+/* line 154, ../sass/_ddbasic.user.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -8794,22 +8812,22 @@ input#edit-search-block-form--2.spinner {
   right: 15px;
   top: 15px;
 }
-/* line 164, ../sass/_ddbasic.user.scss */
+/* line 165, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link {
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 170, ../sass/_ddbasic.user.scss */
+/* line 171, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 175, ../sass/_ddbasic.user.scss */
+/* line 176, ../sass/_ddbasic.user.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 182, ../sass/_ddbasic.user.scss */
+/* line 183, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -8817,7 +8835,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 190, ../sass/_ddbasic.user.scss */
+/* line 191, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -8825,7 +8843,7 @@ input#edit-search-block-form--2.spinner {
   display: inline;
 }
 
-/* line 201, ../sass/_ddbasic.user.scss */
+/* line 202, ../sass/_ddbasic.user.scss */
 .pane-system-user-menu {
   float: right;
   width: 50%;

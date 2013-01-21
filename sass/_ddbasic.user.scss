@@ -42,13 +42,17 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
+.header-wrapper {
+  .user {
+    @include zen-grid-item($grid-50, 1, right);
+    @extend %header-sections;
+    
+    margin-right: 0;
+    padding-left: 0;
+  }
+}
+
 .user {
-  @include zen-grid-item($grid-50, 1, right);  
-  @extend %header-sections;
-
-  margin-right: 0;
-  padding-left: 0;
-
   .user-field-wrapper {
     display: block;
     margin-left: 40px;
@@ -89,43 +93,40 @@
 
 }
 
+.topbar {
+  .user {
+    @include rem('font-size', $theme-font-size * 1.4);
 
-.user-compact {
-  @include rem('font-size', $theme-font-size * 1.4);
+    display: none;
 
-  margin-top: 9px;
-  text-align: right;
-  position: absolute;
-  right: 10px;
+    a {
+      @include border-radius(12px);
 
-  a {
-    @include border-radius(12px);
+      background-color: $black;
+      color: $white;
+      cursor: pointer;
+      display: inline-block;
+      padding: 12px 25px 10px;
+      text-align: center;
 
-    background-color: $black;
-    color: $white;
-    cursor: pointer;
-    display: inline-block;
-    padding: 12px 25px 10px;
-    text-align: center;
+      &:hover {
+        text-decoration: none;
+      }
 
-    &:hover {
-      text-decoration: none;
+      &.active {
+        background-color: $font-color-primary;
+      }
     }
 
-    &.active {
-      background-color: $font-color-primary;
+    i[class^="icon-"] {
+      @extend %read-more-icon;
     }
-  }
 
-  i[class^="icon-"] {
-    @extend %read-more-icon;
-  }
-
-  &.fixed {
-    display: block;
+    &.fixed {
+      display: block;
+    }
   }
 }
-
 
 .user-login-block {
   @extend %block;
