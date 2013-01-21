@@ -184,6 +184,7 @@ input#edit-search-block-form--2.spinner {
       @include rem('font-size', $theme-font-size * 1.4);
       @extend %button;
 
+      background-color: $button-primary-bg-color;
       min-height: 50px;
       position: absolute;
       right: -2px;
