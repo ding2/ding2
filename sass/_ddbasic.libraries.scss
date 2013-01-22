@@ -68,9 +68,7 @@
   margin-left: 25%;
 
   .dt {
-    @extend %term-horizontal;
-    
-    font-weight: $font-weight-bold;
+    @extend %term-horizontal;    
   }
 
   .dd {
