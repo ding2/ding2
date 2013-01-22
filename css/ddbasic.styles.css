@@ -8885,27 +8885,28 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  margin-top: 80px;
   text-align: right;
 }
-/* line 209, ../sass/_ddbasic.user.scss */
+/* line 208, ../sass/_ddbasic.user.scss */
 .user-menu ul {
   margin-top: 6.66667px;
   text-align: right;
 }
-/* line 216, ../sass/_ddbasic.user.scss */
+/* line 215, ../sass/_ddbasic.user.scss */
 .user-menu ul li a {
   color: white;
   margin-right: 5px;
   padding-top: 0;
   padding-bottom: 0;
 }
-/* line 225, ../sass/_ddbasic.user.scss */
+/* line 224, ../sass/_ddbasic.user.scss */
 .user-menu .user-menu-title {
+  font-size: 33.75px;
+  font-size: 2.10938rem;
   color: rgba(0, 0, 0, 0.5);
 }
-/* line 228, ../sass/_ddbasic.user.scss */
-.user-menu .user-menu-title .user-login-user-name {
+/* line 229, ../sass/_ddbasic.user.scss */
+.user-menu .user-menu-title .user-name {
   color: black;
 }
 

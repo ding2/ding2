@@ -203,7 +203,6 @@
   @include zen-grid-item($grid-50, 1, right);
   @extend %header-sections;
 
-  margin-top: 80px;
   text-align: right;
 
   ul {
@@ -223,9 +222,11 @@
   }
 
   .user-menu-title {
+    @include rem('font-size', $theme-font-size * 2.25);
+    
     color: transparentize($black, .5);
 
-    .user-login-user-name {
+    .user-name {
       color: $black;
     }
   }
