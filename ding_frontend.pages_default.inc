@@ -36,7 +36,7 @@ Website',
 search/node',
   );
   $display = new panels_display();
-  $display->layout = 'threecol_25_50_25';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -52,7 +52,7 @@ search/node',
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'middle';
+    $pane->panel = 'main_content';
     $pane->type = 'views';
     $pane->subtype = 'ding_node_search';
     $pane->shown = TRUE;
@@ -85,7 +85,7 @@ search/node',
     $pane->position = 0;
     $pane->locks = '';
     $display->content['new-1'] = $pane;
-    $display->panels['middle'][0] = 'new-1';
+    $display->panels['main_content'][0] = 'new-1';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
