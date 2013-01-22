@@ -44,10 +44,10 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login_block':
       unset($form['name']['#title']);
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
-      $form['name']['#attributes']['placeholder'] = t('Cpr- eller kortnummer:');
+      $form['name']['#attributes']['placeholder'] = t('Cpr- or cardnumber');
       $form['name']['#type'] = 'password';
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
-      $form['pass']['#attributes']['placeholder'] = t('Adgangskode:');
+      $form['pass']['#attributes']['placeholder'] = t('Password');
       unset($form['pass']['#title']);
       unset($form['links']);
       //Temporary hack to get rid of open id links
