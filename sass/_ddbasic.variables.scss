@@ -24,22 +24,27 @@ $theme-content-background:        #fff;
 
 
 // -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+$font-light:                      "SourceSansProExtraLight";
+$font-light-italic:               "SourceSansProExtraLightItalic";
+$font-regular:                    "SourceSansProRegular";
+$font-regular-italic:             "SourceSansProItalic";
+$font-bold:                       "SourceSansProSemibold";
+$font-bold-italic:                "SourceSansProSemiboldItalic";
+$font-color-primary:              #d1e02b;
+
+
+// -----------------------------------------------------------------------------
 // Font variables
 // -----------------------------------------------------------------------------
 //
 $theme-font-size:                 15px;
 $theme-line-height:               18px;
-$theme-font-family:               "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-
-
-// -----------------------------------------------------------------------------
-// Typography
-// -----------------------------------------------------------------------------
-//
-$font-weight-light:               100;
-$font-weight-regular:             200;
-$font-weight-bold:                600;
-$font-color-primary:              #d1e02b;
+$theme-font-family:               $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+$theme-font-weight-normal:        normal;
+$theme-font-weight-bold:          normal;
 
 
 // -----------------------------------------------------------------------------

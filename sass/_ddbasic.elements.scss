@@ -36,27 +36,6 @@ h6 {
   margin-top: 0;
 }
 
-a {
-  &:link {
-    color: $link-color;
-    text-decoration: none;
-  }
-  &:visited {
-    color: darken($link-color, 15%);
-  }
-  &:hover {
-    color: $link-color-hover;
-    text-decoration: underline;
-
-    i[class^="icon-"] {
-      text-decoration: none;
-    }
-  }
-  &:focus {
-    color: $link-color-hover;
-  }
-}
-
 
 ul {
   padding-left: $default-spacing;

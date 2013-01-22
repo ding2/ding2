@@ -65,7 +65,6 @@
 
 .ui-widget-header {
   @include rem('font-size', $theme-font-size * 1.5);
-  font-weight: $font-weight-light;
 }
 
 .ui-dialog .ui-dialog-titlebar {
