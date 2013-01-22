@@ -244,9 +244,10 @@ input#edit-search-block-form--2.spinner {
   // Facet group spacing.
   .form-wrapper {
     margin-bottom: $default-spacing;
+    
     .fieldset-wrapper {
       .form-checkboxes .form-item {
-        margin: 0;
+        margin: 5px 0;
       }
     }
   }
@@ -336,6 +337,7 @@ input#edit-search-block-form--2.spinner {
 // Combine these as a page title
 .pane-ting-search-search-display-extended-query {
   @extend .pull-left;
+  
   overflow: hidden;
   margin-bottom: $default-spacing;
 
@@ -356,6 +358,7 @@ input#edit-search-block-form--2.spinner {
 
   .ting-search-amount-block {
     @extend .text-larger;
+    
     color: $gray-darker;
   }
 }
@@ -363,10 +366,11 @@ input#edit-search-block-form--2.spinner {
 // Sorting, display amount and display format groups
 // Combine these as a group floating left and right
 .pane-ting-search-sort-form {
-  clear: both;
   @extend .pull-left;
-  overflow: hidden;
+  
+  clear: both;
   color: $gray-darker;
+  overflow: hidden;
 
   .form-item {
     margin: 0;
@@ -385,6 +389,7 @@ input#edit-search-block-form--2.spinner {
 }
 .pane-ting-search-records-per-page {
   @extend .pull-right;
+  
   overflow: hidden;
   color: $gray-darker;
   margin-left: $default-spacing;
