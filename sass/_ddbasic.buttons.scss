@@ -54,6 +54,18 @@
   }
 }
 
+%button-inverted {
+  @extend %button;
+  
+  background-color: $button-secondary-bg-color;  
+  
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: darken($button-secondary-bg-color, 10%);
+  } 
+}
+
 %primary {
   background-color: $button-primary-bg-color;
 

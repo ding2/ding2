@@ -162,10 +162,11 @@ input#edit-search-block-form--2.spinner {
 
 .topbar {
   .search {
-    @include zen-grid-item($grid-33, 1, right);
+    @include zen-grid-item($grid-33, 3, right);
     @extend %search;
 
     margin-top: 17px;
+    margin-right: 100px;
     position: absolute;
     right: 160px;
 
@@ -182,9 +183,8 @@ input#edit-search-block-form--2.spinner {
 
     input[type="submit"] {
       @include rem('font-size', $theme-font-size * 1.4);
-      @extend %button;
+      @extend %button-inverted;
 
-      background-color: $button-primary-bg-color;
       min-height: 50px;
       position: absolute;
       right: -2px;

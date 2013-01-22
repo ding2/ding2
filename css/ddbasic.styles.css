@@ -3548,25 +3548,25 @@ dd {
 }
 
 /* line 29, ../sass/_ddbasic.extends.scss */
-.footer-block a:link {
+.footer-block a:link, .topbar .user-menu a:link {
   color: white;
   text-decoration: none;
 }
 /* line 33, ../sass/_ddbasic.extends.scss */
-.footer-block a:visited {
+.footer-block a:visited, .topbar .user-menu a:visited {
   color: #d9d9d9;
 }
 /* line 36, ../sass/_ddbasic.extends.scss */
-.footer-block a:hover {
+.footer-block a:hover, .topbar .user-menu a:hover {
   color: #cccccc;
   text-decoration: underline;
 }
 /* line 40, ../sass/_ddbasic.extends.scss */
-.footer-block a:hover i[class^="icon-"] {
+.footer-block a:hover i[class^="icon-"], .topbar .user-menu a:hover i[class^="icon-"] {
   text-decoration: none;
 }
 /* line 44, ../sass/_ddbasic.extends.scss */
-.footer-block a:focus {
+.footer-block a:focus, .topbar .user-menu a:focus {
   color: #cccccc;
 }
 
@@ -4998,25 +4998,25 @@ legend {
 }
 
 /* line 19, ../sass/_ddbasic.typography.scss */
-.footer-block a:link {
+.footer-block a:link, .topbar .user-menu a:link {
   color: white;
   text-decoration: none;
 }
 /* line 23, ../sass/_ddbasic.typography.scss */
-.footer-block a:visited {
+.footer-block a:visited, .topbar .user-menu a:visited {
   color: #d9d9d9;
 }
 /* line 26, ../sass/_ddbasic.typography.scss */
-.footer-block a:hover {
+.footer-block a:hover, .topbar .user-menu a:hover {
   color: #cccccc;
   text-decoration: underline;
 }
 /* line 30, ../sass/_ddbasic.typography.scss */
-.footer-block a:hover i[class^="icon-"] {
+.footer-block a:hover i[class^="icon-"], .topbar .user-menu a:hover i[class^="icon-"] {
   text-decoration: none;
 }
 /* line 34, ../sass/_ddbasic.typography.scss */
-.footer-block a:focus {
+.footer-block a:focus, .topbar .user-menu a:focus {
   color: #cccccc;
 }
 
@@ -5386,8 +5386,8 @@ table tbody tr:hover th {
 }
 
 /* line 21, ../sass/_ddbasic.buttons.scss */
-.button,
-a.button, .search input[type="submit"], .topbar .search input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+.topbar .search input[type="submit"], .button,
+a.button, .search input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button, .ui-widget-content input[type=submit], .user input[type="submit"], .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
@@ -5404,7 +5404,7 @@ a.button, .search input[type="submit"], .topbar .search input[type="submit"], .p
   cursor: pointer;
 }
 /* line 36, ../sass/_ddbasic.buttons.scss */
-.button .icon, .search input[type="submit"] .icon, .topbar .search input[type="submit"] .icon, .pane-ting-collection .form-submit .icon, .pane-ting-object .form-submit .icon,
+.topbar .search input[type="submit"] .icon, .button .icon, .search input[type="submit"] .icon, .pane-ting-collection .form-submit .icon, .pane-ting-object .form-submit .icon,
 .pane-ting-collection .ding-entity-button .icon,
 .pane-ting-object .ding-entity-button .icon, .ui-widget-content input[type=submit] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
   -moz-border-radius-topright: 12px;
@@ -5421,41 +5421,50 @@ a.button, .search input[type="submit"], .topbar .search input[type="submit"], .p
   padding: 7px 10px;
 }
 /* line 49, ../sass/_ddbasic.buttons.scss */
-.button:hover, .search input[type="submit"]:hover, .topbar .search input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.topbar .search input[type="submit"]:hover, .button:hover, .search input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .button:active, .search input[type="submit"]:active, .topbar .search input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .topbar .search input[type="submit"]:active, .button:active, .search input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
-.pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .button:focus, .search input[type="submit"]:focus, .topbar .search input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .topbar .search input[type="submit"]:focus, .button:focus, .search input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .ui-widget-content input[type=submit]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
 }
 /* line 52, ../sass/_ddbasic.buttons.scss */
-.button:visited, .search input[type="submit"]:visited, .topbar .search input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
+.topbar .search input[type="submit"]:visited, .button:visited, .search input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
 .pane-ting-collection .ding-entity-button:visited,
 .pane-ting-object .ding-entity-button:visited, .ui-widget-content input[type=submit]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
 }
 
-/* line 73, ../sass/_ddbasic.buttons.scss */
+/* line 57, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"] {
+  background-color: #00b7e7;
+}
+/* line 64, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"]:hover, .topbar .search input[type="submit"]:active, .topbar .search input[type="submit"]:focus {
+  background-color: #008fb4;
+}
+
+/* line 85, ../sass/_ddbasic.buttons.scss */
 .button.available,
 a.button.available {
   background-color: #60a500;
 }
-/* line 76, ../sass/_ddbasic.buttons.scss */
+/* line 88, ../sass/_ddbasic.buttons.scss */
 .button.available .icon {
   background-color: #518b00;
 }
-/* line 81, ../sass/_ddbasic.buttons.scss */
+/* line 93, ../sass/_ddbasic.buttons.scss */
 .button.available:hover, .button.available:active, .button.available:focus {
   background-color: #335900;
 }
-/* line 83, ../sass/_ddbasic.buttons.scss */
+/* line 95, ../sass/_ddbasic.buttons.scss */
 .button.available:hover .icon, .button.available:active .icon, .button.available:focus .icon {
   background-color: #253f00;
 }
 
-/* line 142, ../sass/_ddbasic.buttons.scss */
+/* line 154, ../sass/_ddbasic.buttons.scss */
 .button {
   display: inline-block;
   margin-bottom: 0;
@@ -5468,19 +5477,19 @@ a.button.available {
   text-align: center;
   vertical-align: middle;
 }
-/* line 156, ../sass/_ddbasic.buttons.scss */
+/* line 168, ../sass/_ddbasic.buttons.scss */
 .button:hover {
   background: #0d0d0d;
   text-decoration: none;
 }
-/* line 169, ../sass/_ddbasic.buttons.scss */
+/* line 181, ../sass/_ddbasic.buttons.scss */
 .button.active, .button:active {
   -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
   outline: 0;
 }
-/* line 177, ../sass/_ddbasic.buttons.scss */
+/* line 189, ../sass/_ddbasic.buttons.scss */
 .button.disabled, .button[disabled] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
   opacity: 0.65;
@@ -5490,14 +5499,14 @@ a.button.available {
   cursor: default;
 }
 
-/* line 199, ../sass/_ddbasic.buttons.scss */
+/* line 211, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button,
 button.button {
   -webkit-appearance: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 210, ../sass/_ddbasic.buttons.scss */
+  /* line 222, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -7700,8 +7709,8 @@ input#edit-search-block-form--2.spinner {
 .topbar .search {
   float: right;
   width: 33.33333%;
-  margin-right: 0%;
-  margin-left: -33.33333%;
+  margin-right: 16.66667%;
+  margin-left: -50.0%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -7714,25 +7723,25 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
   margin-top: 17px;
+  margin-right: 100px;
   position: absolute;
   right: 160px;
 }
-/* line 172, ../sass/_ddbasic.search.scss */
+/* line 173, ../sass/_ddbasic.search.scss */
 .topbar .search .search-field-wrapper {
   min-width: 400px;
   position: relative;
 }
-/* line 177, ../sass/_ddbasic.search.scss */
+/* line 178, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
   min-height: 50px;
 }
-/* line 183, ../sass/_ddbasic.search.scss */
+/* line 184, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
-  background-color: black;
   min-height: 50px;
   position: absolute;
   right: -2px;
@@ -8953,6 +8962,41 @@ input#edit-search-block-form--2.spinner {
   font-size: 33.75px;
   font-size: 2.10938rem;
   color: black;
+}
+
+/* line 256, ../sass/_ddbasic.user.scss */
+.topbar .user-name,
+.topbar .user-menu-loans,
+.topbar .user-menu {
+  float: right;
+  width: 25%;
+  margin-right: 0%;
+  margin-left: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 260, ../sass/_ddbasic.user.scss */
+.topbar .user-name {
+  margin-top: 16px;
+}
+/* line 263, ../sass/_ddbasic.user.scss */
+.topbar .user-name .user-name-title {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+  color: white;
+}
+/* line 270, ../sass/_ddbasic.user.scss */
+.topbar .user-menu {
+  margin-top: 40px;
 }
 
 /* line 229, ../sass/ddbasic.styles.scss */

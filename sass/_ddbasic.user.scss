@@ -225,7 +225,7 @@
   @extend %user-menu;
 }
 
-.user-menu-loans {  
+.user-menu-loans {
   margin-top: 90px;
 }
 
@@ -237,14 +237,42 @@
   color: transparentize($black, .5);
   margin-top: 55px;
   text-align: right;
-  
+
   .user-name-title {
     @include rem('font-size', $theme-font-size * 2.25);
-    
+
     color: $black;
   }
 }
 
+
+// **
+// User menu compact
+// **
+
+.topbar {
+  .user-name,
+  .user-menu-loans,
+  .user-menu {
+    @include zen-grid-item($grid-25, 1, right);
+  }
+
+  .user-name {
+    margin-top: 16px;
+
+    .user-name-title {
+      @include rem('font-size', $theme-font-size * 1.5);
+      
+      color: $white;
+    }
+  }
+
+  .user-menu {
+    @extend %link-inverted;
+    
+    margin-top: 40px;    
+  }
+}
 
 // =============================================================================
 // MEDIAQUERIES
