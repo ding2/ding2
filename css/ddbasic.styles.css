@@ -3313,47 +3313,47 @@ dl {
   margin-bottom: 18px;
 }
 
-/* line 217, ../../latto/sass/_latto.typography.scss */
+/* line 218, ../../latto/sass/_latto.typography.scss */
 dt,
 dd {
   line-height: 18px;
 }
 
-/* line 220, ../../latto/sass/_latto.typography.scss */
+/* line 222, ../../latto/sass/_latto.typography.scss */
 dt {
   font-weight: bold;
 }
 
-/* line 223, ../../latto/sass/_latto.typography.scss */
+/* line 226, ../../latto/sass/_latto.typography.scss */
 dd {
   margin-left: 9px;
 }
 
-/* line 231, ../../latto/sass/_latto.typography.scss */
+/* line 234, ../../latto/sass/_latto.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
 
-/* line 235, ../../latto/sass/_latto.typography.scss */
+/* line 238, ../../latto/sass/_latto.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
 
-/* line 239, ../../latto/sass/_latto.typography.scss */
+/* line 242, ../../latto/sass/_latto.typography.scss */
 .text-large, .lead {
   font-size: 16.5px;
   font-size: 1.03125rem;
 }
 
-/* line 243, ../../latto/sass/_latto.typography.scss */
+/* line 246, ../../latto/sass/_latto.typography.scss */
 .text-small, blockquote .blockquote-source {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
-/* line 247, ../../latto/sass/_latto.typography.scss */
+/* line 250, ../../latto/sass/_latto.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
