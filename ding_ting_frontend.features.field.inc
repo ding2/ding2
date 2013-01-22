@@ -237,7 +237,7 @@ function ding_ting_frontend_field_default_fields() {
           'weight' => '8',
         ),
         'default' => array(
-          'label' => 'above',
+          'label' => 'hidden',
           'module' => 'ding_availability',
           'settings' => array(),
           'type' => 'ding_availability_default',
