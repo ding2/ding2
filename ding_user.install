@@ -30,3 +30,17 @@ function ding_user_update_7000(&$sandbox) {
 function ding_user_update_7001(&$sandbox) {
   variable_set('cache_class_cache_ding_user_credentials', 'DingUserCredentialsCache');
 }
+
+/**
+ * Implements hook_update_N,
+ * set weight of ding_user to -1 to ensure it is called first
+ **/
+function ding_user_update_7002(&$sandbox) {
+  $updated = db_update('system')
+    ->fields (array(
+        'weight' => -1,
+      ))
+    ->condition('name','ding_user','=')
+    ->execute();
+}
+
