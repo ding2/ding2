@@ -67,6 +67,14 @@ projects[views][type] = module
 projects[views][subdir] = contrib
 projects[views][version] = "3.3"
 
+projects[tipsy][type] = module
+projects[tipsy][subdir] = contrib
+projects[tipsy][version] = "1.0-rc1"
+
+projects[opening_hours][type] = module
+projects[opening_hours][subdir] = contrib
+projects[opening_hours][version] = "1.3"
+
 libraries[openlayers][download][type] = get
 libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers-2.12.tar.gz
 
