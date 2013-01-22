@@ -131,7 +131,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
     // Remove the standard user login links.
     //unset($form['links']);
 
-      // Falling through on purpose.
+    // Falling through on purpose.
     case 'ding_user_authenticate_form':
       if (isset($form_state['ajaxify'])) {
         $form['actions']['submit']['#ajax'] = array(
@@ -153,7 +153,6 @@ function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
     // Don't show og group.
     // @todo: shouldn't this be elsewhere?
     $form['group_audience']['#access'] = FALSE;
-
 
     // Don't show Drupal password. We don't use it.
     $form['account']['current_pass']['#access'] = FALSE;
@@ -296,12 +295,12 @@ function ding_user_form_process_password_confirm($element) {
 function ding_user_create_profile_type($provider) {
   $provider_profile_type = 'provider_' . $provider['module'];
   $profile_type = new ProfileType(
-    array(
-      'type' => $provider_profile_type,
-      'label' => 'Provider profile for ' . $provider['title'],
-      'userCategory' => TRUE,
-      'userView' => TRUE,
-    )
+          array(
+            'type' => $provider_profile_type,
+            'label' => 'Provider profile for ' . $provider['title'],
+            'userCategory' => TRUE,
+            'userView' => TRUE,
+          )
   );
   $profile_type->save();
   return $profile_type;
@@ -457,7 +456,6 @@ function ding_user_user_login_validate($form, &$form_state) {
   if (isset($form_state['uid']) && $form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
     return;
   }
-
   try {
     $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
@@ -474,68 +472,20 @@ function ding_user_user_login_validate($form, &$form_state) {
         // Else use a standard authname.
         $auth_name = ding_user_default_authname($form_state['values']['name']);
       }
-      // We'd like to use user_external_login_register(), but it saves the user
-      // and invokes hook_user_login before we have a chance to mess with it. So
-      // we do what it would do.
 
-      $account = user_external_load($auth_name);
-      if (!$account) {
-        // Register this new user.
-        $userinfo = array(
-          // Name is only 60 chars, and authname is longer. Use a shorter SHAE1
-          // hash.
-          'name' => hash('sha1', $auth_name),
-          'pass' => user_password(),
-          'init' => $auth_name,
-          'status' => 1,
-          'access' => REQUEST_TIME,
-          'mail' => '',
-        );
-
-        if (isset($auth_res['user'])) {
-          $userinfo = array_merge($userinfo, $auth_res['user']);
-        }
-
-        $account = user_save(drupal_anonymous_user(), $userinfo);
-        // Terminate if an error occurred during user_save().
-        if (!$account) {
-          drupal_set_message(t("Error saving user account."), 'error');
-          return;
-        }
-        user_set_authmaps($account, array("authname_ding_user" => $auth_name));
-      }
-      else {
-        ding_user_update_user($auth_res, $account);
-      }
+      $account = _ding_user_create_account($auth_name, $auth_res);
 
       // Save credentials for later. Do it early as the provider might expect
       // them in a hook_profile2_presave hook trigged by us saving a new
       // profile, or themselves in the profile_init callback.
       ding_user_save_creds($auth_res, $account);
 
-      $profile = ding_user_provider_profile($account);
-      if (!$profile) {
-        $provider = _ding_provider_get_provider('user');
-        $provider_profile_type = 'provider_' . $provider['module'];
-        // Check that we have a profile type for this provider.
-        if (!$profile_type = profile2_type_load($provider_profile_type)) {
-          // Create new type, if provider haven't.
-          $profile_type = ding_user_create_profile_type($provider);
-        }
-        // Create a profile for current user.
-        $profile = new Profile(
-          array(
-            'user' => $account,
-            'type' => $profile_type,
-          )
-        );
-
-        // Bind this profile to the user.
-        $profile->save();
-      }
+      // set additional tabs in profile2
+      _ding_user_profile2_tabs($account);
 
       // Let provider initialise the profile. Assume they save it if need be.
       if (ding_provider_implements('user', 'profile_init')) {
+        $profile = _ding_user_create_profile2 ($account);
         ding_provider_invoke('user', 'profile_init', $profile, $auth_res);
       }
 
@@ -543,7 +493,6 @@ function ding_user_user_login_validate($form, &$form_state) {
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
       // does, it's already the submit handler.
-
       // TODO: Do we still need this?
       if (ding_provider_implements('user', 'authenticate_finalize')) {
         ding_provider_invoke('user', 'authenticate_finalize', $account);
@@ -562,227 +511,386 @@ function ding_user_user_login_validate($form, &$form_state) {
         }
       }
     }
-  }
-  catch (Exception $e) {
+  } catch (Exception $e) {
     // Exception thrown, log error and carry on.
     watchdog('ding_user', 'Provider exception, message: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
   }
 }
 
 /**
- * Ajax command to authenticate. Used by ding_provider.
- */
-function ajax_command_ding_user_authenticate($extra_data) {
-  global $user;
-  // @todo add support for user/login here.
-  module_load_include('inc', 'ding_user', 'ding_user.pages');
-  if ($user->uid) {
-    $title = t('Authenticate');
-    $form_id = 'ding_user_authenticate_form';
-  }
-  else {
-    $title = t('Login');
-    $form_id = 'user_login';
-  }
-  $form_state = array(
-    'ajaxify' => TRUE,
-  );
-  $form = drupal_build_form($form_id, $form_state);
-
-  $login_form = drupal_render($form);
-  return ajax_command_ding_popup('ding_user', $title, $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
-}
-
-/**
- * Ajax callback.
- */
-function ding_user_authenticate_form_callback($form, &$form_state) {
-  switch ($form['form_id']['#value']) {
-  case 'ding_user_authenticate_form':
-    $success = $form_state['authentication_success'];
-    break;
-  case 'user_login':
-    $success = !empty($form_state['uid']);
-    break;
-  }
-
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array(),
-  );
-  if ($success) {
-    // Close dialog if successful.
-    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
-  }
-  else {
-    // Else redisplay form and messages.
-    $html = theme('status_messages') . drupal_render($form);
-    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
-  }
-
-  return $response;
-}
-
-/**
- * Return cached creds for a user.
- *
- * Throws DingProviderAuthException if not authenticated.
- *
- * @param $account The user to get creds for.
- */
-function ding_user_get_creds($account = NULL) {
+ * Create a provider account for drupal. Username will be a hashvalue of authname.
+ * This account will be coupled with the provider user via the authmap table
+ * */
+function _ding_user_create_account($auth_name, $auth_res) {
+  // We'd like to use user_external_login_register(), but it saves the user
+  // and invokes hook_user_login before we have a chance to mess with it. So
+  // we do what it would do.
+  $account = user_external_load($auth_name);
   if (!$account) {
-    $account = $GLOBALS['user'];
+    // Register this new user.
+    $userinfo = array(
+      // Name is only 60 chars, and authname is longer. Use a shorter SHAE1
+      // hash.
+      'name' => hash('sha1', $auth_name),
+      'pass' => user_password(),
+      'init' => $auth_name,
+      'status' => 1,
+      'access' => REQUEST_TIME,
+      'mail' => '',
+    );
+
+    if (isset($auth_res['user'])) {
+      $userinfo = array_merge($userinfo, $auth_res['user']);
+    }
+
+    $account = user_save(drupal_anonymous_user(), $userinfo);
+    // Terminate if an error occurred during user_save().
+    if (!$account) {
+      drupal_set_message(t("Error saving user account."), 'error');
+      return;
+    }
+    user_set_authmaps($account, array("authname_ding_user" => $auth_name));
   }
-  if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
-    // Check that the credentials is valid.
-    // note: Only the Alma provider implements 'is_authenticated', and it simply checks if login and password is set.
-    //       So: If the user is cached, $cache->data is returned in any case.
-    if (ding_provider_implements('user', 'is_authenticated')) {
-      if (ding_provider_invoke('user', 'is_authenticated', $cache->data)) {
+  else {
+    ding_user_update_user($auth_res, $account);
+  }
+  return $account;
+}
+
+/**
+ * Implements hook_profile2_access
+ * @TODO; is this correct. Should permissions be set in admin ?
+ * is it enough to check for provider_user ?
+ * */
+function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
+  if (empty($profile)) {
+    return FALSE;
+  }
+  elseif (ding_user_is_provider_user($profile)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_user_profile_tabs().
+ * get profile2 definitions ('type_name', $form ).
+ * create a profile2 if it doesn't exist.
+ * load the profile
+ * bind profile to user
+ * */
+function _ding_user_profile2_tabs($account) {
+  // load profiles by invoking hook_user_profile2_tab
+  $profile_tabs = module_invoke_all('user_profile2_tabs');
+  foreach ($profile_tabs as $profile_tab) {
+    $profile_type = profile2_get_types($profile_tab->type);
+    // special case - profile_type has not yet been created
+    if (!$profile_type) {
+      $profile_type = new ProfileType(
+              array(
+                'type' => $profile_tab->type,
+                'label' => $profile_tab->label,
+                'userCategory' => TRUE,
+                'userView' => TRUE,
+              )
+      );
+      $profile_type->save();
+    }
+    // normal case; get the profile type
+    // Create a profile for current user.
+    $profile = new Profile(
+            array(
+              'user' => $account,
+              'type' => $profile_type,
+            )
+    );
+    // Bind profile to user.
+    $profile->save();
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter. (profile2_form).
+ * get the correct form to display from modules implementing hook_profile2_tab.
+ * the form may be an array of form id's
+ * */
+function ding_user_form_profile2_form_alter(&$form, &$form_state) {
+  global $user;
+  if ($user->uid) {
+    if ((ding_user_is_provider_user($user))) {
+      $profile_tabs = module_invoke_all('user_profile2_tabs');
+      foreach ($profile_tabs as $profile_tab) {
+        if ($form['#user_category'] == $profile_tab->type) {
+          $form['#title'] = $profile_tab->label;
+          if (is_array($profile_tab->form)) {
+            foreach ($profile_tab->form as $form_tab) {
+              $tab = drupal_get_form($form_tab);
+              $form += $tab;
+            }
+          }
+          elseif (!empty($profile_tab->form)) {
+            $form+=drupal_get_form($profile_tab->form);
+          }
+          drupal_set_title($form['#title']);
+        }
+      }
+    }
+  }
+}
+
+
+function _ding_user_create_profile2($account) {
+  $profile = ding_user_provider_profile($account);
+  if (!$profile) {
+    $provider = _ding_provider_get_provider('user');
+    $provider_profile_type = 'provider_' . $provider['module'];
+    // Check that we have a profile type for this provider.
+    if (!$profile_type = profile2_type_load($provider_profile_type)) {
+      // Create new type, if provider haven't.
+      $profile_type = ding_user_create_profile_type($provider);
+    }
+    // Create a profile for current user.
+    $profile = new Profile(
+            array(
+              'user' => $account,
+              'type' => $profile_type,
+            )
+    );
+
+    // Bind this profile to the user.
+    $profile->save();
+  }
+  return $profile;
+}
+
+  /**
+   * Ajax command to authenticate. Used by ding_provider.
+   */
+  function ajax_command_ding_user_authenticate($extra_data) {
+    global $user;
+    // @todo add support for user/login here.
+    module_load_include('inc', 'ding_user', 'ding_user.pages');
+    if ($user->uid) {
+      $title = t('Authenticate');
+      $form_id = 'ding_user_authenticate_form';
+    }
+    else {
+      $title = t('Login');
+      $form_id = 'user_login';
+    }
+    $form_state = array(
+      'ajaxify' => TRUE,
+    );
+    $form = drupal_build_form($form_id, $form_state);
+
+    $login_form = drupal_render($form);
+    return ajax_command_ding_popup('ding_user', $title, $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
+  }
+
+  /**
+   * Ajax callback.
+   */
+  function ding_user_authenticate_form_callback($form, &$form_state) {
+    switch ($form['form_id']['#value']) {
+      case 'ding_user_authenticate_form':
+        $success = $form_state['authentication_success'];
+        break;
+      case 'user_login':
+        $success = !empty($form_state['uid']);
+        break;
+    }
+
+    $response = array(
+      '#type' => 'ajax',
+      '#commands' => array(),
+    );
+    if ($success) {
+      // Close dialog if successful.
+      $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
+    }
+    else {
+      // Else redisplay form and messages.
+      $html = theme('status_messages') . drupal_render($form);
+      $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
+    }
+
+    return $response;
+  }
+
+/**
+* Return cached creds for a user.
+*
+* Throws DingProviderAuthException if not authenticated.
+*
+* @param $account The user to get creds for.
+*/
+  function ding_user_get_creds($account = NULL) {
+    if (!$account) {
+      $account = $GLOBALS['user'];
+    }
+    if ($cache = cache_get(session_name() . '-' . $account->uid, 'cache_ding_user_credentials')) {
+      // Check that the credentials is valid.
+      // note: Only the Alma provider implements 'is_authenticated', and it simply checks if login and password is set.
+      // So: If the user is cached, $cache->data is returned in any case.
+      if (ding_provider_implements('user', 'is_authenticated')) {
+        if (ding_provider_invoke('user', 'is_authenticated', $cache->data)) {
+          return $cache->data;
+        }
+      }
+      else {
         return $cache->data;
       }
     }
-    else {
-      return $cache->data;
+
+    $roles = array_values($GLOBALS['user']->roles);
+
+
+    // Log out user who are authenticated but has no other roles (i.e. ding user)
+    if (user_is_logged_in() && sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
+      // unless we're using persistent login, and they have a persistent login cookie.
+      if (module_exists('ding_persistent_login') && $creds = ding_persistent_login_get_creds($account->uid)) {
+        return $creds;
+      }
+
+      watchdog('user', 'Session timeout for %name.', array('%name' => $account->name));
+      user_module_invoke('logout', $account, 'user');
+
+      session_destroy();
+
+      $GLOBALS['user'] = drupal_anonymous_user();
+      drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
+      //drupal_goto();
     }
+    throw new DingProviderAuthException;
   }
 
-  $roles = array_values($GLOBALS['user']->roles);
-
-  // Log out user who are authenticated but has no other roles (i.e. ding user)
-  if (user_is_logged_in() && sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
-    watchdog('user', 'Session timeout for %name.', array('%name' => $account->name));
-    user_module_invoke('logout', $account, 'user');
-    session_destroy();
-    $GLOBALS['user'] = drupal_anonymous_user();
-    drupal_set_message(t('Your session has timed out.'));
-    drupal_goto();
-  }
-
-  throw new DingProviderAuthException;
-}
-
-/**
- * Update account with information from provider.
- */
-function ding_user_update_user($auth_res, &$account) {
-  foreach ($auth_res['user'] as $key => $value) {
-    if ($key == 'data') {
-      // Special handling for data array. We're using == as ===
-      // also checks order, and we don't need the extra type
-      // check.
-      if ($account->$key == $value) {
+  /**
+   * Update account with information from provider.
+   */
+  function ding_user_update_user($auth_res, &$account) {
+    foreach ($auth_res['user'] as $key => $value) {
+      if ($key == 'data') {
+        // Special handling for data array. We're using == as ===
+        // also checks order, and we don't need the extra type
+        // check.
+        if ($account->$key == $value) {
+          unset($auth_res['user'][$key]);
+        }
+      }
+      elseif (isset($account->$key) && $account->$key === $value) {
         unset($auth_res['user'][$key]);
       }
     }
-    elseif (isset($account->$key) && $account->$key === $value) {
-      unset($auth_res['user'][$key]);
-    }
-  }
-  if (!empty($auth_res['user'])) {
-    // Save account if there's any changes.
-    // We don't need to save data back to the provider so we mark this as changes from provider.
-    $auth_res['user']['from_provider'] = true;
-    $account = user_save($account, $auth_res['user']);
-  }
-}
-
-/**
- * Cache user creds locally.
- */
-function ding_user_save_creds($auth_res, $account) {
-  if (isset($auth_res['creds'])) {
-    cache_set(session_name() . '-' . $account->uid, $auth_res['creds'], 'cache_ding_user_credentials', REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME));
-  }
-}
-
-/**
- * Check if the given account is a user authenticated through a provider.
- */
-function ding_user_is_provider_user($account) {
-  static $names;
-  if (!isset($names)) {
-    $names = db_select('authmap')
-      ->fields('authmap', array('authname'))
-      ->condition('module', 'ding_user')
-      ->condition('uid', $account->uid)
-      ->execute()->fetchAll();
-  }
-  return !empty($names);
-}
-
-include_once('ding_user_comments.inc');
-
-/**
- * Implementing specific cache for DingUserCredentials due to the fact that
- * entity module renders all non-permanent cache invalid when calling
- * cache_clear_all. It is only necessary to override prepareItem metode because
- * we need it to check against expire timestamp instead of created timestamp.
- */
-class DingUserCredentialsCache extends DrupalDatabaseCache {
-  function getMultiple(&$cids) {
-    try {
-      // Garbage collection necessary when enforcing a minimum cache lifetime.
-      $this->garbageCollection($this->bin);
-
-      // When serving cached pages, the overhead of using db_select() was found
-      // to add around 30% overhead to the request. Since $this->bin is a
-      // variable, this means the call to db_query() here uses a concatenated
-      // string. This is highly discouraged under any other circumstances, and
-      // is used here only due to the performance overhead we would incur
-      // otherwise. When serving an uncached page, the overhead of using
-      // db_select() is a much smaller proportion of the request.
-      $result = db_query('SELECT cid, data, created, expire, serialized FROM {' . db_escape_table($this->bin) . '} WHERE cid IN (:cids)', array(':cids' => $cids));
-      $cache = array();
-      foreach ($result as $item) {
-        $item = $this->prepareItem($item);
-        if ($item) {
-          $cache[$item->cid] = $item;
-          // postpone expire ding user credentials
-          db_update($this->bin)
-            ->fields(array('expire' => REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME), ))
-            ->condition('cid', $item->cid)
-            ->execute();
-        }
-      }
-      $cids = array_diff($cids, array_keys($cache));
-      return $cache;
-    }
-    catch (Exception $e) {
-      // If the database is never going to be available, cache requests should
-      // return FALSE in order to allow exception handling to occur.
-      return array();
+    if (!empty($auth_res['user'])) {
+      // Save account if there's any changes.
+      $account = user_save($account, $auth_res['user']);
     }
   }
 
   /**
-   * Prepare a cached item.
-   *
-   * Checks that items are either permanent or did not expire, and unserializes
-   * data as appropriate.
-   *
-   * @param $cache
-   *   An item loaded from cache_get() or cache_get_multiple().
-   * @return
-   *   The item with data unserialized as appropriate or FALSE if there is no
-   *   valid item to load.
+   * Cache user creds locally.
    */
-  protected function prepareItem($cache) {
-    global $user;
-
-    if (!isset($cache->data)) {
-      return FALSE;
+  function ding_user_save_creds($auth_res, $account) {
+    if (isset($auth_res['creds'])) {
+      cache_set(session_name() . '-' . $account->uid, $auth_res['creds'], 'cache_ding_user_credentials', REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME));
     }
-    if ($cache->expire != CACHE_PERMANENT && REQUEST_TIME > $cache->expire) {
-      // This cache data is too old and thus not valid for us, ignore it.
-      return FALSE;
+    // also update persistent login, if installed.
+    if (module_exists('ding_persistent_login')) {
+      ding_persistent_login_save_creds($account->uid, $auth_res['creds']);
     }
-
-    if ($cache->serialized) {
-      $cache->data = unserialize($cache->data);
-    }
-
-    return $cache;
   }
-}
+
+  /**
+   * Check if the given account is a user authenticated through a provider.
+   */
+  function ding_user_is_provider_user($account) {
+    static $names;
+    if (!isset($names)) {
+      $names = db_select('authmap')
+              ->fields('authmap', array('authname'))
+              ->condition('module', 'ding_user')
+              ->condition('uid', $account->uid)
+              ->execute()->fetchAll();
+    }
+    return !empty($names);
+  }
+
+  include_once('ding_user_comments.inc');
+
+  /**
+   * Implementing specific cache for DingUserCredentials due to the fact that
+   * entity module renders all non-permanent cache invalid when calling
+   * cache_clear_all. It is only necessary to override prepareItem metode because
+   * we need it to check against expire timestamp instead of created timestamp.
+   */
+  class DingUserCredentialsCache extends DrupalDatabaseCache {
+
+    function getMultiple(&$cids) {
+      try {
+        // Garbage collection necessary when enforcing a minimum cache lifetime.
+        $this->garbageCollection($this->bin);
+
+        // When serving cached pages, the overhead of using db_select() was found
+        // to add around 30% overhead to the request. Since $this->bin is a
+        // variable, this means the call to db_query() here uses a concatenated
+        // string. This is highly discouraged under any other circumstances, and
+        // is used here only due to the performance overhead we would incur
+        // otherwise. When serving an uncached page, the overhead of using
+        // db_select() is a much smaller proportion of the request.
+        $result = db_query('SELECT cid, data, created, expire, serialized FROM {' . db_escape_table($this->bin) . '} WHERE cid IN (:cids)', array(':cids' => $cids));
+        $cache = array();
+        foreach ($result as $item) {
+          $item = $this->prepareItem($item);
+          if ($item) {
+            $cache[$item->cid] = $item;
+            // postpone expire ding user credentials
+            db_update($this->bin)
+                ->fields(array('expire' => REQUEST_TIME + variable_get('ding_user_creds_lifetime', DING_USER_DEFAULT_CREDS_LIFETIME)))
+                ->condition('cid', $item->cid)
+                ->execute();
+          }
+        }
+        $cids = array_diff($cids, array_keys($cache));
+        return $cache;
+      }
+      catch (Exception $e) {
+        // If the database is never going to be available, cache requests should
+        // return FALSE in order to allow exception handling to occur.
+        return array();
+      }
+    }
+
+    /**
+     * Prepare a cached item.
+     *
+     * Checks that items are either permanent or did not expire, and unserializes
+     * data as appropriate.
+     *
+     * @param $cache
+     *   An item loaded from cache_get() or cache_get_multiple().
+     * @return
+     *   The item with data unserialized as appropriate or FALSE if there is no
+     *   valid item to load.
+     */
+    protected function prepareItem($cache) {
+      global $user;
+
+      if (!isset($cache->data)) {
+        return FALSE;
+      }
+      if ($cache->expire != CACHE_PERMANENT && REQUEST_TIME > $cache->expire) {
+        // This cache data is too old and thus not valid for us, ignore it.
+        return FALSE;
+      }
+
+      if ($cache->serialized) {
+        $cache->data = unserialize($cache->data);
+      }
+
+      return $cache;
+    }
+
+  }
+
+  
