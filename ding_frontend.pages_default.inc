@@ -98,13 +98,13 @@ search/node',
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'site_template_panel_context_2';
+  $handler->name = 'site_template_panel_context';
   $handler->task = 'site_template';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'ding2 site template - Subpages',
+    'title' => 'ding2 site template - Frontpage',
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'css_id' => '',
@@ -116,7 +116,7 @@ search/node',
         0 => array(
           'name' => 'front',
           'settings' => NULL,
-          'not' => TRUE,
+          'not' => FALSE,
         ),
       ),
       'logic' => 'and',
@@ -168,69 +168,6 @@ search/node',
     $display->panels['branding'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'branding';
-    $pane->type = 'block';
-    $pane->subtype = 'search-form';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['branding'][1] = 'new-2';
-    $pane = new stdClass();
-    $pane->pid = 'new-3';
-    $pane->panel = 'branding';
-    $pane->type = 'block';
-    $pane->subtype = 'user-login';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['branding'][2] = 'new-3';
-    $pane = new stdClass();
-    $pane->pid = 'new-4';
-    $pane->panel = 'branding';
-    $pane->type = 'block';
-    $pane->subtype = 'system-user-menu';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['branding'][3] = 'new-4';
-    $pane = new stdClass();
-    $pane->pid = 'new-5';
     $pane->panel = 'content';
     $pane->type = 'page_messages';
     $pane->subtype = 'page_messages';
@@ -245,33 +182,10 @@ search/node',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['content'][0] = 'new-5';
+    $display->content['new-2'] = $pane;
+    $display->panels['content'][0] = 'new-2';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
-    $pane->panel = 'content';
-    $pane->type = 'page_tabs';
-    $pane->subtype = 'page_tabs';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'type' => 'both',
-      'id' => 'tabs',
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['content'][1] = 'new-6';
-    $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-3';
     $pane->panel = 'content';
     $pane->type = 'page_content';
     $pane->subtype = 'page_content';
@@ -288,12 +202,12 @@ search/node',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-7'] = $pane;
-    $display->panels['content'][2] = 'new-7';
+    $display->content['new-3'] = $pane;
+    $display->panels['content'][1] = 'new-3';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-4';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-1';
@@ -314,10 +228,10 @@ search/node',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-8'] = $pane;
-    $display->panels['footer'][0] = 'new-8';
+    $display->content['new-4'] = $pane;
+    $display->panels['footer'][0] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-5';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-2';
@@ -338,10 +252,10 @@ search/node',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-9'] = $pane;
-    $display->panels['footer'][1] = 'new-9';
+    $display->content['new-5'] = $pane;
+    $display->panels['footer'][1] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-6';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-3';
@@ -362,10 +276,10 @@ search/node',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-10'] = $pane;
-    $display->panels['footer'][2] = 'new-10';
+    $display->content['new-6'] = $pane;
+    $display->panels['footer'][2] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-7';
     $pane->panel = 'footer';
     $pane->type = 'block';
     $pane->subtype = 'menu-menu-footer-menu-4';
@@ -386,10 +300,73 @@ search/node',
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = '';
-    $display->content['new-11'] = $pane;
-    $display->panels['footer'][3] = 'new-11';
+    $display->content['new-7'] = $pane;
+    $display->panels['footer'][3] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-12';
+    $pane->pid = 'new-8';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'search-form';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['header'][0] = 'new-8';
+    $pane = new stdClass();
+    $pane->pid = 'new-9';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'user-login';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-9'] = $pane;
+    $display->panels['header'][1] = 'new-9';
+    $pane = new stdClass();
+    $pane->pid = 'new-10';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'system-user-menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Velkommen <span class="user-login-user-name">%user:name</span>',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-10'] = $pane;
+    $display->panels['header'][2] = 'new-10';
+    $pane = new stdClass();
+    $pane->pid = 'new-11';
     $pane->panel = 'navigation';
     $pane->type = 'block';
     $pane->subtype = 'menu_block-1';
@@ -407,10 +384,10 @@ search/node',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-12'] = $pane;
-    $display->panels['navigation'][0] = 'new-12';
+    $display->content['new-11'] = $pane;
+    $display->panels['navigation'][0] = 'new-11';
     $pane = new stdClass();
-    $pane->pid = 'new-13';
+    $pane->pid = 'new-12';
     $pane->panel = 'navigation';
     $pane->type = 'block';
     $pane->subtype = 'menu_block-2';
@@ -428,12 +405,11 @@ search/node',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-13'] = $pane;
-    $display->panels['navigation'][1] = 'new-13';
+    $display->content['new-12'] = $pane;
+    $display->panels['navigation'][1] = 'new-12';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
 
   $export['site_template_panel_context'] = $handler;
 
