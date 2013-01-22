@@ -3530,7 +3530,7 @@ dd {
 }
 
 /* line 17, ../sass/_ddbasic.header.scss */
-.header-wrapper .search, .header-wrapper .user, .pane-system-user-menu {
+.header-wrapper .search, .header-wrapper .user, .user-menu {
   margin-top: 70px;
   margin-bottom: 70px;
   padding: 0;
@@ -7336,53 +7336,53 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 16, ../sass/_ddbasic.navigation.scss */
-.main-menu, .secondary-menu, .pane-system-user-menu ul {
+.main-menu, .secondary-menu, .user-menu ul {
   margin: 0;
   padding-left: 0;
 }
 /* line 20, ../sass/_ddbasic.navigation.scss */
-.main-menu li, .secondary-menu li, .pane-system-user-menu ul li {
+.main-menu li, .secondary-menu li, .user-menu ul li {
   display: inline;
 }
 /* line 26, ../sass/_ddbasic.navigation.scss */
-.main-menu .last span, .secondary-menu .last span, .pane-system-user-menu ul .last span,
+.main-menu .last span, .secondary-menu .last span, .user-menu ul .last span,
 .main-menu .last a,
 .secondary-menu .last a,
-.pane-system-user-menu ul .last a {
+.user-menu ul .last a {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
 }
 /* line 34, ../sass/_ddbasic.navigation.scss */
-.main-menu a, .secondary-menu a, .pane-system-user-menu ul a,
+.main-menu a, .secondary-menu a, .user-menu ul a,
 .main-menu li a,
 .secondary-menu li a,
-.pane-system-user-menu ul li a {
+.user-menu ul li a {
   display: inline-block;
   margin-right: 25px;
   padding: 20px 0;
   color: gray;
 }
 /* line 41, ../sass/_ddbasic.navigation.scss */
-.main-menu a:hover, .secondary-menu a:hover, .pane-system-user-menu ul a:hover,
+.main-menu a:hover, .secondary-menu a:hover, .user-menu ul a:hover,
 .main-menu li a:hover,
 .secondary-menu li a:hover,
-.pane-system-user-menu ul li a:hover {
+.user-menu ul li a:hover {
   color: black;
 }
 /* line 45, ../sass/_ddbasic.navigation.scss */
-.main-menu a.active, .secondary-menu a.active, .pane-system-user-menu ul a.active,
+.main-menu a.active, .secondary-menu a.active, .user-menu ul a.active,
 .main-menu li a.active,
 .secondary-menu li a.active,
-.pane-system-user-menu ul li a.active {
+.user-menu ul li a.active {
   color: black;
   text-decoration: underline;
 }
 /* line 50, ../sass/_ddbasic.navigation.scss */
-.main-menu a.last, .secondary-menu a.last, .pane-system-user-menu ul a.last,
+.main-menu a.last, .secondary-menu a.last, .user-menu ul a.last,
 .main-menu li a.last,
 .secondary-menu li a.last,
-.pane-system-user-menu ul li a.last {
+.user-menu ul li a.last {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
@@ -8869,7 +8869,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 202, ../sass/_ddbasic.user.scss */
-.pane-system-user-menu {
+.user-menu {
   float: right;
   width: 50%;
   margin-right: 0%;
@@ -8885,6 +8885,28 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  margin-top: 80px;
+  text-align: right;
+}
+/* line 209, ../sass/_ddbasic.user.scss */
+.user-menu ul {
+  margin-top: 6.66667px;
+  text-align: right;
+}
+/* line 216, ../sass/_ddbasic.user.scss */
+.user-menu ul li a {
+  color: white;
+  margin-right: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* line 225, ../sass/_ddbasic.user.scss */
+.user-menu .user-menu-title {
+  color: rgba(0, 0, 0, 0.5);
+}
+/* line 228, ../sass/_ddbasic.user.scss */
+.user-menu .user-menu-title .user-login-user-name {
+  color: black;
 }
 
 /* line 229, ../sass/ddbasic.styles.scss */

@@ -20,7 +20,7 @@
 
   <section class="user-menu <?php print $classes; ?>" <?php print $id; ?>>
     <?php if ($title): ?>
-      <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+      <h2 class="user-menu-title"><?php print $title; ?></h2>
     <?php endif; ?>        
     <?php if ($admin_links): ?>
       <?php print $admin_links; ?>

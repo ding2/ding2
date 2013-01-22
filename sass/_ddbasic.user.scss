@@ -46,7 +46,7 @@
   .user {
     @include zen-grid-item($grid-50, 1, right);
     @extend %header-sections;
-    
+
     margin-right: 0;
     padding-left: 0;
   }
@@ -59,7 +59,7 @@
   }
 
   .form-item {
-    margin-top: 0em; 
+    margin-top: 0em;
     display: inline;
   }
   .form-actions {
@@ -198,13 +198,36 @@
 
 }
 
-// PLacing the user menu in header
-.pane-system-user-menu {
+// Placing the user menu in header
+.user-menu {
   @include zen-grid-item($grid-50, 1, right);
   @extend %header-sections;
 
+  margin-top: 80px;
+  text-align: right;
+
   ul {
     @extend %navigation;
+
+    margin-top: $default-spacing / 3;
+    text-align: right;
+
+    li {
+      a {
+        color: $white;
+        margin-right: $default-spacing / 4;
+        padding-top: 0;
+        padding-bottom: 0;                
+      }
+    }
+  }
+
+  .user-menu-title {
+    color: transparentize($black, .5);
+
+    .user-login-user-name {
+      color: $black;
+    }
   }
 }
 
