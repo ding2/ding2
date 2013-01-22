@@ -193,15 +193,15 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   );
   foreach ($tags_fields as $tag_field) {
     // Add ddbasic_ding_xxx_tags  to variables.
-    $variables['ddbasic_ding_' . $tags_field . '_tags'] = '';
-    if (isset($variables['content']['field_ding_' . $tags_field . '_tags'])) {
+    $variables['ddbasic_ding_' . $tag_field . '_tags'] = '';
+    if (isset($variables['content']['field_ding_' . $tag_field . '_tags'])) {
       $ddbasic_tags = '';
-      $items = $variables['content']['field_ding_' . $tags_field . '_tags']['#items'];
+      $items = $variables['content']['field_ding_' . $tag_field . '_tags']['#items'];
       if (count($items) > 0) {
         foreach ($items as $delta => $item) {
-          $ddbasic_tags .= render($variables['content']['field_ding_' . $tags_field . '_tags'][$delta]);
+          $ddbasic_tags .= render($variables['content']['field_ding_' . $tag_field . '_tags'][$delta]);
         }
-        $variables['ddbasic_ding_' . $tags_field . '_tags'] = $ddbasic_tags;
+        $variables['ddbasic_ding_' . $tag_field . '_tags'] = $ddbasic_tags;
       }
     }
   }
