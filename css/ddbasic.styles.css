@@ -3530,7 +3530,9 @@ dd {
 }
 
 /* line 17, ../sass/_ddbasic.header.scss */
-.header-wrapper .search, .header-wrapper .user, .user-menu {
+.header-wrapper .search, .header-wrapper .user, .user-name,
+.user-menu-loans,
+.user-menu {
   margin-top: 70px;
   margin-bottom: 70px;
   padding: 0;
@@ -7336,27 +7338,39 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 16, ../sass/_ddbasic.navigation.scss */
-.main-menu, .secondary-menu, .user-menu ul {
+.main-menu, .secondary-menu, .user-name ul,
+.user-menu-loans ul,
+.user-menu ul {
   margin: 0;
   padding-left: 0;
 }
 /* line 20, ../sass/_ddbasic.navigation.scss */
-.main-menu li, .secondary-menu li, .user-menu ul li {
+.main-menu li, .secondary-menu li, .user-name ul li,
+.user-menu-loans ul li,
+.user-menu ul li {
   display: inline;
 }
 /* line 26, ../sass/_ddbasic.navigation.scss */
-.main-menu .last span, .secondary-menu .last span, .user-menu ul .last span,
+.main-menu .last span, .secondary-menu .last span, .user-name ul .last span,
+.user-menu-loans ul .last span,
+.user-menu ul .last span,
 .main-menu .last a,
 .secondary-menu .last a,
+.user-name ul .last a,
+.user-menu-loans ul .last a,
 .user-menu ul .last a {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
 }
 /* line 34, ../sass/_ddbasic.navigation.scss */
-.main-menu a, .secondary-menu a, .user-menu ul a,
+.main-menu a, .secondary-menu a, .user-name ul a,
+.user-menu-loans ul a,
+.user-menu ul a,
 .main-menu li a,
 .secondary-menu li a,
+.user-name ul li a,
+.user-menu-loans ul li a,
 .user-menu ul li a {
   display: inline-block;
   margin-right: 25px;
@@ -7364,24 +7378,36 @@ ul.icons li [class*=" icon-"] {
   color: gray;
 }
 /* line 41, ../sass/_ddbasic.navigation.scss */
-.main-menu a:hover, .secondary-menu a:hover, .user-menu ul a:hover,
+.main-menu a:hover, .secondary-menu a:hover, .user-name ul a:hover,
+.user-menu-loans ul a:hover,
+.user-menu ul a:hover,
 .main-menu li a:hover,
 .secondary-menu li a:hover,
+.user-name ul li a:hover,
+.user-menu-loans ul li a:hover,
 .user-menu ul li a:hover {
   color: black;
 }
 /* line 45, ../sass/_ddbasic.navigation.scss */
-.main-menu a.active, .secondary-menu a.active, .user-menu ul a.active,
+.main-menu a.active, .secondary-menu a.active, .user-name ul a.active,
+.user-menu-loans ul a.active,
+.user-menu ul a.active,
 .main-menu li a.active,
 .secondary-menu li a.active,
+.user-name ul li a.active,
+.user-menu-loans ul li a.active,
 .user-menu ul li a.active {
   color: black;
   text-decoration: underline;
 }
 /* line 50, ../sass/_ddbasic.navigation.scss */
-.main-menu a.last, .secondary-menu a.last, .user-menu ul a.last,
+.main-menu a.last, .secondary-menu a.last, .user-name ul a.last,
+.user-menu-loans ul a.last,
+.user-menu ul a.last,
 .main-menu li a.last,
 .secondary-menu li a.last,
+.user-name ul li a.last,
+.user-menu-loans ul li a.last,
 .user-menu ul li a.last {
   border-right: 0;
   margin-right: 0;
@@ -8687,7 +8713,7 @@ input#edit-search-block-form--2.spinner {
   margin-left: 3px;
 }
 
-/* line 21, ../sass/_ddbasic.user.scss */
+/* line 17, ../sass/_ddbasic.user.scss */
 .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -8696,7 +8722,7 @@ input#edit-search-block-form--2.spinner {
   font-size: 33px;
 }
 
-/* line 31, ../sass/_ddbasic.user.scss */
+/* line 27, ../sass/_ddbasic.user.scss */
 .user input[type="text"],
 .user input[type="password"], .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
@@ -8711,7 +8737,24 @@ input#edit-search-block-form--2.spinner {
   border: 0;
 }
 
+/* line 39, ../sass/_ddbasic.user.scss */
+.user-name ul,
+.user-menu-loans ul,
+.user-menu ul {
+  margin-top: 6.66667px;
+  text-align: right;
+}
 /* line 46, ../sass/_ddbasic.user.scss */
+.user-name ul li a,
+.user-menu-loans ul li a,
+.user-menu ul li a {
+  color: white;
+  margin-right: 5px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* line 62, ../sass/_ddbasic.user.scss */
 .header-wrapper .user {
   float: right;
   width: 50%;
@@ -8732,25 +8775,25 @@ input#edit-search-block-form--2.spinner {
   padding-left: 0;
 }
 
-/* line 56, ../sass/_ddbasic.user.scss */
+/* line 72, ../sass/_ddbasic.user.scss */
 .user .user-field-wrapper {
   display: block;
   margin-left: 40px;
 }
-/* line 61, ../sass/_ddbasic.user.scss */
+/* line 77, ../sass/_ddbasic.user.scss */
 .user .form-item {
   margin-top: 0em;
   display: inline;
 }
-/* line 65, ../sass/_ddbasic.user.scss */
+/* line 81, ../sass/_ddbasic.user.scss */
 .user .form-actions {
   display: inline;
 }
-/* line 69, ../sass/_ddbasic.user.scss */
+/* line 85, ../sass/_ddbasic.user.scss */
 .user i[class^="icon-"] {
   top: 13px;
 }
-/* line 76, ../sass/_ddbasic.user.scss */
+/* line 92, ../sass/_ddbasic.user.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 19.5px;
@@ -8759,7 +8802,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 60px;
   margin-right: 10px;
 }
-/* line 85, ../sass/_ddbasic.user.scss */
+/* line 101, ../sass/_ddbasic.user.scss */
 .user input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -8769,13 +8812,13 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
 }
 
-/* line 97, ../sass/_ddbasic.user.scss */
+/* line 113, ../sass/_ddbasic.user.scss */
 .topbar .user {
   font-size: 21px;
   font-size: 1.3125rem;
   display: none;
 }
-/* line 102, ../sass/_ddbasic.user.scss */
+/* line 118, ../sass/_ddbasic.user.scss */
 .topbar .user a {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -8787,27 +8830,27 @@ input#edit-search-block-form--2.spinner {
   padding: 12px 25px 10px;
   text-align: center;
 }
-/* line 112, ../sass/_ddbasic.user.scss */
+/* line 128, ../sass/_ddbasic.user.scss */
 .topbar .user a:hover {
   text-decoration: none;
 }
-/* line 116, ../sass/_ddbasic.user.scss */
+/* line 132, ../sass/_ddbasic.user.scss */
 .topbar .user a.active {
   background-color: #d1e02b;
 }
-/* line 125, ../sass/_ddbasic.user.scss */
+/* line 141, ../sass/_ddbasic.user.scss */
 .topbar .user.fixed {
   display: block;
 }
 
-/* line 131, ../sass/_ddbasic.user.scss */
+/* line 147, ../sass/_ddbasic.user.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 139, ../sass/_ddbasic.user.scss */
+/* line 155, ../sass/_ddbasic.user.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -8818,16 +8861,16 @@ input#edit-search-block-form--2.spinner {
   border-bottom-color: #d1e02b;
   right: 50px;
 }
-/* line 143, ../sass/_ddbasic.user.scss */
+/* line 159, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 146, ../sass/_ddbasic.user.scss */
+/* line 162, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 154, ../sass/_ddbasic.user.scss */
+/* line 170, ../sass/_ddbasic.user.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -8837,22 +8880,22 @@ input#edit-search-block-form--2.spinner {
   right: 15px;
   top: 15px;
 }
-/* line 165, ../sass/_ddbasic.user.scss */
+/* line 181, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link {
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 171, ../sass/_ddbasic.user.scss */
+/* line 187, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 176, ../sass/_ddbasic.user.scss */
+/* line 192, ../sass/_ddbasic.user.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 183, ../sass/_ddbasic.user.scss */
+/* line 199, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -8860,7 +8903,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 191, ../sass/_ddbasic.user.scss */
+/* line 207, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -8868,7 +8911,9 @@ input#edit-search-block-form--2.spinner {
   display: inline;
 }
 
-/* line 202, ../sass/_ddbasic.user.scss */
+/* line 222, ../sass/_ddbasic.user.scss */
+.user-name,
+.user-menu-loans,
 .user-menu {
   float: right;
   width: 50%;
@@ -8885,28 +8930,28 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+}
+
+/* line 228, ../sass/_ddbasic.user.scss */
+.user-menu-loans {
+  margin-top: 90px;
+}
+
+/* line 232, ../sass/_ddbasic.user.scss */
+.user-menu {
+  margin-top: 120px;
+}
+
+/* line 236, ../sass/_ddbasic.user.scss */
+.user-name {
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 55px;
   text-align: right;
 }
-/* line 208, ../sass/_ddbasic.user.scss */
-.user-menu ul {
-  margin-top: 6.66667px;
-  text-align: right;
-}
-/* line 215, ../sass/_ddbasic.user.scss */
-.user-menu ul li a {
-  color: white;
-  margin-right: 5px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-/* line 224, ../sass/_ddbasic.user.scss */
-.user-menu .user-menu-title {
+/* line 241, ../sass/_ddbasic.user.scss */
+.user-name .user-name-title {
   font-size: 33.75px;
   font-size: 2.10938rem;
-  color: rgba(0, 0, 0, 0.5);
-}
-/* line 229, ../sass/_ddbasic.user.scss */
-.user-menu .user-menu-title .user-name {
   color: black;
 }
 
