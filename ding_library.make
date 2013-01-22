@@ -73,7 +73,7 @@ projects[tipsy][version] = "1.0-rc1"
 
 projects[opening_hours][type] = module
 projects[opening_hours][subdir] = contrib
-projects[opening_hours][version] = "1.3"
+projects[opening_hours][version] = "1.4-beta1"
 
 libraries[openlayers][download][type] = get
 libraries[openlayers][download][url] = http://openlayers.org/download/OpenLayers-2.12.tar.gz
