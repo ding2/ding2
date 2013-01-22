@@ -1095,7 +1095,7 @@ table tbody tr:hover th {
 }
 /* line 195, ../../latto/sass/_latto.nav.scss */
 .action-links li a {
-  font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
   padding-left: 25px;
 }
@@ -3060,7 +3060,7 @@ body {
   line-height: 18px;
   line-height: 1.125rem;
   color: #1b1b1b;
-  font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
 /* line 81, ../../latto/sass/_latto.mixins.scss */
@@ -5047,7 +5047,7 @@ legend {
 body {
   font-size: 15px;
   font-size: 0.9375rem;
-  font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
 /* line 80, ../sass/_ddbasic.typography.scss */
@@ -5064,7 +5064,7 @@ h6 {
 input,
 textarea,
 select {
-  font-family: "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   letter-spacing: 1px;
 }
 
@@ -5076,7 +5076,7 @@ strong, dl > dt, .list-content > dt, .list-news > dt, .list-compact > dt, .pane-
 
 /* line 98, ../sass/_ddbasic.typography.scss */
 em {
-  font-family: "SourceSansProExtraLightItalic";
+  font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
 /* line 102, ../sass/_ddbasic.typography.scss */
