@@ -10,8 +10,8 @@
   stylesheets[all][] = css/ddbasic.styles.css
   
   ; Override stylesheets
-  ; stylesheets[all][] = css/override.css
   stylesheets[all][] = css/addressfield.css
+  stylesheets[all][] = css/latto.reset.css
 
 ;----------// JavaScripts
   ; Import javascripts.
