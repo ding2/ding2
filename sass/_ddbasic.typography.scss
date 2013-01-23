@@ -79,6 +79,26 @@ h4,
 h5,
 h6 {
   line-height: 100%;
+  
+  a {
+    &:link {
+      color: $text-primary-color;
+      text-decoration: none;
+    }
+    &:visited {
+      color: $text-primary-color;
+    }
+    &:hover {
+      color: darken($text-primary-color, 25%);
+    }
+    &:focus {
+      color: $link-color-hover;
+    }
+    &:active {
+      background-color: transparent;
+      color: $text-selection-color;
+    }
+  }
 }
 
 input,
