@@ -66,18 +66,10 @@
 // DEFAULT STYLING
 // =============================================================================
 //
-
-
-
-// =============================================================================
-// DEFAULT STYLING
-// =============================================================================
-//
 body {
   @include rem('font-size', $theme-font-size);
-  
+
   font-family: $theme-font-family;
-  font-weight: $font-weight-light;
 }
 
 h1,
@@ -86,7 +78,6 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: $font-weight-light;
   line-height: 100%;
 }
 
@@ -94,8 +85,51 @@ input,
 textarea,
 select {
   font-family: $theme-font-family;
-  font-weight: $font-weight-light;
   letter-spacing: 1px;
+}
+
+
+strong {
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+}
+
+
+em {
+  font-family: $font-light-italic;
+  font-weight: $theme-font-weight-normal;
+
+  strong {
+    @extend strong;
+
+    font-family: $font-bold-italic;
+  }
+}
+
+
+// -----------------------------------------------------------------------------
+// Links
+// -----------------------------------------------------------------------------
+//
+a {
+  &:link {
+    color: $link-color;
+    text-decoration: none;
+  }
+  &:visited {
+    color: darken($link-color, 15%);
+  }
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+
+    i[class^="icon-"] {
+      text-decoration: none;
+    }
+  }
+  &:focus {
+    color: $link-color-hover;
+  }
 }
 
 

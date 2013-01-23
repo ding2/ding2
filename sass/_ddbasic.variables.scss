@@ -24,22 +24,27 @@ $theme-content-background:        #fff;
 
 
 // -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+$font-light:                      "SourceSansProLight";
+$font-light-italic:               "SourceSansProLightItalic";
+$font-regular:                    "SourceSansProRegular";
+$font-regular-italic:             "SourceSansProItalic";
+$font-bold:                       "SourceSansProSemibold";
+$font-bold-italic:                "SourceSansProSemiboldItalic";
+$font-color-primary:              #d1e02b;
+
+
+// -----------------------------------------------------------------------------
 // Font variables
 // -----------------------------------------------------------------------------
 //
 $theme-font-size:                 15px;
 $theme-line-height:               18px;
-$theme-font-family:               "SourceSansProExtraLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-
-
-// -----------------------------------------------------------------------------
-// Typography
-// -----------------------------------------------------------------------------
-//
-$font-weight-light:               100;
-$font-weight-regular:             200;
-$font-weight-bold:                600;
-$font-color-primary:              #d1e02b;
+$theme-font-family:               $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+$theme-font-weight-normal:        normal;
+$theme-font-weight-bold:          normal;
 
 
 // -----------------------------------------------------------------------------
@@ -58,11 +63,11 @@ $link-color-special-hover:        darken($link-color-special, 20%);
 // Blocks
 // -----------------------------------------------------------------------------
 //
-$block-bg:                        #fff;
-$block-bg-transparency:           1;
-$block-color:                     #000;
-$block-bg-inverted:               #d1e02b;
-$block-color-inverted:            #fff;
+$block-bg:                        #3399ff;
+$block-bg-transparency:           .9;
+$block-color:                     #fff;
+$block-bg-inverted:               #fff;
+$block-color-inverted:            #3399ff;
 $block-border:                    12px;
 
 
@@ -89,7 +94,9 @@ $form-button-bg-color:            lighten(#000, 15%);
 // -----------------------------------------------------------------------------
 //
 $button-bg-color:                 $form-button-bg-color;
-$button-primary-bg-color:         #ff5200;
+$button-text-color:               $form-button-text-color;
+$button-primary-bg-color:         $black;
+$button-secondary-bg-color:       $theme-secondary-color;
 $button-success-bg-color:         #60a500;
 $button-warning-bg-color:         #f6d346;
 $button-danger-bg-color:          #bf3600;
@@ -101,8 +108,8 @@ $button-border-radius:            12px;
 // Navigation
 // -----------------------------------------------------------------------------
 //
-$navbar-bg-color:                 transparentize($white,0.95);
-$navbar-bg-active-color:          transparentize($white,0.95);
+$navbar-bg-color:                 transparentize($white, .95);
+$navbar-bg-active-color:          transparentize($white, .95);
 $navbar-text-color:               lighten($black, 30%);
 $navbar-text-color-active:        lighten($black, 30%);
 $navbar-item-spacing:             $default-spacing / 2;

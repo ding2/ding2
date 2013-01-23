@@ -44,10 +44,10 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login_block':
       unset($form['name']['#title']);
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
-      $form['name']['#attributes']['placeholder'] = t('Cpr- eller kortnummer:');
+      $form['name']['#attributes']['placeholder'] = t('Cpr- or cardnumber');
       $form['name']['#type'] = 'password';
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
-      $form['pass']['#attributes']['placeholder'] = t('Adgangskode:');
+      $form['pass']['#attributes']['placeholder'] = t('Password');
       unset($form['pass']['#title']);
       unset($form['links']);
       //Temporary hack to get rid of open id links
@@ -193,15 +193,15 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   );
   foreach ($tags_fields as $tag_field) {
     // Add ddbasic_ding_xxx_tags  to variables.
-    $variables['ddbasic_ding_' . $tags_field . '_tags'] = '';
-    if (isset($variables['content']['field_ding_' . $tags_field . '_tags'])) {
+    $variables['ddbasic_ding_' . $tag_field . '_tags'] = '';
+    if (isset($variables['content']['field_ding_' . $tag_field . '_tags'])) {
       $ddbasic_tags = '';
-      $items = $variables['content']['field_ding_' . $tags_field . '_tags']['#items'];
+      $items = $variables['content']['field_ding_' . $tag_field . '_tags']['#items'];
       if (count($items) > 0) {
         foreach ($items as $delta => $item) {
-          $ddbasic_tags .= render($variables['content']['field_ding_' . $tags_field . '_tags'][$delta]);
+          $ddbasic_tags .= render($variables['content']['field_ding_' . $tag_field . '_tags'][$delta]);
         }
-        $variables['ddbasic_ding_' . $tags_field . '_tags'] = $ddbasic_tags;
+        $variables['ddbasic_ding_' . $tag_field . '_tags'] = $ddbasic_tags;
       }
     }
   }
