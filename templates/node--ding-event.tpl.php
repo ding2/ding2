@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Latto's theme implementation to display event nodes.
+ * DDBasic's theme implementation to display event nodes.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -103,7 +103,7 @@
     <p>
       <?php print render($content['field_ding_event_lead'][0]); ?>
     </p>
-    <?php if ($latto_place2book_tickets): ?>
+    <?php if ($ddbasic_place2book_tickets): ?>
       <p><?php print render($content['field_place2book_tickets'][0]); ?><p>
     <?php endif; ?>
   </div>
