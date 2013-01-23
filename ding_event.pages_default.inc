@@ -350,7 +350,7 @@ events
 <none>',
   );
   $display = new panels_display();
-  $display->layout = 'threecol_25_50_25';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -366,7 +366,7 @@ events
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'left';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'event_category_menu';
     $pane->subtype = 'event_category_menu';
     $pane->shown = TRUE;
@@ -388,10 +388,10 @@ events
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['left'][0] = 'new-1';
+    $display->panels['left_sidebar'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'middle';
+    $pane->panel = 'main_content';
     $pane->type = 'menu_title';
     $pane->subtype = 'menu_title';
     $pane->shown = TRUE;
@@ -409,10 +409,10 @@ events
     $pane->position = 0;
     $pane->locks = '';
     $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
+    $display->panels['main_content'][0] = 'new-2';
     $pane = new stdClass();
     $pane->pid = 'new-3';
-    $pane->panel = 'middle';
+    $pane->panel = 'main_content';
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
     $pane->shown = TRUE;
@@ -435,10 +435,10 @@ events
     $pane->position = 1;
     $pane->locks = '';
     $display->content['new-3'] = $pane;
-    $display->panels['middle'][1] = 'new-3';
+    $display->panels['main_content'][1] = 'new-3';
     $pane = new stdClass();
     $pane->pid = 'new-4';
-    $pane->panel = 'middle';
+    $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_event-ding_event_floated_list';
     $pane->shown = TRUE;
@@ -453,10 +453,10 @@ events
     $pane->position = 2;
     $pane->locks = array();
     $display->content['new-4'] = $pane;
-    $display->panels['middle'][2] = 'new-4';
+    $display->panels['main_content'][2] = 'new-4';
     $pane = new stdClass();
     $pane->pid = 'new-5';
-    $pane->panel = 'right';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -487,7 +487,7 @@ events
     $pane->position = 0;
     $pane->locks = '';
     $display->content['new-5'] = $pane;
-    $display->panels['right'][0] = 'new-5';
+    $display->panels['right_sidebar'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
