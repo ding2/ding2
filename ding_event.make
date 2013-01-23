@@ -28,6 +28,12 @@ projects[ting_reference][download][type] = git
 projects[ting_reference][download][url] = git@github.com:ding2tal/ting_reference.git
 projects[ting_reference][download][branch] = "development"
 
+projects[ding_place2book][type] = module
+projects[ding_place2book][download][type] = "git"
+projects[ding_place2book][download][url] = "git@github.com:vejlebib/ding_place2book.git"
+projects[ding_place2book][download][branch] = "ding2tal_compatibility"
+
+
 ; Contrib modules
 
 projects[addressfield][type] = module
