@@ -15,7 +15,7 @@
 
 // No sidebars
 if (empty($content['left_sidebar']) && empty($content['right_sidebar'])) {
-  $add_class = 'no-sidebars';
+  $add_class = 'empty-sidebars';
 }
 // Only tertiary content (right sidebar)
 else if (empty($content['left_sidebar']) && !empty($content['right_sidebar'])) {
