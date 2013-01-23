@@ -20,11 +20,11 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
-    $uri = entity_uri('node', $library);
-    $base = $uri['path'] . '/news-category';
+    $uri = 'bibliotek/' . $library->nid;
+    $base = $uri . '/nyheder';
   }
   else {
-    $base = 'news-category';
+    $base = 'nyheder';
   }
 
   $options = array();
@@ -45,8 +45,8 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
     else {
       $options = array();
     }
-    $uri = entity_uri('taxonomy_term', $term);
-    $items[] = l($term->name, $uri['path'], $options);
+    $uri = $base . '/' . $term->name;   
+    $items[] = l($term->name, $uri, $options);
   }
   $block->content = theme('item_list', array('items' => $items));
 
