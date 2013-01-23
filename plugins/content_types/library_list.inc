@@ -19,16 +19,22 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   $selected_term = NULL;
   $selected_url = NULL;
   $suffix = '';
+  
+  if ($conf['type'] == 'news') {
+      $node_type = 'nyheder';
+  } elseif ($conf['type'] == 'event') {
+    $node_type = 'arrangementer';
+  }
 
   if (isset($context[0]->data)) {
     $selected_term = $context[0]->data;
-    $suffix = '/' . $selected_term->tid;
+    $suffix = '/' . $selected_term->name;
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
-    $uri = entity_uri('node', $library);
-    $base = $uri['path'] . '/' . $conf['type'] . $suffix;
-    $selected_url = $uri['path'] . '/' . $conf['type'] . $suffix;
+    $uri = 'bibliotek/' . $library->nid;
+    $base = $uri['path'] . '/' . $node_type  . $suffix;
+    $selected_url = $uri . '/' . $node_type . $suffix;
   }
   else {
     $base = $conf['type'];
@@ -47,11 +53,12 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   }
 
   uasort($nodes, 'ding_content_library_list_sort_title');
-  $items = array($conf['type'] . $suffix => t('All libraries'));
+  
+  $items = array($node_type  . $suffix => t('All libraries'));  
 
   foreach ($nodes as $node) {
-    $uri = entity_uri('node', $node);
-    $items[$uri['path'] . '/' . $conf['type'] . $suffix] = $node->title;
+    $uri = 'bibliotek/' . $node->nid;
+    $items[$uri . '/' . $node_type . $suffix] = $node->title;
   }
 
   // Generate the select box form.
