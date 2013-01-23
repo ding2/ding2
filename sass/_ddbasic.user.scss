@@ -104,6 +104,10 @@
 
     display: inline;
     min-height: 60px;
+    padding-top: 7px;
+    padding-right: 18px;
+    padding-bottom: 1px;
+    padding-left: 18px;    
     position: absolute;
   }
 
@@ -255,22 +259,24 @@
   .user-menu-loans,
   .user-menu {
     @include zen-grid-item($grid-25, 1, right);
-  }
 
+    margin-bottom: 0;
+  }
+  
   .user-name {
     margin-top: 16px;
 
     .user-name-title {
       @include rem('font-size', $theme-font-size * 1.5);
-      
+
       color: $white;
     }
   }
 
   .user-menu {
     @extend %link-inverted;
-    
-    margin-top: 40px;    
+
+    margin-top: 40px;
   }
 }
 

@@ -21,12 +21,8 @@
 %button {
   @include border-radius($button-border-radius);
 
+  padding: 4px 12px;
   position: relative;
-
-  padding-top: 7px;
-  padding-right: 18px;
-  padding-bottom: 1px;
-  padding-left: 18px;
 
   background-color: $button-primary-bg-color;
   border: 0;
@@ -63,7 +59,7 @@
   &:active,
   &:focus {
     background-color: darken($button-secondary-bg-color, 10%);
-  } 
+  }  
 }
 
 %primary {

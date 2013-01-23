@@ -86,6 +86,10 @@ function ddbasic_menu_tree__menu_block__2($vars) {
   return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
 }
 
+// Sub menu
+function ddbasic_menu_tree__menu_block__3($vars) {
+  return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
+}
 
 /**
  * Implements hook_preprocess_views_view_unformatted().

@@ -148,6 +148,13 @@
 
 
 // **
+// Labels
+// **
+//
+@import "_ddbasic.label.scss";
+
+
+// **
 // Navigation
 // **
 //
@@ -170,14 +177,8 @@
 // Miscellaneous
 // **
 //
-@import "_ddbasic.drupal.overrides.scss";
-
-
-// **
-// Miscellaneous
-// **
-//
 @import "_ddbasic.miscellaneous.scss";
+@import "_ddbasic.drupal.overrides.scss";
 
 
 // -----------------------------------------------------------------------------
@@ -190,11 +191,13 @@
 // **
 @import "_ddbasic.search.scss";
 
+
 // **
 // Carousel (ting_search_carousel)
 // **
 //
 @import "_ddbasic.carousel.scss";
+
 
 // **
 // Libraries
@@ -202,11 +205,13 @@
 //
 @import "_ddbasic.libraries.scss";
 
+
 // **
 // Modal popups
 // **
 //
 @import "_ddbasic.modal.scss";
+
 
 // **
 // Opening hours (opening_hours)
@@ -220,6 +225,20 @@
 // **
 //
 @import "_ddbasic.user.scss";
+
+
+// **
+// Page (ding_page)
+// **
+//
+@import "_ddbasic.page.scss";
+
+
+// **
+// Comments (comments)
+// **
+//
+@import "_ddbasic.comment.scss";
 
 
 // **
