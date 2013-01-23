@@ -104,7 +104,10 @@ $topbar-min-height:               85px;
 .content-wrapper {
   @extend .grid-wrapper;
 
-  margin-top: 148px;
+  // Calculate margin top based on height of
+  // navigation (line height and 2 times default spacing)
+  // and topbar height. Then add default spacing.
+  margin-top: ($theme-line-height + ($default-spacing * 2)) + $topbar-min-height + $default-spacing;
 }
 
 
