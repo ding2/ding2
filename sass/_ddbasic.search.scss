@@ -101,6 +101,10 @@ input#edit-search-block-form--2.spinner {
   input[type="submit"] {
     @extend %button;
 
+    padding-top: 7px;
+    padding-right: 18px;
+    padding-bottom: 1px;
+    padding-left: 18px;
     position: absolute;
   }
 
@@ -199,12 +203,12 @@ input#edit-search-block-form--2.spinner {
 
       top: 13px;
     }
-    
+
     .spinner {
       i[class^="icon-"] {
         top: 16px;
       }
-    }     
+    }
   }
 }
 
@@ -244,7 +248,7 @@ input#edit-search-block-form--2.spinner {
   // Facet group spacing.
   .form-wrapper {
     margin-bottom: $default-spacing;
-    
+
     .fieldset-wrapper {
       .form-checkboxes .form-item {
         margin: 5px 0;
@@ -337,7 +341,7 @@ input#edit-search-block-form--2.spinner {
 // Combine these as a page title
 .pane-ting-search-search-display-extended-query {
   @extend .pull-left;
-  
+
   overflow: hidden;
   margin-bottom: $default-spacing;
 
@@ -358,7 +362,7 @@ input#edit-search-block-form--2.spinner {
 
   .ting-search-amount-block {
     @extend .text-larger;
-    
+
     color: $gray-darker;
   }
 }
@@ -367,7 +371,7 @@ input#edit-search-block-form--2.spinner {
 // Combine these as a group floating left and right
 .pane-ting-search-sort-form {
   @extend .pull-left;
-  
+
   clear: both;
   color: $gray-darker;
   overflow: hidden;
@@ -389,7 +393,7 @@ input#edit-search-block-form--2.spinner {
 }
 .pane-ting-search-records-per-page {
   @extend .pull-right;
-  
+
   overflow: hidden;
   color: $gray-darker;
   margin-left: $default-spacing;

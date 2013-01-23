@@ -85,71 +85,66 @@
  * @see template_process()
  */
 ?>
-<section class="span7" role="main">
-  <article>
-    <?php print render($content['field_ding_page_titel_image'][0]); ?>
- <hr/>
-    <header class="page-header">
-       <h1><?php print $title; ?></h1>
 
-        <div class="row-fluid">
-            <div class="lead span8">
-                <p><?php print render($content['field_ding_page_lead'][0]); ?></p>
-            </div>
-           <hr/>
-        </div>
-    </header>
+<?php
+  // Hide fields we have already rendered.
+  hide($content['field_ding_page_title_image']);
+  hide($content['field_ding_page_lead']);
 
-    <?php
-      // Hide fields we have already rendered.
-      hide($content['field_ding_page_titel_image']);
-      hide($content['field_ding_page_lead']);
-      // Hide fields that will be displayed as panel panes instead.
-      hide($content['comments']);
-      // Hide fields now so that we can render them later.
-      hide($content['links']);
-      hide($content['field_ding_page_tags']);
-      print render($content);
-    ?>
-  </article>
+  // Hide fields that will be displayed as panel panes instead.
+  hide($content['comments']);
 
-  <hr/>
+  // Hide fields now so that we can render them later.
+  hide($content['links']);
+  hide($content['field_ding_page_tags']);
+?>
 
-  <?php
-    // Remove the "Add new comment" link on the teaser page or if the comment
-    // form is being displayed on the same page.
-    if ($teaser || !empty($content['comments']['comment_form'])) :
-      unset($content['links']['comment']['#links']['comment-add']);
-    endif;
-    // Only display the wrapper div if there are links.
-    $links = render($content['links']);
-    if ($links):
-  ?>
-    <div class="link-wrapper">
-      <?php print $links; ?>
-    </div>
-  <?php endif; ?>
+<article>
+  <header class="page-header">
+    <h1 class="page-title"><?php print $title; ?></h1>
+    <div class="page-image"><?php print render($content['field_ding_page_title_image'][0]); ?></div>
+    <div class="page-lead"><?php print render($content['field_ding_page_lead'][0]); ?></div>
+  </header>
+  <section class="page-content"><?php print render($content); ?></section>
+</article>
 
-  <?php if ($display_submitted): ?>
-    <footer class="row-fluid">
-      <?php print $user_picture; ?>
-      <div class="span10">
-        <h4>
-          <?php print $latto_byline; ?>
-          <?php print $name; ?>
-        </h4>
-        <p>
-          <i class="icon-time"></i>
-          <?php print $submitted; ?> • <?php print $latto_updated; ?>
-          <?php if ($ddbasic_ding_page_tags): ?>
-            <br />
-            <span class="tags">
-              <i class="icon-tag"></i>
-              <?php print t('Tags: ') . $ddbasic_ding_page_tags; ?>
-            </span>
-          <?php endif; ?>
-        </p>
-      </div>
-    </footer>
-  <?php endif; ?>
-</section>
+<?php
+  // Remove the "Add new comment" link on the teaser page or if the comment
+  // form is being displayed on the same page.
+  if ($teaser || !empty($content['comments']['comment_form'])) :
+    unset($content['links']['comment']['#links']['comment-add']);
+  endif;
+?>
+
+<?php
+  // Render comments
+  print render($content['comments']);
+?>
+
+<?php
+  // Only display the wrapper div if there are links.
+  $links = render($content['links']);
+?>
+
+<?php if ($links): ?>
+
+  <section class="links">
+    <?php print $links; ?>
+  </section>
+
+<?php endif; ?>
+
+<?php if ($display_submitted): ?>
+  <footer class="page-footer">
+    <div class="page-user-picture"><?php print $user_picture; ?></div>
+    <div class=""><?php print $latto_byline; ?></div>
+    <span class="page-author"><?php print $name; ?></span>
+    <span class="page-submitted"><?php print $submitted; ?></span>
+    <span class="page-updated"><?php print $latto_updated; ?></span>
+    <?php if ($ddbasic_ding_page_tags): ?>
+      <section class="page-tags">
+          <?php print t('Tags: ') . $ddbasic_ding_page_tags; ?>
+      </section>
+    <?php endif; ?>
+  </footer>
+<?php endif; ?>
