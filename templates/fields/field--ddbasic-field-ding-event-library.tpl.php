@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ddbasic-field-ding-event-category.tpl.php
+ * @file field--ddbasic-field-ding-event-library.tpl.php
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
@@ -42,7 +42,7 @@
   <div class="field-label"<?php print $title_attributes; ?>><?php print $label ?>:&nbsp;</div>
 <?php endif; ?>
 <?php 
-  foreach ($items as $delta => $item) {
+    foreach ($items as $delta => $item) {
     if ($item["#type"]=='link') {
       print '<a class="label label-info" href="' . $item['#href'] . '">' . $item['#title'] . '</a>';
     } else {
