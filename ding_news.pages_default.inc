@@ -455,7 +455,7 @@ function ding_news_default_page_manager_pages() {
       'identifier' => 'Category term',
       'name' => 'term',
       'settings' => array(
-        'input_form' => 'term',
+        'input_form' => 'tid',
         'vids' => array(
           5 => '5',
           1 => 0,
@@ -702,7 +702,7 @@ news/%tid:name',
       'identifier' => 'Category term',
       'name' => 'term',
       'settings' => array(
-        'input_form' => 'term',
+        'input_form' => 'tid',
         'vids' => array(
           5 => '5',
           1 => 0,

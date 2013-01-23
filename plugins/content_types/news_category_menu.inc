@@ -45,7 +45,7 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
     else {
       $options = array();
     }
-    $uri = $base . '/' . $term->name;   
+    $uri = $base . '/' . $term->tid;   
     $items[] = l($term->name, $uri, $options);
   }
   $block->content = theme('item_list', array('items' => $items));
