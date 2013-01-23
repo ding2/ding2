@@ -665,10 +665,12 @@ function place2book_build_xml($node, $service_settings) {
   // Set kultunaut picture URL
   $field_ding_event_list_image = field_get_items('node', $node, 'field_ding_event_list_image');
   //the uri of the image file is not found in the updated node object - we retrieve it with file_load
-  $list_image_fileinfo = file_load($field_ding_event_list_image[0]['fid']);
-  if (!empty($list_image_fileinfo->uri)) {
-    //this module provides a style, ding_kultunaut_square, which we invoke here
-    $xml->event->kultunaut_picture_uri = image_style_url('ding_kultunaut_square', $list_image_fileinfo->uri); 
+  if (!empty($field_ding_event_list_image)) {
+    $list_image_fileinfo = file_load($field_ding_event_list_image[0]['fid']);
+    if (!empty($list_image_fileinfo->uri)) {
+      //this module provides a style, ding_kultunaut_square, which we invoke here
+      $xml->event->kultunaut_picture_uri = image_style_url('ding_kultunaut_square', $list_image_fileinfo->uri); 
+    }
   }
   
   return $xml;
