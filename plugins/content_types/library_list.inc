@@ -34,7 +34,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
     $library = $context[1]->data;
     $uri = 'bibliotek/' . $library->nid;
     $base = $uri['path'] . '/' . $node_type  . $suffix;
-    $selected_url = $uri . '/' . $node_type . $suffix;
+    $selected_url =  $node_type . '/' .  $uri . $suffix;
   }
   else {
     $base = $conf['type'];
@@ -58,7 +58,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
 
   foreach ($nodes as $node) {
     $uri = 'bibliotek/' . $node->nid;
-    $items[$uri . '/' . $node_type . $suffix] = $node->title;
+    $items[ $node_type . '/' . $uri  . $suffix] = $node->title;
   }
 
   // Generate the select box form.
