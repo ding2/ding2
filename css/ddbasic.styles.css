@@ -3838,7 +3838,7 @@ legend {
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   /* line 18, ../../latto/sass/_latto.mq.displays.scss */
-  .no-sidebars .primary-content {
+  .empty-sidebars .primary-content {
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -3856,7 +3856,7 @@ legend {
     _overflow-y: visible;
   }
   /* line 22, ../../latto/sass/_latto.mq.displays.scss */
-  .no-sidebars .secondary-content {
+  .empty-sidebars .secondary-content {
     clear: both;
     float: left;
     width: 50%;
@@ -3875,7 +3875,7 @@ legend {
     _overflow-y: visible;
   }
   /* line 27, ../../latto/sass/_latto.mq.displays.scss */
-  .no-sidebars .tertiary-content {
+  .empty-sidebars .tertiary-content {
     float: right;
     width: 50%;
     margin-right: 0%;
@@ -3895,7 +3895,7 @@ legend {
 }
 @media only screen and (min-width: 769px) {
   /* line 18, ../../latto/sass/_latto.mq.displays.scss */
-  .no-sidebars .primary-content {
+  .empty-sidebars .primary-content {
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -3913,7 +3913,7 @@ legend {
     _overflow-y: visible;
   }
   /* line 22, ../../latto/sass/_latto.mq.displays.scss */
-  .no-sidebars .secondary-content {
+  .empty-sidebars .secondary-content {
     clear: both;
     float: left;
     width: 50%;
@@ -3932,7 +3932,7 @@ legend {
     _overflow-y: visible;
   }
   /* line 27, ../../latto/sass/_latto.mq.displays.scss */
-  .no-sidebars .tertiary-content {
+  .empty-sidebars .tertiary-content {
     float: right;
     width: 50%;
     margin-right: 0%;
@@ -3951,7 +3951,7 @@ legend {
   }
 }
 /* line 53, ../sass/_ddbasic.mq.layouts.scss */
-.no-sidebars .grid-inner, .no-sidebars .topbar .topbar-inner, .topbar .no-sidebars .topbar-inner, .no-sidebars .header-wrapper .header-inner, .header-wrapper .no-sidebars .header-inner, .no-sidebars .navigation-inner {
+.empty-sidebars .grid-inner, .empty-sidebars .topbar .topbar-inner, .topbar .empty-sidebars .topbar-inner, .empty-sidebars .header-wrapper .header-inner, .header-wrapper .empty-sidebars .header-inner, .empty-sidebars .navigation-inner {
   background-color: white;
   padding: 20px;
 }
