@@ -421,7 +421,7 @@ function ding_news_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding news';
   $page->admin_description = '';
-  $page->path = 'news-category/!tid';
+  $page->path = 'nyheder/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -457,10 +457,14 @@ function ding_news_default_page_manager_pages() {
       'settings' => array(
         'input_form' => 'term',
         'vids' => array(
-          1 => '1',
+          5 => '5',
+          1 => 0,
+          3 => 0,
+          4 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
+        'transform' => 0,
       ),
     ),
   );
@@ -669,7 +673,7 @@ news/%tid:name',
   $page->task = 'page';
   $page->admin_title = 'Library news page';
   $page->admin_description = '';
-  $page->path = 'node/%node/news/!tid';
+  $page->path = 'bibliotek/%node/nyheder/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -700,10 +704,14 @@ news/%tid:name',
       'settings' => array(
         'input_form' => 'term',
         'vids' => array(
-          1 => '1',
+          5 => '5',
+          1 => 0,
+          3 => 0,
+          4 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
+        'transform' => 0,
       ),
     ),
   );
