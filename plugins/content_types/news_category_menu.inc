@@ -20,8 +20,7 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
-    $uri = 'bibliotek/' . $library->nid;
-    $base = $uri . '/nyheder';
+    $base = 'nyheder/bibliotek/' . $library->nid;
   }
   else {
     $base = 'nyheder';
