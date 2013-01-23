@@ -3470,17 +3470,17 @@ dd {
   _overflow-y: visible;
 }
 
-/* line 98, ../sass/_ddbasic.layout.scss */
-.frontpage-layout .content-wrapper {
-  margin-top: 88px;
-}
-
-/* line 104, ../sass/_ddbasic.layout.scss */
+/* line 97, ../sass/_ddbasic.layout.scss */
 .content-wrapper {
   margin-top: 169px;
 }
 
-/* line 120, ../sass/_ddbasic.layout.scss */
+/* line 107, ../sass/_ddbasic.layout.scss */
+.front .content-wrapper {
+  margin-top: 84px;
+}
+
+/* line 119, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content,
@@ -3490,7 +3490,7 @@ dd {
 .attachment-fourth {
   margin-bottom: 20px;
 }
-/* line 123, ../sass/_ddbasic.layout.scss */
+/* line 122, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,

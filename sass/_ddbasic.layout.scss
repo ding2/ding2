@@ -94,13 +94,6 @@ $topbar-min-height:               85px;
 // Layout
 // **
 //
-.frontpage-layout {
-  .content-wrapper {
-    margin-top: 88px;
-  }
-}
-
-
 .content-wrapper {
   @extend .grid-wrapper;
 
@@ -108,6 +101,12 @@ $topbar-min-height:               85px;
   // navigation (line height and 2 times default spacing)
   // and topbar height. Then add default spacing.
   margin-top: ($theme-line-height + ($default-spacing * 2)) + $topbar-min-height + $default-spacing;
+}
+
+.front {
+  .content-wrapper {
+    margin-top: ($theme-line-height + ($default-spacing * 2)) + $default-spacing;
+  }
 }
 
 
