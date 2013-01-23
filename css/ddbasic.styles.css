@@ -5,12 +5,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -3251,7 +3251,7 @@ em .pane-ting-object .field-name-ding-availability-holdings ul > dt,
 em .library-list > dt,
 em .list > dt,
 .strong {
-  font-weight: normal;
+  font-weight: bold;
 }
 
 /* line 142, ../../latto/sass/_latto.typography.scss */
@@ -3332,47 +3332,47 @@ dl {
   margin-bottom: 18px;
 }
 
-/* line 218, ../../latto/sass/_latto.typography.scss */
+/* line 217, ../../latto/sass/_latto.typography.scss */
 dt,
 dd {
   line-height: 18px;
 }
 
-/* line 222, ../../latto/sass/_latto.typography.scss */
+/* line 220, ../../latto/sass/_latto.typography.scss */
 dt {
   font-weight: bold;
 }
 
-/* line 226, ../../latto/sass/_latto.typography.scss */
+/* line 223, ../../latto/sass/_latto.typography.scss */
 dd {
   margin-left: 9px;
 }
 
-/* line 234, ../../latto/sass/_latto.typography.scss */
+/* line 231, ../../latto/sass/_latto.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
 
-/* line 238, ../../latto/sass/_latto.typography.scss */
+/* line 235, ../../latto/sass/_latto.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
 
-/* line 242, ../../latto/sass/_latto.typography.scss */
+/* line 239, ../../latto/sass/_latto.typography.scss */
 .text-large, .lead {
   font-size: 16.5px;
   font-size: 1.03125rem;
 }
 
-/* line 246, ../../latto/sass/_latto.typography.scss */
+/* line 243, ../../latto/sass/_latto.typography.scss */
 .text-small, blockquote .blockquote-source {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
-/* line 250, ../../latto/sass/_latto.typography.scss */
+/* line 247, ../../latto/sass/_latto.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
@@ -7346,6 +7346,105 @@ ul.icons li [class*=" icon-"] {
   content: "\f115";
 }
 
+/* line 28, ../sass/_ddbasic.label.scss */
+.label,
+.badge {
+  font-size: 14.19px;
+  line-height: 14px;
+  color: white;
+  vertical-align: baseline;
+  white-space: nowrap;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #262626;
+}
+
+/* line 40, ../sass/_ddbasic.label.scss */
+.label {
+  padding: 1px 4px 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/* line 45, ../sass/_ddbasic.label.scss */
+.badge {
+  padding: 1px 9px 2px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+/* line 55, ../sass/_ddbasic.label.scss */
+a.label:link, a.badge:link {
+  color: white;
+}
+/* line 60, ../sass/_ddbasic.label.scss */
+a.label:hover, a.badge:hover {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* line 74, ../sass/_ddbasic.label.scss */
+.label-important,
+.badge-important {
+  background-color: #bf3600;
+}
+
+/* line 79, ../sass/_ddbasic.label.scss */
+.label-important[href],
+.badge-important[href] {
+  background-color: #8c2800;
+}
+
+/* line 85, ../sass/_ddbasic.label.scss */
+.label-warning,
+.badge-warning {
+  background-color: #f6d346;
+}
+
+/* line 90, ../sass/_ddbasic.label.scss */
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #f4c715;
+}
+
+/* line 96, ../sass/_ddbasic.label.scss */
+.label-success,
+.badge-success {
+  background-color: #60a500;
+}
+
+/* line 101, ../sass/_ddbasic.label.scss */
+.label-success[href],
+.badge-success[href] {
+  background-color: #427200;
+}
+
+/* line 107, ../sass/_ddbasic.label.scss */
+.label-info,
+.badge-info {
+  background-color: #73b4e0;
+}
+
+/* line 112, ../sass/_ddbasic.label.scss */
+.label-info[href],
+.badge-info[href] {
+  background-color: #499ed7;
+}
+
+/* line 118, ../sass/_ddbasic.label.scss */
+.label-inverse,
+.badge-inverse {
+  background-color: white;
+}
+
+/* line 123, ../sass/_ddbasic.label.scss */
+.label-inverse[href],
+.badge-inverse[href] {
+  background-color: #e6e6e6;
+}
+
 /* line 16, ../sass/_ddbasic.navigation.scss */
 .main-menu, .secondary-menu, .user-name ul,
 .user-menu-loans ul,
@@ -8268,12 +8367,12 @@ input#edit-search-block-form--2.spinner {
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:before, .rs-carousel:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel:after {
   clear: both;
 }
@@ -8999,7 +9098,7 @@ input#edit-search-block-form--2.spinner {
   margin-top: 40px;
 }
 
-/* line 229, ../sass/ddbasic.styles.scss */
+/* line 236, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;
