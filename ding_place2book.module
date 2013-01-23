@@ -556,12 +556,12 @@ function place2book_build_xml($node, $service_settings) {
   
   if ($library_id) {
     $libloc_result = db_query('SELECT   n.title, 
-                  a.field_address_thoroughfare AS street,
-                  a.field_address_premise AS additional,
-                                a.field_address_postal_code AS postal_code,
-                                a.field_address_locality AS city, 
-                                UPPER(a.field_address_country) AS country
-                        FROM node n JOIN field_data_field_address a
+                  a.field_ding_library_addresse_thoroughfare AS street,
+                  a.field_ding_library_addresse_premise AS additional,
+                                a.field_ding_library_addresse_postal_code AS postal_code,
+                                a.field_ding_library_addresse_locality AS city, 
+                                UPPER(a.field_ding_library_addresse_country) AS country
+                        FROM node n JOIN field_data_field_ding_library_addresse a
                         ON n.nid = a.entity_id 
                         WHERE n.nid = :nid', array(':nid' => $library_id));
 
