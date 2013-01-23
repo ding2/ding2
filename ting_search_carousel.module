@@ -287,8 +287,8 @@ function ting_search_carousel_image_default_styles() {
           'module' => 'image',
           'name' => 'image_scale_and_crop',
           'data' => array(
-            'width' => '90',
-            'height' => '130',
+            'width' => '200',
+            'height' => '290',
           ),
           'weight' => '1',
         ),
