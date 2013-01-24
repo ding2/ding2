@@ -1,6 +1,5 @@
 <?php
 
-
 function ding_wayf_permission() {
   return array(
     'configure wayf' => array(
@@ -15,12 +14,12 @@ function ding_wayf_menu() {
 
   // Administation interface.
   $items['admin/config/ding/wayf'] = array(
-   'title' => t('WAYF'),
-   'description' => t('Configure WAYF'),
-   'page callback' => 'drupal_get_form',
-   'page arguments' => array('ding_wayf_admin_settings_form'),
-   'access arguments' => array('configure wayf'),
-   'file' => 'includes/ding_wayf.admin.inc',
+    'title' => t('WAYF'),
+    'description' => t('Configure WAYF'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_wayf_admin_settings_form'),
+    'access arguments' => array('configure wayf'),
+    'file' => 'includes/ding_wayf.admin.inc',
   );
 
   // WAYF login callback.
@@ -33,6 +32,25 @@ function ding_wayf_menu() {
   );
 
   return $items;
+}
+
+/** Implements hook_form_FORM_ID_alter (user_login)
+ * 
+ * add wayf login block to form['actions']
+ */
+function ding_wayf_form_user_login_alter(&$form, &$form_state) {
+  $form['actions']['wayf_login'] = array(
+    '#markup' => ding_wayf_render_login_block(),
+  );
+}
+
+/** \brief Custom render function for ding_wayf_login block
+ * 
+ * @return html; the rendered block 
+ */
+function ding_wayf_render_login_block() {
+  $block = block_load('ding_wayf', 'login');
+  return drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));
 }
 
 /**
@@ -186,7 +204,8 @@ function ding_wayf_login($creds) {
       foreach ($auth_res['messages'] as $message) {
         if (is_array($message)) {
           list($message, $type) = $message;
-        } else {
+        }
+        else {
           $type = 'warning';
         }
         drupal_set_message(t($message, array(), array('context' => 'ding_wayf')), $type);
