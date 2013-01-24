@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * Implements hook_ding_provider().
+ *
+ * @return
+ *   array
+ */
+function wyrna_ding_provider() {
+  return array(
+    'title' => 'Wyrna - Ding WAYF test provider',
+    'settings' => FALSE,
+    'provides' => array(
+      'wayf' => array(
+        'prefix' => 'wayf',
+        'file' => drupal_get_path('module', 'wyrna') . '/wyrna.wayf.inc',
+      ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => drupal_get_path('module', 'wyrna') . '/wyrna.user.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_wayf_attributes().
+ *
+ * Bibliotek.dk needs unique WAYF identifier called 'eduPersonTargetedID' and
+ * email address for WAYF authentication.
+ */
+function wyrna_ding_wayf_attributes() {
+  return array(
+    'eduPersonTargetedID' => array(),
+    'mail' => array('authname' => TRUE),
+  );
+}
+

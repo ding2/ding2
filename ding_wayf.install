@@ -11,15 +11,6 @@ function ding_wayf_requirements($phase) {
   $t = get_t();
 
   if ($phase == 'runtime') {
-    // Test that the provider password have been set.
-    if (!isset($conf['ding_wayf_passwd'])) {
-      $requirements['ding_wayf_passwd'] = array(
-        'title' => $t('Ding wayf default password'),
-        'description' => t('You have not defined the default password use by ding_wayf in you settings.php. You should add the line $conf[\'ding_wayf_passwd\'] = \'<PASSWORD>\''),
-        'severity' => REQUIREMENT_ERROR,
-      );
-    }
-
     // Test that configuration have be created.
     $config = variable_get('ding_wayf', FALSE);
     if (!$config) {
@@ -27,6 +18,7 @@ function ding_wayf_requirements($phase) {
         'title' => $t('Ding wayf configuration'),
         'description' => t('You have not yet confirmed the configuration at !url.', array('!url' => l('/admin/settings/ding/wayf', 'admin/settings/ding/wayf'))),
         'severity' => REQUIREMENT_WARNING,
+        'value' => '',
       );
     }
 
@@ -36,6 +28,7 @@ function ding_wayf_requirements($phase) {
         'title' => $t('SimpleSAMLphp installation not defined'),
         'description' => t('The installation of simpleSAMLphp was not found.'),
         'severity' => REQUIREMENT_ERROR,
+        'value' => '',
       );
     }
     else {
@@ -45,10 +38,86 @@ function ding_wayf_requirements($phase) {
           'title' => $t('SimpleSAMLphp installation has disappeared'),
           'description' => t('The installation of simpleSAMLphp was not found.'),
           'severity' => REQUIREMENT_ERROR,
+          'value' => '',
+        );
+      }
+    }
+
+    if (empty($conf['https'])) {
+      $requirements['ding_wayf_https'] = array(
+        'title' => $t('HTTPS configuration'),
+        'description' => t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => '',
+      );
+    }
+
+    $securepages_enabled = variable_get('securepages_enable');
+    if (empty($securepages_enabled)) {
+      $requirements['ding_wayf_securepages_enable'] = array(
+        'title' => $t('Activation of Secure Pages needed'),
+        'description' => t('WAYF requires Secure Pages to be activated: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => '',
+      );
+    }
+
+    $securepages_basepath = variable_get('securepages_basepath');
+    if (empty($securepages_basepath)) {
+      $requirements['ding_wayf_securepages_basepath'] = array(
+        'title' => $t('Secure Pages non-secure base path missing'),
+        'description' => t('WAYF requires Secure Pages to have non-secure base path set: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => '',
+      );
+    }
+
+    $securepages_basepath_ssl = variable_get('securepages_basepath_ssl');
+    if (empty($securepages_basepath_ssl)) {
+      $requirements['ding_wayf_securepages_basepath_ssl'] = array(
+        'title' => $t('Secure Pages secure base path missing'),
+        'description' => t('WAYF requires Secure Pages to have secure base path set: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => '',
+      );
+    }
+
+    if (variable_get('securepages_secure')) {
+      $securepages_pages = variable_get('securepages_pages');
+      if (!(preg_match(ding_wayf_regex_line('wayf'), $securepages_pages) && preg_match(ding_wayf_regex_line('wayf/*'), $securepages_pages))) {
+        $requirements['ding_wayf_secured'] = array(
+          'title' => $t('WAYF not secured'),
+          'description' => t('WAYF requires "wayf" and "wayf/*" added to Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+          'severity' => REQUIREMENT_ERROR,
+          'value' => $securepages_pages, #'',
+        );
+      }
+    }
+    else {
+      $securepages_ignore = variable_get('securepages_ignore');
+      if (preg_match(ding_wayf_regex_line('wayf'), $securepages_ignore) || preg_match(ding_wayf_regex_line('wayf/*'), $securepages_ignore)) {
+        $requirements['ding_wayf_secured'] = array(
+          'title' => $t('WAYF not secured'),
+          'description' => t('WAYF requires that "wayf" and "wayf/*" are not included in Ignore Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+          'severity' => REQUIREMENT_ERROR,
+          'value' => '',
         );
       }
     }
   }
 
   return $requirements;
+}
+
+/**
+ * Transforms a Drupal path to a PCRE pattern matching whole lines from textarea
+ * fields.
+ *
+ * @param $string
+ *   String describing a drupal path.
+ * @return
+ *   PCRE pattern of $string.
+ */
+function ding_wayf_regex_line($string) {
+  return '/(^|\n)' . preg_quote($string, '/') . '(\r\n|$)/';
 }
