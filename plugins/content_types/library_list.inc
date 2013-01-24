@@ -84,12 +84,12 @@ function ding_content_library_list_select_library($form, &$form_state, $items, $
   $form = array();
   $form['labe_select_library'] = array(
     '#markup' => t('Choose library'),
-    '#prefix' => '<div class="label">',
-    '#suffix' => '</div>',
+    '#prefix' => '<span class="choose-library-label">',
+    '#suffix' => '</span>',
   );
   $form['select_library'] = array(
     '#type' => 'select',
-    '#prefix' => '<div class="rightcontainer">',
+    '#prefix' => '',
     '#title' => NULL,
     '#options' => $items,
     '#attributes' => array('onchange' => "form.submit('select_library');"),
@@ -97,8 +97,13 @@ function ding_content_library_list_select_library($form, &$form_state, $items, $
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#prefix' => '<div class="library-list-show">',
-    '#suffix' => '</div></div>',
+    '#attributes' => array(
+      'class' => array(
+        'button',
+      ),
+    ),
+    '#prefix' => '',
+    '#suffix' => '',
     '#value' => t('Show'),
   );
   return $form;
