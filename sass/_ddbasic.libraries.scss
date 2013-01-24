@@ -95,8 +95,6 @@
 }
 
 .library-menu {
-  @extend .sub-menu-wrapper;
-
   h2 {
     @extend .sub-menu-title; 
   }

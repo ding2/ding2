@@ -131,12 +131,10 @@
 // Sub menu
 // -----------------------------------------------------------------------------
 //
-.sub-menu-wrapper {
-  .sub-menu-title {
-    border-bottom: 1px solid $gray-light;
-    margin-bottom: 0;
-    padding-bottom: $default-spacing / 2;
-  }
+.sub-menu-title {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: 0;
+  padding-bottom: $default-spacing / 2;
 }
 
 .sub-menu {
