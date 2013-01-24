@@ -33,7 +33,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  $uri['path'] . '/' . $node_type  . $suffix;
+    $base =  'bibliotek/' . $library->nid . '/' . $node_type  . $suffix;
     $selected_url =  $base;
   }
   else {
@@ -57,8 +57,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   $items = array($node_type  . $suffix => t('All libraries'));  
 
   foreach ($nodes as $node) {
-    $uri = entity_uri('node', $node);
-    $uri =  $uri['path'] . '/' . $node_type  . $suffix;
+    $uri =  'bibliotek/' . $node->nid . '/' . $node_type  . $suffix;
     $items[$uri] = $node->title;
   }
 
