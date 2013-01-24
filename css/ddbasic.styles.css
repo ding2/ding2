@@ -7417,103 +7417,63 @@ ul.icons li [class*=" icon-"] {
   content: "\f115";
 }
 
-/* line 28, ../sass/_ddbasic.label.scss */
-.label,
-.badge {
-  font-size: 14.19px;
-  line-height: 14px;
+/* line 30, ../sass/_ddbasic.labels.scss */
+.label, .label-inverted {
+  font-size: 15px;
+  font-size: 0.9375rem;
+  line-height: 24px;
+  line-height: 1.5rem;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  padding: 5px 10px;
+  background-color: #00b7e7;
   color: white;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
   vertical-align: baseline;
   white-space: nowrap;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #262626;
 }
-
-/* line 40, ../sass/_ddbasic.label.scss */
-.label {
-  padding: 1px 4px 2px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-/* line 45, ../sass/_ddbasic.label.scss */
-.badge {
-  padding: 1px 9px 2px;
-  -webkit-border-radius: 9px;
-  -moz-border-radius: 9px;
-  border-radius: 9px;
-}
-
-/* line 55, ../sass/_ddbasic.label.scss */
-a.label:link, a.badge:link {
+/* line 45, ../sass/_ddbasic.labels.scss */
+.label a:link, .label-inverted a:link {
   color: white;
 }
-/* line 60, ../sass/_ddbasic.label.scss */
-a.label:hover, a.badge:hover {
+/* line 49, ../sass/_ddbasic.labels.scss */
+.label a:hover, .label-inverted a:hover {
   color: white;
   text-decoration: none;
-  cursor: pointer;
+}
+/* line 56, ../sass/_ddbasic.labels.scss */
+.label:link, .label-inverted:link {
+  color: white;
+}
+/* line 60, ../sass/_ddbasic.labels.scss */
+.label:hover, .label-inverted:hover {
+  background-color: #008fb4;
+  color: white;
+  text-decoration: none;
 }
 
-/* line 74, ../sass/_ddbasic.label.scss */
-.label-important,
-.badge-important {
-  background-color: #bf3600;
-}
-
-/* line 79, ../sass/_ddbasic.label.scss */
-.label-important[href],
-.badge-important[href] {
-  background-color: #8c2800;
-}
-
-/* line 85, ../sass/_ddbasic.label.scss */
-.label-warning,
-.badge-warning {
-  background-color: #f6d346;
-}
-
-/* line 90, ../sass/_ddbasic.label.scss */
-.label-warning[href],
-.badge-warning[href] {
-  background-color: #f4c715;
-}
-
-/* line 96, ../sass/_ddbasic.label.scss */
-.label-success,
-.badge-success {
-  background-color: #60a500;
-}
-
-/* line 101, ../sass/_ddbasic.label.scss */
-.label-success[href],
-.badge-success[href] {
-  background-color: #427200;
-}
-
-/* line 107, ../sass/_ddbasic.label.scss */
-.label-info,
-.badge-info {
-  background-color: #73b4e0;
-}
-
-/* line 112, ../sass/_ddbasic.label.scss */
-.label-info[href],
-.badge-info[href] {
-  background-color: #499ed7;
-}
-
-/* line 118, ../sass/_ddbasic.label.scss */
-.label-inverse,
-.badge-inverse {
+/* line 72, ../sass/_ddbasic.labels.scss */
+.label-inverted {
   background-color: white;
+  color: #00b7e7;
 }
-
-/* line 123, ../sass/_ddbasic.label.scss */
-.label-inverse[href],
-.badge-inverse[href] {
+/* line 80, ../sass/_ddbasic.labels.scss */
+.label-inverted a:link {
+  color: #00b7e7;
+}
+/* line 84, ../sass/_ddbasic.labels.scss */
+.label-inverted a:hover {
+  color: #00b7e7;
+}
+/* line 90, ../sass/_ddbasic.labels.scss */
+.label-inverted:link {
+  color: #00b7e7;
+}
+/* line 94, ../sass/_ddbasic.labels.scss */
+.label-inverted:hover {
   background-color: #e6e6e6;
+  color: #00b7e7;
 }
 
 /* line 16, ../sass/_ddbasic.navigation.scss */
@@ -9059,7 +9019,7 @@ input#edit-search-block-form--2.spinner {
   margin-left: 0;
 }
 
-/* line 248, ../sass/ddbasic.styles.scss */
+/* line 242, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;
