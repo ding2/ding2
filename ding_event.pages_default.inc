@@ -66,7 +66,8 @@ function ding_event_default_page_manager_handlers() {
       3 => array(
         'identifier' => 'Category term',
         'keyword' => 'taxonomy_term',
-        'name' => 'entity_from_field:field_category-node-taxonomy_term',
+        'name' => 'entity_from_field:field_ding_event_category-node-taxonomy_term',
+        'delta' => 0,
         'context' => 'argument_entity_id:node_1',
         'id' => 1,
       ),
