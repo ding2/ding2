@@ -27,8 +27,7 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   }
     
   $options = array();
-  
-  if (!$selected_term) {
+  if ($selected_term == NULL) {
     $options = array('attributes' => array('class' => array('active')));
   }
   // Might seem a bit odd to select 'all' when node doesn't have any category,
