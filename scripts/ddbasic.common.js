@@ -6,8 +6,19 @@
 
 		pos = menu.offset();
 
+    // Take the Drupal toolbar into account
+    var bodyPad = parseInt($('body').css('paddingTop'));
+    if (bodyPad) {
+      pos.top = pos.top - bodyPad;
+    }
+
     if ($(window).scrollTop() > pos.top-$(menu).height()) {
       $(menu).addClass('fixed');
+
+      // Only when Drupal toolbar is present
+      if ($(menu).hasClass('fixed') && bodyPad) {
+        $(menu).css('top', bodyPad); 
+      }
 
       $('.js-fixed-element').each(function() {
         $(this).show();
@@ -33,6 +44,13 @@
         });
 
 			}
+
+      // Only when Drupal toolbar is present
+      if ($(menu).hasClass('fixed') && bodyPad) {
+        $(menu).css('top', bodyPad); 
+      } else {
+        $(menu).css('top', '');
+      }
 
     });
 
