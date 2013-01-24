@@ -25,8 +25,9 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   else {
     $base = 'nyheder';
   }
-
+    
   $options = array();
+  
   if (!$selected_term) {
     $options = array('attributes' => array('class' => array('active')));
   }
@@ -47,7 +48,7 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
     $uri = $base . '/' . $term->tid;   
     $items[] = l($term->name, $uri, $options);
   }
-  $block->content = theme('item_list', array('items' => $items));
+  $block->content = theme('item_list', array('items' => $items, 'attributes' => array('class' => array('sub-menu'))));
 
   return $block;
 }
