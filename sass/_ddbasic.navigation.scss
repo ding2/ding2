@@ -61,7 +61,6 @@
 // =============================================================================
 //
 .navigation-wrapper {
-  @include zen-grid-item($grid-66, 1);
  	@include rgba-background($white, .95);
   @extend .grid-wrapper;
 
@@ -197,6 +196,28 @@
       &.last {
         border-bottom: 0;
       }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
+//
+@include small() {
+  .navigation-wrapper {
+    &.fixed {
+      position: relative;
+      margin-top: 0;
+    }
+  }
+}
+
+@include medium() {
+  .navigation-wrapper {
+    &.fixed {
+      position: relative;
+      margin-top: 0;
     }
   }
 }
