@@ -3,19 +3,14 @@
 // =============================================================================
 //
 
-
-// =============================================================================
-// VARIABLES
-// =============================================================================
-//
-
-
-// =============================================================================
-// EXTENDS
-// =============================================================================
-//
 // -----------------------------------------------------------------------------
-// Buttons
+// Variables
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Extends
 // -----------------------------------------------------------------------------
 //
 %button {
@@ -26,27 +21,34 @@
 
   background-color: $button-primary-bg-color;
   border: 0;
+  *border: 0; // Remove the border to prevent IE7's black border on input:focus
   color: $button-text-color;
   cursor: pointer;
-
-  .icon {
-    @include border-right-radius($button-border-radius);
-
-    position: absolute;
-    right: -23px;
-    top: 0;
-    bottom: 0;
-
-    border-left: 1px solid rgba(0,0,0,.3);
-    padding: 7px 10px;
-  }
+  text-align: center;
+  vertical-align: middle;
+  
   &:hover,
+  &.active,
   &:active,
   &:focus {
-    background-color: darken($button-primary-bg-color, 10%);
+    background-color: darken($button-primary-bg-color, 5%);
+    text-decoration: none;
   }
   &:visited {
     color: $button-text-color;
+  }  
+
+// Disabled state
+  &.disabled,
+  &[disabled] {
+    @include opacity(0.65);
+    @include box-shadow(none);
+
+    cursor: default;
+  }
+
+  &.available {
+    @extend %success;
   }
 }
 
@@ -58,8 +60,11 @@
   &:hover,
   &:active,
   &:focus {
+    @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
+
     background-color: darken($button-secondary-bg-color, 10%);
-  }  
+    outline: 0;
+  }
 }
 
 %primary {
@@ -143,62 +148,17 @@
 }
 
 
-// =============================================================================
-// DEFAULT STYLING
-// =============================================================================
+// -----------------------------------------------------------------------------
+// Default styling
+// -----------------------------------------------------------------------------
 //
-.button {
-  display: inline-block;
-  margin-bottom: 0;
-  padding: 4px 12px;
-
-  background: $button-bg-color;
-  border: none;
-  *border: 0; // Remove the border to prevent IE7's black border on input:focus
-  cursor: pointer;
-  font-size: $theme-font-size;
-  text-align: center;
-  vertical-align: middle;
-
-  // Hover state
-  &:hover {
-    background: darken($button-bg-color,10%);
-    text-decoration: none;
-  }
-
-
-  // Focus state for keyboard and accessibility
-  &:focus {
-  }
-
-
-  // Active state
-  &.active,
-  &:active {
-    @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
-
-    outline: 0;
-  }
-
-  // Disabled state
-  &.disabled,
-  &[disabled] {
-    @include opacity(0.65);
-    @include box-shadow(none);
-
-    cursor: default;
-  }
-
-}
-
-
 .button,
 a.button {
   @extend %button;
 
-  &.available {
-    @extend %success;
-  }
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: $theme-font-size;
 }
 
 
@@ -221,6 +181,7 @@ button.button {
 }
 
 
-// =============================================================================
-// MEDIAQUERIES
-// =============================================================================
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
+//

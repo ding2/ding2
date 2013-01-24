@@ -5460,7 +5460,7 @@ table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/* line 21, ../sass/_ddbasic.buttons.scss */
+/* line 16, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"], .comment-form .form-actions .form-submit, .button,
 a.button, .search input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
@@ -5472,97 +5472,37 @@ a.button, .search input[type="submit"], .pane-ting-collection .form-submit, .pan
   position: relative;
   background-color: black;
   border: 0;
+  *border: 0;
   color: white;
   cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
 }
-/* line 32, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"] .icon, .comment-form .form-actions .form-submit .icon, .button .icon, .search input[type="submit"] .icon, .pane-ting-collection .form-submit .icon, .pane-ting-object .form-submit .icon,
-.pane-ting-collection .ding-entity-button .icon,
-.pane-ting-object .ding-entity-button .icon, .ui-widget-content input[type=submit] .icon, .user input[type="submit"] .icon, .user-login-block input[type="submit"] .icon {
-  -moz-border-radius-topright: 12px;
-  -webkit-border-top-right-radius: 12px;
-  border-top-right-radius: 12px;
-  -moz-border-radius-bottomright: 12px;
-  -webkit-border-bottom-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  position: absolute;
-  right: -23px;
-  top: 0;
-  bottom: 0;
-  border-left: 1px solid rgba(0, 0, 0, 0.3);
-  padding: 7px 10px;
-}
-/* line 45, ../sass/_ddbasic.buttons.scss */
+/* line 33, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"]:hover, .comment-form .form-actions .form-submit:hover, .button:hover, .search input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .topbar .search input[type="submit"]:active, .comment-form .form-actions .form-submit:active, .button:active, .search input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-ting-object .ding-entity-button:hover, .ui-widget-content input[type=submit]:hover, .user input[type="submit"]:hover, .user-login-block input[type="submit"]:hover, .topbar .search input.active[type="submit"], .comment-form .form-actions .active.form-submit, .active.button, .search input.active[type="submit"], .pane-ting-collection .active.form-submit, .pane-ting-object .active.form-submit,
+.pane-ting-collection .active.ding-entity-button,
+.pane-ting-object .active.ding-entity-button, .ui-widget-content input.active[type=submit], .user input.active[type="submit"], .user-login-block input.active[type="submit"], .topbar .search input[type="submit"]:active, .comment-form .form-actions .form-submit:active, .button:active, .search input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active, .ui-widget-content input[type=submit]:active, .user input[type="submit"]:active, .user-login-block input[type="submit"]:active, .topbar .search input[type="submit"]:focus, .comment-form .form-actions .form-submit:focus, .button:focus, .search input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .ui-widget-content input[type=submit]:focus, .user input[type="submit"]:focus, .user-login-block input[type="submit"]:focus {
   background-color: black;
+  text-decoration: none;
 }
-/* line 48, ../sass/_ddbasic.buttons.scss */
+/* line 37, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"]:visited, .comment-form .form-actions .form-submit:visited, .button:visited, .search input[type="submit"]:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
 .pane-ting-collection .ding-entity-button:visited,
 .pane-ting-object .ding-entity-button:visited, .ui-widget-content input[type=submit]:visited, .user input[type="submit"]:visited, .user-login-block input[type="submit"]:visited {
   color: white;
 }
-
-/* line 53, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"], .comment-form .form-actions .form-submit {
-  background-color: #00b7e7;
-}
-/* line 60, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"]:hover, .comment-form .form-actions .form-submit:hover, .topbar .search input[type="submit"]:active, .comment-form .form-actions .form-submit:active, .topbar .search input[type="submit"]:focus, .comment-form .form-actions .form-submit:focus {
-  background-color: #008fb4;
-}
-
-/* line 81, ../sass/_ddbasic.buttons.scss */
-.button.available,
-a.button.available {
-  background-color: #60a500;
-}
-/* line 84, ../sass/_ddbasic.buttons.scss */
-.button.available .icon {
-  background-color: #518b00;
-}
-/* line 89, ../sass/_ddbasic.buttons.scss */
-.button.available:hover, .button.available:active, .button.available:focus {
-  background-color: #335900;
-}
-/* line 91, ../sass/_ddbasic.buttons.scss */
-.button.available:hover .icon, .button.available:active .icon, .button.available:focus .icon {
-  background-color: #253f00;
-}
-
-/* line 150, ../sass/_ddbasic.buttons.scss */
-.button {
-  display: inline-block;
-  margin-bottom: 0;
-  padding: 4px 12px;
-  background: #262626;
-  border: none;
-  *border: 0;
-  cursor: pointer;
-  font-size: 15px;
-  text-align: center;
-  vertical-align: middle;
-}
-/* line 164, ../sass/_ddbasic.buttons.scss */
-.button:hover {
-  background: #0d0d0d;
-  text-decoration: none;
-}
-/* line 177, ../sass/_ddbasic.buttons.scss */
-.button.active, .button:active {
-  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-  outline: 0;
-}
-/* line 185, ../sass/_ddbasic.buttons.scss */
-.button.disabled, .button[disabled] {
+/* line 43, ../sass/_ddbasic.buttons.scss */
+.topbar .search input.disabled[type="submit"], .comment-form .form-actions .disabled.form-submit, .disabled.button, .search input.disabled[type="submit"], .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+.pane-ting-collection .disabled.ding-entity-button,
+.pane-ting-object .disabled.ding-entity-button, .ui-widget-content input.disabled[type=submit], .user input.disabled[type="submit"], .user-login-block input.disabled[type="submit"], .topbar .search input[disabled][type="submit"], .comment-form .form-actions [disabled].form-submit, [disabled].button, .search input[disabled][type="submit"], .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-ting-collection [disabled].ding-entity-button,
+.pane-ting-object [disabled].ding-entity-button, .ui-widget-content input[disabled][type=submit], .user input[disabled][type="submit"], .user-login-block input[disabled][type="submit"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
   opacity: 0.65;
   -webkit-box-shadow: none;
@@ -5571,14 +5511,69 @@ a.button.available {
   cursor: default;
 }
 
-/* line 207, ../sass/_ddbasic.buttons.scss */
+/* line 55, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"], .comment-form .form-actions .form-submit {
+  background-color: #00b7e7;
+}
+/* line 62, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"]:hover, .comment-form .form-actions .form-submit:hover, .topbar .search input[type="submit"]:active, .comment-form .form-actions .form-submit:active, .topbar .search input[type="submit"]:focus, .comment-form .form-actions .form-submit:focus {
+  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+  background-color: #008fb4;
+  outline: 0;
+}
+
+/* line 86, ../sass/_ddbasic.buttons.scss */
+.topbar .search input.available[type="submit"], .comment-form .form-actions .available.form-submit, .available.button,
+a.available.button, .search input.available[type="submit"], .pane-ting-collection .available.form-submit, .pane-ting-object .available.form-submit,
+.pane-ting-collection .available.ding-entity-button,
+.pane-ting-object .available.ding-entity-button, .ui-widget-content input.available[type=submit], .user input.available[type="submit"], .user-login-block input.available[type="submit"] {
+  background-color: #60a500;
+}
+/* line 89, ../sass/_ddbasic.buttons.scss */
+.topbar .search input.available[type="submit"] .icon, .comment-form .form-actions .available.form-submit .icon, .available.button .icon, .search input.available[type="submit"] .icon, .pane-ting-collection .available.form-submit .icon, .pane-ting-object .available.form-submit .icon,
+.pane-ting-collection .available.ding-entity-button .icon,
+.pane-ting-object .available.ding-entity-button .icon, .ui-widget-content input.available[type=submit] .icon, .user input.available[type="submit"] .icon, .user-login-block input.available[type="submit"] .icon {
+  background-color: #518b00;
+}
+/* line 94, ../sass/_ddbasic.buttons.scss */
+.topbar .search input.available[type="submit"]:hover, .comment-form .form-actions .available.form-submit:hover, .available.button:hover, .search input.available[type="submit"]:hover, .pane-ting-collection .available.form-submit:hover, .pane-ting-object .available.form-submit:hover,
+.pane-ting-collection .available.ding-entity-button:hover,
+.pane-ting-object .available.ding-entity-button:hover, .ui-widget-content input.available[type=submit]:hover, .user input.available[type="submit"]:hover, .user-login-block input.available[type="submit"]:hover, .topbar .search input.available[type="submit"]:active, .comment-form .form-actions .available.form-submit:active, .available.button:active, .search input.available[type="submit"]:active, .pane-ting-collection .available.form-submit:active, .pane-ting-object .available.form-submit:active,
+.pane-ting-collection .available.ding-entity-button:active,
+.pane-ting-object .available.ding-entity-button:active, .ui-widget-content input.available[type=submit]:active, .user input.available[type="submit"]:active, .user-login-block input.available[type="submit"]:active, .topbar .search input.available[type="submit"]:focus, .comment-form .form-actions .available.form-submit:focus, .available.button:focus, .search input.available[type="submit"]:focus, .pane-ting-collection .available.form-submit:focus, .pane-ting-object .available.form-submit:focus,
+.pane-ting-collection .available.ding-entity-button:focus,
+.pane-ting-object .available.ding-entity-button:focus, .ui-widget-content input.available[type=submit]:focus, .user input.available[type="submit"]:focus, .user-login-block input.available[type="submit"]:focus {
+  background-color: #335900;
+}
+/* line 96, ../sass/_ddbasic.buttons.scss */
+.topbar .search input.available[type="submit"]:hover .icon, .comment-form .form-actions .available.form-submit:hover .icon, .available.button:hover .icon, .search input.available[type="submit"]:hover .icon, .pane-ting-collection .available.form-submit:hover .icon, .pane-ting-object .available.form-submit:hover .icon,
+.pane-ting-collection .available.ding-entity-button:hover .icon,
+.pane-ting-object .available.ding-entity-button:hover .icon, .ui-widget-content input.available[type=submit]:hover .icon, .user input.available[type="submit"]:hover .icon, .user-login-block input.available[type="submit"]:hover .icon, .topbar .search input.available[type="submit"]:active .icon, .comment-form .form-actions .available.form-submit:active .icon, .available.button:active .icon, .search input.available[type="submit"]:active .icon, .pane-ting-collection .available.form-submit:active .icon, .pane-ting-object .available.form-submit:active .icon,
+.pane-ting-collection .available.ding-entity-button:active .icon,
+.pane-ting-object .available.ding-entity-button:active .icon, .ui-widget-content input.available[type=submit]:active .icon, .user input.available[type="submit"]:active .icon, .user-login-block input.available[type="submit"]:active .icon, .topbar .search input.available[type="submit"]:focus .icon, .comment-form .form-actions .available.form-submit:focus .icon, .available.button:focus .icon, .search input.available[type="submit"]:focus .icon, .pane-ting-collection .available.form-submit:focus .icon, .pane-ting-object .available.form-submit:focus .icon,
+.pane-ting-collection .available.ding-entity-button:focus .icon,
+.pane-ting-object .available.ding-entity-button:focus .icon, .ui-widget-content input.available[type=submit]:focus .icon, .user input.available[type="submit"]:focus .icon, .user-login-block input.available[type="submit"]:focus .icon {
+  background-color: #253f00;
+}
+
+/* line 156, ../sass/_ddbasic.buttons.scss */
+.button,
+a.button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+/* line 167, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button,
 button.button {
   -webkit-appearance: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 218, ../sass/_ddbasic.buttons.scss */
+  /* line 178, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -8590,6 +8585,30 @@ input#edit-search-block-form--2.spinner {
   margin-left: 1px;
 }
 
+@media only screen and (max-width: 480px) {
+  /* line 133, ../sass/_ddbasic.libraries.scss */
+  .libraries-content {
+    float: none;
+    width: 100%;
+  }
+
+  /* line 138, ../sass/_ddbasic.libraries.scss */
+  .opening-hours {
+    margin-left: 0;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 143, ../sass/_ddbasic.libraries.scss */
+  .libraries-content {
+    float: none;
+    width: 100%;
+  }
+
+  /* line 148, ../sass/_ddbasic.libraries.scss */
+  .opening-hours {
+    margin-left: 0;
+  }
+}
 /* line 28, ../sass/_ddbasic.modal.scss */
 .ui-corner-all,
 .ui-widget input,
