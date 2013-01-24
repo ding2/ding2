@@ -359,9 +359,6 @@ events
       'left' => NULL,
       'middle' => NULL,
       'right' => NULL,
-      'left_sidebar' => NULL,
-      'main_content' => NULL,
-      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
@@ -377,7 +374,7 @@ events
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'argument_term_1',
+        0 => 'empty',
         1 => 'empty',
       ),
       'override_title' => 0,
@@ -505,7 +502,7 @@ events
   $page->task = 'page';
   $page->admin_title = 'Library events page';
   $page->admin_description = '';
-  $page->path = 'node/%node/arrangementer/!tid';
+  $page->path = 'bibliotek/%node/arrangementer/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(

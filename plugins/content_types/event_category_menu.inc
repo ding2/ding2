@@ -20,8 +20,7 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
-    $uri = entity_uri('node', $library);
-    $base =  $uri['path'] . '/arrangementer';
+    $base =  'bibliotek/' . $library->nid . '/arrangementer';
   }
   else {
     $base = 'arrangementer';
