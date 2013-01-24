@@ -80,32 +80,33 @@ function ding_wayf_redirect_login() {
     // The configuration have not be created yet, so send user to the front page
     // with an error message.
     drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.', array(), array('context' => 'ding_wayf')), 'error', FALSE);
-  $simplesaml = variable_get('ding_wayf', NULL);
+    $simplesaml = variable_get('ding_wayf', NULL);
 
-  if (!$simplesaml) {
-    drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
-    ding_wayf_redirect_user('<front>');
-  }
+    if (!$simplesaml) {
+      drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
+      ding_wayf_redirect_user('<front>');
+    }
 
-  ding_wayf_get_provider_attributes($simplesaml);
+    ding_wayf_get_provider_attributes($simplesaml);
 
-  if ($user->uid == 0) {
-    require_once $simplesaml['installdir'] . '/lib/_autoload.php';
-    $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
+    if ($user->uid == 0) {
+      require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+      $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
 
-    if ($saml->isAuthenticated()) {
-      $wayf_data = $saml->getAttributes();
-      $authentication_attributes = ding_wayf_get_required_attributes($wayf_data, $simplesaml['attributes']);
-      ding_wayf_login($authentication_attributes);
+      if ($saml->isAuthenticated()) {
+        $wayf_data = $saml->getAttributes();
+        $authentication_attributes = ding_wayf_get_required_attributes($wayf_data, $simplesaml['attributes']);
+        ding_wayf_login($authentication_attributes);
+      }
+      else {
+        // Redirect the user to the WAYF login page.
+        $saml->requireAuth();
+      }
     }
     else {
-      // Redirect the user to the WAYF login page.
-      $saml->requireAuth();
+      // Send the user back to her context or use the fallback URL.
+      ding_wayf_redirect_user($simplesaml['redirect']);
     }
-  }
-  else {
-    // Send the user back to her context or use the fallback URL.
-    ding_wayf_redirect_user($simplesaml['redirect']);
   }
 }
 
@@ -128,8 +129,8 @@ function ding_wayf_login($authentication_attributes) {
     }
   }
   else {
-      drupal_set_message(t('WAYF did not return required authentication attributes. Please notify administrator if problem persistes.'), 'warning');
-      watchdog('ding_wayf', 'WAYF provided insufficient attributes: @res', array('@res' => print_r(ding_provider_invoke('wayf', 'ding_wayf_attributes'), TRUE)), WATCHDOG_DEBUG);
+    drupal_set_message(t('WAYF did not return required authentication attributes. Please notify administrator if problem persistes.'), 'warning');
+    watchdog('ding_wayf', 'WAYF provided insufficient attributes: @res', array('@res' => print_r(ding_provider_invoke('wayf', 'ding_wayf_attributes'), TRUE)), WATCHDOG_DEBUG);
   }
   ding_wayf_user_logout();
   ding_wayf_redirect_user('<front>');
@@ -246,8 +247,6 @@ function ding_wayf_block_view($delta) {
 
   return $block;
 }
-<<<<<<< HEAD
-=======
 
 /**
  * Sets attributes if specified by Ding provider.
@@ -275,7 +274,7 @@ function ding_wayf_get_required_attributes($wayf_attributes, $required_attribute
   $attribute_list = array();
 
   if (isset($wayf_attributes) && is_array($required_attributes)) {
-    foreach($required_attributes as $attribute => $value) {
+    foreach ($required_attributes as $attribute => $value) {
       if (!isset($wayf_attributes[$attribute])) {
         return array();
       }
@@ -289,4 +288,4 @@ function ding_wayf_get_required_attributes($wayf_attributes, $required_attribute
     return array();
   }
 }
->>>>>>> feature/wayf_supporting_ding_providers
+
