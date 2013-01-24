@@ -3531,6 +3531,30 @@ dd {
   padding: 20px;
 }
 
+@media only screen and (max-width: 480px) {
+  /* line 138, ../sass/_ddbasic.layout.scss */
+  .topbar {
+    position: relative;
+    margin-top: 0;
+  }
+
+  /* line 143, ../sass/_ddbasic.layout.scss */
+  .content-wrapper {
+    margin-top: 20px;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 149, ../sass/_ddbasic.layout.scss */
+  .topbar {
+    position: relative;
+    margin-top: 0;
+  }
+
+  /* line 154, ../sass/_ddbasic.layout.scss */
+  .content-wrapper {
+    margin-top: 20px;
+  }
+}
 /* line 17, ../sass/_ddbasic.header.scss */
 .header-wrapper .search, .header-wrapper .user, .user-name,
 .user-menu-loans,
@@ -7571,28 +7595,13 @@ a.label:hover, a.badge:hover {
 
 /* line 63, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
-  float: left;
-  width: 66.66667%;
-  margin-left: 0%;
-  margin-right: -66.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
   background-color: rgba(255, 255, 255, 0.95);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F2FFFFFF,endColorstr=#F2FFFFFF);
   position: absolute;
   width: 100%;
 }
-/* line 71, ../sass/_ddbasic.navigation.scss */
+/* line 70, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.fixed {
   margin-top: 85px;
   position: fixed;
@@ -7600,7 +7609,7 @@ a.label:hover, a.badge:hover {
   z-index: 99;
 }
 
-/* line 89, ../sass/_ddbasic.navigation.scss */
+/* line 88, ../sass/_ddbasic.navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -7619,17 +7628,17 @@ a.label:hover, a.badge:hover {
   _overflow-y: visible;
 }
 
-/* line 93, ../sass/_ddbasic.navigation.scss */
+/* line 92, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 19.5px;
   font-size: 1.21875rem;
 }
-/* line 97, ../sass/_ddbasic.navigation.scss */
+/* line 96, ../sass/_ddbasic.navigation.scss */
 .main-menu a {
   text-align: left;
 }
 
-/* line 107, ../sass/_ddbasic.navigation.scss */
+/* line 106, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -7648,17 +7657,17 @@ a.label:hover, a.badge:hover {
   _overflow-y: visible;
 }
 
-/* line 111, ../sass/_ddbasic.navigation.scss */
+/* line 110, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
   font-size: 15px;
   font-size: 0.9375rem;
 }
-/* line 116, ../sass/_ddbasic.navigation.scss */
+/* line 115, ../sass/_ddbasic.navigation.scss */
 .secondary-menu span {
   border-right: 1px solid #d5d5d5;
 }
-/* line 120, ../sass/_ddbasic.navigation.scss */
+/* line 119, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li a {
   color: gray;
   margin-top: 20px;
@@ -7667,24 +7676,24 @@ a.label:hover, a.badge:hover {
   padding-bottom: 0;
 }
 
-/* line 136, ../sass/_ddbasic.navigation.scss */
+/* line 135, ../sass/_ddbasic.navigation.scss */
 .sub-menu-wrapper .sub-menu-title {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 143, ../sass/_ddbasic.navigation.scss */
+/* line 142, ../sass/_ddbasic.navigation.scss */
 .sub-menu {
   padding-left: 0;
 }
-/* line 146, ../sass/_ddbasic.navigation.scss */
+/* line 145, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 154, ../sass/_ddbasic.navigation.scss */
+/* line 153, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li span:before {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -7694,7 +7703,7 @@ a.label:hover, a.badge:hover {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 165, ../sass/_ddbasic.navigation.scss */
+/* line 164, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a {
   color: #00b7e7;
   margin-left: -20px;
@@ -7702,27 +7711,41 @@ a.label:hover, a.badge:hover {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 176, ../sass/_ddbasic.navigation.scss */
+/* line 175, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 184, ../sass/_ddbasic.navigation.scss */
+/* line 183, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 188, ../sass/_ddbasic.navigation.scss */
+/* line 187, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 16px;
 }
-/* line 197, ../sass/_ddbasic.navigation.scss */
+/* line 196, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li.last {
   border-bottom: 0;
 }
 
+@media only screen and (max-width: 480px) {
+  /* line 209, ../sass/_ddbasic.navigation.scss */
+  .navigation-wrapper.fixed {
+    position: relative;
+    margin-top: 0;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 218, ../sass/_ddbasic.navigation.scss */
+  .navigation-wrapper.fixed {
+    position: relative;
+    margin-top: 0;
+  }
+}
 /* line 20, ../sass/_ddbasic.miscellaneous.scss */
 .js-fixed-element {
   display: none;

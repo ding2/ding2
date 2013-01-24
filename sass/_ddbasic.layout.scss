@@ -134,4 +134,24 @@ $topbar-min-height:               85px;
 // Mediaqueries
 // -----------------------------------------------------------------------------
 //
+@include small() {
+  .topbar {
+    position: relative;
+    margin-top: 0;
+  }
 
+  .content-wrapper {
+    margin-top: $default-spacing;
+  }
+}
+
+@include medium() {
+  .topbar {
+    position: relative;
+    margin-top: 0;
+  }
+
+  .content-wrapper {
+    margin-top: $default-spacing;
+  }
+}
