@@ -359,6 +359,9 @@ events
       'left' => NULL,
       'middle' => NULL,
       'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
@@ -374,7 +377,7 @@ events
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'empty',
+        0 => 'argument_term_1',
         1 => 'empty',
       ),
       'override_title' => 0,
