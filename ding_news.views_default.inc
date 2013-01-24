@@ -22,6 +22,7 @@ function ding_news_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['css_class'] = 'news-list';
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Read more';
   $handler->display->display_options['link_display'] = 'custom_url';
