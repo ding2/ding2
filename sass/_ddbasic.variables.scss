@@ -22,7 +22,7 @@ $box-sizing-polyfill-path: "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc
 $theme-primary-color:             #fff;
 $theme-secondary-color:           #00b7e7;
 $theme-content-background:        #fff;
-
+$theme-border-radius:             12px;
 
 // -----------------------------------------------------------------------------
 // Font library
@@ -40,7 +40,7 @@ $font-regular:                    "SourceSansProRegular";
 $font-regular-italic:             "SourceSansProItalic";
 $font-bold:                       "SourceSansProSemibold";
 $font-bold-italic:                "SourceSansProSemiboldItalic";
-$font-color-primary:              #d1e02b;
+$font-color-primary:              transparentize($black, .2);;
 
 
 // -----------------------------------------------------------------------------

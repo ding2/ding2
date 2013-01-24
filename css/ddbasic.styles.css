@@ -5075,10 +5075,11 @@ legend {
 body {
   font-size: 15px;
   font-size: 0.9375rem;
+  color: rgba(0, 0, 0, 0.8);
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
-/* line 80, ../sass/_ddbasic.typography.scss */
+/* line 81, ../sass/_ddbasic.typography.scss */
 h1,
 h2,
 h3,
@@ -5087,7 +5088,7 @@ h5,
 h6 {
   line-height: 100%;
 }
-/* line 84, ../sass/_ddbasic.typography.scss */
+/* line 85, ../sass/_ddbasic.typography.scss */
 h1 a:link,
 h2 a:link,
 h3 a:link,
@@ -5097,7 +5098,7 @@ h6 a:link {
   color: #1b1b1b;
   text-decoration: none;
 }
-/* line 88, ../sass/_ddbasic.typography.scss */
+/* line 89, ../sass/_ddbasic.typography.scss */
 h1 a:visited,
 h2 a:visited,
 h3 a:visited,
@@ -5106,7 +5107,7 @@ h5 a:visited,
 h6 a:visited {
   color: #1b1b1b;
 }
-/* line 91, ../sass/_ddbasic.typography.scss */
+/* line 92, ../sass/_ddbasic.typography.scss */
 h1 a:hover,
 h2 a:hover,
 h3 a:hover,
@@ -5115,7 +5116,7 @@ h5 a:hover,
 h6 a:hover {
   color: black;
 }
-/* line 94, ../sass/_ddbasic.typography.scss */
+/* line 95, ../sass/_ddbasic.typography.scss */
 h1 a:focus,
 h2 a:focus,
 h3 a:focus,
@@ -5124,7 +5125,7 @@ h5 a:focus,
 h6 a:focus {
   color: #006681;
 }
-/* line 97, ../sass/_ddbasic.typography.scss */
+/* line 98, ../sass/_ddbasic.typography.scss */
 h1 a:active,
 h2 a:active,
 h3 a:active,
@@ -5135,7 +5136,7 @@ h6 a:active {
   color: #1b1b1b;
 }
 
-/* line 106, ../sass/_ddbasic.typography.scss */
+/* line 107, ../sass/_ddbasic.typography.scss */
 input,
 textarea,
 select {
@@ -5143,143 +5144,143 @@ select {
   letter-spacing: 1px;
 }
 
-/* line 112, ../sass/_ddbasic.typography.scss */
+/* line 113, ../sass/_ddbasic.typography.scss */
 strong, dl > dt, .list-content > dt, .list-news > dt, .list-compact > dt, .pane-search-result .search-results .list > dt, .pane-search-result .search-results .list .availability ul > dt, .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-object-types ul > dt, .pane-ting-ting-relation-anchors ul > dt, .pane-ting-object .field-name-ding-availability-holdings ul > dt, .library-list > dt, .list > dt, .lead, .page-lead, em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 118, ../sass/_ddbasic.typography.scss */
+/* line 119, ../sass/_ddbasic.typography.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 122, ../sass/_ddbasic.typography.scss */
+/* line 123, ../sass/_ddbasic.typography.scss */
 em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .lead, em .page-lead, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .sub-menu > li a.active, .sub-menu > li em a.active, em .library-menu .links > li a.active, .library-menu .links > li em a.active {
   font-family: "SourceSansProSemiboldItalic";
 }
 
-/* line 135, ../sass/_ddbasic.typography.scss */
+/* line 136, ../sass/_ddbasic.typography.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 139, ../sass/_ddbasic.typography.scss */
+/* line 140, ../sass/_ddbasic.typography.scss */
 a:visited {
   color: #007a9b;
 }
-/* line 142, ../sass/_ddbasic.typography.scss */
+/* line 143, ../sass/_ddbasic.typography.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 146, ../sass/_ddbasic.typography.scss */
+/* line 147, ../sass/_ddbasic.typography.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 150, ../sass/_ddbasic.typography.scss */
+/* line 151, ../sass/_ddbasic.typography.scss */
 a:focus {
   color: #006681;
 }
 
-/* line 161, ../sass/_ddbasic.typography.scss */
+/* line 162, ../sass/_ddbasic.typography.scss */
 .footer-block .block-title, .rs-carousel .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .rs-carousel .library-title, .block-opening-hours .library-title, .user-login-block .library-title {
   font-size: 33px;
   font-size: 2.0625rem;
 }
 
-/* line 171, ../sass/_ddbasic.typography.scss */
+/* line 172, ../sass/_ddbasic.typography.scss */
 .section-title {
   font-size: 30px;
   font-size: 1.875rem;
 }
 
-/* line 175, ../sass/_ddbasic.typography.scss */
+/* line 176, ../sass/_ddbasic.typography.scss */
 .section-title-inverted {
   font-size: 30px;
   font-size: 1.875rem;
 }
 
-/* line 185, ../sass/_ddbasic.typography.scss */
+/* line 186, ../sass/_ddbasic.typography.scss */
 .search input[type="text"], .topbar .search input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
 }
-/* line 189, ../sass/_ddbasic.typography.scss */
+/* line 190, ../sass/_ddbasic.typography.scss */
 .search input[type="submit"], .topbar .search input[type="submit"] {
   font-size: 25.5px;
 }
 
-/* line 195, ../sass/_ddbasic.typography.scss */
+/* line 196, ../sass/_ddbasic.typography.scss */
 .search-compact input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
-/* line 199, ../sass/_ddbasic.typography.scss */
+/* line 200, ../sass/_ddbasic.typography.scss */
 .search-compact input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
   font-size: 25.5px;
 }
-/* line 204, ../sass/_ddbasic.typography.scss */
+/* line 205, ../sass/_ddbasic.typography.scss */
 .search-compact i[class^="icon-"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
 }
 
-/* line 215, ../sass/_ddbasic.typography.scss */
+/* line 216, ../sass/_ddbasic.typography.scss */
 .facet-browser h2 {
   font-size: 18px;
   font-size: 1.125rem;
 }
 
-/* line 226, ../sass/_ddbasic.typography.scss */
+/* line 227, ../sass/_ddbasic.typography.scss */
 .search-result-block h1 {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
-/* line 230, ../sass/_ddbasic.typography.scss */
+/* line 231, ../sass/_ddbasic.typography.scss */
 .search-result-block .status {
   font-size: 12px;
   font-size: 0.75rem;
 }
-/* line 234, ../sass/_ddbasic.typography.scss */
+/* line 235, ../sass/_ddbasic.typography.scss */
 .search-result-block .more {
   font-size: 26.25px;
   font-size: 1.64063rem;
 }
 
-/* line 246, ../sass/_ddbasic.typography.scss */
+/* line 247, ../sass/_ddbasic.typography.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 19.5px;
   font-size: 1.21875rem;
 }
-/* line 250, ../sass/_ddbasic.typography.scss */
+/* line 251, ../sass/_ddbasic.typography.scss */
 .user input[type="submit"] {
   font-size: 25.5px;
 }
 
-/* line 257, ../sass/_ddbasic.typography.scss */
+/* line 258, ../sass/_ddbasic.typography.scss */
 .user-compact {
   font-size: 21px;
   font-size: 1.3125rem;
 }
 
-/* line 264, ../sass/_ddbasic.typography.scss */
+/* line 265, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
-/* line 266, ../sass/_ddbasic.typography.scss */
+/* line 267, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container:hover {
   text-decoration: none;
 }
-/* line 273, ../sass/_ddbasic.typography.scss */
+/* line 274, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-login-link a:hover {
   text-decoration: none;
 }
-/* line 280, ../sass/_ddbasic.typography.scss */
+/* line 281, ../sass/_ddbasic.typography.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -7419,7 +7420,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 30, ../sass/_ddbasic.labels.scss */
-.label, .label-inverted {
+.label, .label-inverted, .news-list .news-label {
   font-size: 15px;
   font-size: 0.9375rem;
   line-height: 24px;
@@ -7435,20 +7436,20 @@ ul.icons li [class*=" icon-"] {
   white-space: nowrap;
 }
 /* line 45, ../sass/_ddbasic.labels.scss */
-.label a:link, .label-inverted a:link {
+.label a:link, .label-inverted a:link, .news-list .news-label a:link {
   color: white;
 }
 /* line 49, ../sass/_ddbasic.labels.scss */
-.label a:hover, .label-inverted a:hover {
+.label a:hover, .label-inverted a:hover, .news-list .news-label a:hover {
   color: white;
   text-decoration: none;
 }
 /* line 56, ../sass/_ddbasic.labels.scss */
-.label:link, .label-inverted:link {
+.label:link, .label-inverted:link, .news-list .news-label:link {
   color: white;
 }
 /* line 60, ../sass/_ddbasic.labels.scss */
-.label:hover, .label-inverted:hover {
+.label:hover, .label-inverted:hover, .news-list .news-label:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
@@ -8579,6 +8580,60 @@ input#edit-search-block-form--2.spinner {
   margin-left: 75%;
 }
 
+/* line 23, ../sass/_ddbasic.news.scss */
+.pane-library-list {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  background-color: #efefef;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+/* line 32, ../sass/_ddbasic.news.scss */
+.pane-library-list .choose-library-label,
+.pane-library-list .form-item-select-library,
+.pane-library-list .button {
+  display: inline;
+  margin-right: 10px;
+}
+
+/* line 45, ../sass/_ddbasic.news.scss */
+.news-list .news-list-item {
+  margin-bottom: 20px;
+}
+/* line 49, ../sass/_ddbasic.news.scss */
+.news-list .news-heading {
+  margin-bottom: 10px;
+}
+/* line 53, ../sass/_ddbasic.news.scss */
+.news-list .news-label {
+  margin-right: 5px;
+}
+/* line 59, ../sass/_ddbasic.news.scss */
+.news-list .news-sub-heading {
+  color: #bcbcbc;
+  margin-top: 10px;
+  margin-bottom: 13.33333px;
+}
+/* line 66, ../sass/_ddbasic.news.scss */
+.news-list .news-sub-heading .news-date,
+.news-list .news-sub-heading .news-author {
+  color: rgba(0, 0, 0, 0.8);
+  margin-right: 5px;
+  margin-left: 2px;
+}
+/* line 74, ../sass/_ddbasic.news.scss */
+.news-list .news-list-content,
+.news-list .news-link {
+  margin-bottom: 10px;
+}
+/* line 78, ../sass/_ddbasic.news.scss */
+.news-list .news-image-wrapper {
+  float: left;
+  margin-right: 20px;
+  max-width: 25%;
+}
+
 /* line 28, ../sass/_ddbasic.modal.scss */
 .ui-corner-all,
 .ui-widget input,
@@ -8825,7 +8880,7 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 136, ../sass/_ddbasic.user.scss */
 .topbar .user a.active {
-  background-color: #d1e02b;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 /* line 145, ../sass/_ddbasic.user.scss */
 .topbar .user.fixed {
@@ -8847,7 +8902,7 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   width: 0;
   top: -50px;
-  border-bottom-color: #d1e02b;
+  border-bottom-color: rgba(0, 0, 0, 0.8);
   right: 50px;
 }
 /* line 163, ../sass/_ddbasic.user.scss */
