@@ -62,9 +62,10 @@ function ding_news_default_page_manager_handlers() {
         'id' => 1,
       ),
       3 => array(
-        'identifier' => 'Category terms from node being viewed',
+        'identifier' => 'Category term',
         'keyword' => 'taxonomy_term',
-        'name' => 'entity_from_field:field_category-node-taxonomy_term',
+        'name' => 'entity_from_field:field_ding_news_category-node-taxonomy_term',
+        'delta' => 0,
         'context' => 'argument_entity_id:node_1',
         'id' => 1,
       ),
