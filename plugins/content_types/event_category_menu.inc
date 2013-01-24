@@ -21,10 +21,10 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  $uri['path']. '/events';
+    $base =  $uri['path'] . '/arrangementer';
   }
   else {
-    $base = 'events';
+    $base = 'arrangementer';
   }
 
   $options = array();
@@ -33,7 +33,7 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
   }
   // Might seem a bit odd to select 'all' when node doesn't have any category,
   // but we'll go with that for the moment being.
-  $items = array(l(t('All categories'), $base . '/all', $options));
+  $items = array(l(t('All categories'), $base, $options));
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
   $terms = taxonomy_get_tree($vocabulary->vid);

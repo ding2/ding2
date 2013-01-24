@@ -276,7 +276,7 @@ function ding_event_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding events';
   $page->admin_description = 'Display the events';
-  $page->path = 'events/!tid';
+  $page->path = 'arrangementer/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -502,7 +502,7 @@ events
   $page->task = 'page';
   $page->admin_title = 'Library events page';
   $page->admin_description = '';
-  $page->path = 'node/%node/events/!tid';
+  $page->path = 'node/%node/arrangementer/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(

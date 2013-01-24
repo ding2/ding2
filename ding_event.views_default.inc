@@ -411,12 +411,18 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
   $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'event_category' => 'event_category',
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['transform'] = 0;
   $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['tid']['add_table'] = 0;
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
@@ -846,6 +852,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = 1;
   $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
   $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
     'event_category' => 'event_category',
@@ -1258,12 +1265,19 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['tid']['specify_validation'] = 1;
+  $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
+    'event_category' => 'event_category',
+  );
+  $handler->display->display_options['arguments']['tid']['validate_options']['transform'] = 0;
   $handler->display->display_options['arguments']['tid']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['tid']['add_table'] = 0;
   $handler->display->display_options['arguments']['tid']['require_value'] = 0;
@@ -2477,6 +2491,7 @@ function ding_event_views_default_views() {
     t('<span class="label label-info">[field_ding_event_category]</span> <span class="date">[field_ding_event_date]</span> <span class="location">[field_ding_event_library]</span><span class="location">[field_ding_event_location]</span><span class="price">[field_ding_event_price]</span>'),
     t('Read more'),
     t('All'),
+    t('Alle'),
     t('Default event list'),
     t('more'),
     t('View panes'),

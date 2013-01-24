@@ -179,6 +179,7 @@ function ding_event_field_default_fields() {
             'parent' => '0',
           ),
         ),
+        'profile2_private' => FALSE,
       ),
       'translatable' => '0',
       'type' => 'taxonomy_term_reference',
@@ -220,11 +221,12 @@ function ding_event_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_ding_event_category',
       'label' => 'Category',
-      'required' => FALSE,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
