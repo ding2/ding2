@@ -142,7 +142,7 @@ class OpenruthClient {
               if (isset($itemHolding->{$field})){
                 foreach ($itemHolding->{$field} as $itemLocation) {
 
-		  $location_available = 0;
+                  $location_available = 0;
 
                   if ($itemLocation->orderAllowed) {
                     $holding_reservable = TRUE;
@@ -151,8 +151,7 @@ class OpenruthClient {
 
                   if (isset($itemLocation->copiesAvailableCount)) {
                     $available += $itemLocation->copiesAvailableCount;
-		    // pjo; 
-		    $location_available += $itemLocation->copiesAvailableCount;
+                    $location_available += $itemLocation->copiesAvailableCount;
                   }
                   $parts = array();
                   if (isset($itemLocation->agencyBranchId->agencyBranchName)) {
@@ -170,7 +169,7 @@ class OpenruthClient {
                   if ($parts) {
                     $h['holdings'][] = join(' → ', $parts);
                   }
-                  if ($parts && $available && ($location_available > 0) ) {
+                  if ($parts && ($location_available > 0)) {
                     $h['holdings_available'][] = join(' → ', $parts);
                   }
                 }
