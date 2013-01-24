@@ -95,28 +95,12 @@
 }
 
 .library-menu {
-  @extend .sub-menu-wrapper;
-
   h2 {
     @extend .sub-menu-title; 
   }
 
   .links {
     @extend .sub-menu;
-
-    li {
-      @extend .icon-angle-right;
-
-      &:before {
-        @include rem('font-size', $theme-font-size * 1.25);
-
-        color: $link-color;
-        float: left;
-        font-family: FontAwesome;
-        margin-top: 8px;
-        margin-left: 1px;
-      }
-    }
   }
 }
 

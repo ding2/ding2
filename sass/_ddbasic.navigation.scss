@@ -131,12 +131,10 @@
 // Sub menu
 // -----------------------------------------------------------------------------
 //
-.sub-menu-wrapper {
-  .sub-menu-title {
-    border-bottom: 1px solid $gray-light;
-    margin-bottom: 0;
-    padding-bottom: $default-spacing / 2;
-  }
+.sub-menu-title {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: 0;
+  padding-bottom: $default-spacing / 2;
 }
 
 .sub-menu {
@@ -146,20 +144,6 @@
     border-bottom: 1px solid $gray-light;
     padding-top: 0;
     padding-right: 0;
-
-    span {
-      @extend .icon-angle-right;
-
-      &:before {
-        @include rem('font-size', $theme-font-size * 1.25);
-
-        color: $link-color;
-        float: left;
-        font-family: FontAwesome;
-        margin-top: 8px;
-        margin-left: 1px;
-      }
-    }
 
     a {
       color: $link-color;
@@ -171,11 +155,26 @@
       &.active {
         @extend strong;
       }
-      
+
       &:hover {
         text-decoration: none;
         color: $link-color-hover;
       }
+    }
+  }
+
+  // Add icon
+  li {
+    @extend .icon-angle-right;
+
+    &:before {
+      @include rem('font-size', $theme-font-size * 1.25);
+
+      color: $link-color;
+      float: left;
+      font-family: $theme-icon-library-font;
+      margin-top: 8px;
+      margin-left: 1px;
     }
   }
 
