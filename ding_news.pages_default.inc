@@ -674,7 +674,7 @@ news/%tid:name',
   $page->task = 'page';
   $page->admin_title = 'Library news page';
   $page->admin_description = '';
-  $page->path = 'nyheder/bibliotek/%node/!tid';
+  $page->path = 'bibliotek/%node/nyheder/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
