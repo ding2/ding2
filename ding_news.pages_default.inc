@@ -299,8 +299,8 @@ taxonomy/term/%term:tid',
         0 => 'argument_term_1',
         1 => 'empty',
       ),
-      'override_title' => 0,
-      'override_title_text' => '',
+      'override_title' => 1,
+      'override_title_text' => 'Kategorier',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -314,35 +314,6 @@ taxonomy/term/%term:tid',
     $display->panels['left_sidebar'][0] = 'new-5';
     $pane = new stdClass();
     $pane->pid = 'new-6';
-    $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'context' => array(
-        0 => 'empty',
-        1 => 'empty',
-        2 => 'empty',
-        3 => 'empty',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['left_sidebar'][1] = 'new-6';
-    $pane = new stdClass();
-    $pane->pid = 'new-7';
     $pane->panel = 'main_content';
     $pane->type = 'menu_title';
     $pane->subtype = 'menu_title';
@@ -360,10 +331,10 @@ taxonomy/term/%term:tid',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['main_content'][0] = 'new-7';
+    $display->content['new-6'] = $pane;
+    $display->panels['main_content'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-7';
     $pane->panel = 'main_content';
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
@@ -386,10 +357,10 @@ taxonomy/term/%term:tid',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-8'] = $pane;
-    $display->panels['main_content'][1] = 'new-8';
+    $display->content['new-7'] = $pane;
+    $display->panels['main_content'][1] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-8';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_news-panel_pane_3';
@@ -404,8 +375,37 @@ taxonomy/term/%term:tid',
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['main_content'][2] = 'new-8';
+    $pane = new stdClass();
+    $pane->pid = 'new-9';
+    $pane->panel = 'right_sidebar';
+    $pane->type = 'campaign';
+    $pane->subtype = 'campaign';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ding_campaign_count' => 3,
+      'ding_campaign_offset' => 0,
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
     $display->content['new-9'] = $pane;
-    $display->panels['main_content'][2] = 'new-9';
+    $display->panels['right_sidebar'][0] = 'new-9';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
