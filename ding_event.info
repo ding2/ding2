@@ -46,6 +46,7 @@ features[field][] = node-ding_event-field_ding_event_price
 features[field][] = node-ding_event-field_ding_event_tags
 features[field][] = node-ding_event-field_ding_event_target
 features[field][] = node-ding_event-field_ding_event_title_image
+features[field][] = node-ding_event-field_place2book_tickets
 features[field_group][] = group_ding_event_attachments|node|ding_event|form
 features[field_group][] = group_ding_event_content|node|ding_event|form
 features[field_group][] = group_ding_event_date_loc_price|node|ding_event|form
