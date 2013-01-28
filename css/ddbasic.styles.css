@@ -3377,13 +3377,13 @@ dd {
 }
 
 /* line 246, ../../latto/sass/_latto.typography.scss */
-.text-small, blockquote .blockquote-source, .ui-dialog .form-item .description {
+.text-small, blockquote .blockquote-source, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
 /* line 250, ../../latto/sass/_latto.typography.scss */
-.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
+.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
 }
@@ -5327,6 +5327,16 @@ textarea[disabled] {
   border: 1px solid #efefef;
 }
 
+/* line 28, ../sass/_ddbasic.links.scss */
+.signature .tags a {
+  margin-right: 0.3em;
+}
+
+/* line 32, ../sass/_ddbasic.links.scss */
+.signature .tags a:not(:last-child):after {
+  content: ",";
+}
+
 /* line 10, ../../latto/sass/_latto.lists.scss */
 dl, .list-content, .list-news, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .pane-ting-ting-collection-types ul, .pane-ting-ting-object-types ul, .pane-ting-ting-relation-anchors ul, .pane-ting-object .field-name-ding-availability-holdings ul, .library-list, .list {
   margin: 0;
@@ -5597,6 +5607,23 @@ a.available.button, .available.form-submit, .search input.available[type="submit
 .pane-ting-collection .available.ding-entity-button:focus .icon,
 .pane-ting-object .available.ding-entity-button:focus .icon, .user input.available[type="submit"]:focus .icon, .user-login-block input.available[type="submit"]:focus .icon {
   background-color: #253f00;
+}
+
+/* line 111, ../sass/_ddbasic.buttons.scss */
+.ticket-info {
+  background-color: #f6d346;
+}
+/* line 114, ../sass/_ddbasic.buttons.scss */
+.ticket-info .icon {
+  background-color: #f5cd2e;
+}
+/* line 119, ../sass/_ddbasic.buttons.scss */
+.ticket-info:hover, .ticket-info:active, .ticket-info:focus {
+  background-color: #e4b90b;
+}
+/* line 121, ../sass/_ddbasic.buttons.scss */
+.ticket-info:hover .icon, .ticket-info:active .icon, .ticket-info:focus .icon {
+  background-color: #cca50a;
 }
 
 /* line 165, ../sass/_ddbasic.buttons.scss */
@@ -7780,7 +7807,12 @@ ul.icons li [class*=" icon-"] {
   position: absolute !important;
 }
 
-/* line 67, ../sass/_ddbasic.miscellaneous.scss */
+/* line 64, ../sass/_ddbasic.miscellaneous.scss */
+.signature img {
+  width: 12%;
+}
+
+/* line 72, ../sass/_ddbasic.miscellaneous.scss */
 .section-title, .section-title-inverted {
   margin-top: 0;
   margin-left: 10px;
@@ -8531,32 +8563,79 @@ input#edit-search-block-form--2.spinner {
   *behavior: url("../scripts/boxsizing.htc");
   max-width: 120px;
 }
-/* line 76, ../sass/_ddbasic.carousel.scss */
+/* line 72, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
+  line-height: 16px;
+}
+/* line 78, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-image {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 80, ../sass/_ddbasic.carousel.scss */
+/* line 82, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
   padding: 0;
 }
-/* line 83, ../sass/_ddbasic.carousel.scss */
+/* line 85, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
   min-width: 110px;
   padding: 5px;
 }
 
-/* line 97, ../sass/_ddbasic.carousel.scss */
+/* line 99, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 104, ../sass/_ddbasic.carousel.scss */
+/* line 106, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
+}
+
+/* line 23, ../sass/_ddbasic.event.scss */
+.event-head-left {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+
+/* line 27, ../sass/_ddbasic.event.scss */
+.event-head-right {
+  float: left;
+  width: 50%;
+  margin-left: 50%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("../scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+
+/* line 31, ../sass/_ddbasic.event.scss */
+.ticket-info {
+  cursor: auto;
 }
 
 /* line 28, ../sass/_ddbasic.libraries.scss */
@@ -9114,7 +9193,7 @@ input#edit-search-block-form--2.spinner {
   margin-left: 0;
 }
 
-/* line 250, ../sass/ddbasic.styles.scss */
+/* line 258, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;

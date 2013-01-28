@@ -70,7 +70,9 @@ $carousel-title-font-size:                 40px;
       max-width: $carousel-image-max-width + ($carousel-image-border-size * 2);
 
       .rs-carousel-item-title {
-        @extend .text-smallest;
+        @extend .text-small;
+
+        line-height: $theme-line-height / 1.5;
       }
 
       .rs-carousel-item-image {
