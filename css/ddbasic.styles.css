@@ -3597,29 +3597,6 @@ dd {
   color: #cccccc;
 }
 
-/* line 53, ../sass/_ddbasic.extends.scss */
-.rs-carousel a:link {
-  color: #4d1500;
-  text-decoration: none;
-}
-/* line 57, ../sass/_ddbasic.extends.scss */
-.rs-carousel a:visited {
-  color: black;
-}
-/* line 60, ../sass/_ddbasic.extends.scss */
-.rs-carousel a:hover {
-  color: black;
-  text-decoration: underline;
-}
-/* line 64, ../sass/_ddbasic.extends.scss */
-.rs-carousel a:hover i[class^="icon-"] {
-  text-decoration: none;
-}
-/* line 68, ../sass/_ddbasic.extends.scss */
-.rs-carousel a:focus {
-  color: black;
-}
-
 /* line 81, ../sass/_ddbasic.extends.scss */
 .dl .dt,
 .library-link .dt {
@@ -5046,29 +5023,6 @@ legend {
 /* line 34, ../sass/_ddbasic.typography.scss */
 .footer-block a:focus, .topbar .user-menu a:focus {
   color: #cccccc;
-}
-
-/* line 43, ../sass/_ddbasic.typography.scss */
-.rs-carousel a:link {
-  color: #4d1500;
-  text-decoration: none;
-}
-/* line 47, ../sass/_ddbasic.typography.scss */
-.rs-carousel a:visited {
-  color: black;
-}
-/* line 50, ../sass/_ddbasic.typography.scss */
-.rs-carousel a:hover {
-  color: black;
-  text-decoration: underline;
-}
-/* line 54, ../sass/_ddbasic.typography.scss */
-.rs-carousel a:hover i[class^="icon-"] {
-  text-decoration: none;
-}
-/* line 58, ../sass/_ddbasic.typography.scss */
-.rs-carousel a:focus {
-  color: black;
 }
 
 /* line 69, ../sass/_ddbasic.typography.scss */
@@ -7732,7 +7686,7 @@ ul.icons li [class*=" icon-"] {
   color: black;
 }
 
-/* line 63, ../sass/_ddbasic.miscellaneous.scss */
+/* line 57, ../sass/_ddbasic.miscellaneous.scss */
 .assistive-text {
   clip: rect(1px 1px 1px 1px);
   /* IE6, IE7 */
@@ -7740,7 +7694,7 @@ ul.icons li [class*=" icon-"] {
   position: absolute !important;
 }
 
-/* line 73, ../sass/_ddbasic.miscellaneous.scss */
+/* line 67, ../sass/_ddbasic.miscellaneous.scss */
 .section-title, .section-title-inverted {
   margin-top: 0;
   margin-left: 10px;
