@@ -83,7 +83,7 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->configuration = array(
       'override_pager_settings' => 0,
       'use_pager' => 0,
-      'nodes_per_page' => '4',
+      'nodes_per_page' => '5',
       'pager_id' => '0',
       'offset' => '0',
       'more_link' => 1,
@@ -91,7 +91,7 @@ function ding_frontpage_default_page_manager_pages() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => 'news',
+      'url' => 'nyheder',
       'display' => 'ctools_context_teaser_list',
       'override_title' => 1,
       'override_title_text' => '',
