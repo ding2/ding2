@@ -223,38 +223,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   }
 }
 
-/**
- * Implementing the ticketsinfo theme function (support for ding_place2book module)
- *
- * @TODO: Markup should not be hardcode into theme function as it makes it very
- *        hard to override.
- *
- */
-function ddbasic_place2book_ticketsinfo($variables) {
-  $output = '';
-  $url = $variables['url'];
-  $type = $variables['type'];
-
-  switch ($type) {
-    case 'event-over':
-      $output = '<button class="btn btn-warning btn-large">' . t('The event has already taken place') . '</button>';
-      break;
-    case 'closed-admission':
-      $output = '<button class="btn btn-warning btn-large">' . t('Not open for ticket sale') . '</button>';
-      break;
-    case 'no-tickets-left':
-      $output = '<button class="btn btn-warning btn-large">' . t('Sold out') . '</button>';
-      break;
-    case 'order-link':
-      $output = l(t('Book a ticket'), $url, array('attributes' => array('class' => array('btn', 'btn-primary', 'btn-large'))));
-      break;
-    default:
-      $output = '';
-      break;
-  }
-
-  return $output;
-}
 
 /**
  * Implements template_preprocess_field().
