@@ -8,15 +8,18 @@
 ;----------// Stylesheets
   ; Import stylesheets.
   stylesheets[all][] = css/ddbasic.styles.css
-  
+
   ; Override stylesheets
   stylesheets[all][] = css/addressfield.css
   stylesheets[all][] = css/latto.reset.css
+  stylesheets[all][] = css/jquery.ui.theme.css
+
 
 ;----------// JavaScripts
   ; Import javascripts.
   scripts[] = scripts/ddbasic.common.js
-    
+
+
 ;----------// Regions
   regions[header]            = Header
   regions[navigation]        = Navigation

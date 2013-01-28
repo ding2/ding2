@@ -13,7 +13,8 @@ $grid-column-count:               12;
 
 $default-spacing:                 20px;
 
-$box-sizing-polyfill-path: "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
+$box-sizing-polyfill-path:        "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
+
 
 // -----------------------------------------------------------------------------
 // Theme color definitions
@@ -24,11 +25,13 @@ $theme-secondary-color:           #00b7e7;
 $theme-content-background:        #fff;
 $theme-border-radius:             12px;
 
+
 // -----------------------------------------------------------------------------
 // Font library
 // -----------------------------------------------------------------------------
 //
 $theme-icon-library-font:         FontAwesome;
+
 
 // -----------------------------------------------------------------------------
 // Typography
@@ -87,29 +90,6 @@ $section-bg-transparency:         .85;
 $section-color:                   #fff;
 $section-bg-inverted:             #fff;
 $section-color-inverted:          #000;
-
-
-// -----------------------------------------------------------------------------
-// Forms
-// -----------------------------------------------------------------------------
-//
-$form-button-text-color:          #fff;
-$form-button-bg-color:            lighten(#000, 15%);
-
-
-// -----------------------------------------------------------------------------
-// Buttons
-// -----------------------------------------------------------------------------
-//
-$button-bg-color:                 $form-button-bg-color;
-$button-text-color:               $form-button-text-color;
-$button-primary-bg-color:         $black;
-$button-secondary-bg-color:       $theme-secondary-color;
-$button-success-bg-color:         #60a500;
-$button-warning-bg-color:         #f6d346;
-$button-danger-bg-color:          #bf3600;
-$button-info-bg-color:            #73b4e0;
-$button-border-radius:            12px;
 
 
 // -----------------------------------------------------------------------------

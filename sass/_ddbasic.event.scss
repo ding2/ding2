@@ -1,5 +1,5 @@
 // =============================================================================
-// Drupal styling overrides
+// Event pages
 // =============================================================================
 //
 
@@ -20,20 +20,17 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
-
-// **
-// Drupal specific buttons. Extends from _ddbasic.buttons.scss
-// **
-//
-.form-submit {
-  @extend %button;
+.event-head-left {
+  @include zen-grid-item(6, 1);
 }
 
+.event-head-right {
+  @include zen-grid-item(6, 7);
+}
 
-.feed-icon {
-  img {
-    max-width: 16px;
-  }
+.ticket-info {
+  @extend %warning;
+  cursor: auto;
 }
 
 // -----------------------------------------------------------------------------
