@@ -13,7 +13,10 @@
 // EXTENDS
 // =============================================================================
 //
-
+%grid-inner {
+  background-color: $theme-content-background;
+  padding: $default-spacing;
+}
 
 // =============================================================================
 // DEFAULT STYLING
@@ -36,8 +39,7 @@
   }
 
   .grid-inner {
-    background-color: $theme-content-background;
-    padding: $default-spacing;
+    @extend %grid-inner;
   }
 }
 
@@ -51,8 +53,7 @@
   }
 
   .grid-inner {
-    background-color: $theme-content-background;
-    padding: $default-spacing;
+    @extend %grid-inner;
   }
 }
 
@@ -66,8 +67,7 @@
   }
 
   .grid-inner {
-    background-color: $theme-content-background;
-    padding: $default-spacing;
+    @extend %grid-inner;
   }
 }
 
@@ -81,7 +81,101 @@
   }
 
   .grid-inner {
-    background-color: $theme-content-background;
-    padding: $default-spacing;
+    @extend %grid-inner;
   }
+}
+
+// -----------------------------------------------------------------------------
+// Layout template for ding frontpage layout 1 by ding_frontend
+// Top and main content are required
+// This template extends on latto displays and ddbasic displays
+// -----------------------------------------------------------------------------
+.top-wrapper {
+  @include zen-grid-container;
+
+  margin-bottom: $default-spacing;
+
+  .top-content {
+    @include zen-grid-item($grid-75, 1);
+  }
+
+  .top-secondary {
+    @include zen-grid-item($grid-25, 1, right);
+
+    .grid-inner {
+      @extend %grid-inner;
+    }
+  }
+}
+
+.no-top-secondary {
+  .top-content {
+    @include zen-grid-item($grid-column-count, 1);
+  }
+}
+
+.main-wrapper {
+  @include zen-grid-container;
+
+  margin-bottom: $default-spacing;
+
+  .main-content {
+    @include zen-grid-item($grid-50, 1);
+  }
+
+  .main-left-right {
+    @include zen-grid-item($grid-25, $grid-50 + 1);
+  }
+
+  .main-right-right {
+    @include zen-grid-item($grid-25, 1, right);
+  }
+
+  .grid-inner {
+    @extend %grid-inner;
+  }
+}
+
+.no-main-left-right.no-main-right-right {
+  .main-content {
+    @include zen-grid-item($grid-column-count, 1);
+  }
+}
+
+.no-main-left-right {
+  .main-content {
+    @include zen-grid-item($grid-75, 1);
+  }
+}
+
+.no-main-right-right {
+  .main-content {
+    @include zen-grid-item($grid-75, 1);
+  }
+  .main-left-right {
+    @include zen-grid-item($grid-25, 1, right);
+  }
+}
+
+.attachments-wrapper {
+  @include zen-grid-container;
+
+  margin-bottom: $default-spacing;
+
+  .grid-inner {
+    @extend %grid-inner;
+  }
+}
+
+.attachments-4-4 {
+  @include attachment-25-25-25-25; 
+}
+.attachments-3-3 {
+  @include attachment-33-33-33-100; 
+}
+.attachments-2-2 {
+  @include attachment-50-50-100-100; 
+}
+.attachments-1-1 {
+  @include attachment-100-100-100-100;
 }
