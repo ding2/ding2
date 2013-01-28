@@ -119,11 +119,7 @@
       </p>
       <p>
           <i class="icon-shopping-cart"></i> 
-          <?php if ($content['field_ding_event_price'][0]): ?>
-	          <?php print render($content['field_ding_event_price'][0]); ?>
-	        <?php else: ?>
-	          <?php print t('Free'); ?>
-	        <?php endif; ?>
+          <?php print render($content['field_ding_event_price']); ?>
       </p>
   </div>
 </div>
