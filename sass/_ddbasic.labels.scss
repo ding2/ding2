@@ -49,8 +49,8 @@ $label-padding:                   5px 10px;
       text-decoration: none;
     }
   }
-  
-  // Make sure it works on a link  
+
+  // Make sure it works on a link
   &:link {
     color: $label-text-color;
   }
@@ -59,7 +59,7 @@ $label-padding:                   5px 10px;
     background-color: darken($label-bg-color, 10%);
     color: $label-text-color;
     text-decoration: none;
-  }  
+  }
 }
 
 
@@ -72,7 +72,7 @@ $label-padding:                   5px 10px;
 
   background-color: $label-bg-color-inverted;
   color: $label-text-color-inverted;
-  
+
   // Make sure it works with a wrapper
   a {
     &:link {
@@ -83,8 +83,8 @@ $label-padding:                   5px 10px;
       color: $label-text-color-inverted;
     }
   }
-  
-  // Make sure it works on a link  
+
+  // Make sure it works on a link
   &:link {
     color: $label-text-color-inverted;
   }
@@ -92,8 +92,8 @@ $label-padding:                   5px 10px;
   &:hover {
     background-color: darken($label-bg-color-inverted, 10%);
     color: $label-text-color-inverted;
-  }    
-  
+  }
+
 }
 
 
