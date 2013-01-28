@@ -99,7 +99,7 @@ input#edit-search-block-form--2.spinner {
   }
 
   input[type="submit"] {
-    @extend %button;
+    @extend %button-flat;
 
     padding-top: 7px;
     padding-right: 18px;
@@ -187,7 +187,7 @@ input#edit-search-block-form--2.spinner {
 
     input[type="submit"] {
       @include rem('font-size', $theme-font-size * 1.4);
-      @extend %button-inverted;
+      @extend %button-primary;
 
       min-height: 50px;
       position: absolute;
@@ -336,6 +336,11 @@ input#edit-search-block-form--2.spinner {
 // Search results list
 // **
 //
+
+.subject {
+  @extend .label;
+}
+
 
 // Search query & results amount
 // Combine these as a page title
@@ -584,6 +589,7 @@ input#edit-search-block-form--2.spinner {
     }
   }
 }
+
 
 // **
 // Collection display
