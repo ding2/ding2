@@ -137,7 +137,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 
   .search-field-wrapper {
-    margin-right: 40px;
+    margin-right: 30px;
   }
 
   .form-item {
@@ -146,7 +146,7 @@ input#edit-search-block-form--2.spinner {
 
   input[type="submit"] {
     min-height: 60px;
-    right: 38px;
+    right: 30px;
     top:0;
   }
 
@@ -696,7 +696,7 @@ input#edit-search-block-form--2.spinner {
 
     .ding-entity-button {
       a {
-        color: $form-button-text-color;
+        color: $black;
 
         &:hover {
           text-decoration: none;
