@@ -4,10 +4,10 @@
     // Fixed elements and scroll
     var menu = $('.navigation-wrapper');
 
-		pos = menu.offset();
+		var pos = menu.offset();
 
     // Take the Drupal toolbar into account
-    var bodyPad = parseInt($('body').css('paddingTop'));
+    var bodyPad = parseInt($('body').css('paddingTop'), 10);
     if (bodyPad) {
       pos.top = pos.top - bodyPad;
     }
@@ -17,7 +17,7 @@
 
       // Only when Drupal toolbar is present
       if ($(menu).hasClass('fixed') && bodyPad) {
-        $(menu).css('top', bodyPad); 
+        $(menu).css('top', bodyPad);
       }
 
       $('.js-fixed-element').each(function() {
@@ -37,8 +37,7 @@
         });
 
 			} else if($(menu).scrollTop() <= pos.top && $(menu).hasClass('fixed')) {
-  			$(menu).removeClass('fixed');
-
+        $(menu).removeClass('fixed');
         $('.js-fixed-element').each(function() {
           $(this).hide();
         });
@@ -47,7 +46,7 @@
 
       // Only when Drupal toolbar is present
       if ($(menu).hasClass('fixed') && bodyPad) {
-        $(menu).css('top', bodyPad); 
+        $(menu).css('top', bodyPad);
       } else {
         $(menu).css('top', '');
       }
@@ -56,16 +55,15 @@
 
 
     // Toggle element
-
     $(".js-show-element").click(function() {
 
       var $element = $("." + $(this).attr("rel"));
       var offset = $(this).offset();
 
       if ($(this).hasClass("active")) {
-        $(this).removeClass("active");        
+        $(this).removeClass("active");
       } else {
-        $(this).addClass("active");        
+        $(this).addClass("active");
       }
 
       $element.toggle();
@@ -80,7 +78,12 @@
       $(this).parent().hide();
     });
 
-
+    // Equal heights
+    if ($('body').hasClass('page-ding-frontpage')) {
+      $('.top-wrapper').equalize('height');
+      $('.main-wrapper').equalize('height');
+      $('.attachments-wrapper').equalize('height');
+    }
   });
 
 })(jQuery);
