@@ -5587,7 +5587,7 @@ a:focus {
 }
 
 /* line 162, ../sass/_ddbasic.typography.scss */
-.footer-block .block-title, .rs-carousel .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .rs-carousel .library-title, .block-opening-hours .library-title, .user-login-block .library-title {
+.footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .block-opening-hours .library-title, .user-login-block .library-title {
   font-size: 33px;
   font-size: 2.0625rem;
 }
@@ -8972,7 +8972,7 @@ input#edit-search-block-form--2.spinner {
   border: none;
 }
 
-/* line 27, ../sass/_ddbasic.carousel.scss */
+/* line 30, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-wrapper {
   *position: relative;
   *zoom: 1;
@@ -8987,7 +8987,7 @@ input#edit-search-block-form--2.spinner {
   clear: both;
 }
 
-/* line 31, ../sass/_ddbasic.carousel.scss */
+/* line 34, ../sass/_ddbasic.carousel.scss */
 .rs-carousel {
   float: left;
   width: 100%;
@@ -9004,19 +9004,23 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  background-color: rgba(255, 255, 255, 0.9);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
   padding: 0;
 }
 
-/* line 50, ../sass/_ddbasic.carousel.scss */
+/* line 40, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner {
+  background-color: rgba(255, 255, 255, 0.9);
+  zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
+}
+
+/* line 55, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-inner {
+  min-height: 230px;
   padding-top: 40px;
   padding-bottom: 20px;
-  min-height: 230px;
 }
-/* line 55, ../sass/_ddbasic.carousel.scss */
+/* line 60, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -9028,11 +9032,11 @@ input#edit-search-block-form--2.spinner {
   padding-right: 80px;
   padding-left: 40px;
 }
-/* line 64, ../sass/_ddbasic.carousel.scss */
+/* line 69, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask {
   max-height: 230px;
 }
-/* line 67, ../sass/_ddbasic.carousel.scss */
+/* line 72, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
@@ -9040,36 +9044,48 @@ input#edit-search-block-form--2.spinner {
   *behavior: url("../scripts/boxsizing.htc");
   max-width: 120px;
 }
-/* line 72, ../sass/_ddbasic.carousel.scss */
+/* line 77, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
   line-height: 16px;
 }
-/* line 78, ../sass/_ddbasic.carousel.scss */
+/* line 83, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-image {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 82, ../sass/_ddbasic.carousel.scss */
+/* line 87, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
   padding: 0;
 }
-/* line 85, ../sass/_ddbasic.carousel.scss */
+/* line 90, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
   min-width: 110px;
   padding: 5px;
 }
 
-/* line 99, ../sass/_ddbasic.carousel.scss */
+/* line 104, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 106, ../sass/_ddbasic.carousel.scss */
+/* line 111, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
+}
+/* line 114, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-tabs ul li a:hover {
+  text-decoration: none;
+}
+/* line 119, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-tabs ul li.active {
+  border-color: black;
+}
+/* line 123, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-tabs ul li.active a:before {
+  border-bottom: 8px solid black;
 }
 
 /* line 23, ../sass/_ddbasic.event.scss */

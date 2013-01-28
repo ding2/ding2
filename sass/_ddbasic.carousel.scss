@@ -5,23 +5,26 @@
 
 
 // =============================================================================
-// VARIABLES
+// Variables
 // =============================================================================
 //
+$carousel-background-color:                $white;
+$carousel-background-transparency:         .9;
 $carousel-image-max-width:                 110px;
 $carousel-image-border-size:               5px;
-$carousel-tabs-background-color:           #fff;
+$carousel-tab-background-color:            $white;
+$carousel-active-tab-background-color:     $black;
 $carousel-title-font-size:                 40px;
 
 
 // =============================================================================
-// EXTENDS
+// Extends
 // =============================================================================
 //
 
 
 // =============================================================================
-// DEFAULT STYLING
+// Default styling
 // =============================================================================
 //
 .rs-carousel-wrapper {
@@ -30,10 +33,12 @@ $carousel-title-font-size:                 40px;
 
 .rs-carousel {
   @include zen-grid-item($grid-column-count, 1);
-  @include rgba-background($block-bg-inverted, $block-bg-transparency);
-  @extend %block;
 
   padding: 0;
+}
+
+.rs-carousel-inner {
+  @include rgba-background($carousel-background-color, $carousel-background-transparency);
 }
 
 
@@ -48,14 +53,14 @@ $carousel-title-font-size:                 40px;
 // -----------------------------------------------------------------------------
 //
 .rs-carousel-inner {
+  min-height: ($carousel-image-max-width * 2) + ($carousel-image-border-size * 2);
   padding-top: $default-spacing * 2;
   padding-bottom: $default-spacing;
-  min-height: ($carousel-image-max-width * 2) + ($carousel-image-border-size * 2);
 
   .rs-carousel-title {
     @include box-sizing(border-box);
     @include rem('font-size', $carousel-title-font-size);
-    
+
     padding-top: $default-spacing * 2;
     padding-right: $default-spacing * 4;
     padding-left: $default-spacing * 2;
@@ -104,7 +109,21 @@ $carousel-title-font-size:                 40px;
 
     li {
       a {
-        background-color: $carousel-tabs-background-color;
+        background-color: $carousel-tab-background-color;
+        
+        &:hover {
+          text-decoration: none;
+        }
+      }
+
+      &.active {
+        border-color: $carousel-active-tab-background-color;
+
+        a {
+          &:before {
+            border-bottom: 8px solid $carousel-active-tab-background-color;
+          }
+        }
       }
     }
   }
@@ -112,13 +131,13 @@ $carousel-title-font-size:                 40px;
 
 
 // =============================================================================
-// EXTENDS
+// Extends
 // =============================================================================
 //
 
 
 // =============================================================================
-// MEDIAQUERIES
+// Mediaqueries
 // =============================================================================
 //
 
