@@ -7746,6 +7746,11 @@ ul.icons li [class*=" icon-"] {
   margin-left: 10px;
 }
 
+/* line 24, ../sass/_ddbasic.drupal.overrides.scss */
+.feed-icon img {
+  max-width: 16px;
+}
+
 /* line 21, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ting-object .ting-cover {
   position: relative;
