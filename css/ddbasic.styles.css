@@ -7430,44 +7430,40 @@ ul.icons li [class*=" icon-"] {
   vertical-align: baseline;
   white-space: nowrap;
 }
-/* line 45, ../sass/_ddbasic.labels.scss */
-.label a:link, .label-inverted a:link, .news-list .news-label a:link {
-  color: white;
-}
-/* line 49, ../sass/_ddbasic.labels.scss */
-.label a:hover, .label-inverted a:hover, .news-list .news-label a:hover {
+/* line 47, ../sass/_ddbasic.labels.scss */
+.label a:link, .label-inverted a:link, .news-list .news-label a:link, .label a:visited, .label-inverted a:visited, .news-list .news-label a:visited, .label a:hover, .label-inverted a:hover, .news-list .news-label a:hover {
   color: white;
   text-decoration: none;
 }
-/* line 56, ../sass/_ddbasic.labels.scss */
+/* line 54, ../sass/_ddbasic.labels.scss */
 .label:link, .label-inverted:link, .news-list .news-label:link {
   color: white;
 }
-/* line 60, ../sass/_ddbasic.labels.scss */
+/* line 58, ../sass/_ddbasic.labels.scss */
 .label:hover, .label-inverted:hover, .news-list .news-label:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
 }
 
-/* line 72, ../sass/_ddbasic.labels.scss */
+/* line 70, ../sass/_ddbasic.labels.scss */
 .label-inverted {
   background-color: white;
   color: #00b7e7;
 }
-/* line 80, ../sass/_ddbasic.labels.scss */
+/* line 78, ../sass/_ddbasic.labels.scss */
 .label-inverted a:link {
   color: #00b7e7;
 }
-/* line 84, ../sass/_ddbasic.labels.scss */
+/* line 82, ../sass/_ddbasic.labels.scss */
 .label-inverted a:hover {
   color: #00b7e7;
 }
-/* line 90, ../sass/_ddbasic.labels.scss */
+/* line 88, ../sass/_ddbasic.labels.scss */
 .label-inverted:link {
   color: #00b7e7;
 }
-/* line 94, ../sass/_ddbasic.labels.scss */
+/* line 92, ../sass/_ddbasic.labels.scss */
 .label-inverted:hover {
   background-color: #e6e6e6;
   color: #00b7e7;

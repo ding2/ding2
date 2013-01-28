@@ -42,10 +42,8 @@ $label-padding:                   5px 10px;
 
   // Make sure it works with a wrapper
   a {
-    &:link {
-      color: $label-text-color;
-    }
-
+    &:link,
+    &:visited,
     &:hover {
       color: $label-text-color;
       text-decoration: none;
