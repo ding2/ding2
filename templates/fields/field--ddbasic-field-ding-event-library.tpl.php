@@ -44,7 +44,7 @@
 <?php 
     foreach ($items as $delta => $item) {
     if ($item["#type"]=='link') {
-      print '<a class="label label-info" href="' . $item['#href'] . '">' . $item['#title'] . '</a>';
+      print l($item['#title'], $item['#href'], array('attributes' => array('class' => array('label', 'label-info'))));
     } else {
       print '<span class="label label-info">' . $item['#title'] . '</span>';
     }
