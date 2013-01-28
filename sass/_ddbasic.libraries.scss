@@ -93,6 +93,17 @@
 .library-title {
   @extend .block-title;
 }
+
+.library-menu {
+  h2 {
+    @extend .sub-menu-title; 
+  }
+
+  .links {
+    @extend .sub-menu;
+  }
+}
+
 .list {
   @extend %list;
 }
@@ -102,3 +113,23 @@
 // Mediaqueries
 // -----------------------------------------------------------------------------
 //
+@include small {
+  .libraries-content {
+    float: none;
+    width: 100%;
+  }
+
+  .opening-hours {
+    margin-left: 0;
+  }
+}
+@include medium {
+  .libraries-content {
+    float: none;
+    width: 100%;
+  }
+
+  .opening-hours {
+    margin-left: 0;
+  }
+}

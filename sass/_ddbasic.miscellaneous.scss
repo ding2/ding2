@@ -54,12 +54,6 @@
 }
 
 
-
-.rs-carousel {
-  @extend %link-special;
-}
-
-
 .assistive-text {
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);

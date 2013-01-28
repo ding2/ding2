@@ -94,17 +94,19 @@ $topbar-min-height:               85px;
 // Layout
 // **
 //
-.frontpage-layout {
-  .content-wrapper {
-    margin-top: 88px;
-  }
-}
-
-
 .content-wrapper {
   @extend .grid-wrapper;
 
-  margin-top: 148px;
+  // Calculate margin top based on height of
+  // navigation (line height and 2 times default spacing)
+  // and topbar height. Then add default spacing.
+  margin-top: ($theme-line-height + ($default-spacing * 2)) + $topbar-min-height + $default-spacing;
+}
+
+.front {
+  .content-wrapper {
+    margin-top: ($theme-line-height + ($default-spacing * 2)) + $default-spacing;
+  }
 }
 
 
@@ -132,4 +134,24 @@ $topbar-min-height:               85px;
 // Mediaqueries
 // -----------------------------------------------------------------------------
 //
+@include small() {
+  .topbar {
+    position: relative;
+    margin-top: 0;
+  }
 
+  .content-wrapper {
+    margin-top: $default-spacing;
+  }
+}
+
+@include medium() {
+  .topbar {
+    position: relative;
+    margin-top: 0;
+  }
+
+  .content-wrapper {
+    margin-top: $default-spacing;
+  }
+}

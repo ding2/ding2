@@ -20,12 +20,14 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
-.feed-icon {
-  img {
-    max-width: 16px;
-  }
-}
 
+// **
+// Drupal specific buttons. Extends from _ddbasic.buttons.scss
+// **
+//
+.form-submit {
+  @extend %button;
+}
 
 // -----------------------------------------------------------------------------
 // Mediaqueries

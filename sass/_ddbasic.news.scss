@@ -1,0 +1,97 @@
+// =============================================================================
+// News
+// =============================================================================
+//
+
+
+// -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Extends
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Default styling
+// -----------------------------------------------------------------------------
+//
+.pane-library-list {
+  @include border-radius($theme-border-radius); // variable in: _ddbasic.variables.scss
+  
+  background-color: $gray-light;
+  margin-bottom: $default-spacing;
+  padding: $default-spacing;
+  
+  .choose-library-label,
+  .form-item-select-library,
+  .button {
+    display: inline;
+    margin-right: $default-spacing / 2;
+  }
+}
+
+.pane-news-category-menu {
+  .pane-title {
+    @extend .sub-menu-title;
+  }
+}
+
+.news-list {
+  .news-list-item {
+    margin-bottom: $default-spacing;
+  }
+  
+  .news-heading {
+    margin-bottom: $default-spacing / 2;
+  }
+  
+  .news-label {
+    @extend .label;
+    
+    margin-right: 5px;
+  }
+
+  .news-sub-heading {
+    color: $gray-dark;
+    
+    margin-top: $default-spacing / 2;
+    margin-bottom: $default-spacing / 1.5;
+    
+    .news-date,
+    .news-author {
+      color: $font-color-primary; // variable in: _ddbasic.variables.scss
+      margin-right: 5px;
+      margin-left: 2px;
+    }
+  }
+
+  .news-list-content,
+  .news-link {
+    margin-bottom: $default-spacing / 2;
+  }
+
+  .news-image-wrapper {
+    float: left;
+    margin-right: $default-spacing;
+    max-width: 25%;
+  }
+}
+
+// **
+// Normal comment (eg. element or functionality)
+// **
+//
+
+// Nested comment (use when nesting rules)
+
+
+
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
+//
