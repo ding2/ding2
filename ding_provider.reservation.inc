@@ -124,6 +124,14 @@ class DingProviderReservation extends DingEntityBase {
     $this->properties['id'] = $id;
     // Default display name.
     $this->properties['display_name'] = t('Title not available');
+    if (intval($data['order_id']) < 0) {
+      $id = explode(":", $data['ding_entity_id']);
+      $result = alma_client_invoke('catalogue_record_detail', $id[1]);
+      if (isset($result)) {
+        $details = $result['records'][$id[1]];
+        $this->properties['display_name'] = '<h2>' . $details['titles'][0] . '</h2>';
+      }
+    }
     $this->properties['ready_for_pickup'] = FALSE;
     $properties = array(
       'order_id',
