@@ -3,6 +3,7 @@ $plugin['25_50_25'] = array(
   'title' => t('Two sidebars, content in middle'),
   'icon' => '25_50_25.png',
   'theme' => '25_50_25',
+  'admin css' => '25_50_25.admin.css',
   'category'  => 'Ding2, theme',
   'regions' => array(
     'left_sidebar' => t('Left sidebar'),

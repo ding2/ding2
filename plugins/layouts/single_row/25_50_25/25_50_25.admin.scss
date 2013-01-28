@@ -1,0 +1,21 @@
+@import "compass/css3";
+@import "zen";
+
+$zen-column-count: 12;
+$zen-gutter-width: 20px;
+
+.panels-dnd {
+  @include zen-grid-container;
+}
+
+.primary-content {
+  @include zen-grid-item(6, 4);
+}
+
+.secondary-content {
+  @include zen-grid-item(3, 1);
+}
+
+.tertiary-content {
+  @include zen-grid-item(3, 1, right);
+}
