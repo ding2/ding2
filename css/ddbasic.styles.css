@@ -3370,13 +3370,13 @@ dd {
 }
 
 /* line 246, ../../latto/sass/_latto.typography.scss */
-.text-small, blockquote .blockquote-source {
+.text-small, blockquote .blockquote-source, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
 /* line 250, ../../latto/sass/_latto.typography.scss */
-.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
+.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
 }
@@ -8445,30 +8445,34 @@ input#edit-search-block-form--2.spinner {
   *behavior: url("../scripts/boxsizing.htc");
   max-width: 120px;
 }
-/* line 76, ../sass/_ddbasic.carousel.scss */
+/* line 72, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
+  line-height: 16px;
+}
+/* line 78, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-image {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 80, ../sass/_ddbasic.carousel.scss */
+/* line 82, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
   padding: 0;
 }
-/* line 83, ../sass/_ddbasic.carousel.scss */
+/* line 85, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
   min-width: 110px;
   padding: 5px;
 }
 
-/* line 97, ../sass/_ddbasic.carousel.scss */
+/* line 99, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 104, ../sass/_ddbasic.carousel.scss */
+/* line 106, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
 }
