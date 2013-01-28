@@ -26,7 +26,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_text'] = 'Read more';
   $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['link_url'] = 'news-category/all';
+  $handler->display->display_options['link_url'] = 'nyheder';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -392,7 +392,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['display_description'] = 'This is the default news list used for displaying news';
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['link_url'] = 'news-category/all';
+  $handler->display->display_options['link_url'] = 'nyheder';
 
   /* Display: Default news list (promoted) */
   $handler = $view->new_display('panel_pane', 'Default news list (promoted)', 'panel_pane_1');
