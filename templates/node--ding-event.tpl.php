@@ -117,10 +117,12 @@
       <p>
           <i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?>
       </p>
-      <p>
-          <i class="icon-shopping-cart"></i> 
-          <?php print render($content['field_ding_event_price']); ?>
-      </p>
+      <?php if (isset($content['field_ding_event_price'])): ?> 
+        <p>
+            <i class="icon-shopping-cart"></i> 
+            <?php print render($content['field_ding_event_price']); ?>
+        </p>
+      <?php endif; ?>
   </div>
 </div>
 
