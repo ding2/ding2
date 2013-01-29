@@ -183,14 +183,10 @@ function ding_library_default_page_manager_handlers() {
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-panel_pane_1';
+    $pane->subtype = 'ding_event-panel_pane_2';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'more_link' => 1,
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
