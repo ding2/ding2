@@ -6131,6 +6131,47 @@ button.button {
   }
 }
 
+/* line 21, ../sass/_ddbasic.tabs.scss */
+#tabs ul.primary, #tabs ul.secondary {
+  padding-left: 10px;
+}
+/* line 28, ../sass/_ddbasic.tabs.scss */
+#tabs ul.primary li, #tabs ul.secondary li,
+#tabs ul.primary li.active,
+#tabs ul.secondary li.active,
+#tabs ul.primary li:hover,
+#tabs ul.secondary li:hover,
+#tabs ul.primary li.active:hover,
+#tabs ul.secondary li.active:hover {
+  background: transparent;
+}
+/* line 31, ../sass/_ddbasic.tabs.scss */
+#tabs ul.primary li a, #tabs ul.secondary li a,
+#tabs ul.primary li.active a,
+#tabs ul.secondary li.active a,
+#tabs ul.primary li:hover a,
+#tabs ul.secondary li:hover a,
+#tabs ul.primary li.active:hover a,
+#tabs ul.secondary li.active:hover a {
+  -webkit-border-radius: 8px 8px 0 0;
+  -moz-border-radius: 8px 8px 0 0;
+  border-radius: 8px 8px 0 0;
+  display: block;
+  line-height: 31.2px;
+}
+/* line 39, ../sass/_ddbasic.tabs.scss */
+#tabs ul.primary li a, #tabs ul.secondary li a {
+  background: #efefef;
+}
+/* line 43, ../sass/_ddbasic.tabs.scss */
+#tabs ul.primary li a.active, #tabs ul.secondary li a.active {
+  background: white;
+}
+/* line 48, ../sass/_ddbasic.tabs.scss */
+#tabs ul.secondary {
+  padding: 10px;
+}
+
 /*
  *  Font Awesome 3.0.1
  *  the iconic font designed for use with Twitter Bootstrap
