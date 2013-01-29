@@ -9702,22 +9702,18 @@ input#edit-search-block-form--2.spinner {
 .pane-user-profile .form-item label {
   min-width: 25%;
 }
-/* line 304, ../sass/_ddbasic.user.scss */
-.pane-user-profile .form-item p {
-  margin-top: 2px;
-}
-/* line 309, ../sass/_ddbasic.user.scss */
+/* line 305, ../sass/_ddbasic.user.scss */
 .pane-user-profile h3, .pane-user-profile .ui-dialog-title {
   border: 0;
   margin-top: 30px;
   margin-bottom: 13.33333px;
 }
-/* line 317, ../sass/_ddbasic.user.scss */
+/* line 313, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-label {
   float: left;
   min-width: 25%;
 }
-/* line 325, ../sass/_ddbasic.user.scss */
+/* line 321, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-items,
 .pane-user-profile .profile2-provider-alma .field-item {
   display: inline;
