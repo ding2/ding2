@@ -329,6 +329,11 @@
 // **
 //
 .pane-loans {
+  table {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: $default-spacing;    
+  }
+  
   h2 {
     @extend .block-title;
 
@@ -380,15 +385,9 @@
     margin-bottom: 0;
   }
 
-  .renew-loan-button {
-    border-top: 1px solid $gray-light;
-    padding-top: $default-spacing;
-  }
 
   .operations {
     .renew-loan-button {
-      border-top: 0;
-      padding-top: 0;
       padding-right: $default-spacing;
       text-align: right;
     }
