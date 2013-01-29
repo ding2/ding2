@@ -39,7 +39,7 @@ function ding_news_node_info() {
       'base' => 'node_content',
       'description' => t('A content type for news concerning libraries.'),
       'has_title' => '1',
-      'title_label' => t('Heading'),
+      'title_label' => t('Overskrift'),
       'help' => '',
     ),
   );
