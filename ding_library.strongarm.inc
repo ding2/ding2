@@ -156,6 +156,27 @@ function ding_library_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'opening_hours_category_vocabulary_ding_library';
+  $strongarm->value = 'category';
+  $export['opening_hours_category_vocabulary_ding_library'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'opening_hours_enabled_ding_library';
+  $strongarm->value = 1;
+  $export['opening_hours_enabled_ding_library'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'opening_hours_enabled_library';
+  $strongarm->value = 1;
+  $export['opening_hours_enabled_library'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'openlayers_source';
   $strongarm->value = 'profiles/ding2/libraries/openlayers/OpenLayers.js';
   $export['openlayers_source'] = $strongarm;
