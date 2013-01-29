@@ -182,44 +182,23 @@ function ding_library_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
-    $pane->type = 'views';
-    $pane->subtype = 'ding_event';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_event-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 1,
-      'nodes_per_page' => '10',
-      'pager_id' => '0',
-      'offset' => '0',
       'more_link' => 1,
-      'feed_icons' => 0,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => 'node/%/events',
-      'display' => 'ctools_context_library_teaser',
-      'context' => array(
-        0 => 'argument_entity_id:node_1.nid',
-        1 => '',
-      ),
       'override_title' => 0,
-      'override_title_text' => 'Calendar',
+      'override_title_text' => '',
     );
-    $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
-    );
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'ding-event-teaser-list',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-4'] = $pane;
     $display->panels['main_content'][2] = 'new-4';
     $pane = new stdClass();
