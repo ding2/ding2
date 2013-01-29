@@ -107,7 +107,7 @@
     padding-top: 7px;
     padding-right: 18px;
     padding-bottom: 1px;
-    padding-left: 18px;    
+    padding-left: 18px;
     position: absolute;
   }
 
@@ -221,6 +221,7 @@
 // **
 // User menu
 // **
+//
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -253,7 +254,7 @@
 // **
 // User menu compact
 // **
-
+//
 .topbar {
   .user-name,
   .user-menu-loans,
@@ -262,7 +263,7 @@
 
     margin-bottom: 0;
   }
-  
+
   .user-name {
     margin-top: 16px;
 
@@ -277,6 +278,49 @@
     @extend %link-inverted;
 
     margin-top: 40px;
+  }
+}
+
+
+// **
+// User profile
+// **
+//
+.pane-user-profile {
+  .form-item {
+    clear: both;
+
+    label,
+    p {
+      float: left;
+    }
+
+    label {
+      @extend strong;
+
+      min-width: 25%;
+    }
+  }
+  
+  h3 {
+    border: 0;
+    
+    margin-top: $default-spacing * 1.5;
+    margin-bottom: $default-spacing / 1.5;
+  }
+  
+  .profile2-provider-alma {
+    .field-label {
+      @extend strong;
+      
+      float: left;
+      min-width: 25%;
+    }
+    
+    .field-items,
+    .field-item {
+      display: inline;      
+    }
   }
 }
 
