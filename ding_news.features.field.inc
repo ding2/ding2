@@ -214,7 +214,7 @@ function ding_news_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_ding_news_category',
       'label' => 'Category',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
