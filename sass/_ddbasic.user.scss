@@ -328,16 +328,18 @@
 // User loans
 // **
 //
-.pane-loans {
+.pane-loans,
+.pane-reservations {
   table {
     border-bottom: 1px solid $gray-light;
-    margin-bottom: $default-spacing;    
+    margin-bottom: $default-spacing;
   }
-  
+
   h2 {
     @extend .block-title;
 
     margin-top: 2px;
+    max-width: 90%;
   }
 
   ul {
@@ -346,16 +348,36 @@
     padding: 0;
   }
 
+  table tbody tr {
+    &:hover {
+      background-color: lighten($gray-light, 3%);
+
+      th,
+      td {
+        background-color: lighten($gray-light, 3%);
+      }
+    }
+  }
+
   th {
     @extend strong;
 
+    background-color: $gray-light;
     border-top: 1px solid $gray-light;
     padding: $default-spacing / 2 0;
+  }
+
+  td:first-child {
+    width: 30px;
   }
 
   td {
     border-top: 1px solid $gray-light;
     padding: $default-spacing 0 $default-spacing / 1.5;
+
+    &.title {
+      width: 50%;
+    }
   }
 
   .select-all,
@@ -387,13 +409,25 @@
 
 
   .operations {
-    .renew-loan-button {
+    .renew-loan-button,
+    .delete-reservation {
       padding-right: $default-spacing;
       text-align: right;
     }
   }
+
+  .delete-reservations,
+  .update-reservations {
+    display: inline;
+    margin-right: $default-spacing;
+  }
 }
 
+#ding-reservation-reservations-ready-form {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $default-spacing;
+  padding-bottom: $default-spacing;
+}
 
 // =============================================================================
 // MEDIAQUERIES

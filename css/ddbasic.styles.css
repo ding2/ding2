@@ -3196,7 +3196,8 @@ h6 {
 }
 
 /* line 99, ../../latto/sass/_latto.typography.scss */
-.block-title, .library-title, .pane-loans h2 {
+.block-title, .library-title, .pane-loans h2,
+.pane-reservations h2 {
   margin-bottom: 13.33333px;
   margin-bottom: 0.83333rem;
   line-height: 100%;
@@ -3263,6 +3264,7 @@ em .list > dt,
 .pane-user-profile .form-item label,
 .pane-user-profile .profile2-provider-alma .field-label,
 .pane-loans th,
+.pane-reservations th,
 .strong {
   font-weight: normal;
 }
@@ -5551,7 +5553,8 @@ select {
 }
 
 /* line 113, ../sass/_ddbasic.typography.scss */
-strong, dl > dt, .list-content > dt, .list-news > dt, .list-compact > dt, .pane-search-result .search-results .list > dt, .pane-search-result .search-results .list .availability ul > dt, .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-object-types ul > dt, .pane-ting-ting-relation-anchors ul > dt, .pane-ting-object .field-name-ding-availability-holdings ul > dt, .library-list > dt, .list > dt, .lead, .page-lead, em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, .sub-menu > li a.active, .library-menu .links > li a.active, .ui-dialog .ui-dialog-titlebar-close .ui-icon, .pane-user-profile .form-item label, .pane-user-profile .profile2-provider-alma .field-label, .pane-loans th {
+strong, dl > dt, .list-content > dt, .list-news > dt, .list-compact > dt, .pane-search-result .search-results .list > dt, .pane-search-result .search-results .list .availability ul > dt, .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-object-types ul > dt, .pane-ting-ting-relation-anchors ul > dt, .pane-ting-object .field-name-ding-availability-holdings ul > dt, .library-list > dt, .list > dt, .lead, .page-lead, em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, .sub-menu > li a.active, .library-menu .links > li a.active, .ui-dialog .ui-dialog-titlebar-close .ui-icon, .pane-user-profile .form-item label, .pane-user-profile .profile2-provider-alma .field-label, .pane-loans th,
+.pane-reservations th {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
@@ -5562,7 +5565,9 @@ em {
   font-weight: normal;
 }
 /* line 123, ../sass/_ddbasic.typography.scss */
-em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .lead, em .page-lead, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .sub-menu > li a.active, .sub-menu > li em a.active, em .library-menu .links > li a.active, .library-menu .links > li em a.active, em .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close em .ui-icon, em .pane-user-profile .form-item label, .pane-user-profile .form-item em label, em .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma em .field-label, em .pane-loans th, .pane-loans em th {
+em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .lead, em .page-lead, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .sub-menu > li a.active, .sub-menu > li em a.active, em .library-menu .links > li a.active, .library-menu .links > li em a.active, em .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close em .ui-icon, em .pane-user-profile .form-item label, .pane-user-profile .form-item em label, em .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma em .field-label, em .pane-loans th, .pane-loans em th,
+em .pane-reservations th,
+.pane-reservations em th {
   font-family: "SourceSansProSemiboldItalic";
 }
 
@@ -5590,7 +5595,13 @@ a:focus {
 }
 
 /* line 162, ../sass/_ddbasic.typography.scss */
-.footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .block-opening-hours .library-title, .user-login-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2, .block-opening-hours .pane-loans h2, .pane-loans .block-opening-hours h2, .user-login-block .pane-loans h2, .pane-loans .user-login-block h2 {
+.footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .block-opening-hours .library-title, .user-login-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2, .block-opening-hours .pane-loans h2, .pane-loans .block-opening-hours h2, .user-login-block .pane-loans h2, .pane-loans .user-login-block h2,
+.footer-block .pane-reservations h2,
+.pane-reservations .footer-block h2,
+.block-opening-hours .pane-reservations h2,
+.pane-reservations .block-opening-hours h2,
+.user-login-block .pane-reservations h2,
+.pane-reservations .user-login-block h2 {
   font-size: 33px;
   font-size: 2.0625rem;
 }
@@ -8335,7 +8346,9 @@ ul.icons li [class*=" icon-"] {
   color: white;
 }
 /* line 38, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block .block-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2 {
+.footer-block .block-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .pane-reservations h2,
+.pane-reservations .footer-block h2 {
   color: white;
 }
 
@@ -8776,7 +8789,9 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 20px;
 }
 /* line 497, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead, .pane-search-result .search-results .list .subjects .page-lead, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em dl > dt, em .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects em .list-content > dt, em .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects em .list-news > dt, em .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects em .list-compact > dt, em .pane-search-result .search-results .list .subjects .list-compact > dt, em .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects em .list > dt, .pane-search-result .search-results em .list .subjects .list > dt, em .pane-search-result .search-results .list .subjects .availability ul > dt, em .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .availability em ul > dt, .pane-search-result .search-results .list .availability em .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-object .field-name-ding-availability-holdings ul > dt, em .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings em ul > dt, .pane-ting-object .field-name-ding-availability-holdings em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .library-list > dt, em .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects em .list > dt, em .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .sub-menu > li a.active, .sub-menu > li .pane-search-result .search-results .list .subjects a.active, .pane-search-result .search-results .list .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-search-result .search-results .list .subjects a.active, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon, .pane-search-result .search-results .list .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-search-result .search-results .list .subjects label, .pane-search-result .search-results .list .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-search-result .search-results .list .subjects .field-label, .pane-search-result .search-results .list .subjects .pane-loans th, .pane-loans .pane-search-result .search-results .list .subjects th {
+.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead, .pane-search-result .search-results .list .subjects .page-lead, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em dl > dt, em .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects em .list-content > dt, em .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects em .list-news > dt, em .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects em .list-compact > dt, em .pane-search-result .search-results .list .subjects .list-compact > dt, em .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects em .list > dt, .pane-search-result .search-results em .list .subjects .list > dt, em .pane-search-result .search-results .list .subjects .availability ul > dt, em .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .availability em ul > dt, .pane-search-result .search-results .list .availability em .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-object .field-name-ding-availability-holdings ul > dt, em .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings em ul > dt, .pane-ting-object .field-name-ding-availability-holdings em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .library-list > dt, em .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects em .list > dt, em .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .sub-menu > li a.active, .sub-menu > li .pane-search-result .search-results .list .subjects a.active, .pane-search-result .search-results .list .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-search-result .search-results .list .subjects a.active, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon, .pane-search-result .search-results .list .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-search-result .search-results .list .subjects label, .pane-search-result .search-results .list .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-search-result .search-results .list .subjects .field-label, .pane-search-result .search-results .list .subjects .pane-loans th, .pane-loans .pane-search-result .search-results .list .subjects th,
+.pane-search-result .search-results .list .subjects .pane-reservations th,
+.pane-reservations .pane-search-result .search-results .list .subjects th {
   font-weight: inherit;
 }
 /* line 501, ../sass/_ddbasic.search.scss */
@@ -8881,7 +8896,11 @@ input#edit-search-block-form--2.spinner {
   margin-top: 0;
 }
 /* line 656, ../sass/_ddbasic.search.scss */
-.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .subjects ul > dt, .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .lead, .pane-ting-object .subjects .lead, .pane-ting-collection .subjects .page-lead, .pane-ting-object .subjects .page-lead, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects em dl > dt, em .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects em dl > dt, em .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects em .list-content > dt, em .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects em .list-content > dt, em .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects em .list-news > dt, em .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects em .list-news > dt, em .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects em .list-compact > dt, em .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects em .list-compact > dt, em .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects em .pane-search-result .search-results .list > dt, em .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects em .pane-search-result .search-results .list > dt, em .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results em .list > dt, .pane-search-result .search-results em .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results em .list > dt, .pane-search-result .search-results em .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects em .pane-search-result .search-results .list .availability ul > dt, em .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-search-result .search-results .list .availability ul > dt, em .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability em ul > dt, .pane-search-result .search-results .list .availability em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability em ul > dt, .pane-search-result .search-results .list .availability em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-object .field-name-ding-availability-holdings ul > dt, em .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings em ul > dt, .pane-ting-object .field-name-ding-availability-holdings em .pane-ting-collection .subjects ul > dt, .pane-ting-collection .subjects em .library-list > dt, em .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects em .library-list > dt, em .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects em .list > dt, em .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects em .list > dt, em .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .sub-menu > li a.active, .sub-menu > li .pane-ting-collection .subjects a.active, .pane-ting-object .subjects .sub-menu > li a.active, .sub-menu > li .pane-ting-object .subjects a.active, .pane-ting-collection .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-ting-collection .subjects a.active, .pane-ting-object .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-ting-object .subjects a.active, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon, .pane-ting-collection .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-ting-collection .subjects label, .pane-ting-object .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-ting-object .subjects label, .pane-ting-collection .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-ting-collection .subjects .field-label, .pane-ting-object .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-ting-object .subjects .field-label, .pane-ting-collection .subjects .pane-loans th, .pane-loans .pane-ting-collection .subjects th, .pane-ting-object .subjects .pane-loans th, .pane-loans .pane-ting-object .subjects th {
+.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .subjects ul > dt, .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .lead, .pane-ting-object .subjects .lead, .pane-ting-collection .subjects .page-lead, .pane-ting-object .subjects .page-lead, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects em dl > dt, em .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects em dl > dt, em .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects em .list-content > dt, em .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects em .list-content > dt, em .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects em .list-news > dt, em .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects em .list-news > dt, em .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects em .list-compact > dt, em .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects em .list-compact > dt, em .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects em .pane-search-result .search-results .list > dt, em .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects em .pane-search-result .search-results .list > dt, em .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results em .list > dt, .pane-search-result .search-results em .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results em .list > dt, .pane-search-result .search-results em .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects em .pane-search-result .search-results .list .availability ul > dt, em .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-search-result .search-results .list .availability ul > dt, em .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability em ul > dt, .pane-search-result .search-results .list .availability em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability em ul > dt, .pane-search-result .search-results .list .availability em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-object .field-name-ding-availability-holdings ul > dt, em .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings em ul > dt, .pane-ting-object .field-name-ding-availability-holdings em .pane-ting-collection .subjects ul > dt, .pane-ting-collection .subjects em .library-list > dt, em .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects em .library-list > dt, em .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects em .list > dt, em .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects em .list > dt, em .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .sub-menu > li a.active, .sub-menu > li .pane-ting-collection .subjects a.active, .pane-ting-object .subjects .sub-menu > li a.active, .sub-menu > li .pane-ting-object .subjects a.active, .pane-ting-collection .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-ting-collection .subjects a.active, .pane-ting-object .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-ting-object .subjects a.active, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon, .pane-ting-collection .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-ting-collection .subjects label, .pane-ting-object .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-ting-object .subjects label, .pane-ting-collection .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-ting-collection .subjects .field-label, .pane-ting-object .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-ting-object .subjects .field-label, .pane-ting-collection .subjects .pane-loans th, .pane-loans .pane-ting-collection .subjects th, .pane-ting-object .subjects .pane-loans th, .pane-loans .pane-ting-object .subjects th,
+.pane-ting-collection .subjects .pane-reservations th,
+.pane-reservations .pane-ting-collection .subjects th,
+.pane-ting-object .subjects .pane-reservations th,
+.pane-reservations .pane-ting-object .subjects th {
   font-weight: inherit;
 }
 /* line 660, ../sass/_ddbasic.search.scss */
@@ -9749,61 +9768,114 @@ input#edit-search-block-form--2.spinner {
   display: inline;
 }
 
-/* line 332, ../sass/_ddbasic.user.scss */
-.pane-loans table {
+/* line 333, ../sass/_ddbasic.user.scss */
+.pane-loans table,
+.pane-reservations table {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
 }
-/* line 337, ../sass/_ddbasic.user.scss */
-.pane-loans h2 {
+/* line 338, ../sass/_ddbasic.user.scss */
+.pane-loans h2,
+.pane-reservations h2 {
   margin-top: 2px;
+  max-width: 90%;
 }
-/* line 343, ../sass/_ddbasic.user.scss */
-.pane-loans ul {
+/* line 345, ../sass/_ddbasic.user.scss */
+.pane-loans ul,
+.pane-reservations ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-/* line 349, ../sass/_ddbasic.user.scss */
-.pane-loans th {
+/* line 352, ../sass/_ddbasic.user.scss */
+.pane-loans table tbody tr:hover,
+.pane-reservations table tbody tr:hover {
+  background-color: #f6f6f6;
+}
+/* line 356, ../sass/_ddbasic.user.scss */
+.pane-loans table tbody tr:hover th,
+.pane-loans table tbody tr:hover td,
+.pane-reservations table tbody tr:hover th,
+.pane-reservations table tbody tr:hover td {
+  background-color: #f6f6f6;
+}
+/* line 362, ../sass/_ddbasic.user.scss */
+.pane-loans th,
+.pane-reservations th {
+  background-color: #efefef;
   border-top: 1px solid #efefef;
   padding: 10px 0;
 }
-/* line 356, ../sass/_ddbasic.user.scss */
-.pane-loans td {
+/* line 370, ../sass/_ddbasic.user.scss */
+.pane-loans td:first-child,
+.pane-reservations td:first-child {
+  width: 30px;
+}
+/* line 374, ../sass/_ddbasic.user.scss */
+.pane-loans td,
+.pane-reservations td {
   border-top: 1px solid #efefef;
   padding: 20px 0 13.33333px;
 }
-/* line 362, ../sass/_ddbasic.user.scss */
+/* line 378, ../sass/_ddbasic.user.scss */
+.pane-loans td.title,
+.pane-reservations td.title {
+  width: 50%;
+}
+/* line 384, ../sass/_ddbasic.user.scss */
 .pane-loans .select-all,
-.pane-loans .form-type-checkbox {
+.pane-loans .form-type-checkbox,
+.pane-reservations .select-all,
+.pane-reservations .form-type-checkbox {
   text-align: center;
 }
-/* line 366, ../sass/_ddbasic.user.scss */
-.pane-loans .form-checkbox {
+/* line 388, ../sass/_ddbasic.user.scss */
+.pane-loans .form-checkbox,
+.pane-reservations .form-checkbox {
   margin-top: 0;
   margin-right: 1px;
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 373, ../sass/_ddbasic.user.scss */
-.pane-loans .ting-cover {
+/* line 395, ../sass/_ddbasic.user.scss */
+.pane-loans .ting-cover,
+.pane-reservations .ting-cover {
   float: left;
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 379, ../sass/_ddbasic.user.scss */
-.pane-loans .ting-cover img {
+/* line 401, ../sass/_ddbasic.user.scss */
+.pane-loans .ting-cover img,
+.pane-reservations .ting-cover img {
   max-width: 85%;
 }
-/* line 384, ../sass/_ddbasic.user.scss */
-.pane-loans .order-id {
+/* line 406, ../sass/_ddbasic.user.scss */
+.pane-loans .order-id,
+.pane-reservations .order-id {
   margin-bottom: 0;
 }
-/* line 390, ../sass/_ddbasic.user.scss */
-.pane-loans .operations .renew-loan-button {
+/* line 413, ../sass/_ddbasic.user.scss */
+.pane-loans .operations .renew-loan-button,
+.pane-loans .operations .delete-reservation,
+.pane-reservations .operations .renew-loan-button,
+.pane-reservations .operations .delete-reservation {
   padding-right: 20px;
   text-align: right;
+}
+/* line 420, ../sass/_ddbasic.user.scss */
+.pane-loans .delete-reservations,
+.pane-loans .update-reservations,
+.pane-reservations .delete-reservations,
+.pane-reservations .update-reservations {
+  display: inline;
+  margin-right: 20px;
+}
+
+/* line 426, ../sass/_ddbasic.user.scss */
+#ding-reservation-reservations-ready-form {
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 /* line 23, ../sass/_ddbasic.page.scss */
