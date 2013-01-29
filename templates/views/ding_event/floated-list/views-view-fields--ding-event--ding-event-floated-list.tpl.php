@@ -23,11 +23,7 @@
  * @ingroup views_templates
  */
 
-foreach ($fields as $id => $field) {
-  if($id == 'field_ding_event_category') {
-    print '<div class="subheading">';
-  }
-  
+foreach ($fields as $id => $field) { 
   if (!empty($field->separator)) {
     print $field->separator;
   }
@@ -37,9 +33,5 @@ foreach ($fields as $id => $field) {
     print $field->label_html;
     print $field->content;
     print $field->wrapper_suffix;
-  }
-  
-  if($id == 'field_ding_event_price') {
-    print "</div>";
   }
 }
