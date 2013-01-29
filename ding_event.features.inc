@@ -39,7 +39,7 @@ function ding_event_node_info() {
       'base' => 'node_content',
       'description' => t('A content type for events concerning libraries.'),
       'has_title' => '1',
-      'title_label' => t('Heading'),
+      'title_label' => t('Overskrift'),
       'help' => t('This is the heading usually displayed with a big font size (h1) on the top of the page.'),
     ),
   );
