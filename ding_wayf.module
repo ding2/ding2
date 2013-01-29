@@ -60,6 +60,36 @@ function ding_wayf_render_login_block() {
 }
 
 /**
+ * Implements hook_form_alter() (user_login, user_login_block). 
+ * add hidden field to set authentication provider
+ * add validate handler for wayf login
+ */
+function ding_wayf_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // option to set authentication provider for ding user (@see ding_user_user_login_validate)
+      $form['authentication_provider'] = array(
+        '#type' => 'hidden',
+      );
+      // add a validation handler
+        $form['#validate'][] = 'ding_wayf_wayf_validate';
+      break;
+    default:
+      break;
+  }
+}
+
+/** \custom validator for wayf login
+ * check if provider implements a validate method; if so execute it
+ */
+function ding_wayf_wayf_validate(&$form, &$form_state){
+  if( ding_provider_implements('wayf', 'validate') ) {
+    ding_provider_invoke('wayf','validate', $form, $form_state);
+  }
+}
+
+/**
  * Helper function that handles the login procedure. If the user is not yet
  * authenticated by WAYF - the user will be redirected to WAYF login. If the
  * user is authenticated the user will be logged into the drupal site as a
