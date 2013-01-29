@@ -86,11 +86,17 @@
 }
 
 // **
-// Single blog post / article
+// Single news post / article
 // **
 //
-.super-heading .field-label {
-  @extend .element-invisible;
+.super-heading {
+  padding: $default-spacing 0;
+
+  div {
+    display: inline;
+  }
+
+  .field-item {padding-left: $default-spacing / 4;}
 }
 
 
