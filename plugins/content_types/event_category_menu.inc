@@ -46,7 +46,7 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
     }
     $items[] = l($term->name, $base . '/' . $term->tid, $options);
   }
-  $block->content = theme('item_list', array('items' => $items));
+  $block->content = theme('item_list', array('items' => $items, 'attributes' => array('class' => array('sub-menu'))));
 
   return $block;
 }
