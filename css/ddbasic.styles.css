@@ -9358,6 +9358,19 @@ input#edit-search-block-form--2.spinner {
   max-width: 25%;
 }
 
+/* line 92, ../sass/_ddbasic.news.scss */
+.super-heading {
+  padding: 20px 0;
+}
+/* line 95, ../sass/_ddbasic.news.scss */
+.super-heading div {
+  display: inline;
+}
+/* line 99, ../sass/_ddbasic.news.scss */
+.super-heading .field-item {
+  padding-left: 5px;
+}
+
 /* line 30, ../sass/_ddbasic.modal.scss */
 .ui-widget-overlay {
   background-color: rgba(0, 0, 0, 0.8);

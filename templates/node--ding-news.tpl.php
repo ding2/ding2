@@ -91,21 +91,15 @@
   <?php print render($content['field_ding_news_list_image']); ?>
 </div>
 <div class="super-heading">
-  <p>
-    <?php print render($content['field_ding_news_category']); ?>
-    <?php print render($content['field_ding_news_library']); ?>
-  </p>
+  <?php print render($content['field_ding_news_category']); ?>
+  <?php print render($content['field_ding_news_library']); ?>
 </div>
 <h2 class="heading"><?php print $title; ?></h2>
-  <div class="grid-row">
-  <div class="lead">
-    <p>
-      <?php print render($content['field_ding_news_lead'][0]); ?>
-    </p>
-  </div>
+<div class="lead">
+  <p>
+    <?php print render($content['field_ding_news_lead'][0]); ?>
+  </p>
 </div>
-
-<hr class="grid-clear-both"/>
 
 <div class="content">
 <?php
@@ -125,8 +119,6 @@
 ?>
 </div>
 
-<hr/>
-
 <?php
   // Remove the "Add new comment" link on the teaser page or if the comment
   // form is being displayed on the same page.
@@ -137,9 +129,9 @@
   $links = render($content['links']);
   if ($links):
 ?>
-  <div class="link-wrapper">
-    <?php print $links; ?>
-  </div>
+<div class="link-wrapper">
+  <?php print $links; ?>
+</div>
 <?php endif; ?>
 
 <?php if ($display_submitted): ?>
@@ -152,11 +144,11 @@
     <p>
       <i class="icon-time"></i>
       <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
-      <br>
+      <br />
       <?php if ($ddbasic_ding_news_tags): ?>
         <span class="tags">
           <i class="icon-tag"></i>
-          <?php print t('Tags: ') . $ddbasic_ding_news_tags; ?>
+          <?php print $ddbasic_ding_news_tags; ?>
         </span>
       <?php endif; ?>
     </p>
