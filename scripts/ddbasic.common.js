@@ -77,13 +77,6 @@
     $(".js-hide-element").click(function() {
       $(this).parent().hide();
     });
-
-    // Equal heights
-    if ($('body').hasClass('page-ding-frontpage')) {
-      $('.top-wrapper').equalize('height');
-      $('.main-wrapper').equalize('height');
-      $('.attachments-wrapper').equalize('height');
-    }
   });
 
 })(jQuery);
