@@ -9763,60 +9763,58 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 332, ../sass/_ddbasic.user.scss */
+.pane-loans table {
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+}
+/* line 337, ../sass/_ddbasic.user.scss */
 .pane-loans h2 {
   margin-top: 2px;
 }
-/* line 338, ../sass/_ddbasic.user.scss */
+/* line 343, ../sass/_ddbasic.user.scss */
 .pane-loans ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-/* line 344, ../sass/_ddbasic.user.scss */
+/* line 349, ../sass/_ddbasic.user.scss */
 .pane-loans th {
   border-top: 1px solid #efefef;
   padding: 10px 0;
 }
-/* line 351, ../sass/_ddbasic.user.scss */
+/* line 356, ../sass/_ddbasic.user.scss */
 .pane-loans td {
   border-top: 1px solid #efefef;
   padding: 20px 0 13.33333px;
 }
-/* line 357, ../sass/_ddbasic.user.scss */
+/* line 362, ../sass/_ddbasic.user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox {
   text-align: center;
 }
-/* line 361, ../sass/_ddbasic.user.scss */
+/* line 366, ../sass/_ddbasic.user.scss */
 .pane-loans .form-checkbox {
   margin-top: 0;
   margin-right: 1px;
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 368, ../sass/_ddbasic.user.scss */
+/* line 373, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover {
   float: left;
   margin-top: 4px;
-  max-width: 30%;
-}
-/* line 374, ../sass/_ddbasic.user.scss */
-.pane-loans .ting-cover img {
-  max-width: 90%;
+  max-width: 15%;
 }
 /* line 379, ../sass/_ddbasic.user.scss */
+.pane-loans .ting-cover img {
+  max-width: 85%;
+}
+/* line 384, ../sass/_ddbasic.user.scss */
 .pane-loans .order-id {
   margin-bottom: 0;
 }
-/* line 383, ../sass/_ddbasic.user.scss */
-.pane-loans .renew-loan-button {
-  border-top: 1px solid #efefef;
-  padding-top: 20px;
-}
-/* line 389, ../sass/_ddbasic.user.scss */
+/* line 390, ../sass/_ddbasic.user.scss */
 .pane-loans .operations .renew-loan-button {
-  border-top: 0;
-  padding-top: 0;
   padding-right: 20px;
   text-align: right;
 }
