@@ -86,6 +86,17 @@
 }
 
 // **
+// Single blog post / article
+// **
+//
+.super-heading .field-label {
+  @extend .element-invisible;
+}
+
+
+
+
+// **
 // Normal comment (eg. element or functionality)
 // **
 //
