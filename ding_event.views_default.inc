@@ -410,7 +410,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
   $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
@@ -2424,6 +2423,9 @@ function ding_event_views_default_views() {
     'ctools_context_teaser_list' => 0,
   );
   $handler->display->display_options['sitename_title'] = 1;
+
+  /* Display: Frontpage event list */
+  $handler = $view->new_display('panel_pane', 'Frontpage event list', 'panel_pane_1');
   $translatables['ding_event'] = array(
     t('Master'),
     t('more..'),
@@ -2454,6 +2456,7 @@ function ding_event_views_default_views() {
     t('Simple event list'),
     t('RSS event list'),
     t('RSS library event list'),
+    t('Frontpage event list'),
   );
   $export['ding_event'] = $view;
 
