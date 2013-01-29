@@ -56,6 +56,9 @@ projects[fences][subdir] = contrib
 projects[fences][version] = "1.0"
 projects[fences][patch][] = http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch
 
+projects[l10n_update][type] = module
+projects[l10n_update][subdir] = contrib
+projects[l10n_update][version] = "1.0-beta3"
 
 ; Ding! modules
 

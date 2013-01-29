@@ -25,6 +25,7 @@ dependencies[] = panels_breadcrumbs
 dependencies[] = panels_everywhere
 dependencies[] = strongarm
 dependencies[] = views
+dependencies[] = l10n_update
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
