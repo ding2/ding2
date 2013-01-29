@@ -77,14 +77,6 @@
     $(".js-hide-element").click(function() {
       $(this).parent().hide();
     });
-
-    // Equal heights
-    // Not working at the moment, must get back to this at a later stage.
-    //if ($('body').hasClass('page-ding-frontpage')) {
-      //$('.top-wrapper').equalize();
-      //$('.main-wrapper').equalize();
-      //$('.attachments-wrapper').equalize();
-    //}
   });
 
 })(jQuery);
