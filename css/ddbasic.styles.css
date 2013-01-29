@@ -9785,11 +9785,11 @@ input#edit-search-block-form--2.spinner {
 .pane-loans .ting-cover {
   float: left;
   margin-top: 4px;
-  max-width: 30%;
+  max-width: 15%;
 }
 /* line 374, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover img {
-  max-width: 90%;
+  max-width: 85%;
 }
 /* line 379, ../sass/_ddbasic.user.scss */
 .pane-loans .order-id {
