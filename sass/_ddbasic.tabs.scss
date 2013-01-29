@@ -15,12 +15,16 @@
 // -----------------------------------------------------------------------------
 //
 
+
+// -----------------------------------------------------------------------------
+// Default styling
+// -----------------------------------------------------------------------------
+//
 #tabs {
   @extend .tabs;
 
   ul.primary {
     padding-left: $default-spacing / 2;
-
 
     li,
     li.active,
@@ -47,22 +51,34 @@
 
   ul.secondary {
     padding: $default-spacing / 2;
+    margin: 0 $default-spacing / 2;
+
+    li,
+    li.active,
+    li:hover,
+    li.active:hover {
+      background: transparent;
+
+      border-right: none;
+      padding-right: 0;
+
+      a {
+        @include border-radius($button-border-radius);
+
+        display:block;
+        padding: 0 $default-spacing / 2;
+      }
+    }
+
+    li a {
+      background: $white;
+    }
+
+    li a.active {
+      background: $gray-light;
+    }
   }
 }
-
-
-// -----------------------------------------------------------------------------
-// Default styling
-// -----------------------------------------------------------------------------
-//
-
-// **
-// Normal comment (eg. element or functionality)
-// **
-//
-
-// Nested comment (use when nesting rules)
-  
 
 
 // -----------------------------------------------------------------------------

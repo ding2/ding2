@@ -6129,11 +6129,11 @@ button.button {
   }
 }
 
-/* line 21, ../sass/_ddbasic.tabs.scss */
+/* line 26, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary, #tabs ul.secondary {
   padding-left: 10px;
 }
-/* line 28, ../sass/_ddbasic.tabs.scss */
+/* line 32, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li, #tabs ul.secondary li,
 #tabs ul.primary li.active,
 #tabs ul.secondary li.active,
@@ -6143,7 +6143,7 @@ button.button {
 #tabs ul.secondary li.active:hover {
   background: transparent;
 }
-/* line 31, ../sass/_ddbasic.tabs.scss */
+/* line 35, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a, #tabs ul.secondary li a,
 #tabs ul.primary li.active a,
 #tabs ul.secondary li.active a,
@@ -6157,17 +6157,46 @@ button.button {
   display: block;
   line-height: 31.2px;
 }
-/* line 39, ../sass/_ddbasic.tabs.scss */
+/* line 43, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a, #tabs ul.secondary li a {
   background: #efefef;
 }
-/* line 43, ../sass/_ddbasic.tabs.scss */
+/* line 47, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a.active, #tabs ul.secondary li a.active {
   background: white;
 }
-/* line 48, ../sass/_ddbasic.tabs.scss */
+/* line 52, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary {
   padding: 10px;
+  margin: 0 10px;
+}
+/* line 59, ../sass/_ddbasic.tabs.scss */
+#tabs ul.secondary li,
+#tabs ul.secondary li.active,
+#tabs ul.secondary li:hover,
+#tabs ul.secondary li.active:hover {
+  background: transparent;
+  border-right: none;
+  padding-right: 0;
+}
+/* line 65, ../sass/_ddbasic.tabs.scss */
+#tabs ul.secondary li a,
+#tabs ul.secondary li.active a,
+#tabs ul.secondary li:hover a,
+#tabs ul.secondary li.active:hover a {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  display: block;
+  padding: 0 10px;
+}
+/* line 73, ../sass/_ddbasic.tabs.scss */
+#tabs ul.secondary li a {
+  background: white;
+}
+/* line 77, ../sass/_ddbasic.tabs.scss */
+#tabs ul.secondary li a.active {
+  background: #efefef;
 }
 
 /*
