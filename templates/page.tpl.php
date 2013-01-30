@@ -70,7 +70,6 @@
 ?>
 
 <div id="page">
-
   <?php if (!empty($page['branding'])): ?>
     <div class="grid-full branding">
       <?php print render($page['branding']); ?>

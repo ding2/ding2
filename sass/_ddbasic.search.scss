@@ -100,10 +100,11 @@ input#edit-search-block-form--2.spinner {
 
   .spinner {
     i[class^="icon-"] {
+      @include rem('font-size', $theme-font-size * 1.5);
       @extend .icon-spin;
       @extend .icon-spinner;
 
-      font-size: $theme-font-size * 1.5;
+      height: $theme-font-size * 1.5;
       margin-left: 17px;
       top: 22px;
     }

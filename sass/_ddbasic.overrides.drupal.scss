@@ -36,6 +36,36 @@
   }
 }
 
+
+.ajax-progress,
+.ajax-progress-throbber {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.ajax-progress .throbber {
+  @extend .icon-spin;
+  @extend .icon-spinner;
+
+  background: transparent;
+  color: #000;
+  font-family: $theme-icon-library-font;
+  font-size: 50px;
+  height: auto;
+  left: 48%;
+  position: relative;
+  top: 48%;
+  width: 50px;
+}
+
+
 // -----------------------------------------------------------------------------
 // Mediaqueries
 // -----------------------------------------------------------------------------
