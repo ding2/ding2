@@ -135,22 +135,11 @@
 <?php endif; ?>
 
 <?php if ($display_submitted): ?>
-  <div class="signature">
-    <?php print $user_picture; ?>
-    <h4>
-      <?php print $ddbasic_byline; ?>
-      <?php print $name; ?>
-    </h4>
-    <p>
-      <i class="icon-time"></i>
-      <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
-      <br />
-      <?php if ($ddbasic_ding_news_tags): ?>
-        <span class="tags">
-          <i class="icon-tag"></i>
-          <?php print $ddbasic_ding_news_tags; ?>
-        </span>
-      <?php endif; ?>
-    </p>
-  </div>
+<div class="signature">
+  <p class="author"><i class="icon-user"></i> <span><?php print $ddbasic_byline; ?> <?php print $name; ?></span></p>
+  <p class="pub-date"><i class="icon-time"></i> <span><?php print $submitted; ?> &bull; <?php print $ddbasic_updated; ?></span></p>
+  <?php if ($ddbasic_ding_news_tags): ?>
+  <p class="tags"><i class="icon-tag"></i> <span><?php print $ddbasic_ding_news_tags; ?></span></p>
+  <?php endif; ?>
+</div>
 <?php endif; ?>
