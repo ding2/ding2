@@ -33,6 +33,12 @@ $button-padding:                  8px 14px;
   text-align: center;
   vertical-align: middle;
 
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+
   // Disabled state
   &.disabled,
   &[disabled] {
@@ -67,29 +73,20 @@ $button-padding:                  8px 14px;
   }
 }
 
+// Default button (dark gray)
 .button,
 a.button {
   @include create-gradient-button($button-text-color, $button-bg-start-color, $button-bg-end-color);
 }
 
-%button-primary {
+// Blue button
+%button-blue {
   @include create-gradient-button($white, #00b7e7, darken(#00b7e7, 15%));
 }
 
-
-// This button is without gradient so we don't use the button mixin for that
-%button-flat {
-  @include background-image(linear-gradient(darken($button-bg-start-color, 15%), darken($button-bg-end-color, 15%)));
-  @extend %button;
-
-  border: 0;
-  color: $white;
-
-  &:focus,
-  &:hover,
-  &:active {
-    @include background-image(linear-gradient(darken($button-bg-start-color, 100%), darken($button-bg-end-color, 100%)));
-  }
+// Black button
+%button-black {
+  @include create-gradient-button($white, #444, darken(#444, 15%));
 }
 
 

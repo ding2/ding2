@@ -102,7 +102,7 @@
 
   input[type="submit"] {
     @include border-radius(12px);
-    @extend %button-flat;
+    @extend %button-black;
 
     display: inline;
     min-height: 60px;
@@ -331,7 +331,8 @@
 // **
 //
 .pane-loans,
-.pane-reservations {
+.pane-reservations,
+.pane-bookmarks {
   table {
     border-bottom: 1px solid $gray-light;
     margin-bottom: $default-spacing;
@@ -422,6 +423,14 @@
   .update-reservations {
     display: inline;
     margin-right: $default-spacing;
+  }
+}
+
+.pane-bookmarks {
+  .ding-entity-button {
+    a {
+      @extend .button;
+    }
   }
 }
 
