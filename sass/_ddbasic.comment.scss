@@ -32,6 +32,19 @@
   }
 }
 
+.ding-user-comment-forbidden-form {
+  .form-submit {
+    float: left;
+  }
+  
+  span {
+    @extend em;
+    
+    line-height: 35px;
+    margin-left: 5px;
+  }
+}
+
 .filter-guidelines {
   padding-top: 0;
   padding-left: 0;

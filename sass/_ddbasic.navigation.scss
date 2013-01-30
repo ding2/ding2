@@ -227,10 +227,11 @@
         color: $link-color-inverted;
         float: left;
         font-family: $theme-icon-library-font;
+        margin-top: -1px;
       }
 
       a {
-        padding-left: $default-spacing / 4;
+        padding-left: $default-spacing / 2;
 
         &:hover {
           color: $link-color-inverted-hover;
