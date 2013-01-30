@@ -136,10 +136,14 @@
 
 <?php if ($display_submitted): ?>
 <div class="signature">
-  <p class="author"><i class="icon-user"></i> <span><?php print $ddbasic_byline; ?> <?php print $name; ?></span></p>
-  <p class="pub-date"><i class="icon-time"></i> <span><?php print $submitted; ?> &bull; <?php print $ddbasic_updated; ?></span></p>
+  <p><i class="icon-user"></i> <span class="author"><?php print $ddbasic_byline; ?> <?php print $name; ?></span></p>
+  <p><i class="icon-time"></i> <span class="pub-date"><?php print $submitted; ?> &bull; <?php print $ddbasic_updated; ?></span></p>
   <?php if ($ddbasic_ding_news_tags): ?>
-  <p class="tags"><i class="icon-tag"></i> <span><?php print $ddbasic_ding_news_tags; ?></span></p>
+  <p><i class="icon-tag"></i> <span class="tags"><?php print $ddbasic_ding_news_tags; ?></span></p>
   <?php endif; ?>
 </div>
 <?php endif; ?>
+
+<?php
+print render($content['comments']);
+?>

@@ -98,7 +98,11 @@
 
   .field-item {padding-left: $default-spacing / 4;}
 }
+
+
 .signature {
+  padding: $default-spacing 0 0;
+
   p {
     margin-bottom: 0;
     
@@ -107,10 +111,29 @@
       margin-top: 3px;
     }
     
-    span {
+    .author,
+    .pub-date,
+    .tags {
       display: block;
       padding-left: 1.5em;
+
+      color: $gray-darker;
     }
+  }
+}
+
+
+.field-name-field-ding-news-materials {
+  @extend .pane-ting-collection;
+
+  .field-item {
+    background-color: $gray-light;
+    margin-bottom: $default-spacing;
+    padding: $default-spacing;
+  }
+
+  .ting-cover {
+    @extend %search-ting-cover;
   }
 }
 
