@@ -169,6 +169,11 @@ function ddbasic_preprocess_user_picture(&$variables) {
  *   The name of the template being rendered ("node" in this case.)
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
+  // Opening hours on library list.
+  $hooks = theme_get_registry(FALSE);
+  if (isset($hooks['opening_hours_week']) && $variables['type'] == 'ding_library') {
+    $variables['opening_hours'] = theme('opening_hours_week', array('node' => $variables['node']));
+  }
   // Add ddbasic_byline to variables
   $variables['ddbasic_byline'] = t('By: ');
 

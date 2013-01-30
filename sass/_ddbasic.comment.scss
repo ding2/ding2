@@ -54,6 +54,17 @@
   }
 }
 
+.comment {
+  background-color: $gray-light;
+  margin-bottom: $default-spacing;
+  padding: $default-spacing;
+
+  .new {
+    @extend %availability-reservable;
+    @extend .pull-right;
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // Mediaqueries
