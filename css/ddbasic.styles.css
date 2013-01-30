@@ -5479,10 +5479,9 @@ body {
   font-size: 0.9375rem;
   color: rgba(0, 0, 0, 0.8);
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-  font-weight: normal;
 }
 
-/* line 82, ../sass/_ddbasic.typography.scss */
+/* line 81, ../sass/_ddbasic.typography.scss */
 h1,
 h2,
 h3,
@@ -5492,7 +5491,7 @@ h5,
 h6 {
   line-height: 100%;
 }
-/* line 86, ../sass/_ddbasic.typography.scss */
+/* line 85, ../sass/_ddbasic.typography.scss */
 h1 a:link,
 h2 a:link,
 h3 a:link,
@@ -5503,7 +5502,7 @@ h6 a:link {
   color: #1b1b1b;
   text-decoration: none;
 }
-/* line 90, ../sass/_ddbasic.typography.scss */
+/* line 89, ../sass/_ddbasic.typography.scss */
 h1 a:visited,
 h2 a:visited,
 h3 a:visited,
@@ -5513,7 +5512,7 @@ h5 a:visited,
 h6 a:visited {
   color: #1b1b1b;
 }
-/* line 93, ../sass/_ddbasic.typography.scss */
+/* line 92, ../sass/_ddbasic.typography.scss */
 h1 a:hover,
 h2 a:hover,
 h3 a:hover,
@@ -5523,7 +5522,7 @@ h5 a:hover,
 h6 a:hover {
   color: black;
 }
-/* line 96, ../sass/_ddbasic.typography.scss */
+/* line 95, ../sass/_ddbasic.typography.scss */
 h1 a:focus,
 h2 a:focus,
 h3 a:focus,
@@ -5533,7 +5532,7 @@ h5 a:focus,
 h6 a:focus {
   color: #006681;
 }
-/* line 99, ../sass/_ddbasic.typography.scss */
+/* line 98, ../sass/_ddbasic.typography.scss */
 h1 a:active,
 h2 a:active,
 h3 a:active,
@@ -5545,7 +5544,7 @@ h6 a:active {
   color: #1b1b1b;
 }
 
-/* line 108, ../sass/_ddbasic.typography.scss */
+/* line 107, ../sass/_ddbasic.typography.scss */
 input,
 textarea,
 select {
@@ -5553,49 +5552,49 @@ select {
   letter-spacing: 1px;
 }
 
-/* line 114, ../sass/_ddbasic.typography.scss */
+/* line 113, ../sass/_ddbasic.typography.scss */
 strong, dl > dt, .list-content > dt, .list-news > dt, .list-compact > dt, .pane-search-result .search-results .list > dt, .pane-search-result .search-results .list .availability ul > dt, .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-object-types ul > dt, .pane-ting-ting-relation-anchors ul > dt, .pane-ting-object .field-name-ding-availability-holdings ul > dt, .library-list > dt, .list > dt, .lead, .page-lead, em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, .sub-menu > li a.active, .library-menu .links > li a.active, .ui-dialog .ui-dialog-titlebar-close .ui-icon, .pane-user-profile .form-item label, .pane-user-profile .profile2-provider-alma .field-label, .pane-loans th,
 .pane-reservations th {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 120, ../sass/_ddbasic.typography.scss */
+/* line 119, ../sass/_ddbasic.typography.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 124, ../sass/_ddbasic.typography.scss */
+/* line 123, ../sass/_ddbasic.typography.scss */
 em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .lead, em .page-lead, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .sub-menu > li a.active, .sub-menu > li em a.active, em .library-menu .links > li a.active, .library-menu .links > li em a.active, em .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close em .ui-icon, em .pane-user-profile .form-item label, .pane-user-profile .form-item em label, em .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma em .field-label, em .pane-loans th, .pane-loans em th,
 em .pane-reservations th,
 .pane-reservations em th {
   font-family: "SourceSansProSemiboldItalic";
 }
 
-/* line 137, ../sass/_ddbasic.typography.scss */
+/* line 136, ../sass/_ddbasic.typography.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 141, ../sass/_ddbasic.typography.scss */
+/* line 140, ../sass/_ddbasic.typography.scss */
 a:visited {
   color: #007a9b;
 }
-/* line 144, ../sass/_ddbasic.typography.scss */
+/* line 143, ../sass/_ddbasic.typography.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 148, ../sass/_ddbasic.typography.scss */
+/* line 147, ../sass/_ddbasic.typography.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 152, ../sass/_ddbasic.typography.scss */
+/* line 151, ../sass/_ddbasic.typography.scss */
 a:focus {
   color: #006681;
 }
 
-/* line 163, ../sass/_ddbasic.typography.scss */
+/* line 162, ../sass/_ddbasic.typography.scss */
 .footer-block .block-title, .block-opening-hours .block-title, .user-login-block .block-title, .footer-block .library-title, .block-opening-hours .library-title, .user-login-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2, .block-opening-hours .pane-loans h2, .pane-loans .block-opening-hours h2, .user-login-block .pane-loans h2, .pane-loans .user-login-block h2,
 .footer-block .pane-reservations h2,
 .pane-reservations .footer-block h2,
@@ -5607,98 +5606,98 @@ a:focus {
   font-size: 2.0625rem;
 }
 
-/* line 173, ../sass/_ddbasic.typography.scss */
+/* line 172, ../sass/_ddbasic.typography.scss */
 .section-title {
   font-size: 30px;
   font-size: 1.875rem;
 }
 
-/* line 177, ../sass/_ddbasic.typography.scss */
+/* line 176, ../sass/_ddbasic.typography.scss */
 .section-title-inverted {
   font-size: 30px;
   font-size: 1.875rem;
 }
 
-/* line 187, ../sass/_ddbasic.typography.scss */
+/* line 186, ../sass/_ddbasic.typography.scss */
 .search input[type="text"], .topbar .search input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
 }
-/* line 191, ../sass/_ddbasic.typography.scss */
+/* line 190, ../sass/_ddbasic.typography.scss */
 .search input[type="submit"], .topbar .search input[type="submit"] {
   font-size: 25.5px;
 }
 
-/* line 197, ../sass/_ddbasic.typography.scss */
+/* line 196, ../sass/_ddbasic.typography.scss */
 .search-compact input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
-/* line 201, ../sass/_ddbasic.typography.scss */
+/* line 200, ../sass/_ddbasic.typography.scss */
 .search-compact input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
   font-size: 25.5px;
 }
-/* line 206, ../sass/_ddbasic.typography.scss */
+/* line 205, ../sass/_ddbasic.typography.scss */
 .search-compact i[class^="icon-"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
 }
 
-/* line 217, ../sass/_ddbasic.typography.scss */
+/* line 216, ../sass/_ddbasic.typography.scss */
 .facet-browser h2 {
   font-size: 18px;
   font-size: 1.125rem;
 }
 
-/* line 228, ../sass/_ddbasic.typography.scss */
+/* line 227, ../sass/_ddbasic.typography.scss */
 .search-result-block h1 {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
-/* line 232, ../sass/_ddbasic.typography.scss */
+/* line 231, ../sass/_ddbasic.typography.scss */
 .search-result-block .status {
   font-size: 12px;
   font-size: 0.75rem;
 }
-/* line 236, ../sass/_ddbasic.typography.scss */
+/* line 235, ../sass/_ddbasic.typography.scss */
 .search-result-block .more {
   font-size: 26.25px;
   font-size: 1.64063rem;
 }
 
-/* line 248, ../sass/_ddbasic.typography.scss */
+/* line 247, ../sass/_ddbasic.typography.scss */
 .user input[type="text"],
 .user input[type="password"] {
   font-size: 19.5px;
   font-size: 1.21875rem;
 }
-/* line 252, ../sass/_ddbasic.typography.scss */
+/* line 251, ../sass/_ddbasic.typography.scss */
 .user input[type="submit"] {
   font-size: 25.5px;
 }
 
-/* line 259, ../sass/_ddbasic.typography.scss */
+/* line 258, ../sass/_ddbasic.typography.scss */
 .user-compact {
   font-size: 21px;
   font-size: 1.3125rem;
 }
 
-/* line 266, ../sass/_ddbasic.typography.scss */
+/* line 265, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
-/* line 268, ../sass/_ddbasic.typography.scss */
+/* line 267, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container:hover {
   text-decoration: none;
 }
-/* line 275, ../sass/_ddbasic.typography.scss */
+/* line 274, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-login-link a:hover {
   text-decoration: none;
 }
-/* line 282, ../sass/_ddbasic.typography.scss */
+/* line 281, ../sass/_ddbasic.typography.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -6067,58 +6066,7 @@ a.button, .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .f
   outline: 0;
 }
 
-/* line 133, ../sass/_ddbasic.buttons.scss */
-.search input.available[type="submit"], .topbar .search input.available[type="submit"], .user input.available[type="submit"], .comment-form .form-actions .available.form-submit, .available.button,
-a.available.button, .available.form-submit, .pane-ting-collection .available.form-submit, .pane-ting-object .available.form-submit,
-.pane-ting-collection .available.ding-entity-button,
-.pane-ting-object .available.ding-entity-button, .user-login-block input.available[type="submit"] {
-  background-color: #60a500;
-}
-/* line 136, ../sass/_ddbasic.buttons.scss */
-.search input.available[type="submit"] .icon, .topbar .search input.available[type="submit"] .icon, .user input.available[type="submit"] .icon, .comment-form .form-actions .available.form-submit .icon, .available.button .icon, .available.form-submit .icon, .pane-ting-collection .available.form-submit .icon, .pane-ting-object .available.form-submit .icon,
-.pane-ting-collection .available.ding-entity-button .icon,
-.pane-ting-object .available.ding-entity-button .icon, .user-login-block input.available[type="submit"] .icon {
-  background-color: #518b00;
-}
-/* line 141, ../sass/_ddbasic.buttons.scss */
-.search input.available[type="submit"]:hover, .topbar .search input.available[type="submit"]:hover, .user input.available[type="submit"]:hover, .comment-form .form-actions .available.form-submit:hover, .available.button:hover, .available.form-submit:hover, .pane-ting-collection .available.form-submit:hover, .pane-ting-object .available.form-submit:hover,
-.pane-ting-collection .available.ding-entity-button:hover,
-.pane-ting-object .available.ding-entity-button:hover, .user-login-block input.available[type="submit"]:hover, .search input.available[type="submit"]:active, .topbar .search input.available[type="submit"]:active, .user input.available[type="submit"]:active, .comment-form .form-actions .available.form-submit:active, .available.button:active, .available.form-submit:active, .pane-ting-collection .available.form-submit:active, .pane-ting-object .available.form-submit:active,
-.pane-ting-collection .available.ding-entity-button:active,
-.pane-ting-object .available.ding-entity-button:active, .user-login-block input.available[type="submit"]:active, .search input.available[type="submit"]:focus, .topbar .search input.available[type="submit"]:focus, .user input.available[type="submit"]:focus, .comment-form .form-actions .available.form-submit:focus, .available.button:focus, .available.form-submit:focus, .pane-ting-collection .available.form-submit:focus, .pane-ting-object .available.form-submit:focus,
-.pane-ting-collection .available.ding-entity-button:focus,
-.pane-ting-object .available.ding-entity-button:focus, .user-login-block input.available[type="submit"]:focus {
-  background-color: #335900;
-}
-/* line 143, ../sass/_ddbasic.buttons.scss */
-.search input.available[type="submit"]:hover .icon, .topbar .search input.available[type="submit"]:hover .icon, .user input.available[type="submit"]:hover .icon, .available.button:hover .icon, .available.form-submit:hover .icon, .pane-ting-collection .available.form-submit:hover .icon, .pane-ting-object .available.form-submit:hover .icon,
-.pane-ting-collection .available.ding-entity-button:hover .icon,
-.pane-ting-object .available.ding-entity-button:hover .icon, .user-login-block input.available[type="submit"]:hover .icon, .search input.available[type="submit"]:active .icon, .topbar .search input.available[type="submit"]:active .icon, .user input.available[type="submit"]:active .icon, .available.button:active .icon, .available.form-submit:active .icon, .pane-ting-collection .available.form-submit:active .icon, .pane-ting-object .available.form-submit:active .icon,
-.pane-ting-collection .available.ding-entity-button:active .icon,
-.pane-ting-object .available.ding-entity-button:active .icon, .user-login-block input.available[type="submit"]:active .icon, .search input.available[type="submit"]:focus .icon, .topbar .search input.available[type="submit"]:focus .icon, .user input.available[type="submit"]:focus .icon, .available.button:focus .icon, .available.form-submit:focus .icon, .pane-ting-collection .available.form-submit:focus .icon, .pane-ting-object .available.form-submit:focus .icon,
-.pane-ting-collection .available.ding-entity-button:focus .icon,
-.pane-ting-object .available.ding-entity-button:focus .icon, .user-login-block input.available[type="submit"]:focus .icon {
-  background-color: #253f00;
-}
-
-/* line 149, ../sass/_ddbasic.buttons.scss */
-.ticket-info {
-  background-color: #f6d346;
-}
-/* line 152, ../sass/_ddbasic.buttons.scss */
-.ticket-info .icon {
-  background-color: #f5cd2e;
-}
-/* line 157, ../sass/_ddbasic.buttons.scss */
-.ticket-info:hover, .ticket-info:active, .ticket-info:focus {
-  background-color: #e4b90b;
-}
-/* line 159, ../sass/_ddbasic.buttons.scss */
-.ticket-info:hover .icon, .ticket-info:active .icon, .ticket-info:focus .icon {
-  background-color: #cca50a;
-}
-
-/* line 203, ../sass/_ddbasic.buttons.scss */
+/* line 138, ../sass/_ddbasic.buttons.scss */
 .button,
 a.button {
   display: inline-block;
@@ -6126,14 +6074,14 @@ a.button {
   font-size: 15px;
 }
 
-/* line 214, ../sass/_ddbasic.buttons.scss */
+/* line 149, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button,
 button.button {
   -webkit-appearance: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 225, ../sass/_ddbasic.buttons.scss */
+  /* line 160, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
