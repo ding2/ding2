@@ -130,71 +130,6 @@ $button-primary-box-shadow:       0 0 1px lighten($button-primary-color, 35%) in
 }
 
 
-%success {
-  background-color: $button-success-bg-color;
-
-  .icon {
-    background-color: darken($button-success-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-success-bg-color, 15%);
-    .icon {
-      background-color: darken($button-success-bg-color, 20%);
-    }
-  }
-}
-
-%warning {
-  background-color: $button-warning-bg-color;
-
-  .icon {
-    background-color: darken($button-warning-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-warning-bg-color, 15%);
-    .icon {
-      background-color: darken($button-warning-bg-color, 20%);
-    }
-  }
-}
-
-%danger {
-  background-color: $button-danger-bg-color;
-
-  .icon {
-    background-color: darken($button-danger-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-danger-bg-color, 15%);
-    .icon {
-      background-color: darken($button-danger-bg-color, 20%);
-    }
-  }
-}
-
-%info {
-  background-color: $button-info-bg-color;
-
-  .icon {
-    background-color: darken($button-info-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-info-bg-color, 15%);
-    .icon {
-      background-color: darken($button-info-bg-color, 20%);
-    }
-  }
-}
-
-
 // -----------------------------------------------------------------------------
 // Default styling
 // -----------------------------------------------------------------------------
@@ -223,7 +158,8 @@ button.button {
   input[type="button"]::-moz-focus-inner,
   input[type="submit"]::-moz-focus-inner,
   input[type="file"] > input[type="button"]::-moz-focus-inner {
-    border: none; padding: 0;
+    border: none;
+    padding: 0;
   }
 }
 
