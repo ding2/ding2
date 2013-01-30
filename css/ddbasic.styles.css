@@ -8636,13 +8636,13 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
   margin-top: 17px;
-  margin-right: 100px;
+  margin-right: 190px;
   position: absolute;
   right: 160px;
 }
 /* line 172, ../sass/_ddbasic.search.scss */
 .topbar .search .search-field-wrapper {
-  min-width: 400px;
+  min-width: 558px;
   position: relative;
 }
 /* line 177, ../sass/_ddbasic.search.scss */
@@ -9166,6 +9166,46 @@ input#edit-search-block-form--2.spinner {
   border: none;
 }
 
+/* line 874, ../sass/_ddbasic.search.scss */
+ul.ui-autocomplete {
+  -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("../scripts/boxsizing.htc");
+  background-color: white;
+  margin-top: 10px;
+  max-width: 580px;
+  padding: 10px;
+  width: 580px;
+}
+/* line 886, ../sass/_ddbasic.search.scss */
+ul.ui-autocomplete .ui-menu-item a {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+}
+/* line 894, ../sass/_ddbasic.search.scss */
+ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 5px;
+  margin-left: 0;
+}
+/* line 901, ../sass/_ddbasic.search.scss */
+ul.ui-autocomplete .ui-menu-item a:hover {
+  background-color: #efefef;
+}
+
 /* line 30, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-wrapper {
   *position: relative;
@@ -9499,7 +9539,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 34, ../sass/_ddbasic.modal.scss */
-.ui-widget {
+.ui-dialog {
   background-color: rgba(0, 183, 231, 0.95);
   zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F200B7E7,endColorstr=#F200B7E7);
