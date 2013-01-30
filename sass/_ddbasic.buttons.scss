@@ -33,6 +33,12 @@ $button-padding:                  8px 14px;
   text-align: center;
   vertical-align: middle;
 
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+
   // Disabled state
   &.disabled,
   &[disabled] {
@@ -67,11 +73,13 @@ $button-padding:                  8px 14px;
   }
 }
 
+// This is the default button
 .button,
 a.button {
   @include create-gradient-button($button-text-color, $button-bg-start-color, $button-bg-end-color);
 }
 
+// This is the alternate button
 %button-primary {
   @include create-gradient-button($white, #00b7e7, darken(#00b7e7, 15%));
 }
