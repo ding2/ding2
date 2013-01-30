@@ -102,7 +102,7 @@
 
   input[type="submit"] {
     @include border-radius(12px);
-    @extend .button;
+    @extend %button-black;
 
     display: inline;
     min-height: 60px;

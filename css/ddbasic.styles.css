@@ -6046,9 +6046,9 @@ table tbody tr:hover th {
 }
 
 /* line 24, ../sass/_ddbasic.buttons.scss */
-.button, .form-submit, .search input[type="submit"], .user input[type="submit"], .pane-bookmarks .ding-entity-button a,
+.button, .form-submit, .pane-bookmarks .ding-entity-button a,
 a.button,
-a.form-submit, .topbar .search input[type="submit"].form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+a.form-submit, .topbar .search input[type="submit"].form-submit, .search input[type="submit"], .user input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button, .user-login-block input[type="submit"] {
   -webkit-border-radius: 8px;
@@ -6063,24 +6063,24 @@ a.form-submit, .topbar .search input[type="submit"].form-submit, .pane-ting-coll
   vertical-align: middle;
 }
 /* line 38, ../sass/_ddbasic.buttons.scss */
-.button:focus, .form-submit:focus, .search input[type="submit"]:focus, .user input[type="submit"]:focus, .pane-bookmarks .ding-entity-button a:focus,
-a.form-submit:focus, .topbar .search input[type="submit"].form-submit:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.button:focus, .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus,
+a.form-submit:focus, .topbar .search input[type="submit"].form-submit:focus, .search input[type="submit"]:focus, .user input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .user-login-block input[type="submit"]:focus, .button:hover, .form-submit:hover, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .pane-bookmarks .ding-entity-button a:hover,
-a.form-submit:hover, .topbar .search input[type="submit"].form-submit:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.pane-ting-object .ding-entity-button:focus, .user-login-block input[type="submit"]:focus, .button:hover, .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover,
+a.form-submit:hover, .topbar .search input[type="submit"].form-submit:hover, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .user-login-block input[type="submit"]:hover, .button:active, .form-submit:active, .search input[type="submit"]:active, .user input[type="submit"]:active, .pane-bookmarks .ding-entity-button a:active,
-a.form-submit:active, .topbar .search input[type="submit"].form-submit:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-ting-object .ding-entity-button:hover, .user-login-block input[type="submit"]:hover, .button:active, .form-submit:active, .pane-bookmarks .ding-entity-button a:active,
+a.form-submit:active, .topbar .search input[type="submit"].form-submit:active, .search input[type="submit"]:active, .user input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active, .user-login-block input[type="submit"]:active {
   text-decoration: none;
 }
 /* line 44, ../sass/_ddbasic.buttons.scss */
-.disabled.button, .disabled.form-submit, .search input.disabled[type="submit"], .user input.disabled[type="submit"], .pane-bookmarks .ding-entity-button a.disabled,
-a.disabled.form-submit, .topbar .search input.disabled[type="submit"].form-submit, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+.disabled.button, .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled,
+a.disabled.form-submit, .topbar .search input.disabled[type="submit"].form-submit, .search input.disabled[type="submit"], .user input.disabled[type="submit"], .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], [disabled].button, [disabled].form-submit, .search input[disabled][type="submit"], .user input[disabled][type="submit"], .pane-bookmarks .ding-entity-button a[disabled],
-a[disabled].form-submit, .topbar .search input[disabled][type="submit"].form-submit, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-ting-object .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], [disabled].button, [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled],
+a[disabled].form-submit, .topbar .search input[disabled][type="submit"].form-submit, .search input[disabled][type="submit"], .user input[disabled][type="submit"], .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button, .user-login-block input[disabled][type="submit"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -6092,7 +6092,7 @@ a[disabled].form-submit, .topbar .search input[disabled][type="submit"].form-sub
 }
 
 /* line 78, ../sass/_ddbasic.buttons.scss */
-.button, .form-submit, .search input[type="submit"], .user input[type="submit"], .pane-bookmarks .ding-entity-button a,
+.button, .form-submit, .pane-bookmarks .ding-entity-button a,
 a.button,
 a.form-submit,
 .pane-bookmarks .ding-entity-button a {
@@ -6105,7 +6105,7 @@ a.form-submit,
   color: white;
 }
 /* line 68, ../sass/_ddbasic.buttons.scss */
-.button:focus, .form-submit:focus, .search input[type="submit"]:focus, .user input[type="submit"]:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active, .search input[type="submit"]:active, .user input[type="submit"]:active, .pane-bookmarks .ding-entity-button a:active,
+.button:focus, .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active, .pane-bookmarks .ding-entity-button a:active,
 a.button:focus,
 a.form-submit:focus,
 .pane-bookmarks .ding-entity-button a:focus,
@@ -6141,15 +6141,34 @@ a.form-submit:active,
   background-image: linear-gradient(#00a3ce, #006681);
 }
 
-/* line 112, ../sass/_ddbasic.buttons.scss */
-input[type=submit].button, input[type=submit].form-submit, .search input[type=submit][type="submit"], .user input[type=submit][type="submit"],
+/* line 88, ../sass/_ddbasic.buttons.scss */
+.search input[type="submit"], .user input[type="submit"] {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
+  background-image: -webkit-linear-gradient(#444444, #1e1e1e);
+  background-image: -moz-linear-gradient(#444444, #1e1e1e);
+  background-image: -o-linear-gradient(#444444, #1e1e1e);
+  background-image: linear-gradient(#444444, #1e1e1e);
+  border: 0;
+  color: white;
+}
+/* line 68, ../sass/_ddbasic.buttons.scss */
+.search input[type="submit"]:focus, .user input[type="submit"]:focus, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .search input[type="submit"]:active, .user input[type="submit"]:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
+  background-image: -webkit-linear-gradient(#373737, #111111);
+  background-image: -moz-linear-gradient(#373737, #111111);
+  background-image: -o-linear-gradient(#373737, #111111);
+  background-image: linear-gradient(#373737, #111111);
+}
+
+/* line 101, ../sass/_ddbasic.buttons.scss */
+input[type=submit].button, input[type=submit].form-submit,
 button.button,
 button.form-submit {
   -webkit-appearance: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 123, ../sass/_ddbasic.buttons.scss */
+  /* line 112, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -9377,10 +9396,6 @@ input#edit-search-block-form--2.spinner {
 .pane-library-list .form-item-select-library,
 .pane-library-list .button,
 .pane-library-list .form-submit,
-.pane-library-list .search input[type="submit"],
-.search .pane-library-list input[type="submit"],
-.pane-library-list .user input[type="submit"],
-.user .pane-library-list input[type="submit"],
 .pane-library-list .pane-bookmarks .ding-entity-button a,
 .pane-bookmarks .ding-entity-button .pane-library-list a {
   display: inline;
