@@ -9,7 +9,8 @@
  */
 function ding_event_ding_library_menu_links() {
   return array(
-    'events' => array(
+    'arrangementer' => array(
+      'linktype' => 'general_view_linktype',
       'title' => 'Events',
     ),
   );
