@@ -9,7 +9,12 @@
  */
 function ding_library_menu_menu_alter(&$items) {
   foreach (module_invoke_all('ding_library_menu_links') as $path_suffix => $item) {
-    $full_path = 'node/%pm_arg/' . $path_suffix;
+    // If the Link is to news og events we use the general news and event views.
+    if (isset($item['linktype']) && $item['linktype'] == 'general_view_linktype') {
+      $full_path = 'bibliotek/%pm_arg/' . $path_suffix;
+    } else {
+       $full_path = 'node/%pm_arg/' . $path_suffix;
+    }    
     if (isset($items[$full_path]) && isset($item['title'])) {
       $items[$full_path]['title'] = $item['title'];
     }
@@ -92,8 +97,13 @@ function _ding_libary_menu_rebuild() {
 
 
     foreach (module_invoke_all('ding_library_menu_links') as $path_suffix => $link) {
-      $path_parts = array('node', $node->nid);
-
+      // If the Link is to news og events we use the general news and event views.
+      if (isset($link['linktype']) && $link['linktype'] == 'general_view_linktype') {
+        $path_parts = array('bibliotek', $node->nid);
+      } else {
+        $path_parts = array('node', $node->nid);
+      }
+      
       $path_parts[] = $path_suffix;
 
       // Use the main page as parent.
@@ -102,7 +112,9 @@ function _ding_libary_menu_rebuild() {
       $parent = $existing_links['node/' . $node->nid];
 
       // Don't create parent-less menu links.
-      if (empty($parent)) { continue; }
+      if (empty($parent)) {
+        continue;
+      }
 
       $path = implode('/', $path_parts);
 
