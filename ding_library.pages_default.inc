@@ -149,7 +149,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->configuration = array(
       'override_pager_settings' => 0,
       'use_pager' => 0,
-      'nodes_per_page' => '10',
+      'nodes_per_page' => '5',
       'pager_id' => '0',
       'offset' => '0',
       'more_link' => 1,
@@ -157,7 +157,7 @@ function ding_library_default_page_manager_handlers() {
       'panel_args' => 0,
       'link_to_view' => 0,
       'args' => '',
-      'url' => 'node/%/news',
+      'url' => 'bibliotek/%/nyheder',
       'display' => 'ctools_context_library_list',
       'context' => array(
         0 => 'argument_entity_id:node_1.nid',
