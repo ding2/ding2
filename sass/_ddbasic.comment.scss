@@ -32,12 +32,36 @@
   }
 }
 
+.ding-user-comment-forbidden-form {
+  .form-submit {
+    float: left;
+  }
+  
+  span {
+    @extend em;
+    
+    line-height: 35px;
+    margin-left: 5px;
+  }
+}
+
 .filter-guidelines {
   padding-top: 0;
   padding-left: 0;
 
   .tips {
     margin-left: 0;
+  }
+}
+
+.comment {
+  background-color: $gray-light;
+  margin-bottom: $default-spacing;
+  padding: $default-spacing;
+
+  .new {
+    @extend %availability-reservable;
+    @extend .pull-right;
   }
 }
 

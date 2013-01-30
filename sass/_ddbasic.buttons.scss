@@ -8,38 +8,13 @@
 // Variables
 // -----------------------------------------------------------------------------
 //
-$button-primary-bg-color:         $black;
-$button-secondary-bg-color:       $theme-secondary-color;
-$button-success-bg-color:         #60a500;
-$button-warning-bg-color:         #f6d346;
-$button-danger-bg-color:          #bf3600;
-$button-info-bg-color:            #73b4e0;
-$button-border-radius:            8px;
-$button-padding:                  8px 14px;
-
-
-// **
-// Default button
-// **
-//
 $button-text-color:               $white;
 $button-bg-start-color:           lighten($black, 35%);
 $button-bg-end-color:             lighten($black, 25%);
 $button-border:                   0;
 $button-box-shadow:               0 0 1px lighten($black, 35%) inset;
-
-
-// **
-// Primary button
-// **
-//
-$button-primary-text-color:       $white;
-$button-primary-color:            #00b7e7;
-$button-primary-bg-start-color:   $button-primary-color;
-$button-primary-bg-end-color:     darken($button-primary-color, 15%);
-$button-primary-border:           0;
-$button-primary-box-shadow:       0 0 1px lighten($button-primary-color, 35%) inset;
-
+$button-border-radius:            8px;
+$button-padding:                  8px 14px;
 
 
 // -----------------------------------------------------------------------------
@@ -48,15 +23,12 @@ $button-primary-box-shadow:       0 0 1px lighten($button-primary-color, 35%) in
 //
 %button {
   @include border-radius($button-border-radius);
-  @include background-image(linear-gradient($button-bg-start-color, $button-bg-end-color));
 
+  display: inline-block;
   padding: $button-padding;
   position: relative;
 
-  background-color: $button-primary-bg-color;
-  border: $button-border;
   box-shadow: $button-box-shadow;
-  color: $button-text-color;
   cursor: pointer;
   text-align: center;
   vertical-align: middle;
@@ -64,15 +36,10 @@ $button-primary-box-shadow:       0 0 1px lighten($button-primary-color, 35%) in
   &:focus,
   &:hover,
   &:active {
-    @include background-image(linear-gradient(darken($button-bg-start-color, 15%), darken($button-bg-end-color, 15%)));
-
     text-decoration: none;
   }
-  &:visited {
-    color: $button-text-color;
-  }
 
-// Disabled state
+  // Disabled state
   &.disabled,
   &[disabled] {
     @include opacity(0.65);
@@ -80,118 +47,46 @@ $button-primary-box-shadow:       0 0 1px lighten($button-primary-color, 35%) in
 
     cursor: default;
   }
-
-  &.available {
-    @extend %success;
-  }
 }
 
 
-%button-flat {
+//**
+// Mixin for creating af gradient button
+//**
+@mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
+  @include background-image(linear-gradient($bg-start-color, $bg-end-color));
   @extend %button;
 
-  @include background-image(linear-gradient(darken($button-bg-start-color, 15%), darken($button-bg-end-color, 15%)));
+  border: $border;
+
+  @if $text-color != "" {
+    color: $text-color;
+  }
 
   &:focus,
   &:hover,
   &:active {
-    @include background-image(linear-gradient(darken($button-bg-start-color, 100%), darken($button-bg-end-color, 100%)));
+    @include background-image(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
+  }
+
+  &:visited {
   }
 }
 
-
-%button-primary {
-  @include background-image(linear-gradient($button-primary-bg-start-color, $button-primary-bg-end-color));
-  @extend %button;
-  
-  color: $button-primary-text-color;
-
-  &:focus,
-  &:hover,
-  &:active {
-    @include background-image(linear-gradient(darken($button-primary-bg-start-color, 5%), darken($button-primary-bg-end-color, 5%)));
-  }
+// Default button (dark gray)
+.button,
+a.button {
+  @include create-gradient-button($button-text-color, $button-bg-start-color, $button-bg-end-color);
 }
 
-
-%button-inverted {
-  @extend %button;
-
-  background-color: $button-secondary-bg-color;
-
-  &:hover,
-  &:active,
-  &:focus {
-    @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
-
-    background-color: darken($button-secondary-bg-color, 10%);
-    outline: 0;
-  }
+// Blue button
+%button-blue {
+  @include create-gradient-button($white, #00b7e7, darken(#00b7e7, 15%));
 }
 
-
-%success {
-  background-color: $button-success-bg-color;
-
-  .icon {
-    background-color: darken($button-success-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-success-bg-color, 15%);
-    .icon {
-      background-color: darken($button-success-bg-color, 20%);
-    }
-  }
-}
-
-%warning {
-  background-color: $button-warning-bg-color;
-
-  .icon {
-    background-color: darken($button-warning-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-warning-bg-color, 15%);
-    .icon {
-      background-color: darken($button-warning-bg-color, 20%);
-    }
-  }
-}
-
-%danger {
-  background-color: $button-danger-bg-color;
-
-  .icon {
-    background-color: darken($button-danger-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-danger-bg-color, 15%);
-    .icon {
-      background-color: darken($button-danger-bg-color, 20%);
-    }
-  }
-}
-
-%info {
-  background-color: $button-info-bg-color;
-
-  .icon {
-    background-color: darken($button-info-bg-color, 5%);
-  }
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: darken($button-info-bg-color, 15%);
-    .icon {
-      background-color: darken($button-info-bg-color, 20%);
-    }
-  }
+// Black button
+%button-black {
+  @include create-gradient-button($white, #444, darken(#444, 15%));
 }
 
 
@@ -199,14 +94,6 @@ $button-primary-box-shadow:       0 0 1px lighten($button-primary-color, 35%) in
 // Default styling
 // -----------------------------------------------------------------------------
 //
-.button,
-a.button {
-  @extend %button;
-
-  display: inline-block;
-  margin-bottom: 0;
-  font-size: $theme-font-size;
-}
 
 
 // Don't use native buttons on iOS
@@ -223,7 +110,8 @@ button.button {
   input[type="button"]::-moz-focus-inner,
   input[type="submit"]::-moz-focus-inner,
   input[type="file"] > input[type="button"]::-moz-focus-inner {
-    border: none; padding: 0;
+    border: none;
+    padding: 0;
   }
 }
 

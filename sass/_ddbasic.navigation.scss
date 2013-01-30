@@ -200,6 +200,52 @@
 }
 
 // -----------------------------------------------------------------------------
+// Footer menu(s)
+// -----------------------------------------------------------------------------
+//
+.footer {
+  h2 {
+    color: white;
+    margin-bottom: $default-spacing / 2;
+  }
+
+  .menu {
+    margin: 0;
+    padding: 0;
+    margin-bottom: $default-spacing;
+
+    li {
+      @extend %link-inverted;
+      @extend .icon-angle-right;
+
+      margin: 0;
+      margin-bottom: $default-spacing / 2;
+
+      &:before {
+        @include rem('font-size', $theme-font-size * 1.25);
+
+        color: $link-color-inverted;
+        float: left;
+        font-family: $theme-icon-library-font;
+        margin-top: -1px;
+      }
+
+      a {
+        padding-left: $default-spacing / 2;
+
+        &:hover {
+          color: $link-color-inverted-hover;
+        }
+
+        &.active {
+          color: $link-color-inverted;
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
 // Mediaqueries
 // -----------------------------------------------------------------------------
 //
