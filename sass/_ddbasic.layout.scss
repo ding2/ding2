@@ -120,6 +120,10 @@ $topbar-min-height:               85px;
   }
 }
 
+.footer {
+  @include attachment-25-25-25-25;
+}
+
 
 .facet-browser {
   @extend .tertiary-menu-wrapper;
