@@ -98,16 +98,6 @@ input#edit-search-block-form--2.spinner {
 
   }
 
-  input[type="submit"] {
-    @extend %button-flat;
-
-    padding-top: 7px;
-    padding-right: 18px;
-    padding-bottom: 1px;
-    padding-left: 18px;
-    position: absolute;
-  }
-
   .spinner {
     i[class^="icon-"] {
       @extend .icon-spin;
@@ -143,8 +133,14 @@ input#edit-search-block-form--2.spinner {
   }
 
   input[type="submit"] {
+    @extend %button-flat;
+
     min-height: 60px;
+    position: absolute;
     padding-top: 0;
+    padding-right: 18px;
+    padding-bottom: 1px;
+    padding-left: 18px;
     right: 30px;
     top: 0;
   }
@@ -184,11 +180,12 @@ input#edit-search-block-form--2.spinner {
       min-height: 50px;
     }
 
-    input[type="submit"] {
-      @include rem('font-size', $theme-font-size * 1.4);
+    input[type="submit"].form-submit {
+      @include rem('font-size', $theme-font-size * 1.4);      
       @extend %button-primary;
 
       min-height: 50px;
+      padding: 0 18px;
       position: absolute;
       right: -2px;
     }

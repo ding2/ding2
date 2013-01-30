@@ -5960,54 +5960,29 @@ table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/* line 49, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"], .topbar .search input[type="submit"], .user input[type="submit"], .comment-form .form-actions .form-submit, .button,
-a.button, .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+/* line 24, ../sass/_ddbasic.buttons.scss */
+.button, .form-submit,
+a.button,
+a.form-submit, .topbar .search input[type="submit"].form-submit, .search input[type="submit"], .user input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button, .user-login-block input[type="submit"] {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #595959), color-stop(100%, #404040));
-  background-image: -webkit-linear-gradient(#595959, #404040);
-  background-image: -moz-linear-gradient(#595959, #404040);
-  background-image: -o-linear-gradient(#595959, #404040);
-  background-image: linear-gradient(#595959, #404040);
+  display: inline-block;
   padding: 8px 14px;
   position: relative;
-  background-color: black;
-  border: 0;
   box-shadow: 0 0 1px #595959 inset;
-  color: white;
   cursor: pointer;
   text-align: center;
   vertical-align: middle;
 }
-/* line 66, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"]:focus, .topbar .search input[type="submit"]:focus, .user input[type="submit"]:focus, .comment-form .form-actions .form-submit:focus, .button:focus, .form-submit:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
-.pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .user-login-block input[type="submit"]:focus, .search input[type="submit"]:hover, .topbar .search input[type="submit"]:hover, .user input[type="submit"]:hover, .comment-form .form-actions .form-submit:hover, .button:hover, .form-submit:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
-.pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .user-login-block input[type="submit"]:hover, .search input[type="submit"]:active, .topbar .search input[type="submit"]:active, .user input[type="submit"]:active, .comment-form .form-actions .form-submit:active, .button:active, .form-submit:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
-.pane-ting-collection .ding-entity-button:active,
-.pane-ting-object .ding-entity-button:active, .user-login-block input[type="submit"]:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #333333), color-stop(100%, #1a1a1a));
-  background-image: -webkit-linear-gradient(#333333, #1a1a1a);
-  background-image: -moz-linear-gradient(#333333, #1a1a1a);
-  background-image: -o-linear-gradient(#333333, #1a1a1a);
-  background-image: linear-gradient(#333333, #1a1a1a);
-  text-decoration: none;
-}
-/* line 71, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"]:visited, .topbar .search input[type="submit"]:visited, .user input[type="submit"]:visited, .comment-form .form-actions .form-submit:visited, .button:visited, .form-submit:visited, .pane-ting-collection .form-submit:visited, .pane-ting-object .form-submit:visited,
-.pane-ting-collection .ding-entity-button:visited,
-.pane-ting-object .ding-entity-button:visited, .user-login-block input[type="submit"]:visited {
-  color: white;
-}
-/* line 77, ../sass/_ddbasic.buttons.scss */
-.search input.disabled[type="submit"], .topbar .search input.disabled[type="submit"], .user input.disabled[type="submit"], .comment-form .form-actions .disabled.form-submit, .disabled.button, .disabled.form-submit, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+/* line 38, ../sass/_ddbasic.buttons.scss */
+.disabled.button, .disabled.form-submit,
+a.disabled.form-submit, .topbar .search input.disabled[type="submit"].form-submit, .search input.disabled[type="submit"], .user input.disabled[type="submit"], .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], .search input[disabled][type="submit"], .topbar .search input[disabled][type="submit"], .user input[disabled][type="submit"], .comment-form .form-actions [disabled].form-submit, [disabled].button, [disabled].form-submit, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-ting-object .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], [disabled].button, [disabled].form-submit,
+a[disabled].form-submit, .topbar .search input[disabled][type="submit"].form-submit, .search input[disabled][type="submit"], .user input[disabled][type="submit"], .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button, .user-login-block input[disabled][type="submit"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -6018,34 +5993,45 @@ a.button, .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .f
   cursor: default;
 }
 
-/* line 90, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"], .topbar .search input[type="submit"], .user input[type="submit"] {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #333333), color-stop(100%, #1a1a1a));
-  background-image: -webkit-linear-gradient(#333333, #1a1a1a);
-  background-image: -moz-linear-gradient(#333333, #1a1a1a);
-  background-image: -o-linear-gradient(#333333, #1a1a1a);
-  background-image: linear-gradient(#333333, #1a1a1a);
+/* line 71, ../sass/_ddbasic.buttons.scss */
+.button, .form-submit,
+a.button,
+a.form-submit {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #595959), color-stop(100%, #404040));
+  background-image: -webkit-linear-gradient(#595959, #404040);
+  background-image: -moz-linear-gradient(#595959, #404040);
+  background-image: -o-linear-gradient(#595959, #404040);
+  background-image: linear-gradient(#595959, #404040);
+  border: 0;
+  color: white;
 }
-/* line 97, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"]:focus, .topbar .search input[type="submit"]:focus, .user input[type="submit"]:focus, .search input[type="submit"]:hover, .topbar .search input[type="submit"]:hover, .user input[type="submit"]:hover, .search input[type="submit"]:active, .topbar .search input[type="submit"]:active, .user input[type="submit"]:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #000000), color-stop(100%, #000000));
-  background-image: -webkit-linear-gradient(#000000, #000000);
-  background-image: -moz-linear-gradient(#000000, #000000);
-  background-image: -o-linear-gradient(#000000, #000000);
-  background-image: linear-gradient(#000000, #000000);
+/* line 62, ../sass/_ddbasic.buttons.scss */
+.button:focus, .form-submit:focus, .button:hover, .form-submit:hover, .button:active, .form-submit:active,
+a.button:focus,
+a.form-submit:focus,
+a.button:hover,
+a.form-submit:hover,
+a.button:active,
+a.form-submit:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4d4d4d), color-stop(100%, #333333));
+  background-image: -webkit-linear-gradient(#4d4d4d, #333333);
+  background-image: -moz-linear-gradient(#4d4d4d, #333333);
+  background-image: -o-linear-gradient(#4d4d4d, #333333);
+  background-image: linear-gradient(#4d4d4d, #333333);
 }
 
-/* line 103, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"] {
+/* line 75, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"].form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00b7e7), color-stop(100%, #007a9b));
   background-image: -webkit-linear-gradient(#00b7e7, #007a9b);
   background-image: -moz-linear-gradient(#00b7e7, #007a9b);
   background-image: -o-linear-gradient(#00b7e7, #007a9b);
   background-image: linear-gradient(#00b7e7, #007a9b);
+  border: 0;
   color: white;
 }
-/* line 111, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"]:focus, .topbar .search input[type="submit"]:hover, .topbar .search input[type="submit"]:active {
+/* line 62, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"].form-submit:focus, .topbar .search input[type="submit"].form-submit:hover, .topbar .search input[type="submit"].form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00a3ce), color-stop(100%, #006681));
   background-image: -webkit-linear-gradient(#00a3ce, #006681);
   background-image: -moz-linear-gradient(#00a3ce, #006681);
@@ -6053,35 +6039,34 @@ a.button, .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .f
   background-image: linear-gradient(#00a3ce, #006681);
 }
 
-/* line 117, ../sass/_ddbasic.buttons.scss */
-.comment-form .form-actions .form-submit {
-  background-color: #00b7e7;
+/* line 81, ../sass/_ddbasic.buttons.scss */
+.search input[type="submit"], .user input[type="submit"] {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #333333), color-stop(100%, #1a1a1a));
+  background-image: -webkit-linear-gradient(#333333, #1a1a1a);
+  background-image: -moz-linear-gradient(#333333, #1a1a1a);
+  background-image: -o-linear-gradient(#333333, #1a1a1a);
+  background-image: linear-gradient(#333333, #1a1a1a);
+  border: 0;
+  color: white;
 }
-/* line 124, ../sass/_ddbasic.buttons.scss */
-.comment-form .form-actions .form-submit:hover, .comment-form .form-actions .form-submit:active, .comment-form .form-actions .form-submit:focus {
-  -webkit-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-  background-color: #008fb4;
-  outline: 0;
-}
-
-/* line 138, ../sass/_ddbasic.buttons.scss */
-.button,
-a.button {
-  display: inline-block;
-  margin-bottom: 0;
-  font-size: 15px;
+/* line 90, ../sass/_ddbasic.buttons.scss */
+.search input[type="submit"]:focus, .user input[type="submit"]:focus, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .search input[type="submit"]:active, .user input[type="submit"]:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #000000), color-stop(100%, #000000));
+  background-image: -webkit-linear-gradient(#000000, #000000);
+  background-image: -moz-linear-gradient(#000000, #000000);
+  background-image: -o-linear-gradient(#000000, #000000);
+  background-image: linear-gradient(#000000, #000000);
 }
 
-/* line 149, ../sass/_ddbasic.buttons.scss */
-input[type=submit].button,
-button.button {
+/* line 104, ../sass/_ddbasic.buttons.scss */
+input[type=submit].button, input[type=submit].form-submit,
+button.button,
+button.form-submit {
   -webkit-appearance: none;
 }
 
 @-moz-document url-prefix() {
-  /* line 160, ../sass/_ddbasic.buttons.scss */
+  /* line 115, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -8406,22 +8391,14 @@ input#edit-search-block-form--2.spinner {
   left: 0;
   width: 100%;
 }
-/* line 101, ../sass/_ddbasic.search.scss */
-.search input[type="submit"], .topbar .search input[type="submit"] {
-  padding-top: 7px;
-  padding-right: 18px;
-  padding-bottom: 1px;
-  padding-left: 18px;
-  position: absolute;
-}
-/* line 112, ../sass/_ddbasic.search.scss */
+/* line 102, ../sass/_ddbasic.search.scss */
 .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
   font-size: 22.5px;
   margin-left: 17px;
   top: 22px;
 }
 
-/* line 124, ../sass/_ddbasic.search.scss */
+/* line 114, ../sass/_ddbasic.search.scss */
 .header-wrapper .search {
   float: left;
   width: 50%;
@@ -8440,39 +8417,43 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
 }
 
-/* line 130, ../sass/_ddbasic.search.scss */
+/* line 120, ../sass/_ddbasic.search.scss */
 .search {
   margin-top: 0;
   margin-bottom: 0;
   padding-right: 0;
 }
-/* line 137, ../sass/_ddbasic.search.scss */
+/* line 127, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
   margin-right: 30px;
 }
-/* line 141, ../sass/_ddbasic.search.scss */
+/* line 131, ../sass/_ddbasic.search.scss */
 .search .form-item {
   margin-top: 0em;
 }
-/* line 145, ../sass/_ddbasic.search.scss */
+/* line 135, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   min-height: 60px;
+  position: absolute;
   padding-top: 0;
+  padding-right: 18px;
+  padding-bottom: 1px;
+  padding-left: 18px;
   right: 30px;
   top: 0;
 }
-/* line 152, ../sass/_ddbasic.search.scss */
+/* line 148, ../sass/_ddbasic.search.scss */
 .search .help-link {
   display: block;
   margin-top: 10px;
 }
-/* line 158, ../sass/_ddbasic.search.scss */
+/* line 154, ../sass/_ddbasic.search.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 167, ../sass/_ddbasic.search.scss */
+/* line 163, ../sass/_ddbasic.search.scss */
 .topbar .search {
   float: right;
   width: 33.33333%;
@@ -8494,26 +8475,27 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   right: 160px;
 }
-/* line 176, ../sass/_ddbasic.search.scss */
+/* line 172, ../sass/_ddbasic.search.scss */
 .topbar .search .search-field-wrapper {
   min-width: 400px;
   position: relative;
 }
-/* line 181, ../sass/_ddbasic.search.scss */
+/* line 177, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
   min-height: 50px;
 }
-/* line 187, ../sass/_ddbasic.search.scss */
-.topbar .search input[type="submit"] {
+/* line 183, ../sass/_ddbasic.search.scss */
+.topbar .search input[type="submit"].form-submit {
   font-size: 21px;
   font-size: 1.3125rem;
   min-height: 50px;
+  padding: 0 18px;
   position: absolute;
   right: -2px;
 }
-/* line 196, ../sass/_ddbasic.search.scss */
+/* line 193, ../sass/_ddbasic.search.scss */
 .topbar .search i[class^="icon-"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -8523,87 +8505,87 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   top: 13px;
 }
-/* line 207, ../sass/_ddbasic.search.scss */
+/* line 204, ../sass/_ddbasic.search.scss */
 .topbar .search .spinner i[class^="icon-"] {
   top: 16px;
 }
 
-/* line 221, ../sass/_ddbasic.search.scss */
+/* line 218, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 224, ../sass/_ddbasic.search.scss */
+/* line 221, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #00b7e7;
 }
-/* line 229, ../sass/_ddbasic.search.scss */
+/* line 226, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2 {
   margin-bottom: 20px;
 }
-/* line 234, ../sass/_ddbasic.search.scss */
+/* line 231, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser legend {
   line-height: inherit;
   padding-top: 20px;
   padding-bottom: 10px;
 }
-/* line 243, ../sass/_ddbasic.search.scss */
+/* line 240, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 248, ../sass/_ddbasic.search.scss */
+/* line 245, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 252, ../sass/_ddbasic.search.scss */
+/* line 249, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 5px 0;
 }
-/* line 265, ../sass/_ddbasic.search.scss */
+/* line 262, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
 }
-/* line 268, ../sass/_ddbasic.search.scss */
+/* line 265, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 1.1em;
 }
-/* line 275, ../sass/_ddbasic.search.scss */
+/* line 272, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-more {
   display: block;
   margin-top: 20px;
 }
-/* line 281, ../sass/_ddbasic.search.scss */
+/* line 278, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-less {
   display: block;
   margin-top: 20px;
 }
-/* line 289, ../sass/_ddbasic.search.scss */
+/* line 286, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 293, ../sass/_ddbasic.search.scss */
+/* line 290, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 298, ../sass/_ddbasic.search.scss */
+/* line 295, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect {
   margin-top: 10px;
 }
-/* line 308, ../sass/_ddbasic.search.scss */
+/* line 305, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 313, ../sass/_ddbasic.search.scss */
+/* line 310, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 317, ../sass/_ddbasic.search.scss */
+/* line 314, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-facets {
   display: block;
   text-align: right;
@@ -8613,238 +8595,238 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 
-/* line 346, ../sass/_ddbasic.search.scss */
+/* line 343, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 355, ../sass/_ddbasic.search.scss */
+/* line 352, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 359, ../sass/_ddbasic.search.scss */
+/* line 356, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 367, ../sass/_ddbasic.search.scss */
+/* line 364, ../sass/_ddbasic.search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
-/* line 376, ../sass/_ddbasic.search.scss */
+/* line 373, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   color: #959595;
   overflow: hidden;
 }
-/* line 383, ../sass/_ddbasic.search.scss */
+/* line 380, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 387, ../sass/_ddbasic.search.scss */
+/* line 384, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 392, ../sass/_ddbasic.search.scss */
+/* line 389, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 398, ../sass/_ddbasic.search.scss */
+/* line 395, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   overflow: hidden;
   color: #959595;
   margin-left: 20px;
 }
-/* line 405, ../sass/_ddbasic.search.scss */
+/* line 402, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #006681;
   text-decoration: underline;
 }
-/* line 411, ../sass/_ddbasic.search.scss */
+/* line 408, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #006681;
   text-decoration: none;
 }
-/* line 416, ../sass/_ddbasic.search.scss */
+/* line 413, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 425, ../sass/_ddbasic.search.scss */
+/* line 422, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
-/* line 431, ../sass/_ddbasic.search.scss */
+/* line 428, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 435, ../sass/_ddbasic.search.scss */
+/* line 432, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend {
   border: none;
   padding: 0;
 }
-/* line 440, ../sass/_ddbasic.search.scss */
+/* line 437, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
 }
-/* line 444, ../sass/_ddbasic.search.scss */
+/* line 441, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* line 457, ../sass/_ddbasic.search.scss */
+/* line 454, ../sass/_ddbasic.search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 462, ../sass/_ddbasic.search.scss */
+/* line 459, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 469, ../sass/_ddbasic.search.scss */
+/* line 466, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 474, ../sass/_ddbasic.search.scss */
+/* line 471, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
   margin-left: 10%;
   padding-left: 20px;
 }
-/* line 485, ../sass/_ddbasic.search.scss */
+/* line 482, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-left: 10%;
   margin-bottom: 10px;
   padding-left: 20px;
 }
-/* line 491, ../sass/_ddbasic.search.scss */
+/* line 488, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 496, ../sass/_ddbasic.search.scss */
+/* line 493, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects .list-compact > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .availability ul > dt, .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .lead, .pane-search-result .search-results .list .subjects .page-lead, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em dl > dt, em .pane-search-result .search-results .list .subjects dl > dt, .pane-search-result .search-results .list .subjects em .list-content > dt, em .pane-search-result .search-results .list .subjects .list-content > dt, .pane-search-result .search-results .list .subjects em .list-news > dt, em .pane-search-result .search-results .list .subjects .list-news > dt, .pane-search-result .search-results .list .subjects em .list-compact > dt, em .pane-search-result .search-results .list .subjects .list-compact > dt, em .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects em .list > dt, .pane-search-result .search-results em .list .subjects .list > dt, em .pane-search-result .search-results .list .subjects .availability ul > dt, em .pane-search-result .search-results .list .availability .subjects ul > dt, .pane-search-result .search-results .list .subjects .availability em ul > dt, .pane-search-result .search-results .list .availability em .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .pane-ting-object .field-name-ding-availability-holdings ul > dt, em .pane-ting-object .field-name-ding-availability-holdings .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects .pane-ting-object .field-name-ding-availability-holdings em ul > dt, .pane-ting-object .field-name-ding-availability-holdings em .pane-search-result .search-results .list .subjects ul > dt, .pane-search-result .search-results .list .subjects em .library-list > dt, em .pane-search-result .search-results .list .subjects .library-list > dt, .pane-search-result .search-results .list .subjects em .list > dt, em .pane-search-result .search-results .list .subjects .list > dt, .pane-search-result .search-results .list .subjects .sub-menu > li a.active, .sub-menu > li .pane-search-result .search-results .list .subjects a.active, .pane-search-result .search-results .list .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-search-result .search-results .list .subjects a.active, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon, .pane-search-result .search-results .list .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-search-result .search-results .list .subjects label, .pane-search-result .search-results .list .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-search-result .search-results .list .subjects .field-label, .pane-search-result .search-results .list .subjects .pane-loans th, .pane-loans .pane-search-result .search-results .list .subjects th,
 .pane-search-result .search-results .list .subjects .pane-reservations th,
 .pane-reservations .pane-search-result .search-results .list .subjects th {
   font-weight: inherit;
 }
-/* line 500, ../sass/_ddbasic.search.scss */
+/* line 497, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects a {
   margin-right: 5px;
 }
-/* line 505, ../sass/_ddbasic.search.scss */
+/* line 502, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability {
   margin-bottom: 0;
 }
-/* line 511, ../sass/_ddbasic.search.scss */
+/* line 508, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 537, ../sass/_ddbasic.search.scss */
+/* line 534, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
 }
-/* line 549, ../sass/_ddbasic.search.scss */
+/* line 546, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 554, ../sass/_ddbasic.search.scss */
+/* line 551, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 561, ../sass/_ddbasic.search.scss */
+/* line 558, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 566, ../sass/_ddbasic.search.scss */
+/* line 563, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 569, ../sass/_ddbasic.search.scss */
+/* line 566, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 574, ../sass/_ddbasic.search.scss */
+/* line 571, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 578, ../sass/_ddbasic.search.scss */
+/* line 575, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .availability {
   clear: both;
   display: block;
   margin-top: 20px;
 }
-/* line 583, ../sass/_ddbasic.search.scss */
+/* line 580, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .availability li {
   display: inline;
 }
 
-/* line 603, ../sass/_ddbasic.search.scss */
+/* line 600, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul li, .pane-ting-ting-object-types ul li, .pane-ting-ting-relation-anchors ul li {
   margin-bottom: 10px;
   padding-bottom: default-spacing/2;
 }
-/* line 608, ../sass/_ddbasic.search.scss */
+/* line 605, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul .last, .pane-ting-ting-object-types ul .last, .pane-ting-ting-relation-anchors ul .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 618, ../sass/_ddbasic.search.scss */
+/* line 615, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 622, ../sass/_ddbasic.search.scss */
+/* line 619, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 631, ../sass/_ddbasic.search.scss */
+/* line 628, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 637, ../sass/_ddbasic.search.scss */
+/* line 634, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-left: 10%;
   padding-left: 20px;
   margin-bottom: 10px;
 }
-/* line 642, ../sass/_ddbasic.search.scss */
+/* line 639, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 648, ../sass/_ddbasic.search.scss */
+/* line 645, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 655, ../sass/_ddbasic.search.scss */
+/* line 652, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results .list > dt, .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings .subjects ul > dt, .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .lead, .pane-ting-object .subjects .lead, .pane-ting-collection .subjects .page-lead, .pane-ting-object .subjects .page-lead, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects em dl > dt, em .pane-ting-collection .subjects dl > dt, .pane-ting-object .subjects em dl > dt, em .pane-ting-object .subjects dl > dt, .pane-ting-collection .subjects em .list-content > dt, em .pane-ting-collection .subjects .list-content > dt, .pane-ting-object .subjects em .list-content > dt, em .pane-ting-object .subjects .list-content > dt, .pane-ting-collection .subjects em .list-news > dt, em .pane-ting-collection .subjects .list-news > dt, .pane-ting-object .subjects em .list-news > dt, em .pane-ting-object .subjects .list-news > dt, .pane-ting-collection .subjects em .list-compact > dt, em .pane-ting-collection .subjects .list-compact > dt, .pane-ting-object .subjects em .list-compact > dt, em .pane-ting-object .subjects .list-compact > dt, .pane-ting-collection .subjects em .pane-search-result .search-results .list > dt, em .pane-search-result .search-results .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects em .pane-search-result .search-results .list > dt, em .pane-search-result .search-results .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .pane-search-result .search-results em .list > dt, .pane-search-result .search-results em .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects .pane-search-result .search-results em .list > dt, .pane-search-result .search-results em .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects em .pane-search-result .search-results .list .availability ul > dt, em .pane-search-result .search-results .list .availability .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-search-result .search-results .list .availability ul > dt, em .pane-search-result .search-results .list .availability .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-search-result .search-results .list .availability em ul > dt, .pane-search-result .search-results .list .availability em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-search-result .search-results .list .availability em ul > dt, .pane-search-result .search-results .list .availability em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-collection-types ul > dt, em .pane-ting-ting-collection-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-collection-types em ul > dt, .pane-ting-ting-collection-types em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-object-types ul > dt, em .pane-ting-ting-object-types .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-object-types em ul > dt, .pane-ting-ting-object-types em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects em .pane-ting-ting-relation-anchors ul > dt, em .pane-ting-ting-relation-anchors .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-ting-collection .subjects ul > dt, .pane-ting-object .subjects .pane-ting-ting-relation-anchors em ul > dt, .pane-ting-ting-relation-anchors em .pane-ting-object .subjects ul > dt, .pane-ting-collection .subjects em .pane-ting-object .field-name-ding-availability-holdings ul > dt, em .pane-ting-object .field-name-ding-availability-holdings .pane-ting-collection .subjects ul > dt, .pane-ting-collection .subjects .pane-ting-object .field-name-ding-availability-holdings em ul > dt, .pane-ting-object .field-name-ding-availability-holdings em .pane-ting-collection .subjects ul > dt, .pane-ting-collection .subjects em .library-list > dt, em .pane-ting-collection .subjects .library-list > dt, .pane-ting-object .subjects em .library-list > dt, em .pane-ting-object .subjects .library-list > dt, .pane-ting-collection .subjects em .list > dt, em .pane-ting-collection .subjects .list > dt, .pane-ting-object .subjects em .list > dt, em .pane-ting-object .subjects .list > dt, .pane-ting-collection .subjects .sub-menu > li a.active, .sub-menu > li .pane-ting-collection .subjects a.active, .pane-ting-object .subjects .sub-menu > li a.active, .sub-menu > li .pane-ting-object .subjects a.active, .pane-ting-collection .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-ting-collection .subjects a.active, .pane-ting-object .subjects .library-menu .links > li a.active, .library-menu .links > li .pane-ting-object .subjects a.active, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon, .pane-ting-collection .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-ting-collection .subjects label, .pane-ting-object .subjects .pane-user-profile .form-item label, .pane-user-profile .form-item .pane-ting-object .subjects label, .pane-ting-collection .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-ting-collection .subjects .field-label, .pane-ting-object .subjects .pane-user-profile .profile2-provider-alma .field-label, .pane-user-profile .profile2-provider-alma .pane-ting-object .subjects .field-label, .pane-ting-collection .subjects .pane-loans th, .pane-loans .pane-ting-collection .subjects th, .pane-ting-object .subjects .pane-loans th, .pane-loans .pane-ting-object .subjects th,
 .pane-ting-collection .subjects .pane-reservations th,
 .pane-reservations .pane-ting-collection .subjects th,
@@ -8852,32 +8834,32 @@ input#edit-search-block-form--2.spinner {
 .pane-reservations .pane-ting-object .subjects th {
   font-weight: inherit;
 }
-/* line 659, ../sass/_ddbasic.search.scss */
+/* line 656, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .subjects a, .pane-ting-object .subjects a {
   margin-right: 5px;
 }
-/* line 667, ../sass/_ddbasic.search.scss */
+/* line 664, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type li, .pane-ting-object .field-name-ting-type li {
   list-style: none;
 }
-/* line 692, ../sass/_ddbasic.search.scss */
+/* line 689, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   margin: 0;
 }
-/* line 703, ../sass/_ddbasic.search.scss */
+/* line 700, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: black;
 }
-/* line 706, ../sass/_ddbasic.search.scss */
+/* line 703, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 712, ../sass/_ddbasic.search.scss */
+/* line 709, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
   margin-right: 10px;
 }
-/* line 719, ../sass/_ddbasic.search.scss */
+/* line 716, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
@@ -8887,33 +8869,33 @@ input#edit-search-block-form--2.spinner {
   padding: 6px;
 }
 
-/* line 734, ../sass/_ddbasic.search.scss */
+/* line 731, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
-/* line 739, ../sass/_ddbasic.search.scss */
+/* line 736, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   color: #959595;
   margin-bottom: 20px;
 }
 
-/* line 747, ../sass/_ddbasic.search.scss */
+/* line 744, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 756, ../sass/_ddbasic.search.scss */
+/* line 753, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-cover {
   width: 25%;
   min-height: 250px;
 }
-/* line 761, ../sass/_ddbasic.search.scss */
+/* line 758, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 770, ../sass/_ddbasic.search.scss */
+/* line 767, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-title,
 .pane-ting-object .field-name-ting-author,
 .pane-ting-object .field-name-ting-abstract,
@@ -8921,67 +8903,67 @@ input#edit-search-block-form--2.spinner {
   margin-left: 25%;
   padding-left: 20px;
 }
-/* line 777, ../sass/_ddbasic.search.scss */
+/* line 774, ../sass/_ddbasic.search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 782, ../sass/_ddbasic.search.scss */
+/* line 779, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details, .pane-ting-object .field-name-ting-series {
   clear: both;
   padding-top: 20px;
 }
-/* line 786, ../sass/_ddbasic.search.scss */
+/* line 783, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-label, .pane-ting-object .field-name-ting-series .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 791, ../sass/_ddbasic.search.scss */
+/* line 788, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-items, .pane-ting-object .field-name-ting-series .field-items {
   max-width: 72%;
 }
-/* line 796, ../sass/_ddbasic.search.scss */
+/* line 793, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-series {
   padding-top: 0;
 }
-/* line 802, ../sass/_ddbasic.search.scss */
+/* line 799, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   clear: both;
 }
-/* line 805, ../sass/_ddbasic.search.scss */
+/* line 802, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 811, ../sass/_ddbasic.search.scss */
+/* line 808, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 815, ../sass/_ddbasic.search.scss */
+/* line 812, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 821, ../sass/_ddbasic.search.scss */
+/* line 818, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   border-top: 1px solid #d5d5d5;
   margin-top: 20px;
   padding-top: 20px;
   margin-bottom: 0;
 }
-/* line 828, ../sass/_ddbasic.search.scss */
+/* line 825, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 834, ../sass/_ddbasic.search.scss */
+/* line 831, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 840, ../sass/_ddbasic.search.scss */
+/* line 837, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -8990,23 +8972,23 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 848, ../sass/_ddbasic.search.scss */
+/* line 845, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 852, ../sass/_ddbasic.search.scss */
+/* line 849, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 856, ../sass/_ddbasic.search.scss */
+/* line 853, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 860, ../sass/_ddbasic.search.scss */
+/* line 857, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 865, ../sass/_ddbasic.search.scss */
+/* line 862, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation .meta, .pane-ting-object .ting-relation .list-meta {
   padding: 20px;
   padding-bottom: 10px;
@@ -9265,7 +9247,8 @@ input#edit-search-block-form--2.spinner {
 /* line 32, ../sass/_ddbasic.news.scss */
 .pane-library-list .choose-library-label,
 .pane-library-list .form-item-select-library,
-.pane-library-list .button {
+.pane-library-list .button,
+.pane-library-list .form-submit {
   display: inline;
   margin-right: 10px;
 }
