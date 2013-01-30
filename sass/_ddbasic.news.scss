@@ -90,13 +90,28 @@
 // **
 //
 .super-heading {
-  padding: $default-spacing 0;
+  padding: 1.5em 0;
 
   div {
     display: inline;
   }
 
   .field-item {padding-left: $default-spacing / 4;}
+}
+.signature {
+  p {
+    margin-bottom: 0;
+    
+    i {
+      float: left;
+      margin-top: 3px;
+    }
+    
+    span {
+      display: block;
+      padding-left: 1.5em;
+    }
+  }
 }
 
 
