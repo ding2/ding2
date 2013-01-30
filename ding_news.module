@@ -9,7 +9,8 @@
  */
 function ding_news_ding_library_menu_links() {
   return array(
-    'news' => array(
+    'nyheder' => array(
+      'linktype' => 'general_view_linktype',
       'title' => 'News',
     ),
   );
