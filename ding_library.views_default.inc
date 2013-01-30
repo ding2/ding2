@@ -22,12 +22,16 @@ function ding_library_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['use_more_text'] = 'mere';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'list';
@@ -351,25 +355,25 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['type'] = 'text_plain';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field_api_classes'] = 0;
-  /* Sort criterion: Indhold: Titel */
+  /* Sorteringskriterie: Indhold: Titel */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Filter criterion: Indhold: Udgivet */
+  /* Filterkriterie: Indhold: Udgivet */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 0;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Indhold: Type */
+  /* Filterkriterie: Indhold: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_library' => 'ding_library',
   );
-  /* Filter criterion: Oversættelse af indhold: Sprog */
+  /* Filterkriterie: Oversættelse af indhold: Sprog */
   $handler->display->display_options['filters']['language']['id'] = 'language';
   $handler->display->display_options['filters']['language']['table'] = 'node';
   $handler->display->display_options['filters']['language']['field'] = 'language';
@@ -380,6 +384,17 @@ function ding_library_views_default_views() {
 
   /* Display: Libraries list */
   $handler = $view->new_display('panel_pane', 'Libraries list', 'ding_library_libraries_list');
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['style_options']['row_class'] = 'vcard clearfix library-[nid]';
+  $handler->display->display_options['style_options']['class'] = 'library-list';
+  $handler->display->display_options['style_options']['wrapper_class'] = '';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'node';
+  $handler->display->display_options['row_options']['links'] = 1;
+  $handler->display->display_options['row_options']['comments'] = 0;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['pane_category']['name'] = 'Library panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -553,12 +568,12 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field_api_classes'] = 0;
   $translatables['ding_library'] = array(
     t('Master'),
-    t('more'),
-    t('Apply'),
+    t('mere'),
+    t('Udfør'),
     t('Gendan'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
+    t('Sortér efter'),
+    t('Stigende'),
+    t('Faldende'),
     t('<div class="libraries-content">'),
     t('Address'),
     t('Phone'),

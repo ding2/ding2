@@ -56,10 +56,16 @@ function ding_library_field_default_fields() {
           'weight' => '13',
         ),
         'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '12',
+          'label' => 'inline',
+          'module' => 'addressfield',
+          'settings' => array(
+            'format_handlers' => array(
+              0 => 'address',
+            ),
+            'use_widget_handlers' => 1,
+          ),
+          'type' => 'addressfield_default',
+          'weight' => '4',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -214,10 +220,11 @@ function ding_library_field_default_fields() {
           'weight' => '15',
         ),
         'teaser' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '5',
+          'type' => 'text_default',
+          'weight' => '7',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -439,9 +446,10 @@ function ding_library_field_default_fields() {
           'weight' => '16',
         ),
         'teaser' => array(
-          'label' => 'above',
+          'label' => 'hidden',
+          'module' => 'link',
           'settings' => array(),
-          'type' => 'hidden',
+          'type' => 'link_default',
           'weight' => '2',
         ),
         'teaser_highlight' => array(
@@ -538,10 +546,21 @@ function ding_library_field_default_fields() {
           'weight' => '18',
         ),
         'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '6',
+          'label' => 'hidden',
+          'module' => 'cs_adaptive_image',
+          'settings' => array(
+            'image_link' => 'content',
+            'styles' => array(
+              'breakpoint_1' => '',
+              'breakpoint_2' => '',
+              'fallback_style' => 'ding_list_large',
+              'max_style' => 'ding_list_large',
+              'style_1' => '',
+              'style_2' => '',
+            ),
+          ),
+          'type' => 'cs_adaptive_image',
+          'weight' => '3',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -625,10 +644,11 @@ function ding_library_field_default_fields() {
           'weight' => '0',
         ),
         'teaser' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'email',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '7',
+          'type' => 'email_default',
+          'weight' => '8',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -775,10 +795,11 @@ function ding_library_field_default_fields() {
           'weight' => '14',
         ),
         'teaser' => array(
-          'label' => 'above',
+          'label' => 'inline',
+          'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '9',
+          'type' => 'text_default',
+          'weight' => '6',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -938,19 +959,8 @@ function ding_library_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'cs_adaptive_image',
-          'settings' => array(
-            'image_link' => 'content',
-            'styles' => array(
-              'breakpoint_1' => '768',
-              'breakpoint_2' => '500',
-              'fallback_style' => 'ding_primary_large',
-              'max_style' => 'ding_primary_large',
-              'style_1' => 'ding_primary_medium',
-              'style_2' => 'ding_primary_small',
-            ),
-          ),
-          'type' => 'cs_adaptive_image',
+          'settings' => array(),
+          'type' => 'hidden',
           'weight' => '0',
         ),
         'teaser_highlight' => array(
