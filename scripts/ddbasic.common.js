@@ -5,7 +5,11 @@
     var menu = $('.navigation-wrapper');
     var pos = menu.offset();
     var menu_height = menu.height();
-    var menu_pos_relative = pos.top - menu_height;
+    var menu_pos_relative = (pos.top - 20) - menu_height;
+    /**
+     * @todo why do we need to have -20px offset ? If they are not there every
+     * ting jumps.
+     */
 
     // Take the Drupal toolbar into account and calculate padding.
     var body_paddding = parseInt($('body').css('paddingTop'), 10);
@@ -29,12 +33,7 @@
       });
     }
 
-//    console.log(pos);
-//    console.log(menu_height);
-
     $(window).scroll(function(){
-//      console.log($(window).scrollTop());
-//      console.log(menu_pos_relative);
       if ($(window).scrollTop() > menu_pos_relative) {
         menu.addClass('fixed');
 
