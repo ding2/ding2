@@ -2,7 +2,7 @@
 
 /**
  * @file
- * DDBasic's theme implementation to display news nodes.
+ * Latto theme's implementation to display a node.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -16,8 +16,8 @@
  * - $name: Themed username of node author output from theme_username().
  * - $node_url: Direct url of the current node.
  * - $display_submitted: Whether submission information should be displayed.
- * - $submitted: Submission information created from $date (NOTE: modified for ddbasic
- *   during ddbasic_preprocess_node in templates.php)
+ * - $submitted: Submission information created from $name and $date during
+ *   template_preprocess_node().
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -73,77 +73,26 @@
  * language, e.g. $node->body['en'], thus overriding any language negotiation
  * rule that was previously applied.
  *
- * ddbasic specific variables:
- * - $ddbasic_updated: Information about latest update on the node created from $date during
- *   ddbasic_preprocess_node().  
- * - $ddbasic_ding_news_tags: Tags, as a comma-separated list of links with leading text "Tags: "    
- * - $ddbasic_news_location: String containing adress info for either field_address or group_audience,
- *   as relevant for the news node 
- * - $ddbasic_byline: outputs byline to be used before $name  
- * 
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
 ?>
-<div class="image-container">
-  <?php print render($content['field_ding_news_title_image']); ?>
-  <?php print render($content['field_ding_news_list_image']); ?>
-</div>
-<div class="super-heading">
-  <?php print render($content['field_ding_news_category']); ?>
-  <?php print render($content['field_ding_news_library']); ?>
-</div>
-<h2 class="heading"><?php print $title; ?></h2>
-<div class="lead">
-  <p>
-    <?php print render($content['field_ding_news_lead'][0]); ?>
-  </p>
-</div>
-
-<div class="content">
 <?php
-  // hide fields we have already rendered
-  hide($content['field_ding_news_title_image']);
-  hide($content['field_ding_news_list_image']);
-  hide($content['field_ding_news_category']);
-  hide($content['field_ding_news_library']);
-  hide($content['field_ding_news_lead']);
-  // Hide fields that will be displayed as panel panes instead
+  // Hide elements so we can render them later.
   hide($content['comments']);
-  
-  // Hide fields now so that we can render them later.
   hide($content['links']);
-  hide($content['field_ding_news_tags']);
-  print render($content);
 ?>
-</div>
 
-<?php
-  // Remove the "Add new comment" link on the teaser page or if the comment
-  // form is being displayed on the same page.
-  if ($teaser || !empty($content['comments']['comment_form'])) {
-    unset($content['links']['comment']['#links']['comment-add']);
-  }
-  // Only display the wrapper div if there are links.
-  $links = render($content['links']);
-  if ($links):
-?>
-<div class="link-wrapper">
-  <?php print $links; ?>
+<div class="<?php print $classes; ?>">
+  <h1 class="page-title"><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h1>
+  <div class="content"<?php print $content_attributes; ?>>
+    <div class="libraries"><?php print render($content); ?></div>
+    <?php if (!empty($opening_hours)) : ?>
+    <div class="libraries-opening-hours">
+    <?php print $opening_hours;  ?>
+    </div>
+    <?php endif; ?>
+  </div>
 </div>
-<?php endif; ?>
-
-<?php if ($display_submitted): ?>
-<div class="signature">
-  <p><i class="icon-user"></i> <span class="author"><?php print $ddbasic_byline; ?> <?php print $name; ?></span></p>
-  <p><i class="icon-time"></i> <span class="pub-date"><?php print $submitted; ?> &bull; <?php print $ddbasic_updated; ?></span></p>
-  <?php if ($ddbasic_ding_news_tags): ?>
-  <p><i class="icon-tag"></i> <span class="tags"><?php print $ddbasic_ding_news_tags; ?></span></p>
-  <?php endif; ?>
-</div>
-<?php endif; ?>
-
-<?php
-print render($content['comments']);
-?>
+<hr />
