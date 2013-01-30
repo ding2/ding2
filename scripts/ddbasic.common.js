@@ -24,31 +24,14 @@
       if (menu.hasClass('fixed') && body_paddding) {
         menu.css('top', body_paddding);
       }
-
-      /**
-       * @todo: what does this do !
-       */
-      $('.js-fixed-element').each(function() {
-        $(this).show();
-      });
     }
 
     $(window).scroll(function(){
       if ($(window).scrollTop() > menu_pos_relative) {
         menu.addClass('fixed');
-
-        /**
-         * @todo: what does this do !
-         */
-        $('.js-fixed-element').each(function() {
-          $(this).show();
-        });
       }
       else if (menu.scrollTop() <= pos.top && menu.hasClass('fixed')) {
         menu.removeClass('fixed');
-        $('.js-fixed-element').each(function() {
-          $(this).hide();
-        });
       }
 
       // Only when Drupal toolbar is present.
@@ -60,36 +43,5 @@
       }
     });
 
-
-    // Toggle element.
-    $(".js-show-element").click(function() {
-
-      var self = $(this);
-
-      var $element = $("." + self.attr("rel"));
-      var offset = self.offset();
-
-      /**
-       * @todo is this needed
-       */
-      if (self.hasClass("active")) {
-        self.removeClass("active");
-      }
-      else {
-        self.addClass("active");
-      }
-
-      $element.toggle();
-      $element.css({
-        "top": offset.top + 72,
-        "left": offset.left - 275
-      });
-    });
-
-    // Hide element
-    $(".js-hide-element").click(function() {
-      $(this).parent().hide();
-    });
   });
-
 })(jQuery);
