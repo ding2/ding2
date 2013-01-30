@@ -134,7 +134,10 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
   if (!empty($profile_branch) && !empty($interest_period)) {
-    return NULL;
+    return array(
+      'openruth_preferred_branch' => $profile_branch,
+      'openruth_interest_period' => $interest_period,
+    );
   }
   else {
     $branch_valid = ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
