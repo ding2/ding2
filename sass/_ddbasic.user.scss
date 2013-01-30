@@ -63,15 +63,17 @@
     @include zen-grid-item($grid-50, 1, right);
     @extend %header-sections;
 
-    margin-right: 0;
-    padding-left: 0;
+    border-left: 1px solid transparentize($black, .9);    
+    margin-right: 10px;
+    padding-right: 0;
+    padding-left: 10px;
   }
 }
 
 .user {
   .user-field-wrapper {
     display: block;
-    margin-left: 30px;
+    margin-left: 10px;
   }
 
   .form-item {
@@ -104,7 +106,7 @@
 
     display: inline;
     min-height: 60px;
-    padding-top: 7px;
+    padding-top: 0;
     padding-right: 18px;
     padding-bottom: 1px;
     padding-left: 18px;
