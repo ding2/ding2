@@ -25,9 +25,16 @@
 // Drupal specific buttons. Extends from _ddbasic.buttons.scss
 // **
 //
-.form-submit {
+#edit-cancel {
+  margin-left: .3em;
+}
+
+
+.form-submit,
+#edit-cancel {
   @extend .button;
 }
+
 
 
 .feed-icon {

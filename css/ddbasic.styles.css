@@ -5,12 +5,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -3358,7 +3358,7 @@ em .list > dt,
 .pane-reservations th,
 .pane-bookmarks th,
 .strong {
-  font-weight: normal;
+  font-weight: bold;
 }
 
 /* line 142, ../../latto/sass/_latto.typography.scss */
@@ -3439,47 +3439,47 @@ dl {
   margin-bottom: 24px;
 }
 
-/* line 218, ../../latto/sass/_latto.typography.scss */
+/* line 217, ../../latto/sass/_latto.typography.scss */
 dt,
 dd {
   line-height: 24px;
 }
 
-/* line 222, ../../latto/sass/_latto.typography.scss */
+/* line 220, ../../latto/sass/_latto.typography.scss */
 dt {
   font-weight: bold;
 }
 
-/* line 226, ../../latto/sass/_latto.typography.scss */
+/* line 223, ../../latto/sass/_latto.typography.scss */
 dd {
   margin-left: 12px;
 }
 
-/* line 234, ../../latto/sass/_latto.typography.scss */
+/* line 231, ../../latto/sass/_latto.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
 
-/* line 238, ../../latto/sass/_latto.typography.scss */
+/* line 235, ../../latto/sass/_latto.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
 
-/* line 242, ../../latto/sass/_latto.typography.scss */
+/* line 239, ../../latto/sass/_latto.typography.scss */
 .text-large, .lead, .page-lead {
   font-size: 16.5px;
   font-size: 1.03125rem;
 }
 
-/* line 246, ../../latto/sass/_latto.typography.scss */
+/* line 243, ../../latto/sass/_latto.typography.scss */
 .text-small, blockquote .blockquote-source, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
-/* line 250, ../../latto/sass/_latto.typography.scss */
+/* line 247, ../../latto/sass/_latto.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
@@ -4264,12 +4264,12 @@ legend {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .top-wrapper:before, .top-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .top-wrapper:after {
   clear: both;
 }
@@ -4335,12 +4335,12 @@ legend {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .main-wrapper:before, .main-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .main-wrapper:after {
   clear: both;
 }
@@ -4480,12 +4480,12 @@ legend {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .attachments-wrapper:before, .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .attachments-wrapper:after {
   clear: both;
 }
@@ -6140,9 +6140,11 @@ table tbody tr:hover th {
 }
 
 /* line 24, ../sass/_ddbasic.buttons.scss */
-.button, .form-submit, .pane-bookmarks .ding-entity-button a,
+.button, .form-submit,
+#edit-cancel, .pane-bookmarks .ding-entity-button a,
 a.button,
-a.form-submit, .topbar .search input[type="submit"].form-submit, .search input[type="submit"], .user input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit, .field-name-field-ding-news-materials .form-submit,
+a.form-submit,
+a#edit-cancel, .topbar .search input[type="submit"].form-submit, .search input[type="submit"], .user input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit, .field-name-field-ding-news-materials .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button,
 .field-name-field-ding-news-materials .ding-entity-button, .user-login-block input[type="submit"] {
@@ -6158,28 +6160,38 @@ a.form-submit, .topbar .search input[type="submit"].form-submit, .search input[t
   vertical-align: middle;
 }
 /* line 38, ../sass/_ddbasic.buttons.scss */
-.button:focus, .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus,
-a.form-submit:focus, .topbar .search input[type="submit"].form-submit:focus, .search input[type="submit"]:focus, .user input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus, .field-name-field-ding-news-materials .form-submit:focus,
+.button:focus, .form-submit:focus,
+#edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus,
+a.form-submit:focus,
+a#edit-cancel:focus, .topbar .search input[type="submit"].form-submit:focus, .search input[type="submit"]:focus, .user input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus, .field-name-field-ding-news-materials .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus,
-.field-name-field-ding-news-materials .ding-entity-button:focus, .user-login-block input[type="submit"]:focus, .button:hover, .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover,
-a.form-submit:hover, .topbar .search input[type="submit"].form-submit:hover, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover, .field-name-field-ding-news-materials .form-submit:hover,
+.field-name-field-ding-news-materials .ding-entity-button:focus, .user-login-block input[type="submit"]:focus, .button:hover, .form-submit:hover,
+#edit-cancel:hover, .pane-bookmarks .ding-entity-button a:hover,
+a.form-submit:hover,
+a#edit-cancel:hover, .topbar .search input[type="submit"].form-submit:hover, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover, .field-name-field-ding-news-materials .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
 .pane-ting-object .ding-entity-button:hover,
-.field-name-field-ding-news-materials .ding-entity-button:hover, .user-login-block input[type="submit"]:hover, .button:active, .form-submit:active, .pane-bookmarks .ding-entity-button a:active,
-a.form-submit:active, .topbar .search input[type="submit"].form-submit:active, .search input[type="submit"]:active, .user input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active, .field-name-field-ding-news-materials .form-submit:active,
+.field-name-field-ding-news-materials .ding-entity-button:hover, .user-login-block input[type="submit"]:hover, .button:active, .form-submit:active,
+#edit-cancel:active, .pane-bookmarks .ding-entity-button a:active,
+a.form-submit:active,
+a#edit-cancel:active, .topbar .search input[type="submit"].form-submit:active, .search input[type="submit"]:active, .user input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active, .field-name-field-ding-news-materials .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active,
 .field-name-field-ding-news-materials .ding-entity-button:active, .user-login-block input[type="submit"]:active {
   text-decoration: none;
 }
 /* line 44, ../sass/_ddbasic.buttons.scss */
-.disabled.button, .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled,
-a.disabled.form-submit, .topbar .search input.disabled[type="submit"].form-submit, .search input.disabled[type="submit"], .user input.disabled[type="submit"], .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit, .field-name-field-ding-news-materials .disabled.form-submit,
+.disabled.button, .disabled.form-submit,
+.disabled#edit-cancel, .pane-bookmarks .ding-entity-button a.disabled,
+a.disabled.form-submit,
+a.disabled#edit-cancel, .topbar .search input.disabled[type="submit"].form-submit, .search input.disabled[type="submit"], .user input.disabled[type="submit"], .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit, .field-name-field-ding-news-materials .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
 .pane-ting-object .disabled.ding-entity-button,
-.field-name-field-ding-news-materials .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], [disabled].button, [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled],
-a[disabled].form-submit, .topbar .search input[disabled][type="submit"].form-submit, .search input[disabled][type="submit"], .user input[disabled][type="submit"], .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit, .field-name-field-ding-news-materials [disabled].form-submit,
+.field-name-field-ding-news-materials .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], [disabled].button, [disabled].form-submit,
+[disabled]#edit-cancel, .pane-bookmarks .ding-entity-button a[disabled],
+a[disabled].form-submit,
+a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-submit, .search input[disabled][type="submit"], .user input[disabled][type="submit"], .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit, .field-name-field-ding-news-materials [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button,
 .field-name-field-ding-news-materials [disabled].ding-entity-button, .user-login-block input[disabled][type="submit"] {
@@ -6192,9 +6204,11 @@ a[disabled].form-submit, .topbar .search input[disabled][type="submit"].form-sub
 }
 
 /* line 78, ../sass/_ddbasic.buttons.scss */
-.button, .form-submit, .pane-bookmarks .ding-entity-button a,
+.button, .form-submit,
+#edit-cancel, .pane-bookmarks .ding-entity-button a,
 a.button,
 a.form-submit,
+a#edit-cancel,
 .pane-bookmarks .ding-entity-button a {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #595959), color-stop(100%, #404040));
   background-image: -webkit-linear-gradient(#595959, #404040);
@@ -6205,15 +6219,21 @@ a.form-submit,
   color: white;
 }
 /* line 68, ../sass/_ddbasic.buttons.scss */
-.button:focus, .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active, .pane-bookmarks .ding-entity-button a:active,
+.button:focus, .form-submit:focus,
+#edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover,
+#edit-cancel:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active,
+#edit-cancel:active, .pane-bookmarks .ding-entity-button a:active,
 a.button:focus,
 a.form-submit:focus,
+a#edit-cancel:focus,
 .pane-bookmarks .ding-entity-button a:focus,
 a.button:hover,
 a.form-submit:hover,
+a#edit-cancel:hover,
 .pane-bookmarks .ding-entity-button a:hover,
 a.button:active,
 a.form-submit:active,
+a#edit-cancel:active,
 .pane-bookmarks .ding-entity-button a:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4d4d4d), color-stop(100%, #333333));
   background-image: -webkit-linear-gradient(#4d4d4d, #333333);
@@ -6262,8 +6282,10 @@ a.form-submit:active,
 
 /* line 101, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, input[type=submit].form-submit,
+input[type=submit]#edit-cancel,
 button.button,
-button.form-submit {
+button.form-submit,
+button#edit-cancel {
   -webkit-appearance: none;
 }
 
@@ -8627,12 +8649,17 @@ ul.icons li [class*=" icon-"] {
   margin-left: 10px;
 }
 
-/* line 34, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 28, ../sass/_ddbasic.overrides.drupal.scss */
+#edit-cancel {
+  margin-left: .3em;
+}
+
+/* line 41, ../sass/_ddbasic.overrides.drupal.scss */
 .feed-icon img {
   max-width: 16px;
 }
 
-/* line 41, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 48, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -8646,7 +8673,7 @@ ul.icons li [class*=" icon-"] {
   text-align: center;
 }
 
-/* line 53, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 60, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress .throbber {
   background: transparent;
   color: #000;
@@ -9392,12 +9419,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
@@ -9641,6 +9668,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-library-list .form-item-select-library,
 .pane-library-list .button,
 .pane-library-list .form-submit,
+.pane-library-list #edit-cancel,
 .pane-library-list .pane-bookmarks .ding-entity-button a,
 .pane-bookmarks .ding-entity-button .pane-library-list a {
   display: inline;
