@@ -58,10 +58,12 @@
       function updateAvailability(id, entity_ids) {
         var available = false;
         var reservable = false;
+        var is_internet = false;
         $.each(entity_ids, function(index, entity_id) {
           if (Drupal.DADB[entity_id]) {
             available = available || Drupal.DADB[entity_id]['available'];
             reservable = reservable || Drupal.DADB[entity_id]['reservable'];
+            is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
           }
         });
 
@@ -82,7 +84,7 @@
             element.addClass('not-reservable');
         }
 
-        if (available && reservable) {
+        if (available && reservable || is_internet) {
           element.attr('title', Drupal.t('available'));
           // If availability is an link extrend information.
           if (settings.ding_availability_link === 1) {
