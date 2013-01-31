@@ -878,7 +878,7 @@ function render_place2book_ticketsinfo($node) {
            * number from Available-Tickets header is a string and must be tested as such
            * also, Available-Tickets header can have a negative value, which we also interpret as "no ticket left"
            */
-          if ($p2b_result->headers['Available-Tickets'] == "0" || (int)$p2b_result->headers['Available-Tickets'] < 0) {
+          if ($p2b_result->headers['available-tickets'] == "0" || (int)$p2b_result->headers['available-tickets'] < 0) {
             $type = 'no-tickets-left';
           } 
           else {
