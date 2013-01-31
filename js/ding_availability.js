@@ -70,9 +70,16 @@
 
         if (available) {
           element.addClass('available');
+        }  
+        else {
+          element.addClass('unavailable');
         }
+        
         if (reservable) {
           element.addClass('reservable');
+        }
+        else {
+            element.addClass('not-reservable');
         }
 
         if (available && reservable) {
