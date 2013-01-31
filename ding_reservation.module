@@ -406,11 +406,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       '#suffix' => '</div>',
       '#type' => 'submit',
       /* '#submit' => array('ding_reservation_update_reservation_form'), */
-      '#submit' => array('ding_reservation_reservations_form_submit'),
+      '#submit' => array('ding_reservation_updates_form_submit'),
       '#value' => t('Update reservations'),
       '#ajax' => array(
-        'callback' => 'ding_reservation_reservations_form_callback',
-        'wrapper' => 'ding-reservation-reservations-form',
+        'callback' => 'ding_reservation_updates_form_callback',
+        'wrapper' => 'ding-reservation-updates-form',
       ),
     );
   }
@@ -434,7 +434,7 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
 /**
  * Submit handler for the form.
  */
-function ding_reservation_reservations_form_submit($form, &$form_state) {
+function ding_reservation_updates_form_submit($form, &$form_state) {
   global $user;
   $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'],'is_string')));
   $form_state['encoded_reservations'] = $ids;
@@ -444,7 +444,7 @@ function ding_reservation_reservations_form_submit($form, &$form_state) {
 /**
  * Ajax callback.
  */
-function ding_reservation_reservations_form_callback($form, &$form_state) {
+function ding_reservation_updates_form_callback($form, &$form_state) {
   global $user;
   $response = array(
     '#type' => 'ajax',
