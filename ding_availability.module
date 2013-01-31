@@ -69,7 +69,7 @@ function ding_availability_items($provider_ids) {
         'available' => FALSE,
       );
       
-      //marks internet resources as available
+      // Marks internet resources as available.
       if ($item['is_internet']) {
         $item['available'] = TRUE;
       }
@@ -99,7 +99,7 @@ function ding_availability_holdings($provider_ids) {
       'holdings' => array(),
     );
     
-    //marks internet resources as available
+    // Marks internet resources as available.
     if ($item['is_internet']) {
       $item['available'] = TRUE;
     }
