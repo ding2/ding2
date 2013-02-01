@@ -130,7 +130,7 @@ function ding_wayf_redirect_login() {
 
 // Load configuration.
   $config = variable_get('ding_wayf', NULL);
-  if (!$config || !isset($conf['ding_wayf_passwd'])) {
+  if (!$config ) {
 // The configuration have not be created yet, so send user to the front page
 // with an error message.
     drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.', array(), array('context' => 'ding_wayf')), 'error', FALSE);
@@ -177,9 +177,9 @@ function ding_wayf_redirect_login() {
   if ($user->uid == 0) {
     $form_state = array();
     $form_state['values']['authentication_provider'] = 'wayf';
-    $form_state['values']['name'] = $authentication_attributes['mail'];
-    $form_state['values']['mail'] = $authentication_attributes['mail'];
-    $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'];
+    $form_state['values']['name'] = $authentication_attributes['mail'][0];
+    $form_state['values']['mail'] = $authentication_attributes['mail'][0];
+    $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'][0];
 
     drupal_form_submit('user_login_block', $form_state);
     // logout wayf if something goes wrong
