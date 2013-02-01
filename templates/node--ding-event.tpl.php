@@ -103,7 +103,7 @@
     <p>
       <?php print render($content['field_ding_event_lead'][0]); ?>
     </p>
-    <?php if ($ddbasic_place2book_tickets): ?>
+    <?php if (isset($ddbasic_place2book_tickets)): ?>
       <p><?php print render($content['field_place2book_tickets'][0]); ?><p>
     <?php endif; ?>
   </div>
@@ -111,9 +111,11 @@
       <p>
           <i class="icon-calendar"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?>
       </p>
+      <?php if (isset($ddbasic_event_location)): ?>
       <p>
           <i class="icon-home"></i> <?php print $ddbasic_event_location; ?>
       </p>
+      <?php endif; ?>
       <p>
           <i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?>
       </p>
