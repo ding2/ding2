@@ -54,6 +54,7 @@ features[field_group][] = group_ding_event_tagging|node|ding_event|form
 features[field_group][] = group_ding_event_ting|node|ding_event|form
 features[node][] = ding_event
 features[page_manager_handlers][] = ding_event_node_view
+features[page_manager_handlers][] = term_view_panel_context
 features[page_manager_pages][] = ding_events
 features[page_manager_pages][] = ding_events_library
 features[taxonomy][] = event_category
