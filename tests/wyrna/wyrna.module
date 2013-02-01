@@ -15,10 +15,10 @@ function wyrna_ding_provider() {
         'prefix' => 'wayf',
         'file' => drupal_get_path('module', 'wyrna') . '/wyrna.wayf.inc',
       ),
-      'user' => array(
+     /* 'user' => array(
         'prefix' => 'user',
         'file' => drupal_get_path('module', 'wyrna') . '/wyrna.user.inc',
-      ),
+      ),*/
     ),
   );
 }
@@ -36,102 +36,9 @@ function wyrna_ding_wayf_attributes() {
   );
 }
 
-/** Implements hook_form_FORM_ID_alter (user_login)
- * 
- * add wayf login block to form['actions']
- */
-function wyrna_form_user_login_alter(&$form, &$form_state) {
-  $form['actions']['wayf_login'] = array(
-    '#markup' => wyrna_render_login_block(),
-  );
-}
-
-/** \brief Custom render function for wyrna_login block
- * 
- * @return html; the rendered block 
- */
-function wyrna_render_login_block() {
-  $block = block_load('wyrna', 'login');
-  return drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));
-}
-
-/**
- * Implements hook_block_info().
- *
- * @return array
- */
-function wyrna_block_info() {
-  return array(
-    'login' => array(
-      'info' => t('WAYF login'),
-    ),
-  );
-}
-
-/**
- * Implements hook_form_alter(). 
- */
-function wyrna_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'user_login':
-    case 'user_login_block':
-      $form['#validate'][] = 'wyrna_wayf_validate';
-      $form['authentication_provider'] = array(
-        '#type'=>'hidden',
-      );
-      break;
-    default:
-      break;
-  }
-}
 
 function wyrna_wayf_validate($form, $form_state) {
   // @TODO do something sensible
-  form_set_error('submit');
+  
+  //form_set_error('submit');
 }
-
-/**
- *  Implements hook_menu
- */
-function wyrna_menu() {
-  $items['wayf/login'] = array(
-    'title' => t('Logon to the site'),
-    'description' => t('Provides WYRNA (test wayf) login.'),
-    'page callback' => 'wyrna_redirect_login',
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
-  );
-  return $items;
-}
-
-function wyrna_redirect_login() {
-  $form_state = array();
-  $form_state['values']['name'] = 'pjo@dbc.dk';
-  $form_state['values']['mail'] = 'pjo@dbc.dk';
-  $form_state['values']['pass'] = 'wayfid';
-
-  $form_state['values']['authentication_method'] = 'wayf';
-
-  drupal_form_submit('user_login_block', $form_state);
-  return 'TESTHEST';
-}
-
-/**
- * Implements hook_block_view().
- *
- * @param string $delta
- * @return array
- */
-function wyrna_block_view($delta) {
-  $block = array();
-  if ($delta == 'login') {
-    global $user;
-    // Only show login link for anon. users.
-    if ($user->uid == 0) {
-      $block['content'] = l(t('Login using WAYF'), 'wayf/login', array('query' => drupal_get_destination()));
-    }
-  }
-
-  return $block;
-}
-

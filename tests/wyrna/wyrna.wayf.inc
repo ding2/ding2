@@ -1,9 +1,22 @@
 <?php
 
-function wyrna_wayf_authenticate($attribute_list) {
-  $name = $attribute_list['mail'];
-  $wayfid = $attribute_list['eduPersonTargetedID'];
-  return array('success' => DingWayfUser::instance()->loginWayf($name, $wayfid));
+function wyrna_wayf_authenticate($name, $wayfid) { 
+  $return = array('success'=>FALSE);
+  
+  if( DingWayfUser::instance()->loginWayf($name, $wayfid) ){
+  $return['creds'] = array(
+      'name' => $name,
+      'pass' => $wayfid,
+    );
+
+    $return['user'] = array(
+      'data' => array('display_name' => $name),
+      'mail' => $name,
+    );
+    $return['success'] = TRUE;
+    $return['messages'] = array('HEJ', 'notice');
+  }
+  return $return;
 }
 
 function wyrna_wayf_bind($name, $wayfid) {
@@ -36,6 +49,8 @@ class DingWayfUser {
   }
 
   public function loginWayf($name, $wayfid) {
+    return TRUE;
+  
     return isset($this->validUsers[$name]) && $this->validUsers[$name] == $wayfid;
   }
 
