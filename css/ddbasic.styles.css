@@ -10440,6 +10440,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding: 20px;
 }
 
+/* line 68, ../sass/_ddbasic.comment.scss */
+.ding-user-comment-forbidden-form {
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
+}
+
 /* line 265, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: rgba(255, 255, 255, 0.9);
