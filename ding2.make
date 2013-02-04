@@ -10,8 +10,8 @@ libraries[profiler][patch][] = http://drupal.org/files/profiler-reverse.patch
 
 ; Contrib modules
 
-projects[eu_cookie_compliance][version] = "1.8"
-projects[eu_cookie_compliance][subdir] = contrib
+projects[eu-cookie-compliance][version] = "1.8"
+projects[eu-cookie-compliance][subdir] = contrib
 
 ; Modules
 projects[alma][type] = module
