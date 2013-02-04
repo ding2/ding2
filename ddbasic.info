@@ -18,6 +18,7 @@
 ;----------// JavaScripts
   ; Import javascripts.
   scripts[] = scripts/ddbasic.common.js
+  scripts[] = scripts/jquery.equalheights.js
 
 
 ;----------// Regions
