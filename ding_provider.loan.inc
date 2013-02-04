@@ -84,7 +84,7 @@ class DingProviderLoan extends DingEntityBase {
     parent::__construct();
     $this->properties['id'] = $id;
     // Default display name.
-    $this->properties['display_name'] = t('Title not available');
+    $this->properties['display_name'] = t('Title not available');   
     $this->properties['materials_number'] = NULL;
     $properties = array(
       'materials_number',
