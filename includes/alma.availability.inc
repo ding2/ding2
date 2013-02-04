@@ -14,6 +14,7 @@ function alma_availability_holdings($provider_ids) {
     foreach ($details['records'] as $alma_id => $record) {
       $holding = array(
         'local_id' => $alma_id,
+        'title' => $record['titles'][0],
         'available' => ($record['available_count'] > 0),
         'reservable' => $record['show_reservation_button'],
         'show_reservation_button' => $record['show_reservation_button'],
