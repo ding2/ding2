@@ -3,7 +3,7 @@
  */
 (function($) {
   $(document).ready(function() {
-    $('body').delegate('.ding-user-login-button .login-button', 'click', function(event) {
+    $('.ding-user-login-button .login-button').live(function(event) {
       // Stop event propagation.
       event.preventDefault();
       $(this).parent().find('.user').toggle();
