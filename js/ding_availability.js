@@ -22,7 +22,7 @@
         });
       });
 
-     $.each(html_ids, function(index, id) {
+      $.each(html_ids, function(index, id) {
         $('#' + id).addClass('pending');
       });
 
@@ -81,7 +81,7 @@
           element.addClass('reservable');
         }
         else {
-            element.addClass('not-reservable');
+          element.addClass('not-reservable');
         }
 
         if (available && reservable || is_internet) {
