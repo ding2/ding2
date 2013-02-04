@@ -713,6 +713,7 @@ function ding_event_field_default_fields() {
           'postal_code' => '',
           'locality' => '',
           'country' => 'DK',
+          'name_line' => '',
         ),
       ),
       'deleted' => '0',
@@ -747,7 +748,7 @@ function ding_event_field_default_fields() {
       'fences_wrapper' => 'div',
       'field_name' => 'field_ding_event_location',
       'label' => 'Location',
-      'required' => 0,
+      'required' => 1,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
@@ -761,7 +762,6 @@ function ding_event_field_default_fields() {
           'format_handlers' => array(
             'address' => 'address',
             'name-oneline' => 'name-oneline',
-            'address-hide-country' => 0,
             'organisation' => 0,
             'name-full' => 0,
           ),
