@@ -80,8 +80,14 @@ function ding_user_frontend_block_info() {
     'info' => t('Ding user name'),
     'cache' => DRUPAL_NO_CACHE,
   );
+
   $blocks['ding-user-loan-number'] = array(
     'info' => t('Ding loan, reservation, and debt count'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['ding-user-login-button'] = array(
+    'info' => t('Ding user login slide down box'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
@@ -108,6 +114,7 @@ function ding_user_frontend_block_view($delta = '') {
         }
       }
       break;
+
     case 'ding-user-loan-number':
       try {
         // We don't really need the credentials here, but getting them
@@ -122,8 +129,23 @@ function ding_user_frontend_block_view($delta = '') {
         }
         $status['bookmark_count'] = ding_bookmark_count_number();
         $block['content'] = theme('ding_user_frontend_user_status', $status);
-      } catch ( Exception $e ) { return; }
+      }
+      catch (Exception $e) {
+        return;
+      }
+      break;
 
+    case 'ding-user-login-button':
+      // Only render login button for anonymous users.
+      if (user_is_anonymous()) {
+        // Get login form
+        $form = drupal_get_form('user_login');
+
+        drupal_add_js(drupal_get_path('module', 'ding_user_frontend') .  '/js/ding_user_frontend_login_button.js');
+        $block['content'] = theme('ding_user_frontend_login_button', array(
+          'login_form' => $form,
+        ));
+      }
       break;
   }
   return $block;
@@ -142,6 +164,11 @@ function ding_user_frontend_theme($existing, $type, $theme, $path) {
     'ding_user_frontend_user_status' => array(
       'variables' => array('loan_count' => NULL, 'reservation_count' => NULL, 'debt_count' => NULL),
       'template' => 'ding_user_frontend_user_status',
+      'path' => $path . '/templates',
+    ),
+    'ding_user_frontend_login_button' => array(
+      'variables' => array('login_form' => NULL),
+      'template' => 'ding_user_frontend_login_button',
       'path' => $path . '/templates',
     ),
   );
