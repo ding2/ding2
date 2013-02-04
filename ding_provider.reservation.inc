@@ -131,7 +131,9 @@ class DingProviderReservation extends DingEntityBase {
       $result = ding_provider_invoke('availability', 'holdings', array($ding_entity_id[1]));
       if (isset($result)) {
         $details = $result[$ding_entity_id[1]];
+        if (isset($details['title'])) {
         $this->properties['display_name'] = '<h2>' . $details['title'] . '</h2>';
+        }
       }
     }
     
