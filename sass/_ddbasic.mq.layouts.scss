@@ -121,14 +121,17 @@
 
   .main-content {
     @include zen-grid-item($grid-50, 1);
+    @include box-sizing(border-box);
   }
 
   .main-left-right {
     @include zen-grid-item($grid-25, $grid-50 + 1);
+    @include box-sizing(border-box);
   }
 
   .main-right-right {
     @include zen-grid-item($grid-25, 1, right);
+    @include box-sizing(border-box);
   }
 
   .grid-inner {

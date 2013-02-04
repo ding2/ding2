@@ -79,5 +79,18 @@
       }
       ddbasic_login_state = !ddbasic_login_state;
     }
+    
+    
+    // Equal heights function
+    $.fn.setAllToMaxHeight = function(){
+      return this.innerHeight( Math.max.apply(this, $.map( this , function(e){ return $(e).innerHeight() }) ) );
+    }
+    
+    // Set equal heights on front page content
+    $('.main-wrapper .grid-inner').setAllToMaxHeight();
+    
+    // Set equal heights on front page attachments
+    $('.attachments-wrapper .grid-inner').setAllToMaxHeight();
+    
   });
 })(jQuery);

@@ -5,12 +5,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -3358,7 +3358,7 @@ em .list > dt,
 .pane-reservations th,
 .pane-bookmarks th,
 .strong {
-  font-weight: bold;
+  font-weight: normal;
 }
 
 /* line 142, ../../latto/sass/_latto.typography.scss */
@@ -3439,47 +3439,47 @@ dl {
   margin-bottom: 24px;
 }
 
-/* line 217, ../../latto/sass/_latto.typography.scss */
+/* line 218, ../../latto/sass/_latto.typography.scss */
 dt,
 dd {
   line-height: 24px;
 }
 
-/* line 220, ../../latto/sass/_latto.typography.scss */
+/* line 222, ../../latto/sass/_latto.typography.scss */
 dt {
   font-weight: bold;
 }
 
-/* line 223, ../../latto/sass/_latto.typography.scss */
+/* line 226, ../../latto/sass/_latto.typography.scss */
 dd {
   margin-left: 12px;
 }
 
-/* line 231, ../../latto/sass/_latto.typography.scss */
+/* line 234, ../../latto/sass/_latto.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
 
-/* line 235, ../../latto/sass/_latto.typography.scss */
+/* line 238, ../../latto/sass/_latto.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
 
-/* line 239, ../../latto/sass/_latto.typography.scss */
+/* line 242, ../../latto/sass/_latto.typography.scss */
 .text-large, .lead, .page-lead {
   font-size: 16.5px;
   font-size: 1.03125rem;
 }
 
-/* line 243, ../../latto/sass/_latto.typography.scss */
+/* line 246, ../../latto/sass/_latto.typography.scss */
 .text-small, blockquote .blockquote-source, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
-/* line 247, ../../latto/sass/_latto.typography.scss */
+/* line 250, ../../latto/sass/_latto.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
@@ -4264,12 +4264,12 @@ legend {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .top-wrapper:before, .top-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .top-wrapper:after {
   clear: both;
 }
@@ -4335,12 +4335,12 @@ legend {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .main-wrapper:before, .main-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .main-wrapper:after {
   clear: both;
 }
@@ -4361,8 +4361,12 @@ legend {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("../scripts/boxsizing.htc");
 }
-/* line 126, ../sass/_ddbasic.mq.layouts.scss */
+/* line 127, ../sass/_ddbasic.mq.layouts.scss */
 .main-wrapper .main-left-right {
   float: left;
   width: 25%;
@@ -4379,8 +4383,12 @@ legend {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("../scripts/boxsizing.htc");
 }
-/* line 130, ../sass/_ddbasic.mq.layouts.scss */
+/* line 132, ../sass/_ddbasic.mq.layouts.scss */
 .main-wrapper .main-right-right {
   float: right;
   width: 25%;
@@ -4397,9 +4405,13 @@ legend {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("../scripts/boxsizing.htc");
 }
 
-/* line 140, ../sass/_ddbasic.mq.layouts.scss */
+/* line 143, ../sass/_ddbasic.mq.layouts.scss */
 .no-main-left-right.no-main-right-right .main-content {
   float: left;
   width: 100%;
@@ -4418,7 +4430,7 @@ legend {
   _overflow-y: visible;
 }
 
-/* line 146, ../sass/_ddbasic.mq.layouts.scss */
+/* line 149, ../sass/_ddbasic.mq.layouts.scss */
 .no-main-left-right .main-content {
   float: left;
   width: 75%;
@@ -4437,7 +4449,7 @@ legend {
   _overflow-y: visible;
 }
 
-/* line 152, ../sass/_ddbasic.mq.layouts.scss */
+/* line 155, ../sass/_ddbasic.mq.layouts.scss */
 .no-main-right-right .main-content {
   float: left;
   width: 75%;
@@ -4455,7 +4467,7 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 155, ../sass/_ddbasic.mq.layouts.scss */
+/* line 158, ../sass/_ddbasic.mq.layouts.scss */
 .no-main-right-right .main-left-right {
   float: right;
   width: 25%;
@@ -4474,18 +4486,18 @@ legend {
   _overflow-y: visible;
 }
 
-/* line 160, ../sass/_ddbasic.mq.layouts.scss */
+/* line 163, ../sass/_ddbasic.mq.layouts.scss */
 .attachments-wrapper {
   *position: relative;
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .attachments-wrapper:before, .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .attachments-wrapper:after {
   clear: both;
 }
@@ -9419,12 +9431,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../var/lib/gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
