@@ -83,7 +83,7 @@
     
     // Equal heights function
     $.fn.setAllToMaxHeight = function(){
-      return this.innerHeight( Math.max.apply(this, $.map( this , function(e){ return $(e).innerHeight() }) ) );
+      return this.height( Math.max.apply(this, $.map( this , function(e){ return $(e).height() }) ) );
     }
     
     // Set equal heights on front page content
