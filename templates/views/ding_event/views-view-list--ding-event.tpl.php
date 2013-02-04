@@ -14,7 +14,7 @@ print $wrapper_prefix;
   endif;
   print $list_type_prefix;
     foreach ($rows as $id => $row):
-      print '<li class="list-item">' . $row . '</li>';
+      print '<li class="event-list-item">' . $row . '</li>';
     endforeach;
   print $list_type_suffix;
 print $wrapper_suffix;

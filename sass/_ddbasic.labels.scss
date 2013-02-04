@@ -13,7 +13,7 @@ $label-text-color:                #fff;
 $label-bg-color-inverted:         #fff;
 $label-text-color-inverted:       #00b7e7;
 $label-border-radius:             8px;
-$label-shadow:                    1px 1px 0 rgba(0,0,0,.25);
+$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
 $label-padding:                   5px 10px;
 
 
@@ -36,7 +36,7 @@ $label-padding:                   5px 10px;
 
   background-color: $label-bg-color;
   color: $label-text-color;
-  text-shadow: $label-shadow;
+  text-shadow: $label-shadow;  
   vertical-align: baseline;
   white-space: nowrap;
 

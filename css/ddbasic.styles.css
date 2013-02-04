@@ -1973,7 +1973,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 289, ../../latto/sass/_latto.font-awesome.scss */
-.icon-home:before {
+.icon-home:before, .event-list-info .event-list-location:before {
   content: "\f015";
 }
 
@@ -1983,7 +1983,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 291, ../../latto/sass/_latto.font-awesome.scss */
-.icon-time:before {
+.icon-time:before, .event-list-info .event-list-time:before {
   content: "\f017";
 }
 
@@ -2614,7 +2614,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 426, ../../latto/sass/_latto.font-awesome.scss */
-.icon-credit-card:before {
+.icon-credit-card:before, .event-list-info .event-list-price:before {
   content: "\f09d";
 }
 
@@ -3723,50 +3723,57 @@ dd {
   margin-top: 85px;
 }
 
-/* line 29, ../sass/_ddbasic.extends.scss */
+/* line 23, ../sass/_ddbasic.extends.scss */
+.event-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 35, ../sass/_ddbasic.extends.scss */
 .footer .menu li a:link, .footer-block a:link, .topbar .user-menu a:link {
   color: white;
   text-decoration: none;
 }
-/* line 33, ../sass/_ddbasic.extends.scss */
+/* line 39, ../sass/_ddbasic.extends.scss */
 .footer .menu li a:visited, .footer-block a:visited, .topbar .user-menu a:visited {
   color: #d9d9d9;
 }
-/* line 36, ../sass/_ddbasic.extends.scss */
+/* line 42, ../sass/_ddbasic.extends.scss */
 .footer .menu li a:hover, .footer-block a:hover, .topbar .user-menu a:hover {
   color: #d9d9d9;
   text-decoration: underline;
 }
-/* line 40, ../sass/_ddbasic.extends.scss */
+/* line 46, ../sass/_ddbasic.extends.scss */
 .footer .menu li a:hover i[class^="icon-"], .footer-block a:hover i[class^="icon-"], .topbar .user-menu a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 44, ../sass/_ddbasic.extends.scss */
+/* line 50, ../sass/_ddbasic.extends.scss */
 .footer .menu li a:focus, .footer-block a:focus, .topbar .user-menu a:focus {
   color: #d9d9d9;
 }
 
-/* line 81, ../sass/_ddbasic.extends.scss */
+/* line 87, ../sass/_ddbasic.extends.scss */
 .dl .dt,
 .library-link .dt {
   float: left;
   width: 20%;
 }
 
-/* line 87, ../sass/_ddbasic.extends.scss */
+/* line 93, ../sass/_ddbasic.extends.scss */
 .dl .dd,
 .library-link .dd {
   padding-left: 25%;
 }
 
-/* line 96, ../sass/_ddbasic.extends.scss */
+/* line 102, ../sass/_ddbasic.extends.scss */
 .topbar .user i[class^="icon-"] {
   float: left;
   margin-right: 5px;
   text-decoration: none;
 }
 
-/* line 113, ../sass/_ddbasic.extends.scss */
+/* line 119, ../sass/_ddbasic.extends.scss */
 .user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -3775,7 +3782,7 @@ dd {
   font-size: 33px;
 }
 
-/* line 123, ../sass/_ddbasic.extends.scss */
+/* line 129, ../sass/_ddbasic.extends.scss */
 .user input[type="text"],
 .user input[type="password"], .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
@@ -3791,41 +3798,41 @@ dd {
   border: 0;
 }
 
-/* line 137, ../sass/_ddbasic.extends.scss */
+/* line 143, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .field-name-field-ding-news-materials .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .field-name-field-ding-news-materials .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .field-name-field-ding-news-materials .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available.reservable {
   color: #fff;
   padding: 5px;
 }
-/* line 141, ../sass/_ddbasic.extends.scss */
+/* line 147, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-ting-object .field-name-ting-type li.pending a, .field-name-field-ding-news-materials .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-ting-object .field-name-ting-type li.availability.processed a, .field-name-field-ding-news-materials .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-ting-object .field-name-ting-type li.availability.available a, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-ting-object .field-name-ting-type li.availability.reservable a, .field-name-field-ding-news-materials .field-name-ting-type li.availability.reservable a, .comment .new a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a, .pane-ting-object .field-name-ting-type li.availability.available.reservable a, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available.reservable a {
   color: #fff;
 }
-/* line 144, ../sass/_ddbasic.extends.scss */
+/* line 150, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-ting-object .field-name-ting-type li.pending a:hover, .field-name-field-ding-news-materials .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-ting-object .field-name-ting-type li.availability.processed a:hover, .field-name-field-ding-news-materials .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-ting-object .field-name-ting-type li.availability.available a:hover, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.reservable a:hover, .field-name-field-ding-news-materials .field-name-ting-type li.availability.reservable a:hover, .comment .new a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.available.reservable a:hover, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available.reservable a:hover {
   text-decoration: none;
 }
 
-/* line 150, ../sass/_ddbasic.extends.scss */
+/* line 156, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .field-name-field-ding-news-materials .field-name-ting-type li.pending {
   background-color: #696a69;
 }
 
-/* line 156, ../sass/_ddbasic.extends.scss */
+/* line 162, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .field-name-field-ding-news-materials .field-name-ting-type li.availability.processed {
   background-color: #ed1e88;
 }
 
-/* line 162, ../sass/_ddbasic.extends.scss */
+/* line 168, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available {
   background-color: #0072bc;
 }
 
-/* line 168, ../sass/_ddbasic.extends.scss */
+/* line 174, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .field-name-field-ding-news-materials .field-name-ting-type li.availability.reservable, .comment .new {
   background-color: #ea9123;
 }
 
-/* line 174, ../sass/_ddbasic.extends.scss */
+/* line 180, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable, .field-name-field-ding-news-materials .field-name-ting-type li.availability.available.reservable {
   background-color: #4c9f45;
 }
@@ -7137,7 +7144,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 289, ../../latto/sass/_latto.font-awesome.scss */
-.icon-home:before {
+.icon-home:before, .event-list-info .event-list-location:before {
   content: "\f015";
 }
 
@@ -7147,7 +7154,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 291, ../../latto/sass/_latto.font-awesome.scss */
-.icon-time:before {
+.icon-time:before, .event-list-info .event-list-time:before {
   content: "\f017";
 }
 
@@ -7778,7 +7785,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 426, ../../latto/sass/_latto.font-awesome.scss */
-.icon-credit-card:before {
+.icon-credit-card:before, .event-list-info .event-list-price:before {
   content: "\f09d";
 }
 
@@ -8294,7 +8301,7 @@ ul.icons li [class*=" icon-"] {
   padding: 5px 10px;
   background-color: #00b7e7;
   color: white;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   vertical-align: baseline;
   white-space: nowrap;
 }
@@ -9583,6 +9590,74 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 31, ../sass/_ddbasic.event.scss */
 .ticket-info {
   cursor: auto;
+}
+
+/* line 45, ../sass/_ddbasic.event.scss */
+.event-list-item {
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+/* line 50, ../sass/_ddbasic.event.scss */
+.event-list-item.last {
+  border-bottom: 0;
+}
+/* line 54, ../sass/_ddbasic.event.scss */
+.event-list-item .event-list-title {
+  margin-bottom: 10px;
+}
+
+/* line 59, ../sass/_ddbasic.event.scss */
+.event-list-date-wrapper {
+  font-size: 13.5px;
+  font-size: 0.84375rem;
+  display: inline-block;
+  margin-top: 4px;
+  margin-right: 10px;
+  min-width: 75px;
+  color: #5b5b5b;
+  text-align: center;
+  vertical-align: top;
+}
+/* line 71, ../sass/_ddbasic.event.scss */
+.event-list-date-wrapper .event-list-day {
+  background-color: #00b7e7;
+  color: white;
+  display: block;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+/* line 77, ../sass/_ddbasic.event.scss */
+.event-list-date-wrapper .event-list-inner-wrapper {
+  border-right: 1px solid #d5d5d5;
+  border-bottom: 1px solid #d5d5d5;
+  border-left: 1px solid #d5d5d5;
+  background: white;
+}
+/* line 84, ../sass/_ddbasic.event.scss */
+.event-list-date-wrapper .event-list-inner-wrapper .event-list-date {
+  font-size: 25.5px;
+  font-size: 1.59375rem;
+  display: block;
+  padding-top: 8px;
+}
+
+/* line 93, ../sass/_ddbasic.event.scss */
+.event-list-info {
+  display: inline-block;
+}
+/* line 98, ../sass/_ddbasic.event.scss */
+.event-list-info .event-list-location,
+.event-list-info .event-list-time,
+.event-list-info .event-list-price {
+  display: block;
+}
+/* line 101, ../sass/_ddbasic.event.scss */
+.event-list-info .event-list-location:before,
+.event-list-info .event-list-time:before,
+.event-list-info .event-list-price:before {
+  color: #959595;
+  font-family: FontAwesome;
+  margin-right: 5px;
 }
 
 /* line 28, ../sass/_ddbasic.libraries.scss */
