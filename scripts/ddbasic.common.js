@@ -47,7 +47,7 @@
 
       // Defined "global" vars used to fix login form vs. slide-down box.
       var ddbasic_login_pane_default = $('.header-inner .pane-user-login');
-      var ddbasic_login_pane_toolbar = $('.ding-user-ajax-login-form');
+      var ddbasic_login_pane_toolbar = $('.pane-ding-user-frontend-ding-user-ajax-login');
       var ddbasic_login_state = false;
 
       // Remove login button (slide down), if header login is shown.
