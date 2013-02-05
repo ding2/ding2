@@ -63,7 +63,7 @@
     @include zen-grid-item($grid-50, 1, right);
     @extend %header-sections;
 
-    border-left: 1px solid transparentize($black, .9);    
+    border-left: 1px solid transparentize($black, .9);
     margin-right: 10px;
     padding-right: 0;
     padding-left: 10px;
@@ -117,35 +117,29 @@
 
 .topbar {
   .user {
-    @include rem('font-size', $theme-font-size * 1.4);
+    @extend .icon-user;
 
-    display: none;
+    position: absolute;
+    right: 140px;
+    top: 17px;
 
-    a {
-      @include border-radius(12px);
+    &:before {
+      @include rem('font-size', $theme-font-size * 1.3);
 
-      background-color: $black;
       color: $white;
-      cursor: pointer;
-      display: inline-block;
-      padding: 12px 25px 10px;
-      text-align: center;
+      font-family: $theme-icon-library-font;
 
-      &:hover {
-        text-decoration: none;
-      }
-
-      &.active {
-        background-color: $font-color-primary;
-      }
+      position: absolute;
+      left: 20px;
+      top: 12px;
+      z-index: 99;
     }
 
-    i[class^="icon-"] {
-      @extend %read-more-icon;
-    }
+    input[type="submit"] {
+      @include rem('font-size', $theme-font-size * 1.4);
 
-    &.fixed {
-      display: block;
+      min-height: 50px;
+      padding-left: 45px;
     }
   }
 }
