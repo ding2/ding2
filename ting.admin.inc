@@ -390,12 +390,12 @@ function ting_search_extendform_admin_settings_submit($form, $form_state) {
 }
 
 /**
- * Form builder; Configure labels for online_url.
+ * Form builder; Configure online resource types and their URL labels.
  *
  * @ingroup forms
  * @see system_settings_form()
  */
-function ting_admin_online_url_settings($form_state) {
+function ting_admin_online_types_settings($form_state) {
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   form_load_include($form_state, 'inc', 'ting', 'ting.client');
   $form = array();
@@ -409,11 +409,27 @@ function ting_admin_online_url_settings($form_state) {
   $form['update']['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
-    '#submit' => array('ting_admin_online_url_settings_update_types'),
+    '#submit' => array('ting_admin_online_types_settings_update_types'),
   );
 
-  $settings = variable_get('ting_url_labels', _ting_default_url_labels());
   $types = variable_get('ting_well_types', array());
+  
+  $form['ting_online'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Online types'),
+    '#description' => t('Ting objects defined as found online (not in the library collection).'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  
+  $form['ting_online']['types'] = array(
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array_keys($types)),
+    '#default_value' => variable_get('ting_online_types', _ting_default_online_types()),
+  );
+  
+  $settings = variable_get('ting_url_labels', _ting_default_url_labels());
   $form['ting_url_labels'] = array(
     '#type' => 'fieldset',
     '#title' => t('Labels'),
@@ -432,6 +448,8 @@ function ting_admin_online_url_settings($form_state) {
       '#type' => 'fieldset',
       '#title' => t('Type specific labels'),
       '#tree' => TRUE,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
       '#description' => t("Here you may override the default label for individual material types."),
     );
 
@@ -454,7 +472,7 @@ function ting_admin_online_url_settings($form_state) {
 /**
  * Submit handler. Updates the list of known types from the datawell.
  */
-function ting_admin_online_url_settings_update_types($form, &$form_state) {
+function ting_admin_online_types_settings_update_types($form, &$form_state) {
   _ting_fetch_well_types();
 }
 

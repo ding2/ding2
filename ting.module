@@ -114,11 +114,11 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
-  $items['admin/config/ting/online_url'] = array(
-    'title' => 'Online URL labels',
-    'description' => 'Define labels for online resources.',
+  $items['admin/config/ting/online_types'] = array(
+    'title' => 'Online types and URL labels',
+    'description' => 'Define online resource types and their corresponding URL labels.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_online_url_settings'),
+    'page arguments' => array('ting_admin_online_types_settings'),
     'access arguments' => array('administer ting settings'),
     'file' => 'ting.admin.inc'
   );
@@ -819,6 +819,25 @@ function ting_ranking_field_element_process($element, $form_state) {
  */
 function theme_ting_ranking_field($element) {
   return theme('form_element', $element);
+}
+
+/**
+ * Default online types.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _ting_default_online_types() {
+  return array(
+    'musik (net)',
+    'ebog',
+    'netdokument',
+    'lydbog (net)',
+    'film (net)',
+    'tidsskrift (net)',
+    'periodikum (net)',
+    'pc-spil (net)',
+    'avis (net)',
+  );
 }
 
 /**
