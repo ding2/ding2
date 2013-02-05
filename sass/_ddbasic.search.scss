@@ -19,11 +19,11 @@ $search-border-type: solid;
 //
 
 %search-ting-cover {
-  @extend .pull-left;
+  float: left;
 
+  min-height: 100px;
   position: relative;
   width: 10%;
-  min-height: 100px;
   z-index: 1;
 
   // Insert a background with image missing icon
@@ -146,10 +146,9 @@ input#edit-search-block-form--2.spinner {
     top: 0;
   }
 
-  .help-link {
-    @extend .pull-right;
-
+  .help-link {    
     display: block;
+    float: right;
     margin-top: $default-spacing / 2;
 
     &:hover {
@@ -272,14 +271,16 @@ input#edit-search-block-form--2.spinner {
   }
   .expand-more {
     @extend .icon-plus-sign;
-    @extend .pull-left;
+
     display: block;
+    float: left;
     margin-top: $default-spacing;
   }
   .expand-less {
     @extend .icon-minus-sign;
-    @extend .pull-left;
+
     display: block;
+    float: left;
     margin-top: $default-spacing;
   }
 
@@ -295,9 +296,9 @@ input#edit-search-block-form--2.spinner {
 
     .unselect {
       @extend .expand;
-      @extend .pull-right;
       @extend .icon-remove-sign;
 
+      float: right;
       margin-top: $default-spacing / 2;
     }
   }
@@ -314,6 +315,7 @@ input#edit-search-block-form--2.spinner {
 
   .expand-facets {
     @extend .expand;
+
     display: block;
     text-align: right;
     margin: 0;
@@ -342,8 +344,7 @@ input#edit-search-block-form--2.spinner {
 // Search query & results amount
 // Combine these as a page title
 .pane-ting-search-search-display-extended-query {
-  @extend .pull-left;
-
+  float: left;
   overflow: hidden;
   margin-bottom: $default-spacing;
 
@@ -360,7 +361,7 @@ input#edit-search-block-form--2.spinner {
   }
 }
 .pane-ting-search {
-  @extend .pull-right;
+  float: right;
 
   .ting-search-amount-block {
     @extend .text-larger;
@@ -372,10 +373,9 @@ input#edit-search-block-form--2.spinner {
 // Sorting, display amount and display format groups
 // Combine these as a group floating left and right
 .pane-ting-search-sort-form {
-  @extend .pull-left;
-
   clear: both;
   color: $gray-darker;
+  float: left;
   overflow: hidden;
 
   .form-item {
@@ -394,11 +394,10 @@ input#edit-search-block-form--2.spinner {
 
 }
 .pane-ting-search-records-per-page {
-  @extend .pull-right;
-
-  overflow: hidden;
   color: $gray-darker;
+  float: right;
   margin-left: $default-spacing;
+  overflow: hidden;
 
   a {
     margin-left: $default-spacing / 2;
@@ -417,8 +416,9 @@ input#edit-search-block-form--2.spinner {
   }
 }
 .pane-ding-toggle-format-toggle {
-  @extend .pull-right;
   @extend .pane-ting-search-records-per-page;
+
+  float: right;
 
   #ding-toggle-format-image {
     height: 0;
@@ -431,7 +431,7 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
 
   .availability-legend {
-    @extend .pull-right;
+    float: right;
     border: none;
     padding: 0;
 
@@ -660,7 +660,7 @@ input#edit-search-block-form--2.spinner {
   }
 
   .field-name-ting-type {
-    @extend .pull-right;
+    float: right;
 
     li {
       list-style: none;
@@ -688,13 +688,12 @@ input#edit-search-block-form--2.spinner {
   }
 
   .field-name-ding-entity-buttons {
-    @extend .pull-right;
-
+    float: right;
     margin: 0;
 
     form,
     .ding-entity-button {
-      @extend .pull-left;
+      float: left;
     }
 
     .ding-entity-button {
@@ -891,7 +890,7 @@ ul.ui-autocomplete {
       cursor: pointer;
       margin-bottom: $default-spacing / 4;
       padding: $default-spacing / 4 $default-spacing / 2;
-      
+
       &.ui-state-hover {
         margin-top: 0;
         margin-right: 0;
