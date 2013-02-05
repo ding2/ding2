@@ -412,8 +412,24 @@ function ting_admin_online_url_settings($form_state) {
     '#submit' => array('ting_admin_online_url_settings_update_types'),
   );
 
-  $settings = variable_get('ting_url_labels', _ting_default_url_labels());
   $types = variable_get('ting_well_types', array());
+  
+  $form['ting_online'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Online types'),
+    '#description' => t('Ting objects defined as found online (not in the library collection).'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  
+  $form['ting_online']['types'] = array(
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc(array_keys($types)),
+    '#default_value' => variable_get('ting_online_types', _ting_default_online_types()),
+  );
+  
+  $settings = variable_get('ting_url_labels', _ting_default_url_labels());
   $form['ting_url_labels'] = array(
     '#type' => 'fieldset',
     '#title' => t('Labels'),

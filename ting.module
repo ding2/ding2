@@ -822,6 +822,25 @@ function theme_ting_ranking_field($element) {
 }
 
 /**
+ * Default online types.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _ting_default_online_types() {
+  return array(
+    'musik (net)',
+    'ebog',
+    'netdokument',
+    'lydbog (net)',
+    'film (net)',
+    'tidsskrift (net)',
+    'periodikum (net)',
+    'pc-spil (net)',
+    'avis (net)',
+  );
+}
+
+/**
  * Default reservable sources.
  *
  * Defined as a function as a define can only be scalars.
