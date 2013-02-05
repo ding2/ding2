@@ -128,10 +128,11 @@
 
       color: $white;
       font-family: $theme-icon-library-font;
+      line-height: 100%;
 
-      position: absolute;
       left: 20px;
-      top: 12px;
+      position: absolute;
+      top: 16px;
       z-index: 99;
     }
 

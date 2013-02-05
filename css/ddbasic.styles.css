@@ -10050,12 +10050,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-size: 1.21875rem;
   color: white;
   font-family: FontAwesome;
-  position: absolute;
+  line-height: 100%;
   left: 20px;
-  top: 12px;
+  position: absolute;
+  top: 16px;
   z-index: 99;
 }
-/* line 138, ../sass/_ddbasic.user.scss */
+/* line 139, ../sass/_ddbasic.user.scss */
 .topbar .user input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -10063,14 +10064,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 45px;
 }
 
-/* line 147, ../sass/_ddbasic.user.scss */
+/* line 148, ../sass/_ddbasic.user.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 155, ../sass/_ddbasic.user.scss */
+/* line 156, ../sass/_ddbasic.user.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -10081,16 +10082,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-bottom-color: rgba(0, 0, 0, 0.8);
   right: 50px;
 }
-/* line 159, ../sass/_ddbasic.user.scss */
+/* line 160, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 162, ../sass/_ddbasic.user.scss */
+/* line 163, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 170, ../sass/_ddbasic.user.scss */
+/* line 171, ../sass/_ddbasic.user.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -10100,22 +10101,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   right: 15px;
   top: 15px;
 }
-/* line 181, ../sass/_ddbasic.user.scss */
+/* line 182, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link {
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 187, ../sass/_ddbasic.user.scss */
+/* line 188, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 192, ../sass/_ddbasic.user.scss */
+/* line 193, ../sass/_ddbasic.user.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 199, ../sass/_ddbasic.user.scss */
+/* line 200, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -10123,7 +10124,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 207, ../sass/_ddbasic.user.scss */
+/* line 208, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -10131,7 +10132,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   display: inline;
 }
 
-/* line 223, ../sass/_ddbasic.user.scss */
+/* line 224, ../sass/_ddbasic.user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -10152,30 +10153,30 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
 }
 
-/* line 229, ../sass/_ddbasic.user.scss */
+/* line 230, ../sass/_ddbasic.user.scss */
 .user-menu-loans {
   margin-top: 90px;
 }
 
-/* line 233, ../sass/_ddbasic.user.scss */
+/* line 234, ../sass/_ddbasic.user.scss */
 .user-menu {
   margin-top: 120px;
 }
 
-/* line 237, ../sass/_ddbasic.user.scss */
+/* line 238, ../sass/_ddbasic.user.scss */
 .user-name {
   color: rgba(0, 0, 0, 0.5);
   margin-top: 55px;
   text-align: right;
 }
-/* line 242, ../sass/_ddbasic.user.scss */
+/* line 243, ../sass/_ddbasic.user.scss */
 .user-name .user-name-title {
   font-size: 33.75px;
   font-size: 2.10938rem;
   color: black;
 }
 
-/* line 257, ../sass/_ddbasic.user.scss */
+/* line 258, ../sass/_ddbasic.user.scss */
 .topbar .user-name,
 .topbar .user-menu-loans,
 .topbar .user-menu {
@@ -10196,66 +10197,66 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   margin-bottom: 0;
 }
-/* line 263, ../sass/_ddbasic.user.scss */
+/* line 264, ../sass/_ddbasic.user.scss */
 .topbar .user-name {
   margin-top: 16px;
 }
-/* line 266, ../sass/_ddbasic.user.scss */
+/* line 267, ../sass/_ddbasic.user.scss */
 .topbar .user-name .user-name-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
   color: white;
 }
-/* line 273, ../sass/_ddbasic.user.scss */
+/* line 274, ../sass/_ddbasic.user.scss */
 .topbar .user-menu {
   margin-top: 40px;
 }
 
-/* line 286, ../sass/_ddbasic.user.scss */
+/* line 287, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item {
   clear: both;
 }
-/* line 290, ../sass/_ddbasic.user.scss */
+/* line 291, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label,
 .pane-user-profile .form-item p {
   float: left;
 }
-/* line 294, ../sass/_ddbasic.user.scss */
+/* line 295, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label {
   min-width: 25%;
 }
-/* line 301, ../sass/_ddbasic.user.scss */
+/* line 302, ../sass/_ddbasic.user.scss */
 .pane-user-profile h3, .pane-user-profile .ui-dialog-title {
   border: 0;
   margin-top: 30px;
   margin-bottom: 13.33333px;
 }
-/* line 309, ../sass/_ddbasic.user.scss */
+/* line 310, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-label {
   float: left;
   min-width: 25%;
 }
-/* line 317, ../sass/_ddbasic.user.scss */
+/* line 318, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-items,
 .pane-user-profile .profile2-provider-alma .field-item {
   display: inline;
 }
 
-/* line 330, ../sass/_ddbasic.user.scss */
+/* line 331, ../sass/_ddbasic.user.scss */
 .pane-loans table,
 .pane-reservations table,
 .pane-bookmarks table {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
 }
-/* line 335, ../sass/_ddbasic.user.scss */
+/* line 336, ../sass/_ddbasic.user.scss */
 .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-top: 2px;
   max-width: 90%;
 }
-/* line 342, ../sass/_ddbasic.user.scss */
+/* line 343, ../sass/_ddbasic.user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
@@ -10263,13 +10264,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin: 0;
   padding: 0;
 }
-/* line 349, ../sass/_ddbasic.user.scss */
+/* line 350, ../sass/_ddbasic.user.scss */
 .pane-loans table tbody tr:hover,
 .pane-reservations table tbody tr:hover,
 .pane-bookmarks table tbody tr:hover {
   background-color: #f6f6f6;
 }
-/* line 353, ../sass/_ddbasic.user.scss */
+/* line 354, ../sass/_ddbasic.user.scss */
 .pane-loans table tbody tr:hover th,
 .pane-loans table tbody tr:hover td,
 .pane-reservations table tbody tr:hover th,
@@ -10278,7 +10279,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks table tbody tr:hover td {
   background-color: #f6f6f6;
 }
-/* line 359, ../sass/_ddbasic.user.scss */
+/* line 360, ../sass/_ddbasic.user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
@@ -10286,26 +10287,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-top: 1px solid #efefef;
   padding: 10px 0;
 }
-/* line 367, ../sass/_ddbasic.user.scss */
+/* line 368, ../sass/_ddbasic.user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 371, ../sass/_ddbasic.user.scss */
+/* line 372, ../sass/_ddbasic.user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
   padding: 20px 0 13.33333px;
 }
-/* line 375, ../sass/_ddbasic.user.scss */
+/* line 376, ../sass/_ddbasic.user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
   width: 50%;
 }
-/* line 381, ../sass/_ddbasic.user.scss */
+/* line 382, ../sass/_ddbasic.user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -10314,7 +10315,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 385, ../sass/_ddbasic.user.scss */
+/* line 386, ../sass/_ddbasic.user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -10323,7 +10324,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 392, ../sass/_ddbasic.user.scss */
+/* line 393, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -10331,19 +10332,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 398, ../sass/_ddbasic.user.scss */
+/* line 399, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 403, ../sass/_ddbasic.user.scss */
+/* line 404, ../sass/_ddbasic.user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
   margin-bottom: 0;
 }
-/* line 410, ../sass/_ddbasic.user.scss */
+/* line 411, ../sass/_ddbasic.user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -10353,7 +10354,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-right: 20px;
   text-align: right;
 }
-/* line 417, ../sass/_ddbasic.user.scss */
+/* line 418, ../sass/_ddbasic.user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -10364,7 +10365,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 431, ../sass/_ddbasic.user.scss */
+/* line 432, ../sass/_ddbasic.user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
