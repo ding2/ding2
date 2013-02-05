@@ -26,7 +26,7 @@ function alma_reservation_options($type, $account, $reservables) {
   // @todo; use local branches from issue - some migth not be available in all branches
 
   if (ding_user_is_provider_user($account)) {
-    $preferred_branch = $profile->alma_preferred_branch[field_language('profile2', $profile, 'alma_preferred_branch')][0]['value'];
+    $preferred_branch = $profile->field_alma_preferred_branch[field_language('profile2', $profile, 'field_alma_preferred_branch')][0]['value'];
   }
   else {
     $preferred_branch = NULL;
