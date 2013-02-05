@@ -174,7 +174,10 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'user',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
@@ -661,7 +664,10 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'user',
+    );
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
