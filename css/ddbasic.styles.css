@@ -9604,10 +9604,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 54, ../sass/_ddbasic.event.scss */
 .event-list-item .event-list-title {
+  line-height: 30px;
+  line-height: 1.875rem;
   margin-bottom: 10px;
 }
 
-/* line 59, ../sass/_ddbasic.event.scss */
+/* line 61, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper {
   font-size: 13.5px;
   font-size: 0.84375rem;
@@ -9619,21 +9621,21 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: center;
   vertical-align: top;
 }
-/* line 71, ../sass/_ddbasic.event.scss */
+/* line 73, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-day {
   background-color: #00b7e7;
   color: white;
   display: block;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 77, ../sass/_ddbasic.event.scss */
+/* line 79, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-inner-wrapper {
   border-right: 1px solid #d5d5d5;
   border-bottom: 1px solid #d5d5d5;
   border-left: 1px solid #d5d5d5;
   background: white;
 }
-/* line 84, ../sass/_ddbasic.event.scss */
+/* line 86, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-inner-wrapper .event-list-date {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -9641,17 +9643,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 8px;
 }
 
-/* line 93, ../sass/_ddbasic.event.scss */
+/* line 95, ../sass/_ddbasic.event.scss */
 .event-list-info {
   display: inline-block;
 }
-/* line 98, ../sass/_ddbasic.event.scss */
+/* line 100, ../sass/_ddbasic.event.scss */
 .event-list-info .event-list-location,
 .event-list-info .event-list-time,
 .event-list-info .event-list-price {
   display: block;
 }
-/* line 101, ../sass/_ddbasic.event.scss */
+/* line 103, ../sass/_ddbasic.event.scss */
 .event-list-info .event-list-location:before,
 .event-list-info .event-list-time:before,
 .event-list-info .event-list-price:before {
