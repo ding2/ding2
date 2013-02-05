@@ -432,6 +432,8 @@ function ting_admin_online_url_settings($form_state) {
       '#type' => 'fieldset',
       '#title' => t('Type specific labels'),
       '#tree' => TRUE,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
       '#description' => t("Here you may override the default label for individual material types."),
     );
 
