@@ -136,15 +136,8 @@ function ding_availability_field_formatter_settings_summary($field, $instance, $
  */
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  /*
-   * @todo move $online_types to configuration
-   */
-  $online_types = array(
-    'avis (net)', 'film (net)', 'lydbog (net)', 'musik (net)', 'ebog', 'periodikum (net)', 'pc-spil (net)', 
-    'tidsskrift (net)', 'netdokument', 'avis (net)', 
-    'lydbog (online)', 'netmusik (album)' /* Included to ensure backwards compatability with DKABM 1.x */
-    );
   
+  $online_types = variable_get('ting_online_types', _ting_default_online_types());
   
   foreach ($items as $delta => $item) {
     $attached = array(
