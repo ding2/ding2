@@ -22,11 +22,11 @@
 //
 .pane-library-list {
   @include border-radius($theme-border-radius); // variable in: _ddbasic.variables.scss
-  
+
   background-color: $gray-light;
   margin-bottom: $default-spacing;
   padding: $default-spacing;
-  
+
   .choose-library-label,
   .form-item-select-library,
   .button {
@@ -44,27 +44,27 @@
 
 .news-list {
   //@extend %list; // located in _ddbasic.lists.scss
-  
+
   .news-list-item {
     margin-bottom: $default-spacing;
   }
-  
+
   .news-heading {
     margin-bottom: $default-spacing / 2;
   }
-  
+
   .news-label {
     @extend .label;
-    
+
     margin-right: 5px;
   }
 
   .news-sub-heading {
     color: $gray-dark;
-    
+
     margin-top: $default-spacing / 2;
     margin-bottom: $default-spacing / 1.5;
-    
+
     .news-date,
     .news-author {
       color: $font-color-primary; // variable in: _ddbasic.variables.scss
@@ -96,7 +96,9 @@
     display: inline;
   }
 
-  .field-item {padding-left: $default-spacing / 4;}
+  .field-item {
+    padding-left: $default-spacing / 4;
+  }
 }
 
 
@@ -105,12 +107,12 @@
 
   p {
     margin-bottom: 0;
-    
+
     i {
       float: left;
       margin-top: 3px;
     }
-    
+
     .author,
     .pub-date,
     .tags {
@@ -124,8 +126,6 @@
 
 
 .field-name-field-ding-news-materials {
-  @extend .pane-ting-collection;
-
   .field-item {
     background-color: $gray-light;
     margin-bottom: $default-spacing;

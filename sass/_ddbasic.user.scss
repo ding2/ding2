@@ -180,8 +180,7 @@
   }
 
   .user-login-link {
-    @extend .pull-right;
-
+    float: right;
     margin-top: 15px;
     margin-right: 10px;
 
@@ -208,9 +207,9 @@
   input[type="submit"] {
     @include border-radius(12px);
     @extend %button;
-    @extend .pull-right;
 
     display: inline;
+    float: right;
   }
 
 }
@@ -293,8 +292,8 @@
     }
 
     label {
-      @extend strong;
-
+      font-family: $font-bold;
+      font-weight: $theme-font-weight-bold;
       min-width: 25%;
     }
   }
@@ -308,9 +307,9 @@
 
   .profile2-provider-alma {
     .field-label {
-      @extend strong;
-
       float: left;
+      font-family: $font-bold;
+      font-weight: $theme-font-weight-bold;
       min-width: 25%;
     }
 
@@ -358,10 +357,10 @@
   }
 
   th {
-    @extend strong;
-
     background-color: $gray-light;
     border-top: 1px solid $gray-light;
+    font-family: $font-bold;
+    font-weight: $theme-font-weight-bold;
     padding: $default-spacing / 2 0;
   }
 
