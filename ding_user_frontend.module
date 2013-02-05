@@ -80,8 +80,14 @@ function ding_user_frontend_block_info() {
     'info' => t('Ding user name'),
     'cache' => DRUPAL_NO_CACHE,
   );
+
   $blocks['ding-user-loan-number'] = array(
     'info' => t('Ding loan, reservation, and debt count'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['ding-user-ajax-login'] = array(
+    'info' => t('Login ajax button'),
     'cache' => DRUPAL_NO_CACHE,
   );
 
@@ -108,6 +114,7 @@ function ding_user_frontend_block_view($delta = '') {
         }
       }
       break;
+
     case 'ding-user-loan-number':
       try {
         // We don't really need the credentials here, but getting them
@@ -122,10 +129,26 @@ function ding_user_frontend_block_view($delta = '') {
         }
         $status['bookmark_count'] = ding_bookmark_count_number();
         $block['content'] = theme('ding_user_frontend_user_status', $status);
-      } catch ( Exception $e ) { return; }
+      }
+      catch ( Exception $e ) {
+        return;
+      }
+      break;
 
+    case 'ding-user-ajax-login':
+      // Build block with login button. It re-uses the form from ding_user
+      // comment login, with a new id.
+      $render_array = array();
+      if (user_is_anonymous()) {
+        $form = drupal_get_form('ding_user_comment_forbidden_form');
+        $form['#attributes']['id'] = 'ding-user-ajax-login-form';
+        $render_array['#markup'] = drupal_render($form);
+      }
+
+      $block['content'] = $render_array;
       break;
   }
+
   return $block;
 }
 
