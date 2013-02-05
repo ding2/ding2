@@ -409,7 +409,7 @@ function ting_admin_online_types_settings($form_state) {
   $form['update']['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
-    '#submit' => array('ting_admin_online_url_settings_update_types'),
+    '#submit' => array('ting_admin_online_types_settings_update_types'),
   );
 
   $types = variable_get('ting_well_types', array());
@@ -472,7 +472,7 @@ function ting_admin_online_types_settings($form_state) {
 /**
  * Submit handler. Updates the list of known types from the datawell.
  */
-function ting_admin_online_url_settings_update_types($form, &$form_state) {
+function ting_admin_online_types_settings_update_types($form, &$form_state) {
   _ting_fetch_well_types();
 }
 
