@@ -79,7 +79,7 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: 100%;
+  @include rem('line-height', $theme-line-height * 1.25);
   
   a {
     &:link {

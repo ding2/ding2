@@ -51,9 +51,7 @@
     border-bottom: 0;
   }
 
-  .event-list-title {
-    @include rem('line-height', $theme-line-height * 1.25);
-    
+  .event-list-title {    
     margin-bottom: $default-spacing / 2;
   }
 }
