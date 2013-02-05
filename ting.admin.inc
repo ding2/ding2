@@ -390,12 +390,12 @@ function ting_search_extendform_admin_settings_submit($form, $form_state) {
 }
 
 /**
- * Form builder; Configure labels for online_url.
+ * Form builder; Configure online resource types and their URL labels.
  *
  * @ingroup forms
  * @see system_settings_form()
  */
-function ting_admin_online_url_settings($form_state) {
+function ting_admin_online_types_settings($form_state) {
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   form_load_include($form_state, 'inc', 'ting', 'ting.client');
   $form = array();
