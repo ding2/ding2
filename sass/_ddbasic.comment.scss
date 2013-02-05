@@ -38,8 +38,7 @@
   }
   
   span {
-    @extend em;
-    
+    font-family: $font-light-italic;    
     line-height: 35px;
     margin-left: 5px;
   }
@@ -61,7 +60,8 @@
 
   .new {
     @extend %availability-reservable;
-    @extend .pull-right;
+    
+    float: right;
   }
 }
 

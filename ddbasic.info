@@ -7,6 +7,7 @@
 
 ;----------// Stylesheets
   ; Import stylesheets.
+  stylesheets[all][] = css/ddbasic.font.awesome.css
   stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
