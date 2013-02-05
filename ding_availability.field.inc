@@ -237,13 +237,14 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             } else {
               $url = entity_uri('ting_collection', $entities[0]);
             }
-            $type = l($type, $url['path'], $url['options']);
+            $url['options']['html'] = TRUE;
+            $typelink = l(check_plain($type) . $available_online_label, $url['path'], $url['options']);
             
           }
 
-          // Create a list element for each type.
+          // Create a list element for each type.   
           $types[] = array(
-            'data' => $type . $available_online_label,
+            'data' => $typelink,
             'id' => $id,
             'class' => array('availability', drupal_html_class($type), $available_online),
           );
