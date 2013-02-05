@@ -136,8 +136,8 @@ function ding_availability_field_formatter_settings_summary($field, $instance, $
  */
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  
   $online_types = variable_get('ting_online_types', _ting_default_online_types());
+  $lib_materials_type = 'bibliotekets materialer';
   
   foreach ($items as $delta => $item) {
     $attached = array(
@@ -156,11 +156,14 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // Generate an unique id.
         $id = drupal_html_id('holdings-' . $entity->id);
 
+        // Extract records' source
+        $ac_source = reset($entity->reply->record['ac:source']); // Read ac:source with $ac_source[0]
+        
         // Mark as available (and 'not-reservable') if it is an online resource
         $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available not-reservable' :'';
         
-        // If it is not available online, prepare to check holding on the item
-        if (!$available_online) {
+        // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
+        if (drupal_strtolower($ac_source[0]) == $lib_materials_type) {
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -187,11 +190,14 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // Generate an unique id.
         $id = drupal_html_id('availability-' . $entity->id);
         
+        // Extract records' source
+        $ac_source = reset($entity->reply->record['ac:source']); // Read ac:source with $ac_source[0]
+        
         // Mark as available (and 'not-reservable') if it is an online resource
         $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available not-reservable' :'';
 
-        // If it is not available online, prepare to check holding on the item
-        if (!$available_online) {
+        // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
+        if (drupal_strtolower($ac_source[0]) == $lib_materials_type) {
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability' => array(
@@ -207,7 +213,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             array(
               'data' => $entity->type,
               'id' => $id,
-              'class' => array('availability', drupal_html_class($entity->type), $available_online),
+              'class' => array('availability', drupal_html_class($entity->type), $available_online, 'pending'),
             )
           ),
         );
@@ -224,7 +230,10 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         foreach ($typed_entities as $type => $entities) {
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
-
+          
+          // Extract records' source
+          $ac_source = reset($entities[0]->reply->record['ac:source']); // Read ac:source with $ac_source[0]
+          
           $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available not-reservable' : '';
           $available_online_label = ($available_online) ? '<span class="availability-status">' . t('not reservable') . '</span>' : '';
           
@@ -246,7 +255,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $types[] = array(
             'data' => $typelink,
             'id' => $id,
-            'class' => array('availability', drupal_html_class($type), $available_online),
+            'class' => array('availability', drupal_html_class($type), $available_online, 'pending'),
           );
 
           $ids = array();
@@ -254,8 +263,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
              $ids[] = $object_entity->localId;
           }
           
-          // If it is not available online, map the HTML id to the list of entity ids.
-          if (!$available_online) {
+          // If item is of type 'library materials' (where we can lookup holding data), map the HTML id to the list of entity ids.
+          if (drupal_strtolower($ac_source[0]) == $lib_materials_type) {
             $id_mapping[$id] = $ids;
           }
         }
