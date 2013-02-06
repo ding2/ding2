@@ -3922,25 +3922,19 @@ a:focus {
 }
 
 /* line 258, ../sass/_ddbasic.typography.scss */
-.user-compact {
-  font-size: 21px;
-  font-size: 1.3125rem;
-}
-
-/* line 265, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
-/* line 267, ../sass/_ddbasic.typography.scss */
+/* line 260, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-close-container:hover {
   text-decoration: none;
 }
-/* line 274, ../sass/_ddbasic.typography.scss */
+/* line 267, ../sass/_ddbasic.typography.scss */
 .user-login-block .user-login-link a:hover {
   text-decoration: none;
 }
-/* line 281, ../sass/_ddbasic.typography.scss */
+/* line 274, ../sass/_ddbasic.typography.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;

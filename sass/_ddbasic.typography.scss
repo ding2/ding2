@@ -251,13 +251,6 @@ a {
   input[type="submit"] {
     font-size: $theme-font-size * 1.7;
   }
-
-}
-
-
-.user-compact {
-  @include rem('font-size', $theme-font-size * 1.4);
-
 }
 
 
