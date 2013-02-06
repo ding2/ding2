@@ -35,24 +35,25 @@
           menu.addClass('fixed');
           menu.css('top', body_paddding);
           menu_fixed = true;
-          ddbasic_login_pane_toggle();
+          ddbasic_header_panes_toggle();
         }
         else if (top < menu_pos_relative && menu_fixed) {
           menu.removeClass('fixed');
           menu.css('top', '');
           menu_fixed = false;
-          ddbasic_login_pane_toggle();
+          ddbasic_header_panes_toggle();
         }
       });
 
       // Defined "global" vars used to fix login form vs. slide-down box.
       var ddbasic_login_pane_default = $('.header-inner .pane-user-login');
       var ddbasic_login_pane_toolbar = $('.pane-ding-user-frontend-ding-user-ajax-login');
+      var ddbasic_search_pane = $('.header-inner .pane-search-form');
       var ddbasic_login_state = false;
 
       // Remove login button (slide down), if header login is shown.
       if ($(window).scrollTop() < menu_pos_relative) {
-        ddbasic_login_pane_toolbar.remove();
+        ddbasic_login_pane_toolbar.hide();
       }
     }
     else {  // Not the front page
@@ -64,28 +65,38 @@
     }
 
     // Helper functio to toggle login panes on the front page.
-    function ddbasic_login_pane_toggle() {
+    function ddbasic_header_panes_toggle() {
       // Toggle the different login panes. We remove them to prevent elements
       // with the same ids etc.
       if (ddbasic_login_state) {
-        ddbasic_login_pane_toolbar.remove();
-        $('.header-inner').append(ddbasic_login_pane_default);
+        ddbasic_login_pane_toolbar.hide();
         ddbasic_login_pane_default.show();
+
+        // Move search.
+        ddbasic_search_pane.remove();
+        $('.header-inner').append(ddbasic_search_pane);
+        ddbasic_search_pane.show();
       }
       else {
-        ddbasic_login_pane_default.remove();
-        $('.topbar > .topbar-inner').append(ddbasic_login_pane_toolbar);
+        ddbasic_login_pane_default.hide();
         ddbasic_login_pane_toolbar.show();
+
+        // Move search.
+        ddbasic_search_pane.remove();
+        $('.topbar > .topbar-inner').append(ddbasic_search_pane);
+        ddbasic_search_pane.show();
       }
+
+      // Toggle state.
       ddbasic_login_state = !ddbasic_login_state;
     }
-    
+
   });
 
   // Add equal heights on $(window).load() instead of $(document).ready()
   // See: http://www.cssnewbie.com/equalheights-jquery-plugin/#comment-13286
   $(window).load(function () {
-    
+
     // Set equal heights on front page content
     $('.main-wrapper .grid-inner').equalHeights();
 
