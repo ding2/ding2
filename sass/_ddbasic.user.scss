@@ -118,8 +118,6 @@
 
 .topbar {
   .user {
-    @extend .icon-user;
-
     position: absolute;
     right: 140px;
     top: 17px;
@@ -128,6 +126,7 @@
       @include rem('font-size', $theme-font-size * 1.3);
 
       color: $white;
+      content: "\f007";
       font-family: $theme-icon-library-font;
       line-height: 100%;
 
