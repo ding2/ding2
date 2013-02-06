@@ -85,4 +85,5 @@ features[variable][] = pathauto_node_ding_event_da_pattern
 features[variable][] = pathauto_node_ding_event_en_pattern
 features[variable][] = pathauto_node_ding_event_pattern
 features[variable][] = pathauto_node_ding_event_und_pattern
+features[variable][] = pathauto_taxonomy_term_event_category_pattern
 features[views_view][] = ding_event
