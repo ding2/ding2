@@ -68,9 +68,6 @@ $button-padding:                  8px 14px;
   &:active {
     @include background-image(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
   }
-
-  &:visited {
-  }
 }
 
 // Default button (dark gray)

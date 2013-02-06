@@ -153,7 +153,8 @@
       padding-left: $default-spacing * 1.75;
 
       &.active {
-        @extend strong;
+        font-family: $font-bold;
+        font-weight: $theme-font-weight-bold;
       }
 
       &:hover {
@@ -232,11 +233,7 @@
 
       a {
         padding-left: $default-spacing / 2;
-
-        &:hover {
-          color: $link-color-inverted-hover;
-        }
-
+        
         &.active {
           color: $link-color-inverted;
         }

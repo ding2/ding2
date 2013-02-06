@@ -14,10 +14,11 @@
   list-style-type: none;
   
   > dt {
-    @extend strong;
-
+    font-family: $font-bold;
+    font-weight: $theme-font-weight-bold;
+    
     .horizontal {
-      float:left;
+      float: left;
       width: 20%;
     }
   }
