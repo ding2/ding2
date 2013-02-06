@@ -40,19 +40,6 @@
   }
 }
 
-.section-title {
-  @extend %section-title;
-
-  color: $section-color;
-}
-
-
-.section-title-inverted {
-  @extend %section-title;
-
-  color: $section-color-inverted;
-}
-
 
 .assistive-text {
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */

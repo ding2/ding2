@@ -80,7 +80,7 @@ h4,
 h5,
 h6 {
   @include rem('line-height', $theme-line-height * 1.25);
-  
+
   a {
     &:link {
       color: $text-primary-color;
@@ -155,127 +155,9 @@ a {
 
 
 // -----------------------------------------------------------------------------
-// Blocks
-// -----------------------------------------------------------------------------
-//
-%block {
-  .block-title {
-    @include rem('font-size', $topbar-font-size * 1.1);
-  }
-}
-
-
-// -----------------------------------------------------------------------------
 // Miscellaneous
 // -----------------------------------------------------------------------------
 //
-.section-title {
-  @include rem('font-size', $topbar-font-size);
-}
-
-.section-title-inverted {
-  @include rem('font-size', $topbar-font-size);
-}
-
-
-// -----------------------------------------------------------------------------
-// Search
-// -----------------------------------------------------------------------------
-//
-%search {
-  input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.7);
-  }
-
-  input[type="submit"] {
-    font-size: $theme-font-size * 1.7;
-  }
-}
-
-.search-compact {
-  input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.5);
-  }
-
-  input[type="submit"] {
-    @include rem('font-size', $theme-font-size * 1.4);
-    font-size: $theme-font-size * 1.7;
-  }
-
-  i[class^="icon-"] {
-    @include rem('font-size', $theme-font-size * 1.7);
-  }
-}
-
-
-// -----------------------------------------------------------------------------
-// Facet Browser
-// -----------------------------------------------------------------------------
-//
-.facet-browser {
-  h2 {
-    @include rem('font-size', $theme-font-size * 1.2);
-  }
-}
-
-
-// -----------------------------------------------------------------------------
-// Search Result
-// -----------------------------------------------------------------------------
-//
-.search-result-block {
-  h1 {
-    @include rem('font-size', $theme-font-size * 1.5);
-  }
-
-  .status {
-    @include rem('font-size', $theme-font-size / 1.25);
-  }
-
-  .more {
-    @include rem('font-size', $theme-font-size * 1.75);
-  }
-}
-
-
-// -----------------------------------------------------------------------------
-// User
-// -----------------------------------------------------------------------------
-//
-.user {
-  input[type="text"],
-  input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
-  }
-
-  input[type="submit"] {
-    font-size: $theme-font-size * 1.7;
-  }
-}
-
-
-.user-login-block {
-  .user-close-container {
-    @include rem('font-size', $theme-font-size * 1.25);
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  .user-login-link {
-    a {
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
-  }
-
-}
 
 
 // -----------------------------------------------------------------------------
