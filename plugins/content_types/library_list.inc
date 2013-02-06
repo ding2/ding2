@@ -19,7 +19,6 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   $selected_term = NULL;
   $selected_url = NULL;
   $suffix = '';
-  
   if ($conf['type'] == 'news') {
       $node_type = 'nyheder';
   } elseif ($conf['type'] == 'events') {
@@ -29,15 +28,12 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   if (isset($context[0]->data)) {
     $selected_term = $context[0]->data;
     $suffix = '/' . $selected_term->tid;
+    $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $selected_term->tid);
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  'bibliotek/' . $library->nid . '/' . $node_type  . $suffix;
-    $selected_url =  $base;
-  }
-  else {
-    $base = $conf['type'];
+    $selected_url =  'bibliotek/' . $library->nid . '/' . $node_type  . $suffix;
   }
 
   $groups = og_load_multiple(FALSE, array('entity_type' => 'node'));
@@ -52,9 +48,13 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
     return $block;
   }
 
-  uasort($nodes, 'ding_content_library_list_sort_title');
+  uasort($nodes, 'ding_content_library_list_sort_title'); 
   
-  $items = array($node_type  . $suffix => t('All libraries'));  
+  if (isset($alias)) {
+    $items = array($alias => t('All libraries'));
+  } else {
+    $items = array($node_type . $suffix => t('All libraries'));
+  }
 
   foreach ($nodes as $node) {
     $uri =  'bibliotek/' . $node->nid . '/' . $node_type  . $suffix;
