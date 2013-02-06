@@ -312,7 +312,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#prefix' => '<div class="delete-reservation">',
             '#suffix' => '</div>',
             '#type' => 'submit',
-            '#submit' => array('ding_reservation_reservations_delete_submit'),
+            '#submit' => array('ding_reservation_reservation_delete_submit'),
             '#reservation_id' => $item->id,
             '#name' => 'delete-' . preg_replace('/\W/', '-', $item->id), // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
@@ -371,7 +371,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#prefix' => '<div class="delete-reservation">',
             '#suffix' => '</div>',
             '#type' => 'submit',
-            '#submit' => array('ding_reservation_reservations_delete_submit'),
+            '#submit' => array('ding_reservation_reservation_delete_submit'),
             '#reservation_id' => $item->id,
             '#name' => 'delete-' . preg_replace('/\W/', '-', $item->id), // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
@@ -431,7 +431,23 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 }
 
 /**
- * Submit handlers for the reservations form.
+ * Submit handler for the reservations form.
+ */
+function ding_reservation_reservation_delete_submit($form, &$form_state) {
+  global $user;
+  if (!empty($form_state['triggering_element']['#reservation_id'])) {
+    $reservations = array($form_state['triggering_element']['#reservation_id']);
+  }
+  else {
+    $reservations = array_filter($form_state['values']['reservations']);
+  }
+  foreach ($reservations as $entity_id) {
+    ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+  }
+}
+
+/**
+ * Submit handler for the delete form.
  */
 function ding_reservation_deletes_form_submit($form, &$form_state) {
   global $user;
@@ -440,6 +456,9 @@ function ding_reservation_deletes_form_submit($form, &$form_state) {
   $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/delete/' . $ids, array('query' => drupal_get_destination()));
 }
 
+/**
+ * Submit handler for the update form.
+ */
 function ding_reservation_updates_form_submit($form, &$form_state) {
   global $user;
   $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'],'is_string')));
@@ -448,7 +467,7 @@ function ding_reservation_updates_form_submit($form, &$form_state) {
 }
 
 /**
- * Ajax callbacks.
+ * Ajax callback for the delete form.
  */
 function ding_reservation_deletes_form_callback($form, &$form_state) {
   global $user;
@@ -466,6 +485,9 @@ function ding_reservation_deletes_form_callback($form, &$form_state) {
   return $response;
 }
 
+/**
+ * Ajax callback for the update form.
+ */
 function ding_reservation_updates_form_callback($form, &$form_state) {
   global $user;
   $response = array(
