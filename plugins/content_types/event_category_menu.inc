@@ -20,10 +20,10 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
   }
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
-    $base =  'bibliotek/' . $library->nid . '/arrangementer';
+    $base =  'bibliotek/' . $library->nid . '/';
   }
   else {
-    $base = 'arrangementer';
+    $base = '';
   }
 
   $options = array();
@@ -32,19 +32,29 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
   }
   // Might seem a bit odd to select 'all' when node doesn't have any category,
   // but we'll go with that for the moment being.
-  $items = array(l(t('All categories'), $base, $options));
+  $items = array(l(t('All categories'), $base . 'arrangementer', $options));
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
   $terms = taxonomy_get_tree($vocabulary->vid);
 
   foreach ($terms as $term) {
+    $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
     if ($selected_term && $selected_term->tid == $term->tid) {
       $options = array('attributes' => array('class' => array('active')));
     }
     else {
       $options = array();
     }
-    $items[] = l($term->name, $base . '/' . $term->tid, $options);
+    if (!$base) {
+      if (isset($alias)) {
+        $uri = $alias;
+      } else {
+        $uri = 'arrangementer/' . $term->tid;
+      }
+    } else {
+      $uri = $base . 'arrangementer/' . $term->tid;
+    }
+    $items[] = l($term->name, $uri, $options);
   }
   $block->content = theme('item_list', array('items' => $items, 'attributes' => array('class' => array('sub-menu'))));
 
