@@ -55,6 +55,11 @@
   color: $block-color;
 }
 
+.block-title {
+  @include rem('margin-bottom', $default-spacing / 1.5);
+  
+  line-height: 100%;
+}
 
 .block-inverted {
   @include box-shadow(inset 0 0 15px darken($block-bg-inverted, 10%));

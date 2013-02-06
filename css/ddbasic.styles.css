@@ -1222,329 +1222,6 @@ hr {
   float: left;
 }
 
-/* line 5, ../../latto/sass/_latto.typography.scss */
-html {
-  font-size: 16px;
-  font-size: 1rem;
-}
-
-/* line 9, ../../latto/sass/_latto.typography.scss */
-body {
-  font-size: 15px;
-  font-size: 0.9375rem;
-  line-height: 24px;
-  line-height: 1.5rem;
-  color: #1b1b1b;
-  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::-webkit-selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::-moz-selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::-o-selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 81, ../../latto/sass/_latto.mixins.scss */
-::selection {
-  color: #1b1b1b;
-  background: #efefef;
-}
-
-/* line 40, ../../latto/sass/_latto.typography.scss */
-h1,
-h2,
-h3,
-.ui-dialog-title,
-h4,
-h5,
-h6 {
-  color: #1b1b1b;
-  font-weight: normal;
-}
-/* line 44, ../../latto/sass/_latto.typography.scss */
-h1 a:link,
-h2 a:link,
-h3 a:link,
-.ui-dialog-title a:link,
-h4 a:link,
-h5 a:link,
-h6 a:link {
-  color: #1b1b1b;
-  text-decoration: none;
-}
-/* line 48, ../../latto/sass/_latto.typography.scss */
-h1 a:visited,
-h2 a:visited,
-h3 a:visited,
-.ui-dialog-title a:visited,
-h4 a:visited,
-h5 a:visited,
-h6 a:visited {
-  color: #1b1b1b;
-}
-/* line 51, ../../latto/sass/_latto.typography.scss */
-h1 a:hover,
-h2 a:hover,
-h3 a:hover,
-.ui-dialog-title a:hover,
-h4 a:hover,
-h5 a:hover,
-h6 a:hover {
-  color: black;
-}
-/* line 54, ../../latto/sass/_latto.typography.scss */
-h1 a:focus,
-h2 a:focus,
-h3 a:focus,
-.ui-dialog-title a:focus,
-h4 a:focus,
-h5 a:focus,
-h6 a:focus {
-  color: #006681;
-}
-/* line 57, ../../latto/sass/_latto.typography.scss */
-h1 a:active,
-h2 a:active,
-h3 a:active,
-.ui-dialog-title a:active,
-h4 a:active,
-h5 a:active,
-h6 a:active {
-  background-color: #efefef;
-  color: #1b1b1b;
-}
-
-/* line 64, ../../latto/sass/_latto.typography.scss */
-h1 {
-  font-size: 30px;
-  font-size: 1.875rem;
-}
-
-/* line 68, ../../latto/sass/_latto.typography.scss */
-h2 {
-  font-size: 27px;
-  font-size: 1.6875rem;
-}
-
-/* line 72, ../../latto/sass/_latto.typography.scss */
-h3, .ui-dialog-title {
-  font-size: 24px;
-  font-size: 1.5rem;
-  line-height: 30px;
-  line-height: 1.875rem;
-}
-
-/* line 77, ../../latto/sass/_latto.typography.scss */
-h4 {
-  font-size: 21px;
-  font-size: 1.3125rem;
-}
-
-/* line 81, ../../latto/sass/_latto.typography.scss */
-h5 {
-  font-size: 16.5px;
-  font-size: 1.03125rem;
-}
-
-/* line 85, ../../latto/sass/_latto.typography.scss */
-h6 {
-  font-size: 15px;
-  font-size: 0.9375rem;
-}
-
-/* line 94, ../../latto/sass/_latto.typography.scss */
-.page-title {
-  margin-bottom: 10px;
-  margin-bottom: 0.625rem;
-}
-
-/* line 99, ../../latto/sass/_latto.typography.scss */
-.block-title, .library-title, .pane-loans h2,
-.pane-reservations h2,
-.pane-bookmarks h2 {
-  margin-bottom: 13.33333px;
-  margin-bottom: 0.83333rem;
-  line-height: 100%;
-}
-
-/* line 111, ../../latto/sass/_latto.typography.scss */
-a:link {
-  color: #00b7e7;
-  text-decoration: none;
-}
-/* line 115, ../../latto/sass/_latto.typography.scss */
-a:visited {
-  color: #007a9b;
-}
-/* line 118, ../../latto/sass/_latto.typography.scss */
-a:hover {
-  color: #006681;
-  text-decoration: underline;
-}
-/* line 122, ../../latto/sass/_latto.typography.scss */
-a:focus {
-  color: #006681;
-}
-
-/* line 134, ../../latto/sass/_latto.typography.scss */
-b,
-strong,
-dl > dt,
-.list-content > dt,
-.list-news > dt,
-.list-compact > dt,
-.pane-search-result .search-results .list > dt,
-.pane-search-result .search-results .list .availability ul > dt,
-.pane-ting-ting-collection-types ul > dt,
-.pane-ting-ting-object-types ul > dt,
-.pane-ting-ting-relation-anchors ul > dt,
-.pane-ting-object .field-name-ding-availability-holdings ul > dt,
-.library-list > dt,
-.list > dt,
-.lead,
-.page-lead,
-em strong,
-.ui-dialog .ui-dialog-titlebar-close .ui-icon,
-.strong {
-  font-weight: normal;
-}
-
-/* line 142, ../../latto/sass/_latto.typography.scss */
-blockquote {
-  border-left: 5px solid #efefef;
-  margin: 0;
-  margin-bottom: 20px;
-  padding-left: 13.33333px;
-}
-/* line 148, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right, blockquote.image-inline-pull-right {
-  border-left: 0;
-  border-right: 5px solid #efefef;
-  padding-right: 13.33333px;
-}
-/* line 153, ../../latto/sass/_latto.typography.scss */
-blockquote.pull-right .blockquote-source, blockquote.image-inline-pull-right .blockquote-source {
-  display: block;
-  text-align: right;
-}
-/* line 162, ../../latto/sass/_latto.typography.scss */
-blockquote .blockquote-source:before {
-  content: '\2014 \00A0';
-}
-
-/* line 173, ../../latto/sass/_latto.typography.scss */
-ul, ol {
-  padding: 0;
-  margin: 0 0 12px 25px;
-}
-
-/* line 177, ../../latto/sass/_latto.typography.scss */
-ul {
-  list-style-type: disc;
-}
-
-/* line 180, ../../latto/sass/_latto.typography.scss */
-ol {
-  list-style-type: decimal;
-}
-
-/* line 186, ../../latto/sass/_latto.typography.scss */
-ul ul,
-ul ol,
-ol ol,
-ol ul {
-  margin-bottom: 0;
-}
-
-/* line 189, ../../latto/sass/_latto.typography.scss */
-li {
-  line-height: 24px;
-}
-
-/* line 195, ../../latto/sass/_latto.typography.scss */
-ul.unstyled,
-ol.unstyled {
-  margin-left: 0;
-  list-style: none;
-}
-
-/* line 202, ../../latto/sass/_latto.typography.scss */
-ul.inline,
-ol.inline {
-  margin-left: 0;
-  list-style: none;
-}
-/* line 205, ../../latto/sass/_latto.typography.scss */
-ul.inline > li,
-ol.inline > li {
-  display: inline-block;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-/* line 213, ../../latto/sass/_latto.typography.scss */
-dl {
-  margin-bottom: 24px;
-}
-
-/* line 218, ../../latto/sass/_latto.typography.scss */
-dt,
-dd {
-  line-height: 24px;
-}
-
-/* line 222, ../../latto/sass/_latto.typography.scss */
-dt {
-  font-weight: bold;
-}
-
-/* line 226, ../../latto/sass/_latto.typography.scss */
-dd {
-  margin-left: 12px;
-}
-
-/* line 234, ../../latto/sass/_latto.typography.scss */
-.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
-}
-
-/* line 238, ../../latto/sass/_latto.typography.scss */
-.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-}
-
-/* line 242, ../../latto/sass/_latto.typography.scss */
-.text-large, .lead, .page-lead {
-  font-size: 16.5px;
-  font-size: 1.03125rem;
-}
-
-/* line 246, ../../latto/sass/_latto.typography.scss */
-.text-small, blockquote .blockquote-source, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
-  font-size: 13.5px;
-  font-size: 0.84375rem;
-}
-
-/* line 250, ../../latto/sass/_latto.typography.scss */
-.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
-  font-size: 12px;
-  font-size: 0.75rem;
-}
-
 /* line 32, ../sass/_ddbasic.layout.scss */
 .grid-inner, .topbar .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
   max-width: 1200px;
@@ -3720,7 +3397,31 @@ body {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
-/* line 81, ../sass/_ddbasic.typography.scss */
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::-webkit-selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::-moz-selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::-o-selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 81, ../../latto/sass/_latto.mixins.scss */
+::selection {
+  color: #1b1b1b;
+  background: #efefef;
+}
+
+/* line 89, ../sass/_ddbasic.typography.scss */
 h1,
 h2,
 h3,
@@ -3731,7 +3432,7 @@ h6 {
   line-height: 30px;
   line-height: 1.875rem;
 }
-/* line 85, ../sass/_ddbasic.typography.scss */
+/* line 93, ../sass/_ddbasic.typography.scss */
 h1 a:link,
 h2 a:link,
 h3 a:link,
@@ -3742,7 +3443,7 @@ h6 a:link {
   color: #1b1b1b;
   text-decoration: none;
 }
-/* line 89, ../sass/_ddbasic.typography.scss */
+/* line 97, ../sass/_ddbasic.typography.scss */
 h1 a:visited,
 h2 a:visited,
 h3 a:visited,
@@ -3752,7 +3453,7 @@ h5 a:visited,
 h6 a:visited {
   color: #1b1b1b;
 }
-/* line 92, ../sass/_ddbasic.typography.scss */
+/* line 100, ../sass/_ddbasic.typography.scss */
 h1 a:hover,
 h2 a:hover,
 h3 a:hover,
@@ -3762,7 +3463,7 @@ h5 a:hover,
 h6 a:hover {
   color: black;
 }
-/* line 95, ../sass/_ddbasic.typography.scss */
+/* line 103, ../sass/_ddbasic.typography.scss */
 h1 a:focus,
 h2 a:focus,
 h3 a:focus,
@@ -3772,7 +3473,7 @@ h5 a:focus,
 h6 a:focus {
   color: #006681;
 }
-/* line 98, ../sass/_ddbasic.typography.scss */
+/* line 106, ../sass/_ddbasic.typography.scss */
 h1 a:active,
 h2 a:active,
 h3 a:active,
@@ -3784,7 +3485,45 @@ h6 a:active {
   color: #1b1b1b;
 }
 
-/* line 107, ../sass/_ddbasic.typography.scss */
+/* line 113, ../sass/_ddbasic.typography.scss */
+h1 {
+  font-size: 30px;
+  font-size: 1.875rem;
+}
+
+/* line 117, ../sass/_ddbasic.typography.scss */
+h2 {
+  font-size: 27px;
+  font-size: 1.6875rem;
+}
+
+/* line 121, ../sass/_ddbasic.typography.scss */
+h3, .ui-dialog-title {
+  font-size: 24px;
+  font-size: 1.5rem;
+  line-height: 30px;
+  line-height: 1.875rem;
+}
+
+/* line 126, ../sass/_ddbasic.typography.scss */
+h4 {
+  font-size: 21px;
+  font-size: 1.3125rem;
+}
+
+/* line 130, ../sass/_ddbasic.typography.scss */
+h5 {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+}
+
+/* line 134, ../sass/_ddbasic.typography.scss */
+h6 {
+  font-size: 15px;
+  font-size: 0.9375rem;
+}
+
+/* line 141, ../sass/_ddbasic.typography.scss */
 input,
 textarea,
 select {
@@ -3792,43 +3531,73 @@ select {
   letter-spacing: 1px;
 }
 
-/* line 113, ../sass/_ddbasic.typography.scss */
+/* line 147, ../sass/_ddbasic.typography.scss */
 strong, dl > dt, .list-content > dt, .list-news > dt, .list-compact > dt, .pane-search-result .search-results .list > dt, .pane-search-result .search-results .list .availability ul > dt, .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-object-types ul > dt, .pane-ting-ting-relation-anchors ul > dt, .pane-ting-object .field-name-ding-availability-holdings ul > dt, .library-list > dt, .list > dt, .lead, .page-lead, em strong, .ui-dialog .ui-dialog-titlebar-close .ui-icon {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 119, ../sass/_ddbasic.typography.scss */
+/* line 153, ../sass/_ddbasic.typography.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 123, ../sass/_ddbasic.typography.scss */
+/* line 157, ../sass/_ddbasic.typography.scss */
 em strong, em dl > dt, em .list-content > dt, em .list-news > dt, em .list-compact > dt, em .pane-search-result .search-results .list > dt, .pane-search-result .search-results em .list > dt, em .pane-search-result .search-results .list .availability ul > dt, .pane-search-result .search-results .list .availability em ul > dt, em .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-collection-types em ul > dt, em .pane-ting-ting-object-types ul > dt, .pane-ting-ting-object-types em ul > dt, em .pane-ting-ting-relation-anchors ul > dt, .pane-ting-ting-relation-anchors em ul > dt, em .pane-ting-object .field-name-ding-availability-holdings ul > dt, .pane-ting-object .field-name-ding-availability-holdings em ul > dt, em .library-list > dt, em .list > dt, em .lead, em .page-lead, em .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close em .ui-icon {
   font-family: "SourceSansProSemiboldItalic";
 }
 
-/* line 136, ../sass/_ddbasic.typography.scss */
+/* line 170, ../sass/_ddbasic.typography.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 140, ../sass/_ddbasic.typography.scss */
+/* line 174, ../sass/_ddbasic.typography.scss */
 a:visited {
   color: #007a9b;
 }
-/* line 143, ../sass/_ddbasic.typography.scss */
+/* line 177, ../sass/_ddbasic.typography.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 147, ../sass/_ddbasic.typography.scss */
+/* line 181, ../sass/_ddbasic.typography.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 151, ../sass/_ddbasic.typography.scss */
+/* line 185, ../sass/_ddbasic.typography.scss */
 a:focus {
   color: #006681;
+}
+
+/* line 199, ../sass/_ddbasic.typography.scss */
+.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+}
+
+/* line 203, ../sass/_ddbasic.typography.scss */
+.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
+  font-size: 18.75px;
+  font-size: 1.17188rem;
+}
+
+/* line 207, ../sass/_ddbasic.typography.scss */
+.text-large, .lead, .page-lead {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+}
+
+/* line 211, ../sass/_ddbasic.typography.scss */
+.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
+  font-size: 13.5px;
+  font-size: 0.84375rem;
+}
+
+/* line 215, ../sass/_ddbasic.typography.scss */
+.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
+  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* line 36, ../sass/_ddbasic.forms.scss */
@@ -6546,7 +6315,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 20px;
 }
 
-/* line 257, ../sass/ddbasic.styles.scss */
+/* line 256, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;

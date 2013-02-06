@@ -55,7 +55,8 @@ $theme-line-height:               24px;
 $theme-font-family:               $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 $theme-font-weight-normal:        normal;
 $theme-font-weight-bold:          normal;
-
+$theme-font-selection-color:      $font-color-primary;
+$theme-font-selection-background: $gray;
 
 // -----------------------------------------------------------------------------
 // Links
@@ -101,4 +102,3 @@ $navbar-bg-active-color:          transparentize($white, .95);
 $navbar-text-color:               lighten($black, 30%);
 $navbar-text-color-active:        lighten($black, 30%);
 $navbar-item-spacing:             $default-spacing / 2;
-
