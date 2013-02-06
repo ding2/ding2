@@ -17,7 +17,6 @@ $search-border-type: solid;
 // Extends
 // -----------------------------------------------------------------------------
 //
-
 %search-ting-cover {
   float: left;
 
@@ -101,12 +100,20 @@ input#edit-search-block-form--2.spinner {
   .spinner {
     i[class^="icon-"] {
       @include rem('font-size', $theme-font-size * 1.5);
-      @extend .icon-spin;
-      @extend .icon-spinner;
 
       height: $theme-font-size * 1.5;
       margin-left: 17px;
-      top: 22px;
+      top: 20px;
+
+      // Icon spinner
+      &:before {
+        content: "\f110";
+        display: inline-block;
+        -moz-animation: spin 2s infinite linear;
+        -o-animation: spin 2s infinite linear;
+        -webkit-animation: spin 2s infinite linear;
+        animation: spin 2s infinite linear;
+      }
     }
   }
 }
@@ -147,7 +154,7 @@ input#edit-search-block-form--2.spinner {
     top: 0;
   }
 
-  .help-link {    
+  .help-link {
     display: block;
     float: right;
     margin-top: $default-spacing / 2;

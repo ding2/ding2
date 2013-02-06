@@ -58,9 +58,6 @@
 }
 
 .ajax-progress .throbber {
-  @extend .icon-spin;
-  @extend .icon-spinner;
-
   background: transparent;
   color: #000;
   font-family: $theme-icon-library-font;
@@ -70,6 +67,16 @@
   position: relative;
   top: 48%;
   width: 50px;
+  
+  // Icon spinner
+  &:before {
+    content: "\f110";
+    display: inline-block;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    -webkit-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;        
+  }  
 }
 
 
