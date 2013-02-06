@@ -928,178 +928,6 @@ table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/* line 23, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu, .main-menu {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-  display: table;
-  margin: 0;
-  width: 100%;
-}
-/* line 30, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu.fixed, .fixed.main-menu {
-  position: fixed;
-  top: 0;
-  z-index: 99;
-  width: auto;
-}
-/* line 37, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu > li, .main-menu > li {
-  display: table-cell;
-  text-align: center;
-}
-/* line 41, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu > li a, .main-menu > li a {
-  color: #4d4d4d;
-  display: block;
-  height: 100%;
-  margin-right: 10px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.05);
-  text-decoration: none;
-}
-/* line 51, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu > li a:hover, .main-menu > li a:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-/* line 56, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu > li a.active, .main-menu > li a.active, .horizontal-menu > li a.active-trail, .main-menu > li a.active-trail {
-  color: #4d4d4d;
-  background-color: rgba(255, 255, 255, 0.05);
-}
-/* line 61, ../../latto/sass/_latto.nav.scss */
-.horizontal-menu > li a.last, .main-menu > li a.last {
-  margin-right: 0;
-}
-
-/* line 74, ../../latto/sass/_latto.nav.scss */
-.vertical-menu, .sub-menu, .library-menu .links {
-  margin: 0;
-}
-/* line 77, ../../latto/sass/_latto.nav.scss */
-.vertical-menu > li, .sub-menu > li, .library-menu .links > li {
-  display: block;
-}
-/* line 81, ../../latto/sass/_latto.nav.scss */
-.vertical-menu > li a, .sub-menu > li a, .library-menu .links > li a {
-  color: #4d4d4d;
-  display: block;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-/* line 95, ../../latto/sass/_latto.nav.scss */
-.tabs, #tabs {
-  margin: 0;
-  padding: 0;
-}
-/* line 99, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary, #tabs ul.primary, .tabs ul.secondary, #tabs ul.secondary {
-  margin: 0;
-  border: none;
-  padding-left: 20px;
-}
-/* line 104, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li, #tabs ul.primary li, .tabs ul.secondary li, #tabs ul.secondary li {
-  display: inline-block;
-  background-color: #efefef;
-}
-/* line 107, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li:hover, #tabs ul.primary li:hover, .tabs ul.secondary li:hover, #tabs ul.secondary li:hover {
-  background-color: #bcbcbc;
-}
-/* line 109, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li:hover a, #tabs ul.primary li:hover a, .tabs ul.secondary li:hover a, #tabs ul.secondary li:hover a {
-  color: black;
-}
-/* line 113, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li a, #tabs ul.primary li a, .tabs ul.secondary li a, #tabs ul.secondary li a {
-  background-color: transparent;
-  margin: 0;
-  line-height: 24px;
-  border: none;
-}
-/* line 121, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li.active, #tabs ul.primary li.active, .tabs ul.secondary li.active, #tabs ul.secondary li.active {
-  background-color: white;
-}
-/* line 123, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li.active:hover, #tabs ul.primary li.active:hover, .tabs ul.secondary li.active:hover, #tabs ul.secondary li.active:hover {
-  background-color: #fbfbfb;
-}
-/* line 125, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li.active:hover a, #tabs ul.primary li.active:hover a, .tabs ul.secondary li.active:hover a, #tabs ul.secondary li.active:hover a {
-  color: #959595;
-  text-decoration: none;
-}
-/* line 130, ../../latto/sass/_latto.nav.scss */
-.tabs ul.primary li.active a, #tabs ul.primary li.active a, .tabs ul.secondary li.active a, #tabs ul.secondary li.active a {
-  background-color: transparent;
-  color: #959595;
-}
-/* line 137, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary, #tabs ul.secondary {
-  background-color: white;
-  padding: 10px 20px;
-}
-/* line 142, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary li, #tabs ul.secondary li {
-  display: table-cell;
-  background-color: white;
-  border-color: #fbfbfb;
-  padding: 0 10px 0 10px;
-}
-/* line 147, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary li:hover, #tabs ul.secondary li:hover {
-  background-color: transparent;
-}
-/* line 150, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary li a, #tabs ul.secondary li a {
-  padding: 3.33333px 5px 3.33333px 5px;
-}
-/* line 153, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary li a:hover, #tabs ul.secondary li a:hover {
-  color: #959595;
-  background-color: #efefef;
-}
-/* line 160, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary li.active:hover, #tabs ul.secondary li.active:hover {
-  background-color: transparent;
-}
-/* line 163, ../../latto/sass/_latto.nav.scss */
-.tabs ul.secondary li.active a, #tabs ul.secondary li.active a {
-  color: #959595;
-  background-color: #efefef;
-}
-
-/* line 175, ../../latto/sass/_latto.nav.scss */
-.action-links {
-  background-color: white;
-  padding: 10px 20px;
-}
-/* line 178, ../../latto/sass/_latto.nav.scss */
-.action-links li {
-  color: #00b7e7;
-  display: inline-block;
-  padding: 0 10px 0 10px;
-}
-/* line 185, ../../latto/sass/_latto.nav.scss */
-.action-links li:before {
-  font-size: 18px;
-  font-size: 1.125rem;
-  color: #00b7e7;
-  float: left;
-  font-family: FontAwesome;
-  margin-top: 2px;
-  margin-left: 1px;
-}
-/* line 195, ../../latto/sass/_latto.nav.scss */
-.action-links li a {
-  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-  margin-left: -20px;
-  padding-left: 25px;
-}
-
 /* line 16, ../../latto/sass/_latto.base.scss */
 body {
   background-color: white;
@@ -4000,27 +3828,21 @@ button#edit-cancel {
 }
 
 /* line 26, ../sass/_ddbasic.tabs.scss */
-#tabs ul.primary, #tabs ul.secondary {
+#tabs ul.primary {
   padding-left: 10px;
 }
 /* line 32, ../sass/_ddbasic.tabs.scss */
-#tabs ul.primary li, #tabs ul.secondary li,
+#tabs ul.primary li,
 #tabs ul.primary li.active,
-#tabs ul.secondary li.active,
 #tabs ul.primary li:hover,
-#tabs ul.secondary li:hover,
-#tabs ul.primary li.active:hover,
-#tabs ul.secondary li.active:hover {
+#tabs ul.primary li.active:hover {
   background: transparent;
 }
 /* line 35, ../sass/_ddbasic.tabs.scss */
-#tabs ul.primary li a, #tabs ul.secondary li a,
+#tabs ul.primary li a,
 #tabs ul.primary li.active a,
-#tabs ul.secondary li.active a,
 #tabs ul.primary li:hover a,
-#tabs ul.secondary li:hover a,
-#tabs ul.primary li.active:hover a,
-#tabs ul.secondary li.active:hover a {
+#tabs ul.primary li.active:hover a {
   -webkit-border-radius: 8px 8px 0 0;
   -moz-border-radius: 8px 8px 0 0;
   -ms-border-radius: 8px 8px 0 0;
@@ -4030,11 +3852,11 @@ button#edit-cancel {
   line-height: 31.2px;
 }
 /* line 43, ../sass/_ddbasic.tabs.scss */
-#tabs ul.primary li a, #tabs ul.secondary li a {
+#tabs ul.primary li a {
   background: #efefef;
 }
 /* line 47, ../sass/_ddbasic.tabs.scss */
-#tabs ul.primary li a.active, #tabs ul.secondary li a.active {
+#tabs ul.primary li a.active {
   background: white;
 }
 /* line 52, ../sass/_ddbasic.tabs.scss */
@@ -6261,7 +6083,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 20px;
 }
 
-/* line 255, ../sass/ddbasic.styles.scss */
+/* line 254, ../sass/ddbasic.styles.scss */
 .theme-block {
   background-color: rgba(255, 255, 255, 0.9);
   zoom: 1;
