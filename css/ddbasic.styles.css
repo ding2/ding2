@@ -5077,18 +5077,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 52, ../sass/_ddbasic.libraries.scss */
-.libraries-content {
+.libraries {
   float: left;
   width: 73%;
 }
 
-/* line 58, ../sass/_ddbasic.libraries.scss */
-.photo {
+/* line 57, ../sass/_ddbasic.libraries.scss */
+.field-name-field-ding-library-list-image {
   float: left;
   width: 25%;
 }
 
-/* line 65, ../sass/_ddbasic.libraries.scss */
+/* line 63, ../sass/_ddbasic.libraries.scss */
 .dl,
 .library-link {
   padding-left: 20px;
@@ -5096,38 +5096,38 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-left: 25%;
 }
 
-/* line 79, ../sass/_ddbasic.libraries.scss */
+/* line 77, ../sass/_ddbasic.libraries.scss */
 .library-link {
   padding: 20px 0 0 20px;
   padding:  1.25rem 0 0 1.25rem;
 }
 
-/* line 83, ../sass/_ddbasic.libraries.scss */
-.opening-hours {
+/* line 81, ../sass/_ddbasic.libraries.scss */
+.libraries-opening-hours {
   margin-left: 75%;
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 117, ../sass/_ddbasic.libraries.scss */
-  .libraries-content {
+  /* line 115, ../sass/_ddbasic.libraries.scss */
+  .libraries {
     float: none;
     width: 100%;
   }
 
-  /* line 122, ../sass/_ddbasic.libraries.scss */
-  .opening-hours {
+  /* line 120, ../sass/_ddbasic.libraries.scss */
+  .libraries-opening-hours {
     margin-left: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 127, ../sass/_ddbasic.libraries.scss */
-  .libraries-content {
+  /* line 125, ../sass/_ddbasic.libraries.scss */
+  .libraries {
     float: none;
     width: 100%;
   }
 
-  /* line 132, ../sass/_ddbasic.libraries.scss */
-  .opening-hours {
+  /* line 130, ../sass/_ddbasic.libraries.scss */
+  .libraries-opening-hours {
     margin-left: 0;
   }
 }

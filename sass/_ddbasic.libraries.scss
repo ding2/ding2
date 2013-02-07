@@ -49,15 +49,13 @@
   }
 }
 
-.libraries-content {
-  @include zen-float(left);
-
+.libraries {
+	float: left;
   width: 73%;
 }
 
-.photo {
-  @include zen-float(left);
-
+.field-name-field-ding-library-list-image {
+	float: left;
   width: 25%;
 }
 
@@ -80,7 +78,7 @@
   @include rem('padding', $default-spacing 0 0 $default-spacing);  
 }
 
-.opening-hours {
+.libraries-opening-hours {
   margin-left: 75%;
 }
 
@@ -114,22 +112,22 @@
 // -----------------------------------------------------------------------------
 //
 @include small {
-  .libraries-content {
+  .libraries {
     float: none;
     width: 100%;
   }
 
-  .opening-hours {
+  .libraries-opening-hours {
     margin-left: 0;
   }
 }
 @include medium {
-  .libraries-content {
+  .libraries {
     float: none;
     width: 100%;
   }
 
-  .opening-hours {
+  .libraries-opening-hours {
     margin-left: 0;
   }
 }
