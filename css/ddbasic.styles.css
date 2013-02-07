@@ -1257,9 +1257,10 @@ body {
   background: url("../images/body.jpg") no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  line-height: 24px;
 }
 
-/* line 35, ../sass/_ddbasic.elements.scss */
+/* line 36, ../sass/_ddbasic.elements.scss */
 h1,
 h2,
 h3,
@@ -1270,7 +1271,7 @@ h6 {
   margin-top: 0;
 }
 
-/* line 39, ../sass/_ddbasic.elements.scss */
+/* line 40, ../sass/_ddbasic.elements.scss */
 img {
   display: inline;
   width: 100%;

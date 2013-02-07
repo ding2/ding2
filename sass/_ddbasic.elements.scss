@@ -24,6 +24,7 @@ body {
   background: url('../images/body.jpg') no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  line-height: $theme-line-height;
 }
 
 
@@ -41,7 +42,6 @@ img {
   width: 100%;
   height: auto;
 }
-
 
 ul {
   padding-left: $default-spacing;
