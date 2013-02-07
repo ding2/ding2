@@ -3616,23 +3616,32 @@ button#edit-cancel {
   -webkit-border-radius: 8px 8px 0 0;
   -moz-border-radius: 8px 8px 0 0;
   border-radius: 8px 8px 0 0;
+  border: none;
   display: block;
   line-height: 31.2px;
+  margin: 0;
 }
 /* line 49, ../sass/_ddbasic.tabs.scss */
+#tabs ul.primary li a:hover,
+#tabs ul.primary li.active a:hover,
+#tabs ul.primary li:hover a:hover,
+#tabs ul.primary li.active:hover a:hover {
+  color: black;
+}
+/* line 55, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a {
   background: #efefef;
 }
-/* line 53, ../sass/_ddbasic.tabs.scss */
+/* line 59, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a.active {
   background: white;
 }
-/* line 58, ../sass/_ddbasic.tabs.scss */
+/* line 64, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary {
   padding: 10px;
   margin: 0 10px;
 }
-/* line 65, ../sass/_ddbasic.tabs.scss */
+/* line 71, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li,
 #tabs ul.secondary li.active,
 #tabs ul.secondary li:hover,
@@ -3641,7 +3650,7 @@ button#edit-cancel {
   border-right: none;
   padding-right: 0;
 }
-/* line 71, ../sass/_ddbasic.tabs.scss */
+/* line 77, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a,
 #tabs ul.secondary li.active a,
 #tabs ul.secondary li:hover a,
@@ -3652,11 +3661,11 @@ button#edit-cancel {
   display: block;
   padding: 0 10px;
 }
-/* line 79, ../sass/_ddbasic.tabs.scss */
+/* line 85, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a {
   background: white;
 }
-/* line 83, ../sass/_ddbasic.tabs.scss */
+/* line 89, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a.active {
   background: #efefef;
 }
