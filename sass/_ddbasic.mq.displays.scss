@@ -22,6 +22,33 @@
 
 
 // -----------------------------------------------------------------------------
+// Primary 100% stacked secondary and tertiary 50% side by side
+// -----------------------------------------------------------------------------
+//
+// -------------------------------
+// |           Primary           |
+// -------------------------------
+// -------------------------------
+// |  Secondary   |   Tertiary   |
+// -------------------------------
+//
+@mixin display-100-50-50 {
+  .primary-content {
+    @include zen-grid-item($grid-column-count, 1);
+  }
+
+  .secondary-content {
+    @include zen-clear(both);
+    @include zen-grid-item($grid-50, 1);
+  }
+
+  .tertiary-content {
+    @include zen-grid-item($grid-50, 1, right);
+  }
+}
+
+
+// -----------------------------------------------------------------------------
 // Secondary 33% primary 66%
 // -----------------------------------------------------------------------------
 //
@@ -55,4 +82,27 @@
   .tertiary-content {  
     @include zen-grid-item($grid-33, 1, right);
   }
+}
+
+
+// -----------------------------------------------------------------------------
+// Secondary 25% primary 50% tertiary 25%
+// -----------------------------------------------------------------------------
+//
+// -------------------------------
+// | Sec. |    Primary    | Ter. |
+// -------------------------------
+//
+@mixin display-25-50-25 {
+  .primary-content {
+    @include zen-grid-item($grid-50, $grid-25 + 1);
+  }
+
+  .secondary-content {  
+    @include zen-grid-item($grid-25, 1);
+  }
+  
+  .tertiary-content {
+    @include zen-grid-item($grid-25, 1, right);
+  } 
 }

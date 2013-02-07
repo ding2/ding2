@@ -34,13 +34,22 @@
 // **
 //
 @import "../../latto/sass/_latto.grid.scss";
-@import "../../latto/sass/_latto.mediaqueries.scss";
 
 
 // -----------------------------------------------------------------------------
 // Theme specific styles
 // -----------------------------------------------------------------------------
 //
+
+
+// **
+// Media queries
+// **
+// 51 kb
+@import "_ddbasic.mq.displays.scss";
+@import "_ddbasic.mediaqueries.scss";
+@import "_ddbasic.mq.attachments.scss";
+@import "_ddbasic.mq.layouts.scss";
 
 
 // **
@@ -76,15 +85,6 @@
 // **
 // 1 kb
 @import "_ddbasic.elements.scss";
-
-
-// **
-// Media queries
-// **
-// 51 kb
-@import "_ddbasic.mq.displays.scss";
-@import "_ddbasic.mq.layouts.scss";
-@import "_ddbasic.mediaqueries.scss";
 
 
 // **
