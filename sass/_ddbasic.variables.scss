@@ -17,6 +17,19 @@ $box-sizing-polyfill-path:        "/profiles/ding2/themes/ddbasic/scripts/boxsiz
 
 
 // -----------------------------------------------------------------------------
+// Standard color definitions
+// -----------------------------------------------------------------------------
+//
+$white:                 #fff    !default;
+$black:                 #000    !default;
+$gray:                  #d5d5d5 !default;
+$gray-light:            lighten($gray, 10%) !default;
+$gray-lighter:          lighten($gray, 15%) !default;
+$gray-dark:             darken($gray, 10%) !default;
+$gray-darker:           darken($gray, 25%) !default;
+
+
+// -----------------------------------------------------------------------------
 // Theme color definitions
 // -----------------------------------------------------------------------------
 //
@@ -57,6 +70,23 @@ $theme-font-weight-normal:        normal;
 $theme-font-weight-bold:          normal;
 $theme-font-selection-color:      $font-color-primary;
 $theme-font-selection-background: $gray;
+
+
+// -----------------------------------------------------------------------------
+// Base font size for rem() mixin, measured in pixels
+// -----------------------------------------------------------------------------
+//
+$base-font-size:  16px !default;
+
+
+// -----------------------------------------------------------------------------
+// Text colors
+// -----------------------------------------------------------------------------
+//
+$text-primary-color:         #1b1b1b !default;
+$text-selection-color:       $text-primary-color !default;
+$text-selection-background:  $gray-light !default;
+
 
 // -----------------------------------------------------------------------------
 // Links
