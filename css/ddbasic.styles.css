@@ -1,6 +1,6 @@
 @import url(../font/source-sans/stylesheet.css);
 /* See: http://zengrids.com/help/#vars-legacy */
-/* line 23, ../sass/_ddbasic.grid.scss */
+/* line 21, ../sass/_ddbasic.grid.scss */
 #page {
   *position: relative;
   *zoom: 1;
@@ -15,7 +15,7 @@
   clear: both;
 }
 
-/* line 27, ../sass/_ddbasic.grid.scss */
+/* line 25, ../sass/_ddbasic.grid.scss */
 .grid-wrapper, .content-wrapper, .header-wrapper, .navigation-wrapper {
   margin-left: auto;
   margin-right: auto;
@@ -23,7 +23,7 @@
   overflow: hidden;
 }
 
-/* line 34, ../sass/_ddbasic.grid.scss */
+/* line 32, ../sass/_ddbasic.grid.scss */
 .grid-inner, .topbar .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
   margin-left: auto;
   margin-right: auto;
@@ -1668,7 +1668,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1686,7 +1686,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1704,7 +1704,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1724,7 +1724,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1742,7 +1742,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1760,7 +1760,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1781,7 +1781,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1800,7 +1800,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1818,7 +1818,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1838,7 +1838,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1857,7 +1857,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1875,7 +1875,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1896,7 +1896,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1914,7 +1914,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1934,7 +1934,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1952,7 +1952,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1973,7 +1973,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -1991,7 +1991,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -2011,7 +2011,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -2029,7 +2029,7 @@ ul.icons li [class*=" icon-"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     word-wrap: break-word;
-    *behavior: url("../scripts/boxsizing.htc");
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
@@ -2064,7 +2064,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2082,7 +2082,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2101,7 +2101,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2135,14 +2135,14 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
 }
 /* line 123, ../sass/_ddbasic.mq.layouts.scss */
 .main-wrapper .main-left-right {
@@ -2157,14 +2157,14 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
 }
 /* line 128, ../sass/_ddbasic.mq.layouts.scss */
 .main-wrapper .main-right-right {
@@ -2179,14 +2179,14 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
 }
 
 /* line 139, ../sass/_ddbasic.mq.layouts.scss */
@@ -2202,7 +2202,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2221,7 +2221,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2240,7 +2240,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2258,7 +2258,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2293,7 +2293,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2311,7 +2311,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2329,7 +2329,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2347,7 +2347,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2366,7 +2366,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2384,7 +2384,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2402,7 +2402,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2421,7 +2421,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2440,7 +2440,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2458,7 +2458,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2477,7 +2477,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2496,7 +2496,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2519,7 +2519,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2559,7 +2559,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2609,7 +2609,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2661,7 +2661,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2679,7 +2679,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2697,7 +2697,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2715,7 +2715,7 @@ ul.icons li [class*=" icon-"] {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -2807,65 +2807,40 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 119, ../sass/_ddbasic.extends.scss */
-.user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
-  margin-left: 15px;
-  position: absolute;
-  font-size: 33px;
-}
-
-/* line 129, ../sass/_ddbasic.extends.scss */
-.user input[type="text"],
-.user input[type="password"], .user-login-block input[type="text"],
-.user-login-block input[type="password"] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
-  display: inline;
-  padding-left: 45px;
-  border: 0;
-}
-
-/* line 143, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   color: #fff;
   padding: 5px;
 }
-/* line 147, ../sass/_ddbasic.extends.scss */
+/* line 123, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-ting-object .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-ting-object .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-ting-object .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-ting-object .field-name-ting-type li.availability.reservable a, .comment .new a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a, .pane-ting-object .field-name-ting-type li.availability.available.reservable a {
   color: #fff;
 }
-/* line 150, ../sass/_ddbasic.extends.scss */
+/* line 126, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-ting-object .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-ting-object .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-ting-object .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.reservable a:hover, .comment .new a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.available.reservable a:hover {
   text-decoration: none;
 }
 
-/* line 156, ../sass/_ddbasic.extends.scss */
+/* line 132, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending {
   background-color: #696a69;
 }
 
-/* line 162, ../sass/_ddbasic.extends.scss */
+/* line 138, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed {
   background-color: #ed1e88;
 }
 
-/* line 168, ../sass/_ddbasic.extends.scss */
+/* line 144, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available {
   background-color: #0072bc;
 }
 
-/* line 174, ../sass/_ddbasic.extends.scss */
+/* line 150, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new {
   background-color: #ea9123;
 }
 
-/* line 180, ../sass/_ddbasic.extends.scss */
+/* line 156, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   background-color: #4c9f45;
 }
@@ -3177,7 +3152,7 @@ textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   font-size: 15px;
   font-size: 0.9375rem;
   background-color: white;
@@ -3491,7 +3466,7 @@ a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-sub
   cursor: default;
 }
 
-/* line 75, ../sass/_ddbasic.buttons.scss */
+/* line 79, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
 #edit-cancel, .pane-bookmarks .ding-entity-button a,
 a.button,
@@ -3503,10 +3478,11 @@ a#edit-cancel,
   background-image: -moz-linear-gradient(#595959, #404040);
   background-image: -o-linear-gradient(#595959, #404040);
   background-image: linear-gradient(#595959, #404040);
+  background-color: #595959;
   border: 0;
   color: white;
 }
-/* line 68, ../sass/_ddbasic.buttons.scss */
+/* line 70, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
 #edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover,
 #edit-cancel:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active,
@@ -3528,47 +3504,52 @@ a#edit-cancel:active,
   background-image: -moz-linear-gradient(#4d4d4d, #333333);
   background-image: -o-linear-gradient(#4d4d4d, #333333);
   background-image: linear-gradient(#4d4d4d, #333333);
+  background-color: #404040;
 }
 
-/* line 80, ../sass/_ddbasic.buttons.scss */
+/* line 84, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"].form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00b7e7), color-stop(100%, #007a9b));
   background-image: -webkit-linear-gradient(#00b7e7, #007a9b);
   background-image: -moz-linear-gradient(#00b7e7, #007a9b);
   background-image: -o-linear-gradient(#00b7e7, #007a9b);
   background-image: linear-gradient(#00b7e7, #007a9b);
+  background-color: #00b7e7;
   border: 0;
   color: white;
 }
-/* line 68, ../sass/_ddbasic.buttons.scss */
+/* line 70, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"].form-submit:focus, .topbar .search input[type="submit"].form-submit:hover, .topbar .search input[type="submit"].form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00a3ce), color-stop(100%, #006681));
   background-image: -webkit-linear-gradient(#00a3ce, #006681);
   background-image: -moz-linear-gradient(#00a3ce, #006681);
   background-image: -o-linear-gradient(#00a3ce, #006681);
   background-image: linear-gradient(#00a3ce, #006681);
+  background-color: #007a9b;
 }
 
-/* line 85, ../sass/_ddbasic.buttons.scss */
+/* line 89, ../sass/_ddbasic.buttons.scss */
 .search input[type="submit"], .user input[type="submit"] {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
   background-image: -o-linear-gradient(#444444, #1e1e1e);
   background-image: linear-gradient(#444444, #1e1e1e);
+  background-color: #444444;
   border: 0;
   color: white;
 }
-/* line 68, ../sass/_ddbasic.buttons.scss */
+/* line 70, ../sass/_ddbasic.buttons.scss */
 .search input[type="submit"]:focus, .user input[type="submit"]:focus, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .search input[type="submit"]:active, .user input[type="submit"]:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
   background-image: -webkit-linear-gradient(#373737, #111111);
   background-image: -moz-linear-gradient(#373737, #111111);
   background-image: -o-linear-gradient(#373737, #111111);
   background-image: linear-gradient(#373737, #111111);
+  background-color: #1e1e1e;
 }
 
-/* line 98, ../sass/_ddbasic.buttons.scss */
+/* line 102, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, input[type=submit].form-submit,
 input[type=submit]#edit-cancel,
 button.button,
@@ -3578,7 +3559,7 @@ button#edit-cancel {
 }
 
 @-moz-document url-prefix() {
-  /* line 109, ../sass/_ddbasic.buttons.scss */
+  /* line 113, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -3814,7 +3795,7 @@ button#edit-cancel {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -3843,7 +3824,7 @@ button#edit-cancel {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -4117,7 +4098,7 @@ input#edit-search-block-form--2.spinner {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
@@ -4153,7 +4134,7 @@ input#edit-search-block-form--2.spinner {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -4211,7 +4192,7 @@ input#edit-search-block-form--2.spinner {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -4771,7 +4752,7 @@ ul.ui-autocomplete {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   background-color: white;
   margin-top: 10px;
   max-width: 580px;
@@ -4828,7 +4809,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -4853,7 +4834,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   font-size: 40px;
   font-size: 2.5rem;
   padding-top: 40px;
@@ -4869,7 +4850,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   max-width: 120px;
 }
 /* line 77, ../sass/_ddbasic.carousel.scss */
@@ -4929,7 +4910,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -4948,7 +4929,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -5321,7 +5302,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
@@ -5360,7 +5341,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
@@ -5393,11 +5374,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .user input[type="password"] {
   font-size: 19.5px;
   font-size: 1.21875rem;
-  min-width: 211px;
   min-height: 60px;
   margin-right: 10px;
+  padding-bottom: 0;
+  padding-top: 0;
+  width: 224px;
 }
-/* line 103, ../sass/_ddbasic.user.scss */
+/* line 105, ../sass/_ddbasic.user.scss */
 .user input[type="submit"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -5413,13 +5396,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: absolute;
 }
 
-/* line 120, ../sass/_ddbasic.user.scss */
+/* line 122, ../sass/_ddbasic.user.scss */
 .topbar .user {
   position: absolute;
   right: 140px;
   top: 17px;
 }
-/* line 127, ../sass/_ddbasic.user.scss */
+/* line 129, ../sass/_ddbasic.user.scss */
 .topbar .user:before {
   font-size: 19.5px;
   font-size: 1.21875rem;
@@ -5431,7 +5414,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   top: 16px;
   z-index: 99;
 }
-/* line 140, ../sass/_ddbasic.user.scss */
+/* line 142, ../sass/_ddbasic.user.scss */
 .topbar .user input[type="submit"] {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -5439,14 +5422,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 45px;
 }
 
-/* line 149, ../sass/_ddbasic.user.scss */
+/* line 151, ../sass/_ddbasic.user.scss */
 .user-login-block {
   display: none;
   max-width: 425px;
   position: absolute;
   z-index: 99;
 }
-/* line 157, ../sass/_ddbasic.user.scss */
+/* line 159, ../sass/_ddbasic.user.scss */
 .user-login-block:before {
   border: 25px solid transparent;
   content: "";
@@ -5457,16 +5440,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-bottom-color: rgba(0, 0, 0, 0.8);
   right: 50px;
 }
-/* line 161, ../sass/_ddbasic.user.scss */
+/* line 163, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper {
   position: relative;
 }
-/* line 164, ../sass/_ddbasic.user.scss */
+/* line 166, ../sass/_ddbasic.user.scss */
 .user-login-block .user-field-wrapper i[class^="icon-"] {
   color: #000;
   top: 15px;
 }
-/* line 172, ../sass/_ddbasic.user.scss */
+/* line 174, ../sass/_ddbasic.user.scss */
 .user-login-block .user-close-container {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -5476,23 +5459,23 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   right: 15px;
   top: 15px;
 }
-/* line 183, ../sass/_ddbasic.user.scss */
+/* line 185, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link {
   float: right;
   margin-top: 15px;
   margin-right: 10px;
 }
-/* line 188, ../sass/_ddbasic.user.scss */
+/* line 190, ../sass/_ddbasic.user.scss */
 .user-login-block .user-login-link a {
   color: #fff;
 }
-/* line 193, ../sass/_ddbasic.user.scss */
+/* line 195, ../sass/_ddbasic.user.scss */
 .user-login-block .user-create-link {
   clear: both;
   padding-top: 20px;
   text-align: right;
 }
-/* line 200, ../sass/_ddbasic.user.scss */
+/* line 202, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="text"],
 .user-login-block input[type="password"] {
   font-size: 19.5px;
@@ -5500,7 +5483,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   width: 100%;
 }
-/* line 208, ../sass/_ddbasic.user.scss */
+/* line 210, ../sass/_ddbasic.user.scss */
 .user-login-block input[type="submit"] {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -5509,7 +5492,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   float: right;
 }
 
-/* line 224, ../sass/_ddbasic.user.scss */
+/* line 226, ../sass/_ddbasic.user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -5524,36 +5507,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
 }
 
-/* line 230, ../sass/_ddbasic.user.scss */
+/* line 232, ../sass/_ddbasic.user.scss */
 .user-menu-loans {
   margin-top: 90px;
 }
 
-/* line 234, ../sass/_ddbasic.user.scss */
+/* line 236, ../sass/_ddbasic.user.scss */
 .user-menu {
   margin-top: 120px;
 }
 
-/* line 238, ../sass/_ddbasic.user.scss */
+/* line 240, ../sass/_ddbasic.user.scss */
 .user-name {
   color: rgba(0, 0, 0, 0.5);
   margin-top: 55px;
   text-align: right;
 }
-/* line 243, ../sass/_ddbasic.user.scss */
+/* line 245, ../sass/_ddbasic.user.scss */
 .user-name .user-name-title {
   font-size: 33.75px;
   font-size: 2.10938rem;
   color: black;
 }
 
-/* line 258, ../sass/_ddbasic.user.scss */
+/* line 260, ../sass/_ddbasic.user.scss */
 .topbar .user-name,
 .topbar .user-menu-loans,
 .topbar .user-menu {
@@ -5568,76 +5551,76 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -ms-box-sizing: border-box;
   box-sizing: border-box;
   word-wrap: break-word;
-  *behavior: url("../scripts/boxsizing.htc");
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
   margin-bottom: 0;
 }
-/* line 264, ../sass/_ddbasic.user.scss */
+/* line 266, ../sass/_ddbasic.user.scss */
 .topbar .user-name {
   margin-top: 16px;
 }
-/* line 267, ../sass/_ddbasic.user.scss */
+/* line 269, ../sass/_ddbasic.user.scss */
 .topbar .user-name .user-name-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
   color: white;
 }
-/* line 274, ../sass/_ddbasic.user.scss */
+/* line 276, ../sass/_ddbasic.user.scss */
 .topbar .user-menu {
   margin-top: 40px;
 }
 
-/* line 287, ../sass/_ddbasic.user.scss */
+/* line 289, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item {
   clear: both;
 }
-/* line 291, ../sass/_ddbasic.user.scss */
+/* line 293, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label,
 .pane-user-profile .form-item p {
   float: left;
 }
-/* line 295, ../sass/_ddbasic.user.scss */
+/* line 297, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 302, ../sass/_ddbasic.user.scss */
+/* line 304, ../sass/_ddbasic.user.scss */
 .pane-user-profile h3, .pane-user-profile .ui-dialog-title {
   border: 0;
   margin-top: 30px;
   margin-bottom: 13.33333px;
 }
-/* line 310, ../sass/_ddbasic.user.scss */
+/* line 312, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-label {
   float: left;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 318, ../sass/_ddbasic.user.scss */
+/* line 320, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-items,
 .pane-user-profile .profile2-provider-alma .field-item {
   display: inline;
 }
 
-/* line 331, ../sass/_ddbasic.user.scss */
+/* line 333, ../sass/_ddbasic.user.scss */
 .pane-loans table,
 .pane-reservations table,
 .pane-bookmarks table {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
 }
-/* line 336, ../sass/_ddbasic.user.scss */
+/* line 338, ../sass/_ddbasic.user.scss */
 .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-top: 2px;
   max-width: 90%;
 }
-/* line 343, ../sass/_ddbasic.user.scss */
+/* line 345, ../sass/_ddbasic.user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
@@ -5645,13 +5628,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin: 0;
   padding: 0;
 }
-/* line 350, ../sass/_ddbasic.user.scss */
+/* line 352, ../sass/_ddbasic.user.scss */
 .pane-loans table tbody tr:hover,
 .pane-reservations table tbody tr:hover,
 .pane-bookmarks table tbody tr:hover {
   background-color: #f6f6f6;
 }
-/* line 354, ../sass/_ddbasic.user.scss */
+/* line 356, ../sass/_ddbasic.user.scss */
 .pane-loans table tbody tr:hover th,
 .pane-loans table tbody tr:hover td,
 .pane-reservations table tbody tr:hover th,
@@ -5660,7 +5643,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks table tbody tr:hover td {
   background-color: #f6f6f6;
 }
-/* line 360, ../sass/_ddbasic.user.scss */
+/* line 362, ../sass/_ddbasic.user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
@@ -5670,26 +5653,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-weight: normal;
   padding: 10px 0;
 }
-/* line 368, ../sass/_ddbasic.user.scss */
+/* line 370, ../sass/_ddbasic.user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 372, ../sass/_ddbasic.user.scss */
+/* line 374, ../sass/_ddbasic.user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
   padding: 20px 0 13.33333px;
 }
-/* line 376, ../sass/_ddbasic.user.scss */
+/* line 378, ../sass/_ddbasic.user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
   width: 50%;
 }
-/* line 382, ../sass/_ddbasic.user.scss */
+/* line 384, ../sass/_ddbasic.user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -5698,7 +5681,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 386, ../sass/_ddbasic.user.scss */
+/* line 388, ../sass/_ddbasic.user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -5707,7 +5690,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 393, ../sass/_ddbasic.user.scss */
+/* line 395, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -5715,19 +5698,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 399, ../sass/_ddbasic.user.scss */
+/* line 401, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 404, ../sass/_ddbasic.user.scss */
+/* line 406, ../sass/_ddbasic.user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
   margin-bottom: 0;
 }
-/* line 411, ../sass/_ddbasic.user.scss */
+/* line 413, ../sass/_ddbasic.user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -5737,7 +5720,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-right: 20px;
   text-align: right;
 }
-/* line 418, ../sass/_ddbasic.user.scss */
+/* line 420, ../sass/_ddbasic.user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -5748,7 +5731,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 432, ../sass/_ddbasic.user.scss */
+/* line 434, ../sass/_ddbasic.user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;

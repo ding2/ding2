@@ -18,8 +18,6 @@ $grid-75: $grid-column-count * .75;
 
 /* See: http://zengrids.com/help/#vars-legacy */
 
-$box-sizing-polyfill-path: '../scripts/boxsizing.htc';
-
 #page {
   @include zen-grid-container;
 }
