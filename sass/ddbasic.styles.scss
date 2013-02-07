@@ -54,42 +54,36 @@
 // **
 // Layout
 // **
-// 6 kb
 @import "_ddbasic.layout.scss";
 
 
 // **
 // Header
 // **
-// 1 kb
 @import "_ddbasic.header.scss";
 
 
 // **
 // Mixins
 // **
-// 0 kb
 @import "_ddbasic.mixins.scss";
 
 
 // **
 // Extends
 // **
-// 7 kb
 @import "_ddbasic.extends.scss";
 
 
 // **
 // Default element styling
 // **
-// 1 kb
 @import "_ddbasic.elements.scss";
 
 
 // **
 // Typography
 // **
-// 6 kb
 @import "_ddbasic.typography.scss";
 @import "../font/source-sans/stylesheet.css";
 
@@ -97,75 +91,54 @@
 // **
 // Forms
 // **
-// 2 kb
 @import "_ddbasic.forms.scss";
 
 
 // **
 // Links
 // **
-// 0 kb
 @import "_ddbasic.links.scss";
 
 
 // **
 // Lists
 // **
-// 4 kb
 @import "_ddbasic.lists.scss";
 
 
 // **
 // Tables
 // **
-// 4 kb
 @import "../../latto/sass/_latto.tables.scss";
 
 
 // **
 // Buttons
 // **
-// 8 kb
 @import "_ddbasic.buttons.scss";
 
 
 // **
 // Tabs
 // **
-// 2 kb
 @import "_ddbasic.tabs.scss";
 
 
 // **
 // Labels
 // **
-// 2 kb
 @import "_ddbasic.labels.scss";
 
 
 // **
 // Navigation
 // **
-// 7 kb
 @import "_ddbasic.navigation.scss";
-
-
-// **
-// Pagers
-// **
-//
-
-
-// **
-// Pagination
-// **
-//
 
 
 // **
 // Miscellaneous
 // **
-// 3 kb
 @import "_ddbasic.miscellaneous.scss";
 @import "_ddbasic.overrides.drupal.scss";
 
@@ -178,68 +151,58 @@
 // **
 // Search
 // **
-// 33 kb
 @import "_ddbasic.search.scss";
 
 
 // **
 // Carousel (ting_search_carousel)
 // **
-// 3 kb
 @import "_ddbasic.carousel.scss";
 
 
 // **
 // Event (ding_event)
 // **
-// 3 kb
 @import "_ddbasic.event.scss";
 
 
 // **
 // Libraries
 // **
-// 2 kb
 @import "_ddbasic.libraries.scss";
 
 
 // **
 // News
 // **
-// 3 kb
 @import "_ddbasic.news.scss";
 
 
 // **
 // Modal popups
 // **
-// 3 kb
 @import "_ddbasic.modal.scss";
 
 
 // **
 // Opening hours (opening_hours)
 // **
-// 0 kb
 @import "_ddbasic.openinghours.scss";
 
 
 // **
 // User (ding_user, ding_user_frontend)
 // **
-// 15 kb
 @import "_ddbasic.user.scss";
 
 
 // **
 // Page (ding_page)
 // **
-// 1 kb
 @import "_ddbasic.page.scss";
 
 
 // **
 // Comments (comments)
 // **
-// 1 kb
 @import "_ddbasic.comment.scss";
