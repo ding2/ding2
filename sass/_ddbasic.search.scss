@@ -8,7 +8,6 @@
 // Variables
 // -----------------------------------------------------------------------------
 //
-
 $search-border-size: 1px;
 $search-border-type: solid;
 
@@ -233,6 +232,7 @@ input#edit-search-block-form--2.spinner {
   // Facetbrowser title.
   h2 {
     @extend .text-largest;
+    
     margin-bottom: $default-spacing;
   }
 
@@ -399,8 +399,8 @@ input#edit-search-block-form--2.spinner {
     color: $gray-dark;
     text-align: right;
   }
-
 }
+
 .pane-ting-search-records-per-page {
   color: $gray-darker;
   float: right;
@@ -423,6 +423,7 @@ input#edit-search-block-form--2.spinner {
     }
   }
 }
+
 .pane-ding-toggle-format-toggle {
   @extend .pane-ting-search-records-per-page;
 
@@ -498,7 +499,6 @@ input#edit-search-block-form--2.spinner {
         margin-bottom: 0;
         padding-bottom: $default-spacing;
 
-        // Sorry I will die in hell for this
         strong {
           font-weight: inherit;
         }

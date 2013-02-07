@@ -4105,7 +4105,7 @@ button#edit-cancel {
   animation: spin 2s infinite linear;
 }
 
-/* line 20, ../sass/_ddbasic.search.scss */
+/* line 19, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ting-object .ting-cover, .field-name-field-ding-news-materials .ting-cover {
   float: left;
   min-height: 100px;
@@ -4113,7 +4113,7 @@ button#edit-cancel {
   width: 10%;
   z-index: 1;
 }
-/* line 29, ../sass/_ddbasic.search.scss */
+/* line 28, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover:after, .pane-ting-collection .ting-cover:after, .pane-ting-object .ting-cover:after, .field-name-field-ding-news-materials .ting-cover:after {
   content: "";
   background: url("../images/image-missing.png");
@@ -4131,22 +4131,22 @@ button#edit-cancel {
   min-height: 100px;
 }
 
-/* line 51, ../sass/_ddbasic.search.scss */
+/* line 50, ../sass/_ddbasic.search.scss */
 input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
-/* line 56, ../sass/_ddbasic.search.scss */
+/* line 55, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser input.form-checkbox {
   vertical-align: bottom;
 }
 
-/* line 59, ../sass/_ddbasic.search.scss */
+/* line 58, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser label.option {
   font-weight: inherit;
 }
 
-/* line 68, ../sass/_ddbasic.search.scss */
+/* line 67, ../sass/_ddbasic.search.scss */
 .search i[class^="icon-"], .topbar .search i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -4156,7 +4156,7 @@ input#edit-search-block-form--2.spinner {
   top: 15px;
   z-index: 10;
 }
-/* line 80, ../sass/_ddbasic.search.scss */
+/* line 79, ../sass/_ddbasic.search.scss */
 .search input[type="text"], .topbar .search input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -4179,7 +4179,7 @@ input#edit-search-block-form--2.spinner {
   left: 0;
   width: 100%;
 }
-/* line 101, ../sass/_ddbasic.search.scss */
+/* line 100, ../sass/_ddbasic.search.scss */
 .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -4187,7 +4187,7 @@ input#edit-search-block-form--2.spinner {
   margin-left: 17px;
   top: 20px;
 }
-/* line 109, ../sass/_ddbasic.search.scss */
+/* line 108, ../sass/_ddbasic.search.scss */
 .search .spinner i[class^="icon-"]:before, .topbar .search .spinner i[class^="icon-"]:before {
   content: "\f110";
   display: inline-block;
@@ -4197,7 +4197,7 @@ input#edit-search-block-form--2.spinner {
   animation: spin 2s infinite linear;
 }
 
-/* line 122, ../sass/_ddbasic.search.scss */
+/* line 121, ../sass/_ddbasic.search.scss */
 .header-wrapper .search {
   float: left;
   width: 50%;
@@ -4216,21 +4216,21 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
 }
 
-/* line 128, ../sass/_ddbasic.search.scss */
+/* line 127, ../sass/_ddbasic.search.scss */
 .search {
   margin-top: 0;
   margin-bottom: 0;
   padding-right: 0;
 }
-/* line 135, ../sass/_ddbasic.search.scss */
+/* line 134, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
   margin-right: 30px;
 }
-/* line 139, ../sass/_ddbasic.search.scss */
+/* line 138, ../sass/_ddbasic.search.scss */
 .search .form-item {
   margin-top: 0em;
 }
-/* line 143, ../sass/_ddbasic.search.scss */
+/* line 142, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -4243,19 +4243,19 @@ input#edit-search-block-form--2.spinner {
   right: 30px;
   top: 0;
 }
-/* line 157, ../sass/_ddbasic.search.scss */
+/* line 156, ../sass/_ddbasic.search.scss */
 .search .help-link {
   display: block;
   float: right;
   margin-top: 10px;
 }
-/* line 162, ../sass/_ddbasic.search.scss */
+/* line 161, ../sass/_ddbasic.search.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 171, ../sass/_ddbasic.search.scss */
+/* line 170, ../sass/_ddbasic.search.scss */
 .topbar .search {
   float: right;
   width: 33.33333%;
@@ -4277,18 +4277,18 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   right: 160px;
 }
-/* line 180, ../sass/_ddbasic.search.scss */
+/* line 179, ../sass/_ddbasic.search.scss */
 .topbar .search .search-field-wrapper {
   min-width: 558px;
   position: relative;
 }
-/* line 185, ../sass/_ddbasic.search.scss */
+/* line 184, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
   min-height: 50px;
 }
-/* line 191, ../sass/_ddbasic.search.scss */
+/* line 190, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="submit"].form-submit {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -4297,7 +4297,7 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   right: -2px;
 }
-/* line 201, ../sass/_ddbasic.search.scss */
+/* line 200, ../sass/_ddbasic.search.scss */
 .topbar .search i[class^="icon-"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -4307,20 +4307,20 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   top: 13px;
 }
-/* line 212, ../sass/_ddbasic.search.scss */
+/* line 211, ../sass/_ddbasic.search.scss */
 .topbar .search .spinner i[class^="icon-"] {
   top: 16px;
 }
 
-/* line 226, ../sass/_ddbasic.search.scss */
+/* line 225, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 229, ../sass/_ddbasic.search.scss */
+/* line 228, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #00b7e7;
 }
-/* line 234, ../sass/_ddbasic.search.scss */
+/* line 233, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2 {
   margin-bottom: 20px;
 }
@@ -4471,67 +4471,67 @@ input#edit-search-block-form--2.spinner {
   border-right: none;
 }
 
-/* line 426, ../sass/_ddbasic.search.scss */
+/* line 427, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle {
   float: right;
 }
-/* line 431, ../sass/_ddbasic.search.scss */
+/* line 432, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
-/* line 437, ../sass/_ddbasic.search.scss */
+/* line 438, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 441, ../sass/_ddbasic.search.scss */
+/* line 442, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend {
   float: right;
   border: none;
   padding: 0;
 }
-/* line 446, ../sass/_ddbasic.search.scss */
+/* line 447, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
 }
-/* line 450, ../sass/_ddbasic.search.scss */
+/* line 451, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* line 463, ../sass/_ddbasic.search.scss */
+/* line 464, ../sass/_ddbasic.search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 468, ../sass/_ddbasic.search.scss */
+/* line 469, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 475, ../sass/_ddbasic.search.scss */
+/* line 476, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 480, ../sass/_ddbasic.search.scss */
+/* line 481, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
   margin-left: 10%;
   padding-left: 20px;
 }
-/* line 491, ../sass/_ddbasic.search.scss */
+/* line 492, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-left: 10%;
   margin-bottom: 10px;
   padding-left: 20px;
 }
-/* line 497, ../sass/_ddbasic.search.scss */
+/* line 498, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
