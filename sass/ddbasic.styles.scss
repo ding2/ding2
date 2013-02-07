@@ -10,14 +10,24 @@
 @import "compass/css3";
 
 
-// -----------------------------------------------------------------------------
-// Mixins, variables and grid
-// -----------------------------------------------------------------------------
-
-
-@import "_ddbasic.mixins.scss";
+// **
+// Variables
+// **
+//
 @import "_ddbasic.variables.scss";
+
+
+// **
+// Grid
+// **
+//
 @import "_ddbasic.grid.scss";
+
+
+// **
+// Mixins
+// **
+@import "_ddbasic.mixins.scss";
 
 
 // **
@@ -45,12 +55,6 @@
 // Header
 // **
 @import "_ddbasic.header.scss";
-
-
-// **
-// Mixins
-// **
-@import "_ddbasic.mixins.scss";
 
 
 // **
