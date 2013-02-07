@@ -1,6 +1,6 @@
 @import url(../font/source-sans/stylesheet.css);
 /* See: http://zengrids.com/help/#vars-legacy */
-/* line 23, ../../latto/sass/_latto.grid.scss */
+/* line 23, ../sass/_ddbasic.grid.scss */
 #page {
   *position: relative;
   *zoom: 1;
@@ -15,7 +15,7 @@
   clear: both;
 }
 
-/* line 27, ../../latto/sass/_latto.grid.scss */
+/* line 27, ../sass/_ddbasic.grid.scss */
 .grid-wrapper, .content-wrapper, .header-wrapper, .navigation-wrapper {
   margin-left: auto;
   margin-right: auto;
@@ -23,7 +23,7 @@
   overflow: hidden;
 }
 
-/* line 34, ../../latto/sass/_latto.grid.scss */
+/* line 34, ../sass/_ddbasic.grid.scss */
 .grid-inner, .topbar .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
   margin-left: auto;
   margin-right: auto;
