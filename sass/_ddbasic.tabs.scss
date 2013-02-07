@@ -20,16 +20,22 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
+
 #tabs {
-  @extend .tabs;
+  // @extend .tabs;
+  margin: 0;
+  padding: 0;
 
   ul.primary {
+  	margin: 0;
+  	border: none;
     padding-left: $default-spacing / 2;
 
     li,
     li.active,
     li:hover,
     li.active:hover {
+    	display: inline-block;
       background: transparent;
 
       a {
