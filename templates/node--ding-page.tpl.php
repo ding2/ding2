@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Latto's theme implementation to display page nodes.
+ * DDBasic's theme implementation to display page nodes.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -17,7 +17,7 @@
  * - $node_url: Direct url of the current node.
  * - $display_submitted: Whether submission information should be displayed.
  * - $submitted: Submission information created from $date
- *  (NOTE: modified for latto during latto_preprocess_node in templates.php)
+ *  (NOTE: modified for ddbasic during ddbasic_preprocess_node in templates.php)
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -73,12 +73,12 @@
  * language, e.g. $node->body['en'], thus overriding any language negotiation
  * rule that was previously applied.
  *
- * Latto specific variables:
- * - $latto_updated: Information about latest update on the node created
- *  from $date during latto_preprocess_node().
- * - $latto_ding_content_tags: Tags, as a comma-separated list of
+ * ddbasic specific variables:
+ * - $ddbasic_updated: Information about latest update on the node created
+ *  from $date during ddbasic_preprocess_node().
+ * - $ddbasic_ding_content_tags: Tags, as a comma-separated list of
  *  links with leading text "Tags: " as relevant for the event node
- * - $latto_byline: outputs byline to be used before $name
+ * - $ddbasic_byline: outputs byline to be used before $name
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -137,10 +137,10 @@
 <?php if ($display_submitted): ?>
   <footer class="page-footer">
     <div class="page-user-picture"><?php print $user_picture; ?></div>
-    <div class=""><?php print $latto_byline; ?></div>
+    <div class=""><?php print $ddbasic_byline; ?></div>
     <span class="page-author"><?php print $name; ?></span>
     <span class="page-submitted"><?php print $submitted; ?></span>
-    <span class="page-updated"><?php print $latto_updated; ?></span>
+    <span class="page-updated"><?php print $ddbasic_updated; ?></span>
     <?php if ($ddbasic_ding_page_tags): ?>
       <section class="page-tags">
           <?php print t('Tags: ') . $ddbasic_ding_page_tags; ?>

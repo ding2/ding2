@@ -23,7 +23,7 @@
 // -----------------------------------------------------------------------------
 // Layout template for 3 column panel layout delivered by ding_frontend
 // Left and Right sidebar content is optional
-// This template extends on latto displays and ddbasic displays
+// This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
 .sidebars {
   @include medium() {
@@ -84,7 +84,7 @@
 // -----------------------------------------------------------------------------
 // Layout template for ding frontpage layout 1 by ding_frontend
 // Top and main content are required
-// This template extends on latto displays and ddbasic displays
+// This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
 .top-wrapper {
   @include zen-grid-container;

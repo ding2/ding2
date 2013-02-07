@@ -11,35 +11,13 @@
 
 
 // -----------------------------------------------------------------------------
-// Imports and variables
+// Mixins, variables and grid
 // -----------------------------------------------------------------------------
 
 
-// **
-// First we need to import latto variables and mixins
-// **
-//
-@import "../../latto/sass/_latto.mixins.scss";
-
-
-// **
-// Then we import the theme variables
-// **
-//
+@import "_ddbasic.mixins.scss";
 @import "_ddbasic.variables.scss";
-
-
-// **
-// Overwrite latto styles with theme variables
-// **
-//
 @import "_ddbasic.grid.scss";
-
-
-// -----------------------------------------------------------------------------
-// Theme specific styles
-// -----------------------------------------------------------------------------
-//
 
 
 // **
@@ -115,7 +93,7 @@
 // **
 // Tables
 // **
-@import "../../latto/sass/_latto.tables.scss";
+@import "_ddbasic.tables.scss";
 
 
 // **
