@@ -2532,9 +2532,8 @@ ul.icons li [class*=" icon-"] {
 
 /* line 41, ../sass/_ddbasic.layout.scss */
 .topbar {
+  background-color: black;
   background-color: rgba(0, 0, 0, 0.9);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6000000,endColorstr=#E6000000);
   min-height: 85px;
   position: fixed;
   width: 100%;
@@ -2758,9 +2757,8 @@ ul.icons li [class*=" icon-"] {
 
 /* line 29, ../sass/_ddbasic.header.scss */
 .header-wrapper {
+  background-color: #3399ff;
   background-color: rgba(51, 153, 255, 0.9);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E63399FF,endColorstr=#E63399FF);
   margin-top: 85px;
 }
 
@@ -2868,8 +2866,8 @@ h6 {
 /* line 40, ../sass/_ddbasic.elements.scss */
 img {
   display: inline;
-  width: 100%;
   height: auto;
+  max-width: 100%;
 }
 
 /* line 46, ../sass/_ddbasic.elements.scss */
@@ -3786,9 +3784,8 @@ button#edit-cancel {
 
 /* line 63, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
+  background-color: white;
   background-color: rgba(255, 255, 255, 0.95);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F2FFFFFF,endColorstr=#F2FFFFFF);
   position: absolute;
   width: 100%;
 }
@@ -4012,9 +4009,8 @@ button#edit-cancel {
 
 /* line 25, ../sass/_ddbasic.miscellaneous.scss */
 .footer {
+  background-color: black;
   background-color: rgba(0, 0, 0, 0.85);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
   padding-top: 30px;
 }
 
@@ -4865,9 +4861,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 40, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner {
+  background-color: white;
   background-color: rgba(255, 255, 255, 0.9);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E6FFFFFF,endColorstr=#E6FFFFFF);
 }
 
 /* line 55, ../sass/_ddbasic.carousel.scss */
@@ -5238,16 +5233,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 30, ../sass/_ddbasic.modal.scss */
 .ui-widget-overlay {
+  background-color: black;
   background-color: rgba(0, 0, 0, 0.8);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000,endColorstr=#CC000000);
 }
 
 /* line 34, ../sass/_ddbasic.modal.scss */
 .ui-dialog {
+  background-color: #00b7e7;
   background-color: rgba(0, 183, 231, 0.95);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#F200B7E7,endColorstr=#F200B7E7);
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -5259,12 +5252,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 43, ../sass/_ddbasic.modal.scss */
 .ui-dialog-title {
-  color: white;
+  color: black;
 }
 
 /* line 50, ../sass/_ddbasic.modal.scss */
 .ui-widget-content {
-  color: white;
+  color: black;
   padding: 0;
 }
 
@@ -5296,12 +5289,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 85, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar-close:active {
-  color: white;
+  color: black;
   text-decoration: none;
 }
 /* line 90, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close:hover {
-  color: white;
+  color: black;
   text-decoration: none;
 }
 /* line 96, ../sass/_ddbasic.modal.scss */
@@ -5323,9 +5316,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -webkit-box-shadow: inset 0 0 15px #007fff;
   -moz-box-shadow: inset 0 0 15px #007fff;
   box-shadow: inset 0 0 15px #007fff;
+  background-color: #3399ff;
   background-color: rgba(51, 153, 255, 0.9);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#E63399FF,endColorstr=#E63399FF);
   min-height: 279px;
 }
 /* line 30, ../sass/_ddbasic.openinghours.scss */

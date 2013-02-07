@@ -75,10 +75,9 @@ $prefixes: ("-webkit-","-moz-", "-o-", "");
 //
 @mixin rgba-background($color, $alpha) {
   $rgba: rgba($color, $alpha);
-  $ie-hex-str: ie-hex-str($rgba);
+  // IE fallback
+  background-color: $color;
   background-color: $rgba;
-  zoom: 1;
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{$ie-hex-str},endColorstr=#{$ie-hex-str});
 }
 
 

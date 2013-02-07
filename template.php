@@ -36,9 +36,12 @@ function ddbasic_preprocess_html(&$vars) {
   // Build an array of polyfilling scripts
   $vars['polyfills_array'] = '';
   $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
-  
+
   // Load ddbasic plugins
-  ddbasic_load_plugins();  
+  ddbasic_load_plugins();
+
+  // Add conditional CSS for IE8
+  drupal_add_css(path_to_theme() . '/css/ddbasic.ie8.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 8', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
 }
 
 
@@ -106,15 +109,22 @@ function ddbasic_process_html(&$vars) {
 }
 
 
+function spanien_preprocess_html(&$variables) {
+  // Add conditional CSS for IE7 and below.
+  drupal_add_css(path_to_theme() . '/css/ie7.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
+  drupal_add_css(path_to_theme() . '/css/ie8.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 8', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
+}
+
+
 /**
- * alters forms.
+ * Implements hook_form_alter ().
  */
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
-    break;  
+    break;
     case 'user_login_block':
       unset($form['name']['#title']);
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
@@ -458,36 +468,36 @@ function ddbasic_menu_link($vars) {
 /**
  * Allows us to add script plugins to the theme via theme settings.
  * Ex. add a javascript depending on the settings in the theme.
- * 
+ *
  * @param $theme_name
  */
-function ddbasic_load_plugins() { 
+function ddbasic_load_plugins() {
   global $path_to_ddbasic_core;
-  
+
   // Add ddbasic.js so we can use settings in js files.
   drupal_add_js($path_to_ddbasic_core . '/scripts/ddbasic.js');
-  
+
   // Add example script (adds "Type text here.." functionality to input fields.
   //http://mudge.name/jquery_example/
   drupal_add_js($path_to_ddbasic_core . '/scripts/jquery.example.js');
-  
-  // If sticky menus is enabled in the theme load it.  
-  if (theme_get_setting('main_menu_sticky')) {    
-        
+
+  // If sticky menus is enabled in the theme load it.
+  if (theme_get_setting('main_menu_sticky')) {
+
     // Add variable to js so we can check if it is set
     drupal_add_js(array('ddbasic' => array('main_menu_sticky' => theme_get_setting('main_menu_sticky'),)), 'setting');
-    
+
   }
-  
-  // If equalize is enabled in the theme load it.  
+
+  // If equalize is enabled in the theme load it.
   if (theme_get_setting('load_equalize')) {
-    
+
     // Add the script
     drupal_add_js($path_to_ddbasic_core . '/scripts/equalize.min.js');
-    
+
     // Add variable to js so we can check if it is set
-    drupal_add_js(array('ddbasic' => array('load_equalize' => theme_get_setting('load_equalize'),)), 'setting');    
-  }  
+    drupal_add_js(array('ddbasic' => array('load_equalize' => theme_get_setting('load_equalize'),)), 'setting');
+  }
 }
 
 
@@ -542,9 +552,9 @@ function ddbasic_theme_conditional_scripts($ie_scripts) {
 
 /**
  * Polyfill is used to enable HTML5 on browsers who doesn't natively support it.
- * Polyfill adds the missing functionality by 'filling' in scripts that add the 
+ * Polyfill adds the missing functionality by 'filling' in scripts that add the
  * HTML5 functionality the browser doesn't offer.
- * 
+ *
  * Return an array of filenames (scripts) to include.
  *
  * @param string $theme_name  :   Name of the theme.
