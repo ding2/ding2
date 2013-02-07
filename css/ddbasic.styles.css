@@ -2582,21 +2582,22 @@ ul.icons li [class*=" icon-"] {
 .site-name-with-slogan a:active {
   background-color: transparent;
   color: white;
+  text-decoration: none;
 }
 
-/* line 76, ../sass/_ddbasic.layout.scss */
+/* line 77, ../sass/_ddbasic.layout.scss */
 .site-name-with-slogan {
   margin-top: 12.5px;
 }
 
-/* line 82, ../sass/_ddbasic.layout.scss */
+/* line 83, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 88, ../sass/_ddbasic.layout.scss */
+/* line 89, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2615,23 +2616,23 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 97, ../sass/_ddbasic.layout.scss */
+/* line 98, ../sass/_ddbasic.layout.scss */
 .content-wrapper {
   margin-top: 169px;
 }
 
-/* line 107, ../sass/_ddbasic.layout.scss */
+/* line 108, ../sass/_ddbasic.layout.scss */
 .front .content-wrapper {
   margin-top: 84px;
 }
 
-/* line 115, ../sass/_ddbasic.layout.scss */
+/* line 116, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 118, ../sass/_ddbasic.layout.scss */
+/* line 119, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2722,25 +2723,25 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 138, ../sass/_ddbasic.layout.scss */
+  /* line 139, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 143, ../sass/_ddbasic.layout.scss */
+  /* line 144, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 149, ../sass/_ddbasic.layout.scss */
+  /* line 150, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 154, ../sass/_ddbasic.layout.scss */
+  /* line 155, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
