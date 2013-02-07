@@ -1270,19 +1270,26 @@ h6 {
   margin-top: 0;
 }
 
-/* line 40, ../sass/_ddbasic.elements.scss */
+/* line 39, ../sass/_ddbasic.elements.scss */
+img {
+  display: inline;
+  width: 100%;
+  height: auto;
+}
+
+/* line 46, ../sass/_ddbasic.elements.scss */
 ul {
   padding-left: 20px;
 }
 
-/* line 45, ../sass/_ddbasic.elements.scss */
+/* line 51, ../sass/_ddbasic.elements.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 51, ../sass/_ddbasic.elements.scss */
+/* line 57, ../sass/_ddbasic.elements.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;

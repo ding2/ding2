@@ -3,16 +3,16 @@
   description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
-  base theme  = latto
+
 
 ;----------// Stylesheets
   ; Import stylesheets.
+  stylesheets[all][] = css/ddbasic.reset.css
   stylesheets[all][] = css/ddbasic.font.awesome.css
   stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
   stylesheets[all][] = css/addressfield.css
-  stylesheets[all][] = css/latto.reset.css
   stylesheets[all][] = css/jquery.ui.theme.css
 
 
