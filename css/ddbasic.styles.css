@@ -3078,49 +3078,50 @@ a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 174, ../sass/_ddbasic.typography.scss */
+/* line 175, ../sass/_ddbasic.typography.scss */
 a:visited {
   color: #007a9b;
+  text-decoration: none;
 }
-/* line 177, ../sass/_ddbasic.typography.scss */
+/* line 180, ../sass/_ddbasic.typography.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 181, ../sass/_ddbasic.typography.scss */
+/* line 184, ../sass/_ddbasic.typography.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 185, ../sass/_ddbasic.typography.scss */
+/* line 189, ../sass/_ddbasic.typography.scss */
 a:focus {
   color: #006681;
 }
 
-/* line 199, ../sass/_ddbasic.typography.scss */
+/* line 203, ../sass/_ddbasic.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
 
-/* line 203, ../sass/_ddbasic.typography.scss */
+/* line 207, ../sass/_ddbasic.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
 
-/* line 207, ../sass/_ddbasic.typography.scss */
+/* line 211, ../sass/_ddbasic.typography.scss */
 .text-large {
   font-size: 16.5px;
   font-size: 1.03125rem;
 }
 
-/* line 211, ../sass/_ddbasic.typography.scss */
+/* line 215, ../sass/_ddbasic.typography.scss */
 .text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
-/* line 215, ../sass/_ddbasic.typography.scss */
+/* line 219, ../sass/_ddbasic.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
