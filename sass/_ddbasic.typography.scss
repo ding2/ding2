@@ -171,9 +171,12 @@ a {
     color: $link-color;
     text-decoration: none;
   }
+  
   &:visited {
     color: darken($link-color, 15%);
+    text-decoration: none;
   }
+  
   &:hover {
     color: $link-color-hover;
     text-decoration: underline;
@@ -182,6 +185,7 @@ a {
       text-decoration: none;
     }
   }
+  
   &:focus {
     color: $link-color-hover;
   }

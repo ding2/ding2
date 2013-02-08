@@ -22,6 +22,7 @@ $button-padding:                  8px 14px;
 // -----------------------------------------------------------------------------
 //
 %button {
+  @include rem('font-size', $theme-font-size);
   @include border-radius($button-border-radius);
 
   display: inline-block;

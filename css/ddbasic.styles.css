@@ -3078,49 +3078,50 @@ a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 174, ../sass/_ddbasic.typography.scss */
+/* line 175, ../sass/_ddbasic.typography.scss */
 a:visited {
   color: #007a9b;
+  text-decoration: none;
 }
-/* line 177, ../sass/_ddbasic.typography.scss */
+/* line 180, ../sass/_ddbasic.typography.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 181, ../sass/_ddbasic.typography.scss */
+/* line 184, ../sass/_ddbasic.typography.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 185, ../sass/_ddbasic.typography.scss */
+/* line 189, ../sass/_ddbasic.typography.scss */
 a:focus {
   color: #006681;
 }
 
-/* line 199, ../sass/_ddbasic.typography.scss */
+/* line 203, ../sass/_ddbasic.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
 }
 
-/* line 203, ../sass/_ddbasic.typography.scss */
+/* line 207, ../sass/_ddbasic.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
   font-size: 18.75px;
   font-size: 1.17188rem;
 }
 
-/* line 207, ../sass/_ddbasic.typography.scss */
+/* line 211, ../sass/_ddbasic.typography.scss */
 .text-large {
   font-size: 16.5px;
   font-size: 1.03125rem;
 }
 
-/* line 211, ../sass/_ddbasic.typography.scss */
+/* line 215, ../sass/_ddbasic.typography.scss */
 .text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
 
-/* line 215, ../sass/_ddbasic.typography.scss */
+/* line 219, ../sass/_ddbasic.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
@@ -3415,6 +3416,8 @@ a.form-submit,
 a#edit-cancel, .topbar .search input[type="submit"].form-submit, .search input[type="submit"], .user input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button, .user-login-block input[type="submit"] {
+  font-size: 15px;
+  font-size: 0.9375rem;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -3426,7 +3429,7 @@ a#edit-cancel, .topbar .search input[type="submit"].form-submit, .search input[t
   text-align: center;
   vertical-align: middle;
 }
-/* line 38, ../sass/_ddbasic.buttons.scss */
+/* line 39, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
 #edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus,
 a.form-submit:focus,
@@ -3445,7 +3448,7 @@ a#edit-cancel:active, .topbar .search input[type="submit"].form-submit:active, .
 .pane-ting-object .ding-entity-button:active, .user-login-block input[type="submit"]:active {
   text-decoration: none;
 }
-/* line 44, ../sass/_ddbasic.buttons.scss */
+/* line 45, ../sass/_ddbasic.buttons.scss */
 .disabled.button, .disabled.form-submit,
 .disabled#edit-cancel, .pane-bookmarks .ding-entity-button a.disabled,
 a.disabled.form-submit,
@@ -3465,7 +3468,7 @@ a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-sub
   cursor: default;
 }
 
-/* line 79, ../sass/_ddbasic.buttons.scss */
+/* line 80, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
 #edit-cancel, .pane-bookmarks .ding-entity-button a,
 a.button,
@@ -3481,7 +3484,7 @@ a#edit-cancel,
   border: 0;
   color: white;
 }
-/* line 70, ../sass/_ddbasic.buttons.scss */
+/* line 71, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
 #edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover,
 #edit-cancel:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active,
@@ -3506,7 +3509,7 @@ a#edit-cancel:active,
   background-color: #404040;
 }
 
-/* line 84, ../sass/_ddbasic.buttons.scss */
+/* line 85, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"].form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00b7e7), color-stop(100%, #007a9b));
   background-image: -webkit-linear-gradient(#00b7e7, #007a9b);
@@ -3517,7 +3520,7 @@ a#edit-cancel:active,
   border: 0;
   color: white;
 }
-/* line 70, ../sass/_ddbasic.buttons.scss */
+/* line 71, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"].form-submit:focus, .topbar .search input[type="submit"].form-submit:hover, .topbar .search input[type="submit"].form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00a3ce), color-stop(100%, #006681));
   background-image: -webkit-linear-gradient(#00a3ce, #006681);
@@ -3527,7 +3530,7 @@ a#edit-cancel:active,
   background-color: #007a9b;
 }
 
-/* line 89, ../sass/_ddbasic.buttons.scss */
+/* line 90, ../sass/_ddbasic.buttons.scss */
 .search input[type="submit"], .user input[type="submit"] {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
@@ -3538,7 +3541,7 @@ a#edit-cancel:active,
   border: 0;
   color: white;
 }
-/* line 70, ../sass/_ddbasic.buttons.scss */
+/* line 71, ../sass/_ddbasic.buttons.scss */
 .search input[type="submit"]:focus, .user input[type="submit"]:focus, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .search input[type="submit"]:active, .user input[type="submit"]:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
   background-image: -webkit-linear-gradient(#373737, #111111);
@@ -3548,7 +3551,7 @@ a#edit-cancel:active,
   background-color: #1e1e1e;
 }
 
-/* line 102, ../sass/_ddbasic.buttons.scss */
+/* line 103, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, input[type=submit].form-submit,
 input[type=submit]#edit-cancel,
 button.button,
@@ -3558,7 +3561,7 @@ button#edit-cancel {
 }
 
 @-moz-document url-prefix() {
-  /* line 113, ../sass/_ddbasic.buttons.scss */
+  /* line 114, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -5267,46 +5270,47 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 59, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close {
+  float: right;
   right: 5px;
   padding: 0;
   top: 10px;
   width: auto;
 }
-/* line 65, ../sass/_ddbasic.modal.scss */
+/* line 66, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close .ui-icon {
   text-indent: 0;
   text-transform: capitalize;
 }
-/* line 72, ../sass/_ddbasic.modal.scss */
+/* line 73, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close .ui-icon:hover {
   color: #b4efff;
 }
-/* line 77, ../sass/_ddbasic.modal.scss */
+/* line 78, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close .ui-icon:before {
   font-family: FontAwesome;
   margin-right: 2px;
   margin-bottom: -1px;
 }
-/* line 85, ../sass/_ddbasic.modal.scss */
+/* line 86, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar-close:active {
   color: black;
   text-decoration: none;
 }
-/* line 90, ../sass/_ddbasic.modal.scss */
+/* line 91, ../sass/_ddbasic.modal.scss */
 .ui-dialog .ui-dialog-titlebar-close:hover {
   color: black;
   text-decoration: none;
 }
-/* line 96, ../sass/_ddbasic.modal.scss */
+/* line 97, ../sass/_ddbasic.modal.scss */
 .ui-dialog .form-item {
   margin-bottom: 10px;
 }
-/* line 99, ../sass/_ddbasic.modal.scss */
+/* line 100, ../sass/_ddbasic.modal.scss */
 .ui-dialog .form-item .description {
   color: rgba(255, 255, 255, 0.9);
   margin-top: -10px;
 }
-/* line 107, ../sass/_ddbasic.modal.scss */
+/* line 108, ../sass/_ddbasic.modal.scss */
 .ui-dialog .openid-links {
   display: none;
 }

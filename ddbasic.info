@@ -12,6 +12,7 @@
   stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
+  stylesheets[all][] = css/system.menus.css
   stylesheets[all][] = css/addressfield.css
   stylesheets[all][] = css/jquery.ui.theme.css
 
@@ -19,6 +20,7 @@
 ;----------// JavaScripts
   ; Import javascripts.
   scripts[] = scripts/ddbasic.common.js
+  scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.equalheights.js
 
 
