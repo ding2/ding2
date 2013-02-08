@@ -57,6 +57,7 @@ $modal-border-radius:             12px;
   padding: $default-spacing;
 
   .ui-dialog-titlebar-close {
+    float: right;
     right: $default-spacing / 4;
     padding: 0;
     top: $default-spacing / 2;
