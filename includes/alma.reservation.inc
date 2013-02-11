@@ -44,7 +44,7 @@ function alma_reservation_options($type, $account, $reservables) {
 function alma_reservation_options_validate($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->alma_preferred_branch[$field_language['alma_preferred_branch']][0]['value'];
+  $profile_branch = $profile->field_alma_preferred_branch[$field_language['field_alma_preferred_branch']][0]['value'];
   return ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $profile_branch, $values);
 }
 
@@ -54,10 +54,10 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
 function alma_reservation_options_submit($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->alma_preferred_branch[$field_language['alma_preferred_branch']][0]['value'];
+  $profile_branch = $profile->field_alma_preferred_branch[$field_language['field_alma_preferred_branch']][0]['value'];
   $update = ding_reservation_default_options_branch_submit($type, 'alma_preferred_branch', $profile_branch, $values);
   if (!empty($update['alma_preferred_branch'])) {
-    $profile->alma_preferred_branch[$field_language['alma_preferred_branch']][0]['value'] = $update['alma_preferred_branch'];
+    $profile->field_alma_preferred_branch[$field_language['field_alma_preferred_branch']][0]['value'] = $update['alma_preferred_branch'];
     $profile->save();
   }
 }
