@@ -3577,13 +3577,13 @@ button#edit-cancel {
   margin: 0;
   padding: 0;
 }
-/* line 29, ../sass/_ddbasic.tabs.scss */
+/* line 28, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary {
   margin: 0;
   border: none;
   padding-left: 10px;
 }
-/* line 37, ../sass/_ddbasic.tabs.scss */
+/* line 36, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li,
 #tabs ul.primary li.active,
 #tabs ul.primary li:hover,
@@ -3591,7 +3591,7 @@ button#edit-cancel {
   display: inline-block;
   background: transparent;
 }
-/* line 41, ../sass/_ddbasic.tabs.scss */
+/* line 40, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a,
 #tabs ul.primary li.active a,
 #tabs ul.primary li:hover a,
@@ -3603,28 +3603,30 @@ button#edit-cancel {
   display: block;
   line-height: 31.2px;
   margin: 0;
+  padding-right: 20px;
+  padding-left: 20px;
 }
-/* line 49, ../sass/_ddbasic.tabs.scss */
+/* line 50, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a:hover,
 #tabs ul.primary li.active a:hover,
 #tabs ul.primary li:hover a:hover,
 #tabs ul.primary li.active:hover a:hover {
   color: black;
 }
-/* line 55, ../sass/_ddbasic.tabs.scss */
+/* line 56, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a {
   background: #efefef;
 }
-/* line 59, ../sass/_ddbasic.tabs.scss */
+/* line 60, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a.active {
   background: white;
 }
-/* line 64, ../sass/_ddbasic.tabs.scss */
+/* line 65, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary {
   padding: 10px;
   margin: 0 10px;
 }
-/* line 71, ../sass/_ddbasic.tabs.scss */
+/* line 72, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li,
 #tabs ul.secondary li.active,
 #tabs ul.secondary li:hover,
@@ -3633,7 +3635,7 @@ button#edit-cancel {
   border-right: none;
   padding-right: 0;
 }
-/* line 77, ../sass/_ddbasic.tabs.scss */
+/* line 78, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a,
 #tabs ul.secondary li.active a,
 #tabs ul.secondary li:hover a,
@@ -3644,11 +3646,11 @@ button#edit-cancel {
   display: block;
   padding: 0 10px;
 }
-/* line 85, ../sass/_ddbasic.tabs.scss */
+/* line 86, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a {
   background: white;
 }
-/* line 89, ../sass/_ddbasic.tabs.scss */
+/* line 90, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a.active {
   background: #efefef;
 }
