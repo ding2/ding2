@@ -4912,34 +4912,35 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 87, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
+  min-width: 100%;
   padding: 0;
 }
-/* line 90, ../sass/_ddbasic.carousel.scss */
+/* line 91, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
   min-width: 110px;
   padding: 5px;
 }
 
-/* line 104, ../sass/_ddbasic.carousel.scss */
+/* line 105, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 111, ../sass/_ddbasic.carousel.scss */
+/* line 112, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
 }
-/* line 114, ../sass/_ddbasic.carousel.scss */
+/* line 115, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
   text-decoration: none;
 }
-/* line 119, ../sass/_ddbasic.carousel.scss */
+/* line 120, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active {
   border-color: black;
 }
-/* line 123, ../sass/_ddbasic.carousel.scss */
+/* line 124, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   border-bottom: 8px solid black;
 }
