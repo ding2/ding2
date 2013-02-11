@@ -17,28 +17,26 @@ $search-border-type: solid;
 // -----------------------------------------------------------------------------
 //
 %search-ting-cover {
-  float: left;
+  @extend .icon-camera;
 
+  float: left;
   min-height: 100px;
   position: relative;
   width: 10%;
-  z-index: 1;
 
-  // Insert a background with image missing icon
-  &:after {
-    content: "";
-    background: url("../images/image-missing.png");
-    @include opacity(0.3);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  img {
+    position: relative;
+    z-index: 90;
+  }
+
+  &:before {
+    @include rem('font-size', 74px);
+
+    color: $gray-dark;
+    font-family: $theme-icon-library-font;
+    left: 2px;
     position: absolute;
-    z-index: -1;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top center;
-    min-height: 100px;
+    top: 47px;
   }
 }
 
@@ -442,7 +440,7 @@ input#edit-search-block-form--2.spinner {
 
       .availability-label {
         @extend .text-smallest;
-        
+
         font-weight: normal;
         color: $gray-darker;
       }
