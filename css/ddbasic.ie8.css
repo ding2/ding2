@@ -10,7 +10,14 @@ img {
   padding-bottom: 16px;
 }
 
-/* line 26, ../sass/ddbasic.ie8.scss */
+/* line 25, ../sass/ddbasic.ie8.scss */
+.topbar .search input[type="text"] {
+  min-height: 0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* line 35, ../sass/ddbasic.ie8.scss */
 .user input[type="text"],
 .user input[type="password"] {
   min-height: 0;

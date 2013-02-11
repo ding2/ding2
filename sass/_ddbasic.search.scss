@@ -173,8 +173,10 @@ input#edit-search-block-form--2.spinner {
 
     input[type="text"] {
       @include rem('font-size', $theme-font-size * 1.5);
+      @include box-sizing(border-box);
 
       min-height: 50px;
+      padding-right: 70px;
     }
 
     input[type="submit"].form-submit {
