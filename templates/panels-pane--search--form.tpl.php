@@ -17,7 +17,7 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-  <section class="search  <?php print $classes; ?>" <?php print $id; ?>>
+  <section class="search  <?php print $classes; ?>">
     <div class="search-field-wrapper">
       <?php if ($admin_links): ?>
         <?php print $admin_links; ?>

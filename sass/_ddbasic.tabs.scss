@@ -48,7 +48,9 @@
         padding-left: $default-spacing;
 
         &:hover {
+          background: $gray-lighter;
           color: $black;
+          text-decoration: none;
         }
       }
     }
@@ -63,6 +65,7 @@
   }
 
   ul.secondary {
+    background-color: $white;
     padding: $default-spacing / 2;
     margin: 0 $default-spacing / 2;
 
@@ -73,13 +76,20 @@
       background: transparent;
 
       border-right: none;
+      display: inline-block;
       padding-right: 0;
 
       a {
         @include border-radius($button-border-radius);
 
-        display:block;
+        display: block;
         padding: 0 $default-spacing / 2;
+        
+        &:hover {
+          background: $gray-lighter;
+          color: $black;
+          text-decoration: none;
+        }        
       }
     }
 
