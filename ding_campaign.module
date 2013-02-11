@@ -39,12 +39,26 @@ function ding_campaign_menu() {
     'description' => 'Autocomplete field for campaign rule values.',
     'page callback' => 'ding_campaign_admin_autocomplete',
     'page arguments' => array(2),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('access campaign rules'),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_CALLBACK,
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_perimission().
+ */
+function ding_campaign_permission() {
+  $perm = array();
+
+  $perm['access campaign rules'] = array(
+    'title' => t('Access campaign rules'),
+    'description' => t('Enable access to campaign nodes display rules'),
+  );
+
+  return $perm;
 }
 
 /**
@@ -61,7 +75,7 @@ function ding_campaign_admin_paths() {
  * Implements hook_node_access().
  */
 function ding_campaign_node_access($node) {
-  if (isset($node->type) && $node->type == 'ding_campaign') {
+  if (isset($node->type) && $node->type == 'ding_campaign' && user_access('access campaign rules')) {
     return TRUE;
   }
   return FALSE;
