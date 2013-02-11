@@ -52,43 +52,7 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- 
-        <section class="search  panel-pane pane-block pane-search-form">
-          <div class="search-field-wrapper">
-            <form action="" method="post" id="search-block-form" accept-charset="UTF-8">
-              <div>  
-                <h2 class="element-invisible">Søgefelt</h2>
-                <div class="form-item form-type-textfield form-item-search-block-form">
-                  <label class="element-invisible" for="edit-search-block-form--2">Søg </label>
-                  <span class="field-prefix"><i class="icon-search"></i></span> 
-                  <input aria-haspopup="true" aria-autocomplete="list" role="textbox" autocomplete="off" title="Indtast de ord du ønsker at søge efter." placeholder="Søg på biblioteket" id="edit-search-block-form--2" name="search_block_form" size="15" maxlength="128" class="form-text ui-autocomplete-input" type="text">
-                </div>
-                <div class="form-actions form-wrapper" id="edit-actions">
-                  <input id="edit-submit--2" name="op" value="Søg" class="form-submit" type="submit">
-                </div>
-                <input name="form_build_id" value="form-yAZr9geg4R5mOHjhi6DIf76mPZ6bQPERlUfBGoe68AQ" type="hidden">
-                <input name="form_id" value="search_block_form" type="hidden">
-                <input id="controls_search_sort" name="sort" value="" type="hidden">
-                <input id="controls_search_size" name="size" value="" type="hidden">
-              </div>
-            </form>
-          </div>
-        </section>
-
-        <div class="panel-pane pane-block pane-ding-user-frontend-ding-user-ajax-login user">
-          <div class="pane-content">
-            <form id="ding-user-ajax-login-form" action="/cookies" method="post" accept-charset="UTF-8">
-              <div>
-                <input id="edit-submit--3" name="op" value="Log ind" class="form-submit ajax-processed" type="submit"><input name="form_build_id" value="form-_MLBaYHZ3GUWcto31dfDZQKillh1gJKB9G4tCKDwxe8" type="hidden">
-                <input name="form_id" value="ding_user_comment_forbidden_form" type="hidden">
-              </div>
-            </form>
-          </div>
-        </div>
-        -->
-         
+        </div>         
       </div>
 
     </section>
@@ -139,21 +103,6 @@
         </div>
       </div>
     </div>
-    
-    <footer class="footer">
-      <div class="grid-inner">
-      
-        <div class="panel-pane pane-block pane-menu-menu-footer-menu-1 attachment-first">
-          <h2 class="pane-title"></h2>
-          <div class="pane-content">
-            <ul class="menu">
-              <!-- <li class="first leaf"></li> -->
-            </ul>
-          </div>
-        </div>
-                
-      </div>
-    </footer>
     
   </div> <!-- /page -->
 
