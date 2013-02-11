@@ -2926,25 +2926,25 @@ body {
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-webkit-selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-moz-selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-o-selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 89, ../sass/_ddbasic.typography.scss */
