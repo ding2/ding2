@@ -138,7 +138,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
   $element = array();
   $online_types = variable_get('ting_online_types', _ting_default_online_types());
   $lib_materials_type = 'bibliotekets materialer';
-  
+
   foreach ($items as $delta => $item) {
     $attached = array(
       'js' => array(
@@ -264,7 +264,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           }
           
           // If item is of type 'library materials' (where we can lookup holding data), map the HTML id to the list of entity ids.
-          if (drupal_strtolower($ac_source[0]) == $lib_materials_type) {
+          if (drupal_strtolower($ac_source[0]) == $lib_materials_type && !$available_online) {
             $id_mapping[$id] = $ids;
           }
         }
