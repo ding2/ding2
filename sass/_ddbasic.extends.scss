@@ -118,10 +118,11 @@
 //
 %availability {
   color: #fff;
-  padding: $default-spacing / 4;
 
   a {
     color: #fff;
+    display: block;
+    padding: $default-spacing / 4 $default-spacing / 1.5;
 
     &:hover {
       text-decoration: none;
@@ -161,6 +162,6 @@
 
 
 // -----------------------------------------------------------------------------
-// MEDIAQUERIES
+// Mediaqueries
 // -----------------------------------------------------------------------------
 //
