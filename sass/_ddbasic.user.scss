@@ -118,36 +118,6 @@
 
 }
 
-.topbar {
-  .user {
-    @extend .icon-user;
-
-    position: absolute;
-    right: 140px;
-    top: 17px;
-
-    &:before {
-      @include rem('font-size', $theme-font-size * 1.3);
-
-      color: $white;
-      font-family: $theme-icon-library-font;
-      line-height: 100%;
-
-      left: 20px;
-      position: absolute;
-      top: 16px;
-      z-index: 99;
-    }
-
-    input[type="submit"] {
-      @include rem('font-size', $theme-font-size * 1.4);
-
-      min-height: 50px;
-      padding-left: 45px;
-    }
-  }
-}
-
 .user-login-block {
   @extend %block;
 
@@ -221,50 +191,70 @@
 // User menu
 // **
 //
-.user-name,
-.user-menu-loans,
-.user-menu {
-  @include zen-grid-item($grid-50, 1, right);
-  @extend %header-sections;
-  @extend %user-menu;
-}
+.header-wrapper {
+  .user-name,
+  .user-menu-loans,
+  .user-menu {
+    @include zen-grid-item($grid-50, 1, right);
+    @extend %header-sections;
+    @extend %user-menu;
+  }
 
-.user-menu-loans {
-  margin-top: 90px;
-}
+  .user-menu-loans {
+    margin-top: 90px;
+  }
 
-.user-menu {
-  margin-top: 120px;
-}
+  .user-menu {
+    margin-top: 120px;
+  }
 
-.user-name {
-  color: transparentize($black, .5);
-  margin-top: 55px;
-  text-align: right;
+  .user-name {
+    color: transparentize($black, .5);
+    margin-top: 55px;
+    text-align: right;
 
-  .user-name-title {
-    @include rem('font-size', $theme-font-size * 2.25);
+    .user-name-title {
+      @include rem('font-size', $theme-font-size * 2.25);
 
-    color: $black;
+      color: $black;
+    }
   }
 }
-
 
 // **
 // User menu compact
 // **
 //
 .topbar {
-  .user-name,
-  .user-menu-loans,
-  .user-menu {
-    @include zen-grid-item($grid-25, 1, right);
+  .user {
+    @extend .icon-user;
 
-    margin-bottom: 0;
+    &:before {
+      @include rem('font-size', $theme-font-size * 1.3);
+
+      color: $white;
+      font-family: $theme-icon-library-font;
+      line-height: 100%;
+
+      left: 20px;
+      position: absolute;
+      top: 16px;
+      z-index: 99;
+    }
+
+    input[type="submit"] {
+      @include rem('font-size', $theme-font-size * 1.4);
+
+      min-height: 50px;
+      padding-left: 45px;
+    }
   }
 
   .user-name {
+    float: right;
     margin-top: 16px;
+    margin-right: $default-spacing / 2;
+    max-width: 325px;
 
     .user-name-title {
       @include rem('font-size', $theme-font-size * 1.5);
@@ -275,8 +265,11 @@
 
   .user-menu {
     @extend %link-inverted;
+    @extend %user-menu;
 
-    margin-top: 40px;
+    position: absolute;
+    right: 10px;
+    top: 40px;
   }
 }
 

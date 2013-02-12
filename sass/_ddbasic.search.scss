@@ -161,13 +161,10 @@ input#edit-search-block-form--2.spinner {
 
 .topbar {
   .search {
-    @include zen-grid-item($grid-33, 3, right);
     @extend %search;
 
+    float: right;
     margin-top: 17px;
-    margin-right: 170px;
-    position: absolute;
-    right: 160px;
 
     .search-field-wrapper {
       min-width: 558px;
