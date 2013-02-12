@@ -51,8 +51,11 @@ input#edit-search-block-form--2.spinner {
 
 // Override Drupal system style
 .pane-ding-facetbrowser input.form-checkbox {
-  vertical-align: bottom;
+  margin-top: 4px;
+  margin-right: 8px;
+  vertical-align: baseline;
 }
+
 .pane-ding-facetbrowser label.option {
   font-weight: inherit;
 }
