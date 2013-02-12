@@ -264,6 +264,7 @@ input#edit-search-block-form--2.spinner {
   // Expand facets link.
   .expand {
     margin-right: $default-spacing / 2;
+    margin-left: $default-spacing / 4;
 
     &:before {
       font-family: "FontAwesome";
@@ -277,14 +278,12 @@ input#edit-search-block-form--2.spinner {
 
     display: block;
     float: left;
-    margin-top: $default-spacing;
   }
   .expand-less {
     @extend .icon-minus-sign;
 
     display: block;
     float: left;
-    margin-top: $default-spacing;
   }
 
   // Group for selected facets.
