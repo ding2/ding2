@@ -535,6 +535,7 @@ input#edit-search-block-form--2.spinner {
             .availability-status {
               &:before {
                 content: " - ";
+                margin-left: 5px;
               }
             }
           }
