@@ -37,12 +37,13 @@
 
 %user-menu {
   ul {
-    @extend %navigation;
 
     margin-top: $default-spacing / 3;
     text-align: right;
 
     li {
+      display: inline-block;
+      
       a {
         color: $white;
         margin-right: $default-spacing / 4;
@@ -112,7 +113,7 @@
       padding-left: 18px;
       position: absolute;
     }
-  }  
+  }
 }
 
 
@@ -144,8 +145,6 @@
 
     .user-name-title {
       @include rem('font-size', $theme-font-size * 2.25);
-
-      color: $black;
     }
   }
 }
@@ -157,7 +156,7 @@
 .topbar {
   .user {
     @extend .icon-user;
-    
+
     position: absolute;
     right: 10px;
     top: 17px;
