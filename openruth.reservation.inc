@@ -133,7 +133,7 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
   $interest_period = $profile->field_openruth_interest_period[$field_language['field_openruth_interest_period']][0]['value'];
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
-  if (!empty($profile_branch) && !empty($interest_period)) {
+  if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
     return array(
       'openruth_preferred_branch' => $profile_branch,
       'openruth_interest_period' => $interest_period,
@@ -210,7 +210,7 @@ function openruth_reservation_update($account, $res_ids, $options) {
   foreach ($res_ids as $res_id) {
     if ( $res_id ) {
       $branch = !empty($options['openruth_preferred_branch']) ? $options['openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
-      $expiry = !empty($options['expiry']) ? date('Y-m-d', REQUEST_TIME + ($options['expiry'] * 24 * 60 * 60)) : $reservations[$res_id]->expiry;
+      $expiry = !empty($options['openruth_interest_period']) ? date('Y-m-d', REQUEST_TIME + ($options['openruth_interest_period'] * 24 * 60 * 60)) : $reservations[$res_id]->expiry;
       $res = openruth_client_invoke('update_order', $res_id, $branch, $expiry);
     }
   }

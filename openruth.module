@@ -136,6 +136,13 @@ function openruth_settings_form() {
     '#description' => t('The OpenRuth agency id of the library.'),
   );
 
+  $form['openruth']['openruth_enable_reservation_deletion'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable reservation deletion'),
+    '#default_value' => variable_get('openruth_enable_reservation_deletion', FALSE),
+    '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
+  );
+
   $form['openruth']['openruth_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
