@@ -3050,7 +3050,77 @@ h6 {
   font-size: 0.9375rem;
 }
 
-/* line 141, ../sass/_ddbasic.typography.scss */
+/* line 139, ../sass/_ddbasic.typography.scss */
+strong, em strong, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+}
+
+/* line 145, ../sass/_ddbasic.typography.scss */
+em {
+  font-family: "SourceSansProLightItalic";
+  font-weight: normal;
+}
+/* line 149, ../sass/_ddbasic.typography.scss */
+em strong, em .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close em .ui-icon {
+  font-family: "SourceSansProSemiboldItalic";
+}
+
+/* line 162, ../sass/_ddbasic.typography.scss */
+a:link {
+  color: #00b7e7;
+  text-decoration: none;
+}
+/* line 167, ../sass/_ddbasic.typography.scss */
+a:visited {
+  color: #007a9b;
+  text-decoration: none;
+}
+/* line 172, ../sass/_ddbasic.typography.scss */
+a:hover {
+  color: #006681;
+  text-decoration: underline;
+}
+/* line 176, ../sass/_ddbasic.typography.scss */
+a:hover i[class^="icon-"] {
+  text-decoration: none;
+}
+/* line 181, ../sass/_ddbasic.typography.scss */
+a:focus {
+  color: #006681;
+}
+
+/* line 195, ../sass/_ddbasic.typography.scss */
+.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+}
+
+/* line 199, ../sass/_ddbasic.typography.scss */
+.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
+  font-size: 18.75px;
+  font-size: 1.17188rem;
+}
+
+/* line 203, ../sass/_ddbasic.typography.scss */
+.text-large {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+}
+
+/* line 207, ../sass/_ddbasic.typography.scss */
+.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .ui-dialog-titlebar .form-item .description {
+  font-size: 13.5px;
+  font-size: 0.84375rem;
+}
+
+/* line 211, ../sass/_ddbasic.typography.scss */
+.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
+  font-size: 12px;
+  font-size: 0.75rem;
+}
+
+/* line 28, ../sass/_ddbasic.forms.scss */
 input,
 textarea,
 select {
@@ -3058,77 +3128,12 @@ select {
   letter-spacing: 1px;
 }
 
-/* line 147, ../sass/_ddbasic.typography.scss */
-strong, em strong, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
+/* line 33, ../sass/_ddbasic.forms.scss */
+select {
+  padding: 5px;
 }
 
-/* line 153, ../sass/_ddbasic.typography.scss */
-em {
-  font-family: "SourceSansProLightItalic";
-  font-weight: normal;
-}
-/* line 157, ../sass/_ddbasic.typography.scss */
-em strong, em .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close em .ui-icon {
-  font-family: "SourceSansProSemiboldItalic";
-}
-
-/* line 170, ../sass/_ddbasic.typography.scss */
-a:link {
-  color: #00b7e7;
-  text-decoration: none;
-}
-/* line 175, ../sass/_ddbasic.typography.scss */
-a:visited {
-  color: #007a9b;
-  text-decoration: none;
-}
-/* line 180, ../sass/_ddbasic.typography.scss */
-a:hover {
-  color: #006681;
-  text-decoration: underline;
-}
-/* line 184, ../sass/_ddbasic.typography.scss */
-a:hover i[class^="icon-"] {
-  text-decoration: none;
-}
-/* line 189, ../sass/_ddbasic.typography.scss */
-a:focus {
-  color: #006681;
-}
-
-/* line 203, ../sass/_ddbasic.typography.scss */
-.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
-}
-
-/* line 207, ../sass/_ddbasic.typography.scss */
-.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-}
-
-/* line 211, ../sass/_ddbasic.typography.scss */
-.text-large {
-  font-size: 16.5px;
-  font-size: 1.03125rem;
-}
-
-/* line 215, ../sass/_ddbasic.typography.scss */
-.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .ui-dialog-titlebar .form-item .description {
-  font-size: 13.5px;
-  font-size: 0.84375rem;
-}
-
-/* line 219, ../sass/_ddbasic.typography.scss */
-.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
-  font-size: 12px;
-  font-size: 0.75rem;
-}
-
-/* line 36, ../sass/_ddbasic.forms.scss */
+/* line 48, ../sass/_ddbasic.forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -3165,7 +3170,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 52, ../sass/_ddbasic.forms.scss */
+/* line 64, ../sass/_ddbasic.forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -3181,7 +3186,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 58, ../sass/_ddbasic.forms.scss */
+/* line 70, ../sass/_ddbasic.forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],

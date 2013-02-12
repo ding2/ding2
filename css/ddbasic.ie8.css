@@ -24,3 +24,8 @@ img {
   padding-top: 20px;
   padding-bottom: 19px;
 }
+
+/* line 44, ../sass/ddbasic.ie8.scss */
+.pane-ding-facetbrowser .expand {
+  margin-left: 2px;
+}
