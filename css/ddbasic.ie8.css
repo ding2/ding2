@@ -26,6 +26,11 @@ img {
 }
 
 /* line 44, ../sass/ddbasic.ie8.scss */
+.topbar .user input[type="submit"] {
+  padding-left: 20px;
+}
+
+/* line 51, ../sass/ddbasic.ie8.scss */
 .pane-ding-facetbrowser .expand {
   margin-left: 2px;
 }
