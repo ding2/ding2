@@ -21,7 +21,13 @@
 // -----------------------------------------------------------------------------
 //
 .comment-wrapper {
-  @include rem('margin-top', $default-spacing * 1.5);
+  border-top: 1px solid $gray-light;
+  margin-top: $default-spacing;
+  padding-top: $default-spacing;
+}
+
+.comment-title {
+  margin-bottom: $default-spacing;
 }
 
 .comment-form {

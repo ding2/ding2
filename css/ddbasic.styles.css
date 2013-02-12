@@ -5868,43 +5868,49 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 23, ../sass/_ddbasic.comment.scss */
 .comment-wrapper {
-  margin-top: 30px;
-  margin-top: 1.875rem;
+  border-top: 1px solid #efefef;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 
-/* line 36, ../sass/_ddbasic.comment.scss */
+/* line 29, ../sass/_ddbasic.comment.scss */
+.comment-title {
+  margin-bottom: 20px;
+}
+
+/* line 42, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form .form-submit {
   float: left;
 }
-/* line 40, ../sass/_ddbasic.comment.scss */
+/* line 46, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form span {
   font-family: "SourceSansProLightItalic";
   line-height: 35px;
   margin-left: 5px;
 }
 
-/* line 47, ../sass/_ddbasic.comment.scss */
+/* line 53, ../sass/_ddbasic.comment.scss */
 .filter-guidelines {
   padding-top: 0;
   padding-left: 0;
 }
-/* line 51, ../sass/_ddbasic.comment.scss */
+/* line 57, ../sass/_ddbasic.comment.scss */
 .filter-guidelines .tips {
   margin-left: 0;
 }
 
-/* line 56, ../sass/_ddbasic.comment.scss */
+/* line 62, ../sass/_ddbasic.comment.scss */
 .comment {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 61, ../sass/_ddbasic.comment.scss */
+/* line 67, ../sass/_ddbasic.comment.scss */
 .comment .new {
   float: right;
 }
 
-/* line 68, ../sass/_ddbasic.comment.scss */
+/* line 74, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form {
   border-top: 1px solid #efefef;
   padding-top: 20px;
