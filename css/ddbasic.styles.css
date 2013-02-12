@@ -468,7 +468,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 281, ../sass/_ddbasic.font.awesome.scss */
-.icon-remove:before, .ui-dialog .ui-dialog-titlebar-close .ui-icon:before {
+.icon-remove:before, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:before {
   content: "\f00d";
 }
 
@@ -3058,7 +3058,7 @@ select {
 }
 
 /* line 147, ../sass/_ddbasic.typography.scss */
-strong, em strong, .ui-dialog .ui-dialog-titlebar-close .ui-icon {
+strong, em strong, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
@@ -3069,7 +3069,7 @@ em {
   font-weight: normal;
 }
 /* line 157, ../sass/_ddbasic.typography.scss */
-em strong, em .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close em .ui-icon {
+em strong, em .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close em .ui-icon {
   font-family: "SourceSansProSemiboldItalic";
 }
 
@@ -3116,7 +3116,7 @@ a:focus {
 }
 
 /* line 215, ../sass/_ddbasic.typography.scss */
-.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
+.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .ui-dialog-titlebar .form-item .description {
   font-size: 13.5px;
   font-size: 0.84375rem;
 }
@@ -4524,7 +4524,7 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 20px;
 }
 /* line 495, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon {
+.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon {
   font-weight: inherit;
 }
 /* line 499, ../sass/_ddbasic.search.scss */
@@ -4630,7 +4630,7 @@ input#edit-search-block-form--2.spinner {
   margin-top: 0;
 }
 /* line 654, ../sass/_ddbasic.search.scss */
-.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon {
+.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon {
   font-weight: inherit;
 }
 /* line 658, ../sass/_ddbasic.search.scss */
@@ -5287,50 +5287,50 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .ui-dialog {
   padding: 20px;
 }
-/* line 59, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close {
+/* line 60, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
   float: right;
   right: 5px;
   padding: 0;
   top: 10px;
   width: auto;
 }
-/* line 66, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon {
+/* line 67, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
   text-indent: 0;
   text-transform: capitalize;
 }
-/* line 73, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon:hover {
+/* line 74, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:hover {
   color: #b4efff;
 }
-/* line 78, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon:before {
+/* line 79, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:before {
   font-family: FontAwesome;
   margin-right: 2px;
   margin-bottom: -1px;
 }
-/* line 86, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar-close:active {
+/* line 87, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:active {
   color: black;
   text-decoration: none;
 }
-/* line 91, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close:hover {
+/* line 92, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:hover {
   color: black;
   text-decoration: none;
 }
-/* line 97, ../sass/_ddbasic.modal.scss */
-.ui-dialog .form-item {
+/* line 98, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .form-item {
   margin-bottom: 10px;
 }
-/* line 100, ../sass/_ddbasic.modal.scss */
-.ui-dialog .form-item .description {
+/* line 101, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .form-item .description {
   color: rgba(255, 255, 255, 0.9);
   margin-top: -10px;
 }
-/* line 108, ../sass/_ddbasic.modal.scss */
-.ui-dialog .openid-links {
+/* line 109, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .openid-links {
   display: none;
 }
 
