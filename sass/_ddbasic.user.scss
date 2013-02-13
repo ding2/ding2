@@ -373,7 +373,13 @@
   padding-bottom: $default-spacing;
 }
 
+#ding-bookmark-remove-form {
+  .form-submit {
+    @extend %button-red;
+  }
+}
+
 // =============================================================================
-// MEDIAQUERIES
+// Mediaqueries
 // =============================================================================
 //
