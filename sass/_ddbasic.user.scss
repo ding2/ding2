@@ -43,7 +43,7 @@
 
     li {
       display: inline-block;
-      
+
       a {
         color: $white;
         margin-right: $default-spacing / 4;
@@ -354,9 +354,15 @@
   .ding-entity-button {
     float: left;
     margin-right: $default-spacing / 2;
-    
+
     a {
-      @extend .button;
+      @extend %button-red;
+    }
+
+    &.ding-bookmark-reservation-button {
+      a {
+        @extend %button-blue;
+      }
     }
   }
 }

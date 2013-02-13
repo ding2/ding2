@@ -51,9 +51,10 @@ $button-padding:                  8px 14px;
 }
 
 
-//**
-// Mixin for creating af gradient button
-//**
+// -----------------------------------------------------------------------------
+// Mixins
+// -----------------------------------------------------------------------------
+//
 @mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
   @include background-image(linear-gradient($bg-start-color, $bg-end-color));
   @extend %button;
@@ -91,6 +92,10 @@ a.button {
   @include create-gradient-button($white, #444, darken(#444, 15%));
 }
 
+// Red button
+%button-red {
+  @include create-gradient-button($white, #bf3600, darken(#bf3600, 15%));
+}
 
 // -----------------------------------------------------------------------------
 // Default styling
