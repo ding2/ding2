@@ -5713,7 +5713,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 361, ../sass/_ddbasic.user.scss */
+/* line 354, ../sass/_ddbasic.user.scss */
+.pane-bookmarks .ding-entity-button {
+  float: left;
+  margin-right: 10px;
+}
+
+/* line 364, ../sass/_ddbasic.user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;

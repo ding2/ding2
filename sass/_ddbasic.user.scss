@@ -352,6 +352,9 @@
 
 .pane-bookmarks {
   .ding-entity-button {
+    float: left;
+    margin-right: $default-spacing / 2;
+    
     a {
       @extend .button;
     }
