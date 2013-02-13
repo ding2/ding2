@@ -29,6 +29,13 @@ img {
   }
 }
 
+.not-logged-in {
+  .topbar {
+    .search {
+      margin-right: 111px;
+    }
+  }
+}
 
 .user {
   input[type="text"],

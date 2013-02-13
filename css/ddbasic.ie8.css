@@ -17,7 +17,12 @@ img {
   padding-bottom: 12px;
 }
 
-/* line 35, ../sass/ddbasic.ie8.scss */
+/* line 34, ../sass/ddbasic.ie8.scss */
+.not-logged-in .topbar .search {
+  margin-right: 111px;
+}
+
+/* line 42, ../sass/ddbasic.ie8.scss */
 .user input[type="text"],
 .user input[type="password"] {
   min-height: 0;
@@ -25,12 +30,12 @@ img {
   padding-bottom: 19px;
 }
 
-/* line 44, ../sass/ddbasic.ie8.scss */
+/* line 51, ../sass/ddbasic.ie8.scss */
 .topbar .user input[type="submit"] {
   padding-left: 20px;
 }
 
-/* line 51, ../sass/ddbasic.ie8.scss */
+/* line 58, ../sass/ddbasic.ie8.scss */
 .pane-ding-facetbrowser .expand {
   margin-left: 2px;
 }
