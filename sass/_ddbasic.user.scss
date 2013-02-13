@@ -342,6 +342,19 @@
     display: inline;
     margin-right: $default-spacing;
   }
+
+  .delete-reservation,
+  .delete-reservations {
+    .form-submit {
+      @extend %button-red;
+    }
+  }
+  
+  .update-reservations {
+    .form-submit {
+      @extend %button-blue;
+    }
+  }
 }
 
 .pane-bookmarks {
