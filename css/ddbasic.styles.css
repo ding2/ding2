@@ -2809,6 +2809,19 @@ ul.icons li [class*=" icon-"] {
   padding-left: 25%;
 }
 
+/* line 102, ../sass/_ddbasic.extends.scss */
+.block i[class^="icon-"], .footer-block i[class^="icon-"], .block-opening-hours i[class^="icon-"] {
+  float: left;
+  margin-right: 5px;
+  text-decoration: none;
+}
+
+/* line 109, ../sass/_ddbasic.extends.scss */
+.block .read-more, .footer-block .read-more, .block-opening-hours .read-more {
+  display: block;
+  margin-top: 20px;
+}
+
 /* line 119, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   color: #fff;
@@ -3122,6 +3135,51 @@ a:focus {
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-size: 12px;
   font-size: 0.75rem;
+}
+
+/* line 16, ../sass/_ddbasic.blocks.scss */
+.block, .footer-block, .block-opening-hours {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+}
+/* line 20, ../sass/_ddbasic.blocks.scss */
+.block select, .footer-block select, .block-opening-hours select {
+  width: 100%;
+}
+/* line 28, ../sass/_ddbasic.blocks.scss */
+.block .block-content, .footer-block .block-content, .block-opening-hours .block-content {
+  padding: 20px;
+}
+
+/* line 42, ../sass/_ddbasic.blocks.scss */
+.block {
+  -webkit-box-shadow: inset 0 0 15px #007fff;
+  -moz-box-shadow: inset 0 0 15px #007fff;
+  box-shadow: inset 0 0 15px #007fff;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  background-color: #3399ff;
+  background-color: rgba(51, 153, 255, 0.9);
+  color: white;
+}
+
+/* line 52, ../sass/_ddbasic.blocks.scss */
+.block-title, .pane-title, .library-title, .pane-loans h2,
+.pane-reservations h2,
+.pane-bookmarks h2 {
+  margin-bottom: 13.33333px;
+  margin-bottom: 0.83333rem;
+  line-height: 100%;
 }
 
 /* line 28, ../sass/_ddbasic.forms.scss */
@@ -4089,7 +4147,7 @@ button#edit-cancel {
   color: white;
 }
 /* line 38, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block .block-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .block-title, .footer-block .pane-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
 .pane-reservations .footer-block h2,
 .footer-block .pane-bookmarks h2,
@@ -4115,17 +4173,17 @@ ul li.leaf {
   list-style: none;
 }
 
-/* line 33, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 36, ../sass/_ddbasic.overrides.drupal.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 46, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 49, ../sass/_ddbasic.overrides.drupal.scss */
 .feed-icon img {
   max-width: 16px;
 }
 
-/* line 53, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 56, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4139,7 +4197,7 @@ ul li.leaf {
   text-align: center;
 }
 
-/* line 65, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 68, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress .throbber {
   background: none !important;
   color: #000;
@@ -4152,17 +4210,17 @@ ul li.leaf {
   width: 50px;
 }
 
-/* line 81, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 84, ../sass/_ddbasic.overrides.drupal.scss */
 thead th {
   background-color: #dadada;
 }
 
-/* line 86, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 89, ../sass/_ddbasic.overrides.drupal.scss */
 tr.even {
   background-color: #efefef;
 }
 
-/* line 90, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 93, ../sass/_ddbasic.overrides.drupal.scss */
 tr.odd {
   background-color: #e4e4e4;
 }

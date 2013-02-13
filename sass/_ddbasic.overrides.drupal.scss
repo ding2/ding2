@@ -25,6 +25,9 @@ ul li.leaf {
   list-style: none;
 }
 
+.pane-title {
+  @extend .block-title;
+}
 
 // **
 // Drupal specific buttons. Extends from _ddbasic.buttons.scss
