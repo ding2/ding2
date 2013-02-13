@@ -30,6 +30,12 @@ function ding_frontend_field_formatter_info() {
         'datetime',
       )
     ),
+    'calendar_header' => array(
+      'label' => t('Calendar header'),
+      'field types' => array(
+        'datetime',
+      )
+    ),
   );
 }
 
@@ -58,6 +64,24 @@ function ding_frontend_field_formatter_view($entity_type, $entity, $field, $inst
           '#markup' => theme('calendar_page', $vars),
         );
         break;
+      case 'calendar_header':
+        $date = new DateObject(
+          $item['value'],
+          $item['timezone_db'],
+          date_type_format($item['date_type'])
+        );
+        $timestamp = $date->format(DATE_FORMAT_UNIX);
+        $vars = array(
+          'day' => format_date($timestamp, 'custom', 'j', $timezone),
+          'month' => format_date($timestamp, 'custom', 'F', $timezone),
+          'weekday' => format_date($timestamp, 'custom', 'l', $timezone),
+          'year' => format_date($timestamp, 'custom', 'Y', $timezone),
+          'today' => date('j.F.l') == date('j.F.l', $timestamp),
+        );
+        $element[$delta] = array(
+          '#markup' => theme('calendar_header', $vars),
+        );
+        break;
     }
   }
 
@@ -72,6 +96,10 @@ function ding_frontend_theme() {
     'calendar_page' => array(
       'template' => 'calendar-page',
       'variables' => array('day' => '', 'month' => '', 'weekday' => '', '' => FALSE),
+    ),
+    'calendar_header' => array(
+      'template' => 'calendar-header',
+      'variables' => array('day' => '', 'month' => '', 'weekday' => '', 'year' => '', '' => FALSE),
     ),
   );
 }
