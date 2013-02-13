@@ -5812,6 +5812,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 364, ../sass/_ddbasic.user.scss */
+.pane-reservations {
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+/* line 370, ../sass/_ddbasic.user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;

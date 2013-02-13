@@ -361,6 +361,12 @@
   }
 }
 
+.pane-reservations {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $default-spacing;
+  padding-bottom: $default-spacing;
+}
+
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid $gray-light;
   margin-bottom: $default-spacing;
