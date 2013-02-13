@@ -103,7 +103,7 @@
     input[type="submit"] {
       @include rem('font-size', $theme-font-size * 1.7);
       @include border-radius(12px);
-      @extend %button-black;
+      @extend %button-default;
 
       display: inline;
       min-height: 60px;
@@ -333,7 +333,7 @@
 
   .renew-loan-button {
     .form-submit {
-      @extend %button-blue;
+      @extend %button-action;
     }
   }
 
@@ -346,13 +346,13 @@
   .delete-reservation,
   .delete-reservations {
     .form-submit {
-      @extend %button-red;
+      @extend %button-danger;
     }
   }
   
   .update-reservations {
     .form-submit {
-      @extend %button-blue;
+      @extend %button-action;
     }
   }
 }
@@ -363,12 +363,12 @@
     margin-right: $default-spacing / 2;
 
     a {
-      @extend %button-red;
+      @extend %button-danger;
     }
 
     &.ding-bookmark-reservation-button {
       a {
-        @extend %button-blue;
+        @extend %button-action;
       }
     }
   }
@@ -388,7 +388,7 @@
 
 #ding-bookmark-remove-form {
   .form-submit {
-    @extend %button-red;
+    @extend %button-danger;
   }
 }
 

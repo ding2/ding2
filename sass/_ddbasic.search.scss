@@ -134,7 +134,7 @@ input#edit-search-block-form--2.spinner {
 
   input[type="submit"] {
     @include rem('font-size', $theme-font-size * 1.7);
-    @extend %button-black;
+    @extend %button-default;
 
     min-height: 60px;
     position: absolute;
@@ -188,7 +188,7 @@ input#edit-search-block-form--2.spinner {
 
     input[type="submit"].form-submit {
       @include rem('font-size', $theme-font-size * 1.4);
-      @extend %button-blue;
+      @extend %button-theme;
 
       min-height: 50px;
       padding: 0 18px;

@@ -3509,16 +3509,18 @@ table tbody tr:hover th {
   text-decoration: none;
 }
 
-/* line 24, ../sass/_ddbasic.buttons.scss */
+/* line 32, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
 #edit-cancel,
 a.button,
 a.form-submit,
-a#edit-cancel, .topbar .search input[type="submit"].form-submit, .pane-loans .renew-loan-button .form-submit,
+a#edit-cancel,
+.search input[type="submit"],
+.header-wrapper .user input[type="submit"], .topbar .search input[type="submit"].form-submit, .pane-loans .renew-loan-button .form-submit,
 .pane-reservations .renew-loan-button .form-submit,
 .pane-bookmarks .renew-loan-button .form-submit, .pane-loans .update-reservations .form-submit,
 .pane-reservations .update-reservations .form-submit,
-.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .search input[type="submit"], .header-wrapper .user input[type="submit"], .pane-loans .delete-reservation .form-submit,
+.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-loans .delete-reservation .form-submit,
 .pane-loans .delete-reservations .form-submit,
 .pane-reservations .delete-reservation .form-submit,
 .pane-reservations .delete-reservations .form-submit,
@@ -3539,15 +3541,17 @@ a#edit-cancel, .topbar .search input[type="submit"].form-submit, .pane-loans .re
   text-align: center;
   vertical-align: middle;
 }
-/* line 39, ../sass/_ddbasic.buttons.scss */
+/* line 47, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
 #edit-cancel:focus,
 a.form-submit:focus,
-a#edit-cancel:focus, .topbar .search input[type="submit"].form-submit:focus, .pane-loans .renew-loan-button .form-submit:focus,
+a#edit-cancel:focus,
+.search input[type="submit"]:focus,
+.header-wrapper .user input[type="submit"]:focus, .topbar .search input[type="submit"].form-submit:focus, .pane-loans .renew-loan-button .form-submit:focus,
 .pane-reservations .renew-loan-button .form-submit:focus,
 .pane-bookmarks .renew-loan-button .form-submit:focus, .pane-loans .update-reservations .form-submit:focus,
 .pane-reservations .update-reservations .form-submit:focus,
-.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .search input[type="submit"]:focus, .header-wrapper .user input[type="submit"]:focus, .pane-loans .delete-reservation .form-submit:focus,
+.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-loans .delete-reservation .form-submit:focus,
 .pane-loans .delete-reservations .form-submit:focus,
 .pane-reservations .delete-reservation .form-submit:focus,
 .pane-reservations .delete-reservations .form-submit:focus,
@@ -3557,11 +3561,13 @@ a#edit-cancel:focus, .topbar .search input[type="submit"].form-submit:focus, .pa
 .pane-ting-object .ding-entity-button:focus, .button:hover, .form-submit:hover,
 #edit-cancel:hover,
 a.form-submit:hover,
-a#edit-cancel:hover, .topbar .search input[type="submit"].form-submit:hover, .pane-loans .renew-loan-button .form-submit:hover,
+a#edit-cancel:hover,
+.search input[type="submit"]:hover,
+.header-wrapper .user input[type="submit"]:hover, .topbar .search input[type="submit"].form-submit:hover, .pane-loans .renew-loan-button .form-submit:hover,
 .pane-reservations .renew-loan-button .form-submit:hover,
 .pane-bookmarks .renew-loan-button .form-submit:hover, .pane-loans .update-reservations .form-submit:hover,
 .pane-reservations .update-reservations .form-submit:hover,
-.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .search input[type="submit"]:hover, .header-wrapper .user input[type="submit"]:hover, .pane-loans .delete-reservation .form-submit:hover,
+.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-loans .delete-reservation .form-submit:hover,
 .pane-loans .delete-reservations .form-submit:hover,
 .pane-reservations .delete-reservation .form-submit:hover,
 .pane-reservations .delete-reservations .form-submit:hover,
@@ -3571,11 +3577,13 @@ a#edit-cancel:hover, .topbar .search input[type="submit"].form-submit:hover, .pa
 .pane-ting-object .ding-entity-button:hover, .button:active, .form-submit:active,
 #edit-cancel:active,
 a.form-submit:active,
-a#edit-cancel:active, .topbar .search input[type="submit"].form-submit:active, .pane-loans .renew-loan-button .form-submit:active,
+a#edit-cancel:active,
+.search input[type="submit"]:active,
+.header-wrapper .user input[type="submit"]:active, .topbar .search input[type="submit"].form-submit:active, .pane-loans .renew-loan-button .form-submit:active,
 .pane-reservations .renew-loan-button .form-submit:active,
 .pane-bookmarks .renew-loan-button .form-submit:active, .pane-loans .update-reservations .form-submit:active,
 .pane-reservations .update-reservations .form-submit:active,
-.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .search input[type="submit"]:active, .header-wrapper .user input[type="submit"]:active, .pane-loans .delete-reservation .form-submit:active,
+.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-loans .delete-reservation .form-submit:active,
 .pane-loans .delete-reservations .form-submit:active,
 .pane-reservations .delete-reservation .form-submit:active,
 .pane-reservations .delete-reservations .form-submit:active,
@@ -3585,15 +3593,17 @@ a#edit-cancel:active, .topbar .search input[type="submit"].form-submit:active, .
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
 }
-/* line 45, ../sass/_ddbasic.buttons.scss */
+/* line 53, ../sass/_ddbasic.buttons.scss */
 .disabled.button, .disabled.form-submit,
 .disabled#edit-cancel,
 a.disabled.form-submit,
-a.disabled#edit-cancel, .topbar .search input.disabled[type="submit"].form-submit, .pane-loans .renew-loan-button .disabled.form-submit,
+a.disabled#edit-cancel,
+.search input.disabled[type="submit"],
+.header-wrapper .user input.disabled[type="submit"], .topbar .search input.disabled[type="submit"].form-submit, .pane-loans .renew-loan-button .disabled.form-submit,
 .pane-reservations .renew-loan-button .disabled.form-submit,
 .pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-loans .update-reservations .disabled.form-submit,
 .pane-reservations .update-reservations .disabled.form-submit,
-.pane-bookmarks .update-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a.disabled, .search input.disabled[type="submit"], .header-wrapper .user input.disabled[type="submit"], .pane-loans .delete-reservation .disabled.form-submit,
+.pane-bookmarks .update-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a.disabled, .pane-loans .delete-reservation .disabled.form-submit,
 .pane-loans .delete-reservations .disabled.form-submit,
 .pane-reservations .delete-reservation .disabled.form-submit,
 .pane-reservations .delete-reservations .disabled.form-submit,
@@ -3603,11 +3613,13 @@ a.disabled#edit-cancel, .topbar .search input.disabled[type="submit"].form-submi
 .pane-ting-object .disabled.ding-entity-button, [disabled].button, [disabled].form-submit,
 [disabled]#edit-cancel,
 a[disabled].form-submit,
-a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-submit, .pane-loans .renew-loan-button [disabled].form-submit,
+a[disabled]#edit-cancel,
+.search input[disabled][type="submit"],
+.header-wrapper .user input[disabled][type="submit"], .topbar .search input[disabled][type="submit"].form-submit, .pane-loans .renew-loan-button [disabled].form-submit,
 .pane-reservations .renew-loan-button [disabled].form-submit,
 .pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-loans .update-reservations [disabled].form-submit,
 .pane-reservations .update-reservations [disabled].form-submit,
-.pane-bookmarks .update-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a[disabled], .search input[disabled][type="submit"], .header-wrapper .user input[disabled][type="submit"], .pane-loans .delete-reservation [disabled].form-submit,
+.pane-bookmarks .update-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a[disabled], .pane-loans .delete-reservation [disabled].form-submit,
 .pane-loans .delete-reservations [disabled].form-submit,
 .pane-reservations .delete-reservation [disabled].form-submit,
 .pane-reservations .delete-reservations [disabled].form-submit,
@@ -3623,22 +3635,24 @@ a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-sub
   cursor: default;
 }
 
-/* line 81, ../sass/_ddbasic.buttons.scss */
+/* line 95, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
 #edit-cancel,
 a.button,
 a.form-submit,
-a#edit-cancel {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #595959), color-stop(100%, #404040));
-  background-image: -webkit-linear-gradient(#595959, #404040);
-  background-image: -moz-linear-gradient(#595959, #404040);
-  background-image: -o-linear-gradient(#595959, #404040);
-  background-image: linear-gradient(#595959, #404040);
-  background-color: #595959;
+a#edit-cancel,
+.search input[type="submit"],
+.header-wrapper .user input[type="submit"] {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
+  background-image: -webkit-linear-gradient(#444444, #1e1e1e);
+  background-image: -moz-linear-gradient(#444444, #1e1e1e);
+  background-image: -o-linear-gradient(#444444, #1e1e1e);
+  background-image: linear-gradient(#444444, #1e1e1e);
+  background-color: #444444;
   border: 0;
   color: white;
 }
-/* line 72, ../sass/_ddbasic.buttons.scss */
+/* line 80, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
 #edit-cancel:focus, .button:hover, .form-submit:hover,
 #edit-cancel:hover, .button:active, .form-submit:active,
@@ -3651,21 +3665,23 @@ a.form-submit:hover,
 a#edit-cancel:hover,
 a.button:active,
 a.form-submit:active,
-a#edit-cancel:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4d4d4d), color-stop(100%, #333333));
-  background-image: -webkit-linear-gradient(#4d4d4d, #333333);
-  background-image: -moz-linear-gradient(#4d4d4d, #333333);
-  background-image: -o-linear-gradient(#4d4d4d, #333333);
-  background-image: linear-gradient(#4d4d4d, #333333);
-  background-color: #404040;
+a#edit-cancel:active,
+.search input[type="submit"]:focus,
+.header-wrapper .user input[type="submit"]:focus,
+.search input[type="submit"]:hover,
+.header-wrapper .user input[type="submit"]:hover,
+.search input[type="submit"]:active,
+.header-wrapper .user input[type="submit"]:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
+  background-image: -webkit-linear-gradient(#373737, #111111);
+  background-image: -moz-linear-gradient(#373737, #111111);
+  background-image: -o-linear-gradient(#373737, #111111);
+  background-image: linear-gradient(#373737, #111111);
+  background-color: #1e1e1e;
 }
 
-/* line 86, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"].form-submit, .pane-loans .renew-loan-button .form-submit,
-.pane-reservations .renew-loan-button .form-submit,
-.pane-bookmarks .renew-loan-button .form-submit, .pane-loans .update-reservations .form-submit,
-.pane-reservations .update-reservations .form-submit,
-.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a {
+/* line 100, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"].form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00b7e7), color-stop(100%, #007a9b));
   background-image: -webkit-linear-gradient(#00b7e7, #007a9b);
   background-image: -moz-linear-gradient(#00b7e7, #007a9b);
@@ -3675,20 +3691,8 @@ a#edit-cancel:active {
   border: 0;
   color: white;
 }
-/* line 72, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"].form-submit:focus, .pane-loans .renew-loan-button .form-submit:focus,
-.pane-reservations .renew-loan-button .form-submit:focus,
-.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-loans .update-reservations .form-submit:focus,
-.pane-reservations .update-reservations .form-submit:focus,
-.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .topbar .search input[type="submit"].form-submit:hover, .pane-loans .renew-loan-button .form-submit:hover,
-.pane-reservations .renew-loan-button .form-submit:hover,
-.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-loans .update-reservations .form-submit:hover,
-.pane-reservations .update-reservations .form-submit:hover,
-.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .topbar .search input[type="submit"].form-submit:active, .pane-loans .renew-loan-button .form-submit:active,
-.pane-reservations .renew-loan-button .form-submit:active,
-.pane-bookmarks .renew-loan-button .form-submit:active, .pane-loans .update-reservations .form-submit:active,
-.pane-reservations .update-reservations .form-submit:active,
-.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active {
+/* line 80, ../sass/_ddbasic.buttons.scss */
+.topbar .search input[type="submit"].form-submit:focus, .topbar .search input[type="submit"].form-submit:hover, .topbar .search input[type="submit"].form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00a3ce), color-stop(100%, #006681));
   background-image: -webkit-linear-gradient(#00a3ce, #006681);
   background-image: -moz-linear-gradient(#00a3ce, #006681);
@@ -3697,28 +3701,44 @@ a#edit-cancel:active {
   background-color: #007a9b;
 }
 
-/* line 91, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"], .header-wrapper .user input[type="submit"] {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
-  background-image: -webkit-linear-gradient(#444444, #1e1e1e);
-  background-image: -moz-linear-gradient(#444444, #1e1e1e);
-  background-image: -o-linear-gradient(#444444, #1e1e1e);
-  background-image: linear-gradient(#444444, #1e1e1e);
-  background-color: #444444;
+/* line 105, ../sass/_ddbasic.buttons.scss */
+.pane-loans .renew-loan-button .form-submit,
+.pane-reservations .renew-loan-button .form-submit,
+.pane-bookmarks .renew-loan-button .form-submit, .pane-loans .update-reservations .form-submit,
+.pane-reservations .update-reservations .form-submit,
+.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #60a500), color-stop(100%, #335900));
+  background-image: -webkit-linear-gradient(#60a500, #335900);
+  background-image: -moz-linear-gradient(#60a500, #335900);
+  background-image: -o-linear-gradient(#60a500, #335900);
+  background-image: linear-gradient(#60a500, #335900);
+  background-color: #60a500;
   border: 0;
   color: white;
 }
-/* line 72, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"]:focus, .header-wrapper .user input[type="submit"]:focus, .search input[type="submit"]:hover, .header-wrapper .user input[type="submit"]:hover, .search input[type="submit"]:active, .header-wrapper .user input[type="submit"]:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
-  background-image: -webkit-linear-gradient(#373737, #111111);
-  background-image: -moz-linear-gradient(#373737, #111111);
-  background-image: -o-linear-gradient(#373737, #111111);
-  background-image: linear-gradient(#373737, #111111);
-  background-color: #1e1e1e;
+/* line 80, ../sass/_ddbasic.buttons.scss */
+.pane-loans .renew-loan-button .form-submit:focus,
+.pane-reservations .renew-loan-button .form-submit:focus,
+.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-loans .update-reservations .form-submit:focus,
+.pane-reservations .update-reservations .form-submit:focus,
+.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-loans .renew-loan-button .form-submit:hover,
+.pane-reservations .renew-loan-button .form-submit:hover,
+.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-loans .update-reservations .form-submit:hover,
+.pane-reservations .update-reservations .form-submit:hover,
+.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-loans .renew-loan-button .form-submit:active,
+.pane-reservations .renew-loan-button .form-submit:active,
+.pane-bookmarks .renew-loan-button .form-submit:active, .pane-loans .update-reservations .form-submit:active,
+.pane-reservations .update-reservations .form-submit:active,
+.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #518b00), color-stop(100%, #253f00));
+  background-image: -webkit-linear-gradient(#518b00, #253f00);
+  background-image: -moz-linear-gradient(#518b00, #253f00);
+  background-image: -o-linear-gradient(#518b00, #253f00);
+  background-image: linear-gradient(#518b00, #253f00);
+  background-color: #335900;
 }
 
-/* line 96, ../sass/_ddbasic.buttons.scss */
+/* line 115, ../sass/_ddbasic.buttons.scss */
 .pane-loans .delete-reservation .form-submit,
 .pane-loans .delete-reservations .form-submit,
 .pane-reservations .delete-reservation .form-submit,
@@ -3734,7 +3754,7 @@ a#edit-cancel:active {
   border: 0;
   color: white;
 }
-/* line 72, ../sass/_ddbasic.buttons.scss */
+/* line 80, ../sass/_ddbasic.buttons.scss */
 .pane-loans .delete-reservation .form-submit:focus,
 .pane-loans .delete-reservations .form-submit:focus,
 .pane-reservations .delete-reservation .form-submit:focus,
@@ -3759,7 +3779,7 @@ a#edit-cancel:active {
   background-color: #732000;
 }
 
-/* line 108, ../sass/_ddbasic.buttons.scss */
+/* line 122, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, input[type=submit].form-submit,
 input[type=submit]#edit-cancel,
 button.button,
@@ -3769,7 +3789,7 @@ button#edit-cancel {
 }
 
 @-moz-document url-prefix() {
-  /* line 119, ../sass/_ddbasic.buttons.scss */
+  /* line 133, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,

@@ -8,13 +8,21 @@
 // Variables
 // -----------------------------------------------------------------------------
 //
-$button-text-color:               $white;
-$button-bg-start-color:           lighten($black, 35%);
-$button-bg-end-color:             lighten($black, 25%);
 $button-border:                   0;
 $button-box-shadow:               0 0 1px lighten($black, 35%) inset;
 $button-border-radius:            8px;
 $button-padding:                  8px 14px;
+
+$button-default-bg:               #444;
+$button-default-color:            #fff;
+$button-theme-bg:                 #00b7e7;
+$button-theme-color:              #fff;
+$button-action-bg:                #60a500;
+$button-action-color:             #fff;
+$button-warning-bg:               #f6d346;
+$button-warning-color:            #000;
+$button-danger-bg:                #bf3600;
+$button-danger-color:             #fff;
 
 
 // -----------------------------------------------------------------------------
@@ -58,7 +66,7 @@ $button-padding:                  8px 14px;
 @mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
   @include background-image(linear-gradient($bg-start-color, $bg-end-color));
   @extend %button;
-  
+
   // Make sure buttons get a background color in IE
   background-color: $bg-start-color;
   border: $border;
@@ -71,36 +79,42 @@ $button-padding:                  8px 14px;
   &:hover,
   &:active {
     @include background-image(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
-    
+
     background-color: $bg-end-color;
   }
 }
 
-// Default button (dark gray)
-.button,
-a.button {
-  @include create-gradient-button($button-text-color, $button-bg-start-color, $button-bg-end-color);
-}
-
-// Blue button
-%button-blue {
-  @include create-gradient-button($white, #00b7e7, darken(#00b7e7, 15%));
-}
-
-// Black button
-%button-black {
-  @include create-gradient-button($white, #444, darken(#444, 15%));
-}
-
-// Red button
-%button-red {
-  @include create-gradient-button($white, #bf3600, darken(#bf3600, 15%));
-}
 
 // -----------------------------------------------------------------------------
 // Default styling
 // -----------------------------------------------------------------------------
 //
+// Default button
+.button,
+a.button,
+%button-default {
+  @include create-gradient-button($button-default-color, $button-default-bg, darken($button-default-bg, 15%));
+}
+
+// Theme button
+%button-theme {
+  @include create-gradient-button($button-theme-color, $button-theme-bg, darken($button-theme-bg, 15%));
+}
+
+// Action button
+%button-action {
+  @include create-gradient-button($button-action-color, $button-action-bg, darken($button-action-bg, 15%));
+}
+
+// Warning button
+%button-warning {
+  @include create-gradient-button($button-warning-color, $button-warning-bg, darken($button-warning-bg, 15%));
+}
+
+// Danger button
+%button-danger {
+  @include create-gradient-button($button-danger-color, $button-danger-bg, darken($button-danger-bg, 15%));
+}
 
 
 // Don't use native buttons on iOS
