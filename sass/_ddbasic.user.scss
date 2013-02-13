@@ -275,19 +275,7 @@
     padding: 0;
   }
 
-  table tbody tr {
-    &:hover {
-      background-color: lighten($gray-light, 3%);
-
-      th,
-      td {
-        background-color: lighten($gray-light, 3%);
-      }
-    }
-  }
-
   th {
-    background-color: $gray-light;
     border-top: 1px solid $gray-light;
     font-family: $font-bold;
     font-weight: $theme-font-weight-bold;
@@ -340,6 +328,12 @@
     .delete-reservation {
       padding-right: $default-spacing;
       text-align: right;
+    }
+  }
+
+  .renew-loan-button {
+    .form-submit {
+      @extend %button-blue;
     }
   }
 
