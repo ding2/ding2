@@ -40,10 +40,10 @@ function ding_wayf_menu() {
     'type' => MENU_CALLBACK,
   );
 // error page
-  $items['wayf/failed'] = array(
-    'title' => t('WAYF FAILED'),
+  $items['wayf/accept'] = array(
+    'title' => t('WAYF_ACCEPT'),
     'description' => t('Provides WAYF login.'),
-    'page callback' => 'ding_wayf_failed',
+    'page callback' => 'ding_wayf_accept',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -54,10 +54,106 @@ function ding_wayf_menu() {
 /** \brief error page callback
  * 
  */
-function ding_wayf_failed() {
-// @TODO set appropiate action based on type of error
-  drupal_set_message(t('You could not be logged into the library system, so you have been logged out of WAYF.'), 'warning');
-  drupal_goto('user');
+function ding_wayf_accept() {
+  drupal_set_message(t('Accept_wayf_bind', array(), array('context' => 'ding_wayf')), 'warning');
+  // return drupal_render($form);
+  return drupal_render(drupal_get_form('ding_wayf_accept_form'));
+}
+
+function ding_wayf_accept_form() {
+  return array(
+    'message' => array(
+      '#markup' => t('You have been authenticated by wayf, but you have no account with bibliotek.dk etc...'),
+    ),
+    'accept' => array(
+      '#type' => 'checkbox',
+      '#default_value' => FALSE,
+      '#title' => t('accept_wayf_binding', array(), array('context' => 'ding_wayf')),
+    ),
+    'abort' => array(
+      '#name' => 'abort',
+      '#type' => 'submit',
+      '#value' => t('abort', array(), array('context' => 'ding_wayf')),
+    ),
+    'submit' => array(
+      '#name' => 'continue',
+      '#type' => 'submit',
+      '#value' => t('continue', array(), array('context' => 'ding_wayf')),
+    ),
+  );
+}
+
+/** \brief validation handler for accept_form
+ * 
+ * 
+ *
+ * @param type $form
+ * @param type $form_state 
+ */
+function ding_wayf_accept_form_validate($form, &$form_state) {
+  // continue button clicked
+  if ($form_state['clicked_button']['#name'] == 'continue') {
+    if ($form_state['values']['accept']) {
+      // first use case - no account with bibliotek.dk
+      // get name and pass from session; create a user if accept is set
+      // @TODO check if session is set
+      $name = $_SESSION['accept_wayf']['name'];
+      $pass = $_SESSION['accept_wayf']['pass'];
+
+      if (ding_provider_implements('user', 'create_account')) {
+        if (ding_provider_invoke('user', 'create_account', $name, $pass)) {
+          $authentication_attributes['mail'][0] = $name;
+          $authentication_attributes['eduPersonTargetedID'][0] = $pass;
+
+          // user has been created with mail, wayfid.
+          // if user wishes to change password later on he can do so
+          ding_wayf_login($authentication_attributes, 'user');
+        }
+      }
+    }
+    else {
+      // user clicked continue, but did not check accept. maybe user forgot to check the box
+      // tell him to either check the box or press abort
+      form_set_error('accept', t('either check accept or press abort', array(), array('context' => 'ding_wayf')));
+    }
+  }
+}
+
+/** \brief ding_wayf_accept_form submit handler 
+ *
+ * redirect to user page if abort is clicked
+ * 
+ * @param type $form
+ * @param type $form_state 
+ */
+function ding_wayf_accept_form_submit($form, $form_state) {
+  if ($form_state['clicked_button']['#name'] == 'abort') {
+    drupal_goto('user');
+  }
+}
+
+/** \brief Login a wayf user, as thay where logged in by the library system.
+ * easy solution; fake form_state and submit user_login form. In that way
+ * ding_user handles user-login as always.
+ * 
+ * pre; user is authenticated via wayf or we wouldn't be here
+ */
+function ding_wayf_login($authentication_attributes, $provider = 'wayf') {
+  global $user;
+  if ($user->uid == 0) {
+    $form_state = array();
+    // set authentication provider for ding_user (@see ding_user_user_login_validate)
+    $form_state['values']['authentication_provider'] = $provider;
+    // set name and password for login
+    $form_state['values']['name'] = $authentication_attributes['mail'][0];
+    $form_state['values']['mail'] = $authentication_attributes['mail'][0];
+    $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'][0];
+// submit login form
+    drupal_form_submit('user_login_block', $form_state);
+  }
+  else {
+    ding_wayf_redirect('user/%uid/edit');
+  }
 }
 
 /** Implements hook_form_FORM_ID_alter (user_login)
@@ -88,28 +184,21 @@ function ding_wayf_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
-// option to set authentication provider for ding user (@see ding_user_user_login_validate)
+      // option to set authentication provider for ding user (@see ding_user_user_login_validate)
       $form['authentication_provider'] = array(
         '#type' => 'hidden',
       );
-// add a validation handler
-      $form['#validate'][] = 'ding_wayf_wayf_validate';
+      // add a validation handler (if provider implements it)
+      $provider = ding_provider_get_provider_module_name('wayf');
+      if (isset($provider)) {
+        $function = $provider . '_wayf_validate';
+        if (function_exists($function)) {
+          $form['#validate'][] = $function;
+        }
+      }
       break;
     default:
       break;
-  }
-}
-
-/** \custom validator for wayf login
- * check if provider implements a validate method; if so execute it
- */
-function ding_wayf_wayf_validate($form, &$form_state) {
-  if (empty($form_state['values']['authentication_provider']) || $form_state['values']['authentication_provider'] != 'wayf') {
-    return;
-  }
-
-  if (ding_provider_implements('wayf', 'validate')) {
-    ding_provider_invoke('wayf', 'validate', $form, $form_state);
   }
 }
 
@@ -127,10 +216,9 @@ function ding_wayf_wayf_validate($form, &$form_state) {
  */
 function ding_wayf_redirect_login() {
   global $user;
-
 // Load configuration.
   $config = variable_get('ding_wayf', NULL);
-  if (!$config ) {
+  if (!$config) {
 // The configuration have not be created yet, so send user to the front page
 // with an error message.
     drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.', array(), array('context' => 'ding_wayf')), 'error', FALSE);
@@ -158,37 +246,13 @@ function ding_wayf_redirect_login() {
       ding_wayf_login($authentication_attributes);
     }
     else {
-// Redirect the user to the WAYF login page.
+      // Redirect the user to the WAYF login page.
       $saml->requireAuth();
     }
   }
   else {
 // Send the user back to her context or use the fallback URL.
     ding_wayf_redirect_user($simplesaml['redirect']);
-  }
-}
-
-/** \brief Login a wayf user, as thay where logged in by the library system.
- * easy solution; fake form_state and submit user_login form. In that way
- * ding_user handles user-login as always
- */
-  function ding_wayf_login($authentication_attributes) {
-  global $user;
-  if ($user->uid == 0) {
-    $form_state = array();
-    $form_state['values']['authentication_provider'] = 'wayf';
-    $form_state['values']['name'] = $authentication_attributes['mail'][0];
-    $form_state['values']['mail'] = $authentication_attributes['mail'][0];
-    $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'][0];
-
-    drupal_form_submit('user_login_block', $form_state);
-    // logout wayf if something goes wrong
-    if (form_get_errors()) {
-      ding_wayf_user_logout(NULL, 'wayf');
-    }
-  }
-  else {
-    ding_wayf_redirect('user/%uid/edit');
   }
 }
 
@@ -219,6 +283,7 @@ function ding_wayf_redirect_user($url) {
  *   account of logged in user.
  */
 function ding_wayf_user_logout($account = NULL, $origin = NULL) {
+  global $base_url;
   $simplesaml = variable_get('ding_wayf', array());
 
   if (!empty($simplesaml)) {
@@ -228,12 +293,14 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
 
     if ($saml->isAuthenticated()) {
       if (isset($origin)) {
-        $servername = $_SERVER['SERVER_NAME'];
-        $url = $base_url . '/' . base_path() . 'wayf/failed';
+        $url = $base_url . '/wayf/failed/' . $errorcode;
       }
       else {
         $url = NULL;
       }
+      // we pass simplesaml the url to return to -
+      // you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
+      // if only a string is passed it will be handled as 'ReturnTo'
       $saml->logout($url);
     }
   }
