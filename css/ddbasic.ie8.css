@@ -3,39 +3,39 @@ img {
   width: auto;
 }
 
-/* line 17, ../sass/ddbasic.ie8.scss */
+/* line 16, ../sass/ddbasic.ie8.scss */
 .search input[type="text"] {
   min-height: 0;
   padding-top: 16px;
   padding-bottom: 16px;
 }
 
-/* line 25, ../sass/ddbasic.ie8.scss */
+/* line 24, ../sass/ddbasic.ie8.scss */
 .topbar .search input[type="text"] {
   min-height: 0;
   padding-top: 12px;
   padding-bottom: 12px;
 }
 
-/* line 34, ../sass/ddbasic.ie8.scss */
+/* line 33, ../sass/ddbasic.ie8.scss */
 .not-logged-in .topbar .search {
   margin-right: 111px;
 }
 
 /* line 42, ../sass/ddbasic.ie8.scss */
-.user input[type="text"],
-.user input[type="password"] {
+.header-wrapper .user input[type="text"],
+.header-wrapper .user input[type="password"] {
   min-height: 0;
   padding-top: 20px;
   padding-bottom: 19px;
 }
 
-/* line 51, ../sass/ddbasic.ie8.scss */
+/* line 52, ../sass/ddbasic.ie8.scss */
 .topbar .user input[type="submit"] {
   padding-left: 20px;
 }
 
-/* line 58, ../sass/ddbasic.ie8.scss */
+/* line 59, ../sass/ddbasic.ie8.scss */
 .pane-ding-facetbrowser .expand {
   margin-left: 2px;
 }
