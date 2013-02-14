@@ -396,7 +396,7 @@ taxonomy/term/%term:tid',
     $pane->pid = 'new-9';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_floated_list';
+    $pane->subtype = 'ding_event-ding_event_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -541,6 +541,9 @@ events
       'left' => NULL,
       'middle' => NULL,
       'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
@@ -623,7 +626,7 @@ events
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_floated_list';
+    $pane->subtype = 'ding_event-ding_event_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -796,6 +799,9 @@ node/%node:nid/events
       'right' => NULL,
       'top' => NULL,
       'bottom' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
@@ -878,7 +884,7 @@ node/%node:nid/events
     $pane->pid = 'new-9';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_floated_list_library';
+    $pane->subtype = 'ding_event-ding_event_list_library';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
