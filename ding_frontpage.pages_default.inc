@@ -113,7 +113,7 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'main_left_right';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-panel_pane_1';
+    $pane->subtype = 'ding_event-ding_event_frontpage_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
