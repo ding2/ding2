@@ -24,14 +24,22 @@
  */
 
 foreach ($fields as $id => $field) { 
+  if ($id == 'field_ding_event_library') {
+    print '<div class="event-list-info">';
+  }
+
   if (!empty($field->separator)) {
     print $field->separator;
   }
-  
+
   if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ) {
     print $field->wrapper_prefix;
     print $field->label_html;
     print $field->content;
     print $field->wrapper_suffix;
+  }
+
+  if ($id == 'field_ding_event_price') {
+    print "</div>";
   }
 }
