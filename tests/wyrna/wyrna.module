@@ -1,5 +1,7 @@
 <?php
+
 require_once('wyrna.wayf.inc');
+
 /**
  * Implements hook_ding_provider().
  *
@@ -15,14 +17,9 @@ function wyrna_ding_provider() {
         'prefix' => 'wayf',
         'file' => drupal_get_path('module', 'wyrna') . '/wyrna.wayf.inc',
       ),
-     /* 'user' => array(
-        'prefix' => 'user',
-        'file' => drupal_get_path('module', 'wyrna') . '/wyrna.user.inc',
-      ),*/
     ),
   );
 }
-
 /**
  * Implements hook_ding_wayf_attributes().
  *
@@ -36,9 +33,66 @@ function wyrna_ding_wayf_attributes() {
   );
 }
 
-
-function wyrna_wayf_validate($form, $form_state) {
-  // @TODO do something sensible
+/* \brief custom validator for user_login form (@see ding_wayf.module)
+ * 
+ * 
+ */
+function wyrna_wayf_validate(&$form, &$form_state) {
+  if ($form_state['values']['authentication_provider'] != 'wayf') {
+    return;
+  }
+  // first use case - user does not exist, but is validated with wayf
+  $url = wyrna_wayf_validate_no_user($form_state);
+  if( $url !== FALSE ) {
+    drupal_goto($url);
+  }
+  // next use case; user exist, but has no wayf id. User is still validated with wayf
+  else{
+    // @TODO bind wayf to user
+  }
+}
+/** \brief validation handler for not existing user
+ * 
+ * check if user is known. if user is not known return 
+ * url for wayf-accept;
+ *
+ * @global type $base_url
+ * @param type $form_state
+ * @return boolean|string 
+ */
+function wyrna_wayf_validate_no_user($form_state) {
+  $name = isset($form_state['input']['name']) ? $form_state['input']['name'] : FALSE;
+  $pass = isset($form_state['input']['pass']) ? $form_state['input']['pass'] : FALSE;
   
-  //form_set_error('submit');
+  if( !$name || !$pass ) {
+    return FALSE;
+  }
+  
+  // verify user
+  if (!ding_provider_invoke('user', 'verify', $name)) {
+    // set session variables for next step 
+    wyrna_set_session($name, $pass);
+    // redirect to wayf_accept page
+    global $base_url;
+    $url = $base_url . '/wayf/accept';
+    // we have to unset destination set in $_GET
+    // for drupal to goto the correct page
+    unset($_GET['destination']);
+    return $url;
+  }
+  else{
+    return FALSE;
+  }
+}
+
+/**
+ * Add wayf parameters to SESSION
+ * */
+function wyrna_set_session($name, $pass) {
+  if (!isset($_SESSION)) {
+    drupal_session_initialize();
+    $_SESSION['accept_wayf'] = array();
+  }
+  $_SESSION['accept_wayf']['name'] = $name;
+  $_SESSION['accept_wayf']['pass'] = $pass;
 }
