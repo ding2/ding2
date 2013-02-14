@@ -12,7 +12,6 @@ img {
   width: auto;
 }
 
-
 .search {
   input[type="text"] {
     min-height: 0;
@@ -37,12 +36,14 @@ img {
   }
 }
 
-.user {
-  input[type="text"],
-  input[type="password"] {
-    min-height: 0;
-    padding-top: 20px;
-    padding-bottom: 19px;
+.header-wrapper {
+  .user {
+    input[type="text"],
+    input[type="password"] {
+      min-height: 0;
+      padding-top: 20px;
+      padding-bottom: 19px;
+    }
   }
 }
 

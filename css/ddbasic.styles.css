@@ -3186,16 +3186,18 @@ a:focus {
 input,
 textarea,
 select {
+  font-size: 15px;
+  font-size: 0.9375rem;
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   letter-spacing: 1px;
 }
 
-/* line 33, ../sass/_ddbasic.forms.scss */
+/* line 35, ../sass/_ddbasic.forms.scss */
 select {
   padding: 5px;
 }
 
-/* line 48, ../sass/_ddbasic.forms.scss */
+/* line 50, ../sass/_ddbasic.forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -3232,7 +3234,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 64, ../sass/_ddbasic.forms.scss */
+/* line 66, ../sass/_ddbasic.forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -3248,7 +3250,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 70, ../sass/_ddbasic.forms.scss */
+/* line 72, ../sass/_ddbasic.forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],

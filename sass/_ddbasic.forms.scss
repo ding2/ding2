@@ -26,6 +26,8 @@ $form-border-radius:              8px;
 input,
 textarea,
 select {
+  @include rem('font-size', $theme-font-size);
+
   font-family: $theme-font-family;
   letter-spacing: 1px;
 }
