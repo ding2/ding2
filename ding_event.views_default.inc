@@ -910,7 +910,7 @@ function ding_event_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['row_class'] = 'list-item';
-  $handler->display->display_options['style_options']['class'] = 'list floated';
+  $handler->display->display_options['style_options']['class'] = 'list event-list';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
@@ -973,7 +973,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['field_ding_event_list_image']['element_wrapper_class'] = 'image-container';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['element_wrapper_class'] = 'event-image-wrapper';
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['field_ding_event_list_image']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_event_list_image']['empty_zero'] = 0;
@@ -1303,7 +1303,7 @@ function ding_event_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['row_class'] = 'list-item';
-  $handler->display->display_options['style_options']['class'] = 'list floated';
+  $handler->display->display_options['style_options']['class'] = 'list event-list';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
@@ -1366,7 +1366,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['field_ding_event_list_image']['element_wrapper_class'] = 'image-container';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['element_wrapper_class'] = 'event-image-wrapper';
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_default_classes'] = 0;
   $handler->display->display_options['fields']['field_ding_event_list_image']['hide_empty'] = 0;
   $handler->display->display_options['fields']['field_ding_event_list_image']['empty_zero'] = 0;
