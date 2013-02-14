@@ -238,6 +238,9 @@ function theme_tableselect_form($variables) {
       // correct order by iterating over the header fields.
       foreach ($element['#header'] as $fieldname => $title) {
         $row['data'][] = $element['#options'][$key][$fieldname];
+        
+        // Add classes to table header columns.
+        $header[$fieldname] = array('data' => $fieldname, 'class' => $fieldname);
       }
       $rows[] = $row;
     }
