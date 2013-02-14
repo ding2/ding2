@@ -4,17 +4,15 @@
  * @file
  * Mock implementation of simpleSAML.
  */
-
 class SimpleSAML_Auth_Simple {
-  private static $attributes = array();
 
+  private static $attributes = NULL;
   /**
    * Constructor for mock object.
    */
   public function __construct($sp) {
     $attributes = variable_get('simplesaml_mock');
-
-    if (!$attributes) {
+    if (!self::$attributes) {
       self::$attributes = $attributes;
     }
   }
@@ -38,9 +36,13 @@ class SimpleSAML_Auth_Simple {
     }
   }
 
-  public function logout() {
+  public function logout($url = NULL) {
     variable_del('simplesaml_mock');
     self::$attributes = array();
+    if (isset($url)) {
+      header('Location: ' . $url);
+      exit;
+    }
   }
 
   private function updateAttributes() {
