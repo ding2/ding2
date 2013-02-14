@@ -29,7 +29,7 @@ switch ($type) {
     print '<div class="button ticket-info">' . t('Sold out') . '</div>';
     break;
   case 'order-link':
-    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('button', 'available'))));
+    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('button', 'ticket-available'))));
     break;
   default:
     print '-nothing-';

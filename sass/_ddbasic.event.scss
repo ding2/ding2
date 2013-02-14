@@ -161,6 +161,14 @@
   border-left: 1px solid $gray-light;
 }
 
+.ticket-available {
+  @extend %button-action;
+}
+
+.ticket-info {
+  @extend %button-warning;
+}
+
 // -----------------------------------------------------------------------------
 // Mediaqueries
 // -----------------------------------------------------------------------------
