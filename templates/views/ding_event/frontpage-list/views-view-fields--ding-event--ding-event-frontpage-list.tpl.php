@@ -22,16 +22,21 @@
  *
  * @ingroup views_templates
  */
-?>
-<?php foreach ($fields as $id => $field): ?> 
-  <?php if (!empty($field->separator)): ?>
-    <?php print $field->separator; ?>
-  <?php endif; ?>
+foreach ($fields as $id => $field) {
+  if ($id == 'field_ding_event_library') {
+    print '<div class="event-list-info">';
+  }
   
-  <?php if($id != 'field_ding_event_library' || ($id == 'field_ding_event_library' && empty($fields['field_ding_event_location']->content)) ): ?>
-    <?php print $field->wrapper_prefix; ?>
-    <?php print $field->label_html; ?>
-    <?php print $field->content; ?>
-    <?php print $field->wrapper_suffix; ?>
-  <?php endif; ?>  
-<?php endforeach; ?>
+  if  (!empty($field->separator)) {
+    print $field->separator;
+  }
+  
+  print $field->wrapper_prefix;
+  print $field->label_html;
+  print $field->content;
+  print $field->wrapper_suffix;
+  
+  if ($id == 'field_ding_event_price') {
+    print "</div>";
+  }
+}
