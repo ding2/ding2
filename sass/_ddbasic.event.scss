@@ -161,11 +161,11 @@
   border-left: 1px solid $gray-light;
 }
 
-.ticket-available {
+.button.ticket-available {
   @extend %button-action;
 }
 
-.ticket-info {
+.button.ticket-info {
   @extend %button-warning;
 }
 
