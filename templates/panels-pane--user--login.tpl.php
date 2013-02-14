@@ -18,7 +18,7 @@
  */
 ?>
 
-  <section class="user  <?php print $classes; ?>" <?php print $id; ?>>
+  <section class="user  <?php print $classes; ?>">
     <div class="user-field-wrapper">
       <?php if ($admin_links): ?>
         <?php print $admin_links; ?>

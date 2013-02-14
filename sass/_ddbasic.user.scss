@@ -37,12 +37,13 @@
 
 %user-menu {
   ul {
-    @extend %navigation;
 
     margin-top: $default-spacing / 3;
     text-align: right;
 
     li {
+      display: inline-block;
+
       a {
         color: $white;
         margin-right: $default-spacing / 4;
@@ -67,63 +68,97 @@
     margin-right: 10px;
     padding-right: 0;
     padding-left: 10px;
+
+    .user-field-wrapper {
+      display: block;
+      margin-left: 10px;
+    }
+
+    .form-item {
+      margin-top: 0em;
+      display: inline;
+    }
+    .form-actions {
+      display: inline;
+    }
+
+    i[class^="icon-"] {
+      @extend %inline-icons;
+
+      top: 13px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      @include rem('font-size', $theme-font-size * 1.3);
+      @extend %inline-icon-input;
+
+      min-height: 60px;
+      margin-right: $default-spacing / 2;
+      padding-bottom: 0;
+      padding-top: 0;
+      width: 220px;
+    }
+
+    input[type="submit"] {
+      @include rem('font-size', $theme-font-size * 1.7);
+      @include border-radius(12px);
+      @extend %button-default;
+
+      display: inline;
+      min-height: 60px;
+      padding-top: 0;
+      padding-right: 18px;
+      padding-bottom: 1px;
+      padding-left: 18px;
+      position: absolute;
+    }
   }
 }
 
-.user {
-  .user-field-wrapper {
-    display: block;
-    margin-left: 10px;
+
+// **
+// User menu
+// **
+//
+.header-wrapper {
+  .user-name,
+  .user-menu-loans,
+  .user-menu {
+    @include zen-grid-item($grid-50, 1, right);
+    @extend %header-sections;
+    @extend %user-menu;
   }
 
-  .form-item {
-    margin-top: 0em;
-    display: inline;
-  }
-  .form-actions {
-    display: inline;
+  .user-menu-loans {
+    margin-top: 90px;
   }
 
-  i[class^="icon-"] {
-    @extend %inline-icons;
-
-    top: 13px;
+  .user-menu {
+    margin-top: 120px;
   }
 
-  input[type="text"],
-  input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
-    @extend %inline-icon-input;
+  .user-name {
+    color: transparentize($black, .5);
+    margin-top: 55px;
+    text-align: right;
 
-    min-height: 60px;
-    margin-right: $default-spacing / 2;
-    padding-bottom: 0;
-    padding-top: 0;
-    width: 224px;
+    .user-name-title {
+      @include rem('font-size', $theme-font-size * 2.25);
+    }
   }
-
-  input[type="submit"] {
-    @include rem('font-size', $theme-font-size * 1.7);
-    @include border-radius(12px);
-    @extend %button-black;
-
-    display: inline;
-    min-height: 60px;
-    padding-top: 0;
-    padding-right: 18px;
-    padding-bottom: 1px;
-    padding-left: 18px;
-    position: absolute;
-  }
-
 }
 
+// **
+// User menu compact
+// **
+//
 .topbar {
   .user {
     @extend .icon-user;
 
     position: absolute;
-    right: 140px;
+    right: 10px;
     top: 17px;
 
     &:before {
@@ -143,128 +178,17 @@
       @include rem('font-size', $theme-font-size * 1.4);
 
       min-height: 50px;
+      padding-top: 0;
+      padding-bottom: 0;
       padding-left: 45px;
     }
   }
-}
-
-.user-login-block {
-  @extend %block;
-
-  display: none;
-  max-width: 425px;
-  position: absolute;
-  z-index: 99;
-
-  &:before {
-    @include pseudo-arrow(25px, $font-color-primary, top, right, 50px);
-  }
-
-  .user-field-wrapper {
-    position: relative;
-
-    i[class^="icon-"] {
-      @extend %inline-icons;
-
-      color: #000;
-      top: 15px;
-    }
-  }
-
-  .user-close-container {
-    @include rem('font-size', $theme-font-size * 1.25);
-
-    color: #fff;
-    cursor: pointer;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-
-  }
-
-  .user-login-link {
-    float: right;
-    margin-top: 15px;
-    margin-right: 10px;
-
-    a {
-      color: #fff;
-    }
-  }
-
-  .user-create-link {
-    clear: both;
-    padding-top: 20px;
-    text-align: right;
-  }
-
-  input[type="text"],
-  input[type="password"] {
-    @include rem('font-size', $theme-font-size * 1.3);
-    @extend %inline-icon-input;
-
-    margin-bottom: $default-spacing;
-    width: 100%;
-  }
-
-  input[type="submit"] {
-    @include border-radius(12px);
-    @extend %button;
-
-    display: inline;
-    float: right;
-  }
-
-}
-
-// **
-// User menu
-// **
-//
-.user-name,
-.user-menu-loans,
-.user-menu {
-  @include zen-grid-item($grid-50, 1, right);
-  @extend %header-sections;
-  @extend %user-menu;
-}
-
-.user-menu-loans {
-  margin-top: 90px;
-}
-
-.user-menu {
-  margin-top: 120px;
-}
-
-.user-name {
-  color: transparentize($black, .5);
-  margin-top: 55px;
-  text-align: right;
-
-  .user-name-title {
-    @include rem('font-size', $theme-font-size * 2.25);
-
-    color: $black;
-  }
-}
-
-
-// **
-// User menu compact
-// **
-//
-.topbar {
-  .user-name,
-  .user-menu-loans,
-  .user-menu {
-    @include zen-grid-item($grid-25, 1, right);
-
-    margin-bottom: 0;
-  }
 
   .user-name {
+    float: right;
     margin-top: 16px;
+    margin-right: $default-spacing / 2;
+    max-width: 325px;
 
     .user-name-title {
       @include rem('font-size', $theme-font-size * 1.5);
@@ -275,8 +199,11 @@
 
   .user-menu {
     @extend %link-inverted;
+    @extend %user-menu;
 
-    margin-top: 40px;
+    position: absolute;
+    right: 10px;
+    top: 40px;
   }
 }
 
@@ -348,23 +275,17 @@
     padding: 0;
   }
 
-  table tbody tr {
-    &:hover {
-      background-color: lighten($gray-light, 3%);
-
-      th,
-      td {
-        background-color: lighten($gray-light, 3%);
-      }
-    }
-  }
-
   th {
-    background-color: $gray-light;
     border-top: 1px solid $gray-light;
-    font-family: $font-bold;
-    font-weight: $theme-font-weight-bold;
-    padding: $default-spacing / 2 0;
+    text-align: center;
+
+    &.select-all {
+      padding-left: $default-spacing / 2;
+    }
+
+    &.title {
+      text-align: left;
+    }
   }
 
   td:first-child {
@@ -373,10 +294,11 @@
 
   td {
     border-top: 1px solid $gray-light;
-    padding: $default-spacing 0 $default-spacing / 1.5;
+    text-align: center;
 
     &.title {
-      width: 50%;
+      text-align: left;
+      width: 30%;
     }
   }
 
@@ -411,8 +333,13 @@
   .operations {
     .renew-loan-button,
     .delete-reservation {
-      padding-right: $default-spacing;
-      text-align: right;
+      text-align: center;
+    }
+  }
+
+  .renew-loan-button {
+    .form-submit {
+      @extend %button-action;
     }
   }
 
@@ -421,14 +348,46 @@
     display: inline;
     margin-right: $default-spacing;
   }
+
+  .delete-reservation,
+  .delete-reservations {
+    .form-submit {
+      @extend %button-danger;
+    }
+  }
+
+  .update-reservations {
+    .form-submit {
+      @extend %button-action;
+    }
+  }
 }
 
 .pane-bookmarks {
+  td {
+    text-align: left;
+  }
+
   .ding-entity-button {
+    float: right;
+    margin-right: $default-spacing / 2;
+
     a {
-      @extend .button;
+      @extend %button-danger;
+    }
+
+    &.ding-bookmark-reservation-button {
+      a {
+        @extend %button-action;
+      }
     }
   }
+}
+
+.pane-reservations {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $default-spacing;
+  padding-bottom: $default-spacing;
 }
 
 #ding-reservation-reservations-ready-form {
@@ -437,7 +396,51 @@
   padding-bottom: $default-spacing;
 }
 
+#ding-bookmark-remove-form {
+  .form-submit {
+    @extend %button-danger;
+  }
+}
+
+
+// **
+// User debts
+// **
+.pane-debts {
+  table {
+    margin-bottom: $default-spacing;
+
+    th,
+    td {
+      &.feedate {
+        width: 10%;
+      }
+
+      &.feeamount {
+        text-align: right;
+      }
+    }
+  }
+
+  .pay-button {
+    margin-bottom: $default-spacing;
+
+    .form-submit {
+      @extend %button-action;
+    }
+  }
+}
+
+.pane-debts,
+.pane-ding-dibs-dibs-terms-of-sale,
+.pane-ding-dibs-dibs-cards-supported {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $default-spacing;
+  padding-bottom: $default-spacing;
+}
+
+
 // =============================================================================
-// MEDIAQUERIES
+// Mediaqueries
 // =============================================================================
 //

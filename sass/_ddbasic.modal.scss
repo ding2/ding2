@@ -56,57 +56,59 @@ $modal-border-radius:             12px;
 .ui-dialog {
   padding: $default-spacing;
 
-  .ui-dialog-titlebar-close {
-    float: right;
-    right: $default-spacing / 4;
-    padding: 0;
-    top: $default-spacing / 2;
-    width: auto;
+  .ui-dialog-titlebar {  
+    .ui-dialog-titlebar-close {
+      float: right;
+      right: $default-spacing / 4;
+      padding: 0;
+      top: $default-spacing / 2;
+      width: auto;
 
-    .ui-icon {
-      @extend strong;
-      @extend .icon-remove;
+      .ui-icon {
+        @extend strong;
+        @extend .icon-remove;
 
-      text-indent: 0;
-      text-transform: capitalize;
+        text-indent: 0;
+        text-transform: capitalize;
+
+        &:hover {
+          color: lighten($modal-background-color, 40%);
+        }
+      }
+
+      .ui-icon:before {
+        font-family: $theme-icon-library-font;
+        margin-right: 2px;
+        margin-bottom: -1px;
+      }
+
+      &:link,
+      &:visited,
+      &:active {
+        color: $modal-text-color;
+        text-decoration: none;
+      }
 
       &:hover {
-        color: lighten($modal-background-color, 40%);
+        color: $modal-text-color;
+        text-decoration: none;
       }
     }
 
-    .ui-icon:before {
-      font-family: $theme-icon-library-font;
-      margin-right: 2px;
-      margin-bottom: -1px;
+    .form-item {
+      margin-bottom: $default-spacing / 2;
+
+      .description {
+        @extend .text-small;
+
+        color: transparentize($white, .1);
+        margin-top: -$default-spacing / 2;
+      }
     }
 
-    &:link,
-    &:visited,
-    &:active {
-      color: $modal-text-color;
-      text-decoration: none;
+    .openid-links {
+      display: none;
     }
-
-    &:hover {
-      color: $modal-text-color;
-      text-decoration: none;
-    }
-  }
-
-  .form-item {
-    margin-bottom: $default-spacing / 2;
-
-    .description {
-      @extend .text-small;
-
-      color: transparentize($white, .1);
-      margin-top: -$default-spacing / 2;
-    }
-  }
-
-  .openid-links {
-    display: none;
   }
 }
 

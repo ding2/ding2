@@ -42,6 +42,9 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Add conditional CSS for IE8
   drupal_add_css(path_to_theme() . '/css/ddbasic.ie8.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 8', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
+
+  // Add conditional CSS for IE9
+  drupal_add_css(path_to_theme() . '/css/ddbasic.ie9.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 9', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
 }
 
 
@@ -474,19 +477,11 @@ function ddbasic_menu_link($vars) {
 function ddbasic_load_plugins() {
   global $path_to_ddbasic_core;
 
-  // Add ddbasic.js so we can use settings in js files.
-  drupal_add_js($path_to_ddbasic_core . '/scripts/ddbasic.js');
-
-  // Add example script (adds "Type text here.." functionality to input fields.
-  //http://mudge.name/jquery_example/
-  drupal_add_js($path_to_ddbasic_core . '/scripts/jquery.example.js');
-
   // If sticky menus is enabled in the theme load it.
   if (theme_get_setting('main_menu_sticky')) {
 
     // Add variable to js so we can check if it is set
     drupal_add_js(array('ddbasic' => array('main_menu_sticky' => theme_get_setting('main_menu_sticky'),)), 'setting');
-
   }
 
   // If equalize is enabled in the theme load it.

@@ -468,7 +468,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 281, ../sass/_ddbasic.font.awesome.scss */
-.icon-remove:before, .ui-dialog .ui-dialog-titlebar-close .ui-icon:before {
+.icon-remove:before, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:before {
   content: "\f00d";
 }
 
@@ -629,7 +629,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 317, ../sass/_ddbasic.font.awesome.scss */
-.icon-camera:before {
+.icon-camera:before, .pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .field-name-field-ding-news-materials .ting-cover:before {
   content: "\f030";
 }
 
@@ -2746,9 +2746,9 @@ ul.icons li [class*=" icon-"] {
   }
 }
 /* line 17, ../sass/_ddbasic.header.scss */
-.header-wrapper .search, .header-wrapper .user, .user-name,
-.user-menu-loans,
-.user-menu {
+.header-wrapper .search, .header-wrapper .user, .header-wrapper .user-name,
+.header-wrapper .user-menu-loans,
+.header-wrapper .user-menu {
   margin-top: 70px;
   margin-bottom: 70px;
   padding: 0;
@@ -2760,6 +2760,10 @@ ul.icons li [class*=" icon-"] {
   background-color: #3399ff;
   background-color: rgba(51, 153, 255, 0.9);
   margin-top: 85px;
+}
+/* line 35, ../sass/_ddbasic.header.scss */
+.header-wrapper .header-inner {
+  overflow: visible;
 }
 
 /* line 23, ../sass/_ddbasic.extends.scss */
@@ -2805,41 +2809,55 @@ ul.icons li [class*=" icon-"] {
   padding-left: 25%;
 }
 
+/* line 102, ../sass/_ddbasic.extends.scss */
+.block i[class^="icon-"], .footer-block i[class^="icon-"], .block-opening-hours i[class^="icon-"] {
+  float: left;
+  margin-right: 5px;
+  text-decoration: none;
+}
+
+/* line 109, ../sass/_ddbasic.extends.scss */
+.block .read-more, .footer-block .read-more, .block-opening-hours .read-more {
+  display: block;
+  margin-top: 20px;
+}
+
 /* line 119, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   color: #fff;
-  padding: 5px;
+  padding: 5px 13.33333px;
 }
 /* line 123, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-ting-object .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-ting-object .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-ting-object .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-ting-object .field-name-ting-type li.availability.reservable a, .comment .new a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a, .pane-ting-object .field-name-ting-type li.availability.available.reservable a {
   color: #fff;
+  display: block;
 }
-/* line 126, ../sass/_ddbasic.extends.scss */
+/* line 127, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-ting-object .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-ting-object .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-ting-object .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.reservable a:hover, .comment .new a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.available.reservable a:hover {
   text-decoration: none;
 }
 
-/* line 132, ../sass/_ddbasic.extends.scss */
+/* line 133, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending {
   background-color: #696a69;
 }
 
-/* line 138, ../sass/_ddbasic.extends.scss */
+/* line 139, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed {
   background-color: #ed1e88;
 }
 
-/* line 144, ../sass/_ddbasic.extends.scss */
+/* line 145, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available {
   background-color: #0072bc;
 }
 
-/* line 150, ../sass/_ddbasic.extends.scss */
+/* line 151, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new {
   background-color: #ea9123;
 }
 
-/* line 156, ../sass/_ddbasic.extends.scss */
+/* line 157, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   background-color: #4c9f45;
 }
@@ -2926,25 +2944,25 @@ body {
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-webkit-selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-moz-selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-o-selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::selection {
   color: #1b1b1b;
-  background: #efefef;
+  background: #ffff99;
 }
 
 /* line 89, ../sass/_ddbasic.typography.scss */
@@ -3049,7 +3067,122 @@ h6 {
   font-size: 0.9375rem;
 }
 
-/* line 141, ../sass/_ddbasic.typography.scss */
+/* line 139, ../sass/_ddbasic.typography.scss */
+strong, em strong, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+}
+
+/* line 145, ../sass/_ddbasic.typography.scss */
+em {
+  font-family: "SourceSansProLightItalic";
+  font-weight: normal;
+}
+/* line 149, ../sass/_ddbasic.typography.scss */
+em strong, em .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close em .ui-icon {
+  font-family: "SourceSansProSemiboldItalic";
+}
+
+/* line 162, ../sass/_ddbasic.typography.scss */
+a:link {
+  color: #00b7e7;
+  text-decoration: none;
+}
+/* line 167, ../sass/_ddbasic.typography.scss */
+a:visited {
+  color: #007a9b;
+  text-decoration: none;
+}
+/* line 172, ../sass/_ddbasic.typography.scss */
+a:hover {
+  color: #006681;
+  text-decoration: underline;
+}
+/* line 176, ../sass/_ddbasic.typography.scss */
+a:hover i[class^="icon-"] {
+  text-decoration: none;
+}
+/* line 181, ../sass/_ddbasic.typography.scss */
+a:focus {
+  color: #006681;
+}
+
+/* line 195, ../sass/_ddbasic.typography.scss */
+.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
+  font-size: 22.5px;
+  font-size: 1.40625rem;
+}
+
+/* line 199, ../sass/_ddbasic.typography.scss */
+.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
+  font-size: 18.75px;
+  font-size: 1.17188rem;
+}
+
+/* line 203, ../sass/_ddbasic.typography.scss */
+.text-large {
+  font-size: 16.5px;
+  font-size: 1.03125rem;
+}
+
+/* line 207, ../sass/_ddbasic.typography.scss */
+.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .ui-dialog-titlebar .form-item .description {
+  font-size: 13.5px;
+  font-size: 0.84375rem;
+}
+
+/* line 211, ../sass/_ddbasic.typography.scss */
+.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
+  font-size: 12px;
+  font-size: 0.75rem;
+}
+
+/* line 16, ../sass/_ddbasic.blocks.scss */
+.block, .footer-block, .block-opening-hours {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+}
+/* line 20, ../sass/_ddbasic.blocks.scss */
+.block select, .footer-block select, .block-opening-hours select {
+  width: 100%;
+}
+/* line 28, ../sass/_ddbasic.blocks.scss */
+.block .block-content, .footer-block .block-content, .block-opening-hours .block-content {
+  padding: 20px;
+}
+
+/* line 42, ../sass/_ddbasic.blocks.scss */
+.block {
+  -webkit-box-shadow: inset 0 0 15px #007fff;
+  -moz-box-shadow: inset 0 0 15px #007fff;
+  box-shadow: inset 0 0 15px #007fff;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  background-color: #3399ff;
+  background-color: rgba(51, 153, 255, 0.9);
+  color: white;
+}
+
+/* line 52, ../sass/_ddbasic.blocks.scss */
+.block-title, .pane-title, .library-title, .pane-loans h2,
+.pane-reservations h2,
+.pane-bookmarks h2 {
+  margin-bottom: 13.33333px;
+  margin-bottom: 0.83333rem;
+  line-height: 100%;
+}
+
+/* line 28, ../sass/_ddbasic.forms.scss */
 input,
 textarea,
 select {
@@ -3057,77 +3190,12 @@ select {
   letter-spacing: 1px;
 }
 
-/* line 147, ../sass/_ddbasic.typography.scss */
-strong, em strong, .ui-dialog .ui-dialog-titlebar-close .ui-icon {
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
+/* line 33, ../sass/_ddbasic.forms.scss */
+select {
+  padding: 5px;
 }
 
-/* line 153, ../sass/_ddbasic.typography.scss */
-em {
-  font-family: "SourceSansProLightItalic";
-  font-weight: normal;
-}
-/* line 157, ../sass/_ddbasic.typography.scss */
-em strong, em .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close em .ui-icon {
-  font-family: "SourceSansProSemiboldItalic";
-}
-
-/* line 170, ../sass/_ddbasic.typography.scss */
-a:link {
-  color: #00b7e7;
-  text-decoration: none;
-}
-/* line 175, ../sass/_ddbasic.typography.scss */
-a:visited {
-  color: #007a9b;
-  text-decoration: none;
-}
-/* line 180, ../sass/_ddbasic.typography.scss */
-a:hover {
-  color: #006681;
-  text-decoration: underline;
-}
-/* line 184, ../sass/_ddbasic.typography.scss */
-a:hover i[class^="icon-"] {
-  text-decoration: none;
-}
-/* line 189, ../sass/_ddbasic.typography.scss */
-a:focus {
-  color: #006681;
-}
-
-/* line 203, ../sass/_ddbasic.typography.scss */
-.text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
-}
-
-/* line 207, ../sass/_ddbasic.typography.scss */
-.text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-}
-
-/* line 211, ../sass/_ddbasic.typography.scss */
-.text-large {
-  font-size: 16.5px;
-  font-size: 1.03125rem;
-}
-
-/* line 215, ../sass/_ddbasic.typography.scss */
-.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .form-item .description {
-  font-size: 13.5px;
-  font-size: 0.84375rem;
-}
-
-/* line 219, ../sass/_ddbasic.typography.scss */
-.text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
-  font-size: 12px;
-  font-size: 0.75rem;
-}
-
-/* line 36, ../sass/_ddbasic.forms.scss */
+/* line 48, ../sass/_ddbasic.forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -3164,7 +3232,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 52, ../sass/_ddbasic.forms.scss */
+/* line 64, ../sass/_ddbasic.forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -3180,7 +3248,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 58, ../sass/_ddbasic.forms.scss */
+/* line 70, ../sass/_ddbasic.forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],
@@ -3302,19 +3370,24 @@ table {
 .table td,
 table td {
   border-top: 1px solid #d5d5d5;
-  padding: 6.66667px;
+  padding: 10px;
   text-align: left;
   vertical-align: top;
 }
 /* line 55, ../sass/_ddbasic.tables.scss */
 .table th, table th {
-  font-weight: bold;
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
 }
-/* line 59, ../sass/_ddbasic.tables.scss */
+/* line 64, ../sass/_ddbasic.tables.scss */
 .table thead th, table thead th {
   vertical-align: bottom;
 }
-/* line 68, ../sass/_ddbasic.tables.scss */
+/* line 73, ../sass/_ddbasic.tables.scss */
 .table caption + thead tr:first-child th, table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
 table caption + thead tr:first-child td,
@@ -3328,18 +3401,18 @@ table thead:first-child tr:first-child th,
 table thead:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 72, ../sass/_ddbasic.tables.scss */
+/* line 77, ../sass/_ddbasic.tables.scss */
 .table tbody + tbody, table tbody + tbody {
   border-top: 2px solid #d5d5d5;
 }
 
-/* line 83, ../sass/_ddbasic.tables.scss */
+/* line 88, ../sass/_ddbasic.tables.scss */
 .table-condensed th,
 .table-condensed td {
   padding: 3.33333px;
 }
 
-/* line 92, ../sass/_ddbasic.tables.scss */
+/* line 97, ../sass/_ddbasic.tables.scss */
 .table-bordered {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -3349,12 +3422,12 @@ table thead:first-child tr:first-child td {
   *border-collapse: collapsed;
   border-left: 0;
 }
-/* line 101, ../sass/_ddbasic.tables.scss */
+/* line 106, ../sass/_ddbasic.tables.scss */
 .table-bordered th,
 .table-bordered td {
   border-left: 1px solid #d5d5d5;
 }
-/* line 113, ../sass/_ddbasic.tables.scss */
+/* line 118, ../sass/_ddbasic.tables.scss */
 .table-bordered caption + thead tr:first-child th,
 .table-bordered caption + tbody tr:first-child th,
 .table-bordered caption + tbody tr:first-child td,
@@ -3366,28 +3439,28 @@ table thead:first-child tr:first-child td {
 .table-bordered tbody:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 118, ../sass/_ddbasic.tables.scss */
+/* line 123, ../sass/_ddbasic.tables.scss */
 .table-bordered thead:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0;
   -moz-border-radius: 4px 0 0;
   border-radius: 4px 0 0;
 }
-/* line 123, ../sass/_ddbasic.tables.scss */
+/* line 128, ../sass/_ddbasic.tables.scss */
 .table-bordered thead:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
   -moz-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
-/* line 128, ../sass/_ddbasic.tables.scss */
+/* line 133, ../sass/_ddbasic.tables.scss */
 .table-bordered thead:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
   -moz-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
 }
-/* line 132, ../sass/_ddbasic.tables.scss */
+/* line 137, ../sass/_ddbasic.tables.scss */
 .table-bordered thead:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -3395,27 +3468,71 @@ table thead:first-child tr:first-child td {
   border-radius: 0 4px 0 0;
 }
 
-/* line 144, ../sass/_ddbasic.tables.scss */
+/* line 149, ../sass/_ddbasic.tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #fbfbfb;
 }
 
-/* line 158, ../sass/_ddbasic.tables.scss */
+/* line 163, ../sass/_ddbasic.tables.scss */
 .table tbody tr:hover td, table tbody tr:hover td,
 .table tbody tr:hover th,
 table tbody tr:hover th {
   background-color: #efefef;
 }
 
-/* line 24, ../sass/_ddbasic.buttons.scss */
+/* line 23, ../sass/_ddbasic.pagination.scss */
+.pager {
+  padding-left: 0;
+}
+/* line 26, ../sass/_ddbasic.pagination.scss */
+.pager li {
+  display: inline-block;
+  margin-left: -4px;
+  margin-right: 4px;
+}
+/* line 32, ../sass/_ddbasic.pagination.scss */
+.pager li.pager-current,
+.pager li a {
+  background-color: #efefef;
+  display: inline-block;
+  padding: 5px 15px;
+}
+/* line 40, ../sass/_ddbasic.pagination.scss */
+.pager .active a,
+.pager .active a:hover {
+  cursor: default;
+  text-decoration: underline;
+}
+/* line 45, ../sass/_ddbasic.pagination.scss */
+.pager .disabled {
+  background-color: #fbfbfb;
+}
+/* line 48, ../sass/_ddbasic.pagination.scss */
+.pager .disabled a:hover {
+  cursor: default;
+  text-decoration: none;
+}
+
+/* line 32, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
-#edit-cancel, .pane-bookmarks .ding-entity-button a,
+#edit-cancel,
 a.button,
 a.form-submit,
-a#edit-cancel, .topbar .search input[type="submit"].form-submit, .search input[type="submit"], .user input[type="submit"], .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+a#edit-cancel,
+.search input[type="submit"],
+.header-wrapper .user input[type="submit"], .topbar .search input[type="submit"].form-submit, .pane-loans .renew-loan-button .form-submit,
+.pane-reservations .renew-loan-button .form-submit,
+.pane-bookmarks .renew-loan-button .form-submit, .pane-loans .update-reservations .form-submit,
+.pane-reservations .update-reservations .form-submit,
+.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-debts .pay-button .form-submit, .pane-loans .delete-reservation .form-submit,
+.pane-loans .delete-reservations .form-submit,
+.pane-reservations .delete-reservation .form-submit,
+.pane-reservations .delete-reservations .form-submit,
+.pane-bookmarks .delete-reservation .form-submit,
+.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
-.pane-ting-object .ding-entity-button, .user-login-block input[type="submit"] {
+.pane-ting-object .ding-entity-button {
   font-size: 15px;
   font-size: 0.9375rem;
   -webkit-border-radius: 8px;
@@ -3429,37 +3546,92 @@ a#edit-cancel, .topbar .search input[type="submit"].form-submit, .search input[t
   text-align: center;
   vertical-align: middle;
 }
-/* line 39, ../sass/_ddbasic.buttons.scss */
+/* line 47, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
-#edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus,
+#edit-cancel:focus,
 a.form-submit:focus,
-a#edit-cancel:focus, .topbar .search input[type="submit"].form-submit:focus, .search input[type="submit"]:focus, .user input[type="submit"]:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+a#edit-cancel:focus,
+.search input[type="submit"]:focus,
+.header-wrapper .user input[type="submit"]:focus, .topbar .search input[type="submit"].form-submit:focus, .pane-loans .renew-loan-button .form-submit:focus,
+.pane-reservations .renew-loan-button .form-submit:focus,
+.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-loans .update-reservations .form-submit:focus,
+.pane-reservations .update-reservations .form-submit:focus,
+.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-debts .pay-button .form-submit:focus, .pane-loans .delete-reservation .form-submit:focus,
+.pane-loans .delete-reservations .form-submit:focus,
+.pane-reservations .delete-reservation .form-submit:focus,
+.pane-reservations .delete-reservations .form-submit:focus,
+.pane-bookmarks .delete-reservation .form-submit:focus,
+.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .user-login-block input[type="submit"]:focus, .button:hover, .form-submit:hover,
-#edit-cancel:hover, .pane-bookmarks .ding-entity-button a:hover,
+.pane-ting-object .ding-entity-button:focus, .button:hover, .form-submit:hover,
+#edit-cancel:hover,
 a.form-submit:hover,
-a#edit-cancel:hover, .topbar .search input[type="submit"].form-submit:hover, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+a#edit-cancel:hover,
+.search input[type="submit"]:hover,
+.header-wrapper .user input[type="submit"]:hover, .topbar .search input[type="submit"].form-submit:hover, .pane-loans .renew-loan-button .form-submit:hover,
+.pane-reservations .renew-loan-button .form-submit:hover,
+.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-loans .update-reservations .form-submit:hover,
+.pane-reservations .update-reservations .form-submit:hover,
+.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-debts .pay-button .form-submit:hover, .pane-loans .delete-reservation .form-submit:hover,
+.pane-loans .delete-reservations .form-submit:hover,
+.pane-reservations .delete-reservation .form-submit:hover,
+.pane-reservations .delete-reservations .form-submit:hover,
+.pane-bookmarks .delete-reservation .form-submit:hover,
+.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .user-login-block input[type="submit"]:hover, .button:active, .form-submit:active,
-#edit-cancel:active, .pane-bookmarks .ding-entity-button a:active,
+.pane-ting-object .ding-entity-button:hover, .button:active, .form-submit:active,
+#edit-cancel:active,
 a.form-submit:active,
-a#edit-cancel:active, .topbar .search input[type="submit"].form-submit:active, .search input[type="submit"]:active, .user input[type="submit"]:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+a#edit-cancel:active,
+.search input[type="submit"]:active,
+.header-wrapper .user input[type="submit"]:active, .topbar .search input[type="submit"].form-submit:active, .pane-loans .renew-loan-button .form-submit:active,
+.pane-reservations .renew-loan-button .form-submit:active,
+.pane-bookmarks .renew-loan-button .form-submit:active, .pane-loans .update-reservations .form-submit:active,
+.pane-reservations .update-reservations .form-submit:active,
+.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-debts .pay-button .form-submit:active, .pane-loans .delete-reservation .form-submit:active,
+.pane-loans .delete-reservations .form-submit:active,
+.pane-reservations .delete-reservation .form-submit:active,
+.pane-reservations .delete-reservations .form-submit:active,
+.pane-bookmarks .delete-reservation .form-submit:active,
+.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
-.pane-ting-object .ding-entity-button:active, .user-login-block input[type="submit"]:active {
+.pane-ting-object .ding-entity-button:active {
   text-decoration: none;
 }
-/* line 45, ../sass/_ddbasic.buttons.scss */
+/* line 53, ../sass/_ddbasic.buttons.scss */
 .disabled.button, .disabled.form-submit,
-.disabled#edit-cancel, .pane-bookmarks .ding-entity-button a.disabled,
+.disabled#edit-cancel,
 a.disabled.form-submit,
-a.disabled#edit-cancel, .topbar .search input.disabled[type="submit"].form-submit, .search input.disabled[type="submit"], .user input.disabled[type="submit"], .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+a.disabled#edit-cancel,
+.search input.disabled[type="submit"],
+.header-wrapper .user input.disabled[type="submit"], .topbar .search input.disabled[type="submit"].form-submit, .pane-loans .renew-loan-button .disabled.form-submit,
+.pane-reservations .renew-loan-button .disabled.form-submit,
+.pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-loans .update-reservations .disabled.form-submit,
+.pane-reservations .update-reservations .disabled.form-submit,
+.pane-bookmarks .update-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a.disabled, .pane-debts .pay-button .disabled.form-submit, .pane-loans .delete-reservation .disabled.form-submit,
+.pane-loans .delete-reservations .disabled.form-submit,
+.pane-reservations .delete-reservation .disabled.form-submit,
+.pane-reservations .delete-reservations .disabled.form-submit,
+.pane-bookmarks .delete-reservation .disabled.form-submit,
+.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, .user-login-block input.disabled[type="submit"], [disabled].button, [disabled].form-submit,
-[disabled]#edit-cancel, .pane-bookmarks .ding-entity-button a[disabled],
+.pane-ting-object .disabled.ding-entity-button, [disabled].button, [disabled].form-submit,
+[disabled]#edit-cancel,
 a[disabled].form-submit,
-a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-submit, .search input[disabled][type="submit"], .user input[disabled][type="submit"], .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+a[disabled]#edit-cancel,
+.search input[disabled][type="submit"],
+.header-wrapper .user input[disabled][type="submit"], .topbar .search input[disabled][type="submit"].form-submit, .pane-loans .renew-loan-button [disabled].form-submit,
+.pane-reservations .renew-loan-button [disabled].form-submit,
+.pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-loans .update-reservations [disabled].form-submit,
+.pane-reservations .update-reservations [disabled].form-submit,
+.pane-bookmarks .update-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a[disabled], .pane-debts .pay-button [disabled].form-submit, .pane-loans .delete-reservation [disabled].form-submit,
+.pane-loans .delete-reservations [disabled].form-submit,
+.pane-reservations .delete-reservation [disabled].form-submit,
+.pane-reservations .delete-reservations [disabled].form-submit,
+.pane-bookmarks .delete-reservation [disabled].form-submit,
+.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
-.pane-ting-object [disabled].ding-entity-button, .user-login-block input[disabled][type="submit"] {
+.pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
   opacity: 0.65;
   -webkit-box-shadow: none;
@@ -3468,48 +3640,52 @@ a[disabled]#edit-cancel, .topbar .search input[disabled][type="submit"].form-sub
   cursor: default;
 }
 
-/* line 80, ../sass/_ddbasic.buttons.scss */
+/* line 95, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
-#edit-cancel, .pane-bookmarks .ding-entity-button a,
+#edit-cancel,
 a.button,
 a.form-submit,
 a#edit-cancel,
-.pane-bookmarks .ding-entity-button a {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #595959), color-stop(100%, #404040));
-  background-image: -webkit-linear-gradient(#595959, #404040);
-  background-image: -moz-linear-gradient(#595959, #404040);
-  background-image: -o-linear-gradient(#595959, #404040);
-  background-image: linear-gradient(#595959, #404040);
-  background-color: #595959;
+.search input[type="submit"],
+.header-wrapper .user input[type="submit"] {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
+  background-image: -webkit-linear-gradient(#444444, #1e1e1e);
+  background-image: -moz-linear-gradient(#444444, #1e1e1e);
+  background-image: -o-linear-gradient(#444444, #1e1e1e);
+  background-image: linear-gradient(#444444, #1e1e1e);
+  background-color: #444444;
   border: 0;
   color: white;
 }
-/* line 71, ../sass/_ddbasic.buttons.scss */
+/* line 80, ../sass/_ddbasic.buttons.scss */
 .button:focus, .form-submit:focus,
-#edit-cancel:focus, .pane-bookmarks .ding-entity-button a:focus, .button:hover, .form-submit:hover,
-#edit-cancel:hover, .pane-bookmarks .ding-entity-button a:hover, .button:active, .form-submit:active,
-#edit-cancel:active, .pane-bookmarks .ding-entity-button a:active,
+#edit-cancel:focus, .button:hover, .form-submit:hover,
+#edit-cancel:hover, .button:active, .form-submit:active,
+#edit-cancel:active,
 a.button:focus,
 a.form-submit:focus,
 a#edit-cancel:focus,
-.pane-bookmarks .ding-entity-button a:focus,
 a.button:hover,
 a.form-submit:hover,
 a#edit-cancel:hover,
-.pane-bookmarks .ding-entity-button a:hover,
 a.button:active,
 a.form-submit:active,
 a#edit-cancel:active,
-.pane-bookmarks .ding-entity-button a:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #4d4d4d), color-stop(100%, #333333));
-  background-image: -webkit-linear-gradient(#4d4d4d, #333333);
-  background-image: -moz-linear-gradient(#4d4d4d, #333333);
-  background-image: -o-linear-gradient(#4d4d4d, #333333);
-  background-image: linear-gradient(#4d4d4d, #333333);
-  background-color: #404040;
+.search input[type="submit"]:focus,
+.header-wrapper .user input[type="submit"]:focus,
+.search input[type="submit"]:hover,
+.header-wrapper .user input[type="submit"]:hover,
+.search input[type="submit"]:active,
+.header-wrapper .user input[type="submit"]:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
+  background-image: -webkit-linear-gradient(#373737, #111111);
+  background-image: -moz-linear-gradient(#373737, #111111);
+  background-image: -o-linear-gradient(#373737, #111111);
+  background-image: linear-gradient(#373737, #111111);
+  background-color: #1e1e1e;
 }
 
-/* line 85, ../sass/_ddbasic.buttons.scss */
+/* line 100, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"].form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00b7e7), color-stop(100%, #007a9b));
   background-image: -webkit-linear-gradient(#00b7e7, #007a9b);
@@ -3520,7 +3696,7 @@ a#edit-cancel:active,
   border: 0;
   color: white;
 }
-/* line 71, ../sass/_ddbasic.buttons.scss */
+/* line 80, ../sass/_ddbasic.buttons.scss */
 .topbar .search input[type="submit"].form-submit:focus, .topbar .search input[type="submit"].form-submit:hover, .topbar .search input[type="submit"].form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00a3ce), color-stop(100%, #006681));
   background-image: -webkit-linear-gradient(#00a3ce, #006681);
@@ -3530,28 +3706,85 @@ a#edit-cancel:active,
   background-color: #007a9b;
 }
 
-/* line 90, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"], .user input[type="submit"] {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
-  background-image: -webkit-linear-gradient(#444444, #1e1e1e);
-  background-image: -moz-linear-gradient(#444444, #1e1e1e);
-  background-image: -o-linear-gradient(#444444, #1e1e1e);
-  background-image: linear-gradient(#444444, #1e1e1e);
-  background-color: #444444;
+/* line 105, ../sass/_ddbasic.buttons.scss */
+.pane-loans .renew-loan-button .form-submit,
+.pane-reservations .renew-loan-button .form-submit,
+.pane-bookmarks .renew-loan-button .form-submit, .pane-loans .update-reservations .form-submit,
+.pane-reservations .update-reservations .form-submit,
+.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-debts .pay-button .form-submit {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #60a500), color-stop(100%, #335900));
+  background-image: -webkit-linear-gradient(#60a500, #335900);
+  background-image: -moz-linear-gradient(#60a500, #335900);
+  background-image: -o-linear-gradient(#60a500, #335900);
+  background-image: linear-gradient(#60a500, #335900);
+  background-color: #60a500;
   border: 0;
   color: white;
 }
-/* line 71, ../sass/_ddbasic.buttons.scss */
-.search input[type="submit"]:focus, .user input[type="submit"]:focus, .search input[type="submit"]:hover, .user input[type="submit"]:hover, .search input[type="submit"]:active, .user input[type="submit"]:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
-  background-image: -webkit-linear-gradient(#373737, #111111);
-  background-image: -moz-linear-gradient(#373737, #111111);
-  background-image: -o-linear-gradient(#373737, #111111);
-  background-image: linear-gradient(#373737, #111111);
-  background-color: #1e1e1e;
+/* line 80, ../sass/_ddbasic.buttons.scss */
+.pane-loans .renew-loan-button .form-submit:focus,
+.pane-reservations .renew-loan-button .form-submit:focus,
+.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-loans .update-reservations .form-submit:focus,
+.pane-reservations .update-reservations .form-submit:focus,
+.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-debts .pay-button .form-submit:focus, .pane-loans .renew-loan-button .form-submit:hover,
+.pane-reservations .renew-loan-button .form-submit:hover,
+.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-loans .update-reservations .form-submit:hover,
+.pane-reservations .update-reservations .form-submit:hover,
+.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-debts .pay-button .form-submit:hover, .pane-loans .renew-loan-button .form-submit:active,
+.pane-reservations .renew-loan-button .form-submit:active,
+.pane-bookmarks .renew-loan-button .form-submit:active, .pane-loans .update-reservations .form-submit:active,
+.pane-reservations .update-reservations .form-submit:active,
+.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-debts .pay-button .form-submit:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #518b00), color-stop(100%, #253f00));
+  background-image: -webkit-linear-gradient(#518b00, #253f00);
+  background-image: -moz-linear-gradient(#518b00, #253f00);
+  background-image: -o-linear-gradient(#518b00, #253f00);
+  background-image: linear-gradient(#518b00, #253f00);
+  background-color: #335900;
 }
 
-/* line 103, ../sass/_ddbasic.buttons.scss */
+/* line 115, ../sass/_ddbasic.buttons.scss */
+.pane-loans .delete-reservation .form-submit,
+.pane-loans .delete-reservations .form-submit,
+.pane-reservations .delete-reservation .form-submit,
+.pane-reservations .delete-reservations .form-submit,
+.pane-bookmarks .delete-reservation .form-submit,
+.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bf3600), color-stop(100%, #732000));
+  background-image: -webkit-linear-gradient(#bf3600, #732000);
+  background-image: -moz-linear-gradient(#bf3600, #732000);
+  background-image: -o-linear-gradient(#bf3600, #732000);
+  background-image: linear-gradient(#bf3600, #732000);
+  background-color: #bf3600;
+  border: 0;
+  color: white;
+}
+/* line 80, ../sass/_ddbasic.buttons.scss */
+.pane-loans .delete-reservation .form-submit:focus,
+.pane-loans .delete-reservations .form-submit:focus,
+.pane-reservations .delete-reservation .form-submit:focus,
+.pane-reservations .delete-reservations .form-submit:focus,
+.pane-bookmarks .delete-reservation .form-submit:focus,
+.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-loans .delete-reservation .form-submit:hover,
+.pane-loans .delete-reservations .form-submit:hover,
+.pane-reservations .delete-reservation .form-submit:hover,
+.pane-reservations .delete-reservations .form-submit:hover,
+.pane-bookmarks .delete-reservation .form-submit:hover,
+.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-loans .delete-reservation .form-submit:active,
+.pane-loans .delete-reservations .form-submit:active,
+.pane-reservations .delete-reservation .form-submit:active,
+.pane-reservations .delete-reservations .form-submit:active,
+.pane-bookmarks .delete-reservation .form-submit:active,
+.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active {
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #a62f00), color-stop(100%, #591900));
+  background-image: -webkit-linear-gradient(#a62f00, #591900);
+  background-image: -moz-linear-gradient(#a62f00, #591900);
+  background-image: -o-linear-gradient(#a62f00, #591900);
+  background-image: linear-gradient(#a62f00, #591900);
+  background-color: #732000;
+}
+
+/* line 122, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, input[type=submit].form-submit,
 input[type=submit]#edit-cancel,
 button.button,
@@ -3561,7 +3794,7 @@ button#edit-cancel {
 }
 
 @-moz-document url-prefix() {
-  /* line 114, ../sass/_ddbasic.buttons.scss */
+  /* line 133, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -3577,13 +3810,13 @@ button#edit-cancel {
   margin: 0;
   padding: 0;
 }
-/* line 29, ../sass/_ddbasic.tabs.scss */
+/* line 28, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary {
   margin: 0;
   border: none;
   padding-left: 10px;
 }
-/* line 37, ../sass/_ddbasic.tabs.scss */
+/* line 36, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li,
 #tabs ul.primary li.active,
 #tabs ul.primary li:hover,
@@ -3591,7 +3824,7 @@ button#edit-cancel {
   display: inline-block;
   background: transparent;
 }
-/* line 41, ../sass/_ddbasic.tabs.scss */
+/* line 40, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a,
 #tabs ul.primary li.active a,
 #tabs ul.primary li:hover a,
@@ -3603,37 +3836,43 @@ button#edit-cancel {
   display: block;
   line-height: 31.2px;
   margin: 0;
+  padding-right: 20px;
+  padding-left: 20px;
 }
-/* line 49, ../sass/_ddbasic.tabs.scss */
+/* line 50, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a:hover,
 #tabs ul.primary li.active a:hover,
 #tabs ul.primary li:hover a:hover,
 #tabs ul.primary li.active:hover a:hover {
+  background: #fbfbfb;
   color: black;
+  text-decoration: none;
 }
-/* line 55, ../sass/_ddbasic.tabs.scss */
+/* line 58, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a {
   background: #efefef;
 }
-/* line 59, ../sass/_ddbasic.tabs.scss */
+/* line 62, ../sass/_ddbasic.tabs.scss */
 #tabs ul.primary li a.active {
   background: white;
 }
-/* line 64, ../sass/_ddbasic.tabs.scss */
+/* line 67, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary {
+  background-color: white;
   padding: 10px;
   margin: 0 10px;
 }
-/* line 71, ../sass/_ddbasic.tabs.scss */
+/* line 75, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li,
 #tabs ul.secondary li.active,
 #tabs ul.secondary li:hover,
 #tabs ul.secondary li.active:hover {
   background: transparent;
   border-right: none;
+  display: inline-block;
   padding-right: 0;
 }
-/* line 77, ../sass/_ddbasic.tabs.scss */
+/* line 82, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a,
 #tabs ul.secondary li.active a,
 #tabs ul.secondary li:hover a,
@@ -3644,11 +3883,20 @@ button#edit-cancel {
   display: block;
   padding: 0 10px;
 }
-/* line 85, ../sass/_ddbasic.tabs.scss */
+/* line 88, ../sass/_ddbasic.tabs.scss */
+#tabs ul.secondary li a:hover,
+#tabs ul.secondary li.active a:hover,
+#tabs ul.secondary li:hover a:hover,
+#tabs ul.secondary li.active:hover a:hover {
+  background: #fbfbfb;
+  color: black;
+  text-decoration: none;
+}
+/* line 96, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a {
   background: white;
 }
-/* line 89, ../sass/_ddbasic.tabs.scss */
+/* line 100, ../sass/_ddbasic.tabs.scss */
 #tabs ul.secondary li a.active {
   background: #efefef;
 }
@@ -3709,77 +3957,48 @@ button#edit-cancel {
 }
 
 /* line 16, ../sass/_ddbasic.navigation.scss */
-.main-menu, .secondary-menu, .user-name ul,
-.user-menu-loans ul,
-.user-menu ul {
+.main-menu, .secondary-menu {
   margin: 0;
   padding-left: 0;
 }
 /* line 20, ../sass/_ddbasic.navigation.scss */
-.main-menu li, .secondary-menu li, .user-name ul li,
-.user-menu-loans ul li,
-.user-menu ul li {
+.main-menu li, .secondary-menu li {
   display: inline;
 }
 /* line 26, ../sass/_ddbasic.navigation.scss */
-.main-menu .last span, .secondary-menu .last span, .user-name ul .last span,
-.user-menu-loans ul .last span,
-.user-menu ul .last span,
+.main-menu .last span, .secondary-menu .last span,
 .main-menu .last a,
-.secondary-menu .last a,
-.user-name ul .last a,
-.user-menu-loans ul .last a,
-.user-menu ul .last a {
+.secondary-menu .last a {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
 }
 /* line 34, ../sass/_ddbasic.navigation.scss */
-.main-menu a, .secondary-menu a, .user-name ul a,
-.user-menu-loans ul a,
-.user-menu ul a,
+.main-menu a, .secondary-menu a,
 .main-menu li a,
-.secondary-menu li a,
-.user-name ul li a,
-.user-menu-loans ul li a,
-.user-menu ul li a {
+.secondary-menu li a {
   display: inline-block;
   margin-right: 25px;
   padding: 20px 0;
   color: gray;
 }
 /* line 41, ../sass/_ddbasic.navigation.scss */
-.main-menu a:hover, .secondary-menu a:hover, .user-name ul a:hover,
-.user-menu-loans ul a:hover,
-.user-menu ul a:hover,
+.main-menu a:hover, .secondary-menu a:hover,
 .main-menu li a:hover,
-.secondary-menu li a:hover,
-.user-name ul li a:hover,
-.user-menu-loans ul li a:hover,
-.user-menu ul li a:hover {
+.secondary-menu li a:hover {
   color: black;
 }
 /* line 45, ../sass/_ddbasic.navigation.scss */
-.main-menu a.active, .secondary-menu a.active, .user-name ul a.active,
-.user-menu-loans ul a.active,
-.user-menu ul a.active,
+.main-menu a.active, .secondary-menu a.active,
 .main-menu li a.active,
-.secondary-menu li a.active,
-.user-name ul li a.active,
-.user-menu-loans ul li a.active,
-.user-menu ul li a.active {
+.secondary-menu li a.active {
   color: black;
   text-decoration: underline;
 }
 /* line 50, ../sass/_ddbasic.navigation.scss */
-.main-menu a.last, .secondary-menu a.last, .user-name ul a.last,
-.user-menu-loans ul a.last,
-.user-menu ul a.last,
+.main-menu a.last, .secondary-menu a.last,
 .main-menu li a.last,
-.secondary-menu li a.last,
-.user-name ul li a.last,
-.user-menu-loans ul li a.last,
-.user-menu ul li a.last {
+.secondary-menu li a.last {
   border-right: 0;
   margin-right: 0;
   padding-right: 0;
@@ -4023,7 +4242,7 @@ button#edit-cancel {
   color: white;
 }
 /* line 38, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block .block-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .block-title, .footer-block .pane-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
 .pane-reservations .footer-block h2,
 .footer-block .pane-bookmarks h2,
@@ -4049,17 +4268,17 @@ ul li.leaf {
   list-style: none;
 }
 
-/* line 33, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 36, ../sass/_ddbasic.overrides.drupal.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 46, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 49, ../sass/_ddbasic.overrides.drupal.scss */
 .feed-icon img {
   max-width: 16px;
 }
 
-/* line 53, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 56, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4073,9 +4292,9 @@ ul li.leaf {
   text-align: center;
 }
 
-/* line 65, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 68, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress .throbber {
-  background: transparent;
+  background: none !important;
   color: #000;
   font-family: FontAwesome;
   font-size: 50px;
@@ -4086,48 +4305,62 @@ ul li.leaf {
   width: 50px;
 }
 
+/* line 84, ../sass/_ddbasic.overrides.drupal.scss */
+thead th {
+  background-color: #dadada;
+}
+
+/* line 89, ../sass/_ddbasic.overrides.drupal.scss */
+tr.even {
+  background-color: #efefef;
+}
+
+/* line 93, ../sass/_ddbasic.overrides.drupal.scss */
+tr.odd {
+  background-color: #e4e4e4;
+}
+
 /* line 19, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ting-object .ting-cover, .field-name-field-ding-news-materials .ting-cover {
   float: left;
   min-height: 100px;
   position: relative;
   width: 10%;
-  z-index: 1;
 }
-/* line 28, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ting-cover:after, .pane-ting-collection .ting-cover:after, .pane-ting-object .ting-cover:after, .field-name-field-ding-news-materials .ting-cover:after {
-  content: "";
-  background: url("../images/image-missing.png");
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-  opacity: 0.3;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+/* line 27, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ting-cover img, .pane-ting-collection .ting-cover img, .pane-ting-object .ting-cover img, .field-name-field-ding-news-materials .ting-cover img {
+  position: relative;
+  z-index: 90;
+}
+/* line 32, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .field-name-field-ding-news-materials .ting-cover:before {
+  font-size: 74px;
+  font-size: 4.625rem;
+  color: #bcbcbc;
+  font-family: FontAwesome;
+  left: 2px;
   position: absolute;
-  z-index: -1;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top center;
-  min-height: 100px;
+  top: 47px;
 }
 
-/* line 50, ../sass/_ddbasic.search.scss */
+/* line 48, ../sass/_ddbasic.search.scss */
 input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
-/* line 55, ../sass/_ddbasic.search.scss */
+/* line 53, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser input.form-checkbox {
-  vertical-align: bottom;
+  margin-top: 4px;
+  margin-right: 8px;
+  vertical-align: baseline;
 }
 
-/* line 58, ../sass/_ddbasic.search.scss */
+/* line 59, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser label.option {
   font-weight: inherit;
 }
 
-/* line 67, ../sass/_ddbasic.search.scss */
+/* line 68, ../sass/_ddbasic.search.scss */
 .search i[class^="icon-"], .topbar .search i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
@@ -4137,7 +4370,7 @@ input#edit-search-block-form--2.spinner {
   top: 15px;
   z-index: 10;
 }
-/* line 79, ../sass/_ddbasic.search.scss */
+/* line 80, ../sass/_ddbasic.search.scss */
 .search input[type="text"], .topbar .search input[type="text"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -4158,7 +4391,7 @@ input#edit-search-block-form--2.spinner {
   left: 0;
   width: 100%;
 }
-/* line 100, ../sass/_ddbasic.search.scss */
+/* line 101, ../sass/_ddbasic.search.scss */
 .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -4167,7 +4400,7 @@ input#edit-search-block-form--2.spinner {
   top: 22px;
 }
 
-/* line 113, ../sass/_ddbasic.search.scss */
+/* line 114, ../sass/_ddbasic.search.scss */
 .header-wrapper .search {
   float: left;
   width: 50%;
@@ -4186,21 +4419,21 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
 }
 
-/* line 119, ../sass/_ddbasic.search.scss */
+/* line 120, ../sass/_ddbasic.search.scss */
 .search {
   margin-top: 0;
   margin-bottom: 0;
   padding-right: 0;
 }
-/* line 126, ../sass/_ddbasic.search.scss */
+/* line 127, ../sass/_ddbasic.search.scss */
 .search .search-field-wrapper {
   margin-right: 30px;
 }
-/* line 130, ../sass/_ddbasic.search.scss */
+/* line 131, ../sass/_ddbasic.search.scss */
 .search .form-item {
   margin-top: 0em;
 }
-/* line 134, ../sass/_ddbasic.search.scss */
+/* line 135, ../sass/_ddbasic.search.scss */
 .search input[type="submit"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -4213,52 +4446,45 @@ input#edit-search-block-form--2.spinner {
   right: 30px;
   top: 0;
 }
-/* line 148, ../sass/_ddbasic.search.scss */
+/* line 149, ../sass/_ddbasic.search.scss */
 .search .help-link {
   display: block;
   float: right;
   margin-top: 10px;
 }
-/* line 153, ../sass/_ddbasic.search.scss */
+/* line 154, ../sass/_ddbasic.search.scss */
 .search .help-link:hover {
   color: black;
   text-decoration: none;
 }
 
-/* line 162, ../sass/_ddbasic.search.scss */
+/* line 163, ../sass/_ddbasic.search.scss */
+.not-logged-in .topbar .search {
+  margin-right: 131px;
+}
+
+/* line 170, ../sass/_ddbasic.search.scss */
 .topbar .search {
   float: right;
-  width: 33.33333%;
-  margin-right: 16.66667%;
-  margin-left: -50.0%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
   margin-top: 17px;
-  margin-right: 170px;
-  position: absolute;
-  right: 160px;
 }
-/* line 171, ../sass/_ddbasic.search.scss */
+/* line 176, ../sass/_ddbasic.search.scss */
 .topbar .search .search-field-wrapper {
   min-width: 558px;
   position: relative;
 }
-/* line 176, ../sass/_ddbasic.search.scss */
+/* line 181, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="text"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   min-height: 50px;
+  padding-right: 70px;
 }
-/* line 182, ../sass/_ddbasic.search.scss */
+/* line 189, ../sass/_ddbasic.search.scss */
 .topbar .search input[type="submit"].form-submit {
   font-size: 21px;
   font-size: 1.3125rem;
@@ -4267,7 +4493,7 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   right: -2px;
 }
-/* line 192, ../sass/_ddbasic.search.scss */
+/* line 199, ../sass/_ddbasic.search.scss */
 .topbar .search i[class^="icon-"] {
   font-size: 22.5px;
   font-size: 1.40625rem;
@@ -4277,90 +4503,89 @@ input#edit-search-block-form--2.spinner {
   position: absolute;
   top: 13px;
 }
-/* line 203, ../sass/_ddbasic.search.scss */
+/* line 210, ../sass/_ddbasic.search.scss */
 .topbar .search .spinner i[class^="icon-"] {
   top: 16px;
 }
 
-/* line 217, ../sass/_ddbasic.search.scss */
+/* line 224, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 220, ../sass/_ddbasic.search.scss */
+/* line 227, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #00b7e7;
 }
-/* line 225, ../sass/_ddbasic.search.scss */
+/* line 232, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2 {
   margin-bottom: 20px;
 }
-/* line 231, ../sass/_ddbasic.search.scss */
+/* line 238, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser legend {
   line-height: inherit;
   padding-top: 20px;
   padding-bottom: 10px;
 }
-/* line 240, ../sass/_ddbasic.search.scss */
+/* line 247, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 245, ../sass/_ddbasic.search.scss */
+/* line 252, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 249, ../sass/_ddbasic.search.scss */
+/* line 256, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 5px 0;
 }
-/* line 262, ../sass/_ddbasic.search.scss */
+/* line 269, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
+  margin-left: 5px;
 }
-/* line 265, ../sass/_ddbasic.search.scss */
+/* line 273, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 1.1em;
 }
-/* line 272, ../sass/_ddbasic.search.scss */
+/* line 280, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-more {
   display: block;
   float: left;
-  margin-top: 20px;
 }
-/* line 279, ../sass/_ddbasic.search.scss */
+/* line 286, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-less {
   display: block;
   float: left;
-  margin-top: 20px;
 }
-/* line 288, ../sass/_ddbasic.search.scss */
+/* line 294, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 292, ../sass/_ddbasic.search.scss */
+/* line 298, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 297, ../sass/_ddbasic.search.scss */
+/* line 303, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect {
   float: right;
   margin-top: 10px;
 }
-/* line 307, ../sass/_ddbasic.search.scss */
+/* line 313, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 312, ../sass/_ddbasic.search.scss */
+/* line 318, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 316, ../sass/_ddbasic.search.scss */
+/* line 322, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-facets {
   display: block;
   text-align: right;
@@ -4370,288 +4595,291 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 
-/* line 346, ../sass/_ddbasic.search.scss */
+/* line 352, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query {
   float: left;
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 354, ../sass/_ddbasic.search.scss */
+/* line 360, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 358, ../sass/_ddbasic.search.scss */
+/* line 364, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 363, ../sass/_ddbasic.search.scss */
+/* line 369, ../sass/_ddbasic.search.scss */
 .pane-ting-search {
   float: right;
 }
-/* line 366, ../sass/_ddbasic.search.scss */
+/* line 372, ../sass/_ddbasic.search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
-/* line 375, ../sass/_ddbasic.search.scss */
+/* line 381, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   color: #959595;
   float: left;
   overflow: hidden;
 }
-/* line 381, ../sass/_ddbasic.search.scss */
+/* line 387, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 385, ../sass/_ddbasic.search.scss */
+/* line 391, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 390, ../sass/_ddbasic.search.scss */
+/* line 396, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 396, ../sass/_ddbasic.search.scss */
+/* line 402, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   color: #959595;
   float: right;
   margin-left: 20px;
   overflow: hidden;
 }
-/* line 402, ../sass/_ddbasic.search.scss */
+/* line 408, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #006681;
   text-decoration: underline;
 }
-/* line 408, ../sass/_ddbasic.search.scss */
+/* line 414, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #006681;
   text-decoration: none;
 }
-/* line 413, ../sass/_ddbasic.search.scss */
+/* line 419, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 419, ../sass/_ddbasic.search.scss */
+/* line 425, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle {
   float: right;
 }
-/* line 424, ../sass/_ddbasic.search.scss */
+/* line 430, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
-/* line 430, ../sass/_ddbasic.search.scss */
+/* line 436, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 434, ../sass/_ddbasic.search.scss */
+/* line 440, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend {
   float: right;
   border: none;
   padding: 0;
 }
-/* line 439, ../sass/_ddbasic.search.scss */
+/* line 445, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
 }
-/* line 443, ../sass/_ddbasic.search.scss */
+/* line 449, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* line 457, ../sass/_ddbasic.search.scss */
+/* line 463, ../sass/_ddbasic.search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 462, ../sass/_ddbasic.search.scss */
+/* line 468, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 469, ../sass/_ddbasic.search.scss */
+/* line 475, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 474, ../sass/_ddbasic.search.scss */
+/* line 480, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
   margin-left: 10%;
   padding-left: 20px;
 }
-/* line 485, ../sass/_ddbasic.search.scss */
+/* line 491, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-left: 10%;
   margin-bottom: 10px;
   padding-left: 20px;
 }
-/* line 491, ../sass/_ddbasic.search.scss */
+/* line 497, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 495, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon {
+/* line 501, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon {
   font-weight: inherit;
 }
-/* line 499, ../sass/_ddbasic.search.scss */
+/* line 505, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects a {
+  display: inline-block;
   margin-right: 5px;
+  margin-bottom: 5px;
 }
-/* line 504, ../sass/_ddbasic.search.scss */
+/* line 512, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability {
   margin-bottom: 0;
 }
-/* line 510, ../sass/_ddbasic.search.scss */
+/* line 518, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 536, ../sass/_ddbasic.search.scss */
+/* line 544, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
+  margin-left: 5px;
 }
-/* line 548, ../sass/_ddbasic.search.scss */
+/* line 557, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 553, ../sass/_ddbasic.search.scss */
+/* line 562, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 560, ../sass/_ddbasic.search.scss */
+/* line 569, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 565, ../sass/_ddbasic.search.scss */
+/* line 574, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 568, ../sass/_ddbasic.search.scss */
+/* line 577, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 573, ../sass/_ddbasic.search.scss */
+/* line 582, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 577, ../sass/_ddbasic.search.scss */
+/* line 586, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .availability {
   clear: both;
   display: block;
   margin-top: 20px;
 }
-/* line 582, ../sass/_ddbasic.search.scss */
+/* line 591, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .availability li {
   display: inline;
 }
 
-/* line 602, ../sass/_ddbasic.search.scss */
+/* line 611, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul li, .pane-ting-ting-object-types ul li, .pane-ting-ting-relation-anchors ul li {
   margin-bottom: 10px;
   padding-bottom: default-spacing/2;
 }
-/* line 607, ../sass/_ddbasic.search.scss */
+/* line 616, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul .last, .pane-ting-ting-object-types ul .last, .pane-ting-ting-relation-anchors ul .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 617, ../sass/_ddbasic.search.scss */
+/* line 626, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 621, ../sass/_ddbasic.search.scss */
+/* line 630, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 630, ../sass/_ddbasic.search.scss */
+/* line 639, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 636, ../sass/_ddbasic.search.scss */
+/* line 645, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-left: 10%;
   padding-left: 20px;
   margin-bottom: 10px;
 }
-/* line 641, ../sass/_ddbasic.search.scss */
+/* line 650, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 647, ../sass/_ddbasic.search.scss */
+/* line 656, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 653, ../sass/_ddbasic.search.scss */
-.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon {
+/* line 662, ../sass/_ddbasic.search.scss */
+.pane-ting-collection .subjects strong, .pane-ting-object .subjects strong, .pane-ting-collection .subjects em strong, em .pane-ting-collection .subjects strong, .pane-ting-object .subjects em strong, em .pane-ting-object .subjects strong, .pane-ting-collection .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-ting-collection .subjects .ui-icon, .pane-ting-object .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-ting-object .subjects .ui-icon {
   font-weight: inherit;
 }
-/* line 657, ../sass/_ddbasic.search.scss */
+/* line 666, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .subjects a, .pane-ting-object .subjects a {
   margin-right: 5px;
 }
-/* line 662, ../sass/_ddbasic.search.scss */
+/* line 671, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type, .pane-ting-object .field-name-ting-type {
   float: right;
 }
-/* line 665, ../sass/_ddbasic.search.scss */
+/* line 674, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type li, .pane-ting-object .field-name-ting-type li {
   list-style: none;
 }
-/* line 690, ../sass/_ddbasic.search.scss */
+/* line 699, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   float: right;
   margin: 0;
 }
-/* line 695, ../sass/_ddbasic.search.scss */
+/* line 704, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons form, .pane-ting-object .field-name-ding-entity-buttons form,
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button,
 .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button {
   float: left;
 }
-/* line 700, ../sass/_ddbasic.search.scss */
+/* line 709, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: black;
 }
-/* line 703, ../sass/_ddbasic.search.scss */
+/* line 712, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 709, ../sass/_ddbasic.search.scss */
+/* line 718, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
   margin-right: 10px;
 }
-/* line 716, ../sass/_ddbasic.search.scss */
+/* line 725, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
@@ -4661,33 +4889,33 @@ input#edit-search-block-form--2.spinner {
   padding: 6px;
 }
 
-/* line 731, ../sass/_ddbasic.search.scss */
+/* line 740, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
-/* line 736, ../sass/_ddbasic.search.scss */
+/* line 745, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   color: #959595;
   margin-bottom: 20px;
 }
 
-/* line 744, ../sass/_ddbasic.search.scss */
+/* line 753, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 753, ../sass/_ddbasic.search.scss */
+/* line 762, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-cover {
   width: 25%;
   min-height: 250px;
 }
-/* line 758, ../sass/_ddbasic.search.scss */
+/* line 767, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 767, ../sass/_ddbasic.search.scss */
+/* line 776, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-title,
 .pane-ting-object .field-name-ting-author,
 .pane-ting-object .field-name-ting-abstract,
@@ -4695,67 +4923,67 @@ input#edit-search-block-form--2.spinner {
   margin-left: 25%;
   padding-left: 20px;
 }
-/* line 774, ../sass/_ddbasic.search.scss */
+/* line 783, ../sass/_ddbasic.search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 779, ../sass/_ddbasic.search.scss */
+/* line 788, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details, .pane-ting-object .field-name-ting-series {
   clear: both;
   padding-top: 20px;
 }
-/* line 783, ../sass/_ddbasic.search.scss */
+/* line 792, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-label, .pane-ting-object .field-name-ting-series .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 788, ../sass/_ddbasic.search.scss */
+/* line 797, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-items, .pane-ting-object .field-name-ting-series .field-items {
   max-width: 72%;
 }
-/* line 793, ../sass/_ddbasic.search.scss */
+/* line 802, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-series {
   padding-top: 0;
 }
-/* line 799, ../sass/_ddbasic.search.scss */
+/* line 808, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   clear: both;
 }
-/* line 802, ../sass/_ddbasic.search.scss */
+/* line 811, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 808, ../sass/_ddbasic.search.scss */
+/* line 817, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 812, ../sass/_ddbasic.search.scss */
+/* line 821, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 818, ../sass/_ddbasic.search.scss */
+/* line 827, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   border-top: 1px solid #d5d5d5;
   margin-top: 20px;
   padding-top: 20px;
   margin-bottom: 0;
 }
-/* line 825, ../sass/_ddbasic.search.scss */
+/* line 834, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 831, ../sass/_ddbasic.search.scss */
+/* line 840, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 837, ../sass/_ddbasic.search.scss */
+/* line 846, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -4764,30 +4992,30 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 845, ../sass/_ddbasic.search.scss */
+/* line 854, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 849, ../sass/_ddbasic.search.scss */
+/* line 858, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 853, ../sass/_ddbasic.search.scss */
+/* line 862, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 857, ../sass/_ddbasic.search.scss */
+/* line 866, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 862, ../sass/_ddbasic.search.scss */
+/* line 871, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation .meta, .pane-ting-object .ting-relation .list-meta {
   padding: 20px;
   padding-bottom: 10px;
   border: none;
 }
 
-/* line 874, ../sass/_ddbasic.search.scss */
+/* line 883, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -4805,7 +5033,7 @@ ul.ui-autocomplete {
   padding: 10px;
   width: 580px;
 }
-/* line 886, ../sass/_ddbasic.search.scss */
+/* line 895, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -4815,14 +5043,14 @@ ul.ui-autocomplete .ui-menu-item a {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 894, ../sass/_ddbasic.search.scss */
+/* line 903, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 901, ../sass/_ddbasic.search.scss */
+/* line 910, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: #efefef;
 }
@@ -4910,34 +5138,35 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 87, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
+  min-width: 100%;
   padding: 0;
 }
-/* line 90, ../sass/_ddbasic.carousel.scss */
+/* line 91, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
   min-width: 110px;
   padding: 5px;
 }
 
-/* line 104, ../sass/_ddbasic.carousel.scss */
+/* line 105, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 111, ../sass/_ddbasic.carousel.scss */
+/* line 112, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
 }
-/* line 114, ../sass/_ddbasic.carousel.scss */
+/* line 115, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
   text-decoration: none;
 }
-/* line 119, ../sass/_ddbasic.carousel.scss */
+/* line 120, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active {
   border-color: black;
 }
-/* line 123, ../sass/_ddbasic.carousel.scss */
+/* line 124, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   border-bottom: 8px solid black;
 }
@@ -5148,9 +5377,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-library-list .form-item-select-library,
 .pane-library-list .button,
 .pane-library-list .form-submit,
-.pane-library-list #edit-cancel,
-.pane-library-list .pane-bookmarks .ding-entity-button a,
-.pane-bookmarks .ding-entity-button .pane-library-list a {
+.pane-library-list #edit-cancel {
   display: inline;
   margin-right: 10px;
 }
@@ -5268,50 +5495,50 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .ui-dialog {
   padding: 20px;
 }
-/* line 59, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close {
+/* line 60, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
   float: right;
   right: 5px;
   padding: 0;
   top: 10px;
   width: auto;
 }
-/* line 66, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon {
+/* line 67, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
   text-indent: 0;
   text-transform: capitalize;
 }
-/* line 73, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon:hover {
+/* line 74, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:hover {
   color: #b4efff;
 }
-/* line 78, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close .ui-icon:before {
+/* line 79, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:before {
   font-family: FontAwesome;
   margin-right: 2px;
   margin-bottom: -1px;
 }
-/* line 86, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar-close:active {
+/* line 87, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:active {
   color: black;
   text-decoration: none;
 }
-/* line 91, ../sass/_ddbasic.modal.scss */
-.ui-dialog .ui-dialog-titlebar-close:hover {
+/* line 92, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:hover {
   color: black;
   text-decoration: none;
 }
-/* line 97, ../sass/_ddbasic.modal.scss */
-.ui-dialog .form-item {
+/* line 98, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .form-item {
   margin-bottom: 10px;
 }
-/* line 100, ../sass/_ddbasic.modal.scss */
-.ui-dialog .form-item .description {
+/* line 101, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .form-item .description {
   color: rgba(255, 255, 255, 0.9);
   margin-top: -10px;
 }
-/* line 108, ../sass/_ddbasic.modal.scss */
-.ui-dialog .openid-links {
+/* line 109, ../sass/_ddbasic.modal.scss */
+.ui-dialog .ui-dialog-titlebar .openid-links {
   display: none;
 }
 
@@ -5330,7 +5557,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 17, ../sass/_ddbasic.user.scss */
-.user i[class^="icon-"], .user-login-block .user-field-wrapper i[class^="icon-"] {
+.header-wrapper .user i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
   margin-left: 15px;
@@ -5339,9 +5566,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 27, ../sass/_ddbasic.user.scss */
-.user input[type="text"],
-.user input[type="password"], .user-login-block input[type="text"],
-.user-login-block input[type="password"] {
+.header-wrapper .user input[type="text"],
+.header-wrapper .user input[type="password"] {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -5355,23 +5581,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 39, ../sass/_ddbasic.user.scss */
-.user-name ul,
-.user-menu-loans ul,
-.user-menu ul {
+.header-wrapper .user-name ul,
+.header-wrapper .user-menu-loans ul,
+.header-wrapper .user-menu ul, .topbar .user-menu ul {
   margin-top: 6.66667px;
   text-align: right;
 }
-/* line 46, ../sass/_ddbasic.user.scss */
-.user-name ul li a,
-.user-menu-loans ul li a,
-.user-menu ul li a {
+/* line 44, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-name ul li,
+.header-wrapper .user-menu-loans ul li,
+.header-wrapper .user-menu ul li, .topbar .user-menu ul li {
+  display: inline-block;
+}
+/* line 47, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-name ul li a,
+.header-wrapper .user-menu-loans ul li a,
+.header-wrapper .user-menu ul li a, .topbar .user-menu ul li a {
   color: white;
   margin-right: 5px;
   padding-top: 0;
   padding-bottom: 0;
 }
 
-/* line 62, ../sass/_ddbasic.user.scss */
+/* line 63, ../sass/_ddbasic.user.scss */
 .header-wrapper .user {
   float: right;
   width: 50%;
@@ -5393,38 +5625,37 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-right: 0;
   padding-left: 10px;
 }
-
-/* line 74, ../sass/_ddbasic.user.scss */
-.user .user-field-wrapper {
+/* line 72, ../sass/_ddbasic.user.scss */
+.header-wrapper .user .user-field-wrapper {
   display: block;
   margin-left: 10px;
 }
-/* line 79, ../sass/_ddbasic.user.scss */
-.user .form-item {
+/* line 77, ../sass/_ddbasic.user.scss */
+.header-wrapper .user .form-item {
   margin-top: 0em;
   display: inline;
 }
-/* line 83, ../sass/_ddbasic.user.scss */
-.user .form-actions {
+/* line 81, ../sass/_ddbasic.user.scss */
+.header-wrapper .user .form-actions {
   display: inline;
 }
-/* line 87, ../sass/_ddbasic.user.scss */
-.user i[class^="icon-"] {
+/* line 85, ../sass/_ddbasic.user.scss */
+.header-wrapper .user i[class^="icon-"] {
   top: 13px;
 }
-/* line 94, ../sass/_ddbasic.user.scss */
-.user input[type="text"],
-.user input[type="password"] {
+/* line 92, ../sass/_ddbasic.user.scss */
+.header-wrapper .user input[type="text"],
+.header-wrapper .user input[type="password"] {
   font-size: 19.5px;
   font-size: 1.21875rem;
   min-height: 60px;
   margin-right: 10px;
   padding-bottom: 0;
   padding-top: 0;
-  width: 224px;
+  width: 220px;
 }
-/* line 105, ../sass/_ddbasic.user.scss */
-.user input[type="submit"] {
+/* line 103, ../sass/_ddbasic.user.scss */
+.header-wrapper .user input[type="submit"] {
   font-size: 25.5px;
   font-size: 1.59375rem;
   -webkit-border-radius: 12px;
@@ -5439,106 +5670,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: absolute;
 }
 
-/* line 122, ../sass/_ddbasic.user.scss */
-.topbar .user {
-  position: absolute;
-  right: 140px;
-  top: 17px;
-}
-/* line 129, ../sass/_ddbasic.user.scss */
-.topbar .user:before {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-  color: white;
-  font-family: FontAwesome;
-  line-height: 100%;
-  left: 20px;
-  position: absolute;
-  top: 16px;
-  z-index: 99;
-}
-/* line 142, ../sass/_ddbasic.user.scss */
-.topbar .user input[type="submit"] {
-  font-size: 21px;
-  font-size: 1.3125rem;
-  min-height: 50px;
-  padding-left: 45px;
-}
-
-/* line 151, ../sass/_ddbasic.user.scss */
-.user-login-block {
-  display: none;
-  max-width: 425px;
-  position: absolute;
-  z-index: 99;
-}
-/* line 159, ../sass/_ddbasic.user.scss */
-.user-login-block:before {
-  border: 25px solid transparent;
-  content: "";
-  height: 0;
-  position: absolute;
-  width: 0;
-  top: -50px;
-  border-bottom-color: rgba(0, 0, 0, 0.8);
-  right: 50px;
-}
-/* line 163, ../sass/_ddbasic.user.scss */
-.user-login-block .user-field-wrapper {
-  position: relative;
-}
-/* line 166, ../sass/_ddbasic.user.scss */
-.user-login-block .user-field-wrapper i[class^="icon-"] {
-  color: #000;
-  top: 15px;
-}
-/* line 174, ../sass/_ddbasic.user.scss */
-.user-login-block .user-close-container {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-  color: #fff;
-  cursor: pointer;
-  position: absolute;
-  right: 15px;
-  top: 15px;
-}
-/* line 185, ../sass/_ddbasic.user.scss */
-.user-login-block .user-login-link {
-  float: right;
-  margin-top: 15px;
-  margin-right: 10px;
-}
-/* line 190, ../sass/_ddbasic.user.scss */
-.user-login-block .user-login-link a {
-  color: #fff;
-}
-/* line 195, ../sass/_ddbasic.user.scss */
-.user-login-block .user-create-link {
-  clear: both;
-  padding-top: 20px;
-  text-align: right;
-}
-/* line 202, ../sass/_ddbasic.user.scss */
-.user-login-block input[type="text"],
-.user-login-block input[type="password"] {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
-  margin-bottom: 20px;
-  width: 100%;
-}
-/* line 210, ../sass/_ddbasic.user.scss */
-.user-login-block input[type="submit"] {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
-  display: inline;
-  float: right;
-}
-
-/* line 226, ../sass/_ddbasic.user.scss */
-.user-name,
-.user-menu-loans,
-.user-menu {
+/* line 127, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-name,
+.header-wrapper .user-menu-loans,
+.header-wrapper .user-menu {
   float: right;
   width: 50%;
   margin-right: 0%;
@@ -5555,115 +5690,122 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-
-/* line 232, ../sass/_ddbasic.user.scss */
-.user-menu-loans {
+/* line 133, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-menu-loans {
   margin-top: 90px;
 }
-
-/* line 236, ../sass/_ddbasic.user.scss */
-.user-menu {
+/* line 137, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-menu {
   margin-top: 120px;
 }
-
-/* line 240, ../sass/_ddbasic.user.scss */
-.user-name {
+/* line 141, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-name {
   color: rgba(0, 0, 0, 0.5);
   margin-top: 55px;
   text-align: right;
 }
-/* line 245, ../sass/_ddbasic.user.scss */
-.user-name .user-name-title {
+/* line 146, ../sass/_ddbasic.user.scss */
+.header-wrapper .user-name .user-name-title {
   font-size: 33.75px;
   font-size: 2.10938rem;
-  color: black;
 }
 
-/* line 260, ../sass/_ddbasic.user.scss */
-.topbar .user-name,
-.topbar .user-menu-loans,
-.topbar .user-menu {
-  float: right;
-  width: 25%;
-  margin-right: 0%;
-  margin-left: -25%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  margin-bottom: 0;
+/* line 157, ../sass/_ddbasic.user.scss */
+.topbar .user {
+  position: absolute;
+  right: 10px;
+  top: 17px;
 }
-/* line 266, ../sass/_ddbasic.user.scss */
+/* line 164, ../sass/_ddbasic.user.scss */
+.topbar .user:before {
+  font-size: 19.5px;
+  font-size: 1.21875rem;
+  color: white;
+  font-family: FontAwesome;
+  line-height: 100%;
+  left: 20px;
+  position: absolute;
+  top: 16px;
+  z-index: 99;
+}
+/* line 177, ../sass/_ddbasic.user.scss */
+.topbar .user input[type="submit"] {
+  font-size: 21px;
+  font-size: 1.3125rem;
+  min-height: 50px;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 45px;
+}
+/* line 187, ../sass/_ddbasic.user.scss */
 .topbar .user-name {
+  float: right;
   margin-top: 16px;
+  margin-right: 10px;
+  max-width: 325px;
 }
-/* line 269, ../sass/_ddbasic.user.scss */
+/* line 193, ../sass/_ddbasic.user.scss */
 .topbar .user-name .user-name-title {
   font-size: 22.5px;
   font-size: 1.40625rem;
   color: white;
 }
-/* line 276, ../sass/_ddbasic.user.scss */
+/* line 200, ../sass/_ddbasic.user.scss */
 .topbar .user-menu {
-  margin-top: 40px;
+  position: absolute;
+  right: 10px;
+  top: 40px;
 }
 
-/* line 289, ../sass/_ddbasic.user.scss */
+/* line 216, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item {
   clear: both;
 }
-/* line 293, ../sass/_ddbasic.user.scss */
+/* line 220, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label,
 .pane-user-profile .form-item p {
   float: left;
 }
-/* line 297, ../sass/_ddbasic.user.scss */
+/* line 224, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 304, ../sass/_ddbasic.user.scss */
+/* line 231, ../sass/_ddbasic.user.scss */
 .pane-user-profile h3, .pane-user-profile .ui-dialog-title {
   border: 0;
   margin-top: 30px;
   margin-bottom: 13.33333px;
 }
-/* line 312, ../sass/_ddbasic.user.scss */
+/* line 239, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-label {
   float: left;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 320, ../sass/_ddbasic.user.scss */
+/* line 247, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-items,
 .pane-user-profile .profile2-provider-alma .field-item {
   display: inline;
 }
 
-/* line 333, ../sass/_ddbasic.user.scss */
+/* line 260, ../sass/_ddbasic.user.scss */
 .pane-loans table,
 .pane-reservations table,
 .pane-bookmarks table {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
 }
-/* line 338, ../sass/_ddbasic.user.scss */
+/* line 265, ../sass/_ddbasic.user.scss */
 .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-top: 2px;
   max-width: 90%;
 }
-/* line 345, ../sass/_ddbasic.user.scss */
+/* line 272, ../sass/_ddbasic.user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
@@ -5671,51 +5813,46 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin: 0;
   padding: 0;
 }
-/* line 352, ../sass/_ddbasic.user.scss */
-.pane-loans table tbody tr:hover,
-.pane-reservations table tbody tr:hover,
-.pane-bookmarks table tbody tr:hover {
-  background-color: #f6f6f6;
-}
-/* line 356, ../sass/_ddbasic.user.scss */
-.pane-loans table tbody tr:hover th,
-.pane-loans table tbody tr:hover td,
-.pane-reservations table tbody tr:hover th,
-.pane-reservations table tbody tr:hover td,
-.pane-bookmarks table tbody tr:hover th,
-.pane-bookmarks table tbody tr:hover td {
-  background-color: #f6f6f6;
-}
-/* line 362, ../sass/_ddbasic.user.scss */
+/* line 278, ../sass/_ddbasic.user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
-  background-color: #efefef;
   border-top: 1px solid #efefef;
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
-  padding: 10px 0;
+  text-align: center;
 }
-/* line 370, ../sass/_ddbasic.user.scss */
+/* line 282, ../sass/_ddbasic.user.scss */
+.pane-loans th.select-all,
+.pane-reservations th.select-all,
+.pane-bookmarks th.select-all {
+  padding-left: 10px;
+}
+/* line 286, ../sass/_ddbasic.user.scss */
+.pane-loans th.title,
+.pane-reservations th.title,
+.pane-bookmarks th.title {
+  text-align: left;
+}
+/* line 291, ../sass/_ddbasic.user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 374, ../sass/_ddbasic.user.scss */
+/* line 295, ../sass/_ddbasic.user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
-  padding: 20px 0 13.33333px;
+  text-align: center;
 }
-/* line 378, ../sass/_ddbasic.user.scss */
+/* line 299, ../sass/_ddbasic.user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
-  width: 50%;
+  text-align: left;
+  width: 30%;
 }
-/* line 384, ../sass/_ddbasic.user.scss */
+/* line 306, ../sass/_ddbasic.user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -5724,7 +5861,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 388, ../sass/_ddbasic.user.scss */
+/* line 310, ../sass/_ddbasic.user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -5733,7 +5870,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 395, ../sass/_ddbasic.user.scss */
+/* line 317, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -5741,29 +5878,28 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 401, ../sass/_ddbasic.user.scss */
+/* line 323, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 406, ../sass/_ddbasic.user.scss */
+/* line 328, ../sass/_ddbasic.user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
   margin-bottom: 0;
 }
-/* line 413, ../sass/_ddbasic.user.scss */
+/* line 335, ../sass/_ddbasic.user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
 .pane-reservations .operations .delete-reservation,
 .pane-bookmarks .operations .renew-loan-button,
 .pane-bookmarks .operations .delete-reservation {
-  padding-right: 20px;
-  text-align: right;
+  text-align: center;
 }
-/* line 420, ../sass/_ddbasic.user.scss */
+/* line 347, ../sass/_ddbasic.user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -5774,8 +5910,53 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 434, ../sass/_ddbasic.user.scss */
+/* line 367, ../sass/_ddbasic.user.scss */
+.pane-bookmarks td {
+  text-align: left;
+}
+/* line 371, ../sass/_ddbasic.user.scss */
+.pane-bookmarks .ding-entity-button {
+  float: right;
+  margin-right: 10px;
+}
+
+/* line 387, ../sass/_ddbasic.user.scss */
+.pane-reservations {
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+/* line 393, ../sass/_ddbasic.user.scss */
 #ding-reservation-reservations-ready-form {
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+/* line 410, ../sass/_ddbasic.user.scss */
+.pane-debts table {
+  margin-bottom: 20px;
+}
+/* line 415, ../sass/_ddbasic.user.scss */
+.pane-debts table th.feedate,
+.pane-debts table td.feedate {
+  width: 10%;
+}
+/* line 419, ../sass/_ddbasic.user.scss */
+.pane-debts table th.feeamount,
+.pane-debts table td.feeamount {
+  text-align: right;
+}
+/* line 425, ../sass/_ddbasic.user.scss */
+.pane-debts .pay-button {
+  margin-bottom: 20px;
+}
+
+/* line 436, ../sass/_ddbasic.user.scss */
+.pane-debts,
+.pane-ding-dibs-dibs-terms-of-sale,
+.pane-ding-dibs-dibs-cards-supported {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -5807,43 +5988,49 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 23, ../sass/_ddbasic.comment.scss */
 .comment-wrapper {
-  margin-top: 30px;
-  margin-top: 1.875rem;
+  border-top: 1px solid #efefef;
+  margin-top: 20px;
+  padding-top: 20px;
 }
 
-/* line 36, ../sass/_ddbasic.comment.scss */
+/* line 29, ../sass/_ddbasic.comment.scss */
+.comment-title {
+  margin-bottom: 20px;
+}
+
+/* line 42, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form .form-submit {
   float: left;
 }
-/* line 40, ../sass/_ddbasic.comment.scss */
+/* line 46, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form span {
   font-family: "SourceSansProLightItalic";
   line-height: 35px;
   margin-left: 5px;
 }
 
-/* line 47, ../sass/_ddbasic.comment.scss */
+/* line 53, ../sass/_ddbasic.comment.scss */
 .filter-guidelines {
   padding-top: 0;
   padding-left: 0;
 }
-/* line 51, ../sass/_ddbasic.comment.scss */
+/* line 57, ../sass/_ddbasic.comment.scss */
 .filter-guidelines .tips {
   margin-left: 0;
 }
 
-/* line 56, ../sass/_ddbasic.comment.scss */
+/* line 62, ../sass/_ddbasic.comment.scss */
 .comment {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 61, ../sass/_ddbasic.comment.scss */
+/* line 67, ../sass/_ddbasic.comment.scss */
 .comment .new {
   float: right;
 }
 
-/* line 68, ../sass/_ddbasic.comment.scss */
+/* line 74, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form {
   border-top: 1px solid #efefef;
   padding-top: 20px;

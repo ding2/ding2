@@ -17,28 +17,26 @@ $search-border-type: solid;
 // -----------------------------------------------------------------------------
 //
 %search-ting-cover {
-  float: left;
+  @extend .icon-camera;
 
+  float: left;
   min-height: 100px;
   position: relative;
   width: 10%;
-  z-index: 1;
 
-  // Insert a background with image missing icon
-  &:after {
-    content: "";
-    background: url("../images/image-missing.png");
-    @include opacity(0.3);
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  img {
+    position: relative;
+    z-index: 90;
+  }
+
+  &:before {
+    @include rem('font-size', 74px);
+
+    color: $gray-dark;
+    font-family: $theme-icon-library-font;
+    left: 2px;
     position: absolute;
-    z-index: -1;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: top center;
-    min-height: 100px;
+    top: 47px;
   }
 }
 
@@ -53,8 +51,11 @@ input#edit-search-block-form--2.spinner {
 
 // Override Drupal system style
 .pane-ding-facetbrowser input.form-checkbox {
-  vertical-align: bottom;
+  margin-top: 4px;
+  margin-right: 8px;
+  vertical-align: baseline;
 }
+
 .pane-ding-facetbrowser label.option {
   font-weight: inherit;
 }
@@ -133,7 +134,7 @@ input#edit-search-block-form--2.spinner {
 
   input[type="submit"] {
     @include rem('font-size', $theme-font-size * 1.7);
-    @extend %button-black;
+    @extend %button-default;
 
     min-height: 60px;
     position: absolute;
@@ -157,16 +158,20 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
+.not-logged-in {
+  .topbar {
+    .search {
+      margin-right: 131px;
+    }
+  }
+}
 
 .topbar {
   .search {
-    @include zen-grid-item($grid-33, 3, right);
     @extend %search;
 
+    float: right;
     margin-top: 17px;
-    margin-right: 170px;
-    position: absolute;
-    right: 160px;
 
     .search-field-wrapper {
       min-width: 558px;
@@ -175,13 +180,15 @@ input#edit-search-block-form--2.spinner {
 
     input[type="text"] {
       @include rem('font-size', $theme-font-size * 1.5);
+      @include box-sizing(border-box);
 
       min-height: 50px;
+      padding-right: 70px;
     }
 
     input[type="submit"].form-submit {
       @include rem('font-size', $theme-font-size * 1.4);
-      @extend %button-blue;
+      @extend %button-theme;
 
       min-height: 50px;
       padding: 0 18px;
@@ -261,6 +268,7 @@ input#edit-search-block-form--2.spinner {
   // Expand facets link.
   .expand {
     margin-right: $default-spacing / 2;
+    margin-left: $default-spacing / 4;
 
     &:before {
       font-family: "FontAwesome";
@@ -274,14 +282,12 @@ input#edit-search-block-form--2.spinner {
 
     display: block;
     float: left;
-    margin-top: $default-spacing;
   }
   .expand-less {
     @extend .icon-minus-sign;
 
     display: block;
     float: left;
-    margin-top: $default-spacing;
   }
 
   // Group for selected facets.
@@ -442,7 +448,7 @@ input#edit-search-block-form--2.spinner {
 
       .availability-label {
         @extend .text-smallest;
-        
+
         font-weight: normal;
         color: $gray-darker;
       }
@@ -497,7 +503,9 @@ input#edit-search-block-form--2.spinner {
         }
 
         a {
+          display: inline-block;
           margin-right: $default-spacing / 4;
+          margin-bottom: $default-spacing / 4;
         }
       }
 
@@ -535,6 +543,7 @@ input#edit-search-block-form--2.spinner {
             .availability-status {
               &:before {
                 content: " - ";
+                margin-left: 5px;
               }
             }
           }

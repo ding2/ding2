@@ -1,5 +1,5 @@
 // =============================================================================
-// Comments
+// Description goes here
 // =============================================================================
 //
 
@@ -20,60 +20,35 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
-.comment-wrapper {
-  border-top: 1px solid $gray-light;
-  margin-top: $default-spacing;
-  padding-top: $default-spacing;
-}
-
-.comment-title {
-  margin-bottom: $default-spacing;
-}
-
-.comment-form {
-  .form-actions {
-    .form-submit {
-      @extend %button-inverted;
-    }
-  }
-}
-
-.ding-user-comment-forbidden-form {
-  .form-submit {
-    float: left;
-  }
-  
-  span {
-    font-family: $font-light-italic;    
-    line-height: 35px;
-    margin-left: 5px;
-  }
-}
-
-.filter-guidelines {
-  padding-top: 0;
+.pager {
   padding-left: 0;
 
-  .tips {
-    margin-left: 0;
+  li {
+    display: inline-block;
+    margin-left: -4px;
+    margin-right: 4px;
+
+    &.pager-current,
+    a {
+      background-color: $gray-light;
+      display: inline-block;
+      padding: $default-spacing / 4 $default-spacing * 0.75;
+    }
   }
-}
 
-.comment {
-  background-color: $gray-light;
-  margin-bottom: $default-spacing;
-  padding: $default-spacing;
-
-  .new {
-    @extend %availability-reservable;
-    
-    float: right;
+  .active a,
+  .active a:hover {
+    cursor: default;
+    text-decoration: underline;
   }
-}
 
-.ding-user-comment-forbidden-form {
-  border-top: 1px solid $gray-light;
-  padding-top: $default-spacing;
+  .disabled {
+    background-color: $gray-lighter;
+  }
+  .disabled a:hover {
+    cursor: default;
+    text-decoration: none;
+  }
 }
 
 

@@ -25,6 +25,9 @@ ul li.leaf {
   list-style: none;
 }
 
+.pane-title {
+  @extend .block-title;
+}
 
 // **
 // Drupal specific buttons. Extends from _ddbasic.buttons.scss
@@ -66,7 +69,7 @@ ul li.leaf {
   @extend .icon-spin;
   @extend .icon-spinner;
 
-  background: transparent;
+  background: none !important; // Make sure the Drupal throbber is not visible in IE
   color: #000;
   font-family: $theme-icon-library-font;
   font-size: 50px;
@@ -77,6 +80,19 @@ ul li.leaf {
   width: 50px;
 }
 
+thead {
+  th {
+    background-color: darken($gray-light, 8%);
+  }
+}
+
+tr.even {
+  background-color: $gray-light;
+}
+
+tr.odd {
+  background-color: darken($gray-light, 4%);
+}
 
 // -----------------------------------------------------------------------------
 // Mediaqueries
