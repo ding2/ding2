@@ -25,7 +25,8 @@ ul li.leaf {
   list-style: none;
 }
 
-.pane-title {
+.pane-title,
+.pane-menu-title {
   @extend .block-title;
 }
 

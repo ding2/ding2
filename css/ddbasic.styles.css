@@ -3174,7 +3174,8 @@ a:focus {
 }
 
 /* line 52, ../sass/_ddbasic.blocks.scss */
-.block-title, .pane-title, .library-title, .pane-loans h2,
+.block-title, .pane-title,
+.pane-menu-title, .library-title, .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-bottom: 13.33333px;
@@ -4265,7 +4266,8 @@ button#edit-cancel {
   color: white;
 }
 /* line 38, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block .block-title, .footer-block .pane-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .block-title, .footer-block .pane-title,
+.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
 .pane-reservations .footer-block h2,
 .footer-block .pane-bookmarks h2,
@@ -4291,17 +4293,17 @@ ul li.leaf {
   list-style: none;
 }
 
-/* line 36, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 37, ../sass/_ddbasic.overrides.drupal.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 49, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 50, ../sass/_ddbasic.overrides.drupal.scss */
 .feed-icon img {
   max-width: 16px;
 }
 
-/* line 56, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 57, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4315,7 +4317,7 @@ ul li.leaf {
   text-align: center;
 }
 
-/* line 68, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 69, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress .throbber {
   background: none !important;
   color: #000;
@@ -4328,17 +4330,17 @@ ul li.leaf {
   width: 50px;
 }
 
-/* line 84, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 85, ../sass/_ddbasic.overrides.drupal.scss */
 thead th {
   background-color: #dadada;
 }
 
-/* line 89, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 90, ../sass/_ddbasic.overrides.drupal.scss */
 tr.even {
   background-color: #efefef;
 }
 
-/* line 93, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 94, ../sass/_ddbasic.overrides.drupal.scss */
 tr.odd {
   background-color: #e4e4e4;
 }
