@@ -40,6 +40,12 @@
   ul {
     @extend %reset-list;
   }
+  
+ .event-image-wrapper {
+    float: left;
+    margin-right: $default-spacing;
+    max-width: 15%;
+  }
 }
 
 .event-list-item {
@@ -116,6 +122,43 @@
   .event-list-price {
     @extend .icon-credit-card;
   }
+}
+
+.events-group-heading {
+  background: $gray-light;
+  padding: $default-spacing/2;
+  margin-bottom: $default-spacing;
+  
+  .event-list-date-wrapper {
+    vertical-align: middle;
+    min-width: $default-spacing * 2.5;
+    font-size: $theme-font-size * 0.6;
+    
+    .event-list-date {
+      font-size: $theme-font-size;
+      padding-top: 0.2em;
+      margin-bottom: -$default-spacing / 2;
+    }
+    
+    .event-list-day {
+      line-height: $theme-line-height * 0.7;
+    }
+  }
+  
+  .ding-event-fulldate {
+    @include rem('font-size', $theme-font-size * 1.25);
+    
+    font-family: $font-bold;
+    font-weight: $theme-font-weight-bold;
+  }
+}
+
+.pane-ding-event-ding-event-list .event-list-info,
+.pane-ding-event-ding-event-list-library .event-list-info {
+  float: right;
+  padding-left: $default-spacing;
+  margin-left: $default-spacing;
+  border-left: 1px solid $gray-light;
 }
 
 // -----------------------------------------------------------------------------
