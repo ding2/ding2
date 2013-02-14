@@ -91,9 +91,11 @@ function theme_ding_bookmark_remove_form($variables) {
   drupal_add_js('misc/tableselect.js');
   $header = array(
     array('class' => array('select-all')),
-    t('Title'),
+    array('data' => t('Title'), 'class' => 'title'),
     '',
   );
+  
+  // Add classes to table header columns.
 
   // Create table rows.
   $rows = array();
