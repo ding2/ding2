@@ -6086,20 +6086,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 57, ../sass/_ddbasic.comment.scss */
 .filter-guidelines .tips {
   margin-left: 0;
+  padding-left: 0;
 }
 
-/* line 62, ../sass/_ddbasic.comment.scss */
+/* line 63, ../sass/_ddbasic.comment.scss */
+.filter-help {
+  padding: 0;
+}
+
+/* line 67, ../sass/_ddbasic.comment.scss */
 .comment {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 67, ../sass/_ddbasic.comment.scss */
+/* line 72, ../sass/_ddbasic.comment.scss */
 .comment .new {
   float: right;
 }
 
-/* line 74, ../sass/_ddbasic.comment.scss */
+/* line 79, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form {
   border-top: 1px solid #efefef;
   padding-top: 20px;
