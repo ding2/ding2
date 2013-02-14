@@ -717,7 +717,7 @@ function ding_event_field_default_fields() {
         ),
       ),
       'deleted' => '0',
-      'description' => '',
+      'description' => 'Optional. If provided, the location address will be shown instead of the address of the associated library when presenting info on the event.',
       'display' => array(
         'default' => array(
           'label' => 'hidden',
