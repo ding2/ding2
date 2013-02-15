@@ -109,7 +109,11 @@ function ting_get_objects($ids) {
       $query[] = 'rec.id=' . $id;
     }
   }
-  if (sizeof($query)) {
+  $i = 0;
+  do {
+    if (sizeof($query) == 0) {
+      break;
+    }
     $request = ting_get_request_factory()->getSearchRequest();
 
     if ($agency = variable_get('ting_agency', FALSE)) {
@@ -122,8 +126,8 @@ function ting_get_objects($ids) {
     }
 
     $request->setQuery(join(' OR ', $query));
-    $request->setStart(1);
-    $request->setNumResults(1000);
+    $request->setStart($i * 50 + 1);
+    $request->setNumResults(50);
     $request->setAllObjects(TRUE);
 
     $result = ting_execute_cache($request);
@@ -137,7 +141,8 @@ function ting_get_objects($ids) {
         }
       }
     }
-  }
+    $i++;
+  } while ($result->more);
   return $objects;
 }
 
