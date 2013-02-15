@@ -70,6 +70,33 @@ function ding_user_menu_alter(&$items) {
   $items['user/%pm_arg/status']['title'] = t('User status');
 }
 
+
+/**
+ * Implements hook_page_manager_contexts_alter().
+ * 
+ * This is actually a Panels everywhere hook. In future i may be renamed: 
+ * hook_panels_everywhere_contexts_alter()
+ * 
+ * Panels everywhere puts a extra form tag around the whole page on some pages. 
+ * This is wrong because there already is a form tag which creates an illegal html markup
+ * with nested form tag.
+ * 
+ * This happens because Panels Everwhere reuses code from panels. Because there exist a form in
+ * contexts the function function panels_render_display() puts an extra form around the code.
+ * 
+ * The code unsets the form_id in panels everywhere module order to supress the superfluous form tag
+ * See Panels module: function panels_render_display() 
+ * 
+ */
+function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
+  foreach ($contexts as $id => $context) {
+    if (!empty($context->form_id)) {
+      unset($context->form_id);
+    }
+  }
+}
+
+
 /**
  * Implements hook_entity_info_alter().
  */
