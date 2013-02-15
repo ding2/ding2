@@ -43,6 +43,7 @@ projects[media][version] = "2.0-unstable6"
 projects[panels][type] = module
 projects[panels][subdir] = contrib
 projects[panels][version] = "3.2"
+projects[panels][patch][] =  http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch
 
 projects[rules][type] = module
 projects[rules][subdir] = contrib
