@@ -28,7 +28,7 @@ function ding_user_frontend_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'page_manager_user_edit_disabled';
-  $strongarm->value = TRUE;
+  $strongarm->value = FALSE;
   $export['page_manager_user_edit_disabled'] = $strongarm;
 
   return $export;
