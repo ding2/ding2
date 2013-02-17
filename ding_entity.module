@@ -249,6 +249,7 @@ class DingEntityBase {
             ' in ' . $trace[0]['file'] .
             ' on line ' . $trace[0]['line'],
             E_USER_NOTICE);
+          return NULL;
         }
       }
       return $this->properties[$prop];
@@ -264,7 +265,16 @@ class DingEntityBase {
   }
 
   public function __isset($prop) {
-    return isset($this->properties[$prop]) && $this->properties[$prop] !== self::NULL;
+    // isset() is defined as whether "a variable is set and is not NULL"
+    // If the property does not exist then isset() should always be FALSE.
+    // We cannot just call __get($prop), as that will trigger a NOTICE on
+    // non-existing properties, which __isset should not.
+    if (!isset($this->properties[$prop])) {
+      return FALSE;
+    }
+    // $this->properties[$prop] needs proper initialization which __get() does.
+    // Check whether the value of existing properties is in fact NULL.
+    return $this->__get($prop) !== NULL;
   }
 
   /**
