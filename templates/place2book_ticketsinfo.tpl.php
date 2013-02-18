@@ -20,16 +20,16 @@
 
 switch ($type) {
   case 'event-over':
-    print '<div class="button ticket-info">' . t('The event has already taken place') . '</div>';
+    print '<div class="ticket-info">' . t('The event has already taken place') . '</div>';
   break;
   case 'closed-admission':
-    print '<div class="button ticket-info">' . t('Not open for ticket sale') . '</div>';
+    print '<div class="ticket-info">' . t('Not open for ticket sale') . '</div>';
     break;
   case 'no-tickets-left':
-    print '<div class="button ticket-info">' . t('Sold out') . '</div>';
+    print '<div class="ticket-info">' . t('Sold out') . '</div>';
     break;
   case 'order-link':
-    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('button', 'ticket-available'))));
+    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available'))));
     break;
   default:
     print '-nothing-';

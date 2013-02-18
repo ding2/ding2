@@ -73,6 +73,11 @@ $button-danger-color:             #fff;
 
   @if $text-color != "" {
     color: $text-color;
+
+    &:link,
+    &:visited {
+      color: $text-color;
+    }
   }
 
   &:focus,

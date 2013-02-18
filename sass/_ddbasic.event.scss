@@ -20,19 +20,6 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
-.event-head-left {
-  @include zen-grid-item(6, 1);
-}
-
-.event-head-right {
-  @include zen-grid-item(6, 7);
-}
-
-.ticket-info {
-  @extend %warning;
-  cursor: auto;
-}
-
 // **
 // Event list
 // **
@@ -166,13 +153,62 @@
   border-left: 1px solid $gray-light;
 }
 
-.button.ticket-available {
+.ticket-available {
   @extend %button-action;
 }
 
-.button.ticket-info {
+.ticket-info {
   @extend %button-warning;
 }
+
+
+// **
+// Event
+// **
+.event {
+  .event-image {
+    float: left;    
+    margin-top: $default-spacing / 4;
+    margin-right: $default-spacing;
+    margin-bottom: $default-spacing / 2;
+  }
+
+  .event-tags {
+    margin-bottom: $default-spacing;
+
+    .event-category,
+    .event-library {
+      margin-right: $default-spacing / 4;
+    }
+  }
+
+  .event-lead {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: $default-spacing;
+    padding-bottom: $default-spacing;
+  }
+
+  .event-content {
+    @include zen-grid-item($grid-66, 1);
+
+    padding-left: 0;
+  }
+
+  .event-info {
+    @include zen-grid-item($grid-33, 1, right);
+
+    padding-right: 0;
+    
+    p {
+      margin-bottom: $default-spacing / 2;
+    }
+  }
+
+  .event-footer {
+    clear: both;
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // Mediaqueries
