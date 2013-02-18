@@ -5478,65 +5478,70 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
 }
 /* line 52, ../sass/_ddbasic.news.scss */
+.news-list .news-author {
+  border-left: 1px solid #d5d5d5;
+  padding-left: 10px;
+}
+/* line 57, ../sass/_ddbasic.news.scss */
 .news-list .news-heading {
   margin-bottom: 10px;
 }
-/* line 56, ../sass/_ddbasic.news.scss */
+/* line 61, ../sass/_ddbasic.news.scss */
 .news-list .news-label {
   margin-right: 5px;
 }
-/* line 62, ../sass/_ddbasic.news.scss */
+/* line 67, ../sass/_ddbasic.news.scss */
 .news-list .news-sub-heading {
   color: #bcbcbc;
   margin-top: 10px;
   margin-bottom: 13.33333px;
 }
-/* line 69, ../sass/_ddbasic.news.scss */
+/* line 74, ../sass/_ddbasic.news.scss */
 .news-list .news-sub-heading .news-date,
 .news-list .news-sub-heading .news-author {
   color: rgba(0, 0, 0, 0.8);
   margin-right: 5px;
   margin-left: 2px;
 }
-/* line 77, ../sass/_ddbasic.news.scss */
+/* line 82, ../sass/_ddbasic.news.scss */
 .news-list .news-list-content,
 .news-list .news-link {
   margin-bottom: 10px;
 }
-/* line 81, ../sass/_ddbasic.news.scss */
+/* line 86, ../sass/_ddbasic.news.scss */
 .news-list .news-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 25%;
 }
 
-/* line 92, ../sass/_ddbasic.news.scss */
+/* line 97, ../sass/_ddbasic.news.scss */
 .super-heading {
   padding: 1.5em 0;
 }
-/* line 95, ../sass/_ddbasic.news.scss */
+/* line 100, ../sass/_ddbasic.news.scss */
 .super-heading div {
   display: inline;
 }
-/* line 99, ../sass/_ddbasic.news.scss */
+/* line 104, ../sass/_ddbasic.news.scss */
 .super-heading .field-item {
   padding-left: 5px;
 }
 
-/* line 105, ../sass/_ddbasic.news.scss */
+/* line 110, ../sass/_ddbasic.news.scss */
 .signature {
   padding: 20px 0 0;
 }
-/* line 108, ../sass/_ddbasic.news.scss */
+/* line 113, ../sass/_ddbasic.news.scss */
 .signature p {
   margin-bottom: 0;
 }
-/* line 111, ../sass/_ddbasic.news.scss */
+/* line 116, ../sass/_ddbasic.news.scss */
 .signature p i {
   float: left;
   margin-top: 3px;
 }
-/* line 118, ../sass/_ddbasic.news.scss */
+/* line 123, ../sass/_ddbasic.news.scss */
 .signature p .author,
 .signature p .pub-date,
 .signature p .tags {
@@ -5545,7 +5550,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: #959595;
 }
 
-/* line 129, ../sass/_ddbasic.news.scss */
+/* line 134, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .field-item {
   background-color: #efefef;
   margin-bottom: 20px;

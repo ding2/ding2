@@ -49,6 +49,11 @@
     margin-bottom: $default-spacing;
   }
 
+  .news-author {
+    border-left: 1px solid $gray;
+    padding-left: $default-spacing / 2;
+  }
+
   .news-heading {
     margin-bottom: $default-spacing / 2;
   }
