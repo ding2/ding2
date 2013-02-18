@@ -5404,23 +5404,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 5px;
   margin-right: 20px;
   margin-bottom: 10px;
+  max-width: 300px;
 }
-/* line 199, ../sass/_ddbasic.event.scss */
+/* line 200, ../sass/_ddbasic.event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 203, ../sass/_ddbasic.event.scss */
+/* line 204, ../sass/_ddbasic.event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 208, ../sass/_ddbasic.event.scss */
+/* line 209, ../sass/_ddbasic.event.scss */
 .event .event-lead {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 214, ../sass/_ddbasic.event.scss */
+/* line 215, ../sass/_ddbasic.event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -5439,7 +5440,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 220, ../sass/_ddbasic.event.scss */
+/* line 221, ../sass/_ddbasic.event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -5458,16 +5459,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 225, ../sass/_ddbasic.event.scss */
+/* line 226, ../sass/_ddbasic.event.scss */
 .event .event-info p {
   margin-bottom: 10px;
 }
-/* line 228, ../sass/_ddbasic.event.scss */
+/* line 229, ../sass/_ddbasic.event.scss */
 .event .event-info p i[class^="icon-"] {
   display: inline-block;
   min-width: 20px;
 }
-/* line 235, ../sass/_ddbasic.event.scss */
+/* line 236, ../sass/_ddbasic.event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
