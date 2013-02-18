@@ -89,7 +89,7 @@
 ?>
 <article class="event">
   <h1 class="page-title"><?php print $title; ?></h1>
-    
+
   <div class="event-lead">
     <?php print render($content['field_ding_event_lead'][0]); ?>
   </div>
@@ -97,8 +97,8 @@
     <div class="event-image">
       <?php print render($content['field_ding_event_title_image']); ?>
       <?php print render($content['field_ding_event_list_image']); ?>
-    </div>    
-    
+    </div>
+
     <?php
       // hide fields we have already rendered
       hide($content['field_ding_event_list_image']);
@@ -123,19 +123,48 @@
   </div>
   <div class="event-info">
     <p><i class="icon-calendar"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?></p>
+    
+    <p><i class="icon-time"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?></p>
+    
     <?php if (isset($ddbasic_event_location)): ?>
-    <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
+      <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
     <?php endif; ?>
-    <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
+      
+    <?php if (isset($content['field_ding_event_target'])): ?>     
+      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
+    <?php endif; ?>
+
     <?php if (isset($content['field_ding_event_price'])): ?>
-      <p><i class="icon-shopping-cart"></i> <?php print render($content['field_ding_event_price']); ?></p>
+      <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
     <?php endif; ?>
+      
     <?php if (isset($ddbasic_place2book_tickets)): ?>
-      <?php print render($content['field_place2book_tickets'][0]); ?>
+      <div class="ticket-wrapper"><?php print render($content['field_place2book_tickets'][0]); ?></div>
     <?php endif; ?>
   </div>
 
   <footer class="event-footer">
+    <section class="event-tags">
+      <span class="event-category"><?php print render($content['field_ding_event_category']); ?></span>
+      <span class="event-library"><?php print render($content['field_ding_event_library']); ?></span>
+
+      <?php if ($ddbasic_ding_event_tags): ?>
+        <?php $ddbasic_ding_event_tags; ?>
+      <?php endif; ?>
+
+    </section>
+
+    <?php if ($display_submitted): ?>
+      <div class="signature">
+        <div class="signature-image"><?php print $user_picture; ?></div>
+        <div class="signature-info">
+          <p><span class="signature-label"><?php print t("Posted by:"); ?></span><?php print $name; ?></p>
+          <p><span class="signature-label"><?php print t("Posted at:"); ?></span><?php print $submitted; ?></p>
+          <p><span class="signature-label"><?php print t("Last updated:"); ?></span><?php print $ddbasic_updated; ?></p>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <?php
       // Remove the "Add new comment" link on the teaser page or if the comment
       // form is being displayed on the same page.
@@ -146,36 +175,11 @@
       $links = render($content['links']);
       if ($links):
     ?>
-    
-    <section class="event-tags">
-      <span class="event-category"><?php print render($content['field_ding_event_category']); ?></span>
-      <span class="event-library"><?php print render($content['field_ding_event_library']); ?></span>
-    </section>    
 
-    <div class="link-wrapper">
+      <div class="link-wrapper">
         <?php print $links; ?>
       </div>
     <?php endif; ?>
 
-    <?php if ($display_submitted): ?>
-      <div class="signature">
-        <?php print $user_picture; ?>
-        <h4>
-          <?php print $ddbasic_byline; ?>
-          <?php print $name; ?>
-        </h4>
-        <p>
-          <i class="icon-time"></i>
-          <?php print $submitted; ?> • <?php print $ddbasic_updated; ?>
-          <br>
-          <?php if ($ddbasic_ding_event_tags): ?>
-            <span class="tags">
-              <i class="icon-tag"></i>
-              <?php print t('Tags: ') . $ddbasic_ding_event_tags; ?>
-            </span>
-          <?php endif; ?>
-        </p>
-      </div>
-    <?php endif; ?>
   </footer>
 </article>

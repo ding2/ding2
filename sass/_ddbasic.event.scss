@@ -153,12 +153,35 @@
   border-left: 1px solid $gray-light;
 }
 
+
+// **
+// Ticket styling
+// **
+//
+%ticket {
+  @include rem('font-size', $theme-font-size * 1);
+
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+  margin-left: 10%;
+  width: 70%;
+}
+
+.ticket-wrapper {
+  border-top: 1px solid $gray-light;
+
+  margin-top: $default-spacing;
+  padding-top: $default-spacing;
+}
+
 .ticket-available {
   @extend %button-action;
+  @extend %ticket;
 }
 
 .ticket-info {
   @extend %button-warning;
+  @extend %ticket;
 }
 
 
@@ -167,7 +190,7 @@
 // **
 .event {
   .event-image {
-    float: left;    
+    float: left;
     margin-top: $default-spacing / 4;
     margin-right: $default-spacing;
     margin-bottom: $default-spacing / 2;
@@ -198,14 +221,20 @@
     @include zen-grid-item($grid-33, 1, right);
 
     padding-right: 0;
-    
+
     p {
       margin-bottom: $default-spacing / 2;
+
+      i[class^="icon-"] {
+        display: inline-block;
+        min-width: $default-spacing;
+      }
     }
   }
 
   .event-footer {
     clear: both;
+    padding-top: $default-spacing;
   }
 }
 

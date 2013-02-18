@@ -95,6 +95,32 @@ tr.odd {
   background-color: darken($gray-light, 4%);
 }
 
+
+// **
+// Signature
+// **
+//
+.signature {
+  border-top: 1px solid $gray-light;
+  border-bottom: 1px solid $gray-light;
+
+  margin-bottom: $default-spacing;
+  padding-top: $default-spacing;
+  padding-bottom: $default-spacing;
+
+  .signature-image {
+    float: left;
+    margin-top: $default-spacing / 4;
+    margin-right: $default-spacing;
+  }
+
+  .signature-label {
+    display: inline-block;
+    min-width: 125px;
+  }
+}
+
+
 // -----------------------------------------------------------------------------
 // Mediaqueries
 // -----------------------------------------------------------------------------

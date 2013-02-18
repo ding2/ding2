@@ -4298,24 +4298,24 @@ button#edit-cancel {
     margin-top: 0;
   }
 }
-/* line 20, ../sass/_ddbasic.miscellaneous.scss */
+/* line 26, ../sass/_ddbasic.miscellaneous.scss */
 .js-fixed-element {
   display: none;
 }
 
-/* line 25, ../sass/_ddbasic.miscellaneous.scss */
+/* line 31, ../sass/_ddbasic.miscellaneous.scss */
 .footer {
   background-color: black;
   background-color: rgba(0, 0, 0, 0.85);
   padding-top: 30px;
 }
 
-/* line 31, ../sass/_ddbasic.miscellaneous.scss */
+/* line 37, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 38, ../sass/_ddbasic.miscellaneous.scss */
+/* line 44, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block .block-title, .footer-block .pane-title,
 .footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
@@ -4325,17 +4325,12 @@ button#edit-cancel {
   color: white;
 }
 
-/* line 44, ../sass/_ddbasic.miscellaneous.scss */
+/* line 50, ../sass/_ddbasic.miscellaneous.scss */
 .assistive-text {
   clip: rect(1px 1px 1px 1px);
   /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
-}
-
-/* line 51, ../sass/_ddbasic.miscellaneous.scss */
-.signature img {
-  width: 12%;
 }
 
 /* line 24, ../sass/_ddbasic.overrides.drupal.scss */
@@ -4393,6 +4388,26 @@ tr.even {
 /* line 94, ../sass/_ddbasic.overrides.drupal.scss */
 tr.odd {
   background-color: #e4e4e4;
+}
+
+/* line 103, ../sass/_ddbasic.overrides.drupal.scss */
+.signature {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* line 111, ../sass/_ddbasic.overrides.drupal.scss */
+.signature .signature-image {
+  float: left;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+/* line 117, ../sass/_ddbasic.overrides.drupal.scss */
+.signature .signature-label {
+  display: inline-block;
+  min-width: 125px;
 }
 
 /* line 19, ../sass/_ddbasic.search.scss */
@@ -5366,29 +5381,46 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-left: 1px solid #efefef;
 }
 
-/* line 169, ../sass/_ddbasic.event.scss */
+/* line 161, ../sass/_ddbasic.event.scss */
+.ticket-available, .ticket-info {
+  font-size: 15px;
+  font-size: 0.9375rem;
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  margin-left: 10%;
+  width: 70%;
+}
+
+/* line 170, ../sass/_ddbasic.event.scss */
+.ticket-wrapper {
+  border-top: 1px solid #efefef;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+/* line 192, ../sass/_ddbasic.event.scss */
 .event .event-image {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
   margin-bottom: 10px;
 }
-/* line 176, ../sass/_ddbasic.event.scss */
+/* line 199, ../sass/_ddbasic.event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 180, ../sass/_ddbasic.event.scss */
+/* line 203, ../sass/_ddbasic.event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 185, ../sass/_ddbasic.event.scss */
+/* line 208, ../sass/_ddbasic.event.scss */
 .event .event-lead {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 191, ../sass/_ddbasic.event.scss */
+/* line 214, ../sass/_ddbasic.event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -5407,7 +5439,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 197, ../sass/_ddbasic.event.scss */
+/* line 220, ../sass/_ddbasic.event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -5426,13 +5458,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 202, ../sass/_ddbasic.event.scss */
+/* line 225, ../sass/_ddbasic.event.scss */
 .event .event-info p {
   margin-bottom: 10px;
 }
-/* line 207, ../sass/_ddbasic.event.scss */
+/* line 228, ../sass/_ddbasic.event.scss */
+.event .event-info p i[class^="icon-"] {
+  display: inline-block;
+  min-width: 20px;
+}
+/* line 235, ../sass/_ddbasic.event.scss */
 .event .event-footer {
   clear: both;
+  padding-top: 20px;
 }
 
 /* line 28, ../sass/_ddbasic.libraries.scss */
@@ -5590,29 +5628,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 5px;
 }
 
-/* line 110, ../sass/_ddbasic.news.scss */
-.signature {
-  padding: 20px 0 0;
-}
-/* line 113, ../sass/_ddbasic.news.scss */
-.signature p {
-  margin-bottom: 0;
-}
-/* line 116, ../sass/_ddbasic.news.scss */
-.signature p i {
-  float: left;
-  margin-top: 3px;
-}
-/* line 123, ../sass/_ddbasic.news.scss */
-.signature p .author,
-.signature p .pub-date,
-.signature p .tags {
-  display: block;
-  padding-left: 1.5em;
-  color: #959595;
-}
-
-/* line 134, ../sass/_ddbasic.news.scss */
+/* line 111, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .field-item {
   background-color: #efefef;
   margin-bottom: 20px;
