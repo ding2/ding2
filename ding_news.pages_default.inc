@@ -363,7 +363,7 @@ taxonomy/term/%term:tid',
     $pane->pid = 'new-8';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-panel_pane_3';
+    $pane->subtype = 'ding_news-ding_news_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -594,7 +594,7 @@ news/%tid:name',
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-panel_pane_3';
+    $pane->subtype = 'ding_news-ding_news_list';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -665,7 +665,7 @@ news/%tid:name',
     $display->content['new-6'] = $pane;
     $display->panels['right_sidebar'][1] = 'new-6';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = '0';
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_news'] = $page;
@@ -875,7 +875,7 @@ node/%node:nid/news
     $pane->pid = 'new-10';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-panel_pane_5';
+    $pane->subtype = 'ding_news-ding_news_list_library';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
