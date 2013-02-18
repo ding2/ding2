@@ -142,41 +142,19 @@ function ding_library_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'main_content';
-    $pane->type = 'views';
-    $pane->subtype = 'ding_news';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-ding_news_library_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 0,
-      'nodes_per_page' => '5',
-      'pager_id' => '0',
-      'offset' => '0',
-      'more_link' => 1,
-      'feed_icons' => 0,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => 'bibliotek/%/nyheder',
-      'display' => 'ctools_context_library_list',
-      'context' => array(
-        0 => 'argument_entity_id:node_1.nid',
-        1 => '',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
-    );
+    $pane->configuration = array();
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-3'] = $pane;
     $display->panels['main_content'][1] = 'new-3';
     $pane = new stdClass();
