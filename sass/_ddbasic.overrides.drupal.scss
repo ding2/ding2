@@ -109,9 +109,11 @@ tr.odd {
   padding-bottom: $default-spacing;
 
   .signature-image {
-    float: left;
-    margin-top: $default-spacing / 4;
-    margin-right: $default-spacing;
+    img {
+      float: left;
+      margin-top: $default-spacing / 4;
+      margin-right: $default-spacing;
+    }
   }
 
   .signature-label {

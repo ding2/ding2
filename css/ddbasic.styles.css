@@ -4398,13 +4398,13 @@ tr.odd {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 111, ../sass/_ddbasic.overrides.drupal.scss */
-.signature .signature-image {
+/* line 112, ../sass/_ddbasic.overrides.drupal.scss */
+.signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 117, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 119, ../sass/_ddbasic.overrides.drupal.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
