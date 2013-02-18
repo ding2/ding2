@@ -74,7 +74,7 @@ function ding_user_menu_alter(&$items) {
 /**
  * Implements hook_page_manager_contexts_alter().
  * 
- * This is actually a Panels everywhere hook. In future i may be renamed: 
+ * This is actually a Panels everywhere hook. In future it may be renamed: 
  * hook_panels_everywhere_contexts_alter()
  * 
  * Panels everywhere puts a extra form tag around the whole page on some pages. 
