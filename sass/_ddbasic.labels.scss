@@ -51,7 +51,8 @@ $label-padding:                   5px 10px;
   }
 
   // Make sure it works on a link
-  &:link {
+  &:link,
+  &:visited {
     color: $label-text-color;
   }
 

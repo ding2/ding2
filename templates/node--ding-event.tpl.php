@@ -75,62 +75,41 @@
  *
  * ddbasic specific variables:
  * - $ddbasic_updated: Information about latest update on the node created from $date during
- *   ddbasic_preprocess_node().  
- * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with leading text "Tags: "    
+ *   ddbasic_preprocess_node().
+ * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with leading text "Tags: "
  * - $ddbasic_event_location: String containing adress info for either field_address or group_audience,
- *   as relevant for the event node 
- * - $ddbasic_byline: outputs byline to be used before $name  
- * - $ddbasic_place2book_tickets: flag for field_place2book_tickets   
- * 
+ *   as relevant for the event node
+ * - $ddbasic_byline: outputs byline to be used before $name
+ * - $ddbasic_place2book_tickets: flag for field_place2book_tickets
+ *
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
 ?>
+<h1 class="page-title"><?php print $title; ?></h1>
 <div class="image-container">
   <?php print render($content['field_ding_event_title_image']); ?>
   <?php print render($content['field_ding_event_list_image']); ?>
 </div>
-<div class="super-heading">
-  <p>
-    <?php print render($content['field_ding_event_category']); ?>
-    <?php print render($content['field_ding_event_library']); ?>
-  </p>
-</div>
-<h2 class="heading"><?php print $title; ?></h2>
-<div class="grid-inner">
-  <div class="lead event-head-left">
-    <p>
-      <?php print render($content['field_ding_event_lead'][0]); ?>
-    </p>
-    <?php if (isset($ddbasic_place2book_tickets)): ?>
-      <p><?php print render($content['field_place2book_tickets'][0]); ?><p>
-    <?php endif; ?>
-  </div>
-  <div class="event-head-right">
-      <p>
-          <i class="icon-calendar"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?>
-      </p>
-      <?php if (isset($ddbasic_event_location)): ?>
-      <p>
-          <i class="icon-home"></i> <?php print $ddbasic_event_location; ?>
-      </p>
-      <?php endif; ?>
-      <p>
-          <i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?>
-      </p>
-      <?php if (isset($content['field_ding_event_price'])): ?> 
-        <p>
-            <i class="icon-shopping-cart"></i> 
-            <?php print render($content['field_ding_event_price']); ?>
-        </p>
-      <?php endif; ?>
-  </div>
+<?php print render($content['field_ding_event_category']); ?>
+<?php print render($content['field_ding_event_library']); ?>
+<div class="event-lead"><?php print render($content['field_ding_event_lead'][0]); ?></div>
+<?php if (isset($ddbasic_place2book_tickets)): ?>
+  <?php print render($content['field_place2book_tickets'][0]); ?>
+<?php endif; ?>
+<div class="event-head-right">
+  <p><i class="icon-calendar"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?></p>
+  <?php if (isset($ddbasic_event_location)): ?>
+  <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
+  <?php endif; ?>
+  <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
+  <?php if (isset($content['field_ding_event_price'])): ?>
+    <p><i class="icon-shopping-cart"></i> <?php print render($content['field_ding_event_price']); ?></p>
+  <?php endif; ?>
 </div>
 
-<hr class="grid-clear-both"/>
-
-<div class="content">
+<div class="event-content">
 <?php
   // hide fields we have already rendered
   hide($content['field_ding_event_list_image']);
@@ -153,8 +132,6 @@
   print render($content);
 ?>
 </div>
-
-<hr/>
 
 <?php
   // Remove the "Add new comment" link on the teaser page or if the comment

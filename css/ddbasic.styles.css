@@ -5,12 +5,12 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -2042,12 +2042,12 @@ ul.icons li [class*=" icon-"] {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .top-wrapper:before, .top-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .top-wrapper:after {
   clear: both;
 }
@@ -2113,12 +2113,12 @@ ul.icons li [class*=" icon-"] {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .main-wrapper:before, .main-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .main-wrapper:after {
   clear: both;
 }
@@ -2270,12 +2270,12 @@ ul.icons li [class*=" icon-"] {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 52, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .attachments-wrapper:before, .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .attachments-wrapper:after {
   clear: both;
 }
@@ -3966,35 +3966,35 @@ button#edit-cancel {
   color: white;
   text-decoration: none;
 }
-/* line 54, ../sass/_ddbasic.labels.scss */
-.label:link, .label-inverted:link, .subject:link, .news-list .news-label:link {
+/* line 55, ../sass/_ddbasic.labels.scss */
+.label:link, .label-inverted:link, .subject:link, .news-list .news-label:link, .label:visited, .label-inverted:visited, .subject:visited, .news-list .news-label:visited {
   color: white;
 }
-/* line 58, ../sass/_ddbasic.labels.scss */
+/* line 59, ../sass/_ddbasic.labels.scss */
 .label:hover, .label-inverted:hover, .subject:hover, .news-list .news-label:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
 }
 
-/* line 70, ../sass/_ddbasic.labels.scss */
+/* line 71, ../sass/_ddbasic.labels.scss */
 .label-inverted {
   background-color: white;
   color: #00b7e7;
 }
-/* line 78, ../sass/_ddbasic.labels.scss */
+/* line 79, ../sass/_ddbasic.labels.scss */
 .label-inverted a:link {
   color: #00b7e7;
 }
-/* line 82, ../sass/_ddbasic.labels.scss */
+/* line 83, ../sass/_ddbasic.labels.scss */
 .label-inverted a:hover {
   color: #00b7e7;
 }
-/* line 88, ../sass/_ddbasic.labels.scss */
+/* line 89, ../sass/_ddbasic.labels.scss */
 .label-inverted:link {
   color: #00b7e7;
 }
-/* line 92, ../sass/_ddbasic.labels.scss */
+/* line 93, ../sass/_ddbasic.labels.scss */
 .label-inverted:hover {
   background-color: #e6e6e6;
   color: #00b7e7;
@@ -5105,12 +5105,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   *position: relative;
   *zoom: 1;
 }
-/* line 52, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 56, ../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
@@ -5259,55 +5259,61 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   cursor: auto;
 }
 
-/* line 44, ../sass/_ddbasic.event.scss */
+/* line 39, ../sass/_ddbasic.event.scss */
+.event-list {
+  padding-bottom: 10px;
+}
+/* line 46, ../sass/_ddbasic.event.scss */
+.event-list .heading {
+  margin-bottom: 10px;
+}
+/* line 50, ../sass/_ddbasic.event.scss */
 .event-list .event-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 15%;
 }
-
-/* line 51, ../sass/_ddbasic.event.scss */
-.event-list-item {
+/* line 56, ../sass/_ddbasic.event.scss */
+.event-list .event-list-item {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 56, ../sass/_ddbasic.event.scss */
-.event-list-item.last {
+/* line 61, ../sass/_ddbasic.event.scss */
+.event-list .event-list-item.last {
   border-bottom: 0;
 }
-/* line 60, ../sass/_ddbasic.event.scss */
-.event-list-item .event-list-title {
+/* line 65, ../sass/_ddbasic.event.scss */
+.event-list .event-list-item .event-list-title {
   margin-bottom: 10px;
 }
 
-/* line 65, ../sass/_ddbasic.event.scss */
+/* line 71, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper {
   font-size: 13.5px;
   font-size: 0.84375rem;
   display: inline-block;
-  margin-top: 4px;
   margin-right: 10px;
   min-width: 75px;
   color: #5b5b5b;
   text-align: center;
   vertical-align: top;
 }
-/* line 77, ../sass/_ddbasic.event.scss */
+/* line 82, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-day {
   background-color: #00b7e7;
   color: white;
   display: block;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 83, ../sass/_ddbasic.event.scss */
+/* line 88, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-inner-wrapper {
   border-right: 1px solid #d5d5d5;
   border-bottom: 1px solid #d5d5d5;
   border-left: 1px solid #d5d5d5;
   background: white;
 }
-/* line 90, ../sass/_ddbasic.event.scss */
+/* line 95, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-inner-wrapper .event-list-date {
   font-size: 25.5px;
   font-size: 1.59375rem;
@@ -5315,17 +5321,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 8px;
 }
 
-/* line 99, ../sass/_ddbasic.event.scss */
+/* line 104, ../sass/_ddbasic.event.scss */
 .event-list-info {
   display: inline-block;
 }
-/* line 104, ../sass/_ddbasic.event.scss */
+/* line 109, ../sass/_ddbasic.event.scss */
 .event-list-info .event-list-location,
 .event-list-info .event-list-time,
 .event-list-info .event-list-price {
   display: block;
 }
-/* line 107, ../sass/_ddbasic.event.scss */
+/* line 112, ../sass/_ddbasic.event.scss */
 .event-list-info .event-list-location:before,
 .event-list-info .event-list-time:before,
 .event-list-info .event-list-price:before {
@@ -5334,29 +5340,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 5px;
 }
 
-/* line 127, ../sass/_ddbasic.event.scss */
+/* line 132, ../sass/_ddbasic.event.scss */
 .events-group-heading {
   background: #efefef;
   padding: 10px;
   margin-bottom: 20px;
 }
-/* line 132, ../sass/_ddbasic.event.scss */
+/* line 137, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper {
   vertical-align: middle;
   min-width: 50px;
   font-size: 9px;
 }
-/* line 137, ../sass/_ddbasic.event.scss */
+/* line 142, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper .event-list-date {
   font-size: 15px;
   padding-top: 0.2em;
   margin-bottom: -10px;
 }
-/* line 143, ../sass/_ddbasic.event.scss */
+/* line 148, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper .event-list-day {
   line-height: 16.8px;
 }
-/* line 148, ../sass/_ddbasic.event.scss */
+/* line 153, ../sass/_ddbasic.event.scss */
 .events-group-heading .ding-event-fulldate {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -5364,7 +5370,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-weight: normal;
 }
 
-/* line 157, ../sass/_ddbasic.event.scss */
+/* line 162, ../sass/_ddbasic.event.scss */
 .pane-ding-event-ding-event-list .event-list-info,
 .pane-ding-event-ding-event-list-library .event-list-info {
   float: right;

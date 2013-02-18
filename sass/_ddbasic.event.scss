@@ -37,28 +37,34 @@
 // Event list
 // **
 .event-list {
+  padding-bottom: $default-spacing / 2;
+
   ul {
     @extend %reset-list;
   }
-  
+
+  .heading {
+    margin-bottom: $default-spacing / 2;
+  }
+
  .event-image-wrapper {
     float: left;
     margin-right: $default-spacing;
     max-width: 15%;
   }
-}
 
-.event-list-item {
-  border-bottom: 1px solid $gray-light;
-  margin-bottom: $default-spacing;
-  padding-bottom: $default-spacing;
-  
-  &.last {
-    border-bottom: 0;
-  }
+  .event-list-item {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: $default-spacing;
+    padding-bottom: $default-spacing;
 
-  .event-list-title {    
-    margin-bottom: $default-spacing / 2;
+    &.last {
+      border-bottom: 0;
+    }
+
+    .event-list-title {
+      margin-bottom: $default-spacing / 2;
+    }
   }
 }
 
@@ -66,7 +72,6 @@
   @include rem('font-size', $theme-font-size * .9);
 
   display: inline-block;
-  margin-top : $default-spacing / 5;
   margin-right: $default-spacing / 2;
   min-width: 75px;
 
@@ -98,7 +103,7 @@
 
 .event-list-info {
   display: inline-block;
-  
+
   .event-list-location,
   .event-list-time,
   .event-list-price {
@@ -128,26 +133,26 @@
   background: $gray-light;
   padding: $default-spacing/2;
   margin-bottom: $default-spacing;
-  
+
   .event-list-date-wrapper {
     vertical-align: middle;
     min-width: $default-spacing * 2.5;
     font-size: $theme-font-size * 0.6;
-    
+
     .event-list-date {
       font-size: $theme-font-size;
       padding-top: 0.2em;
       margin-bottom: -$default-spacing / 2;
     }
-    
+
     .event-list-day {
       line-height: $theme-line-height * 0.7;
     }
   }
-  
+
   .ding-event-fulldate {
     @include rem('font-size', $theme-font-size * 1.25);
-    
+
     font-family: $font-bold;
     font-weight: $theme-font-weight-bold;
   }
