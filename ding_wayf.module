@@ -56,7 +56,7 @@ function ding_wayf_menu() {
  */
 function ding_wayf_accept() {
   drupal_set_message(t('Accept_wayf_bind', array(), array('context' => 'ding_wayf')), 'warning');
-  // return drupal_render($form);
+// return drupal_render($form);
   return drupal_render(drupal_get_form('ding_wayf_accept_form'));
 }
 
@@ -91,29 +91,52 @@ function ding_wayf_accept_form() {
  * @param type $form_state 
  */
 function ding_wayf_accept_form_validate($form, &$form_state) {
-  // continue button clicked
+// continue button clicked
   if ($form_state['clicked_button']['#name'] == 'continue') {
     if ($form_state['values']['accept']) {
-      // first use case - no account with bibliotek.dk
-      // get name and pass from session; create a user if accept is set
-      // @TODO check if session is set
+
+// get name and pass from session; create a user if accept is set
+// @TODO check if session is set
       $name = $_SESSION['accept_wayf']['name'];
       $pass = $_SESSION['accept_wayf']['pass'];
+      $status = $_SESSION['accept_wayf']['status'];
 
-      if (ding_provider_implements('user', 'create_account')) {
-        if (ding_provider_invoke('user', 'create_account', $name, $pass)) {
-          $authentication_attributes['mail'][0] = $name;
-          $authentication_attributes['eduPersonTargetedID'][0] = $pass;
+// prepare an array for ding_wayf_login
+      $authentication_attributes['mail'][0] = $name;
+      $authentication_attributes['eduPersonTargetedID'][0] = $pass;
 
-          // user has been created with mail, wayfid.
-          // if user wishes to change password later on he can do so
-          ding_wayf_login($authentication_attributes, 'user');
-        }
+      switch ($status) {
+        // first use case - no account with bibliotek.dk
+        case 'no_user':
+          //break;
+          if (ding_provider_implements('user', 'create_account')) {
+            if (ding_provider_invoke('user', 'create_account', $name, $pass)) {
+              // user has been created with mail, wayfid.
+              if( ding_provider_implements('wayf', 'bind') ) {
+                ding_provider_invoke('wayf', 'bind', $name, $pass);
+              }
+              // if user wishes to change password later on he can do so
+              ding_wayf_login($authentication_attributes, 'wayf');
+            }
+          }
+          break;
+          // next use case - user has an bibdk account, but no wayfid
+        case 'bibdk_user':
+          if (ding_provider_implements('wayf', 'bind')) {
+            if (ding_provider_invoke('wayf', 'bind', $name, $pass)) {
+              ding_wayf_login($authentication_attributes, 'wayf');
+            }
+          }
+          break;
+        default:
+          drupal_set_message('wayf_could_not_login');
+          drupal_goto('user');
+          break;
       }
     }
     else {
-      // user clicked continue, but did not check accept. maybe user forgot to check the box
-      // tell him to either check the box or press abort
+// user clicked continue, but did not check accept. maybe user forgot to check the box
+// tell him to either check the box or press abort
       form_set_error('accept', t('either check accept or press abort', array(), array('context' => 'ding_wayf')));
     }
   }
@@ -142,13 +165,13 @@ function ding_wayf_login($authentication_attributes, $provider = 'wayf') {
   global $user;
   if ($user->uid == 0) {
     $form_state = array();
-    // set authentication provider for ding_user (@see ding_user_user_login_validate)
+// set authentication provider for ding_user (@see ding_user_user_login_validate)
     $form_state['values']['authentication_provider'] = $provider;
-    // set name and password for login
+// set name and password for login
     $form_state['values']['name'] = $authentication_attributes['mail'][0];
     $form_state['values']['mail'] = $authentication_attributes['mail'][0];
     $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'][0];
-// submit login form
+// submit login form    
     drupal_form_submit('user_login_block', $form_state);
   }
   else {
@@ -184,11 +207,11 @@ function ding_wayf_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
-      // option to set authentication provider for ding user (@see ding_user_user_login_validate)
+// option to set authentication provider for ding user (@see ding_user_user_login_validate)
       $form['authentication_provider'] = array(
         '#type' => 'hidden',
       );
-      // add a validation handler (if provider implements it)
+// add a validation handler (if provider implements it)
       $provider = ding_provider_get_provider_module_name('wayf');
       if (isset($provider)) {
         $function = $provider . '_wayf_validate';
@@ -241,12 +264,11 @@ function ding_wayf_redirect_login() {
     if ($saml->isAuthenticated()) {
       $wayf_data = $saml->getAttributes();
       $authentication_attributes = ding_wayf_get_required_attributes($wayf_data, $simplesaml['attributes']);
-
 // log user in
       ding_wayf_login($authentication_attributes);
     }
     else {
-      // Redirect the user to the WAYF login page.
+// Redirect the user to the WAYF login page.
       $saml->requireAuth();
     }
   }
@@ -298,9 +320,9 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
       else {
         $url = NULL;
       }
-      // we pass simplesaml the url to return to -
-      // you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
-      // if only a string is passed it will be handled as 'ReturnTo'
+// we pass simplesaml the url to return to -
+// you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
+// if only a string is passed it will be handled as 'ReturnTo'
       $saml->logout($url);
     }
   }
