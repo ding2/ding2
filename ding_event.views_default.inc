@@ -1865,12 +1865,12 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['path'] = 'event/feed';
   $handler->display->display_options['displays'] = array(
-    'ctools_context_master' => 'ctools_context_master',
-    'ctools_context_teaser_list' => 'ctools_context_teaser_list',
-    'panel_pane_1' => 'panel_pane_1',
+    'ding_event_frontpage_list' => 'ding_event_frontpage_list',
     'default' => 0,
-    'ctools_context_library_teaser' => 0,
-    'ctools_context_library_master' => 0,
+    'ding_event_library_page_list' => 0,
+    'ding_event_list' => 0,
+    'ding_event_list_library' => 0,
+    'ding_event_simple_list' => 0,
   );
   $handler->display->display_options['sitename_title'] = 1;
 
@@ -1896,11 +1896,12 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['not'] = 0;
   $handler->display->display_options['path'] = 'node/%/events/feed';
   $handler->display->display_options['displays'] = array(
-    'ctools_context_library_teaser' => 'ctools_context_library_teaser',
-    'ctools_context_library_master' => 'ctools_context_library_master',
+    'ding_event_library_page_list' => 'ding_event_library_page_list',
     'default' => 0,
-    'ctools_context_master' => 0,
-    'ctools_context_teaser_list' => 0,
+    'ding_event_frontpage_list' => 0,
+    'ding_event_list' => 0,
+    'ding_event_list_library' => 0,
+    'ding_event_simple_list' => 0,
   );
   $handler->display->display_options['sitename_title'] = 1;
   $translatables['ding_event'] = array(
