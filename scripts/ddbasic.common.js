@@ -68,6 +68,10 @@
     function ddbasic_header_panes_toggle() {
       // Toggle the different login panes. We remove them to prevent elements
       // with the same ids etc.
+
+      var ddbasic_user_name = $('.topbar .user-name');
+      var ddbasic_user_menu = $('.topbar .user-menu');
+
       if (ddbasic_login_state) {
         ddbasic_login_pane_toolbar.hide();
         ddbasic_login_pane_default.show();
@@ -78,8 +82,8 @@
         ddbasic_search_pane.show();
 
         // Hide user name and user menu
-        $('.user-name').hide();
-        $('.user-menu').hide();
+        ddbasic_user_name.hide();
+        ddbasic_user_menu.hide();
       }
       else {
         ddbasic_login_pane_default.hide();
@@ -91,8 +95,8 @@
         ddbasic_search_pane.show();
 
         // Show user name and user menu
-        $('.user-name').show();
-        $('.user-menu').show();
+        ddbasic_user_name.show();
+        ddbasic_user_menu.show();
       }
 
       // Toggle state.
