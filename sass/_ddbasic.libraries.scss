@@ -34,8 +34,6 @@
   @include rem('margin', 0 0 $default-spacing);
   @include rem('padding', 0 0 $default-spacing);
   @include rem('font-size', $theme-font-size * 1.8);
-
-  border-bottom: 1px solid $gray;
 }
 
 .library-list {
@@ -44,7 +42,7 @@
   .views-row {
     @include rem('padding', $default-spacing);
 
-    background: $gray-light;
+    background: $gray-lighter;
     line-height: $theme-font-size * 2;
   }
 }

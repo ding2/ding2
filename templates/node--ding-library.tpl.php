@@ -90,9 +90,9 @@
     <div class="libraries"><?php print render($content); ?></div>
     <?php if (!empty($opening_hours)) : ?>
     <div class="libraries-opening-hours">
-    <?php print $opening_hours;  ?>
+      <h2 class="libraries-opening-hours-title"><?php t('Opening hours') ?></h2>
+      <?php print $opening_hours;  ?>
     </div>
     <?php endif; ?>
   </div>
 </div>
-<hr />

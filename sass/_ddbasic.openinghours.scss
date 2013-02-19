@@ -5,19 +5,19 @@
 
 
 // =============================================================================
-// VARIABLES
+// Variables
 // =============================================================================
 //
 
 
 // =============================================================================
-// EXTENDS
+// Extends
 // =============================================================================
 //
 
 
 // =============================================================================
-// DEFAULT STYLING
+// Default styling
 // =============================================================================
 //
 .block-opening-hours {
@@ -32,7 +32,59 @@
   }
 }
 
+.pane-week {
+  border-top: 1px solid $gray-light;
+  margin-top: $default-spacing;
+  padding-top: $default-spacing;
+}
+
+.opening-hours-week {
+  padding: 0;
+
+  .header {
+    padding: $default-spacing / 2;
+  }
+
+  .days {
+    padding: 0;
+
+    .day {
+      padding: $default-spacing / 3;
+    }
+
+    .times {
+      margin-right: 0;
+    }
+
+    .odd {
+      background-color: darken($gray-lighter, 2%);
+    }
+
+    .even {
+      background-color: $gray-lighter;
+    }
+  }
+
+  .prev,
+  .next {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .prev {
+    float: left;
+    margin-left: $default-spacing / 4;
+  }
+
+  .next {
+    float: right;
+    margin-right: $default-spacing / 4;
+  }
+}
+
+
 // =============================================================================
-// MEDIAQUERIES
+// Mediaqueries
 // =============================================================================
-//  
+//
