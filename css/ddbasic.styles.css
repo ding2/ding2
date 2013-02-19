@@ -4333,6 +4333,26 @@ button#edit-cancel {
   position: absolute !important;
 }
 
+/* line 61, ../sass/_ddbasic.miscellaneous.scss */
+.signature {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* line 70, ../sass/_ddbasic.miscellaneous.scss */
+.signature .signature-image img {
+  float: left;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+/* line 77, ../sass/_ddbasic.miscellaneous.scss */
+.signature .signature-label {
+  display: inline-block;
+  min-width: 125px;
+}
+
 /* line 24, ../sass/_ddbasic.overrides.drupal.scss */
 ul li.leaf {
   list-style: none;
@@ -4388,26 +4408,6 @@ tr.even {
 /* line 94, ../sass/_ddbasic.overrides.drupal.scss */
 tr.odd {
   background-color: #e4e4e4;
-}
-
-/* line 103, ../sass/_ddbasic.overrides.drupal.scss */
-.signature {
-  border-top: 1px solid #efefef;
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-/* line 112, ../sass/_ddbasic.overrides.drupal.scss */
-.signature .signature-image img {
-  float: left;
-  margin-top: 5px;
-  margin-right: 20px;
-}
-/* line 119, ../sass/_ddbasic.overrides.drupal.scss */
-.signature .signature-label {
-  display: inline-block;
-  min-width: 125px;
 }
 
 /* line 19, ../sass/_ddbasic.search.scss */
