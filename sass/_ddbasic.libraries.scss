@@ -26,7 +26,7 @@
 // **
 //
 .pane-ding-library-map {
-  @include rem('margin-bottom', $default-spacing);  
+  @include rem('margin-bottom', $default-spacing);
 }
 
 .libraries-title,
@@ -48,27 +48,35 @@
 }
 
 .libraries {
-	float: left;
+  float: left;
+  position: relative;
   width: 73%;
 }
 
 .field-name-field-ding-library-list-image {
 	float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 25%;
+
+  .field-items {
+    padding: 0;
+  }
 }
 
-.dl,
-.library-link {
+.field-label-inline {
   @include rem('padding-left', $default-spacing);
 
   margin-left: 25%;
 
-  .dt {
-    @extend %term-horizontal;    
+  .field-label {
+    float: left;
   }
 
-  .dd {
-    @extend %data-horizontal;
+  .field-items {
+    float: none;
+    padding: 0 0 0 25%;
   }
 }
 
@@ -78,6 +86,36 @@
 
 .libraries-opening-hours {
   margin-left: 75%;
+  
+  .header {
+    background: $gray;
+  }
+  
+  .prev,
+  .next {
+    font-family: $theme-icon-library-font;
+    font-size: 100%;
+  }
+  
+  .even {
+    background: darken($gray-light,2%);
+  }
+  .odd {
+    background: darken($gray-light,5%);
+  }
+  
+  .opening-hours-week {
+    padding: 0;
+  }
+
+  .days {
+    padding: 0;
+  }
+  
+  .day {
+    padding: 0 .5em;
+  }
+
 }
 
 
@@ -118,6 +156,10 @@
   .libraries-opening-hours {
     margin-left: 0;
   }
+
+  .field-items {
+    padding-left: 50%;
+  }
 }
 @include medium {
   .libraries {
@@ -127,5 +169,9 @@
 
   .libraries-opening-hours {
     margin-left: 0;
+  }
+
+  .field-items {
+    padding-left: 50%;
   }
 }
