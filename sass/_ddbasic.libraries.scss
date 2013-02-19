@@ -81,29 +81,29 @@
 }
 
 .library-link {
-  @include rem('padding', $default-spacing 0 0 $default-spacing);  
+  @include rem('padding', $default-spacing 0 0 $default-spacing);
 }
 
 .libraries-opening-hours {
   margin-left: 75%;
-  
+
   .header {
     background: $gray;
   }
-  
+
   .prev,
   .next {
     font-family: $theme-icon-library-font;
     font-size: 100%;
   }
-  
+
   .even {
     background: darken($gray-light,2%);
   }
   .odd {
     background: darken($gray-light,5%);
   }
-  
+
   .opening-hours-week {
     padding: 0;
   }
@@ -111,11 +111,17 @@
   .days {
     padding: 0;
   }
-  
+
   .day {
     padding: 0 .5em;
   }
 
+}
+
+.pane-ding-news-ding-news-library-list {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $default-spacing;
+  padding-bottom: $default-spacing;
 }
 
 
@@ -130,7 +136,7 @@
 
 .library-menu {
   h2 {
-    @extend .sub-menu-title; 
+    @extend .sub-menu-title;
   }
 
   .links {
