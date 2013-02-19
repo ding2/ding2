@@ -121,6 +121,15 @@
 // User menu
 // **
 //
+.front {
+  .topbar {
+    .user-menu,
+    .user-name {
+      display: none;
+    }
+  }
+}
+
 .header-wrapper {
   .user-name,
   .user-menu-loans,

@@ -76,6 +76,10 @@
         ddbasic_search_pane.remove();
         $('.header-inner').append(ddbasic_search_pane);
         ddbasic_search_pane.show();
+
+        // Hide user name and user menu
+        $('.user-name').hide();
+        $('.user-menu').hide();
       }
       else {
         ddbasic_login_pane_default.hide();
@@ -85,6 +89,10 @@
         ddbasic_search_pane.remove();
         $('.topbar > .topbar-inner').append(ddbasic_search_pane);
         ddbasic_search_pane.show();
+
+        // Show user name and user menu
+        $('.user-name').show();
+        $('.user-menu').show();
       }
 
       // Toggle state.
