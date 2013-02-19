@@ -998,7 +998,7 @@ function ding_event_views_default_views() {
     'element_wrapper_type_enable' => 1,
     'element_wrapper_type' => 'div',
     'element_wrapper_class_enable' => 1,
-    'element_wrapper_class' => 'image-container',
+    'element_wrapper_class' => 'event-image-wrapper',
     'element_default_classes' => 0,
     'alter' => array(
       'alter_text' => 0,
@@ -1035,7 +1035,7 @@ function ding_event_views_default_views() {
     'click_sort_column' => 'fid',
     'type' => 'cs_adaptive_image',
     'field_api_classes' => 0,
-    'image_link' => '',
+    'image_link' => 'content',
     'styles' => array(
       'breakpoint_1' => '768',
       'style_1' => 'ding_list_medium',
@@ -1255,7 +1255,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['hide_empty'] = 0;
   $handler->display->display_options['fields']['view_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['view_node']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Kontekstuelt filter: Indhold: Har taksonomiterm ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
@@ -1648,7 +1648,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['hide_empty'] = 0;
   $handler->display->display_options['fields']['view_node']['empty_zero'] = 0;
   $handler->display->display_options['fields']['view_node']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Kontekstuelt filter: Indhold: Library (field_ding_event_library:nid) */
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
@@ -1930,7 +1930,7 @@ function ding_event_views_default_views() {
     t('View panes'),
     t('Library page event list'),
     t('Event list'),
-    t('Read more'),
+    t('Læs mere'),
     t('Event list (library)'),
     t('Simple event list'),
     t('RSS event list'),

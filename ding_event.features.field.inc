@@ -1116,10 +1116,10 @@ function ding_event_field_default_fields() {
             'styles' => array(
               'breakpoint_1' => '768',
               'breakpoint_2' => '500',
-              'fallback_style' => 'ding_primary_large',
-              'max_style' => 'ding_primary_large',
-              'style_1' => 'ding_primary_medium',
-              'style_2' => 'ding_primary_small',
+              'fallback_style' => 'ding_list_large',
+              'max_style' => 'ding_list_large',
+              'style_1' => 'ding_list_large',
+              'style_2' => 'ding_list_large',
             ),
           ),
           'type' => 'cs_adaptive_image',
@@ -1182,6 +1182,83 @@ function ding_event_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_event-field_place2book_tickets'.
+  $fields['node-ding_event-field_place2book_tickets'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_place2book_tickets',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => 255,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_event',
+      'default_value' => array(
+        0 => array(
+          'value' => 'placeholder',
+        ),
+      ),
+      'deleted' => '0',
+      'description' => 'Placeholder for Place2book ticket information and/or order link',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => '11',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_place2book_tickets',
+      'label' => 'Place2book Tickets',
+      'required' => TRUE,
+      'settings' => array(
+        'text_processing' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'text',
+        'settings' => array(
+          'size' => 60,
+        ),
+        'type' => 'text_textfield',
+        'weight' => 31,
+      ),
+    ),
+  );
 
   // Translatables
   // Included for use with string extractors like potx.
@@ -1195,6 +1272,9 @@ function ding_event_field_default_fields() {
   t('List image');
   t('Location');
   t('Materials');
+  t('Optional. If provided, the location address will be shown instead of the address of the associated library when presenting info on the event.');
+  t('Place2book Tickets');
+  t('Placeholder for Place2book ticket information and/or order link');
   t('Price');
   t('Tags');
   t('Target');
