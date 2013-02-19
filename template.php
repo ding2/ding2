@@ -303,16 +303,13 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
-  /**
-   * @TODO Use date-formats defined in the backend, do not hardcode formats...
-   *       ever
-   */
+  
   // Add updated to variables.
-  $variables['ddbasic_updated'] = t('Updated: !datetime', array('!datetime' => format_date($variables['node']->changed, 'custom', 'l j. F Y')));
+  $variables['ddbasic_updated'] = t('!datetime', array('!datetime' => format_date($variables['node']->changed, $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
 
-  // Modified submitted variable
+  // Modified submitted variable.
   if ($variables['display_submitted']) {
-    $variables['submitted'] = t('Submitted: !datetime', array('!datetime' => format_date($variables['created'], 'custom', 'l j. F Y')));
+    $variables['submitted'] = t('!datetime', array('!datetime' => format_date($variables['created'], $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
   }
 }
 
