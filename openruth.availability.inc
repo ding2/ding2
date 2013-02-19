@@ -94,16 +94,22 @@ function _openruth_init_holding($holding) {
  */
 function _openruth_set_table_html( &$h ) {
   // set a classname for styling the table
-  $variables['attributes'] =
-    array('class' => array(drupal_html_class('availability_holdings_table')));
+  $variables['attributes'] = array(
+    'class' => array(
+      drupal_html_class('availability_holdings_table')
+    )
+  );
   // set table header
-  $variables['header'] =
-    array('placement' => t('Placement'), 'copies' => t('Copies'), 'Home' => t('At home'), 'reservations' => t('Reservations'));
+  $variables['header'] = array(
+    'placement' => t('Placement'),
+    'copies' => t('Copies'),
+    'home' => t('At home'),
+  );
   // set table rows
   $variables['rows'] = _openruth_set_rows($h);
   // theme the table
   // @TODO; move this to ding_availability ??
-  $html = theme('table', $variables );
+  $html = theme('table', $variables);
 
   $h['html'] = $html;
 }
@@ -113,26 +119,32 @@ function _openruth_set_table_html( &$h ) {
  * @param $h; holding information for a given material
  * @return array; an array for rendering
  */
-function _openruth_set_rows( $h ) {
+function _openruth_set_rows($h) {
   $rows = array();
-  if ( isset($h['holdings']) ) {
+  if (isset($h['holdings'])) {
     foreach ( $h['holdings'] as $key => $data ) {
       $row = array();
       $row['placement'] = $data['placement'];
       $row['copies'] = $data['copiesCount'];
-      $row['Home'] = $data['copiesAvailableCount'];
-      $row['reservations'] = '';
+      $row['home'] = $data['copiesAvailableCount'];
       $rows[] = $row;
     }
-    // add last row (totals)
+    // Add row (totals).
     $row = array();
     $row['data']['Library'] = t('Total');
     $row['data']['Copies'] = $h['total_count'];
     $row['data']['Home'] = $h['reservable_count'];
-    $row['data']['reservations'] = $h['reserved_count'];
     $row['class'] = array(drupal_html_class('availability_holdings_last_row'));
     $rows[] = $row;
+
+    // Add last row (reservations).
+    $row = array();
+    $row['data']['Library'] = t('Reservations');
+    $row['data']['Copies'] = $h['reserved_count'];
+    $rows[] = $row;
   }
+
+
   return $rows;
 }
 
