@@ -51,6 +51,21 @@
   float: left;
   position: relative;
   width: 73%;
+
+  .field-label-inline {
+    @include rem('padding-left', $default-spacing);
+
+    margin-left: 25%;
+
+    .field-label {
+      float: left;
+    }
+
+    .field-items {
+      float: none;
+      padding: 0 0 0 25%;
+    }
+  }
 }
 
 .field-name-field-ding-library-list-image {
@@ -62,21 +77,6 @@
 
   .field-items {
     padding: 0;
-  }
-}
-
-.field-label-inline {
-  @include rem('padding-left', $default-spacing);
-
-  margin-left: 25%;
-
-  .field-label {
-    float: left;
-  }
-
-  .field-items {
-    float: none;
-    padding: 0 0 0 25%;
   }
 }
 
