@@ -65,7 +65,7 @@ function ding_library_field_default_fields() {
             'use_widget_handlers' => 1,
           ),
           'type' => 'addressfield_default',
-          'weight' => '4',
+          'weight' => '1',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -224,7 +224,7 @@ function ding_library_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '7',
+          'weight' => '3',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -290,7 +290,7 @@ function ding_library_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '4',
+          'weight' => '8',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -372,7 +372,7 @@ function ding_library_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '3',
+          'weight' => '7',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -446,11 +446,11 @@ function ding_library_field_default_fields() {
           'weight' => '16',
         ),
         'teaser' => array(
-          'label' => 'hidden',
+          'label' => 'inline',
           'module' => 'link',
           'settings' => array(),
           'type' => 'link_default',
-          'weight' => '2',
+          'weight' => '5',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -547,20 +547,13 @@ function ding_library_field_default_fields() {
         ),
         'teaser' => array(
           'label' => 'hidden',
-          'module' => 'cs_adaptive_image',
+          'module' => 'image',
           'settings' => array(
             'image_link' => 'content',
-            'styles' => array(
-              'breakpoint_1' => '',
-              'breakpoint_2' => '',
-              'fallback_style' => 'ding_list_large',
-              'max_style' => 'ding_list_large',
-              'style_1' => '',
-              'style_2' => '',
-            ),
+            'image_style' => 'ding_list_small',
           ),
-          'type' => 'cs_adaptive_image',
-          'weight' => '3',
+          'type' => 'image',
+          'weight' => '0',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -648,7 +641,7 @@ function ding_library_field_default_fields() {
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_default',
-          'weight' => '8',
+          'weight' => '4',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -799,7 +792,7 @@ function ding_library_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '6',
+          'weight' => '2',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -875,7 +868,7 @@ function ding_library_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => '9',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -961,7 +954,7 @@ function ding_library_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => '6',
         ),
         'teaser_highlight' => array(
           'label' => 'above',
@@ -993,11 +986,11 @@ function ding_library_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            'image' => 'image',
-            'video' => 0,
-            0 => 0,
             'audio' => 0,
             'default' => 0,
+            0 => 0,
+            'image' => 'image',
+            'video' => 0,
           ),
           'browser_plugins' => array(
             'ding_content' => 0,
@@ -1062,7 +1055,7 @@ function ding_library_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '17',
+          'weight' => '12',
         ),
         'teaser_highlight' => array(
           'label' => 'above',

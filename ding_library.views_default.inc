@@ -116,10 +116,11 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['empty_zero'] = 0;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 0;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
-  /* Felt: Indhold: List image */
+  /* Felt: List image */
   $handler->display->display_options['fields']['field_ding_library_list_image']['id'] = 'field_ding_library_list_image';
   $handler->display->display_options['fields']['field_ding_library_list_image']['table'] = 'field_data_field_ding_library_list_image';
   $handler->display->display_options['fields']['field_ding_library_list_image']['field'] = 'field_ding_library_list_image';
+  $handler->display->display_options['fields']['field_ding_library_list_image']['ui_name'] = 'List image';
   $handler->display->display_options['fields']['field_ding_library_list_image']['label'] = '';
   $handler->display->display_options['fields']['field_ding_library_list_image']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_list_image']['alter']['make_link'] = 0;
@@ -143,7 +144,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_list_image']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['field_ding_library_list_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_ding_library_list_image']['settings'] = array(
-    'image_style' => 'ding_attachment_small',
+    'image_style' => '',
     'image_link' => 'content',
   );
   $handler->display->display_options['fields']['field_ding_library_list_image']['field_api_classes'] = 0;
@@ -151,7 +152,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['field'] = 'field_ding_library_addresse';
-  $handler->display->display_options['fields']['field_ding_library_addresse']['label'] = 'Address';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['label'] = 'Adresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['alter_text'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['make_link'] = 0;
   $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['absolute'] = 0;
@@ -575,7 +576,7 @@ function ding_library_views_default_views() {
     t('Stigende'),
     t('Faldende'),
     t('<div class="libraries-content">'),
-    t('Address'),
+    t('Adresse'),
     t('Phone'),
     t('Fax'),
     t('E-mail'),

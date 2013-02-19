@@ -163,6 +163,8 @@ function ding_library_block_view($delta = '') {
         'menu-' . $library['mlid'] => array(
           'href' => $library['link_path'],
           'title' => t('Frontpage'),
+          'prefix' => '<span>',
+          'suffix' => '</span>',
         ),
       );
       // And add the library items children.
