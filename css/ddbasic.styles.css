@@ -4408,6 +4408,11 @@ tr.odd {
   width: 150px;
 }
 
+/* line 109, ../sass/_ddbasic.overrides.drupal.scss */
+.field-label {
+  margin-right: 5px;
+}
+
 /* line 19, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ting-object .ting-cover, .field-name-field-ding-news-materials .ting-cover {
   float: left;
