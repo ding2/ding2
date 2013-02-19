@@ -61,6 +61,10 @@
   top: 0;
   left: 0;
   width: 25%;
+
+  .field-items {
+    padding: 0;
+  }
 }
 
 .field-label-inline {
@@ -154,6 +158,10 @@
   .libraries-opening-hours {
     margin-left: 0;
   }
+
+  .field-items {
+    padding-left: 50%;
+  }
 }
 @include medium {
   .libraries {
@@ -163,5 +171,9 @@
 
   .libraries-opening-hours {
     margin-left: 0;
+  }
+
+  .field-items {
+    padding-left: 50%;
   }
 }
