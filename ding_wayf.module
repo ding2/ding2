@@ -105,8 +105,6 @@ function ding_wayf_accept_form_validate($form, &$form_state) {
       $authentication_attributes['mail'][0] = $name;
       $authentication_attributes['eduPersonTargetedID'][0] = $pass;
 
-      dpm($status);
-
       switch ($status) {
         // first use case - no account with bibliotek.dk
         case 'no_user':
@@ -177,6 +175,8 @@ function ding_wayf_login($authentication_attributes, $provider = 'wayf', $notify
     if (isset($notify_by_mail)) {
       $form_state['mail_me'] = $notify_by_mail;
     }
+    //clear messages
+    drupal_get_messages();
 // submit login form
     drupal_form_submit('user_login_block', $form_state);
   }
