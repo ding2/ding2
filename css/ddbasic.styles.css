@@ -5341,33 +5341,35 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .event-list-info .event-list-time:before,
 .event-list-info .event-list-price:before {
   color: #959595;
+  display: inline-block;
   font-family: FontAwesome;
   margin-right: 5px;
+  min-width: 20px;
 }
 
-/* line 119, ../sass/_ddbasic.event.scss */
+/* line 121, ../sass/_ddbasic.event.scss */
 .events-group-heading {
   background: #efefef;
   padding: 10px;
   margin-bottom: 20px;
 }
-/* line 124, ../sass/_ddbasic.event.scss */
+/* line 126, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper {
   vertical-align: middle;
   min-width: 50px;
   font-size: 9px;
 }
-/* line 129, ../sass/_ddbasic.event.scss */
+/* line 131, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper .event-list-date {
   font-size: 15px;
   padding-top: 0.2em;
   margin-bottom: -10px;
 }
-/* line 135, ../sass/_ddbasic.event.scss */
+/* line 137, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper .event-list-day {
   line-height: 16.8px;
 }
-/* line 140, ../sass/_ddbasic.event.scss */
+/* line 142, ../sass/_ddbasic.event.scss */
 .events-group-heading .ding-event-fulldate {
   font-size: 18.75px;
   font-size: 1.17188rem;
@@ -5375,7 +5377,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-weight: normal;
 }
 
-/* line 149, ../sass/_ddbasic.event.scss */
+/* line 151, ../sass/_ddbasic.event.scss */
 .pane-ding-event-ding-event-list .event-list-info,
 .pane-ding-event-ding-event-list-library .event-list-info {
   float: right;
@@ -5384,7 +5386,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-left: 1px solid #efefef;
 }
 
-/* line 161, ../sass/_ddbasic.event.scss */
+/* line 163, ../sass/_ddbasic.event.scss */
 .ticket-available, .ticket-info {
   font-size: 15px;
   font-size: 0.9375rem;
@@ -5394,14 +5396,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 170, ../sass/_ddbasic.event.scss */
+/* line 172, ../sass/_ddbasic.event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
   padding-top: 20px;
 }
 
-/* line 192, ../sass/_ddbasic.event.scss */
+/* line 194, ../sass/_ddbasic.event.scss */
 .event .event-image {
   float: left;
   margin-top: 5px;
@@ -5409,22 +5411,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   max-width: 300px;
 }
-/* line 200, ../sass/_ddbasic.event.scss */
+/* line 202, ../sass/_ddbasic.event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 204, ../sass/_ddbasic.event.scss */
+/* line 206, ../sass/_ddbasic.event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 209, ../sass/_ddbasic.event.scss */
+/* line 211, ../sass/_ddbasic.event.scss */
 .event .event-lead {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 215, ../sass/_ddbasic.event.scss */
+/* line 217, ../sass/_ddbasic.event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -5443,7 +5445,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 221, ../sass/_ddbasic.event.scss */
+/* line 223, ../sass/_ddbasic.event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -5462,16 +5464,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 226, ../sass/_ddbasic.event.scss */
+/* line 228, ../sass/_ddbasic.event.scss */
 .event .event-info p {
   margin-bottom: 10px;
 }
-/* line 229, ../sass/_ddbasic.event.scss */
+/* line 231, ../sass/_ddbasic.event.scss */
 .event .event-info p i[class^="icon-"] {
   display: inline-block;
   min-width: 20px;
 }
-/* line 236, ../sass/_ddbasic.event.scss */
+/* line 238, ../sass/_ddbasic.event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
@@ -5688,11 +5690,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 5px;
 }
 
-/* line 111, ../sass/_ddbasic.news.scss */
+/* line 110, ../sass/_ddbasic.news.scss */
+.field-name-field-ding-news-materials {
+  border-top: 1px solid #efefef;
+  margin-top: 20px;
+  padding-top: 30px;
+}
+/* line 115, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .field-item {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
+}
+/* line 121, ../sass/_ddbasic.news.scss */
+.field-name-field-ding-news-materials .ting-cover {
+  margin-right: 20px;
+}
+/* line 127, ../sass/_ddbasic.news.scss */
+.field-name-field-ding-news-materials .subjects {
+  margin-top: 20px;
 }
 
 /* line 30, ../sass/_ddbasic.modal.scss */

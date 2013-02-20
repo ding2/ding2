@@ -98,8 +98,10 @@
 
     &:before {
       color: $gray-darker;
+      display: inline-block;
       font-family: $theme-icon-library-font;
       margin-right: 5px;
+      min-width: $default-spacing;
     }
   }
 
