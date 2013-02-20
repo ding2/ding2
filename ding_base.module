@@ -115,6 +115,38 @@ function ding_base_date_format_types() {
 }
 
 /**
+* Implements hook_date_formats().
+*/
+function ding_base_date_formats() {
+  $formats = array();
+
+  $formats[] = array(
+    'type'    => 'date_only',
+    'format'  => 'l j. F', 
+    'locales' => array(),
+  );
+
+  $formats[] = array(
+    'type'    => 'long_date_only',
+    'format'  => 'l j. F Y', 
+    'locales' => array(),
+  );
+  
+  $formats[] = array(
+    'type'    => 'time_only',
+    'format'  => 'G:i', 
+    'locales' => array(),
+  );
+
+  // save the date formats into variables
+  foreach ($formats as $format) {
+    variable_set('date_format_' . $format['type'], $format['format']);
+  }
+
+  return $formats;
+}
+
+/**
  * Implements hook_element_info().
  */
 function ding_base_element_info() {
