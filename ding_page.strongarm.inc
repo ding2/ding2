@@ -70,7 +70,7 @@ function ding_page_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'date_format_long_date_only';
-  $strongarm->value = 'j. F Y';
+  $strongarm->value = 'Y-m-d H:i';
   $export['date_format_long_date_only'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -235,7 +235,7 @@ function ding_page_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_page_pattern';
-  $strongarm->value = 'page/[node:title]';
+  $strongarm->value = '[node:menu-link:parent:url:relative]/[node:menu-link:title]';
   $export['pathauto_node_ding_page_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
