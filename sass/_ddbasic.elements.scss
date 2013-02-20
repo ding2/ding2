@@ -45,6 +45,10 @@ img {
 
 ul {
   padding-left: $default-spacing;
+  
+  li {
+    list-style: disc;
+  }
 }
 
 

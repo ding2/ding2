@@ -2879,15 +2879,19 @@ img {
 ul {
   padding-left: 20px;
 }
+/* line 49, ../sass/_ddbasic.elements.scss */
+ul li {
+  list-style: disc;
+}
 
-/* line 51, ../sass/_ddbasic.elements.scss */
+/* line 55, ../sass/_ddbasic.elements.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 57, ../sass/_ddbasic.elements.scss */
+/* line 61, ../sass/_ddbasic.elements.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
