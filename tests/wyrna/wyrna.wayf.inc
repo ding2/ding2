@@ -32,6 +32,10 @@ class DingWayfUser {
   protected $validUsers = array();
 
   private function __construct() {
+    
+    variable_set('wyrna_users',
+        array('eduPersonTargetedID' => 'WAYF-1234567890', 'mail' => 'dummy@dbc.dk',));
+    
     $this->validUsers = variable_get('wyrna_users', array());
   }
 
@@ -49,13 +53,12 @@ class DingWayfUser {
   }
 
   public function loginWayf($name, $wayfid) {
-    return TRUE;
-  
     return isset($this->validUsers[$name]) && $this->validUsers[$name] == $wayfid;
   }
 
   public function bindWayf($name, $wayfid) {
     $this->validUsers[$name] = $wayfid;
     variable_set('wyrna_users', $this->validUsers);
+    return TRUE;
   }
 }

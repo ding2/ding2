@@ -19,7 +19,8 @@ class WyrnaTestCase extends DrupalWebTestCase {
   }
 
   public function setUp() {
-    parent::setUp(array('wyrna', 'ding_wayf', 'ding_provider'));
+   // parent::setUp(array('wyrna', 'ding_wayf', 'ding_provider'));
+    parent::setUp(array('wyrna','ding_user', 'ding_wayf', 'bibdk_test_provider'));
   }
 
   public function testWyrna() {
@@ -29,11 +30,14 @@ class WyrnaTestCase extends DrupalWebTestCase {
 
   private function testProviderPersistens() {
     $wayf_attributes = array('mail' => 'dummy', 'eduPersonTargetedID' => 'id');
-    $this->assertFalse(ding_provider_invoke('wayf', 'authenticate', $wayf_attributes), t('No user registered with WAYF.'));
+    $result = ding_provider_invoke('wayf', 'authenticate', $wayf_attributes['mail'], $wayf_attributes['eduPersonTargetedID']);
+    $this->assertFalse($result['success'], t('No user registered with WAYF.'));
     ding_provider_invoke('wayf', 'bind', 'dummy', 'id');
-    $this->assertTrue(ding_provider_invoke('wayf', 'authenticate', $wayf_attributes), t('User logged in with WAYF.'));
+    $result = ding_provider_invoke('wayf', 'authenticate', $wayf_attributes['mail'], $wayf_attributes['eduPersonTargetedID']);
+    $this->assertTrue($result['success'], t('User logged in with WAYF.'));
     ding_provider_invoke('wayf', 'delete', 'dummy');
-    $this->assertFalse(ding_provider_invoke('wayf', 'authenticate', $wayf_attributes), t('WAYF binding removed for user.'));
+    $result = ding_provider_invoke('wayf', 'authenticate', $wayf_attributes['mail'], $wayf_attributes['eduPersonTargetedID']);
+    $this->assertFalse($result['success'], t('WAYF binding removed for user.'));
   }
 
   private function testHasWayfCapability() {
@@ -60,7 +64,7 @@ class DingWyafTestCase extends DrupalWebTestCase {
   public function setUp() {
     module_load_include('php', 'ding_wayf', 'tests/simplesaml_mock/lib/_autoload');
     module_load_include('inc', 'ding_wayf', 'tests/wyrna/wyrna.wayf');
-    parent::setUp(array('wyrna', 'ding_wayf', 'ding_provider', 'ding_user', 'securepages'));
+    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages'));
   }
 
   public function testDingWayfLogin() {
@@ -69,7 +73,9 @@ class DingWyafTestCase extends DrupalWebTestCase {
     $this->configureWayf();
     $this->testNotLoggedIn();
     $this->testAlreadyLoggedIn();
-    $this->testWayfLogIn();
+    $this->testWayfAcceptPage();
+    $this->testWayfAbort();
+    $this->testWayfLogin();
   }
 
   private function configureWayf() {
@@ -95,7 +101,8 @@ class DingWyafTestCase extends DrupalWebTestCase {
   private function testNotLoggedIn() {
     $this->drupalGet('wayf/login');
     $this->assertNoText(t('The WAYF login module is not configured yet, plase contact the site administrator.'), t('WAYF not configured error message.'));
-    $this->assertText(t('Not WAYF authenticated.'), t('Not logged in using WAYF.'));
+    $this->assertUrl('wayf/accept');
+   // $this->assertText(t('Not WAYF authenticated.'), t('Not logged in using WAYF.'));
   }
 
   private function testAlreadyLoggedIn() {
@@ -105,16 +112,34 @@ class DingWyafTestCase extends DrupalWebTestCase {
     $this->assertText(t('Log out'), t('User redirected to user profile page.'));
     $this->drupalLogout();
   }
-
-  private function testWayfLogIn() {
+  
+  private function testWayfAcceptPage() {
     $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => 'WAYF-1234567890', 'mail' => 'dummy@dbc.dk',));
+    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
+    $this->drupalGet('wayf/login');
+    $this->assertUrl('wayf/accept');
+  }
+  
+  private function testWayfAbort(){
+    $ss = new SimpleSAML_Auth_Simple('default-sp');
+    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
+    $this->drupalGet('wayf/login');
+    $this->assertUrl('wayf/accept', array(), 'current page is accept form');
+    $this->drupalPost(NULL, NULL, t('abort'));
+    $this->assertUrl('user', array(), 'Redirected to user page.');
+  }  
+
+  private function testWayfLogin() {
+    $ss = new SimpleSAML_Auth_Simple('default-sp');
+    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
     $provider = DingWayfUser::instance();
     $provider->bindWayf('dummy@dbc.dk', 'WAYF-1234567890');
     $this->drupalGet('wayf/login');
-    $this->assertNoText(t('Not WAYF authenticated.'));
-    $this->assertUrl('user', array(), 'Redirected to user page.');
-
+    $this->assertUrl('wayf/accept', array(), 'current page is accept form');  
+    $edit = array();
+    $edit['accept'] = TRUE;
+    $this->drupalPost(NULL, $edit, t('continue'));    
+    $this->assertText(t('Log out'), t('User is logged in.'));
   }
 }
 

@@ -11,6 +11,9 @@ class SimpleSAML_Auth_Simple {
    * Constructor for mock object.
    */
   public function __construct($sp) {
+    
+   SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
+    
     $attributes = variable_get('simplesaml_mock');
     if (!self::$attributes) {
       self::$attributes = $attributes;
