@@ -76,6 +76,8 @@
  * ddbasic specific variables:
  * - $ddbasic_updated: Information about latest update on the node created from $date during
  *   ddbasic_preprocess_node().
+ * - $ddbasic_event_date: Event date or period, printed as date(s) 
+ * - $ddbasic_event_time: Event time, printed as time(s) 
  * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with leading text "Tags: "
  * - $ddbasic_event_location: String containing adress info for either field_address or group_audience,
  *   as relevant for the event node
@@ -123,9 +125,9 @@
     ?>
   </div>
   <div class="event-info">
-    <p><i class="icon-calendar"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?></p>
+    <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
 
-    <p><i class="icon-time"></i> <?php print render($variables['content']['field_ding_event_date'][0]); ?></p>
+    <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
 
     <?php if (isset($ddbasic_event_location)): ?>
       <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
