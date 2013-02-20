@@ -60,17 +60,9 @@ class TingEntity extends DingEntity {
     $dk5 = '';
     if (!empty($this->reply->record['dc:subject']['dkdcplus:DK5'][0])) {
       $dk5 = $this->reply->record['dc:subject']['dkdcplus:DK5'][0];
-      $dk5_text = '';
-
-      if (!empty($this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0])) {
-        $dk5_text = $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0];
-      }
 
       if ($dk5 == 'sk') {
-        return $dk5_text;
-      }
-      else {
-        return $dk5 . ' ' . $dk5_text;
+        return '';
       }
     }
     return FALSE;
