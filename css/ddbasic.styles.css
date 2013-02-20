@@ -2881,7 +2881,7 @@ ul {
 }
 /* line 49, ../sass/_ddbasic.elements.scss */
 ul li {
-  list-style: disc;
+  list-style: disc inside;
 }
 
 /* line 55, ../sass/_ddbasic.elements.scss */
