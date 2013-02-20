@@ -5635,78 +5635,78 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 10px;
 }
 
-/* line 48, ../sass/_ddbasic.news.scss */
+/* line 46, ../sass/_ddbasic.news.scss */
 .news-list .news-list-item {
   margin-bottom: 20px;
 }
-/* line 52, ../sass/_ddbasic.news.scss */
+/* line 50, ../sass/_ddbasic.news.scss */
 .news-list .news-author {
   border-left: 1px solid #d5d5d5;
   padding-left: 10px;
 }
-/* line 57, ../sass/_ddbasic.news.scss */
+/* line 55, ../sass/_ddbasic.news.scss */
 .news-list .news-heading {
   margin-bottom: 10px;
 }
-/* line 61, ../sass/_ddbasic.news.scss */
+/* line 59, ../sass/_ddbasic.news.scss */
 .news-list .news-label {
   margin-right: 5px;
 }
-/* line 67, ../sass/_ddbasic.news.scss */
+/* line 65, ../sass/_ddbasic.news.scss */
 .news-list .news-sub-heading {
   color: #bcbcbc;
   margin-top: 10px;
   margin-bottom: 13.33333px;
 }
-/* line 74, ../sass/_ddbasic.news.scss */
+/* line 72, ../sass/_ddbasic.news.scss */
 .news-list .news-sub-heading .news-date,
 .news-list .news-sub-heading .news-author {
   color: rgba(0, 0, 0, 0.8);
   margin-right: 5px;
   margin-left: 2px;
 }
-/* line 82, ../sass/_ddbasic.news.scss */
+/* line 80, ../sass/_ddbasic.news.scss */
 .news-list .news-list-content,
 .news-list .news-link {
   margin-bottom: 10px;
 }
-/* line 86, ../sass/_ddbasic.news.scss */
+/* line 84, ../sass/_ddbasic.news.scss */
 .news-list .news-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 25%;
 }
 
-/* line 97, ../sass/_ddbasic.news.scss */
+/* line 95, ../sass/_ddbasic.news.scss */
 .super-heading {
   padding: 1.5em 0;
 }
-/* line 100, ../sass/_ddbasic.news.scss */
+/* line 98, ../sass/_ddbasic.news.scss */
 .super-heading div {
   display: inline;
 }
-/* line 104, ../sass/_ddbasic.news.scss */
+/* line 102, ../sass/_ddbasic.news.scss */
 .super-heading .field-item {
   padding-left: 5px;
 }
 
-/* line 110, ../sass/_ddbasic.news.scss */
+/* line 108, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials {
   border-top: 1px solid #efefef;
   margin-top: 20px;
   padding-top: 30px;
 }
-/* line 115, ../sass/_ddbasic.news.scss */
+/* line 113, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .field-item {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 121, ../sass/_ddbasic.news.scss */
+/* line 119, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .ting-cover {
   margin-right: 20px;
 }
-/* line 127, ../sass/_ddbasic.news.scss */
+/* line 125, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .subjects {
   margin-top: 20px;
 }
