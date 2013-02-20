@@ -105,21 +105,25 @@ function ding_wayf_accept_form_validate($form, &$form_state) {
       $authentication_attributes['mail'][0] = $name;
       $authentication_attributes['eduPersonTargetedID'][0] = $pass;
 
+      dpm($status);
+
       switch ($status) {
         // first use case - no account with bibliotek.dk
         case 'no_user':
           if (ding_provider_implements('user', 'create_account')) {
             if (ding_provider_invoke('user', 'create_account', $name, $pass)) {
               // user has been created with mail, wayfid.
-              if( ding_provider_implements('wayf', 'bind') ) {
+              if (ding_provider_implements('wayf', 'bind')) {
                 ding_provider_invoke('wayf', 'bind', $name, $pass);
               }
+              // pass key for email to login method
+              $notify_by_mail->key = 'wayf_new_user';              
               // if user wishes to change password later on he can do so
-              ding_wayf_login($authentication_attributes, 'wayf');
+              ding_wayf_login($authentication_attributes, 'wayf', $notify_by_mail);
             }
           }
           break;
-          // next use case - user has an bibdk account, but no wayfid
+        // next use case - user has an bibdk account, but no wayfid
         case 'bibdk_user':
           if (ding_provider_implements('wayf', 'bind')) {
             if (ding_provider_invoke('wayf', 'bind', $name, $pass)) {
@@ -128,7 +132,7 @@ function ding_wayf_accept_form_validate($form, &$form_state) {
           }
           break;
         default:
-          drupal_set_message('wayf_could_not_login');
+          drupal_set_message(t('wayf_could_not_login', array(), array('context' => 'ding_wayf')));
           drupal_goto('user');
           break;
       }
@@ -160,7 +164,7 @@ function ding_wayf_accept_form_submit($form, $form_state) {
  * 
  * pre; user is authenticated via wayf or we wouldn't be here
  */
-function ding_wayf_login($authentication_attributes, $provider = 'wayf') {
+function ding_wayf_login($authentication_attributes, $provider = 'wayf', $notify_by_mail = NULL) {
   global $user;
   if ($user->uid == 0) {
     $form_state = array();
@@ -170,7 +174,10 @@ function ding_wayf_login($authentication_attributes, $provider = 'wayf') {
     $form_state['values']['name'] = $authentication_attributes['mail'][0];
     $form_state['values']['mail'] = $authentication_attributes['mail'][0];
     $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'][0];
-// submit login form    
+    if (isset($notify_by_mail)) {
+      $form_state['mail_me'] = $notify_by_mail;
+    }
+// submit login form
     drupal_form_submit('user_login_block', $form_state);
   }
   else {
@@ -314,7 +321,7 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
 
     if ($saml->isAuthenticated()) {
       if (isset($origin)) {
-         $url = $base_url . '/'.$origin;
+        $url = $base_url . '/' . $origin;
       }
 // we pass simplesaml the url to return to -
 // you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
