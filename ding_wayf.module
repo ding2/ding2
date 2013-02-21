@@ -312,6 +312,13 @@ function ding_wayf_redirect_user($url) {
   drupal_goto($url);
 }
 
+/** Implements hook_user_delete
+ *  log user out of simplesaml
+ */
+function ding_wayf_user_delete($account) {
+  ding_wayf_user_logout($account);
+}
+
 /**
  * Implementation of hook_user_logout().
  *
