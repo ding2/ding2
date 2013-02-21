@@ -804,12 +804,12 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 354, ../sass/_ddbasic.font.awesome.scss */
-.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before {
   content: "\f055";
 }
 
 /* line 355, ../sass/_ddbasic.font.awesome.scss */
-.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before {
   content: "\f056";
 }
 
@@ -5027,63 +5027,90 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 790, ../sass/_ddbasic.search.scss */
+/* line 791, ../sass/_ddbasic.search.scss */
+.pane-ting-object .collapsible .field-group-format-title {
+  display: inline-block;
+}
+/* line 796, ../sass/_ddbasic.search.scss */
+.pane-ting-object .collapsible .field-group-format-title:before {
+  font-size: 24px;
+  font-size: 1.5rem;
+  padding: 0 6px 0 0;
+  padding:  0 0.375rem 0 0;
+  color: #00b7e7;
+  font-family: FontAwesome;
+}
+/* line 809, ../sass/_ddbasic.search.scss */
+.pane-ting-object .ding-periodical-fold {
+  cursor: pointer;
+  display: inline-block;
+}
+/* line 813, ../sass/_ddbasic.search.scss */
+.pane-ting-object .ding-periodical-fold:before {
+  font-size: 14px;
+  font-size: 0.875rem;
+  padding: 0 6px 0 0;
+  padding:  0 0.375rem 0 0;
+  color: #00b7e7;
+  font-family: FontAwesome;
+}
+/* line 828, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details, .pane-ting-object .field-name-ting-series {
   clear: both;
   padding-top: 20px;
 }
-/* line 794, ../sass/_ddbasic.search.scss */
+/* line 832, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-label, .pane-ting-object .field-name-ting-series .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 799, ../sass/_ddbasic.search.scss */
+/* line 837, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-items, .pane-ting-object .field-name-ting-series .field-items {
   max-width: 72%;
 }
-/* line 804, ../sass/_ddbasic.search.scss */
+/* line 842, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ting-series {
   padding-top: 0;
 }
-/* line 810, ../sass/_ddbasic.search.scss */
+/* line 848, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   clear: both;
 }
-/* line 813, ../sass/_ddbasic.search.scss */
+/* line 851, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 819, ../sass/_ddbasic.search.scss */
+/* line 857, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 823, ../sass/_ddbasic.search.scss */
+/* line 861, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 829, ../sass/_ddbasic.search.scss */
+/* line 867, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   border-top: 1px solid #d5d5d5;
   margin-top: 20px;
   padding-top: 20px;
   margin-bottom: 0;
 }
-/* line 836, ../sass/_ddbasic.search.scss */
+/* line 874, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 842, ../sass/_ddbasic.search.scss */
+/* line 880, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 848, ../sass/_ddbasic.search.scss */
+/* line 886, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -5092,30 +5119,30 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 856, ../sass/_ddbasic.search.scss */
+/* line 894, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 860, ../sass/_ddbasic.search.scss */
+/* line 898, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 864, ../sass/_ddbasic.search.scss */
+/* line 902, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 868, ../sass/_ddbasic.search.scss */
+/* line 906, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 873, ../sass/_ddbasic.search.scss */
+/* line 911, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation .meta, .pane-ting-object .ting-relation .list-meta {
   padding: 20px;
   padding-bottom: 10px;
   border: none;
 }
 
-/* line 885, ../sass/_ddbasic.search.scss */
+/* line 923, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -5133,7 +5160,7 @@ ul.ui-autocomplete {
   padding: 10px;
   width: 580px;
 }
-/* line 897, ../sass/_ddbasic.search.scss */
+/* line 935, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -5143,14 +5170,14 @@ ul.ui-autocomplete .ui-menu-item a {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 905, ../sass/_ddbasic.search.scss */
+/* line 943, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 912, ../sass/_ddbasic.search.scss */
+/* line 950, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: #efefef;
 }
