@@ -169,6 +169,336 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
+  // Exported image style: ding_panorama_attachment_large.
+  $styles['ding_panorama_attachment_large'] = array(
+    'name' => 'ding_panorama_attachment_large',
+    'effects' => array(
+      11 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '500',
+          'height' => '125',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_attachment_medium.
+  $styles['ding_panorama_attachment_medium'] = array(
+    'name' => 'ding_panorama_attachment_medium',
+    'effects' => array(
+      12 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '500',
+          'height' => '125',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_attachment_small.
+  $styles['ding_panorama_attachment_small'] = array(
+    'name' => 'ding_panorama_attachment_small',
+    'effects' => array(
+      13 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '500',
+          'height' => '125',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_list_large.
+  $styles['ding_panorama_list_large'] = array(
+    'name' => 'ding_panorama_list_large',
+    'effects' => array(
+      14 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '300',
+          'height' => '75',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_list_medium.
+  $styles['ding_panorama_list_medium'] = array(
+    'name' => 'ding_panorama_list_medium',
+    'effects' => array(
+      15 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '300',
+          'height' => '75',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_list_small.
+  $styles['ding_panorama_list_small'] = array(
+    'name' => 'ding_panorama_list_small',
+    'effects' => array(
+      16 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '200',
+          'height' => '50',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_primary_large.
+  $styles['ding_panorama_primary_large'] = array(
+    'name' => 'ding_panorama_primary_large',
+    'effects' => array(
+      2 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '1200',
+          'height' => '300',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_primary_medium.
+  $styles['ding_panorama_primary_medium'] = array(
+    'name' => 'ding_panorama_primary_medium',
+    'effects' => array(
+      3 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '1000',
+          'height' => '250',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_primary_small.
+  $styles['ding_panorama_primary_small'] = array(
+    'name' => 'ding_panorama_primary_small',
+    'effects' => array(
+      4 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '500',
+          'height' => '125',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_secondary_large.
+  $styles['ding_panorama_secondary_large'] = array(
+    'name' => 'ding_panorama_secondary_large',
+    'effects' => array(
+      5 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '900',
+          'height' => '225',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_secondary_medium.
+  $styles['ding_panorama_secondary_medium'] = array(
+    'name' => 'ding_panorama_secondary_medium',
+    'effects' => array(
+      6 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '900',
+          'height' => '225',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_secondary_small.
+  $styles['ding_panorama_secondary_small'] = array(
+    'name' => 'ding_panorama_secondary_small',
+    'effects' => array(
+      7 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '500',
+          'height' => '125',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_tetiary_large.
+  $styles['ding_panorama_tetiary_large'] = array(
+    'name' => 'ding_panorama_tetiary_large',
+    'effects' => array(
+      8 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '600',
+          'height' => '150',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_tetiary_medium.
+  $styles['ding_panorama_tetiary_medium'] = array(
+    'name' => 'ding_panorama_tetiary_medium',
+    'effects' => array(
+      9 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '600',
+          'height' => '150',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_panorama_tetiary_small.
+  $styles['ding_panorama_tetiary_small'] = array(
+    'name' => 'ding_panorama_tetiary_small',
+    'effects' => array(
+      10 => array(
+        'label' => 'Skalér og beskær',
+        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '500',
+          'height' => '125',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
   // Exported image style: ding_primary_large.
   $styles['ding_primary_large'] = array(
     'name' => 'ding_primary_large',
