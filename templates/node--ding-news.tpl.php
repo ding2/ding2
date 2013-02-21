@@ -135,13 +135,14 @@
 <?php endif; ?>
 
 <?php if ($display_submitted): ?>
-<div class="signature">
-  <p><i class="icon-user"></i> <span class="author"><?php print $ddbasic_byline; ?> <?php print $name; ?></span></p>
-  <p><i class="icon-time"></i> <span class="pub-date"><?php print $submitted; ?> &bull; <?php print $ddbasic_updated; ?></span></p>
-  <?php if ($ddbasic_ding_news_tags): ?>
-  <p><i class="icon-tag"></i> <span class="tags"><?php print $ddbasic_ding_news_tags; ?></span></p>
-  <?php endif; ?>
-</div>
+  <div class="signature">
+    <div class="signature-image"><?php print $user_picture; ?></div>
+    <div class="signature-info">
+      <p><span class="signature-label"><?php print t("Posted by:"); ?></span><?php print $name; ?></p>
+      <p><span class="signature-label"><?php print t("Posted at:"); ?></span><?php print $submitted ?></p>
+      <p><span class="signature-label"><?php print t("Last updated:"); ?></span><?php print $ddbasic_updated ?></p>
+    </div>
+  </div>
 <?php endif; ?>
 
 <?php
