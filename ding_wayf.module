@@ -58,39 +58,42 @@ function ding_wayf_accept() {
   // clear messages - this one comes via login-form,
   // so at least 'unrecognized user or password' is set
   drupal_get_messages();
-  
+
   return drupal_render(drupal_get_form('ding_wayf_accept_form'));
 }
 
 function ding_wayf_accept_form() {
-  return array(
-    'accept_form' => array(
-      'messages' => array(
-        'message' => array(
-          '#markup' => t('You have been authenticated by wayf, but you have no account with bibliotek.dk etc...'),
-        ),
-        'accept' => array(
-          '#type' => 'checkbox',
-          '#default_value' => FALSE,
-          '#title' => t('accept_wayf_binding', array(), array('context' => 'ding_wayf')),
-        ),
-      ),
-      'actions' => array(
-        'abort' => array(
-          '#name' => 'abort',
-          '#type' => 'submit',
-          '#value' => t('abort', array(), array('context' => 'ding_wayf')),
-        ),
-        'submit' => array(
-          '#name' => 'continue',
-          '#type' => 'submit',
-          '#value' => t('continue', array(), array('context' => 'ding_wayf')),
-        ),
-      ),
-      '#prefix' => '<div class="form-wrapper '.drupal_html_class('wayf_accept_form').'">',
-      '#suffix' => '</div>',
+  $form['container'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('element-section', drupal_html_class('wayf_accept_form')),
     ),
   );
+  $form['container']['accept_form'] = array(
+    'messages' => array(
+      'message' => array(
+        '#markup' => t('You have been authenticated by wayf, but you have no account with bibliotek.dk etc...'),
+      ),
+      'accept' => array(
+        '#type' => 'checkbox',
+        '#default_value' => FALSE,
+        '#title' => t('accept_wayf_binding', array(), array('context' => 'ding_wayf')),
+      ),
+    ),
+  );
+  $form['container']['actions'] = array(
+    'abort' => array(
+      '#name' => 'abort',
+      '#type' => 'submit',
+      '#value' => t('abort', array(), array('context' => 'ding_wayf')),
+    ),
+    'submit' => array(
+      '#name' => 'continue',
+      '#type' => 'submit',
+      '#value' => t('continue', array(), array('context' => 'ding_wayf')),
+    ),
+  );
+  return $form;
 }
 
 /** \brief validation handler for accept_form
