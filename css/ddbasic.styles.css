@@ -6275,6 +6275,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
+/* line 454, ../sass/_ddbasic.user.scss */
+.pane-debts #dibs-cards-supported .card-name,
+.pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
+.pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {
+  font-weight: normal;
+  font-family: "SourceSansProSemibold";
+}
 
 /* line 23, ../sass/_ddbasic.page.scss */
 .page-title {

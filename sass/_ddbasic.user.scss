@@ -448,6 +448,14 @@
   border-bottom: 1px solid $gray-light;
   margin-bottom: $default-spacing;
   padding-bottom: $default-spacing;
+
+
+    #dibs-cards-supported {
+      .card-name {
+        font-weight: $theme-font-weight-bold;
+        font-family: $font-bold;
+      }
+    }
 }
 
 
