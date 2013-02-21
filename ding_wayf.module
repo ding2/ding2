@@ -57,7 +57,7 @@ function ding_wayf_menu() {
 function ding_wayf_accept() {
   // clear messages - this one comes via login-form,
   // so at least 'unrecognized user or password' is set
-  drupal_get_messages();
+  // drupal_get_messages();
 
   return drupal_render(drupal_get_form('ding_wayf_accept_form'));
 }
@@ -96,6 +96,26 @@ function ding_wayf_accept_form() {
   return $form;
 }
 
+/** Implements hook_init
+ *
+ * special case; user was authenticated with wayf, but for some reason
+ * not with drupal - maybe user aborted while loggin in.
+ * make sure SESSION variables are removed, and user is logged out of wayf
+ * 
+ * @global type $user 
+ */
+function ding_wayf_init() {
+  global $user;
+  if (arg(0) != 'wayf') {
+    if ($user->uid == 0) {
+      if (isset($_SESSION['accept_wayf'])) {
+        unset($_SESSION['accept_wayf']);        
+        ding_wayf_user_logout();
+      }
+    }
+  }
+}
+
 /** \brief validation handler for accept_form
  * 
  * 
@@ -113,6 +133,8 @@ function ding_wayf_accept_form_validate($form, &$form_state) {
       $name = $_SESSION['accept_wayf']['name'];
       $pass = $_SESSION['accept_wayf']['pass'];
       $status = $_SESSION['accept_wayf']['status'];
+      // we don't need the session variables anymore
+      unset($_SESSION['accept_wayf']);
 
 // prepare an array for ding_wayf_login
       $authentication_attributes['mail'][0] = $name;
@@ -334,6 +356,12 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
   global $base_url;
   $simplesaml = variable_get('ding_wayf', array());
   $url = NULL;
+
+  if (isset($_SESSION['accept_wayf'])) {
+    // unset _SESSION variables
+    unset($_SESSION['accept_wayf']);
+  }
+
   if (!empty($simplesaml)) {
     require_once $simplesaml['installdir'] . '/lib/_autoload.php';
 
