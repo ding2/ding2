@@ -664,7 +664,9 @@ input#edit-search-block-form--2.spinner {
     }
 
     a {
+      display: inline-block;
       margin-right: $default-spacing / 4;
+      margin-bottom: $default-spacing / 4;
     }
   }
 
