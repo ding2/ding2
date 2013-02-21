@@ -55,30 +55,40 @@ function ding_wayf_menu() {
  * 
  */
 function ding_wayf_accept() {
-  drupal_set_message(t('Accept_wayf_bind', array(), array('context' => 'ding_wayf')), 'warning');
-// return drupal_render($form);
+  // clear messages - this one comes via login-form,
+  // so at least 'unrecognized user or password' is set
+  drupal_get_messages();
+  
   return drupal_render(drupal_get_form('ding_wayf_accept_form'));
 }
 
 function ding_wayf_accept_form() {
   return array(
-    'message' => array(
-      '#markup' => t('You have been authenticated by wayf, but you have no account with bibliotek.dk etc...'),
-    ),
-    'accept' => array(
-      '#type' => 'checkbox',
-      '#default_value' => FALSE,
-      '#title' => t('accept_wayf_binding', array(), array('context' => 'ding_wayf')),
-    ),
-    'abort' => array(
-      '#name' => 'abort',
-      '#type' => 'submit',
-      '#value' => t('abort', array(), array('context' => 'ding_wayf')),
-    ),
-    'submit' => array(
-      '#name' => 'continue',
-      '#type' => 'submit',
-      '#value' => t('continue', array(), array('context' => 'ding_wayf')),
+    'accept_form' => array(
+      'messages' => array(
+        'message' => array(
+          '#markup' => t('You have been authenticated by wayf, but you have no account with bibliotek.dk etc...'),
+        ),
+        'accept' => array(
+          '#type' => 'checkbox',
+          '#default_value' => FALSE,
+          '#title' => t('accept_wayf_binding', array(), array('context' => 'ding_wayf')),
+        ),
+      ),
+      'actions' => array(
+        'abort' => array(
+          '#name' => 'abort',
+          '#type' => 'submit',
+          '#value' => t('abort', array(), array('context' => 'ding_wayf')),
+        ),
+        'submit' => array(
+          '#name' => 'continue',
+          '#type' => 'submit',
+          '#value' => t('continue', array(), array('context' => 'ding_wayf')),
+        ),
+      ),
+      '#prefix' => '<div class="form-wrapper '.drupal_html_class('wayf_accept_form').'">',
+      '#suffix' => '</div>',
     ),
   );
 }
@@ -115,7 +125,7 @@ function ding_wayf_accept_form_validate($form, &$form_state) {
                 ding_provider_invoke('wayf', 'bind', $name, $pass);
               }
               // pass key for email to login method
-              $notify_by_mail->key = 'wayf_new_user';              
+              $notify_by_mail->key = 'wayf_new_user';
               // if user wishes to change password later on he can do so
               ding_wayf_login($authentication_attributes, 'wayf', $notify_by_mail);
             }
