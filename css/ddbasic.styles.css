@@ -629,7 +629,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 317, ../sass/_ddbasic.font.awesome.scss */
-.icon-camera:before, .pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .field-name-field-ding-news-materials .ting-cover:before {
+.icon-camera:before, .pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .field-name-field-ding-news-materials .ting-cover:before, .libraries:before {
   content: "\f030";
 }
 
@@ -5515,72 +5515,90 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
   width: 73%;
 }
-/* line 55, ../sass/_ddbasic.libraries.scss */
+/* line 57, ../sass/_ddbasic.libraries.scss */
+.libraries:before {
+  font-size: 74px;
+  font-size: 4.625rem;
+  color: #bcbcbc;
+  font-family: FontAwesome;
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: .5em;
+  width: 25%;
+  z-index: 25;
+}
+/* line 70, ../sass/_ddbasic.libraries.scss */
 .libraries .field-label-inline {
   padding-left: 20px;
   padding-left: 1.25rem;
   margin-left: 25%;
 }
-/* line 60, ../sass/_ddbasic.libraries.scss */
+/* line 75, ../sass/_ddbasic.libraries.scss */
 .libraries .field-label-inline .field-label {
   float: left;
+  width: auto;
+}
+/* line 80, ../sass/_ddbasic.libraries.scss */
+.libraries .field-label-inline .field-items {
+  float: none;
 }
 
-/* line 66, ../sass/_ddbasic.libraries.scss */
+/* line 86, ../sass/_ddbasic.libraries.scss */
 .field-name-field-ding-library-list-image {
-  float: left;
   position: absolute;
   top: 0;
   left: 0;
   width: 25%;
+  z-index: 90;
 }
-/* line 73, ../sass/_ddbasic.libraries.scss */
+/* line 93, ../sass/_ddbasic.libraries.scss */
 .field-name-field-ding-library-list-image .field-items {
   padding: 0;
 }
 
-/* line 78, ../sass/_ddbasic.libraries.scss */
+/* line 98, ../sass/_ddbasic.libraries.scss */
 .library-link {
   padding: 20px 0 0 20px;
   padding:  1.25rem 0 0 1.25rem;
 }
 
-/* line 82, ../sass/_ddbasic.libraries.scss */
+/* line 102, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours {
   margin-left: 75%;
 }
-/* line 85, ../sass/_ddbasic.libraries.scss */
+/* line 105, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .header {
   background: #d5d5d5;
 }
-/* line 90, ../sass/_ddbasic.libraries.scss */
+/* line 110, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .prev,
 .libraries-opening-hours .next {
   font-family: FontAwesome;
   font-size: 100%;
 }
-/* line 95, ../sass/_ddbasic.libraries.scss */
+/* line 115, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .even {
   background: #e9e9e9;
 }
-/* line 98, ../sass/_ddbasic.libraries.scss */
+/* line 118, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .odd {
   background: #e2e2e2;
 }
-/* line 102, ../sass/_ddbasic.libraries.scss */
+/* line 122, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .opening-hours-week {
   padding: 0;
 }
-/* line 106, ../sass/_ddbasic.libraries.scss */
+/* line 126, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .days {
   padding: 0;
 }
-/* line 110, ../sass/_ddbasic.libraries.scss */
+/* line 130, ../sass/_ddbasic.libraries.scss */
 .libraries-opening-hours .day {
   padding: 0 0.5em;
 }
 
-/* line 116, ../sass/_ddbasic.libraries.scss */
+/* line 136, ../sass/_ddbasic.libraries.scss */
 .pane-ding-news-ding-news-library-list {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
@@ -5588,35 +5606,45 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 152, ../sass/_ddbasic.libraries.scss */
+  /* line 172, ../sass/_ddbasic.libraries.scss */
   .libraries {
     float: none;
     width: 100%;
   }
+  /* line 176, ../sass/_ddbasic.libraries.scss */
+  .libraries:before {
+    font-size: 30px;
+    font-size: 1.875rem;
+  }
 
-  /* line 157, ../sass/_ddbasic.libraries.scss */
+  /* line 181, ../sass/_ddbasic.libraries.scss */
   .libraries-opening-hours {
     margin-left: 0;
   }
 
-  /* line 161, ../sass/_ddbasic.libraries.scss */
+  /* line 185, ../sass/_ddbasic.libraries.scss */
   .field-items {
     padding-left: 50%;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 166, ../sass/_ddbasic.libraries.scss */
+  /* line 190, ../sass/_ddbasic.libraries.scss */
   .libraries {
     float: none;
     width: 100%;
   }
+  /* line 194, ../sass/_ddbasic.libraries.scss */
+  .libraries:before {
+    font-size: 50px;
+    font-size: 3.125rem;
+  }
 
-  /* line 171, ../sass/_ddbasic.libraries.scss */
+  /* line 199, ../sass/_ddbasic.libraries.scss */
   .libraries-opening-hours {
     margin-left: 0;
   }
 
-  /* line 175, ../sass/_ddbasic.libraries.scss */
+  /* line 203, ../sass/_ddbasic.libraries.scss */
   .field-items {
     padding-left: 50%;
   }
