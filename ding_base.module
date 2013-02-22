@@ -116,32 +116,36 @@ function ding_base_date_format_types() {
 
 /**
 * Implements hook_date_formats().
+* Provides specific extra formats used by Ding! modules and assigning them to specific date types
 */
 function ding_base_date_formats() {
   $formats = array();
 
   $formats[] = array(
-    'type'    => 'date_only',
+    'type'    => 'medium',
     'format'  => 'l j. F', 
     'locales' => array(),
   );
 
   $formats[] = array(
-    'type'    => 'long_date_only',
+    'type'    => 'long',
     'format'  => 'l j. F Y', 
     'locales' => array(),
   );
   
   $formats[] = array(
-    'type'    => 'time_only',
+    'type'    => 'short',
     'format'  => 'G:i', 
     'locales' => array(),
   );
 
-  // save the date formats into variables
+  // save certain date formats into variables
   foreach ($formats as $format) {
     variable_set('date_format_' . $format['type'], $format['format']);
   }
+  variable_set('date_format_long_date_only', 'l j. F Y');
+  variable_set('date_format_date_only', 'l j. F');
+  variable_set('date_format_time_only', 'G:i');
 
   return $formats;
 }
