@@ -111,14 +111,6 @@ function ddbasic_process_html(&$vars) {
   }
 }
 
-
-function spanien_preprocess_html(&$variables) {
-  // Add conditional CSS for IE7 and below.
-  drupal_add_css(path_to_theme() . '/css/ie7.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 7', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
-  drupal_add_css(path_to_theme() . '/css/ie8.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 8', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
-}
-
-
 /**
  * Implements hook_form_alter ().
  */
@@ -262,11 +254,15 @@ function ddbasic_preprocess_user_picture(&$variables) {
  *   The name of the template being rendered ("node" in this case.)
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
-  // Opening hours on library list.
-  $hooks = theme_get_registry(FALSE);
-  if (isset($hooks['opening_hours_week']) && $variables['type'] == 'ding_library') {
-    $variables['opening_hours'] = theme('opening_hours_week', array('node' => $variables['node']));
+  // Opening hours on library list. but not on the search page.
+  $path = drupal_get_path_alias();
+  if (!(strpos($path, 'search', 0) === 0)) {
+    $hooks = theme_get_registry(FALSE);
+    if (isset($hooks['opening_hours_week']) && $variables['type'] == 'ding_library') {
+      $variables['opening_hours'] = theme('opening_hours_week', array('node' => $variables['node']));
+    }
   }
+
   // Add ddbasic_byline to variables
   $variables['ddbasic_byline'] = t('By: ');
 
