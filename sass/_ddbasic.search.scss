@@ -64,7 +64,15 @@ input#edit-search-block-form--2.spinner {
 // Default styling
 // -----------------------------------------------------------------------------
 //
-%search {
+%search {  
+  .search-label {
+    @include rem('font-size', $theme-font-size * 1.25);
+    color: transparentize($white, .5);
+    
+    position: absolute;
+    top: -28px;
+  }
+  
   i[class^="icon-"] {
     @include opacity(.25);
 

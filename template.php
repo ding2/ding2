@@ -129,13 +129,18 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
     break;
     case 'user_login_block':
+
       unset($form['name']['#title']);
+      $form['name']['#title'] = t('Loan or social security number');
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
       $form['name']['#attributes']['placeholder'] = t('Cpr- or cardnumber');
       $form['name']['#type'] = 'password';
+
+      unset($form['pass']['#title']);
+      $form['pass']['#title'] = t('Pincode');
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
       $form['pass']['#attributes']['placeholder'] = t('Password');
-      unset($form['pass']['#title']);
+
       unset($form['links']);
       //Temporary hack to get rid of open id links
       unset($form['openid_links']);
@@ -267,7 +272,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
   // Add event node specific ddbasic variables
   if (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'ding_event') {
-    
+
     // Add event location variables
     $event_location = 'location';
     if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
@@ -284,7 +289,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     // Add event date to variables. A render array is created based on the date format "date_only"
     $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings'=>array('format_type' => 'date_only', 'fromto' => 'both')) );
     $variables['ddbasic_event_date'] = $event_date_ra[0]['#markup'];
-    
+
     // Add event time to variables. A render array is created based on the date format "time_only"
     $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings'=>array('format_type' => 'time_only', 'fromto' => 'both')) );
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
@@ -313,7 +318,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
-  
+
   // Add updated to variables.
   $variables['ddbasic_updated'] = t('!datetime', array('!datetime' => format_date($variables['node']->changed, $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
 
