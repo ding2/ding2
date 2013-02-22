@@ -30,6 +30,6 @@
  */
 ?>
 <?php if (empty($variables['form']['#block']->subject)): ?>
-  <h2 class="element-invisible"><?php print t('Search form'); ?></h2>
+  <label for="edit-search-block-form--2" class="search-label"><?php print t('Search the library database and the website'); ?></label>
 <?php endif; ?>
 <?php print $search_form; ?>
