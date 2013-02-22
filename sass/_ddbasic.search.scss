@@ -664,7 +664,9 @@ input#edit-search-block-form--2.spinner {
     }
 
     a {
+      display: inline-block;
       margin-right: $default-spacing / 4;
+      margin-bottom: $default-spacing / 4;
     }
   }
 
@@ -783,6 +785,44 @@ input#edit-search-block-form--2.spinner {
     &:after {
       clear: none;
     }
+  }
+
+  // Material Details - Collapsible
+  .collapsible .field-group-format-title {
+    @extend .icon-minus-sign;
+
+    display: inline-block;
+
+    &:before {
+      @include rem('font-size', 24px);
+      @include rem('padding', 0 6px 0 0);
+
+      color: $link-color;
+      font-family: $theme-icon-library-font;
+    }
+  }
+  .collapsible.collapsed .field-group-format-title {
+    @extend .icon-plus-sign;
+  }
+
+  // List of Issues - Collapsible
+  .ding-periodical-fold {
+    cursor: pointer;
+    display: inline-block;
+
+    &:before {
+      @include rem('font-size', 14px);
+      @include rem('padding', 0 6px 0 0);
+
+      color: $link-color;
+      font-family: $theme-icon-library-font;
+    }
+  }
+  .expand-more {
+    @extend .icon-plus-sign;
+  }
+  .expand-less {
+    @extend .icon-minus-sign;
   }
 
   .group-material-details {
