@@ -20,9 +20,11 @@
       color: $link-color-inverted;
       text-decoration: none;
     }
+    
     &:visited {
       color: darken($link-color-inverted, 15%);
     }
+    
     &:hover {
       color: $link-color-inverted-hover;
       text-decoration: underline;
@@ -31,6 +33,7 @@
         text-decoration: none;
       }
     }
+    
     &:focus {
       color: $link-color-inverted-hover;
     }
@@ -44,9 +47,11 @@
       color: $link-color-special;
       text-decoration: none;
     }
+    
     &:visited {
       color: darken($link-color-special, 15%);
     }
+    
     &:hover {
       color: $link-color-special-hover;
       text-decoration: underline;
@@ -55,6 +60,7 @@
         text-decoration: none;
       }
     }
+    
     &:focus {
       color: $link-color-special-hover;
     }
@@ -94,15 +100,19 @@ h6 {
       color: $text-primary-color;
       text-decoration: none;
     }
+    
     &:visited {
       color: $text-primary-color;
     }
+    
     &:hover {
       color: darken($text-primary-color, 25%);
     }
+    
     &:focus {
       color: $link-color-hover;
     }
+    
     &:active {
       background-color: transparent;
       color: $text-selection-color;
