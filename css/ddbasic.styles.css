@@ -2749,8 +2749,8 @@ ul.icons li [class*=" icon-"] {
 .header-wrapper .search, .header-wrapper .user, .header-wrapper .user-name,
 .header-wrapper .user-menu-loans,
 .header-wrapper .user-menu {
-  margin-top: 70px;
-  margin-bottom: 70px;
+  margin-top: 85px;
+  margin-bottom: 55px;
   padding: 0;
   position: relative;
 }
