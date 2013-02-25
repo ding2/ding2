@@ -55,6 +55,36 @@ function ding_frontend_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'dynamic_background_css';
+  $strongarm->value = array(
+    'selector' => 'body',
+    'css' => '',
+  );
+  $export['dynamic_background_css'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'dynamic_background_image_style';
+  $strongarm->value = array(
+    'style' => '0',
+  );
+  $export['dynamic_background_image_style'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'dynamic_background_setting';
+  $strongarm->value = array(
+    'num_of_pictures' => 'unlimited',
+    'path' => 'backgrounds',
+    'extensions' => 'jpg jpeg png',
+  );
+  $export['dynamic_background_setting'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'i18n_string_allowed_formats';
   $strongarm->value = array(
     'plain_text' => 'plain_text',
