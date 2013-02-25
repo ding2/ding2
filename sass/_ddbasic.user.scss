@@ -74,10 +74,21 @@
       margin-left: 10px;
     }
 
+    .user-label,
+    .password-label {
+      @include rem('font-size', $theme-font-size * 1.25);
+
+      color: transparentize($white, .5);
+      display: inline;
+      position: absolute;
+      top: -28px;
+    }
+
     .form-item {
       margin-top: 0em;
       display: inline;
     }
+
     .form-actions {
       display: inline;
     }

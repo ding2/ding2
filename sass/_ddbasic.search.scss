@@ -67,8 +67,8 @@ input#edit-search-block-form--2.spinner {
 %search {  
   .search-label {
     @include rem('font-size', $theme-font-size * 1.25);
-    color: transparentize($white, .5);
     
+    color: transparentize($white, .5);    
     position: absolute;
     top: -28px;
   }
