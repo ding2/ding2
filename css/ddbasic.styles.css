@@ -5935,9 +5935,9 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .header-wrapper .user i[class^="icon-"] {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25;
-  margin-left: 15px;
+  margin-left: 12px;
   position: absolute;
-  font-size: 33px;
+  font-size: 28.5px;
 }
 
 /* line 27, ../sass/_ddbasic.user.scss */
@@ -5951,7 +5951,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -moz-border-radius: 12px;
   border-radius: 12px;
   display: inline;
-  padding-left: 45px;
+  padding-left: 42px;
   border: 0;
 }
 
@@ -6026,17 +6026,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 96, ../sass/_ddbasic.user.scss */
 .header-wrapper .user i[class^="icon-"] {
-  top: 13px;
+  top: 15px;
 }
 /* line 103, ../sass/_ddbasic.user.scss */
 .header-wrapper .user input[type="text"],
 .header-wrapper .user input[type="password"] {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
+  font-size: 15px;
+  font-size: 0.9375rem;
   min-height: 60px;
   margin-right: 10px;
   padding-bottom: 0;
-  padding-top: 0;
+  padding-top: 2px;
   width: 220px;
 }
 /* line 114, ../sass/_ddbasic.user.scss */

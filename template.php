@@ -125,13 +125,13 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       unset($form['name']['#title']);
       $form['name']['#title'] = t('Loan or social security number');
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
-      $form['name']['#attributes']['placeholder'] = t('Cpr- or cardnumber');
+      $form['name']['#attributes']['placeholder'] = t('The number is 10 digits');
       $form['name']['#type'] = 'password';
 
       unset($form['pass']['#title']);
       $form['pass']['#title'] = t('Pincode');
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
-      $form['pass']['#attributes']['placeholder'] = t('Password');
+      $form['pass']['#attributes']['placeholder'] = t('Pincode is 4 digits');
 
       unset($form['links']);
       //Temporary hack to get rid of open id links
