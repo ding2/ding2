@@ -64,15 +64,15 @@ input#edit-search-block-form--2.spinner {
 // Default styling
 // -----------------------------------------------------------------------------
 //
-%search {  
+%search {
   .search-label {
     @include rem('font-size', $theme-font-size * 1.25);
-    
-    color: transparentize($white, .5);    
+
+    color: transparentize($white, .5);
     position: absolute;
     top: -28px;
   }
-  
+
   i[class^="icon-"] {
     @include opacity(.25);
 
@@ -86,13 +86,13 @@ input#edit-search-block-form--2.spinner {
   }
 
   input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.7);
+    @include rem('font-size', $theme-font-size * 1.6);
     @include box-sizing(border-box);
     @include border-radius(12px);
 
     display: inline;
     padding-top: 0;
-    padding-right: 120px;
+    padding-right: 75px;
     padding-bottom: 0;
     padding-left: 48px;
 
@@ -180,6 +180,10 @@ input#edit-search-block-form--2.spinner {
 
     float: right;
     margin-top: 17px;
+
+    .search-label {
+      display: none;
+    }
 
     .search-field-wrapper {
       min-width: 558px;
