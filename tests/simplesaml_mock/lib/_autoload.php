@@ -30,13 +30,13 @@ class SimpleSAML_Auth_Simple {
     return self::$attributes;
   }
 
-  public function requireAuth() {
+  public function requireAuth($idp=NULL) {
     $this->updateAttributes();
 
     if (empty(self::$attributes)) {
       drupal_set_message(t('Not WAYF authenticated.'));
       drupal_goto('<front>');
-    }
+    }   
   }
 
   public function logout($url = NULL) {
