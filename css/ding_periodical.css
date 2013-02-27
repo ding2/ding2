@@ -48,6 +48,11 @@
   padding: 0 0 0 20px;
 }
 
+.ding-periodical-foldable .item-list ul.ding-periodical-foldable li.ding-periodical-no-issues {
+  background: transparent;
+  padding: 0;
+}
+
 .ding-periodical-foldable .item-list ul.ding-periodical-foldable li span {
   margin: 0;
 }

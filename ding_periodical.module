@@ -30,6 +30,8 @@ function theme_ding_periodical_issues($variables) {
 
   foreach ($variables['elements']['#issues'] as $volume => $issues) {
     $iss = array();
+    $i = 0;
+
     foreach ($issues as $key => $availability) {
       $issue = $key;
       $issue_id = '';
@@ -39,10 +41,13 @@ function theme_ding_periodical_issues($variables) {
       elseif (isset($availability['reservable'])) {
         $issue_id = $availability['reservable'];
       }
+
+      $normalized_id = md5($issue_id);
       // @todo
       // This is to be refactored to prevent segfaults.
       if (!empty($issue_id) && module_exists('ding_periodical_reservation')) {
-        $_SESSION['ding_periodical_reservation'][$issue_id] = array(
+        $_SESSION['ding_periodical_reservation'][$normalized_id] = array(
+          'issue_id' => $issue_id,
           'volume' => $volume,
           'key' => $key,
           'entity' => $variables['elements']['#entity'],
@@ -55,11 +60,27 @@ function theme_ding_periodical_issues($variables) {
       $holding = array(array(
         'data' => '<div class="periodical-holdings">' . $holding_data . '</div>',
       ));
-      $iss[] = array(
-        'data' => '<span id="periodical-id-' . $issue_id . '" class="' . drupal_html_class('ding_periodical_fold') . ' ding-reservable-periodical periodical-id-' . $issue_id . '">' . $issue . '</span>',
+
+      // Normal behavior - periodicals, dc.type=tidsskrift.
+      $iss[$i] = array(
+        'data' => '<span id="periodical-id-' . $normalized_id . '" class="' . drupal_html_class('ding_periodical_fold') . ' ding-reservable-periodical periodical-id-' . $normalized_id . '">' . $issue . '</span>',
         'children' => $holding,
-        'class' => array(drupal_html_class('ding-periodical-container')),
+        'class' => array(
+          drupal_html_class('ding-periodical-container'),
+        ),
       );
+
+      // Suppose we have dc.type=årbog
+      // Keys for those periodicals are empty.
+      if (empty($issue)) {
+        $iss[$i]['data'] = $holding[0]['data'];
+        $iss[$i]['class'][] = drupal_html_class('ding-periodical-no-issues');
+        $iss[$i]['class'][] = drupal_html_class('ding-reservable-periodical');
+        $iss[$i]['id'][] = drupal_html_id('periodical-id-' . $normalized_id);
+        unset($iss[$i]['children']);
+      }
+
+      $i++;
     }
 
     $vol = array(
