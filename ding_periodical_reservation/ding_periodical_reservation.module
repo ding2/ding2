@@ -61,7 +61,7 @@ function ding_periodical_reservation_ajax_reserve($id = '') {
 
     if (is_array($reservable)) {
       $reservation_form = ding_periodical_reservation_button(
-        $id,
+        $reservable['issue_id'],
         $reservable['volume'],
         $reservable['key'],
         $reservable['entity']
@@ -117,6 +117,9 @@ class DingPeriodicalReservable extends DingReservationReservableEntity {
   }
 
   public function getTitle() {
-    return t('@title, vol @volume, issue @issue', array('@title' => $this->entity->title, '@volume' => $this->volume, '@issue' => $this->issue));
+    $title = '@title, vol @volume';
+    $title .= !empty($this->issue) ? ', issue @issue' : '';
+
+    return t($title, array('@title' => $this->entity->title, '@volume' => $this->volume, '@issue' => $this->issue));
   }
 }
