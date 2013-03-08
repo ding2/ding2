@@ -2851,7 +2851,7 @@ ul.icons li [class*=" icon-"] {
 
 /* line 23, ../sass/_ddbasic.elements.scss */
 body {
-  background: url("../images/body.jpg") no-repeat;
+  background-color: white;
   background-attachment: fixed;
   background-size: cover;
   line-height: 24px;
