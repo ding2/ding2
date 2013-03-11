@@ -140,7 +140,7 @@ function _openruth_set_rows($h) {
     // Add last row (reservations).
     $row = array();
     $row['data']['Library'] = t('Reservations');
-    $row['data']['Copies'] = $h['reserved_count'];
+    $row['data']['Copies'] = array('data' => $h['reserved_count'], 'colspan' => 2);
     $rows[] = $row;
   }
 
