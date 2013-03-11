@@ -39,15 +39,15 @@ elseif ($element['#title_display'] == 'invisible') {
   $attributes['class'][] = 'element-invisible';
 }
 
-// Add ddbasic-specific classes 
-if ($element['#id'] == 'edit-name') {
-  $attributes['class'][] = 'user-label';
-} elseif ($element['#id'] == 'edit-pass') {
-  $attributes['class'][] = 'password-label';
-}
-
 if (!empty($element['#id'])) {
   $attributes['for'] = $element['#id'];
+  
+  // Add ddbasic-specific classes 
+  if ($element['#id'] == 'edit-name') {
+    $attributes['class'][] = 'user-label';
+  } elseif ($element['#id'] == 'edit-pass') {
+    $attributes['class'][] = 'password-label';
+  }
 }
 ?>
 <?php print ' <label' . drupal_attributes($attributes) . '>' . t('!title !required', array('!title' => $title, '!required' => $required)) . "</label>\n"; ?>
