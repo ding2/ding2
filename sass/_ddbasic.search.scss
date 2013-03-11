@@ -595,14 +595,9 @@ input#edit-search-block-form--2.spinner {
           display: none;
         }
 
-        .availability {
-          clear: both;
-          display: block;
+        div.availability {
+          display: inline-block;
           margin-top: $default-spacing;
-
-          li {
-            display: inline;
-          }
         }
       }
     }
