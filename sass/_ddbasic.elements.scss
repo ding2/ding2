@@ -21,7 +21,7 @@
 // =============================================================================
 //
 body {
-  background: url('../images/body.jpg') no-repeat;
+  background-color: $theme-primary-color;
   background-attachment: fixed;
   background-size: cover;
   line-height: $theme-line-height;
