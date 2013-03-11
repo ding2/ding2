@@ -109,23 +109,25 @@ function ting_get_objects($ids) {
       $query[] = 'rec.id=' . $id;
     }
   }
+  // opensearch is limited to 50 results per call, so iterate until all have been fetched.
   $i = 0;
   do {
+    // I query is empty, then don't do it.
+    // Not necessary to do in each iteration, but it doesn't hurt much.
     if (sizeof($query) == 0) {
       break;
     }
-    $request = ting_get_request_factory()->getSearchRequest();
 
+    $request = ting_get_request_factory()->getSearchRequest();
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
     }
-
     $profile = variable_get('ting_search_profile', '');
     if (!empty($profile) && method_exists($request, 'setProfile')) {
       $request->setProfile($profile);
     }
-
     $request->setQuery(join(' OR ', $query));
+    // Do it in steps of 50.
     $request->setStart($i * 50 + 1);
     $request->setNumResults(50);
     $request->setAllObjects(TRUE);
