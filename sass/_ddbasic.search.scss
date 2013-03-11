@@ -353,9 +353,20 @@ input#edit-search-block-form--2.spinner {
 // Search results list
 // **
 //
+.subjects {
+  strong {
+    font-weight: inherit;
+  }
 
-.subject {
-  @extend .label;
+  a {
+    display: inline-block;
+    margin-right: $default-spacing / 4;
+    margin-bottom: $default-spacing / 4;
+  }
+
+  .subject {
+    @extend .label;
+  }
 }
 
 
@@ -662,18 +673,6 @@ input#edit-search-block-form--2.spinner {
   .field-name-ting-title {
     h2 {
       margin-top: 0;
-    }
-  }
-
-  .subjects {
-    strong {
-      font-weight: inherit;
-    }
-
-    a {
-      display: inline-block;
-      margin-right: $default-spacing / 4;
-      margin-bottom: $default-spacing / 4;
     }
   }
 
