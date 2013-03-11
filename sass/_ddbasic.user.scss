@@ -160,11 +160,15 @@
 
   .user-name {
     color: transparentize($black, .5);
-    margin-top: 55px;
+    margin-top: 50px;
     text-align: right;
 
     .user-name-title {
       @include rem('font-size', $theme-font-size * 2.25);
+      @include rem('line-height', $theme-font-size * 3);
+      
+      overflow: hidden;
+      max-height: 45px;
     }
   }
 }
