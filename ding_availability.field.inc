@@ -171,7 +171,12 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                 $id => array($entity->localId),
               ),
             ), 'type' => 'setting');
-        }  
+        } else { //We still need the settings js, else js will fail and break.
+          $attached['js'][1] = array(
+            'data' => array(
+              'ding_availability' => ''
+            ), 'type' => 'setting');
+        }
           
         $element[$delta] = array(
           '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"></div>',
@@ -203,6 +208,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               'ding_availability' => array(
                 $id => array($entity->localId),
               ),
+            ), 'type' => 'setting');
+        } else { //We still need the settings js, else js will fail and break.
+          $attached['js'][1] = array(
+            'data' => array(
+              'ding_availability' => ''
             ), 'type' => 'setting');
         }
         
