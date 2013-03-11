@@ -58,7 +58,8 @@ function ting_relation_online_ebrary( $relation ){
   }
 
   $rel = $relation['#relation'];
-   // simply set a button
+  $content['type'] = $relation['#title'];
+  // simply set a button
   $url = str_replace('[URL]',$ebrary_url,$rel->uri);
   $content['online_url'] = array('#markup' => l($relation['#ac_source'], $url, array('attributes' => array('target'=>'_blank'))));
 
@@ -71,7 +72,7 @@ function ting_relation_online_ebrary( $relation ){
 function ting_relation_online_filmstriben( $relation ) {
   $rel = $relation['#relation'];
   $content['type'] = $relation['#title'];
-    // simply set a button
+  // simply set a button
   $url = $rel->uri;
   $content['online_url'] = array('#markup' => l($relation['#ac_source'], $url, array('attributes' => array('target'=>'_blank'))));
   return $content;
