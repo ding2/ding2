@@ -269,15 +269,15 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           }
         }
 
-        // Prepare to check holding on the item as long as $id_mapping holds at least 1 id
-        if (count($id_mapping) > 0) {
-          $attached['js'][1] = array(
-            'data' => array(
-              'ding_availability' => $id_mapping,
-              'ding_availability_link' => $display['settings']['link'],
-            ), 'type' => 'setting');
-        }
-        
+        // Prepare to check holding on the item.
+        // It's importants that this is attached even if empty, else javascript will fail beacuse it gets an empty object.
+        $attached['js'][1] = array(
+          'data' => array(
+            'ding_availability' => $id_mapping,
+            'ding_availability_link' => $display['settings']['link'],
+          ), 'type' => 'setting'
+        );
+       
         $element[$delta] = array(
           '#theme' => 'item_list',
           '#attached' => $attached,
