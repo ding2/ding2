@@ -2723,7 +2723,7 @@ ul.icons li [class*=" icon-"] {
 
 /* line 129, ../sass/_ddbasic.layout.scss */
 .bottom {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.9);
   color: white;
   padding-top: 20px;
   padding-bottom: 20px;
