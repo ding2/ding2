@@ -57,8 +57,9 @@ function ding_frontend_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'dynamic_background_css';
   $strongarm->value = array(
-    'selector' => 'body',
-    'css' => '',
+    'selector' => '#page.ding2-site-template',
+    'css' => 'background-size: cover;
+background-attachment: fixed;',
   );
   $export['dynamic_background_css'] = $strongarm;
 
@@ -68,6 +69,7 @@ function ding_frontend_strongarm() {
   $strongarm->name = 'dynamic_background_image_style';
   $strongarm->value = array(
     'style' => '0',
+    'thumbnail_style' => 'thumbnail',
   );
   $export['dynamic_background_image_style'] = $strongarm;
 
@@ -156,7 +158,7 @@ function ding_frontend_strongarm() {
     'domain' => '',
     'prefix' => '',
     'weight' => '-10',
-    'javascript' => 'NorKuDJVtKwevfTGBZEsP54BPF6DfJT51kZ3mYuoQD0',
+    'javascript' => 'SuYunBEaUMmLK-2yhpjdl_B-qD1BAEDROTcjCXE6oU0',
   );
   $export['language_default'] = $strongarm;
 
