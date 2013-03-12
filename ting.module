@@ -509,7 +509,7 @@ function ting_ding_entity_buttons($type, $entity) {
     return array(
       array(
         '#type' => 'markup',
-        '#markup' => l($label, $entity->online_url, array('attributes'=>array('target'=>'_new', 'class' => 'button')))
+        '#markup' => l($label, $entity->online_url, array('attributes'=>array('target'=>'_new', 'class' => 'button-see-online')))
       ),
     );
   }
