@@ -36,3 +36,4 @@
   regions[attachment_third]  = Attachment third
   regions[attachment_fourth] = Attachment fourth
   regions[footer]            = Footer
+  regions[bottom]            = Bottom

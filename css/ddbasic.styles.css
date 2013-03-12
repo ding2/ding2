@@ -2721,26 +2721,35 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
+/* line 129, ../sass/_ddbasic.layout.scss */
+.bottom {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
 @media only screen and (max-width: 480px) {
-  /* line 139, ../sass/_ddbasic.layout.scss */
+  /* line 148, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 144, ../sass/_ddbasic.layout.scss */
+  /* line 153, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 150, ../sass/_ddbasic.layout.scss */
+  /* line 159, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 155, ../sass/_ddbasic.layout.scss */
+  /* line 164, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }

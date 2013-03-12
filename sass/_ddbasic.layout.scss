@@ -51,7 +51,7 @@ $topbar-min-height:               92px;
 
     min-height: $topbar-min-height;
     position: relative;
-  }  
+  }
 }
 
 .pane-pane-header {
@@ -123,6 +123,15 @@ $topbar-min-height:               92px;
 
 .footer {
   @include attachment-25-25-25-25;
+}
+
+
+.bottom {
+  background-color: transparentize($black, .95);
+  color: $theme-primary-color;
+  padding-top: $default-spacing;
+  padding-bottom: $default-spacing;
+  text-align: center;
 }
 
 

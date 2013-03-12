@@ -93,7 +93,7 @@
   <?php endif; ?>
   
   <?php if (!empty($page['bottom'])): ?>
-    <div class="grid-full bottom">
+    <div class="bottom">
       <?php print render($page['bottom']); ?>
     </div>
   <?php endif; ?>
