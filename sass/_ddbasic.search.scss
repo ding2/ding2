@@ -790,9 +790,18 @@ input#edit-search-block-form--2.spinner {
       clear: none;
     }
   }
-  
+
   .button-see-online {
     @extend %button-action;
+  }
+
+  #ding-reservation-reserve-form {
+    .form-submit {
+      @extend %button-action;
+      
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
   }
 
   // Material Details - Collapsible
