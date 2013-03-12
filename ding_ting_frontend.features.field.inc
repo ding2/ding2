@@ -228,13 +228,13 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '11',
+          'weight' => 0,
         ),
         'collection_primary' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => 0,
         ),
         'default' => array(
           'label' => 'hidden',
@@ -247,19 +247,19 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '33',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => 0,
         ),
         'user_list' => array(
-          'label' => 'hidden',
+          'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'ting_object',
@@ -395,13 +395,13 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => 0,
         ),
         'collection_primary' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => 0,
         ),
         'default' => array(
           'label' => 'above',
@@ -414,30 +414,29 @@ function ding_ting_frontend_field_default_fields() {
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '35',
+          'weight' => 0,
         ),
         'teaser' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '0',
+          'weight' => 0,
         ),
         'user_list' => array(
           'label' => 'above',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '5',
+          'weight' => 0,
         ),
       ),
       'entity_type' => 'ting_object',
       'field_name' => 'ding_periodical_issues',
-      'label' => 'Issues',
-      'required' => 0,
+      'label' => 'Issue list for periodicals.',
+      'required' => FALSE,
       'settings' => array(
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 0,
         'module' => 'blackhole',
         'settings' => array(),
         'type' => 'hidden',
@@ -1247,7 +1246,7 @@ function ding_ting_frontend_field_default_fields() {
   t('All materials');
   t('Cover');
   t('Holdings information');
-  t('Issues');
+  t('Issue list for periodicals.');
   t('On this site');
   t('Series');
   t('Subjects');
