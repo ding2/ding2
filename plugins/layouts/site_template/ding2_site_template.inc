@@ -10,5 +10,6 @@ $plugin = array(
     'navigation' => t('Navigation'),
     'content'    => t('Main content'),
     'footer'     => t('Footer'),
+    'bottom'     => t('Bottom'),
   ),
 );
