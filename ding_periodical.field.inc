@@ -77,7 +77,7 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
        foreach ($issues as $k => $v) {
         asort($v);
       }
-      ksort($issues);
+      krsort($issues);
 
       if ($issues) {
         $element[$delta] = array(
