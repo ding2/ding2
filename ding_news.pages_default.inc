@@ -442,8 +442,8 @@ function ding_news_default_page_manager_pages() {
     'logic' => 'and',
   );
   $page->menu = array(
-    'type' => 'none',
-    'title' => 'News',
+    'type' => 'normal',
+    'title' => 'Nyheder',
     'name' => 'main-menu',
     'weight' => '0',
     'parent' => array(
