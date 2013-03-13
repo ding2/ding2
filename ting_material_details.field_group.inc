@@ -62,7 +62,7 @@ function ting_material_details_field_group_info() {
         'effect' => 'none',
         'speed' => 'fast',
       ),
-      'formatter' => 'collapsible',
+      'formatter' => 'collapsed',
     ),
   );
   $export['group_material_details|ting_object|ting_object|default'] = $field_group;
