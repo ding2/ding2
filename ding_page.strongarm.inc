@@ -70,7 +70,7 @@ function ding_page_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'date_format_long_date_only';
-  $strongarm->value = 'Y-m-d H:i';
+  $strongarm->value = 'l j. F Y';
   $export['date_format_long_date_only'] = $strongarm;
 
   $strongarm = new stdClass();
