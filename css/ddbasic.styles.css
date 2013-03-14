@@ -3176,7 +3176,7 @@ a:focus {
 
 /* line 52, ../sass/_ddbasic.blocks.scss */
 .block-title, .pane-title,
-.pane-menu-title, .library-title, .pane-loans h2,
+.pane-menu-title, .library-title, .pane-ting-object .field-name-ting-reference-reverse .field-label, .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-bottom: 13.33333px;
@@ -4318,7 +4318,7 @@ button#edit-cancel {
 }
 /* line 44, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block .block-title, .footer-block .pane-title,
-.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-ting-object .field-name-ting-reference-reverse .field-label, .pane-ting-object .field-name-ting-reference-reverse .footer-block .field-label, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
 .pane-reservations .footer-block h2,
 .footer-block .pane-bookmarks h2,
@@ -5862,6 +5862,41 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 125, ../sass/_ddbasic.news.scss */
 .field-name-field-ding-news-materials .subjects {
   margin-top: 20px;
+}
+
+/* line 136, ../sass/_ddbasic.news.scss */
+.pane-ting-object .field-name-ting-reference-reverse .field-label {
+  font-size: 27px;
+  font-size: 1.6875rem;
+  font-family: "SourceSansProLight";
+}
+/* line 146, ../sass/_ddbasic.news.scss */
+.pane-ting-object div.field-items .field-item .image-container {
+  float: left;
+  max-width: 15%;
+}
+/* line 154, ../sass/_ddbasic.news.scss */
+.pane-ting-object div.field-items .field-item .super-heading,
+.pane-ting-object div.field-items .field-item .heading,
+.pane-ting-object div.field-items .field-item .lead,
+.pane-ting-object div.field-items .field-item .page-lead,
+.pane-ting-object div.field-items .field-item .signature {
+  float: left;
+  margin: 0;
+  padding: 0;
+  margin-left: 20px;
+  width: 80%;
+}
+/* line 163, ../sass/_ddbasic.news.scss */
+.pane-ting-object div.field-items .field-item .content,
+.pane-ting-object div.field-items .field-item .signature {
+  clear: both;
+  display: none;
+}
+/* line 169, ../sass/_ddbasic.news.scss */
+.pane-ting-object div.field-items .field-item .super-heading,
+.pane-ting-object div.field-items .field-item .heading {
+  margin-bottom: 10px;
 }
 
 /* line 30, ../sass/_ddbasic.modal.scss */

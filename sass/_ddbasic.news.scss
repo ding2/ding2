@@ -127,6 +127,52 @@
   }
 }
 
+// **
+// Referenced item on object node display
+// **
+//
+.pane-ting-object {
+  .field-name-ting-reference-reverse {
+    .field-label {
+      @extend .block-title;
+
+      @include rem('font-size', $theme-font-size * 1.8);
+
+      font-family: $font-light;
+    }
+  }
+  div.field-items {
+    .field-item {
+      .image-container {
+        float: left;
+
+        max-width: 15%;
+      }
+      .super-heading,
+      .heading,
+      .lead,
+      .signature {
+        float: left;
+        margin: 0;
+        padding: 0;
+        margin-left: $default-spacing;
+        width: 80%;
+      }
+
+      .content,
+      .signature {
+        clear: both;
+        display: none;
+      }
+
+      .super-heading,
+      .heading {
+        margin-bottom: $default-spacing / 2;
+      }
+    }
+  }
+}
+
 
 // -----------------------------------------------------------------------------
 // Mediaqueries
