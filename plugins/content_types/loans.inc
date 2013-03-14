@@ -175,12 +175,19 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       $title = $item->display_name;
     }
     // @todo Better feedback.
-    switch ($status) {
+    switch ($status['state']) {
       case DingProviderLoan::STATUS_RENEWED:
         drupal_set_message(t('"@title renewed"', array('@title' => $title)));
         break;
       case DingProviderLoan::STATUS_NOT_RENEWED:
-        drupal_set_message(t('"@title not renewed"', array('@title' => $title)), 'warning');
+        if ($status['message'] == 'maxNofRenewals') {
+          $rmessage = t('Maximum number of renewals reached');
+        } elseif ($status['message'] == 'copyIsReserved') {
+          $message = t('The material is reserved by another loaner');
+        } else {
+          $message = t('Unable to renew material');
+        }
+        drupal_set_message(t('"@title not renewed: @message"', array('@title' => $title, '@message' => $message)), 'warning');
         break;
       default:
         watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
