@@ -32,14 +32,11 @@ function ding_user_update_7001(&$sandbox) {
 }
 
 /**
- * Implements hook_update_N,
- * set weight of ding_user to -1 to ensure it is called first
- **/
+ * Set weight of ding_user to -1 to ensure it is called first
+ */
 function ding_user_update_7002(&$sandbox) {
   $updated = db_update('system')
-    ->fields(array(
-        'weight' => -1,
-      ))
+    ->fields (array('weight' => -1))
     ->condition('name', 'ding_user', '=')
     ->execute();
 }

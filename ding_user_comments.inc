@@ -6,37 +6,40 @@
 
 
 /**
- * Implements hook_entity_view
- * hook is implented to alter the 'log in to add comment' part of comments
+ * Implements hook_entity_view().
+ *
+ * Hook is implented to alter the 'log in to add comment' part of comments
  * define a new theme for comments if ['comment_forbidden'] is set
- **/
+ */
 function ding_user_entity_view($comment, $type, $view_mode, $langcode ) {
-//  dpm($comment);
-  if ( isset($comment->content['links']['comment']['#links']['comment_forbidden']) ) {
+  if (isset($comment->content['links']['comment']['#links']['comment_forbidden'])) {
     $comment->content['links']['comment']['#theme'] = 'ding_user_comment_post_forbidden';
   }
 }
 
 /**
- * Implements hook_theme
+ * Implements hook_theme().
  */
-function ding_user_theme($existing, $type, $theme, $path) {
+function ding_user_theme() {
   return array(
     'ding_user_comment_post_forbidden' => array('render element' => 'elements'),
   );
 }
 
 /**
- * get a form for displaying the 'log in' to add comments link
+ * Get a form for displaying the 'log in' to add comments link
+ *
  * @return form
  */
 function ding_user_comment_forbidden_form() {
-  $form['submit'] =
-    array(
+  $form = array();
+
+  $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Log in'),
     '#ajax' => array('callback' => 'ding_user_comment_forbidden_form_callback'),
   );
+
   return $form;
 }
 
@@ -87,9 +90,7 @@ function ding_user_comment_forbidden_form_callback($form, $form_state) {
   ctools_include('ajax');
   ctools_add_js('ajax-responder');
 
-  $url = $base_root . $form['#action'];
-
   $commands = array();
-  $commands[] = ctools_ajax_command_redirect($url);
+  $commands[] = ctools_ajax_command_redirect($base_root . $form['#action']);
   return array('#type' => 'ajax', '#commands' => $commands);
 }
