@@ -39,7 +39,7 @@ function ding_wayf_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
-// error page
+// accept page
   $items['wayf/accept'] = array(
     'title' => t('WAYF_ACCEPT'),
     'description' => t('Provides WAYF login.'),
@@ -51,55 +51,25 @@ function ding_wayf_menu() {
   return $items;
 }
 
-/** \brief error page callback
+/** \brief accept page callback
  * 
  */
 function ding_wayf_accept() {
   // clear messages - this one comes via login-form,
   // so at least 'unrecognized user or password' is set
-  // drupal_get_messages();
+  drupal_get_messages();
 
-  return drupal_render(drupal_get_form('ding_wayf_accept_form'));
-}
-
-function ding_wayf_accept_form() {
-  $form['container'] = array(
-    '#type' => 'container',
-    '#attributes' => array(
-      'class' => array('element-section', drupal_html_class('wayf_accept_form')),
-    ),
-  );
-  $form['container']['accept_form'] = array(
-    'messages' => array(
-      'message' => array(
-        '#markup' => t('You have been authenticated by wayf, but you have no account with bibliotek.dk etc...'),
-      ),
-      'accept' => array(
-        '#type' => 'checkbox',
-        '#default_value' => FALSE,
-        '#title' => t('accept_wayf_binding', array(), array('context' => 'ding_wayf')),
-      ),
-    ),
-  );
-  $form['container']['actions'] = array(
-    'abort' => array(
-      '#name' => 'abort',
-      '#type' => 'submit',
-      '#value' => t('abort', array(), array('context' => 'ding_wayf')),
-    ),
-    'submit' => array(
-      '#name' => 'continue',
-      '#type' => 'submit',
-      '#value' => t('continue', array(), array('context' => 'ding_wayf')),
-    ),
-  );
-  return $form;
+  // add an accept form if provider implements it
+  if (ding_provider_implements('wayf', 'accept_form')) {
+    $form = ding_provider_invoke('wayf', 'accept_form');
+    return drupal_render(drupal_get_form($form));
+  }
 }
 
 /** Implements hook_init
  *
  * special case; user was authenticated with wayf, but for some reason
- * not with drupal - maybe user aborted while loggin in.
+ * not with drupal - maybe user aborted while logging in.
  * make sure SESSION variables are removed, and user is logged out of wayf
  * 
  * @global type $user 
@@ -109,85 +79,10 @@ function ding_wayf_init() {
   if (arg(0) != 'wayf') {
     if ($user->uid == 0) {
       if (isset($_SESSION['accept_wayf'])) {
-        unset($_SESSION['accept_wayf']);        
+        unset($_SESSION['accept_wayf']);
         ding_wayf_user_logout();
       }
     }
-  }
-}
-
-/** \brief validation handler for accept_form
- * 
- * 
- *
- * @param type $form
- * @param type $form_state 
- */
-function ding_wayf_accept_form_validate($form, &$form_state) {
-// continue button clicked
-  if ($form_state['clicked_button']['#name'] == 'continue') {
-    if ($form_state['values']['accept']) {
-
-// get name and pass from session; create a user if accept is set
-// @TODO check if session is set
-      $name = $_SESSION['accept_wayf']['name'];
-      $pass = $_SESSION['accept_wayf']['pass'];
-      $status = $_SESSION['accept_wayf']['status'];
-      // we don't need the session variables anymore
-      unset($_SESSION['accept_wayf']);
-
-// prepare an array for ding_wayf_login
-      $authentication_attributes['mail'][0] = $name;
-      $authentication_attributes['eduPersonTargetedID'][0] = $pass;
-
-      switch ($status) {
-        // first use case - no account with bibliotek.dk
-        case 'no_user':
-          if (ding_provider_implements('user', 'create_account')) {
-            if (ding_provider_invoke('user', 'create_account', $name, $pass)) {
-              // user has been created with mail, wayfid.
-              if (ding_provider_implements('wayf', 'bind')) {
-                ding_provider_invoke('wayf', 'bind', $name, $pass);
-              }
-              // pass key for email to login method
-              $notify_by_mail->key = 'wayf_new_user';
-              // if user wishes to change password later on he can do so
-              ding_wayf_login($authentication_attributes, 'wayf', $notify_by_mail);
-            }
-          }
-          break;
-        // next use case - user has an bibdk account, but no wayfid
-        case 'bibdk_user':
-          if (ding_provider_implements('wayf', 'bind')) {
-            if (ding_provider_invoke('wayf', 'bind', $name, $pass)) {
-              ding_wayf_login($authentication_attributes, 'wayf');
-            }
-          }
-          break;
-        default:
-          drupal_set_message(t('wayf_could_not_login', array(), array('context' => 'ding_wayf')));
-          drupal_goto('user');
-          break;
-      }
-    }
-    else {
-// user clicked continue, but did not check accept. maybe user forgot to check the box
-// tell him to either check the box or press abort
-      form_set_error('accept', t('either check accept or press abort', array(), array('context' => 'ding_wayf')));
-    }
-  }
-}
-
-/** \brief ding_wayf_accept_form submit handler 
- *
- * redirect to user page if abort is clicked
- * 
- * @param type $form
- * @param type $form_state 
- */
-function ding_wayf_accept_form_submit($form, $form_state) {
-  if ($form_state['clicked_button']['#name'] == 'abort') {
-    ding_wayf_user_logout(NULL, 'user');
   }
 }
 
@@ -197,23 +92,19 @@ function ding_wayf_accept_form_submit($form, $form_state) {
  * 
  * pre; user is authenticated via wayf or we wouldn't be here
  */
-function ding_wayf_login($authentication_attributes, $provider = 'wayf', $notify_by_mail = NULL) {
+function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
   global $user;
   if ($user->uid == 0) {
     $form_state = array();
-// set authentication provider for ding_user (@see ding_user_user_login_validate)
-    $form_state['values']['authentication_provider'] = $provider;
-// set name and password for login
-    $form_state['values']['name'] = $authentication_attributes['mail'][0];
-    $form_state['values']['mail'] = $authentication_attributes['mail'][0];
-    $form_state['values']['pass'] = $authentication_attributes['eduPersonTargetedID'][0];
-    if (isset($notify_by_mail)) {
-      $form_state['mail_me'] = $notify_by_mail;
-    }
-    //clear messages
-    drupal_get_messages();
+    // get form_state from provider
+    $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes, $notify_by_mail);
+
 // submit login form
     drupal_form_submit('user_login_block', $form_state);
+    $errors = form_get_errors();
+    if (!empty($errors)) {
+      drupal_goto('user');
+    }
   }
   else {
     ding_wayf_redirect('user/%uid/edit');
@@ -311,6 +202,13 @@ function ding_wayf_redirect_login() {
     else {
 // Redirect the user to the WAYF login page.
       $saml->requireAuth();
+
+      //   pjo NOTE for nemlogin; you can give idp as parameter on login 
+      //   depending on which idp is preferred e.g      
+      //$saml->requireAuth(array('saml:idp' => 'https://testbridge.wayf.dk'));
+      //saml->requireAuth(array('saml:idp' => 'https://nemlogin.wayf.dk'));
+      //$saml->requireAuth(array('saml:idp' => 'https://wayf.wayf.dk'));
+      //   remember that identity provider must be set in metadata file
     }
   }
   else {
