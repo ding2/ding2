@@ -19,10 +19,9 @@ $search-border-type: solid;
 %search-ting-cover {
   @extend .icon-camera;
 
-  float: left;
-  min-height: 100px;
+  min-height: 150px;
   position: relative;
-  width: 10%;
+  width: 100%;
 
   img {
     position: relative;
@@ -34,9 +33,9 @@ $search-border-type: solid;
 
     color: $gray-dark;
     font-family: $theme-icon-library-font;
-    left: 2px;
+    left: 29%;
     position: absolute;
-    top: 47px;
+    top: 45%;
   }
 }
 
@@ -224,6 +223,23 @@ input#edit-search-block-form--2.spinner {
       }
     }
   }
+}
+
+// **
+// Column wrapper fields
+// **
+//
+.ting-object-left {
+  @include zen-grid-item(2, 1);
+
+  padding-left: 0;
+  min-height: 100px;
+}
+
+.ting-object-right {
+  @include zen-grid-item(10, 1, right);
+
+  padding-right: 0;
 }
 
 // **
@@ -502,19 +518,19 @@ input#edit-search-block-form--2.spinner {
 
       .heading {
         margin-bottom: $default-spacing / 2;
-        margin-left: 10%;
-        padding-left: $default-spacing;
       }
 
       .ting-cover {
         @extend %search-ting-cover;
+
+        &:before {
+          @include rem('font-size', 54px);
+        }
       }
 
       .content,
       .field {
-        margin-left: 10%;
         margin-bottom: $default-spacing / 2;
-        padding-left: $default-spacing;
       }
 
       .subjects {
@@ -534,6 +550,10 @@ input#edit-search-block-form--2.spinner {
 
       .availability {
         margin-bottom: 0;
+
+        &.content {
+          float: right;
+        }
 
         ul {
           @extend %list;
@@ -652,6 +672,10 @@ input#edit-search-block-form--2.spinner {
 
   .ting-cover {
     @extend %search-ting-cover;
+
+    &:before {
+      @include rem('font-size', 54px);
+    }
   }
 
   .view-mode-collection-list {
@@ -661,8 +685,6 @@ input#edit-search-block-form--2.spinner {
   }
 
   .field {
-    margin-left: 10%;
-    padding-left: $default-spacing;
     margin-bottom: $default-spacing / 2;
   }
   .field-name-ting-entities {
@@ -765,8 +787,17 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object {
   @extend .pane-ting-collection;
 
+  .ting-object-left {
+    @include zen-grid-item(3, 1);
+    min-height: 200px;
+  }
+
+  .ting-object-right {
+    @include zen-grid-item(9, 1, right);
+  }
+
   .ting-cover {
-    width: 25%;
+    width: 100%;
     min-height: 250px;
   }
 
@@ -774,14 +805,6 @@ input#edit-search-block-form--2.spinner {
     margin: 0;
     padding: 0;
     margin-bottom: $default-spacing / 2;
-  }
-
-  .field-name-ting-title,
-  .field-name-ting-author,
-  .field-name-ting-abstract,
-  .subjects {
-    margin-left: 25%;
-    padding-left: $default-spacing;
   }
 
   .subjects {
@@ -854,12 +877,6 @@ input#edit-search-block-form--2.spinner {
     .field-items {
       max-width: 72%;
     }
-  }
-
-  .field-name-ting-series {
-    @extend .group-material-details;
-
-    padding-top: 0;
   }
 
   .field-name-ding-availability-holdings {
