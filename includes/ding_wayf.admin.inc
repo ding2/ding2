@@ -33,7 +33,22 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Redirect to this fallback URL after login. This URL is only used if distination is not found. The token %uid is avaliable'),
     '#required' => TRUE,
   );
+  
+  // checkboxes wayf- and nemid-login
+  $form['ding_wayf']['wayflogin'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Wayf login', array(), array('context'=>'ding_wayf')),
+    '#description' => t('Enable wayflogin',array(),array('context'=>'ding_wayf')),
+    '#default_value' => $default['wayflogin'],
+  );
 
+  $form['ding_wayf']['nemlogin'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Nemlogin', array(), array('context'=>'ding_wayf')),
+    '#description' => t('Enable Nemlogin',array(),array('context'=>'ding_wayf')),
+    '#default_value' => $default['nemlogin'],
+  );
+ 
   return system_settings_form($form);
 }
 
@@ -41,6 +56,12 @@ function ding_wayf_admin_settings_form() {
  * Validation function for the administration settings form above.
  */
 function ding_wayf_admin_settings_form_validate($form, $form_state) {
+  $wayf = isset($form_state['values']['ding_wayf']['wayflogin']) ? $form_state['values']['ding_wayf']['wayflogin'] : NULL;
+  $nemlogin = isset($form_state['values']['ding_wayf']['nemlogin']) ? $form_state['values']['ding_wayf']['nemlogin'] : NULL;
+  if( empty($wayf) && empty($nemlogin) ){
+    form_set_error('wayflogin', t('Either check wayf, nemlogin or both.',array(),array('context' => 'ding_wayf')));
+  }
+  
   if (!ding_wayf_check_simplesamlphp($form_state['values']['ding_wayf']['installdir'])) {
     form_set_error('installdir', t('Simple SAML php was not found at the location given.'));
   }
