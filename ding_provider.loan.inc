@@ -72,6 +72,11 @@ class DingProviderLoan extends DingEntityBase {
    */
   protected $notes  = DingEntityBase::NULL;
 
+  /**
+   * Message - A message with a reason for why a loan is not renewable
+   */
+  protected $message  = DingEntityBase::NULL;
+
   public function __construct($id, $data = array()) {
     parent::__construct();
     $this->properties['id'] = $id;
@@ -91,6 +96,7 @@ class DingProviderLoan extends DingEntityBase {
       'author',
       'title',
       'publication_year',
+      'message',
     );
     $this->_populate($properties, $data);
   }

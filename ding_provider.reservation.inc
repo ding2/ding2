@@ -51,6 +51,11 @@ class DingProviderReservation extends DingEntityBase {
    * Order Id
    */
   protected $order_id = DingEntityBase::NULL;
+  
+  /**
+   * Organisation Id
+   */
+  protected $organisation_Id = DingEntityBase::NULL;
 
   /**
    * The ding_entity.
@@ -68,6 +73,11 @@ class DingProviderReservation extends DingEntityBase {
    * or DingProviderReservation::STATUS_FECTHABLE.
    */
   protected $status = DingEntityBase::NULL;
+  
+  /**
+   * Delete status of the reservation, either yes or no
+   */
+  protected $can_delete = DingEntityBase::NULL;
 
   /**
    * Id of pickup place.
@@ -137,11 +147,13 @@ class DingProviderReservation extends DingEntityBase {
     $this->properties['ready_for_pickup'] = FALSE;
     $properties = array(
       'order_id',
+      'organisation_Id',
       'materials_number',
       'ding_entity_id',
       'entity',
       'display_name',
       'status',
+      'can_delete',
       'pickup_branch',
       'pickup_order_id',
       'pickup_branch_id',

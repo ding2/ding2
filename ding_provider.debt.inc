@@ -29,6 +29,8 @@ class DingProviderDebt extends DingEntityBase {
 
 
   protected $display_name = DingEntityBase::NULL;
+  
+  protected $note = DingEntityBase::NULL;
 
   /**
    * The amount owed, floating point.
@@ -51,6 +53,7 @@ class DingProviderDebt extends DingEntityBase {
       'amount_paid',
       'invoice_number',
       'type',
+      'note',
     );
     $this->_populate($properties, $data);
   }
