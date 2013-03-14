@@ -21,7 +21,7 @@ function ting_material_details_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Material details',
-    'weight' => '7',
+    'weight' => '10',
     'children' => array(
       0 => 'ting_details_age',
       1 => 'ting_details_audience',
