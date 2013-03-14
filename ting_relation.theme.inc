@@ -60,6 +60,7 @@ function ting_relation_online_ebrary($relation) {
   }
 
   $rel = $relation['#relation'];
+  $content['type'] = $relation['#title'];
   // Simply set a button.
   $url = str_replace('[URL]', $ebrary_url, $rel->uri);
   $content['online_url'] = array('#markup' => l($relation['#ac_source'], $url, array('attributes' => array('target' => '_blank'))));
