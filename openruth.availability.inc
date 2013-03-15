@@ -174,10 +174,7 @@ function _openruth_periodicals_unique_holdings( $holdings ) {
  *
  */
 function _openruth_set_periodicals(&$h, $itemHolding) {
-  if (isset($itemHolding->itemSerialPartId) ||
-      isset($itemHolding->itemSerialPartVolume) ||
-      isset($itemHolding->itemSerialPartIssue)) {
-
+  if (isset($itemHolding->itemSerialPartId) || isset($itemHolding->itemSerialPartVolume) || isset($itemHolding->itemSerialPartIssue)) {
     $issue = array(
       'local_id' => $itemHolding->itemSerialPartId,
       'orders_count' => $itemHolding->ordersCount,
@@ -194,10 +191,10 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
         $loc[] = $location->agencyCollectionId->agencyCollectionName;
       }
 
-
       if (isset($location->agencyPlacementId->agencyPlacementName)) {
         $loc[] = $location->agencyPlacementId->agencyPlacementName;
       }
+
       $issue['placement'][] = array(
         'location' => implode(' > ', $loc),
         'available_count' => $location->copiesAvailableCount,
@@ -205,12 +202,12 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
         'reservable' => $location->orderAllowed,
       );
     }
+
     $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
     // set flag for periodical
     $h['is_periodical'] = TRUE;
   }
 }
-
 
 function _openruth_set_locations(&$h, $itemHolding) {
   $holding_reservable = FALSE;
