@@ -22,7 +22,7 @@ foreach( $content as $ns => $relations ){
         if (isset($relation['year'])) {
           print '<div>' . $relation['year'] . '</div>';
         }
-        if (isset($relation['creator'] ) {
+        if (isset($relation['creator'])) {
           print '<div>' . $relation['creator'] . '</div>';
         }
         if (isset($relation['byline'])) {
