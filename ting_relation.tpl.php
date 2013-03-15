@@ -32,8 +32,17 @@ if (!empty($content)) {
       </div>
 
       <?php
-        if (isset($relation['abstract'])) {
-          print '<div>' . $relation['abstract'] . '</div>';
+        if (isset($relation['title'])) {
+          print '<h3>' . $relation['title'] . '</h3>';
+        }
+        if (isset($relation['year'])) {
+          print '<div>' . $relation['year'] . '</div>';
+        }
+        if (isset($relation['creator'])) {
+          print '<div>' . $relation['creator'] . '</div>';
+        }
+        if (isset($relation['byline'])) {
+          print '<div>' . $relation['byline'] . '</div>';
         }
 
         if( isset($relation['text']) ) {
