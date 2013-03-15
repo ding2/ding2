@@ -117,15 +117,29 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
     }
   }
 
+  $form['actions_top'] = array (
+    '#weight' => 0,
+  );
+  $form['actions_top']['submit_first'] = array(
+    '#type' => 'submit',
+    '#prefix' => '<div class="renew-loan-button">',
+    '#value' => t('Renew selected'),
+    '#suffix' => '</div>',
+  );
+
   $form['loans'] = array(
     '#type' => 'tableselect_form',
     '#header' => $header,
     '#options' => $options,
     '#empty' => t('No loans'),
     '#process' => array('ding_base_element_process_tableselect_form', '_ding_loan_loans_disable'),
+    '#weight' => 1,
   );
 
-  $form['actions']['submit'] = array(
+  $form['actions_bottom'] = array (
+    '#weight' => 2,
+  );
+  $form['actions_bottom']['submit_second'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button">',
     '#value' => t('Renew selected'),
