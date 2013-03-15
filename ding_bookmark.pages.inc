@@ -46,17 +46,29 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
     }
   }
 
+  $form['actions_top'] = array(
+    '#type' => 'actions',
+    '#weight' => -10,
+  );
+
+  $form['actions_top']['submit_first'] = array(
+    '#type' => 'submit',
+    '#value' => t('Delete selected'),
+  );
+
   $form['items'] = array(
     '#type' => 'checkboxes',
     '#options' => $item_options,
     '#required' => TRUE,
+    '#weight' => 5,
   );
 
-  $form['actions'] = array(
+  $form['actions_bottom'] = array(
     '#type' => 'actions',
+    '#weight' => 10,
   );
 
-  $form['actions']['submit'] = array(
+  $form['actions_bottom']['submit_second'] = array(
     '#type' => 'submit',
     '#value' => t('Delete selected'),
   );
@@ -94,7 +106,7 @@ function theme_ding_bookmark_remove_form($variables) {
     array('data' => t('Title'), 'class' => 'title'),
     '',
   );
-  
+
   // Add classes to table header columns.
 
   // Create table rows.
@@ -137,6 +149,7 @@ function theme_ding_bookmark_remove_form($variables) {
     }
   }
 
+  $output .= drupal_render($form['actions_top']);
 
   if (count($rows)) {
 
