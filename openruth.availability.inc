@@ -77,7 +77,8 @@ function _openruth_init_holding($holding) {
 	  'total_count' => 0,
 	  'reservable_count' => 0,
 	  'issues' => array(),
-	  'is_periodical' => FALSE,);
+	  'is_periodical' => FALSE,
+    );
 
   // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
   if ( $holding['available'] && ($available < 1) ) {
@@ -178,9 +179,32 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
       isset($itemHolding->itemSerialPartIssue)) {
 
     $issue = array(
-		   'local_id' => $itemHolding->itemSerialPartId,
-		   'reservable' => $itemHolding->itemLocation[0]->orderAllowed,
-		   );
+      'local_id' => $itemHolding->itemSerialPartId,
+      'orders_count' => $itemHolding->ordersCount,
+      'provider' => 'openruth',
+    );
+
+    foreach ($itemHolding->itemLocation as $location) {
+      $loc = array();
+      if (isset($location->agencyBranchId->agencyBranchName)) {
+        $loc[] = $location->agencyBranchId->agencyBranchName;
+      }
+
+      if (isset($location->agencyCollectionId->agencyCollectionName)) {
+        $loc[] = $location->agencyCollectionId->agencyCollectionName;
+      }
+
+
+      if (isset($location->agencyPlacementId->agencyPlacementName)) {
+        $loc[] = $location->agencyPlacementId->agencyPlacementName;
+      }
+      $issue['placement'][] = array(
+        'location' => implode(' > ', $loc),
+        'available_count' => $location->copiesAvailableCount,
+        'total_count' => $location->copiesCount,
+        'reservable' => $location->orderAllowed,
+      );
+    }
     $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
     // set flag for periodical
     $h['is_periodical'] = TRUE;
