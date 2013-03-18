@@ -34,13 +34,7 @@ function theme_ding_periodical_issues($variables) {
 
     foreach ($issues as $key => $availability) {
       $issue = $key;
-      $issue_id = '';
-      if (isset($availability['local_id'])) {
-        $issue_id = $availability['local_id'];
-      }
-      elseif (isset($availability['reservable'])) {
-        $issue_id = $availability['reservable'];
-      }
+      $issue_id = $availability['local_id'];
 
       $normalized_id = md5($issue_id);
       // @todo
@@ -54,7 +48,8 @@ function theme_ding_periodical_issues($variables) {
         );
       }
 
-      $holding_data = ding_periodical_holding_data($variables['elements']['#entity']->localId);
+      $local_id = $variables['elements']['#entity']->localId;
+      $holding_data = ding_periodical_holding_data($local_id, $volume, $issue);
       $holding_data .= '<div class="periodical-reserve"><button>' . t('Reserve') . '</button></div>';
 
       $holding = array(array(
@@ -96,18 +91,88 @@ function theme_ding_periodical_issues($variables) {
 }
 
 /**
- * Fetch periodicals availability data.
+ * Fetch periodical availability table.
  *
  * @param $item
- *   Ting object local id, parent of periodicals.
+ *   Ting object local id, parent of periodical.
+ * @param $periodical
+ *   Periodical id.
  * @return type
  *   HTML markup.
  */
-function ding_periodical_holding_data($item) {
-  $holdings = &drupal_static(__FUNCTION__, array());
-  if (!isset($holdings[$item]['html'])) {
-    $holdings = ding_provider_invoke('availability', 'holdings', array($item));
+function ding_periodical_holding_data($item = NULL, $volume = NULL, $issue = NULL) {
+  $availability_table = '';
+  if (!empty($item)) {
+    $holdings = &drupal_static(__FUNCTION__, NULL);
+    if (!isset($holdings[$item])) {
+      $holdings = ding_provider_invoke('availability', 'holdings', array($item));
+    }
+
+    if (!empty($volume) && !empty($issue)) {
+      $issue = $holdings[$item]['issues'][$volume][$issue];
+      $availability_table = ding_periodical_build_table($issue);
+    }
   }
 
-  return $holdings[$item]['html'];
+  return $availability_table;
+}
+
+/**
+ * Build a markup for the availability table.
+ *
+ * @param $issue
+ *   Issue array, with keys:
+ *   - local_id: Periodical identifier.
+ *   - provider: Provider identifier, 'alma' here.
+ *   - placement: Item placement info.
+ *     - location: Actual location string.
+ *     - ordered_count
+ *     - checked_out_count
+ *     - reference_count
+ *     - total_count
+ *     - available_count
+ *     - reservable
+ *
+ * Keys checked_out_count, reference_count, ordered_count
+ * appear only in alma.
+ *
+ * @todo
+ *   This table DOES NOT contain the reservations count,
+ *   since this number comes as a separate value, for the whole
+ *   ting item, not the periodicals.
+ *
+ * @return
+ *   HTML markup for the availability table.
+ */
+function ding_periodical_build_table($issue) {
+  $header = array(
+    'placement' => t('Placement'),
+    'copies' => t('Copies'),
+    'home' => t('At home'),
+  );
+
+  $rows = array();
+
+  if ($issue['provider'] === 'alma') {
+    $header['not_for_loan'] = t('Not for loan');
+    $header['checked_out'] = t('Checked out');
+  }
+
+  $i = 0;
+  foreach ($issue['placement'] as $placement) {
+    $rows[$i] = array(
+      $placement['location'],
+      $placement['total_count'],
+      $placement['available_count'],
+    );
+
+    if ($issue['provider'] === 'alma') {
+      $rows[$i][] = $placement['reference_count'];
+      $rows[$i][] = $placement['checked_out_count'];
+    }
+
+    $i++;
+  }
+
+  return theme('table', array('header' => $header, 'rows' => $rows));
 }
