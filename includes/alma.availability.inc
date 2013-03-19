@@ -297,7 +297,7 @@ function _alma_populate_issues($input) {
       $reference_count = 0;
       $total_count = 0;
       $available_count = 0;
-      $output[$year][$key]['local_id'] = $issues[0]['reservable'];
+      $output[$year][$key]['local_id'] = isset($issues[0]['reservable']) ? $issues[0]['reservable'] : '';
       $output[$year][$key]['provider'] = 'alma';
       $i = 0;
       // Loop though placements.
