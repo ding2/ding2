@@ -19,11 +19,11 @@ function alma_reservation_pickup_branches($account = NULL) {
   static $alma_pickup_branches;
   if (!isset($alma_pickup_branches)) {
     if ($cache = cache_get('alma_pickup_branches')) {
-      $alma_pickup_branches = unserialize($cache->data);
+      $alma_pickup_branches = $cache->data;
     }
     else {
       $alma_pickup_branches = alma_client_invoke('get_reservation_branches');
-      cache_set('alma_pickup_branches', serialize($alma_pickup_branches), 'cache');
+      cache_set('alma_pickup_branches', $alma_pickup_branches, 'cache');
     }
   }
   return $alma_pickup_branches;
