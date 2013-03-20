@@ -98,9 +98,6 @@ function ding_reservation_ding_provider_user() {
  * function, use this to let have their own form id.
  */
 function ding_reservation_forms($form_id, $args) {
-//var_dump($args);
-//debug_print_backtrace();
-//die();
   $forms['ding_reservation_reservations_ready_form'] = array(
     'callback' => 'ding_reservation_reservations_form',
   );
