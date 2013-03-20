@@ -299,7 +299,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     case 'not_ready_for_pickup':
       $header = array(
         'title' => t('Title'),
-        'pickup_id' => t('Pickup id'), 
+        'order_nr' => t('Order nr.'), 
         'created' => t('Created date'),
         'expiry' => t('Expiry date'),
         'pickup_branch' => t('Pickup branch'),
@@ -335,8 +335,8 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
-        'pickup_id' =>array(
-          'data' => ding_reservation_get_pickup_id($item),
+        'order_nr' =>array(
+          'data' => ding_reservation_get_order_nr($item),
           'class' => 'pickup-id',
         ), 
         'created' => array(
@@ -554,29 +554,38 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 }
 
 /**
- * Get pickup id number.
- * 
- * @param $item
- *   Reserved item object.
- * @return type
- *   Pickup id, if any.
- */
+* Get pickup id number.
+*
+* @param $item
+* Reserved item object.
+* @return
+* Pickup id, if any.
+*/
 function ding_reservation_get_pickup_id($item) {
   if (isset($item->order_arrived) && !$item->order_arrived) {
     return t('The material is in transit and is still not available for loan on the library');
   }
-  else {
-    if (!isset($item->pickup_order_id) && isset($item->order_id)) {
-      return $item->order_id;
-    }
-    elseif (isset($item->pickup_order_id)) {
-      return $item->pickup_order_id;
-    }
-    else {
-      return t('On route') . ' ' . l('(?)', current_path(), array('attributes' => array('title' => t('The material is on route to the library. You will be notified when it is ready for pickup.'))));
-    }
+  elseif (isset($item->pickup_order_id)) {
+    return $item->pickup_order_id;
   }
-} 
+}
+
+/**
+* Get order id number.
+*
+* @param $item
+* Reserved item object.
+* @return
+* Order number, if any.
+*/
+function ding_reservation_get_order_nr($item) {
+  if (!isset($item->pickup_order_id) && isset($item->order_id)) {
+    return $item->order_id;
+  }
+  else {
+    return t('On route') . ' ' . l('(?)', current_path(), array('attributes' => array('title' => t('The material is on route to the library. You will be notified when it is ready for pickup.'))));
+  }
+}
 
 /**
  * Create a dummy ting entity object, when item is not found in the ting well.
