@@ -373,10 +373,10 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
-        'order_nr' =>array(
-          'data' => ding_reservation_get_order_nr($item),
+        'pickup_id' =>array(
+          'data' => ding_reservation_get_pickup_id($item),
           'class' => 'pickup-id',
-        ), 
+        ),
         'created' => array(
           'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'date_only') : '',
           'class' => 'created-date',
@@ -428,10 +428,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
-        'pickup_id' =>array(
-          'data' => ding_reservation_get_pickup_id($item),
+        'order_nr' =>array(
+          'data' => ding_reservation_get_order_nr($item),
           'class' => 'pickup-id',
         ), 
+
         'created' => array(
           'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'date_only') : '',
           'class' => 'created-date',
