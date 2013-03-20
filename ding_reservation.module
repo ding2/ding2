@@ -477,7 +477,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'pickup-branch',
         ),
         'ill_status' => array(
-          'data' => $item->ill_status ? check_plain($item->ill_status) : '',
+          'data' => $item->ill_status ? t(check_plain($item->ill_status)) : '',
           'class' => 'ill-status',
         ),
       );
