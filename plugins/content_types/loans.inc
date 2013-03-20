@@ -71,6 +71,11 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
   foreach ($items as $id => $item) {
     $item->creator = 'fake';
     $entity = $item->entity;
+
+    if (!is_object($entity)) {
+      // @todo Add dependency or refactor it.
+      $entity = ding_reservation_replace_entity($item);
+    }
     $options[$item->id] = array(
       '#disabled' => $item->renewable,
       'title' => array(
@@ -80,11 +85,11 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
         'class' => 'title',
       ),
       'loan_date' => array(
-          'data' => format_date(strtotime(check_plain($item->loan_date)), 'date_only'),
+          'data' => format_date(strtotime(check_plain($item->loan_date)), 'custom', 'd/m/Y'),
           'class' => 'created-date',
         ),
       'expiry' => array(
-          'data' => format_date(strtotime(check_plain($item->expiry)), 'date_only'),
+          'data' => format_date(strtotime(check_plain($item->expiry)), 'custom', 'd/m/Y'),
           'class' => 'expire-date',
         ),
       'operations' => array(
@@ -184,12 +189,19 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       $title = $item->display_name;
     }
     // @todo Better feedback.
-    switch ($status) {
+    switch ($status['state']) {
       case DingProviderLoan::STATUS_RENEWED:
         drupal_set_message(t('"@title renewed"', array('@title' => $title)));
         break;
       case DingProviderLoan::STATUS_NOT_RENEWED:
-        drupal_set_message(t('"@title not renewed"', array('@title' => $title)), 'warning');
+        if ($status['message'] == 'maxNofRenewals') {
+          $rmessage = t('Maximum number of renewals reached');
+        } elseif ($status['message'] == 'copyIsReserved') {
+          $message = t('The material is reserved by another loaner');
+        } else {
+          $message = t('Unable to renew material');
+        }
+        drupal_set_message(t('"@title not renewed: @message"', array('@title' => $title, '@message' => $message)), 'warning');
         break;
       default:
         watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
