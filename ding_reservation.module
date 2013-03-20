@@ -576,6 +576,8 @@ function ding_reservation_get_pickup_id($item) {
   elseif (isset($item->pickup_order_id)) {
     return $item->pickup_order_id;
   }
+  
+  return '';
 }
 
 /**
