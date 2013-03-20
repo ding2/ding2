@@ -892,7 +892,7 @@ function ding_reservation_update_reservations_form_callback($form, &$form_state)
  */
 function ding_reservation_default_options_branch($type, $name, $default, $options) {
   $create = ($type == 'create');
-  $allowed_branches = ($create ? array('' => 'Select') : array($default => t('No change'))) + $options;
+  $allowed_branches = ($create ? array('' => 'Select') : array($default => t('No change'))) + (array)$options;
   $default_value = $default;
   $form[$name] = array(
     '#type' => 'select',
@@ -924,7 +924,7 @@ function ding_reservation_interest_period_selector($type, $name, $default, $opti
     }
   }
 
-  $allowed_periods = ($create ? array() : array('' => t('No change'))) + $options;
+  $allowed_periods = ($create ? array() : array('' => t('No change'))) + (array)$options;
   // $default_value = $create ? $default : '';
   $form[$name] = array(
     '#type' => 'select',
