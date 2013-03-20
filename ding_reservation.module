@@ -272,6 +272,16 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 
   $html = theme('status_messages');
   if ($form_state['rebuild'] || form_get_errors()) {
+    $provider = ding_provider_get_provider_module_name('reservation');
+
+    // Populate the inputs with default values from settings.
+    $field_name = $provider . '_interest_period';
+    $field_info = field_info_instance('profile2', 'field_' . $field_name, 'provider_' . $provider);
+    
+    // Use #value instead of #default_value when rendering forms
+    // using drupal_render().
+    $form['provider_options'][$field_name]['#value'] = $field_info['default_value'][0]['value'];
+    
     // Hide certain fields, if any.
     if (is_array($form_state['removable'])) {
       $removal = $form_state['removable'];
