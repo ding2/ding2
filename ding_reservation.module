@@ -325,7 +325,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
     case 'interlibrary_loans':
       $header = array(
         'title' => t('Title'),
-        'pickup_id' => t('Pickup id'),
         'created' => t('Created date'),
         'expiry' => t('Expiry date'),
         'library' => t('Library'),
@@ -460,10 +459,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
-        'pickup_id' =>array(
-          'data' => ding_reservation_get_pickup_id($item),
-          'class' => 'pickup-id',
-        ), 
         'created' => array(
           'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'date_only') : '',
           'class' => 'created-date',
