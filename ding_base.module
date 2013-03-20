@@ -253,7 +253,7 @@ function ding_base_element_process_tableselect_form($element) {
 function theme_tableselect_form($variables) {
   $element = $variables['element'];
   $rows = array();
-  $header = $element['#header'];
+  $header = array();
   if (!empty($element['#options'])) {
     // Generate a table row for each selectable item in #options.
     foreach (element_children($element) as $key) {
@@ -276,7 +276,8 @@ function theme_tableselect_form($variables) {
         $row['data'][] = $element['#options'][$key][$fieldname];
         
         // Add classes to table header columns.
-        $header[$fieldname] = array('data' => $fieldname, 'class' => $fieldname);
+        $translated_title = $element['#header'][$fieldname];
+        $header[$fieldname] = array('data' => $translated_title, 'class' => $fieldname);
       }
       $rows[] = $row;
     }
