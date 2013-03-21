@@ -16,7 +16,6 @@ function alma_availability_holdings($provider_ids) {
         'reservable' => $record['show_reservation_button'],
         'show_reservation_button' => $record['show_reservation_button'],
         'holdings' => $record['holdings'],
-        'holdings_available' => array(),
         'reserved_count' => (int) $record['reservation_count'],
         'deferred_period' => FALSE,
         'issues' => _alma_populate_issues($record['holdings']),
