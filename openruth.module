@@ -278,7 +278,8 @@ function openruth_profile2_presave($profile2) {
   // preferred branch
   if ( !empty( $profile2->original->openruth_preferred_branch ) ) {
     if ( $profile2->openruth_preferred_branch != $profile2->original->openruth_preferred_branch ) {
-      $changes['preferred_branch'] = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
+      $branch = isset($profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value']) ? $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] : '_none';
+      $changes['preferred_branch'] = $branch;
     }
   }
 
@@ -332,6 +333,7 @@ function openruth_profile2_presave($profile2) {
 
   $creds = ding_user_get_creds( $profile2 );
   $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
+
   if ($res !== TRUE) {
     // Call failed, throw exception.
     if (is_string($res)) {
