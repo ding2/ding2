@@ -72,7 +72,6 @@ function _openruth_init_holding($holding) {
 	  'reservable' => $reservable,
 	  'show_reservation_button' => $reservable,
 	  'holdings' => array(),
-	  'holdings_available' => array(),
 	  'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
 	  'total_count' => 0,
 	  'reservable_count' => 0,
