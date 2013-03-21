@@ -25,6 +25,8 @@ function ding_reservation_ctools_plugin_directory($module, $plugin) {
  * Implements hook_menu().
  */
 function ding_reservation_menu() {
+  $items = array();
+
   // @todo ding_reservation really doesn't know that this path is correct. How
   // to handle it?
   $items['user/%user/status/reservations/update/%'] = array(
@@ -98,18 +100,17 @@ function ding_reservation_ding_provider_user() {
  * function, use this to let have their own form id.
  */
 function ding_reservation_forms($form_id, $args) {
-  $forms['ding_reservation_reservations_ready_form'] = array(
-    'callback' => 'ding_reservation_reservations_form',
+  return array(
+    'ding_reservation_reservations_ready_form' => array(
+      'callback' => 'ding_reservation_reservations_form',
+    ),
+    'ding_reservation_reservations_notready_form' => array(
+      'callback' => 'ding_reservation_reservations_form',
+    ),
+    'ding_reservation_reservations_ill' => array(
+      'callback' => 'ding_reservation_reservations_form',
+    ),
   );
-
-  $forms['ding_reservation_reservations_notready_form'] = array(
-    'callback' => 'ding_reservation_reservations_form',
-  );
-
-  $forms['ding_reservation_reservations_ill'] = array(
-    'callback' => 'ding_reservation_reservations_form',
-  );
-  return $forms;
 }
 
 /**
@@ -360,7 +361,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         '#prefix' => '<div class="delete-reservation">',
         '#suffix' => '</div>',
         '#type' => 'submit',
-        '#submit' => array('ding_reservation_reservation_delete_submit'),
+        '#submit' => array('ding_reservation_reservations_delete_submit'),
         '#reservation_id' => $item->id,
         '#name' => 'delete-' . preg_replace('/\W/', '-', $item->id), // Need this for formAPI can tell buttons apart
         '#value' => t('Delete'),
@@ -442,7 +443,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
             '#prefix' => '<div class="delete-reservation">',
             '#suffix' => '</div>',
             '#type' => 'submit',
-            '#submit' => array('ding_reservation_reservation_delete_submit'),
+            '#submit' => array('ding_reservation_reservations_delete_submit'),
             '#reservation_id' => $item->id,
             '#name' => 'delete-' . preg_replace('/\W/', '-', $item->id), // Need this for formAPI can tell buttons apart
             '#value' => t('Delete'),
@@ -1035,7 +1036,7 @@ class DingReservationReservableEntity implements DingReservationReservable {
   }
 
   public function getProviderId() {
-    return isset($this->entity->localId) ? $this->entity->localId : NULL;
+    return isset($this->entity->provider_id) ? $this->entity->provider_id : NULL;
   }
 
   public function getEntity() {
