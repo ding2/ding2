@@ -239,7 +239,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $ac_source = $entities[0]->reply->record['ac:source'][''][0];
 
           $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available not-reservable' : '';
-          $available_online_label = ($available_online) ? '<span class="availability-status">' . t('not reservable') . '</span>' : 'not-available-online';
+          $available_online_label = ($available_online) ? '<span class="availability-status">' . t('not reservable') . '</span>' : '';
 
           // Convert type into link.
           if ($display['settings']['link']) {
