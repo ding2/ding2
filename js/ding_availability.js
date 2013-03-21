@@ -119,33 +119,12 @@
 
       function updateHoldings(id, entity_ids) {
         var entity_id = entity_ids.pop();
-        if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'] || Drupal.DADB[entity_id]['holdings_available'])) {
-          var holdings;
-          var length;
-
-          // Use holdings_available, if set and entity is not a periodical.
-          if (Drupal.DADB[entity_id]['holdings_available'] && !Drupal.DADB[entity_id]['is_periodical'] ) {
-            holdings = Drupal.DADB[entity_id]['holdings_available'];
-            length = holdings.length;
-          }
-          else {
-            holdings = Drupal.DADB[entity_id]['holdings'];
-            //holdings is an object - not array
-            length = Object.keys(holdings).length;
-          }
-
-
-          if (length > 0) {
-            $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
-            $('#' + id).append('<ul>');
-            var container = $('#' + id + ' ul');
-            $.each(holdings, function(i, holding) {
-              container.append('<li>' + holding + '</li>');
-            });
-          }
+        if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
+          // Show status for material.
+          $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
+          $('#' + id).append(Drupal.DADB[entity_id].html) ;
         }
       }
     }
   };
 })(jQuery);
-

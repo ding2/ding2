@@ -147,6 +147,7 @@ function ding_availability_block_info() {
  * Define availability legend block.
  */
 function ding_availability_block_view($delta = '') {
+  $block = array();
   $block['subject'] = t('Ding availability legend');
   $block['content'] = ding_availability_render_legend();
   return $block;
