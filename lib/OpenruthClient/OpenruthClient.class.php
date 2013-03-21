@@ -83,12 +83,13 @@ class OpenruthClient {
         $replace_values['>' . $value . '<'] = '>' . substr(md5($value . self::$salt), 0, strlen($value)) . '<';
       }
       if (isset($time)) {
-        watchdog('openruth', 'Sending request (@seconds sec): @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
+        watchdog('openruth', 'Sending request (@seconds sec): @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
 
-      } else {
-        watchdog('openruth', 'Sending request: @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
       }
-      watchdog('openruth', 'Response: @xml',array('@xml' => strtr($this->client->__getLastResponse(), $replace_values)), WATCHDOG_DEBUG);
+      else {
+        watchdog('openruth', 'Sending request: @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
+      }
+      watchdog('openruth', 'Response: @xml', array('@xml' => strtr($this->client->__getLastResponse(), $replace_values)), WATCHDOG_DEBUG);
     }
   }
 
@@ -103,111 +104,8 @@ class OpenruthClient {
            ));
 
     $this->log();
-    if (isset($res->agencyError)) {
-      return $res->agencyError;
-    }
+    return $res;
 
-   
-    elseif (isset($res->holding)) {
-      $holdings = array();
-      foreach ($res->holding as $holding) {
-        if (isset($holding->agencyHoldings)){
-          $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-          $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
-        }
-        else {
-          $available = FALSE;
-          $reservable = FALSE;
-        }
-        $h = array(
-          'local_id' => $holding->itemId,
-          'available' => $available,
-          'reservable' => $reservable,
-          'show_reservation_button' => $reservable,
-          'holdings' => array(),
-          'holdings_available' => array(),
-          'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
-          'issues' => array(),
-          'is_periodical' => FALSE,
-        );
-
-        $total = 0;
-        $available = 0;
-        if (isset($holding->itemHoldings)) {
-          foreach ($holding->itemHoldings as $itemHolding) {
-            $holding_reservable = FALSE;
-            $fields = array('itemLocation', 'itemComingLocation');
-
-            foreach ($fields as $field) {
-              if (isset($itemHolding->{$field})){
-                foreach ($itemHolding->{$field} as $itemLocation) {
-
-		  $location_available = 0;
-
-                  if ($itemLocation->orderAllowed) {
-                    $holding_reservable = TRUE;
-                  }
-                  $total += $itemLocation->copiesCount;
-
-                  if (isset($itemLocation->copiesAvailableCount)) {
-                    $available += $itemLocation->copiesAvailableCount;
-		    // pjo; 
-		    $location_available += $itemLocation->copiesAvailableCount;
-                  }
-                  $parts = array();
-                  if (isset($itemLocation->agencyBranchId->agencyBranchName)) {
-                    $parts[] = $itemLocation->agencyBranchId->agencyBranchName;
-                  }
-                  if (isset($itemLocation->agencyDepartmentId->agencyDepartmentName)) {
-                    $parts[] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
-                  }
-                  if (isset($itemLocation->agencyCollectionId->agencyCollectionName)) {
-                    $parts[] = $itemLocation->agencyCollectionId->agencyCollectionName;
-                  }
-                  if (isset($itemLocation->agencyPlacementId->agencyPlacementName)) {
-                    $parts[] = $itemLocation->agencyPlacementId->agencyPlacementName;
-                  }
-                  if ($parts) {
-                    $h['holdings'][] = join(' → ', $parts);
-                  }
-                  if ($parts && $available && ($location_available > 0) ) {
-                    $h['holdings_available'][] = join(' → ', $parts);
-                  }
-                }
-              }
-            }
-
-            if (isset($itemHolding->itemSerialPartId) ||
-              isset($itemHolding->itemSerialPartVolume) ||
-              isset($itemHolding->itemSerialPartIssue)) {
-              $issue = array(
-                'local_id' => $itemHolding->itemSerialPartId,
-                'reservable' => $holding_reservable,
-              );
-              $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
-        // set flag for periodical
-        $h['is_periodical'] = TRUE;
-            }
-          }
-        }
-        $h['total_count'] = $total;
-        $h['reservable_count'] = $available;
-        if (sizeof($h['issues'])) {
-          $h['holdings'] = array_unique($h['holdings']);
-        }
-	
-	// check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
-	if( $h['available'] && ($available < 1) ) {
-	  $h['available'] = FALSE;
-	}
-
-        $holdings[$holding->itemId] = $h;
-      }
-      return $holdings;
-    }
-    else {
-      return FALSE;
-    }
   }
 
   /**
@@ -246,7 +144,7 @@ class OpenruthClient {
              'userId' => $username,
              // 'bookingNote' => '',
              'agencyCounter' => $pickup_branch,
-             'itemId' =>$provider_id,
+             'itemId' => $provider_id,
              'bookingTotalCount' => $count,
              'bookingStartDate' => $start_date,
              'bookingEndDate' => $end_date,
@@ -310,12 +208,12 @@ class OpenruthClient {
   /**
    * Get information about number of copies in a booking available at various times
    */
-  public function booking_info() {}
+  public function booking_info() { }
 
   /**
    * Updating details about a booking
    */
-  public function update_booking() {}
+  public function update_booking() { }
 
   /**
    * Cancelling a booking of an item
@@ -437,8 +335,8 @@ class OpenruthClient {
       'first_name' => 'userFirstName',
       'last_name' => 'userLastName',
       'preferred_branch' => 'agencyCounter',
-      'reservation_pause_start'=>'userAbsenceStartDate',
-      'reservation_pause_stop'=>'userAbsenceEndDate',
+      'reservation_pause_start' => 'userAbsenceStartDate',
+      'reservation_pause_stop' => 'userAbsenceEndDate',
     );
     $args = array(
              'agencyId' =>  $this->agency_id,
