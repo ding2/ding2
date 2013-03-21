@@ -12,15 +12,19 @@
     attach: function(context, settings) {
       var ids = [];
       var html_ids = [];
-      $.each(settings.ding_availability, function(id, entity_ids) {
-        $.each(entity_ids, function(index, entity_id) {
-          if (Drupal.DADB[entity_id] === undefined) {
-            Drupal.DADB[entity_id] = null;
-            ids.push(entity_id);
-            html_ids.push(id);
-          }
+
+      // Extract entity ids and add them to the settings array.
+      if (settings.hasOwnProperty('ding_availability')) {
+        $.each(settings.ding_availability, function(id, entity_ids) {
+          $.each(entity_ids, function(index, entity_id) {
+            if (Drupal.DADB[entity_id] === undefined) {
+              Drupal.DADB[entity_id] = null;
+              ids.push(entity_id);
+              html_ids.push(id);
+            }
+          });
         });
-      });
+      }
 
       $.each(html_ids, function(index, id) {
         $('#' + id).addClass('pending');
@@ -72,11 +76,11 @@
 
         if (available) {
           element.addClass('available');
-        }  
+        }
         else {
           element.addClass('unavailable');
         }
-        
+
         if (reservable) {
           element.addClass('reservable');
         }
