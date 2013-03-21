@@ -151,7 +151,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
     );
 
     // Extract records' source
-    $ac_source = $entity->reply->record['ac:source'][''][0];
+    if ($field['type'] != 'ting_collection_types') {
+      $ac_source = $entity->reply->record['ac:source'][''][0];
+    }
 
     switch ($field['type']) {
       case 'ding_availability_holdings':
@@ -232,6 +234,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         foreach ($typed_entities as $type => $entities) {
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
+
+          // Extract records' source
+          $ac_source = $entities[0]->reply->record['ac:source'][''][0];
 
           $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available not-reservable' : '';
           $available_online_label = ($available_online) ? '<span class="availability-status">' . t('not reservable') . '</span>' : 'not-available-online';
