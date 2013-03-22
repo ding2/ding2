@@ -21,16 +21,19 @@ function ting_relation_theme() {
   );
 }
 
-
 /**
  * kind of a hook - called from ting.module
  */
 function ting_relation_anchor_info() {
-  $ret = ting_relation_inline();
-  unset($ret['dbcaddi:hasOnlineAccess']);
-  unset($ret['dbcaddi:isReviewOf']);
-  unset($ret['dbcaddi:isPartOfManifestation']);
-  return $ret;
+  $relations = ting_relation_inline();
+  // We need to know what kind of hasOnlineAccess
+  // is provided with this object and return relevant anchor information.
+  $object = menu_get_object('ting_object', 2);
+  if ($object->getAc_source() != 'Ebrary') {
+    unset($relations['dbcaddi:hasOnlineAccess']);
+  }
+  unset($relations['dbcaddi:isReviewOf']);
+  return $relations;
 }
 
 /**
@@ -43,9 +46,9 @@ function ting_relation_inline() {
       'dbcaddi:hasCreatorDescription' => t('Author portrait'),
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
-      'dbcaddi:isPartOfManifestation' => t('Is part of manifestation'),
+      'isPartOfManifestation' => t('Is part of'),
       'dbcaddi:isReviewOf' => t('Is review of'),
-      'dbcaddi:hasOnlineAccess' => t('Online access'),
+      'dbcaddi:hasOnlineAccess' => t('Article from Ebrary'),
     );
   }
   return $types;
@@ -69,3 +72,59 @@ function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state)
   );
 }
 
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ting_relation_ding_entity_buttons($type, $entity) {
+  if ($entity instanceof TingEntity) {
+    $relation = NULL;
+    $markup = '';
+    // Seek for a online version of related material.
+    foreach ($entity->relations as $rel) {
+      if ($rel->type == 'dbcaddi:hasOnlineAccess') {
+        $relation = $rel;
+        break;
+      }
+    }
+    // Replace the online material link to related stuff if present.
+    if ($relation) {
+      $ebrary_url = variable_get('ting_ebrary_url');
+
+      $url = '';
+      $use_absolute = FALSE;
+      if (strstr($relation->uri, '[URL]http')) {
+        $url = str_replace('[URL]', '', htmlspecialchars_decode($relation->uri));
+        $use_absolute = TRUE;
+      }
+      elseif (strstr($relation->uri, '[URL]')) {
+        $url = str_replace('[URL]', $ebrary_url, $relation->uri);
+      }
+      elseif (strstr($relation->uri, '[useraccessinfomedia]')) {
+        $url = 'ting/infomedia/' . $entity->localId;
+      }
+
+      $altered_url = module_invoke_all('ting_online_url_alter', $url);
+      $url = $altered_url[0];
+
+      if (!empty($url)) {
+        $markup = l(t('See online'), $url, array('attributes' => array('target' => '_blank'), 'absolute' => $use_absolute));
+      }
+    }
+
+    if (!$markup && $entity->online_url) {
+      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+      $type = drupal_strtolower($entity->type);
+      //$label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+      $markup = l(t('See online'), $entity->online_url, array('attributes' => array('target' => '_new')));
+    }
+
+    return array(
+      array(
+        '#prefix' => '<p class="ding-entity-button">',
+        '#suffix' => '</p>',
+        '#type' => 'markup',
+        '#markup' => $markup,
+      ),
+    );
+  }
+}
