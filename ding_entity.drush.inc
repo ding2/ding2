@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  *  Ding_entity's drush integration.
