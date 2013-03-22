@@ -16,7 +16,7 @@ projects[features][version] = "1.0"
 projects[field_group][subdir] = contrib
 projects[field_group][version] = "1.1"
 
-projects[blackhole][subdir] = contrib
-projects[blackhole][version] = "1.1"
+projects[virtual_field][subdir] = contrib
+projects[virtual_field][version] = "1.1"
 
 

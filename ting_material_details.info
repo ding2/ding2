@@ -1,5 +1,5 @@
 core = "7.x"
-dependencies[] = "blackhole"
+dependencies[] = "virtual_field"
 dependencies[] = "features"
 dependencies[] = "field_group"
 dependencies[] = "ting"
