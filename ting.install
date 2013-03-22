@@ -95,7 +95,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -106,7 +106,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -117,7 +117,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -128,7 +128,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -139,7 +139,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -150,7 +150,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -162,7 +162,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -174,7 +174,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -186,7 +186,7 @@ function ting_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(

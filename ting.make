@@ -6,10 +6,9 @@ core = 7.x
 projects[nanosoap][subdir] = contrib
 projects[nanosoap][version] = "1.0"
 
-projects[blackhole][subdir] = contrib
-projects[blackhole][version] = "1.1"
-;projects[virtual_field][subdir] = contrib
-;projects[virtual_field][version] = "1.0"
+projects[virtual_field][subdir] = contrib
+projects[virtual_field][version] = "1.1"
+
 
 ; Libraries
 
