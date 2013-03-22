@@ -23,3 +23,16 @@ function ding_entity_ding_entity_fields() {
     ),
   );
 }
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ding_entity_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ding_entity')
+    ->execute();
+}
