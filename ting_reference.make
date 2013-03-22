@@ -9,6 +9,9 @@ projects[ctools][version] = "1.1"
 projects[relation][subdir] = contrib
 projects[relation][version] = "1.0-rc3"
 
+projects[virtual_field][subdir] = contrib
+projects[virtual_field][version] = "1.1"
+
 ; Ding!
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
