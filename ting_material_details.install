@@ -33,7 +33,7 @@ function ting_material_details_ding_entity_fields() {
       'instance' => array(
         'label' => t('Format'),
       ),
-    ),    
+    ),
 
     'ting_details_ispartof' => array(
       'field' => array(
@@ -107,7 +107,7 @@ function ting_material_details_ding_entity_fields() {
       ),
     ),
 
-    
+
     'ting_details_classification' => array(
       'field' => array(
         'locked' => FALSE,
@@ -298,8 +298,8 @@ function ting_material_details_ding_entity_fields() {
       'instance' => array(
         'label' => t('Rights'),
       ),
-    ),    
-    
+    ),
+
     'ting_details_audience' => array(
       'field' => array(
         'locked' => FALSE,
@@ -310,7 +310,7 @@ function ting_material_details_ding_entity_fields() {
       'instance' => array(
         'label' => t('Audience'),
       ),
-    ),  
+    ),
 
     'ting_details_age' => array(
       'field' => array(
@@ -322,7 +322,7 @@ function ting_material_details_ding_entity_fields() {
       'instance' => array(
         'label' => t('Age'),
       ),
-    ),  
+    ),
 
     'ting_details_pegi' => array(
       'field' => array(
@@ -334,8 +334,8 @@ function ting_material_details_ding_entity_fields() {
       'instance' => array(
         'label' => t('Pegi'),
       ),
-    ),  
-    
+    ),
+
   );
 }
 
