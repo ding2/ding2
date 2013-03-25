@@ -111,7 +111,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     }
 
     // Add renew load opreation.
-    if (isset($item->renewable)) {
+    if (isset($item->renewable) && $item->renewable) {
       $options[$item->id]['operations']['data'][] = array(
           '#type' => 'submit',
           '#prefix' => '<div class="renew-loan-button">',
