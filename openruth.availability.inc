@@ -165,7 +165,7 @@ function _openruth_periodicals_unique_holdings( $holdings ) {
     }
     // same branch; increase copiesCount and copiesAvailableCount
     $uh[$key]['copiesCount'] += $holding['copiesCount'];
-    $uh[$key]['copiesAvailableCount'] += $holding['copiesAvailableCount'];
+    $uh[$key]['copiesAvailableCount'] += isset($holding['copiesAvailableCount']) ? $holding['copiesAvailableCount'] : 0;
   }
   return $uh;
 }
@@ -181,7 +181,9 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
       'provider' => 'openruth',
     );
 
-    foreach ($itemHolding->itemLocation as $location) {
+    $item_loc = isset($itemHolding->itemLocation) ? $itemHolding->itemLocation : $itemHolding->itemComingLocation;
+
+    foreach ($item_loc as $location) {
       $loc = array();
       if (isset($location->agencyBranchId->agencyBranchName)) {
         $loc[] = $location->agencyBranchId->agencyBranchName;
@@ -197,7 +199,7 @@ function _openruth_set_periodicals(&$h, $itemHolding) {
 
       $issue['placement'][] = array(
         'location' => implode(' > ', $loc),
-        'available_count' => $location->copiesAvailableCount,
+        'available_count' => isset($location->copiesAvailableCount) ? $location->copiesAvailableCount : 0,
         'total_count' => $location->copiesCount,
         'reservable' => $location->orderAllowed,
       );
