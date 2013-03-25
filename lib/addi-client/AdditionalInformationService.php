@@ -40,11 +40,6 @@ class AdditionalInformationService {
   }
 
   protected function sendRequest($identifiers) {
-    $ids = array();
-    foreach ($identifiers as $i) {
-      $ids = array_merge($ids, array_values($i));
-    }
-
     $authInfo = array('authenticationUser' => $this->username,
                       'authenticationGroup' => $this->group,
                       'authenticationPassword' => $this->password);
@@ -52,13 +47,33 @@ class AdditionalInformationService {
     $client = new SoapClient($this->wsdlUrl);
 
     $startTime = explode(' ', microtime());
-    $response = NULL;
 
+    // Start on the responce object.
+    $response = new stdClass();
+    $response->identifierInformation = array();
+
+    // Try to get covers 40 at the time as the service has a limit.
     try {
-      $response = $client->moreInfo(array(
-        'authentication' => $authInfo,
-        'identifier' => $identifiers,
-      ));
+      $offset = 0;
+      $ids = array_slice($identifiers, $offset, 40);
+      while (!empty($ids)) {
+        $data = $client->moreInfo(array(
+          'authentication' => $authInfo,
+          'identifier' => $ids,
+        ));
+
+        // Check if the request went through.
+        if ($data->requestStatus->statusEnum != 'ok') {
+          throw new AdditionalInformationServiceException($response->requestStatus->statusEnum . ': ' . $response->requestStatus->errorText);
+        }
+
+        // Move result into the responce object.
+        $response->requestStatus = $data->requestStatus;
+        $response->identifierInformation = array_merge($response->identifierInformation, $data->identifierInformation);
+
+        $offset += 40;
+        $ids = array_splice($identifiers, $offset, 40);
+      }
     }
     catch (Exception $e) {
       // Re-throw Addi specific exception.
@@ -71,10 +86,6 @@ class AdditionalInformationService {
     //Drupal specific code - consider moving this elsewhere
     if (variable_get('addi_enable_logging', false)) {
       watchdog('addi', 'Completed request (' . round($time, 3) . 's): Ids: %ids', array('%ids' => implode(', ', $ids)), WATCHDOG_DEBUG, 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
-    }
-
-    if ($response->requestStatus->statusEnum != 'ok') {
-      throw new AdditionalInformationServiceException($response->requestStatus->statusEnum . ': ' . $response->requestStatus->errorText);
     }
 
     if (!is_array($response->identifierInformation)) {
