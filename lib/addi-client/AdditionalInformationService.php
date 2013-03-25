@@ -1,51 +1,99 @@
 <?php
+/**
+ * @file
+ * AdditionalInformationService class.
+ */
 
 class AdditionalInformationService {
-  private $wsdlUrl;
-  private $username;
-  private $group;
-  private $password;
+  protected $wsdlUrl;
+  protected $username;
+  protected $group;
+  protected $password;
 
-  public function __construct($wsdlUrl, $username, $group, $password) {
-    $this->wsdlUrl = $wsdlUrl . '/moreinfo.wsdl';
+
+  /**
+    * Instantiate the addi client.
+    */
+  public function __construct($wsdl_url, $username, $group, $password) {
+    $this->wsdlUrl = $wsdl_url;
     $this->username = $username;
     $this->group = $group;
     $this->password = $password;
   }
 
+
+  /**
+   * Get information by ISBN.
+   *
+   * @param mixed $isbn
+   *   Expects either a single ISBN, or an array of them, for looking up
+   *   multiple materials at a time.
+   *
+   * @return array
+   *   Array of the images that were found.
+   */
   public function getByIsbn($isbn) {
     $isbn = str_replace('-', '', $isbn);
+
     $identifiers = $this->collectIdentifiers('isbn', $isbn);
     $response = $this->sendRequest($identifiers);
     return $this->extractAdditionalInformation('isbn', $response);
   }
 
+  /**
+   * Get information by FAUST number.
+   *
+   * @param mixed $faust_number
+   *   Expects either a single FAUST number, or an array of them, for looking
+   *   up multiple materials at a time.
+   *
+   * @return array
+   *   Array of the images that were found.
+   */
   public function getByFaustNumber($faustNumber) {
     $identifiers = $this->collectIdentifiers('faust', $faustNumber);
     $response = $this->sendRequest($identifiers);
     return $this->extractAdditionalInformation('faust', $response);
   }
 
-  protected function collectIdentifiers($idName, $ids) {
+
+  /**
+   * Expand the provided IDs into the array structure used in sendRequest.
+   */
+  protected function collectIdentifiers($id_type, $ids) {
     if (!is_array($ids)) {
       $ids = array($ids);
     }
 
     $identifiers = array();
-    foreach ($ids as $i) {
-      $identifiers[] = array($idName => $i);
+    foreach ($ids as $id) {
+      // If we're passed objects from getByLocalIdentifier, convert them
+      // to arrays.
+      if (is_object($id)) {
+        $identifiers[] = (array) $id;
+      }
+      // Otherwise, just map the ID type to the ID number.
+      else {
+        $identifiers[] = array($id_type => $id);
+      }
     }
 
     return $identifiers;
   }
 
+  /**
+   * Send request to the addi server, returning the data response.
+   */
   protected function sendRequest($identifiers) {
     $authInfo = array('authenticationUser' => $this->username,
                       'authenticationGroup' => $this->group,
                       'authenticationPassword' => $this->password);
 
-    $client = new SoapClient($this->wsdlUrl);
+    // New moreinfo service.
+    $client = new SoapClient($this->wsdlUrl . '/moreinfo.wsdl');
 
+    // Record the start time, so we can calculate the difference, once
+    // the addi service responds.
     $startTime = explode(' ', microtime());
 
     // Start on the responce object.
@@ -95,6 +143,9 @@ class AdditionalInformationService {
     return $response;
   }
 
+  /**
+   * Extract the data we need from the server response.
+   */
   protected function extractAdditionalInformation($idName, $response) {
     $additionalInformations = array();
 
@@ -116,7 +167,8 @@ class AdditionalInformationService {
               $detailUrl = $image->_;
               break;
             default:
-              // Do nothing other image sizes may appear but ignore them for now
+              // Do nothing other image sizes may appear but ignore them for
+              // now.
           }
         }
 
