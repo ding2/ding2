@@ -9,6 +9,7 @@ function template_preprocess_ting_object_cover(&$variables) {
     'ting-cover',
     'ting-cover-object-id-' . $object->localId,
     'ting-cover-style-' . $variables['image_style'],
+    'ting-cover-owner-id-' . $object->ownerId,
   );
   $variables['image'] = '';
 

@@ -59,6 +59,8 @@ function ting_covers_field_formatter_info() {
  * Implements hook_field_formatter_settings_form().
  */
 function ting_covers_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $element = array();
+  
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
