@@ -9,6 +9,8 @@
  * Implements hook_schema().
  */
 function ting_schema() {
+  $schema = array();
+  
   $schema['ting_object'] = array(
     'description' => 'Local proxy table for ting objects.',
     'fields' => array(
