@@ -5,6 +5,8 @@
  * Provide functionality and page callbacks for retrieving covers for Ting objects and collections
  */
 
+define('SERVICE_ADDI', 0);
+define('SERVICE_MOREINFO', 1);
 define('TING_COVERS_CACHE_LIFETIME', 86400);
 
 // Load Field module hooks.
@@ -76,7 +78,7 @@ function ting_covers_cron() {
  * Implementation of hook_cache_clear().
  */
 function ting_covers_flush_caches() {
-  _ting_covers_delete_old_files();
+  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME));
 }
 
 /**
@@ -117,7 +119,7 @@ function _ting_covers_delete_old_files($time = NULL) {
   $image_dirs = array($files_dir);
 
   $styles_dir = $files_dir . 'styles';
-  foreach(scandir($styles_dir) as $style_dir) {
+  foreach (scandir($styles_dir) as $style_dir) {
     $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public';
     if (is_dir($style_dir)) {
       $image_dirs[] = $style_dir;
@@ -155,7 +157,8 @@ function _ting_covers_get_files($files_path) {
       if (!in_array($path, array('.', '..'))) {
         $files = array_merge($files, _ting_covers_get_files($file_path));
       }
-    } else {
+    }
+    else {
       $files[] = $file_path;
     }
   }
