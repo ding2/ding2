@@ -47,7 +47,7 @@ function ting_covers_objects() {
 
       //No cover image found? Cache this for future reference to avoid unnecessary requests
       if (!$source_url) {
-        cache_set('ting_covers:' . $local_id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_CACHE_LIFETIME);
+        cache_set('ting_covers:' . $local_id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_DEFAULT_CACHE_LIFETIME);
         continue;
       }
 
