@@ -17,23 +17,19 @@ $plugin = array(
  * Render the block
  */
 function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $context) {
-  $account = isset($context->data) ? $context->data : NULL;
-  $items = array();
-  $ids = array();
-
+  // Define basic block object.
   $block = new stdClass();
   $block->module = 'ding_loan';
   $block->delta = 'loans';
   $block->title = t('Loan list');
 
-  $list = ding_provider_invoke_page('loan', 'list', $account);
-  foreach ($list as $item) {
-    $ids[] = $item->ding_entity_id;
-  }
-  // Preload all entities.
-  ding_entity_load_multiple($ids);
+  // Get loans from the provider.
+  $account = isset($context->data) ? $context->data : NULL;
+  $loans = ding_provider_invoke_page('loan', 'list', $account);
 
-  $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $list);
+  // Set block content, with loans form.
+  $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
+
   return $block;
 }
 
@@ -47,28 +43,32 @@ function ding_loan_loans_content_type_edit_form($form, &$form_state) {
 /**
  * Implements a drupal form, which show a list of reservations
  */
-function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
+function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   $options = array();
-  $destination = drupal_get_destination();
+
   $header = array(
     'title' => t('Title'),
     'loan_date' => t('Loan date'),
     'expiry' => t('Return date'),
     'operations' => '',
   );
-  uasort($items, 'ding_loan_sort_expiry');
 
+  // Sort loans base on exipre date.
+  uasort($loans, 'ding_loan_sort_expiry');
+
+  // Store account information in the form (on server site).
   $form['account'] = array(
     '#type' => 'value',
     '#value' => $account,
   );
 
+  // Store the loan list in the form (on server site).
   $form['items'] = array(
     '#type' => 'value',
-    '#value' => $items,
+    '#value' => $loans,
   );
 
-  foreach ($items as $id => $item) {
+  foreach ($loans as $id => $item) {
     $item->creator = 'fake';
     $entity = $item->entity;
 
@@ -76,6 +76,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
       // @todo Add dependency or refactor it.
       $entity = ding_reservation_replace_entity($item);
     }
+
     $options[$item->id] = array(
       '#disabled' => $item->renewable,
       'title' => array(
@@ -99,7 +100,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
       ),
     );
 
-    if ($item->materials_number) {
+    // Add material number.
+    if (isset($item->materials_number)) {
       $options[$item->id]['title']['data'][] = array(
         '#type' => 'markup',
         '#prefix' => '<p class="order-id">',
@@ -107,17 +109,23 @@ function ding_loan_loans_form($form, &$form_state, $account, $items = array()) {
         '#suffix' => '</p>',
       );
     }
-    if ($item->renewable) {
+
+    // Add renew load opreation.
+    if (isset($item->renewable)) {
       $options[$item->id]['operations']['data'][] = array(
           '#type' => 'submit',
           '#prefix' => '<div class="renew-loan-button">',
           '#value' => t('Renew'),
           '#submit' => array('ding_loan_loans_form_renew_submit'),
           '#loan_id' => $item->id,
-          '#name' => 'renew-' . $item->id, // Needed so form API can tell them
-                                           // apart.
+          '#name' => 'renew-' . $item->id,
           '#disabled' => !$item->renewable,
           '#suffix' => '</div>',
+          '#attributes' => array(
+            'class' => array(
+              $item->renewable ? 'renewable' : 'not-renewable',
+            ),
+          ),
       );
     }
   }
@@ -195,7 +203,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
         break;
       case DingProviderLoan::STATUS_NOT_RENEWED:
         if ($status['message'] == 'maxNofRenewals') {
-          $rmessage = t('Maximum number of renewals reached');
+          $message = t('Maximum number of renewals reached');
         } elseif ($status['message'] == 'copyIsReserved') {
           $message = t('The material is reserved by another loaner');
         } else {
