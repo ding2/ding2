@@ -5,10 +5,9 @@ class AdditionalInformationService {
   private $username;
   private $group;
   private $password;
-  private $current_service;
 
   public function __construct($wsdlUrl, $username, $group, $password) {
-    $this->wsdlUrl = $wsdlUrl;
+    $this->wsdlUrl = $wsdlUrl . '/moreinfo.wsdl';
     $this->username = $username;
     $this->group = $group;
     $this->password = $password;
@@ -55,25 +54,11 @@ class AdditionalInformationService {
     $startTime = explode(' ', microtime());
     $response = NULL;
 
-    $cover_service = variable_get('current_cover_service');
-    $method = '';
-
-    if ($cover_service == SERVICE_ADDI) {
-      $method = 'additionalInformation';
-      $this->current_service = SERVICE_ADDI;
-    }
-    elseif ($cover_service == SERVICE_MOREINFO) {
-      $method = 'moreInfo';
-      $this->current_service = SERVICE_MOREINFO;
-    }
-    else {
-      throw new AdditionalInformationServiceException('Current cover service not set, check the settings.');
-    }
-
     try {
-      $response = $client->$method(array(
-                          'authentication' => $authInfo,
-                          'identifier' => $identifiers));
+      $response = $client->moreInfo(array(
+        'authentication' => $authInfo,
+        'identifier' => $identifiers,
+      ));
     }
     catch (Exception $e) {
       // Re-throw Addi specific exception.
@@ -104,8 +89,7 @@ class AdditionalInformationService {
 
     foreach ($response->identifierInformation as $info) {
       $thumbnailUrl = $detailUrl = NULL;
-      $cover_image = ($this->current_service == SERVICE_MOREINFO && isset($info->coverImage))
-                        ? $info->coverImage : (isset($info->image) ? $info->image : NULL);
+      $cover_image =  $info->coverImage;
 
       if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
         if (!is_array($cover_image)) {
