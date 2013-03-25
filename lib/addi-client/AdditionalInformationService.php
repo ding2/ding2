@@ -56,6 +56,21 @@ class AdditionalInformationService {
     return $this->extractAdditionalInformation('faust', $response);
   }
 
+  /**
+   * Get information by local ID and library code.
+   *
+   * @param mixed $local_id
+   *   Expects either a single object with localIdentifier and libraryCode
+   *   attributes, or an array of such objects.
+   *
+   * @return array
+   *   Array of the images that were found.
+   */
+  public function getByLocalIdentifier($local_id) {
+    $identifiers = $this->collectIdentifiers('localIdentifier', $local_id);
+    $response = $this->sendRequest($identifiers);
+    return $this->extractAdditionalInformation('localIdentifier', $response);
+  }
 
   /**
    * Expand the provided IDs into the array structure used in sendRequest.
@@ -150,7 +165,7 @@ class AdditionalInformationService {
     $additionalInformations = array();
 
     foreach ($response->identifierInformation as $info) {
-      $thumbnailUrl = $detailUrl = NULL;
+      $thumbnail_url = $detail_url = NULL;
       $cover_image =  isset($info->coverImage) ? $info->coverImage : FALSE;
 
       if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
@@ -161,10 +176,10 @@ class AdditionalInformationService {
         foreach ($cover_image as $image) {
           switch ($image->imageSize) {
             case 'thumbnail':
-              $thumbnailUrl = $image->_;
+              $thumbnail_url = $image->_;
               break;
             case 'detail':
-              $detailUrl = $image->_;
+              $detail_url = $image->_;
               break;
             default:
               // Do nothing other image sizes may appear but ignore them for
@@ -172,7 +187,7 @@ class AdditionalInformationService {
           }
         }
 
-        $additionalInfo = new AdditionalInformation($thumbnailUrl, $detailUrl);
+        $additionalInfo = new AdditionalInformation($thumbnail_url, $detail_url);
         $additionalInformations[$info->identifier->$idName] = $additionalInfo;
       }
     }
