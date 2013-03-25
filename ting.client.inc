@@ -109,10 +109,11 @@ function ting_get_objects($ids) {
       $query[] = 'rec.id=' . $id;
     }
   }
-  // opensearch is limited to 50 results per call, so iterate until all have been fetched.
+  // Opensearch is limited to 50 results per call, so iterate until all results
+  // have been fetched.
   $i = 0;
   do {
-    // I query is empty, then don't do it.
+    // If the query is empty, then don't do it.
     // Not necessary to do in each iteration, but it doesn't hurt much.
     if (sizeof($query) == 0) {
       break;
@@ -145,6 +146,7 @@ function ting_get_objects($ids) {
     }
     $i++;
   } while ($result->more);
+
   return $objects;
 }
 
