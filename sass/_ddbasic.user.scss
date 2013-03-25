@@ -365,9 +365,15 @@
     }
   }
 
-  .renew-loan-button {
-    .form-submit {
+  .renew-loan-button  {
+    .renewable {
       @extend %button-action;
+    }
+  }
+
+  .renew-loan-button  {
+    .not-renewable {
+      @extend %button-danger;
     }
   }
 
