@@ -27,6 +27,13 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $account = isset($context->data) ? $context->data : NULL;
   $loans = ding_provider_invoke_page('loan', 'list', $account);
 
+  // Preload all entities to speed up the page.
+  $ids = array();
+  foreach ($loans as $item) {
+    $ids[] = $item->ding_entity_id;
+  }
+  ding_entity_load_multiple($ids);
+
   // Set block content, with loans form.
   $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
 
