@@ -245,13 +245,12 @@ function ding_campaign_admin_autocomplete($type, $input) {
       }
       break;
     case 'rule_library':
-      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
       foreach ($q as $k => $v) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
   }
-
   drupal_json_output($matches);
 }
