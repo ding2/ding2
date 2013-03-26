@@ -114,8 +114,8 @@ function ting_relation_ding_entity_buttons($type, $entity) {
     if (!$markup && $entity->online_url) {
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);
-      //$label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-      $markup = l(t('See online'), $entity->online_url, array('attributes' => array('target' => '_new')));
+      $label = !empty($settings[$type]) ? $settings[$type] : $settings['_default'];
+      $markup = l(t($label), $entity->online_url, array('attributes' => array('target' => '_new')));
     }
 
     return array(
