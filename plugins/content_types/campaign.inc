@@ -61,6 +61,8 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#maxlength' => 3,
   );
 
+  drupal_add_css( drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign_admin.css' );
+
   return $form;
 }
 
