@@ -583,9 +583,11 @@ function ding_campaign_campaign_node_form_validate($form, &$form_state) {
   }
 }
 /**
- * Get rule name by node type
- * @param string $node_type Node type
- * @return string Rule name
+ * Get rule name by node type.
+ * @param string $node_type
+ *   Node type.
+ * @return string
+ *   Rule name.
  */
 function _ding_campaign_rule_by_type($node_type) {
   // Set rule type
