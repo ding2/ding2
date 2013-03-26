@@ -152,13 +152,15 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
       if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic') {
 
         $nid = NULL;
-        if ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy' || $form_state['input']['rule_type'][$i] == 'rule_library') {
-          $nid = array();
-          preg_match('/\d{1,9}/', $form_state['input']['rule_value'][$i], $nid);
+        if (in_array($form_state['input']['rule_type'][$i], array('rule_page', 'rule_news', 'rule_event', 'rule_taxonomy', 'rule_library'))) {
+          preg_match('/\d{1,9}/', $form_state['input']['rule_value'][$i], $matches);
+          if (!empty($matches[0])) {
+            $nid = $matches[0];
+          }
         }
 
         $dt = array(
-          'nid' => isset($nid[0]) ? $nid[0] : NULL,
+          'nid' => $nid,
           'cid' => $form_state['build_info']['args'][0]->nid,
           'rule' => ($form_state['input']['rule_type'][$i] == 'rule_generic') ? '' : $form_state['input']['rule_value'][$i],
           'type' => $form_state['input']['rule_type'][$i],
@@ -190,6 +192,8 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#default_value' => ($type) ? $type : 'rule_page',
     '#options' => array(
       'rule_page' => 'Page',
+      'rule_event' => 'Event',
+      'rule_news' => 'News',
       'rule_path' => 'Path',
       'rule_term' => 'Search term',
       'rule_taxonomy' => 'Taxonomy term',
@@ -211,7 +215,8 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     // '#autocomplete_path' => 'ding_campaign/autocomplete/567',
   );
 
-  if ($type == 'rule_page' || $type == 'rule_taxonomy') {
+  // Add autocomplete for some rule types.
+  if (in_array($type, array('rule_page', 'rule_event', 'rule_news', 'rule_taxonomy', 'rule_library'))) {
     $form['rule_value[]']['#autocomplete_path'] = 'ding_campaign/autocomplete/' . $type;
   }
 
@@ -246,6 +251,20 @@ function ding_campaign_admin_autocomplete($type, $input) {
       break;
     case 'rule_library':
       $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[nid:' . $v->nid . ']'] = $v->title;
+      }
+      break;
+    case 'rule_event':
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_event' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[nid:' . $v->nid . ']'] = $v->title;
+      }
+      break;
+    case 'rule_news':
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_news' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
       foreach ($q as $k => $v) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;

@@ -31,7 +31,7 @@
             $obj.unbind().removeClass('form-autocomplete');
             $('#'+$obj.attr('id')+'-autocomplete-aria-live', $context).remove();
 
-            if (value == 'rule_page' || value == 'rule_taxonomy' || value == 'rule_library') {
+            if (value == 'rule_page' || value == 'rule_event' || value == 'rule_news' || value == 'rule_taxonomy' || value == 'rule_library') {
               // Add autocomplete.
               Drupal.behaviors.ding_campaing_init.bindAutocomplete($context, value);
             }

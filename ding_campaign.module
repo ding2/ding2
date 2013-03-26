@@ -173,6 +173,44 @@ function ding_campaign_display($context, $count, $offset) {
 function ding_campaign_get_campaigns($context, $limit, $offset) {
   $campaigns = array();
 
+  // Process event campaigns.
+  if ($context['page'] != NULL && isset($context['page']->nid) && $context['page']->type == 'ding_event') {
+    $nid = $context['page']->nid;
+
+    $result = db_query('SELECT r.cid
+      FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+      WHERE r.nid = :nid
+        AND r.type = \'rule_event\'
+        AND n.status = 1
+        AND r.cid = d.cid
+        AND r.cid = n.nid
+      ORDER BY d.weight DESC', array(':nid' => (int) $nid))
+      ->fetchAll();
+
+    foreach ($result as $k => $v) {
+      @$campaigns[$v->cid] += 11;
+    }
+  }
+
+  // Process news campaigns.
+  if ($context['page'] != NULL && isset($context['page']->nid) && $context['page']->type == 'ding_news') {
+    $nid = $context['page']->nid;
+
+    $result = db_query('SELECT r.cid
+      FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+      WHERE r.nid = :nid
+        AND r.type = \'rule_news\'
+        AND n.status = 1
+        AND r.cid = d.cid
+        AND r.cid = n.nid
+      ORDER BY d.weight DESC', array(':nid' => (int) $nid))
+      ->fetchAll();
+
+    foreach ($result as $k => $v) {
+      @$campaigns[$v->cid] += 10;
+    }
+  }
+
   // Process page campaigns.
   if ($context['page'] != NULL && isset($context['page']->nid))  {
     $nid = $context['page']->nid;
@@ -365,11 +403,12 @@ function ding_campaign_node_insert($node) {
   if (isset($node->form_id) && isset($enabled_types[$node->form_id]) && $enabled_types[$node->form_id] === $node->form_id) {
     if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
       foreach ($node->ding_campaigns as $k => $v) {
+        $type = _ding_campaign_rule_by_type($node->type);
         $data = array(
           'nid' => $node->nid,
           'cid' => $v,
           'rule' => '[nid:' . $node->nid . ']',
-          'type' => ($node->type == 'library') ? 'rule_library' : 'rule_page',
+          'type' => $type,
         );
 
         // Skip the unused campaigns.
@@ -417,11 +456,13 @@ function ding_campaign_node_update($node) {
         ->execute();
 
       foreach ($node->ding_campaigns as $k => $v) {
+        $type = _ding_campaign_rule_by_type($node->type);
+
         $data = array(
           'nid' => $node->nid,
           'cid' => $v,
           'rule' => '[nid:' . $node->nid . ']',
-          'type' => ($node->type == 'library') ? 'rule_library' : 'rule_page',
+          'type' => $type,
         );
 
         // Skip the unused campaigns.
@@ -464,7 +505,7 @@ function ding_campaign_node_load($node) {
   // Process other types of nodes (selected in backend).
   if (isset($enabled_types[$node[$nids[0]]->type . '_node_form']) && $enabled_types[$node[$nids[0]]->type . '_node_form'] === $node[$nids[0]]->type . '_node_form') {
     $nids = array_keys($node);
-    $or = db_or()->condition('type', 'rule_library')->condition('type', 'rule_page');
+    $or = db_or()->condition('type', 'rule_library')->condition('type', 'rule_page')->condition('type', 'rule_news')->condition('type', 'rule_event');
     $result = db_select('ding_campaign_rules')
       ->fields('ding_campaign_rules', array('cid'))
       ->condition('nid', $node[$nids[0]]->nid)
@@ -540,5 +581,27 @@ function ding_campaign_campaign_node_form_validate($form, &$form_state) {
       form_set_error('field_camp_link', 'Empty links are not allowed for plain text and image type campaigns.');
     }
   }
+}
+/**
+ * Get rule name by node type
+ * @param string $node_type Node type
+ * @return string Rule name
+ */
+function _ding_campaign_rule_by_type($node_type) {
+  // Set rule type
+  switch ($node_type) {
+    case 'library':
+      $type = 'rule_library';
+      break;
+    case 'ding_event':
+      $type = 'rule_event';
+      break;
+    case 'ding_news':
+      $type = 'rule_news';
+      break;
+    default:
+      $type = 'rule_page';
+  }
+  return $type;
 }
 
