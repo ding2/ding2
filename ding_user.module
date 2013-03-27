@@ -73,20 +73,20 @@ function ding_user_menu_alter(&$items) {
 
 /**
  * Implements hook_page_manager_contexts_alter().
- * 
- * This is actually a Panels everywhere hook. In future it may be renamed: 
+ *
+ * This is actually a Panels everywhere hook. In future it may be renamed:
  * hook_panels_everywhere_contexts_alter()
- * 
- * Panels everywhere puts a extra form tag around the whole page on some pages. 
+ *
+ * Panels everywhere puts a extra form tag around the whole page on some pages.
  * This is wrong because there already is a form tag which creates an illegal html markup
  * with nested form tag.
- * 
+ *
  * This happens because Panels Everwhere reuses code from panels. Because there exist a form in
  * contexts the function function panels_render_display() puts an extra form around the code.
- * 
+ *
  * The code unsets the form_id in panels everywhere module order to supress the superfluous form tag
- * See Panels module: function panels_render_display() 
- * 
+ * See Panels module: function panels_render_display()
+ *
  */
 function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
   foreach ($contexts as $id => $context) {
@@ -597,18 +597,21 @@ function _ding_user_create_account($auth_name, $auth_res) {
 }
 
 /**
- * Implements hook_profile2_access
- * @TODO; is this correct. Should permissions be set in admin ?
- * is it enough to check for provider_user ?
- **/
+ * Implements hook_profile2_access().
+ *
+ * Only allows logged in users to see profile2 tabs and only there own tabs and
+ * also only if the user is logged in through a ding provider.
+ *
+ */
 function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
-  if (empty($profile)) {
-    return FALSE;
+  if (user_is_logged_in() && ($GLOBALS['user']->uid === $profile->uid)) {
+    if (empty($profile)) {
+      return FALSE;
+    }
+    else if (ding_user_is_provider_user($profile)) {
+      return TRUE;
+    }
   }
-  elseif (ding_user_is_provider_user($profile)) {
-    return TRUE;
-  }
-
   return FALSE;
 }
 
@@ -636,7 +639,7 @@ function _ding_user_profile2_tabs($account) {
       );
       $profile_type->save();
     }
-    // normal case; get the profile type
+    // Normal case; get the profile type.
     // Create a profile for current user.
     $profile = new Profile(
       array(
@@ -650,13 +653,14 @@ function _ding_user_profile2_tabs($account) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter. (profile2_form).
- * get the correct form to display from modules implementing hook_profile2_tab.
- * the form may be an array of form id's
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Gets the correct form to display from modules implementing hook_profile2_tab.
+ * The form may be an array of form id's.
  * */
 function ding_user_form_profile2_form_alter(&$form, &$form_state) {
-  global $user;
-  if ($user->uid) {
+  if (user_is_logged_in()) {
+    global $user;
     if ((ding_user_is_provider_user($user))) {
       $profile_tabs = module_invoke_all('user_profile2_tabs');
       foreach ($profile_tabs as $profile_tab) {
@@ -668,8 +672,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
               $form += $tab;
             }
           }
-          elseif (!empty($profile_tab->form)) {
-            $form+=drupal_get_form($profile_tab->form);
+          else if (!empty($profile_tab->form)) {
+            $form += drupal_get_form($profile_tab->form);
           }
           drupal_set_title($form['#title']);
         }
