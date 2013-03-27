@@ -285,8 +285,8 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process library campaigns.
-  if ($context['library'] != NULL && isset($context['library']->nid) && $context['library']->type == 'ding_library' ) {
-    $nid = $context['library']->nid;
+  if ($context['page'] != NULL && isset($context['page']->nid) && $context['page']->type == 'ding_library' ) {
+    $nid = $context['page']->nid;
 
     $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
