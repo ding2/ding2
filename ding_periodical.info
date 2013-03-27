@@ -1,10 +1,10 @@
 name = Ding periodical
 description = Handles listing of issues on periodicals.
 package = Ding!
-version = "7.x-0.12"
+version = "7.x-1.9.4"
 core = 7.x
 files[] = ding_periodical.module
 scripts[] = ding_periodical.js
-dependencies[] = blackhole
+dependencies[] = virtual_field
 dependencies[] = ding_provider
 dependencies[] = ding_entity
