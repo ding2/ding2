@@ -20,7 +20,7 @@ function ting_covers_admin_settings_form($form, &$form_state) {
       '604800' => t("1 week"),
       '2592000' => t("1 month"),
     ),
-    '#default_value' => variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME),
+    '#default_value' => variable_get('ting_covers_cache_lifetime', TING_COVERS_DEFAULT_CACHE_LIFETIME),
   );
 
   return system_settings_form($form);
@@ -43,7 +43,7 @@ function ting_covers_admin_addi_settings_form($form, &$form_state) {
   $form['addi']['addi_wsdl_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Service URL'),
-    '#description' => t('URL to the Additional Information webservice, e.g. http://moreinfo.addi.dk/2.1'),
+    '#description' => t('URL to the Additional Information webservice, e.g. http://moreinfo.addi.dk/2.1/'),
     '#required' => TRUE,
     '#default_value' => variable_get('addi_wsdl_url', ''),
   );

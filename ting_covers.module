@@ -5,9 +5,9 @@
  * Provide functionality and page callbacks for retrieving covers for Ting objects and collections
  */
 
-define('TING_COVERS_CACHE_LIFETIME', 86400);
+define('TING_COVERS_DEFAULT_CACHE_LIFETIME', 86400);
 
-// Load Field module hooks.
+// Load field module hooks.
 module_load_include('inc', 'ting_covers', 'ting_covers.field');
 
 /**
@@ -69,14 +69,14 @@ function ting_covers_theme() {
  * Implementation of hook_cron().
  */
 function ting_covers_cron() {
-  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_CACHE_LIFETIME));
+  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_DEFAULT_CACHE_LIFETIME));
 }
 
 /**
  * Implementation of hook_cache_clear().
  */
 function ting_covers_flush_caches() {
-  _ting_covers_delete_old_files();
+  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_DEFAULT_CACHE_LIFETIME));
 }
 
 /**
@@ -108,23 +108,25 @@ function ting_covers_preprocess_ting_object(&$variables) {
 /**
  * Delete ting covers files.
  *
+ * @todo: handle image styles better and use API to flush expired images.
+ *
  * @param int $time Timestamp where older files will be deleted.
  * 	Obmit or set to NULL to delete all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
-  //Collect potential locations of cover folders
+  // Collect potential locations of cover folders
   $files_dir = file_default_scheme() . '://';
   $image_dirs = array($files_dir);
 
   $styles_dir = $files_dir . 'styles';
-  foreach(scandir($styles_dir) as $style_dir) {
+  foreach (scandir($styles_dir) as $style_dir) {
     $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public';
     if (is_dir($style_dir)) {
       $image_dirs[] = $style_dir;
     }
   }
 
-  //Collect cover files
+  // Collect cover files
   $cover_files = array();
   foreach ($image_dirs as $uri) {
     $ting_covers_dir = $uri . DIRECTORY_SEPARATOR . 'ting' . DIRECTORY_SEPARATOR . 'covers';
@@ -143,6 +145,7 @@ function _ting_covers_delete_old_files($time = NULL) {
 
 /**
  * Retrieve all files under a path recursively
+ *
  * @param string $files_path Path or URI
  * @return array An array of file paths or URIs
  */
@@ -155,7 +158,8 @@ function _ting_covers_get_files($files_path) {
       if (!in_array($path, array('.', '..'))) {
         $files = array_merge($files, _ting_covers_get_files($file_path));
       }
-    } else {
+    }
+    else {
       $files[] = $file_path;
     }
   }
