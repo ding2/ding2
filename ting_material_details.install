@@ -15,7 +15,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -27,19 +27,19 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
         'label' => t('Format'),
       ),
-    ),    
+    ),
 
     'ting_details_ispartof' => array(
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -51,7 +51,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -63,7 +63,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -75,7 +75,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -87,7 +87,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -99,7 +99,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -107,12 +107,11 @@ function ting_material_details_ding_entity_fields() {
       ),
     ),
 
-    
     'ting_details_classification' => array(
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -124,7 +123,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -136,7 +135,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -148,7 +147,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -160,7 +159,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -172,7 +171,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -184,7 +183,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -196,7 +195,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -208,7 +207,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -220,7 +219,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -232,7 +231,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -244,7 +243,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -256,7 +255,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -268,7 +267,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -280,7 +279,7 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -292,50 +291,62 @@ function ting_material_details_ding_entity_fields() {
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
         'label' => t('Rights'),
       ),
-    ),    
-    
+    ),
+
     'ting_details_audience' => array(
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
         'label' => t('Audience'),
       ),
-    ),  
+    ),
 
     'ting_details_age' => array(
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
         'label' => t('Age'),
       ),
-    ),  
+    ),
 
     'ting_details_pegi' => array(
       'field' => array(
         'locked' => FALSE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
         'label' => t('Pegi'),
       ),
-    ),  
-    
+    ),
+
   );
 }
 
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_material_details_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_material_details')
+    ->execute();
+}
