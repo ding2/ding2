@@ -72,13 +72,10 @@ class DingProviderLoan extends DingEntityBase {
    */
   protected $notes  = DingEntityBase::NULL;
 
-  /*
-   titel
-   type
-   forfatter
-   sprog
-   materiale nr
+  /**
+   * Message - A message with a reason for why a loan is not renewable
    */
+  protected $message  = DingEntityBase::NULL;
 
   public function __construct($id, $data = array()) {
     parent::__construct();
@@ -96,6 +93,10 @@ class DingProviderLoan extends DingEntityBase {
       'renewable',
       'remote_loan',
       'notes',
+      'author',
+      'title',
+      'publication_year',
+      'message',
     );
     $this->_populate($properties, $data);
   }
@@ -111,14 +112,6 @@ class DingProviderLoan extends DingEntityBase {
     }
     return $this->entity;
   }
-
-  /*
-   titel
-   type
-   forfatter
-   sprog
-   materiale nr
-   */
 
   function getTitle() {
     $this->getEntity();
@@ -154,14 +147,3 @@ class DingProviderLoan extends DingEntityBase {
  */
 class DingProviderLoanUserError extends DingProviderUserException {}
 
-/**
- * Exception thrown when the item is already reserved.
- */
-// class DingProviderReservationExists extends DingProviderReservationUserError{
-//   public function __construct($message = "", $code = 0) {
-//     if (empty($message)) {
-//       $message = t('"You have already reserved "@title".');
-//     }
-//     parent::__construct($message);
-//   }
-// }

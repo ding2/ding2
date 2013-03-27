@@ -51,6 +51,11 @@ class DingProviderReservation extends DingEntityBase {
    * Order Id
    */
   protected $order_id = DingEntityBase::NULL;
+  
+  /**
+   * Organisation Id
+   */
+  protected $organisation_Id = DingEntityBase::NULL;
 
   /**
    * The ding_entity.
@@ -68,6 +73,11 @@ class DingProviderReservation extends DingEntityBase {
    * or DingProviderReservation::STATUS_FECTHABLE.
    */
   protected $status = DingEntityBase::NULL;
+  
+  /**
+   * Delete status of the reservation, either yes or no
+   */
+  protected $can_delete = DingEntityBase::NULL;
 
   /**
    * Id of pickup place.
@@ -78,6 +88,11 @@ class DingProviderReservation extends DingEntityBase {
    * Id of pickup place.
    */
   protected $pickup_order_id = DingEntityBase::NULL;
+
+  /**
+   * orderArrived. Boolean.
+   */
+  protected $order_arrived = DingEntityBase::NULL;
 
   /**
    * Creation date of reservation. Format: YYYY-MM-DD.
@@ -111,6 +126,11 @@ class DingProviderReservation extends DingEntityBase {
    */
   protected $notes = DingEntityBase::NULL;
 
+  /**
+   * Status - status for interlibrary loans
+   */
+  protected $ill_status = DingEntityBase::NULL;
+
   /*
    titel
    type
@@ -127,11 +147,13 @@ class DingProviderReservation extends DingEntityBase {
     $this->properties['ready_for_pickup'] = FALSE;
     $properties = array(
       'order_id',
+      'organisation_Id',
       'materials_number',
       'ding_entity_id',
       'entity',
       'display_name',
       'status',
+      'can_delete',
       'pickup_branch',
       'pickup_order_id',
       'pickup_branch_id',
@@ -141,7 +163,12 @@ class DingProviderReservation extends DingEntityBase {
       'pickup_number',
       'pickup_date',
       'notes',
+      'order_arrived',
       'ready_for_pickup',
+      'author',
+      'title',
+      'publication_year',
+      'ill_status',
     );
     $this->_populate($properties, $data);
   }
@@ -194,12 +221,12 @@ class DingProviderReservation extends DingEntityBase {
 /**
  * Parent class for reservation errors.
  */
-class DingProviderReservationUserError extends DingProviderUserException {}
+class DingProviderReservationUserError extends DingProviderUserException { }
 
 /**
  * Exception thrown when the item is already reserved.
  */
-class DingProviderReservationExists extends DingProviderReservationUserError{
+class DingProviderReservationExists extends DingProviderReservationUserError {
   public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t('"You have already reserved "@title".');
@@ -223,7 +250,7 @@ class DingProviderReservationNotAvailable extends DingProviderReservationUserErr
 /**
  * Reservation is not allowed.
  */
-class DingProviderReservationNotAllowed extends DingProviderReservationUserError{
+class DingProviderReservationNotAllowed extends DingProviderReservationUserError {
   public function __construct($message = "", $code = 0) {
     if (empty($message)) {
       $message = t("You're not allowed to reserve \"@title\".");

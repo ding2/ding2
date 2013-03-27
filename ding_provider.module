@@ -338,7 +338,7 @@ function ding_provider_build_form($form_id, &$form_state) {
     elseif ($e instanceof DingProviderAuthException) {
       if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
         // Something needs auth, save state and redirect to authentication page.
-        $expire = 21600;
+        $expire = 3600;
         $input = $form_state['method'] == 'get' ? $_GET : $_POST;
         $input['#ding_provider_messages'] = drupal_get_messages();
         cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
@@ -412,7 +412,7 @@ function ding_provider_ajax_form_callback() {
     elseif ($e instanceof DingProviderAuthException || $e instanceof EntityMalformedException) {
       if (module_exists('ding_user')) {
         // Something needs auth, save state and redirect to authentication page.
-        $expire = 21600;
+        $expire = 3600;
         $input = $form_state['method'] == 'get' ? $_GET : $_POST;
         $input['#ding_provider_messages'] = drupal_get_messages();
         $input['#ding_provider_user'] = $user;
@@ -473,36 +473,32 @@ function ding_provider_get_destination($query_args = array()) {
 }
 
 /**
- * Get the provide type
+ * Get the provider type
+ * @param type, the type of module e.g reservation, availibility etc.
  **/
-function ding_provider_get_provider_type() {
-  foreach (module_implements('ding_provider') as $module) {
-    // simply return the first - there can be only one
-    return $module;
-  }
+function ding_provider_get_provider_module_name($type) {
+  $providers = _ding_provider_get_provider();
+  return $providers[$type]['module'];
 }
 
 /**
  * Returns the given provider.
  */
 function _ding_provider_get_provider($type = NULL) {
-  static $providers;
-  if (!isset($providers)) {
-    $providers = array();
-    foreach (module_implements('ding_provider') as $module) {
-      $module_provides = module_invoke($module, 'ding_provider') + array(
-        'title' => $module . '.module',
-        'settings' => NULL,
-        'file' => NULL,
-        'provides' => array(),
-      );
-      foreach ($module_provides['provides'] as $name => $module_provider) {
-        $module_provider['module'] = $module;
-        $module_provider['title'] = $module_provides['title'];
-        $module_provider['global settings'] = $module_provides['settings'];
-        $module_provider['global settings file'] = $module_provides['file'];
-        $providers[$name] = $module_provider;
-      }
+  $providers = array();
+  foreach (module_implements('ding_provider') as $module) {
+    $module_provides = module_invoke($module, 'ding_provider') + array(
+      'title' => $module . '.module',
+      'settings' => NULL,
+      'file' => NULL,
+      'provides' => array(),
+    );
+    foreach ($module_provides['provides'] as $name => $module_provider) {
+      $module_provider['module'] = $module;
+      $module_provider['title'] = $module_provides['title'];
+      $module_provider['global settings'] = $module_provides['settings'];
+      $module_provider['global settings file'] = $module_provides['file'];
+      $providers[$name] = $module_provider;
     }
   }
 
