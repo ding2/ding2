@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_update_N().
+ * Changed fected covers form managed to umanged files.
  */
 function ting_covers_update_7100(&$sandbox) {
   // Cleanup covers from DB, saved previously with file_save_data().
