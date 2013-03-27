@@ -18,7 +18,8 @@ function alma_loan_list($account) {
   try {
     // Get all loans form alma for the user account given.
     $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
-  } catch (Exception $e) {
+  }
+  catch (Exception $e) {
     throw new DingProviderLoanUserError($e->getMessage());
   }
 

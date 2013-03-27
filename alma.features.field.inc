@@ -89,10 +89,10 @@ function alma_field_default_fields() {
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          30 => '1 month',
-          60 => '2 months',
-          90 => '3 months',
-          180 => '6 months',
+          30 => t('1 month'),
+          60 => t('2 months'),
+          90 => t('3 months'),
+          180 => t('6 months'),
         ),
         'allowed_values_function' => '',
         'profile2_private' => 0,
@@ -114,7 +114,7 @@ function alma_field_default_fields() {
           'label' => 'above',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => '1',
         ),
       ),
@@ -174,13 +174,13 @@ function alma_field_default_fields() {
           'label' => 'above',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '3',
         ),
       ),
       'entity_type' => 'profile2',
       'field_name' => 'field_alma_mobile_phone',
-      'label' => 'Mobile phone',
+      'label' => 'Phone',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -291,13 +291,13 @@ function alma_field_default_fields() {
           'label' => 'above',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'list_default',
+          'type' => 'hidden',
           'weight' => '0',
         ),
       ),
       'entity_type' => 'profile2',
       'field_name' => 'field_alma_preferred_branch',
-      'label' => 'Alma preferred branch',
+      'label' => 'Preferred branch',
       'required' => 0,
       'settings' => array(
         'user_register_form' => FALSE,
@@ -356,7 +356,7 @@ function alma_field_default_fields() {
             'multiple_number' => '',
             'multiple_to' => '',
           ),
-          'type' => 'date_default',
+          'type' => 'hidden',
           'weight' => '2',
         ),
       ),
@@ -377,7 +377,7 @@ function alma_field_default_fields() {
         'settings' => array(
           'display_all_day' => 0,
           'increment' => '15',
-          'input_format' => 'Y-m-d H:i:s',
+          'input_format' => 'd/m/Y',
           'input_format_custom' => '',
           'label_position' => 'above',
           'repeat_collapsed' => 0,
@@ -393,9 +393,9 @@ function alma_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Absent id');
-  t('Alma preferred branch');
+  t('Preferred branch');
   t('Interest period');
-  t('Mobile phone');
+  t('Phone');
   t('Reservation pause');
   t('Set your reservations on pause.');
   t('phone id');

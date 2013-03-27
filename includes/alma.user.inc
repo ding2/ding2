@@ -67,16 +67,13 @@ function alma_user_profile_form_validate($form, $form_state) {
 
 }
 
-
-function alma_user_clear_cache($creds=NULL) {
-  alma_get_patron($creds, TRUE);
+function alma_user_clear_cache($creds = NULL) {
+  alma_get_patron($creds);
 }
-
 
 /**
  * Update profile2 with values from alma patron
  */
-
 function alma_user_profile_init($profile2, $auth_res) {
   $creds = ding_user_get_creds($profile2);
   $patron = alma_get_patron($creds);
@@ -119,11 +116,11 @@ function alma_user_account_update($account, $changes) {
   $creds = ding_user_get_creds($account);
 
   if (isset($changes['mail'])) {
-    // Add email.
-    if (empty( $account->mail ) && !empty($changes['mail'])) {
+    // Add email
+    if (empty($account->mail) && !empty($changes['mail'])) {
       $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
     }
-    // Change mail.
+    // Change email
     elseif (isset($account->mail) && !empty($changes['mail'])) {
       $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $account->mail, $changes['mail']);
     }
@@ -138,6 +135,7 @@ function alma_user_account_update($account, $changes) {
       $creds['pass'] = $changes['pass'];
 
       // Update creds.
+      $result = array();
       $result['creds'] = $creds;
       return $result;
     }
