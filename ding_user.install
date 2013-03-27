@@ -1,16 +1,15 @@
 <?php
 /**
- * Implements hook_install().
+ * @file
+ * Install new cache table to store user credentials.
  */
-function ding_user_install() {
-  // Use DingUserCredentialsCache instead of default DrupalDatabaseCache
-  variable_set('cache_class_cache_ding_user_credentials', 'DingUserCredentialsCache');
-}
+
 
 /**
  * Implements hook_schema().
  */
 function ding_user_schema() {
+  $schema = array();
   $schema['cache_ding_user_credentials'] = drupal_get_schema_unprocessed('system', 'cache');
 
   return $schema;
@@ -32,12 +31,19 @@ function ding_user_update_7001(&$sandbox) {
 }
 
 /**
- * Set weight of ding_user to -1 to ensure it is called first
+ * Set weight of ding_user to -1 to ensure it is called first.
  */
 function ding_user_update_7002(&$sandbox) {
-  $updated = db_update('system')
+  $ret = db_update('system')
     ->fields (array('weight' => -1))
     ->condition('name', 'ding_user', '=')
     ->execute();
+  return $ret;
 }
 
+/**
+ * Remove un-used cache class variable.
+ */
+function ding_user_update_7003() {
+  variable_del('cache_class_cache_ding_user_credentials');
+}
