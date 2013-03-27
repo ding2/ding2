@@ -22,9 +22,7 @@ function ding_user_entity_view($comment, $type, $view_mode, $langcode ) {
  */
 function ding_user_theme() {
   return array(
-    'ding_user_comment_post_forbidden' => array(
-      'render element' => 'elements',
-    ),
+    'ding_user_comment_post_forbidden' => array('render element' => 'elements'),
   );
 }
 
@@ -39,9 +37,7 @@ function ding_user_comment_forbidden_form() {
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Log in'),
-    '#ajax' => array(
-      'callback' => 'ding_user_comment_forbidden_form_callback',
-    ),
+    '#ajax' => array('callback' => 'ding_user_comment_forbidden_form_callback'),
   );
 
   return $form;
@@ -72,7 +68,10 @@ function theme_ding_user_comment_post_forbidden($variables) {
 function ding_user_comment_forbidden_form_callback($form, $form_state) {
   global $base_root;
 
-  $creds = array('name' => '', 'pass' => '');
+  $creds = array(
+    'name' => '',
+    'pass' => '',
+  );
   $creds = ding_user_get_creds();
 
   $name = isset($creds['name']) ? $creds['name'] : '';

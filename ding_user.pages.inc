@@ -33,7 +33,8 @@ function ding_user_authenticate_form($form, &$form_state) {
   }
 
   // Display login form:
-  $form['name'] = array('#type' => 'textfield',
+  $form['name'] = array(
+    '#type' => 'textfield',
     '#title' => t('Username'),
     '#size' => 60,
     '#maxlength' => USERNAME_MAX_LENGTH,
@@ -41,7 +42,8 @@ function ding_user_authenticate_form($form, &$form_state) {
   );
 
   $form['name']['#description'] = t('Enter your @s username.', array('@s' => variable_get('site_name', 'Drupal')));
-  $form['pass'] = array('#type' => 'password',
+  $form['pass'] = array(
+    '#type' => 'password',
     '#title' => t('Password'),
     '#description' => t('Enter the password that accompanies your username.'),
     '#required' => TRUE,
@@ -50,7 +52,10 @@ function ding_user_authenticate_form($form, &$form_state) {
   // specifying any special validators, but relying on the normal behaviour.
 
   $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Log in'));
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Log in'),
+  );
 
   return $form;
 }

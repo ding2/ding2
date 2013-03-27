@@ -33,7 +33,7 @@ function ding_user_external_user_access_check($conf, $context) {
  * Describe an instance of this plugin.
  */
 function ding_user_external_user_access_summary($conf, $context) {
-  $external= $conf == NULL ? 'NOT' : 'YES';
+  $external = $conf == NULL ? 'NOT' : 'YES';
 
   return t('User is an external user');
 }
