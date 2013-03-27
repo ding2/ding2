@@ -43,6 +43,9 @@ projects[panels_breadcrumbs][version] = "2.0"
 projects[panels_everywhere][subdir] = contrib
 projects[panels_everywhere][version] = "1.0-rc1"
 
+projects[pm_existing_pages][subdir] = contrib
+projects[pm_existing_pages][version] = "1.4"
+
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = "2.0"
 
