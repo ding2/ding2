@@ -116,6 +116,11 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
 
   $form['#submit'] = array('ding_campaign_campaign_rule_form_submit');
 
+  drupal_add_js(
+    drupal_get_path('module', 'ding_campaign') . '/js/ding_campaign_scripts.js',
+    array('weight' => 10)
+  );
+
   return $form;
 }
 
@@ -212,13 +217,8 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#maxlength' => 24,
     '#prefix' => '<div class="rule-value">',
     '#suffix' => '</div><div class="clear"></div></div>',
-    // '#autocomplete_path' => 'ding_campaign/autocomplete/567',
+    '#autocomplete_path' => 'ding_campaign/autocomplete/' . $type,
   );
-
-  // Add autocomplete for some rule types.
-  if (in_array($type, array('rule_page', 'rule_event', 'rule_news', 'rule_taxonomy', 'rule_library'))) {
-    $form['rule_value[]']['#autocomplete_path'] = 'ding_campaign/autocomplete/' . $type;
-  }
 
   return $form;
 }
