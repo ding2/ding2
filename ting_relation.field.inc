@@ -52,7 +52,7 @@ function ting_relation_field_formatter_info() {
       'field types' => array(
         'ting_relations',
       ),
-    )
+    ),
   );
 }
 
@@ -80,8 +80,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   $element = array(
     '#theme' => 'ting_relation',
     '#relations' => $relation_array,
-    '#attached' =>
-    array(
+    '#attached' => array(
       'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
     ),
   );
