@@ -103,11 +103,10 @@ function ding_campaign_update_7001(&$sandbox) {
  */
 function ding_campaign_update_7002(&$sandbox) {
   return db_add_field('ding_campaign', 'pane_id', array(
-      'type' => 'int',
-      'not null' => TRUE,
-      'default' => 0,
-    )
-  );
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+  ));
 }
 
 /**

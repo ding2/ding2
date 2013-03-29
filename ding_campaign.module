@@ -136,9 +136,9 @@ function ding_campaign_display($context, $count, $offset) {
           $camp_link = field_get_items('node', $node, 'field_camp_link');
           $camp_image = field_get_items('node', $node, 'field_camp_image');
 
-          $image_title = field_get_items('file', (object)($camp_image[0]), 'field_dams_title');
+          $image_title = field_get_items('file', (object) ($camp_image[0]), 'field_dams_title');
           $image_title = isset($image_title[0]['safe_value']) ? $image_title[0]['safe_value'] : '';
-          $image_alt = field_get_items('file', (object)($camp_image[0]), 'field_dams_alt_name');
+          $image_alt = field_get_items('file', (object) ($camp_image[0]), 'field_dams_alt_name');
           $image_alt = isset($image_alt[0]['safe_value']) ? $image_alt[0]['safe_value'] : '';
 
           $content =
@@ -285,7 +285,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process library campaigns.
-  if ($context['page'] != NULL && isset($context['page']->nid) && $context['page']->type == 'ding_library' ) {
+  if ($context['page'] != NULL && isset($context['page']->nid) && $context['page']->type == 'ding_library') {
     $nid = $context['page']->nid;
 
     $result = db_query('SELECT r.cid
