@@ -44,7 +44,7 @@ function _openruth_set_holdings($res) {
         _openruth_set_periodicals($h, $itemHolding);
       }
     }
-    if ( $h['is_periodical'] ) {
+    if ($h['is_periodical']) {
       $h['holdings'] = _openruth_periodicals_unique_holdings($h['holdings']);
     }
     _openruth_set_table_html($h);
@@ -66,22 +66,22 @@ function _openruth_init_holding($holding) {
     $available = FALSE;
     $reservable = FALSE;
   }
-  $holding =
-    array('local_id' => $holding->itemId,
-	  'available' => $available,
-	  'reservable' => $reservable,
-	  'show_reservation_button' => $reservable,
-	  'holdings' => array(),
-	  'holdings_available' => array(),
-	  'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
-	  'total_count' => 0,
-	  'reservable_count' => 0,
-	  'issues' => array(),
-	  'is_periodical' => FALSE,
-    );
+  $holding = array(
+    'local_id' => $holding->itemId,
+    'available' => $available,
+    'reservable' => $reservable,
+    'show_reservation_button' => $reservable,
+    'holdings' => array(),
+    'holdings_available' => array(),
+    'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
+    'total_count' => 0,
+    'reservable_count' => 0,
+    'issues' => array(),
+    'is_periodical' => FALSE,
+  );
 
   // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
-  if ( $holding['available'] && ($available < 1) ) {
+  if ($holding['available'] && ($available < 1)) {
     $holding['available'] = FALSE;
   }
 
@@ -93,12 +93,12 @@ function _openruth_init_holding($holding) {
  * @params $h; holding information for a given material
  * @return; a html table
  */
-function _openruth_set_table_html( &$h ) {
+function _openruth_set_table_html(&$h) {
   // set a classname for styling the table
   $variables['attributes'] = array(
     'class' => array(
-      drupal_html_class('availability_holdings_table')
-    )
+      drupal_html_class('availability_holdings_table'),
+    ),
   );
   // set table header
   $variables['header'] = array(
@@ -123,7 +123,7 @@ function _openruth_set_table_html( &$h ) {
 function _openruth_set_rows($h) {
   $rows = array();
   if (isset($h['holdings'])) {
-    foreach ( $h['holdings'] as $key => $data ) {
+    foreach ($h['holdings'] as $key => $data) {
       $row = array();
       $row['placement'] = $data['placement'];
       $row['copies'] = $data['copiesCount'];
@@ -154,12 +154,12 @@ function _openruth_set_rows($h) {
  * @param; $holdings; array of holdings for a periodical
  * @return; array; with unique holdings for each branch
  */
-function _openruth_periodicals_unique_holdings( $holdings ) {
+function _openruth_periodicals_unique_holdings($holdings) {
   $uh = array();
-  foreach ( $holdings as $holding ) {
+  foreach ($holdings as $holding) {
     $key = $holding['agencyBranchCode'];
     // first iteration or new branchcode
-    if ( empty($uh) || !isset($uh[$key]) ) {
+    if (empty($uh) || !isset($uh[$key])) {
       $uh[$key] = $holding;
       continue;
     }
@@ -236,7 +236,7 @@ function _openruth_set_locations(&$h, $itemHolding) {
           // pjo;
           $location_available += $itemLocation->copiesAvailableCount;
 
-          $data['copiesAvailableCount'] =  $itemLocation->copiesAvailableCount;
+          $data['copiesAvailableCount'] = $itemLocation->copiesAvailableCount;
 
         }
         $parts = array();
@@ -268,7 +268,7 @@ function _openruth_set_locations(&$h, $itemHolding) {
           // $h['holdings'][] = join(' → ', $parts);
           $h['holdings'][] = $data;
         }
-        if ($parts && ($location_available > 0) ) {
+        if ($parts && ($location_available > 0)) {
           $h['holdings_available'][] = join(' → ', $parts);
         }
       }

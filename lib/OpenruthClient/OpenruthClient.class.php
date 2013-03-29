@@ -99,9 +99,9 @@ class OpenruthClient {
   public function get_holdings($ids) {
     $this->log_start();
     $res = $this->client->holdings(array(
-             'agencyId' =>  $this->agency_id,
-             'itemId' => $ids,
-           ));
+      'agencyId' => $this->agency_id,
+      'itemId' => $ids,
+    ));
 
     $this->log();
     return $res;
@@ -114,10 +114,10 @@ class OpenruthClient {
   public function renew_loan($username, $copy_ids) {
     $this->log_start();
     $res = $this->client->renewLoan(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             'copyId' => $copy_ids,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      'copyId' => $copy_ids,
+    ));
     $this->log($username);
     if (isset($res->renewLoanError)) {
       return $res->renewLoanError;
@@ -140,16 +140,15 @@ class OpenruthClient {
   public function book_item($username, $provider_id, $count, $start_date, $end_date, $pickup_branch) {
     $this->log_start();
     $res = $this->client->bookItem(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             // 'bookingNote' => '',
-             'agencyCounter' => $pickup_branch,
-             'itemId' => $provider_id,
-             'bookingTotalCount' => $count,
-             'bookingStartDate' => $start_date,
-             'bookingEndDate' => $end_date,
-
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      // 'bookingNote' => '',
+      'agencyCounter' => $pickup_branch,
+      'itemId' => $provider_id,
+      'bookingTotalCount' => $count,
+      'bookingStartDate' => $start_date,
+      'bookingEndDate' => $end_date,
+    ));
     $this->log($username);
     if (isset($res->bookingError)) {
       return $res->bookingError;
@@ -180,15 +179,15 @@ class OpenruthClient {
     }
     $this->log_start();
     $res = $this->client->orderItem(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             // 'orderNote' => '',
-             'orderLastInterestDate' => $expiry,
-             'agencyCounter' => $pickup_branch,
-             'orderOverRule' => FALSE,
-             'orderPriority' => 'normal',
-             'orderItemId' => $order_item_id,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      // 'orderNote' => '',
+      'orderLastInterestDate' => $expiry,
+      'agencyCounter' => $pickup_branch,
+      'orderOverRule' => FALSE,
+      'orderPriority' => 'normal',
+      'orderItemId' => $order_item_id,
+    ));
     $this->log($username);
     if (isset($res->orderItemError)) {
       return $res->orderItemError;
@@ -208,12 +207,14 @@ class OpenruthClient {
   /**
    * Get information about number of copies in a booking available at various times
    */
-  public function booking_info() { }
+  public function booking_info() {
+  }
 
   /**
    * Updating details about a booking
    */
-  public function update_booking() { }
+  public function update_booking() {
+  }
 
   /**
    * Cancelling a booking of an item
@@ -221,9 +222,9 @@ class OpenruthClient {
   public function cancel_booking($bookings_id) {
     $this->log_start();
     $res = $this->client->cancelBooking(array(
-             'agencyId' =>  $this->agency_id,
-             'bookingId' => $bookings_id,
-      ));
+      'agencyId' => $this->agency_id,
+      'bookingId' => $bookings_id,
+    ));
     $this->log();
     if (isset($res->bookingError)) {
       return $res->bookingError;
@@ -243,7 +244,7 @@ class OpenruthClient {
     $agency_info = array();
     $this->log_start();
     $res = $this->client->agencyCounters(array(
-      'agencyId' =>  $this->agency_id,
+      'agencyId' => $this->agency_id,
     ));
     $this->log();
     if ($res->agencyCounters instanceof stdClass) {
@@ -265,8 +266,8 @@ class OpenruthClient {
     $agencys = array();
     $this->log_start();
     $res = $this->client->agencyCounters(array(
-             'agencyId' =>  $this->agency_id,
-      ));
+      'agencyId' => $this->agency_id,
+    ));
     $this->log();
     if ($res->agencyCounters instanceof stdClass && is_array($res->agencyCounters->agencyCounterInfo)) {
       foreach ($res->agencyCounters->agencyCounterInfo as $agency) {
@@ -283,12 +284,12 @@ class OpenruthClient {
   public function update_order($order_id, $pickup_branch, $expiry) {
     $this->log_start();
     $res = $this->client->updateOrder(array(
-             'agencyId' =>  $this->agency_id,
-             'orderId' => $order_id,
-             'orderNote' => '',
-             'orderLastInterestDate' => $expiry,
-             'agencyCounter' => $pickup_branch,
-      ));
+      'agencyId' => $this->agency_id,
+      'orderId' => $order_id,
+      'orderNote' => '',
+      'orderLastInterestDate' => $expiry,
+      'agencyCounter' => $pickup_branch,
+    ));
     $this->log();
     if (isset($res->updateOrderError)) {
       return $res->updateOrderError;
@@ -307,9 +308,9 @@ class OpenruthClient {
   public function cancel_order($order_id) {
     $this->log_start();
     $res = $this->client->cancelOrder(array(
-             'agencyId' =>  $this->agency_id,
-             'orderId' => $order_id,
-      ));
+      'agencyId' => $this->agency_id,
+      'orderId' => $order_id,
+    ));
     $this->log();
     if (isset($res->cancelOrderError)) {
       return $res->cancelOrderError;
@@ -339,9 +340,9 @@ class OpenruthClient {
       'reservation_pause_stop' => 'userAbsenceEndDate',
     );
     $args = array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $name,
-             'userPinCode' => $pass,
+      'agencyId' => $this->agency_id,
+      'userId' => $name,
+      'userPinCode' => $pass,
     );
     foreach ($mapping as $from => $to) {
       if (isset($changes[$from])) {
@@ -372,10 +373,10 @@ class OpenruthClient {
   public function user_check($username, $pin_code) {
     $this->log_start();
     $res = $this->client->userCheck(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             'userPinCode' => $pin_code,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      'userPinCode' => $pin_code,
+    ));
     $this->log($username, $pin_code);
     if (isset($res->userError)) {
       return $res->userError;
@@ -394,10 +395,10 @@ class OpenruthClient {
   public function user_status($username, $pin_code) {
     $this->log_start();
     $res = $this->client->userStatus(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             'userPinCode' => $pin_code,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      'userPinCode' => $pin_code,
+    ));
 
     $this->log($username, $pin_code);
     if (isset($res->userError)) {
@@ -416,7 +417,7 @@ class OpenruthClient {
    */
   public function add_payment($username, $amount, $transaction_id = NULL) {
     $params = array(
-      'agencyId' =>  $this->agency_id,
+      'agencyId' => $this->agency_id,
       'userId' => $username,
       'feeAmountPaid' => $amount,
     );
