@@ -63,9 +63,9 @@ function openruth_reservation_list($account) {
           'created' => $res->orderDate,
           'queue_number' => $res->orderQueuePosition,
           'ready_for_pickup' => 0,
-          'author' => $res->itemAuthor,
+          'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
           'title' => $res->itemTitle,
-          'publication_year' => $res->itemPublicationYear,
+          'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
           'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
