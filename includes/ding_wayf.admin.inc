@@ -34,13 +34,22 @@ function ding_wayf_admin_settings_form() {
     '#required' => TRUE,
   );
   
+  $form['ding_wayf']['gatewayf'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL to wayf gateway'),
+    '#default_value' => isset($default['gatewayf']) ? $default['gatewayf'] : 'https://dringo-ssl.dbc.dk/gatewayf',
+    '#description' => t('Where to go for authentication via wayf',array(),array('context'=>'ding_wayf')),
+    '#required' => TRUE,
+  );
+  
   // checkboxes wayf- and nemid-login
   $form['ding_wayf']['wayflogin'] = array(
     '#type' => 'checkbox',
     '#title' => t('Wayf login', array(), array('context'=>'ding_wayf')),
     '#description' => t('Enable wayflogin',array(),array('context'=>'ding_wayf')),
     '#default_value' => $default['wayflogin'],
-  );
+  );  
+  
 
   $form['ding_wayf']['nemlogin'] = array(
     '#type' => 'checkbox',
@@ -48,6 +57,8 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Enable Nemlogin',array(),array('context'=>'ding_wayf')),
     '#default_value' => $default['nemlogin'],
   );
+  
+  
  
   return system_settings_form($form);
 }
