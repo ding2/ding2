@@ -46,7 +46,7 @@ function ting_fulltext_parse($xml) {
   $nodelist = $xpath->query($query);
   if( $nodelist->length > 0 ) {
     (isset($nodelist->item(0)->nodeValue) ? $ret['surname'] = $nodelist->item(0)->nodeValue : $ret['surname'] = '');
-  } 
+  }
   // section (there can be more than one section) and furthermore there can be one or more sections in a section..
   $query = '//docbook:section';
   $nodelist = $xpath->query($query);
@@ -54,9 +54,9 @@ function ting_fulltext_parse($xml) {
     foreach($nodelist as $node ) {
       $sections[] =  ting_fulltext_get_section($node);
     }
-    $ret['section'] = $sections;      
+    $ret['section'] = $sections;
   }
-  
+
 
   //<docbook:subjectset><docbook:subject><docbook:subjectitem>
   $query = '//docbook:subjectitem';
@@ -66,7 +66,7 @@ function ting_fulltext_parse($xml) {
       $ret['subject'][] = $node->nodeValue;
     }
   }
-  
+
   return $ret;
 }
 
@@ -75,22 +75,25 @@ function ting_fulltext_parse($xml) {
  * Not sure whether this is a complete parse of section - there might be more cases. TODO make this parse complete
  */
 function ting_fulltext_get_section($node) {
-  foreach( $node->childNodes as $child ) {
-    switch($child->nodeName) {
-    case 'docbook:title' :
-      $ret['title'] = $child->nodeValue;
-      break;
-    case 'docbook:para' : // there might be more than one para in each section
-      $ret['para'][] = $child->nodeValue;
-      break;
-    case 'docbook:info' :
-      $ret['title'] = $child->getElementsByTagName('title')->item(0)->nodeValue;
-      break;
-    case 'docbook:section' :
-      // recursive
-      ting_fulltext_get_section($child);
-      break;
-    default:break;
+  foreach ($node->childNodes as $child) {
+    switch ($child->nodeName) {
+      case 'docbook:title' :
+        $ret['title'] = $child->nodeValue;
+        break;
+      case 'docbook:para' : // there might be more than one para in each section
+        $ret['para'][] = $child->nodeValue;
+        break;
+      case 'docbook:info' :
+        $ret['title'] = $child->getElementsByTagName('title')->item(0)->nodeValue;
+        break;
+      case 'docbook:section' :
+        // recursive
+        ting_fulltext_get_section($child);
+        break;
+      case 'docbook:qandaset':
+        $ret['title'] = $child->nodeValue;
+      default:
+        break;
     }
   }
   return $ret;
