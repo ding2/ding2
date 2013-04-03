@@ -5,10 +5,13 @@
  * Mock implementation of simpleSAML.
  */
 class SimpleSAML_Auth_Simple {
+
   /**
    * Constructor, empty for now.
    */
-  public function __construct($sp) {}
+  public function __construct($sp) {
+    
+  }
 
   public function isAuthenticated() {
     // gateway returns attributes if authentication goes well 
@@ -22,12 +25,12 @@ class SimpleSAML_Auth_Simple {
     // user might already be logged in
     //check in $_SESSION
     else {
-      $ID = $this->getAttribute('eduPersonTargetedID');
-      if (isset($ID)) {
+      $wayf_id = $this->getAttribute('eduPersonTargetedID');
+      if (isset($wayf_id)) {
         return TRUE;
       }
     }
-    // user failed authentication
+    // user is not authenticated
     return FALSE;
   }
 
@@ -43,6 +46,9 @@ class SimpleSAML_Auth_Simple {
     return isset($_SESSION['wayf_login'][$name][0]) ? $_SESSION['wayf_login'][$name][0] : NULL;
   }
 
+  /* \brief redirect to gatewayf for authentication via wayf
+   * 
+   */
   public function requireAuth($idp = NULL) {
     global $base_url;
     $home = $base_url . '/' . current_path();
@@ -53,18 +59,32 @@ class SimpleSAML_Auth_Simple {
     exit;
   }
 
+  /**
+   * NOTICE; this logout does a redirect to log out of wayf, and thus
+   * must fake a drupal-user logout to log drupal user out in a proper way
+   */
   public function logout($url = NULL) {
+
+    // unset session variables
+    if (isset($_SESSION['wayf_login'])) {
+      unset($_SESSION['wayf_login']);
+    }
+
     global $base_url;
     $config = variable_get('ding_wayf');
     $gateway = $config['gatewayf'];
-  
-   $url = $base_url.'/'.$config['redirect'];
-   
-    unset($_SESSION['wayf_login']);
-    if (isset($url)) {
-      header('Location:' . $gateway . '?returnUrl=' . $url . '&op=logout');
-      exit;
-    }
-  }
 
+    // and now we fake a drupal logout before
+    // the redirect takes place
+    // log out drupal user
+    // @see user/user.pages.inc::user_logout()
+    global $user;
+    watchdog('wayf', 'Session closed for %name.', array('%name' => $user->mail));
+    module_invoke_all('user_logout', $user);
+    // Destroy the current session, and reset $user to the anonymous user.
+    session_destroy();
+    // redirect to gatewayf; pass returnUrl for simplesaml to redirect
+    header('Location:' . $gateway . '?returnUrl=' . $base_url . '&op=logout');
+    exit;
+  }
 }
