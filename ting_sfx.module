@@ -177,7 +177,13 @@ function ting_sfx_encode_dk( $query ) {
 
 function ting_sfx_get_logo() {
   $logo_file = 'sfx_logo.png';
-  $ret = sprintf('<img src="%s/%s/%s"/>', substr(base_path(), 0, -1), drupal_get_path('module', 'ting_sfx'), $logo_file);
+  $ret = sprintf(
+    '<img src="%s/%s/%s" alt="%s"/>',
+    substr(base_path(), 0, -1),
+    drupal_get_path('module', 'ting_sfx'),
+    $logo_file,
+    t('SFX Logo')
+  );
   return $ret;
 }
 
