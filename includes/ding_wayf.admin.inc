@@ -15,7 +15,7 @@ function ding_wayf_admin_settings_form() {
     '#title' => t('Simple SAML php instalation directory'),
     '#default_value' => $default['installdir'],
     '#description' => t('Absolute path with no trailing slash to simple SAML installation.'),
-    '#required' => TRUE,
+    '#required' => FALSE,
   );
 
   $form['ding_wayf']['sp'] = array(
@@ -47,7 +47,7 @@ function ding_wayf_admin_settings_form() {
     '#type' => 'checkbox',
     '#title' => t('Wayf login', array(), array('context'=>'ding_wayf')),
     '#description' => t('Enable wayflogin',array(),array('context'=>'ding_wayf')),
-    '#default_value' => $default['wayflogin'],
+    '#default_value' => isset($default['wayflogin']) ? $default['wayflogin'] : 0,
   );  
   
 
@@ -55,7 +55,7 @@ function ding_wayf_admin_settings_form() {
     '#type' => 'checkbox',
     '#title' => t('Nemlogin', array(), array('context'=>'ding_wayf')),
     '#description' => t('Enable Nemlogin',array(),array('context'=>'ding_wayf')),
-    '#default_value' => $default['nemlogin'],
+    '#default_value' => isset($default['nemlogin']) ? $default['nemlogin'] : 0,
   );
   
   
@@ -73,7 +73,7 @@ function ding_wayf_admin_settings_form_validate($form, $form_state) {
     form_set_error('wayflogin', t('Either check wayf, nemlogin or both.',array(),array('context' => 'ding_wayf')));
   }
   
-  if (!ding_wayf_check_simplesamlphp($form_state['values']['ding_wayf']['installdir'])) {
+ /* if (!ding_wayf_check_simplesamlphp($form_state['values']['ding_wayf']['installdir'])) {
     form_set_error('installdir', t('Simple SAML php was not found at the location given.'));
-  }
+  }*/
 }

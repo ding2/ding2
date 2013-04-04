@@ -190,7 +190,9 @@ function ding_wayf_redirect_login() {
   ding_wayf_get_provider_attributes($simplesaml);
 
   if ($user->uid == 0) {
-    require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+   // require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+//    require_once('/lib/_autoload.php');
+    module_load_include('php', 'ding_wayf', 'lib/_autoload');
     $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
 
     if ($saml->isAuthenticated()) {
@@ -259,8 +261,10 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
   }
 
   if (!empty($simplesaml)) {
-    require_once $simplesaml['installdir'] . '/lib/_autoload.php';
-
+   // require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+//require_once('/lib/_autoload.php');
+    
+    module_load_include('php', 'ding_wayf', 'lib/_autoload');
     $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
 
 
