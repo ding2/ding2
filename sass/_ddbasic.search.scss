@@ -583,6 +583,10 @@ input#edit-search-block-form--2.spinner {
               @extend %availability-available-reservable;
             }
 
+            &.availability.available.not-reservable {
+              @extend %availability-available-not-reservable;
+            }
+            
             .availability-status {
               &:before {
                 content: " - ";

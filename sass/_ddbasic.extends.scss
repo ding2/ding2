@@ -145,7 +145,7 @@
 %availability-available {
   @extend %availability;
 
-  background-color: #0072bc;
+  background-color: #4c9f45;
 }
 
 %availability-reservable {
@@ -160,6 +160,11 @@
   background-color: #4c9f45;
 }
 
+%availability-available-not-reservable {
+  @extend %availability;
+
+  background-color: #0072bc;
+}
 
 // -----------------------------------------------------------------------------
 // Mediaqueries
