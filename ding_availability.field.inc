@@ -190,8 +190,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // Generate an unique id.
         $id = drupal_html_id('availability-' . $entity->id);
 
-        // Mark as available (and 'not-reservable') if it is an online resource
-        $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available not-reservable' : 'not-available-online';
+        // Mark as available if it is an online resource
+        $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available' : 'not-available-online';
 
         // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
         if ($ac_source == $lib_materials_type) {
@@ -238,8 +238,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // Extract records' source
           $ac_source = $entities[0]->reply->record['ac:source'][''][0];
 
-          $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available not-reservable' : '';
-          $available_online_label = ($available_online) ? '<span class="availability-status">' . t('not reservable') . '</span>' : '';
+          // Mark as available if it is an online resource
+          $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available' : '';
+          $available_online_label = ($available_online) ? '<span class="availability-status">' . t('online') . '</span>' : '';
 
           // Convert type into link.
           if ($display['settings']['link']) {
