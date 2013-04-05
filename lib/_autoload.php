@@ -9,19 +9,29 @@ class SimpleSAML_Auth_Simple {
   /**
    * Constructor, empty for now.
    */
-  public function __construct($sp) {
-    
-  }
+  public function __construct($sp) {}
 
-  public function isAuthenticated() {
-    // gateway returns attributes if authentication goes well 
-    // for now only wayf-id and mail
-    if (isset($_GET['eduPersonTargetedID'])) {
+  public function isAuthenticated() {    
+    // @TODO handle errors
+    $error = isset($_GET['error']) ? $_GET['error'] : FALSE;
+    if( $error ) {
+      // handle this
+    }
+    
+    // gateway returns attributes in $_POST if authentication goes well
+    if( !empty($_POST['eduPersonTargetedID']) ) {
+      $this->setAttributes($_POST);
+      return TRUE;
+    }
+    
+    // @TODO is this ok - maybe use $_GET instead
+    /* if (isset($_GET['eduPersonTargetedID'])) {
       // set attributes
       $this->setAttribute('eduPersonTargetedID', $_GET['eduPersonTargetedID']);
       $this->setAttribute('mail', $_GET['mail']);
       return TRUE;
-    }
+    }*/
+    
     // user might already be logged in
     //check in $_SESSION
     else {
@@ -37,12 +47,12 @@ class SimpleSAML_Auth_Simple {
   public function getAttributes() {
     return isset($_SESSION['wayf_login']) ? $_SESSION['wayf_login'] : NULL;
   }
-
-  private function setAttribute($name, $value) {
-    $_SESSION['wayf_login'][$name][0] = $value;
+  
+  private function setAttributes($attributes){
+    $_SESSION['wayf_login'] = $attributes;
   }
 
-  private function getAttribute($name) {
+  public function getAttribute($name) {
     return isset($_SESSION['wayf_login'][$name][0]) ? $_SESSION['wayf_login'][$name][0] : NULL;
   }
 
@@ -51,7 +61,7 @@ class SimpleSAML_Auth_Simple {
    */
   public function requireAuth($idp = NULL) {
     global $base_url;
-    $home = $base_url . '/' . current_path();
+    $home = $base_url .'/'. current_path();
     $config = variable_get('ding_wayf');
     $gateway = $config['gatewayf'];
 
