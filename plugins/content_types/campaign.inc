@@ -35,8 +35,9 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
   );
   $count = $conf['ding_campaign_count'];
   $offset = $conf['ding_campaign_offset'];
+  $style = $conf['ding_campaign_image_style'];
 
-  $block->content = ding_campaign_display($context_data, $count, $offset);
+  $block->content = ding_campaign_display($context_data, $count, $offset, $style);
 
   return $block;
 }
@@ -62,6 +63,20 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#default_value' => (isset($form_state['conf']['ding_campaign_offset'])) ? $form_state['conf']['ding_campaign_offset'] : 0,
     '#size' => 3,
     '#maxlength' => 3,
+  );
+
+  $form['ding_campaign_image_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Campaign image width'),
+    '#description' => t('Applicable for image campaigns. Image will be resized to selected width, height will be selected automatically.'),
+    '#options' => array(
+      'medium' => t('Default (medium)'),
+      'ding_campaign_w_180' => t('180px'),
+      'ding_campaign_w_280' => t('280px'),
+      'ding_campaign_w_380' => t('380px'),
+      'ding_campaign_w_480' => t('480px'),
+    ),
+    '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'medium',
   );
 
   drupal_add_css(drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign_admin.css');
@@ -99,4 +114,5 @@ function ding_campaign_campaign_content_type_edit_form_validate($form, &$form_st
 function ding_campaign_campaign_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['ding_campaign_count'] = $form_state['values']['ding_campaign_count'];
   $form_state['conf']['ding_campaign_offset'] = $form_state['values']['ding_campaign_offset'];
+  $form_state['conf']['ding_campaign_image_style'] = $form_state['values']['ding_campaign_image_style'];
 }

@@ -10,6 +10,11 @@
   clear: none;
 }
 
+#ding-campaign-campaign-content-type-edit-form > div > div.form-item-ding-campaign-image-style {
+  float: none;
+  clear: both;
+}
+
 #ding-campaign-campaign-content-type-edit-form > div > div.form-type-select label,
 #ding-campaign-campaign-content-type-edit-form > div > div.form-type-textfield label {
   display: block;
