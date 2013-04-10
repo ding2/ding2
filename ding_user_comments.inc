@@ -1,9 +1,8 @@
 <?php
-
 /**
+ * @file
  * Implements popup for logging in to add comments
  */
-
 
 /**
  * Implements hook_entity_view().
@@ -43,7 +42,6 @@ function ding_user_comment_forbidden_form() {
   return $form;
 }
 
-
 /**
  * Theme comment_post_forbidden (log in to add comments)
  */
@@ -59,7 +57,6 @@ function theme_ding_user_comment_post_forbidden($variables) {
 
   return drupal_render($render_array);
 }
-
 
 
 /**

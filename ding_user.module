@@ -513,7 +513,7 @@ function ding_user_user_login_validate($form, &$form_state) {
       // them in a hook_profile2_presave hook trigged by us saving a new
       // profile, or themselves in the profile_init callback.
       /**
-       * @TODO: this stores the info in clear text... FIX IT. 
+       * @TODO: this stores the info in clear text... FIX IT.
        */
       ding_user_save_creds($auth_res, $account);
 
@@ -612,7 +612,10 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
  *
  * Gets the correct form to display from modules implementing hook_profile2_tab.
  * The form may be an array of form id's.
- * */
+ *
+ * @TODO: What dose this do as hook_user_profile2_tabs is not used any where ?
+ *
+ **/
 function ding_user_form_profile2_form_alter(&$form, &$form_state) {
   if (user_is_logged_in()) {
     global $user;
@@ -637,6 +640,14 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
   }
 }
 
+/**
+ * Create a profile2 provider profile for the account, if one do not exists.
+ *
+ * @param entity $account
+ *  Drupal user account object.
+ * @return entity $profile
+ *  The newly create profile or the existing one.
+ */
 function _ding_user_create_profile2($account) {
   $profile = ding_user_provider_profile($account);
   if (!$profile) {
@@ -784,7 +795,7 @@ function ding_user_get_creds($account = NULL) {
 
     $GLOBALS['user'] = drupal_anonymous_user();
     drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
-    //drupal_goto();
+    drupal_goto();
   }
   throw new DingProviderAuthException;
 }
