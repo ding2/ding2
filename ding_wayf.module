@@ -190,7 +190,9 @@ function ding_wayf_redirect_login() {
   ding_wayf_get_provider_attributes($simplesaml);
 
   if ($user->uid == 0) {
-    require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+    // require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+//    require_once('/lib/_autoload.php');
+    module_load_include('php', 'ding_wayf', 'lib/_autoload');
     $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
 
     if ($saml->isAuthenticated()) {
@@ -200,15 +202,10 @@ function ding_wayf_redirect_login() {
       ding_wayf_login($authentication_attributes);
     }
     else {
+      $idp = $_GET['idp'];
+      $idps = ding_wayf_idps();
 // Redirect the user to the WAYF login page.
-      $saml->requireAuth();
-
-      //   pjo NOTE for nemlogin; you can give idp as parameter on login 
-      //   depending on which idp is preferred e.g      
-      //$saml->requireAuth(array('saml:idp' => 'https://testbridge.wayf.dk'));
-      //saml->requireAuth(array('saml:idp' => 'https://nemlogin.wayf.dk'));
-      //$saml->requireAuth(array('saml:idp' => 'https://wayf.wayf.dk'));
-      //   remember that identity provider must be set in metadata file
+      $saml->requireAuth($idps[$idp]);
     }
   }
   else {
@@ -261,17 +258,19 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
   }
 
   if (!empty($simplesaml)) {
-    require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+    // require_once $simplesaml['installdir'] . '/lib/_autoload.php';
+    //require_once('/lib/_autoload.php');
 
+    module_load_include('php', 'ding_wayf', 'lib/_autoload');
     $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
 
     if ($saml->isAuthenticated()) {
       if (isset($origin)) {
         $url = $base_url . '/' . $origin;
       }
-// we pass simplesaml the url to return to -
-// you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
-// if only a string is passed it will be handled as 'ReturnTo'
+      // we pass simplesaml the url to return to -
+      // you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
+      // if only a string is passed it will be handled as 'ReturnTo'
       $saml->logout($url);
     }
   }
@@ -337,16 +336,39 @@ function ding_wayf_block_info() {
  * @return array
  */
 function ding_wayf_block_view($delta) {
-  $block = array();
+  $block = array('content' => '');
   if ($delta == 'login') {
     global $user;
 // Only show login link for anon. users.
     if ($user->uid == 0) {
-      $block['content'] = l(t('Login using WAYF'), 'wayf/login', array('query' => drupal_get_destination()));
+      $config = variable_get('ding_wayf', NULL);
+      $wayf = isset($config['wayflogin']) ? $config['wayflogin'] : FALSE;
+      $nemlogin = isset($config['nemlogin']) ? $config['nemlogin'] : FALSE;
+      if ($wayf) {
+        $block['content'] .= l(t('Login using WAYF'), 'wayf/login',
+            // array('attributes'=>array('class'=>'link-ding-wayf-wayf-login'), 'query' => drupal_get_destination()));
+            array('attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'wayf')));
+      }
+      if ($nemlogin) {
+        $block['content'] .= l(t('Login using NEMLOGIN'), 'wayf/login', array('attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'nemlogin', drupal_get_destination())));
+      }
     }
   }
 
   return $block;
+}
+
+/** \brief get the valid idp's
+ * 
+ */
+function ding_wayf_idps() {
+  $ret = array(
+    'test' => 'test',
+    'wayf' => 'wayf',
+    'nemlogin' => 'nemlogin',
+  );
+
+  return $ret;
 }
 
 /**
