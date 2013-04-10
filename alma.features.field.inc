@@ -43,11 +43,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -59,7 +61,7 @@ function alma_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '4',
+          'weight' => '8',
         ),
       ),
       'entity_type' => 'profile2',
@@ -115,11 +117,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -132,7 +136,7 @@ function alma_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 9,
+          'weight' => '3',
         ),
       ),
       'entity_type' => 'profile2',
@@ -188,11 +192,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -205,7 +211,7 @@ function alma_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 6,
+          'weight' => '0',
         ),
       ),
       'entity_type' => 'profile2',
@@ -260,11 +266,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'list_text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -280,8 +288,8 @@ function alma_field_default_fields() {
           'label' => 'above',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '1',
+          'type' => 'list_default',
+          'weight' => '7',
         ),
       ),
       'entity_type' => 'profile2',
@@ -334,11 +342,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -350,8 +360,8 @@ function alma_field_default_fields() {
           'label' => 'above',
           'module' => 'text',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '3',
+          'type' => 'text_default',
+          'weight' => '4',
         ),
       ),
       'entity_type' => 'profile2',
@@ -406,11 +416,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -422,7 +434,7 @@ function alma_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '5',
+          'weight' => '9',
         ),
       ),
       'entity_type' => 'profile2',
@@ -477,11 +489,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -494,7 +508,7 @@ function alma_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 8,
+          'weight' => '2',
         ),
       ),
       'entity_type' => 'profile2',
@@ -544,11 +558,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'list_text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -560,8 +576,8 @@ function alma_field_default_fields() {
           'label' => 'above',
           'module' => 'list',
           'settings' => array(),
-          'type' => 'hidden',
-          'weight' => '0',
+          'type' => 'list_default',
+          'weight' => '5',
         ),
       ),
       'entity_type' => 'profile2',
@@ -614,11 +630,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'date',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -635,8 +653,8 @@ function alma_field_default_fields() {
             'multiple_number' => '',
             'multiple_to' => '',
           ),
-          'type' => 'hidden',
-          'weight' => '2',
+          'type' => 'date_default',
+          'weight' => '6',
         ),
       ),
       'entity_type' => 'profile2',
@@ -702,11 +720,13 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'virtual_field',
       ),
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-      ),
       'translatable' => '0',
       'type' => 'text',
+      'virtual_field' => array(
+        'entity_types' => array(
+          0 => 'profile2',
+        ),
+      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
@@ -719,7 +739,7 @@ function alma_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 7,
+          'weight' => '1',
         ),
       ),
       'entity_type' => 'profile2',
@@ -749,12 +769,12 @@ function alma_field_default_fields() {
   t('Full name');
   t('Interest period');
   t('Phone');
+  t('Phone id');
   t('Postal code');
   t('Preferred branch');
   t('Reservation pause');
   t('Set your reservations on pause.');
   t('Street name');
-  t('Phone id');
 
   return $fields;
 }

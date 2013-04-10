@@ -11,6 +11,7 @@ dependencies[] = ding_reservation
 dependencies[] = features
 dependencies[] = list
 dependencies[] = profile2
+dependencies[] = virtual_field
 features[features_api][] = api:1
 features[field][] = profile2-provider_alma-field_alma_absent_id
 features[field][] = profile2-provider_alma-field_alma_city
