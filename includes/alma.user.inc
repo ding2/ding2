@@ -72,42 +72,6 @@ function alma_user_clear_cache($creds = NULL) {
 }
 
 /**
- * Update profile2 with values from alma patron
- */
-function alma_user_profile_init($profile2, $auth_res) {
-  $creds = ding_user_get_creds($profile2);
-  $patron = alma_get_patron($creds);
-
-  // Reservation pause (absentPeriod).
-  // pparently alma supports multiple absentPeriods, but for now we handle one only (the first found).
-  // @todo - check if it's correct to handle the first only
-  $langs = field_language('profile2', $profile2);
-  // Reservation pause.
-  if (is_array($patron) && isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
-    $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = $patron->absentPeriods[0]['from_date'];
-    $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = $patron->absentPeriods[0]['to_date'];
-    $profile2->field_alma_absent_id[$langs['field_alma_absent_id']][0]['value'] = $patron->absentPeriods[0]['id'];
-  }
-  else {
-    $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] = ' ';
-    $profile2->field_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] = ' ';
-  }
-
-  // Preferred_branch.
-  $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'] = $patron->branch;
-
-  // Mobile; also here alma supports multiple phones - again we pick the first
-  $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] = isset($patron->mobiles[0]['phone']) ? $patron->mobiles[0]['phone'] : '';
-  $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'] = isset($patron->mobiles[0]['id']) ? $patron->mobiles[0]['id'] : NULL;
-  //$profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'] = isset() .. etc
-
-  // Handle init parameter in alma.module/alma_profile2_presave.
-  $profile2->alma_init = TRUE;
-  $profile2->save();
-  unset($profile2->alma_init);
-}
-
-/**
  * update provider user;
  * @invoked from: ding_user/ding_user_user_presave
  * possible changes; email, pincode, preferred_branch

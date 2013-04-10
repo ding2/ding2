@@ -151,10 +151,12 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
 
   $profile2 = profile2_load_by_user($account, 'provider_alma');
   if (!empty($profile2)) {
+    $wrapper = entity_metadata_wrapper('profile2', $entity);
     // interest period
     if (!isset($expiry)) {
-      // get interest period from profile2
-      $interest_period = alma_get_interest_period($profile2);
+
+      // Use a metadata wrapper to access the data.
+      $interest_period = $wrapper->field_alma_interest_period->value();
       if ($interest_period) {
         $expiry = REQUEST_TIME + ($interest_period['key'] * 24 * 60 * 60);
       }
@@ -165,16 +167,7 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
 
     // preferred branch
     if (empty($branch)) {
-      $pref_branch = alma_get_preferred_branch($profile2);
-      if ($pref_branch) {
-        $branches = alma_reservation_pickup_branches();
-        foreach ($branches as $key => $val) {
-          if ($val == $pref_branch) {
-            $branch = $key;
-            break;
-          }
-        }
-      }
+      $branch = $wrapper->field_alma_preferred_branch->value();
     }
   }
 
