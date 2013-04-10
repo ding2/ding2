@@ -73,13 +73,10 @@ function alma_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '7',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '38',
       ),
     ),
   );
@@ -148,13 +145,10 @@ function alma_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '3',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '38',
       ),
     ),
   );
@@ -223,13 +217,10 @@ function alma_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '0',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '38',
       ),
     ),
   );
@@ -446,12 +437,10 @@ function alma_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'module' => 'text',
-        'settings' => array(
-          'size' => 60,
-        ),
-        'type' => 'text_textfield',
-        'weight' => '9',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '38',
       ),
     ),
   );
@@ -520,13 +509,10 @@ function alma_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '2',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '38',
       ),
     ),
   );
@@ -751,13 +737,10 @@ function alma_field_default_fields() {
         'user_register_form' => FALSE,
       ),
       'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => '38',
       ),
     ),
   );
