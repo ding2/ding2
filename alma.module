@@ -157,7 +157,7 @@ function alma_form_user_profile_form_alter(&$form, &$form_state) {
 
   // Hide mobile ID and absent period ID fields
   // since they are not relevant for end users.
-  $form['profile_provider_alma']['field_absent_id']['#access'] = FALSE;
+  $form['profile_provider_alma']['field_alma_absent_id']['#access'] = FALSE;
   $form['profile_provider_alma']['field_alma_phone_id']['#access'] = FALSE;
 
   // @todo; WHAT are the rules for alma pincode
@@ -495,7 +495,7 @@ function alma_profile2_presave($profile2) {
     $changes['reservation_pause_stop'] = $stop;
 
     // Set absent id.
-    $value = alma_get_profile2_value($profile2, 'field_absent_id');
+    $value = alma_get_profile2_value($profile2, 'field_alma_absent_id');
     $changes['absent_id'] = is_null($value['new']) ? '' : $value['new'];
   }
 
@@ -654,7 +654,7 @@ function alma_update_provider($changes, &$profile2) {
   $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
   $langs = field_language('profile2', $profile2);
   $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'] = empty($info['phones'][0]['id']) ? NULL : $info['phones'][0]['id'];
-  $profile2->field_absent_id[$langs['field_absent_id']][0]['value'] = empty($info['absent_periods'][0]['id']) ? NULL : $info['absent_periods'][0]['id'];
+  $profile2->field_alma_absent_id[$langs['field_alma_absent_id']][0]['value'] = empty($info['absent_periods'][0]['id']) ? NULL : $info['absent_periods'][0]['id'];
 }
 
 /**

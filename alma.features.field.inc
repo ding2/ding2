@@ -10,14 +10,14 @@
 function alma_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'profile2-provider_alma-field_absent_id'
-  $fields['profile2-provider_alma-field_absent_id'] = array(
+  // Exported field: 'profile2-provider_alma-field_alma_absent_id'.
+  $fields['profile2-provider_alma-field_alma_absent_id'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_absent_id',
+      'field_name' => 'field_alma_absent_id',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -31,6 +31,7 @@ function alma_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -53,7 +54,7 @@ function alma_field_default_fields() {
         ),
       ),
       'entity_type' => 'profile2',
-      'field_name' => 'field_absent_id',
+      'field_name' => 'field_alma_absent_id',
       'label' => 'Absent id',
       'required' => 0,
       'settings' => array(
@@ -67,12 +68,140 @@ function alma_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '4',
+        'weight' => '7',
       ),
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_interest_period'
+  // Exported field: 'profile2-provider_alma-field_alma_city'.
+  $fields['profile2-provider_alma-field_alma_city'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_alma_city',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_alma',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 9,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_alma_city',
+      'label' => 'City',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'profile2-provider_alma-field_alma_full_name'.
+  $fields['profile2-provider_alma-field_alma_full_name'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_alma_full_name',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_alma',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 6,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_alma_full_name',
+      'label' => 'Full name',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '0',
+      ),
+    ),
+  );
+
+  // Exported field: 'profile2-provider_alma-field_alma_interest_period'.
   $fields['profile2-provider_alma-field_alma_interest_period'] = array(
     'field_config' => array(
       'active' => '1',
@@ -86,13 +215,14 @@ function alma_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(
-          30 => t('1 month'),
-          60 => t('2 months'),
-          90 => t('3 months'),
-          180 => t('6 months'),
+          30 => '1 måned',
+          60 => '2 months',
+          90 => '3 months',
+          180 => '6 months',
         ),
         'allowed_values_function' => '',
         'profile2_private' => 0,
@@ -130,12 +260,12 @@ function alma_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '2',
+        'weight' => '5',
       ),
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_mobile_phone'
+  // Exported field: 'profile2-provider_alma-field_alma_mobile_phone'.
   $fields['profile2-provider_alma-field_alma_mobile_phone'] = array(
     'field_config' => array(
       'active' => '1',
@@ -156,6 +286,7 @@ function alma_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '16',
@@ -193,12 +324,12 @@ function alma_field_default_fields() {
           'size' => '12',
         ),
         'type' => 'text_textfield',
-        'weight' => '5',
+        'weight' => '8',
       ),
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_phone_id'
+  // Exported field: 'profile2-provider_alma-field_alma_phone_id'.
   $fields['profile2-provider_alma-field_alma_phone_id'] = array(
     'field_config' => array(
       'active' => '1',
@@ -219,6 +350,7 @@ function alma_field_default_fields() {
           0 => 'format',
         ),
       ),
+      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'max_length' => '255',
@@ -253,12 +385,76 @@ function alma_field_default_fields() {
           'size' => 60,
         ),
         'type' => 'text_textfield',
-        'weight' => '6',
+        'weight' => '9',
       ),
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_preferred_branch'
+  // Exported field: 'profile2-provider_alma-field_alma_postal_code'.
+  $fields['profile2-provider_alma-field_alma_postal_code'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_alma_postal_code',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_alma',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 8,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_alma_postal_code',
+      'label' => 'Postal code',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '2',
+      ),
+    ),
+  );
+
+  // Exported field: 'profile2-provider_alma-field_alma_preferred_branch'.
   $fields['profile2-provider_alma-field_alma_preferred_branch'] = array(
     'field_config' => array(
       'active' => '1',
@@ -272,6 +468,7 @@ function alma_field_default_fields() {
           0 => 'value',
         ),
       ),
+      'locked' => '0',
       'module' => 'list',
       'settings' => array(
         'allowed_values' => array(),
@@ -307,12 +504,12 @@ function alma_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '1',
+        'weight' => '4',
       ),
     ),
   );
 
-  // Exported field: 'profile2-provider_alma-field_alma_reservation_pause'
+  // Exported field: 'profile2-provider_alma-field_alma_reservation_pause'.
   $fields['profile2-provider_alma-field_alma_reservation_pause'] = array(
     'field_config' => array(
       'active' => '1',
@@ -322,6 +519,7 @@ function alma_field_default_fields() {
       'field_name' => 'field_alma_reservation_pause',
       'foreign keys' => array(),
       'indexes' => array(),
+      'locked' => '0',
       'module' => 'date',
       'settings' => array(
         'granularity' => array(
@@ -385,7 +583,71 @@ function alma_field_default_fields() {
           'year_range' => '-3:+3',
         ),
         'type' => 'date_popup',
-        'weight' => '3',
+        'weight' => '6',
+      ),
+    ),
+  );
+
+  // Exported field: 'profile2-provider_alma-field_alma_street_name'.
+  $fields['profile2-provider_alma-field_alma_street_name'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_alma_street_name',
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'locked' => '0',
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_alma',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 7,
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_alma_street_name',
+      'label' => 'Street name',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '1',
       ),
     ),
   );
@@ -393,11 +655,15 @@ function alma_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Absent id');
-  t('Preferred branch');
+  t('City');
+  t('Full name');
   t('Interest period');
   t('Phone');
+  t('Postal code');
+  t('Preferred branch');
   t('Reservation pause');
   t('Set your reservations on pause.');
+  t('Street name');
   t('phone id');
 
   return $fields;
