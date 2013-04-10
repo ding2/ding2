@@ -324,7 +324,7 @@ function ding_user_create_profile_type($provider) {
   $profile_type = new ProfileType(
     array(
       'type' => $provider_profile_type,
-      'label' => 'Provider profile for ' . $provider['title'],
+      'label' => t('Provider profile for ' . $provider['title']),
       'userCategory' => TRUE,
       'userView' => TRUE,
     )
@@ -514,10 +514,8 @@ function ding_user_user_login_validate($form, &$form_state) {
       // profile, or themselves in the profile_init callback.
       ding_user_save_creds($auth_res, $account);
 
+      // Create new
       $profile = _ding_user_create_profile2($account);
-
-      // set additional tabs in profile2
-      _ding_user_profile2_tabs($account);
 
       // Let provider initialise the profile. Assume they save it if need be.
       if (ding_provider_implements('user', 'profile_init')) {
@@ -616,43 +614,6 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
 }
 
 /**
- * Implements hook_user_profile_tabs().
- * get profile2 definitions ('type_name', $form ).
- * create a profile2 if it doesn't exist.
- * load the profile
- * bind profile to user
- **/
-function _ding_user_profile2_tabs($account) {
-  // load profiles by invoking hook_user_profile2_tab
-  $profile_tabs = module_invoke_all('user_profile2_tabs');
-  foreach ($profile_tabs as $profile_tab) {
-    $profile_type = profile2_get_types($profile_tab->type);
-    // special case - profile_type has not yet been created
-    if (!$profile_type) {
-      $profile_type = new ProfileType(
-        array(
-          'type' => $profile_tab->type,
-          'label' => $profile_tab->label,
-          'userCategory' => TRUE,
-          'userView' => TRUE,
-        )
-      );
-      $profile_type->save();
-    }
-    // Normal case; get the profile type.
-    // Create a profile for current user.
-    $profile = new Profile(
-      array(
-        'user' => $account,
-        'type' => $profile_type,
-      )
-    );
-    // Bind profile to user.
-    $profile->save();
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Gets the correct form to display from modules implementing hook_profile2_tab.
@@ -687,11 +648,17 @@ function _ding_user_create_profile2($account) {
   if (!$profile) {
     $provider = _ding_provider_get_provider('user');
     $provider_profile_type = 'provider_' . $provider['module'];
+
+
+    /**
+     * @TODO: remove this out into an install file.
+     */
     // Check that we have a profile type for this provider.
     if (!$profile_type = profile2_type_load($provider_profile_type)) {
       // Create new type, if provider haven't.
       $profile_type = ding_user_create_profile_type($provider);
     }
+
     // Create a profile for current user.
     $profile = new Profile(
       array(
