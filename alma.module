@@ -759,5 +759,3 @@ function alma_get_profile2_value($profile2, $fieldname, $field_index = 'value') 
     'new' => isset($current_value[0][$field_index]) ? $current_value[0][$field_index] : NULL,
   );
 }
-
-include_once('alma.features.inc');
