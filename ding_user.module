@@ -7,7 +7,7 @@
 /**
  * Default seconds to cache user credentials before wiping them.
  */
-define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
+define('DING_USER_DEFAULT_CREDS_LIFETIME', 99999900);
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -512,16 +512,10 @@ function ding_user_user_login_validate($form, &$form_state) {
       // Save credentials for later. Do it early as the provider might expect
       // them in a hook_profile2_presave hook trigged by us saving a new
       // profile, or themselves in the profile_init callback.
+      /**
+       * @TODO: this stores the info in clear text... FIX IT. 
+       */
       ding_user_save_creds($auth_res, $account);
-
-      // Create new
-      $profile = _ding_user_create_profile2($account);
-
-      // Let provider initialise the profile. Assume they save it if need be.
-      if (ding_provider_implements('user', 'profile_init')) {
-        $profile = _ding_user_create_profile2 ($account);
-        ding_provider_invoke('user', 'profile_init', $profile, $auth_res);
-      }
 
       // Log user in.
       $form_state['uid'] = $account->uid;
@@ -545,7 +539,7 @@ function ding_user_user_login_validate($form, &$form_state) {
         }
       }
     }
-  } catch (Exception $e) {
+  } catch (DingProviderException $e) {
     // Exception thrown, log error and carry on.
     watchdog('ding_user', 'Provider exception, message: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
   }
