@@ -37,6 +37,15 @@ function alma_field_default_fields() {
         'max_length' => '255',
         'profile2_private' => 0,
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
       'translatable' => '0',
       'type' => 'text',
     ),
@@ -99,6 +108,15 @@ function alma_field_default_fields() {
       'settings' => array(
         'max_length' => '255',
         'profile2_private' => 0,
+      ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -164,6 +182,15 @@ function alma_field_default_fields() {
         'max_length' => '255',
         'profile2_private' => 0,
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
       'translatable' => '0',
       'type' => 'text',
     ),
@@ -226,6 +253,15 @@ function alma_field_default_fields() {
         ),
         'allowed_values_function' => '',
         'profile2_private' => 0,
+      ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
       ),
       'translatable' => '0',
       'type' => 'list_text',
@@ -292,6 +328,15 @@ function alma_field_default_fields() {
         'max_length' => '16',
         'profile2_private' => 0,
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
       'translatable' => '0',
       'type' => 'text',
     ),
@@ -355,6 +400,15 @@ function alma_field_default_fields() {
       'settings' => array(
         'max_length' => '255',
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
       'translatable' => '0',
       'type' => 'text',
     ),
@@ -373,7 +427,7 @@ function alma_field_default_fields() {
       ),
       'entity_type' => 'profile2',
       'field_name' => 'field_alma_phone_id',
-      'label' => 'phone id',
+      'label' => 'Phone id',
       'required' => FALSE,
       'settings' => array(
         'text_processing' => 0,
@@ -416,6 +470,15 @@ function alma_field_default_fields() {
       'settings' => array(
         'max_length' => '255',
         'profile2_private' => 0,
+      ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
       ),
       'translatable' => '0',
       'type' => 'text',
@@ -474,6 +537,15 @@ function alma_field_default_fields() {
         'allowed_values' => array(),
         'allowed_values_function' => 'alma_reservation_pickup_branches',
         'profile2_private' => 0,
+      ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
       ),
       'translatable' => '0',
       'type' => 'list_text',
@@ -535,6 +607,15 @@ function alma_field_default_fields() {
         'timezone_db' => '',
         'todate' => 'required',
         'tz_handling' => 'none',
+      ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
       ),
       'translatable' => '0',
       'type' => 'date',
@@ -615,6 +696,15 @@ function alma_field_default_fields() {
         'max_length' => '255',
         'profile2_private' => 0,
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
       'translatable' => '0',
       'type' => 'text',
     ),
@@ -664,7 +754,7 @@ function alma_field_default_fields() {
   t('Reservation pause');
   t('Set your reservations on pause.');
   t('Street name');
-  t('phone id');
+  t('Phone id');
 
   return $fields;
 }

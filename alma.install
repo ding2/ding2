@@ -12,3 +12,16 @@ function alma_update_7001() {
     ->condition('name', 'alma', '=')
     ->execute();
 }
+
+/**
+ *  Convert field storage to virtual field.
+ */
+function alma_update_7002() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('field_name', '%alma%', 'LIKE')
+    ->execute();
+}
