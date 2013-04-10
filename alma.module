@@ -748,7 +748,10 @@ function alma_replace_entity($item) {
  *  An array with a "new" and "old" index with the values.
  */
 function alma_get_profile2_value($profile2, $fieldname, $field_index = 'value') {
-  $previous_value = field_get_items('profile2', $profile2->original, $fieldname);
+  $previous_value = array();
+  if (isset($profile2->original)) {
+    $previous_value = field_get_items('profile2', $profile2->original, $fieldname);
+  }
   $current_value = field_get_items('profile2', $profile2, $fieldname);
 
   return array(
@@ -756,3 +759,5 @@ function alma_get_profile2_value($profile2, $fieldname, $field_index = 'value') 
     'new' => isset($current_value[0][$field_index]) ? $current_value[0][$field_index] : NULL,
   );
 }
+
+include_once('alma.features.inc');
