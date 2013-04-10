@@ -256,7 +256,7 @@ function alma_profile2_presave($entity) {
     // Use a metadata wrapper to access the data.
     $wrapper_original = entity_metadata_wrapper('profile2', $entity->original);
     $wrapper = entity_metadata_wrapper('profile2', $entity);
-    
+
     // Reservation pause
     $value = $wrapper->field_alma_reservation_pause->value();
     $start = is_null($value['value']) ? '' : $value['value'];

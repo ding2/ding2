@@ -1,65 +1,67 @@
 <?php
-
 /**
- * @todo
- * Where do the user enter the interest periode and preferred branch
- * information. (THIS IS NOT IMPLEMENTED YET, SO DEFAULT IS USED)
+ * @file
+ * Handles reservation with alma.
  */
 
 
-
+/**
+ * @TODO: Document this function... provider hook ?
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @return type
+ */
 function alma_reservation_options($type, $account, $reservables) {
-  /*
-   * While we use ding_reservation for branch handling, we don't want to
-   * depend on the module, as it would mean that ding_reservation can't be
-   * disabled. So instead we throw an exception here.
-   */
+  $branches = alma_reservation_pickup_branches($account);
+  $periods = alma_get_interest_periods();
 
-  if (!module_exists('ding_reservation')) {
-    throw new Exception('Alma reservation options requires ding_reservation.');
+  $preferred_branch = NULL;
+  $interest_period = NULL;
+  if (ding_user_is_provider_user($account)) {
+    // Load profile2 profile.
+    $profile = ding_user_provider_profile($account);
+
+    // Use a metadata wrapper to access the data.
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+    // Get values.
+    $preferred_branch = $wrapper->field_alma_preferred_branch->value();
+    $interest_period = $wrapper->field_alma_interest_period->value();
   }
 
   $form = array();
-  $profile = ding_user_provider_profile($account);
-
-  $branches = alma_reservation_pickup_branches($account);
-  $periods = alma_get_interest_periods();
-  // @todo; use local branches from issue - some migth not be available in all branches
-
-  if (ding_user_is_provider_user($account)) {
-    $preferred_branch = $profile->field_alma_preferred_branch[field_language('profile2', $profile, 'field_alma_preferred_branch')][0]['value'];
-    $interest_period = $profile->field_alma_interest_period[field_language('profile2', $profile, 'field_alma_interest_period')][0]['value'];
-  }
-  else {
-    $preferred_branch = NULL;
-    $interest_period = NULL;
-  }
-
   $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch', $preferred_branch, $branches);
   $form += ding_reservation_interest_period_selector($type, 'alma_interest_period', $interest_period, $periods);
 
   return $form;
 }
 
-
 /**
  * Validate reservations options.
  */
 function alma_reservation_options_validate($type, $account, $reservables, $values) {
+  // Load profile2 profile.
   $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->field_alma_preferred_branch[$field_language['field_alma_preferred_branch']][0]['value'];
-  $interest_period = $profile->field_alma_interest_period[$field_language['field_alma_interest_period']][0]['value'];
+
+  // Use a metadata wrapper to access the data.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
+  $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
+  $interest_period =  $wrapper->field_alma_interest_period->value();
+
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
-  if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
+  if (!empty($$preferred_branch) && !empty($interest_period) && $type == 'create') {
     return array(
-      'alma_preferred_branch' => $profile_branch,
+      'alma_preferred_branch' => $$preferred_branch,
       'alma_interest_period' => $interest_period,
     );
   }
   else {
-    $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $profile_branch, $values);
+    $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $$preferred_branch, $values);
     $period_valid = ding_reservation_default_options_interest_period_validate($type, 'alma_interest_period', $interest_period, $values);
     return array_merge($branch_valid, $period_valid);
   }
@@ -69,28 +71,34 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
  * Submit handler for reservations options.
  */
 function alma_reservation_options_submit($type, $account, $reservables, $values) {
+  // Load profile2 profile.
   $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->field_alma_preferred_branch[$field_language['field_alma_preferred_branch']][0]['value'];
-  $update = ding_reservation_default_options_branch_submit($type, 'alma_preferred_branch', $profile_branch, $values);
+
+  // Use a metadata wrapper to access the data.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
+  $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
+
+  $update = ding_reservation_default_options_branch_submit($type, 'alma_preferred_branch', $preferred_branch, $values);
   if (!empty($update['alma_preferred_branch'])) {
-    $profile->field_alma_preferred_branch[$field_language['field_alma_preferred_branch']][0]['value'] = $update['alma_preferred_branch'];
-    $profile->save();
+    $wrapper->field_alma_preferred_branch->set($update['alma_preferred_branch']);
   }
 }
 
 /**
- * Set preferred pickup branch
+ * Set preferred pickup branch.
+ *
+ * @TODO: Is the branch format here correct and where is this function called
+ *        from.
+ *
  */
 function alma_reservation_set_preferred_branch($account, $branch) {
   // Throws an exception if we are not logged in.
   $creds = ding_user_get_creds($account);
 
-  /**
-   * @todo Should call alma an update the branch in the library system (not sure
-   * if branch has the right format).
-   */
-  //alma_client_invoke('get_reservations', $creds['name'], $creds['pass'], $branch);
+  // Update preferred branch.
+  alma_client_invoke('get_reservations', $creds['name'], $creds['pass'], $branch);
 }
 
 /**
@@ -264,10 +272,13 @@ function alma_reservation_branch_name($branch_id) {
   return NULL;
 }
 
-/**********************************
- * Helper functions
+/**
+ * @TODO: add description.
+ *
+ * @param type $account
+ * @param type $reset
+ * @return type
  */
-
 function alma_reservation_get_reservations($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
 
@@ -279,10 +290,20 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
   return $_SESSION['alma_reservations'];
 }
 
+/**
+ * @TODO: add description.
+ */
 function alma_reservation_clear_cache() {
   unset($_SESSION['alma_reservations']);
 }
 
+/**
+ * @TODO: add description.
+ *
+ * @param type $account
+ * @param type $item_id
+ * @return boolean
+ */
 function alma_reservation_exists($account, $item_id) {
   $reservations = alma_reservation_get_reservations($account);
   foreach ($reservations as $res) {
@@ -293,6 +314,12 @@ function alma_reservation_exists($account, $item_id) {
   }
 }
 
+/**
+ * @TODO: add description.
+ *
+ * @param type $datetime
+ * @return type
+ */
 function alma_reservation_format_date($datetime) {
   $timestamp = (!is_int($datetime)) ? strtotime($datetime) : $datetime;
   return date('Y-m-d', $timestamp);

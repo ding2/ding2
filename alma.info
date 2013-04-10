@@ -7,6 +7,7 @@ version = 7.x-1.0-beta1
 project = alma
 dependencies[] = date
 dependencies[] = ding_provider
+dependencies[] = ding_reservation
 dependencies[] = features
 dependencies[] = list
 dependencies[] = profile2

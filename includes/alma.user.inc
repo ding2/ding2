@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * Handles user authentication with the alma provider.
+ */
+
 
 /**
  * Implements hook_user_authenticate().
@@ -56,6 +61,12 @@ function alma_user_authenticate($uid, $pass) {
   return $return;
 }
 
+/**
+ * Check if the user creds is set correctly.
+ *
+ * @param type $creds
+ * @return type
+ */
 function alma_user_is_authenticated($creds) {
   return (isset($creds['name']) && isset($creds['pass']));
 }
@@ -67,14 +78,24 @@ function alma_user_profile_form_validate($form, $form_state) {
 
 }
 
+/**
+ * Clear user cache based on creds.
+ *
+ * @param array $creds
+ */
 function alma_user_clear_cache($creds = NULL) {
   alma_get_patron($creds);
 }
 
 /**
- * update provider user;
- * @invoked from: ding_user/ding_user_user_presave
- * possible changes; email, pincode, preferred_branch
+ * Update the information at alma e-mail and pin code.
+ *
+ * @TODO: Is this used any longer or are every ting running through profile2 ?
+ *
+ *
+ * @param type $account
+ * @param type $changes
+ * @return type
  */
 function alma_user_account_update($account, $changes) {
   $creds = ding_user_get_creds($account);
