@@ -17,7 +17,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->task = 'user_edit';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Panel',
     'no_blocks' => 0,
@@ -58,7 +58,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_user_edit_1',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -68,7 +68,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['main_content'][0] = 'new-1';
   $display->hide_title = PANELS_TITLE_FIXED;
@@ -83,7 +83,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->task = 'user_edit';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = -30;
   $handler->conf = array(
     'title' => 'Provider profile',
     'no_blocks' => 0,
@@ -123,6 +123,28 @@ function ding_user_frontend_default_page_manager_handlers() {
   $display->title = '';
   $display->content = array();
   $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-2';
+    $pane->panel = 'main_content';
+    $pane->type = 'profile2_form';
+    $pane->subtype = 'profile2_form';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_user_edit_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-2'] = $pane;
+    $display->panels['main_content'][0] = 'new-2';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -161,7 +183,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-2';
+    $pane->pid = 'new-3';
     $pane->panel = 'main_content';
     $pane->type = 'user_profile';
     $pane->subtype = 'user_profile';
@@ -180,8 +202,8 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-2'] = $pane;
-    $display->panels['main_content'][0] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['main_content'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -236,7 +258,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'profile2';
     $pane->subtype = 'profile2';
@@ -251,8 +273,8 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['main_content'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][0] = 'new-4';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
