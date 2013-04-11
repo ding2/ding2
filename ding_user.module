@@ -176,19 +176,12 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
  *
  * For provider users, hide OG, Drupal password, and add in a pincode field.
  */
-function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
-  if (ding_user_is_provider_user($form_state['user'])) {
-    // Don't show og group.
-    // @todo: shouldn't this be elsewhere?
-    $form['group_audience']['#access'] = FALSE;
-
-    // Don't show Drupal password. We don't use it.
-    $form['account']['current_pass']['#access'] = FALSE;
-    $form['account']['pass']['#access'] = FALSE;
-
+function ding_user_form_profile2_form_alter(&$form, &$form_state) {
+  global $user;
+  if (ding_user_is_provider_user($user)) {
     // Add pincode change field. Defaults to 4 chars, as that seems the common
     // option, providers may form_alter this.
-    $form['account']['pincode'] = array(
+    $form['pincode'] = array(
       '#type' => 'password_confirm',
       '#size' => 4,
       '#maxlength' => 4,

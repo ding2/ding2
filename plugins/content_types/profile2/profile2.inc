@@ -33,6 +33,6 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
 /**
  * Plugin settings form
  */
-function ding_user_my_page_content_type_edit_form($form, &$form_state) {
+function ding_user_profile2_content_type_edit_form($form, &$form_state) {
   return $form;
 }
