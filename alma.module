@@ -287,9 +287,7 @@ function alma_profile2_presave($entity) {
       }
     }
 
-    /**
-    *  Mobile phone.
-    */
+    // Mobile phone.
     $value = $wrapper->field_alma_mobile_phone->value();
     if (!is_null($wrapper_original->field_alma_mobile_phone->value())) {
       // Update mobile phone number.
@@ -305,7 +303,11 @@ function alma_profile2_presave($entity) {
       $changes['mobile'] = $value;
     }
 
-    // Interest period ? apparently not an alma parameter.. @todo; check if Interest period should be saved on provider
+    // Get the mail.
+    $value = $wrapper->field_alma_mail->value();
+    if (!is_null($value)) {
+        $changes['mail'] = $value;
+    }
 
     // Update provider
     if (!empty($changes)) {
@@ -314,11 +316,11 @@ function alma_profile2_presave($entity) {
   }
 }
 
-function alma_update_provider($changes, $profile2) {
+function alma_update_provider($changes, $entity) {
   $error_message = t('Error communicating with library system. ');
 
   try {
-    $creds = ding_user_get_creds($profile2);
+    $creds = ding_user_get_creds($entity);
   }
   catch (Exception $e) {
     // Re-throw ??
@@ -420,6 +422,36 @@ function alma_update_provider($changes, $profile2) {
     if (empty($res)) {
       $error_message .= t('pickup branch not saved');
       drupal_set_message($error_message, 'warning');
+    }
+  }
+
+  // Update email (remeber to update the drupal user account).
+  if (!empty($changes['mail'])) {
+    global $user;
+
+    // Update or add mail to alma
+    try {
+      // Add email
+      if (empty($user->mail) && !empty($changes['mail'])) {
+        $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
+      }
+      // Change email
+      elseif (isset($user->mail) && !empty($changes['mail'])) {
+        $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $user->mail, $changes['mail']);
+      }
+    }
+    catch (Exception $e) {
+      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    }
+
+    if (empty($res)) {
+      $error_message .= t('mail was not saved');
+      drupal_set_message($error_message, 'warning');
+    }
+    else {
+      // Update drupal user account mail.
+      $user->mail = $changes['mail'];
+      user_save($user);
     }
   }
 }
@@ -557,9 +589,9 @@ function alma_profile2_load($entities) {
 
       // Interest periode.
       $wrapper->field_alma_interest_period->set('180'); // WHERE IS IT STORED.
-      /**
-       * @TODO: Should mail be moved into the profile ? It would resolve all issue with the same email for diff users.
-       */
+
+      // Mail address.
+      $wrapper->field_alma_mail->set($patron->email);
     }
   }
 }

@@ -58,6 +58,7 @@ function alma_user_authenticate($uid, $pass) {
       'country' => $res['addresses'][0]['country'],
     );
   }
+  
   return $return;
 }
 
@@ -88,10 +89,10 @@ function alma_user_clear_cache($creds = NULL) {
 }
 
 /**
- * Update the information at alma e-mail and pin code.
+ * Update pin code at alma.
  *
- * @TODO: Is this used any longer or are every ting running through profile2 ?
- *
+ * @TODO: Rename this function to change hook_alma_change_pincode and in 
+ * ding_user line 240.
  *
  * @param type $account
  * @param type $changes
@@ -100,18 +101,7 @@ function alma_user_clear_cache($creds = NULL) {
 function alma_user_account_update($account, $changes) {
   $creds = ding_user_get_creds($account);
 
-  if (isset($changes['mail'])) {
-    // Add email
-    if (empty($account->mail) && !empty($changes['mail'])) {
-      $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
-    }
-    // Change email
-    elseif (isset($account->mail) && !empty($changes['mail'])) {
-      $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $account->mail, $changes['mail']);
-    }
-  }
-
-  // Change password.
+  // Change the users pin code..
   if (isset($changes['pass'])) {
     $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changes['pass']);
     if ($res) {

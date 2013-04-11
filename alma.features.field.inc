@@ -325,7 +325,7 @@ function alma_field_default_fields() {
       'description' => 'The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'email',
           'settings' => array(),
           'type' => 'email_plain',
