@@ -23,6 +23,6 @@ function alma_update_7002() {
       'storage_module' => 'virtual_field',
     ))
     ->condition('field_name', '%alma%', 'LIKE')
-    ->condition('field_name', 'field_alma_interest_period', 'NOT')
+    ->condition('field_name', 'field_alma_interest_period', '!=')
     ->execute();
 }

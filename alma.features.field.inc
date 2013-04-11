@@ -304,6 +304,12 @@ function alma_field_default_fields() {
       'settings' => array(
         'profile2_private' => 0,
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
       'translatable' => '0',
       'type' => 'email',
     ),
