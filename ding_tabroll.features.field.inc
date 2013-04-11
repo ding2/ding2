@@ -8,11 +8,11 @@
  * Implements hook_field_default_fields().
  */
 function ding_tabroll_field_default_fields() {
-  
-$fields = array();
 
-  // Exported field: 'node-ding_tabroll-field_ding_tabroll_image'.
-  $fields['node-ding_tabroll-field_ding_tabroll_image'] = array(
+  $fields = array();
+
+  // Exported field: 'node-ding_rolltab-field_ding_tabroll_image'
+  $fields['node-ding_rolltab-field_ding_tabroll_image'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -43,7 +43,7 @@ $fields = array();
       'type' => 'image',
     ),
     'field_instance' => array(
-      'bundle' => 'ding_tabroll',
+      'bundle' => 'ding_rolltab',
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -121,8 +121,8 @@ $fields = array();
     ),
   );
 
-  // Exported field: 'node-ding_tabroll-field_ding_tabroll_lead'.
-  $fields['node-ding_tabroll-field_ding_tabroll_lead'] = array(
+  // Exported field: 'node-ding_rolltab-field_ding_tabroll_lead'
+  $fields['node-ding_rolltab-field_ding_tabroll_lead'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -151,8 +151,8 @@ $fields = array();
       'type' => 'text_long',
     ),
     'field_instance' => array(
-      'bundle' => 'ding_tabroll',
-      'default_value' => NULL,
+      'bundle' => 'ding_rolltab',
+     'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -202,8 +202,8 @@ $fields = array();
     ),
   );
 
-  // Exported field: 'node-ding_tabroll-field_ding_tabroll_link'.
-  $fields['node-ding_tabroll-field_ding_tabroll_link'] = array(
+  // Exported field: 'node-ding_rolltab-field_ding_tabroll_link'
+  $fields['node-ding_rolltab-field_ding_tabroll_link'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -251,7 +251,7 @@ $fields = array();
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'ding_tabroll',
+      'bundle' => 'ding_rolltab',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
@@ -305,8 +305,8 @@ $fields = array();
     ),
   );
   
-   // Exported field: 'node-ding_tabroll-field_ding_tabroll_library_ref'.
-  $fields['node-ding_tabroll-field_ding_tabroll_library_ref'] = array(
+  // Exported field: 'node-ding_rolltab-field_ding_tabroll_library_ref'
+  $fields['node-ding_rolltab-field_ding_tabroll_library_ref'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
@@ -350,7 +350,7 @@ $fields = array();
       'type' => 'entityreference',
     ),
     'field_instance' => array(
-      'bundle' => 'ding_tabroll',
+      'bundle' => 'ding_rolltab',
       'default_value' => NULL,
       'deleted' => '0',
       'description' => '',

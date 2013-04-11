@@ -80,7 +80,7 @@ function ding_tabroll_node_insert($node) {
   $nid = $node->nid;
   $type = $node->type;
   // Only process project node.
-  if ($type != 'ding_tabroll') {
+  if ($type != 'ding_rolltab') {
     return FALSE;
   }
 

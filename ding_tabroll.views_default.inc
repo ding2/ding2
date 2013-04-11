@@ -183,7 +183,7 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'ding_tabroll' => 'ding_tabroll',
+    'ding_rolltab' => 'ding_rolltab',
   );
   /* Filter criterion: Indhold: Udgivet */
   $handler->display->display_options['filters']['status']['id'] = 'status';

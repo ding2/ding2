@@ -45,7 +45,7 @@ function ding_tabroll_create_nodequeues() {
     $nodequeue->reverse = 0;
     $nodequeue->new = TRUE;
     $nodequeue->types = array(
-      0 => 'ding_tabroll',
+      0 => 'ding_rolltab',
     );
     $nodequeue->reverse = 0;
 
