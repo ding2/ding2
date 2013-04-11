@@ -64,7 +64,7 @@ function ding_user_menu_alter(&$items) {
       $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
     }
   }
-
+  
   $items['user/%user/view']['title'] = t('User profile');
   $items['user/%user/edit']['title'] = t('Edit user profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
@@ -608,39 +608,6 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Gets the correct form to display from modules implementing hook_profile2_tab.
- * The form may be an array of form id's.
- *
- * @TODO: What dose this do as hook_user_profile2_tabs is not used any where ?
- *
- **/
-function ding_user_form_profile2_form_alter(&$form, &$form_state) {
-  if (user_is_logged_in()) {
-    global $user;
-    if ((ding_user_is_provider_user($user))) {
-      $profile_tabs = module_invoke_all('user_profile2_tabs');
-      foreach ($profile_tabs as $profile_tab) {
-        if ($form['#user_category'] == $profile_tab->type) {
-          $form['#title'] = $profile_tab->label;
-          if (is_array($profile_tab->form)) {
-            foreach ($profile_tab->form as $form_tab) {
-              $tab = drupal_get_form($form_tab);
-              $form += $tab;
-            }
-          }
-          else if (!empty($profile_tab->form)) {
-            $form += drupal_get_form($profile_tab->form);
-          }
-          drupal_set_title($form['#title']);
-        }
-      }
-    }
-  }
-}
-
-/**
  * Create a profile2 provider profile for the account, if one do not exists.
  *
  * @param entity $account
@@ -653,7 +620,6 @@ function _ding_user_create_profile2($account) {
   if (!$profile) {
     $provider = _ding_provider_get_provider('user');
     $provider_profile_type = 'provider_' . $provider['module'];
-
 
     /**
      * @TODO: remove this out into an install file.
