@@ -61,7 +61,7 @@ function alma_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '8',
+          'weight' => '9',
         ),
       ),
       'entity_type' => 'profile2',
@@ -76,7 +76,7 @@ function alma_field_default_fields() {
         'module' => 'virtual_field',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '38',
+        'weight' => '9',
       ),
     ),
   );
@@ -129,7 +129,7 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -148,7 +148,7 @@ function alma_field_default_fields() {
         'module' => 'virtual_field',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '38',
+        'weight' => '3',
       ),
     ),
   );
@@ -201,7 +201,7 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -220,7 +220,7 @@ function alma_field_default_fields() {
         'module' => 'virtual_field',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '38',
+        'weight' => '0',
       ),
     ),
   );
@@ -276,11 +276,11 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '7',
+          'weight' => '8',
         ),
       ),
       'entity_type' => 'profile2',
@@ -296,6 +296,57 @@ function alma_field_default_fields() {
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '5',
+      ),
+    ),
+  );
+
+  // Exported field: 'profile2-provider_alma-field_alma_mail'.
+  $fields['profile2-provider_alma-field_alma_mail'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_alma_mail',
+      'foreign keys' => array(),
+      'indexes' => array(),
+      'locked' => '0',
+      'module' => 'email',
+      'settings' => array(
+        'profile2_private' => 0,
+      ),
+      'translatable' => '0',
+      'type' => 'email',
+    ),
+    'field_instance' => array(
+      'bundle' => 'provider_alma',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => 'The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'email',
+          'settings' => array(),
+          'type' => 'email_plain',
+          'weight' => '4',
+        ),
+      ),
+      'entity_type' => 'profile2',
+      'field_name' => 'field_alma_mail',
+      'label' => 'E-mail',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'email',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'email_textfield',
+        'weight' => '7',
       ),
     ),
   );
@@ -348,11 +399,11 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '4',
+          'weight' => '5',
         ),
       ),
       'entity_type' => 'profile2',
@@ -425,7 +476,7 @@ function alma_field_default_fields() {
           'label' => 'hidden',
           'settings' => array(),
           'type' => 'hidden',
-          'weight' => '9',
+          'weight' => '10',
         ),
       ),
       'entity_type' => 'profile2',
@@ -440,7 +491,7 @@ function alma_field_default_fields() {
         'module' => 'virtual_field',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '38',
+        'weight' => '10',
       ),
     ),
   );
@@ -493,7 +544,7 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -512,7 +563,7 @@ function alma_field_default_fields() {
         'module' => 'virtual_field',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '38',
+        'weight' => '2',
       ),
     ),
   );
@@ -559,11 +610,11 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'list',
           'settings' => array(),
           'type' => 'list_default',
-          'weight' => '5',
+          'weight' => '6',
         ),
       ),
       'entity_type' => 'profile2',
@@ -630,7 +681,7 @@ function alma_field_default_fields() {
       'description' => 'Set your reservations on pause.',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'date',
           'settings' => array(
             'format_type' => 'long',
@@ -640,7 +691,7 @@ function alma_field_default_fields() {
             'multiple_to' => '',
           ),
           'type' => 'date_default',
-          'weight' => '6',
+          'weight' => '7',
         ),
       ),
       'entity_type' => 'profile2',
@@ -721,7 +772,7 @@ function alma_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -740,7 +791,7 @@ function alma_field_default_fields() {
         'module' => 'virtual_field',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => '38',
+        'weight' => '1',
       ),
     ),
   );
@@ -749,6 +800,7 @@ function alma_field_default_fields() {
   // Included for use with string extractors like potx.
   t('Absent id');
   t('City');
+  t('E-mail');
   t('Full name');
   t('Interest period');
   t('Phone');
@@ -758,6 +810,7 @@ function alma_field_default_fields() {
   t('Reservation pause');
   t('Set your reservations on pause.');
   t('Street name');
+  t('The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.');
 
   return $fields;
 }
