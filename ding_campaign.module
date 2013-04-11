@@ -150,7 +150,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
             'alt' => $image_alt,
             'title' => $image_title,
           ));
-          $link_tag = l($image_tag, $camp_link[0]['value'], array('html' => TRUE, 'absolute' => TRUE, 'aatributes' => array('_target' => 'blank')));
+          $link_tag = l($image_tag, $camp_link[0]['value'], array('html' => TRUE, 'absolute' => TRUE, 'attributes' => array('target' => '_blank')));
           $content = '<div class="' . $base_class . ' ' . $base_class . '-id-' . $v . ' ding-campaign-item-image">' . $link_tag . '</div>';
           break;
 
