@@ -64,7 +64,7 @@ function ding_user_menu_alter(&$items) {
       $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
     }
   }
-  
+
   $items['user/%user/view']['title'] = t('User profile');
   $items['user/%user/edit']['title'] = t('Edit user profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
@@ -601,6 +601,12 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
       return FALSE;
     }
     else if (ding_user_is_provider_user($profile)) {
+      // This disables the tabs in the user profile and as we never want the
+      // user to user the path... but only the panels extension. This will be
+      // okay for now.
+      return FALSE;
+    }
+    else {
       return TRUE;
     }
   }
@@ -643,6 +649,30 @@ function _ding_user_create_profile2($account) {
   }
   return $profile;
 }
+
+/**
+ * Implements hook_forms().
+ *
+ * Enables the profile2 form panels pane to generate a form for a profile2
+ * enity. The code is largely taken from the profile2 page module, but we only
+ * which this part of the module.
+ */
+function ding_user_forms($form_id, $args) {
+  // Reuse profile2 page extension code.
+  include_once drupal_get_path('module', 'profile2') . '/contrib/profile2_page.inc';
+
+  // For efficiency, only act if the third argument is 'profile2'.
+  if (isset($args[2]) && is_string($args[2]) && $args[2] == 'profile2') {
+    $info = entity_get_info('profile2');
+    // Translate bundle form ids to the base form id 'profile2_form'.
+    foreach ($info['bundles'] as $bundle => $bundle_info) {
+      $forms['profile2_edit_' . $bundle . '_form']['callback'] = 'profile2_form';
+      $forms['profile2_edit_' . $bundle . '_form']['wrapper callback'] = 'entity_ui_form_defaults';
+    }
+    return $forms;
+  }
+}
+
 
 /**
  * Ajax command to authenticate. Used by ding_provider.
