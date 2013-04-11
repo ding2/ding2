@@ -542,6 +542,9 @@ function alma_replace_entity($item) {
  * seams to be the right place and at the same time ensure that the information
  * is not stored locally.
  *
+ * Note: that the interest period is store locally in the database as alma do
+ *       not have the ability to store it. So that field is not fill in here.
+ *
  */
 function alma_profile2_load($entities) {
   foreach ($entities as $id => &$entity) {
@@ -586,9 +589,6 @@ function alma_profile2_load($entities) {
       // Mobile; also here alma supports multiple phones - again we pick the first
       $wrapper->field_alma_mobile_phone->set(isset($patron->mobiles[0]['phone']) ? $patron->mobiles[0]['phone'] : '');
       $wrapper->field_alma_phone_id->set(isset($patron->mobiles[0]['id']) ? $patron->mobiles[0]['id'] : NULL);
-
-      // Interest periode.
-      $wrapper->field_alma_interest_period->set('180'); // WHERE IS IT STORED.
 
       // Mail address.
       $wrapper->field_alma_mail->set($patron->email);

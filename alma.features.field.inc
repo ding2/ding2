@@ -251,19 +251,8 @@ function alma_field_default_fields() {
         'allowed_values_function' => '',
         'profile2_private' => 0,
       ),
-      'storage' => array(
-        'active' => '1',
-        'module' => 'virtual_field',
-        'settings' => array(),
-        'type' => 'virtual_field',
-      ),
       'translatable' => '0',
       'type' => 'list_text',
-      'virtual_field' => array(
-        'entity_types' => array(
-          0 => 'profile2',
-        ),
-      ),
     ),
     'field_instance' => array(
       'bundle' => 'provider_alma',
