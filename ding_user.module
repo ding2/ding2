@@ -172,9 +172,10 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() (user_profile_form).
+ * Implements hook_form_FORM_ID_alter().
  *
- * For provider users, hide OG, Drupal password, and add in a pincode field.
+ * Add pincode fields to the provider profile(s), so the users can change their
+ * library pincode.
  */
 function ding_user_form_profile2_form_alter(&$form, &$form_state) {
   global $user;
@@ -183,8 +184,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     // option, providers may form_alter this.
     $form['pincode'] = array(
       '#type' => 'password_confirm',
-      '#size' => 4,
-      '#maxlength' => 4,
+      '#size' => 5,
+      '#maxlength' => 5,
       '#process' => array(
         'form_process_password_confirm',
         // Not adding user_form_process_password_confirm here, as it only adds
@@ -193,99 +194,9 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       ),
       '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
     );
-
-    // Adjust description of mail field.
-    $form['account']['mail']['#description'] = t('The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.');
-
-    // Remove the validator requiring the current password to change email
-    // address.
-    $pos = array_search('user_validate_current_pass', $form['#validate']);
-    if ($pos !== FALSE) {
-      unset($form['#validate'][$pos]);
-    }
-
-    // In order to bypass the problem with unique email adresses we use our own validator.
-    // Find the $form['#validate'] entry for the default validator,
-    // and replace it with our validator. Based on the sharedemail module.
-    if (is_array($form['#validate'])) {
-      $key = array_search('user_account_form_validate', $form['#validate'], TRUE);
-      if ($key !== FALSE) {
-        $form['#validate'][$key] = 'ding_user_account_form_validate';
-      }
-    }
-  }
-}
-
-/**
- * To bypass the problem that a users email address must be unique
- * we implement our own validator.
- * Taken from shared email module.
- *
- * Form validation handler for user_account_form().
- *
- * This function adds a prefix to the e-mail address before calling
- * user_account_form_validate() to perform the default form validation,
- * then restores the e-mail address.
- *
- * @param $form
- *  The user form that was submitted.
- * @param $form_state
- *  The state of the form.
- *
- * @see user_account_form()
- * @see user_account_form_validate()
- */
-function ding_user_account_form_validate($form, &$form_state) {
-  // Test whether the e-mail address should be disguised.
-  $mail = ding_user_is_shared_email($form, $form_state);
-  if ($mail) {
-    $form_state['values']['mail'] = 'dingusermail_'. $mail;
   }
 
-  // Call the User module's validate function.
-  user_account_form_validate($form, $form_state);
-
-  // Restore the actual e-mail address.
-  if ($mail) {
-    $form_state['values']['mail'] = $mail;
-  }
-}
-
-/**
- * Taken from shared email module
- * Check whether the e-mail address should be disguised during validation.
- *
- * If the e-mail address is valid, check whether there are any other users
- * with the same address.  If there are, the address must be modified
- * so that the User module's validation function will think it's unique.
- *
- * @param $form
- *  The user form that was submitted.
- * @param $form_state
- *  The state of the form.
- * @return
- *  Returns the e-mail address if it's a duplicate and is allowed.
- *  Otherwise nothing is returned.
- */
-function ding_user_is_shared_email($form, &$form_state) {
-  $mail = trim($form_state['values']['mail']);
-
-  // If e-mail address is invalid, don't have to disguise it.
-  if (!user_validate_mail($mail)) {
-    // Get the UIDs of all other users who have this e-mail address.
-    $account = $form['#user'];
-    $existing = db_select('users')
-      ->fields('users', array('uid'))
-      ->condition('uid', $account->uid, '<>')
-      ->condition('mail', db_like($mail), 'LIKE')
-      ->execute()
-      ->fetchCol();
-    if (count($existing) > 0) {
-      return $mail;
-    }
-  }
-
-  return FALSE;
+  $form['#submit'][] = 'ding_user_profile_update_submit';
 }
 
 /**
@@ -305,6 +216,45 @@ function ding_user_form_process_password_confirm($element) {
   $element['pass2']['#title'] = t('Confirm pincode');
 
   return $element;
+}
+
+/**
+ * Updates the users pincode as part of the profile update. It's done in this
+ * submit function as the pincode is not part of provider profile and this
+ * esures that it never in any way get stored in the DB.
+ *
+ * Furthermore the pincode fields are injected into the profile form in the form
+ * alter above as there is not password field available, that would not store it
+ * in the database.
+ *
+ * @global type $user
+ * @param type $form
+ * @param type $form_state
+ */
+function ding_user_profile_update_submit(&$form, &$form_state) {
+  $pincode = isset($form_state['values']['pincode']) ? $form_state['values']['pincode'] : '';
+  // If pincode is not empty, it's changed.
+  if (!empty($pincode)) {
+    global $user;
+    try {
+      $update_res = ding_provider_invoke('user', 'account_update', $user, array('pass' => $pincode));
+      if (!empty($update_res['creds'])) {
+        // Updated drupal credational
+        ding_user_save_creds($update_res, $user);
+        /**
+         * @TODO: This have to be removed and moved to a session update.
+         */
+      }
+    }
+    catch (Exception $execption) {
+      // If update_account fails, we're in trouble, as we're too far in to
+      // set form errors. So we'll just tell the user that it couldn't be, and
+      // not save the fields.
+      drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
+      watchdog_exception('ding_user', $execption);
+      drupal_set_message(t("New pincode not saved."), 'error');
+    }
+  }
 }
 
 /**
@@ -334,63 +284,6 @@ function ding_user_provider_profile($account) {
   $provider_profile_type = 'provider_' . $provider['module'];
 
   return profile2_load_by_user($account, $provider_profile_type);
-}
-
-/**
- * Implements hook_user_presave().
- *
- * Update provider with changes to email/pass.
- */
-function ding_user_user_presave(&$edit, $account, $category) {
-  // If the changes originate from the provider we don't need to update them back to the provider.
-  if (isset($edit['from_provider']) && $edit['from_provider']) {
-    return;
-  }
-  // Ensure that we're dealing with a provider user.
-  if (empty($account->uid) || !ding_user_is_provider_user($account)) {
-    return;
-  }
-
-  // Do not presave during login phase.
-  if (!empty($account->ding_user_login_process)) {
-    unset($account->ding_user_login_process);
-    return;
-  }
-
-  $changes = array();
-  if (isset($edit['mail']) && $edit['mail'] != $account->mail) {
-    $changes['mail'] = $edit['mail'];
-  }
-  // If pincode is not empty, it's changed.
-  if (!empty($edit['pincode'])) {
-    $changes['pass'] = $edit['pincode'];
-    // Unset it, so it doesn't get saved.
-    unset($edit['pincode']);
-  }
-  if (!empty($changes)) {
-    try {
-      $update_res = ding_provider_invoke('user', 'account_update', $account, $changes);
-      if (!empty($update_res['creds'])) {
-        ding_user_save_creds($update_res, $account);
-      }
-    }
-    catch (Exception $e) {
-      // If update_account fails, we're in trouble, as we're too far in to
-      // set form errors. So we'll just tell the user that it couldn't be, and
-      // not save the fields.
-      drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
-      watchdog_exception('ding_user', $e);
-      if (isset($changes['mail'])) {
-        drupal_set_message(t("Email not saved."), 'error');
-        // Don't save a new email address.
-        unset($edit['mail']);
-      }
-      if (isset($changes['pass'])) {
-        drupal_set_message(t("New pincode not saved."), 'error');
-        // Pass was already unset.
-      }
-    }
-  }
 }
 
 /**
@@ -573,9 +466,6 @@ function _ding_user_create_account($auth_name, $auth_res) {
     user_set_authmaps($account, array("authname_ding_user" => $auth_name));
   }
   else {
-    // Let us know in ding_user_user_presave that no special presave
-    // is required while user is logging in.
-    $account->ding_user_login_process = TRUE;
     ding_user_update_user($auth_res, $account);
   }
   return $account;
@@ -621,7 +511,7 @@ function _ding_user_create_profile2($account) {
     $provider_profile_type = 'provider_' . $provider['module'];
 
     /**
-     * @TODO: remove this out into an install file.
+     * @TODO: Move this into the install/fetures file of the provider.
      */
     // Check that we have a profile type for this provider.
     if (!$profile_type = profile2_type_load($provider_profile_type)) {
