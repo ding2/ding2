@@ -61,6 +61,10 @@ function ding_user_menu_alter(&$items) {
   // But don't if page_manager overrides it.
   if (!module_exists('page_manager') || variable_get('page_manager_user_edit_disabled', TRUE)) {
     if (isset($items['user/%user/edit']) && $items['user/%user/edit']['page callback'] == 'drupal_get_form') {
+      /**
+       * @TODO: Are there any sites not running panels and will this work with
+       *        profile2 ?
+       */
       $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
     }
   }
@@ -99,6 +103,9 @@ function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
 
 /**
  * Implements hook_entity_info_alter().
+ *
+ * Add new view mode used mainly to display the reservation lists in the users
+ * profile (not profile2).
  */
 function ding_user_entity_info_alter(&$entity_info) {
   $ding_entity_info = ding_entity_info('ding_entity');
@@ -120,7 +127,7 @@ function ding_user_entity_info_alter(&$entity_info) {
  * Allows access if the account is the same as the logged in user.
  */
 function ding_user_access($account) {
-  return ($GLOBALS['user']->uid == $account->uid) && $account->uid > 0;
+  return ($GLOBALS['user']->uid == $account->uid) && user_is_logged_in();
 }
 
 /**
@@ -134,7 +141,8 @@ function ding_user_cron() {
 /**
  * Implements hook_form_alter().
  *
- * Modify user login form to use our backend.
+ * Modify user login form to use our backend and changes the form fields types
+ * to password.
  */
 function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
@@ -153,11 +161,6 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $pos += 1;
       }
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
-      // Add our own submit handler.
-      // $form['#submit'][] = 'ding_library_user_login_submit';
-
-      // Remove the standard user login links.
-      //unset($form['links']);
 
     // Falling through on purpose.
     case 'ding_user_authenticate_form':
@@ -213,6 +216,7 @@ function ding_user_form_process_password_confirm($element) {
     // this element, whose value will be an array.
     unset($element['#maxlength']);
   }
+
   // Fixup the titles.
   $element['pass1']['#title'] = t('Pincode');
   $element['pass2']['#title'] = t('Confirm pincode');
@@ -303,6 +307,12 @@ function ding_user_user_logout($account) {
 /**
  * Implements hook_username_alter().
  *
+ * @TODO: This do not work with the display name moved into the profile2
+ *        provider profile. Maybe change it to use real name module ?
+ *        Look at ding_user_update_user().
+ *
+ * @TODO: This is called 6-7 times on the admin edit user page ?
+ *
  * Use display_name.
  */
 function ding_user_username_alter(&$name, $account) {
@@ -338,7 +348,7 @@ function ding_user_ding_provider_user() {
  */
 function ding_user_auth_page() {
   global $user;
-  if ($user->uid > 0) {
+  if (user_is_logged_in()) {
     return 'user/' . $user->uid . '/authenticate';
   }
   return 'user/login';
@@ -376,9 +386,11 @@ function ding_user_user_login_validate($form, &$form_state) {
   // If $form_state['uid'] is set and has a true value, Drupal already found a
   // user, so we don't bother. Also, we require name and pass.
   if (isset($form_state['uid']) && $form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
+    // Normal Drupal user have been logged in.
     return;
   }
   try {
+    // Try loggin the user into the provider.
     $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
@@ -409,7 +421,9 @@ function ding_user_user_login_validate($form, &$form_state) {
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
       // does, it's already the submit handler.
-      // TODO: Do we still need this?
+      /**
+       *  @TODO: Do we still need this ?
+       */
       if (ding_provider_implements('user', 'authenticate_finalize')) {
         ding_provider_invoke('user', 'authenticate_finalize', $account);
       }
@@ -417,11 +431,9 @@ function ding_user_user_login_validate($form, &$form_state) {
     else {
       if (isset($auth_res['messages'])) {
         foreach ($auth_res['messages'] as $message) {
+          $type = 'warning';
           if (is_array($message)) {
             list($message, $type) = $message;
-          }
-          else {
-            $type = 'warning';
           }
           drupal_set_message(check_plain($message), $type);
         }
@@ -540,13 +552,14 @@ function _ding_user_create_profile2($account) {
  * which this part of the module.
  */
 function ding_user_forms($form_id, $args) {
-  // Reuse profile2 page extension code.
-  include_once drupal_get_path('module', 'profile2') . '/contrib/profile2_page.inc';
-
   // For efficiency, only act if the third argument is 'profile2'.
   if (isset($args[2]) && is_string($args[2]) && $args[2] == 'profile2') {
+    // Reuse profile2 page extension code.
+    include_once drupal_get_path('module', 'profile2') . '/contrib/profile2_page.inc';
+
     $info = entity_get_info('profile2');
     // Translate bundle form ids to the base form id 'profile2_form'.
+    $forms = array();
     foreach ($info['bundles'] as $bundle => $bundle_info) {
       $forms['profile2_edit_' . $bundle . '_form']['callback'] = 'profile2_form';
       $forms['profile2_edit_' . $bundle . '_form']['wrapper callback'] = 'entity_ui_form_defaults';
@@ -554,7 +567,6 @@ function ding_user_forms($form_id, $args) {
     return $forms;
   }
 }
-
 
 /**
  * Ajax command to authenticate. Used by ding_provider.
