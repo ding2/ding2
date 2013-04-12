@@ -175,9 +175,20 @@ function ting_sfx_encode_dk( $query ) {
   return $ret;
 }
 
+/**
+ * Get logo image tag.
+ *
+ * @return string
+ *   'img' tag.
+ */
 function ting_sfx_get_logo() {
-  $logo_file = 'sfx_logo.png';
-  $ret = sprintf('<img src="%s/%s/%s"/>', substr(base_path(), 0, -1), drupal_get_path('module', 'ting_sfx'), $logo_file);
+  $image = array(
+    'path' => drupal_get_path('module', 'ting_sfx') . '/sfx_logo.png',
+    'attributes' => array (
+      'alt' => t('SFX Logo'),
+    ),
+  );
+  $ret = theme_image($image);
   return $ret;
 }
 
