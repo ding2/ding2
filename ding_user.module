@@ -250,7 +250,7 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
   if (!empty($pincode)) {
     global $user;
     try {
-      $update_res = ding_provider_invoke('user', 'account_update', $user, array('pass' => $pincode));
+      $update_res = ding_provider_invoke('user', 'update_pincode', $user, $pincode);
       if (!empty($update_res['creds'])) {
         // Updated drupal credational
         ding_user_save_creds($update_res, $user);
