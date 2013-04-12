@@ -142,14 +142,17 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
           $image_alt = field_get_items('file', (object) ($camp_image[0]), 'field_dams_alt_name');
           $image_alt = isset($image_alt[0]['safe_value']) ? $image_alt[0]['safe_value'] : '';
 
-          $image_tag = theme_image_style(array(
+          if (empty($image_alt)) {
+            $image_alt = $image_title;
+          }
+
+          $image_tag = theme('image_style', array(
             'style_name' => $style,
             'path' => $camp_image[0]['uri'],
-            'width' => '',
-            'height' => '',
             'alt' => $image_alt,
             'title' => $image_title,
           ));
+
           $link_tag = l($image_tag, $camp_link[0]['value'], array('html' => TRUE, 'absolute' => TRUE, 'attributes' => array('target' => '_blank')));
           $content = '<div class="' . $base_class . ' ' . $base_class . '-id-' . $v . ' ding-campaign-item-image">' . $link_tag . '</div>';
           break;
