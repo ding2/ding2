@@ -98,16 +98,16 @@ function alma_user_clear_cache($creds = NULL) {
  * @param type $changes
  * @return type
  */
-function alma_user_account_update($account, $changes) {
+function alma_user_update_pincode($account, $new_pincode) {
   $creds = ding_user_get_creds($account);
 
   // Change the users pin code..
-  if (isset($changes['pass'])) {
-    $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $changes['pass']);
+  if (isset($new_pincode)) {
+    $res = alma_client_invoke('change_pin', $creds['name'], $creds['pass'], $new_pincode);
     if ($res) {
       // @see ding_user.module/ding_user_user_presave
       // Set new password.
-      $creds['pass'] = $changes['pass'];
+      $creds['pass'] = $new_pincode;
 
       // Update creds.
       $result = array();
