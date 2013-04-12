@@ -67,3 +67,12 @@ function ding_tabroll_install() {
   ding_tabroll_create_nodequeues();
 
 }
+
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function ding_tabroll_uninstall() {
+  nodequeue_delete('ding_tabroll');
+  nodequeue_delete('ding_tabroll_for_libraries');
+}
