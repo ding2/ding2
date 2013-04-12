@@ -14,7 +14,7 @@ function alma_update_7001() {
 }
 
 /**
- *  Convert field storage to virtual field.
+ * Convert field storage to virtual field.
  */
 function alma_update_7002() {
   return db_update('field_config')
@@ -24,5 +24,17 @@ function alma_update_7002() {
     ))
     ->condition('field_name', '%alma%', 'LIKE')
     ->condition('field_name', 'field_alma_interest_period', '!=')
+    ->execute();
+}
+
+/**
+ * Covert reservation field form data to datetime.
+ */
+function alma_update_7003() {
+  return db_update('field_config')
+    ->fields(array(
+      'type' => 'datetime'
+    ))
+    ->condition('field_name', 'field_alma_reservation_pause', '=')
     ->execute();
 }
