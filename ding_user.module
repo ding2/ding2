@@ -183,24 +183,29 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 function ding_user_form_profile2_form_alter(&$form, &$form_state) {
   global $user;
   if (ding_user_is_provider_user($user)) {
-    // Add pincode change field. Defaults to 4 chars, as that seems the common
-    // option, providers may form_alter this.
-    $form['pincode'] = array(
-      '#type' => 'password_confirm',
-      '#size' => 5,
-      '#maxlength' => 5,
-      '#process' => array(
-        'form_process_password_confirm',
-        // Not adding user_form_process_password_confirm here, as it only adds
-        // the strength checker, which we don't want.
-        'ding_user_form_process_password_confirm',
-      ),
-      '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
-    );
+    // Check that it's the provider profile we are looking at.
+    $provider = _ding_provider_get_provider('user');
+    $provider_profile_type = 'provider_' . $provider['module'];
+    if ($form_state['profile2']->type == $provider_profile_type) {
+      // Add pincode change field. Defaults to 4 chars, as that seems the common
+      // option, providers may form_alter this.
+      $form['pincode'] = array(
+        '#type' => 'password_confirm',
+        '#size' => 5,
+        '#maxlength' => 5,
+        '#process' => array(
+          'form_process_password_confirm',
+          // Not adding user_form_process_password_confirm here, as it only adds
+          // the strength checker, which we don't want.
+          'ding_user_form_process_password_confirm',
+        ),
+        '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
+      );
 
-    // Add submit handler to change the pincode as it's not part of the profile
-    // fields.
-    $form['#submit'][] = 'ding_user_profile_update_submit';
+      // Add submit handler to change the pincode as it's not part of the profile
+      // fields.
+      $form['#submit'][] = 'ding_user_profile_update_submit';
+    }
   }
 }
 
@@ -501,6 +506,13 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
       return FALSE;
     }
     else {
+      $provider = _ding_provider_get_provider('user');
+      $provider_profile_type = 'provider_' . $provider['module'];
+      if ($provider_profile_type == $profile->type) {
+        // Don't show provider profile to no provider user eiter.
+        return FALSE;
+      }
+      // Show all other profiles.
       return TRUE;
     }
   }
