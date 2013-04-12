@@ -58,7 +58,7 @@ function alma_user_authenticate($uid, $pass) {
       'country' => $res['addresses'][0]['country'],
     );
   }
-  
+
   return $return;
 }
 
@@ -91,7 +91,7 @@ function alma_user_clear_cache($creds = NULL) {
 /**
  * Update pin code at alma.
  *
- * @TODO: Rename this function to change hook_alma_change_pincode and in 
+ * @TODO: Rename this function to change hook_alma_change_pincode and in
  * ding_user line 240.
  *
  * @param type $account
@@ -115,4 +115,16 @@ function alma_user_account_update($account, $changes) {
       return $result;
     }
   }
+}
+
+/**
+ * Implements hook_user_pincode_length().
+ *
+ * @return int
+ *  The length of the pin code given on the configuration page for alma. It's
+ *  used in the frontend to validate the max length of the pin code allowed for
+ *  this installation.
+ */
+function alma_user_pincode_length() {
+  return variable_get('alma_pincode_length', 4);
 }
