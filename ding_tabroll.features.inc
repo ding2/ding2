@@ -62,7 +62,6 @@ function ding_tabroll_node_info() {
       'base' => 'node_content',
       'description' => t('Rolltabs are shown in a Tabroll, where each rolltab slide into the next in a carousel.'),
       'has_title' => '1',
-      'custom' => '1',
       'title_label' => t('Title'),
       'help' => '',
     ),
