@@ -663,7 +663,7 @@ function alma_field_default_fields() {
         'type' => 'virtual_field',
       ),
       'translatable' => '0',
-      'type' => 'date',
+      'type' => 'datetime',
       'virtual_field' => array(
         'entity_types' => array(
           0 => 'profile2',
