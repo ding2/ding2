@@ -190,6 +190,18 @@ function ting_material_details_ding_entity_fields() {
         'label' => t('Description'),
       ),
     ),
+      
+     'ting_details_seriesdescription' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Series description'),
+      ),
+    ),
 
     'ting_details_source' => array(
       'field' => array(
@@ -345,7 +357,7 @@ function ting_material_details_update_7000() {
   return db_update('field_config')
     ->fields(array(
       'storage_type' => 'virtual_field',
-      'storage_module' => 'virtual_field',
+      'storage_module' => 'virtual_field'
     ))
     ->condition('module', 'ting_material_details')
     ->execute();

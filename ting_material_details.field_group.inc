@@ -50,6 +50,7 @@ function ting_material_details_field_group_info() {
       24 => 'ting_details_type',
       25 => 'ting_details_uri',
       26 => 'ting_details_version',
+      27 => 'ting_details_seriesdescription',  
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -107,6 +108,7 @@ function ting_material_details_field_group_info() {
       24 => 'ting_details_audience',
       25 => 'ting_details_age',
       26 => 'ting_details_pegi',
+      27 => 'ting_details_seriesdescription'  
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
