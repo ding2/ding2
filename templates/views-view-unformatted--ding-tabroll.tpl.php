@@ -6,7 +6,7 @@
 drupal_add_library('system', 'ui.tabs');
 
 ?>
- <div id="featured">
+ <div id="ding-tabroll">
   <ul class="ui-tabs-nav">
     <?php
       for ($i = 0; $i < min(5, count($view->result)); $i++) {
