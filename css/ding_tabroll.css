@@ -8,6 +8,7 @@
   overflow: hidden;
   padding: 0 0 30%;
   border-radius: 0;
+  border: 1px solid #ccc;
   }
 
 #ding-tabroll ul.ui-tabs-nav {
@@ -43,14 +44,24 @@
 #ding-tabroll li.ui-tabs-nav-item a {
   display: block;
   overflow: hidden;
-  padding: 0.9em 0;
+  padding: 0;
   background-color: white;
   outline: 1px solid #ccc;
   font-weight: normal;
-  height: 50%;
+  font-size: 1.1em;
+  height: 100%;
   width: 100%;
   text-align: center;
   }
+  
+/* Ghost element, nudged to maintain perfect centering inside nav tabs - see http://css-tricks.com/centering-in-the-unknown/ */
+#ding-tabroll li.ui-tabs-nav-item a:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}  
 
 #ding-tabroll ul.ui-tabs-nav li.ui-tabs-selected a {
   background-color: rgba(0, 0, 0, 0.75);
