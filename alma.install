@@ -1,6 +1,22 @@
 <?php
 
-// Installation and update hooks for Openruth.
+
+/**
+ * Implements hook_enable().
+ *
+ * Adds a profile2 type to use as this providers user profile.
+ */
+function alma_enable() {
+  $profile_type = new ProfileType(
+    array(
+      'type' => 'provider_alma',
+      'label' => t('Profile for Alma'),
+      'userCategory' => TRUE,
+      'userView' => TRUE,
+    )
+  );
+  $profile_type->save();
+}
 
 /**
  * Update system table set alma weight=10 to ensure form_alter hooks are called
