@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Handles availability information from the library system.
+ */
 
 /**
  * Implements provider availability, holdings.
@@ -33,9 +37,15 @@ function alma_availability_holdings($provider_ids) {
 }
 
 /**
- * @param type $res; returned array from alma_client class
- * @param type $is_periodical; Boolean that indicates whether the shown record is a periodical or not
- * @return html to be shown. Returns FALSE if no data is received from alma_client class
+ * @TODO: Add function description.
+ *
+ * @param type $res
+ *  Returned array from alma_client class
+ * @param boolean $is_periodical
+ *  Indicates whether the shown record is a periodical or not
+ *
+ * @return string
+ *  HTML to be shown or FALSE if no data is received from alma.
  */
 function _alma_get_holdings($res, $is_periodical = FALSE) {
   if (isset($res['records'])) {
@@ -52,7 +62,8 @@ function _alma_get_holdings($res, $is_periodical = FALSE) {
 }
 
 /**
- * set holdings for all kinds of material except periodicals
+ * Set holdings for all kinds of material except periodicals.
+ *
  * @param array $res
  * @return array $result;
  */
@@ -71,7 +82,8 @@ function _alma_set_holdings($res) {
 }
 
 /**
- * set holdings if material is periodical only
+ * Set holdings if material is periodical only.
+ *
  * @param array $res
  * @return array $result
  */
@@ -90,8 +102,10 @@ function _alma_set_holdings_periodical($res) {
   $result = _alma_set_table_html($holdings, $reservation_count);
   return $result;
 }
+
 /**
- * Make the html-table
+ * Make the html-table.
+ *
  * @params $h; holding information for a given material
  * @return html-table
  */
@@ -128,7 +142,8 @@ function _alma_set_table_html($h, $r_count) {
 }
 
 /**
- * set rows in table for given holdings
+ * Set rows in table for given holdings.
+ *
  * @param $h; holding information for a given material
  * @return array;
  */
@@ -198,8 +213,10 @@ function _alma_set_rows($h) {
 }
 
 /**
- * if the same placement exists several times collect them in one line
+ * If the same placement exists several times collect them in one line.
+ *
  * @param array
+ *
  * @return array;
  */
 function _clean_up_rows($_rows) {
@@ -219,9 +236,11 @@ function _clean_up_rows($_rows) {
 }
 
 /**
- * collect materials with the same placement
+ * Collect materials with the same placement.
+ *
  * @param array $_rows
  * @param String $currkey
+ *
  * @return array $rows;
  */
 function _get_placements_with_key($_rows, $currkey) {
@@ -233,10 +252,14 @@ function _get_placements_with_key($_rows, $currkey) {
   }
   return $rows;
 }
+
 /**
- * sum material for same placement in one row
- * @param $placementsarr; array with all instances of the same placement - ie. 'Hovedbiblioteket'
- * @return array; $row
+ * Sum material for same placement in one row.
+ *
+ * @param array $placementsarr
+ *  All instances of the same placement - ie. 'Hovedbiblioteket'
+ *
+ * @return array $row
  */
 function _sum_placement($placementsarr) {
   $row = $placementsarr[0];
