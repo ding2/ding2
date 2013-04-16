@@ -1,6 +1,25 @@
 <?php
+/**
+ * @file
+ * Installation and update hooks for Openruth.
+ */
 
-// Installation and update hooks for Openruth.
+/**
+ * Implements hook_enable().
+ *
+ * Adds a profile2 type to use as this providers user profile.
+ */
+function openruth_enable() {
+  $profile_type = new ProfileType(
+    array(
+      'type' => 'provider_openruth',
+      'label' => t('Profile for OpenRuth'),
+      'userCategory' => TRUE,
+      'userView' => TRUE,
+    )
+  );
+  $profile_type->save();
+}
 
 /**
  * Implements hook_requirements().
