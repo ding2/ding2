@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * tabroll.features.inc
+ * ding_tabroll.features.inc
  */
 
 /**
@@ -18,7 +18,10 @@ function ding_tabroll_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function ding_tabroll_views_api() {
-  return array("version" => "3.0");
+  list($module, $api) = func_get_args();
+  if ($module == "views" && $api == "views_default") {
+    return array("version" => "3.0");
+  }
 }
 
 /**
@@ -27,13 +30,13 @@ function ding_tabroll_views_api() {
 function ding_tabroll_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ding_tabroll.
-  $styles['ding_tabroll'] = array(
-    'name' => 'ding_tabroll',
+  // Exported image style: ding_tabroll_large
+  $styles['ding_tabroll_large'] = array(
+    'name' => 'ding_tabroll_large',
     'effects' => array(
-      13 => array(
-        'label' => 'Skalér og beskær',
-        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+      1 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
@@ -41,8 +44,52 @@ function ding_tabroll_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '460',
-          'height' => '240',
+          'width' => '1200',
+          'height' => '400',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_tabroll_medium
+  $styles['ding_tabroll_medium'] = array(
+    'name' => 'ding_tabroll_medium',
+    'effects' => array(
+      2 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '900',
+          'height' => '300',
+        ),
+        'weight' => '1',
+      ),
+    ),
+  );
+
+  // Exported image style: ding_tabroll_small
+  $styles['ding_tabroll_small'] = array(
+    'name' => 'ding_tabroll_small',
+    'effects' => array(
+      3 => array(
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
+        'effect callback' => 'image_scale_and_crop_effect',
+        'dimensions callback' => 'image_resize_dimensions',
+        'form callback' => 'image_resize_form',
+        'summary theme' => 'image_resize_summary',
+        'module' => 'image',
+        'name' => 'image_scale_and_crop',
+        'data' => array(
+          'width' => '450',
+          'height' => '150',
         ),
         'weight' => '1',
       ),

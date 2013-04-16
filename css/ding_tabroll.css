@@ -6,7 +6,7 @@
   width: 100%;
   max-width: 1260px;
   overflow: hidden;
-  padding: 0 0 30%;
+  padding: 0 0 25%;
   border-radius: 0;
   border: 1px solid #ccc;
   }
@@ -84,6 +84,7 @@
 }
 #ding-tabroll a img {
   width: 100%;
+  height: 100%;
 }
 
 #ding-tabroll .ui-tabs-panel .info {

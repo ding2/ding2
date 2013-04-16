@@ -1,14 +1,13 @@
 <?php
 /**
  * @file
- * tabroll.features.field.inc
+ * ding_tabroll.features.field.inc
  */
 
 /**
  * Implements hook_field_default_fields().
  */
 function ding_tabroll_field_default_fields() {
-
   $fields = array();
 
   // Exported field: 'node-ding_rolltab-field_ding_tabroll_image'
@@ -32,7 +31,6 @@ function ding_tabroll_field_default_fields() {
           0 => 'fid',
         ),
       ),
-      'locked' => '0',
       'module' => 'image',
       'settings' => array(
         'default_image' => 0,
@@ -55,12 +53,19 @@ function ding_tabroll_field_default_fields() {
         ),
         'default' => array(
           'label' => 'above',
-          'module' => 'image',
+          'module' => 'cs_adaptive_image',
           'settings' => array(
             'image_link' => '',
-            'image_style' => 'ding_tabroll',
+            'styles' => array(
+              'breakpoint_1' => '768',
+              'breakpoint_2' => '500',
+              'fallback_style' => 'ding_tabroll_large',
+              'max_style' => 'ding_tabroll_large',
+              'style_1' => 'ding_tabroll_medium',
+              'style_2' => 'ding_tabroll_small',
+            ),
           ),
-          'type' => 'image',
+          'type' => 'cs_adaptive_image',
           'weight' => '2',
         ),
         'teaser' => array(
@@ -100,8 +105,8 @@ function ding_tabroll_field_default_fields() {
             'public' => 'public',
           ),
           'allowed_types' => array(
-            0 => 0,
             'audio' => 0,
+            0 => 0,
             'default' => 0,
             'image' => 'image',
             'video' => 0,
@@ -142,7 +147,6 @@ function ding_tabroll_field_default_fields() {
           0 => 'format',
         ),
       ),
-      'locked' => '0',
       'module' => 'text',
       'settings' => array(
         'profile2_private' => FALSE,
@@ -152,7 +156,7 @@ function ding_tabroll_field_default_fields() {
     ),
     'field_instance' => array(
       'bundle' => 'ding_rolltab',
-     'default_value' => NULL,
+      'default_value' => NULL,
       'deleted' => '0',
       'description' => '',
       'display' => array(
@@ -202,6 +206,94 @@ function ding_tabroll_field_default_fields() {
     ),
   );
 
+  // Exported field: 'node-ding_rolltab-field_ding_tabroll_library_ref'
+  $fields['node-ding_rolltab-field_ding_tabroll_library_ref'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_ding_tabroll_library_ref',
+      'foreign keys' => array(
+        'node' => array(
+          'columns' => array(
+            'target_id' => 'nid',
+          ),
+          'table' => 'node',
+        ),
+      ),
+      'indexes' => array(
+        'target_id' => array(
+          0 => 'target_id',
+        ),
+      ),
+      'module' => 'entityreference',
+      'settings' => array(
+        'handler' => 'base',
+        'handler_settings' => array(
+          'behaviors' => array(
+            'views-select-list' => array(
+              'status' => 0,
+            ),
+          ),
+          'sort' => array(
+            'type' => 'none',
+          ),
+          'target_bundles' => array(
+            'ding_library' => 'ding_library',
+          ),
+        ),
+        'profile2_private' => FALSE,
+        'target_type' => 'node',
+      ),
+      'translatable' => '0',
+      'type' => 'entityreference',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ding_rolltab',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'entityreference',
+          'settings' => array(
+            'link' => FALSE,
+          ),
+          'type' => 'entityreference_label',
+          'weight' => '5',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ding_tabroll_library_ref',
+      'label' => 'library',
+      'required' => 0,
+      'settings' => array(
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'options',
+        'settings' => array(),
+        'type' => 'options_select',
+        'weight' => '35',
+      ),
+    ),
+  );
+
   // Exported field: 'node-ding_rolltab-field_ding_tabroll_link'
   $fields['node-ding_rolltab-field_ding_tabroll_link'] = array(
     'field_config' => array(
@@ -223,7 +315,6 @@ function ding_tabroll_field_default_fields() {
           0 => 'target_id',
         ),
       ),
-      'locked' => '0',
       'module' => 'entityreference',
       'settings' => array(
         'handler' => 'base',
@@ -304,102 +395,13 @@ function ding_tabroll_field_default_fields() {
       ),
     ),
   );
-  
-  // Exported field: 'node-ding_rolltab-field_ding_tabroll_library_ref'
-  $fields['node-ding_rolltab-field_ding_tabroll_library_ref'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_ding_tabroll_library_ref',
-      'foreign keys' => array(
-        'node' => array(
-          'columns' => array(
-            'target_id' => 'nid',
-          ),
-          'table' => 'node',
-        ),
-      ),
-      'indexes' => array(
-        'target_id' => array(
-          0 => 'target_id',
-        ),
-      ),
-      'locked' => '0',
-      'module' => 'entityreference',
-      'settings' => array(
-        'handler' => 'base',
-        'handler_settings' => array(
-          'behaviors' => array(
-            'views-select-list' => array(
-              'status' => 0,
-            ),
-          ),
-          'sort' => array(
-            'type' => 'none',
-          ),
-          'target_bundles' => array(
-            'ding_library' => 'ding_library',
-          ),
-        ),
-        'profile2_private' => FALSE,
-        'target_type' => 'node',
-      ),
-      'translatable' => '0',
-      'type' => 'entityreference',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ding_rolltab',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'entityreference',
-          'settings' => array(
-            'link' => FALSE,
-          ),
-          'type' => 'entityreference_label',
-          'weight' => 5,
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-        'teaser_highlight' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_ding_tabroll_library_ref',
-      'label' => 'library',
-      'required' => 0,
-      'settings' => array(
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'options',
-        'settings' => array(),
-        'type' => 'options_select',
-        'weight' => '35',
-      ),
-    ),
-  );
 
   // Translatables
   // Included for use with string extractors like potx.
   t('image');
-  t('ding_tabroll_lead');
-  t('ding_tabroll_link');
-  t('ding_tabroll_library_ref');
+  t('lead');
+  t('library');
+  t('link');
 
   return $fields;
 }
