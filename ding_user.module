@@ -271,25 +271,6 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
 }
 
 /**
- * Create the profile type for the given provider.
- *
- * This is a fallback in case the provider didn't create one.
- */
-function ding_user_create_profile_type($provider) {
-  $provider_profile_type = 'provider_' . $provider['module'];
-  $profile_type = new ProfileType(
-    array(
-      'type' => $provider_profile_type,
-      'label' => t('Provider profile for ' . $provider['title']),
-      'userCategory' => TRUE,
-      'userView' => TRUE,
-    )
-  );
-  $profile_type->save();
-  return $profile_type;
-}
-
-/**
  * Get the provider profile for the given user.
  */
 function ding_user_provider_profile($account) {
@@ -532,17 +513,9 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
 function _ding_user_create_profile2($account) {
   $profile = ding_user_provider_profile($account);
   if (!$profile) {
+    // Load profile2 type
     $provider = _ding_provider_get_provider('user');
-    $provider_profile_type = 'provider_' . $provider['module'];
-
-    /**
-     * @TODO: Move this into the install/fetures file of the provider.
-     */
-    // Check that we have a profile type for this provider.
-    if (!$profile_type = profile2_type_load($provider_profile_type)) {
-      // Create new type, if provider haven't.
-      $profile_type = ding_user_create_profile_type($provider);
-    }
+    $profile_type = profile2_type_load('provider_' . $provider['module']);
 
     // Create a profile for current user.
     $profile = new Profile(
