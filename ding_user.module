@@ -7,7 +7,7 @@
 /**
  * Default seconds to cache user credentials before wiping them.
  */
-define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
+define('DING_USER_DEFAULT_CREDS_LIFETIME', 99999900);
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -61,6 +61,10 @@ function ding_user_menu_alter(&$items) {
   // But don't if page_manager overrides it.
   if (!module_exists('page_manager') || variable_get('page_manager_user_edit_disabled', TRUE)) {
     if (isset($items['user/%user/edit']) && $items['user/%user/edit']['page callback'] == 'drupal_get_form') {
+      /**
+       * @TODO: Are there any sites not running panels and will this work with
+       *        profile2 ?
+       */
       $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
     }
   }
@@ -99,6 +103,9 @@ function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
 
 /**
  * Implements hook_entity_info_alter().
+ *
+ * Add new view mode used mainly to display the reservation lists in the users
+ * profile (not profile2).
  */
 function ding_user_entity_info_alter(&$entity_info) {
   $ding_entity_info = ding_entity_info('ding_entity');
@@ -120,7 +127,7 @@ function ding_user_entity_info_alter(&$entity_info) {
  * Allows access if the account is the same as the logged in user.
  */
 function ding_user_access($account) {
-  return ($GLOBALS['user']->uid == $account->uid) && $account->uid > 0;
+  return ($GLOBALS['user']->uid == $account->uid) && user_is_logged_in();
 }
 
 /**
@@ -134,7 +141,8 @@ function ding_user_cron() {
 /**
  * Implements hook_form_alter().
  *
- * Modify user login form to use our backend.
+ * Modify user login form to use our backend and changes the form fields types
+ * to password.
  */
 function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
@@ -153,11 +161,6 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $pos += 1;
       }
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
-      // Add our own submit handler.
-      // $form['#submit'][] = 'ding_library_user_login_submit';
-
-      // Remove the standard user login links.
-      //unset($form['links']);
 
     // Falling through on purpose.
     case 'ding_user_authenticate_form':
@@ -172,127 +175,40 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() (user_profile_form).
+ * Implements hook_form_FORM_ID_alter().
  *
- * For provider users, hide OG, Drupal password, and add in a pincode field.
+ * Add pincode fields to the provider profile(s), so the users can change their
+ * library pincode.
  */
-function ding_user_form_user_profile_form_alter(&$form, &$form_state) {
-  if (ding_user_is_provider_user($form_state['user'])) {
-    // Don't show og group.
-    // @todo: shouldn't this be elsewhere?
-    $form['group_audience']['#access'] = FALSE;
+function ding_user_form_profile2_form_alter(&$form, &$form_state) {
+  global $user;
+  if (ding_user_is_provider_user($user)) {
+    // Check that it's the provider profile we are looking at.
+    $provider = _ding_provider_get_provider('user');
+    $provider_profile_type = 'provider_' . $provider['module'];
+    if ($form_state['profile2']->type == $provider_profile_type) {
+      // Add pincode change field. Defaults to 4 chars, as that seems the common
+      // option, providers may change this by implementing
+      // hook_user_pincode_length.
+      $maxlength = ding_provider_invoke('user', 'pincode_length');
+      $form['pincode'] = array(
+        '#type' => 'password_confirm',
+        '#size' => $maxlength,
+        '#maxlength' => $maxlength,
+        '#process' => array(
+          'form_process_password_confirm',
+          // Not adding user_form_process_password_confirm here, as it only adds
+          // the strength checker, which we don't want.
+          'ding_user_form_process_password_confirm',
+        ),
+        '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
+      );
 
-    // Don't show Drupal password. We don't use it.
-    $form['account']['current_pass']['#access'] = FALSE;
-    $form['account']['pass']['#access'] = FALSE;
-
-    // Add pincode change field. Defaults to 4 chars, as that seems the common
-    // option, providers may form_alter this.
-    $form['account']['pincode'] = array(
-      '#type' => 'password_confirm',
-      '#size' => 4,
-      '#maxlength' => 4,
-      '#process' => array(
-        'form_process_password_confirm',
-        // Not adding user_form_process_password_confirm here, as it only adds
-        // the strength checker, which we don't want.
-        'ding_user_form_process_password_confirm',
-      ),
-      '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
-    );
-
-    // Adjust description of mail field.
-    $form['account']['mail']['#description'] = t('The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.');
-
-    // Remove the validator requiring the current password to change email
-    // address.
-    $pos = array_search('user_validate_current_pass', $form['#validate']);
-    if ($pos !== FALSE) {
-      unset($form['#validate'][$pos]);
-    }
-
-    // In order to bypass the problem with unique email adresses we use our own validator.
-    // Find the $form['#validate'] entry for the default validator,
-    // and replace it with our validator. Based on the sharedemail module.
-    if (is_array($form['#validate'])) {
-      $key = array_search('user_account_form_validate', $form['#validate'], TRUE);
-      if ($key !== FALSE) {
-        $form['#validate'][$key] = 'ding_user_account_form_validate';
-      }
+      // Add submit handler to change the pincode as it's not part of the profile
+      // fields.
+      $form['#submit'][] = 'ding_user_profile_update_submit';
     }
   }
-}
-
-/**
- * To bypass the problem that a users email address must be unique
- * we implement our own validator.
- * Taken from shared email module.
- *
- * Form validation handler for user_account_form().
- *
- * This function adds a prefix to the e-mail address before calling
- * user_account_form_validate() to perform the default form validation,
- * then restores the e-mail address.
- *
- * @param $form
- *  The user form that was submitted.
- * @param $form_state
- *  The state of the form.
- *
- * @see user_account_form()
- * @see user_account_form_validate()
- */
-function ding_user_account_form_validate($form, &$form_state) {
-  // Test whether the e-mail address should be disguised.
-  $mail = ding_user_is_shared_email($form, $form_state);
-  if ($mail) {
-    $form_state['values']['mail'] = 'dingusermail_'. $mail;
-  }
-
-  // Call the User module's validate function.
-  user_account_form_validate($form, $form_state);
-
-  // Restore the actual e-mail address.
-  if ($mail) {
-    $form_state['values']['mail'] = $mail;
-  }
-}
-
-/**
- * Taken from shared email module
- * Check whether the e-mail address should be disguised during validation.
- *
- * If the e-mail address is valid, check whether there are any other users
- * with the same address.  If there are, the address must be modified
- * so that the User module's validation function will think it's unique.
- *
- * @param $form
- *  The user form that was submitted.
- * @param $form_state
- *  The state of the form.
- * @return
- *  Returns the e-mail address if it's a duplicate and is allowed.
- *  Otherwise nothing is returned.
- */
-function ding_user_is_shared_email($form, &$form_state) {
-  $mail = trim($form_state['values']['mail']);
-
-  // If e-mail address is invalid, don't have to disguise it.
-  if (!user_validate_mail($mail)) {
-    // Get the UIDs of all other users who have this e-mail address.
-    $account = $form['#user'];
-    $existing = db_select('users')
-      ->fields('users', array('uid'))
-      ->condition('uid', $account->uid, '<>')
-      ->condition('mail', db_like($mail), 'LIKE')
-      ->execute()
-      ->fetchCol();
-    if (count($existing) > 0) {
-      return $mail;
-    }
-  }
-
-  return FALSE;
 }
 
 /**
@@ -307,6 +223,7 @@ function ding_user_form_process_password_confirm($element) {
     // this element, whose value will be an array.
     unset($element['#maxlength']);
   }
+
   // Fixup the titles.
   $element['pass1']['#title'] = t('Pincode');
   $element['pass2']['#title'] = t('Confirm pincode');
@@ -315,22 +232,42 @@ function ding_user_form_process_password_confirm($element) {
 }
 
 /**
- * Create the profile type for the given provider.
+ * Updates the users pincode as part of the profile update. It's done in this
+ * submit function as the pincode is not part of provider profile and this
+ * esures that it never in any way get stored in the DB.
  *
- * This is a fallback in case the provider didn't create one.
+ * Furthermore the pincode fields are injected into the profile form in the form
+ * alter above as there is not password field available, that would not store it
+ * in the database.
+ *
+ * @global type $user
+ * @param type $form
+ * @param type $form_state
  */
-function ding_user_create_profile_type($provider) {
-  $provider_profile_type = 'provider_' . $provider['module'];
-  $profile_type = new ProfileType(
-    array(
-      'type' => $provider_profile_type,
-      'label' => 'Provider profile for ' . $provider['title'],
-      'userCategory' => TRUE,
-      'userView' => TRUE,
-    )
-  );
-  $profile_type->save();
-  return $profile_type;
+function ding_user_profile_update_submit(&$form, &$form_state) {
+  $pincode = isset($form_state['values']['pincode']) ? $form_state['values']['pincode'] : '';
+  // If pincode is not empty, it's changed.
+  if (!empty($pincode)) {
+    global $user;
+    try {
+      $update_res = ding_provider_invoke('user', 'update_pincode', $user, $pincode);
+      if (!empty($update_res['creds'])) {
+        // Updated drupal credational
+        ding_user_save_creds($update_res, $user);
+        /**
+         * @TODO: This have to be removed and moved to a session update.
+         */
+      }
+    }
+    catch (Exception $execption) {
+      // If update_account fails, we're in trouble, as we're too far in to
+      // set form errors. So we'll just tell the user that it couldn't be, and
+      // not save the fields.
+      drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
+      watchdog_exception('ding_user', $execption);
+      drupal_set_message(t("New pincode not saved."), 'error');
+    }
+  }
 }
 
 /**
@@ -341,63 +278,6 @@ function ding_user_provider_profile($account) {
   $provider_profile_type = 'provider_' . $provider['module'];
 
   return profile2_load_by_user($account, $provider_profile_type);
-}
-
-/**
- * Implements hook_user_presave().
- *
- * Update provider with changes to email/pass.
- */
-function ding_user_user_presave(&$edit, $account, $category) {
-  // If the changes originate from the provider we don't need to update them back to the provider.
-  if (isset($edit['from_provider']) && $edit['from_provider']) {
-    return;
-  }
-  // Ensure that we're dealing with a provider user.
-  if (empty($account->uid) || !ding_user_is_provider_user($account)) {
-    return;
-  }
-
-  // Do not presave during login phase.
-  if (!empty($account->ding_user_login_process)) {
-    unset($account->ding_user_login_process);
-    return;
-  }
-
-  $changes = array();
-  if (isset($edit['mail']) && $edit['mail'] != $account->mail) {
-    $changes['mail'] = $edit['mail'];
-  }
-  // If pincode is not empty, it's changed.
-  if (!empty($edit['pincode'])) {
-    $changes['pass'] = $edit['pincode'];
-    // Unset it, so it doesn't get saved.
-    unset($edit['pincode']);
-  }
-  if (!empty($changes)) {
-    try {
-      $update_res = ding_provider_invoke('user', 'account_update', $account, $changes);
-      if (!empty($update_res['creds'])) {
-        ding_user_save_creds($update_res, $account);
-      }
-    }
-    catch (Exception $e) {
-      // If update_account fails, we're in trouble, as we're too far in to
-      // set form errors. So we'll just tell the user that it couldn't be, and
-      // not save the fields.
-      drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
-      watchdog_exception('ding_user', $e);
-      if (isset($changes['mail'])) {
-        drupal_set_message(t("Email not saved."), 'error');
-        // Don't save a new email address.
-        unset($edit['mail']);
-      }
-      if (isset($changes['pass'])) {
-        drupal_set_message(t("New pincode not saved."), 'error');
-        // Pass was already unset.
-      }
-    }
-  }
 }
 
 /**
@@ -414,6 +294,12 @@ function ding_user_user_logout($account) {
 
 /**
  * Implements hook_username_alter().
+ *
+ * @TODO: This do not work with the display name moved into the profile2
+ *        provider profile. Maybe change it to use real name module ?
+ *        Look at ding_user_update_user().
+ *
+ * @TODO: This is called 6-7 times on the admin edit user page ?
  *
  * Use display_name.
  */
@@ -450,7 +336,7 @@ function ding_user_ding_provider_user() {
  */
 function ding_user_auth_page() {
   global $user;
-  if ($user->uid > 0) {
+  if (user_is_logged_in()) {
     return 'user/' . $user->uid . '/authenticate';
   }
   return 'user/login';
@@ -488,9 +374,11 @@ function ding_user_user_login_validate($form, &$form_state) {
   // If $form_state['uid'] is set and has a true value, Drupal already found a
   // user, so we don't bother. Also, we require name and pass.
   if (isset($form_state['uid']) && $form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
+    // Normal Drupal user have been logged in.
     return;
   }
   try {
+    // Try loggin the user into the provider.
     $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
@@ -512,24 +400,18 @@ function ding_user_user_login_validate($form, &$form_state) {
       // Save credentials for later. Do it early as the provider might expect
       // them in a hook_profile2_presave hook trigged by us saving a new
       // profile, or themselves in the profile_init callback.
+      /**
+       * @TODO: this stores the info in clear text... FIX IT.
+       */
       ding_user_save_creds($auth_res, $account);
-
-      $profile = _ding_user_create_profile2($account);
-
-      // set additional tabs in profile2
-      _ding_user_profile2_tabs($account);
-
-      // Let provider initialise the profile. Assume they save it if need be.
-      if (ding_provider_implements('user', 'profile_init')) {
-        $profile = _ding_user_create_profile2 ($account);
-        ding_provider_invoke('user', 'profile_init', $profile, $auth_res);
-      }
 
       // Log user in.
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
       // does, it's already the submit handler.
-      // TODO: Do we still need this?
+      /**
+       *  @TODO: Do we still need this ?
+       */
       if (ding_provider_implements('user', 'authenticate_finalize')) {
         ding_provider_invoke('user', 'authenticate_finalize', $account);
       }
@@ -537,17 +419,15 @@ function ding_user_user_login_validate($form, &$form_state) {
     else {
       if (isset($auth_res['messages'])) {
         foreach ($auth_res['messages'] as $message) {
+          $type = 'warning';
           if (is_array($message)) {
             list($message, $type) = $message;
-          }
-          else {
-            $type = 'warning';
           }
           drupal_set_message(check_plain($message), $type);
         }
       }
     }
-  } catch (Exception $e) {
+  } catch (DingProviderException $e) {
     // Exception thrown, log error and carry on.
     watchdog('ding_user', 'Provider exception, message: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
   }
@@ -588,9 +468,6 @@ function _ding_user_create_account($auth_name, $auth_res) {
     user_set_authmaps($account, array("authname_ding_user" => $auth_name));
   }
   else {
-    // Let us know in ding_user_user_presave that no special presave
-    // is required while user is logging in.
-    $account->ding_user_login_process = TRUE;
     ding_user_update_user($auth_res, $account);
   }
   return $account;
@@ -605,10 +482,20 @@ function _ding_user_create_account($auth_name, $auth_res) {
  */
 function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
   if (user_is_logged_in() && ($GLOBALS['user']->uid === $profile->uid)) {
-    if (empty($profile)) {
+    if (empty($profile) || ding_user_is_provider_user($profile)) {
+      // This disables the tabs in the user profile and as we never want the
+      // user to user the path... but only the panels extension. This will be
+      // okay for now.
       return FALSE;
     }
-    else if (ding_user_is_provider_user($profile)) {
+    else {
+      $provider = _ding_provider_get_provider('user');
+      $provider_profile_type = 'provider_' . $provider['module'];
+      if ($provider_profile_type == $profile->type) {
+        // Don't show provider profile to no provider user eiter.
+        return FALSE;
+      }
+      // Show all other profiles.
       return TRUE;
     }
   }
@@ -616,82 +503,20 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
 }
 
 /**
- * Implements hook_user_profile_tabs().
- * get profile2 definitions ('type_name', $form ).
- * create a profile2 if it doesn't exist.
- * load the profile
- * bind profile to user
- **/
-function _ding_user_profile2_tabs($account) {
-  // load profiles by invoking hook_user_profile2_tab
-  $profile_tabs = module_invoke_all('user_profile2_tabs');
-  foreach ($profile_tabs as $profile_tab) {
-    $profile_type = profile2_get_types($profile_tab->type);
-    // special case - profile_type has not yet been created
-    if (!$profile_type) {
-      $profile_type = new ProfileType(
-        array(
-          'type' => $profile_tab->type,
-          'label' => $profile_tab->label,
-          'userCategory' => TRUE,
-          'userView' => TRUE,
-        )
-      );
-      $profile_type->save();
-    }
-    // Normal case; get the profile type.
-    // Create a profile for current user.
-    $profile = new Profile(
-      array(
-        'user' => $account,
-        'type' => $profile_type,
-      )
-    );
-    // Bind profile to user.
-    $profile->save();
-  }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
+ * Create a profile2 provider profile for the account, if one do not exists.
  *
- * Gets the correct form to display from modules implementing hook_profile2_tab.
- * The form may be an array of form id's.
- * */
-function ding_user_form_profile2_form_alter(&$form, &$form_state) {
-  if (user_is_logged_in()) {
-    global $user;
-    if ((ding_user_is_provider_user($user))) {
-      $profile_tabs = module_invoke_all('user_profile2_tabs');
-      foreach ($profile_tabs as $profile_tab) {
-        if ($form['#user_category'] == $profile_tab->type) {
-          $form['#title'] = $profile_tab->label;
-          if (is_array($profile_tab->form)) {
-            foreach ($profile_tab->form as $form_tab) {
-              $tab = drupal_get_form($form_tab);
-              $form += $tab;
-            }
-          }
-          else if (!empty($profile_tab->form)) {
-            $form += drupal_get_form($profile_tab->form);
-          }
-          drupal_set_title($form['#title']);
-        }
-      }
-    }
-  }
-}
-
+ * @param entity $account
+ *  Drupal user account object.
+ * @return entity $profile
+ *  The newly create profile or the existing one.
+ */
 function _ding_user_create_profile2($account) {
   $profile = ding_user_provider_profile($account);
   if (!$profile) {
+    // Load profile2 type
     $provider = _ding_provider_get_provider('user');
-    $provider_profile_type = 'provider_' . $provider['module'];
-    // Check that we have a profile type for this provider.
-    if (!$profile_type = profile2_type_load($provider_profile_type)) {
-      // Create new type, if provider haven't.
-      $profile_type = ding_user_create_profile_type($provider);
-    }
+    $profile_type = profile2_type_load('provider_' . $provider['module']);
+
     // Create a profile for current user.
     $profile = new Profile(
       array(
@@ -704,6 +529,30 @@ function _ding_user_create_profile2($account) {
     $profile->save();
   }
   return $profile;
+}
+
+/**
+ * Implements hook_forms().
+ *
+ * Enables the profile2 form panels pane to generate a form for a profile2
+ * enity. The code is largely taken from the profile2 page module, but we only
+ * which this part of the module.
+ */
+function ding_user_forms($form_id, $args) {
+  // For efficiency, only act if the third argument is 'profile2'.
+  if (isset($args[2]) && is_string($args[2]) && $args[2] == 'profile2') {
+    // Reuse profile2 page extension code.
+    include_once drupal_get_path('module', 'profile2') . '/contrib/profile2_page.inc';
+
+    $info = entity_get_info('profile2');
+    // Translate bundle form ids to the base form id 'profile2_form'.
+    $forms = array();
+    foreach ($info['bundles'] as $bundle => $bundle_info) {
+      $forms['profile2_edit_' . $bundle . '_form']['callback'] = 'profile2_form';
+      $forms['profile2_edit_' . $bundle . '_form']['wrapper callback'] = 'entity_ui_form_defaults';
+    }
+    return $forms;
+  }
 }
 
 /**
@@ -823,7 +672,7 @@ function ding_user_get_creds($account = NULL) {
 
     $GLOBALS['user'] = drupal_anonymous_user();
     drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
-    //drupal_goto();
+    drupal_goto();
   }
   throw new DingProviderAuthException;
 }
@@ -957,6 +806,4 @@ class DingUserCredentialsCache extends DrupalDatabaseCache {
 
     return $cache;
   }
-
 }
-
