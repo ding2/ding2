@@ -106,7 +106,7 @@ class DingReservationProviderTestCase extends DingProviderTestCase {
   function testReservationProvider() {
     global $user;
 
-    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')), $user);
+    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')));
     // Ensure a clean slate.
     unset($_SESSION['connie_reservations']);
 
