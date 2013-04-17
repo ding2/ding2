@@ -33,7 +33,6 @@ function ting_sfx_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('SFX link resolver URL'),
     '#description' => t('URL to SFX link resolver, e.g. http://sfx.dbc.dk:3410/dbc_test-ph_metropol'),
-    '#required' => TRUE,
     '#default_value' => variable_get('ting_sfx_url', ''),
   );
 }
@@ -124,15 +123,14 @@ function ting_sfx_get_open_url($uri) {
   if ($baseurl) {
     $baseurl .= '?';
     $ret = str_replace('_BASEURL_', $baseurl, $uri);
+    $parts = parse_url($ret);
+    $query = ting_sfx_encode_dk($parts['query']);
+    $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+    $ret = $parts['scheme'] . '://' . $parts['host'] . $port . $parts['path'] . '?' . $query;
   }
   else {
     $ret = FALSE;
   }
-
-  $parts = parse_url($ret);
-  $query = ting_sfx_encode_dk($parts['query']);
-  $port = isset($parts['port']) ? ':' . $parts['port'] : '';
-  $ret = $parts['scheme'] . '://' . $parts['host'] . $port . $parts['path'] . '?' . $query;
 
   return $ret;
 }
