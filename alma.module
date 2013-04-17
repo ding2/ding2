@@ -558,7 +558,15 @@ function alma_profile2_load($entities) {
       if (!isset($patron)) {
         // Get information from alma about the current user.
         global $user;
-        $creds = ding_user_get_creds($user);
+        try {
+          $creds = ding_user_get_creds($user);
+        }
+        catch (DingProviderAuthException $e) {
+          // The user was not logged in, hence we can't fill out the profile.
+          return;
+        }
+
+        // Get uers information from alma.
         $patron = alma_get_patron($creds);
       }
 
