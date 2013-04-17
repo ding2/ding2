@@ -442,6 +442,14 @@ function _ding_user_create_account($auth_name, $auth_res) {
     }
     user_set_authmaps($account, array("authname_ding_user" => $auth_name));
   }
+  else {
+    // Update display name and mail address as they may have been change in the
+    // library system.
+    $edit = array();
+    $edit['mail'] = $auth_res['user']['mail'];
+    $edit['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
+    user_save($account, $edit);
+  }
 
   // Save credentials in the session.
   ding_user_save_creds($auth_res);
