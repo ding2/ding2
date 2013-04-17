@@ -33,6 +33,7 @@ class TingRelation extends DingEntityBase {
  */
 class TingEntity extends DingEntity {
   public $type = DingEntityBase::NULL;
+  public $serieNumber = DingEntityBase::NULL;
   public $serieTitle = DingEntityBase::NULL;
   public $record = DingEntityBase::NULL;
   public $relations = DingEntityBase::NULL;
@@ -115,16 +116,27 @@ class TingEntity extends DingEntity {
     return $title;
   }
 
-  function getSerieTitle() {
-    $serie_title = array();
-    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
-
-    if (preg_match('/^([^;]+);/', $serie, $serie_title)) {
-      return isset($serie_title[1]) ? trim($serie_title[1]) : FALSE;
-    }
-    else {
+  function getSerieNumber() {
+    $serie = $this->splitSerie();
+    // Last part is the number.
+    if (empty($serie[1])) {
       return FALSE;
     }
+    return $serie[1];
+  }
+
+  private function splitSerie() {
+    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
+    return explode(';', $serie);
+  }
+
+  function getSerieTitle() {
+    $serie = $this->splitSerie();
+    // First part is the title.
+    if (empty($serie[0])) {
+      return FALSE;
+    }
+    return trim($serie[0]);
   }
 
   function getAbstract() {
