@@ -7,7 +7,12 @@
 /**
  * Default seconds to cache user credentials before wiping them.
  */
-define('DING_USER_DEFAULT_CREDS_LIFETIME', 99999900);
+define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
+
+/**
+ * Index used in sessions to implement logged in use session expire possible.
+ */
+define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -131,14 +136,6 @@ function ding_user_access($account) {
 }
 
 /**
- * Implements hook_cron().
- */
-function ding_user_cron() {
-  // Clear out expired credentials.
-  cache_clear_all(NULL, 'cache_ding_user_credentials');
-}
-
-/**
  * Implements hook_form_alter().
  *
  * Modify user login form to use our backend and changes the form fields types
@@ -253,10 +250,7 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
       $update_res = ding_provider_invoke('user', 'update_pincode', $user, $pincode);
       if (!empty($update_res['creds'])) {
         // Updated drupal credational
-        ding_user_save_creds($update_res, $user);
-        /**
-         * @TODO: This have to be removed and moved to a session update.
-         */
+        ding_user_save_creds($update_res);
       }
     }
     catch (Exception $execption) {
@@ -278,18 +272,6 @@ function ding_user_provider_profile($account) {
   $provider_profile_type = 'provider_' . $provider['module'];
 
   return profile2_load_by_user($account, $provider_profile_type);
-}
-
-/**
- * Implements hook_user_logout().
- *
- * Lets user stays on page, after logout.
- */
-function ding_user_user_logout($account) {
-  // Ensure the credentials is removed from cache.
-  cache_clear_all(session_name() . '-' . $account->uid, 'cache_ding_user_credentials');
-  // ... both HTTP and HTTPS.
-  cache_clear_all(substr(session_name(), 1) . '-' . $account->uid, 'cache_ding_user_credentials');
 }
 
 /**
@@ -397,14 +379,6 @@ function ding_user_user_login_validate($form, &$form_state) {
 
       $account = _ding_user_create_account($auth_name, $auth_res);
 
-      // Save credentials for later. Do it early as the provider might expect
-      // them in a hook_profile2_presave hook trigged by us saving a new
-      // profile, or themselves in the profile_init callback.
-      /**
-       * @TODO: this stores the info in clear text... FIX IT.
-       */
-      ding_user_save_creds($auth_res, $account);
-
       // Log user in.
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
@@ -466,6 +440,8 @@ function _ding_user_create_account($auth_name, $auth_res) {
       return;
     }
     user_set_authmaps($account, array("authname_ding_user" => $auth_name));
+
+    ding_user_save_creds($auth_res);
   }
   else {
     ding_user_update_user($auth_res, $account);
@@ -625,49 +601,45 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
 }
 
 /**
- * Return cached creds for a user.
+ * Retrives the users credentials from the current session.
  *
- * Throws DingProviderAuthException if not authenticated.
- *
- * @param $account The user to get creds for.
+ * @param type $user
+ *  A user object. The the current logged in user will be used if non is given.
+ * @return type
+ *  Array with the user credentials.
+ * @throws DingProviderAuthException
+ *  Throws DingProviderAuthException if not authenticated.
  */
-function ding_user_get_creds($account = NULL) {
-  if (!$account) {
-    $account = $GLOBALS['user'];
+function ding_user_get_creds($user = NULL) {
+  if (is_null($user)) {
+    global $user;
   }
 
-  if ($_SESSION['auth']) {
-      return $_SESSION['auth'];
+  if (user_is_logged_in()) {
+    // Check if session is expired.
+    if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > DING_USER_DEFAULT_CREDS_LIFETIME)) {
+      $roles = array_values($user->roles);
+
+      // Log out user who are authenticated but has no other roles (i.e. ding user)
+      if (sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
+        watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
+        user_module_invoke('logout', $user, 'user');
+
+        session_destroy();
+
+        $user = drupal_anonymous_user();
+        drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
+        drupal_goto();
+      }
+    }
+
+    if (isset($_SESSION['ding_user'])) {
+        // User has not timed out and is logged in, so update timestamp and
+        // return credentials.
+        $_SESSION[DING_USER_ACTIVITY] = time();
+        return $_SESSION['ding_user']['creds'];
+    }
   }
-
-  /**
-   * @TODO: implement a session timeout check, thereby logging out the user.
-   */
-//  $roles = array_values($GLOBALS['user']->roles);
-
-//  // Log out user who are authenticated but has no other roles (i.e. ding user)
-//  if (user_is_logged_in() && sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
-//    // unless we're using persistent login, and they have a persistent login cookie.
-//    if (module_exists('ding_persistent_login') && $creds = ding_persistent_login_get_creds($account->uid)) {
-//      return $creds;
-//    }
-//
-//    if (isset($account->data['password']) && $account->data['password'] == 'reset') {
-//      unset($account->data['password']);
-//      $creds = array('username' => $account->mail, 'password' => '');
-//      ding_user_save_creds(array('creds' => $creds), $account);
-//      return $creds;
-//    }
-//
-//    watchdog('user', 'Session timeout for %name.', array('%name' => $account->name));
-//    user_module_invoke('logout', $account, 'user');
-//
-//    session_destroy();
-//
-//    $GLOBALS['user'] = drupal_anonymous_user();
-//    drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
-//    drupal_goto();
-//  }
   throw new DingProviderAuthException;
 }
 
@@ -675,10 +647,11 @@ function ding_user_get_creds($account = NULL) {
   * Update account with information from provider.
   */
 function ding_user_update_user($auth_res, &$account) {
-  $_SESSION['auth'] = $auth_res;
+  $_SESSION[DING_USER_ACTIVITY] = time();
+  $_SESSION['ding_user'] = $auth_res;
 
   /**
-   * @TODO: is this needed.
+   * @TODO: is this needed ?
    */
   if (!empty($auth_res['user'])) {
     // Save account if there's any changes.
@@ -689,12 +662,13 @@ function ding_user_update_user($auth_res, &$account) {
 /**
  * Store user credentials in the current session.
  *
- * @TODO: remove accout var
- *
+ * @param array $auth_res
+ *  Array with authentication information used to communicate with the provider.
  */
-function ding_user_save_creds($auth_res, $account) {
+function ding_user_save_creds($auth_res) {
   if (isset($auth_res['creds'])) {
-    $_SESSION['auth'] = $auth_res;
+    $_SESSION[DING_USER_ACTIVITY] = time();
+    $_SESSION['ding_user'] = $auth_res;
   }
 }
 
