@@ -116,15 +116,3 @@ function alma_user_update_pincode($account, $new_pincode) {
     }
   }
 }
-
-/**
- * Implements hook_user_pincode_length().
- *
- * @return int
- *  The length of the pin code given on the configuration page for alma. It's
- *  used in the frontend to validate the max length of the pin code allowed for
- *  this installation.
- */
-function alma_user_pincode_length() {
-  return variable_get('alma_pincode_length', 4);
-}

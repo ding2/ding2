@@ -253,7 +253,11 @@ function _alma_user_info($creds = NULL) {
  * Updates changes add to the profile when its saved.
  */
 function alma_profile2_presave($entity) {
-  if ($entity->type == 'provider_alma') {
+  // Check if the profile is just being created and is an alma_provider profile.
+  // If it's being created the fields are not yet loaded and can't be saved back
+  // to the provider.
+  $try_to_save = ($entity->created == $entity->changed) ? FALSE : TRUE;
+  if ($entity->type == 'provider_alma' && $try_to_save) {
     $changes = array();
 
     // Use a metadata wrapper to access the data.
