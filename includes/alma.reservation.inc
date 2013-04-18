@@ -61,7 +61,7 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
     );
   }
   else {
-    $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $$preferred_branch, $values);
+    $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $preferred_branch, $values);
     $period_valid = ding_reservation_default_options_interest_period_validate($type, 'alma_interest_period', $interest_period, $values);
     return array_merge($branch_valid, $period_valid);
   }
@@ -157,8 +157,8 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
     throw new DingProviderReservationExists();
   }
 
-  $profile2 = profile2_load_by_user($account, 'provider_alma');
-  if (!empty($profile2)) {
+  $entity = profile2_load_by_user($account, 'provider_alma');
+  if (!empty($entity)) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
     // interest period
     if (!isset($expiry)) {
@@ -188,6 +188,7 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
   );
 
   alma_reservation_clear_cache();
+
   // Try to make the reservation.
   $result = alma_client_invoke('add_reservation', $creds['name'], $creds['pass'], $params);
 
