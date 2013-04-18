@@ -5,11 +5,6 @@
  */
 
 /**
- * Default seconds to cache user credentials before wiping them.
- */
-define('DING_USER_DEFAULT_CREDS_LIFETIME', 900);
-
-/**
  * Index used in sessions to implement logged in use session expire possible.
  */
 define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
@@ -176,6 +171,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
  *
  * Add setting for pin code length under admin/config/people/accounts, which
  * defaults to 4 as most libraries uses that length.
+ *
+ * Also add option to set session expire time.
  */
 function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
   $form['ding_user'] = array(
@@ -194,6 +191,17 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
       5 => t('Max @number chars', array('@number' => 5)),
     ),
     '#default_value' => variable_get('ding_user_pincode_length', 0),
+  );
+
+  // Create time interval to set cache expire.
+  $period = drupal_map_assoc(array(0, 60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400), 'format_interval');
+  $period[0] = '<' . t('none') . '>';
+  $form['ding_user']['ding_user_session_expire'] = array(
+    '#type' => 'select',
+    '#title' => t('Session timeout'),
+    '#default_value' => variable_get('ding_user_session_expire', 900),
+    '#options' => $period,
+    '#description' => t('Uses that have not been active for this period will be automatically logged out.'),
   );
 }
 
@@ -656,11 +664,12 @@ function ding_user_get_creds($user = NULL) {
     // Sometimes the $user object will be the users profile which do not have
     // roles.
     if (isset($user->roles)) {
+      $timeout = variable_get('ding_user_session_expire', 900);
       $roles = array_values($user->roles);
       // User who are authenticated but has no other roles (i.e. ding user)
-      if (sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
+      if (sizeof($roles) == 1 && $roles[0] == 'authenticated user' && $timeout != 0) {
         // Check if session is expired.
-        if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > DING_USER_DEFAULT_CREDS_LIFETIME)) {
+        if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > variable_get('ding_user_session_expire', 900))) {
           watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
           user_module_invoke('logout', $user, 'user');
 
