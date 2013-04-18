@@ -57,11 +57,11 @@ projects[features][version] = "1.0"
 
 projects[media][type] = module
 projects[media][subdir] = contrib
-projects[media][version] = "2.0-unstable6"
+projects[media][version] = "2.0-unstable7"
 
 projects[file_entity][type] = module
 projects[file_entity][subdir] = contrib
-projects[file_entity][version] = "2.0-unstable6"
+projects[file_entity][version] = "2.0-unstable7"
 
 ; Changed to download as git repository due to failing when applying
 ; patch when version of git is lower than 1.7.5.4 and option working-copy
