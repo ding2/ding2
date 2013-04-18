@@ -51,6 +51,7 @@ class TingEntity extends DingEntity {
   public $isPartOf = DingEntityBase::NULL;
   public $extent = DingEntityBase::NULL;
   public $classification = DingEntityBase::NULL;
+  public $isbn = DingEntityBase::NULL;
 
   public function getExtent() {
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
@@ -272,6 +273,23 @@ class TingEntity extends DingEntity {
 
   function getDescription() {
     return !empty($this->reply->record['dc:description'][''][0]) ? $this->reply->record['dc:description'][''][0] : FALSE;
+  }
+
+  /**
+   * Get ISBN numbers of the object.
+   *
+   * @return array
+   */
+  function getIsbn() {
+    $isbn = null;
+    if (!empty($this->reply->record['dc:identifier']['dkdcplus:ISBN'])) {
+      $isbn = $this->reply->record['dc:identifier']['dkdcplus:ISBN'];
+      foreach ($isbn as $k => $number) {
+        $isbn[$k] = str_replace(array(' ', '-'), '', $number);
+      }
+      rsort($isbn);
+    }
+    return $isbn;
   }
 }
 
