@@ -405,6 +405,9 @@ function ding_user_user_login_validate($form, &$form_state) {
 
       $account = _ding_user_create_account($auth_name, $auth_res);
 
+      // Check that a profile exists for the user and if not create one.
+      _ding_user_create_profile2($account);
+
       // Log user in.
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
@@ -650,29 +653,34 @@ function ding_user_get_creds($user = NULL) {
   }
 
   if (user_is_logged_in()) {
-    $roles = array_values($user->roles);
-    // User who are authenticated but has no other roles (i.e. ding user)
-    if (sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
-      // Check if session is expired.
-      if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > DING_USER_DEFAULT_CREDS_LIFETIME)) {
-        watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
-        user_module_invoke('logout', $user, 'user');
+    // Sometimes the $user object will be the users profile which do not have
+    // roles.
+    if (isset($user->roles)) {
+      $roles = array_values($user->roles);
+      // User who are authenticated but has no other roles (i.e. ding user)
+      if (sizeof($roles) == 1 && $roles[0] == 'authenticated user') {
+        // Check if session is expired.
+        if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > DING_USER_DEFAULT_CREDS_LIFETIME)) {
+          watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
+          user_module_invoke('logout', $user, 'user');
 
-        session_destroy();
+          session_destroy();
 
-        $user = drupal_anonymous_user();
-        drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
-        drupal_goto();
-      }
-
-      if (isset($_SESSION['ding_user'])) {
-          // User has not timed out and is logged in, so update timestamp and
-          // return credentials.
-          $_SESSION[DING_USER_ACTIVITY] = time();
-          return $_SESSION['ding_user']['creds'];
+          $user = drupal_anonymous_user();
+          drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
+          drupal_goto();
+        }
       }
     }
   }
+
+  if (isset($_SESSION['ding_user'])) {
+    // User has not timed out and is logged in, so update timestamp and
+    // return credentials.
+    $_SESSION[DING_USER_ACTIVITY] = time();
+    return $_SESSION['ding_user']['creds'];
+  }
+
   throw new DingProviderAuthException;
 }
 
