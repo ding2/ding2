@@ -22,10 +22,20 @@ function alma_availability_holdings($provider_ids) {
         'holdings' => $record['holdings'],
         'reserved_count' => (int) $record['reservation_count'],
         'deferred_period' => FALSE,
-        'issues' => _alma_populate_issues($record['holdings']),
+        'issues' => FALSE,
         'is_periodical' => ($record['media_class'] == 'periodical'),
         'is_internet' => ($record['media_class'] == 'internet'),
       );
+
+      // If periodical render issue information.
+      if ($holding['is_periodical']) {
+        $holding['issues'] = _alma_populate_issues($record['holdings']);
+      }
+
+      // If it's an internet holding, don't display holdings information.
+      if ($holding['is_internet']) {
+        $holding['holdings'] = FALSE;
+      }
 
       $result[$alma_id] = $holding;
 
