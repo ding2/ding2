@@ -793,11 +793,15 @@ input#edit-search-block-form--2.spinner {
 
   .ting-object-left {
     @include zen-grid-item(3, 1);
+    
     min-height: 200px;
+    margin-bottom: $default-spacing;
   }
 
   .ting-object-right {
     @include zen-grid-item(9, 1, right);
+
+    margin-bottom: $default-spacing;
   }
 
   .ting-cover {
@@ -871,7 +875,6 @@ input#edit-search-block-form--2.spinner {
 
   .group-material-details {
     clear: both;
-    padding-top: $default-spacing;
 
     .field-label {
       width: 25%;
@@ -883,8 +886,12 @@ input#edit-search-block-form--2.spinner {
     }
   }
 
-  .field-name-ding-availability-holdings {
+  .group-holdings-available {
     clear: both;
+  }
+
+  .field-name-ding-availability-holdings {
+    margin-bottom: $default-spacing;
 
     ul {
       @extend %list;
@@ -903,9 +910,7 @@ input#edit-search-block-form--2.spinner {
     }
 
     .holdings {
-      border-top: $search-border-size $search-border-type $gray;
       margin-top: $default-spacing;
-      padding-top: $default-spacing;
       margin-bottom: 0;
     }
 
