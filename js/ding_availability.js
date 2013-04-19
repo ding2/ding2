@@ -121,7 +121,6 @@
         var entity_id = entity_ids.pop();
         if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
           // Show status for material.
-          $('#' + id).append('<h2>' + Drupal.t('Holdings available on the shelf') + '</h2>');
           $('#' + id).append(Drupal.DADB[entity_id].html) ;
         }
       }
