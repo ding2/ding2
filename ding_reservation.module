@@ -638,20 +638,6 @@ function ding_reservation_get_order_nr($item) {
 }
 
 /**
- * Create a dummy ting entity object, when item is not found in the ting well.
- * Fill in data using info fetched from certain provider.
- *
- * @param $entity_id
- *   Ting object id.
- * @return
- *   A TingEntity object or FALSE if provider failed to fetch the data.
- */
-function ding_reservation_replace_entity($item) {
-  $provider = _ding_provider_get_provider();
-  return call_user_func($provider['reservation']['module'] . '_replace_entity', $item);
-}
-
-/**
  * Submit handler for the reservations form.
  */
 function ding_reservation_reservations_delete_submit($form, &$form_state) {
