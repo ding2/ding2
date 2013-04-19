@@ -504,7 +504,8 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
 }
 
 /**
- * Replace entity for the reservation in the case object in not in Ting anymore.
+ * Replace entity for the reservation in the case object in not in Ting anymore
+ * or the reservation is an remote reservation.
  *
  * @param $item
  *   Provider reservation object.
@@ -519,6 +520,7 @@ function alma_replace_entity($item) {
   if ($alma_object['request_status'] == 'ok' && isset($alma_object['records'][$faust_number])) {
     $source = $alma_object['records'][$faust_number];
     $pseudo_ting_object = new TingEntity();
+    $pseudo_ting_object->tid = $faust_number;
     $pseudo_ting_object->localId = $faust_number;
     $pseudo_ting_object->ding_entity_id = $item->ding_entity_id;
     $pseudo_ting_object->reply = new TingClientObject();
