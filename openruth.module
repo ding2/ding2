@@ -436,7 +436,7 @@ function openruth_set_profile2_fields($account) {
     $account->content['profile2']['interest_period'] = array(
       '#type' => 'item',
       '#title' => t('Interest period'),
-      '#markup' => '<span>' . $interest_period . '</span>',
+      '#markup' => '<span>' . t($interest_period) . '</span>',
     );
   }
 
