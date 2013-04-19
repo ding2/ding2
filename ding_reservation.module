@@ -356,7 +356,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
   foreach ($items as $id => $item) {
     $entity = $item->entity;
     if (!is_object($entity)) {
-      $entity = ding_reservation_replace_entity($item);
+      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
     }
 
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $item->pickup_branch_id);
