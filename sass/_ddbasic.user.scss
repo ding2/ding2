@@ -400,11 +400,12 @@
 .pane-bookmarks {
   td {
     text-align: left;
+    vertical-align: middle;
   }
 
   .ding-entity-button {
     float: right;
-    margin-right: $default-spacing / 2;
+    margin-right: $default-spacing;
 
     a {
       @extend %button-danger;
@@ -480,7 +481,6 @@
       }
     }
 }
-
 
 // =============================================================================
 // Mediaqueries
