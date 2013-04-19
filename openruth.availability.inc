@@ -36,8 +36,15 @@ function _openruth_set_holdings($res) {
   $holdings = array();
   foreach ($res->holding as $holding) {
     $h = _openruth_init_holding($holding);
-    if (isset($holding->itemHoldings)) {
-      foreach ($holding->itemHoldings as $itemHolding) {
+    $itemHoldings = isset($holding->itemHoldings) ? $holding->itemHoldings : NULL;
+
+    // For 1.1 version. Override the path.
+    if (isset($holding->holdingAgency[0]->itemHoldings)) {
+      $itemHoldings = $holding->holdingAgency[0]->itemHoldings;
+    }
+
+    if (isset($itemHoldings)) {
+      foreach ($itemHoldings as $itemHolding) {
         // remember to count ordersCount
         $h['reserved_count'] += $itemHolding->ordersCount;
         _openruth_set_locations($h, $itemHolding);
@@ -58,9 +65,16 @@ function _openruth_set_holdings($res) {
  * @return array; initialized holding array set with default values
  */
 function _openruth_init_holding($holding) {
-  if (isset($holding->agencyHoldings)) {
-    $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-    $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
+  $holdings = isset($holding->agencyHoldings) ? $holding->agencyHoldings : NULL;
+
+  // For 1.1 version. Override the path.
+  if (isset($holding->holdingAgency[0]->agencyHoldings)) {
+    $holdings = $holding->holdingAgency[0]->agencyHoldings;
+  }
+
+  if (isset($holdings)) {
+    $available = $holdings->itemAvailability == 'copies available for loan and reservation';
+    $reservable = $available || $holdings->itemAvailability == 'no copies available, but item can be reserved';
   }
   else {
     $available = FALSE;
