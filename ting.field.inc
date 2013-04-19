@@ -307,7 +307,8 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $type = 'ting_collection';
           //   }
         }
-        if ($display['settings']['link_type'] != 'none') {
+        // Only create the link if the object is available in the datawell.
+        if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
           $url = entity_uri($type, $entity);
           $title = l($entity->title, $url['path'], $url['options']);
         } else {
