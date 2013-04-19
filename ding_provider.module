@@ -587,3 +587,39 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
   }
   return NULL;
 }
+
+/**
+ * Wrapper function used to create an pseudo ting entity, which mainly is used
+ * when the provider returns reservation, loans or debts that do not have a ting
+ * entity in the datewell, but will stil wishes to use it in lists together with
+ * real ting entities.
+ *
+ * @param type $ding_entity_id
+ * @return type
+ */
+function ding_provider_get_pseudo_entity($ding_entity_id) {
+  $local_id = substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
+
+  // Build entity based on available information.
+  $ting_entity = new TingEntity();
+  $ting_entity->tid = $local_id;
+  $ting_entity->localId = $local_id;
+  $ting_entity->ding_entity_id = $ding_entity_id;
+  $ting_entity->provider_id = $local_id;
+  $ting_entity->ding_entity_type = 'ding_entity';
+  $ting_entity->reply = new TingClientObject();
+  $ting_entity->reply->id = $ding_entity_id;
+  $ting_entity->reply->localId = $local_id;
+  $ting_entity->reply->relations = array();
+  $ting_entity->reply->ownerId = substr($ding_entity_id, 0, strpos($ding_entity_id, ':'));
+
+  // See if the provider have any information about the entity.
+  if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
+    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity);
+  }
+
+  // Mark this object as pseudo, so formatters can take action.
+  $ting_entity->is_available = FALSE;
+
+  return $ting_entity;
+}
