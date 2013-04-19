@@ -525,7 +525,7 @@ function ting_ding_entity_buttons($type, $entity) {
  */
 function ting_page_alter(&$page) {
   $calls = &drupal_static('ting_execute_cache');
-  if (sizeof($calls) > 1) {
+  if (sizeof($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
       $calls_str[] = print_r($calls, TRUE);
