@@ -80,11 +80,12 @@ function alma_loan_populate_pseudo_entity($ting_entity) {
     $ting_entity->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array($source['media_class']);
     $ting_entity->reply->record['dc:date'][''] = array($source['publication_year']);
     $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = $source['authors'];
+    $ting_entity->reply->record['dc:identifier']['dkdcplus:ISBN'][0] = str_replace(array('-', ' ', 'ISBN'), '', $source['isbns'][0]);
 
     $ting_entity->ting_title = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
     $ting_entity->ting_type = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
     $ting_entity->ting_author = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
-    $ting_entity->ting_cover = array(LANGUAGE_NONE => array(array('local_id' => $ting_entity->localId)));
+    $ting_entity->ting_cover = array(LANGUAGE_NONE => array(array('local_id' => $ting_entity->provider_id)));
   }
 
   return $ting_entity;
