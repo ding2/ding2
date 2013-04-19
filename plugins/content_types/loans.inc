@@ -80,8 +80,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     $entity = $item->entity;
 
     if (!is_object($entity)) {
-      // @todo Add dependency or refactor it.
-      $entity = ding_reservation_replace_entity($item);
+      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
     }
 
     $options[$item->id] = array(
