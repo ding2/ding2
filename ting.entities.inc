@@ -281,16 +281,22 @@ class TingEntity extends DingEntity {
    * @return array
    */
   function getIsbn() {
-    $isbn = null;
-    if (!empty($this->reply->record['dc:identifier']['dkdcplus:ISBN'])) {
-      $isbn = $this->reply->record['dc:identifier']['dkdcplus:ISBN'];
-      foreach ($isbn as $k => $number) {
-        $isbn[$k] = str_replace(array(' ', '-'), '', $number);
-      }
-      rsort($isbn);
+    $isbn = array();
+
+    // Nothing to do.
+    if (empty($this->reply->record['dc:identifier']['dkdcplus:ISBN'])) {
+      return $isbn;
     }
+
+    // Get ISBN numbers.
+    $isbn = $this->reply->record['dc:identifier']['dkdcplus:ISBN'];
+    foreach ($isbn as $k => $number) {
+      $isbn[$k] = str_replace(array(' ', '-'), '', $number);
+    }
+    rsort($isbn);
     return $isbn;
   }
+
 }
 
 /**
