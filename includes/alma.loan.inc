@@ -60,3 +60,32 @@ function alma_loan_renew($account, $ids) {
   }
   return $result;
 }
+
+/**
+ * Replace entity for the reservation in the case object in not in Ting anymore
+ * or the reservation is an remote reservation.
+ *
+ * @param $ting_entity
+ *   Provider reservation object.
+ * @return
+ *   Ting entity object, filled with data from provider service.
+ */
+function alma_loan_populate_pseudo_entity($ting_entity) {
+  $alma_object = alma_client_invoke('catalogue_record_detail', $ting_entity->localId);
+
+  if ($alma_object['request_status'] == 'ok' && isset($alma_object['records'][$ting_entity->localId])) {
+    $source = $alma_object['records'][$ting_entity->localId];
+
+    $ting_entity->reply->record['dc:title']['dkdcplus:full'] = array($source['titles'][0]);
+    $ting_entity->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array($source['media_class']);
+    $ting_entity->reply->record['dc:date'][''] = array($source['publication_year']);
+    $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = $source['authors'];
+
+    $ting_entity->ting_title = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
+    $ting_entity->ting_type = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
+    $ting_entity->ting_author = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
+    $ting_entity->ting_cover = array(LANGUAGE_NONE => array(array('local_id' => $ting_entity->localId)));
+  }
+
+  return $ting_entity;
+}
