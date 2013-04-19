@@ -172,53 +172,58 @@ function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_o
  */
 function ding_reservation_reserve_form_validate($form, &$form_state) {
   global $user;
-  if (ding_provider_implements('reservation', 'options_validate')) {
-    $res = ding_provider_invoke('reservation', 'options_validate', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
-    // No valudation options returned by provider.
-    if (is_null($res)) {
-      return;
-    }
+  if (user_is_logged_in && ding_user_is_provider_user($user)) {
+    if (ding_provider_implements('reservation', 'options_validate')) {
+      $res = ding_provider_invoke('reservation', 'options_validate', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
+      // No valudation options returned by provider.
+      if (is_null($res)) {
+        return;
+      }
 
-    /**
-     * We cannot set the value of the individual provider form elements, as
-     * they might not have been show, and thus not exist. However, setting the
-     * value of the parent element to an associative array gives the same end
-     * result.
-     */
-    $provider_options = array();
-    $provider = ding_provider_get_provider_module_name('reservation');
-    $removal = array();
-    foreach ($res as $key => $value) {
-      if (is_array($value) && !empty($value['#error'])) {
-        if (!$form_state['options_hidden']) {
-          // Only show an error if the user had a choice.
-          form_error($form['provider_options'], $res['#error']);
+      /**
+      * We cannot set the value of the individual provider form elements, as
+      * they might not have been show, and thus not exist. However, setting the
+      * value of the parent element to an associative array gives the same end
+      * result.
+      */
+      $provider_options = array();
+      $provider = ding_provider_get_provider_module_name('reservation');
+      $removal = array();
+      foreach ($res as $key => $value) {
+        if (is_array($value) && !empty($value['#error'])) {
+          if (!$form_state['options_hidden']) {
+            // Only show an error if the user had a choice.
+            form_error($form['provider_options'], $res['#error']);
+          }
+          else {
+            // Else simply rebuild the form.
+            if ($key == $provider . '_preferred_branch') {
+              $removal[] = $provider . '_interest_period';
+            }
+            elseif ($key == $provider . '_interest_period') {
+              $removal[] = $provider . '_preferred_branch';
+            }
+
+            // In case both fields are not set, remove nothing.
+            if (count($removal) == 2) {
+              $removal = array();
+            }
+
+            $form_state['removable'] = $removal;
+            $form_state['rebuild'] = TRUE;
+          }
         }
         else {
-          // Else simply rebuild the form.
-          if ($key == $provider . '_preferred_branch') {
-            $removal[] = $provider . '_interest_period';
-          }
-          elseif ($key == $provider . '_interest_period') {
-            $removal[] = $provider . '_preferred_branch';
-          }
-
-          // In case both fields are not set, remove nothing.
-          if (count($removal) == 2) {
-            $removal = array();
-          }
-
-          $form_state['removable'] = $removal;
-          $form_state['rebuild'] = TRUE;
+          $provider_options[$key] = $value;
         }
       }
-      else {
-        $provider_options[$key] = $value;
+      if (!empty($provider_options)) {
+        form_set_value($form['provider_options'], $provider_options, $form_state);
       }
     }
-    if (!empty($provider_options)) {
-      form_set_value($form['provider_options'], $provider_options, $form_state);
-    }
+  }
+  else {
+    throw new DingProviderAuthException();
   }
 }
 
