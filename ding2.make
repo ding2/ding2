@@ -81,6 +81,11 @@ projects[ding_event][download][type] = git
 projects[ding_event][download][url] = git@github.com:ding2tal/ding_event.git
 projects[ding_event][download][branch] = "development"
 
+projects[ding_webtrends][type] = "module"
+projects[ding_webtrends][download][type] = "git"
+projects[ding_webtrends][download][url] = "git@github.com:ding2tal/ding_webtrends.git"
+projects[ding_webtrends][download][branch] = "development"
+
 ; Themes
 projects[latto][type] = theme
 projects[latto][download][type] = git
