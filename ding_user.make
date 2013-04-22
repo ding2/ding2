@@ -18,11 +18,6 @@ projects[ding_provider][download][type] = "git"
 projects[ding_provider][download][url] = "git@github.com:ding2tal/ding_provider.git"
 projects[ding_provider][download][branch] = "development"
 
-projects[ding_persistent_login][type] = "module"
-projects[ding_persistent_login][download][type] = "git"
-projects[ding_persistent_login][download][url] = "git@github.com:ding2tal/ding_persistent_login.git"
-projects[ding_persistent_login][download][branch] = "development"
-
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
 projects[ding_entity][download][url] = "git@github.com:ding2tal/ding_entity.git"
