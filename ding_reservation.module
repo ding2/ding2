@@ -158,6 +158,12 @@ function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_o
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Reserve'),
+    '#attributes' => array(
+      'class' => array(
+        'action-button',
+        'reserve-button'
+      ),
+    ),
     '#ajax' => array(
       'callback' => 'ding_reservation_reserve_form_callback',
       'wrapper' => 'ding-reservation-reserve-form',
