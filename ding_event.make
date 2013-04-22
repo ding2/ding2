@@ -3,20 +3,25 @@ core = 7.x
 
 ; Ding 2 modules
 
-projects[ding_latto_frontend][type] = "module"
-projects[ding_latto_frontend][download][type] = "git"
-projects[ding_latto_frontend][download][url] = "git@github.com:ding2tal/ding_latto_frontend.git"
-projects[ding_latto_frontend][download][branch] = "development"
-
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
 projects[ding_page][download][branch] = "development"
 
+projects[ding_base][type] = "module"
+projects[ding_base][download][type] = "git"
+projects[ding_base][download][url] = "git@github.com:ding2tal/ding_base.git"
+projects[ding_base][download][branch] = "development"
+
 projects[ding_content][type] = module
 projects[ding_content][download][type] = git
 projects[ding_content][download][url] = git@github.com:ding2tal/ding_content.git
 projects[ding_content][download][branch] = "development"
+
+projects[ding_frontend][type] = "module"
+projects[ding_frontend][download][type] = "git"
+projects[ding_frontend][download][url] = "git@github.com:ding2tal/ding_frontend.git"
+projects[ding_frontend][download][branch] = "development"
 
 projects[ding_user_roles][type] = "module"
 projects[ding_user_roles][download][type] = "git"
@@ -36,30 +41,30 @@ projects[ding_place2book][download][branch] = "ding2tal_compatibility"
 
 ; Contrib modules
 
-projects[addressfield][type] = module
 projects[addressfield][subdir] = contrib
 projects[addressfield][version] = "1.0-beta3"
 
-projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
 projects[cache_actions][version] = "2.0-alpha5"
 
-projects[ctools][type] = "module"
+projects[cs_adaptive_image][subdir] = contrib
+projects[cs_adaptive_image][version] = "1.0"
+
 projects[ctools][subdir] = contrib
 projects[ctools][version] = "1.1"
 
 projects[date][subdir] = contrib
 projects[date][version] = "2.6"
 
-projects[features][type] = module
 projects[features][subdir] = contrib
-projects[features][version] = "1.0"
+projects[features][version] = "2.0-beta2"
 
-projects[media][type] = module
+projects[field_group][subdir] = contrib
+projects[field_group][version] = "1.1"
+
 projects[media][subdir] = contrib
 projects[media][version] = "2.0-unstable7"
 
-projects[file_entity][type] = module
 projects[file_entity][subdir] = contrib
 projects[file_entity][version] = "2.0-unstable7"
 
@@ -73,10 +78,8 @@ projects[og][download][url] = http://git.drupal.org/project/og.git
 projects[og][download][tag] = 7.x-1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
-projects[strongarm][type] = module
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = "2.0"
 
-projects[views][type] = module
 projects[views][subdir] = contrib
 projects[views][version] = "3.3"
