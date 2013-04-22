@@ -15,17 +15,17 @@ projects[ting_reference][download][branch] = "development"
 
 ; Contrib modules
 
-projects[cache_actions][type] = module
 projects[cache_actions][subdir] = contrib
 projects[cache_actions][version] = "2.0-alpha5"
 
 projects[ctools][subdir] = contrib
 projects[ctools][version] = "1.1"
 
-projects[features][type] = module
 projects[features][subdir] = contrib
-projects[features][version] = "1.0"
+projects[features][version] = "2.0-beta2"
 
+projects[field_group][subdir] = contrib
+projects[field_group][version] = "1.1"
 
 ; Changed to download as git repository due to failing when applying
 ; patch when version of git is lower than 1.7.5.4 and option working-copy
@@ -37,7 +37,14 @@ projects[og][download][url] = http://git.drupal.org/project/og.git
 projects[og][download][tag] = 7.x-1.3
 projects[og][patch][] = http://drupal.org/files/1320778.patch
 
-projects[strongarm][type] = module
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = "2.0"
 
+projects[media][subdir] = contrib
+projects[media][version] = "2.0-unstable7"
+
+projects[file_entity][subdir] = contrib
+projects[file_entity][version] = "2.0-unstable7"
+
+projects[menu_block][subdir] = contrib
+projects[menu_block][version] = 2.3
