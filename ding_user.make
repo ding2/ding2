@@ -25,8 +25,11 @@ projects[ding_entity][download][branch] = "development"
 
 ; Contrib modules
 
-projects[profile2][version] = "1.2"
 projects[profile2][subdir] = contrib
+projects[profile2][version] = "1.2"
 
-projects[entity][version] = "1.0-rc3"
+projects[ctools][subdir] = contrib
+projects[ctools][version] = "1.1"
+
 projects[entity][subdir] = contrib
+projects[entity][version] = "1.0-rc3"
