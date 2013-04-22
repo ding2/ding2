@@ -650,7 +650,6 @@ function ding_event_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Library page event list', 'ding_event_library_page_list');
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['use_more_text'] = 'Læs mere..';
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'bibliotek/%1/arrangementer';
@@ -918,7 +917,6 @@ function ding_event_views_default_views() {
   /* Display: Event list */
   $handler = $view->new_display('panel_pane', 'Event list', 'ding_event_list');
   $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Læs mere..';
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'arrangementer';
@@ -1325,7 +1323,6 @@ function ding_event_views_default_views() {
   /* Display: Event list (library) */
   $handler = $view->new_display('panel_pane', 'Event list (library)', 'ding_event_list_library');
   $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Læs mere..';
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'bibliotek/%1/arrangementer';
