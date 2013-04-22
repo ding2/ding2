@@ -236,10 +236,22 @@ input#edit-search-block-form--2.spinner {
   min-height: 100px;
 }
 
+.ding-format-short {
+  .ting-object-left {
+    display: none;
+  }
+}
+
 .ting-object-right {
   @include zen-grid-item(10, 1, right);
 
   padding-right: 0;
+}
+
+.ding-format-short {
+  .ting-object-right {
+    @include zen-grid-item(12, 1, right);
+  }
 }
 
 // **
