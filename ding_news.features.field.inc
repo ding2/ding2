@@ -600,6 +600,12 @@ function ding_news_field_default_fields() {
       'settings' => array(
         'profile2_private' => FALSE,
       ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
+      ),
       'translatable' => '0',
       'type' => 'ting_reference',
     ),
