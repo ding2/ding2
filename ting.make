@@ -3,10 +3,10 @@ core = 7.x
 
 ; Contrib
 
-projects[nanosoap][subdir] = contrib
+projects[nanosoap][subdir] = "contrib"
 projects[nanosoap][version] = "1.0"
 
-projects[virtual_field][subdir] = contrib
+projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.1"
 
 
