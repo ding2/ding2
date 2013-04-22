@@ -9,7 +9,7 @@ projects[date][subdir] = contrib
 projects[date][version] = "2.6"
 
 projects[features][subdir] = contrib
-projects[features][version] = "1.0"
+projects[features][version] = "2.0-beta2"
 
 projects[i18n][subdir] = contrib
 projects[i18n][version] = "1.7"
