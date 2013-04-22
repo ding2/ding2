@@ -234,6 +234,10 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
+.button-see-online {
+  @extend %button-action;
+}
+
 // **
 // Column wrapper fields
 // **
@@ -841,10 +845,6 @@ input#edit-search-block-form--2.spinner {
     &:after {
       clear: none;
     }
-  }
-
-  .button-see-online {
-    @extend %button-action;
   }
 
   // Material Details - Collapsible
