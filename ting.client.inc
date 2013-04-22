@@ -208,7 +208,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   }
 
   // Apply custom ranking if enabled.
-  if (variable_get('ting_ranking_custom', FALSE)) {
+  if (variable_get('ting_ranking_custom', FALSE) && variable_get('ting_ranking_fields', array()) && !isset($options['sort'])) {
     $fields = array();
     foreach (variable_get('ting_ranking_fields', array()) as $field) {
       $fields[] = array(
