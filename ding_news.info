@@ -16,6 +16,7 @@ dependencies[] = ding_user_roles
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = file_entity
+dependencies[] = media
 dependencies[] = image
 dependencies[] = og
 dependencies[] = page_manager
