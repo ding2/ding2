@@ -11,7 +11,7 @@ projects[panels][subdir] = contrib
 projects[panels][version] = "3.2"
 
 projects[features][subdir] = contrib
-projects[features][version] = "1.0"
+projects[features][version] = "2.0-beta2"
 
 projects[strongarm][subdir] = contrib
 projects[strongarm][version] = "2.0"
@@ -105,3 +105,8 @@ projects[ting_material_details][type] = "module"
 projects[ting_material_details][download][type] = "git"
 projects[ting_material_details][download][url] = "git@github.com:ding2tal/ting_material_details.git"
 projects[ting_material_details][download][branch] = "development"
+
+projects[ting][type] = "module"
+projects[ting][download][type] = "git"
+projects[ting][download][url] = "git@github.com:ding2tal/ting.git"
+projects[ting][download][branch] = "development"
