@@ -3,7 +3,7 @@ core = 7.x
 
 ; Contrib
 
-projects[date][subdir] = contrib
+projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
 
 ; Ding 2 modules
