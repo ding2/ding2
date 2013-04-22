@@ -151,7 +151,7 @@ function ding_page_field_default_fields() {
   $fields['node-ding_page-field_ding_page_files'] = array(
     'field_config' => array(
       'active' => '1',
-      'cardinality' => '1',
+      'cardinality' => '-1',
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_ding_page_files',
@@ -209,9 +209,9 @@ function ding_page_field_default_fields() {
       'label' => 'Files',
       'required' => 0,
       'settings' => array(
-        'description_field' => 0,
+        'description_field' => 1,
         'file_directory' => 'ding_page_files',
-        'file_extensions' => 'txt',
+        'file_extensions' => 'jpg jpeg gif png txt doc docx xls xlsx pdf ppt pptx pps odt ods odp',
         'max_filesize' => '',
         'user_register_form' => FALSE,
       ),
@@ -439,6 +439,12 @@ function ding_page_field_default_fields() {
       'module' => 'ting_reference',
       'settings' => array(
         'profile2_private' => FALSE,
+      ),
+      'storage' => array(
+        'active' => '1',
+        'module' => 'virtual_field',
+        'settings' => array(),
+        'type' => 'virtual_field',
       ),
       'translatable' => '0',
       'type' => 'ting_reference',
