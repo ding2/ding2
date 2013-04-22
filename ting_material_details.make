@@ -10,11 +10,11 @@ projects[ting][download][branch] = "development"
 
 ; Contrib modules
 
-projects[features][subdir] = contrib
+projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
 
-projects[field_group][subdir] = contrib
+projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
-projects[virtual_field][subdir] = contrib
+projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.1"
