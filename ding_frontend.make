@@ -13,7 +13,7 @@ projects[conditional_styles][subdir] = contrib
 projects[conditional_styles][version] = "2.1"
 
 projects[dynamic_background][subdir] = contrib
-projects[dynamic_background][version] = "2.0-rc1"
+projects[dynamic_background][version] = "2.0-rc4"
 
 projects[features][subdir] = contrib
 projects[features][version] = "1.0"
@@ -86,13 +86,3 @@ projects[ding_footer][type] = "module"
 projects[ding_footer][download][type] = "git"
 projects[ding_footer][download][url] = "git@github.com:ding2tal/ding_footer.git"
 projects[ding_footer][download][branch] = "development"
-
-projects[ding_footer][type] = "module"
-projects[ding_footer][download][type] = "git"
-projects[ding_footer][download][url] = "git@github.com:ding2/ding_footer.git"
-;projects[ding_footer][download][tag] = "7.x-1.x"
-
-projects[ding_webtrends][type] = "module"
-projects[ding_webtrends][download][type] = "git"
-projects[ding_webtrends][download][url] = "git@github.com:ding2tal/ding_webtrends.git"
-projects[ding_webtrends][download][branch] = "development"

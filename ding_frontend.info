@@ -10,7 +10,6 @@ dependencies[] = conditional_styles
 dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = ding_campaign
-dependencies[] = ding_campaign_ctype
 dependencies[] = ding_page
 dependencies[] = dynamic_background
 dependencies[] = features
