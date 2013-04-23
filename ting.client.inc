@@ -277,7 +277,8 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  *
  * Executes the request and caches sub-objects.
  *
- * @param $request the request.
+ * @param object $request
+ *   The request.
  */
 function ting_execute_cache($request) {
   $calls = &drupal_static(__FUNCTION__);
@@ -348,6 +349,7 @@ function ting_execute_cache($request) {
  */
 function ting_cache_get($id, $collection = FALSE) {
   $cid = 'ting-' . ($collection ? 'collection' : 'object') . ':' . $id;
+
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get($cid);
     if ($cache && ($cache->expire > REQUEST_TIME)) {
@@ -453,18 +455,40 @@ function ting_add_relations($request, $type = 'full') {
 }
 
 /**
- * Perform a request against Ting and perform error handling if necessary
+ * Perform a request against Ting and perform error handling if necessary.
  *
- * @param $request The request
- * @return mixed Result of the request or false if an error occurs
+ * @param object $request
+ *   The request.
+ *
+ * @return mixed
+ *   Result of the request or false if an error occurs.
  */
 function ting_execute($request) {
+  // Get additional parameters from other modules.
+  $params = module_invoke_all('ting_pre_execute', $request);
+  if (!empty($params)) {
+    $request->setParameters($params);
+  }
+
   try {
     timer_start('ting');
     $res = ting_get_client()->execute($request);
     timer_stop('ting');
-    return $res;
-  } catch (TingClientException $e) {
+
+    $response = $request->parseResponse($res);
+
+    // Pass parsed results to other modules.
+    // @todo Check if it works for collection of items.
+    $props = module_invoke_all('ting_post_execute', $request, $response, $res);
+    if (!empty($props)) {
+      foreach ($props as $property => $value) {
+        $response->{$property} = $value;
+      }
+    }
+
+    return $response;
+  }
+  catch (TingClientException $e) {
     timer_stop('ting');
     watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
     return FALSE;
