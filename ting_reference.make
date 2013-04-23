@@ -7,6 +7,9 @@ api = 2
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.3"
 
+projects[entityreference][subdir] = "contrib"
+projects[entityreference][version] = "1.0"
+
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0-rc4"
 
