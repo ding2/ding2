@@ -132,7 +132,17 @@ class AdditionalInformationService {
 
         // Move result into the responce object.
         $response->requestStatus = $data->requestStatus;
-        $response->identifierInformation = array_merge($response->identifierInformation, $data->identifierInformation);
+        if (is_array($data->identifierInformation)) {
+          // If more than one element have been found an array is returned.
+          $response->identifierInformation = array_merge($response->identifierInformation, $data->identifierInformation);
+        }
+        else {
+          // If only one "cover" have been request, we need to wrap the data in
+          // an array.
+          $response->identifierInformation = array_merge($response->identifierInformation, array($data->identifierInformation));
+        }
+
+        // Single image... not array but object.
 
         $offset += 40;
         $ids = array_splice($identifiers, $offset, 40);
