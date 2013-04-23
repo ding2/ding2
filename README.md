@@ -3,9 +3,9 @@ Ding2 is a continuation of [ding.TING](http://ting.dk/content/om-dingting) [Drup
 
 ## Dependencies
 
-* [Drupal 7.16](http://drupal.org/node/1361968) The latest stable version of Drupal Core that ding2 have been tested on and the last stable release when this was written.
+* [Drupal 7.22](https://drupal.org/drupal-7.22-release-notes) The latest stable version of Drupal Core that ding2 have been tested on and the last stable release when this was written.
 
-* [Drush 5.7](http://drupal.org/project/drush) Which has build in drush make API version 2 and was the latest release when this was written.
+* [Drush 5.8](http://drupal.org/project/drush) Which has build in drush make API version 2 and was the latest release when this was written.
 
 If you are running an Aegir 1.9 stack you can download the required version of drush and drush make at these URLs.
 
