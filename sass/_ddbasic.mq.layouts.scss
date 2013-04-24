@@ -86,98 +86,46 @@
 // Top and main content are required
 // This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
-.top-wrapper {
-  @include zen-grid-container;
 
-  margin-bottom: $default-spacing;
+.ding-layout-1 {
+  @include display-100-50-50;
 
-  .top-content {
-    @include zen-grid-item($grid-75, 1);
+  .grid-inner {
+    @extend %grid-inner;
   }
 
-  .top-secondary {
-    @include zen-grid-item($grid-25, 1, right);
+  // specific rule for primary content because carousel is inserted.
+  .primary-content {
+    .grid-inner {
+      padding: 0;
+      background-color: transparent;
+    }
+  }
+
+  .attachments-wrapper {
+    @include zen-grid-container;
+
+    margin-bottom: $default-spacing;
 
     .grid-inner {
       @extend %grid-inner;
     }
   }
-}
 
-.no-top-secondary {
-  .top-content {
-    @include zen-grid-item($grid-column-count, 1);
+  .attachments-4-4 {
+    @include attachment-25-25-25-25;
+  }
+
+  .attachments-3-3 {
+    @include attachment-33-33-33-100;
+  }
+
+  .attachments-2-2 {
+    @include attachment-50-50-100-100;
+  }
+
+  .attachments-1-1 {
+    @include attachment-100-100-100-100;
   }
 }
 
-.main-wrapper {
-  @include zen-grid-container;
-
-  margin-bottom: $default-spacing;
-
-  .main-content {
-    @include zen-grid-item($grid-50, 1);
-    @include box-sizing(border-box);
-  }
-
-  .main-left-right {
-    @include zen-grid-item($grid-25, $grid-50 + 1);
-    @include box-sizing(border-box);
-  }
-
-  .main-right-right {
-    @include zen-grid-item($grid-25, 1, right);
-    @include box-sizing(border-box);
-  }
-
-  .grid-inner {
-    @extend %grid-inner;
-  }
-}
-
-.no-main-left-right.no-main-right-right {
-  .main-content {
-    @include zen-grid-item($grid-column-count, 1);
-  }
-}
-
-.no-main-left-right {
-  .main-content {
-    @include zen-grid-item($grid-75, 1);
-  }
-}
-
-.no-main-right-right {
-  .main-content {
-    @include zen-grid-item($grid-75, 1);
-  }
-  .main-left-right {
-    @include zen-grid-item($grid-25, 1, right);
-  }
-}
-
-.attachments-wrapper {
-  @include zen-grid-container;
-
-  margin-bottom: $default-spacing;
-
-  .grid-inner {
-    @extend %grid-inner;
-  }
-}
-
-.attachments-4-4 {
-  @include attachment-25-25-25-25;
-}
-
-.attachments-3-3 {
-  @include attachment-33-33-33-100;
-}
-
-.attachments-2-2 {
-  @include attachment-50-50-100-100;
-}
-
-.attachments-1-1 {
-  @include attachment-100-100-100-100;
-}

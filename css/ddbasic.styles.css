@@ -1649,7 +1649,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 11, ../sass/_ddbasic.mq.layouts.scss */
-.sidebars .grid-inner, .sidebars .topbar .topbar-inner, .topbar .sidebars .topbar-inner, .sidebars .header-wrapper .header-inner, .header-wrapper .sidebars .header-inner, .sidebars .navigation-inner, .empty-sidebars .grid-inner, .empty-sidebars .topbar .topbar-inner, .topbar .empty-sidebars .topbar-inner, .empty-sidebars .header-wrapper .header-inner, .header-wrapper .empty-sidebars .header-inner, .empty-sidebars .navigation-inner, .left-sidebar .grid-inner, .left-sidebar .topbar .topbar-inner, .topbar .left-sidebar .topbar-inner, .left-sidebar .header-wrapper .header-inner, .header-wrapper .left-sidebar .header-inner, .left-sidebar .navigation-inner, .right-sidebar .grid-inner, .right-sidebar .topbar .topbar-inner, .topbar .right-sidebar .topbar-inner, .right-sidebar .header-wrapper .header-inner, .header-wrapper .right-sidebar .header-inner, .right-sidebar .navigation-inner, .top-wrapper .top-secondary .grid-inner, .top-wrapper .top-secondary .topbar .topbar-inner, .topbar .top-wrapper .top-secondary .topbar-inner, .top-wrapper .top-secondary .header-wrapper .header-inner, .header-wrapper .top-wrapper .top-secondary .header-inner, .top-wrapper .top-secondary .navigation-inner, .main-wrapper .grid-inner, .main-wrapper .topbar .topbar-inner, .topbar .main-wrapper .topbar-inner, .main-wrapper .header-wrapper .header-inner, .header-wrapper .main-wrapper .header-inner, .main-wrapper .navigation-inner, .attachments-wrapper .grid-inner, .attachments-wrapper .topbar .topbar-inner, .topbar .attachments-wrapper .topbar-inner, .attachments-wrapper .header-wrapper .header-inner, .header-wrapper .attachments-wrapper .header-inner, .attachments-wrapper .navigation-inner {
+.sidebars .grid-inner, .sidebars .topbar .topbar-inner, .topbar .sidebars .topbar-inner, .sidebars .header-wrapper .header-inner, .header-wrapper .sidebars .header-inner, .sidebars .navigation-inner, .empty-sidebars .grid-inner, .empty-sidebars .topbar .topbar-inner, .topbar .empty-sidebars .topbar-inner, .empty-sidebars .header-wrapper .header-inner, .header-wrapper .empty-sidebars .header-inner, .empty-sidebars .navigation-inner, .left-sidebar .grid-inner, .left-sidebar .topbar .topbar-inner, .topbar .left-sidebar .topbar-inner, .left-sidebar .header-wrapper .header-inner, .header-wrapper .left-sidebar .header-inner, .left-sidebar .navigation-inner, .right-sidebar .grid-inner, .right-sidebar .topbar .topbar-inner, .topbar .right-sidebar .topbar-inner, .right-sidebar .header-wrapper .header-inner, .header-wrapper .right-sidebar .header-inner, .right-sidebar .navigation-inner, .ding-layout-1 .grid-inner, .ding-layout-1 .topbar .topbar-inner, .topbar .ding-layout-1 .topbar-inner, .ding-layout-1 .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .header-inner, .ding-layout-1 .navigation-inner, .ding-layout-1 .attachments-wrapper .grid-inner, .ding-layout-1 .attachments-wrapper .topbar .topbar-inner, .topbar .ding-layout-1 .attachments-wrapper .topbar-inner, .ding-layout-1 .attachments-wrapper .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .attachments-wrapper .header-inner, .ding-layout-1 .attachments-wrapper .navigation-inner {
   background-color: white;
   padding: 20px;
 }
@@ -2036,60 +2036,8 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 89, ../sass/_ddbasic.mq.layouts.scss */
-.top-wrapper {
-  *position: relative;
-  *zoom: 1;
-  margin-bottom: 20px;
-}
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
-.top-wrapper:before, .top-wrapper:after {
-  content: "";
-  display: table;
-}
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
-.top-wrapper:after {
-  clear: both;
-}
-/* line 94, ../sass/_ddbasic.mq.layouts.scss */
-.top-wrapper .top-content {
-  float: left;
-  width: 75%;
-  margin-left: 0%;
-  margin-right: -75%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 98, ../sass/_ddbasic.mq.layouts.scss */
-.top-wrapper .top-secondary {
-  float: right;
-  width: 25%;
-  margin-right: 0%;
-  margin-left: -25%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-
-/* line 108, ../sass/_ddbasic.mq.layouts.scss */
-.no-top-secondary .top-content {
+/* line 36, ../sass/_ddbasic.mq.displays.scss */
+.ding-layout-1 .primary-content {
   float: left;
   width: 100%;
   margin-left: 0%;
@@ -2106,24 +2054,9 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-
-/* line 113, ../sass/_ddbasic.mq.layouts.scss */
-.main-wrapper {
-  *position: relative;
-  *zoom: 1;
-  margin-bottom: 20px;
-}
-/* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
-.main-wrapper:before, .main-wrapper:after {
-  content: "";
-  display: table;
-}
-/* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
-.main-wrapper:after {
+/* line 40, ../sass/_ddbasic.mq.displays.scss */
+.ding-layout-1 .secondary-content {
   clear: both;
-}
-/* line 118, ../sass/_ddbasic.mq.layouts.scss */
-.main-wrapper .main-content {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -2139,62 +2072,13 @@ ul.icons li [class*=" icon-"] {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
 }
-/* line 123, ../sass/_ddbasic.mq.layouts.scss */
-.main-wrapper .main-left-right {
-  float: left;
-  width: 25%;
-  margin-left: 50%;
-  margin-right: -75%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-}
-/* line 128, ../sass/_ddbasic.mq.layouts.scss */
-.main-wrapper .main-right-right {
+/* line 45, ../sass/_ddbasic.mq.displays.scss */
+.ding-layout-1 .tertiary-content {
   float: right;
-  width: 25%;
+  width: 50%;
   margin-right: 0%;
-  margin-left: -25%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-}
-
-/* line 139, ../sass/_ddbasic.mq.layouts.scss */
-.no-main-left-right.no-main-right-right .main-content {
-  float: left;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: -100%;
+  margin-left: -50%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -2207,81 +2091,28 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-
-/* line 145, ../sass/_ddbasic.mq.layouts.scss */
-.no-main-left-right .main-content {
-  float: left;
-  width: 75%;
-  margin-left: 0%;
-  margin-right: -75%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
+/* line 99, ../sass/_ddbasic.mq.layouts.scss */
+.ding-layout-1 .primary-content .grid-inner, .ding-layout-1 .primary-content .topbar .topbar-inner, .topbar .ding-layout-1 .primary-content .topbar-inner, .ding-layout-1 .primary-content .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .primary-content .header-inner, .ding-layout-1 .primary-content .navigation-inner {
+  padding: 0;
+  background-color: transparent;
 }
-
-/* line 151, ../sass/_ddbasic.mq.layouts.scss */
-.no-main-right-right .main-content {
-  float: left;
-  width: 75%;
-  margin-left: 0%;
-  margin-right: -75%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 154, ../sass/_ddbasic.mq.layouts.scss */
-.no-main-right-right .main-left-right {
-  float: right;
-  width: 25%;
-  margin-right: 0%;
-  margin-left: -25%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-
-/* line 159, ../sass/_ddbasic.mq.layouts.scss */
-.attachments-wrapper {
+/* line 105, ../sass/_ddbasic.mq.layouts.scss */
+.ding-layout-1 .attachments-wrapper {
   *position: relative;
   *zoom: 1;
   margin-bottom: 20px;
 }
 /* line 52, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
-.attachments-wrapper:before, .attachments-wrapper:after {
+.ding-layout-1 .attachments-wrapper:before, .ding-layout-1 .attachments-wrapper:after {
   content: "";
   display: table;
 }
 /* line 56, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.2/stylesheets/zen/_grids.scss */
-.attachments-wrapper:after {
+.ding-layout-1 .attachments-wrapper:after {
   clear: both;
 }
-
 /* line 34, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-4-4 .attachment-first {
+.ding-layout-1 .attachments-4-4 .attachment-first {
   float: left;
   width: 25%;
   margin-left: 0%;
@@ -2299,7 +2130,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 38, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-4-4 .attachment-second {
+.ding-layout-1 .attachments-4-4 .attachment-second {
   float: left;
   width: 25%;
   margin-left: 25%;
@@ -2317,7 +2148,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 42, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-4-4 .attachment-third {
+.ding-layout-1 .attachments-4-4 .attachment-third {
   float: right;
   width: 25%;
   margin-right: 25%;
@@ -2335,7 +2166,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 46, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-4-4 .attachment-fourth {
+.ding-layout-1 .attachments-4-4 .attachment-fourth {
   float: right;
   width: 25%;
   margin-right: 0%;
@@ -2352,9 +2183,8 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-
 /* line 64, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-3-3 .attachment-first {
+.ding-layout-1 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
   margin-left: 0%;
@@ -2372,7 +2202,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 68, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-3-3 .attachment-second {
+.ding-layout-1 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
   margin-left: 33.33333%;
@@ -2390,7 +2220,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 72, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-3-3 .attachment-third {
+.ding-layout-1 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
   margin-right: 0%;
@@ -2408,7 +2238,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 76, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-3-3 .attachment-fourth {
+.ding-layout-1 .attachments-3-3 .attachment-fourth {
   clear: both;
   float: left;
   width: 100%;
@@ -2426,9 +2256,8 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-
 /* line 98, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-2-2 .attachment-first {
+.ding-layout-1 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -2446,7 +2275,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 102, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-2-2 .attachment-second {
+.ding-layout-1 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
   margin-right: 0%;
@@ -2464,7 +2293,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 106, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-2-2 .attachment-third {
+.ding-layout-1 .attachments-2-2 .attachment-third {
   clear: both;
   float: left;
   width: 100%;
@@ -2483,7 +2312,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 111, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-2-2 .attachment-fourth {
+.ding-layout-1 .attachments-2-2 .attachment-fourth {
   clear: both;
   float: left;
   width: 100%;
@@ -2501,12 +2330,11 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-
 /* line 139, ../sass/_ddbasic.mq.attachments.scss */
-.attachments-1-1 .attachment-first,
-.attachments-1-1 .attachment-second,
-.attachments-1-1 .attachment-third,
-.attachments-1-1 .attachment-fourth {
+.ding-layout-1 .attachments-1-1 .attachment-first,
+.ding-layout-1 .attachments-1-1 .attachment-second,
+.ding-layout-1 .attachments-1-1 .attachment-third,
+.ding-layout-1 .attachments-1-1 .attachment-fourth {
   clear: both;
   float: left;
   width: 100%;
