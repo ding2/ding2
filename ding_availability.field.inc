@@ -161,7 +161,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $id = drupal_html_id('holdings-' . $entity->id);
 
         // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
-        if (in_array($ac_source, $lib_materials_types)) {
+        $holding_types = variable_get('ding_availability_holdings_types', _ding_availability_holdings_default_types());
+        if (in_array($ac_source, $lib_materials_types) && in_array(strtolower($entity->type), $holding_types)) {
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -171,12 +172,13 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             ),
             'type' => 'setting'
           );
+
+          $element[$delta] = array(
+            '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"></div>',
+            '#attached' => $attached,
+          );
         }
 
-        $element[$delta] = array(
-          '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"></div>',
-          '#attached' => $attached,
-        );
         break;
 
       case 'ding_availability_item':

@@ -11,6 +11,8 @@ module_load_include('inc', 'ding_availability', 'ding_availability.field');
  * Implements hook_menu().
  */
 function ding_availability_menu() {
+  $items = array();
+
   $items['ding_availability/items'] = array(
     'title' => 'Availability status',
     'page callback' => 'ding_availability_js',
@@ -23,6 +25,15 @@ function ding_availability_menu() {
     'page callback' => 'ding_availability_holdings_js',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/ting/holdings'] = array(
+    'title' => 'Provider availability holdings',
+    'description' => 'Configure which ting object types there should have holdings information if avaiable.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_availability_admin_holdings_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ding_availability.admin.inc'
   );
 
   return $items;
@@ -68,12 +79,12 @@ function ding_availability_items($provider_ids) {
         'reservable' => FALSE,
         'available' => FALSE,
       );
-      
+
       // Marks internet resources as available.
       if ($item['is_internet']) {
         $item['available'] = TRUE;
       }
-      
+
       _ding_availability_text($item);
     }
   }
@@ -98,12 +109,12 @@ function ding_availability_holdings($provider_ids) {
       'available' => FALSE,
       'holdings' => array(),
     );
-    
+
     // Marks internet resources as available.
     if ($item['is_internet']) {
       $item['available'] = TRUE;
     }
-    
+
     _ding_availability_text($item);
   }
 
@@ -193,3 +204,69 @@ function ding_availability_preprocess_ting_object_entities(&$variables) {
   }
 }
 
+/**
+ * The defaults types that should display holdings information.
+ *
+ * @return array
+ *  List of datawell types that should be fetched holdings information if they
+ *  have the library marterial or katalog source.
+ */
+function _ding_availability_holdings_default_types() {
+  return array(
+    'bog',
+    'cd (musik)',
+    'node',
+    'dvd',
+    'billedbog',
+    'lydbog (cd)',
+    'lydbog (bånd)',
+    'tegneserie',
+    'cd',
+    'sammensat materiale',
+    'lydbog (cd-mp3)',
+    'video',
+    'bog stor skrift',
+    'årbog',
+    'cd-rom',
+    'periodikum',
+    'pc-spil',
+    'blu-ray',
+    'playstation 3',
+    'playstation 2',
+    'wii',
+    'xbox 360',
+    'nintendo ds',
+    'graphic novel',
+    'grafisk blad',
+    'dvd-rom',
+    'kort',
+    'plakat',
+    'gameboy advance',
+    'xbox',
+    'grammofonplade',
+    'serie',
+    'avis',
+    'spil',
+    'playstation',
+    'mikroform',
+    'bånd',
+    'originalkunst',
+    'puslespil',
+    'laborativt materiale',
+    'øvelsesmodel',
+    'foto',
+    'maleri',
+    'teaterdukke',
+    'kassettelydbånd',
+    'transparent',
+    'billedkort',
+    'diskette',
+    'legetøj',
+    'gameboy',
+    'punktskrift',
+    'akvarel',
+    'arkitekturtegning',
+    'emnekasse',
+    'spolelydbånd',
+  );
+}
