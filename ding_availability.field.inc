@@ -137,7 +137,7 @@ function ding_availability_field_formatter_settings_summary($field, $instance, $
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $online_types = variable_get('ting_online_types', _ting_default_online_types());
-  $lib_materials_type = 'Bibliotekets materialer';
+  $lib_materials_types = array('Bibliotekets materialer', 'Bibliotekskatalog');
 
   // Attach front-end syle and JS to the element.
   foreach ($items as $delta => $item) {
@@ -161,7 +161,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $id = drupal_html_id('holdings-' . $entity->id);
 
         // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
-        if ($ac_source == $lib_materials_type) {
+        if (in_array($ac_source, $lib_materials_types)) {
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -194,7 +194,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available' : 'not-available-online';
 
         // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
-        if ($ac_source == $lib_materials_type) {
+        if (in_array($ac_source, $lib_materials_types)) {
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability' => array(
@@ -270,7 +270,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           }
 
           // If item is of type 'library materials' (where we can lookup holding data), map the HTML id to the list of entity ids.
-          if ($ac_source == $lib_materials_type && !$available_online) {
+          if (in_array($ac_source, $lib_materials_types) && !$available_online) {
             $id_mapping[$id] = $ids;
           }
         }
