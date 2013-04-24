@@ -29,7 +29,7 @@ function ding_availability_menu() {
 
   $items['admin/config/ting/holdings'] = array(
     'title' => 'Provider availability holdings',
-    'description' => 'Configure which ting object types there should have holdings information if avaiable.',
+    'description' => 'Configure which ting object types should try to fetch provider holdings information.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_availability_admin_holdings_settings'),
     'access arguments' => array('administer ting settings'),
@@ -205,7 +205,7 @@ function ding_availability_preprocess_ting_object_entities(&$variables) {
 }
 
 /**
- * The defaults types that should display holdings information.
+ * The defaults types that should display provider holdings information.
  *
  * @return array
  *  List of datawell types that should be fetched holdings information if they

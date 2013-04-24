@@ -13,6 +13,7 @@ function ding_availability_admin_holdings_settings($form_state) {
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form = array();
 
+  // Add button to update the types from the datawell.
   $form['update'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update from datawell'),
@@ -25,13 +26,14 @@ function ding_availability_admin_holdings_settings($form_state) {
     '#submit' => array('ting_admin_reservable_settings_update'),
   );
 
+  // Get available types.
   $types = variable_get('ting_well_types', array());
 
   $form['ding_availability_holdings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Holdings information'),
     '#tree' => FALSE,
-    '#description' => t("Which ting object types should display holdings information in the holding field on the ting object."),
+    '#description' => t("Which ting object types should display provider holdings information in the holding field e.g. on the ting object view"),
   );
 
   $form['ding_availability_holdings']['ding_availability_holdings_types'] = array(
