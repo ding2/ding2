@@ -14,7 +14,7 @@ function ding_event_user_default_permissions() {
   $permissions['create ding_event content'] = array(
     'name' => 'create ding_event content',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'node',
   );
@@ -23,7 +23,7 @@ function ding_event_user_default_permissions() {
   $permissions['delete any ding_event content'] = array(
     'name' => 'delete any ding_event content',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'node',
   );
@@ -32,7 +32,7 @@ function ding_event_user_default_permissions() {
   $permissions['delete own ding_event content'] = array(
     'name' => 'delete own ding_event content',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'node',
   );
@@ -41,7 +41,7 @@ function ding_event_user_default_permissions() {
   $permissions['edit any ding_event content'] = array(
     'name' => 'edit any ding_event content',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'node',
   );
@@ -50,7 +50,7 @@ function ding_event_user_default_permissions() {
   $permissions['edit own ding_event content'] = array(
     'name' => 'edit own ding_event content',
     'roles' => array(
-      0 => 'administrator',
+      'administrator' => 'administrator',
     ),
     'module' => 'node',
   );
