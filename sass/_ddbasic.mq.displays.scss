@@ -60,7 +60,6 @@
   .primary-content {
     @include zen-grid-item($grid-75, $grid-25 + 1);
   }
-
   .secondary-content {  
     @include zen-grid-item($grid-25, 1);
   }

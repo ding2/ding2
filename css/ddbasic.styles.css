@@ -1913,7 +1913,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 97, ../sass/_ddbasic.mq.displays.scss */
+  /* line 96, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .primary-content {
     float: left;
     width: 50%;
@@ -1931,7 +1931,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 101, ../sass/_ddbasic.mq.displays.scss */
+  /* line 100, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -1949,7 +1949,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 105, ../sass/_ddbasic.mq.displays.scss */
+  /* line 104, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -1969,7 +1969,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 769px) {
-  /* line 97, ../sass/_ddbasic.mq.displays.scss */
+  /* line 96, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .primary-content {
     float: left;
     width: 50%;
@@ -1987,7 +1987,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 101, ../sass/_ddbasic.mq.displays.scss */
+  /* line 100, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -2005,7 +2005,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 105, ../sass/_ddbasic.mq.displays.scss */
+  /* line 104, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -2159,7 +2159,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 64, ../sass/_ddbasic.mq.displays.scss */
+  /* line 63, ../sass/_ddbasic.mq.displays.scss */
   .left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -2197,7 +2197,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 64, ../sass/_ddbasic.mq.displays.scss */
+  /* line 63, ../sass/_ddbasic.mq.displays.scss */
   .left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -2218,7 +2218,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 78, ../sass/_ddbasic.mq.displays.scss */
+  /* line 77, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -2236,7 +2236,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 82, ../sass/_ddbasic.mq.displays.scss */
+  /* line 81, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -2256,7 +2256,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 769px) {
-  /* line 78, ../sass/_ddbasic.mq.displays.scss */
+  /* line 77, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -2274,7 +2274,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 82, ../sass/_ddbasic.mq.displays.scss */
+  /* line 81, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
