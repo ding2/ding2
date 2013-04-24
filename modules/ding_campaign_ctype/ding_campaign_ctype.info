@@ -41,7 +41,3 @@ features[variable][] = node_preview_ding_campaign
 features[variable][] = node_submitted_ding_campaign
 features[variable][] = og_group_content_type_ding_campaign
 features[variable][] = opening_hours_enabled_ding_campaign
-features[variable][] = pathauto_node_ding_campaign_da_pattern
-features[variable][] = pathauto_node_ding_campaign_en_pattern
-features[variable][] = pathauto_node_ding_campaign_pattern
-features[variable][] = pathauto_node_ding_campaign_und_pattern

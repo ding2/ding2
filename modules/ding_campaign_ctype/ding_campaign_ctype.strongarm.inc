@@ -152,33 +152,5 @@ function ding_campaign_ctype_strongarm() {
   $strongarm->value = 0;
   $export['opening_hours_enabled_ding_campaign'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_campaign_da_pattern';
-  $strongarm->value = 'biblioteker/[node:ding_campaign_slug]';
-  $export['pathauto_node_ding_campaign_da_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_campaign_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_ding_campaign_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_campaign_pattern';
-  $strongarm->value = 'library/[node:ding_campaign_slug]';
-  $export['pathauto_node_ding_campaign_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_campaign_und_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_ding_campaign_und_pattern'] = $strongarm;
-
   return $export;
 }
