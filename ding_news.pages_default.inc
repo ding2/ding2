@@ -700,6 +700,7 @@ news/%tid:name',
       'identifier' => 'Library node',
       'name' => 'entity_id:node',
       'settings' => array(),
+      'keyword' => 'node',
     ),
     'tid' => array(
       'id' => 1,

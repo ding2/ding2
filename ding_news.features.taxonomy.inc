@@ -13,9 +13,9 @@ function ding_news_taxonomy_default_vocabularies() {
       'name' => 'News Category',
       'machine_name' => 'news_category',
       'description' => '',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
     ),
   );
 }
