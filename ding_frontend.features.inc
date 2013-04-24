@@ -26,7 +26,7 @@ function ding_frontend_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function ding_frontend_views_api() {
-  return array("version" => "3.0");
+  return array("api" => "3.0");
 }
 
 /**
@@ -49,11 +49,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '500',
+          'width' => 500,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -72,11 +72,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '500',
+          'width' => 500,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -95,11 +95,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '500',
+          'width' => 500,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -118,11 +118,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '300',
+          'width' => 300,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -141,11 +141,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '300',
+          'width' => 300,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -164,11 +164,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '200',
+          'width' => 200,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -187,10 +187,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '500',
-          'height' => '125',
+          'width' => 500,
+          'height' => 125,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -209,10 +209,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '500',
-          'height' => '125',
+          'width' => 500,
+          'height' => 125,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -231,10 +231,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '500',
-          'height' => '125',
+          'width' => 500,
+          'height' => 125,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -253,10 +253,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '300',
-          'height' => '75',
+          'width' => 300,
+          'height' => 75,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -275,10 +275,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '300',
-          'height' => '75',
+          'width' => 300,
+          'height' => 75,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -297,10 +297,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '200',
-          'height' => '50',
+          'width' => 200,
+          'height' => 50,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -319,10 +319,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '1200',
-          'height' => '300',
+          'width' => 1200,
+          'height' => 300,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -341,10 +341,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '1000',
-          'height' => '250',
+          'width' => 1000,
+          'height' => 250,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -363,10 +363,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '500',
-          'height' => '125',
+          'width' => 500,
+          'height' => 125,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -385,10 +385,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '900',
-          'height' => '225',
+          'width' => 900,
+          'height' => 225,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -407,10 +407,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '900',
-          'height' => '225',
+          'width' => 900,
+          'height' => 225,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -429,10 +429,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '500',
-          'height' => '125',
+          'width' => 500,
+          'height' => 125,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -451,10 +451,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '600',
-          'height' => '150',
+          'width' => 600,
+          'height' => 150,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -473,10 +473,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '600',
-          'height' => '150',
+          'width' => 600,
+          'height' => 150,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -495,10 +495,10 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '500',
-          'height' => '125',
+          'width' => 500,
+          'height' => 125,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -517,11 +517,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '1200',
+          'width' => 1200,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -540,11 +540,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '1000',
+          'width' => 1000,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -563,11 +563,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '500',
+          'width' => 500,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -586,11 +586,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '900',
+          'width' => 900,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -609,11 +609,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '900',
+          'width' => 900,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -632,11 +632,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '500',
+          'width' => 500,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -655,11 +655,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '600',
+          'width' => 600,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -678,11 +678,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '600',
+          'width' => 600,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
@@ -701,11 +701,11 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '500',
+          'width' => 500,
           'height' => '',
           'upscale' => 0,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );

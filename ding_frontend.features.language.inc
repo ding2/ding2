@@ -15,26 +15,26 @@ function ding_frontend_locale_default_languages() {
     'language' => 'da',
     'name' => 'Danish',
     'native' => 'Dansk',
-    'direction' => '0',
-    'enabled' => '1',
-    'plurals' => '2',
+    'direction' => 0,
+    'enabled' => 1,
+    'plurals' => 2,
     'formula' => '($n!=1)',
     'domain' => '',
     'prefix' => '',
-    'weight' => '-10',
+    'weight' => -10,
   );
   // Exported language: en.
   $languages['en'] = array(
     'language' => 'en',
     'name' => 'English',
     'native' => 'English',
-    'direction' => '0',
-    'enabled' => '1',
-    'plurals' => '0',
+    'direction' => 0,
+    'enabled' => 1,
+    'plurals' => 0,
     'formula' => '',
     'domain' => '',
     'prefix' => 'en',
-    'weight' => '-9',
+    'weight' => -9,
   );
   return $languages;
 }
