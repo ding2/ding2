@@ -25,7 +25,6 @@ features[image][] = ding_campaign_w_280
 features[image][] = ding_campaign_w_380
 features[image][] = ding_campaign_w_480
 features[node][] = ding_campaign
-features[variable][] = additional_settings__active_tab_ding_campaign
 features[variable][] = comment_anonymous_ding_campaign
 features[variable][] = comment_default_mode_ding_campaign
 features[variable][] = comment_default_per_page_ding_campaign
