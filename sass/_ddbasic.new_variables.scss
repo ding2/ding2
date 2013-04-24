@@ -1,0 +1,121 @@
+// =============================================================================
+// This file holds all the variables for the DDBasic theme
+// =============================================================================
+//
+
+
+// -----------------------------------------------------------------------------
+// Basic settings: Grid, spacing etc.
+// -----------------------------------------------------------------------------
+//
+$grid-max-width:                  1200px;
+$grid-column-count:               12;
+
+$default-spacing:                 20px;
+
+$box-sizing-polyfill-path:        "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
+
+
+// -----------------------------------------------------------------------------
+// Standard color definitions
+// -----------------------------------------------------------------------------
+//
+$white:                 #fff    !default;
+$black:                 #000    !default;
+$gray:                  #d5d5d5 !default;
+$gray-light:            lighten($gray, 10%) !default;
+$gray-lighter:          lighten($gray, 15%) !default;
+$gray-dark:             darken($gray, 10%) !default;
+$gray-darker:           darken($gray, 25%) !default;
+
+
+// -----------------------------------------------------------------------------
+// Theme color definitions
+// -----------------------------------------------------------------------------
+//
+$theme-primary-color:             #00b7e7;
+$theme-secondary-color:           #d94110;
+$theme-teritary-color:            #ecbe00;
+
+
+// -----------------------------------------------------------------------------
+// Font library
+// -----------------------------------------------------------------------------
+//
+$theme-icon-library-font:         FontAwesome;
+
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+//
+$font-light:                      "SourceSansProLight";
+$font-light-italic:               "SourceSansProLightItalic";
+$font-regular:                    "SourceSansProRegular";
+$font-regular-italic:             "SourceSansProItalic";
+$font-bold:                       "SourceSansProSemibold";
+$font-bold-italic:                "SourceSansProSemiboldItalic";
+$font-color-primary:              transparentize($black, .2);;
+
+
+// -----------------------------------------------------------------------------
+// Font variables
+// -----------------------------------------------------------------------------
+//
+$theme-font-size:                 16px;
+$theme-line-height:               24px;
+$theme-font-family:               $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+$theme-font-weight-normal:        normal;
+$theme-font-weight-bold:          normal;
+$theme-font-selection-color:      $font-color-primary;
+$theme-font-selection-background: $gray;
+
+
+// -----------------------------------------------------------------------------
+// Base font size for rem() mixin, measured in pixels
+// -----------------------------------------------------------------------------
+//
+$base-font-size:  16px;
+
+
+// -----------------------------------------------------------------------------
+// Text colors
+// -----------------------------------------------------------------------------
+//
+$text-selection-color:       #333;
+$text-selection-background:  #ffff99;
+
+
+// -----------------------------------------------------------------------------
+// Links
+// -----------------------------------------------------------------------------
+//
+$link-color:                      #00b7e7;
+$link-color-hover:                darken($link-color, 20%);
+
+
+// -----------------------------------------------------------------------------
+// Articles
+// -----------------------------------------------------------------------------
+//
+$article-background:              #ebebeb;
+$article-color:                   #fff;
+
+
+// -----------------------------------------------------------------------------
+// Sections
+// -----------------------------------------------------------------------------
+//
+$section-bg:                      #000;
+$section-bg-transparency:         .85;
+$section-color:                   #fff;
+
+
+// -----------------------------------------------------------------------------
+// Navigation
+// -----------------------------------------------------------------------------
+//
+$navbar-bg-color:                 transparentize($white, .95);
+$navbar-bg-active-color:          transparentize($white, .95);
+$navbar-text-color:               lighten($black, 30%);
+$navbar-text-color-active:        lighten($black, 30%);
