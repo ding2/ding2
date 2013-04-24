@@ -25,6 +25,35 @@
 // Left and Right sidebar content is optional
 // This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
+.ding-default-layout {
+  .attachments-wrapper {
+    @include zen-grid-container;
+    @include zen-clear();
+
+    margin-bottom: $default-spacing;
+
+    .grid-inner {
+      @extend %grid-inner;
+    }
+  }
+
+  .attachments-4-4 {
+    @include attachment-25-25-25-25;
+  }
+
+  .attachments-3-3 {
+    @include attachment-33-33-33-100;
+  }
+
+  .attachments-2-2 {
+    @include attachment-50-50-100-100;
+  }
+
+  .attachments-1-1 {
+    @include attachment-100-100-100-100;
+  }
+}
+
 .sidebars {
   @include medium() {
     @include display-25-50-25;
