@@ -34,7 +34,7 @@ To apply the patch go into your Drupal installation path.
 You also need to patch core with this [patch](https://drupal.org/node/1879970) to ensure that communication with servers runing openssl v1.0.0 works
 
 	~$ cd DRUPAL
-	~$ wget -qO- https://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
+	~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 
 Download installation profile. Go into your Drupal installation path and into the profiles folder.
 
