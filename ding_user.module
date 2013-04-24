@@ -4,6 +4,8 @@
  * Ding user handling module.
  */
 
+include_once('ding_user_comments.inc');
+
 /**
  * Index used in sessions to implement logged in use session expire possible.
  */
@@ -757,4 +759,14 @@ function ding_user_is_provider_user($account) {
   return !empty($names);
 }
 
-include_once('ding_user_comments.inc');
+/**
+ * Implements hook_TYPE_load().
+ * Use actual user name instead of the hash.
+ */
+function ding_user_comment_load($comments) {
+  foreach ($comments as $comment) {
+    if (!empty($comment->data['display_name'])) {
+      $comment->name = $comment->data['display_name'];
+    }
+  }
+}
