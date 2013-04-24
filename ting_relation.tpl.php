@@ -8,7 +8,7 @@ if (is_array($content)) {
     if (!empty($relations) && $ns != 'dbcaddi:hasOnlineAccess') { ?>
     <a name="<?php echo $ns; ?>"></a>
     <div class="<?php print $classes . ' ting-relation-' . drupal_html_class($ns) . ' clearfix'; ?>">
-      <h2><?php print $relations[0]['title']; ?></h2>
+      <h2><?php print $relations[0]['type']; ?></h2>
       <?php foreach ($relations as $relation) { ?>
         <div class="meta">
           <?php
