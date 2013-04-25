@@ -1,3 +1,6 @@
+@import '_ddbasic.new_variables.scss';
+
+
 // =============================================================================
 // Description goes here
 // =============================================================================
@@ -14,6 +17,13 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
+%reset-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
 %page-heading {
   @include rem('font-size', 30px);
 }
@@ -23,6 +33,9 @@
   @include rem('font-size', 24px);
 }
 
+%article-margin {
+  margin-bottom: 10px;
+}
 
 %article-padding {
   padding: 20px;
@@ -33,15 +46,15 @@
 }
 
 %article-background {
-  background-color: #ebebeb;
+  background-color: $article-background;
 }
 
 %article-background--odd {
-  background-color: #e8e8e8;
+  background-color: $article-background-odd;
 }
 
 %article-background--even {
-  background-color: #f2f2f2;
+  background-color: $article-background-even;
 }
 
 
@@ -59,7 +72,7 @@
 
 
 %article-text {
-  color: #4c4c4c;
+  color: $article-text;
 }
 
 %article-text--opaque {
@@ -74,25 +87,67 @@
 
 
 // News
+.news-list {
+  @extend %reset-list;
+}
+
+.news-list-item {
+  @extend %article-background;
+  @extend %article-padding;
+  @extend %article-margin;
+
+  overflow: hidden;
+}
+
+.news-list-item:nth-child(odd) {
+  @extend %article-background--odd;
+}
+
+.news-list-item:nth-child(even) {
+  @extend %article-background--even;
+}
+
 .news-heading {
   @extend %article-heading;
+}
+
+.news-image-wrapper {
+  float: left;
+  margin-right: $default-spacing;
+  max-width: 75px;
+
+  a {
+    display: block;
+  }
+}
+
+.news-label {
+  @extend .label;
+
+  margin-right: 5px;
+}
+
+.news-sub-heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  .news-date,
+  .news-author {
+    margin-right: 5px;
+  }
 }
 
 .news-date {
   @extend %article-text--opaque;
 }
 
-.news-item {
-  @extend %article-padding;
+.news-author {
+  @extend %article-text;
+}
 
-  &.odd {
-    @extend %article-background--odd;
-  }
-
-  &.even {
-    @extend %article-background--even;
-  }
-
+.news-list-content {
+  max-height: 50px;
+  overflow: hidden;
 }
 
 
