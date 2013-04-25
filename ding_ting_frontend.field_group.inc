@@ -31,7 +31,7 @@ function ding_ting_frontend_field_group_info() {
       'instance_settings' => array(
         'classes' => '',
         'description' => '',
-        'show_label' => '1',
+        'show_label' => '0',
         'label_element' => 'h2',
         'effect' => 'none',
         'speed' => 'fast',
