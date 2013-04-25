@@ -20,7 +20,7 @@ function ding_frontend_locale_default_languages() {
     'plurals' => 2,
     'formula' => '($n!=1)',
     'domain' => '',
-    'prefix' => '',
+    'prefix' => 'da',
     'weight' => -10,
   );
   // Exported language: en.

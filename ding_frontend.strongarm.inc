@@ -152,13 +152,13 @@ background-attachment: fixed;',
     'name' => 'Danish',
     'native' => 'Dansk',
     'direction' => '0',
-    'enabled' => '1',
+    'enabled' => 1,
     'plurals' => '2',
     'formula' => '($n!=1)',
     'domain' => '',
-    'prefix' => '',
+    'prefix' => 'da',
     'weight' => '-10',
-    'javascript' => 'jDN-gcJ6A-vWiNXC86J6O9Q1PHbSfUvzneegDIedx2c',
+    'javascript' => 'DlydI_ZhnaXAaN_ckP-aJJdBAYmYfMFtF-mj1vCalxw',
   );
   $export['language_default'] = $strongarm;
 
