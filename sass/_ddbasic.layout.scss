@@ -9,8 +9,6 @@
 // -----------------------------------------------------------------------------
 //
 $topbar-text-color:               #fff;
-$topbar-font-size:                30px;
-$topbar-min-height:               92px;
 
 
 // -----------------------------------------------------------------------------
@@ -39,30 +37,23 @@ $topbar-min-height:               92px;
 // -----------------------------------------------------------------------------
 //
 .topbar {
-  @include rgba-background($black, $block-bg-transparency);
-
-  min-height: $topbar-min-height;
-  position: fixed;
-  width: 100%;
+  background-color: transparentize($black, .1);
   z-index: 99;
 
   .topbar-inner {
     @extend .grid-inner;
 
-    min-height: $topbar-min-height;
     position: relative;
   }
 }
 
-.pane-pane-header {
-  @include zen-grid-item($grid-33, 1);
-}
-
 .site-name {
-  @include rem('font-size', $topbar-font-size);
-
-  margin-top: ($topbar-min-height / 2) - ($topbar-font-size / 2) - 3px;
-  margin-bottom: 0;
+  @include rem('font-size', 30px);
+  
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+  margin-top: 35px;
+  margin-bottom: 35px;
 
   a,
   a:link,
@@ -76,8 +67,6 @@ $topbar-min-height:               92px;
 
 .site-name-with-slogan {
   @extend .site-name;
-
-  margin-top: ($topbar-min-height / 2) - $topbar-font-size;
 }
 
 .site-slogan {
@@ -95,13 +84,22 @@ $topbar-min-height:               92px;
 // Layout
 // **
 //
-.content-wrapper {
+.header-wrapper {
   @extend .grid-wrapper;
 
-  // Calculate margin top based on height of
-  // navigation (line height and 2 times default spacing)
-  // and topbar height. Then add default spacing.
-  margin-top: ($theme-line-height + ($default-spacing * 2)) + $topbar-min-height + $default-spacing;
+  background-color: $theme-primary-color;
+
+  .header-inner {
+    @extend .grid-inner;
+
+    overflow: visible;
+  }
+}
+
+
+
+.content-wrapper {
+  @extend .grid-wrapper;
 }
 
 .front {

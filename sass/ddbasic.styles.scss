@@ -52,12 +52,6 @@
 
 
 // **
-// Header
-// **
-@import "_ddbasic.header.scss";
-
-
-// **
 // Extends
 // **
 @import "_ddbasic.extends.scss";
@@ -74,12 +68,6 @@
 // **
 @import "_ddbasic.typography.scss";
 @import "../font/source-sans/stylesheet.css";
-
-
-// **
-// Blocks
-// **
-@import "_ddbasic.blocks.scss";
 
 
 // **
@@ -173,9 +161,8 @@
 
 
 // **
-// News
+// Refactor
 // **
-// @import "_ddbasic.news.scss";
 @import "_ddbasic.refactor.scss";
 
 

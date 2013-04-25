@@ -81,7 +81,6 @@ $carousel-title-font-size:                 40px;
       }
 
       .rs-carousel-item-image {
-        @include border-radius($block-border / 3);
       }
 
       img {

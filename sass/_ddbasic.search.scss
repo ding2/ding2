@@ -117,13 +117,6 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.header-wrapper {
-  .search {
-    @include zen-grid-item($grid-50, 1);
-    @extend %header-sections;
-  }
-}
-
 .search {
   @extend %search;
 
