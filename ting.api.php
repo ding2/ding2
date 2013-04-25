@@ -14,7 +14,8 @@
  *   Array containing key=>value pairs. Key is the name of the parameter.
  */
 function hook_ting_pre_execute($request) {
-  return array('param_name' => 'value');
+  // In case you need to add additional parameters to request.
+  return array('includeMarcXchange' => TRUE);
 }
 
 /**
@@ -28,8 +29,9 @@ function hook_ting_pre_execute($request) {
  *   Raw response from ting.
  *
  * @return array
- * Array containing key=>value pairs. Key is the name of the property.
+ *   Array containing key=>value pairs. Key is the name of the property.
  */
 function hook_ting_post_execute($request, $response, $raw_response) {
-  return array('property name' => 'property value');
+  // Add additional property to resulting object.
+  return array('marcexchange' => array('marcxchange data'));
 }
