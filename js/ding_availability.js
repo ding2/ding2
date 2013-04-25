@@ -35,10 +35,12 @@
         $.getJSON(settings.basePath + 'ding_availability/' + (settings.ding_availability_mode ? settings.ding_availability_mode: 'items') + '/' + ids.join(','), {}, update);
       }
       else {
-        // Apply already fetched availability
-        $.each(settings.ding_availability, function(id, entity_ids) {
-          updateAvailability(id, entity_ids);
-        });
+        // Apply already fetched availability, if any.
+        if (settings.hasOwnProperty('ding_availability')) {
+          $.each(settings.ding_availability, function(id, entity_ids) {
+            updateAvailability(id, entity_ids);
+          });
+        }
       }
 
       function update(data, textData) {
