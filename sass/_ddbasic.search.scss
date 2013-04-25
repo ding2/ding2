@@ -63,13 +63,19 @@ input#edit-search-block-form--2.spinner {
 // Default styling
 // -----------------------------------------------------------------------------
 //
+%font-bold {
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+}
+
+
 %search {
   .search-label {
-    @include rem('font-size', $theme-font-size * 1.25);
+    @include rem('font-size', 18px);
+    @extend %font-bold;
 
-    color: transparentize($white, .5);
-    position: absolute;
-    top: -28px;
+    color: transparentize($white, .25);
+    margin-bottom: 10px;
   }
 
   i[class^="icon-"] {
@@ -80,7 +86,7 @@ input#edit-search-block-form--2.spinner {
 
     font-size: $theme-font-size * 2;
 
-    top: 15px;
+    top: 46px;
     z-index: 10;
   }
 
@@ -90,18 +96,15 @@ input#edit-search-block-form--2.spinner {
     @include border-radius(12px);
 
     display: inline;
+    left: 0;
+    min-height: 60px;
     padding-top: 0;
     padding-right: 75px;
     padding-bottom: 0;
     padding-left: 48px;
-
-    border: 0;
-
-    min-height: 60px;
-
-    left: 0;
     width: 100%;
 
+    border: 0;
   }
 
   .spinner {
@@ -120,16 +123,11 @@ input#edit-search-block-form--2.spinner {
 .search {
   @extend %search;
 
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-right: 0;
-
-  .search-field-wrapper {
-    margin-right: 30px;
-  }
+  margin-top: 65px;
+  margin-bottom: 65px;
 
   .form-item {
-     margin-top: 0em;
+    margin: 0;
   }
 
   input[type="submit"] {
@@ -142,8 +140,8 @@ input#edit-search-block-form--2.spinner {
     padding-right: 18px;
     padding-bottom: 1px;
     padding-left: 18px;
-    right: 30px;
-    top: 0;
+    right: 0;
+    top: 34px;
   }
 
   .help-link {
@@ -158,70 +156,11 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.not-logged-in {
-  .topbar {
-    .search {
-      margin-right: 131px;
-    }
-  }
-}
-
-.topbar {
-  .search {
-    @extend %search;
-
-    float: right;
-    margin-top: 17px;
-
-    .search-label {
-      display: none;
-    }
-
-    .search-field-wrapper {
-      min-width: 558px;
-      position: relative;
-    }
-
-    input[type="text"] {
-      @include rem('font-size', $theme-font-size * 1.5);
-      @include box-sizing(border-box);
-
-      min-height: 50px;
-      padding-right: 70px;
-    }
-
-    input[type="submit"].form-submit {
-      @include rem('font-size', $theme-font-size * 1.4);
-      @extend %button-theme;
-
-      min-height: 50px;
-      padding: 0 18px;
-      position: absolute;
-      right: -2px;
-    }
-
-    i[class^="icon-"] {
-      @include rem('font-size', $theme-font-size * 1.5);
-      @include opacity(.25);
-
-      margin-left: 15px;
-      position: absolute;
-
-      top: 13px;
-    }
-
-    .spinner {
-      i[class^="icon-"] {
-        top: 16px;
-      }
-    }
-  }
-}
 
 .field-name-ding-entity-buttons {
   .reserve-button {
     @extend %button-action;
-    
+
     padding-top: 11px;
     padding-bottom: 11px;
   }
@@ -604,7 +543,7 @@ input#edit-search-block-form--2.spinner {
             &.availability.available.not-reservable {
               @extend %availability-available-not-reservable;
             }
-            
+
             .availability-status {
               &:before {
                 content: " - ";
@@ -811,7 +750,7 @@ input#edit-search-block-form--2.spinner {
 
   .ting-object-left {
     @include zen-grid-item(3, 1);
-    
+
     min-height: 200px;
     margin-bottom: $default-spacing;
   }

@@ -90,10 +90,9 @@
   .topbar-menu-item {
     @include rem('font-size', 20px);
     @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
-
+    @extend %font-bold;    
+    
     color: $white;
-    font-family: $font-bold;
-    font-weight: $theme-font-weight-bold;
     padding: 10px 15px;
 
     &:hover {
