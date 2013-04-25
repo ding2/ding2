@@ -33,10 +33,8 @@
   a,
   li a {
     display: inline-block;
-    margin-right: $default-spacing * 1.25;
-    padding: $default-spacing 0;
-
     color: lighten($black, 50%);
+    margin-left: -3px;
 
     &:hover {
       color: $black;
@@ -81,6 +79,39 @@
 
 
 // **
+// Topbar menu
+// **
+//
+.topbar-menu {
+  @extend %navigation;
+
+  float: right;
+
+  .topbar-menu-item {
+    @include rem('font-size', 20px);
+    @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
+
+    color: $white;
+    font-family: $font-bold;
+    font-weight: $theme-font-weight-bold;
+    padding: 10px 15px;
+
+    &:hover {
+      background-color: lighten($theme-primary-color, 10%);
+
+      color: $white;
+      text-decoration: none;
+    }
+  }
+
+  .topbar-menu-item-active {
+    @extend .topbar-menu-item;
+
+    background-color: $theme-primary-color;
+  }
+}
+
+// **
 // Main menu
 // **
 //
@@ -91,6 +122,11 @@
 .main-menu {
   @include rem('font-size', $theme-font-size * 1.3);
   @extend %navigation;
+
+  li {
+    margin-right: $default-spacing * 1.25;
+    padding: $default-spacing 0;
+  }
 
   a {
     text-align: left;
@@ -231,7 +267,7 @@
 
       a {
         padding-left: $default-spacing / 2;
-        
+
         &.active {
         }
       }
@@ -245,7 +281,7 @@
 //
 .action-links {
   padding: $default-spacing / 2 $default-spacing;
-  
+
   li {
     @extend .icon-plus;
 
