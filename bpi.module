@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * BPI main module file.
+ *
+ * @todo General description needed here.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function bpi_menu() {
+  $menu = array();
+
+  $menu['admin/config/bpi'] = array(
+    'title' => 'BPI',
+    'description' => 'BPI Related Settings',
+    'access arguments' => array('administer bpi'),
+    'page callback' => 'bpi_admin_menu_block_page',
+    'page arguments' => array(),
+    'file' => 'bpi.admin.inc',
+  );
+
+  $menu['admin/config/bpi/settings'] = array(
+    'title' => 'Service settings',
+    'description' => 'BPI integration settings',
+    'access arguments' => array('administer bpi'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bpi_admin_settings_form'),
+    'file' => 'bpi.admin.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function bpi_permission() {
+  $perm = array();
+
+  $perm['administer bpi'] = array(
+    'title' => t('Administer BPI settings'),
+  );
+
+  return $perm;
+}
