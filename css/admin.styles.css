@@ -1,3 +1,6 @@
+#bpi-field-mapper-wrapper .form-item-bpi-field-title label,
+#bpi-field-mapper-wrapper .form-item-bpi-field-teaser label,
+#bpi-field-mapper-wrapper .form-item-bpi-field-body label,
 #bpi-admin-settings-form .form-item-bpi-agency-id label,
 #bpi-admin-settings-form .form-item-bpi-service-url label,
 #bpi-admin-settings-form .form-item-bpi-api-key label {

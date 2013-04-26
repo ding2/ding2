@@ -30,6 +30,15 @@ function bpi_menu() {
     'file' => 'bpi.admin.inc',
   );
 
+  $menu['admin/config/bpi/content_mapping'] = array(
+    'title' => 'Content mapping',
+    'description' => 'Map BPI fields to your content fields.',
+    'access arguments' => array('administer bpi'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bpi_admin_content_mapping_form'),
+    'file' => 'bpi.admin.inc',
+  );
+
   return $menu;
 }
 
