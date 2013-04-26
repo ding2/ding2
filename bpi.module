@@ -12,6 +12,15 @@
 function bpi_menu() {
   $menu = array();
 
+  $menu['admin/bpi'] = array(
+    'title' => 'BPI syndication',
+    'description' => 'Sindicate content from the well.',
+    'page callback' => 'bpi_syndicate_page',
+    'page arguments' => array(),
+    'access arguments' => array('syndicate content'),
+    'file' => 'bpi.syndicate.inc',
+  );
+
   $menu['admin/config/bpi'] = array(
     'title' => 'BPI',
     'description' => 'BPI Related Settings',
@@ -50,6 +59,10 @@ function bpi_permission() {
 
   $perm['administer bpi'] = array(
     'title' => t('Administer BPI settings'),
+  );
+
+  $perm['syndicate content'] = array(
+    'title' => t('Syndicate content'),
   );
 
   return $perm;
