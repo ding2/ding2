@@ -15,8 +15,17 @@ function bpi_menu() {
   $menu['admin/bpi'] = array(
     'title' => 'BPI syndication',
     'description' => 'Sindicate content from the well.',
-    'page callback' => 'bpi_syndicate_page',
-    'page arguments' => array(),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bpi_syndicate_page_form'),
+    'access arguments' => array('syndicate content'),
+    'file' => 'bpi.syndicate.inc',
+  );
+
+  $menu['admin/bpi/page/%'] = array(
+    'title' => 'BPI syndication',
+    'description' => 'Retrieve content from the well.',
+    'page callback' => 'bpi_search_content',
+    'page arguments' => array(3),
     'access arguments' => array('syndicate content'),
     'file' => 'bpi.syndicate.inc',
   );
@@ -66,4 +75,19 @@ function bpi_permission() {
   );
 
   return $perm;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function bpi_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['bpi_well_item'] = array(
+    'variables' => array(),
+    'path' => $path . '/templates/',
+    'template' => 'bpi-well-item',
+  );
+
+  return $hooks;
 }
