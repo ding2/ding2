@@ -83,3 +83,155 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
     form_set_error('bpi_service_url', t('Please enter a valid url.'));
   }
 }
+
+/**
+ * Map BPI fields to local node fields when syndicating and/or pushing.
+ *
+ * Since on different installations it's most likely possible that
+ * fields will differ from what is to be expected, field mapping
+ * functionality is required.
+ *
+ * The mapping settings from here are used both when syndicating
+ * and when pushing content from/to BPI.
+ *
+ * @param array $form
+ *   Form structure.
+ * @param array $form_state
+ *   Form state values.
+ * @return array
+ *   Form structure prepared for admin settings.
+ */
+function bpi_admin_content_mapping_form($form, $form_state) {
+  $node_types = bpi_get_node_types();
+  $field_instances = array();
+
+  $form['bpi_content_type'] = array(
+    '#type' => 'select',
+    '#title' => t('Content type'),
+    '#description' => t('Select a node type into which content from BPI will be syndicated.'),
+    '#options' => $node_types,
+    '#default_value' => variable_get('bpi_content_type', reset(array_keys($node_types))),
+    '#ajax' => array(
+      'callback' => '_bpi_content_mapper_ctype_fields',
+      'wrapper' => 'bpi-field-mapper-wrapper',
+      'effect' => 'fade',
+      'method' => 'replace',
+    ),
+  );
+
+  $selected_node_type = $form['bpi_content_type']['#default_value'];
+
+  if (isset($form_state['values']['bpi_content_type'])) {
+    $selected_node_type = $form_state['values']['bpi_content_type'];
+  }
+
+  $field_instances = bpi_get_field_instances($selected_node_type);
+
+  $form['bpi_mapper'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Field mapping'),
+    '#description' => t('Define you custom mapping rules. Each dropdown maps BPI related fields to your node fields.'),
+    '#prefix' => '<div id="bpi-field-mapper-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  $form['bpi_mapper']['bpi_field_title'] = array(
+    '#type' => 'select',
+    '#title' => t('BPI title'),
+    '#description' => t('Titles are automatically assigned.'),
+    '#options' => array('title' => t('Title')),
+    '#default_value' => variable_get('bpi_field_title', 'title'),
+    '#disabled' => TRUE,
+  );
+
+  $form['bpi_mapper']['bpi_field_teaser'] = array(
+    '#type' => 'select',
+    '#title' => t('BPI teaser'),
+    '#description' => t('Assign to body field, if it has summary enabled.'),
+    '#options' => $field_instances,
+    '#default_value' => variable_get('bpi_field_teaser', ''),
+  );
+
+  $form['bpi_mapper']['bpi_field_body'] = array(
+    '#type' => 'select',
+    '#title' => t('BPI body'),
+    '#description' => '',
+    '#options' => $field_instances,
+    '#default_value' => variable_get('bpi_field_body', ''),
+  );
+
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/admin.styles.css';
+
+  return system_settings_form($form);
+}
+
+/**
+ * Custom form AJAX callback.
+ *
+ * @see bpi_admin_content_mapping_form()
+ *
+ * @param array $form
+ *   Form structure.
+ * @param array $form_state
+ *   Form state values.
+ * @return array
+ *   Element to be altered via AJAX.
+ */
+function _bpi_content_mapper_ctype_fields(&$form, &$form_state) {
+  return $form['bpi_mapper'];
+}
+
+/**
+ * Get a list of available node types in the system.
+ *
+ * Simplifies the output returned by the core node_type_get_types()
+ * function.
+ *
+ * @return array
+ *   An associative array containing:
+ *     - Node type machine name: Node type human name.
+ */
+function bpi_get_node_types() {
+  $node_types = node_type_get_types();
+  $types = array();
+
+  foreach ($node_types as $type) {
+    $types[$type->type] = $type->name;
+  }
+
+  return $types;
+}
+
+/**
+ * Get a list of fields, for a certain node type.
+ *
+ * Simplifies and filters the output of the core field_info_instances()
+ * function.
+ *
+ * Filtering means that we do not want text values into image fields, etc.
+ *
+ * @param string $node_type
+ *   Node type machine name, whose fields list is expected.
+ * @return array
+ *   An array with the fields, for the specified node type.
+ */
+function bpi_get_field_instances($node_type) {
+  $fields = array();
+  $allowed_widgets = array(
+    'text_textfield',
+    'text_textarea',
+    'text_textarea_with_summary',
+  );
+
+  if (!empty($node_type)) {
+    $field_instances = field_info_instances('node', $node_type);
+
+    foreach ($field_instances as $instance) {
+      if (in_array($instance['widget']['type'], $allowed_widgets)) {
+        $fields[$instance['field_name']] = $instance['label'];
+      }
+    }
+  }
+
+  return $fields;
+}
