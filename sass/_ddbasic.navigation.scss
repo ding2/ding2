@@ -89,7 +89,7 @@
   margin-top: 45px;
   text-align: right;
 
-  .topbar-menu-item {
+  .menu-item {
     @include rem('font-size', 18px);
     @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
     @extend %font-bold;
@@ -103,12 +103,18 @@
       color: $white;
       text-decoration: none;
     }
+
+    &.active {
+      color: $white;
+      text-decoration: none;
+      background-color: $theme-primary-color;
+    }
   }
 
-  .topbar-menu-item-active {
-    @extend .topbar-menu-item;
-
-    background-color: $theme-primary-color;
+  .last {
+    a {
+      padding-right: 15px;
+    }
   }
 
   i[class^="icon-"] {
