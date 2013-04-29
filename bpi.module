@@ -7,6 +7,13 @@
  */
 
 /**
+ * URL search query key.
+ */
+if (!defined('SEARCH_PHRASE_KEY')) {
+  define('SEARCH_PHRASE_KEY', 'text');
+}
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -87,6 +94,12 @@ function bpi_theme($existing, $type, $theme, $path) {
     'variables' => array(),
     'path' => $path . '/templates/',
     'template' => 'bpi-well-item',
+  );
+
+  $hooks['bpi_filter_item'] = array(
+    'variables' => array(),
+    'path' => $path . '/templates/',
+    'template' => 'bpi-filter-item',
   );
 
   return $hooks;

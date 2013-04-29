@@ -25,9 +25,10 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#value' => t('Search'),
   );
 
-  // @todo
-  // Search filters here.
-  $form['bpi_search_filters'] = array();
+  $form['bpi_search_filters'] = array(
+    '#type' => 'item',
+    '#markup' => bpi_build_filters(),
+  );
 
   $markup = bpi_search_get_markup();
   $form['bpi_search_results'] = array(
@@ -58,7 +59,11 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
   $query_parameters = array();
 
   if (!empty($query)) {
-    $query_parameters = array('query' => array('text' => $query));
+    $query_parameters = array(
+      'query' => array(
+        SEARCH_PHRASE_KEY => $query
+      )
+    );
   }
   else {
     drupal_set_message(t('Enter some keywords.'), 'error');
@@ -100,6 +105,8 @@ function bpi_search_get_items() {
  *
  * @return string
  *   HTML markup.
+ *
+ * @ingroup themable
  */
 function bpi_search_get_markup() {
   $items = bpi_search_get_items();
@@ -114,7 +121,7 @@ function bpi_search_get_markup() {
 }
 
 /**
- * Create query string key/value pairs.
+ * Create key/value pairs from the query string.
  *
  * This is a helper function for drupal core l() function.
  * Munges the query string into key/value pairs array, so it is accepted by the l() function.
@@ -128,7 +135,7 @@ function bpi_search_get_markup() {
  *   An array, in structure:
  *   - key: value
  */
-function _bpi_build_query($key, $value) {
+function _bpi_build_query($key = '', $value = '') {
   $current_path = parse_url(reset(drupal_get_destination()));
   $query = isset($current_path['query']) ? $current_path['query'] : '';
   $new_query_pairs = array();
@@ -154,6 +161,63 @@ function _bpi_build_query($key, $value) {
   return $new_query_pairs;
 }
 
+/**
+ * Used to retrieve the searched phrase after submit is clicked.
+ *
+ * @see bpi_syndicate_page_form()
+ *
+ * @return string
+ *   Searched string.
+ */
 function _bpi_current_search_phrase() {
-  return isset($_GET['text']) ? check_plain($_GET['text']) : '';
+  return isset($_GET[SEARCH_PHRASE_KEY]) ? check_plain($_GET[SEARCH_PHRASE_KEY]) : '';
+}
+
+/**
+ * Createa filters markup, based on current query string.
+ *
+ * @return string
+ *   HTMl markup.
+ *
+ * @ingroup themable
+ */
+function bpi_build_filters() {
+  $components = _bpi_build_query();
+  $filters_markup = array();
+
+  foreach ($components as $key => $value) {
+    $item['name'] = $key;
+    $item['value'] = $value;
+    $item['search_value'] = $value;
+    $item['search_stripped_filter'] = '#';
+
+    // Clear the search results, if query filter is removed.
+    if ($key == SEARCH_PHRASE_KEY) {
+      $item['search_stripped_filter'] = 'admin/bpi';
+    }
+
+    $filters_markup[] = theme('bpi_filter_item', array('filter' => $item));
+  }
+
+  return implode('', $filters_markup);
+}
+
+/**
+ * Maps BPI keys to translatables.
+ *
+ * @param string $key
+ *   Label identifier.
+ * @return string
+ *   Translatable human-readable label value.
+ */
+function bpi_label_mapper($key) {
+  $mapped = array(
+    SEARCH_PHRASE_KEY => t('Query'),
+    'author' => t('Author'),
+    'category' => t('Category'),
+    'agency' => t('Agency'),
+    'audience' => t('Audience'),
+  );
+
+  return isset($mapped[$key]) ? $mapped[$key] : '';
 }
