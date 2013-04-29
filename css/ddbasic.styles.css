@@ -1967,7 +1967,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 768px) {
   /* line 97, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .primary-content {
     float: left;
@@ -2081,7 +2081,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 768px) {
   /* line 36, ../sass/_ddbasic.mq.displays.scss */
   .empty-sidebars .primary-content {
     float: left;
@@ -2177,7 +2177,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 768px) {
   /* line 60, ../sass/_ddbasic.mq.displays.scss */
   .left-sidebar .primary-content {
     float: left;
@@ -2254,7 +2254,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 768px) {
   /* line 78, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .primary-content {
     float: left;
