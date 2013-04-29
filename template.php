@@ -488,6 +488,31 @@ function ddbasic_menu_link($vars) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+/**
+ * Implements theme_menu_link()
+ * Add specific markup for topbar menu exposed as menu_block_4.
+ */
+function ddbasic_menu_link__menu_block__4($vars) {
+  $element = $vars['element'];
+
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+
+  // Add default class to a tag
+  $element['#localized_options']['attributes']['class'] = array(
+    'menu-item',
+  );
+
+  // Make sure text string is treated as html by l function
+  $element['#localized_options']['html'] = true;
+
+  $output = l('<span>'.$element['#title'].'</span>', $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
 
 /**
  * Allows us to add script plugins to the theme via theme settings.
