@@ -176,6 +176,11 @@ function ddbasic_menu_tree__menu_block__3($vars) {
   return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
 }
 
+// Tabs menu
+function ddbasic_menu_tree__menu_block__4($vars) {
+  return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
+}
+
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
@@ -471,8 +476,16 @@ function ddbasic_menu_link($vars) {
     $sub_menu = drupal_render($element['#below']);
   }
 
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . drupal_attributes($element['#attributes']) . '><span>' . $output . $sub_menu . "</span></li>\n";
+  // Add default class to a tag
+  $element['#localized_options']['attributes']['class'] = array(
+    'menu-item',
+  );
+
+  // Make sure text string is treated as html by l function
+  $element['#localized_options']['html'] = true;
+
+  $output = l('<span>'.$element['#title'].'</span>', $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
 
