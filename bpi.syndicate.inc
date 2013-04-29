@@ -94,13 +94,14 @@ function bpi_search_content($page = 1, $filters = array()) {
  * @todo dummy
  * @return type
  */
-function bpi_search_get_items() {
+function bpi_search_get_items($bpi_id = NULL) {
   return array(
     array(
       'bpi_id' => mt_rand(1, 99),
       'title' => 'Article title',
       'date' => '03/25/2013-11:03',
       'teaser' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'body' => 'Nullam porta blandit augue, vitae fringilla sapien condimentum in.',
       'author' => 'Martin Cording',
       'category' => 'Latest stories',
       'agency' => 'Aarhus library',
@@ -286,4 +287,28 @@ function bpi_get_next_sorting() {
   $sort_dir = isset($_GET['sort']) ? $_GET['sort'] : '';
 
   return ($sort_dir == SORT_DESCENDING) ? SORT_ASCENDING : SORT_DESCENDING;
+}
+
+/**
+ * Prepares data before the actual syndication occurs.
+ *
+ * Creates a session entry, storing the BPI content, which is lately
+ * inserted into an empty corresponding node form.
+ *
+ * @param int $bpi_id
+ *   Content ID, as as stored in BPI service.
+ */
+function bpi_syndicate_action($bpi_id) {
+  // @todo
+  // dummy
+  $node = reset(bpi_search_get_items($bpi_id));
+  $bpi_ctype = variable_get('bpi_content_type', '');
+
+  if (!empty($bpi_ctype)) {
+    $_SESSION['bpi']['content'] = $node;
+    drupal_goto('node/add/' . $bpi_ctype, array('query' => array('from' => 'bpi')));
+  }
+  else {
+    drupal_goto('admin/bpi');
+  }
 }
