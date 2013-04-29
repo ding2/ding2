@@ -22,4 +22,5 @@
       <?php endif; ?>
     </div>
   <?php endif; ?>
+</ul>
 <?php endif; ?>
