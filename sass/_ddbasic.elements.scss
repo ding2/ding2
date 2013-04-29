@@ -27,6 +27,10 @@ body {
   line-height: $theme-line-height;
 }
 
+body.toolbar {
+  padding-top: 66px;
+}
+
 
 h1,
 h2,

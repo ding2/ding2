@@ -83,15 +83,17 @@
 // **
 //
 .topbar-menu {
+  @include zen-grid-item(4, 1, right);
   @extend %navigation;
 
   float: right;
+  margin-top: 45px;
 
   .topbar-menu-item {
     @include rem('font-size', 20px);
     @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
-    @extend %font-bold;    
-    
+    @extend %font-bold;
+
     color: $white;
     padding: 10px 15px;
 

@@ -79,14 +79,13 @@ input#edit-search-block-form--2.spinner {
   }
 
   i[class^="icon-"] {
-    @include opacity(.25);
+    @include rem('font-size', 24px);
+    @include opacity(.5);
 
     margin-left: 15px;
     position: absolute;
 
-    font-size: $theme-font-size * 2;
-
-    top: 46px;
+    top: 51px;
     z-index: 10;
   }
 
@@ -109,13 +108,10 @@ input#edit-search-block-form--2.spinner {
 
   .spinner {
     i[class^="icon-"] {
-      @include rem('font-size', $theme-font-size * 1.5);
       @extend .icon-spin;
       @extend .icon-spinner;
 
-      height: $theme-font-size * 1.5;
-      margin-left: 17px;
-      top: 22px;
+      height: auto;
     }
   }
 }
@@ -123,8 +119,8 @@ input#edit-search-block-form--2.spinner {
 .search {
   @extend %search;
 
-  margin-top: 65px;
-  margin-bottom: 65px;
+  margin-top: 45px;
+  margin-bottom: 45px;
 
   .form-item {
     margin: 0;

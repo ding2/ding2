@@ -37,7 +37,7 @@ $topbar-text-color:               #fff;
 // -----------------------------------------------------------------------------
 //
 .topbar {
-  background-color: transparentize($black, .1);
+  background-color: transparentize($black, .15);
   z-index: 99;
 
   .topbar-inner {
@@ -47,13 +47,17 @@ $topbar-text-color:               #fff;
   }
 }
 
+.site-name-wrapper {
+  @include zen-grid-item(8, 1);
+
+  margin-top: 30px;
+}
+
 .site-name {
   @include rem('font-size', 30px);
-  
+
   font-family: $font-bold;
   font-weight: $theme-font-weight-bold;
-  margin-top: 35px;
-  margin-bottom: 35px;
 
   a,
   a:link,
