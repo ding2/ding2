@@ -245,8 +245,6 @@ function bpi_build_filters() {
 /**
  * Maps BPI keys to translatables.
  *
- * @see bpi_label_mapper()
- *
  * @param string $key
  *   Label identifier.
  * @return string
