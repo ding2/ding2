@@ -13,17 +13,17 @@ function ding_content_taxonomy_default_vocabularies() {
       'name' => 'Category',
       'machine_name' => 'category',
       'description' => '',
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'taxonomy',
-      'weight' => '0',
+      'weight' => 0,
     ),
     'ding_content_tags' => array(
       'name' => 'Tags',
       'machine_name' => 'ding_content_tags',
       'description' => NULL,
-      'hierarchy' => '0',
+      'hierarchy' => 0,
       'module' => 'ding_content',
-      'weight' => '0',
+      'weight' => 0,
     ),
   );
 }
