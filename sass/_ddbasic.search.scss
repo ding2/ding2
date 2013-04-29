@@ -69,13 +69,17 @@ input#edit-search-block-form--2.spinner {
 }
 
 
-%search {
+.search {
+  @include zen-grid-item(12, 1);
+
   .search-label {
-    @include rem('font-size', 18px);
+    @include rem('font-size', 16px);
     @extend %font-bold;
 
     color: transparentize($white, .25);
-    margin-bottom: 10px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
   }
 
   i[class^="icon-"] {
@@ -85,25 +89,8 @@ input#edit-search-block-form--2.spinner {
     margin-left: 15px;
     position: absolute;
 
-    top: 51px;
+    top: 48px;
     z-index: 10;
-  }
-
-  input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.6);
-    @include box-sizing(border-box);
-    @include border-radius(12px);
-
-    display: inline;
-    left: 0;
-    min-height: 60px;
-    padding-top: 0;
-    padding-right: 75px;
-    padding-bottom: 0;
-    padding-left: 48px;
-    width: 100%;
-
-    border: 0;
   }
 
   .spinner {
@@ -114,40 +101,72 @@ input#edit-search-block-form--2.spinner {
       height: auto;
     }
   }
-}
 
-.search {
-  @extend %search;
-
-  margin-top: 45px;
-  margin-bottom: 45px;
-
-  .form-item {
-    margin: 0;
-  }
-
-  input[type="submit"] {
-    @include rem('font-size', $theme-font-size * 1.7);
-    @extend %button-default;
+  .form-text,
+  .form-submit {
+    @include rem('font-size', 20px);
 
     min-height: 60px;
-    position: absolute;
     padding-top: 0;
-    padding-right: 18px;
-    padding-bottom: 1px;
-    padding-left: 18px;
-    right: 0;
-    top: 34px;
   }
 
-  .help-link {
-    display: block;
-    float: right;
-    margin-top: $default-spacing / 2;
+  .form-text {
+    @include box-sizing(border-box);
+    @include border-radius(12px);
 
-    &:hover {
-      color: $black;
-      text-decoration: none;
+    border: 0;
+    display: inline;
+    left: 0;
+    padding-right: 75px;
+    padding-bottom: 0;
+    padding-left: 48px;
+    width: 100%;
+  }
+
+  .form-submit {
+    @extend %button-default;
+
+    position: absolute;
+    padding-right: 30px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    right: 10px;
+    top: 31px;
+  }
+
+  margin-top: 25px;
+  margin-bottom: 25px;
+  position: relative;
+
+  @include small() {
+    i[class^="icon-"] {
+      @include rem('font-size', 20px);
+
+      top: 45px;
+    }
+
+    .form-text {
+      @include rem('font-size', 18px);
+
+      min-height: 50px;
+      padding-left: 42px;
+    }
+
+    .form-submit {
+      min-height: 50px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+
+  @include medium() {
+    i[class^="icon-"] {
+      top: 43px;
+    }
+
+    .form-text,
+    .form-submit {
+      min-height: 50px;
     }
   }
 }

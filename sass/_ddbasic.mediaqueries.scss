@@ -48,6 +48,11 @@ $breakpoint-x-large:  1210px;
   @include respond-to(small) { @content; }
 }
 
+@mixin small-medium {
+  @include respond-to(small) { @content; }
+  @include respond-to(medium) { @content; }
+}
+
 @mixin medium {
   @include respond-to(medium) { @content; }
 }

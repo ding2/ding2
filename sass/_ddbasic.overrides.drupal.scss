@@ -39,6 +39,12 @@ ul li.leaf {
 }
 
 
+.form-item, .form-actions {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+
 .form-submit,
 #edit-cancel {
   @extend .button;
