@@ -253,7 +253,7 @@ background-attachment: fixed;',
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_block_4_admin_title';
-  $strongarm->value = 'Tabs menu (menu block)';
+  $strongarm->value = 'Topbar menu (menu block)';
   $export['menu_block_4_admin_title'] = $strongarm;
 
   $strongarm = new stdClass();
