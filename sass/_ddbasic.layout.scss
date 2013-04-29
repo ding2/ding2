@@ -39,9 +39,15 @@ $topbar-text-color:               #fff;
 }
 
 .site-name-wrapper {
-  @include zen-grid-item(8, 1);
+  @include zen-grid-item(4, 1);
 
   margin-top: 30px;
+
+  @include small-medium() {
+    @include zen-grid-item(6, 1);
+
+    margin-top: 8px;
+  }
 }
 
 .site-name {
@@ -57,6 +63,10 @@ $topbar-text-color:               #fff;
     background-color: transparent;
     color: $topbar-text-color;
     text-decoration: none;
+  }
+
+  @include small-medium() {
+    @include rem('font-size', 24px);
   }
 }
 

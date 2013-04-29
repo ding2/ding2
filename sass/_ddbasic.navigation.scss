@@ -83,14 +83,14 @@
 // **
 //
 .topbar-menu {
-  @include zen-grid-item(4, 1, right);
+  @include zen-grid-item(8, 1, right);
   @extend %navigation;
 
-  float: right;
   margin-top: 45px;
+  text-align: right;
 
   .topbar-menu-item {
-    @include rem('font-size', 20px);
+    @include rem('font-size', 18px);
     @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
     @extend %font-bold;
 
@@ -109,6 +109,24 @@
     @extend .topbar-menu-item;
 
     background-color: $theme-primary-color;
+  }
+
+  i[class^="icon-"] {
+    margin-right: 5px;
+  }
+
+  @include small-medium() {
+    @include zen-grid-item(6, 1, right);
+
+    margin-top: 0;
+
+    i[class^="icon-"] {
+      margin-right: 0;
+    }
+
+    span {
+      display: none;
+    }
   }
 }
 

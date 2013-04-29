@@ -27,7 +27,7 @@
 <!-- Temporary until my local version works again -->
 
 <ul class="topbar-menu">
-  <li><a href="/search" class="topbar-menu-item-active"><span><?php print t('Search'); ?></span></a></li>
-  <li><a href="/user" class="topbar-menu-item"><span><?php print t('Log in / create user'); ?></span></a></li>
-  <li><a href="#" class="topbar-menu-item"><span><?php print t('Menu'); ?></span></a></li>
+  <li><a href="/search" class="topbar-menu-item-active"><i class="icon-search"></i><span><?php print t('Search'); ?></span></a></li>
+  <li><a href="/user" class="topbar-menu-item"><i class="icon-user"></i><span><?php print t('Log in / create user'); ?></span></a></li>
+  <li><a href="#" class="topbar-menu-item"><i class="icon-align-justify"></i><span><?php print t('Menu'); ?></span></a></li>
 </ul>
