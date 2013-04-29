@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Syndication logic here.
@@ -135,7 +136,7 @@ function bpi_search_get_markup() {
  *   An array, in structure:
  *   - key: value
  */
-function _bpi_build_query($key = '', $value = '') {
+function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
   $current_path = parse_url(reset(drupal_get_destination()));
   $query = isset($current_path['query']) ? $current_path['query'] : '';
   $new_query_pairs = array();
@@ -144,18 +145,23 @@ function _bpi_build_query($key = '', $value = '') {
     // Get the parameters array.
     $components = explode('&', $query);
 
-    /// Iterate and rearrange them.
+    // Iterate and rearrange them.
     foreach ($components as $component) {
       $temp = explode('=', $component);
+
       // It's required to decode some values here, since Drupal's url() encodes it
       // weird, munging the 'space' entity value (%20).
+      if ($ignore == $temp[0]) {
+        continue;
+      }
+
       $new_query_pairs[$temp[0]] = urldecode($temp[1]);
     }
   }
 
   // Append the new key/value pair to existing ones.
-  if (!empty($key) && !empty($value)) {
-      $new_query_pairs[$key] = $value;
+  if (!empty($key) && !empty($value) && $key != $ignore) {
+    $new_query_pairs[$key] = $value;
   }
 
   return $new_query_pairs;
@@ -189,11 +195,11 @@ function bpi_build_filters() {
     $item['name'] = $key;
     $item['value'] = $value;
     $item['search_value'] = $value;
-    $item['search_stripped_filter'] = '#';
+    $item['search_stripped_filter'] = _bpi_build_query('', '', $key);
 
     // Clear the search results, if query filter is removed.
     if ($key == SEARCH_PHRASE_KEY) {
-      $item['search_stripped_filter'] = 'admin/bpi';
+      $item['search_stripped_filter'] = array();
     }
 
     $filters_markup[] = theme('bpi_filter_item', array('filter' => $item));
@@ -205,19 +211,33 @@ function bpi_build_filters() {
 /**
  * Maps BPI keys to translatables.
  *
+ * @see bpi_label_mapper()
+ *
  * @param string $key
  *   Label identifier.
  * @return string
  *   Translatable human-readable label value.
+ *
  */
 function bpi_label_mapper($key) {
-  $mapped = array(
+  $map = bpi_available_map();
+
+  return isset($map[$key]) ? $map[$key] : '';
+}
+
+/**
+ * BPI related translatables definition.
+ *
+ * @return array
+ *   An array of transaltables in structure:
+ *   - bpi_key: translatable
+ */
+function bpi_available_map() {
+  return array(
     SEARCH_PHRASE_KEY => t('Query'),
     'author' => t('Author'),
     'category' => t('Category'),
     'agency' => t('Agency'),
     'audience' => t('Audience'),
   );
-
-  return isset($mapped[$key]) ? $mapped[$key] : '';
 }
