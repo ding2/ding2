@@ -24,17 +24,17 @@ function ding_event_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Læs mere..';
+  $handler->display->display_options['use_more_text'] = 'Read more..';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Submit';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Ascending';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Descending';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -190,7 +190,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
@@ -200,7 +200,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -371,7 +371,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '1';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -518,7 +518,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
   $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
@@ -528,7 +528,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '3';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -564,13 +564,13 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Number of elements';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« First';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'Next ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'Last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['grouping'] = array(
@@ -780,13 +780,13 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['ui_name'] = 'Link (read more)';
   $handler->display->display_options['fields']['view_node']['label'] = '';
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = FALSE;
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -819,13 +819,13 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Number of elements';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« First';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'Next ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'Last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['grouping'] = array(
@@ -1035,13 +1035,13 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['ui_name'] = 'Link (read more)';
   $handler->display->display_options['fields']['view_node']['label'] = '';
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Library (field_ding_event_library:nid) */
   $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['ding_library_nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
@@ -1050,7 +1050,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = FALSE;
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -1142,7 +1142,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['nid']['table'] = 'node';
   $handler->display->display_options['arguments']['nid']['field'] = 'nid';
   $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
   $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
@@ -1153,7 +1153,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
   $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = FALSE;
   $handler->display->display_options['arguments']['tid']['default_argument_options']['node'] = TRUE;
@@ -1230,7 +1230,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
   $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
@@ -1247,12 +1247,12 @@ function ding_event_views_default_views() {
   $handler->display->display_options['sitename_title'] = 1;
   $translatables['ding_event'] = array(
     t('Master'),
-    t('Læs mere..'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
+    t('Read more..'),
+    t('Submit'),
+    t('Reset'),
+    t('Sort by'),
+    t('Ascending'),
+    t('Descending'),
     t('<div class="event-list-date-wrapper">
   <span class="event-list-day">[field_ding_event_date]</span>
   <div class="event-list-inner-wrapper">
@@ -1265,21 +1265,21 @@ function ding_event_views_default_views() {
   <span class="event-list-time">[field_ding_event_date_3]</span>
   <span class="event-list-price">[field_ding_event_price]</span>
 </div>'),
-    t('Alle'),
+    t('All'),
     t('Frontpage event list'),
     t('more'),
     t('[field_ding_event_date_1-value] - [field_ding_event_date_1-value2]'),
     t('View panes'),
     t('Library page event list'),
     t('Event list'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
-    t('« første'),
-    t('‹ forrige'),
-    t('næste ›'),
-    t('sidste »'),
-    t('Læs mere'),
+    t('Number of elements'),
+    t('- All -'),
+    t('Offset'),
+    t('« First'),
+    t('‹ previous'),
+    t('Next ›'),
+    t('Last »'),
+    t('Read more'),
     t('Event list (library)'),
     t('Simple event list'),
     t('RSS event list'),
