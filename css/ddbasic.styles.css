@@ -4050,15 +4050,16 @@ button#edit-cancel {
 }
 /* line 127, ../sass/_ddbasic.navigation.scss */
 .main-menu li {
-  margin-right: 25px;
-  padding: 20px 0;
+  margin-right: 20px;
 }
-/* line 132, ../sass/_ddbasic.navigation.scss */
+/* line 131, ../sass/_ddbasic.navigation.scss */
 .main-menu a {
+  padding-top: 20px;
+  padding-bottom: 20px;
   text-align: left;
 }
 
-/* line 142, ../sass/_ddbasic.navigation.scss */
+/* line 143, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -4077,43 +4078,43 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 146, ../sass/_ddbasic.navigation.scss */
+/* line 147, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
   font-size: 16px;
   font-size: 1rem;
 }
-/* line 151, ../sass/_ddbasic.navigation.scss */
+/* line 152, ../sass/_ddbasic.navigation.scss */
 .secondary-menu span {
   border-right: 1px solid #d5d5d5;
 }
-/* line 155, ../sass/_ddbasic.navigation.scss */
+/* line 157, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li a {
   color: gray;
-  margin-top: 20px;
+  margin-right: 20px;
   margin-left: 20px;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-/* line 170, ../sass/_ddbasic.navigation.scss */
+/* line 172, ../sass/_ddbasic.navigation.scss */
 .sub-menu-title, .library-menu h2 {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 176, ../sass/_ddbasic.navigation.scss */
+/* line 178, ../sass/_ddbasic.navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 179, ../sass/_ddbasic.navigation.scss */
+/* line 181, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 184, ../sass/_ddbasic.navigation.scss */
+/* line 186, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -4122,17 +4123,17 @@ button#edit-cancel {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 192, ../sass/_ddbasic.navigation.scss */
+/* line 194, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 197, ../sass/_ddbasic.navigation.scss */
+/* line 199, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 208, ../sass/_ddbasic.navigation.scss */
+/* line 210, ../sass/_ddbasic.navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -4142,39 +4143,39 @@ button#edit-cancel {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 220, ../sass/_ddbasic.navigation.scss */
+/* line 222, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 224, ../sass/_ddbasic.navigation.scss */
+/* line 226, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 16px;
 }
-/* line 233, ../sass/_ddbasic.navigation.scss */
+/* line 235, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
-/* line 245, ../sass/_ddbasic.navigation.scss */
+/* line 247, ../sass/_ddbasic.navigation.scss */
 .footer h2 {
   color: white;
   margin-bottom: 10px;
 }
-/* line 250, ../sass/_ddbasic.navigation.scss */
+/* line 252, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
 }
-/* line 255, ../sass/_ddbasic.navigation.scss */
+/* line 257, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 261, ../sass/_ddbasic.navigation.scss */
+/* line 263, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -4182,22 +4183,22 @@ button#edit-cancel {
   font-family: FontAwesome;
   margin-top: -1px;
 }
-/* line 269, ../sass/_ddbasic.navigation.scss */
+/* line 271, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
   padding-left: 10px;
 }
 
-/* line 283, ../sass/_ddbasic.navigation.scss */
+/* line 285, ../sass/_ddbasic.navigation.scss */
 .action-links {
   padding: 10px 20px;
 }
-/* line 286, ../sass/_ddbasic.navigation.scss */
+/* line 288, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 293, ../sass/_ddbasic.navigation.scss */
+/* line 295, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -4207,7 +4208,7 @@ button#edit-cancel {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 303, ../sass/_ddbasic.navigation.scss */
+/* line 305, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -4215,14 +4216,14 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 317, ../sass/_ddbasic.navigation.scss */
+  /* line 319, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.fixed {
     position: relative;
     margin-top: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 326, ../sass/_ddbasic.navigation.scss */
+  /* line 328, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.fixed {
     position: relative;
     margin-top: 0;

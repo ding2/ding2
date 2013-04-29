@@ -125,11 +125,12 @@
   @extend %navigation;
 
   li {
-    margin-right: $default-spacing * 1.25;
-    padding: $default-spacing 0;
+    margin-right: 20px;
   }
 
   a {
+    padding-top: 20px;
+    padding-bottom: 20px;
     text-align: left;
   }
 }
@@ -152,14 +153,15 @@
     border-right: 1px solid $gray;
   }
 
-  li a {
-    color: lighten($black, 50%);
-    margin-top: $default-spacing;
-    margin-left: $default-spacing;
-    padding-top: 0;
-    padding-bottom: 0;
+  li {
+    a {
+      color: lighten($black, 50%);
+      margin-right: 20px;
+      margin-left: 20px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
   }
-
 }
 
 
