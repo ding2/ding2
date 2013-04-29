@@ -8,7 +8,7 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
-%grid-inner {
+%grid-inner-padding {
   padding: $default-spacing;
 }
 
@@ -24,6 +24,7 @@
 // Left and Right sidebar content is optional
 // This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
+//
 .ding-default-layout {
   .attachments-wrapper {
     @include zen-grid-container;
@@ -32,7 +33,7 @@
     margin-bottom: $default-spacing;
 
     .grid-inner {
-      @extend %grid-inner;
+      @extend %grid-inner-padding;
     }
   }
 
@@ -63,7 +64,7 @@
   }
 
   .grid-inner {
-    @extend %grid-inner;
+    @extend %grid-inner-padding;
   }
 }
 
@@ -77,7 +78,7 @@
   }
 
   .grid-inner {
-    @extend %grid-inner;
+    @extend %grid-inner-padding;
   }
 }
 
@@ -91,7 +92,7 @@
   }
 
   .grid-inner {
-    @extend %grid-inner;
+    @extend %grid-inner-padding;
   }
 }
 
@@ -105,7 +106,7 @@
   }
 
   .grid-inner {
-    @extend %grid-inner;
+    @extend %grid-inner-padding;
   }
 }
 
@@ -114,12 +115,12 @@
 // Top and main content are required
 // This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
-
+//
 .ding-layout-1 {
   @include display-100-50-50;
 
   .grid-inner {
-    @extend %grid-inner;
+    @extend %grid-inner-padding;
   }
 
   // specific rule for primary content because carousel is inserted.
@@ -136,7 +137,7 @@
     margin-bottom: $default-spacing;
 
     .grid-inner {
-      @extend %grid-inner;
+      @extend %grid-inner-padding;
     }
   }
 

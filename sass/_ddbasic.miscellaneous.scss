@@ -29,8 +29,6 @@
 
 
 .footer {
-  @include rgba-background($section-bg, $section-bg-transparency);
-
   padding-top: 30px;
 }
 

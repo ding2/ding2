@@ -10,12 +10,8 @@
 //
 $breakpoint-small:    480px;
 $breakpoint-medium:   768px;
-
-
-// -----------------------------------------------------------------------------
-// Mixins
-// -----------------------------------------------------------------------------
-//
+$breakpoint-large:    940px;
+$breakpoint-x-large:  1210px;
 
 
 // **
@@ -34,7 +30,11 @@ $breakpoint-medium:   768px;
 	}
 
 	@else if $media == large {
-		@media only screen and (min-width: $breakpoint-medium + 1) { @content; }
+		@media only screen and (min-width: $breakpoint-medium + 1) and (max-width: $breakpoint-large) { @content; }
+	}
+
+	@else if $media == x-large {
+		@media only screen and (min-width: $breakpoint-x-large) { @content; }
 	}
 
 }
@@ -48,6 +48,11 @@ $breakpoint-medium:   768px;
   @include respond-to(small) { @content; }
 }
 
+@mixin small-medium {
+  @include respond-to(small) { @content; }
+  @include respond-to(medium) { @content; }
+}
+
 @mixin medium {
   @include respond-to(medium) { @content; }
 }
@@ -56,8 +61,6 @@ $breakpoint-medium:   768px;
   @include respond-to(large) { @content; }
 }
 
-
-// -----------------------------------------------------------------------------
-// Default styling
-// -----------------------------------------------------------------------------
-//
+@mixin x-large {
+  @include respond-to(xlarge) { @content; }
+}
