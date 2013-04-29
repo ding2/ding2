@@ -29,6 +29,7 @@ projects[cache_actions][version] = "2.0-alpha5"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.3"
+projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
