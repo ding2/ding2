@@ -2611,21 +2611,16 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 30, ../sass/_ddbasic.layout.scss */
-.grid-inner, .topbar .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
-  max-width: 1200px;
-}
-
-/* line 39, ../sass/_ddbasic.layout.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
   z-index: 99;
 }
-/* line 43, ../sass/_ddbasic.layout.scss */
+/* line 34, ../sass/_ddbasic.layout.scss */
 .topbar .topbar-inner {
   position: relative;
 }
 
-/* line 50, ../sass/_ddbasic.layout.scss */
+/* line 41, ../sass/_ddbasic.layout.scss */
 .site-name-wrapper {
   float: left;
   width: 66.66667%;
@@ -2645,14 +2640,14 @@ ul.icons li [class*=" icon-"] {
   margin-top: 30px;
 }
 
-/* line 56, ../sass/_ddbasic.layout.scss */
+/* line 47, ../sass/_ddbasic.layout.scss */
 .site-name, .site-name-with-slogan {
   font-size: 30px;
   font-size: 1.875rem;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 65, ../sass/_ddbasic.layout.scss */
+/* line 56, ../sass/_ddbasic.layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -2665,14 +2660,14 @@ ul.icons li [class*=" icon-"] {
   text-decoration: none;
 }
 
-/* line 76, ../sass/_ddbasic.layout.scss */
+/* line 67, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 82, ../sass/_ddbasic.layout.scss */
+/* line 73, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2691,27 +2686,27 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 91, ../sass/_ddbasic.layout.scss */
+/* line 82, ../sass/_ddbasic.layout.scss */
 .header-wrapper {
   background-color: #00caff;
 }
-/* line 96, ../sass/_ddbasic.layout.scss */
+/* line 87, ../sass/_ddbasic.layout.scss */
 .header-wrapper .header-inner {
   overflow: visible;
 }
 
-/* line 110, ../sass/_ddbasic.layout.scss */
+/* line 101, ../sass/_ddbasic.layout.scss */
 .front .content-wrapper {
   margin-top: 84px;
 }
 
-/* line 118, ../sass/_ddbasic.layout.scss */
+/* line 109, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 121, ../sass/_ddbasic.layout.scss */
+/* line 112, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2801,7 +2796,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 131, ../sass/_ddbasic.layout.scss */
+/* line 122, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -2811,25 +2806,25 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 150, ../sass/_ddbasic.layout.scss */
+  /* line 141, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 155, ../sass/_ddbasic.layout.scss */
+  /* line 146, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 161, ../sass/_ddbasic.layout.scss */
+  /* line 152, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 166, ../sass/_ddbasic.layout.scss */
+  /* line 157, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
