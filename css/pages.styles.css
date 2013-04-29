@@ -1,4 +1,7 @@
 .bpi-single-well-item {
+  border: 1px solid black;
+  margin-bottom: 5px;
+  padding: 5px;
   position: relative;
 }
 
@@ -7,7 +10,7 @@
   bottom: 0;
   padding: 3px;
   position: absolute;
-  right: 0;
+  right: 3px;
 }
 
 #bpi-syndicate-page-form .form-item-bpi-search-query,
@@ -24,4 +27,8 @@
 
 .bpi-single-well-item .item-details .details-label {
   font-weight: bold;
+}
+
+#edit-bpi-search-sort {
+  text-align: right;
 }

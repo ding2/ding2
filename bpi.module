@@ -14,6 +14,20 @@ if (!defined('SEARCH_PHRASE_KEY')) {
 }
 
 /**
+ * Ascending sorting identifier.
+ */
+if (!defined('SORT_ASCENDING')) {
+  define('SORT_ASCENDING', 'asc');
+}
+
+/**
+ * Descending sorting identifier.
+ */
+if (!defined('SORT_DESCENDING')) {
+  define('SORT_DESCENDING', 'desc');
+}
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {

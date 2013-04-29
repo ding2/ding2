@@ -31,6 +31,14 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#markup' => bpi_build_filters(),
   );
 
+  $sort_direction = bpi_get_next_sorting();
+  $sort_text = ($sort_direction == SORT_DESCENDING) ?  t('Show latest on top') : t('Show oldest on top');
+  $sort_url_components = _bpi_build_query('sort', $sort_direction);
+  $form['bpi_search_sort'] = array(
+    '#type' => 'item',
+    '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
+  );
+
   $markup = bpi_search_get_markup();
   $form['bpi_search_results'] = array(
     '#type' => 'item',
@@ -149,12 +157,13 @@ function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
     foreach ($components as $component) {
       $temp = explode('=', $component);
 
-      // It's required to decode some values here, since Drupal's url() encodes it
-      // weird, munging the 'space' entity value (%20).
+      // Certain keys we don't want to be in resulting array.
       if ($ignore == $temp[0]) {
         continue;
       }
 
+      // It's required to decode some values here, since Drupal's url() encodes it
+      // weird, munging the 'space' entity value (%20).
       $new_query_pairs[$temp[0]] = urldecode($temp[1]);
     }
   }
@@ -179,6 +188,25 @@ function _bpi_current_search_phrase() {
   return isset($_GET[SEARCH_PHRASE_KEY]) ? check_plain($_GET[SEARCH_PHRASE_KEY]) : '';
 }
 
+
+/**
+ * List of filters that are available.
+ *
+ * Basically that's limited to what is to be showed in filtering section.
+ *
+ * @return array
+ *   Array of filter identifiers.
+ */
+function bpi_available_filters() {
+  return array(
+    SEARCH_PHRASE_KEY,
+    'author',
+    'category',
+    'agency',
+    'audience',
+  );
+}
+
 /**
  * Createa filters markup, based on current query string.
  *
@@ -190,8 +218,14 @@ function _bpi_current_search_phrase() {
 function bpi_build_filters() {
   $components = _bpi_build_query();
   $filters_markup = array();
+  $enabled_filters = bpi_available_filters();
 
   foreach ($components as $key => $value) {
+    // Limit the filtering options.
+    if (!in_array($key, $enabled_filters)) {
+      continue;
+    }
+
     $item['name'] = $key;
     $item['value'] = $value;
     $item['search_value'] = $value;
@@ -240,4 +274,18 @@ function bpi_available_map() {
     'agency' => t('Agency'),
     'audience' => t('Audience'),
   );
+}
+
+/**
+ * Get the next sorting order.
+ *
+ * Just reverse the direction. End.
+ *
+ * @return string
+ *   Direction sorting identifier.
+ */
+function bpi_get_next_sorting() {
+  $sort_dir = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+  return ($sort_dir == SORT_DESCENDING) ? SORT_ASCENDING : SORT_DESCENDING;
 }
