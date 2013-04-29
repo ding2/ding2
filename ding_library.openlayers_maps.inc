@@ -70,8 +70,8 @@ function ding_library_openlayers_maps() {
       'geofield_formatter' => 0,
       'ding_library_openlayers_1' => 0,
     ),
-    'projection' => '900913',
-    'displayProjection' => '4326',
+    'projection' => 'EPSG:900913',
+    'displayProjection' => 'EPSG:4326',
     'styles' => array(
       'default' => 'default',
       'select' => 'default',
