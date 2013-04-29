@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Install/uninstall, database related stuff here.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function bpi_schema() {
+  $schema = array();
+
+  return $schema;
+}
