@@ -37,7 +37,7 @@ function ding_frontend_menu_default_menu_custom() {
   // Exported menu: menu-tabs-menu.
   $menus['menu-tabs-menu'] = array(
     'menu_name' => 'menu-tabs-menu',
-    'title' => 'Tabs menu',
+    'title' => 'Topbar menu',
     'description' => 'This menu is used to display tabs that let the user change between navigational elements.',
   );
   // Translatables
@@ -46,8 +46,8 @@ function ding_frontend_menu_default_menu_custom() {
   t('Footer menu 2');
   t('Footer menu 3');
   t('Footer menu 4');
-  t('Tabs menu');
   t('This menu is used to display tabs that let the user change between navigational elements.');
+  t('Topbar menu');
 
 
   return $menus;
