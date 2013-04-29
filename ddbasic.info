@@ -37,3 +37,9 @@
   regions[attachment_fourth] = Attachment fourth
   regions[footer]            = Footer
   regions[bottom]            = Bottom
+
+; Information added by drush on 2013-04-24
+version = "development-dev"
+project = "ddbasic"
+datestamp = "1366825015"
+
