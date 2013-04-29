@@ -7,10 +7,49 @@
  */
 
 /**
+ * URL search query key.
+ */
+if (!defined('SEARCH_PHRASE_KEY')) {
+  define('SEARCH_PHRASE_KEY', 'text');
+}
+
+/**
+ * Ascending sorting identifier.
+ */
+if (!defined('SORT_ASCENDING')) {
+  define('SORT_ASCENDING', 'asc');
+}
+
+/**
+ * Descending sorting identifier.
+ */
+if (!defined('SORT_DESCENDING')) {
+  define('SORT_DESCENDING', 'desc');
+}
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
   $menu = array();
+
+  $menu['admin/bpi'] = array(
+    'title' => 'BPI syndication',
+    'description' => 'Sindicate content from the well.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('bpi_syndicate_page_form'),
+    'access arguments' => array('syndicate content'),
+    'file' => 'bpi.syndicate.inc',
+  );
+
+  $menu['admin/bpi/page/%'] = array(
+    'title' => 'BPI syndication',
+    'description' => 'Retrieve content from the well.',
+    'page callback' => 'bpi_search_content',
+    'page arguments' => array(3),
+    'access arguments' => array('syndicate content'),
+    'file' => 'bpi.syndicate.inc',
+  );
 
   $menu['admin/config/bpi'] = array(
     'title' => 'BPI',
@@ -52,5 +91,30 @@ function bpi_permission() {
     'title' => t('Administer BPI settings'),
   );
 
+  $perm['syndicate content'] = array(
+    'title' => t('Syndicate content'),
+  );
+
   return $perm;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function bpi_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['bpi_well_item'] = array(
+    'variables' => array(),
+    'path' => $path . '/templates/',
+    'template' => 'bpi-well-item',
+  );
+
+  $hooks['bpi_filter_item'] = array(
+    'variables' => array(),
+    'path' => $path . '/templates/',
+    'template' => 'bpi-filter-item',
+  );
+
+  return $hooks;
 }

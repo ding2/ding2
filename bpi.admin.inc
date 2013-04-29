@@ -35,6 +35,8 @@ function bpi_admin_menu_block_page() {
  *   Form state values.
  * @return array
  *   Form structure prepared for admin settings.
+ *
+ * @ingroup forms
  */
 function bpi_admin_settings_form($form, $form_state) {
   $form['bpi_agency_id'] = array(
@@ -75,6 +77,8 @@ function bpi_admin_settings_form($form, $form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
+ * @ingroup forms
  */
 function bpi_admin_settings_form_validate(&$form, &$form_state) {
   $url = $form_state['values']['bpi_service_url'];
@@ -100,6 +104,8 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  *   Form state values.
  * @return array
  *   Form structure prepared for admin settings.
+ *
+ * @ingroup forms
  */
 function bpi_admin_content_mapping_form($form, $form_state) {
   $node_types = bpi_get_node_types();
@@ -176,6 +182,8 @@ function bpi_admin_content_mapping_form($form, $form_state) {
  *   Form state values.
  * @return array
  *   Element to be altered via AJAX.
+ *
+ * @ingroup forms
  */
 function _bpi_content_mapper_ctype_fields(&$form, &$form_state) {
   return $form['bpi_mapper'];

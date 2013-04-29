@@ -1,0 +1,34 @@
+.bpi-single-well-item {
+  border: 1px solid black;
+  margin-bottom: 5px;
+  padding: 5px;
+  position: relative;
+}
+
+.bpi-single-well-item .item-action-syndicate {
+  border: 1px solid black;
+  bottom: 0;
+  padding: 3px;
+  position: absolute;
+  right: 3px;
+}
+
+#bpi-syndicate-page-form .form-item-bpi-search-query,
+.bpi-single-well-item .item-title,
+.bpi-single-well-item .item-details .details-left,
+.bpi-single-well-item .item-details .details-right {
+  display: inline-block;
+}
+
+.bpi-single-well-item .item-details .details-left,
+.bpi-single-well-item .item-details .details-right {
+  width: 45%;
+}
+
+.bpi-single-well-item .item-details .details-label {
+  font-weight: bold;
+}
+
+#edit-bpi-search-sort {
+  text-align: right;
+}
