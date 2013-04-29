@@ -24,6 +24,7 @@
 // Left and Right sidebar content is optional
 // This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
+//
 .ding-default-layout {
   .attachments-wrapper {
     @include zen-grid-container;
@@ -114,7 +115,7 @@
 // Top and main content are required
 // This template extends on ddbasic displays and ddbasic displays
 // -----------------------------------------------------------------------------
-
+//
 .ding-layout-1 {
   @include display-100-50-50;
 

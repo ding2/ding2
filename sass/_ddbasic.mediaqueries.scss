@@ -11,6 +11,7 @@
 $breakpoint-small:    480px;
 $breakpoint-medium:   768px;
 $breakpoint-large:    940px;
+$breakpoint-x-large:  1210px;
 
 
 // **
@@ -29,11 +30,11 @@ $breakpoint-large:    940px;
 	}
 
 	@else if $media == large {
-		@media only screen and (min-width: $breakpoint-medium + 1) and (max-width: $breakpoint-medium) { @content; }
+		@media only screen and (min-width: $breakpoint-medium + 1) and (max-width: $breakpoint-large) { @content; }
 	}
 
 	@else if $media == x-large {
-		@media only screen and (min-width: $breakpoint-large + 1) { @content; }
+		@media only screen and (min-width: $breakpoint-x-large) { @content; }
 	}
 
 }

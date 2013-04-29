@@ -1653,7 +1653,7 @@ ul.icons li [class*=" icon-"] {
   padding: 20px;
 }
 
-/* line 28, ../sass/_ddbasic.mq.layouts.scss */
+/* line 29, ../sass/_ddbasic.mq.layouts.scss */
 .ding-default-layout .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -1967,7 +1967,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) and (max-width: 768px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 97, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .primary-content {
     float: left;
@@ -2081,7 +2081,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) and (max-width: 768px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 36, ../sass/_ddbasic.mq.displays.scss */
   .empty-sidebars .primary-content {
     float: left;
@@ -2177,7 +2177,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) and (max-width: 768px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 60, ../sass/_ddbasic.mq.displays.scss */
   .left-sidebar .primary-content {
     float: left;
@@ -2254,7 +2254,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) and (max-width: 768px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 78, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .primary-content {
     float: left;
@@ -2348,12 +2348,12 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 127, ../sass/_ddbasic.mq.layouts.scss */
+/* line 128, ../sass/_ddbasic.mq.layouts.scss */
 .ding-layout-1 .primary-content .grid-inner, .ding-layout-1 .primary-content .topbar .topbar-inner, .topbar .ding-layout-1 .primary-content .topbar-inner, .ding-layout-1 .primary-content .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .primary-content .header-inner, .ding-layout-1 .primary-content .navigation-inner {
   padding: 0;
   background-color: transparent;
 }
-/* line 133, ../sass/_ddbasic.mq.layouts.scss */
+/* line 134, ../sass/_ddbasic.mq.layouts.scss */
 .ding-layout-1 .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -4231,17 +4231,15 @@ button#edit-cancel {
 
 /* line 31, ../sass/_ddbasic.miscellaneous.scss */
 .footer {
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.85);
   padding-top: 30px;
 }
 
-/* line 37, ../sass/_ddbasic.miscellaneous.scss */
+/* line 35, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 44, ../sass/_ddbasic.miscellaneous.scss */
+/* line 42, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block .block-title, .footer-block .pane-title,
 .footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
@@ -4251,7 +4249,7 @@ button#edit-cancel {
   color: white;
 }
 
-/* line 50, ../sass/_ddbasic.miscellaneous.scss */
+/* line 48, ../sass/_ddbasic.miscellaneous.scss */
 .assistive-text {
   clip: rect(1px 1px 1px 1px);
   /* IE6, IE7 */
@@ -4259,7 +4257,7 @@ button#edit-cancel {
   position: absolute !important;
 }
 
-/* line 61, ../sass/_ddbasic.miscellaneous.scss */
+/* line 59, ../sass/_ddbasic.miscellaneous.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -4267,13 +4265,13 @@ button#edit-cancel {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 70, ../sass/_ddbasic.miscellaneous.scss */
+/* line 68, ../sass/_ddbasic.miscellaneous.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 77, ../sass/_ddbasic.miscellaneous.scss */
+/* line 75, ../sass/_ddbasic.miscellaneous.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
