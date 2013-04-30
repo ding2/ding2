@@ -19,13 +19,13 @@ function connie_loan_list($account) {
   if (isset($_SESSION['connie_reservations'])) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
       $result[$id] = new DingProviderLoan($id, array(
-                       'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res[0],
-                       'display_name' => $res[1],
-                       'loan_date' => strftime('%Y-%m-%d', strtotime('now -' . $i . ' day')),
-                       'expiry' => strftime('%Y-%m-%d', strtotime('now ' . (14 -$i++) . ' day')),
-                       'renewable' => TRUE,
-                       'materials_number' => $id,
-                     ));
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res[0],
+        'display_name' => $res[1],
+        'loan_date' => strftime('%Y-%m-%d', strtotime('now -' . $i . ' day')),
+        'expiry' => strftime('%Y-%m-%d', strtotime('now ' . (14 -$i++) . ' day')),
+        'renewable' => TRUE,
+        'materials_number' => $id,
+      ));
     }
   }
   return $result;

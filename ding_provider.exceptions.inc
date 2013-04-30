@@ -83,10 +83,10 @@ class DingProviderUserException extends Exception {
 
 class DingProviderException extends Exception {
   private $callback;
-  
+
   public function getCallback() {
-    if(isset($this->callback)) {
-      return $callback;
+    if (isset($this->callback)) {
+      return $this->callback;
     }
   }
 }

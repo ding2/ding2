@@ -29,7 +29,7 @@ class DingProviderDebt extends DingEntityBase {
 
 
   protected $display_name = DingEntityBase::NULL;
-  
+
   protected $note = DingEntityBase::NULL;
 
   /**

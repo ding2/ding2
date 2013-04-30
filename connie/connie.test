@@ -1,7 +1,7 @@
 <?php
-
 /**
- * @file Test that the example provider implementation module passes the same
+ * @file
+ * Test that the example provider implementation module passes the same
  * tests as the real providers.
  */
 
