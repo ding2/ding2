@@ -8,3 +8,4 @@ scripts[] = ding_periodical.js
 dependencies[] = virtual_field
 dependencies[] = ding_provider
 dependencies[] = ding_entity
+dependencies[] = ding_reservation
