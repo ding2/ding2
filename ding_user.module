@@ -447,7 +447,12 @@ function ding_user_user_login_validate($form, &$form_state) {
 /**
  * Create a provider account for drupal. Username will be a hashvalue of authname.
  * This account will be coupled with the provider user via the authmap table
- **/
+ *
+ * @param string $auth_name
+ *  Name used to authenticate the user.
+ * @param array $auth_res
+ *  Authentication information from the provider.
+ */
 function _ding_user_create_account($auth_name, $auth_res) {
   // We'd like to use user_external_login_register(), but it saves the user
   // and invokes hook_user_login before we have a chance to mess with it. So
@@ -596,8 +601,8 @@ function ajax_command_ding_user_authenticate($extra_data) {
   if (variable_get('https', FALSE)) {
     $form = drupal_get_form('user_login');
     $url = parse_url($_SERVER['HTTP_REFERER']);
-    $path_start = strpos($_SERVER['HTTP_REFERER'], '/', strlen($url['scheme']) + 3);
-    $referer = substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+    $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+    $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
     // Filter out any language prefixes as it will be automatically added to the URL again.
     if (!empty($language->language) && preg_match('/' . $language->prefix . '/', $referer) > 0) {
       $referer = preg_replace('/' . $language->prefix . '\//', '', $referer);

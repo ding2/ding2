@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Test cases to ensure that ding user is working corretly.
+ */
 
 /**
  * Check that basic user login functionality works.

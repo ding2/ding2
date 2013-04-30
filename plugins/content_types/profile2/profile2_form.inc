@@ -25,11 +25,11 @@ $plugin = array(
  */
 function ding_user_profile2_form_content_type_render($subtype, $conf, $panel_args, &$context) {
   $block = new stdClass();
-  
+
   // Get provider profile and get edit form for it.
   $profile = ding_user_provider_profile($context->data);
   $block->content = entity_ui_get_form('profile2', $profile);
-  
+
   return $block;
 }
 
