@@ -21,20 +21,17 @@
     display: inline;
   }
 
-  .menu-item,
-  li {
-    .menu-item {
-      color: $gray-darker;
-      display: inline-block;
+  .menu-item {
+    color: $gray-darker;
+    display: inline-block;
 
-      &:hover {
-        color: $black;
-      }
+    &:hover {
+      color: $black;
+    }
 
-      &.active {
-        color: $black;
-        text-decoration: underline;
-      }
+    &.active {
+      color: $black;
+      text-decoration: underline;
     }
   }
 
@@ -74,10 +71,13 @@
 //
 .topbar-menu {
   @include zen-grid-item(8, 1, right);
-  @extend %navigation;
 
   margin-top: 45px;
   text-align: right;
+
+  li {
+    display: inline;
+  }
 
   .menu-item {
     @include rem('font-size', 18px);
@@ -85,6 +85,8 @@
     @extend %font-bold;
 
     color: $white;
+    display: inline-block;
+    margin-left: -3px;
     padding: 10px 15px;
 
     &:hover {
