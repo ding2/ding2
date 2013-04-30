@@ -38,6 +38,9 @@ if ($element['#title_display'] == 'after') {
 elseif ($element['#title_display'] == 'invisible') {
   $attributes['class'][] = 'element-invisible';
 }
+elseif (is_array($element['#title_attribute'])) {
+  $attributes['class'][] = implode(' ', $element['#title_attribute']);
+}
 
 if (!empty($element['#id'])) {
   $attributes['for'] = $element['#id'];

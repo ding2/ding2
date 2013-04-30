@@ -29,7 +29,4 @@
  * @see template_preprocess_search_block_form()
  */
 ?>
-<?php if (empty($variables['form']['#block']->subject)): ?>
-  <label for="edit-search-block-form--2" class="search-label"><?php print t('Search the library database and the website'); ?></label>
-<?php endif; ?>
 <?php print $search_form; ?>

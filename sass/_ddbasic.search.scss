@@ -63,18 +63,24 @@ input#edit-search-block-form--2.spinner {
 // Default styling
 // -----------------------------------------------------------------------------
 //
-%font-bold {
-  font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
-}
-
-
 .search {
-  @include zen-grid-item(12, 1);
-  
+  display: inline-block;
   margin-top: 25px;
   margin-bottom: 25px;
-  position: relative;  
+  width: 100%;
+
+  .search-field-wrapper {
+    @include zen-grid-item(12, 1);
+
+    position: relative;
+  }
+
+  .form-item {
+    @include zen-grid-item(12, 1);
+
+    padding-right: 0;
+    padding-left: 0;
+  }
 
   .search-label {
     @include rem('font-size', 16px);
@@ -86,15 +92,13 @@ input#edit-search-block-form--2.spinner {
     margin-left: 2px;
   }
 
-  i[class^="icon-"] {
-    @include rem('font-size', 24px);
-    @include opacity(.5);
+  .icon-search {
+    @include rem('font-size', 30px);
 
-    margin-left: 15px;
+    color: $gray-darker;
+    margin-left: 14px;
     position: absolute;
-
-    top: 48px;
-    z-index: 10;
+    top: 45px;
   }
 
   .spinner {
@@ -115,27 +119,35 @@ input#edit-search-block-form--2.spinner {
   }
 
   .form-text {
+    @include rem('font-size', 18px);
     @include box-sizing(border-box);
     @include border-radius(12px);
 
     border: 0;
     display: inline;
-    left: 0;
-    padding-right: 75px;
+    margin-right: 20px;
+    min-height: 60px;
+    padding-top: 2px;
     padding-bottom: 0;
-    padding-left: 48px;
     width: 100%;
   }
 
+  .form-actions {
+    @include zen-grid-item(2, 1, right);
+
+    text-align: right;
+  }
+
   .form-submit {
+    @include rem('font-size', 20px);
+    @include border-radius(12px);
     @extend %button-default;
 
-    position: absolute;
-    padding-right: 30px;
+    min-height: 60px;
+    margin-top: 31px;
+    padding-top: 0;
     padding-bottom: 1px;
-    padding-left: 30px;
-    right: 10px;
-    top: 31px;
+    min-width: 125px;
   }
 
   @include small() {
@@ -843,7 +855,7 @@ input#edit-search-block-form--2.spinner {
     .field-items {
       max-width: 72%;
     }
-    
+
     .ting-material-detail {
       display: block;
     }
