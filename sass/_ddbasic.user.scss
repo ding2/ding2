@@ -130,10 +130,10 @@
       @include zen-grid-item(12, 1);
       @include zen-clear();
     }
-    
+
     .form-item-pass {
       margin-top: 20px;
-    }    
+    }
   }
 
   @include small-medium() {
@@ -143,7 +143,7 @@
 
       top: 40px;
     }
-    
+
     .form-text {
       min-height: 44px;
     }
