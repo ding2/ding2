@@ -65,18 +65,13 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
   $element = array();
   foreach ($items as $delta => $item) {
 
-    if ( !ding_provider_implements('availability', 'holdings') ) {
+    if (!ding_provider_implements('availability', 'holdings') ) {
       return $element;
     }
 
     $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
     if (isset($availability[$entity->provider_id])) {
       $issues = $availability[$entity->provider_id]['issues'];
-      // array_walk($issues, 'asort') complains about 'Notice: A non
-      // well formed numeric value encountered'.
-      foreach ($issues as $k => $v) {
-        asort($v);
-      }
       krsort($issues);
 
       if ($issues) {
@@ -84,6 +79,7 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
           '#theme' => 'ding_periodical_issues',
           '#entity' => $entity,
           '#issues' => $issues,
+          '#availability' => $availability,
         );
       }
     }
