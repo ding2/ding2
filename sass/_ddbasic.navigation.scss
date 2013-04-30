@@ -21,35 +21,25 @@
     display: inline;
   }
 
-  .last {
-    span,
-    a {
-      border-right: 0;
-      margin-right: 0;
-      padding-right: 0;
+  .menu-item,
+  li {
+    .menu-item {
+      color: $gray-darker;
+      display: inline-block;
+
+      &:hover {
+        color: $black;
+      }
+
+      &.active {
+        color: $black;
+        text-decoration: underline;
+      }
     }
   }
 
-  a,
-  li a {
-    display: inline-block;
-    color: lighten($black, 50%);
-    margin-left: -3px;
-
-    &:hover {
-      color: $black;
-    }
-
-    &.active {
-      color: $black;
-      text-decoration: underline;
-    }
-
-    &.last {
-      border-right: 0;
-      margin-right: 0;
-      padding-right: 0;
-    }
+  &.last {
+    border-right: 0;
   }
 }
 
@@ -59,9 +49,9 @@
 // -----------------------------------------------------------------------------
 //
 .navigation-wrapper {
- 	@include rgba-background($white, .95);
   @extend .grid-wrapper;
 
+ 	background-color: transparentize($white, .05);
   position: absolute;
   width: 100%;
 
@@ -111,12 +101,6 @@
     }
   }
 
-  .last {
-    a {
-      padding-right: 15px;
-    }
-  }
-
   i[class^="icon-"] {
     margin-right: 5px;
   }
@@ -145,17 +129,16 @@
 }
 
 .main-menu {
-  @include rem('font-size', $theme-font-size * 1.3);
+  @include rem('font-size', 20px);
   @extend %navigation;
 
   li {
     margin-right: 20px;
   }
 
-  a {
+  .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
-    text-align: left;
   }
 }
 
@@ -173,17 +156,23 @@
   @include rem('font-size', $theme-font-size);
   @extend %navigation;
 
-  span {
-    border-right: 1px solid $gray;
-  }
-
   li {
-    a {
+    border-right: 1px solid $gray;
+
+    .menu-item {
       color: lighten($black, 50%);
       margin-right: 20px;
       margin-left: 20px;
       padding-top: 20px;
       padding-bottom: 20px;
+
+      &.last {
+        margin-right: 0;
+      }
+    }
+
+    &.last {
+      border-right: 0;
     }
   }
 }
