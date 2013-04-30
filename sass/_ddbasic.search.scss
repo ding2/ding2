@@ -71,6 +71,10 @@ input#edit-search-block-form--2.spinner {
 
 .search {
   @include zen-grid-item(12, 1);
+  
+  margin-top: 25px;
+  margin-bottom: 25px;
+  position: relative;  
 
   .search-label {
     @include rem('font-size', 16px);
@@ -133,10 +137,6 @@ input#edit-search-block-form--2.spinner {
     right: 10px;
     top: 31px;
   }
-
-  margin-top: 25px;
-  margin-bottom: 25px;
-  position: relative;
 
   @include small() {
     i[class^="icon-"] {
