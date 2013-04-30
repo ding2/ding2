@@ -390,6 +390,8 @@ function ding_event_views_default_views() {
 
   /* Display: Library page event list */
   $handler = $view->new_display('panel_pane', 'Library page event list', 'ding_event_library_page_list');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Events';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
@@ -1271,6 +1273,7 @@ function ding_event_views_default_views() {
     t('[field_ding_event_date_1-value] - [field_ding_event_date_1-value2]'),
     t('View panes'),
     t('Library page event list'),
+    t('Events'),
     t('Event list'),
     t('Number of elements'),
     t('- All -'),
