@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Wrappes profile2 provider profile into a panels pane.
+ */
 
 /**
  * Plugins are described by creating a $plugin array which will be used
@@ -19,14 +23,14 @@ $plugin = array(
  */
 function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
-  $block->content = ''; 
-  
+  $block->content = '';
+
   if (isset($context->data)) {
     $account = $context->data;
     $profile = ding_user_provider_profile($account);
     $block->content = $profile->view('account');
   }
- 
+
   return $block;
 }
 
