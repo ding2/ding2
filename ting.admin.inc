@@ -366,8 +366,8 @@ function ting_admin_register_settings() {
   $form['ting_admin_register_serie_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Serie title'),
-    '#description' => t('Specify the register to be used for searching against serie titles.'),
-    '#default_value' => variable_get('ting_admin_register_serie_title', 'bib.titleSeries')
+    '#description' => t('Specify the searchstring to be used for searching against serie titles. Use @serietitle as a placeholder for the serietitle'),
+    '#default_value' => variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"')
   );
 
   $form['#submit'][] = 'ting_search_extendform_admin_settings_submit';
