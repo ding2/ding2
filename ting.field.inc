@@ -333,9 +333,12 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
       case 'ting_series_default':
         if ($entity->serieTitle) {
+          // The search string used is configurable because the datawell is not fully implemented regarding series.
+          // As default we search both in the serietitle register and the description field because many series only have data in the description field.
+          // This will problably change with new versions of the datawell.
+          $search_term = str_replace('@serietitle' , drupal_strtolower($entity->serieTitle),variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"'));
           $element[$delta] = array(
-            // should use phrase.title instead of dc.title but at the moment opensearch does not support the use of phrase.title
-            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/' . variable_get('ting_admin_register_serie_title', 'dc.title') . '="' . drupal_strtolower($entity->serieTitle) . '"', array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
+            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/' . $search_term , array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
           );
         } else if ($entity->serieDescription) {
           $element[$delta] = array(
