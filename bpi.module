@@ -42,6 +42,13 @@ function bpi_menu() {
     'file' => 'bpi.syndicate.inc',
   );
 
+  $menu['admin/bpi/syndicate/%'] = array(
+    'page callback' => 'bpi_syndicate_action',
+    'page arguments' => array(3),
+    'access arguments' => array('syndicate content'),
+    'file' => 'bpi.syndicate.inc',
+  );
+
   $menu['admin/bpi/page/%'] = array(
     'title' => 'BPI syndication',
     'description' => 'Retrieve content from the well.',
@@ -117,4 +124,80 @@ function bpi_theme($existing, $type, $theme, $path) {
   );
 
   return $hooks;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Set some default values for the fields, when syndicating content,
+ * according to mapped settings.
+ */
+function bpi_form_alter(&$form , &$form_state, $form_id) {
+  $bpi_ctype = variable_get('bpi_content_type', '');
+  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
+
+  if (empty($bpi_ctype)) {
+    return;
+  }
+  // Checking nid for NULL would say that this is create node form, not edit.
+  elseif ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
+    $bpi_content = $_SESSION['bpi']['content'];
+
+    drupal_set_message(t('Syndicating content %title, from category %category and audience %audience.', array(
+      '%title' => $bpi_content['title'],
+      '%category' => $bpi_content['category'],
+      '%audience' => $bpi_content['audience'],
+    )));
+
+    $form['title']['#default_value'] = $bpi_content['title'];
+    $teaser = variable_get('bpi_field_teaser', '');
+    $body = variable_get('bpi_field_body', '');
+    $current_language = $form['language']['#value'];
+
+    // EXPERIMENTAL.
+    // Just oversee all the variants where the value could fit.
+    if (isset($form[$teaser][$current_language][0]['summary'])) {
+      $form[$teaser][$current_language][0]['summary']['#default_value'] = $bpi_content['teaser'];
+    }
+    elseif (isset($form[$teaser][$current_language][0]['value'])) {
+      $form[$teaser][$current_language][0]['value']['#default_value'] = $bpi_content['teaser'];
+    }
+    elseif (isset($form[$teaser][$current_language][0])) {
+      $form[$teaser][$current_language][0]['#default_value'] = $bpi_content['teaser'];
+    }
+
+    // EXPERIMENTAL.
+    // Just oversee all the variants where the value could fit.
+    if (isset($form[$body][$current_language][0]['value'])) {
+      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_content['body'];
+    }
+    elseif (isset($form[$body][$current_language][0])) {
+      $form[$body][$current_language][0]['#default_value'] = $bpi_content['body'];
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Act on node insert, and if it was created through syndication,
+ * write a record about it.
+ */
+function bpi_node_insert($node) {
+  $node_id = $node->nid;
+
+  // @todo
+  // Somewhat soft check whether the node created is the one syndicated
+  // Maybe some more reliable check will emerge in future.
+  if (isset($_SESSION['bpi']['content']) && $_SESSION['bpi']['content']['title'] === $node->title) {
+    $bpi_id = $_SESSION['bpi']['content']['bpi_id'];
+    db_insert('bpi_syndicated')
+      ->fields(array(
+        'nid' => $node_id,
+        'bid' => $bpi_id,
+      ))
+      ->execute();
+
+    unset($_SESSION['bpi']['content']);
+  }
 }
