@@ -433,35 +433,8 @@ function ddbasic_panels_default_style_render_region($vars) {
  */
 function ddbasic_menu_link($vars) {
 
-  // Remove classes.
-  $remove = array();
-
-  // Remove .leaf.
-  if(theme_get_setting('ddbasic_classes_menu_leaf')){
-    $remove[] .= "leaf";
-  }
-
-  // Remove .has-children.
-  if(theme_get_setting('ddbasic_classes_menu_has_children')){
-    $remove[] .= "has-children";
-  }
-
-  // Remove .collapsed, .expanded and expandable.
-  if(theme_get_setting('ddbasic_classes_menu_collapsed')){
-    $remove[] .= "collapsed";
-    $remove[] .= "expanded";
-    $remove[] .= "expandable";
-  }
-
-  // Remove the classes.
-  if($remove){
-    $vars['element']['#attributes']['class'] = array_diff($vars['element']['#attributes']['class'],$remove);
-  }
-
-  // Remove menu-mlid-[NUMBER].
-  if(theme_get_setting('ddbasic_classes_menu_items_mlid')){
-    $vars['element']['#attributes']['class'] = preg_grep('/^menu-mlid-/', $vars['element']['#attributes']['class'], PREG_GREP_INVERT);
-  }
+  // Run classes array through our custom stripper.
+  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
   // Check if the class array is empty.
   if(empty($vars['element']['#attributes']['class'])){
@@ -493,6 +466,15 @@ function ddbasic_menu_link($vars) {
  * Add specific markup for topbar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_block__4($vars) {
+  
+  // Run classes array through our custom stripper.
+  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
+
+  // Check if the class array is empty.
+  if(empty($vars['element']['#attributes']['class'])){
+    unset($vars['element']['#attributes']['class']);
+  }
+
   $element = $vars['element'];
 
   $sub_menu = '';
@@ -509,8 +491,68 @@ function ddbasic_menu_link__menu_block__4($vars) {
   // Make sure text string is treated as html by l function
   $element['#localized_options']['html'] = true;
 
-  $output = l('<span>'.$element['#title'].'</span>', $element['#href'], $element['#localized_options']);
+  // Add some icons to our topbar menu. We use system paths to check against.
+  switch($element['#href']) {
+    case 'search':
+      $title_prefix = '<i class="icon-search"></i>';
+      break;
+    case 'user':
+      $title_prefix = '<i class="icon-user"></i>';
+      break;
+    default:
+      $title_prefix = '<i class="icon-align-justify"></i>';
+      break;
+  }
+
+  $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * Used to strip default class names from menu links.
+ *
+ * @param $classes
+ *   An array of class attributes.
+ */
+function ddbasic_remove_default_link_classes($classes) {
+  
+  if (!isset($classes)) {
+    return false;
+  }
+
+  // Remove classes.
+  $remove = array();
+
+  // Remove .leaf.
+  if(theme_get_setting('ddbasic_classes_menu_leaf')){
+    $remove[] .= "leaf";
+  }
+
+  // Remove .has-children.
+  if(theme_get_setting('ddbasic_classes_menu_has_children')){
+    $remove[] .= "has-children";
+  }
+
+  // Remove .collapsed, .expanded and expandable.
+  if(theme_get_setting('ddbasic_classes_menu_collapsed')){
+    $remove[] .= "collapsed";
+    $remove[] .= "expanded";
+    $remove[] .= "expandable";
+  }
+
+  // Remove the classes.
+  if($remove){
+    //$vars['element']['#attributes']['class'] = array_diff($vars['element']['#attributes']['class'],$remove);
+    $classes = array_diff($classes,$remove);
+  }
+
+  // Remove menu-mlid-[NUMBER].
+  if(theme_get_setting('ddbasic_classes_menu_items_mlid')){
+    //$vars['element']['#attributes']['class'] = preg_grep('/^menu-mlid-/', $vars['element']['#attributes']['class'], PREG_GREP_INVERT);
+    $classes = preg_grep('/^menu-mlid-/', $classes, PREG_GREP_INVERT);
+  }
+
+  return $classes;
 }
 
 
