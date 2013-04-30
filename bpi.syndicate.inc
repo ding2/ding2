@@ -189,7 +189,6 @@ function _bpi_current_search_phrase() {
   return isset($_GET[SEARCH_PHRASE_KEY]) ? check_plain($_GET[SEARCH_PHRASE_KEY]) : '';
 }
 
-
 /**
  * List of filters that are available.
  *
