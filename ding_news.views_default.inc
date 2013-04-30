@@ -418,6 +418,8 @@ function ding_news_views_default_views() {
 
   /* Display: Library news list */
   $handler = $view->new_display('panel_pane', 'Library news list', 'ding_news_library_list');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'News from the library';
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -1124,6 +1126,7 @@ function ding_news_views_default_views() {
     t('more'),
     t('View panes'),
     t('Library news list'),
+    t('News from the library'),
     t('News list'),
     t('Antal elementer'),
     t('- Alle -'),
