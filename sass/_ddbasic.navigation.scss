@@ -173,11 +173,9 @@
   @include rem('font-size', $theme-font-size);
   @extend %navigation;
 
-  span {
-    border-right: 1px solid $gray;
-  }
-
   li {
+    border-right: 1px solid $gray;
+    
     a {
       color: lighten($black, 50%);
       margin-right: 20px;
