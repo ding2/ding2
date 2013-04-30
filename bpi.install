@@ -10,5 +10,29 @@
 function bpi_schema() {
   $schema = array();
 
+  $schema['bpi_syndicated'] = array(
+    'description' => 'Holds the correspondence between bpi id and node id.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial'
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'bid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'node_id' => array('nid'),
+      'bpi_id' => array('bid'),
+    ),
+  );
+
   return $schema;
 }
