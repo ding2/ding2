@@ -63,172 +63,119 @@ input#edit-search-block-form--2.spinner {
 // Default styling
 // -----------------------------------------------------------------------------
 //
-%search {
-  .search-label {
-    @include rem('font-size', $theme-font-size * 1.25);
+%font-bold {
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+}
 
-    color: transparentize($white, .5);
-    position: absolute;
-    top: -28px;
+
+.search {
+  @include zen-grid-item(12, 1);
+
+  .search-label {
+    @include rem('font-size', 16px);
+    @extend %font-bold;
+
+    color: transparentize($white, .25);
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
   }
 
   i[class^="icon-"] {
-    @include opacity(.25);
+    @include rem('font-size', 24px);
+    @include opacity(.5);
 
     margin-left: 15px;
     position: absolute;
 
-    font-size: $theme-font-size * 2;
-
-    top: 15px;
+    top: 48px;
     z-index: 10;
-  }
-
-  input[type="text"] {
-    @include rem('font-size', $theme-font-size * 1.6);
-    @include box-sizing(border-box);
-    @include border-radius(12px);
-
-    display: inline;
-    padding-top: 0;
-    padding-right: 75px;
-    padding-bottom: 0;
-    padding-left: 48px;
-
-    border: 0;
-
-    min-height: 60px;
-
-    left: 0;
-    width: 100%;
-
   }
 
   .spinner {
     i[class^="icon-"] {
-      @include rem('font-size', $theme-font-size * 1.5);
       @extend .icon-spin;
       @extend .icon-spinner;
 
-      height: $theme-font-size * 1.5;
-      margin-left: 17px;
-      top: 22px;
+      height: auto;
     }
   }
-}
 
-.header-wrapper {
-  .search {
-    @include zen-grid-item($grid-50, 1);
-    @extend %header-sections;
-  }
-}
-
-.search {
-  @extend %search;
-
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-right: 0;
-
-  .search-field-wrapper {
-    margin-right: 30px;
-  }
-
-  .form-item {
-     margin-top: 0em;
-  }
-
-  input[type="submit"] {
-    @include rem('font-size', $theme-font-size * 1.7);
-    @extend %button-default;
+  .form-text,
+  .form-submit {
+    @include rem('font-size', 20px);
 
     min-height: 60px;
-    position: absolute;
     padding-top: 0;
-    padding-right: 18px;
+  }
+
+  .form-text {
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    border: 0;
+    display: inline;
+    left: 0;
+    padding-right: 75px;
+    padding-bottom: 0;
+    padding-left: 48px;
+    width: 100%;
+  }
+
+  .form-submit {
+    @extend %button-default;
+
+    position: absolute;
+    padding-right: 30px;
     padding-bottom: 1px;
-    padding-left: 18px;
-    right: 30px;
-    top: 0;
+    padding-left: 30px;
+    right: 10px;
+    top: 31px;
   }
 
-  .help-link {
-    display: block;
-    float: right;
-    margin-top: $default-spacing / 2;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  position: relative;
 
-    &:hover {
-      color: $black;
-      text-decoration: none;
-    }
-  }
-}
-
-.not-logged-in {
-  .topbar {
-    .search {
-      margin-right: 131px;
-    }
-  }
-}
-
-.topbar {
-  .search {
-    @extend %search;
-
-    float: right;
-    margin-top: 17px;
-
-    .search-label {
-      display: none;
-    }
-
-    .search-field-wrapper {
-      min-width: 558px;
-      position: relative;
-    }
-
-    input[type="text"] {
-      @include rem('font-size', $theme-font-size * 1.5);
-      @include box-sizing(border-box);
-
-      min-height: 50px;
-      padding-right: 70px;
-    }
-
-    input[type="submit"].form-submit {
-      @include rem('font-size', $theme-font-size * 1.4);
-      @extend %button-theme;
-
-      min-height: 50px;
-      padding: 0 18px;
-      position: absolute;
-      right: -2px;
-    }
-
+  @include small() {
     i[class^="icon-"] {
-      @include rem('font-size', $theme-font-size * 1.5);
-      @include opacity(.25);
+      @include rem('font-size', 20px);
 
-      margin-left: 15px;
-      position: absolute;
-
-      top: 13px;
+      top: 45px;
     }
 
-    .spinner {
-      i[class^="icon-"] {
-        top: 16px;
-      }
+    .form-text {
+      @include rem('font-size', 18px);
+
+      min-height: 50px;
+      padding-left: 42px;
+    }
+
+    .form-submit {
+      min-height: 50px;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+
+  @include medium() {
+    i[class^="icon-"] {
+      top: 43px;
+    }
+
+    .form-text,
+    .form-submit {
+      min-height: 50px;
     }
   }
 }
+
 
 .field-name-ding-entity-buttons {
   .reserve-button {
     @extend %button-action;
-    
+
     padding-top: 11px;
     padding-bottom: 11px;
   }
@@ -611,7 +558,7 @@ input#edit-search-block-form--2.spinner {
             &.availability.available.not-reservable {
               @extend %availability-available-not-reservable;
             }
-            
+
             .availability-status {
               &:before {
                 content: " - ";
@@ -818,7 +765,7 @@ input#edit-search-block-form--2.spinner {
 
   .ting-object-left {
     @include zen-grid-item(3, 1);
-    
+
     min-height: 200px;
     margin-bottom: $default-spacing;
   }

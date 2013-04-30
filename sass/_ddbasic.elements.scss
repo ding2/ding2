@@ -27,6 +27,10 @@ body {
   line-height: $theme-line-height;
 }
 
+body.toolbar {
+  padding-top: 66px;
+}
+
 
 h1,
 h2,
@@ -41,6 +45,7 @@ img {
   display: inline;
   height: auto;
   max-width: 100%;
+  vertical-align: bottom;
 }
 
 ul {

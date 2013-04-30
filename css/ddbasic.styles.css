@@ -5,18 +5,18 @@
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
 
 /* line 25, ../sass/_ddbasic.grid.scss */
-.grid-wrapper, .content-wrapper, .header-wrapper, .navigation-wrapper {
+.grid-wrapper, .header-wrapper, .content-wrapper, .navigation-wrapper {
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
@@ -310,7 +310,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 230, ../sass/_ddbasic.font.awesome.scss */
-.icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
+.icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"] {
   display: inline-block;
   -moz-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;
@@ -380,7 +380,7 @@ ul.icons li [class*=" icon-"] {
 
 @-moz-document url-prefix() {
   /* line 260, ../sass/_ddbasic.font.awesome.scss */
-  .icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
+  .icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"] {
     height: .9em;
   }
 
@@ -629,7 +629,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 317, ../sass/_ddbasic.font.awesome.scss */
-.icon-camera:before, .pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .field-name-field-ding-news-materials .ting-cover:before, .libraries:before {
+.icon-camera:before, .pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .libraries:before {
   content: "\f030";
 }
 
@@ -1650,7 +1650,6 @@ ul.icons li [class*=" icon-"] {
 
 /* line 11, ../sass/_ddbasic.mq.layouts.scss */
 .ding-default-layout .attachments-wrapper .grid-inner, .ding-default-layout .attachments-wrapper .topbar .topbar-inner, .topbar .ding-default-layout .attachments-wrapper .topbar-inner, .ding-default-layout .attachments-wrapper .header-wrapper .header-inner, .header-wrapper .ding-default-layout .attachments-wrapper .header-inner, .ding-default-layout .attachments-wrapper .navigation-inner, .sidebars .grid-inner, .sidebars .topbar .topbar-inner, .topbar .sidebars .topbar-inner, .sidebars .header-wrapper .header-inner, .header-wrapper .sidebars .header-inner, .sidebars .navigation-inner, .empty-sidebars .grid-inner, .empty-sidebars .topbar .topbar-inner, .topbar .empty-sidebars .topbar-inner, .empty-sidebars .header-wrapper .header-inner, .header-wrapper .empty-sidebars .header-inner, .empty-sidebars .navigation-inner, .left-sidebar .grid-inner, .left-sidebar .topbar .topbar-inner, .topbar .left-sidebar .topbar-inner, .left-sidebar .header-wrapper .header-inner, .header-wrapper .left-sidebar .header-inner, .left-sidebar .navigation-inner, .right-sidebar .grid-inner, .right-sidebar .topbar .topbar-inner, .topbar .right-sidebar .topbar-inner, .right-sidebar .header-wrapper .header-inner, .header-wrapper .right-sidebar .header-inner, .right-sidebar .navigation-inner, .ding-layout-1 .grid-inner, .ding-layout-1 .topbar .topbar-inner, .topbar .ding-layout-1 .topbar-inner, .ding-layout-1 .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .header-inner, .ding-layout-1 .navigation-inner, .ding-layout-1 .attachments-wrapper .grid-inner, .ding-layout-1 .attachments-wrapper .topbar .topbar-inner, .topbar .ding-layout-1 .attachments-wrapper .topbar-inner, .ding-layout-1 .attachments-wrapper .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .attachments-wrapper .header-inner, .ding-layout-1 .attachments-wrapper .navigation-inner {
-  background-color: white;
   padding: 20px;
 }
 
@@ -1661,12 +1660,12 @@ ul.icons li [class*=" icon-"] {
   clear: left;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .ding-default-layout .attachments-wrapper:before, .ding-default-layout .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .ding-default-layout .attachments-wrapper:after {
   clear: both;
 }
@@ -1968,7 +1967,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 96, ../sass/_ddbasic.mq.displays.scss */
   .sidebars .primary-content {
     float: left;
@@ -2082,7 +2081,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 36, ../sass/_ddbasic.mq.displays.scss */
   .empty-sidebars .primary-content {
     float: left;
@@ -2178,7 +2177,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 60, ../sass/_ddbasic.mq.displays.scss */
   .left-sidebar .primary-content {
     float: left;
@@ -2255,7 +2254,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 77, ../sass/_ddbasic.mq.displays.scss */
   .right-sidebar .primary-content {
     float: left;
@@ -2360,12 +2359,12 @@ ul.icons li [class*=" icon-"] {
   *zoom: 1;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .ding-layout-1 .attachments-wrapper:before, .ding-layout-1 .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .ding-layout-1 .attachments-wrapper:after {
   clear: both;
 }
@@ -2611,28 +2610,18 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 32, ../sass/_ddbasic.layout.scss */
-.grid-inner, .topbar .topbar-inner, .header-wrapper .header-inner, .navigation-inner {
-  max-width: 1200px;
-}
-
-/* line 41, ../sass/_ddbasic.layout.scss */
+/* line 30, ../sass/_ddbasic.layout.scss */
 .topbar {
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.9);
-  min-height: 92px;
-  position: fixed;
-  width: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
   z-index: 99;
 }
-/* line 49, ../sass/_ddbasic.layout.scss */
+/* line 34, ../sass/_ddbasic.layout.scss */
 .topbar .topbar-inner {
-  min-height: 92px;
   position: relative;
 }
 
-/* line 57, ../sass/_ddbasic.layout.scss */
-.pane-pane-header {
+/* line 41, ../sass/_ddbasic.layout.scss */
+.site-name-wrapper {
   float: left;
   width: 33.33333%;
   margin-left: 0%;
@@ -2648,16 +2637,59 @@ ul.icons li [class*=" icon-"] {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  margin-top: 30px;
+}
+@media only screen and (max-width: 480px) {
+  /* line 41, ../sass/_ddbasic.layout.scss */
+  .site-name-wrapper {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 41, ../sass/_ddbasic.layout.scss */
+  .site-name-wrapper {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-top: 8px;
+  }
 }
 
-/* line 61, ../sass/_ddbasic.layout.scss */
+/* line 53, ../sass/_ddbasic.layout.scss */
 .site-name, .site-name-with-slogan {
   font-size: 30px;
   font-size: 1.875rem;
-  margin-top: 28px;
-  margin-bottom: 0;
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
 }
-/* line 70, ../sass/_ddbasic.layout.scss */
+/* line 62, ../sass/_ddbasic.layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -2669,20 +2701,29 @@ ul.icons li [class*=" icon-"] {
   color: white;
   text-decoration: none;
 }
-
-/* line 77, ../sass/_ddbasic.layout.scss */
-.site-name-with-slogan {
-  margin-top: 16px;
+@media only screen and (max-width: 480px) {
+  /* line 53, ../sass/_ddbasic.layout.scss */
+  .site-name, .site-name-with-slogan {
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 53, ../sass/_ddbasic.layout.scss */
+  .site-name, .site-name-with-slogan {
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
 }
 
-/* line 83, ../sass/_ddbasic.layout.scss */
+/* line 77, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 89, ../sass/_ddbasic.layout.scss */
+/* line 83, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2701,23 +2742,27 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 98, ../sass/_ddbasic.layout.scss */
-.content-wrapper {
-  margin-top: 176px;
+/* line 92, ../sass/_ddbasic.layout.scss */
+.header-wrapper {
+  background-color: #00caff;
+}
+/* line 97, ../sass/_ddbasic.layout.scss */
+.header-wrapper .header-inner {
+  overflow: visible;
 }
 
-/* line 108, ../sass/_ddbasic.layout.scss */
+/* line 111, ../sass/_ddbasic.layout.scss */
 .front .content-wrapper {
   margin-top: 84px;
 }
 
-/* line 116, ../sass/_ddbasic.layout.scss */
+/* line 119, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 119, ../sass/_ddbasic.layout.scss */
+/* line 122, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2807,157 +2852,105 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 129, ../sass/_ddbasic.layout.scss */
+/* line 132, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
-  color: white;
+  color: #00caff;
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 148, ../sass/_ddbasic.layout.scss */
+  /* line 151, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 153, ../sass/_ddbasic.layout.scss */
+  /* line 156, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 159, ../sass/_ddbasic.layout.scss */
+  /* line 162, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 164, ../sass/_ddbasic.layout.scss */
+  /* line 167, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
-/* line 17, ../sass/_ddbasic.header.scss */
-.header-wrapper .search, .header-wrapper .user, .header-wrapper .user-name,
-.header-wrapper .user-menu-loans,
-.header-wrapper .user-menu {
-  margin-top: 85px;
-  margin-bottom: 55px;
-  padding: 0;
-  position: relative;
-}
-
-/* line 29, ../sass/_ddbasic.header.scss */
-.header-wrapper {
-  background-color: #3399ff;
-  background-color: rgba(51, 153, 255, 0.9);
-  margin-top: 92px;
-}
-/* line 35, ../sass/_ddbasic.header.scss */
-.header-wrapper .header-inner {
-  overflow: visible;
-}
-
 /* line 23, ../sass/_ddbasic.extends.scss */
-.event-list ul {
+.event-list ul, .news-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 35, ../sass/_ddbasic.extends.scss */
-.footer .menu li a:link, .footer-block a:link, .topbar .user-menu a:link {
-  color: white;
-  text-decoration: none;
-}
-/* line 39, ../sass/_ddbasic.extends.scss */
-.footer .menu li a:visited, .footer-block a:visited, .topbar .user-menu a:visited {
-  color: #d9d9d9;
-}
-/* line 42, ../sass/_ddbasic.extends.scss */
-.footer .menu li a:hover, .footer-block a:hover, .topbar .user-menu a:hover {
-  color: #d9d9d9;
-  text-decoration: underline;
-}
-/* line 46, ../sass/_ddbasic.extends.scss */
-.footer .menu li a:hover i[class^="icon-"], .footer-block a:hover i[class^="icon-"], .topbar .user-menu a:hover i[class^="icon-"] {
-  text-decoration: none;
-}
-/* line 50, ../sass/_ddbasic.extends.scss */
-.footer .menu li a:focus, .footer-block a:focus, .topbar .user-menu a:focus {
-  color: #d9d9d9;
-}
-
-/* line 102, ../sass/_ddbasic.extends.scss */
-.block i[class^="icon-"], .footer-block i[class^="icon-"], .block-opening-hours i[class^="icon-"] {
-  float: left;
-  margin-right: 5px;
-  text-decoration: none;
-}
-
-/* line 109, ../sass/_ddbasic.extends.scss */
-.block .read-more, .footer-block .read-more, .block-opening-hours .read-more {
-  display: block;
-  margin-top: 20px;
-}
-
-/* line 119, ../sass/_ddbasic.extends.scss */
+/* line 73, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
   color: #fff;
   padding: 5px 13.33333px;
 }
-/* line 123, ../sass/_ddbasic.extends.scss */
+/* line 77, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-ting-object .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-ting-object .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-ting-object .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-ting-object .field-name-ting-type li.availability.reservable a, .comment .new a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a, .pane-ting-object .field-name-ting-type li.availability.available.reservable a, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a {
   color: #fff;
   display: block;
 }
-/* line 127, ../sass/_ddbasic.extends.scss */
+/* line 81, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-ting-object .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-ting-object .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-ting-object .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.reservable a:hover, .comment .new a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.available.reservable a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a:hover {
   text-decoration: none;
 }
 
-/* line 133, ../sass/_ddbasic.extends.scss */
+/* line 87, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending {
   background-color: #696a69;
 }
 
-/* line 139, ../sass/_ddbasic.extends.scss */
+/* line 93, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed {
   background-color: #ed1e88;
 }
 
-/* line 145, ../sass/_ddbasic.extends.scss */
+/* line 99, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available {
   background-color: #4c9f45;
 }
 
-/* line 151, ../sass/_ddbasic.extends.scss */
+/* line 105, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new {
   background-color: #ea9123;
 }
 
-/* line 157, ../sass/_ddbasic.extends.scss */
+/* line 111, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   background-color: #4c9f45;
 }
 
-/* line 163, ../sass/_ddbasic.extends.scss */
+/* line 117, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
   background-color: #0072bc;
 }
 
 /* line 23, ../sass/_ddbasic.elements.scss */
 body {
-  background-color: white;
+  background-color: #00caff;
   background-attachment: fixed;
   background-size: cover;
   line-height: 24px;
 }
 
-/* line 36, ../sass/_ddbasic.elements.scss */
+/* line 30, ../sass/_ddbasic.elements.scss */
+body.toolbar {
+  padding-top: 66px;
+}
+
+/* line 40, ../sass/_ddbasic.elements.scss */
 h1,
 h2,
 h3,
@@ -2968,96 +2961,74 @@ h6 {
   margin-top: 0;
 }
 
-/* line 40, ../sass/_ddbasic.elements.scss */
+/* line 44, ../sass/_ddbasic.elements.scss */
 img {
   display: inline;
   height: auto;
   max-width: 100%;
+  vertical-align: bottom;
 }
 
-/* line 46, ../sass/_ddbasic.elements.scss */
+/* line 51, ../sass/_ddbasic.elements.scss */
 ul {
   padding-left: 20px;
 }
 
-/* line 51, ../sass/_ddbasic.elements.scss */
+/* line 56, ../sass/_ddbasic.elements.scss */
 .page-content li {
   list-style: disc inside;
 }
 
-/* line 57, ../sass/_ddbasic.elements.scss */
+/* line 62, ../sass/_ddbasic.elements.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 63, ../sass/_ddbasic.elements.scss */
+/* line 68, ../sass/_ddbasic.elements.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
   margin: 0;
   padding: 0;
   width: 100%;
-  line-height: 45px;
+  line-height: 48px;
 }
 
-/* line 19, ../sass/_ddbasic.typography.scss */
-.footer .menu li a:link, .footer-block a:link, .topbar .user-menu a:link {
-  color: white;
-  text-decoration: none;
-}
-/* line 24, ../sass/_ddbasic.typography.scss */
-.footer .menu li a:visited, .footer-block a:visited, .topbar .user-menu a:visited {
-  color: #d9d9d9;
-}
-/* line 28, ../sass/_ddbasic.typography.scss */
-.footer .menu li a:hover, .footer-block a:hover, .topbar .user-menu a:hover {
-  color: #d9d9d9;
-  text-decoration: underline;
-}
-/* line 32, ../sass/_ddbasic.typography.scss */
-.footer .menu li a:hover i[class^="icon-"], .footer-block a:hover i[class^="icon-"], .topbar .user-menu a:hover i[class^="icon-"] {
-  text-decoration: none;
-}
-/* line 37, ../sass/_ddbasic.typography.scss */
-.footer .menu li a:focus, .footer-block a:focus, .topbar .user-menu a:focus {
-  color: #d9d9d9;
-}
-
-/* line 75, ../sass/_ddbasic.typography.scss */
+/* line 23, ../sass/_ddbasic.typography.scss */
 body {
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
   color: rgba(0, 0, 0, 0.8);
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-webkit-selection {
-  color: #1b1b1b;
+  color: #333333;
   background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-moz-selection {
-  color: #1b1b1b;
+  color: #333333;
   background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::-o-selection {
-  color: #1b1b1b;
+  color: #333333;
   background: #ffff99;
 }
 
 /* line 22, ../sass/_ddbasic.mixins.scss */
 ::selection {
-  color: #1b1b1b;
+  color: #333333;
   background: #ffff99;
 }
 
-/* line 95, ../sass/_ddbasic.typography.scss */
+/* line 43, ../sass/_ddbasic.typography.scss */
 h1,
 h2,
 h3,
@@ -3068,7 +3039,7 @@ h6 {
   line-height: 30px;
   line-height: 1.875rem;
 }
-/* line 99, ../sass/_ddbasic.typography.scss */
+/* line 47, ../sass/_ddbasic.typography.scss */
 h1 a:link,
 h2 a:link,
 h3 a:link,
@@ -3076,10 +3047,10 @@ h3 a:link,
 h4 a:link,
 h5 a:link,
 h6 a:link {
-  color: #1b1b1b;
+  color: #4c4c4c;
   text-decoration: none;
 }
-/* line 104, ../sass/_ddbasic.typography.scss */
+/* line 52, ../sass/_ddbasic.typography.scss */
 h1 a:visited,
 h2 a:visited,
 h3 a:visited,
@@ -3087,9 +3058,9 @@ h3 a:visited,
 h4 a:visited,
 h5 a:visited,
 h6 a:visited {
-  color: #1b1b1b;
+  color: #4c4c4c;
 }
-/* line 108, ../sass/_ddbasic.typography.scss */
+/* line 56, ../sass/_ddbasic.typography.scss */
 h1 a:hover,
 h2 a:hover,
 h3 a:hover,
@@ -3097,9 +3068,9 @@ h3 a:hover,
 h4 a:hover,
 h5 a:hover,
 h6 a:hover {
-  color: black;
+  color: #0c0c0c;
 }
-/* line 112, ../sass/_ddbasic.typography.scss */
+/* line 60, ../sass/_ddbasic.typography.scss */
 h1 a:focus,
 h2 a:focus,
 h3 a:focus,
@@ -3109,7 +3080,7 @@ h5 a:focus,
 h6 a:focus {
   color: #006681;
 }
-/* line 116, ../sass/_ddbasic.typography.scss */
+/* line 64, ../sass/_ddbasic.typography.scss */
 h1 a:active,
 h2 a:active,
 h3 a:active,
@@ -3118,169 +3089,123 @@ h4 a:active,
 h5 a:active,
 h6 a:active {
   background-color: transparent;
-  color: #1b1b1b;
+  color: #333333;
 }
 
-/* line 123, ../sass/_ddbasic.typography.scss */
+/* line 71, ../sass/_ddbasic.typography.scss */
 h1 {
-  font-size: 30px;
-  font-size: 1.875rem;
+  font-size: 32px;
+  font-size: 2rem;
 }
 
-/* line 127, ../sass/_ddbasic.typography.scss */
+/* line 75, ../sass/_ddbasic.typography.scss */
 h2 {
-  font-size: 27px;
-  font-size: 1.6875rem;
+  font-size: 28.8px;
+  font-size: 1.8rem;
 }
 
-/* line 131, ../sass/_ddbasic.typography.scss */
+/* line 79, ../sass/_ddbasic.typography.scss */
 h3, .ui-dialog-title {
-  font-size: 24px;
-  font-size: 1.5rem;
+  font-size: 25.6px;
+  font-size: 1.6rem;
   line-height: 30px;
   line-height: 1.875rem;
 }
 
-/* line 136, ../sass/_ddbasic.typography.scss */
+/* line 84, ../sass/_ddbasic.typography.scss */
 h4 {
-  font-size: 21px;
-  font-size: 1.3125rem;
+  font-size: 22.4px;
+  font-size: 1.4rem;
 }
 
-/* line 140, ../sass/_ddbasic.typography.scss */
+/* line 88, ../sass/_ddbasic.typography.scss */
 h5 {
-  font-size: 16.5px;
-  font-size: 1.03125rem;
+  font-size: 17.6px;
+  font-size: 1.1rem;
 }
 
-/* line 144, ../sass/_ddbasic.typography.scss */
+/* line 92, ../sass/_ddbasic.typography.scss */
 h6 {
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
 }
 
-/* line 149, ../sass/_ddbasic.typography.scss */
+/* line 97, ../sass/_ddbasic.typography.scss */
 strong, em strong, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 155, ../sass/_ddbasic.typography.scss */
+/* line 103, ../sass/_ddbasic.typography.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 159, ../sass/_ddbasic.typography.scss */
+/* line 107, ../sass/_ddbasic.typography.scss */
 em strong, em .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close em .ui-icon {
   font-family: "SourceSansProSemiboldItalic";
 }
 
-/* line 172, ../sass/_ddbasic.typography.scss */
+/* line 120, ../sass/_ddbasic.typography.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 177, ../sass/_ddbasic.typography.scss */
+/* line 125, ../sass/_ddbasic.typography.scss */
 a:visited {
   color: #007a9b;
   text-decoration: none;
 }
-/* line 182, ../sass/_ddbasic.typography.scss */
+/* line 130, ../sass/_ddbasic.typography.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 186, ../sass/_ddbasic.typography.scss */
+/* line 134, ../sass/_ddbasic.typography.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 191, ../sass/_ddbasic.typography.scss */
+/* line 139, ../sass/_ddbasic.typography.scss */
 a:focus {
   color: #006681;
 }
 
-/* line 205, ../sass/_ddbasic.typography.scss */
+/* line 153, ../sass/_ddbasic.typography.scss */
 .text-largest, .pane-ding-facetbrowser h2, .pane-ting-search-search-display-extended-query #search-query-display, .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
+  font-size: 24px;
+  font-size: 1.5rem;
 }
 
-/* line 209, ../sass/_ddbasic.typography.scss */
+/* line 157, ../sass/_ddbasic.typography.scss */
 .text-larger, .pane-ding-facetbrowser .fieldset-legend, .pane-ting-search .ting-search-amount-block {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
+  font-size: 20px;
+  font-size: 1.25rem;
 }
 
-/* line 213, ../sass/_ddbasic.typography.scss */
+/* line 161, ../sass/_ddbasic.typography.scss */
 .text-large {
-  font-size: 16.5px;
-  font-size: 1.03125rem;
+  font-size: 17.6px;
+  font-size: 1.1rem;
 }
 
-/* line 217, ../sass/_ddbasic.typography.scss */
+/* line 165, ../sass/_ddbasic.typography.scss */
 .text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .ui-dialog-titlebar .form-item .description {
-  font-size: 13.5px;
-  font-size: 0.84375rem;
+  font-size: 14.4px;
+  font-size: 0.9rem;
 }
 
-/* line 221, ../sass/_ddbasic.typography.scss */
+/* line 169, ../sass/_ddbasic.typography.scss */
 .text-smallest, .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
-  font-size: 12px;
-  font-size: 0.75rem;
-}
-
-/* line 16, ../sass/_ddbasic.blocks.scss */
-.block, .footer-block, .block-opening-hours {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-}
-/* line 20, ../sass/_ddbasic.blocks.scss */
-.block select, .footer-block select, .block-opening-hours select {
-  width: 100%;
-}
-/* line 28, ../sass/_ddbasic.blocks.scss */
-.block .block-content, .footer-block .block-content, .block-opening-hours .block-content {
-  padding: 20px;
-}
-
-/* line 42, ../sass/_ddbasic.blocks.scss */
-.block {
-  -webkit-box-shadow: inset 0 0 15px #007fff;
-  -moz-box-shadow: inset 0 0 15px #007fff;
-  box-shadow: inset 0 0 15px #007fff;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  background-color: #3399ff;
-  background-color: rgba(51, 153, 255, 0.9);
-  color: white;
-}
-
-/* line 52, ../sass/_ddbasic.blocks.scss */
-.block-title, .pane-title,
-.pane-menu-title, .library-title, .pane-ting-object .field-name-ting-reference-reverse .field-label, .pane-loans h2,
-.pane-reservations h2,
-.pane-bookmarks h2 {
-  margin-bottom: 13.33333px;
-  margin-bottom: 0.83333rem;
-  line-height: 100%;
+  font-size: 12.8px;
+  font-size: 0.8rem;
 }
 
 /* line 28, ../sass/_ddbasic.forms.scss */
 input,
 textarea,
 select {
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   letter-spacing: 1px;
 }
@@ -3316,8 +3241,8 @@ textarea {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
   background-color: white;
   border: 1px solid #efefef;
   display: block;
@@ -3371,82 +3296,6 @@ textarea[disabled] {
 /* line 33, ../sass/_ddbasic.links.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
-}
-
-/* line 10, ../sass/_ddbasic.lists.scss */
-dl, .list-content, .list-compact, .pane-search-result .search-results .list, .pane-search-result .search-results .list .availability ul, .pane-ting-ting-collection-types ul, .pane-ting-ting-object-types ul, .pane-ting-ting-relation-anchors ul, .pane-ting-object .field-name-ding-availability-holdings ul, .library-list, .list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-/* line 16, ../sass/_ddbasic.lists.scss */
-dl > dt, .list-content > dt, .list-compact > dt, .pane-search-result .search-results .list > dt, .pane-search-result .search-results .list .availability ul > dt, .pane-ting-ting-collection-types ul > dt, .pane-ting-ting-object-types ul > dt, .pane-ting-ting-relation-anchors ul > dt, .pane-ting-object .field-name-ding-availability-holdings ul > dt, .library-list > dt, .list > dt {
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
-}
-/* line 20, ../sass/_ddbasic.lists.scss */
-dl > dt .horizontal, .list-content > dt .horizontal, .list-compact > dt .horizontal, .pane-search-result .search-results .list > dt .horizontal, .pane-search-result .search-results .list .availability ul > dt .horizontal, .pane-ting-ting-collection-types ul > dt .horizontal, .pane-ting-ting-object-types ul > dt .horizontal, .pane-ting-ting-relation-anchors ul > dt .horizontal, .pane-ting-object .field-name-ding-availability-holdings ul > dt .horizontal, .library-list > dt .horizontal, .list > dt .horizontal {
-  float: left;
-  width: 20%;
-}
-/* line 27, ../sass/_ddbasic.lists.scss */
-dl > li, .list-content > li, .list-compact > li, .pane-search-result .search-results .list > li, .pane-search-result .search-results .list .availability ul > li, .pane-ting-ting-collection-types ul > li, .pane-ting-ting-object-types ul > li, .pane-ting-ting-relation-anchors ul > li, .pane-ting-object .field-name-ding-availability-holdings ul > li, .library-list > li, .list > li,
-dl > dd,
-.list-content > dd,
-.list-compact > dd,
-.pane-search-result .search-results .list > dd,
-.pane-search-result .search-results .list .availability ul > dd,
-.pane-ting-ting-collection-types ul > dd,
-.pane-ting-ting-object-types ul > dd,
-.pane-ting-ting-relation-anchors ul > dd,
-.pane-ting-object .field-name-ding-availability-holdings ul > dd,
-.library-list > dd,
-.list > dd {
-  border-bottom: 1px solid #efefef;
-  clear: both;
-  margin-bottom: 20px;
-  margin-left: 0;
-  padding-bottom: 20px;
-  overflow: hidden;
-}
-/* line 36, ../sass/_ddbasic.lists.scss */
-dl > li .horizontal, .list-content > li .horizontal, .list-compact > li .horizontal, .pane-search-result .search-results .list > li .horizontal, .pane-search-result .search-results .list .availability ul > li .horizontal, .pane-ting-ting-collection-types ul > li .horizontal, .pane-ting-ting-object-types ul > li .horizontal, .pane-ting-ting-relation-anchors ul > li .horizontal, .pane-ting-object .field-name-ding-availability-holdings ul > li .horizontal, .library-list > li .horizontal, .list > li .horizontal,
-dl > dd .horizontal,
-.list-content > dd .horizontal,
-.list-compact > dd .horizontal,
-.pane-search-result .search-results .list > dd .horizontal,
-.pane-search-result .search-results .list .availability ul > dd .horizontal,
-.pane-ting-ting-collection-types ul > dd .horizontal,
-.pane-ting-ting-object-types ul > dd .horizontal,
-.pane-ting-ting-relation-anchors ul > dd .horizontal,
-.pane-ting-object .field-name-ding-availability-holdings ul > dd .horizontal,
-.library-list > dd .horizontal,
-.list > dd .horizontal {
-  padding-left: 25%;
-}
-
-/* line 64, ../sass/_ddbasic.lists.scss */
-.list-compact .list-date {
-  margin-right: 5px;
-}
-/* line 68, ../sass/_ddbasic.lists.scss */
-.list-compact .list-heading {
-  display: inline;
-  margin: 0;
-}
-
-/* line 80, ../sass/_ddbasic.lists.scss */
-.list-heading {
-  margin-top: 0;
-}
-
-/* line 86, ../sass/_ddbasic.lists.scss */
-.list-meta,
-.list-content,
-.list-image {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 /* line 29, ../sass/_ddbasic.tables.scss */
@@ -3615,8 +3464,8 @@ table tbody tr:hover th {
 a.button,
 a.form-submit,
 a#edit-cancel,
-.search input[type="submit"],
-.header-wrapper .user input[type="submit"], .topbar .search input[type="submit"].form-submit, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
+.search .form-submit,
+.header-wrapper .user input[type="submit"], .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
 .pane-bookmarks .renew-loan-button .renewable, .pane-loans .update-reservations .form-submit,
 .pane-reservations .update-reservations .form-submit,
@@ -3630,8 +3479,8 @@ a#edit-cancel,
 .pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -3648,8 +3497,8 @@ a#edit-cancel,
 #edit-cancel:focus,
 a.form-submit:focus,
 a#edit-cancel:focus,
-.search input[type="submit"]:focus,
-.header-wrapper .user input[type="submit"]:focus, .topbar .search input[type="submit"].form-submit:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
+.search .form-submit:focus,
+.header-wrapper .user input[type="submit"]:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
 .pane-reservations .renew-loan-button .renewable:focus,
 .pane-bookmarks .renew-loan-button .renewable:focus, .pane-loans .update-reservations .form-submit:focus,
 .pane-reservations .update-reservations .form-submit:focus,
@@ -3666,8 +3515,8 @@ a#edit-cancel:focus,
 #edit-cancel:hover,
 a.form-submit:hover,
 a#edit-cancel:hover,
-.search input[type="submit"]:hover,
-.header-wrapper .user input[type="submit"]:hover, .topbar .search input[type="submit"].form-submit:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
+.search .form-submit:hover,
+.header-wrapper .user input[type="submit"]:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
 .pane-reservations .renew-loan-button .renewable:hover,
 .pane-bookmarks .renew-loan-button .renewable:hover, .pane-loans .update-reservations .form-submit:hover,
 .pane-reservations .update-reservations .form-submit:hover,
@@ -3684,8 +3533,8 @@ a#edit-cancel:hover,
 #edit-cancel:active,
 a.form-submit:active,
 a#edit-cancel:active,
-.search input[type="submit"]:active,
-.header-wrapper .user input[type="submit"]:active, .topbar .search input[type="submit"].form-submit:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
+.search .form-submit:active,
+.header-wrapper .user input[type="submit"]:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
 .pane-reservations .renew-loan-button .renewable:active,
 .pane-bookmarks .renew-loan-button .renewable:active, .pane-loans .update-reservations .form-submit:active,
 .pane-reservations .update-reservations .form-submit:active,
@@ -3706,8 +3555,8 @@ a#edit-cancel:active,
 .disabled#edit-cancel,
 a.disabled.form-submit,
 a.disabled#edit-cancel,
-.search input.disabled[type="submit"],
-.header-wrapper .user input.disabled[type="submit"], .topbar .search input.disabled[type="submit"].form-submit, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
+.search .disabled.form-submit,
+.header-wrapper .user input.disabled[type="submit"], .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
 .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-bookmarks .renew-loan-button .disabled.renewable, .pane-loans .update-reservations .disabled.form-submit,
 .pane-reservations .update-reservations .disabled.form-submit,
@@ -3724,8 +3573,8 @@ a.disabled#edit-cancel,
 [disabled]#edit-cancel,
 a[disabled].form-submit,
 a[disabled]#edit-cancel,
-.search input[disabled][type="submit"],
-.header-wrapper .user input[disabled][type="submit"], .topbar .search input[disabled][type="submit"].form-submit, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
+.search [disabled].form-submit,
+.header-wrapper .user input[disabled][type="submit"], .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
 .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-bookmarks .renew-loan-button [disabled].renewable, .pane-loans .update-reservations [disabled].form-submit,
 .pane-reservations .update-reservations [disabled].form-submit,
@@ -3753,7 +3602,7 @@ a[disabled]#edit-cancel,
 a.button,
 a.form-submit,
 a#edit-cancel,
-.search input[type="submit"],
+.search .form-submit,
 .header-wrapper .user input[type="submit"] {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
@@ -3774,9 +3623,9 @@ a#edit-cancel:link,
 a.button:visited,
 a.form-submit:visited,
 a#edit-cancel:visited,
-.search input[type="submit"]:link,
+.search .form-submit:link,
 .header-wrapper .user input[type="submit"]:link,
-.search input[type="submit"]:visited,
+.search .form-submit:visited,
 .header-wrapper .user input[type="submit"]:visited {
   color: white;
 }
@@ -3794,11 +3643,11 @@ a#edit-cancel:hover,
 a.button:active,
 a.form-submit:active,
 a#edit-cancel:active,
-.search input[type="submit"]:focus,
+.search .form-submit:focus,
 .header-wrapper .user input[type="submit"]:focus,
-.search input[type="submit"]:hover,
+.search .form-submit:hover,
 .header-wrapper .user input[type="submit"]:hover,
-.search input[type="submit"]:active,
+.search .form-submit:active,
 .header-wrapper .user input[type="submit"]:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
   background-image: -webkit-linear-gradient(#373737, #111111);
@@ -3806,31 +3655,6 @@ a#edit-cancel:active,
   background-image: -o-linear-gradient(#373737, #111111);
   background-image: linear-gradient(#373737, #111111);
   background-color: #1e1e1e;
-}
-
-/* line 105, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"].form-submit {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00b7e7), color-stop(100%, #007a9b));
-  background-image: -webkit-linear-gradient(#00b7e7, #007a9b);
-  background-image: -moz-linear-gradient(#00b7e7, #007a9b);
-  background-image: -o-linear-gradient(#00b7e7, #007a9b);
-  background-image: linear-gradient(#00b7e7, #007a9b);
-  background-color: #00b7e7;
-  border: 0;
-  color: white;
-}
-/* line 78, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"].form-submit:link, .topbar .search input[type="submit"].form-submit:visited {
-  color: white;
-}
-/* line 85, ../sass/_ddbasic.buttons.scss */
-.topbar .search input[type="submit"].form-submit:focus, .topbar .search input[type="submit"].form-submit:hover, .topbar .search input[type="submit"].form-submit:active {
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00a3ce), color-stop(100%, #006681));
-  background-image: -webkit-linear-gradient(#00a3ce, #006681);
-  background-image: -moz-linear-gradient(#00a3ce, #006681);
-  background-image: -o-linear-gradient(#00a3ce, #006681);
-  background-image: linear-gradient(#00a3ce, #006681);
-  background-color: #007a9b;
 }
 
 /* line 110, ../sass/_ddbasic.buttons.scss */
@@ -4092,15 +3916,15 @@ button#edit-cancel {
 }
 
 /* line 30, ../sass/_ddbasic.labels.scss */
-.label, .label-inverted, .subjects .subject, .news-list .news-label {
-  font-size: 15px;
-  font-size: 0.9375rem;
-  line-height: 24px;
-  line-height: 1.5rem;
+.label, .label-inverted, .subjects .subject, .news-label {
+  font-size: 13.6px;
+  font-size: 0.85rem;
+  line-height: 20.4px;
+  line-height: 1.275rem;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
-  padding: 5px 10px;
+  padding: 3px 10px;
   background-color: #00b7e7;
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -4108,16 +3932,16 @@ button#edit-cancel {
   white-space: nowrap;
 }
 /* line 47, ../sass/_ddbasic.labels.scss */
-.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover {
+.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-label a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-label a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-label a:hover {
   color: white;
   text-decoration: none;
 }
 /* line 55, ../sass/_ddbasic.labels.scss */
-.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited {
+.label:link, .label-inverted:link, .subjects .subject:link, .news-label:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-label:visited {
   color: white;
 }
 /* line 59, ../sass/_ddbasic.labels.scss */
-.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover {
+.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-label:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
@@ -4155,61 +3979,148 @@ button#edit-cancel {
 .main-menu li, .secondary-menu li {
   display: inline;
 }
-/* line 26, ../sass/_ddbasic.navigation.scss */
-.main-menu .last span, .secondary-menu .last span,
-.main-menu .last a,
-.secondary-menu .last a {
-  border-right: 0;
-  margin-right: 0;
-  padding-right: 0;
-}
-/* line 34, ../sass/_ddbasic.navigation.scss */
-.main-menu a, .secondary-menu a,
-.main-menu li a,
-.secondary-menu li a {
+/* line 24, ../sass/_ddbasic.navigation.scss */
+.main-menu .menu-item, .secondary-menu .menu-item {
+  color: #959595;
   display: inline-block;
-  margin-right: 25px;
-  padding: 20px 0;
-  color: gray;
 }
-/* line 41, ../sass/_ddbasic.navigation.scss */
-.main-menu a:hover, .secondary-menu a:hover,
-.main-menu li a:hover,
-.secondary-menu li a:hover {
+/* line 28, ../sass/_ddbasic.navigation.scss */
+.main-menu .menu-item:hover, .secondary-menu .menu-item:hover {
   color: black;
 }
-/* line 45, ../sass/_ddbasic.navigation.scss */
-.main-menu a.active, .secondary-menu a.active,
-.main-menu li a.active,
-.secondary-menu li a.active {
+/* line 32, ../sass/_ddbasic.navigation.scss */
+.main-menu .menu-item.active, .secondary-menu .menu-item.active {
   color: black;
   text-decoration: underline;
 }
-/* line 50, ../sass/_ddbasic.navigation.scss */
-.main-menu a.last, .secondary-menu a.last,
-.main-menu li a.last,
-.secondary-menu li a.last {
+/* line 38, ../sass/_ddbasic.navigation.scss */
+.last.main-menu, .last.secondary-menu {
   border-right: 0;
-  margin-right: 0;
-  padding-right: 0;
 }
 
-/* line 63, ../sass/_ddbasic.navigation.scss */
+/* line 48, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
-  background-color: white;
   background-color: rgba(255, 255, 255, 0.95);
   position: absolute;
   width: 100%;
 }
-/* line 70, ../sass/_ddbasic.navigation.scss */
+/* line 55, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.fixed {
-  margin-top: 92px;
   position: fixed;
   top: 0;
   z-index: 99;
 }
 
-/* line 88, ../sass/_ddbasic.navigation.scss */
+/* line 72, ../sass/_ddbasic.navigation.scss */
+.topbar-menu {
+  float: right;
+  width: 66.66667%;
+  margin-right: 0%;
+  margin-left: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  margin-top: 45px;
+  text-align: right;
+}
+/* line 78, ../sass/_ddbasic.navigation.scss */
+.topbar-menu li {
+  display: inline;
+}
+/* line 82, ../sass/_ddbasic.navigation.scss */
+.topbar-menu .menu-item {
+  font-size: 18px;
+  font-size: 1.125rem;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  color: white;
+  display: inline-block;
+  margin-left: -3px;
+  padding: 10px 15px;
+}
+/* line 92, ../sass/_ddbasic.navigation.scss */
+.topbar-menu .menu-item:hover {
+  background-color: #33d5ff;
+  color: white;
+  text-decoration: none;
+}
+/* line 99, ../sass/_ddbasic.navigation.scss */
+.topbar-menu .menu-item.active {
+  color: white;
+  text-decoration: none;
+  background-color: #00caff;
+}
+/* line 106, ../sass/_ddbasic.navigation.scss */
+.topbar-menu i[class^="icon-"] {
+  margin-right: 5px;
+}
+@media only screen and (max-width: 480px) {
+  /* line 72, ../sass/_ddbasic.navigation.scss */
+  .topbar-menu {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-top: 0;
+  }
+  /* line 115, ../sass/_ddbasic.navigation.scss */
+  .topbar-menu i[class^="icon-"] {
+    margin-right: 0;
+  }
+  /* line 119, ../sass/_ddbasic.navigation.scss */
+  .topbar-menu span {
+    display: none;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 72, ../sass/_ddbasic.navigation.scss */
+  .topbar-menu {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-top: 0;
+  }
+  /* line 115, ../sass/_ddbasic.navigation.scss */
+  .topbar-menu i[class^="icon-"] {
+    margin-right: 0;
+  }
+  /* line 119, ../sass/_ddbasic.navigation.scss */
+  .topbar-menu span {
+    display: none;
+  }
+}
+
+/* line 129, ../sass/_ddbasic.navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -4228,17 +4139,22 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 92, ../sass/_ddbasic.navigation.scss */
+/* line 133, ../sass/_ddbasic.navigation.scss */
 .main-menu {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
+  font-size: 20px;
+  font-size: 1.25rem;
 }
-/* line 96, ../sass/_ddbasic.navigation.scss */
-.main-menu a {
-  text-align: left;
+/* line 137, ../sass/_ddbasic.navigation.scss */
+.main-menu li {
+  margin-right: 20px;
+}
+/* line 141, ../sass/_ddbasic.navigation.scss */
+.main-menu .menu-item {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-/* line 106, ../sass/_ddbasic.navigation.scss */
+/* line 152, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -4257,43 +4173,51 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 110, ../sass/_ddbasic.navigation.scss */
+/* line 156, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
 }
-/* line 115, ../sass/_ddbasic.navigation.scss */
-.secondary-menu span {
+/* line 161, ../sass/_ddbasic.navigation.scss */
+.secondary-menu li {
   border-right: 1px solid #d5d5d5;
 }
-/* line 119, ../sass/_ddbasic.navigation.scss */
-.secondary-menu li a {
+/* line 164, ../sass/_ddbasic.navigation.scss */
+.secondary-menu li .menu-item {
   color: gray;
-  margin-top: 20px;
+  margin-right: 20px;
   margin-left: 20px;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* line 171, ../sass/_ddbasic.navigation.scss */
+.secondary-menu li .menu-item.last {
+  margin-right: 0;
+}
+/* line 176, ../sass/_ddbasic.navigation.scss */
+.secondary-menu li.last {
+  border-right: 0;
 }
 
-/* line 134, ../sass/_ddbasic.navigation.scss */
-.sub-menu-title, .library-menu h2, .pane-news-category-menu .pane-title {
+/* line 187, ../sass/_ddbasic.navigation.scss */
+.sub-menu-title, .library-menu h2 {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 140, ../sass/_ddbasic.navigation.scss */
+/* line 193, ../sass/_ddbasic.navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 143, ../sass/_ddbasic.navigation.scss */
+/* line 196, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 148, ../sass/_ddbasic.navigation.scss */
+/* line 201, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -4302,98 +4226,92 @@ button#edit-cancel {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 156, ../sass/_ddbasic.navigation.scss */
+/* line 209, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 161, ../sass/_ddbasic.navigation.scss */
+/* line 214, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 172, ../sass/_ddbasic.navigation.scss */
+/* line 225, ../sass/_ddbasic.navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
+  font-size: 20px;
+  font-size: 1.25rem;
   color: #00b7e7;
   float: left;
   font-family: FontAwesome;
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 184, ../sass/_ddbasic.navigation.scss */
+/* line 237, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 188, ../sass/_ddbasic.navigation.scss */
+/* line 241, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 16px;
 }
-/* line 197, ../sass/_ddbasic.navigation.scss */
+/* line 250, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
-/* line 209, ../sass/_ddbasic.navigation.scss */
+/* line 262, ../sass/_ddbasic.navigation.scss */
 .footer h2 {
   color: white;
   margin-bottom: 10px;
 }
-/* line 214, ../sass/_ddbasic.navigation.scss */
+/* line 267, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
 }
-/* line 219, ../sass/_ddbasic.navigation.scss */
+/* line 272, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 226, ../sass/_ddbasic.navigation.scss */
+/* line 278, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-  color: white;
+  font-size: 20px;
+  font-size: 1.25rem;
   float: left;
   font-family: FontAwesome;
   margin-top: -1px;
 }
-/* line 235, ../sass/_ddbasic.navigation.scss */
+/* line 286, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
   padding-left: 10px;
 }
-/* line 238, ../sass/_ddbasic.navigation.scss */
-.footer .menu li a.active {
-  color: white;
-}
 
-/* line 250, ../sass/_ddbasic.navigation.scss */
+/* line 300, ../sass/_ddbasic.navigation.scss */
 .action-links {
-  background-color: white;
   padding: 10px 20px;
 }
-/* line 253, ../sass/_ddbasic.navigation.scss */
+/* line 303, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
-  padding: 0 10px 0 10px;
+  padding: 0 10px;
 }
-/* line 260, ../sass/_ddbasic.navigation.scss */
+/* line 310, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
-  font-size: 18px;
-  font-size: 1.125rem;
+  font-size: 19.2px;
+  font-size: 1.2rem;
   color: #00b7e7;
   float: left;
   font-family: FontAwesome;
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 270, ../sass/_ddbasic.navigation.scss */
+/* line 320, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -4401,14 +4319,14 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 284, ../sass/_ddbasic.navigation.scss */
+  /* line 334, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.fixed {
     position: relative;
     margin-top: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 293, ../sass/_ddbasic.navigation.scss */
+  /* line 343, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.fixed {
     position: relative;
     margin-top: 0;
@@ -4421,19 +4339,17 @@ button#edit-cancel {
 
 /* line 31, ../sass/_ddbasic.miscellaneous.scss */
 .footer {
-  background-color: black;
-  background-color: rgba(0, 0, 0, 0.85);
   padding-top: 30px;
 }
 
-/* line 37, ../sass/_ddbasic.miscellaneous.scss */
+/* line 35, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 44, ../sass/_ddbasic.miscellaneous.scss */
+/* line 42, ../sass/_ddbasic.miscellaneous.scss */
 .footer-block .block-title, .footer-block .pane-title,
-.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-ting-object .field-name-ting-reference-reverse .field-label, .pane-ting-object .field-name-ting-reference-reverse .footer-block .field-label, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
 .pane-reservations .footer-block h2,
 .footer-block .pane-bookmarks h2,
@@ -4441,7 +4357,7 @@ button#edit-cancel {
   color: white;
 }
 
-/* line 50, ../sass/_ddbasic.miscellaneous.scss */
+/* line 48, ../sass/_ddbasic.miscellaneous.scss */
 .assistive-text {
   clip: rect(1px 1px 1px 1px);
   /* IE6, IE7 */
@@ -4449,7 +4365,7 @@ button#edit-cancel {
   position: absolute !important;
 }
 
-/* line 61, ../sass/_ddbasic.miscellaneous.scss */
+/* line 59, ../sass/_ddbasic.miscellaneous.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -4457,13 +4373,13 @@ button#edit-cancel {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 70, ../sass/_ddbasic.miscellaneous.scss */
+/* line 68, ../sass/_ddbasic.miscellaneous.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 77, ../sass/_ddbasic.miscellaneous.scss */
+/* line 75, ../sass/_ddbasic.miscellaneous.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
@@ -4479,16 +4395,22 @@ ul li.leaf {
   margin-left: .3em;
 }
 
-/* line 49, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 42, ../sass/_ddbasic.overrides.drupal.scss */
+.form-item, .form-actions {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+/* line 55, ../sass/_ddbasic.overrides.drupal.scss */
 .feed-icon {
   height: 16px;
 }
-/* line 52, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 58, ../sass/_ddbasic.overrides.drupal.scss */
 .feed-icon img {
   max-width: 16px;
 }
 
-/* line 59, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 65, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4502,7 +4424,7 @@ ul li.leaf {
   text-align: center;
 }
 
-/* line 71, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 77, ../sass/_ddbasic.overrides.drupal.scss */
 .ajax-progress .throbber {
   background: none !important;
   color: #000;
@@ -4515,45 +4437,45 @@ ul li.leaf {
   width: 50px;
 }
 
-/* line 87, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 93, ../sass/_ddbasic.overrides.drupal.scss */
 thead th {
   background-color: #dadada;
 }
 
-/* line 92, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 98, ../sass/_ddbasic.overrides.drupal.scss */
 tr.even {
   background-color: #efefef;
 }
 
-/* line 96, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 102, ../sass/_ddbasic.overrides.drupal.scss */
 tr.odd {
   background-color: #e4e4e4;
 }
 
-/* line 102, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 108, ../sass/_ddbasic.overrides.drupal.scss */
 .field .field-label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 108, ../sass/_ddbasic.overrides.drupal.scss */
+/* line 114, ../sass/_ddbasic.overrides.drupal.scss */
 .field-label {
   margin-right: 5px;
 }
 
 /* line 19, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ting-object .ting-cover, .field-name-field-ding-news-materials .ting-cover {
+.pane-search-result .search-results .list .ting-cover, .pane-ting-collection .ting-cover, .pane-ting-object .ting-cover {
   min-height: 150px;
   position: relative;
   width: 100%;
 }
 /* line 26, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ting-cover img, .pane-ting-collection .ting-cover img, .pane-ting-object .ting-cover img, .field-name-field-ding-news-materials .ting-cover img {
+.pane-search-result .search-results .list .ting-cover img, .pane-ting-collection .ting-cover img, .pane-ting-object .ting-cover img {
   position: relative;
   z-index: 90;
 }
 /* line 31, ../sass/_ddbasic.search.scss */
-.pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before, .field-name-field-ding-news-materials .ting-cover:before {
+.pane-search-result .search-results .list .ting-cover:before, .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before {
   font-size: 74px;
   font-size: 4.625rem;
   color: #bcbcbc;
@@ -4580,60 +4502,18 @@ input#edit-search-block-form--2.spinner {
   font-weight: inherit;
 }
 
-/* line 67, ../sass/_ddbasic.search.scss */
-.search .search-label, .topbar .search .search-label {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
-  color: rgba(255, 255, 255, 0.5);
-  position: absolute;
-  top: -28px;
-}
-/* line 75, ../sass/_ddbasic.search.scss */
-.search i[class^="icon-"], .topbar .search i[class^="icon-"] {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
-  margin-left: 15px;
-  position: absolute;
-  font-size: 30px;
-  top: 15px;
-  z-index: 10;
-}
-/* line 87, ../sass/_ddbasic.search.scss */
-.search input[type="text"], .topbar .search input[type="text"] {
-  font-size: 24px;
-  font-size: 1.5rem;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
-  display: inline;
-  padding-top: 0;
-  padding-right: 75px;
-  padding-bottom: 0;
-  padding-left: 48px;
-  border: 0;
-  min-height: 60px;
-  left: 0;
-  width: 100%;
-}
-/* line 108, ../sass/_ddbasic.search.scss */
-.search .spinner i[class^="icon-"], .topbar .search .spinner i[class^="icon-"] {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
-  height: 22.5px;
-  margin-left: 17px;
-  top: 22px;
+/* line 66, ../sass/_ddbasic.search.scss */
+.topbar-menu .menu-item, .search .search-label {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
 }
 
-/* line 121, ../sass/_ddbasic.search.scss */
-.header-wrapper .search {
+/* line 72, ../sass/_ddbasic.search.scss */
+.search {
   float: left;
-  width: 50%;
+  width: 100%;
   margin-left: 0%;
-  margin-right: -50%;
+  margin-right: -100%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -4645,108 +4525,108 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-}
-
-/* line 127, ../sass/_ddbasic.search.scss */
-.search {
-  margin-top: 0;
-  margin-bottom: 0;
-  padding-right: 0;
-}
-/* line 134, ../sass/_ddbasic.search.scss */
-.search .search-field-wrapper {
-  margin-right: 30px;
-}
-/* line 138, ../sass/_ddbasic.search.scss */
-.search .form-item {
-  margin-top: 0em;
-}
-/* line 142, ../sass/_ddbasic.search.scss */
-.search input[type="submit"] {
-  font-size: 25.5px;
-  font-size: 1.59375rem;
-  min-height: 60px;
-  position: absolute;
-  padding-top: 0;
-  padding-right: 18px;
-  padding-bottom: 1px;
-  padding-left: 18px;
-  right: 30px;
-  top: 0;
-}
-/* line 156, ../sass/_ddbasic.search.scss */
-.search .help-link {
-  display: block;
-  float: right;
-  margin-top: 10px;
-}
-/* line 161, ../sass/_ddbasic.search.scss */
-.search .help-link:hover {
-  color: black;
-  text-decoration: none;
-}
-
-/* line 170, ../sass/_ddbasic.search.scss */
-.not-logged-in .topbar .search {
-  margin-right: 131px;
-}
-
-/* line 177, ../sass/_ddbasic.search.scss */
-.topbar .search {
-  float: right;
-  margin-top: 17px;
-}
-/* line 183, ../sass/_ddbasic.search.scss */
-.topbar .search .search-label {
-  display: none;
-}
-/* line 187, ../sass/_ddbasic.search.scss */
-.topbar .search .search-field-wrapper {
-  min-width: 558px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   position: relative;
 }
-/* line 192, ../sass/_ddbasic.search.scss */
-.topbar .search input[type="text"] {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
+/* line 75, ../sass/_ddbasic.search.scss */
+.search .search-label {
+  font-size: 16px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 2px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+}
+/* line 85, ../sass/_ddbasic.search.scss */
+.search i[class^="icon-"] {
+  font-size: 24px;
+  font-size: 1.5rem;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+  margin-left: 15px;
+  position: absolute;
+  top: 48px;
+  z-index: 10;
+}
+/* line 97, ../sass/_ddbasic.search.scss */
+.search .spinner i[class^="icon-"] {
+  height: auto;
+}
+/* line 106, ../sass/_ddbasic.search.scss */
+.search .form-text,
+.search .form-submit {
+  font-size: 20px;
+  font-size: 1.25rem;
+  min-height: 60px;
+  padding-top: 0;
+}
+/* line 113, ../sass/_ddbasic.search.scss */
+.search .form-text {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  min-height: 50px;
-  padding-right: 70px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  border: 0;
+  display: inline;
+  left: 0;
+  padding-right: 75px;
+  padding-bottom: 0;
+  padding-left: 48px;
+  width: 100%;
 }
-/* line 200, ../sass/_ddbasic.search.scss */
-.topbar .search input[type="submit"].form-submit {
-  font-size: 21px;
-  font-size: 1.3125rem;
-  min-height: 50px;
-  padding: 0 18px;
+/* line 126, ../sass/_ddbasic.search.scss */
+.search .form-submit {
   position: absolute;
-  right: -2px;
+  padding-right: 30px;
+  padding-bottom: 1px;
+  padding-left: 30px;
+  right: 10px;
+  top: 31px;
 }
-/* line 210, ../sass/_ddbasic.search.scss */
-.topbar .search i[class^="icon-"] {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
-  margin-left: 15px;
-  position: absolute;
-  top: 13px;
+@media only screen and (max-width: 480px) {
+  /* line 142, ../sass/_ddbasic.search.scss */
+  .search i[class^="icon-"] {
+    font-size: 20px;
+    font-size: 1.25rem;
+    top: 45px;
+  }
+  /* line 148, ../sass/_ddbasic.search.scss */
+  .search .form-text {
+    font-size: 18px;
+    font-size: 1.125rem;
+    min-height: 50px;
+    padding-left: 42px;
+  }
+  /* line 155, ../sass/_ddbasic.search.scss */
+  .search .form-submit {
+    min-height: 50px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
-/* line 221, ../sass/_ddbasic.search.scss */
-.topbar .search .spinner i[class^="icon-"] {
-  top: 16px;
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 163, ../sass/_ddbasic.search.scss */
+  .search i[class^="icon-"] {
+    top: 43px;
+  }
+  /* line 168, ../sass/_ddbasic.search.scss */
+  .search .form-text,
+  .search .form-submit {
+    min-height: 50px;
+  }
 }
 
-/* line 229, ../sass/_ddbasic.search.scss */
+/* line 176, ../sass/_ddbasic.search.scss */
 .field-name-ding-entity-buttons .reserve-button {
   padding-top: 11px;
   padding-bottom: 11px;
 }
 
-/* line 245, ../sass/_ddbasic.search.scss */
+/* line 192, ../sass/_ddbasic.search.scss */
 .ting-object-left {
   float: left;
   width: 16.66667%;
@@ -4767,12 +4647,12 @@ input#edit-search-block-form--2.spinner {
   min-height: 100px;
 }
 
-/* line 253, ../sass/_ddbasic.search.scss */
+/* line 200, ../sass/_ddbasic.search.scss */
 .ding-format-short .ting-object-left {
   display: none;
 }
 
-/* line 258, ../sass/_ddbasic.search.scss */
+/* line 205, ../sass/_ddbasic.search.scss */
 .ting-object-right {
   float: right;
   width: 83.33333%;
@@ -4792,7 +4672,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 265, ../sass/_ddbasic.search.scss */
+/* line 212, ../sass/_ddbasic.search.scss */
 .ding-format-short .ting-object-right {
   float: right;
   width: 100%;
@@ -4811,84 +4691,84 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
 }
 
-/* line 277, ../sass/_ddbasic.search.scss */
+/* line 224, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 280, ../sass/_ddbasic.search.scss */
+/* line 227, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #00b7e7;
 }
-/* line 285, ../sass/_ddbasic.search.scss */
+/* line 232, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2 {
   margin-bottom: 20px;
 }
-/* line 291, ../sass/_ddbasic.search.scss */
+/* line 238, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser legend {
   line-height: inherit;
   padding-top: 20px;
   padding-bottom: 10px;
 }
-/* line 300, ../sass/_ddbasic.search.scss */
+/* line 247, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #959595;
 }
-/* line 305, ../sass/_ddbasic.search.scss */
+/* line 252, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 309, ../sass/_ddbasic.search.scss */
+/* line 256, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 5px 0;
 }
-/* line 322, ../sass/_ddbasic.search.scss */
+/* line 269, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-right: 10px;
   margin-left: 5px;
 }
-/* line 326, ../sass/_ddbasic.search.scss */
+/* line 273, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 1.1em;
 }
-/* line 333, ../sass/_ddbasic.search.scss */
+/* line 280, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-more {
   display: block;
   float: left;
 }
-/* line 339, ../sass/_ddbasic.search.scss */
+/* line 286, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-less {
   display: block;
   float: left;
 }
-/* line 347, ../sass/_ddbasic.search.scss */
+/* line 294, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 351, ../sass/_ddbasic.search.scss */
+/* line 298, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 356, ../sass/_ddbasic.search.scss */
+/* line 303, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect {
   float: right;
   margin-top: 10px;
 }
-/* line 366, ../sass/_ddbasic.search.scss */
+/* line 313, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 371, ../sass/_ddbasic.search.scss */
+/* line 318, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 375, ../sass/_ddbasic.search.scss */
+/* line 322, ../sass/_ddbasic.search.scss */
 .pane-ding-facetbrowser .expand-facets {
   display: block;
   text-align: right;
@@ -4898,319 +4778,319 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 
-/* line 398, ../sass/_ddbasic.search.scss */
+/* line 345, ../sass/_ddbasic.search.scss */
 .subjects strong, .subjects em strong, em .subjects strong, .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .subjects .ui-icon {
   font-weight: inherit;
 }
-/* line 402, ../sass/_ddbasic.search.scss */
+/* line 349, ../sass/_ddbasic.search.scss */
 .subjects a {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
 
-/* line 416, ../sass/_ddbasic.search.scss */
+/* line 363, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query {
   float: left;
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 424, ../sass/_ddbasic.search.scss */
+/* line 371, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 428, ../sass/_ddbasic.search.scss */
+/* line 375, ../sass/_ddbasic.search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 433, ../sass/_ddbasic.search.scss */
+/* line 380, ../sass/_ddbasic.search.scss */
 .pane-ting-search {
   float: right;
 }
-/* line 436, ../sass/_ddbasic.search.scss */
+/* line 383, ../sass/_ddbasic.search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
-/* line 445, ../sass/_ddbasic.search.scss */
+/* line 392, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   color: #959595;
   float: left;
   overflow: hidden;
 }
-/* line 451, ../sass/_ddbasic.search.scss */
+/* line 398, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 455, ../sass/_ddbasic.search.scss */
+/* line 402, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 460, ../sass/_ddbasic.search.scss */
+/* line 407, ../sass/_ddbasic.search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 466, ../sass/_ddbasic.search.scss */
+/* line 413, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   color: #959595;
   float: right;
   margin-left: 20px;
   overflow: hidden;
 }
-/* line 472, ../sass/_ddbasic.search.scss */
+/* line 419, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #006681;
   text-decoration: underline;
 }
-/* line 478, ../sass/_ddbasic.search.scss */
+/* line 425, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #006681;
   text-decoration: none;
 }
-/* line 483, ../sass/_ddbasic.search.scss */
+/* line 430, ../sass/_ddbasic.search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 489, ../sass/_ddbasic.search.scss */
+/* line 436, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle {
   float: right;
 }
-/* line 494, ../sass/_ddbasic.search.scss */
+/* line 441, ../sass/_ddbasic.search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
-/* line 500, ../sass/_ddbasic.search.scss */
+/* line 447, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 504, ../sass/_ddbasic.search.scss */
+/* line 451, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend {
   float: right;
   border: none;
   padding: 0;
 }
-/* line 509, ../sass/_ddbasic.search.scss */
+/* line 456, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
 }
-/* line 513, ../sass/_ddbasic.search.scss */
+/* line 460, ../sass/_ddbasic.search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* line 527, ../sass/_ddbasic.search.scss */
+/* line 474, ../sass/_ddbasic.search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 532, ../sass/_ddbasic.search.scss */
+/* line 479, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 539, ../sass/_ddbasic.search.scss */
+/* line 486, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 544, ../sass/_ddbasic.search.scss */
+/* line 491, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
 }
-/* line 551, ../sass/_ddbasic.search.scss */
+/* line 498, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ting-cover:before {
   font-size: 54px;
   font-size: 3.375rem;
 }
-/* line 557, ../sass/_ddbasic.search.scss */
+/* line 504, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-bottom: 10px;
 }
-/* line 561, ../sass/_ddbasic.search.scss */
+/* line 508, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 565, ../sass/_ddbasic.search.scss */
+/* line 512, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects em strong, em .pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon {
   font-weight: inherit;
 }
-/* line 569, ../sass/_ddbasic.search.scss */
+/* line 516, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .subjects a {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
-/* line 576, ../sass/_ddbasic.search.scss */
+/* line 523, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability {
   margin-bottom: 0;
 }
-/* line 579, ../sass/_ddbasic.search.scss */
+/* line 526, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability.content {
   float: right;
 }
-/* line 586, ../sass/_ddbasic.search.scss */
+/* line 533, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 616, ../sass/_ddbasic.search.scss */
+/* line 563, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
   content: " - ";
   margin-left: 5px;
 }
-/* line 629, ../sass/_ddbasic.search.scss */
+/* line 576, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 634, ../sass/_ddbasic.search.scss */
+/* line 581, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 641, ../sass/_ddbasic.search.scss */
+/* line 588, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 646, ../sass/_ddbasic.search.scss */
+/* line 593, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 649, ../sass/_ddbasic.search.scss */
+/* line 596, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 654, ../sass/_ddbasic.search.scss */
+/* line 601, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 658, ../sass/_ddbasic.search.scss */
+/* line 605, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .ding-format-short div.availability {
   display: inline-block;
   margin-top: 20px;
 }
 
-/* line 678, ../sass/_ddbasic.search.scss */
+/* line 625, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul li, .pane-ting-ting-object-types ul li, .pane-ting-ting-relation-anchors ul li {
   margin-bottom: 10px;
   padding-bottom: default-spacing/2;
 }
-/* line 683, ../sass/_ddbasic.search.scss */
+/* line 630, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-collection-types ul .last, .pane-ting-ting-object-types ul .last, .pane-ting-ting-relation-anchors ul .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 693, ../sass/_ddbasic.search.scss */
+/* line 640, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 697, ../sass/_ddbasic.search.scss */
+/* line 644, ../sass/_ddbasic.search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 705, ../sass/_ddbasic.search.scss */
+/* line 652, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before {
   font-size: 54px;
   font-size: 3.375rem;
 }
-/* line 710, ../sass/_ddbasic.search.scss */
+/* line 657, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 716, ../sass/_ddbasic.search.scss */
+/* line 663, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-bottom: 10px;
 }
-/* line 719, ../sass/_ddbasic.search.scss */
+/* line 666, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 725, ../sass/_ddbasic.search.scss */
+/* line 672, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 730, ../sass/_ddbasic.search.scss */
+/* line 677, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type, .pane-ting-object .field-name-ting-type {
   float: right;
 }
-/* line 733, ../sass/_ddbasic.search.scss */
+/* line 680, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ting-type li, .pane-ting-object .field-name-ting-type li {
   list-style: none;
 }
-/* line 758, ../sass/_ddbasic.search.scss */
+/* line 705, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   float: right;
   margin: 0;
 }
-/* line 763, ../sass/_ddbasic.search.scss */
+/* line 710, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons form, .pane-ting-object .field-name-ding-entity-buttons form,
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button,
 .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button {
   float: left;
 }
-/* line 768, ../sass/_ddbasic.search.scss */
+/* line 715, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: black;
 }
-/* line 771, ../sass/_ddbasic.search.scss */
+/* line 718, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 777, ../sass/_ddbasic.search.scss */
+/* line 724, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
   margin-right: 10px;
 }
-/* line 784, ../sass/_ddbasic.search.scss */
+/* line 731, ../sass/_ddbasic.search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   padding: 11px 14px;
 }
 
-/* line 797, ../sass/_ddbasic.search.scss */
+/* line 744, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
-/* line 802, ../sass/_ddbasic.search.scss */
+/* line 749, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-object-types .pane-title, .pane-ting-ting-relation-anchors .pane-title {
   color: #959595;
   margin-bottom: 20px;
 }
 
-/* line 810, ../sass/_ddbasic.search.scss */
+/* line 757, ../sass/_ddbasic.search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 819, ../sass/_ddbasic.search.scss */
+/* line 766, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-object-left {
   float: left;
   width: 25%;
@@ -5230,7 +5110,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 200px;
   margin-bottom: 20px;
 }
-/* line 826, ../sass/_ddbasic.search.scss */
+/* line 773, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-object-right {
   float: right;
   width: 75%;
@@ -5249,26 +5129,26 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   margin-bottom: 20px;
 }
-/* line 832, ../sass/_ddbasic.search.scss */
+/* line 779, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-cover {
   width: 100%;
   min-height: 250px;
 }
-/* line 837, ../sass/_ddbasic.search.scss */
+/* line 784, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 845, ../sass/_ddbasic.search.scss */
+/* line 792, ../sass/_ddbasic.search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 851, ../sass/_ddbasic.search.scss */
+/* line 798, ../sass/_ddbasic.search.scss */
 .pane-ting-object .collapsible .field-group-format-title {
   display: inline-block;
 }
-/* line 856, ../sass/_ddbasic.search.scss */
+/* line 803, ../sass/_ddbasic.search.scss */
 .pane-ting-object .collapsible .field-group-format-title:before {
   font-size: 24px;
   font-size: 1.5rem;
@@ -5277,12 +5157,12 @@ input#edit-search-block-form--2.spinner {
   color: #00b7e7;
   font-family: FontAwesome;
 }
-/* line 869, ../sass/_ddbasic.search.scss */
+/* line 816, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ding-periodical-fold {
   cursor: pointer;
   display: inline-block;
 }
-/* line 873, ../sass/_ddbasic.search.scss */
+/* line 820, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ding-periodical-fold:before {
   font-size: 14px;
   font-size: 0.875rem;
@@ -5291,64 +5171,64 @@ input#edit-search-block-form--2.spinner {
   color: #00b7e7;
   font-family: FontAwesome;
 }
-/* line 888, ../sass/_ddbasic.search.scss */
+/* line 835, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details {
   clear: both;
 }
-/* line 891, ../sass/_ddbasic.search.scss */
+/* line 838, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 896, ../sass/_ddbasic.search.scss */
+/* line 843, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .field-items {
   max-width: 72%;
 }
-/* line 900, ../sass/_ddbasic.search.scss */
+/* line 847, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-material-details .ting-material-detail {
   display: block;
 }
-/* line 905, ../sass/_ddbasic.search.scss */
+/* line 852, ../sass/_ddbasic.search.scss */
 .pane-ting-object .group-holdings-available {
   clear: both;
 }
-/* line 909, ../sass/_ddbasic.search.scss */
+/* line 856, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   margin-bottom: 20px;
 }
-/* line 912, ../sass/_ddbasic.search.scss */
+/* line 859, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 918, ../sass/_ddbasic.search.scss */
+/* line 865, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 922, ../sass/_ddbasic.search.scss */
+/* line 869, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 928, ../sass/_ddbasic.search.scss */
+/* line 875, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   margin-top: 20px;
   margin-bottom: 0;
 }
-/* line 933, ../sass/_ddbasic.search.scss */
+/* line 880, ../sass/_ddbasic.search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 939, ../sass/_ddbasic.search.scss */
+/* line 886, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 945, ../sass/_ddbasic.search.scss */
+/* line 892, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -5357,30 +5237,30 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 953, ../sass/_ddbasic.search.scss */
+/* line 900, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 957, ../sass/_ddbasic.search.scss */
+/* line 904, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 961, ../sass/_ddbasic.search.scss */
+/* line 908, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 965, ../sass/_ddbasic.search.scss */
+/* line 912, ../sass/_ddbasic.search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 970, ../sass/_ddbasic.search.scss */
-.pane-ting-object .ting-relation .meta, .pane-ting-object .ting-relation .list-meta {
+/* line 917, ../sass/_ddbasic.search.scss */
+.pane-ting-object .ting-relation .meta {
   padding: 20px;
   padding-bottom: 10px;
   border: none;
 }
 
-/* line 982, ../sass/_ddbasic.search.scss */
+/* line 929, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -5398,7 +5278,7 @@ ul.ui-autocomplete {
   padding: 10px;
   width: 580px;
 }
-/* line 994, ../sass/_ddbasic.search.scss */
+/* line 941, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -5408,14 +5288,14 @@ ul.ui-autocomplete .ui-menu-item a {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 1002, ../sass/_ddbasic.search.scss */
+/* line 949, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 1009, ../sass/_ddbasic.search.scss */
+/* line 956, ../sass/_ddbasic.search.scss */
 ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: #efefef;
 }
@@ -5425,12 +5305,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
@@ -5495,43 +5375,37 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
   line-height: 16px;
 }
-/* line 83, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-image {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-/* line 87, ../sass/_ddbasic.carousel.scss */
+/* line 86, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 91, ../sass/_ddbasic.carousel.scss */
+/* line 90, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
   min-width: 110px;
   padding: 5px;
 }
 
-/* line 105, ../sass/_ddbasic.carousel.scss */
+/* line 104, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 112, ../sass/_ddbasic.carousel.scss */
+/* line 111, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: white;
 }
-/* line 115, ../sass/_ddbasic.carousel.scss */
+/* line 114, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
   text-decoration: none;
 }
-/* line 120, ../sass/_ddbasic.carousel.scss */
+/* line 119, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active {
   border-color: black;
 }
-/* line 124, ../sass/_ddbasic.carousel.scss */
+/* line 123, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   border-bottom: 8px solid black;
 }
@@ -5567,18 +5441,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 58, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper {
-  font-size: 13.5px;
-  font-size: 0.84375rem;
+  font-size: 14.4px;
+  font-size: 0.9rem;
   display: inline-block;
   margin-right: 10px;
   min-width: 75px;
-  color: #5b5b5b;
+  color: #8c8c8c;
   text-align: center;
   vertical-align: top;
 }
 /* line 69, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-day {
-  background-color: #00b7e7;
+  background-color: #d94110;
   color: white;
   display: block;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -5588,12 +5462,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-right: 1px solid #d5d5d5;
   border-bottom: 1px solid #d5d5d5;
   border-left: 1px solid #d5d5d5;
-  background: white;
+  background: #00caff;
 }
 /* line 82, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-inner-wrapper .event-list-date {
-  font-size: 25.5px;
-  font-size: 1.59375rem;
+  font-size: 27.2px;
+  font-size: 1.7rem;
   display: block;
   padding-top: 8px;
 }
@@ -5629,11 +5503,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .events-group-heading .event-list-date-wrapper {
   vertical-align: middle;
   min-width: 50px;
-  font-size: 9px;
+  font-size: 9.6px;
 }
 /* line 131, ../sass/_ddbasic.event.scss */
 .events-group-heading .event-list-date-wrapper .event-list-date {
-  font-size: 15px;
+  font-size: 16px;
   padding-top: 0.2em;
   margin-bottom: -10px;
 }
@@ -5643,8 +5517,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 142, ../sass/_ddbasic.event.scss */
 .events-group-heading .ding-event-fulldate {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
+  font-size: 20px;
+  font-size: 1.25rem;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
@@ -5660,8 +5534,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 163, ../sass/_ddbasic.event.scss */
 .ticket-available, .ticket-info {
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   margin-left: 10%;
@@ -5764,8 +5638,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin:  0 0 1.25rem;
   padding: 0 0 20px;
   padding:  0 0 1.25rem;
-  font-size: 27px;
-  font-size: 1.6875rem;
+  font-size: 28.8px;
+  font-size: 1.8rem;
 }
 
 /* line 42, ../sass/_ddbasic.libraries.scss */
@@ -5773,7 +5647,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding: 20px;
   padding: 1.25rem;
   background: #fbfbfb;
-  line-height: 30px;
+  line-height: 32px;
 }
 
 /* line 50, ../sass/_ddbasic.libraries.scss */
@@ -5916,134 +5790,90 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 50%;
   }
 }
-/* line 23, ../sass/_ddbasic.news.scss */
-.pane-library-list {
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
-  background-color: #efefef;
-  margin-bottom: 20px;
-  padding: 20px;
-}
-/* line 32, ../sass/_ddbasic.news.scss */
-.pane-library-list .choose-library-label,
-.pane-library-list .form-item-select-library,
-.pane-library-list .button,
-.pane-library-list .form-submit,
-.pane-library-list #edit-cancel {
-  display: inline;
-  margin-right: 10px;
-}
-
-/* line 46, ../sass/_ddbasic.news.scss */
-.news-list .news-list-item {
-  margin-bottom: 20px;
-}
-/* line 50, ../sass/_ddbasic.news.scss */
-.news-list .news-author {
-  border-left: 1px solid #d5d5d5;
-  padding-left: 10px;
-}
-/* line 55, ../sass/_ddbasic.news.scss */
-.news-list .news-heading {
-  margin-bottom: 10px;
-}
-/* line 59, ../sass/_ddbasic.news.scss */
-.news-list .news-label {
-  margin-right: 5px;
-}
-/* line 65, ../sass/_ddbasic.news.scss */
-.news-list .news-sub-heading {
-  color: #bcbcbc;
-  margin-top: 10px;
-  margin-bottom: 13.33333px;
-}
-/* line 72, ../sass/_ddbasic.news.scss */
-.news-list .news-sub-heading .news-date,
-.news-list .news-sub-heading .news-author {
-  color: rgba(0, 0, 0, 0.8);
-  margin-right: 5px;
-  margin-left: 2px;
-}
-/* line 80, ../sass/_ddbasic.news.scss */
-.news-list .news-list-content,
-.news-list .news-link {
-  margin-bottom: 10px;
-}
-/* line 84, ../sass/_ddbasic.news.scss */
-.news-list .news-image-wrapper {
-  float: left;
-  margin-right: 20px;
-  max-width: 25%;
-}
-
-/* line 95, ../sass/_ddbasic.news.scss */
-.super-heading {
-  padding: 1.5em 0;
-}
-/* line 98, ../sass/_ddbasic.news.scss */
-.super-heading div {
-  display: inline;
-}
-/* line 102, ../sass/_ddbasic.news.scss */
-.super-heading .field-item {
-  padding-left: 5px;
-}
-
-/* line 108, ../sass/_ddbasic.news.scss */
-.field-name-field-ding-news-materials {
-  border-top: 1px solid #efefef;
-  margin-top: 20px;
-  padding-top: 30px;
-}
-/* line 113, ../sass/_ddbasic.news.scss */
-.field-name-field-ding-news-materials .field-item {
-  background-color: #efefef;
-  margin-bottom: 20px;
-  padding: 20px;
-}
-/* line 119, ../sass/_ddbasic.news.scss */
-.field-name-field-ding-news-materials .ting-cover {
-  margin-right: 20px;
-}
-/* line 125, ../sass/_ddbasic.news.scss */
-.field-name-field-ding-news-materials .subjects {
-  margin-top: 20px;
-}
-
-/* line 136, ../sass/_ddbasic.news.scss */
-.pane-ting-object .field-name-ting-reference-reverse .field-label {
-  font-size: 27px;
-  font-size: 1.6875rem;
-  font-family: "SourceSansProLight";
-}
-/* line 146, ../sass/_ddbasic.news.scss */
-.pane-ting-object div.field-items .field-item .image-container {
-  float: left;
-  max-width: 15%;
-}
-/* line 154, ../sass/_ddbasic.news.scss */
-.pane-ting-object div.field-items .field-item .super-heading,
-.pane-ting-object div.field-items .field-item .heading,
-.pane-ting-object div.field-items .field-item .lead,
-.pane-ting-object div.field-items .field-item .page-lead,
-.pane-ting-object div.field-items .field-item .signature {
-  float: left;
+/* line 17, ../sass/_ddbasic.refactor.scss */
+.event-list ul, .news-list {
+  list-style-type: none;
   margin: 0;
   padding: 0;
-  margin-left: 20px;
-  width: 80%;
 }
-/* line 163, ../sass/_ddbasic.news.scss */
-.pane-ting-object div.field-items .field-item .content,
-.pane-ting-object div.field-items .field-item .signature {
-  clear: both;
-  display: none;
-}
-/* line 169, ../sass/_ddbasic.news.scss */
-.pane-ting-object div.field-items .field-item .super-heading,
-.pane-ting-object div.field-items .field-item .heading {
+
+/* line 33, ../sass/_ddbasic.refactor.scss */
+.news-list-item {
   margin-bottom: 10px;
+}
+
+/* line 37, ../sass/_ddbasic.refactor.scss */
+.news-list-item {
+  padding: 20px;
+}
+
+/* line 45, ../sass/_ddbasic.refactor.scss */
+.news-list-item {
+  background-color: #ebebeb;
+}
+
+/* line 49, ../sass/_ddbasic.refactor.scss */
+.news-list-item:nth-child(odd) {
+  background-color: #e8e8e8;
+}
+
+/* line 53, ../sass/_ddbasic.refactor.scss */
+.news-list-item:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* line 58, ../sass/_ddbasic.refactor.scss */
+.news-heading {
+  font-size: 24px;
+  font-size: 1.5rem;
+}
+
+/* line 71, ../sass/_ddbasic.refactor.scss */
+.news-author {
+  color: #4c4c4c;
+}
+
+/* line 75, ../sass/_ddbasic.refactor.scss */
+.news-date {
+  color: rgba(76, 76, 76, 0.5);
+}
+
+/* line 91, ../sass/_ddbasic.refactor.scss */
+.news-list-item {
+  overflow: hidden;
+}
+
+/* line 111, ../sass/_ddbasic.refactor.scss */
+.news-image-wrapper {
+  float: left;
+  margin-right: 20px;
+  max-width: 75px;
+}
+/* line 116, ../sass/_ddbasic.refactor.scss */
+.news-image-wrapper a {
+  display: block;
+}
+
+/* line 121, ../sass/_ddbasic.refactor.scss */
+.news-label {
+  margin-right: 5px;
+}
+
+/* line 127, ../sass/_ddbasic.refactor.scss */
+.news-sub-heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 132, ../sass/_ddbasic.refactor.scss */
+.news-sub-heading .news-date,
+.news-sub-heading .news-author {
+  margin-right: 5px;
+}
+
+/* line 145, ../sass/_ddbasic.refactor.scss */
+.news-list-content {
+  max-height: 50px;
+  overflow: hidden;
 }
 
 /* line 30, ../sass/_ddbasic.modal.scss */
@@ -6129,64 +5959,59 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 23, ../sass/_ddbasic.openinghours.scss */
 .block-opening-hours {
-  -webkit-box-shadow: inset 0 0 15px #007fff;
-  -moz-box-shadow: inset 0 0 15px #007fff;
-  box-shadow: inset 0 0 15px #007fff;
-  background-color: #3399ff;
-  background-color: rgba(51, 153, 255, 0.9);
   min-height: 279px;
 }
-/* line 30, ../sass/_ddbasic.openinghours.scss */
+/* line 26, ../sass/_ddbasic.openinghours.scss */
 .block-opening-hours .read-more {
   margin-left: 3px;
 }
 
-/* line 35, ../sass/_ddbasic.openinghours.scss */
+/* line 31, ../sass/_ddbasic.openinghours.scss */
 .pane-week {
   border-top: 1px solid #efefef;
   margin-top: 20px;
   padding-top: 20px;
 }
 
-/* line 41, ../sass/_ddbasic.openinghours.scss */
+/* line 37, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week {
   padding: 0;
 }
-/* line 44, ../sass/_ddbasic.openinghours.scss */
+/* line 40, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .header {
   padding: 10px;
 }
-/* line 48, ../sass/_ddbasic.openinghours.scss */
+/* line 44, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .days {
   padding: 0;
 }
-/* line 51, ../sass/_ddbasic.openinghours.scss */
+/* line 47, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .days .day {
   padding: 6.66667px;
 }
-/* line 55, ../sass/_ddbasic.openinghours.scss */
+/* line 51, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .days .times {
   margin-right: 0;
 }
-/* line 59, ../sass/_ddbasic.openinghours.scss */
+/* line 55, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .days .odd {
   background-color: #f6f6f6;
 }
-/* line 63, ../sass/_ddbasic.openinghours.scss */
+/* line 59, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .days .even {
   background-color: #fbfbfb;
 }
-/* line 70, ../sass/_ddbasic.openinghours.scss */
+/* line 66, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .prev:hover,
 .opening-hours-week .next:hover {
   text-decoration: none;
 }
-/* line 75, ../sass/_ddbasic.openinghours.scss */
+/* line 71, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .prev {
   float: left;
   margin-left: 5px;
 }
-/* line 80, ../sass/_ddbasic.openinghours.scss */
+/* line 76, ../sass/_ddbasic.openinghours.scss */
 .opening-hours-week .next {
   float: right;
   margin-right: 5px;
@@ -6198,7 +6023,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   opacity: 0.25;
   margin-left: 12px;
   position: absolute;
-  font-size: 28.5px;
+  font-size: 30.4px;
 }
 
 /* line 27, ../sass/_ddbasic.user.scss */
@@ -6241,69 +6066,54 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 63, ../sass/_ddbasic.user.scss */
 .header-wrapper .user {
-  float: right;
-  width: 50%;
-  margin-right: 0%;
-  margin-left: -50%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   margin-right: 10px;
   padding-right: 0;
   padding-left: 10px;
 }
-/* line 72, ../sass/_ddbasic.user.scss */
+/* line 69, ../sass/_ddbasic.user.scss */
 .header-wrapper .user .user-field-wrapper {
   display: block;
   margin-left: 10px;
 }
-/* line 78, ../sass/_ddbasic.user.scss */
+/* line 75, ../sass/_ddbasic.user.scss */
 .header-wrapper .user .user-label,
 .header-wrapper .user .password-label {
-  font-size: 18.75px;
-  font-size: 1.17188rem;
+  font-size: 20px;
+  font-size: 1.25rem;
   color: rgba(255, 255, 255, 0.5);
   display: inline;
   position: absolute;
   top: -28px;
 }
-/* line 87, ../sass/_ddbasic.user.scss */
+/* line 84, ../sass/_ddbasic.user.scss */
 .header-wrapper .user .form-item {
   margin-top: 0em;
   display: inline;
 }
-/* line 92, ../sass/_ddbasic.user.scss */
+/* line 89, ../sass/_ddbasic.user.scss */
 .header-wrapper .user .form-actions {
   display: inline;
 }
-/* line 96, ../sass/_ddbasic.user.scss */
+/* line 93, ../sass/_ddbasic.user.scss */
 .header-wrapper .user i[class^="icon-"] {
   top: 15px;
 }
-/* line 103, ../sass/_ddbasic.user.scss */
+/* line 100, ../sass/_ddbasic.user.scss */
 .header-wrapper .user input[type="text"],
 .header-wrapper .user input[type="password"] {
-  font-size: 15px;
-  font-size: 0.9375rem;
+  font-size: 16px;
+  font-size: 1rem;
   min-height: 60px;
   margin-right: 10px;
   padding-bottom: 0;
   padding-top: 2px;
   width: 220px;
 }
-/* line 114, ../sass/_ddbasic.user.scss */
+/* line 111, ../sass/_ddbasic.user.scss */
 .header-wrapper .user input[type="submit"] {
-  font-size: 25.5px;
-  font-size: 1.59375rem;
+  font-size: 27.2px;
+  font-size: 1.7rem;
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
@@ -6316,13 +6126,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: absolute;
 }
 
-/* line 138, ../sass/_ddbasic.user.scss */
+/* line 135, ../sass/_ddbasic.user.scss */
 .front .topbar .user-menu,
 .front .topbar .user-name {
   display: none;
 }
 
-/* line 147, ../sass/_ddbasic.user.scss */
+/* line 144, ../sass/_ddbasic.user.scss */
 .header-wrapper .user-name,
 .header-wrapper .user-menu-loans,
 .header-wrapper .user-menu {
@@ -6342,40 +6152,40 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 153, ../sass/_ddbasic.user.scss */
+/* line 150, ../sass/_ddbasic.user.scss */
 .header-wrapper .user-menu-loans {
   margin-top: 90px;
 }
-/* line 157, ../sass/_ddbasic.user.scss */
+/* line 154, ../sass/_ddbasic.user.scss */
 .header-wrapper .user-menu {
   margin-top: 120px;
 }
-/* line 161, ../sass/_ddbasic.user.scss */
+/* line 158, ../sass/_ddbasic.user.scss */
 .header-wrapper .user-name {
   color: rgba(0, 0, 0, 0.5);
   margin-top: 50px;
   text-align: right;
 }
-/* line 166, ../sass/_ddbasic.user.scss */
+/* line 163, ../sass/_ddbasic.user.scss */
 .header-wrapper .user-name .user-name-title {
-  font-size: 33.75px;
-  font-size: 2.10938rem;
-  line-height: 45px;
-  line-height: 2.8125rem;
+  font-size: 36px;
+  font-size: 2.25rem;
+  line-height: 48px;
+  line-height: 3rem;
   overflow: hidden;
   max-height: 45px;
 }
 
-/* line 181, ../sass/_ddbasic.user.scss */
+/* line 178, ../sass/_ddbasic.user.scss */
 .topbar .user {
   position: absolute;
   right: 10px;
   top: 17px;
 }
-/* line 188, ../sass/_ddbasic.user.scss */
+/* line 185, ../sass/_ddbasic.user.scss */
 .topbar .user:before {
-  font-size: 19.5px;
-  font-size: 1.21875rem;
+  font-size: 20.8px;
+  font-size: 1.3rem;
   color: white;
   font-family: FontAwesome;
   line-height: 100%;
@@ -6384,16 +6194,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   top: 16px;
   z-index: 99;
 }
-/* line 201, ../sass/_ddbasic.user.scss */
+/* line 198, ../sass/_ddbasic.user.scss */
 .topbar .user input[type="submit"] {
-  font-size: 21px;
-  font-size: 1.3125rem;
+  font-size: 22.4px;
+  font-size: 1.4rem;
   min-height: 50px;
   padding-top: 0;
   padding-bottom: 0;
   padding-left: 45px;
 }
-/* line 211, ../sass/_ddbasic.user.scss */
+/* line 208, ../sass/_ddbasic.user.scss */
 .topbar .user-name {
   float: right;
   height: 30px;
@@ -6404,68 +6214,68 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   overflow: hidden;
   text-align: right;
 }
-/* line 221, ../sass/_ddbasic.user.scss */
+/* line 218, ../sass/_ddbasic.user.scss */
 .topbar .user-name .user-name-title {
-  font-size: 22.5px;
-  font-size: 1.40625rem;
+  font-size: 24px;
+  font-size: 1.5rem;
   color: white;
 }
-/* line 228, ../sass/_ddbasic.user.scss */
+/* line 225, ../sass/_ddbasic.user.scss */
 .topbar .user-menu {
   position: absolute;
   right: 10px;
   top: 40px;
 }
 
-/* line 244, ../sass/_ddbasic.user.scss */
+/* line 241, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item {
   clear: both;
 }
-/* line 248, ../sass/_ddbasic.user.scss */
+/* line 245, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label,
 .pane-user-profile .form-item p {
   float: left;
 }
-/* line 252, ../sass/_ddbasic.user.scss */
+/* line 249, ../sass/_ddbasic.user.scss */
 .pane-user-profile .form-item label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 259, ../sass/_ddbasic.user.scss */
+/* line 256, ../sass/_ddbasic.user.scss */
 .pane-user-profile h3, .pane-user-profile .ui-dialog-title {
   border: 0;
   margin-top: 30px;
   margin-bottom: 13.33333px;
 }
-/* line 267, ../sass/_ddbasic.user.scss */
+/* line 264, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-label {
   float: left;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 275, ../sass/_ddbasic.user.scss */
+/* line 272, ../sass/_ddbasic.user.scss */
 .pane-user-profile .profile2-provider-alma .field-items,
 .pane-user-profile .profile2-provider-alma .field-item {
   display: inline;
 }
 
-/* line 288, ../sass/_ddbasic.user.scss */
+/* line 285, ../sass/_ddbasic.user.scss */
 .pane-loans table,
 .pane-reservations table,
 .pane-bookmarks table {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
 }
-/* line 293, ../sass/_ddbasic.user.scss */
+/* line 290, ../sass/_ddbasic.user.scss */
 .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-top: 2px;
   max-width: 90%;
 }
-/* line 300, ../sass/_ddbasic.user.scss */
+/* line 297, ../sass/_ddbasic.user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
@@ -6473,46 +6283,46 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin: 0;
   padding: 0;
 }
-/* line 306, ../sass/_ddbasic.user.scss */
+/* line 303, ../sass/_ddbasic.user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 310, ../sass/_ddbasic.user.scss */
+/* line 307, ../sass/_ddbasic.user.scss */
 .pane-loans th.select-all,
 .pane-reservations th.select-all,
 .pane-bookmarks th.select-all {
   padding-left: 10px;
 }
-/* line 314, ../sass/_ddbasic.user.scss */
+/* line 311, ../sass/_ddbasic.user.scss */
 .pane-loans th.title,
 .pane-reservations th.title,
 .pane-bookmarks th.title {
   text-align: left;
 }
-/* line 319, ../sass/_ddbasic.user.scss */
+/* line 316, ../sass/_ddbasic.user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 323, ../sass/_ddbasic.user.scss */
+/* line 320, ../sass/_ddbasic.user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 327, ../sass/_ddbasic.user.scss */
+/* line 324, ../sass/_ddbasic.user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
   text-align: left;
   width: 30%;
 }
-/* line 334, ../sass/_ddbasic.user.scss */
+/* line 331, ../sass/_ddbasic.user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -6521,7 +6331,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 338, ../sass/_ddbasic.user.scss */
+/* line 335, ../sass/_ddbasic.user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -6530,7 +6340,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 345, ../sass/_ddbasic.user.scss */
+/* line 342, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -6538,19 +6348,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 351, ../sass/_ddbasic.user.scss */
+/* line 348, ../sass/_ddbasic.user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 356, ../sass/_ddbasic.user.scss */
+/* line 353, ../sass/_ddbasic.user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
   margin-bottom: 0;
 }
-/* line 363, ../sass/_ddbasic.user.scss */
+/* line 360, ../sass/_ddbasic.user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -6559,7 +6369,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .operations .delete-reservation {
   text-align: center;
 }
-/* line 381, ../sass/_ddbasic.user.scss */
+/* line 378, ../sass/_ddbasic.user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -6570,51 +6380,51 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 401, ../sass/_ddbasic.user.scss */
+/* line 398, ../sass/_ddbasic.user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 406, ../sass/_ddbasic.user.scss */
+/* line 403, ../sass/_ddbasic.user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 422, ../sass/_ddbasic.user.scss */
+/* line 419, ../sass/_ddbasic.user.scss */
 .pane-reservations {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 428, ../sass/_ddbasic.user.scss */
+/* line 425, ../sass/_ddbasic.user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 445, ../sass/_ddbasic.user.scss */
+/* line 442, ../sass/_ddbasic.user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 450, ../sass/_ddbasic.user.scss */
+/* line 447, ../sass/_ddbasic.user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 454, ../sass/_ddbasic.user.scss */
+/* line 451, ../sass/_ddbasic.user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 460, ../sass/_ddbasic.user.scss */
+/* line 457, ../sass/_ddbasic.user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 471, ../sass/_ddbasic.user.scss */
+/* line 468, ../sass/_ddbasic.user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -6622,7 +6432,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 478, ../sass/_ddbasic.user.scss */
+/* line 475, ../sass/_ddbasic.user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {

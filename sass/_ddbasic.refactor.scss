@@ -1,0 +1,154 @@
+// =============================================================================
+// Description goes here
+// =============================================================================
+//
+
+
+// -----------------------------------------------------------------------------
+// Variables
+// -----------------------------------------------------------------------------
+//
+
+
+// -----------------------------------------------------------------------------
+// Extends
+// -----------------------------------------------------------------------------
+//
+%reset-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+%page-heading {
+  @include rem('font-size', 30px);
+}
+
+
+%section-heading {
+  @include rem('font-size', 24px);
+}
+
+%article-margin {
+  margin-bottom: 10px;
+}
+
+%article-padding {
+  padding: 20px;
+}
+
+%article-padding--small {
+  padding: 10px;
+}
+
+%article-background {
+  background-color: $article-background;
+}
+
+%article-background--odd {
+  background-color: $article-background-odd;
+}
+
+%article-background--even {
+  background-color: $article-background-even;
+}
+
+
+%article-heading {
+  @include rem('font-size', 24px);
+}
+
+%article-heading--small {
+  @include rem('font-size', 18px);
+}
+
+%article-heading--strong {
+  @include rem('font-size', 16px);
+}
+
+
+%article-text {
+  color: $article-text;
+}
+
+%article-text--opaque {
+  color: transparentize(#4c4c4c, .5);
+}
+
+
+// -----------------------------------------------------------------------------
+// Default styling
+// -----------------------------------------------------------------------------
+//
+
+
+// News
+.news-list {
+  @extend %reset-list;
+}
+
+.news-list-item {
+  @extend %article-background;
+  @extend %article-padding;
+  @extend %article-margin;
+
+  overflow: hidden;
+}
+
+.news-list-item:nth-child(odd) {
+  @extend %article-background--odd;
+}
+
+.news-list-item:nth-child(even) {
+  @extend %article-background--even;
+}
+
+.news-heading {
+  @extend %article-heading;
+}
+
+.news-image-wrapper {
+  float: left;
+  margin-right: $default-spacing;
+  max-width: 75px;
+
+  a {
+    display: block;
+  }
+}
+
+.news-label {
+  @extend .label;
+
+  margin-right: 5px;
+}
+
+.news-sub-heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  .news-date,
+  .news-author {
+    margin-right: 5px;
+  }
+}
+
+.news-date {
+  @extend %article-text--opaque;
+}
+
+.news-author {
+  @extend %article-text;
+}
+
+.news-list-content {
+  max-height: 50px;
+  overflow: hidden;
+}
+
+
+// -----------------------------------------------------------------------------
+// Mediaqueries
+// -----------------------------------------------------------------------------
+//

@@ -14,7 +14,7 @@ $label-bg-color-inverted:         #fff;
 $label-text-color-inverted:       #00b7e7;
 $label-border-radius:             8px;
 $label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
-$label-padding:                   5px 10px;
+$label-padding:                   3px 10px;
 
 
 // -----------------------------------------------------------------------------
@@ -28,8 +28,8 @@ $label-padding:                   5px 10px;
 // -----------------------------------------------------------------------------
 //
 .label {
-  @include rem('font-size', $theme-font-size);
-  @include rem('line-height', $theme-line-height);
+  @include rem('font-size', $theme-font-size * .85);
+  @include rem('line-height', $theme-line-height * .85);
   @include border-radius($label-border-radius);
 
   padding: $label-padding;

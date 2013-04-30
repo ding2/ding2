@@ -61,9 +61,6 @@
 //
 .header-wrapper {
   .user {
-    @include zen-grid-item($grid-50, 1, right);
-    @extend %header-sections;
-
     border-left: 1px solid transparentize($black, .9);
     margin-right: 10px;
     padding-right: 0;
