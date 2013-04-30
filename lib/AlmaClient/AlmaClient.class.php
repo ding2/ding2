@@ -876,11 +876,11 @@ class AlmaClient {
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
       'absentId' => $absent_id,
-      'absentFromDate' => $from_date,
-      'absentToDate' => $to_date,
+      'absentFrom' => date_format(date_create($from_date), 'Y-m-d'),
+      'absentTo' => date_format(date_create($to_date), 'Y-m-d'),
     );
 
-    $doc = $this->request('patron/absentPeriod/change', $params);
+    $doc = $this->request('patron/absent/change', $params);
     return TRUE;
   }
 
