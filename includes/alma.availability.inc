@@ -116,10 +116,11 @@ function _alma_set_holdings_periodical($res) {
 /**
  * Make the html-table.
  *
- * @params $h; holding information for a given material
+ * @param array $holding
+ *  Holding information for a given material.
  * @return html-table
  */
-function _alma_set_table_html($h, $r_count) {
+function _alma_set_table_html($holdings, $r_count) {
   // Set a classname for styling the table.
   $variables['attributes'] = array(
     'class' => array(
@@ -137,7 +138,7 @@ function _alma_set_table_html($h, $r_count) {
   );
 
   // Set table rows.
-  $variables['rows'] = _alma_set_rows($h);
+  $variables['rows'] = _alma_set_rows($holdings);
 
   // Set last row with reservation count.
   $row = array();
@@ -154,10 +155,11 @@ function _alma_set_table_html($h, $r_count) {
 /**
  * Set rows in table for given holdings.
  *
- * @param $h; holding information for a given material
+ * @param $holdings
+ *  Holding information for a given material
  * @return array;
  */
-function _alma_set_rows($h) {
+function _alma_set_rows($holdings) {
   $rows = array();
   $org = alma_get_organisation();
 
@@ -166,7 +168,7 @@ function _alma_set_rows($h) {
   $not_for_loan_total = 0;
   $checked_out_total = 0;
 
-  foreach ($h as $key => $data) {
+  foreach ($holdings as $key => $data) {
     $row = array();
 
     if (!empty($data['branch_id'])) {
