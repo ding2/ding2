@@ -383,7 +383,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
-        'pickup_id' =>array(
+        'pickup_id' => array(
           'data' => ding_reservation_get_pickup_id($item),
           'class' => 'pickup-id',
         ),
@@ -428,7 +428,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
           'class' => 'title',
         ),
-        'order_nr' =>array(
+        'order_nr' => array(
           'data' => ding_reservation_get_order_nr($item),
           'class' => 'pickup-id',
         ),
@@ -608,13 +608,13 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
 }
 
 /**
-* Get pickup id number.
-*
-* @param $item
-* Reserved item object.
-* @return
-* Pickup id, if any.
-*/
+ * Get pickup id number.
+ *
+ * @param object $item
+ *  Reserved item object.
+ * @return int
+ *  Pickup id, if any.
+ */
 function ding_reservation_get_pickup_id($item) {
   if (isset($item->order_arrived) && !$item->order_arrived) {
     return t('The material is in transit and is still not available for loan on the library');
@@ -627,13 +627,13 @@ function ding_reservation_get_pickup_id($item) {
 }
 
 /**
-* Get order id number.
-*
-* @param $item
-* Reserved item object.
-* @return
-* Order number, if any.
-*/
+ * Get order id number.
+ *
+ * @param object $item
+ *  Reserved item object.
+ * @return int
+ *  Order number, if any.
+ */
 function ding_reservation_get_order_nr($item) {
   if (!isset($item->pickup_order_id) && isset($item->order_id)) {
     return $item->order_id;
@@ -664,7 +664,7 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
  */
 function ding_reservation_deletes_form_submit($form, &$form_state) {
   global $user;
-  $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'],'is_string')));
+  $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'], 'is_string')));
   $form_state['encoded_reservations'] = $ids;
   $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/delete/' . $ids, array('query' => drupal_get_destination()));
 }
@@ -674,7 +674,7 @@ function ding_reservation_deletes_form_submit($form, &$form_state) {
  */
 function ding_reservation_updates_form_submit($form, &$form_state) {
   global $user;
-  $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'],'is_string')));
+  $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'], 'is_string')));
   $form_state['encoded_reservations'] = $ids;
   $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/update/' . $ids, array('query' => drupal_get_destination()));
 }
@@ -965,6 +965,7 @@ function ding_reservation_default_options_branch_validate($type, $name, $default
  */
 function ding_reservation_default_options_interest_period_validate($type, $name, $default, $values) {
   if (empty($values[$name])) {
+    $result = array();
     $provider = ding_provider_get_provider_module_name('reservation');
     if ($type == 'create' && empty($default)) {
       $result[$provider . '_interest_period'] = array(
@@ -975,7 +976,8 @@ function ding_reservation_default_options_interest_period_validate($type, $name,
       $result[$name] = $default;
     }
     return $result;
-  } else {
+  }
+  else {
     return $values;
   }
 }
