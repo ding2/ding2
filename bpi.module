@@ -28,14 +28,14 @@ if (!defined('SORT_DESCENDING')) {
 }
 
 /**
- * Descending sorting identifier.
+ * Syndicated node identifier.
  */
 if (!defined('BPI_SYNDICATED')) {
   define('BPI_SYNDICATED', 1);
 }
 
 /**
- * Descending sorting identifier.
+ * Pushed node identifier.
  */
 if (!defined('BPI_PUSHED')) {
   define('BPI_PUSHED', 2);
