@@ -28,6 +28,20 @@ if (!defined('SORT_DESCENDING')) {
 }
 
 /**
+ * Descending sorting identifier.
+ */
+if (!defined('BPI_SYNDICATED')) {
+  define('BPI_SYNDICATED', 1);
+}
+
+/**
+ * Descending sorting identifier.
+ */
+if (!defined('BPI_PUSHED')) {
+  define('BPI_PUSHED', 2);
+}
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -175,6 +189,53 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_content['body'];
     }
   }
+  elseif ($form_id == 'node_admin_content') {
+    //Mark BPI nodes.
+    $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
+    if (!empty($nodes_in_table)) {
+      $nodes_to_mark = bpi_get_bpi_nodes($nodes_in_table);
+
+      foreach ($form['admin']['nodes']['#options'] as $node_id => &$row) {
+        if (in_array($node_id, $nodes_to_mark)) {
+          $row['title']['data']['#suffix'] .= '<sup class="bpi-marker">BPI</sup>';
+        }
+      }
+    }
+    // End mark BPI nodes.
+
+    // BPI filter.
+    $current_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+    $form['filter']['filters']['status']['filters']['bpi'] = array(
+      '#type' => 'select',
+      '#title' => t('bpi'),
+      '#options' => array(
+        'all' => t('With BPI related'),
+        'bpi_only' => t('BPI only'),
+        'bpi_syndicated' => t('Syndicated'),
+        'bpi_pushed' => t('Pushed'),
+      ),
+      '#default_value' => $current_filter,
+    );
+
+    $form['filter']['filters']['status']['actions']['submit']['#submit'][] = '_bpi_node_admin_content_submit';
+    // End BPI filter.
+  }
+}
+
+/**
+ * Custom submit handler for the node filtering form.
+ *
+ * Since drupal has a hardcoded set of node filters, save the new
+ * BPI related filter separately.
+ *
+ * @param array $form
+ *   Form structure.
+ * @param array $form_state
+ *   Form state values.
+ */
+function _bpi_node_admin_content_submit(&$form, &$form_state) {
+  $bpi_filter = $form_state['input']['bpi'];
+  $_SESSION['bpi']['filter'] = $bpi_filter;
 }
 
 /**
@@ -195,9 +256,78 @@ function bpi_node_insert($node) {
       ->fields(array(
         'nid' => $node_id,
         'bid' => $bpi_id,
+        'status' => BPI_SYNDICATED,
       ))
       ->execute();
 
     unset($_SESSION['bpi']['content']);
   }
+}
+
+/**
+ * Implements hook_query_alter().
+ *
+ * Alters the query for node retrieval in the content grid,
+ * so it now takes into account the BPI filtering settings.
+ */
+function bpi_query_alter($query) {
+  $filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+  $available_filters = array('bpi_only', 'bpi_syndicated', 'bpi_pushed');
+
+  if ($query->hasTag('node_load_multiple')) {
+    $tables = &$query->getTables();
+    $conditions = &$query->conditions();
+
+    // In any case, when BPI filter is used, attach the BPI table.
+    if (in_array($filter, $available_filters)) {
+      $tables['bs'] = array(
+        'join type' => 'INNER',
+        'table' => 'bpi_syndicated',
+        'alias' => 'bs',
+        'condition' => 'bs.nid = base.nid',
+        'arguments' => array(),
+      );
+    }
+
+    if ($filter == 'bpi_syndicated') {
+      $conditions[] = array(
+        'field' => 'bs.status',
+        'value' => BPI_SYNDICATED,
+        'operator' => '=',
+      );
+    }
+    elseif ($filter == 'bpi_pushed') {
+      $conditions[] = array(
+        'field' => 'bs.status',
+        'value' => BPI_PUSHED,
+        'operator' => '=',
+      );
+    }
+  }
+}
+
+/**
+ * Get the node id's which were actually syndicated/pushed from/to bpi.
+ *
+ * @param array/int $nodes
+ *   An array of node id's or a single id.
+ * @return
+ *   An array of node id's matching the criteria.
+ */
+function bpi_get_bpi_nodes($nodes) {
+  $query = db_select('bpi_syndicated', 'bs')
+    ->fields('bs', array('nid'));
+
+  if (is_array($nodes)) {
+    $query->condition('nid', $nodes, 'IN');
+  }
+  elseif (is_numeric($nodes)) {
+    $query->condition('nid', $nodes, '=');
+  }
+
+  $result = $query
+    ->execute()
+    ->fetchAll(PDO::FETCH_COLUMN);
+
+  return array_values($result);
 }

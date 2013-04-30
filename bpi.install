@@ -36,3 +36,18 @@ function bpi_schema() {
 
   return $schema;
 }
+
+/**
+ * Add status column in the syndication table.
+ */
+function bpi_update_7000() {
+  db_add_field(
+    'bpi_syndicated',
+    'status',
+    array(
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    )
+  );
+}
