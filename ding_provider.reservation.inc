@@ -51,7 +51,7 @@ class DingProviderReservation extends DingEntityBase {
    * Order Id
    */
   protected $order_id = DingEntityBase::NULL;
-  
+
   /**
    * Organisation Id
    */
@@ -73,7 +73,7 @@ class DingProviderReservation extends DingEntityBase {
    * or DingProviderReservation::STATUS_FECTHABLE.
    */
   protected $status = DingEntityBase::NULL;
-  
+
   /**
    * Delete status of the reservation, either yes or no
    */

@@ -473,9 +473,11 @@ function ding_provider_get_destination($query_args = array()) {
 }
 
 /**
- * Get the provider type
- * @param type, the type of module e.g reservation, availibility etc.
- **/
+ * Get the provider type.
+ *
+ * @param string $type
+ *  The type of module e.g reservation, availibility etc.
+ */
 function ding_provider_get_provider_module_name($type) {
   $providers = _ding_provider_get_provider();
   return $providers[$type]['module'];
@@ -598,7 +600,7 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
  * @return type
  */
 function ding_provider_get_pseudo_entity($ding_entity_id) {
-  $local_id = substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
+  $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
 
   // Build entity based on available information.
   $ting_entity = new TingEntity();
@@ -611,7 +613,7 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->reply->id = $ding_entity_id;
   $ting_entity->reply->localId = $local_id;
   $ting_entity->reply->relations = array();
-  $ting_entity->reply->ownerId = substr($ding_entity_id, 0, strpos($ding_entity_id, ':'));
+  $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, ':'));
 
   // See if the provider have any information about the entity.
   if (ding_provider_implements('loan', 'populate_pseudo_entity')) {

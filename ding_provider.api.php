@@ -41,7 +41,7 @@ function hook_ding_provider() {
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => drupal_get_path('module', 'my_module') .  '/mymodule.availability.inc',
+        'file' => drupal_get_path('module', 'my_module') . '/mymodule.availability.inc',
       ),
     ),
   );
