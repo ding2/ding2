@@ -266,9 +266,9 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         'href' => 'admin/bpi/push/nojs/' . $key,
         'attributes' => array(
           'class' => array(
-            'use-ajax'
-          )
-        )
+            'use-ajax',
+          ),
+        ),
       );
 
       drupal_add_library('system', 'drupal.ajax');
