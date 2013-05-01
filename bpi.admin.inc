@@ -53,6 +53,13 @@ function bpi_admin_settings_form($form, $form_state) {
     '#required' => TRUE,
   );
 
+  $form['bpi_secret_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Secret key'),
+    '#default_value' => variable_get('bpi_secret_key', ''),
+    '#required' => TRUE,
+  );
+
   $form['bpi_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('API key'),
@@ -114,7 +121,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_content_type'] = array(
     '#type' => 'select',
     '#title' => t('Content type'),
-    '#description' => t('Select a node type into which content from BPI will be syndicated.'),
+    '#description' => t('Select a content type into which content from BPI will be syndicated.'),
     '#options' => $node_types,
     '#default_value' => variable_get('bpi_content_type', reset(array_keys($node_types))),
     '#ajax' => array(
@@ -136,7 +143,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper'] = array(
     '#type' => 'fieldset',
     '#title' => t('Field mapping'),
-    '#description' => t('Define you custom mapping rules. Each dropdown maps BPI related fields to your node fields.'),
+    '#description' => t('Define you custom mapping rules. Each dropdown maps BPI related fields to your content fields.'),
     '#prefix' => '<div id="bpi-field-mapper-wrapper">',
     '#suffix' => '</div>',
   );
