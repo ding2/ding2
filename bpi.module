@@ -219,7 +219,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       '#default_value' => $current_filter,
     );
 
-    $form['filter']['filters']['status']['actions']['submit']['#submit'][] = '_bpi_node_admin_content_submit';
+    $form['#submit'][] = '_bpi_node_admin_content_submit';
     // End BPI filter.
   }
 }
