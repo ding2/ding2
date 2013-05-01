@@ -18,7 +18,7 @@
  */
 ?>
 
-  <section class="user-name <?php print $classes; ?>">      
+  <section id="topbar-user-name" class="user-name <?php print $classes; ?>">      
     <?php if ($admin_links): ?>
       <?php print $admin_links; ?>
     <?php endif; ?>

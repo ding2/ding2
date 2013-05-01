@@ -19,6 +19,8 @@
 
 ;----------// JavaScripts
   ; Import javascripts.
+  scripts[] = scripts/jquery.cookie.js
+  scripts[] = scripts/ddbasic.topbar_menu.js
   scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.equalheights.js
