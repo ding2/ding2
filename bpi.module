@@ -265,7 +265,6 @@ function bpi_node_insert($node) {
 }
 
 /**
-<<<<<<< HEAD
  * Implements hook_query_alter().
  *
  * Alters the query for node retrieval in the content grid,
@@ -308,8 +307,6 @@ function bpi_query_alter($query) {
 }
 
 /**
-=======
->>>>>>> case-2682
  * Get the node id's which were actually syndicated/pushed from/to bpi.
  *
  * @param array/int $nodes
