@@ -14,6 +14,12 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
+%font-bold {
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+}
+
+
 %reset-list {
   list-style-type: none;
   margin: 0;

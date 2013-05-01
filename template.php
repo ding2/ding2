@@ -119,7 +119,13 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
-    break;
+      $form['search_block_form']['#title'] = t('Search the library database and the website');
+      $form['search_block_form']['#title_attribute'] = array('search-label');
+      
+      // Remove element-invisible
+      unset($form['search_block_form']['#title_display']);
+
+      break;
     case 'user_login_block':
 
       unset($form['name']['#title']);
@@ -466,7 +472,7 @@ function ddbasic_menu_link($vars) {
  * Add specific markup for topbar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_block__4($vars) {
-  
+
   // Run classes array through our custom stripper.
   $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
@@ -518,7 +524,7 @@ function ddbasic_menu_link__menu_block__4($vars) {
  *   An array of class attributes.
  */
 function ddbasic_remove_default_link_classes($classes) {
-  
+
   if (!isset($classes)) {
     return false;
   }

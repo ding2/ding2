@@ -14,27 +14,6 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
-%inline-icons {
-  @include opacity(.25);
-
-  margin-left: 12px;
-  position: absolute;
-
-  font-size: $theme-font-size * 1.9;
-}
-
-
-%inline-icon-input {
-  @include box-sizing(border-box);
-  @include border-radius(12px);
-
-  display: inline;
-  padding-left: 42px;
-
-  border: 0;
-}
-
-
 %user-menu {
   ul {
 
@@ -59,67 +38,133 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
-.header-wrapper {
-  .user {
-    border-left: 1px solid transparentize($black, .9);
-    margin-right: 10px;
-    padding-right: 0;
-    padding-left: 10px;
+.user {
+  display: inline-block;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 100%;
 
-    .user-field-wrapper {
-      display: block;
-      margin-left: 10px;
+  input[class^="form-"] {
+    margin-bottom: 0;
+  }
+
+  .form-actions,
+  .form-item {
+    display: inline-block;
+    position: relative;
+  }
+
+  .user-label,
+  .password-label {
+    @include rem('font-size', 16px);
+    @extend %font-bold;
+
+    color: transparentize($white, .25);
+    display: block;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+  }
+
+  .icon-user,
+  .icon-lock {
+    @include rem('font-size', 30px);
+
+    color: $gray-darker;
+    margin-left: 14px;
+    position: absolute;
+    top: 45px;
+  }
+
+  .form-item-name {
+    @include zen-grid-item(6, 1);
+
+    .form-text {
+      padding-left: 45px;
+    }
+  }
+
+  .form-item-pass {
+    @include zen-grid-item(6, 1, right);
+
+    .form-text {
+      padding-left: 42px;
+    }
+  }
+
+  .form-text {
+    @include rem('font-size', 18px);
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    border: 0;
+    display: inline;
+    margin-right: 20px;
+    min-height: 60px;
+    padding-top: 2px;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .form-actions {
+    @include zen-grid-item(2, 1, right);
+
+    text-align: right;
+  }
+
+  .form-submit {
+    @include rem('font-size', 20px);
+    @include border-radius(12px);
+    @extend %button-default;
+
+    min-height: 60px;
+    margin-top: 31px;
+    padding-top: 0;
+    padding-bottom: 1px;
+    min-width: 125px;
+  }
+
+  @include small() {
+    .form-item-name,
+    .form-item-pass {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
     }
 
-    .user-label,
-    .password-label {
-      @include rem('font-size', $theme-font-size * 1.25);
+    .form-item-pass {
+      margin-top: 20px;
+    }
+  }
 
-      color: transparentize($white, .5);
-      display: inline;
-      position: absolute;
-      top: -28px;
+  @include small-medium() {
+    .icon-user,
+    .icon-lock {
+      @include rem('font-size', 24px);
+
+      top: 40px;
     }
 
-    .form-item {
-      margin-top: 0em;
-      display: inline;
+    .form-text {
+      min-height: 44px;
     }
 
     .form-actions {
-      display: inline;
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
     }
 
-    i[class^="icon-"] {
-      @extend %inline-icons;
+    .form-submit {
+      @include rem('font-size', 18px);
 
-      top: 15px;
+      margin-top: 20px;
+      min-height: 44px;
+      min-width: 100%;
     }
+  }
 
-    input[type="text"],
-    input[type="password"] {
-      @include rem('font-size', $theme-font-size);
-      @extend %inline-icon-input;
-
-      min-height: 60px;
-      margin-right: $default-spacing / 2;
-      padding-bottom: 0;
-      padding-top: 2px;
-      width: 220px;
-    }
-
-    input[type="submit"] {
-      @include rem('font-size', $theme-font-size * 1.7);
-      @include border-radius(12px);
-      @extend %button-default;
-
-      display: inline;
-      min-height: 60px;
-      padding-top: 0;
-      padding-right: 18px;
-      padding-bottom: 1px;
-      padding-left: 18px;
-      position: absolute;
+  @include medium() {
+    .form-text {
+      @include rem('font-size', 16px);
     }
   }
 }
@@ -163,7 +208,7 @@
     .user-name-title {
       @include rem('font-size', $theme-font-size * 2.25);
       @include rem('line-height', $theme-font-size * 3);
-      
+
       overflow: hidden;
       max-height: 45px;
     }
