@@ -149,6 +149,7 @@ function bpi_theme($existing, $type, $theme, $path) {
 function bpi_form_alter(&$form , &$form_state, $form_id) {
   $bpi_ctype = variable_get('bpi_content_type', '');
   $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
+  $nodes_to_mark = array();
 
   // @todo
   // This could lead to unexpected behavior. Just a note.
@@ -194,8 +195,9 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
   elseif ($form_id == 'node_admin_content') {
     //Mark BPI nodes.
     $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
+    $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
     if (!empty($nodes_in_table)) {
-      $nodes_to_mark = bpi_get_bpi_nodes($nodes_in_table);
+      $nodes_to_mark = array_keys($bpi_nodes);
 
       foreach ($form['admin']['nodes']['#options'] as $node_id => &$row) {
         if (in_array($node_id, $nodes_to_mark)) {
@@ -221,6 +223,29 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     $form['#submit'][] = '_bpi_node_admin_content_submit';
     // End BPI filter.
+
+    // Content grid columns.
+    $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
+
+    // Cheat!
+    // Make the operations column last.
+    $tmp = $form['admin']['nodes']['#header']['operations'];
+    unset($form['admin']['nodes']['#header']['operations']);
+    $form['admin']['nodes']['#header']['operations'] = $tmp;
+
+    foreach ($form['admin']['nodes']['#options'] as $key => &$row) {
+      $row['bpi_timestamp'] = '';
+      if (in_array($key, $nodes_to_mark)) {
+        $row['bpi_timestamp'] = format_date($bpi_nodes[$key]->timestamp, 'short');
+      }
+
+      // Cheat!
+      // Make the operations column value last.
+      $tmp = $row['operations'];
+      unset($row['operations']);
+      $row['operations'] = $tmp;
+    }
+    // END content grid columns.
   }
 }
 
@@ -257,6 +282,7 @@ function bpi_node_insert($node) {
         'nid' => $node_id,
         'bid' => $bpi_id,
         'status' => BPI_SYNDICATED,
+        'timestamp' => time(),
       ))
       ->execute();
 
@@ -316,9 +342,9 @@ function bpi_query_alter($query) {
  */
 function bpi_get_bpi_nodes($nodes) {
   $query = db_select('bpi_syndicated', 'bs')
-    ->fields('bs', array('nid'));
+    ->fields('bs', array('nid', 'timestamp'));
 
-  if (is_array($nodes)) {
+  if (is_array($nodes) && count($nodes) > 0) {
     $query->condition('nid', $nodes, 'IN');
   }
   elseif (is_numeric($nodes)) {
@@ -327,7 +353,7 @@ function bpi_get_bpi_nodes($nodes) {
 
   $result = $query
     ->execute()
-    ->fetchAll(PDO::FETCH_COLUMN);
+    ->fetchAllAssoc('nid');
 
-  return array_values($result);
+  return $result;
 }

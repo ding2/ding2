@@ -51,3 +51,19 @@ function bpi_update_7000() {
     )
   );
 }
+
+/**
+ * Add timestamp column, denoting when the action occured.
+ */
+function bpi_update_7001() {
+  db_add_field(
+    'bpi_syndicated',
+    'timestamp',
+    array(
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+      'default' => 0,
+    )
+  );
+}
