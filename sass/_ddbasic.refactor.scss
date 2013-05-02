@@ -213,9 +213,9 @@
     @include rem('font-size', 30px);
 
     color: $gray-darker;
+    margin-top: 15px;
     margin-left: 14px;
     position: absolute;
-    top: 46px;
   }
 
   .form-item {

@@ -2704,26 +2704,28 @@ ul.icons li [class*=" icon-"] {
 @media only screen and (max-width: 480px) {
   /* line 53, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
-    font-size: 24px;
-    font-size: 1.5rem;
+    font-size: 16px;
+    font-size: 1rem;
+    margin-top: 15px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   /* line 53, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
-    font-size: 24px;
-    font-size: 1.5rem;
+    font-size: 16px;
+    font-size: 1rem;
+    margin-top: 15px;
   }
 }
 
-/* line 77, ../sass/_ddbasic.layout.scss */
+/* line 79, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 83, ../sass/_ddbasic.layout.scss */
+/* line 85, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2742,27 +2744,27 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 92, ../sass/_ddbasic.layout.scss */
+/* line 94, ../sass/_ddbasic.layout.scss */
 .header-wrapper {
   background-color: #00caff;
 }
-/* line 97, ../sass/_ddbasic.layout.scss */
+/* line 99, ../sass/_ddbasic.layout.scss */
 .header-wrapper .header-inner {
   overflow: visible;
 }
 
-/* line 111, ../sass/_ddbasic.layout.scss */
+/* line 113, ../sass/_ddbasic.layout.scss */
 .front .content-wrapper {
   margin-top: 84px;
 }
 
-/* line 119, ../sass/_ddbasic.layout.scss */
+/* line 121, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 122, ../sass/_ddbasic.layout.scss */
+/* line 124, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2852,7 +2854,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 132, ../sass/_ddbasic.layout.scss */
+/* line 134, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -2862,25 +2864,25 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 151, ../sass/_ddbasic.layout.scss */
+  /* line 153, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 156, ../sass/_ddbasic.layout.scss */
+  /* line 158, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 162, ../sass/_ddbasic.layout.scss */
+  /* line 164, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 167, ../sass/_ddbasic.layout.scss */
+  /* line 169, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
@@ -4070,12 +4072,13 @@ button#edit-cancel {
     _overflow: hidden;
     _overflow-y: visible;
     margin-top: 0;
+    padding: 0;
   }
-  /* line 115, ../sass/_ddbasic.navigation.scss */
+  /* line 116, ../sass/_ddbasic.navigation.scss */
   .topbar-menu i[class^="icon-"] {
     margin-right: 0;
   }
-  /* line 119, ../sass/_ddbasic.navigation.scss */
+  /* line 120, ../sass/_ddbasic.navigation.scss */
   .topbar-menu span {
     display: none;
   }
@@ -4099,18 +4102,19 @@ button#edit-cancel {
     _overflow: hidden;
     _overflow-y: visible;
     margin-top: 0;
+    padding: 0;
   }
-  /* line 115, ../sass/_ddbasic.navigation.scss */
+  /* line 116, ../sass/_ddbasic.navigation.scss */
   .topbar-menu i[class^="icon-"] {
     margin-right: 0;
   }
-  /* line 119, ../sass/_ddbasic.navigation.scss */
+  /* line 120, ../sass/_ddbasic.navigation.scss */
   .topbar-menu span {
     display: none;
   }
 }
 
-/* line 129, ../sass/_ddbasic.navigation.scss */
+/* line 130, ../sass/_ddbasic.navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -4129,22 +4133,22 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 133, ../sass/_ddbasic.navigation.scss */
+/* line 134, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 20px;
   font-size: 1.25rem;
 }
-/* line 137, ../sass/_ddbasic.navigation.scss */
+/* line 138, ../sass/_ddbasic.navigation.scss */
 .main-menu li {
   margin-right: 20px;
 }
-/* line 141, ../sass/_ddbasic.navigation.scss */
+/* line 142, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-/* line 152, ../sass/_ddbasic.navigation.scss */
+/* line 153, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -4163,17 +4167,17 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 156, ../sass/_ddbasic.navigation.scss */
+/* line 157, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
   font-size: 16px;
   font-size: 1rem;
 }
-/* line 161, ../sass/_ddbasic.navigation.scss */
+/* line 162, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li {
   border-right: 1px solid #d5d5d5;
 }
-/* line 164, ../sass/_ddbasic.navigation.scss */
+/* line 165, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li .menu-item {
   color: gray;
   margin-right: 20px;
@@ -4181,33 +4185,33 @@ button#edit-cancel {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 171, ../sass/_ddbasic.navigation.scss */
+/* line 172, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li .menu-item.last {
   margin-right: 0;
 }
-/* line 176, ../sass/_ddbasic.navigation.scss */
+/* line 177, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.last {
   border-right: 0;
 }
 
-/* line 187, ../sass/_ddbasic.navigation.scss */
+/* line 188, ../sass/_ddbasic.navigation.scss */
 .sub-menu-title, .library-menu h2 {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 193, ../sass/_ddbasic.navigation.scss */
+/* line 194, ../sass/_ddbasic.navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 196, ../sass/_ddbasic.navigation.scss */
+/* line 197, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 201, ../sass/_ddbasic.navigation.scss */
+/* line 202, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -4216,17 +4220,17 @@ button#edit-cancel {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 209, ../sass/_ddbasic.navigation.scss */
+/* line 210, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 214, ../sass/_ddbasic.navigation.scss */
+/* line 215, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 225, ../sass/_ddbasic.navigation.scss */
+/* line 226, ../sass/_ddbasic.navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -4236,39 +4240,39 @@ button#edit-cancel {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 237, ../sass/_ddbasic.navigation.scss */
+/* line 238, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 241, ../sass/_ddbasic.navigation.scss */
+/* line 242, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 16px;
 }
-/* line 250, ../sass/_ddbasic.navigation.scss */
+/* line 251, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
-/* line 262, ../sass/_ddbasic.navigation.scss */
+/* line 263, ../sass/_ddbasic.navigation.scss */
 .footer h2 {
   color: white;
   margin-bottom: 10px;
 }
-/* line 267, ../sass/_ddbasic.navigation.scss */
+/* line 268, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
 }
-/* line 272, ../sass/_ddbasic.navigation.scss */
+/* line 273, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 278, ../sass/_ddbasic.navigation.scss */
+/* line 279, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -4276,22 +4280,22 @@ button#edit-cancel {
   font-family: FontAwesome;
   margin-top: -1px;
 }
-/* line 286, ../sass/_ddbasic.navigation.scss */
+/* line 287, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
   padding-left: 10px;
 }
 
-/* line 300, ../sass/_ddbasic.navigation.scss */
+/* line 301, ../sass/_ddbasic.navigation.scss */
 .action-links {
   padding: 10px 20px;
 }
-/* line 303, ../sass/_ddbasic.navigation.scss */
+/* line 304, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 310, ../sass/_ddbasic.navigation.scss */
+/* line 311, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -4301,7 +4305,7 @@ button#edit-cancel {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 320, ../sass/_ddbasic.navigation.scss */
+/* line 321, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -4309,14 +4313,14 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 334, ../sass/_ddbasic.navigation.scss */
+  /* line 335, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.fixed {
     position: relative;
     margin-top: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 343, ../sass/_ddbasic.navigation.scss */
+  /* line 344, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.fixed {
     position: relative;
     margin-top: 0;
@@ -5851,9 +5855,9 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-size: 30px;
   font-size: 1.875rem;
   color: #959595;
+  margin-top: 15px;
   margin-left: 14px;
   position: absolute;
-  top: 46px;
 }
 /* line 221, ../sass/_ddbasic.refactor.scss */
 .search .form-item,

@@ -66,7 +66,9 @@ $topbar-text-color:               #fff;
   }
 
   @include small-medium() {
-    @include rem('font-size', 24px);
+    @include rem('font-size', 16px);
+    
+    margin-top: 15px;
   }
 }
 
