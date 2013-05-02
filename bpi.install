@@ -67,3 +67,20 @@ function bpi_update_7001() {
     )
   );
 }
+
+/**
+ * Change the BPI id field so it suits the service spec.
+ */
+function bpi_update_7002() {
+  db_change_field(
+    'bpi_syndicated',
+    'bid',
+    'bid',
+    array(
+      'type' => 'varchar',
+      'length' => '128',
+      'not null' => TRUE,
+      'default' => '',
+    )
+  );
+}

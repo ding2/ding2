@@ -39,33 +39,51 @@ function bpi_admin_menu_block_page() {
  * @ingroup forms
  */
 function bpi_admin_settings_form($form, $form_state) {
-  $form['bpi_agency_id'] = array(
+  $form['bpi_service_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('BPI Service settings'),
+  );
+
+  $form['bpi_service_settings']['bpi_agency_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
     '#default_value' => variable_get('bpi_agency_id', ''),
     '#required' => TRUE,
   );
 
-  $form['bpi_service_url'] = array(
+  $form['bpi_service_settings']['bpi_service_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Service URL'),
     '#default_value' => variable_get('bpi_service_url', ''),
     '#required' => TRUE,
   );
 
-  $form['bpi_secret_key'] = array(
+  $form['bpi_service_settings']['bpi_secret_key'] = array(
     '#type' => 'textfield',
     '#title' => t('Secret key'),
     '#default_value' => variable_get('bpi_secret_key', ''),
     '#required' => TRUE,
   );
 
-  $form['bpi_api_key'] = array(
+  $form['bpi_service_settings']['bpi_api_key'] = array(
     '#type' => 'textfield',
     '#title' => t('API key'),
     '#default_value' => variable_get('bpi_api_key', ''),
     '#required' => TRUE,
   );
+
+  $form['bpi_general_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('General settings'),
+  );
+
+  $form['bpi_general_settings']['bpi_content_per_page'] = array(
+    '#type' => 'select',
+    '#title' => t('Content per page'),
+    '#options' => array_combine(range(10, 100, 10), range(10, 100, 10)),
+    '#default_value' => variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE),
+  );
+
 
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/admin.styles.css';
   $form['#validate'][] = 'bpi_admin_settings_form_validate';

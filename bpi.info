@@ -7,3 +7,4 @@ package = BPI
 dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = ding_popup
+files[] = lib/bpi-client/Bpi/Sdk/Bpi.php
