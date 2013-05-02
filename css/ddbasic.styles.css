@@ -2704,28 +2704,33 @@ ul.icons li [class*=" icon-"] {
 @media only screen and (max-width: 480px) {
   /* line 53, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
-    font-size: 16px;
-    font-size: 1rem;
-    margin-top: 15px;
+    font-size: 24px;
+    font-size: 1.5rem;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   /* line 53, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
+}
+@media only screen and (max-width: 480px) {
+  /* line 53, ../sass/_ddbasic.layout.scss */
+  .site-name, .site-name-with-slogan {
     font-size: 16px;
     font-size: 1rem;
-    margin-top: 15px;
   }
 }
 
-/* line 79, ../sass/_ddbasic.layout.scss */
+/* line 81, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 85, ../sass/_ddbasic.layout.scss */
+/* line 87, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2744,27 +2749,27 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 94, ../sass/_ddbasic.layout.scss */
+/* line 96, ../sass/_ddbasic.layout.scss */
 .header-wrapper {
   background-color: #00caff;
 }
-/* line 99, ../sass/_ddbasic.layout.scss */
+/* line 101, ../sass/_ddbasic.layout.scss */
 .header-wrapper .header-inner {
   overflow: visible;
 }
 
-/* line 113, ../sass/_ddbasic.layout.scss */
+/* line 115, ../sass/_ddbasic.layout.scss */
 .front .content-wrapper {
   margin-top: 84px;
 }
 
-/* line 121, ../sass/_ddbasic.layout.scss */
+/* line 123, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 124, ../sass/_ddbasic.layout.scss */
+/* line 126, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2854,7 +2859,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 134, ../sass/_ddbasic.layout.scss */
+/* line 136, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -2864,25 +2869,25 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 153, ../sass/_ddbasic.layout.scss */
+  /* line 155, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 158, ../sass/_ddbasic.layout.scss */
+  /* line 160, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 164, ../sass/_ddbasic.layout.scss */
+  /* line 166, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 
-  /* line 169, ../sass/_ddbasic.layout.scss */
+  /* line 171, ../sass/_ddbasic.layout.scss */
   .content-wrapper {
     margin-top: 20px;
   }
