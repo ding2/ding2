@@ -223,20 +223,47 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     // End mark BPI nodes.
 
     // BPI filter.
-    $current_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+    $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+
+    $bpi_filters = array(
+      'all' => t('any'),
+      'bpi_only' => t('BPI only'),
+      'bpi_syndicated' => t('Syndicated'),
+      'bpi_pushed' => t('Pushed'),
+    );
+
     $form['filter']['filters']['status']['filters']['bpi'] = array(
       '#type' => 'select',
       '#title' => t('bpi'),
-      '#options' => array(
-        'all' => t('With BPI related'),
-        'bpi_only' => t('BPI only'),
-        'bpi_syndicated' => t('Syndicated'),
-        'bpi_pushed' => t('Pushed'),
-      ),
-      '#default_value' => $current_filter,
+      '#options' => $bpi_filters,
+      '#default_value' => $current_bpi_filter,
     );
 
-    $form['#submit'][] = '_bpi_node_admin_content_submit';
+    // It's viable that this module hooks, are fired before the standard ones.
+    array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
+
+    // If a BPI filter is set, prepend an active BPI filter marker.
+    if ($current_bpi_filter != 'all') {
+      $drupal_filters =  isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
+      $t_args = array(
+        '%property' => 'bpi',
+        '%value' => $bpi_filters[$current_bpi_filter],
+      );
+      $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
+
+      // Whether there are some filters active, prepend a plural form.
+      if (count($drupal_filters)) {
+        $bpi_filter_marker['#prefix'] = t('and') . ' ';
+      }
+
+      // Add a BPI filter marker to active filters.
+      $form['filter']['filters']['current'][] = $bpi_filter_marker;
+      // Add standard filter buttons.
+      // Since those are showed only if drupal filters array is not empty.
+      $form['filter']['filters']['status']['actions']['submit']['#value'] = t('Refine');
+      $form['filter']['filters']['status']['actions']['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
+      $form['filter']['filters']['status']['actions']['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
+    }
     // END BPI filter.
 
     // Content grid columns.
@@ -282,6 +309,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
  *
  * Since drupal has a hardcoded set of node filters, save the new
  * BPI related filter separately.
+ * Also, munge the standard filter actions above BPI filtering.
  *
  * @param array $form
  *   Form structure.
@@ -290,7 +318,25 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
  */
 function _bpi_node_admin_content_submit(&$form, &$form_state) {
   $bpi_filter = $form_state['input']['bpi'];
-  $_SESSION['bpi']['filter'] = $bpi_filter;
+  $op = $form_state['input']['op'];
+
+  // These are standard filter actions.
+  // Due to specific BPI filter nature, handle standard actions here.
+  if ($op == 'Reset') {
+    unset($_SESSION['bpi']['filter']);
+  }
+  elseif ($op == 'Undo' && !empty($_SESSION['bpi']['filter'])) {
+    // Cheat!
+    // Let the drupal filters know that there is a BPI filter, but in
+    // real it's kept in this module.
+    // Since BPI filter will always be shown as last, it will pop a filter stub
+    // from self array, and here we kill the actual bpi filter.
+    $_SESSION['node_overview_filter'][] = '';
+    unset($_SESSION['bpi']['filter']);
+  }
+  elseif ($op == 'Filter' || $op == 'Refine') {
+    $_SESSION['bpi']['filter'] = $bpi_filter;
+  }
 }
 
 /**
