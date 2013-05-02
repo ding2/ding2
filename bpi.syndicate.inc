@@ -16,6 +16,18 @@
  * @ingroup forms
  */
 function bpi_syndicate_page_form($form, &$form_state) {
+  drupal_add_library('system', 'drupal.ajax');
+
+  $form['bpi_actions'] = array(
+    '#type' => 'item',
+    '#markup' => implode('', array(
+      l(t('Settings'), 'admin/config/bpi'),
+      l(t('Statistics'), 'admin/bpi/statistics/nojs', array('attributes' => array('class' => array('use-ajax')))),
+    )),
+    '#prefix' => '<div class="bpi-admin-actions">',
+    '#suffix' => '</div>',
+  );
+
   $form['bpi_search_query'] = array(
     '#type' => 'textfield',
     '#default_value' => _bpi_current_search_phrase(),

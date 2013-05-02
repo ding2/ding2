@@ -32,3 +32,14 @@
 #edit-bpi-search-sort {
   text-align: right;
 }
+
+#edit-bpi-actions {
+  position: absolute;
+  right: 0;
+}
+
+#edit-bpi-actions a {
+  border: 1px solid black;
+  margin-right: 5px;
+  padding: 3px;
+}
