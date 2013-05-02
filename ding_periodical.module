@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Shows issue information on periodicals.
@@ -7,6 +6,59 @@
 
 // Load Field module hooks.
 module_load_include('inc', 'ding_periodical', 'ding_periodical.field');
+
+/**
+ * Implements hook_menu().
+ */
+function ding_periodical_menu() {
+  $items = array();
+
+  // Ajax callback to get issue information.
+  $items['ding_periodical/issues/%'] = array(
+    'title' => 'Periodical issue information',
+    'page callback' => 'ding_periodical_issues_ajax',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Callback function that load holdings information for a periodical and returns
+ * the information as a HTML table in JSON.
+ *
+ * @param string $ding_entity_id
+ *  Ding entity id for the periodical.
+ */
+function ding_periodical_issues_ajax($ding_entity_id) {
+  $output = array();
+
+  // Load the entity for the periodical.
+  $entity = ding_entity_load($ding_entity_id);
+
+  // Get availability
+  $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
+  if (isset($availability[$entity->provider_id])) {
+    $issues = $availability[$entity->provider_id]['issues'];
+    krsort($issues);
+
+    if ($issues) {
+      $output = array(
+        '#theme' => 'ding_periodical_issues',
+        '#entity' => $entity,
+        '#issues' => $issues,
+        '#availability' => $availability,
+      );
+    }
+  }
+
+  // Render the output to HTML an return it.
+  drupal_json_output(array(
+    'html' => empty($output) ? '' : render($output),
+  ));
+}
 
 /**
  * Implements hook_theme().
@@ -20,11 +72,19 @@ function ding_periodical_theme() {
         'availability' => array(),
       ),
     ),
+    'ding_periodical_issues_ajax' => array(
+      'variables' => array(
+        'ding_entity_id' => NULL,
+      ),
+      'template' => 'ding-periodical-issues'
+    ),
   );
 }
 
 /**
- * Theming function.
+ * Implements theme_ding_periodical_issues().
+ *
+ * Create list of periodical issues order by year.
  */
 function theme_ding_periodical_issues($variables) {
   $items = array();
@@ -88,7 +148,7 @@ function theme_ding_periodical_issues($variables) {
     $items[] = $vol;
   }
 
-  return theme('item_list', array('items' => $items, 'attributes' => array('class' => drupal_html_class('ding_periodical_issues'))));
+  return theme('item_list', array('items' => $items, 'attributes' => array('class' => 'ding-periodical-issues')));
 }
 
 /**
@@ -148,42 +208,7 @@ function ding_periodical_build_table($availability) {
     $i++;
   }
 
-  return theme('table', array('header' => $header, 'rows' => $rows));
-}
-
-/**
- * A periodical reservation.
- */
-class DingPeriodicalReservable extends DingReservationReservableEntity {
-  public function __construct($id, $volume, $issue, $entity) {
-    $this->id = $id;
-    $this->volume = $volume;
-    $this->issue = $issue;
-    $this->entity = $entity;
-  }
-
-  public function getProviderId() {
-    // pjo 16-01-12 reservations did not work for alma-periodicals;
-    // switch on provider type
-    $type = ding_provider_get_provider_module_name('reservation');
-    switch ($type) {
-      case 'openruth':
-        return array($this->entity->provider_id, $this->id);
-      case 'alma':
-        return $this->id;
-      default:
-        return $this->id;
-    }
-  }
-
-  public function getEntity() {
-    return $this->entity;
-  }
-
-  public function getTitle() {
-    $title = '@title, vol @volume';
-    $title .= !empty($this->issue) ? ', issue @issue' : '';
-
-    return t($title, array('@title' => $this->entity->title, '@volume' => $this->volume, '@issue' => $this->issue));
-  }
+  // Note: If stikcy header is TRUE, it will keep adding the js in FF until the
+  //       browser goes down.
+  return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE));
 }
