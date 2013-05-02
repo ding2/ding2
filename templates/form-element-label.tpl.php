@@ -3,9 +3,9 @@
 /*
  * @file
  * DDBasic's theme implementation to display form element labels.
- * 
+ *
  * See includes/form.inc for the theme function this template overrides.
- * 
+ *
  * Returns HTML for a form element label and required marker.
  *
  * Form element labels include the #title and a #required marker. The label is
@@ -23,7 +23,7 @@ if ((!isset($element['#title']) || $element['#title'] === '') && empty($element[
   return '';
 }
 
-// If the element is required, a required marker is appended to the label. A required marker will not be added on edit-name and edit-pass fields 
+// If the element is required, a required marker is appended to the label. A required marker will not be added on edit-name and edit-pass fields
 $required = (!empty($element['#required']) && $element['#id'] != 'edit-name' && $element['#id'] != 'edit-pass') ? theme('form_required_marker', array('element' => $element)) : '';
 
 $title = filter_xss_admin($element['#title']);
@@ -38,14 +38,14 @@ if ($element['#title_display'] == 'after') {
 elseif ($element['#title_display'] == 'invisible') {
   $attributes['class'][] = 'element-invisible';
 }
-elseif (is_array($element['#title_attribute'])) {
+elseif (isset($element['#title_attribute']) && is_array($element['#title_attribute'])) {
   $attributes['class'][] = implode(' ', $element['#title_attribute']);
 }
 
 if (!empty($element['#id'])) {
   $attributes['for'] = $element['#id'];
-  
-  // Add ddbasic-specific classes 
+
+  // Add ddbasic-specific classes
   if ($element['#id'] == 'edit-name') {
     $attributes['class'][] = 'user-label';
   } elseif ($element['#id'] == 'edit-pass') {
