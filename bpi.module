@@ -258,11 +258,12 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
       // Add a BPI filter marker to active filters.
       $form['filter']['filters']['current'][] = $bpi_filter_marker;
-      // Add standard filter buttons.
-      // Since those are showed only if drupal filters array is not empty.
-      $form['filter']['filters']['status']['actions']['submit']['#value'] = t('Refine');
-      $form['filter']['filters']['status']['actions']['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
-      $form['filter']['filters']['status']['actions']['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
+      // Add standard filter buttons,
+      // since those are showed only if drupal filters array is not empty.
+      $filter_actions = &$form['filter']['filters']['status']['actions'];
+      $filter_actions['submit']['#value'] = t('Refine');
+      $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
+      $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
     }
     // END BPI filter.
 
