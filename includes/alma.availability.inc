@@ -146,6 +146,9 @@ function _alma_set_table_html($holdings, $r_count) {
   $row['data']['Copies'] = array('data' => $r_count, 'colspan' => 4);
   $variables['rows'][] = $row;
 
+  // Disable sticky headers.
+  $variables['sticky'] = FALSE;
+
   // Theme the table.
   $html = theme('table', $variables);
 
