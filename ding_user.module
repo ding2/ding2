@@ -206,6 +206,20 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
 }
 
 /**
+ * Helper function to get the pincode length from the administration UI.
+ *
+ * @return int $length
+ *  The length of the pincode, if not set it will return 4.
+ */
+function ding_user_get_pincode_length() {
+  $length = variable_get('ding_user_pincode_length', 0);
+  if ($length == 0) {
+    $length = 4;
+  }
+  return $length;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Add pincode fields to the provider profile(s), so the users can change their
@@ -221,7 +235,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       // Add pincode change field. Defaults to 4 chars, as that seems the common
       // option, providers may change this by implementing
       // hook_user_pincode_length.
-      $maxlength = variable_get('ding_user_pincode_length', 4);
+      $maxlength = ding_user_get_pincode_length();
       $form['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -254,6 +268,7 @@ function ding_user_form_process_password_confirm($element) {
     // this element, whose value will be an array.
     unset($element['#maxlength']);
   }
+  unset($element['#maxlength']);
 
   // Fixup the titles.
   $element['pass1']['#title'] = t('Pincode');
