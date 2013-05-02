@@ -497,6 +497,8 @@ function ddbasic_menu_link__menu_block__4($vars) {
   // Make sure text string is treated as html by l function
   $element['#localized_options']['html'] = true;
 
+  $element['#localized_options']['attributes']['class'][] = 'js-topbar-link';
+
   // Add some icons to our topbar menu. We use system paths to check against.
   switch($element['#href']) {
     case 'search':
