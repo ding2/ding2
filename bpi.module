@@ -74,6 +74,17 @@ function bpi_menu() {
     'delivery callback' => 'ajax_deliver',
   ) + $menu['admin/bpi/push/nojs/%'];
 
+  $menu['admin/bpi/statistics/nojs'] = array(
+    'page callback' => 'bpi_statistics',
+    'page arguments' => array(3),
+    'access arguments' => array('view bpi statistics'),
+    'file' => 'bpi.statistics.inc',
+  );
+
+  $menu['admin/bpi/statistics/ajax'] = array(
+    'delivery callback' => 'ajax_deliver',
+  ) + $menu['admin/bpi/statistics/nojs'];
+
   $menu['admin/bpi/page/%'] = array(
     'title' => 'BPI syndication',
     'description' => 'Retrieve content from the well.',
@@ -129,6 +140,10 @@ function bpi_permission() {
 
   $perm['push content'] = array(
     'title' => t('Push content'),
+  );
+
+  $perm['view bpi statistics'] = array(
+    'title' => t('View statistics'),
   );
 
   return $perm;
