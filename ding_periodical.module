@@ -103,7 +103,7 @@ function theme_ding_periodical_issues($variables) {
       $holding_data = ding_periodical_build_table($availability);
 
       // Check if the volume is reservable and add reservation form.
-      if (!empty($issue_id)) {
+      if (!empty($issue_id) && ding_periodical_has_copies($issues[$key])) {
         $reservation = new DingPeriodicalReservable($issue_id, $volume, $key, $variables['entity']);
         $form = ding_provider_get_form('ding_reservation_reserve_form', $reservation, TRUE);
         $holding_data .= drupal_render($form);
@@ -117,7 +117,7 @@ function theme_ding_periodical_issues($variables) {
 
       // Normal behavior - periodicals, dc.type=tidsskrift.
       $iss[$i] = array(
-        'data' => '<span id="periodical-id-' . $normalized_id . '" class="' . drupal_html_class('ding_periodical_fold') . ' ding-reservable-periodical periodical-id-' . $normalized_id . '">' . $issue . '</span>',
+        'data' => '<span id="periodical-id-' . $normalized_id . '" class="ding-periodical-fold ding-reservable-periodical periodical-id-' . $normalized_id . '">' . $issue . '</span>',
         'class' => array(
           drupal_html_class('ding-periodical-container'),
         ),
@@ -211,4 +211,21 @@ function ding_periodical_build_table($availability) {
   // Note: If stikcy header is TRUE, it will keep adding the js in FF until the
   //       browser goes down.
   return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE));
+}
+
+/**
+ * Check if a given issue of a periodical have any copies on the libraries.
+ *
+ * @param array $issue
+ *  An periodical isssue form the provider.
+ * @return boolean
+ *  If a copy exists it return TRUE else FALSE.
+ */
+function ding_periodical_has_copies($issue) {
+  foreach ($issue['placement'] as $placement) {
+    if ($placement['total_count']) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
