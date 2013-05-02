@@ -4,3 +4,5 @@ version = 0.1
 core = 7.x
 configure = admin/config/bpi/settings
 package = BPI
+dependencies[] = date
+dependencies[] = date_popup
