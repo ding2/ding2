@@ -8,6 +8,9 @@
   $(document).ready(function () {
 
     // Elements to toggle
+
+
+    // TODO: Add js-topbar-toggle to markup and replace vars
     var ddbasic_search = $('#topbar-search');
     var ddbasic_user_menu = $('#topbar-user-menu');
     var ddbasic_user_name = $('#topbar-user-name');
@@ -26,13 +29,19 @@
     ddbasic_menu_link.removeAttr('href');
 
     // Attach some onclick magic
-    ddbasic_search_link.click(function() {
+    ddbasic_search_link.click(function(event) {
       ddbasic_user_link.removeClass("active");
       ddbasic_menu_link.removeClass("active");
       ddbasic_search_link.addClass("active");
+
+      // TODO: comment
       $.cookie("ddbasic_topbar_state", "ddbasic_search");
+
       topbar_hide();
       ddbasic_search.toggle();
+
+      // Prevent default (href)
+      event.preventDefault();
     });
     ddbasic_user_link.click(function() {
       ddbasic_user_link.addClass("active");
