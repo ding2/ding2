@@ -18,7 +18,7 @@
  */
 ?>
 
-  <section id="topbar-user-menu-loans" class="user-menu-loans <?php print $classes; ?>">
+  <section class="user-menu-loans js-topbar-user <?php print $classes; ?>">
     <?php if ($admin_links): ?>
       <?php print $admin_links; ?>
     <?php endif; ?>
