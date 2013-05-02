@@ -47,9 +47,9 @@ if (!empty($element['#id'])) {
 
   // Add ddbasic-specific classes
   if ($element['#id'] == 'edit-name') {
-    $attributes['class'][] = 'user-label';
+    $attributes['class'][] = 'label-user';
   } elseif ($element['#id'] == 'edit-pass') {
-    $attributes['class'][] = 'password-label';
+    $attributes['class'][] = 'label-password';
   }
 }
 ?>

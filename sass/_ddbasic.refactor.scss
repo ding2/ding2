@@ -154,6 +154,165 @@
 }
 
 
+// Search and user form in topbar
+.search {
+  .search-field-wrapper {
+    position: relative;
+  }
+
+  .spinner {
+    i[class^="icon-"] {
+      @extend .icon-spin;
+      @extend .icon-spinner;
+
+      height: auto;
+    }
+  }
+
+  .form-item {
+    @include zen-grid-item(12, 1);
+  }
+
+  .form-text {
+    padding-left: 49px;
+  }
+}
+
+.user {
+  .form-item-name {
+    @include zen-grid-item(6, 1);
+
+    .form-text {
+      padding-left: 45px;
+    }
+  }
+
+  .form-item-pass {
+    @include zen-grid-item(6, 1, right);
+
+    .form-text {
+      padding-left: 42px;
+    }
+  }
+
+  @include small() {
+    .form-item-pass {
+      margin-top: 10px;
+    }
+  }
+}
+
+.search,
+.user {
+  display: inline-block;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 100%;
+
+  [class^="icon-"] {
+    @include rem('font-size', 30px);
+
+    color: $gray-darker;
+    margin-left: 14px;
+    position: absolute;
+    top: 46px;
+  }
+
+  .form-item {
+    display: inline-block;
+    position: relative;
+  }
+
+  .form-text {
+    @include rem('font-size', 18px);
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    border: 0;
+    display: inline;
+    margin-right: 20px;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .form-text,
+  .form-submit {
+    min-height: 60px;
+    padding-top: 0;
+  }
+
+  .form-submit {
+    @include rem('font-size', 20px);
+    @include border-radius(12px);
+    @extend %button-default;
+
+    margin-top: 31px;
+    padding-bottom: 1px;
+    min-width: 110px;
+  }
+
+  [class^="label-"] {
+    @include rem('font-size', 16px);
+    @extend %font-bold;
+
+    color: transparentize($white, .25);
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+  }
+
+  input[class^="form-"] {
+    margin-bottom: 0;
+  }
+
+  .form-actions {
+    @include zen-grid-item(2, 1, right);
+
+    text-align: right;
+  }
+
+  @include small() {
+    .form-item {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
+    }
+  }
+
+
+  @include small-medium() {
+    i[class^="icon-"] {
+      @include rem('font-size', 20px);
+
+      top: 45px;
+    }
+
+    .form-text {
+      @include rem('font-size', 18px);
+
+      min-height: 50px;
+      min-width: 100%;
+      padding-left: 42px;
+    }
+
+    .form-actions {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
+    }
+
+    .form-submit {
+      @include rem('font-size', 18px);
+
+      margin-top: 20px;
+      min-height: 44px;
+      min-width: 100%;
+    }
+  }
+
+  @include medium() {
+  }
+}
+
+
 // -----------------------------------------------------------------------------
 // Mediaqueries
 // -----------------------------------------------------------------------------

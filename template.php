@@ -120,7 +120,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
       $form['search_block_form']['#title'] = t('Search the library database and the website');
-      $form['search_block_form']['#title_attribute'] = array('search-label');
+      $form['search_block_form']['#title_attribute'] = array('label-search');
       
       // Remove element-invisible
       unset($form['search_block_form']['#title_display']);
