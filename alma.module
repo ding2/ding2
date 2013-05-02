@@ -324,7 +324,7 @@ function alma_profile2_presave($entity) {
 }
 
 function alma_update_provider($changes, $entity) {
-  $error_message = t('Error communicating with library system. ');
+  $error_message = t('Error communicating with library system.');
 
   try {
     $creds = ding_user_get_creds($entity);
