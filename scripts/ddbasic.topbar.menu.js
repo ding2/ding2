@@ -25,11 +25,13 @@
       if (clicked.hasClass('topbar-link-user')) {
         ddbasic_topbar_search.hide();
         ddbasic_topbar_user.toggle();
+        $('.js-topbar-user #edit-name').focus();
       }
       // Search link was clicked
       if (clicked.hasClass('topbar-link-search')) {
         ddbasic_topbar_user.hide();
         ddbasic_topbar_search.toggle();
+        $('.js-topbar-search #edit-search-block-form--2').focus();
       }
 
       // Set clicked to active link if not already active.
