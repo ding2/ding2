@@ -5855,22 +5855,32 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 100%;
 }
 /* line 212, ../sass/_ddbasic.refactor.scss */
+.search [class^="label-"],
+.user [class^="label-"] {
+  font-size: 16px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 2px;
+  margin-bottom: 5px;
+  margin-left: 2px;
+}
+/* line 222, ../sass/_ddbasic.refactor.scss */
 .search [class^="icon-"],
 .user [class^="icon-"] {
   font-size: 30px;
   font-size: 1.875rem;
   color: #959595;
-  margin-top: 15px;
-  margin-left: 14px;
+  bottom: 15px;
+  left: 24px;
   position: absolute;
 }
-/* line 221, ../sass/_ddbasic.refactor.scss */
+/* line 231, ../sass/_ddbasic.refactor.scss */
 .search .form-item,
 .user .form-item {
   display: inline-block;
   position: relative;
 }
-/* line 226, ../sass/_ddbasic.refactor.scss */
+/* line 236, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .user .form-text {
   font-size: 18px;
@@ -5888,7 +5898,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 0;
   width: 100%;
 }
-/* line 239, ../sass/_ddbasic.refactor.scss */
+/* line 249, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .search .form-submit,
 .user .form-text,
@@ -5896,7 +5906,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   min-height: 60px;
   padding-top: 0;
 }
-/* line 244, ../sass/_ddbasic.refactor.scss */
+/* line 254, ../sass/_ddbasic.refactor.scss */
 .search .form-submit,
 .user .form-submit {
   font-size: 20px;
@@ -5907,16 +5917,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 31px;
   padding-bottom: 1px;
   min-width: 110px;
-}
-/* line 254, ../sass/_ddbasic.refactor.scss */
-.search [class^="label-"],
-.user [class^="label-"] {
-  font-size: 16px;
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.75);
-  margin-top: 2px;
-  margin-bottom: 5px;
-  margin-left: 2px;
 }
 /* line 264, ../sass/_ddbasic.refactor.scss */
 .search input[class^="form-"],
@@ -5945,6 +5945,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 @media only screen and (max-width: 480px) {
   /* line 275, ../sass/_ddbasic.refactor.scss */
+  .search [class^="label-"],
+  .user [class^="label-"] {
+    font-size: 14px;
+    font-size: 0.875rem;
+  }
+  /* line 279, ../sass/_ddbasic.refactor.scss */
   .search .form-item,
   .user .form-item {
     float: left;
@@ -5966,14 +5972,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 282, ../sass/_ddbasic.refactor.scss */
+  /* line 286, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
-    top: 45px;
   }
-  /* line 288, ../sass/_ddbasic.refactor.scss */
+  /* line 290, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -5982,7 +5987,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 296, ../sass/_ddbasic.refactor.scss */
+  /* line 298, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -6002,7 +6007,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 301, ../sass/_ddbasic.refactor.scss */
+  /* line 303, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
@@ -6013,14 +6018,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 282, ../sass/_ddbasic.refactor.scss */
+  /* line 286, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
-    top: 45px;
   }
-  /* line 288, ../sass/_ddbasic.refactor.scss */
+  /* line 290, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -6029,7 +6033,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 296, ../sass/_ddbasic.refactor.scss */
+  /* line 298, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -6049,7 +6053,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 301, ../sass/_ddbasic.refactor.scss */
+  /* line 303, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;

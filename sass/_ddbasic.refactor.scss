@@ -209,12 +209,22 @@
   margin-bottom: 25px;
   width: 100%;
 
+  [class^="label-"] {
+    @include rem('font-size', 16px);
+    @extend %font-bold;
+
+    color: transparentize($white, .25);
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+  }
+
   [class^="icon-"] {
     @include rem('font-size', 30px);
 
     color: $gray-darker;
-    margin-top: 15px;
-    margin-left: 14px;
+    bottom: 15px;
+    left: 24px;
     position: absolute;
   }
 
@@ -251,16 +261,6 @@
     min-width: 110px;
   }
 
-  [class^="label-"] {
-    @include rem('font-size', 16px);
-    @extend %font-bold;
-
-    color: transparentize($white, .25);
-    margin-top: 2px;
-    margin-bottom: 5px;
-    margin-left: 2px;
-  }
-
   input[class^="form-"] {
     margin-bottom: 0;
   }
@@ -272,6 +272,10 @@
   }
 
   @include small() {
+    [class^="label-"] {
+      @include rem('font-size', 14px);
+    }
+
     .form-item {
       @include zen-grid-item(12, 1);
       @include zen-clear();
@@ -281,8 +285,6 @@
   @include small-medium() {
     i[class^="icon-"] {
       @include rem('font-size', 20px);
-
-      top: 45px;
     }
 
     .form-text {
