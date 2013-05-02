@@ -63,6 +63,17 @@ function bpi_menu() {
     'file' => 'bpi.syndicate.inc',
   );
 
+  $menu['admin/bpi/push/nojs/%'] = array(
+    'page callback' => 'bpi_push_action',
+    'page arguments' => array(3, 4),
+    'access arguments' => array('push content'),
+    'file' => 'bpi.push.inc',
+  );
+
+  $menu['admin/bpi/push/ajax/%'] = array(
+    'delivery callback' => 'ajax_deliver',
+  ) + $menu['admin/bpi/push/nojs/%'];
+
   $menu['admin/bpi/page/%'] = array(
     'title' => 'BPI syndication',
     'description' => 'Retrieve content from the well.',
@@ -114,6 +125,10 @@ function bpi_permission() {
 
   $perm['syndicate content'] = array(
     'title' => t('Syndicate content'),
+  );
+
+  $perm['push content'] = array(
+    'title' => t('Push content'),
   );
 
   return $perm;
@@ -222,7 +237,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     );
 
     $form['#submit'][] = '_bpi_node_admin_content_submit';
-    // End BPI filter.
+    // END BPI filter.
 
     // Content grid columns.
     $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
@@ -244,6 +259,19 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       $tmp = $row['operations'];
       unset($row['operations']);
       $row['operations'] = $tmp;
+
+      // Adds a push link to operations.
+      $row['operations']['data']['#links']['push'] = array(
+        'title' => t('push'),
+        'href' => 'admin/bpi/push/nojs/' . $key,
+        'attributes' => array(
+          'class' => array(
+            'use-ajax',
+          ),
+        ),
+      );
+
+      drupal_add_library('system', 'drupal.ajax');
     }
     // END content grid columns.
   }
