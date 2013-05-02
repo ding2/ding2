@@ -278,7 +278,6 @@
     }
   }
 
-
   @include small-medium() {
     i[class^="icon-"] {
       @include rem('font-size', 20px);
@@ -306,9 +305,6 @@
       min-height: 44px;
       min-width: 100%;
     }
-  }
-
-  @include medium() {
   }
 }
 
