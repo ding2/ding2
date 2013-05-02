@@ -34,8 +34,12 @@
       // Set clicked to active link if not already active
       if (clicked.hasClass('active')) {
         clicked.removeClass('active');
+        ddbasic_topbar_link.one('touchend', function() {
+          clicked.css('background-color', 'inherit');
+        });
       }
       else {
+        clicked.css('background-color', '');
         ddbasic_topbar_link.removeClass('active');
         clicked.addClass('active');
       }
