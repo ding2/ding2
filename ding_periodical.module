@@ -20,11 +20,18 @@ function ding_periodical_theme() {
         'availability' => array(),
       ),
     ),
+    'ding_periodical_issues_ajax' => array(
+      'variables' => array(
+        'entity' => NULL,
+      ),
+    ),
   );
 }
 
 /**
- * Theming function.
+ * Implements theme_ding_periodical_issues().
+ * 
+ * Create list of periodical issues order by year.
  */
 function theme_ding_periodical_issues($variables) {
   $items = array();
@@ -148,42 +155,7 @@ function ding_periodical_build_table($availability) {
     $i++;
   }
 
-  return theme('table', array('header' => $header, 'rows' => $rows));
-}
-
-/**
- * A periodical reservation.
- */
-class DingPeriodicalReservable extends DingReservationReservableEntity {
-  public function __construct($id, $volume, $issue, $entity) {
-    $this->id = $id;
-    $this->volume = $volume;
-    $this->issue = $issue;
-    $this->entity = $entity;
-  }
-
-  public function getProviderId() {
-    // pjo 16-01-12 reservations did not work for alma-periodicals;
-    // switch on provider type
-    $type = ding_provider_get_provider_module_name('reservation');
-    switch ($type) {
-      case 'openruth':
-        return array($this->entity->provider_id, $this->id);
-      case 'alma':
-        return $this->id;
-      default:
-        return $this->id;
-    }
-  }
-
-  public function getEntity() {
-    return $this->entity;
-  }
-
-  public function getTitle() {
-    $title = '@title, vol @volume';
-    $title .= !empty($this->issue) ? ', issue @issue' : '';
-
-    return t($title, array('@title' => $this->entity->title, '@volume' => $this->volume, '@issue' => $this->issue));
-  }
+  // Note: If stikcy header is TRUE, it will keep adding the js in FF until the
+  //       browser goes down.
+  return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE));
 }

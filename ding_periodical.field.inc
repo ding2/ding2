@@ -55,6 +55,12 @@ function ding_periodical_field_formatter_info() {
         'ding_periodical_issues',
       ),
     ),
+    'ding_periodical_issues_ajax' => array(
+      'label' => t('Ajax load'),
+      'field types' => array(
+        'ding_periodical_issues',
+      ),
+    ),
   );
 }
 
@@ -63,26 +69,52 @@ function ding_periodical_field_formatter_info() {
  */
 function ding_periodical_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  foreach ($items as $delta => $item) {
-
-    if (!ding_provider_implements('availability', 'holdings') ) {
-      return $element;
-    }
-
-    $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
-    if (isset($availability[$entity->provider_id])) {
-      $issues = $availability[$entity->provider_id]['issues'];
-      krsort($issues);
-
-      if ($issues) {
+  
+  // Check that the provider provides holdings information.
+  if (!ding_provider_implements('availability', 'holdings') ) {
+    return $element;
+  }
+  
+  // Switch over the different formatters.
+  switch ($display['type']) {
+    case 'ding_periodical_issues_ajax':
+      foreach ($items as $delta => $item) {
         $element[$delta] = array(
-          '#theme' => 'ding_periodical_issues',
+          '#theme' => 'ding_periodical_issues_ajax',
           '#entity' => $entity,
-          '#issues' => $issues,
-          '#availability' => $availability,
         );
       }
-    }
+      break;
+
+    default:
+      // Handles the default formatter.
+      foreach ($items as $delta => $item) {
+        $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
+        if (isset($availability[$entity->provider_id])) {
+          $issues = $availability[$entity->provider_id]['issues'];
+          krsort($issues);
+
+          if ($issues) {
+            $element[$delta] = array(
+              '#theme' => 'ding_periodical_issues',
+              '#entity' => $entity,
+              '#issues' => $issues,
+              '#availability' => $availability,
+            );
+          }
+        }
+      }
+      break;
   }
+  
+  // Add script to collapsed the issue list, if any elements found.
+  if (!empty($element)) {    
+    $element['#attached']['js'] = array(
+      array(
+        'data' => drupal_get_path('module', 'ding_periodical') . '/js/ding_periodical.js',      
+      ),
+    );
+  }
+
   return $element;
 }
