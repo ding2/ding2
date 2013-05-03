@@ -111,6 +111,7 @@
     @include box-sizing(border-box);
 
     background-color: $theme-primary-color;
+    display: none;
     padding-top: 20px;
     padding-right: 20px;
     padding-bottom: 30px;
@@ -182,7 +183,7 @@
 
     display: inline;
 
-    // Make sure the icon is not displayed on this breakpoint
+    // Make sure the icon is not displayed in this breakpoint
     &:before {
       display: none;
     }
