@@ -58,6 +58,9 @@ projects[date][version] = "2.6"
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
 
+projects[features_extra][subdir] = "contrib"
+projects[features_extra][version] = "1.0-beta1"
+
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
