@@ -312,7 +312,7 @@ function alma_profile2_presave($entity) {
 
     // Get the mail.
     $value = $wrapper->field_alma_mail->value();
-    if (!is_null($value)) {
+    if (!is_null($value) && $value != $wrapper_original->field_alma_mail->value()) {
         $changes['mail'] = $value;
     }
 
