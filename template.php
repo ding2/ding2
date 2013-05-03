@@ -504,14 +504,17 @@ function ddbasic_menu_link__menu_block__4($vars) {
     case 'search':
       $title_prefix = '<i class="icon-search"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-search';
+      $element['#attributes']['class'][] = 'topbar-link-search';
       break;
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+      $element['#attributes']['class'][] = 'topbar-link-user';
       break;
     default:
       $title_prefix = '<i class="icon-align-justify"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-menu';
+      $element['#attributes']['class'][] = 'topbar-link-menu';
       break;
   }
 
