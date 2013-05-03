@@ -224,12 +224,6 @@
         margin-right: 5px;
       }
 
-      &:active,
-      &:focus {
-        background-color: transparentize($white, .9);
-        padding-left: 20px;
-      }
-
       .menu-item {
         color: $white;
         display: block;
@@ -243,6 +237,11 @@
 
           color: $white;
           text-decoration: none;
+        }
+
+        &:active,
+        &:focus {
+          background-color: transparentize($white, .9);
         }
 
         &.active {
