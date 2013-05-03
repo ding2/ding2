@@ -14,12 +14,6 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
-%font-bold {
-  font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
-}
-
-
 %reset-list {
   list-style-type: none;
   margin: 0;
@@ -211,7 +205,7 @@
 
   [class^="label-"] {
     @include rem('font-size', 16px);
-    @extend %font-bold;
+    @include font-bold();
 
     color: transparentize($white, .25);
     margin-top: 2px;

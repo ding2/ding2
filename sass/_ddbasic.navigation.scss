@@ -13,56 +13,12 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
-%navigation {
-  margin: 0;
-  padding-left: 0;
-
-  li {
-    display: inline;
-  }
-
-  .menu-item {
-    color: $gray-darker;
-    display: inline-block;
-
-    &:hover {
-      color: $black;
-    }
-
-    &.active {
-      color: $black;
-      text-decoration: underline;
-    }
-  }
-
-  &.last {
-    border-right: 0;
-  }
-}
 
 
 // -----------------------------------------------------------------------------
 // Default styling
 // -----------------------------------------------------------------------------
 //
-.navigation-wrapper {
-  @extend .grid-wrapper;
-
- 	background-color: transparentize($white, .05);
-  position: absolute;
-  width: 100%;
-
-  &.fixed {
-    position: fixed;
-    top: 0;
-    z-index: 99;
-  }
-
-}
-
-.navigation-inner {
-  @extend .grid-inner;
-}
 
 
 // **
@@ -101,6 +57,11 @@
       text-decoration: none;
       background-color: $theme-primary-color;
     }
+
+    // Hide mobile link menu item
+    &.topbar-link-menu {
+      display: none;
+    }
   }
 
   i[class^="icon-"] {
@@ -120,62 +81,177 @@
     span {
       display: none;
     }
+
+    .menu-item {
+      // Show mobile link menu item
+      &.topbar-link-menu {
+        display: inline-block;
+      }
+    }
   }
 }
 
 // **
-// Main menu
+// Navigation, main menu and secondary menu
 // **
 //
+.navigation-wrapper {
+  @extend .grid-wrapper;
+
+ 	background-color: transparentize($white, .05);
+  width: 100%;
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    z-index: 99;
+  }
+
+  @include small-medium() {
+    @include box-sizing(border-box);
+
+    background-color: $theme-primary-color;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+  }
+}
+
+.navigation-inner {
+  @extend .grid-inner;
+}
+
 .main-menu-wrapper {
-  @include zen-grid-item($grid-66, 1);
+  @include zen-grid-item(8, 1);
+}
+
+.secondary-menu-wrapper {
+  @include zen-grid-item(4, 1, right);
+}
+
+.main-menu-wrapper,
+.secondary-menu-wrapper {
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
+    @include zen-clear();
+  }
 }
 
 .main-menu {
   @include rem('font-size', 20px);
-  @extend %navigation;
+}
+
+.secondary-menu {
+  @include zen-float(right);
+  @include rem('font-size', 16px);
 
   li {
+    border-right: 1px solid $gray;
+
+    .menu-item {
+      margin-left: 20px;
+    }
+
+    &.last {
+      border-right: 0;
+
+      .menu-item {
+        margin-right: 0;
+      }
+    }
+  }
+
+  @include small-medium() {
+    float: none;
+
+    li {
+      border-right: 0;
+    }
+  }
+}
+
+.main-menu,
+.secondary-menu {
+  margin: 0;
+  padding-left: 0;
+
+  li {
+    // Add the icon here so we can show it in other breakpoints
+    @extend .icon-angle-right;
+
+    display: inline;
+
+    // Make sure the icon is not displayed on this breakpoint
+    &:before {
+      display: none;
+    }
+  }
+
+  .menu-item {
+    color: $gray-darker;
+    display: inline-block;
     margin-right: 20px;
+
+    &:hover {
+      color: $black;
+    }
+
+    &.active {
+      color: $black;
+      text-decoration: underline;
+    }
   }
 
   .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
   }
-}
 
+  @include small-medium() {
+    @include rem('font-size', 16px);
 
-// **
-// Secondary menu
-// **
-//
-.secondary-menu-wrapper {
-  @include zen-grid-item($grid-33, 1, right);
-}
+    li {
+      border-bottom: 1px solid transparentize($white, .75);
+      display: block;
 
-.secondary-menu {
-  @include zen-float(right);
-  @include rem('font-size', $theme-font-size);
-  @extend %navigation;
-
-  li {
-    border-right: 1px solid $gray;
-
-    .menu-item {
-      color: lighten($black, 50%);
-      margin-right: 20px;
-      margin-left: 20px;
-      padding-top: 20px;
-      padding-bottom: 20px;
-
-      &.last {
-        margin-right: 0;
+      &:before {
+        color: $white;
+        display: inline;
+        float: left;
+        font-family: $theme-icon-library-font;
+        margin-top: 9px;
+        margin-right: 5px;
       }
-    }
 
-    &.last {
-      border-right: 0;
+      &:active,
+      &:focus {
+        background-color: transparentize($white, .9);
+        padding-left: 20px;
+      }
+
+      .menu-item {
+        color: $white;
+        display: block;
+        margin-right: 0;
+        margin-left: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        &:hover {
+          @include font-bold();
+
+          color: $white;
+          text-decoration: none;
+        }
+
+        &.active {
+          @include font-bold();
+
+          color: $white;
+          text-decoration: none;
+        }
+      }
     }
   }
 }

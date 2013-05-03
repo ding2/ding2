@@ -106,15 +106,8 @@ $topbar-text-color:               #fff;
 }
 
 
-
 .content-wrapper {
   @extend .grid-wrapper;
-}
-
-.front {
-  .content-wrapper {
-    margin-top: ($theme-line-height + ($default-spacing * 2)) + $default-spacing;
-  }
 }
 
 

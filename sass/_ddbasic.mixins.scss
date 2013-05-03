@@ -10,6 +10,16 @@
 $prefixes: ("-webkit-","-moz-", "-o-", "");
 
 
+// **
+// Typography
+// **
+//
+@mixin font-bold() {
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+}
+
+
 // -----------------------------------------------------------------------------
 // Mixin for ::selection, which allows specify selected text background color
 // ----------------------------------------------------------------------------- 
