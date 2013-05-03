@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Defines the field schema and entity fields.
+ */
 
 /**
  * Implements hook_field_schema().
