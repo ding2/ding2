@@ -291,6 +291,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'naked',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -312,6 +313,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'naked',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -492,6 +494,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -513,6 +516,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -534,6 +538,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -555,6 +560,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -576,6 +582,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -597,6 +604,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -618,6 +626,7 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
