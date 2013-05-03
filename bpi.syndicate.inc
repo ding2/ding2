@@ -18,6 +18,8 @@
 function bpi_syndicate_page_form($form, &$form_state) {
   drupal_add_library('system', 'drupal.ajax');
 
+  $search_phrase = _bpi_current_search_phrase();
+
   $form['bpi_actions'] = array(
     '#type' => 'item',
     '#markup' => implode('', array(
@@ -30,7 +32,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
 
   $form['bpi_search_query'] = array(
     '#type' => 'textfield',
-    '#default_value' => _bpi_current_search_phrase(),
+    '#default_value' =>$search_phrase
   );
 
   $form['bpi_search_submit'] = array(
@@ -51,7 +53,8 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
   );
 
-  $markup = bpi_search_get_markup();
+  $items = bpi_search_get_items();
+  $markup = bpi_search_get_markup($items);
   $form['bpi_search_results'] = array(
     '#type' => 'item',
     '#markup' => $markup,
@@ -98,28 +101,73 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
  * @param type $page
  * @param type $filters
  */
-function bpi_search_content($page = 1, $filters = array()) {
+function bpi_search_content($query, $page = 1, $filters = array()) {
+  $endpoint = variable_get('bpi_service_url', '');
+  $agency_id = variable_get('bpi_agency_id', '');
+  $api_key = variable_get('bpi_api_key', '');
+  $secret_key = variable_get('bpi_secret_key', '');
 
+  $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+  $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
+  $offset = ($page - 1) * $amount;
+
+  $bpi_data = $bpi->searchNodes(
+    array(
+      'amount' => $amount,
+      'offset' => $offset,
+    )
+  );
+
+  if ($bpi_data->count() > 0) {
+    return $bpi_data;
+  }
+
+  return array();
 }
 
 /**
- * @todo dummy
- * @return type
+ * Parses the BPI search result into more simpler structures.
+ *
+ * @return array
+ *   Array of bpi fetched items, in structure:
+ *   - bpi_id: bpi identifier
+ *   - title: item title
+ *   - date: item creation date in the BPI system
+ *   - teaser: content teaser
+ *   - body: content body
+ *   - author: content author
+ *   - category: content category
+ *   - agency: content agency
+ *   - audience: content audience
  */
-function bpi_search_get_items($bpi_id = NULL) {
-  return array(
-    array(
-      'bpi_id' => mt_rand(1, 99),
-      'title' => 'Article title',
-      'date' => '03/25/2013-11:03',
-      'teaser' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      'body' => 'Nullam porta blandit augue, vitae fringilla sapien condimentum in.',
-      'author' => 'Martin Cording',
-      'category' => 'Latest stories',
-      'agency' => 'Aarhus library',
-      'audience' => 'Students',
-    )
-  );
+function bpi_search_get_items() {
+  $params = _bpi_build_query();
+  $phrase = isset($params[SEARCH_PHRASE_KEY]) ? $params[SEARCH_PHRASE_KEY] : '';
+  $page = isset($params['page']) ? $params['page'] : 1;
+  $filters = array();
+
+  $response = bpi_search_content($phrase, $page, $filters);
+  $bpi_nodes = array();
+
+  foreach ($response as $item) {
+    $current_item = $item->getProperties();
+    $bpi_nodes[] = array(
+      'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
+      'title' =>  isset($current_item['title']) ? $current_item['title'] : '',
+      // @todo
+      // Change to pushed date, i.e. the date when the node appeared in the BPI
+      // system.
+      'date' =>  isset($current_item['creation']) ? $current_item['creation'] : '',
+      'teaser' =>  isset($current_item['teaser']) ? $current_item['teaser'] : '',
+      'body' =>  isset($current_item['body']) ? $current_item['body'] : '',
+      'author' =>  isset($current_item['author']) ? $current_item['author'] : '',
+      'category' =>  isset($current_item['category']) ? $current_item['category'] : '',
+      'agency' =>  isset($current_item['agency']) ? $current_item['agency'] : '',
+      'audience' =>  isset($current_item['audience']) ? $current_item['audience'] : '',
+    );
+  }
+
+  return $bpi_nodes;
 }
 
 /**
@@ -130,13 +178,14 @@ function bpi_search_get_items($bpi_id = NULL) {
  *
  * @ingroup themable
  */
-function bpi_search_get_markup() {
-  $items = bpi_search_get_items();
+function bpi_search_get_markup($items) {
   $data = array();
 
   // Iterate through items and theme them.
-  foreach ($items as $item) {
-    $data[] = theme('bpi_well_item', array('item' => $item));
+  if (is_array($items)) {
+    foreach ($items as $item) {
+      $data[] = theme('bpi_well_item', array('item' => $item));
+    }
   }
 
   return implode('', $data);

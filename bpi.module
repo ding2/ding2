@@ -42,6 +42,13 @@ if (!defined('BPI_PUSHED')) {
 }
 
 /**
+ * Default number of BPI content per page when searching.
+ */
+if (!defined('BPI_CONTENT_PER_PAGE')) {
+  define('BPI_CONTENT_PER_PAGE', 10);
+}
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -222,7 +229,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_content['body'];
     }
   }
-  elseif ($form_id == 'node_admin_content') {
+  elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
     //Mark BPI nodes.
     $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
     $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
@@ -238,47 +245,49 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     // End mark BPI nodes.
 
     // BPI filter.
-    $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+    if (isset($form['filter']['filters']['status']['filters'])) {
+      $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
 
-    $bpi_filters = array(
-      'all' => t('any'),
-      'bpi_only' => t('BPI only'),
-      'bpi_syndicated' => t('Syndicated'),
-      'bpi_pushed' => t('Pushed'),
-    );
-
-    $form['filter']['filters']['status']['filters']['bpi'] = array(
-      '#type' => 'select',
-      '#title' => t('bpi'),
-      '#options' => $bpi_filters,
-      '#default_value' => $current_bpi_filter,
-    );
-
-    // It's viable that this module hooks, are fired before the standard ones.
-    array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
-
-    // If a BPI filter is set, prepend an active BPI filter marker.
-    if ($current_bpi_filter != 'all') {
-      $drupal_filters =  isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
-      $t_args = array(
-        '%property' => 'bpi',
-        '%value' => $bpi_filters[$current_bpi_filter],
+      $bpi_filters = array(
+        'all' => t('any'),
+        'bpi_only' => t('BPI only'),
+        'bpi_syndicated' => t('Syndicated'),
+        'bpi_pushed' => t('Pushed'),
       );
-      $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
 
-      // Whether there are some filters active, prepend a plural form.
-      if (count($drupal_filters)) {
-        $bpi_filter_marker['#prefix'] = t('and') . ' ';
+      $form['filter']['filters']['status']['filters']['bpi'] = array(
+        '#type' => 'select',
+        '#title' => t('bpi'),
+        '#options' => $bpi_filters,
+        '#default_value' => $current_bpi_filter,
+      );
+
+      // It's viable that this module hooks, are fired before the standard ones.
+      array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
+
+      // If a BPI filter is set, prepend an active BPI filter marker.
+      if ($current_bpi_filter != 'all') {
+        $drupal_filters =  isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
+        $t_args = array(
+          '%property' => 'bpi',
+          '%value' => $bpi_filters[$current_bpi_filter],
+        );
+        $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
+
+        // Whether there are some filters active, prepend a plural form.
+        if (count($drupal_filters)) {
+          $bpi_filter_marker['#prefix'] = t('and') . ' ';
+        }
+
+        // Add a BPI filter marker to active filters.
+        $form['filter']['filters']['current'][] = $bpi_filter_marker;
+        // Add standard filter buttons,
+        // since those are showed only if drupal filters array is not empty.
+        $filter_actions = &$form['filter']['filters']['status']['actions'];
+        $filter_actions['submit']['#value'] = t('Refine');
+        $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
+        $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
       }
-
-      // Add a BPI filter marker to active filters.
-      $form['filter']['filters']['current'][] = $bpi_filter_marker;
-      // Add standard filter buttons,
-      // since those are showed only if drupal filters array is not empty.
-      $filter_actions = &$form['filter']['filters']['status']['actions'];
-      $filter_actions['submit']['#value'] = t('Refine');
-      $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
-      $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
     }
     // END BPI filter.
 
