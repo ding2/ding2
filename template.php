@@ -183,7 +183,7 @@ function ddbasic_menu_tree__menu_block__3($vars) {
 }
 
 // Tabs menu
-function ddbasic_menu_tree__menu_block__4($vars) {
+function ddbasic_menu_tree__menu_tabs_menu($vars) {
   return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
 }
 
@@ -471,7 +471,7 @@ function ddbasic_menu_link($vars) {
  * Implements theme_menu_link()
  * Add specific markup for topbar menu exposed as menu_block_4.
  */
-function ddbasic_menu_link__menu_block__4($vars) {
+function ddbasic_menu_link__menu_tabs_menu($vars) {
 
   // Run classes array through our custom stripper.
   $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
@@ -504,14 +504,17 @@ function ddbasic_menu_link__menu_block__4($vars) {
     case 'search':
       $title_prefix = '<i class="icon-search"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-search';
+      $element['#attributes']['class'][] = 'topbar-link-search';
       break;
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+      $element['#attributes']['class'][] = 'topbar-link-user';
       break;
     default:
       $title_prefix = '<i class="icon-align-justify"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-menu';
+      $element['#attributes']['class'][] = 'topbar-link-menu';
       break;
   }
 
