@@ -77,11 +77,6 @@ projects[ding_webtrends][download][type] = "git"
 projects[ding_webtrends][download][url] = "git@github.com:ding2tal/ding_webtrends.git"
 projects[ding_webtrends][download][branch] = "development"
 
-projects[latto][type] = "theme"
-projects[latto][download][type] = "git"
-projects[latto][download][url] = "git@github.com:ding2tal/latto.git"
-projects[latto][download][branch] = "development"
-
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
 projects[ddbasic][download][url] = "git@github.com:ding2tal/ddbasic.git"
