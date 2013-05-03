@@ -1,11 +1,13 @@
 <?php
+
+
 function ding_dibs_admin_settings($form, &$form_state) {
 
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
 
   $cards = ding_dibs_cards();
 
-  foreach ($cards as $key=>$card) {
+  foreach ($cards as $key => $card) {
     $cards[$key] = '<img src="' . base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $card . '" alt="' . $key . '" class="card-logo"> <b>' . $key . '</b>';
   }
 
@@ -25,7 +27,7 @@ function ding_dibs_admin_settings($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
-  foreach ($languages as $language_code=>$language) {
+  foreach ($languages as $language_code => $language) {
     $form['terms_of_sale_' . $language_code]=array(
       '#type' => 'textarea',
       '#title' => t('Terms of sale (%language_name)', array('%language_name' => $language->name)),
@@ -57,10 +59,7 @@ function ding_dibs_admin_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('DIBS automatic capture URL:'),
     '#default_value' => variable_get('url_dibs_capture'),
-    '#description' => '<p>' .
-      t('
-        DIBS URL as per http://tech.dibs.dk/10_step_guide/, ie.: https://payment.architrade.com/cgi-bin/capture.cgi
-      ') . '<p>',
+    '#description' => t('DIBS URL as per http://tech.dibs.dk/10_step_guide/, ie.: https://payment.architrade.com/cgi-bin/capture.cgi'),
   );
 
   return system_settings_form($form);
