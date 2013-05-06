@@ -95,9 +95,20 @@ $carousel-title-font-size:                 24px;
       padding: 0;
     }
 
+    &:hover {
+      .rs-carousel-item-title {
+        background-color: $black;
+        text-decoration: none;
+      }
+    }
+
     a {
       max-height: $carousel-image-max-height;
       width: $carousel-image-width;
+
+      &:hover {
+        text-decoration: none;
+      }
     }
 
     .rs-carousel-item-title {
