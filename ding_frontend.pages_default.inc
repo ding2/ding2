@@ -550,7 +550,7 @@ search/node',
     $pane->pid = 'new-17';
     $pane->panel = 'header';
     $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-loan-number';
+    $pane->subtype = 'system-user-menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -572,7 +572,7 @@ search/node',
     $pane->pid = 'new-18';
     $pane->panel = 'header';
     $pane->type = 'block';
-    $pane->subtype = 'system-user-menu';
+    $pane->subtype = 'ding_user_frontend-ding-user-loan-number';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
