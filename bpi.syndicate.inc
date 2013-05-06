@@ -32,7 +32,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
 
   $form['bpi_search_query'] = array(
     '#type' => 'textfield',
-    '#default_value' =>$search_phrase
+    '#default_value' =>$search_phrase,
   );
 
   $form['bpi_search_submit'] = array(
@@ -61,7 +61,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
   );
 
   pager_default_initialize(
-    99,//count($items),
+    isset($items[0]['total_count']) ? $items[0]['total_count'] : 0,
     variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE)
   );
 
@@ -161,6 +161,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
  *   - category: content category
  *   - agency: content agency
  *   - audience: content audience
+ *   - total_count: overall amount of items in the result
  */
 function bpi_search_get_items() {
   $params = _bpi_build_query();
@@ -169,9 +170,9 @@ function bpi_search_get_items() {
   $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_ASCENDING;
   $filters = array(
     'category' => isset($params['category']) ? $params['category'] : '',
-    //'audience' => isset($params['audience']) ? $params['audience'] : '',
+    'audience' => isset($params['audience']) ? $params['audience'] : '',
     'agency_id' => isset($params['agency']) ? $params['agency'] : '',
-    'author' => 'Name Lastname'//isset($params['author']) ? $params['author'] : '',
+    'author' => isset($params['author']) ? $params['author'] : '',
   );
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
