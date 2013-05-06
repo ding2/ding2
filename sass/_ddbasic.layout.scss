@@ -108,6 +108,8 @@ $topbar-text-color:               #fff;
 
 .content-wrapper {
   @extend .grid-wrapper;
+
+  margin-top: 20px;
 }
 
 
@@ -149,19 +151,11 @@ $topbar-text-color:               #fff;
     position: relative;
     margin-top: 0;
   }
-
-  .content-wrapper {
-    margin-top: $default-spacing;
-  }
 }
 
 @include medium() {
   .topbar {
     position: relative;
     margin-top: 0;
-  }
-
-  .content-wrapper {
-    margin-top: $default-spacing;
   }
 }
