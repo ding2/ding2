@@ -11,7 +11,7 @@ include_once 'ting_reference.features.inc';
  */
 
 /**
- * preprocess ting_object
+ * Implements hook_preprocess_ting_object().
  */
 function ting_reference_preprocess_ting_object(&$variables) {
   if (isset($variables['content']['ting_reference_reverse'])) {
@@ -52,27 +52,6 @@ function ting_reference_field_info() {
       'no_ui' => TRUE,
     ),
   );
-}
-
-/**
- * Implements hook_widget_info_alter().
- */
-function ting_reference_widget_info_alter(&$info) {
-  if (isset($info['hidden'])) {
-    $info['hidden']['field types'][] = 'ting_reference_reverse';
-  }
-}
-
-/**
- * hook_field_widget_properties_alter().
- */
-function ting_reference_field_widget_properties_alter(&$widget, $context) {
-  // This is a small but nessesary hack. Since we don't have any entity data
-  // on hook_field_widget_form, we add it to the widget settings here instead.
-  if ($widget['type'] == 'ting_reference_simple') {
-    $widget['settings']['context']['entity'] = $context['entity'];
-    $widget['settings']['context']['entity_type'] = $context['entity_type'];
-  }
 }
 
 /**
@@ -310,6 +289,27 @@ function ting_reference_field_widget_info() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_widget_info_alter().
+ */
+function ting_reference_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ting_reference_reverse';
+  }
+}
+
+/**
+ * hook_field_widget_properties_alter().
+ */
+function ting_reference_field_widget_properties_alter(&$widget, $context) {
+  // This is a small but nessesary hack. Since we don't have any entity data
+  // on hook_field_widget_form, we add it to the widget settings here instead.
+  if ($widget['type'] == 'ting_reference_simple') {
+    $widget['settings']['context']['entity'] = $context['entity'];
+    $widget['settings']['context']['entity_type'] = $context['entity_type'];
+  }
 }
 
 /**
