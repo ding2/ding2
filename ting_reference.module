@@ -301,45 +301,24 @@ function ting_reference_widget_info_alter(&$info) {
 }
 
 /**
- * hook_field_widget_properties_alter().
- */
-function ting_reference_field_widget_properties_alter(&$widget, $context) {
-  // This is a small but nessesary hack. Since we don't have any entity data
-  // on hook_field_widget_form, we add it to the widget settings here instead.
-  if ($widget['type'] == 'ting_reference_simple') {
-    $widget['settings']['context']['entity'] = $context['entity'];
-    $widget['settings']['context']['entity_type'] = $context['entity_type'];
-  }
-}
-
-/**
  * Implements hook_field_widget_form().
  */
 function ting_reference_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  // Get the context for this widget form.
-  $context = !empty($instance['widget']['settings']['context']) ? $instance['widget']['settings']['context'] : array();
-  static $objects;
-  if (!isset($objects)) {
-    $objects = array();
-    if ($context) {
-      // If we have a context, get the relations for it.
-      $relations = ting_reference_get_relations($context['entity_type'], $context['entity']);
-      // Get the tids for the ting objects.
-      $tids = array();
-      foreach ($relations as $relation) {
-        $tids[$relation->endpoints['und'][1]['entity_id']] = $relation->endpoints['und'][1]['entity_id'];
-      }
-      // Load the actual ting objects, which holds the entered data: ding_entity_id.
-      $ting_objects = entity_load('ting_object', $tids);
-      foreach ($ting_objects as $ting_object) {
-        $objects[] = $ting_object;
-      }
-    }
-  }
-
+  // Default element definition.
   $element['#type'] = 'ting_reference_object_id';
   $element['#description'] = t('Enter object ID, FAUST or ISBN number, to select an object from the Ting datawell.');
-  $element['#default_value'] = !empty($objects[$delta]->ding_entity_id) ? $objects[$delta]->ding_entity_id : '';
+  $element['#default_value'] = '';
+
+  if (!empty($items) && isset($items[$delta]['value'])) {
+    // Get raltaion to ting entity.
+    $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
+
+    // Get the ding entity id.
+    $ding_entity_id = array_shift($item['ting_object'])->ding_entity_id;
+
+    // Override default value with the ding entity id.
+    $element['#default_value'] = $ding_entity_id;
+  }
 
   return $element;
 }
@@ -451,6 +430,7 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
     ),
   ));
   relation_save($relation);
+
   return $relation;
 }
 
