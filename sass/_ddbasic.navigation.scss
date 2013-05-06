@@ -99,12 +99,17 @@
   @extend .grid-wrapper;
 
  	background-color: transparentize($white, .05);
+  display: block;
   width: 100%;
 
   &.fixed {
     position: fixed;
     top: 0;
     z-index: 99;
+  }
+
+  &.js-topbar-toggled {
+    display: block;
   }
 
   @include small-medium() {
