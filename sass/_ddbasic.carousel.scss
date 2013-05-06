@@ -32,7 +32,7 @@ $carousel-title-font-size:                 24px;
 }
 
 .rs-carousel {
-  @include zen-grid-item($grid-column-count, 1);
+  @include zen-grid-item(12, 1);
 
   padding: 0;
 }
@@ -43,6 +43,11 @@ $carousel-title-font-size:                 24px;
   padding-right: 20px;
   padding-bottom: 30px;
   padding-left: 20px;
+
+  @include small-medium() {
+    background-color: $theme-secondary-color;
+    padding-bottom: 20px;
+  }
 }
 
 
@@ -82,6 +87,10 @@ $carousel-title-font-size:                 24px;
 
   color: transparentize($black, .3);
   margin-bottom: 20px;
+
+  @include small-medium() {
+    color: $white;
+  }
 }
 
 .rs-carousel-mask {
@@ -140,6 +149,8 @@ $carousel-title-font-size:                 24px;
     text-align: center;
 
     li {
+      @extend .icon-chevron-down;
+
       a {
         background-color: $carousel-tab-background-color;
         color: $carousel-tab-color;
@@ -163,6 +174,70 @@ $carousel-title-font-size:                 24px;
           &:before {
             @include pseudo-arrow(10px, $carousel-active-tab-background-color, top, center, $offset: 20px);
           }
+        }
+      }
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  @include small-medium() {
+    @include box-sizing(border-box);
+
+    background-color: $theme-secondary-color;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    ul {
+      li {
+        display: block;
+        width: 100% !important; /* Override inline styling from the script */
+
+        &.active {
+          a {
+            @include border-radius(12px);
+
+            background-color: $white;
+            color: $black;
+            padding-left: 20px;
+            text-align: left;
+
+            &:before {
+              display: none;
+            }
+          }
+
+          &:before {
+            @include border-radius(12px);
+
+            background-color: $black;
+            color: $white;
+            cursor: pointer;
+            display: block;
+            font-family: $theme-icon-library-font;
+            padding-top: 15px;
+            padding-right: 20px;
+            padding-bottom: 15px;
+            padding-left: 20px;
+            position: absolute;
+            right: 0;
+            z-index: 99;
+          }
+        }
+
+        &:not(.active) {
+          display: none;
+        }
+
+        &.js-tab-hidden {
+          display: none;
+        }
+
+        &.js-tab-visible {
+          display: block;
         }
       }
     }
