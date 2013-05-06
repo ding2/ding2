@@ -132,7 +132,14 @@ function bpi_statistics_data($from = '', $to = '') {
     $stats = $bpi->getStatistics($from, $to)->getProperties();
   }
   catch (Exception $e) {
-    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+    watchdog(
+      'bpi',
+      t('Failed to fetch statistics, with message %message.'),
+      array(
+        '%message' => $e->getMessage()
+      ),
+      WATCHDOG_ERROR
+    );
   }
 
   return $stats;
