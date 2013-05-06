@@ -555,7 +555,7 @@ search/node',
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'My account',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -577,7 +577,7 @@ search/node',
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => '',
+      'override_title_text' => 'Loan, reservation and debt',
     );
     $pane->cache = array();
     $pane->style = array(
