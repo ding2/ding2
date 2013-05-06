@@ -61,7 +61,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
   );
 
   pager_default_initialize(
-    99,//count($items),
+    isset($items[0]['total_count']) ? $items[0]['total_count'] : 0,
     variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE)
   );
 
@@ -169,9 +169,9 @@ function bpi_search_get_items() {
   $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_ASCENDING;
   $filters = array(
     'category' => isset($params['category']) ? $params['category'] : '',
-    //'audience' => isset($params['audience']) ? $params['audience'] : '',
+    'audience' => isset($params['audience']) ? $params['audience'] : '',
     'agency_id' => isset($params['agency']) ? $params['agency'] : '',
-    'author' => 'Name Lastname'//isset($params['author']) ? $params['author'] : '',
+    'author' => isset($params['author']) ? $params['author'] : '',
   );
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
