@@ -39,7 +39,10 @@ $carousel-title-font-size:                 24px;
 
 .rs-carousel-inner {
   background-color: $carousel-background-color;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  padding-left: 20px;
 }
 
 
@@ -72,40 +75,38 @@ $carousel-title-font-size:                 24px;
 // Carousel content, mask, title etc.
 // -----------------------------------------------------------------------------
 //
-.rs-carousel-inner {
-  .rs-carousel-title {
-    @include box-sizing(border-box);
-    @include rem('font-size', $carousel-title-font-size);
-    @include font-bold();
+.rs-carousel-title {
+  @include box-sizing(border-box);
+  @include rem('font-size', $carousel-title-font-size);
+  @include font-bold();
 
-    color: transparentize($black, .3);
-    margin-bottom: 20px;
-  }
+  color: transparentize($black, .3);
+  margin-bottom: 20px;
+}
 
-  .rs-carousel-mask {
-    li {
-      @include box-sizing(content-box);
+.rs-carousel-mask {
+  li {
+    @include box-sizing(content-box);
 
-      margin-right: 20px;
+    margin-right: 20px;
+    width: $carousel-image-width;
+
+    img {
+      min-width: 100%;
+      padding: 0;
+    }
+
+    a {
+      max-height: $carousel-image-max-height;
       width: $carousel-image-width;
+    }
 
-      img {
-        min-width: 100%;
-        padding: 0;
-      }
-
-      a {
-        max-height: $carousel-image-max-height;
-        width: $carousel-image-width;
-      }
-
-      .rs-carousel-item-title {
-        background-color: transparentize($black, .25);
-        color: $white;
-        display: inline-block;
-        padding-top: 10px;
-        padding-bottom: 10px;
-      }
+    .rs-carousel-item-title {
+      background-color: transparentize($black, .25);
+      color: $white;
+      display: inline-block;
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
   }
 }

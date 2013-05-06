@@ -5433,38 +5433,41 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 40, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner {
   background-color: white;
-  padding: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  padding-left: 20px;
 }
 
-/* line 50, ../sass/_ddbasic.carousel.scss */
+/* line 53, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-pagination {
   display: none;
 }
 
-/* line 55, ../sass/_ddbasic.carousel.scss */
+/* line 58, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   top: 165px;
 }
-/* line 58, ../sass/_ddbasic.carousel.scss */
+/* line 61, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-prev.rs-carousel-action-disabled,
 .rs-carousel-action-next.rs-carousel-action-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;
 }
 
-/* line 63, ../sass/_ddbasic.carousel.scss */
+/* line 66, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-prev {
   left: 40px;
 }
 
-/* line 67, ../sass/_ddbasic.carousel.scss */
+/* line 70, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-next {
   right: 40px;
 }
 
-/* line 76, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-title {
+/* line 78, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -5476,8 +5479,9 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: rgba(0, 0, 0, 0.7);
   margin-bottom: 20px;
 }
-/* line 86, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask li {
+
+/* line 88, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-mask li {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -5485,18 +5489,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
   width: 250px;
 }
-/* line 92, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask li img {
+/* line 94, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 97, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask li a {
+/* line 99, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-mask li a {
   max-height: 250px;
   width: 250px;
 }
-/* line 102, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
+/* line 104, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-mask li .rs-carousel-item-title {
   background-color: rgba(0, 0, 0, 0.75);
   color: white;
   display: inline-block;
@@ -5504,14 +5508,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
 }
 
-/* line 119, ../sass/_ddbasic.carousel.scss */
+/* line 120, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 126, ../sass/_ddbasic.carousel.scss */
+/* line 127, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -5520,18 +5524,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-/* line 134, ../sass/_ddbasic.carousel.scss */
+/* line 135, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
   background-color: black;
   text-decoration: none;
 }
-/* line 141, ../sass/_ddbasic.carousel.scss */
+/* line 142, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
-/* line 146, ../sass/_ddbasic.carousel.scss */
+/* line 147, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   border: 10px solid transparent;
   content: "";
