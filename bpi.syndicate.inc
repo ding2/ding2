@@ -109,9 +109,14 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
 }
 
 /**
- * @todo dummy
- * @param type $page
- * @param type $filters
+ * Perform a search within the BPI well.
+ *
+ * @param string $query
+ *   Query string.
+ * @param int $page
+ *   Page offset.
+ * @param array $filters
+ *   Array of filters/sorting.
  */
 function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 'desc') {
   $endpoint = variable_get('bpi_service_url', '');
@@ -121,7 +126,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
 
   $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
   $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
-  $offset = ($page - 1) * $amount;
+  $offset = $page * $amount;
 
   $bpi_data = $bpi->searchNodes(
     array(
@@ -160,7 +165,6 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
 function bpi_search_get_items() {
   $params = _bpi_build_query();
   $phrase = isset($params[SEARCH_PHRASE_KEY]) ? $params[SEARCH_PHRASE_KEY] : '';
-
   $page = pager_find_page();
   $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_ASCENDING;
   $filters = array(
