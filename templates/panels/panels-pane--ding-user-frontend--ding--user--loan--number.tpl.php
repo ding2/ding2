@@ -23,7 +23,7 @@
       <?php print $admin_links; ?>
     <?php endif; ?>
     <?php if ($title): ?>
-      <h3><?php print $title; ?></h3>
+      <h3 class="block-title"><?php print $title; ?></h3>
     <?php endif ?>
     <?php print render($content); ?>
   </section>

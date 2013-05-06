@@ -262,6 +262,26 @@
   }
 }
 
+.system-user-menu {
+  
+  .last .menu-item {
+    margin-right: 0;
+  }
+
+  .menu-item {
+    color: $white;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  @include small-medium() {
+    .menu-item {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  }
+}
+
 
 // **
 // Sub menu

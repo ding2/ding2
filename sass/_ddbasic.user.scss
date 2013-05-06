@@ -26,15 +26,6 @@
 // User menu
 // **
 //
-.front {
-  .topbar {
-    .user-menu,
-    .user-name {
-      display: none;
-    }
-  }
-}
-
 .header-wrapper {
   
   @include box-sizing(border-box);
@@ -52,22 +43,32 @@
     @extend %header-sections;
 
     display: none;
+    text-align: right;
 
     &.js-topbar-toggled {
       display: block;
     }
 
-    h3 {
-      color: $white;
-      margin-top: $default-spacing;
-      border-bottom: 1px solid transparentize($white, .75);
-      padding-top: 10px;
-      padding-bottom: 10px;
+    .block-title {
+      display: none;
+    }
+
+    @include small-medium() {
+      text-align: left;
+
+      .block-title {
+        display: block;
+        color: $white;
+        margin-top: 10px;
+        border-bottom: 1px solid transparentize($white, .75);
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
     }
   }
 
   .user-name {
-    color: $white;
+    color: transparentize($black, .5);;
 
     .user-name-title {
       @include rem('font-size', $theme-font-size * 2.25);
@@ -75,68 +76,22 @@
 
       overflow: hidden;
       max-height: 45px;
-    }
-  }
-}
-
-// **
-// User menu compact
-// **
-//
-.topbar {
-  .user {
-    @extend .icon-user;
-
-    position: absolute;
-    right: 10px;
-    top: 17px;
-
-    &:before {
-      @include rem('font-size', $theme-font-size * 1.3);
-
-      color: $white;
-      font-family: $theme-icon-library-font;
-      line-height: 100%;
-
-      left: 20px;
-      position: absolute;
-      top: 16px;
-      z-index: 99;
+      margin-bottom: 10px;
     }
 
-    input[type="submit"] {
-      @include rem('font-size', $theme-font-size * 1.4);
-
-      min-height: 50px;
-      padding-top: 0;
-      padding-bottom: 0;
-      padding-left: 45px;
-    }
-  }
-
-  .user-name {
-    float: right;
-    height: 30px;
-    margin-top: 16px;
-    margin-right: $default-spacing / 2;
-    max-width: 325px;
-    min-width: 115px;
-    overflow: hidden;
-    text-align: right;
-
-    .user-name-title {
-      @include rem('font-size', $theme-font-size * 1.5);
-
-      color: $white;
+    @include small-medium() {
+      .user-name-title {
+        margin-bottom: 0;
+      }
     }
   }
 
   .user-menu {
-    @extend %link-inverted;
+    margin-bottom: 10px;
 
-    position: absolute;
-    right: 10px;
-    top: 40px;
+    @include small-medium() {
+      margin-bottom: 0;
+    }
   }
 }
 
