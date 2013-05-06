@@ -75,6 +75,7 @@
       // Menu link was clicked
       if (clicked.hasClass('topbar-link-menu')) {
         toggle_topbar('menu');
+        clicked.focus();
       }
 
       // Set clicked to active link if not already active.
@@ -82,6 +83,7 @@
       if (clicked.hasClass('active')) {
         clicked.removeClass('active');
         ddbasic_header_wrapper.hide();
+        clicked.focus();
         // Reset background color to avoid link being in focus when user toggle same element.
         // This only apply to touchscreen devices.
         ddbasic_topbar_link.one('touchend', function() {
