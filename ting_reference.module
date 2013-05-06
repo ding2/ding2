@@ -386,18 +386,19 @@ function ting_reference_anchor_info() {
  * @return array of loaded relation entities.
  */
 function ting_reference_get_relations($entity_type, $entity) {
-  $entity_info = entity_get_info($entity_type);
+  $entity_ids = entity_extract_ids($entity_type, $entity);
+  $entity_id = array_shift($entity_ids);
 
   // Look up relations, if this entity has an ID. This check will be
   // false for a newly created entity that has not been saved to the
   // database yet.
-  if (!empty($entity->{$entity_info['entity keys']['id']})) {
+  if (!empty($entity_id)) {
     $query = new EntityFieldQuery();
     $result = $query
       ->entityCondition('entity_type', 'relation')
       ->entityCondition('bundle', 'ting_reference')
       ->fieldCondition('endpoints', 'entity_type', $entity_type)
-      ->fieldCondition('endpoints', 'entity_id', $entity->{$entity_info['entity keys']['id']})
+      ->fieldCondition('endpoints', 'entity_id', $entity_id)
       ->execute();
 
     if ($result) {
@@ -437,4 +438,3 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
 
   return $relation;
 }
-
