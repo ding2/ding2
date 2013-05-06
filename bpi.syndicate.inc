@@ -32,7 +32,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
 
   $form['bpi_search_query'] = array(
     '#type' => 'textfield',
-    '#default_value' =>$search_phrase
+    '#default_value' =>$search_phrase,
   );
 
   $form['bpi_search_submit'] = array(
@@ -161,6 +161,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
  *   - category: content category
  *   - agency: content agency
  *   - audience: content audience
+ *   - total_count: overall amount of items in the result
  */
 function bpi_search_get_items() {
   $params = _bpi_build_query();

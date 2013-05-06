@@ -60,17 +60,21 @@ function bpi_push_form($form, $form_state, $nid) {
     '#value' => $nid,
   );
 
+  $dictionaries = bpi_get_bpi_dictionaries();
+
+  $categories = array_values($dictionaries['category']);
   $form['bpi_push_category'] = array(
     '#type' => 'select',
     '#title' => t('Category'),
-    '#options' => bpi_get_bpi_categories(),
+    '#options' => array_combine($categories, $categories),
     '#default_value' => ','
   );
 
+  $audiences = array_values($dictionaries['audience']);
   $form['bpi_push_audience'] = array(
     '#type' => 'select',
     '#title' => t('Audience'),
-    '#options' => bpi_get_bpi_audience(),
+    '#options' => array_combine($audiences, $audiences),
     '#default_value' => ','
   );
 
@@ -278,27 +282,26 @@ function bpi_convert_to_bpi($node, $category, $audience) {
 }
 
 /**
- * Fetch category list form BPI ws.
+ * Fetch dictionaries from BPI ws.
  *
  * @return array
- *   Set of categories.
+ *   Nested array of dictionaries, keyed by dictionary
+ *   type.
  */
-function bpi_get_bpi_categories() {
-  return array(
-    'dummy_1' => 'dummy_1',
-    'dummy_1' => 'dummy_1',
-  );
-}
+function bpi_get_bpi_dictionaries() {
+  $dictionaries = array();
+  $endpoint = variable_get('bpi_service_url', '');
+  $agency_id = variable_get('bpi_agency_id', '');
+  $api_key = variable_get('bpi_api_key', '');
+  $secret_key = variable_get('bpi_secret_key', '');
 
-/**
- * Fetch audience list form BPI ws.
- *
- * @return array
- *   Set of audiences.
- */
-function bpi_get_bpi_audience() {
-  return array(
-    'dummy_1' => 'dummy_1',
-    'dummy_1' => 'dummy_1',
-  );
+  try {
+    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $dictionaries = $bpi->getDictionaries();
+  }
+  catch (Exception $e) {
+    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+  }
+
+  return $dictionaries;
 }
