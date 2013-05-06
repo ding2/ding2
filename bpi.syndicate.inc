@@ -60,6 +60,18 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#markup' => $markup,
   );
 
+  pager_default_initialize(
+    99,//count($items),
+    variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE)
+  );
+
+  $pager = theme('pager');
+
+  $form['bpi_search_pager'] = array(
+    '#type' => 'item',
+    '#markup' => $pager,
+  );
+
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/pages.styles.css';
   $form['#submit'][] = 'bpi_syndicate_page_form_submit';
 
@@ -101,7 +113,7 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
  * @param type $page
  * @param type $filters
  */
-function bpi_search_content($query, $page = 1, $filters = array()) {
+function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 'desc') {
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
   $api_key = variable_get('bpi_api_key', '');
@@ -115,6 +127,11 @@ function bpi_search_content($query, $page = 1, $filters = array()) {
     array(
       'amount' => $amount,
       'offset' => $offset,
+      'filter' => $filters,
+      'sort' => array(
+        'pushed' => $sort,
+      ),
+      'search' => $query,
     )
   );
 
@@ -143,10 +160,17 @@ function bpi_search_content($query, $page = 1, $filters = array()) {
 function bpi_search_get_items() {
   $params = _bpi_build_query();
   $phrase = isset($params[SEARCH_PHRASE_KEY]) ? $params[SEARCH_PHRASE_KEY] : '';
-  $page = isset($params['page']) ? $params['page'] : 1;
-  $filters = array();
 
-  $response = bpi_search_content($phrase, $page, $filters);
+  $page = pager_find_page();
+  $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_ASCENDING;
+  $filters = array(
+    'category' => isset($params['category']) ? $params['category'] : '',
+    //'audience' => isset($params['audience']) ? $params['audience'] : '',
+    'agency_id' => isset($params['agency']) ? $params['agency'] : '',
+    'author' => 'Name Lastname'//isset($params['author']) ? $params['author'] : '',
+  );
+
+  $response = bpi_search_content($phrase, $page, $filters, $sort);
   $bpi_nodes = array();
 
   foreach ($response as $item) {
@@ -154,16 +178,14 @@ function bpi_search_get_items() {
     $bpi_nodes[] = array(
       'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
       'title' =>  isset($current_item['title']) ? $current_item['title'] : '',
-      // @todo
-      // Change to pushed date, i.e. the date when the node appeared in the BPI
-      // system.
-      'date' =>  isset($current_item['creation']) ? $current_item['creation'] : '',
+      'date' =>  isset($current_item['pushed']) ? $current_item['pushed'] : '',
       'teaser' =>  isset($current_item['teaser']) ? $current_item['teaser'] : '',
       'body' =>  isset($current_item['body']) ? $current_item['body'] : '',
       'author' =>  isset($current_item['author']) ? $current_item['author'] : '',
       'category' =>  isset($current_item['category']) ? $current_item['category'] : '',
-      'agency' =>  isset($current_item['agency']) ? $current_item['agency'] : '',
+      'agency' =>  isset($current_item['agency_id']) ? $current_item['agency_id'] : '',
       'audience' =>  isset($current_item['audience']) ? $current_item['audience'] : '',
+      'total_count' => isset($response->total) ? $response->total : 0,
     );
   }
 
@@ -184,6 +206,7 @@ function bpi_search_get_markup($items) {
   // Iterate through items and theme them.
   if (is_array($items)) {
     foreach ($items as $item) {
+      $item['date'] = date_format(new DateTime($item['date']), 'Y-m-d h:i:s');
       $data[] = theme('bpi_well_item', array('item' => $item));
     }
   }
@@ -359,13 +382,10 @@ function bpi_get_next_sorting() {
  *   Content ID, as as stored in BPI service.
  */
 function bpi_syndicate_action($bpi_id) {
-  // @todo
-  // dummy
-  $node = reset(bpi_search_get_items($bpi_id));
   $bpi_ctype = variable_get('bpi_content_type', '');
 
   if (!empty($bpi_ctype)) {
-    $_SESSION['bpi']['content'] = $node;
+    $_SESSION['bpi']['syndicate_id'] = $bpi_id;
     drupal_goto('node/add/' . $bpi_ctype, array('query' => array('from' => 'bpi')));
   }
   else {

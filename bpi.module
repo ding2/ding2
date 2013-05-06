@@ -49,6 +49,20 @@ if (!defined('BPI_CONTENT_PER_PAGE')) {
 }
 
 /**
+ * Default number of BPI content per page when searching.
+ */
+if (!defined('BPI_DATE_PICKER_FORMAT')) {
+  define('BPI_DATE_PICKER_FORMAT', 'Y-m-d');
+}
+
+/**
+ * Default number of BPI content per page when searching.
+ */
+if (!defined('BPI_ONE_MONTH')) {
+  define('BPI_ONE_MONTH', 86400 * 30);
+}
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -195,38 +209,55 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
   }
   // Checking nid for NULL would say that this is create node form, not edit.
   elseif ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
-    $bpi_content = $_SESSION['bpi']['content'];
+    $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
 
-    drupal_set_message(t('Syndicating content %title, from category %category and audience %audience.', array(
-      '%title' => $bpi_content['title'],
-      '%category' => $bpi_content['category'],
-      '%audience' => $bpi_content['audience'],
-    )));
+    if ($bpi_id) {
+      $endpoint = variable_get('bpi_service_url', '');
+      $agency_id = variable_get('bpi_agency_id', '');
+      $api_key = variable_get('bpi_api_key', '');
+      $secret_key = variable_get('bpi_secret_key', '');
 
-    $form['title']['#default_value'] = $bpi_content['title'];
+      try {
+        $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+        $bpi_content = $bpi->getNode($bpi_id)->getProperties();
+        drupal_set_message(t('Syndicating content %title, from category %category and audience %audience.', array(
+          '%title' => $bpi_content['title'],
+          '%category' => $bpi_content['category'],
+          '%audience' => $bpi_content['audience'],
+        )));
+      }
+      catch (Exception $e) {
+        watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+        drupal_set_message(t('Failed to fetch the article from BPI well.'), 'error');
+      }
+    }
+
+    $form['title']['#default_value'] = isset($bpi_content['title']) ? $bpi_content['title'] : '';
     $teaser = variable_get('bpi_field_teaser', '');
     $body = variable_get('bpi_field_body', '');
     $current_language = $form['language']['#value'];
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
+    $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
     if (isset($form[$teaser][$current_language][0]['summary'])) {
-      $form[$teaser][$current_language][0]['summary']['#default_value'] = $bpi_content['teaser'];
+      $form[$teaser][$current_language][0]['summary']['#default_value'] = $bpi_teaser;
     }
     elseif (isset($form[$teaser][$current_language][0]['value'])) {
-      $form[$teaser][$current_language][0]['value']['#default_value'] = $bpi_content['teaser'];
+      $form[$teaser][$current_language][0]['value']['#default_value'] = $bpi_teaser;
     }
     elseif (isset($form[$teaser][$current_language][0])) {
-      $form[$teaser][$current_language][0]['#default_value'] = $bpi_content['teaser'];
+      $form[$teaser][$current_language][0]['#default_value'] = $bpi_teaser;
     }
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
+    $bpi_body = isset($bpi_content['body']) ? $bpi_content['body']: '';
     if (isset($form[$body][$current_language][0]['value'])) {
-      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_content['body'];
+      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
     }
     elseif (isset($form[$body][$current_language][0])) {
-      $form[$body][$current_language][0]['#default_value'] = $bpi_content['body'];
+      $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
   }
   elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
@@ -374,8 +405,8 @@ function bpi_node_insert($node) {
   $node_id = $node->nid;
   $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
 
-  if (isset($_SESSION['bpi']['content']) && $from_bpi) {
-    $bpi_id = $_SESSION['bpi']['content']['bpi_id'];
+  if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
+    $bpi_id = $_SESSION['bpi']['syndicate_id'];
     db_insert('bpi_syndicated')
       ->fields(array(
         'nid' => $node_id,
@@ -385,7 +416,59 @@ function bpi_node_insert($node) {
       ))
       ->execute();
 
-    unset($_SESSION['bpi']['content']);
+    $endpoint = variable_get('bpi_service_url', '');
+    $agency_id = variable_get('bpi_agency_id', '');
+    $api_key = variable_get('bpi_api_key', '');
+    $secret_key = variable_get('bpi_secret_key', '');
+
+    try {
+      $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+      $bpi->syndicateNode($bpi_id);
+    }
+    catch (Exception $e) {
+      watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+    }
+
+    unset($_SESSION['bpi']['syndicate_id']);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Respond to node deletion. Cleanup the bpi table
+ * and delete the node from the well.
+ */
+function bpi_node_delete($node) {
+  $nid = $node->nid;
+
+  // Get the BPI related id's linked to current node being deleted.
+  $result = db_select('bpi_syndicated', 'bps')
+    ->fields('bps', array(
+      'id', 'bid',
+    ))
+    ->condition('nid', $nid, '=')
+    ->execute()
+    ->fetchAll();
+
+  $endpoint = variable_get('bpi_service_url', '');
+  $agency_id = variable_get('bpi_agency_id', '');
+  $api_key = variable_get('bpi_api_key', '');
+  $secret_key = variable_get('bpi_secret_key', '');
+
+  try {
+    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+
+    foreach ($result as $item) {
+      db_delete('bpi_syndicated')
+        ->condition('id', $item->id, '=')
+        ->execute();
+
+      $bpi->deleteNode($item->bid);
+    }
+  }
+  catch (Exception $e) {
+    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
   }
 }
 
