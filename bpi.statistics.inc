@@ -44,18 +44,32 @@ function bpi_statistics($type) {
  * @ingroup forms
  */
 function bpi_statistics_form($form, &$form_state) {
+  $now = time();
+  $from = isset($form_state['input']['bpi_stats_start_date']['date'])
+    ? $form_state['input']['bpi_stats_start_date']['date']
+    : date(BPI_DATE_PICKER_FORMAT, $now - BPI_ONE_MONTH);
+  $to = isset($form_state['input']['bpi_stats_end_date']['date'])
+    ? $form_state['input']['bpi_stats_end_date']['date']
+    : date(BPI_DATE_PICKER_FORMAT, $now);
+
+  $form_formatted = $from;
+  $to_formatted = $to;
+
   $form['bpi_stats_start_date'] = array(
     '#title' => t('From:'),
     '#type' => 'date_popup',
+    '#date_format' => BPI_DATE_PICKER_FORMAT,
+    '#default_value' => $from,
   );
 
   $form['bpi_stats_end_date'] = array(
     '#title' => t('To:'),
     '#type' => 'date_popup',
+    '#date_format' => BPI_DATE_PICKER_FORMAT,
+    '#default_value' => $to,
   );
 
-  $bpi_stats_timespan = isset($form_state['bpi']['stats']) ? $form_state['bpi']['stats'] : array('from' => '', 'to' => '');
-  $bpi_stats_data = bpi_statistics_data($bpi_stats_timespan);
+  $bpi_stats_data = bpi_statistics_data($form_formatted, $to_formatted);
   $bpi_stats_markup = bpi_statistics_markup($bpi_stats_data);
 
   $form['bpi_stats_results'] = array(
@@ -73,7 +87,7 @@ function bpi_statistics_form($form, &$form_state) {
       'wrapper' => 'bpi-statistics-results',
       'method' => 'replace',
       'effect' => 'fade',
-    )
+    ),
   );
 
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/statistics.styles.css';
@@ -98,15 +112,30 @@ function _bpi_statistics_ajax_callback(&$form, &$form_state) {
 /**
  * @todo
  * Dummy stuff
- * @param type $from
- * @param type $to
- * @return type
+ * @param string $from
+ *   Start date, in Y-m-d format.
+ * @param string $to
+ *   End date, in Y-m-d format.
+ * @return array
+ *   Array of keys and values with various information.
+ *   Keys denote the type of stat, and value - stat value.
  */
 function bpi_statistics_data($from = '', $to = '') {
-  return array(
-    'pushed' => mt_rand(1, 99),
-    'syndicated' => mt_rand(1, 99),
-  );
+
+  $endpoint = variable_get('bpi_service_url', '');
+  $agency_id = variable_get('bpi_agency_id', '');
+  $api_key = variable_get('bpi_api_key', '');
+  $secret_key = variable_get('bpi_secret_key', '');
+
+  try {
+    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $stats = $bpi->getStatistics($from, $to)->getProperties();
+  }
+  catch (Exception $e) {
+    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+  }
+
+  return $stats;
 }
 
 /**
