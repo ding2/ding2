@@ -3,10 +3,37 @@
  * @file
  * Template to render the user status block.
  */
+
+$link_attributes = array(
+  'attributes' => array(
+    'class' => 'menu-item',
+  ),
+  'html' => true,
+);
 ?>
-<ul class="menu">
-  <li class="user-loans"><?php print l(t('Loans'), 'user/' . $user->uid . '/status'); ?><span class="user-amount">(<?php print $loan_count; ?>)</span></li>
-  <li class="user-reservations"><?php print l(t('Reservations'),'user/' . $user->uid . '/status/reservations'); ?><span class="user-amount">(<?php print $reservation_count; ?>)</span></li>
-  <li class="user-debts"><?php print l(t('Debts'), 'user/' . $user->uid . '/status/debts'); ?><span class="user-amount">(<?php print $debt_count; ?>)</span></li>
-  <li class="user-bookmarks"><?php print l(t('Bookmarks'), 'user/' . $user->uid . '/bookmarks'); ?><span class="user-amount">(<?php print $bookmark_count; ?>)</span></li>
+<ul class="system-user-menu">
+  <li class="user-loans first">
+    <?php
+      $link_text_suffix = '&nbsp;<span class="user-amount">(' . $loan_count . ')</span>';
+      print l(t('Loans') . $link_text_suffix, 'user/' . $user->uid . '/status', $link_attributes);
+    ?>
+  </li>
+  <li class="user-reservations">
+    <?php
+      $link_text_suffix = '&nbsp;<span class="user-amount">(' . $reservation_count . ')</span>';
+      print l(t('Reservations') . $link_text_suffix,'user/' . $user->uid . '/status/reservations', $link_attributes);
+    ?>
+  </li>
+  <li class="user-debts">
+    <?php
+      $link_text_suffix = '&nbsp;<span class="user-amount">(' . $debt_count . ')</span>';
+      print l(t('Debts') . $link_text_suffix, 'user/' . $user->uid . '/status/debts', $link_attributes);
+    ?>
+  </li>
+  <li class="user-bookmarks last">
+    <?php
+      $link_text_suffix = '&nbsp;<span class="user-amount">(' . $bookmark_count . ')</span>';
+      print l(t('Bookmarks') . $link_text_suffix, 'user/' . $user->uid . '/bookmarks', $link_attributes);
+    ?>
+  </li>
 </ul>
