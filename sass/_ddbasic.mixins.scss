@@ -40,7 +40,7 @@ $prefixes: ("-webkit-","-moz-", "-o-", "");
 // **
 // Pseudo arrow
 // **
-//
+// Usage example: pseudo-arrow(10px, #000, top, center, $offset: 20px)
 @mixin pseudo-arrow($size, $color, $direction, $alignment, $offset: 20px) {
 
   border: $size solid transparent;
