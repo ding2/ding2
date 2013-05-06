@@ -57,22 +57,26 @@
   .user-name,
   .user-menu-loans,
   .user-menu {
-    @include zen-grid-item($grid-50, 1, right);
+    @include zen-clear();
+    @include zen-grid-item(12, 1);
     @extend %header-sections;
     @extend %user-menu;
+
+    display: none;
+
+    &.js-topbar-toggled {
+      display: block;
+    }
   }
 
   .user-menu-loans {
-    margin-top: 90px;
   }
 
   .user-menu {
-    margin-top: 120px;
   }
 
   .user-name {
     color: transparentize($black, .5);
-    margin-top: 50px;
     text-align: right;
 
     .user-name-title {

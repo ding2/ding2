@@ -510,6 +510,10 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $title_prefix = '<i class="icon-user"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
       $element['#attributes']['class'][] = 'topbar-link-user';
+      // If a user is logged in, we change the menu item title.
+      if (user_is_logged_in()) {
+        $element['#title'] = t('My Account');  
+      }
       break;
     default:
       $title_prefix = '<i class="icon-align-justify"></i>';
