@@ -60,6 +60,12 @@
     @include zen-grid-item($grid-50, 1, right);
     @extend %header-sections;
     @extend %user-menu;
+
+    display: none;
+
+    &.js-topbar-toggled {
+      display: block;
+    }
   }
 
   .user-menu-loans {
