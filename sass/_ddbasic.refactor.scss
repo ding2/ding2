@@ -150,6 +150,7 @@
 
 // Search and user form in topbar
 .search {
+
   .search-field-wrapper {
     position: relative;
   }
@@ -173,6 +174,7 @@
 }
 
 .user {
+
   .form-item-name {
     @include zen-grid-item(6, 1);
 
@@ -198,7 +200,12 @@
 
 .search,
 .user {
-  display: inline-block;
+  display: none;
+
+  &.js-topbar-toggled {
+    display: inline-block;
+  }
+
   margin-top: 25px;
   margin-bottom: 25px;
   width: 100%;

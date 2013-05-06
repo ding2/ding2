@@ -5,12 +5,41 @@
 
 (function($) {
 
-  // When ready start the magic.
-  $(document).ready(function () {
+  /*
+   * Toggle topbar menu items.
+   */
+  function toggle_topbar(toggleItem) {
 
     // Elements to toggle
     var ddbasic_topbar_user = $('.js-topbar-user');
     var ddbasic_topbar_search = $('.js-topbar-search');
+    var ddbasic_topbar_menu = $('.js-topbar-menu');
+
+    switch (toggleItem) {
+      case 'search':
+        ddbasic_topbar_search.toggleClass('js-topbar-toggled');
+
+        ddbasic_topbar_menu.removeClass('js-topbar-toggled');
+        ddbasic_topbar_user.removeClass('js-topbar-toggled');
+        break;
+      case 'user':
+        ddbasic_topbar_user.toggleClass('js-topbar-toggled');
+
+        ddbasic_topbar_search.removeClass('js-topbar-toggled');
+        ddbasic_topbar_menu.removeClass('js-topbar-toggled');
+        break;
+      case 'menu':
+        ddbasic_topbar_menu.toggleClass('js-topbar-toggled');
+
+        ddbasic_topbar_search.removeClass('js-topbar-toggled');
+        ddbasic_topbar_user.removeClass('js-topbar-toggled');
+        break;
+    }
+  }
+
+
+  // When ready start the magic.
+  $(document).ready(function () {
 
     // Link elements
     var ddbasic_topbar_link = $(".js-topbar-link");
@@ -23,17 +52,19 @@
       // Toggle elements based on wich link is clicked.
       // User link was clicked.
       if (clicked.hasClass('topbar-link-user')) {
-        ddbasic_topbar_search.hide();
-        ddbasic_topbar_user.toggle();
+        toggle_topbar('user');
         // Add focus to login field.
         $('.js-topbar-user #edit-name').focus();
       }
       // Search link was clicked
       if (clicked.hasClass('topbar-link-search')) {
-        ddbasic_topbar_user.hide();
-        ddbasic_topbar_search.toggle();
+        toggle_topbar('search');
         // Add focus to search field.
         $('.js-topbar-search #edit-search-block-form--2').focus();
+      }
+      // Menu link was clicked
+      if (clicked.hasClass('topbar-link-menu')) {
+        toggle_topbar('menu');
       }
 
       // Set clicked to active link if not already active.
@@ -56,11 +87,11 @@
 
       // Prevent default (href).
       event.preventDefault();
+
     });
 
-    // Hide everything by default.
-    ddbasic_topbar_user.hide();
-    ddbasic_topbar_search.hide();
+    // Remove active class from topbar menu by default
+    ddbasic_topbar_link.removeClass('active');
 
   });
 
