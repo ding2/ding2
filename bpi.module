@@ -227,7 +227,15 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         )));
       }
       catch (Exception $e) {
-        watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+        watchdog(
+          'bpi',
+          t('Error when syndicating node %title with message %message'),
+          array(
+            '%title' => $bpi_content['title'],
+            '%message' => $e->getMessage(),
+          ),
+          WATCHDOG_ERROR
+        );
         drupal_set_message(t('Failed to fetch the article from BPI well.'), 'error');
       }
     }
@@ -426,7 +434,15 @@ function bpi_node_insert($node) {
       $bpi->syndicateNode($bpi_id);
     }
     catch (Exception $e) {
-      watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+      watchdog(
+        'bpi',
+        t('Error when marking node %title as syndicated with message %message'),
+        array(
+          '%title' => $node->title,
+          '%message' => $e->getMessage(),
+        ),
+        WATCHDOG_ERROR
+      );
     }
 
     unset($_SESSION['bpi']['syndicate_id']);
@@ -468,7 +484,15 @@ function bpi_node_delete($node) {
     }
   }
   catch (Exception $e) {
-    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+    watchdog(
+      'bpi',
+      t('Failed to delete node %title, with message %message.'),
+      array(
+        '%title' => $node->title,
+        '%message' => $e->getMessage()
+      ),
+      WATCHDOG_ERROR
+    );
   }
 }
 

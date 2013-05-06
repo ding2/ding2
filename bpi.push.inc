@@ -155,7 +155,15 @@ function bpi_push_form_submit($form, &$form_state) {
     }
   }
   catch (Exception $e) {
-    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+    watchdog(
+      'bpi',
+      t('Failed to push node %title, with message %message.'),
+      array(
+        '%title' => $node->title,
+        '%message' => $e->getMessage()
+      ),
+      WATCHDOG_ERROR
+    );
     drupal_set_message(t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title), 'error'));
   }
 }
@@ -300,7 +308,14 @@ function bpi_get_bpi_dictionaries() {
     $dictionaries = $bpi->getDictionaries();
   }
   catch (Exception $e) {
-    watchdog('bpi', $e->getMessage(), WATCHDOG_ERROR);
+    watchdog(
+      'bpi',
+      t('Failed to fetch dictionaries, with message %message.'),
+      array(
+        '%message' => $e->getMessage()
+      ),
+      WATCHDOG_ERROR
+    );
   }
 
   return $dictionaries;
