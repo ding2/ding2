@@ -62,7 +62,7 @@
   list-style: none;
 }
 
-.rs-carousel-mask ul li {
+.rs-carousel-mask li {
   float: left;
   width: 100px;
   text-align: center;
