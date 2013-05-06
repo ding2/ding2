@@ -9,8 +9,8 @@
 // =============================================================================
 //
 $carousel-background-color:                $white;
+$carousel-image-width:                     200px;
 $carousel-image-max-height:                250px;
-$carousel-image-width:                     250px;
 $carousel-tab-background-color:            transparentize($black, .5);
 $carousel-active-tab-background-color:     $black;
 $carousel-tab-color:                       $white;
@@ -86,9 +86,8 @@ $carousel-title-font-size:                 24px;
 
 .rs-carousel-mask {
   li {
-    @include box-sizing(content-box);
-
     margin-right: 20px;
+    position: relative;
     width: $carousel-image-width;
 
     img {
@@ -102,11 +101,17 @@ $carousel-title-font-size:                 24px;
     }
 
     .rs-carousel-item-title {
+      @include box-sizing(border-box);
+
       background-color: transparentize($black, .25);
+      bottom: 0;
       color: $white;
-      display: inline-block;
+      left: 0;
       padding-top: 10px;
+      padding-right: 15px;
       padding-bottom: 10px;
+      padding-left: 15px;
+      position: absolute;
     }
   }
 }

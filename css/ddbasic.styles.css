@@ -5482,40 +5482,45 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 88, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   margin-right: 20px;
-  width: 250px;
+  position: relative;
+  width: 200px;
 }
-/* line 94, ../sass/_ddbasic.carousel.scss */
+/* line 93, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 99, ../sass/_ddbasic.carousel.scss */
+/* line 98, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li a {
   max-height: 250px;
-  width: 250px;
+  width: 200px;
 }
-/* line 104, ../sass/_ddbasic.carousel.scss */
+/* line 103, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li .rs-carousel-item-title {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
   background-color: rgba(0, 0, 0, 0.75);
+  bottom: 0;
   color: white;
-  display: inline-block;
+  left: 0;
   padding-top: 10px;
+  padding-right: 15px;
   padding-bottom: 10px;
+  padding-left: 15px;
+  position: absolute;
 }
 
-/* line 120, ../sass/_ddbasic.carousel.scss */
+/* line 125, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 127, ../sass/_ddbasic.carousel.scss */
+/* line 132, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -5524,18 +5529,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-/* line 135, ../sass/_ddbasic.carousel.scss */
+/* line 140, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
   background-color: black;
   text-decoration: none;
 }
-/* line 142, ../sass/_ddbasic.carousel.scss */
+/* line 147, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
-/* line 147, ../sass/_ddbasic.carousel.scss */
+/* line 152, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   border: 10px solid transparent;
   content: "";
