@@ -3192,7 +3192,7 @@ a:focus {
 }
 
 /* line 165, ../sass/_ddbasic.typography.scss */
-.text-small, .rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title, .ui-dialog .ui-dialog-titlebar .form-item .description {
+.text-small, .ui-dialog .ui-dialog-titlebar .form-item .description {
   font-size: 14.4px;
   font-size: 0.9rem;
 }
@@ -5433,76 +5433,106 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 40, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner {
   background-color: white;
-  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+}
+
+/* line 50, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-pagination {
+  display: none;
 }
 
 /* line 55, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner {
-  min-height: 230px;
-  padding-top: 40px;
-  padding-bottom: 20px;
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  top: 165px;
 }
-/* line 60, ../sass/_ddbasic.carousel.scss */
+/* line 58, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-action-prev.rs-carousel-action-disabled,
+.rs-carousel-action-next.rs-carousel-action-disabled {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  opacity: 0.5;
+}
+
+/* line 63, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-action-prev {
+  left: 40px;
+}
+
+/* line 67, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-action-next {
+  right: 40px;
+}
+
+/* line 76, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  font-size: 40px;
-  font-size: 2.5rem;
-  padding-top: 40px;
-  padding-right: 80px;
-  padding-left: 40px;
+  font-size: 24px;
+  font-size: 1.5rem;
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 20px;
 }
-/* line 69, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask {
-  max-height: 230px;
-}
-/* line 72, ../sass/_ddbasic.carousel.scss */
+/* line 86, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li {
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  max-width: 120px;
+  max-height: 250px;
+  width: 250px;
 }
-/* line 77, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
-  line-height: 16px;
-}
-/* line 86, ../sass/_ddbasic.carousel.scss */
+/* line 98, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 90, ../sass/_ddbasic.carousel.scss */
+/* line 102, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
-  min-width: 110px;
-  padding: 5px;
+  width: 250px;
 }
 
-/* line 104, ../sass/_ddbasic.carousel.scss */
+/* line 115, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 111, ../sass/_ddbasic.carousel.scss */
+/* line 122, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: block;
+  margin-right: 1px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
-/* line 114, ../sass/_ddbasic.carousel.scss */
+/* line 130, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
+  background-color: black;
   text-decoration: none;
 }
-/* line 119, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul li.active {
-  border-color: black;
+/* line 137, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-tabs ul li.active a {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  background-color: black;
 }
-/* line 123, ../sass/_ddbasic.carousel.scss */
+/* line 142, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
-  border-bottom: 8px solid black;
+  border: 10px solid transparent;
+  content: "";
+  height: 0;
+  position: absolute;
+  width: 0;
+  top: -20px;
+  border-bottom-color: black;
+  margin-left: -10px;
+  left: 50%;
 }
 
 /* line 26, ../sass/_ddbasic.event.scss */
