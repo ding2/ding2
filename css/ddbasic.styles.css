@@ -2759,13 +2759,18 @@ ul.icons li [class*=" icon-"] {
   overflow: visible;
 }
 
-/* line 116, ../sass/_ddbasic.layout.scss */
+/* line 109, ../sass/_ddbasic.layout.scss */
+.content-wrapper {
+  margin-top: 20px;
+}
+
+/* line 118, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 119, ../sass/_ddbasic.layout.scss */
+/* line 121, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2855,7 +2860,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 129, ../sass/_ddbasic.layout.scss */
+/* line 131, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -2865,27 +2870,17 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 148, ../sass/_ddbasic.layout.scss */
+  /* line 150, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
-  }
-
-  /* line 153, ../sass/_ddbasic.layout.scss */
-  .content-wrapper {
-    margin-top: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 159, ../sass/_ddbasic.layout.scss */
+  /* line 157, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
-  }
-
-  /* line 164, ../sass/_ddbasic.layout.scss */
-  .content-wrapper {
-    margin-top: 20px;
   }
 }
 /* line 23, ../sass/_ddbasic.extends.scss */
@@ -5487,27 +5482,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   -moz-box-sizing: content-box;
   box-sizing: content-box;
   *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  max-height: 250px;
+  margin-right: 20px;
   width: 250px;
 }
-/* line 98, ../sass/_ddbasic.carousel.scss */
+/* line 92, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 102, ../sass/_ddbasic.carousel.scss */
+/* line 97, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner .rs-carousel-mask li a {
+  max-height: 250px;
   width: 250px;
 }
+/* line 102, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-inner .rs-carousel-mask li .rs-carousel-item-title {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  display: inline-block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 
-/* line 115, ../sass/_ddbasic.carousel.scss */
+/* line 119, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 122, ../sass/_ddbasic.carousel.scss */
+/* line 126, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -5516,18 +5520,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-/* line 130, ../sass/_ddbasic.carousel.scss */
+/* line 134, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li a:hover {
   background-color: black;
   text-decoration: none;
 }
-/* line 137, ../sass/_ddbasic.carousel.scss */
+/* line 141, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
-/* line 142, ../sass/_ddbasic.carousel.scss */
+/* line 146, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs ul li.active a:before {
   border: 10px solid transparent;
   content: "";

@@ -54,7 +54,7 @@ $carousel-title-font-size:                 24px;
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   top: 165px;
-  
+
   &.rs-carousel-action-disabled {
     @include opacity(.5);
   }
@@ -86,21 +86,25 @@ $carousel-title-font-size:                 24px;
     li {
       @include box-sizing(content-box);
 
-      max-height: $carousel-image-max-height;
+      margin-right: 20px;
       width: $carousel-image-width;
-
-      .rs-carousel-item-title {
-      }
-
-      .rs-carousel-item-image {
-      }
 
       img {
         min-width: 100%;
         padding: 0;
       }
+
       a {
+        max-height: $carousel-image-max-height;
         width: $carousel-image-width;
+      }
+
+      .rs-carousel-item-title {
+        background-color: transparentize($black, .25);
+        color: $white;
+        display: inline-block;
+        padding-top: 10px;
+        padding-bottom: 10px;
       }
     }
   }
