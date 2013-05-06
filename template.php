@@ -187,6 +187,11 @@ function ddbasic_menu_tree__menu_tabs_menu($vars) {
   return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
 }
 
+// System user menu
+function ddbasic_menu_tree__user_menu($vars) {
+  return '<ul class="system-user-menu">' . $vars['tree'] . '</ul>';
+}
+
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *

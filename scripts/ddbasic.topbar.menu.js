@@ -14,6 +14,7 @@
     var ddbasic_topbar_user = $('.js-topbar-user');
     var ddbasic_topbar_search = $('.js-topbar-search');
     var ddbasic_topbar_menu = $('.js-topbar-menu');
+    var ddbasic_header_wrapper = $('.header-wrapper');
 
     switch (toggleItem) {
       case 'search':
@@ -21,18 +22,24 @@
 
         ddbasic_topbar_menu.removeClass('js-topbar-toggled');
         ddbasic_topbar_user.removeClass('js-topbar-toggled');
+
+        ddbasic_header_wrapper.show();
         break;
       case 'user':
         ddbasic_topbar_user.toggleClass('js-topbar-toggled');
 
         ddbasic_topbar_search.removeClass('js-topbar-toggled');
         ddbasic_topbar_menu.removeClass('js-topbar-toggled');
+
+        ddbasic_header_wrapper.show();
         break;
       case 'menu':
         ddbasic_topbar_menu.toggleClass('js-topbar-toggled');
 
         ddbasic_topbar_search.removeClass('js-topbar-toggled');
         ddbasic_topbar_user.removeClass('js-topbar-toggled');
+
+        ddbasic_header_wrapper.hide();
         break;
     }
   }
@@ -43,6 +50,9 @@
 
     // Link elements
     var ddbasic_topbar_link = $(".js-topbar-link");
+
+    // Header wrapper
+    var ddbasic_header_wrapper = $('.header-wrapper');
 
     // Attach some onclick/touch magic
     ddbasic_topbar_link.on('click touchstart', function(event) {
@@ -65,12 +75,15 @@
       // Menu link was clicked
       if (clicked.hasClass('topbar-link-menu')) {
         toggle_topbar('menu');
+        clicked.focus();
       }
 
       // Set clicked to active link if not already active.
       // This makes it possible to toggle the same element on/off.
       if (clicked.hasClass('active')) {
         clicked.removeClass('active');
+        ddbasic_header_wrapper.hide();
+        clicked.focus();
         // Reset background color to avoid link being in focus when user toggle same element.
         // This only apply to touchscreen devices.
         ddbasic_topbar_link.one('touchend', function() {
@@ -90,8 +103,11 @@
 
     });
 
-    // Remove active class from topbar menu by default
+    // Remove active class from topbar menu by default.
     ddbasic_topbar_link.removeClass('active');
+
+    // Toggle header off to begin with.
+    ddbasic_header_wrapper.hide();
 
   });
 
