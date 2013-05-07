@@ -87,11 +87,12 @@
     carousel_init(0);
 
     // Add click event to tabs.
-    $('.rs-carousel-tabs .rs-carousel-item').on('click touchstart', function(e) {
+    $('.rs-carousel-tabs .rs-carousel-item').click(function(e) {
       e.preventDefault();
 
       // Move active class.
       var current = $(this);
+
       $('.rs-carousel-tabs').parent().find('.rs-carousel-item').removeClass('active');
 
       // Add active class to all active items
@@ -106,6 +107,22 @@
       $('.rs-carousel-action-next').hide();
 
       carousel_init(current.index());
+
+      return false;
+    });
+
+    // Add change event to select.
+    $('.rs-carousel-select-tabs').on('change', function() {
+      // Remove current content and show spinner.
+      $('.rs-carousel .rs-carousel-runner').html('');
+      $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
+
+      // Hide navigation arrows.
+      $('.rs-carousel-action-prev').hide();
+      $('.rs-carousel-action-next').hide();
+
+      carousel_init(this.value);
+
       return false;
     });
 
