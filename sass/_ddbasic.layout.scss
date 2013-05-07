@@ -33,41 +33,37 @@ $topbar-text-color:               #fff;
     position: fixed;
     z-index: 99;
     width: 100%;
+  }
+}
 
-    .topbar-menu {
-      margin-top: 0;
-    }
-
-    .site-name-wrapper {
-      margin-top: 6px;
-
-      .site-name {
-        @include rem('font-size', 24px);
+@include large-x-large() {
+  .site-header {
+    &.fixed {
+      .topbar-menu {
+        margin-top: 0;
       }
-    }
 
-    .header-wrapper {
-      padding-top: 10px;
-      padding-bottom: 10px;
+      .site-name-wrapper {
+        margin-top: 10px;
 
-      .user-name {
-        display: none !important;
+        .site-name {
+          @include rem('font-size', 24px);
+        }
       }
-    }
 
-    .navigation-wrapper {
-      .menu-item {
+      .header-wrapper {
         padding-top: 10px;
         padding-bottom: 10px;
-      }
-    }
-  }
 
-  @include small() {
-    &.fixed {
-      .site-name-wrapper {
-        .site-name {
-          @include rem('font-size', 16px);
+        .user-name {
+          display: none !important;
+        }
+      }
+
+      .navigation-wrapper {
+        .menu-item {
+          padding-top: 10px;
+          padding-bottom: 10px;
         }
       }
     }
