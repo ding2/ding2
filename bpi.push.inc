@@ -125,13 +125,14 @@ function bpi_push_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
   $audience = $form_state['input']['bpi_push_audience'];
+  $with_images = $form_state['input']['bpi_push_images'];
 
   if (empty($nid)) {
     return;
   }
 
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images);
 
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
@@ -238,12 +239,13 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  * @return array
  *   An array of node values, used by the BPI ws.
  */
-function bpi_convert_to_bpi($node, $category, $audience) {
+function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE) {
   $bpi_content = array();
 
   if ($node instanceof stdClass) {
     $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
     $bpi_content['local_id'] = $node->nid;
+    $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
     $user = user_load($node->uid);
     $bpi_content['firstname'] = $user->name;
     $bpi_content['lastname'] = '';
@@ -285,6 +287,11 @@ function bpi_convert_to_bpi($node, $category, $audience) {
     $bpi_content['audience'] = $audience;
     $bpi_content['editable'] = 0;
     $bpi_content['authorship'] = 0;
+    $bpi_content['images'] = array();
+
+    if ($with_images) {
+
+    }
   }
 
   return $bpi_content;

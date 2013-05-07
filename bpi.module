@@ -453,6 +453,29 @@ function bpi_node_insert($node) {
 }
 
 /**
+ * Implements hook_node_load().
+ *
+ * Enrich node object with bpi_id, if any.
+ */
+function bpi_node_load($nodes) {
+  $nids = array_keys($nodes);
+
+  $result = db_select('bpi_syndicated', 'bs')
+    ->fields('bs', array(
+      'nid', 'bid'
+    ))
+    ->condition('nid', $nids, 'IN')
+    ->execute()
+    ->fetchAllAssoc('nid');
+
+  foreach ($nodes as $nid => &$node) {
+    if (isset($result[$nid])) {
+      $node->bpi_id = $result[$nid]->bid;
+    }
+  }
+}
+
+/**
  * Implements hook_node_delete().
  *
  * Respond to node deletion. Cleanup the bpi table
