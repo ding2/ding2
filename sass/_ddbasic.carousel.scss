@@ -142,13 +142,13 @@ $carousel-title-font-size:                 24px;
 // -----------------------------------------------------------------------------
 //
 .rs-carousel-tabs {
-  ul {
+  .rs-carousel-list-tabs {
     margin: 0;
     padding: 0;
     position: relative;
     text-align: center;
 
-    li {
+    .rs-carousel-item {
       @extend .icon-chevron-down;
 
       a {
@@ -183,6 +183,10 @@ $carousel-title-font-size:                 24px;
     }
   }
 
+  .rs-carousel-select-tabs {
+    display: none;
+  }
+
   @include small-medium() {
     @include box-sizing(border-box);
 
@@ -191,45 +195,38 @@ $carousel-title-font-size:                 24px;
     padding-bottom: 20px;
     padding-left: 20px;
 
-    ul {
-      li {
+    .rs-carousel-list-tabs {
+      display: none;
+    }
+
+    .rs-carousel-select-tabs {
+      display: block;
+      width: 100%;
+
+      .rs-carousel-item {
+        @include border-radius(12px);
+
         display: block;
-        width: 100% !important; /* Override inline styling from the script */
+        background-color: $white;
+        color: $black;
+        padding-left: 20px;
+        text-align: left;
 
-        &.active {
-          a {
-            @include border-radius(12px);
+        &:before {
+          @include border-radius(12px);
 
-            background-color: $white;
-            color: $black;
-            padding-left: 20px;
-            text-align: left;
-
-            &:before {
-              display: none;
-            }
-          }
-
-          &:before {
-            @include border-radius(12px);
-
-            background-color: $black;
-            color: $white;
-            cursor: pointer;
-            display: block;
-            font-family: $theme-icon-library-font;
-            padding-top: 15px;
-            padding-right: 20px;
-            padding-bottom: 15px;
-            padding-left: 20px;
-            position: absolute;
-            right: 0;
-            z-index: 99;
-          }
-        }
-
-        &:not(.active) {
-          display: none;
+          background-color: $black;
+          color: $white;
+          cursor: pointer;
+          display: block;
+          font-family: $theme-icon-library-font;
+          padding-top: 15px;
+          padding-right: 20px;
+          padding-bottom: 15px;
+          padding-left: 20px;
+          position: absolute;
+          right: 0;
+          z-index: 99;
         }
 
         &.js-tab-hidden {
