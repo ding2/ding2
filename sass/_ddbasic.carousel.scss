@@ -92,9 +92,11 @@ $carousel-title-font-size:                 24px;
   color: transparentize($black, .3);
   margin-bottom: 20px;
 
-  @include small-medium() {
+  @include small() {
     @include rem('font-size', $carousel-title-font-size / 1.25);
+  }
 
+  @include small-medium() {
     color: $white;
   }
 }
@@ -141,7 +143,7 @@ $carousel-title-font-size:                 24px;
     }
   }
 
-  @include small-medium() {
+  @include small() {
     li {
       width: $carousel-image-width / 2;
 
