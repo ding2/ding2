@@ -22,10 +22,22 @@ function bpi_schema() {
         'default' => 0,
       ),
       'bid' => array(
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'status' => array(
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
       ),
+      'timestamp' => array(
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => TRUE,
+        'default' => '',
+      )
     ),
     'primary key' => array('id'),
     'indexes' => array(
@@ -35,52 +47,4 @@ function bpi_schema() {
   );
 
   return $schema;
-}
-
-/**
- * Add status column in the syndication table.
- */
-function bpi_update_7000() {
-  db_add_field(
-    'bpi_syndicated',
-    'status',
-    array(
-      'type' => 'int',
-      'not null' => TRUE,
-      'default' => 0,
-    )
-  );
-}
-
-/**
- * Add timestamp column, denoting when the action occured.
- */
-function bpi_update_7001() {
-  db_add_field(
-    'bpi_syndicated',
-    'timestamp',
-    array(
-      'type' => 'int',
-      'unsigned' => TRUE,
-      'not null' => TRUE,
-      'default' => 0,
-    )
-  );
-}
-
-/**
- * Change the BPI id field so it suits the service spec.
- */
-function bpi_update_7002() {
-  db_change_field(
-    'bpi_syndicated',
-    'bid',
-    'bid',
-    array(
-      'type' => 'varchar',
-      'length' => '128',
-      'not null' => TRUE,
-      'default' => '',
-    )
-  );
 }
