@@ -124,24 +124,34 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
   $api_key = variable_get('bpi_api_key', '');
   $secret_key = variable_get('bpi_secret_key', '');
 
-  $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
-  $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
-  $offset = $page * $amount;
+  try {
+    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
+    $offset = $page * $amount;
 
-  $bpi_data = $bpi->searchNodes(
-    array(
-      'amount' => $amount,
-      'offset' => $offset,
-      'filter' => $filters,
-      'sort' => array(
-        'pushed' => $sort,
-      ),
-      'search' => $query,
-    )
-  );
+    $bpi_data = $bpi->searchNodes(
+      array(
+        'amount' => $amount,
+        'offset' => $offset,
+        'filter' => $filters,
+        'sort' => array(
+          'pushed' => $sort,
+        ),
+        'search' => $query,
+      )
+    );
 
-  if ($bpi_data->count() > 0) {
-    return $bpi_data;
+    if ($bpi_data->count() > 0) {
+      return $bpi_data;
+    }
+  }
+  catch (Exception $e) {
+    watchdog(
+      'bpi',
+      t('Failed to fetch content from BPI well with message %message'),
+      array('%message' => $e->getMessage()),
+      WATCHDOG_ERROR
+    );
   }
 
   return array();

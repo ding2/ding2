@@ -352,15 +352,17 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       $row['operations'] = $tmp;
 
       // Adds a push link to operations.
-      $row['operations']['data']['#links']['push'] = array(
-        'title' => t('push'),
-        'href' => 'admin/bpi/push/nojs/' . $key,
-        'attributes' => array(
-          'class' => array(
-            'use-ajax',
+      if (bpi_push_available($key)) {
+        $row['operations']['data']['#links']['push'] = array(
+          'title' => t('push'),
+          'href' => 'admin/bpi/push/nojs/' . $key,
+          'attributes' => array(
+            'class' => array(
+              'use-ajax',
+            ),
           ),
-        ),
-      );
+        );
+      }
 
       drupal_add_library('system', 'drupal.ajax');
     }
