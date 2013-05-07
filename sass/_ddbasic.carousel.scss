@@ -66,6 +66,10 @@ $carousel-title-font-size:                 24px;
   &.rs-carousel-action-disabled {
     @include opacity(.5);
   }
+
+  @include small-medium() {
+    display: none;
+  }
 }
 
 .rs-carousel-action-prev {
@@ -89,6 +93,8 @@ $carousel-title-font-size:                 24px;
   margin-bottom: 20px;
 
   @include small-medium() {
+    @include rem('font-size', $carousel-title-font-size / 1.25);
+
     color: $white;
   }
 }
@@ -132,6 +138,21 @@ $carousel-title-font-size:                 24px;
       padding-bottom: 10px;
       padding-left: 15px;
       position: absolute;
+    }
+  }
+
+  @include small-medium() {
+    li {
+      width: $carousel-image-width / 2;
+
+      a {
+        max-height: $carousel-image-max-height / 2;
+        width: $carousel-image-width / 2;
+      }
+
+      .rs-carousel-item-title {
+        @include rem('font-size', 12px);
+      }
     }
   }
 }
