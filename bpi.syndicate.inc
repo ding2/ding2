@@ -177,7 +177,7 @@ function bpi_search_get_items() {
   $params = _bpi_build_query();
   $phrase = isset($params[SEARCH_PHRASE_KEY]) ? $params[SEARCH_PHRASE_KEY] : '';
   $page = pager_find_page();
-  $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_ASCENDING;
+  $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_DESCENDING;
   $filters = array(
     'category' => isset($params['category']) ? $params['category'] : '',
     'audience' => isset($params['audience']) ? $params['audience'] : '',
@@ -380,7 +380,7 @@ function bpi_available_map() {
 function bpi_get_next_sorting() {
   $sort_dir = isset($_GET['sort']) ? $_GET['sort'] : '';
 
-  return ($sort_dir == SORT_DESCENDING) ? SORT_ASCENDING : SORT_DESCENDING;
+  return ($sort_dir == SORT_ASCENDING) ? SORT_DESCENDING : SORT_ASCENDING;
 }
 
 /**

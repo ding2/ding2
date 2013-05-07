@@ -30,7 +30,8 @@ function bpi_push_action($type, $nid) {
     $commands[] = ajax_command_ding_popup(
       'bpi-push',
       t('Push to BPI'),
-      drupal_render(drupal_get_form('bpi_push_form', $nid))
+      drupal_render(drupal_get_form('bpi_push_form', $nid)),
+      array('refresh' => TRUE)
     );
 
     return array('#type' => 'ajax', '#commands' => $commands);
