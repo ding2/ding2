@@ -121,7 +121,7 @@ function _bpi_statistics_ajax_callback(&$form, &$form_state) {
  *   Keys denote the type of stat, and value - stat value.
  */
 function bpi_statistics_data($from = '', $to = '') {
-
+  $stats = array();
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
   $api_key = variable_get('bpi_api_key', '');

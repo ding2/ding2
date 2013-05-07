@@ -245,7 +245,8 @@ function bpi_search_get_markup($items) {
  *   - key: value
  */
 function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
-  $current_path = parse_url(reset(drupal_get_destination()));
+  $destination = drupal_get_destination();
+  $current_path = parse_url(reset($destination));
   $query = isset($current_path['query']) ? $current_path['query'] : '';
   $new_query_pairs = array();
 
