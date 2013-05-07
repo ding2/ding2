@@ -290,11 +290,46 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE) {
     $bpi_content['images'] = array();
 
     if ($with_images) {
+      $image_fields = bpi_fetch_image_fields($node->type);
 
+      if (!empty($image_fields)) {
+        foreach ($image_fields as $field_name) {
+          $field_value = field_view_field('node', $node, $field_name);
+          $bpi_content['images'][] = array(
+            'path' => isset($field_value['#items'][0]['uri']) ? file_create_url($field_value['#items'][0]['uri']) : '',
+            'alt' => '',
+            'title' => '',
+          );
+        }
+      }
     }
   }
 
   return $bpi_content;
+}
+
+/**
+ * Fetch image field types.
+ *
+ * @param string $bundle
+ *   Node type.
+ * @return array
+ *   Array of field names which are actually image fields.
+ */
+function bpi_fetch_image_fields($bundle) {
+  $potential_image_fields = array('image_image');
+  $field_instances = field_info_instances('node', (string)$bundle);
+  $image_fields = array();
+
+  if (is_array($field_instances)) {
+    foreach ($field_instances as $key => $instance) {
+      if (in_array($instance['widget']['type'], $potential_image_fields)) {
+        $image_fields[] = $key;
+      }
+    }
+  }
+
+  return $image_fields;
 }
 
 /**
