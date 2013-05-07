@@ -26,5 +26,5 @@ libraries[ckeditor][download][url]  = "http://download.cksource.com/CKEditor/CKE
 ; Ding popup
 projects[ding_popup][type] = "module"
 projects[ding_popup][download][type] = "git"
-projects[ding_popup][download][url]  = "git@github.com:artesis/ding_popup.git"
+projects[ding_popup][download][url]  = "git@github.com:ding2/ding_popup.git"
 projects[ding_popup][download][branch] = "master"
