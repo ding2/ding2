@@ -418,13 +418,14 @@ function bpi_node_insert($node) {
 
   if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
     $bpi_id = $_SESSION['bpi']['syndicate_id'];
-    db_insert('bpi_syndicated')
+    db_merge('bpi_syndicated')
       ->fields(array(
         'nid' => $node_id,
         'bid' => $bpi_id,
         'status' => BPI_SYNDICATED,
         'timestamp' => time(),
       ))
+      ->condition('nid', $node_id, '=')
       ->execute();
 
     $endpoint = variable_get('bpi_service_url', '');
@@ -590,7 +591,46 @@ function bpi_get_bpi_nodes($nodes) {
   return $result;
 }
 
-
+/**
+ * Check if a node can be actually pushed.
+ *
+ * @param int $nid
+ *   Node id.
+ * @return boolean
+ *   TRUE/FALSE whether the node can be pushed.
+ */
 function bpi_push_available($nid) {
-  return TRUE;
+  $status = FALSE;
+
+  if (!empty($nid)) {
+    $node = node_load($nid);
+
+    if ($node instanceof stdClass) {
+      // Rule - only allow pushing of nodes, to which bpi was mapped
+      // in the BE.
+      $result = db_select('bpi_syndicated', 'bs')
+        ->fields('bs', array(
+          'nid',
+          'timestamp',
+          'status'
+        ))
+        ->condition('nid', $nid, '=')
+        ->execute()
+        ->fetchAllAssoc('nid');
+
+      $mapped_type = variable_get('bpi_content_type', '');
+
+      if (isset($result[$nid])) {
+        $was_pushed = ($result[$nid]->status == BPI_PUSHED);
+        $modified_after_push = ($node->changed > $result[$nid]->timestamp) && $was_pushed;
+        $can_be_pushed = (!$was_pushed || $modified_after_push);
+
+        if ($node->type == $mapped_type && $can_be_pushed) {
+          $status = TRUE;
+        }
+      }
+    }
+  }
+
+  return $status;
 }

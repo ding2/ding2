@@ -20,17 +20,18 @@
 function bpi_push_action($type, $nid) {
   $is_ajax = ($type == 'ajax') ? TRUE : FALSE;
 
-  if (empty($nid)) {
+  if (empty($nid) || !bpi_push_available($nid)) {
     drupal_goto('admin/content');
   }
 
   if ($is_ajax) {
     $commands = array();
 
+    $push_form = drupal_get_form('bpi_push_form', $nid);
     $commands[] = ajax_command_ding_popup(
       'bpi-push',
       t('Push to BPI'),
-      drupal_render(drupal_get_form('bpi_push_form', $nid)),
+      drupal_render($push_form),
       array('refresh' => TRUE)
     );
 
@@ -144,13 +145,14 @@ function bpi_push_form_submit($form, &$form_state) {
     $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
-      db_insert('bpi_syndicated')
+      db_merge('bpi_syndicated')
         ->fields(array(
           'nid' => $nid,
           'bid' => $push_result['id'],
           'status' => BPI_PUSHED,
           'timestamp' => time(),
         ))
+        ->condition('nid', $nid, '=')
         ->execute();
 
       drupal_set_message(t('Node %title was successuflly pushed to BPI well.', array('%title' => $node->title)));
@@ -166,7 +168,7 @@ function bpi_push_form_submit($form, &$form_state) {
       ),
       WATCHDOG_ERROR
     );
-    drupal_set_message(t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title), 'error'));
+    drupal_set_message(t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
   }
 }
 
@@ -295,11 +297,18 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE) {
       if (!empty($image_fields)) {
         foreach ($image_fields as $field_name) {
           $field_value = field_view_field('node', $node, $field_name);
-          $bpi_content['images'][] = array(
-            'path' => isset($field_value['#items'][0]['uri']) ? file_create_url($field_value['#items'][0]['uri']) : '',
-            'alt' => '',
-            'title' => '',
-          );
+
+          if (!empty($field_value['#items'][0]['uri'])) {
+            $file_url = file_create_url($field_value['#items'][0]['uri']);
+            // Image pseudo-check.
+            if (@getimagesize($file_url)) {
+              $bpi_content['images'][] = array(
+                'path' => $file_url,
+                'alt' => '',
+                'title' => '',
+              );
+            }
+          }
         }
       }
     }
@@ -317,8 +326,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE) {
  *   Array of field names which are actually image fields.
  */
 function bpi_fetch_image_fields($bundle) {
-  $potential_image_fields = array('image_image');
+  $potential_image_fields = array('image_image', 'media_generic');
   $field_instances = field_info_instances('node', (string)$bundle);
+
   $image_fields = array();
 
   if (is_array($field_instances)) {
