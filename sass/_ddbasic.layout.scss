@@ -24,12 +24,52 @@ $topbar-text-color:               #fff;
 
 
 // -----------------------------------------------------------------------------
+// Site header, fixed position
+// -----------------------------------------------------------------------------
+//
+
+.site-header {
+  &.fixed {
+    position: fixed;
+    z-index: 99;
+    width: 100%;
+
+    .topbar-menu {
+      margin-top: 0;
+    }
+
+    .site-name-wrapper {
+      margin-top: 10px;
+
+      .site-name {
+        @include rem('font-size', 24px);
+      }
+    }
+
+    .header-wrapper {
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      .user-name {
+        display: none !important;
+      }
+    }
+
+    .navigation-wrapper {
+      .menu-item {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
 // Topbar, site name, slogan and logo
 // -----------------------------------------------------------------------------
 //
 .topbar {
   background-color: transparentize($black, .15);
-  z-index: 99;
 
   .topbar-inner {
     @extend .grid-inner;

@@ -1,5 +1,5 @@
 /*
- * Creates the topbar toggle menu
+ * Creates the topbar toggle menu and fixed header.
  * 
  */
 
@@ -47,6 +47,10 @@
 
   // When ready start the magic.
   $(document).ready(function () {
+
+    /*
+     * Toggle functionality for topbar menu
+     */
 
     // Link elements
     var ddbasic_topbar_link = $(".js-topbar-link");
@@ -108,6 +112,44 @@
 
     // Toggle header off to begin with.
     ddbasic_header_wrapper.hide();
+
+
+    /*
+     * Add .fixed class to site header upon scroll
+     */
+
+    var header = $('.site-header');
+    var pos = header.offset();
+
+    // Fix Drupal administration menu in relation to the fixed header.
+    var body_paddding = parseInt($('body').css('paddingTop'), 10);
+    if (body_paddding) {
+      pos.top = pos.top - body_paddding;
+    }
+
+    // Get calculations for header position on the page and their sizes.
+    var header_pos_relative = pos.top + 5;
+
+    // User to keep track of headers fixed state.
+    var header_fixed = false;
+
+    // Hook into window scroll event (it will fire when attched if window is
+    // scrolled down).
+    $(window).scroll(function(){
+      var top = $(window).scrollTop();
+
+      // Figure out if we should fix position the header or not.
+      if (top > header_pos_relative && !header_fixed) {
+        header.addClass('fixed');
+        header_fixed = true;
+        $('.content-wrapper').css('margin-top', header.height() + 20);
+      }
+      else if (top < header_pos_relative && header_fixed) {
+        header.removeClass('fixed');
+        header_fixed = false;
+        $('.content-wrapper').css('margin-top', 20);
+      }
+    });
 
   });
 

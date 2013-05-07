@@ -25,6 +25,7 @@
 // Topbar menu
 // **
 //
+
 .topbar-menu {
   @include zen-grid-item(8, 1, right);
 
@@ -44,6 +45,7 @@
     display: inline-block;
     margin-left: -4px;
     padding: 10px 15px;
+    outline: 0;
 
     &:hover {
       background-color: lighten($theme-primary-color, 10%);
@@ -101,12 +103,6 @@
  	background-color: transparentize($white, .05);
   display: block;
   width: 100%;
-
-  &.fixed {
-    position: fixed;
-    top: 0;
-    z-index: 99;
-  }
 
   &.js-topbar-toggled {
     display: block;
