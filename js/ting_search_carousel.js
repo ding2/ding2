@@ -87,7 +87,7 @@
     carousel_init(0);
 
     // Add click event to tabs.
-    $('.rs-carousel-tabs .rs-carousel-item').click(function(e) {
+    $('.rs-carousel-tabs .rs-carousel-item').on('click touchstart', function(e) {
       e.preventDefault();
 
       // Move active class.
