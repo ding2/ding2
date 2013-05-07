@@ -565,3 +565,8 @@ function bpi_get_bpi_nodes($nodes) {
 
   return $result;
 }
+
+
+function bpi_push_available($nid) {
+  return TRUE;
+}
