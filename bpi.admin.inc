@@ -134,6 +134,7 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  */
 function bpi_admin_content_mapping_form($form, $form_state) {
   $node_types = bpi_get_node_types();
+  $node_types_names = array_keys($node_types);
   $field_instances = array();
 
   $form['bpi_content_type'] = array(
@@ -141,7 +142,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
     '#title' => t('Content type'),
     '#description' => t('Select a content type into which content from BPI will be syndicated.'),
     '#options' => $node_types,
-    '#default_value' => variable_get('bpi_content_type', reset(array_keys($node_types))),
+    '#default_value' => variable_get('bpi_content_type', reset($node_types_names)),
     '#ajax' => array(
       'callback' => '_bpi_content_mapper_ctype_fields',
       'wrapper' => 'bpi-field-mapper-wrapper',

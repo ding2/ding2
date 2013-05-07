@@ -220,10 +220,10 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       try {
         $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
         $bpi_content = $bpi->getNode($bpi_id)->getProperties();
-        drupal_set_message(t('Syndicating content %title, from category %category and audience %audience.', array(
-          '%title' => $bpi_content['title'],
-          '%category' => $bpi_content['category'],
-          '%audience' => $bpi_content['audience'],
+        drupal_set_message(t('Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.', array(
+          '@title' => $bpi_content['title'],
+          '@category' => $bpi_content['category'],
+          '@audience' => $bpi_content['audience'],
         )));
       }
       catch (Exception $e) {
@@ -269,6 +269,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     }
   }
   elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
+    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/pages.styles.css';
     //Mark BPI nodes.
     $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
     $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);

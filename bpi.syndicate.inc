@@ -331,11 +331,6 @@ function bpi_build_filters() {
     $item['search_value'] = $value;
     $item['search_stripped_filter'] = _bpi_build_query('', '', $key);
 
-    // Clear the search results, if query filter is removed.
-    if ($key == SEARCH_PHRASE_KEY) {
-      $item['search_stripped_filter'] = array();
-    }
-
     $filters_markup[] = theme('bpi_filter_item', array('filter' => $item));
   }
 
