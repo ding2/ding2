@@ -969,7 +969,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 389, ../sass/_ddbasic.font.awesome.scss */
-.icon-chevron-down:before, .rs-carousel-tabs ul li:before {
+.icon-chevron-down:before, .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
   content: "\f078";
 }
 
@@ -5598,14 +5598,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 145, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul {
+.rs-carousel-tabs .rs-carousel-list-tabs {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
 /* line 154, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul li a {
+.rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   display: block;
@@ -5614,18 +5614,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 15px;
 }
 /* line 162, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul li a:hover {
+.rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a:hover {
   background-color: black;
   text-decoration: none;
 }
 /* line 169, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul li.active a {
+.rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
 /* line 174, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul li.active a:before {
+.rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a:before {
   border: 10px solid transparent;
   content: "";
   height: 0;
@@ -5637,7 +5637,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 50%;
 }
 /* line 180, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-tabs ul li:before {
+.rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
+  display: none;
+}
+/* line 186, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-tabs .rs-carousel-select-tabs {
   display: none;
 }
 @media only screen and (max-width: 480px) {
@@ -5652,28 +5656,28 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 195, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li {
-    display: block;
-    width: 100% !important;
-    /* Override inline styling from the script */
+  /* line 198, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-list-tabs {
+    display: none;
   }
-  /* line 200, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.active a {
+  /* line 202, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs {
+    display: block;
+    width: 100%;
+  }
+  /* line 206, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+    display: block;
     background-color: white;
     color: black;
     padding-left: 20px;
     text-align: left;
   }
-  /* line 208, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.active a:before {
-    display: none;
-  }
-  /* line 213, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.active:before {
+  /* line 215, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -5690,16 +5694,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 231, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li:not(.active) {
+  /* line 232, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 235, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.js-tab-hidden {
-    display: none;
-  }
-  /* line 239, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.js-tab-visible {
+  /* line 236, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }
 }
@@ -5715,28 +5715,28 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 195, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li {
-    display: block;
-    width: 100% !important;
-    /* Override inline styling from the script */
+  /* line 198, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-list-tabs {
+    display: none;
   }
-  /* line 200, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.active a {
+  /* line 202, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs {
+    display: block;
+    width: 100%;
+  }
+  /* line 206, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
+    display: block;
     background-color: white;
     color: black;
     padding-left: 20px;
     text-align: left;
   }
-  /* line 208, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.active a:before {
-    display: none;
-  }
-  /* line 213, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.active:before {
+  /* line 215, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -5753,16 +5753,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 231, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li:not(.active) {
+  /* line 232, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 235, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.js-tab-hidden {
-    display: none;
-  }
-  /* line 239, ../sass/_ddbasic.carousel.scss */
-  .rs-carousel-tabs ul li.js-tab-visible {
+  /* line 236, ../sass/_ddbasic.carousel.scss */
+  .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }
 }
