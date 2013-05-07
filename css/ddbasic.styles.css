@@ -2618,51 +2618,75 @@ ul.icons li [class*=" icon-"] {
   z-index: 99;
   width: 100%;
 }
-/* line 37, ../sass/_ddbasic.layout.scss */
-.site-header.fixed .topbar-menu {
-  margin-top: 0;
-}
-/* line 41, ../sass/_ddbasic.layout.scss */
-.site-header.fixed .site-name-wrapper {
-  margin-top: 6px;
-}
-/* line 44, ../sass/_ddbasic.layout.scss */
-.site-header.fixed .site-name-wrapper .site-name, .site-header.fixed .site-name-wrapper .site-name-with-slogan {
-  font-size: 24px;
-  font-size: 1.5rem;
-}
-/* line 49, ../sass/_ddbasic.layout.scss */
-.site-header.fixed .header-wrapper {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-/* line 53, ../sass/_ddbasic.layout.scss */
-.site-header.fixed .header-wrapper .user-name {
-  display: none !important;
-}
-/* line 59, ../sass/_ddbasic.layout.scss */
-.site-header.fixed .navigation-wrapper .menu-item {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-@media only screen and (max-width: 480px) {
-  /* line 69, ../sass/_ddbasic.layout.scss */
+
+@media only screen and (min-width: 769px) and (max-width: 940px) {
+  /* line 42, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .topbar-menu {
+    margin-top: 0;
+  }
+  /* line 46, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .site-name-wrapper {
+    margin-top: 10px;
+  }
+  /* line 49, ../sass/_ddbasic.layout.scss */
   .site-header.fixed .site-name-wrapper .site-name, .site-header.fixed .site-name-wrapper .site-name-with-slogan {
-    font-size: 16px;
-    font-size: 1rem;
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
+  /* line 54, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .header-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  /* line 58, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .header-wrapper .user-name {
+    display: none !important;
+  }
+  /* line 64, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .navigation-wrapper .menu-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
-
-/* line 81, ../sass/_ddbasic.layout.scss */
+@media only screen and (min-width: 1211px) {
+  /* line 42, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .topbar-menu {
+    margin-top: 0;
+  }
+  /* line 46, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .site-name-wrapper {
+    margin-top: 10px;
+  }
+  /* line 49, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .site-name-wrapper .site-name, .site-header.fixed .site-name-wrapper .site-name-with-slogan {
+    font-size: 24px;
+    font-size: 1.5rem;
+  }
+  /* line 54, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .header-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  /* line 58, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .header-wrapper .user-name {
+    display: none !important;
+  }
+  /* line 64, ../sass/_ddbasic.layout.scss */
+  .site-header.fixed .navigation-wrapper .menu-item {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+/* line 77, ../sass/_ddbasic.layout.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
 }
-/* line 84, ../sass/_ddbasic.layout.scss */
+/* line 80, ../sass/_ddbasic.layout.scss */
 .topbar .topbar-inner {
   position: relative;
 }
 
-/* line 91, ../sass/_ddbasic.layout.scss */
+/* line 87, ../sass/_ddbasic.layout.scss */
 .site-name-wrapper {
   float: left;
   width: 33.33333%;
@@ -2682,7 +2706,7 @@ ul.icons li [class*=" icon-"] {
   margin-top: 30px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 91, ../sass/_ddbasic.layout.scss */
+  /* line 87, ../sass/_ddbasic.layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -2703,7 +2727,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 91, ../sass/_ddbasic.layout.scss */
+  /* line 87, ../sass/_ddbasic.layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -2724,14 +2748,14 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 103, ../sass/_ddbasic.layout.scss */
+/* line 99, ../sass/_ddbasic.layout.scss */
 .site-name, .site-name-with-slogan {
   font-size: 30px;
   font-size: 1.875rem;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 112, ../sass/_ddbasic.layout.scss */
+/* line 108, ../sass/_ddbasic.layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -2744,35 +2768,35 @@ ul.icons li [class*=" icon-"] {
   text-decoration: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 103, ../sass/_ddbasic.layout.scss */
+  /* line 99, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 24px;
     font-size: 1.5rem;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 103, ../sass/_ddbasic.layout.scss */
+  /* line 99, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 24px;
     font-size: 1.5rem;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 103, ../sass/_ddbasic.layout.scss */
+  /* line 99, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 16px;
     font-size: 1rem;
   }
 }
 
-/* line 131, ../sass/_ddbasic.layout.scss */
+/* line 127, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 137, ../sass/_ddbasic.layout.scss */
+/* line 133, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2791,27 +2815,27 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 146, ../sass/_ddbasic.layout.scss */
+/* line 142, ../sass/_ddbasic.layout.scss */
 .header-wrapper {
   background-color: #00caff;
 }
-/* line 151, ../sass/_ddbasic.layout.scss */
+/* line 147, ../sass/_ddbasic.layout.scss */
 .header-wrapper .header-inner {
   overflow: visible;
 }
 
-/* line 159, ../sass/_ddbasic.layout.scss */
+/* line 155, ../sass/_ddbasic.layout.scss */
 .content-wrapper {
   margin-top: 20px;
 }
 
-/* line 168, ../sass/_ddbasic.layout.scss */
+/* line 164, ../sass/_ddbasic.layout.scss */
 .primary-content,
 .secondary-content,
 .tertiary-content {
   margin-bottom: 20px;
 }
-/* line 171, ../sass/_ddbasic.layout.scss */
+/* line 167, ../sass/_ddbasic.layout.scss */
 .primary-content .grid-inner, .primary-content .topbar .topbar-inner, .topbar .primary-content .topbar-inner, .primary-content .header-wrapper .header-inner, .header-wrapper .primary-content .header-inner, .primary-content .navigation-inner,
 .secondary-content .grid-inner,
 .secondary-content .topbar .topbar-inner,
@@ -2901,7 +2925,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 181, ../sass/_ddbasic.layout.scss */
+/* line 177, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -2911,14 +2935,14 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 200, ../sass/_ddbasic.layout.scss */
+  /* line 196, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 207, ../sass/_ddbasic.layout.scss */
+  /* line 203, ../sass/_ddbasic.layout.scss */
   .topbar {
     position: relative;
     margin-top: 0;
