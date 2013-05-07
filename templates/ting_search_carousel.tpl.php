@@ -25,13 +25,22 @@
     <!-- Only print tabs if there is more than 1 -->
     <?php if (count($searches) > 1): ?>
     <div class="rs-carousel-tabs">
-      <ul>
+      <ul class="rs-carousel-list-tabs">
         <?php foreach ($searches as $i => $search): ?>
-          <li class="<?php echo ($i == 0) ? 'active' : ''; ?>">
+          <li class="rs-carousel-item item-<?php echo $i; ?> <?php echo ($i == 0) ? 'active' : ''; ?>">
             <a href="#"><?php echo $search['title'] ?></a>
           </li>
         <?php endforeach; ?>
       </ul>
+
+      <!-- Used for responsive -->
+      <select class="rs-carousel-select-tabs">
+        <?php foreach ($searches as $i => $search): ?>
+          <option class="rs-carousel-item item-<?php echo $i; ?> <?php echo ($i == 0) ? 'active' : ''; ?>">
+            <a href="#"><?php echo $search['title'] ?></a>
+          </>
+        <?php endforeach; ?>
+      </select>
     </div>
     <?php endif; ?>
   </div>

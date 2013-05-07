@@ -87,13 +87,15 @@
     carousel_init(0);
 
     // Add click event to tabs.
-    $('.rs-carousel-tabs li').click(function(e) {
+    $('.rs-carousel-tabs .rs-carousel-item').click(function(e) {
       e.preventDefault();
 
-      // Move active clase.
+      // Move active class.
       var current = $(this);
-      current.parent().find('li').removeClass('active');
-      current.addClass('active');
+      $('.rs-carousel-tabs').parent().find('.rs-carousel-item').removeClass('active');
+
+      // Add active class to all active items
+      $('.rs-carousel-tabs .item-' + current.index()).addClass('active');
 
       // Remove current content and show spinner.
       $('.rs-carousel .rs-carousel-runner').html('');
