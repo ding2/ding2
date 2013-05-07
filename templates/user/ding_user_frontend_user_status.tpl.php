@@ -6,9 +6,11 @@
 
 $link_attributes = array(
   'attributes' => array(
-    'class' => 'menu-item',
+    'class' => array(
+      'menu-item',
+    ),
   ),
-  'html' => true,
+  'html' => TRUE,
 );
 ?>
 <ul class="system-user-menu">
