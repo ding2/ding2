@@ -620,14 +620,13 @@ function bpi_push_available($nid) {
 
       $mapped_type = variable_get('bpi_content_type', '');
 
-      if (isset($result[$nid])) {
-        $was_pushed = ($result[$nid]->status == BPI_PUSHED);
-        $modified_after_push = ($node->changed > $result[$nid]->timestamp) && $was_pushed;
-        $can_be_pushed = (!$was_pushed || $modified_after_push);
+      $bpi_action = isset($result[$nid]);
+      $was_pushed = ($bpi_action && $result[$nid]->status == BPI_PUSHED);
+      $modified_after_push = $was_pushed && ($node->changed > $result[$nid]->timestamp);
+      $can_be_pushed = (!$was_pushed || $modified_after_push || !$bpi_action);
 
-        if ($node->type == $mapped_type && $can_be_pushed) {
-          $status = TRUE;
-        }
+      if ($node->type == $mapped_type && $can_be_pushed) {
+        $status = TRUE;
       }
     }
   }
