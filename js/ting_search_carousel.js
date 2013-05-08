@@ -164,7 +164,14 @@
       _init_tabs();
 
       // Start the carousel.
-      carousel.carousel({touch: true});
+      carousel.carousel({
+        touch: true,
+        noOfRows: 1,
+        orientation: 'horizontal',
+        itemsPerTransition: 'auto',
+        translate3d: true,
+        pagination: true
+      });
 
       // Will get content for the first tab.
       _change_tab(0);

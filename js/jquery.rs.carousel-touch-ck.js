@@ -1,0 +1,20 @@
+/*global jQuery *//*jshint bitwise: true, camelcase: true, curly: true, eqeqeq: true, forin: true,
+immed: true, indent: 4, latedef: true, newcap: true, nonew: true, quotmark: single,
+undef: true, unused: true, strict: true, trailing: true, browser: true *//*
+ * jquery.rs.carousel-touch 1.0.1
+ * https://github.com/richardscarrott/jquery-ui-carousel
+ *
+ * Copyright (c) 2013 Richard Scarrott
+ * http://www.richardscarrott.co.uk
+ *
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ * Depends:
+ *  jquery.js v1.8+
+ *  jquery.translate3d.js v0.2+ // if passing in translate3d true for hardware acceleration
+ *  jquery.event.drag.js v2.3+ // https://github.com/richardscarrott/jquery.threedubmedia/
+ *  jquery.ui.widget.js v1.8+
+ *  jquery.rs.carousel.js v0.11.1+
+ */(function(e){"use strict";var t=e.Widget.prototype;e.widget("rs.draggable3d",{options:{axis:"x",translate3d:!1},_create:function(){this.eventNamespace=this.eventNamespace||"."+this.widgetName;this._bindDragEvents();return},_bindDragEvents:function(){var e=this,t=this.eventNamespace;this.element.unbind(t).bind("dragstart"+t,{axis:this.options.axis},function(t){e._start(t)}).bind("drag"+t,function(t){e._drag(t)}).bind("dragend"+t,function(t){e._end(t)});return},_getPosStr:function(){return this.options.axis==="x"?"left":"top"},_start:function(e){this.mouseStartPos=this.options.axis==="x"?e.pageX:e.pageY;this.options.translate3d?this.elPos=this.element.css("translate3d")[this.options.axis]:this.elPos=parseInt(this.element.position()[this._getPosStr()],10);this._trigger("start",e);return},_drag:function(e){var t=this.options.axis==="x"?e.pageX:e.pageY,n=t-this.mouseStartPos+this.elPos,r={};this.options.translate3d?r.translate3d=this.options.axis==="x"?{x:n}:{y:n}:r[this._getPosStr()]=n;this.element.css(r);return},_end:function(e){this._trigger("stop",e);return},_setOption:function(e){t._setOption.apply(this,arguments);e==="axis"&&this._bindDragEvents();return},destroy:function(){var e={};this.options.translate3d?e.translate3d={}:e[this._getPosStr()]="";this.element.css(e);t.destroy.apply(this);return}})})(jQuery);(function(e){"use strict";var t=e.rs.carousel.prototype;e.widget("rs.carousel",e.rs.carousel,{options:{touch:!1,sensitivity:1},_create:function(){t._create.apply(this);this._initDrag();return},_initDrag:function(){var e=this;this.elements.runner.draggable3d({translate3d:this.options.translate3d,axis:this._getAxis(),start:function(t){t=t.originalEvent.touches?t.originalEvent.touches[0]:t;e._dragStartHandler(t)},stop:function(t){t=t.originalEvent.touches?t.originalEvent.touches[0]:t;e._dragStopHandler(t)}});return},_destroyDrag:function(){this.elements.runner.draggable3d("destroy");this.goToPage(this.index,!1,undefined,!0);return},_getAxis:function(){return this.isHorizontal?"x":"y"},_dragStartHandler:function(e){e=e.originalEvent;this.options.translate3d&&this.elements.runner.removeClass(this.widgetFullName+"-runner-transition");this.startTime=this._getTime();this.startPos={x:e.pageX,y:e.pageY};return},_dragStopHandler:function(e){e=e.originalEvent;var t,n,r,i,s=this._getAxis();this.endTime=this._getTime();t=this.endTime-this.startTime;this.endPos={x:e.pageX,y:e.pageY};n=Math.abs(this.startPos[s]-this.endPos[s]);r=n/t;i=this.startPos[s]>this.endPos[s]?"next":"prev";r>this.options.sensitivity||n>this._getMaskDim()/2?this.index===this.getNoOfPages()-1&&i==="next"||this.index===0&&i==="prev"?this.goToPage(this.index):this[i]():i==="prev"&&this.index===0&&this.goToPage(this.index);return},_getTime:function(){var e=new Date;return e.getTime()},_setOption:function(e,n){t._setOption.apply(this,arguments);switch(e){case"orientation":this._switchAxis();break;case"touch":n?this._initDrag():this._destroyDrag()}return},_switchAxis:function(){this.elements.runner.draggable3d("option","axis",this._getAxis());return},destroy:function(){this._destroyDrag();t.destroy.apply(this);return}})})(jQuery);
