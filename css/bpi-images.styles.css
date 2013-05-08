@@ -1,0 +1,10 @@
+.bpi-syndicate-asset {
+  float: left;
+  margin-right: 5px;
+  padding: 5px;
+  width: 100px;
+}
+
+.bpi-syndicate-asset div {
+  text-align: center;
+}

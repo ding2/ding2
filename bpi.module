@@ -119,14 +119,16 @@ function bpi_menu() {
     'delivery callback' => 'ajax_deliver',
   ) + $menu['admin/bpi/statistics/nojs'];
 
-  $menu['admin/bpi/page/%'] = array(
-    'title' => 'BPI syndication',
-    'description' => 'Retrieve content from the well.',
-    'page callback' => 'bpi_search_content',
+  $menu['admin/bpi/images/nojs'] = array(
+    'page callback' => 'bpi_syndicate_images',
     'page arguments' => array(3),
     'access arguments' => array('syndicate content'),
-    'file' => 'bpi.syndicate.inc',
+    'file' => 'bpi.images.inc',
   );
+
+  $menu['admin/bpi/images/ajax'] = array(
+    'delivery callback' => 'ajax_deliver',
+  ) + $menu['admin/bpi/images/nojs'];
 
   $menu['admin/config/bpi'] = array(
     'title' => 'BPI',
@@ -225,7 +227,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     return;
   }
   // Checking nid for NULL would say that this is create node form, not edit.
-  elseif ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
+  if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
     $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
 
     if ($bpi_id) {
@@ -236,7 +238,10 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
       try {
         $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
-        $bpi_content = $bpi->getNode($bpi_id)->getProperties();
+        $bpi_node = $bpi->getNode($bpi_id);
+        $bpi_content = $bpi_node->getProperties();
+        $bpi_assets = $bpi_node->getAssets();
+
         drupal_set_message(t('Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.', array(
           '@title' => $bpi_content['title'],
           '@category' => $bpi_content['category'],
@@ -284,9 +289,19 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     elseif (isset($form[$body][$current_language][0])) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
+
+    if ($from_bpi) {
+      drupal_add_library('system', 'drupal.ajax');
+      drupal_add_library('system', 'jquery.form');
+      drupal_add_library('system', 'ui.dialog');
+      $form['#attached']['js'][] = drupal_get_path('module', 'ding_popup') . '/ding_popup.js';
+      $form['#attached']['js'][] = drupal_get_path('module', 'bpi') . '/js/bpi.scripts.js';
+      $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-images.styles.css';
+      $_SESSION['bpi']['assets'] = $bpi_assets;
+    }
   }
   elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
-    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/pages.styles.css';
+    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-pages.styles.css';
     //Mark BPI nodes.
     $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
     $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);

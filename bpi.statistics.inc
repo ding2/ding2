@@ -90,7 +90,7 @@ function bpi_statistics_form($form, &$form_state) {
     ),
   );
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/statistics.styles.css';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-statistics.styles.css';
   $form['#prefix'] = '<div class="bpi-stats-form">';
   $form['#suffix'] = '</div>';
 

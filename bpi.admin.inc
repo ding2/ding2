@@ -85,7 +85,7 @@ function bpi_admin_settings_form($form, $form_state) {
   );
 
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/admin.styles.css';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
   $form['#validate'][] = 'bpi_admin_settings_form_validate';
 
   return system_settings_form($form);
@@ -192,7 +192,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
     '#default_value' => variable_get('bpi_field_body', ''),
   );
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/admin.styles.css';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
 
   return system_settings_form($form);
 }

@@ -72,7 +72,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#markup' => $pager,
   );
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/pages.styles.css';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-pages.styles.css';
   $form['#submit'][] = 'bpi_syndicate_page_form_submit';
 
   return $form;
