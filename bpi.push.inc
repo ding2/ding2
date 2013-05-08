@@ -24,10 +24,11 @@ function bpi_push_action($type, $nid) {
     drupal_goto('admin/content');
   }
 
+  $push_form = drupal_get_form('bpi_push_form', $nid);
+
   if ($is_ajax) {
     $commands = array();
 
-    $push_form = drupal_get_form('bpi_push_form', $nid);
     $commands[] = ajax_command_ding_popup(
       'bpi-push',
       t('Push to BPI'),
@@ -38,7 +39,7 @@ function bpi_push_action($type, $nid) {
     return array('#type' => 'ajax', '#commands' => $commands);
   }
   else {
-    return drupal_get_form('bpi_push_form', $nid);
+    return $push_form;
   }
 }
 
@@ -57,9 +58,15 @@ function bpi_push_action($type, $nid) {
  * @ingroup forms
  */
 function bpi_push_form($form, $form_state, $nid) {
+  $node_title = '';
+  if (!empty($nid)) {
+    $node = node_load($nid);
+    $node_title = $node->title;
+  }
+
   $form['bpi_push_nid'] = array(
     '#type' => 'hidden',
-    '#value' => $nid,
+    '#value' => isset($nid) ? $nid : 0,
   );
 
   $dictionaries = bpi_get_bpi_dictionaries();
@@ -90,24 +97,11 @@ function bpi_push_form($form, $form_state, $nid) {
     '#title' => t('Written under Creative Commons License'),
   );
 
-  $form['bpi_push_cancel'] = array(
-    '#type' => 'button',
-    '#value' => t('Cancel'),
-    '#ajax' => array(
-      'callback' => 'bpi_push_cancel_ajax_callback',
-    ),
+  return confirm_form(
+    $form,
+    t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
+    'admin/content'
   );
-
-  $form['bpi_push_submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Push'),
-    '#ajax' => array(
-      'callback' => 'bpi_push_action_ajax_callback',
-      'wrapper' => 'bpi-push-form',
-    ),
-  );
-
-  return $form;
 }
 
 /**
@@ -127,13 +121,14 @@ function bpi_push_form_submit($form, &$form_state) {
   $category = $form_state['input']['bpi_push_category'];
   $audience = $form_state['input']['bpi_push_audience'];
   $with_images = $form_state['input']['bpi_push_images'];
+  $authorship = $form_state['input']['bpi_push_ccl'];
 
   if (empty($nid)) {
     return;
   }
 
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship);
 
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
@@ -170,31 +165,6 @@ function bpi_push_form_submit($form, &$form_state) {
     );
     drupal_set_message(t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
   }
-}
-
-/**
- * AJAX callback for the cancel button in bpi push node form.
- *
- * @see bpi_push_form()
- *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
- * @return array
- *   A set of ajax commands.
- *
- * @ingroup forms
- */
-function bpi_push_cancel_ajax_callback($form, &$form_state) {
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array()
-  );
-
-  $response['#commands'][] = ajax_command_ding_popup_close('bpi-push');
-
-  return $response;
 }
 
 /**
@@ -241,7 +211,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  * @return array
  *   An array of node values, used by the BPI ws.
  */
-function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE) {
+function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE) {
   $bpi_content = array();
 
   if ($node instanceof stdClass) {
@@ -288,7 +258,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE) {
     $bpi_content['category'] = $category;
     $bpi_content['audience'] = $audience;
     $bpi_content['editable'] = 0;
-    $bpi_content['authorship'] = 0;
+    $bpi_content['authorship'] = ($authorship) ? TRUE : FALSE;
     $bpi_content['images'] = array();
 
     if ($with_images) {

@@ -85,6 +85,7 @@ function bpi_menu() {
   );
 
   $menu['admin/bpi/push/nojs/%'] = array(
+    'title' => 'Push to BPI',
     'page callback' => 'bpi_push_action',
     'page arguments' => array(3, 4),
     'access arguments' => array('push content'),
@@ -94,6 +95,18 @@ function bpi_menu() {
   $menu['admin/bpi/push/ajax/%'] = array(
     'delivery callback' => 'ajax_deliver',
   ) + $menu['admin/bpi/push/nojs/%'];
+
+  $menu['admin/bpi/delete/nojs/%'] = array(
+    'title' => 'Delete from BPI',
+    'page callback' => 'bpi_delete_action',
+    'page arguments' => array(3, 4),
+    'access arguments' => array('delete bpi content'),
+    'file' => 'bpi.delete.inc',
+  );
+
+  $menu['admin/bpi/delete/ajax/%'] = array(
+    'delivery callback' => 'ajax_deliver',
+  ) + $menu['admin/bpi/delete/nojs/%'];
 
   $menu['admin/bpi/statistics/nojs'] = array(
     'page callback' => 'bpi_statistics',
@@ -165,6 +178,10 @@ function bpi_permission() {
 
   $perm['view bpi statistics'] = array(
     'title' => t('View statistics'),
+  );
+
+  $perm['delete bpi content'] = array(
+    'title' => t('Delete from bpi'),
   );
 
   return $perm;
@@ -365,9 +382,32 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         );
       }
 
+      // Adds a delete from bpi link.
+      if (isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
+        $row['operations']['data']['#links']['delete_from_bpi'] = array(
+          'title' => t('delete from bpi'),
+          'href' => 'admin/bpi/delete/nojs/' . $key,
+          'attributes' => array(
+            'class' => array(
+              'use-ajax',
+            ),
+          ),
+        );
+      }
+
       drupal_add_library('system', 'drupal.ajax');
     }
     // END content grid columns.
+  }
+  elseif ($form_id == 'bpi_delete_form') {
+   $form['actions']['submit']['#ajax'] = array(
+     'callback' => 'bpi_delete_action_ajax_callback',
+   );
+  }
+  elseif ($form_id == 'bpi_push_form') {
+    $form['actions']['submit']['#ajax'] = array(
+     'callback' => 'bpi_push_action_ajax_callback',
+   );
   }
 }
 
@@ -477,53 +517,6 @@ function bpi_node_load($nodes) {
 }
 
 /**
- * Implements hook_node_delete().
- *
- * Respond to node deletion. Cleanup the bpi table
- * and delete the node from the well.
- */
-function bpi_node_delete($node) {
-  $nid = $node->nid;
-
-  // Get the BPI related id's linked to current node being deleted.
-  $result = db_select('bpi_syndicated', 'bps')
-    ->fields('bps', array(
-      'id', 'bid',
-    ))
-    ->condition('nid', $nid, '=')
-    ->execute()
-    ->fetchAll();
-
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
-  try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
-
-    foreach ($result as $item) {
-      db_delete('bpi_syndicated')
-        ->condition('id', $item->id, '=')
-        ->execute();
-
-      $bpi->deleteNode($item->bid);
-    }
-  }
-  catch (Exception $e) {
-    watchdog(
-      'bpi',
-      t('Failed to delete node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
-  }
-}
-
-/**
  * Implements hook_query_alter().
  *
  * Alters the query for node retrieval in the content grid,
@@ -575,7 +568,7 @@ function bpi_query_alter($query) {
  */
 function bpi_get_bpi_nodes($nodes) {
   $query = db_select('bpi_syndicated', 'bs')
-    ->fields('bs', array('nid', 'timestamp'));
+    ->fields('bs', array('nid', 'bid', 'timestamp', 'status',));
 
   if (is_array($nodes) && count($nodes) > 0) {
     $query->condition('nid', $nodes, 'IN');
