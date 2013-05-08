@@ -28,17 +28,13 @@ $topbar-text-color:               #fff;
 // -----------------------------------------------------------------------------
 //
 
-.site-header {
-  &.fixed {
-    position: fixed;
-    z-index: 99;
-    width: 100%;
-  }
-}
-
 @include large-x-large() {
   .site-header {
     &.fixed {
+      position: fixed;
+      z-index: 99;
+      width: 100%;
+
       .topbar-menu {
         margin-top: 0;
       }
@@ -66,6 +62,24 @@ $topbar-text-color:               #fff;
           padding-bottom: 10px;
         }
       }
+    }
+  }
+}
+
+@include small-medium() {
+  .site-header {
+    &.fixed {
+      .header-wrapper,
+      .navigation-wrapper {
+        
+      }
+
+      .topbar {
+        position: fixed;
+        z-index: 99;
+        width: 100%;
+      }
+
     }
   }
 }
