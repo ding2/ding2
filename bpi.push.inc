@@ -282,6 +282,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
         }
       }
     }
+    else {
+      $bpi_content['body'] = preg_replace('~(<p>)?<img.+?/>(</p>)?~is', '', $bpi_content['body']);
+    }
   }
 
   return $bpi_content;
