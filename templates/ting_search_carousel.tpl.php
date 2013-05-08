@@ -18,8 +18,9 @@
       <?php if ($toggle_description): ?>
         <div class="rs-carousel-title"></div>
       <?php endif; ?>
-      <ul class="rs-carousel-runner">
-      </ul>
+      <div class="rs-carousel-items">
+        <ul></ul>
+      </div>
     </div>
 
     <!-- Only print tabs if there is more than 1 -->
@@ -27,7 +28,7 @@
     <div class="rs-carousel-tabs">
       <ul class="rs-carousel-list-tabs">
         <?php foreach ($searches as $i => $search): ?>
-          <li class="rs-carousel-item item-<?php echo $i; ?> <?php echo ($i == 0) ? 'active' : ''; ?>">
+          <li class="rs-carousel-item">
             <a href="#"><?php echo $search['title'] ?></a>
           </li>
         <?php endforeach; ?>
@@ -36,7 +37,7 @@
       <!-- Used for responsive -->
       <select class="rs-carousel-select-tabs">
         <?php foreach ($searches as $i => $search): ?>
-          <option class="rs-carousel-item item-<?php echo $i; ?> <?php echo ($i == 0) ? 'active' : ''; ?>">
+          <option class="rs-carousel-item">
             <a href="#"><?php echo $search['title'] ?></a>
           </>
         <?php endforeach; ?>

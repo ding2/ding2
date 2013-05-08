@@ -12,6 +12,9 @@
   overflow: hidden;
 }
 
+.rs-carousel-inner {
+  overflow: hidden;
+}
 
 /* Pagination and previous and next buttons
    ========================================================================== */

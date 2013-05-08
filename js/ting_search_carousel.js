@@ -1,133 +1,188 @@
+/**
+ * @file
+ * Handles the carousels loading of content and changes between tabs. There are
+ * two selectors to change tabs based on breaks points (which is handle by the
+ * theme).
+ *
+ * For large screens the normal tab list (ul -> li) is used while on small
+ * screens (mobile/tables) a select dropdown is used.
+ *
+ */
 (function ($) {
   "use strict";
 
-  var carousel_request_sent = [];
-  var carousel_current_index = 0;
-  var carousel_cache = [];
-  var carousel = false;
-  var carousel_init = function(index) {
 
-    // Set the width of the tabs according to the width of the list.
-    // Based on https://github.com/andyford/equalwidths/blob/master/jquery.equalwidths.js.
+  var TingSearchCarousel = (function() {
 
-    // Set variables
-    var $tabsList = $('.rs-carousel-tabs ul');
-    var $childCount = $tabsList.children().size();
+    var cache = [];
+    var carousel;
+    var current_tab = 0;
+    var navigation;
 
-    // Only do somehting if there actually is tabs
-    if ($childCount > 0) {
+    /**
+     * Private: Ensures that the tabs have the same size. This is purly a design
+     * thing.
+     */
+    function _equale_tab_width() {
+      // Get the list of tabs and the number of tabs in the list.
+      var tabsList = $('.rs-carousel-list-tabs');
+      var childCount = tabsList.children('li').length;
 
-      // Set the width of the <ul> list
-      var parentWidth = $tabsList.width();
+      // Only do somehting if there actually is tabs
+      if (childCount > 0) {
 
-      // Set the width of the <li>'s
-      var childWidth = Math.floor(parentWidth / $childCount);
+        // Get the width of the <ul> list element.
+        var parentWidth = tabsList.width();
 
-      // Set the last <li> width to combined childrens width it self not included
-      var childWidthLast = parentWidth - ( childWidth * ($childCount -1) );
+        // Calculate the width of the <li>'s.
+        var childWidth = Math.floor(parentWidth / childCount);
 
-      // Set the css widths
-      $tabsList.children().css({'width' : childWidth + 'px'});
-      $tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
-    }
+        // Calculate the last <li> width to combined childrens width it self not
+        // included.
+        var childWidthLast = parentWidth - ( childWidth * (childCount -1) );
 
-    // Save current index, used later on to ensure that AJAX callback insert
-    // content into the right tab/page.
-    carousel_current_index = index;
-
-    // If the cache is not set, make ajax call to server else just update the
-    // carousel.
-    if (carousel_cache[index] === undefined) {
-      // Prevent users from sending the same request more than once.
-      if (carousel_request_sent[index] === undefined) {
-        carousel_request_sent[index] = true;
-        $.ajax({
-          type: 'get',
-          url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
-          dataType : 'json',
-          success : function(data) {
-            carousel_cache[index] = {
-              'subtitle' : data.subtitle,
-              'content' : data.content
-            };
-
-            // Check that the AJAX call is still validate (on the same tab).
-            if (carousel_current_index == data.index) {
-              if (!carousel) {
-                carousel_update(index);
-                carousel = $('.rs-carousel').carousel();
-              }
-              else {
-                carousel.carousel('destroy');
-                carousel_update(index);
-                carousel.carousel();
-              }
-            }
-          }
-        });
+        // Set the tabs css widths.
+        tabsList.children().css({'width' : childWidth + 'px'});
+        tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
       }
     }
-    else {
-      carousel.carousel('destroy');
-      carousel_update(index);
-      carousel.carousel();
+
+    /**
+     * Private: Handler activated when the user changes tab.
+     */
+    function _change_tab(index) {
+      // Remove navigation selection.
+      navigation.find('.active').removeClass('active');
+      navigation.find(':selected').removeAttr('selected');
+
+      // Add new navigation seletions.
+      $(navigation.find('li')[index]).addClass('active');
+      $(navigation.find('option')[index]).attr('selected', true);
+
+      // Remove current content and show spinner.
+      $('.rs-carousel-title').html('');
+      $('.rs-carousel .rs-carousel-runner').children().remove();
+      $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
+
+      // Hide navigation arrows.
+      $('.rs-carousel-action-prev').hide();
+      $('.rs-carousel-action-next').hide();
+
+      current_tab = index;
+      _update(current_tab);
     }
-  };
 
-  // Updated the carousel content.
-  function carousel_update(index) {
-    var data = carousel_cache[index];
-    $('.rs-carousel-title').html(data.subtitle);
-    $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
-    $('.rs-carousel .rs-carousel-runner').html(data.content);
-  }
+    /**
+     * Private: Start the tables and attach event handler for click and change
+     * events.
+     */
+    function _init_tabs() {
+      // Select navigation wrapper.
+      navigation = $('.rs-carousel-tabs');
 
-  $(document).ready(function() {
-    // Get the carousel variable initialized.
-    carousel_init(0);
+      // Sett equal with on the tab navigation menu.
+      _equale_tab_width();
 
-    // Add click event to tabs.
-    $('.rs-carousel-tabs .rs-carousel-item').click(function(e) {
-      e.preventDefault();
+      // Attach click events to tabs.
+      $('.rs-carousel-list-tabs').on("click", "li", (
+        function(e) {
+          e.preventDefault();
+          _change_tab($(this).index());
+          return false;
+        }
+      ));
 
-      // Move active class.
-      var current = $(this);
+      // Add change event to tabs.
+      $('.rs-carousel-select-tabs').live('change', function() {
+        _change_tab($(this).find(':selected').index());
+      });
+    }
 
-      $('.rs-carousel-tabs').parent().find('.rs-carousel-item').removeClass('active');
+    /**
+     * Private: Updates the content when the user changes tabs. It will fetch
+     * the content from the server if it's not fetched allready.
+     */
+    function _update(index) {
+      // Get content from cache, if it have been fetched.
+      if (!(index in cache)) {
+        _fetch(index);
 
-      // Add active class to all active items
-      $('.rs-carousel-tabs .item-' + current.index()).addClass('active');
+        // Return as the fetch will call update once more when the Ajax call
+        // have completed.
+        return;
+      }
 
-      // Remove current content and show spinner.
-      $('.rs-carousel .rs-carousel-runner').html('');
-      $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
+      var data = cache[index];
 
-      // Hide navigation arrows.
-      $('.rs-carousel-action-prev').hide();
-      $('.rs-carousel-action-next').hide();
+      // Remove spinner.
+      $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
 
-      carousel_init(current.index());
+      // Update content.
+      $('.rs-carousel-title').html(data.subtitle);
+      $('.rs-carousel .rs-carousel-runner').append(data.content);
 
-      return false;
-    });
+      // Show navigation arrows.
+      $('.rs-carousel-action-prev').show();
+      $('.rs-carousel-action-next').show();
 
-    // Add change event to select.
-    $('.rs-carousel-select-tabs').on('change', function() {
-      // Remove current content and show spinner.
-      $('.rs-carousel .rs-carousel-runner').html('');
-      $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
-
-      // Hide navigation arrows.
-      $('.rs-carousel-action-prev').hide();
-      $('.rs-carousel-action-next').hide();
-
-      carousel_init(this.value);
-    });
-
-    // This is place inside document ready to ensure that the carousel have
-    // been initialized.
-    $(window).resize(function () {
+      // Get the carousel running.
       carousel.carousel('refresh');
-    });
+    }
+
+    /**
+     * Private: Makes an ajax call to the server to get new content for the
+     * active navigation tab.
+     */
+    function _fetch(index) {
+      $.ajax({
+        type: 'get',
+        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
+        dataType : 'json',
+        success : function(data) {
+          cache[index] = {
+            'subtitle' : data.subtitle,
+            'content' : data.content
+          };
+
+          // If we still are on the same tab update it elese the content have
+          // been saved to the cache.
+          if (current_tab == data.index) {
+            _update(index);
+          }
+        }
+      });
+    }
+
+    /**
+     * Public: Init the carousel and fetch content for the first tab.
+     */
+    function init() {
+      // Select the carousel element.
+      carousel = $('.rs-carousel-items');
+
+      // Fix the tables and fetch the first tabs content.
+      _init_tabs();
+
+      // Start the carousel.
+      carousel.carousel({touch: true});
+
+      // Will get content for the first tab.
+      _change_tab(0);
+    }
+
+    /**
+     * Expoes public functions.
+     */
+    return {
+        name: 'ting_search_carousel',
+        init: init
+    };
+  })();
+
+  /**
+   * Start the carousel when the document is ready.
+   */
+  $(document).ready(function() {
+    TingSearchCarousel.init();
   });
 })(jQuery);
