@@ -17,6 +17,10 @@ function bpi_syndicate_images($type = 'ajax') {
   // Implement non-ajax workflow.
   $assets = isset($_SESSION['bpi']['assets']) ? $_SESSION['bpi']['assets'] : array();
 
+  if (empty($assets)) {
+    return;
+  }
+
   $form = drupal_get_form('bpi_assets_form', $assets);
   $commands = array();
 
@@ -53,6 +57,7 @@ function bpi_assets_form($form = array(), $form_state, $assets = array()) {
     foreach ($assets as $asset => $url) {
       $form['bpi_assets'][$asset] = array(
         '#type' => 'checkbox',
+        '#default_value' => 1,
         '#prefix' => '<div class="bpi-syndicate-asset"><img src="' . $url .'" width="100" height="100" />',
         '#suffix' => '</div>',
       );
