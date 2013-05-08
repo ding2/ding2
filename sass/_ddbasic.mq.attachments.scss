@@ -104,12 +104,12 @@
   }
 
   .attachment-third {
-    @include zen-clear(both);
+    @include zen-clear();
     @include zen-grid-item($grid-column-count, 1);
   }
 
   .attachment-fourth {
-    @include zen-clear(both);
+    @include zen-clear();
     @include zen-grid-item($grid-column-count, 1);
   }
 }
@@ -137,7 +137,7 @@
   .attachment-second,
   .attachment-third,
   .attachment-fourth {
-    @include zen-clear(both);
+    @include zen-clear();
     @include zen-grid-item($grid-column-count, 1);
   }
 }
