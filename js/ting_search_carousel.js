@@ -188,5 +188,19 @@
    */
   $(document).ready(function() {  
     TingSearchCarousel.init();
+    
+    // Add support for touch displays.
+    $('.rs-carousel-items').bind('swipeone', function(event, gs) {      
+      event.preventDefault();
+      
+      if (gs.description.match(/right/g)) {
+        $(".rs-carousel-items").carousel('prev');
+      }
+      else {
+        $(".rs-carousel-items").carousel('next');
+      }
+      
+      return false;
+    });
   });
 })(jQuery);
