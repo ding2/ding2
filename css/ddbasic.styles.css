@@ -6760,16 +6760,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
   /* line 165, ../sass/_ddbasic.refactor.scss */
   .news-list .news-heading {
+    font-size: 20px;
+    font-size: 1.25rem;
     margin-right: 35px;
   }
-  /* line 169, ../sass/_ddbasic.refactor.scss */
+  /* line 171, ../sass/_ddbasic.refactor.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
     right: 20px;
     top: 45%;
   }
-  /* line 177, ../sass/_ddbasic.refactor.scss */
+  /* line 179, ../sass/_ddbasic.refactor.scss */
   .news-list .news-arrow-link:before {
     float: right;
     font-family: FontAwesome;
@@ -6785,31 +6787,33 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
   /* line 165, ../sass/_ddbasic.refactor.scss */
   .news-list .news-heading {
+    font-size: 20px;
+    font-size: 1.25rem;
     margin-right: 35px;
   }
-  /* line 169, ../sass/_ddbasic.refactor.scss */
+  /* line 171, ../sass/_ddbasic.refactor.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
     right: 20px;
     top: 45%;
   }
-  /* line 177, ../sass/_ddbasic.refactor.scss */
+  /* line 179, ../sass/_ddbasic.refactor.scss */
   .news-list .news-arrow-link:before {
     float: right;
     font-family: FontAwesome;
   }
 }
 
-/* line 189, ../sass/_ddbasic.refactor.scss */
+/* line 191, ../sass/_ddbasic.refactor.scss */
 .search .search-field-wrapper {
   position: relative;
 }
-/* line 194, ../sass/_ddbasic.refactor.scss */
+/* line 196, ../sass/_ddbasic.refactor.scss */
 .search .spinner i[class^="icon-"] {
   height: auto;
 }
-/* line 202, ../sass/_ddbasic.refactor.scss */
+/* line 204, ../sass/_ddbasic.refactor.scss */
 .search .form-item {
   float: left;
   width: 100%;
@@ -6827,12 +6831,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 206, ../sass/_ddbasic.refactor.scss */
+/* line 208, ../sass/_ddbasic.refactor.scss */
 .search .form-text {
   padding-left: 49px;
 }
 
-/* line 213, ../sass/_ddbasic.refactor.scss */
+/* line 215, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -6850,11 +6854,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 216, ../sass/_ddbasic.refactor.scss */
+/* line 218, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 221, ../sass/_ddbasic.refactor.scss */
+/* line 223, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -6872,29 +6876,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 224, ../sass/_ddbasic.refactor.scss */
+/* line 226, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 230, ../sass/_ddbasic.refactor.scss */
+  /* line 232, ../sass/_ddbasic.refactor.scss */
   .user .form-item-pass {
     margin-top: 10px;
   }
 }
 
-/* line 237, ../sass/_ddbasic.refactor.scss */
+/* line 239, ../sass/_ddbasic.refactor.scss */
 .search,
 .user {
   display: none;
   width: 100%;
 }
-/* line 240, ../sass/_ddbasic.refactor.scss */
+/* line 242, ../sass/_ddbasic.refactor.scss */
 .search.js-topbar-toggled,
 .user.js-topbar-toggled {
   display: inline-block;
 }
-/* line 246, ../sass/_ddbasic.refactor.scss */
+/* line 248, ../sass/_ddbasic.refactor.scss */
 .search [class^="label-"],
 .user [class^="label-"] {
   font-size: 16px;
@@ -6906,7 +6910,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 5px;
   margin-left: 2px;
 }
-/* line 256, ../sass/_ddbasic.refactor.scss */
+/* line 258, ../sass/_ddbasic.refactor.scss */
 .search [class^="icon-"],
 .user [class^="icon-"] {
   font-size: 30px;
@@ -6916,13 +6920,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 24px;
   position: absolute;
 }
-/* line 265, ../sass/_ddbasic.refactor.scss */
+/* line 267, ../sass/_ddbasic.refactor.scss */
 .search .form-item,
 .user .form-item {
   display: inline-block;
   position: relative;
 }
-/* line 270, ../sass/_ddbasic.refactor.scss */
+/* line 272, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .user .form-text {
   font-size: 18px;
@@ -6940,7 +6944,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 0;
   width: 100%;
 }
-/* line 283, ../sass/_ddbasic.refactor.scss */
+/* line 285, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .search .form-submit,
 .user .form-text,
@@ -6948,7 +6952,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   min-height: 60px;
   padding-top: 0;
 }
-/* line 288, ../sass/_ddbasic.refactor.scss */
+/* line 290, ../sass/_ddbasic.refactor.scss */
 .search .form-submit,
 .user .form-submit {
   font-size: 20px;
@@ -6960,12 +6964,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 1px;
   min-width: 110px;
 }
-/* line 298, ../sass/_ddbasic.refactor.scss */
+/* line 300, ../sass/_ddbasic.refactor.scss */
 .search input[class^="form-"],
 .user input[class^="form-"] {
   margin-bottom: 0;
 }
-/* line 302, ../sass/_ddbasic.refactor.scss */
+/* line 304, ../sass/_ddbasic.refactor.scss */
 .search .form-actions,
 .user .form-actions {
   float: right;
@@ -6986,13 +6990,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: right;
 }
 @media only screen and (max-width: 480px) {
-  /* line 309, ../sass/_ddbasic.refactor.scss */
+  /* line 311, ../sass/_ddbasic.refactor.scss */
   .search [class^="label-"],
   .user [class^="label-"] {
     font-size: 14px;
     font-size: 0.875rem;
   }
-  /* line 313, ../sass/_ddbasic.refactor.scss */
+  /* line 315, ../sass/_ddbasic.refactor.scss */
   .search .form-item,
   .user .form-item {
     float: left;
@@ -7014,13 +7018,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 320, ../sass/_ddbasic.refactor.scss */
+  /* line 322, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 324, ../sass/_ddbasic.refactor.scss */
+  /* line 326, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7029,7 +7033,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 332, ../sass/_ddbasic.refactor.scss */
+  /* line 334, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7049,7 +7053,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 337, ../sass/_ddbasic.refactor.scss */
+  /* line 339, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
@@ -7060,13 +7064,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 320, ../sass/_ddbasic.refactor.scss */
+  /* line 322, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 324, ../sass/_ddbasic.refactor.scss */
+  /* line 326, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7075,7 +7079,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 332, ../sass/_ddbasic.refactor.scss */
+  /* line 334, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7095,7 +7099,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 337, ../sass/_ddbasic.refactor.scss */
+  /* line 339, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
