@@ -269,7 +269,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
-    $bpi_teaser = isset($bpi_content['teaser']) ? html_entity_decode($bpi_content['teaser']) : '';
+    $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
     if (isset($form[$teaser][$current_language][0]['summary'])) {
       $form[$teaser][$current_language][0]['summary']['#default_value'] = $bpi_teaser;
     }
@@ -282,7 +282,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
-    $bpi_body = isset($bpi_content['body']) ? html_entity_decode($bpi_content['body']): '';
+    $bpi_body = isset($bpi_content['body']) ? $bpi_content['body'] : '';
     if (isset($form[$body][$current_language][0]['value'])) {
       $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
     }

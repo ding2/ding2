@@ -249,8 +249,8 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       $teaser  = '';
     }
 
-    $bpi_content['body'] = $body;
-    $bpi_content['teaser'] = $teaser;
+    $bpi_content['body'] = html_entity_decode($body);
+    $bpi_content['teaser'] = html_entity_decode($teaser);
     $dt = new DateTime();
     $dt->setTimestamp($node->changed);
     $bpi_content['creation'] = $dt->format(DateTime::W3C);
@@ -286,6 +286,13 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       $bpi_content['body'] = preg_replace('~(<p>)?<img.+?/>(</p>)?~is', '', $bpi_content['body']);
     }
   }
+
+  watchdog(
+    'bpi',
+    'Pushed to server !content',
+    array('!content' => '<pre>' . htmlspecialchars(print_r($bpi_content, TRUE)) . '</pre>'),
+    WATCHDOG_DEBUG
+  );
 
   return $bpi_content;
 }
