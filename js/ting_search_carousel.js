@@ -73,6 +73,41 @@
     }
 
     /**
+     * Private: Check is the device have support for touch events.
+     */
+    function _is_touch_device() {
+      // First part work in most browser the last in IE 10.
+      return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
+    }
+
+    /**
+     * Private: Enable draggable touch support to the carousel, but only if the
+     * device is touch enabled.
+     */
+    function _add_touch_support() {
+      if (_is_touch_device()) {
+        // Add support for touch displays (requires jQuery Touch Punch).
+        $('.rs-carousel-runner').draggable({
+          axis: "x",
+          stop: function() {
+            var left = $('.rs-carousel-runner').position().left;
+
+            // Left side reached.
+            if (left > 0) {
+              carousel.carousel('goToPage', 0);
+            }
+
+            // Right side reached.
+            if ($('.rs-carousel-mask').width() - $('.rs-carousel-runner').width() > left) {
+              var lastIndex = carousel.carousel('getNoOfPages') - 1;
+              carousel.carousel('goToPage', lastIndex);
+            }
+          }
+        });
+      }
+    }
+
+    /**
      * Private: Start the tables and attach event handler for click and change
      * events.
      */
@@ -170,6 +205,10 @@
         itemsPerTransition: 'auto'
       });
 
+      // Maybe add support for touch devices (will only be applied on touch
+      // enabled devices).
+        _add_touch_support();
+
       // Will get content for the first tab.
       _change_tab(0);
     }
@@ -186,21 +225,7 @@
   /**
    * Start the carousel when the document is ready.
    */
-  $(document).ready(function() {  
+  $(document).ready(function() {
     TingSearchCarousel.init();
-    
-    // Add support for touch displays.
-    $('.rs-carousel-items').bind('swipeone', function(event, gs) {      
-      event.preventDefault();
-      
-      if (gs.description.match(/right/g)) {
-        $(".rs-carousel-items").carousel('prev');
-      }
-      else {
-        $(".rs-carousel-items").carousel('next');
-      }
-      
-      return false;
-    });
   });
 })(jQuery);
