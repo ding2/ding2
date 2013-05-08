@@ -25,6 +25,11 @@ body {
   background-attachment: fixed;
   background-size: cover;
   line-height: $theme-line-height;
+  
+  &.fixed {
+    position: fixed;
+    width: 100%;
+  }
 }
 
 body.toolbar {

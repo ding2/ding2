@@ -1,6 +1,6 @@
 /*
  * Creates the topbar toggle menu and fixed header.
- * 
+ *
  */
 
 (function($) {
@@ -15,6 +15,8 @@
     var ddbasic_topbar_search = $('.js-topbar-search');
     var ddbasic_topbar_menu = $('.js-topbar-menu');
     var ddbasic_header_wrapper = $('.header-wrapper');
+
+    $('body').toggleClass('fixed');
 
     switch (toggleItem) {
       case 'search':
