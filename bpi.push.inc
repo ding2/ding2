@@ -232,15 +232,15 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
     // Whether the field is a textarea with summary, fetch the summary, if not -
     // fetch it's safe value.
-    if (!empty($teaser_field) && isset($teaser_field['#items'][0]['summary'])) {
-      $teaser = $teaser_field['#items'][0]['summary'];
+    if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
+      $teaser = $teaser_field['#items'][0]['safe_summary'];
     }
-    elseif (isset($teaser_field['#items'][0]['value'])) {
-      $teaser = $teaser_field['#items'][0]['value'];
+    elseif (isset($teaser_field['#items'][0]['safe_value'])) {
+      $teaser = $teaser_field['#items'][0]['safe_value'];
     }
 
-    if (!empty($body_field) && isset($body_field['#items'][0]['value'])) {
-      $body = $body_field['#items'][0]['value'];
+    if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
+      $body = $body_field['#items'][0]['safe_value'];
     }
 
     // Empty the teaser, if body and teaser are mapped to same fields, and the values
