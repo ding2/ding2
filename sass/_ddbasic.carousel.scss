@@ -34,18 +34,21 @@ $carousel-title-font-size:                 24px;
 .rs-carousel {
   @include zen-grid-item(12, 1);
 
+  background-color: $carousel-background-color;
   padding: 0;
+
+  @include small-medium() {
+    background-color: $theme-secondary-color;
+  }
 }
 
 .rs-carousel-inner {
-  background-color: $carousel-background-color;
   padding-top: 20px;
   padding-right: 20px;
   padding-bottom: 30px;
   padding-left: 20px;
 
   @include small-medium() {
-    background-color: $theme-secondary-color;
     padding-bottom: 20px;
   }
 }
@@ -213,7 +216,6 @@ $carousel-title-font-size:                 24px;
   @include small-medium() {
     @include box-sizing(border-box);
 
-    background-color: $theme-secondary-color;
     padding-right: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
