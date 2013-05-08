@@ -221,7 +221,8 @@ function bpi_search_get_markup($items) {
   // Iterate through items and theme them.
   if (is_array($items)) {
     foreach ($items as $item) {
-      $item['date'] = format_date(new DateTime($item['date']), 'Y-m-d H:i:s');
+      $dt = new DateTime();
+      $item['date'] = format_date($dt->setTimestamp($item['date'])), 'Y-m-d H:i:s');
       $data[] = theme('bpi_well_item', array('item' => $item));
     }
   }
