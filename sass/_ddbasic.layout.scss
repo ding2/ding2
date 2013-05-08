@@ -68,15 +68,6 @@ $topbar-text-color:               #fff;
 
 @include small-medium() {
   .site-header {
-    .navigation-wrapper {
-      bottom: 0;
-      min-height: 300px;
-      overflow: auto;
-      position: fixed;
-      top: 44px;
-      z-index: 99;
-    }
-
     &.fixed {
       .topbar {
         position: fixed;

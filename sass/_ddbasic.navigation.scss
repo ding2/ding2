@@ -112,11 +112,16 @@
     @include box-sizing(border-box);
 
     background-color: $theme-primary-color;
+    bottom: 0;
     display: none;
+    overflow: auto;
     padding-top: 10px;
     padding-right: 20px;
-    padding-bottom: 30px; // Extra space for device stuff below the menu    
+    padding-bottom: 30px; // Extra space for device stuff below the menu
     padding-left: 20px;
+    position: fixed;
+    top: 44px;
+    z-index: 99;
   }
 }
 
