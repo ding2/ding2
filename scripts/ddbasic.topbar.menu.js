@@ -16,8 +16,6 @@
     var ddbasic_topbar_menu = $('.js-topbar-menu');
     var ddbasic_header_wrapper = $('.header-wrapper');
 
-    $('body').toggleClass('fixed');
-
     switch (toggleItem) {
       case 'search':
         ddbasic_topbar_search.toggleClass('js-topbar-toggled');
@@ -36,6 +34,10 @@
         ddbasic_header_wrapper.show();
         break;
       case 'menu':
+
+        // Add fixed class to body to avoid scrolling issues
+        $('body').toggleClass('fixed');
+
         ddbasic_topbar_menu.toggleClass('js-topbar-toggled');
 
         ddbasic_topbar_search.removeClass('js-topbar-toggled');
