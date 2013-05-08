@@ -168,11 +168,19 @@ $topbar-text-color:               #fff;
 }
 
 
-.primary-content,
-.secondary-content,
-.tertiary-content {
-  background-color: $white;
-  margin-bottom: $default-spacing;
+.ding-layout-1 {
+  .primary-content,
+  .secondary-content,
+  .tertiary-content {
+    @include zen-clear(left);
+
+    background-color: $white;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+  }
 }
 
 .secondary-content,
@@ -185,7 +193,6 @@ $topbar-text-color:               #fff;
 .footer {
   @include attachment-25-25-25-25;
 }
-
 
 .bottom {
   background-color: transparentize($black, .1);

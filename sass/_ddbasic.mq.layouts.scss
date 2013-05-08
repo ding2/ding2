@@ -136,21 +136,12 @@
 
     .secondary-content {
       @include zen-grid-item(12, 1);
-      @include zen-clear(both);
+      @include zen-clear();
     }
 
     .tertiary-content {
       @include zen-grid-item(12, 1);
-      @include zen-clear(both);
-    }
-
-    .primary-content,
-    .secondary-content,
-    .tertiary-content {
-      padding-top: 20px;
-      padding-right: 20px;
-      padding-bottom: 20px;
-      padding-left: 20px;
+      @include zen-clear();
     }
 
     .attachments-4-4 {
@@ -167,6 +158,13 @@
 
     .attachments-1-1 {
       @include attachment-100-100-100-100;
+    }
+  }
+
+  @include large-x-large() {
+    .secondary-content,
+    .tertiary-content {
+      @include zen-clear();
     }
   }
 }
