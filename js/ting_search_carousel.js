@@ -168,9 +168,7 @@
         touch: true,
         noOfRows: 1,
         orientation: 'horizontal',
-        itemsPerTransition: 'auto',
-        translate3d: true,
-        pagination: true
+        itemsPerTransition: 'auto'
       });
 
       // Will get content for the first tab.
