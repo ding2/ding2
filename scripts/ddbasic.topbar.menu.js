@@ -36,7 +36,7 @@
       case 'menu':
 
         // Add fixed class to body to avoid scrolling issues
-        $('body').toggleClass('fixed');
+        $('body').toggleClass('js-fixed');
 
         ddbasic_topbar_menu.toggleClass('js-topbar-toggled');
 
@@ -144,12 +144,12 @@
 
       // Figure out if we should fix position the header or not.
       if (top > header_pos_relative && !header_fixed) {
-        header.addClass('fixed');
+        header.addClass('js-fixed');
         header_fixed = true;
         $('.content-wrapper').css('margin-top', header.height() + 20);
       }
       else if (top < header_pos_relative && header_fixed) {
-        header.removeClass('fixed');
+        header.removeClass('js-fixed');
         header_fixed = false;
         $('.content-wrapper').css('margin-top', 20);
       }

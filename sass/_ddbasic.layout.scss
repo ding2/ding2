@@ -30,7 +30,7 @@ $topbar-text-color:               #fff;
 
 @include large-x-large() {
   .site-header {
-    &.fixed {
+    &.js-fixed {
       position: fixed;
       z-index: 99;
       width: 100%;
@@ -68,7 +68,7 @@ $topbar-text-color:               #fff;
 
 @include small-medium() {
   .site-header {
-    &.fixed {
+    &.js-fixed {
       .topbar {
         position: fixed;
         z-index: 99;
