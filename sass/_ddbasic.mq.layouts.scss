@@ -9,7 +9,7 @@
 // -----------------------------------------------------------------------------
 //
 %grid-inner-padding {
-  padding: $default-spacing;
+  padding: 20px;
 }
 
 
@@ -117,44 +117,56 @@
 // -----------------------------------------------------------------------------
 //
 .ding-layout-1 {
-  @include display-100-50-50;
-
-  .grid-inner {
-    @extend %grid-inner-padding;
-  }
-
-  // specific rule for primary content because carousel is inserted.
   .primary-content {
-    .grid-inner {
-      padding: 0;
-      background-color: transparent;
+    @include zen-grid-item(12, 1);
+  }
+
+  .secondary-content {
+    @include zen-grid-item(6, 1);
+  }
+
+  .tertiary-content {
+    @include zen-grid-item(6, 1, right);
+  }
+
+  @include small-medium() {
+    .primary-content {
+      @include zen-grid-item(12, 1);
     }
-  }
 
-  .attachments-wrapper {
-    @include zen-grid-container;
-
-    margin-bottom: $default-spacing;
-
-    .grid-inner {
-      @extend %grid-inner-padding;
+    .secondary-content {
+      @include zen-grid-item(12, 1);
+      @include zen-clear(both);
     }
-  }
 
-  .attachments-4-4 {
-    @include attachment-25-25-25-25;
-  }
+    .tertiary-content {
+      @include zen-grid-item(12, 1);
+      @include zen-clear(both);
+    }
 
-  .attachments-3-3 {
-    @include attachment-33-33-33-100;
-  }
+    .primary-content,
+    .secondary-content,
+    .tertiary-content {
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-bottom: 20px;
+      padding-left: 20px;
+    }
 
-  .attachments-2-2 {
-    @include attachment-50-50-100-100;
-  }
+    .attachments-4-4 {
+      @include attachment-25-25-25-25;
+    }
 
-  .attachments-1-1 {
-    @include attachment-100-100-100-100;
+    .attachments-3-3 {
+      @include attachment-33-33-33-100;
+    }
+
+    .attachments-2-2 {
+      @include attachment-50-50-100-100;
+    }
+
+    .attachments-1-1 {
+      @include attachment-100-100-100-100;
+    }
   }
 }
-

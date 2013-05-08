@@ -54,7 +54,6 @@
   background-color: $article-background-even;
 }
 
-
 %article-heading {
   @include rem('font-size', 24px);
 }
@@ -86,65 +85,101 @@
 // News
 .news-list {
   @extend %reset-list;
-}
 
-.news-list-item {
-  @extend %article-background;
-  @extend %article-padding;
-  @extend %article-margin;
+  .news-list-item {
+    @extend %article-background;
+    @extend %article-padding;
+    @extend %article-margin;
 
-  overflow: hidden;
-}
-
-.news-list-item:nth-child(odd) {
-  @extend %article-background--odd;
-}
-
-.news-list-item:nth-child(even) {
-  @extend %article-background--even;
-}
-
-.news-heading {
-  @extend %article-heading;
-}
-
-.news-image-wrapper {
-  float: left;
-  margin-right: $default-spacing;
-  max-width: 75px;
-
-  a {
-    display: block;
+    overflow: hidden;
+    position: relative;
   }
-}
 
-.news-label {
-  @extend .label;
+  .news-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
 
-  margin-right: 5px;
-}
+  .news-list-item:nth-child(even) {
+    @extend %article-background--even;
+  }
 
-.news-sub-heading {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  .news-heading {
+    @extend %article-heading;
+  }
 
-  .news-date,
-  .news-author {
+  .news-image-wrapper {
+    float: left;
+    margin-right: $default-spacing;
+    max-width: 75px;
+
+    a {
+      display: block;
+    }
+  }
+
+  .news-label {
+    @extend .label;
+
     margin-right: 5px;
   }
-}
 
-.news-date {
-  @extend %article-text--opaque;
-}
+  .news-sub-heading {
+    margin-top: 10px;
+    margin-bottom: 10px;
 
-.news-author {
-  @extend %article-text;
-}
+    .news-date,
+    .news-author {
+      margin-right: 5px;
+    }
+  }
 
-.news-list-content {
-  max-height: 50px;
-  overflow: hidden;
+  .news-date {
+    @extend %article-text--opaque;
+  }
+
+  .news-author {
+    @extend %article-text;
+  }
+
+  .news-list-content {
+    max-height: 50px;
+    overflow: hidden;
+  }
+
+  .news-link {
+    float: right;
+  }
+
+  .news-arrow-link {
+    display: none;
+  }
+
+  @include small-medium() {
+    .news-label,
+    .news-sub-heading,
+    .news-list-content,
+    .news-link {
+      display: none;
+    }
+
+    .news-heading {
+      margin-right: 35px;
+    }
+
+    .news-arrow-link {
+      @extend .icon-chevron-right;
+
+      display: inline-block;
+      position: absolute;
+      right: 20px;
+      top: 45%;
+
+      &:before {
+        float: right;
+        font-family: $theme-icon-library-font;
+      }
+    }
+  }
 }
 
 

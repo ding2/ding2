@@ -171,10 +171,14 @@ $topbar-text-color:               #fff;
 .primary-content,
 .secondary-content,
 .tertiary-content {
+  background-color: $white;
   margin-bottom: $default-spacing;
+}
 
-  .grid-inner {
-    padding: $default-spacing;
+.secondary-content,
+.tertiary-content {
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
   }
 }
 
@@ -194,23 +198,4 @@ $topbar-text-color:               #fff;
 
 .facet-browser {
   @extend .tertiary-menu-wrapper;
-}
-
-
-// -----------------------------------------------------------------------------
-// Mediaqueries
-// -----------------------------------------------------------------------------
-//
-@include small() {
-  .topbar {
-    position: relative;
-    margin-top: 0;
-  }
-}
-
-@include medium() {
-  .topbar {
-    position: relative;
-    margin-top: 0;
-  }
 }
