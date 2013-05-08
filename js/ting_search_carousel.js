@@ -188,23 +188,5 @@
    */
   $(document).ready(function() {  
     TingSearchCarousel.init();
-    
-    var swipeOptions = {
-      swipe     : swipe,
-      threshold : 75
-    }
-
-    $(".rs-carousel-items").swipe( swipeOptions );
-
-
-    function swipe( event, direction ) {
-
-      if (direction == "left") {
-          $(".rs-carousel-items").carousel('next');
-      }
-      else if (direction == "right") {
-          $(".rs-carousel-items").carousel('prev');
-      }
-    }
   });
 })(jQuery);
