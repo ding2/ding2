@@ -122,8 +122,6 @@
       $('.rs-carousel-action-next').hide();
 
       carousel_init(this.value);
-
-      return false;
     });
 
     // This is place inside document ready to ensure that the carousel have
