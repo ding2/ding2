@@ -113,10 +113,9 @@
 
     background-color: $theme-primary-color;
     display: none;
-    margin-bottom: 30px; // Whitespace for device stuff below the menu
     padding-top: 10px;
     padding-right: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 80px; // Extra space for device stuff below the menu    
     padding-left: 20px;
   }
 }
@@ -261,7 +260,7 @@
 }
 
 .system-user-menu {
-  
+
   .last .menu-item {
     margin-right: 0;
   }
