@@ -3031,15 +3031,14 @@ body {
 /* line 29, ../sass/_ddbasic.elements.scss */
 body.fixed {
   position: fixed;
-  width: 100%;
 }
 
-/* line 35, ../sass/_ddbasic.elements.scss */
+/* line 34, ../sass/_ddbasic.elements.scss */
 body.toolbar {
   padding-top: 66px;
 }
 
-/* line 45, ../sass/_ddbasic.elements.scss */
+/* line 44, ../sass/_ddbasic.elements.scss */
 h1,
 h2,
 h3,
@@ -3050,7 +3049,7 @@ h6 {
   margin-top: 0;
 }
 
-/* line 49, ../sass/_ddbasic.elements.scss */
+/* line 48, ../sass/_ddbasic.elements.scss */
 img {
   display: inline;
   height: auto;
@@ -3058,24 +3057,24 @@ img {
   vertical-align: bottom;
 }
 
-/* line 56, ../sass/_ddbasic.elements.scss */
+/* line 55, ../sass/_ddbasic.elements.scss */
 ul {
   padding-left: 20px;
 }
 
-/* line 61, ../sass/_ddbasic.elements.scss */
+/* line 60, ../sass/_ddbasic.elements.scss */
 .page-content li {
   list-style: disc inside;
 }
 
-/* line 67, ../sass/_ddbasic.elements.scss */
+/* line 66, ../sass/_ddbasic.elements.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 73, ../sass/_ddbasic.elements.scss */
+/* line 72, ../sass/_ddbasic.elements.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
