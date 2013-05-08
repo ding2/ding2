@@ -104,6 +104,10 @@
             }
           }
         });
+
+        // Hide navigation arrows.
+        $('.rs-carousel-action-prev').hide();
+        $('.rs-carousel-action-next').hide();
       }
     }
 
@@ -157,8 +161,10 @@
       $('.rs-carousel .rs-carousel-runner').append(data.content);
 
       // Show navigation arrows.
-      $('.rs-carousel-action-prev').show();
-      $('.rs-carousel-action-next').show();
+      if (!_is_touch_device()) {
+        $('.rs-carousel-action-prev').show();
+        $('.rs-carousel-action-next').show();
+      }
 
       // Get the carousel running.
       carousel.carousel('refresh');
