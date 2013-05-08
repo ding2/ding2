@@ -229,11 +229,12 @@
 
       .menu-item {
         color: $white;
-        display: block;
+        display: inline-block;
         margin-right: 0;
-        margin-left: 0;
+        margin-left: -12px;
         padding-top: 10px;
         padding-bottom: 10px;
+        padding-left: 12px;
 
         &:hover {
           @include font-bold();
