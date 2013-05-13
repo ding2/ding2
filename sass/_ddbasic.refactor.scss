@@ -169,17 +169,10 @@
     }
 
     .news-arrow-link {
-      @extend .icon-chevron-right;
-
       display: inline-block;
       position: absolute;
       right: 20px;
       top: 45%;
-
-      &:before {
-        float: right;
-        font-family: $theme-icon-library-font;
-      }
     }
   }
 }
