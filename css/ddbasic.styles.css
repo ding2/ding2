@@ -2579,9 +2579,9 @@ ul.icons li [class*=" icon-"] {
 /* line 189, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .secondary-content {
   float: left;
-  width: 50%;
+  width: 66.66667%;
   margin-left: 0%;
-  margin-right: -50%;
+  margin-right: -66.66667%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -2593,13 +2593,14 @@ ul.icons li [class*=" icon-"] {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  clear: left;
 }
-/* line 193, ../sass/_ddbasic.layout.scss */
+/* line 194, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .tertiary-content {
   float: right;
-  width: 50%;
+  width: 33.33333%;
   margin-right: 0%;
-  margin-left: -50%;
+  margin-left: -33.33333%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -2613,7 +2614,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 480px) {
-  /* line 198, ../sass/_ddbasic.layout.scss */
+  /* line 199, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2631,7 +2632,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 202, ../sass/_ddbasic.layout.scss */
+  /* line 203, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2650,7 +2651,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 207, ../sass/_ddbasic.layout.scss */
+  /* line 208, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -2912,7 +2913,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 198, ../sass/_ddbasic.layout.scss */
+  /* line 199, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2930,7 +2931,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 202, ../sass/_ddbasic.layout.scss */
+  /* line 203, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2949,7 +2950,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 207, ../sass/_ddbasic.layout.scss */
+  /* line 208, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -3208,24 +3209,6 @@ ul.icons li [class*=" icon-"] {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
-  }
-}
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 230, ../sass/_ddbasic.layout.scss */
-  .ding-layout-1 .secondary-content {
-    clear: left;
-  }
-}
-@media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 236, ../sass/_ddbasic.layout.scss */
-  .ding-layout-1 .secondary-content {
-    clear: left;
-  }
-}
-@media only screen and (min-width: 1211px) {
-  /* line 236, ../sass/_ddbasic.layout.scss */
-  .ding-layout-1 .secondary-content {
-    clear: left;
   }
 }
 
@@ -3302,7 +3285,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 246, ../sass/_ddbasic.layout.scss */
+/* line 235, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
