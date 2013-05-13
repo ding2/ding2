@@ -4473,7 +4473,7 @@ button#edit-cancel {
 }
 /* line 50, ../sass/_ddbasic.navigation.scss */
 .topbar-menu .menu-item:hover {
-  background-color: #33d5ff;
+  background-color: black;
   color: white;
   text-decoration: none;
 }

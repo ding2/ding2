@@ -48,7 +48,7 @@
     outline: 0;
 
     &:hover {
-      background-color: lighten($theme-primary-color, 10%);
+      background-color: $black;
 
       color: $white;
       text-decoration: none;
