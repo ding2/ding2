@@ -50,7 +50,8 @@ function openruth_ding_devel_timers() {
     'openruth_net' => array(
       'title' => 'Openruth net time was @time ms.',
       'include in total' => FALSE,
-    ));
+    ),
+  );
 }
 
 /**
@@ -67,9 +68,9 @@ function openruth_form_user_profile_form_alter(&$form, &$form_state) {
   $profile2 = profile2_load_by_user($user, 'provider_openruth');
   // attach profile2 form to user_profile_form.
   // profile2 form could be shown by editing people->permissions->profile2, but profile2 adds a tab and we don't want that.
-  if ( ding_user_is_provider_user( $user ) && $profile2 ) {
-    $form_state['profiles'] = array('provider_openruth' => $profile2 );
-    profile2_attach_form( $form, $form_state );
+  if (ding_user_is_provider_user($user) && $profile2) {
+    $form_state['profiles'] = array('provider_openruth' => $profile2);
+    profile2_attach_form($form, $form_state);
   }
 
   // custom validator
@@ -87,22 +88,22 @@ function openruth_profile_form_validate(&$form, &$form_state) {
     }
   }
 
-  if ( !empty($form_state['values']['profile_provider_openruth']) ) {
+  if (!empty($form_state['values']['profile_provider_openruth'])) {
     $profile2 = ding_user_provider_profile($form['#user']);
-    if ( empty($profile2) ) {
+    if (empty($profile2)) {
       return;
     }
     $langs = field_language('profile2', $profile2);
     $index = $langs['field_openruth_mobile_phone'];
 
-    if ( !isset($index) ) {
+    if (!isset($index)) {
       return;
     }
 
     $mob = isset($form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value']) ?
       $form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value'] : FALSE;
-    if ( $mob ) {
-      if ( !preg_match('/^\d+$/', $mob) ) {
+    if ($mob) {
+      if (!preg_match('/^\d+$/', $mob)) {
         form_error($form['profile_provider_openruth']['field_openruth_mobile_phone'], t('Mobile number must be digits only'));
       }
     }
@@ -238,13 +239,13 @@ function openruth_allowed_branches() {
 function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
   //preferred branch
-  if ( isset( $profile->openruth_preferred_branch ) ) {
+  if (isset($profile->openruth_preferred_branch)) {
     $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
   }
 
   // reservation pause
-  if ( isset( $profile->field_reservation_pause )) {
-    if ( isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate) ) {
+  if (isset($profile->field_reservation_pause)) {
+    if (isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate)) {
       $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
       $profile->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
     }
@@ -254,7 +255,7 @@ function openruth_profile_update($profile, $userinfo) {
     }
   }
   // mobile phone
-  if ( isset($profile->field_openruth_mobile_phone) ) {
+  if (isset($profile->field_openruth_mobile_phone)) {
     $profile->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] = isset($userinfo->userMobilePhone) ? $userinfo->userMobilePhone : '';
   }
 
@@ -269,26 +270,26 @@ function openruth_profile_update($profile, $userinfo) {
  * @todo; is period of interest in zruth
  */
 function openruth_profile2_presave($profile2) {
-  if ( !$profile2->type == 'provider_openruth' ) {
+  if (!$profile2->type == 'provider_openruth') {
     return;
   }
 
-  $langs = field_language( 'profile2', $profile2 );
+  $langs = field_language('profile2', $profile2);
 
   // preferred branch
-  if ( !empty( $profile2->original->openruth_preferred_branch ) ) {
-    if ( $profile2->openruth_preferred_branch != $profile2->original->openruth_preferred_branch ) {
+  if (!empty($profile2->original->openruth_preferred_branch)) {
+    if ($profile2->openruth_preferred_branch != $profile2->original->openruth_preferred_branch) {
       $branch = isset($profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value']) ? $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] : '_none';
       $changes['preferred_branch'] = $branch;
     }
   }
 
   // reservation pause
-  if ( !empty( $profile2->original->field_reservation_pause ) ) {
-    if ( $profile2->field_reservation_pause != $profile2->original->field_reservation_pause ) {
+  if (!empty($profile2->original->field_reservation_pause)) {
+    if ($profile2->field_reservation_pause != $profile2->original->field_reservation_pause) {
 
       // if field is empty delete the pause (@todo delete reservation pause doesn't work. fix it)
-      if ( empty($profile2->field_reservation_pause[$langs['field_reservation_pause']]) ) {
+      if (empty($profile2->field_reservation_pause[$langs['field_reservation_pause']])) {
         $start = '';
         $stop = '';
       }
@@ -297,7 +298,7 @@ function openruth_profile2_presave($profile2) {
         $start = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
         $start = str_replace('T00:00:00', '', $start);
 
-        $stop =	$profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
+        $stop = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
         $stop = str_replace('T00:00:00', '', $stop);
       }
 
@@ -307,7 +308,7 @@ function openruth_profile2_presave($profile2) {
       $org_stop = $profile2->original->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
       $org_stop = str_replace('T00:00:00', '', $org_stop);
 
-      if ( $start != $org_start || $stop != $org_stop ) {
+      if ($start != $org_start || $stop != $org_stop) {
         $changes['reservation_pause_start'] = $start;
         $changes['reservation_pause_stop'] = $stop;
       }
@@ -315,11 +316,11 @@ function openruth_profile2_presave($profile2) {
   }
 
   // mobile phone
-  if ( !empty( $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']] ) ) {
-    if ( isset($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']) ) {
-      if ( $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
-	   $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] ) {
-        $changes['mobile_phone'] =  $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
+  if (!empty($profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']])) {
+    if (isset($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'])) {
+      if ($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
+	   $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']) {
+        $changes['mobile_phone'] = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
       }
     }
     else {
@@ -327,11 +328,11 @@ function openruth_profile2_presave($profile2) {
     }
   }
 
-  if ( empty($changes) ) {
+  if (empty($changes)) {
     return;
   }
 
-  $creds = ding_user_get_creds( $profile2 );
+  $creds = ding_user_get_creds($profile2);
   $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
 
   if ($res !== TRUE) {
@@ -343,7 +344,7 @@ function openruth_profile2_presave($profile2) {
       $exception_message = t('Update userinfo failed.');
     }
     drupal_set_message($exception_message);
-//    throw new Exception($exception_message);
+    // throw new Exception($exception_message);
   }
 
   // Update the profile2 with whatever Openruth says (overrule local saves).
@@ -354,9 +355,9 @@ function openruth_profile2_presave($profile2) {
 }
 
 /**
- * implements hook_user_view
+ * Implements hook_user_view().
  */
-function openruth_user_view( $account, $view_mode, $langcode ) {
+function openruth_user_view($account, $view_mode, $langcode) {
   try {
     $creds = ding_user_get_creds($account);
   }
@@ -392,7 +393,7 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
     $account->content['userinfo']['address'] = array(
       '#type' => 'item',
       '#title' => t('Address'),
-      '#markup' =>  '<p>' . $data['userAddress'] . '<br />' . $data['userPostCode'] . ' ' . $data['userCity'] . '</p>',
+      '#markup' => '<p>' . $data['userAddress'] . '<br />' . $data['userPostCode'] . ' ' . $data['userCity'] . '</p>',
     );
   }
 
@@ -400,16 +401,16 @@ function openruth_user_view( $account, $view_mode, $langcode ) {
 }
 
 /**
- * Set profile2 specific fields for account
+ * Set profile2 specific fields for account.
  */
 function openruth_set_profile2_fields($account) {
   // avoid dependency on profile2 module
-  if ( !module_exists('profile2') ) {
+  if (!module_exists('profile2')) {
     return;
   }
 
   $profile2 = profile2_load_by_user($account, 'provider_openruth');
-  if ( empty($profile2) ) {
+  if (empty($profile2)) {
     return;
   }
 
@@ -423,7 +424,7 @@ function openruth_set_profile2_fields($account) {
   );
 
   // set preferred branch
-  if ( $pref_branch =  openruth_get_preferred_branch($profile2) ) {
+  if ($pref_branch =  openruth_get_preferred_branch($profile2)) {
     $account->content['profile2']['preferred_branch'] = array(
       '#type' => 'item',
       '#title' => t('Pickup branch'),
@@ -431,16 +432,16 @@ function openruth_set_profile2_fields($account) {
     );
   }
   // set interest period
-  if ( $interest_period = openruth_get_interest_period($profile2) ) {
+  if ($interest_period = openruth_get_interest_period($profile2)) {
     $account->content['profile2']['interest_period'] = array(
       '#type' => 'item',
       '#title' => t('Interest period'),
-      '#markup' => '<span>' . $interest_period . '</span>',
+      '#markup' => '<span>' . t($interest_period) . '</span>',
     );
   }
 
   // set mobile phone
-  if ( $mobile_phone = openruth_get_mobile_phone( $profile2 ) ) {
+  if ($mobile_phone = openruth_get_mobile_phone($profile2)) {
     $account->content['profile2']['mobile_phone'] = array(
       '#type' => 'item',
       '#title' => t('Mobile phone'),
@@ -448,8 +449,8 @@ function openruth_set_profile2_fields($account) {
     );
   }
 
-  if ( $reservation_pause = openruth_get_reservation_pause( $profile2 ) ) {
-    //wrapper for reservation pause
+  if ($reservation_pause = openruth_get_reservation_pause($profile2)) {
+    // wrapper for reservation pause
     $account->content['profile2']['reservation_pause'] = array(
       '#type' => 'item',
       '#title' => '<h4>' . t('Reservation pause') . '</h4>',
@@ -474,10 +475,10 @@ function openruth_set_profile2_fields($account) {
 /**
  * Get profile2 field; field_openruth_mobile_phone
  */
-function openruth_get_mobile_phone( $profile2 ) {
+function openruth_get_mobile_phone($profile2) {
   // get field languages
   $langs = field_language('profile2', $profile2);
-  if ( empty( $profile2->field_openruth_mobile_phone ) ) {
+  if (empty($profile2->field_openruth_mobile_phone)) {
     return FALSE;
   }
 
@@ -495,13 +496,13 @@ function openruth_get_interest_period($profile2) {
   // get field-info to retrieve values for select list
   $field_info = field_info_field('field_openruth_interest_period');
 
-  if ( empty( $profile2->field_openruth_interest_period ) ) {
+  if (empty($profile2->field_openruth_interest_period)) {
     return FALSE;
   }
 
   $interest_period = FALSE;
-  $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values'] : FALSE;
-  if ( $int_values ) {
+  $int_values = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+  if ($int_values) {
     $int_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
     $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
   }
@@ -522,10 +523,10 @@ function openruth_get_preferred_branch($profile2) {
   // get field languages
   $pref = FALSE;
   $langs = field_language('profile2', $profile2);
-  if ( empty( $profile2->openruth_preferred_branch ) ) {
+  if (empty($profile2->openruth_preferred_branch)) {
     return FALSE;
   }
-  //get preferred branch
+  // get preferred branch
   $pref_branch = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
   $branches = openruth_allowed_branches();
   $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
@@ -537,21 +538,21 @@ function openruth_get_preferred_branch($profile2) {
 /**
  * Get profile2 field; field_reservation_pause
  */
-function openruth_get_reservation_pause( $profile2 ) {
+function openruth_get_reservation_pause($profile2) {
   // get field languages
   $langs = field_language('profile2', $profile2);
-  if ( empty($profile2->field_reservation_pause) ) {
+  if (empty($profile2->field_reservation_pause)) {
     return FALSE;
   }
 
-  if (  empty($profile2->field_reservation_pause[$langs['field_reservation_pause']] ) ) {
+  if (empty($profile2->field_reservation_pause[$langs['field_reservation_pause']])) {
     return false;
   }
 
   $res_pause['start'] = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value'];
   $res_pause['stop'] = $profile2->field_reservation_pause[$langs['field_reservation_pause']][0]['value2'];
 
-  if ( strlen($res_pause['start']) < 2 || strlen($res_pause['stop']) < 2 ) {
+  if (strlen($res_pause['start']) < 2 || strlen($res_pause['stop']) < 2) {
     return false;
   }
 
@@ -576,8 +577,7 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
 
   $id = hash('sha512', $creds['name'] . $creds['pass']);
 
-  if (!isset($_SESSION['openruth_user_status'][$id]) ||
-    $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
+  if (!isset($_SESSION['openruth_user_status'][$id]) || $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
     $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
     if ($status && !is_string($status)) {
       if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
