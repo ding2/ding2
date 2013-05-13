@@ -26,7 +26,7 @@ body {
   background-size: cover;
   line-height: $theme-line-height;
 
-  @include low() {
+  @include small-medium-low() {
     &.js-fixed {
       bottom: 0;
       left: 0;

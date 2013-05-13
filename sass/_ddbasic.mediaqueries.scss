@@ -26,8 +26,8 @@ $breakpoint-x-large:  1210px;
 		@media only screen and (max-width: $breakpoint-small) { @content; }
 	}
 
-  @if $media == low {
-    @media only screen and (max-height: $breakpoint-low) { @content; }
+  @if $media == small-medium-low {
+    @media only screen and (max-height: $breakpoint-low) and (max-width: $breakpoint-medium) { @content; }
   }
 
 	@else if $media == medium {
@@ -58,8 +58,8 @@ $breakpoint-x-large:  1210px;
   @include respond-to(medium) { @content; }
 }
 
-@mixin low {
-  @include respond-to(low) { @content; }
+@mixin small-medium-low {
+  @include respond-to(small-medium-low) { @content; }
 }
 
 @mixin medium {

@@ -94,7 +94,7 @@
     }
   }
 
-  @include low() {
+  @include small-medium-low() {
     position: fixed;
     overflow: auto;
     bottom: 0;
