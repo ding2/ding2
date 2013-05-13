@@ -114,6 +114,32 @@
   }
 }
 
+// -----------------------------------------------------------------------------
+// 2 columns side by side
+// -----------------------------------------------------------------------------
+//
+// -------------------------------
+// | Attachment 1 | Attachment 2 |
+// -------------------------------
+// -------------------------------
+// | Attachment 3 | Attachment 4 |
+// -------------------------------
+//
+@mixin attachment-50-50-50-50 {
+  .attachment-first {
+    @include zen-grid-item($grid-50, 1);
+  }
+
+  .attachment-third {
+    @include zen-clear(both);
+    @include zen-grid-item($grid-50, 1);
+  }
+
+  .attachment-second,
+  .attachment-fourth {
+    @include zen-grid-item($grid-50, 1, right);
+  }
+}
 
 // -----------------------------------------------------------------------------
 // Columns stacked

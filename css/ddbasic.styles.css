@@ -799,7 +799,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 353, ../sass/_ddbasic.font.awesome.scss */
-.icon-chevron-right:before {
+.icon-chevron-right:before, .footer .pane-title.js-toggled:before, .footer .menu li:before {
   content: "\f054";
 }
 
@@ -969,7 +969,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 389, ../sass/_ddbasic.font.awesome.scss */
-.icon-chevron-down:before, .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
+.icon-chevron-down:before, .footer .pane-title:before, .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
   content: "\f078";
 }
 
@@ -1571,7 +1571,7 @@ ul.icons li [class*=" icon-"] {
 /* line 518, ../sass/_ddbasic.font.awesome.scss */
 .icon-angle-right:before, .main-menu li:before,
 .secondary-menu li:before,
-.system-user-menu li:before, .sub-menu li:before, .library-menu .links li:before, .footer .menu li:before {
+.system-user-menu li:before, .sub-menu li:before, .library-menu .links li:before {
   content: "\f105";
 }
 
@@ -1890,7 +1890,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 139, ../sass/_ddbasic.mq.attachments.scss */
+/* line 165, ../sass/_ddbasic.mq.attachments.scss */
 .ding-default-layout .attachments-1-1 .attachment-first,
 .ding-default-layout .attachments-1-1 .attachment-second,
 .ding-default-layout .attachments-1-1 .attachment-third,
@@ -2901,7 +2901,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
+  /* line 165, ../sass/_ddbasic.mq.attachments.scss */
   .ding-layout-1 .attachments-1-1 .attachment-first,
   .ding-layout-1 .attachments-1-1 .attachment-second,
   .ding-layout-1 .attachments-1-1 .attachment-third,
@@ -3200,7 +3200,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
+  /* line 165, ../sass/_ddbasic.mq.attachments.scss */
   .ding-layout-1 .attachments-1-1 .attachment-first,
   .ding-layout-1 .attachments-1-1 .attachment-second,
   .ding-layout-1 .attachments-1-1 .attachment-third,
@@ -3224,6 +3224,10 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
+/* line 235, ../sass/_ddbasic.layout.scss */
+.footer {
+  background-color: #262626;
+}
 /* line 34, ../sass/_ddbasic.mq.attachments.scss */
 .footer .attachment-first {
   float: left;
@@ -3296,11 +3300,93 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 129, ../sass/_ddbasic.mq.attachments.scss */
+  .footer .attachment-first {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 133, ../sass/_ddbasic.mq.attachments.scss */
+  .footer .attachment-third {
+    clear: both;
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
+  .footer .attachment-second,
+  .footer .attachment-fourth {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+}
+@media only screen and (max-width: 480px) {
+  /* line 165, ../sass/_ddbasic.mq.attachments.scss */
+  .footer .attachment-first,
+  .footer .attachment-second,
+  .footer .attachment-third,
+  .footer .attachment-fourth {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+}
 
-/* line 239, ../sass/_ddbasic.layout.scss */
+/* line 249, ../sass/_ddbasic.layout.scss */
 .bottom {
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #00caff;
+  background-color: #191919;
+  color: white;
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;
@@ -4965,45 +5051,68 @@ button#edit-cancel {
 }
 
 /* line 372, ../sass/_ddbasic.navigation.scss */
-.footer h2 {
+.footer .pane-title {
   color: white;
   margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #5b5b5b;
+  cursor: pointer;
 }
-/* line 377, ../sass/_ddbasic.navigation.scss */
+/* line 381, ../sass/_ddbasic.navigation.scss */
+.footer .pane-title:before {
+  float: right;
+  font-family: FontAwesome;
+}
+/* line 391, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
 }
-/* line 382, ../sass/_ddbasic.navigation.scss */
+/* line 396, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 388, ../sass/_ddbasic.navigation.scss */
+/* line 402, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
-  font-size: 20px;
-  font-size: 1.25rem;
   float: left;
+  color: white;
   font-family: FontAwesome;
-  margin-top: -1px;
 }
-/* line 396, ../sass/_ddbasic.navigation.scss */
+/* line 408, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
+  color: white;
   padding-left: 10px;
 }
+/* line 412, ../sass/_ddbasic.navigation.scss */
+.footer .menu li a.active {
+  color: white;
+}
+@media only screen and (max-width: 480px) {
+  /* line 420, ../sass/_ddbasic.navigation.scss */
+  .footer .menu {
+    display: none;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 420, ../sass/_ddbasic.navigation.scss */
+  .footer .menu {
+    display: none;
+  }
+}
 
-/* line 410, ../sass/_ddbasic.navigation.scss */
+/* line 430, ../sass/_ddbasic.navigation.scss */
 .action-links {
   padding: 10px 20px;
 }
-/* line 413, ../sass/_ddbasic.navigation.scss */
+/* line 433, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 420, ../sass/_ddbasic.navigation.scss */
+/* line 440, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -5013,7 +5122,7 @@ button#edit-cancel {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 430, ../sass/_ddbasic.navigation.scss */
+/* line 450, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -5021,7 +5130,7 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 444, ../sass/_ddbasic.navigation.scss */
+  /* line 464, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.js-fixed {
     position: relative;
     margin-top: 0;

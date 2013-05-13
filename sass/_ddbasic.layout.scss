@@ -234,13 +234,23 @@ $topbar-text-color:               #fff;
 
 .footer {
   @include attachment-25-25-25-25;
+
+  background-color: #262626;  
+
+  @include medium() {
+    @include attachment-50-50-50-50;
+  }
+
+  @include small() {
+    @include attachment-100-100-100-100;
+  }
 }
 
 .bottom {
-  background-color: transparentize($black, .1);
-  color: $theme-primary-color;
-  padding-top: $default-spacing;
-  padding-bottom: $default-spacing;
+  background-color: #191919;
+  color: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
   text-align: center;
 }
 
