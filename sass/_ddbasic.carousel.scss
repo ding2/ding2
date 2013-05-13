@@ -37,16 +37,25 @@ $carousel-title-font-size:                 24px;
   background-color: $carousel-background-color;
   padding: 0;
 
+  .ajax-loader {
+    @include border-radius(12px);
+
+    border: 1px solid $gray-light;
+    padding: 5px;
+    top: 100px;
+  }
+
+  .rs-carousel-items {
+    background-color: transparent;
+  }
+
   @include small-medium() {
     background-color: $theme-secondary-color;
   }
 }
 
 .rs-carousel-inner {
-  padding-top: 20px;
-  padding-right: 20px;
   padding-bottom: 30px;
-  padding-left: 20px;
 
   @include small-medium() {
     padding-bottom: 20px;
@@ -64,8 +73,6 @@ $carousel-title-font-size:                 24px;
 
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
-  top: 165px;
-
   &.rs-carousel-action-disabled {
     @include opacity(.5);
   }
@@ -76,11 +83,11 @@ $carousel-title-font-size:                 24px;
 }
 
 .rs-carousel-action-prev {
-  left: 40px;
+  left: 20px;
 }
 
 .rs-carousel-action-next {
-  right: 40px;
+  right: 20px;
 }
 
 // -----------------------------------------------------------------------------
@@ -160,6 +167,10 @@ $carousel-title-font-size:                 24px;
       }
     }
   }
+}
+
+.rs-carousel-runner {
+  padding-left: 0;
 }
 
 
