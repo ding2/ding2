@@ -5,6 +5,7 @@
 .rs-carousel-mask,
 .rs-carousel-runner {
   position: relative;
+  min-height: 225px;
 }
 
 .rs-carousel-mask,
@@ -39,9 +40,10 @@ rs-carousel-runner {
   background-image: url('../images/arrows.png');
   height: 55px;
   overflow: hidden;
+  margin-top: -27px;
   position: absolute;
   text-indent: -1000px;
-  top: 0;
+  top: 50%;
   width: 55px;
 }
 
@@ -59,10 +61,13 @@ rs-carousel-runner {
 /* Carousel content, mask, title etc.
    ========================================================================== */
 .ajax-loader {
-  background: transparent url('../images/ajax-loader.gif') no-repeat right top;
+  background: transparent url('../images/ajax-loader.gif') no-repeat center center;
   left: 50%;
   height: 20px;
+  margin-top: -10px;
+  margin-left: -110px;
   position: absolute;
+  top: 50%;
   width: 220px;
 }
 
