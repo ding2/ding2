@@ -241,8 +241,8 @@ function openruth_allowed_branches() {
 function openruth_profile_update($profile, $userinfo) {
   $langs = field_language('profile2', $profile);
   //preferred branch
-  if (isset($profile->openruth_preferred_branch)) {
-    $profile->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
+  if (isset($profile->field_openruth_preferred_branch)) {
+    $profile->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
   }
 
   // reservation pause
@@ -279,9 +279,9 @@ function openruth_profile2_presave($profile2) {
   $langs = field_language('profile2', $profile2);
 
   // preferred branch
-  if (!empty($profile2->original->openruth_preferred_branch)) {
-    if ($profile2->openruth_preferred_branch != $profile2->original->openruth_preferred_branch) {
-      $branch = isset($profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value']) ? $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'] : '_none';
+  if (!empty($profile2->original->field_openruth_preferred_branch)) {
+    if ($profile2->field_openruth_preferred_branch != $profile2->original->field_openruth_preferred_branch) {
+      $branch = isset($profile2->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value']) ? $profile2->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value'] : '_none';
       $changes['preferred_branch'] = $branch;
     }
   }
@@ -517,17 +517,17 @@ function openruth_get_interest_periods() {
 }
 
 /**
- * Get profile2 field; openruth_preferred_branch
+ * Get profile2 field; field_openruth_preferred_branch
  */
 function openruth_get_preferred_branch($profile2) {
   // get field languages
   $pref = FALSE;
   $langs = field_language('profile2', $profile2);
-  if (empty($profile2->openruth_preferred_branch)) {
+  if (empty($profile2->field_openruth_preferred_branch)) {
     return FALSE;
   }
   // get preferred branch
-  $pref_branch = $profile2->openruth_preferred_branch[$langs['openruth_preferred_branch']][0]['value'];
+  $pref_branch = $profile2->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value'];
   $branches = openruth_allowed_branches();
   $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
 

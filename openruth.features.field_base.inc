@@ -99,13 +99,13 @@ function openruth_field_default_field_bases() {
     'type' => 'date',
   );
 
-  // Exported field_base: 'openruth_preferred_branch'
-  $field_bases['openruth_preferred_branch'] = array(
+  // Exported field_base: 'field_openruth_preferred_branch'
+  $field_bases['field_openruth_preferred_branch'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'openruth_preferred_branch',
+    'field_name' => 'field_openruth_preferred_branch',
     'foreign keys' => array(),
     'indexes' => array(
       'value' => array(

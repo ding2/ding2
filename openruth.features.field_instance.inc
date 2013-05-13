@@ -129,8 +129,8 @@ function openruth_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_openruth-openruth_preferred_branch'
-  $field_instances['profile2-provider_openruth-openruth_preferred_branch'] = array(
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_preferred_branch'
+  $field_instances['profile2-provider_openruth-field_openruth_preferred_branch'] = array(
     'bundle' => 'provider_openruth',
     'default_value' => NULL,
     'deleted' => 0,
@@ -145,7 +145,7 @@ function openruth_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'profile2',
-    'field_name' => 'openruth_preferred_branch',
+    'field_name' => 'field_openruth_preferred_branch',
     'label' => 'Preferred branch',
     'required' => 0,
     'settings' => array(
