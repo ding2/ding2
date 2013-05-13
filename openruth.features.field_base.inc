@@ -69,13 +69,13 @@ function openruth_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_reservation_pause'
-  $field_bases['field_reservation_pause'] = array(
+  // Exported field_base: 'field_openruth_reservation_pause'
+  $field_bases['field_openruth_reservation_pause'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_reservation_pause',
+    'field_name' => 'field_openruth_reservation_pause',
     'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,

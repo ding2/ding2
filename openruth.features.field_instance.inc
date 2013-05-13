@@ -79,8 +79,8 @@ function openruth_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_openruth-field_reservation_pause'
-  $field_instances['profile2-provider_openruth-field_reservation_pause'] = array(
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_reservation_pause'
+  $field_instances['profile2-provider_openruth-field_openruth_reservation_pause'] = array(
     'bundle' => 'provider_openruth',
     'deleted' => 0,
     'description' => 'Set your reservations on pause',
@@ -101,7 +101,7 @@ function openruth_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'profile2',
-    'field_name' => 'field_reservation_pause',
+    'field_name' => 'field_openruth_reservation_pause',
     'label' => 'Reservation pause',
     'required' => 0,
     'settings' => array(
