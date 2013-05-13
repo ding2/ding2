@@ -2295,673 +2295,6 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 120, ../sass/_ddbasic.mq.layouts.scss */
-.ding-layout-1 .primary-content {
-  float: left;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: -100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 124, ../sass/_ddbasic.mq.layouts.scss */
-.ding-layout-1 .secondary-content {
-  float: left;
-  width: 50%;
-  margin-left: 0%;
-  margin-right: -50%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-/* line 128, ../sass/_ddbasic.mq.layouts.scss */
-.ding-layout-1 .tertiary-content {
-  float: right;
-  width: 50%;
-  margin-right: 0%;
-  margin-left: -50%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-}
-@media only screen and (max-width: 480px) {
-  /* line 133, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .primary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 137, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .secondary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-    clear: left;
-  }
-  /* line 142, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .tertiary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-    clear: left;
-  }
-  /* line 34, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-first {
-    float: left;
-    width: 25%;
-    margin-left: 0%;
-    margin-right: -25%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 38, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-second {
-    float: left;
-    width: 25%;
-    margin-left: 25%;
-    margin-right: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 42, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-third {
-    float: right;
-    width: 25%;
-    margin-right: 25%;
-    margin-left: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 46, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-fourth {
-    float: right;
-    width: 25%;
-    margin-right: 0%;
-    margin-left: -25%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 64, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-first {
-    float: left;
-    width: 33.33333%;
-    margin-left: 0%;
-    margin-right: -33.33333%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 68, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-second {
-    float: left;
-    width: 33.33333%;
-    margin-left: 33.33333%;
-    margin-right: -66.66667%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 72, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-third {
-    float: right;
-    width: 33.33333%;
-    margin-right: 0%;
-    margin-left: -33.33333%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 76, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-fourth {
-    clear: both;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 98, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-first {
-    float: left;
-    width: 50%;
-    margin-left: 0%;
-    margin-right: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 102, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-second {
-    float: right;
-    width: 50%;
-    margin-right: 0%;
-    margin-left: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 106, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-third {
-    clear: left;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 111, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-fourth {
-    clear: left;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-1-1 .attachment-first,
-  .ding-layout-1 .attachments-1-1 .attachment-second,
-  .ding-layout-1 .attachments-1-1 .attachment-third,
-  .ding-layout-1 .attachments-1-1 .attachment-fourth {
-    clear: left;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-}
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 133, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .primary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 137, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .secondary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-    clear: left;
-  }
-  /* line 142, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .tertiary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-    clear: left;
-  }
-  /* line 34, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-first {
-    float: left;
-    width: 25%;
-    margin-left: 0%;
-    margin-right: -25%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 38, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-second {
-    float: left;
-    width: 25%;
-    margin-left: 25%;
-    margin-right: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 42, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-third {
-    float: right;
-    width: 25%;
-    margin-right: 25%;
-    margin-left: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 46, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-4-4 .attachment-fourth {
-    float: right;
-    width: 25%;
-    margin-right: 0%;
-    margin-left: -25%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 64, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-first {
-    float: left;
-    width: 33.33333%;
-    margin-left: 0%;
-    margin-right: -33.33333%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 68, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-second {
-    float: left;
-    width: 33.33333%;
-    margin-left: 33.33333%;
-    margin-right: -66.66667%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 72, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-third {
-    float: right;
-    width: 33.33333%;
-    margin-right: 0%;
-    margin-left: -33.33333%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 76, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-3-3 .attachment-fourth {
-    clear: both;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 98, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-first {
-    float: left;
-    width: 50%;
-    margin-left: 0%;
-    margin-right: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 102, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-second {
-    float: right;
-    width: 50%;
-    margin-right: 0%;
-    margin-left: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 106, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-third {
-    clear: left;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 111, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-2-2 .attachment-fourth {
-    clear: left;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
-  .ding-layout-1 .attachments-1-1 .attachment-first,
-  .ding-layout-1 .attachments-1-1 .attachment-second,
-  .ding-layout-1 .attachments-1-1 .attachment-third,
-  .ding-layout-1 .attachments-1-1 .attachment-fourth {
-    clear: left;
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-}
-@media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 166, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .secondary-content,
-  .ding-layout-1 .tertiary-content {
-    clear: left;
-  }
-}
-@media only screen and (min-width: 1211px) {
-  /* line 166, ../sass/_ddbasic.mq.layouts.scss */
-  .ding-layout-1 .secondary-content,
-  .ding-layout-1 .tertiary-content {
-    clear: left;
-  }
-}
-
 @media only screen and (min-width: 769px) and (max-width: 940px) {
   /* line 33, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed {
@@ -3204,12 +2537,11 @@ ul.icons li [class*=" icon-"] {
 .ding-layout-1 .primary-content,
 .ding-layout-1 .secondary-content,
 .ding-layout-1 .tertiary-content {
-  clear: left;
   margin-bottom: 20px;
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 181, ../sass/_ddbasic.layout.scss */
+/* line 179, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .primary-content .grid-inner, .ding-layout-1 .primary-content .topbar .topbar-inner, .topbar .ding-layout-1 .primary-content .topbar-inner, .ding-layout-1 .primary-content .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .primary-content .header-inner, .ding-layout-1 .primary-content .navigation-inner,
 .ding-layout-1 .secondary-content .grid-inner,
 .ding-layout-1 .secondary-content .topbar .topbar-inner,
@@ -3226,11 +2558,342 @@ ul.icons li [class*=" icon-"] {
   background-color: white;
   padding: 20px;
 }
-
+/* line 185, ../sass/_ddbasic.layout.scss */
+.ding-layout-1 .primary-content {
+  float: left;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 189, ../sass/_ddbasic.layout.scss */
+.ding-layout-1 .secondary-content {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 193, ../sass/_ddbasic.layout.scss */
+.ding-layout-1 .tertiary-content {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
 @media only screen and (max-width: 480px) {
-  /* line 189, ../sass/_ddbasic.layout.scss */
-  .secondary-content,
-  .tertiary-content {
+  /* line 198, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .primary-content {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 202, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .secondary-content {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    clear: left;
+  }
+  /* line 207, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .tertiary-content {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    clear: left;
+  }
+  /* line 34, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-first {
+    float: left;
+    width: 25%;
+    margin-left: 0%;
+    margin-right: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 38, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-second {
+    float: left;
+    width: 25%;
+    margin-left: 25%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 42, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-third {
+    float: right;
+    width: 25%;
+    margin-right: 25%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 46, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-fourth {
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 64, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-first {
+    float: left;
+    width: 33.33333%;
+    margin-left: 0%;
+    margin-right: -33.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 68, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-second {
+    float: left;
+    width: 33.33333%;
+    margin-left: 33.33333%;
+    margin-right: -66.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 72, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-third {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 76, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-fourth {
+    clear: both;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 98, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-first {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 102, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-second {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 106, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-third {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 111, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-fourth {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-1-1 .attachment-first,
+  .ding-layout-1 .attachments-1-1 .attachment-second,
+  .ding-layout-1 .attachments-1-1 .attachment-third,
+  .ding-layout-1 .attachments-1-1 .attachment-fourth {
+    clear: left;
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -3249,9 +2912,8 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 189, ../sass/_ddbasic.layout.scss */
-  .secondary-content,
-  .tertiary-content {
+  /* line 198, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -3267,6 +2929,303 @@ ul.icons li [class*=" icon-"] {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
+  }
+  /* line 202, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .secondary-content {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    clear: left;
+  }
+  /* line 207, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .tertiary-content {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    clear: left;
+  }
+  /* line 34, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-first {
+    float: left;
+    width: 25%;
+    margin-left: 0%;
+    margin-right: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 38, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-second {
+    float: left;
+    width: 25%;
+    margin-left: 25%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 42, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-third {
+    float: right;
+    width: 25%;
+    margin-right: 25%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 46, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-4-4 .attachment-fourth {
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 64, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-first {
+    float: left;
+    width: 33.33333%;
+    margin-left: 0%;
+    margin-right: -33.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 68, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-second {
+    float: left;
+    width: 33.33333%;
+    margin-left: 33.33333%;
+    margin-right: -66.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 72, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-third {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 76, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-3-3 .attachment-fourth {
+    clear: both;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 98, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-first {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 102, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-second {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 106, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-third {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 111, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-2-2 .attachment-fourth {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 139, ../sass/_ddbasic.mq.attachments.scss */
+  .ding-layout-1 .attachments-1-1 .attachment-first,
+  .ding-layout-1 .attachments-1-1 .attachment-second,
+  .ding-layout-1 .attachments-1-1 .attachment-third,
+  .ding-layout-1 .attachments-1-1 .attachment-fourth {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 230, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .secondary-content {
+    clear: left;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 940px) {
+  /* line 236, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .secondary-content {
+    clear: left;
+  }
+}
+@media only screen and (min-width: 1211px) {
+  /* line 236, ../sass/_ddbasic.layout.scss */
+  .ding-layout-1 .secondary-content {
+    clear: left;
   }
 }
 
@@ -3343,7 +3302,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 199, ../sass/_ddbasic.layout.scss */
+/* line 246, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -6355,7 +6314,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 69, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-day {
-  background-color: #d94110;
+  background-color: #00caff;
   color: white;
   display: block;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -6365,7 +6324,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   border-right: 1px solid #d5d5d5;
   border-bottom: 1px solid #d5d5d5;
   border-left: 1px solid #d5d5d5;
-  background: #00caff;
+  background: white;
 }
 /* line 82, ../sass/_ddbasic.event.scss */
 .event-list-date-wrapper .event-list-inner-wrapper .event-list-date {
@@ -6838,15 +6797,15 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 191, ../sass/_ddbasic.refactor.scss */
+/* line 190, ../sass/_ddbasic.refactor.scss */
 .search .search-field-wrapper {
   position: relative;
 }
-/* line 196, ../sass/_ddbasic.refactor.scss */
+/* line 195, ../sass/_ddbasic.refactor.scss */
 .search .spinner i[class^="icon-"] {
   height: auto;
 }
-/* line 204, ../sass/_ddbasic.refactor.scss */
+/* line 203, ../sass/_ddbasic.refactor.scss */
 .search .form-item {
   float: left;
   width: 100%;
@@ -6864,12 +6823,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 208, ../sass/_ddbasic.refactor.scss */
+/* line 207, ../sass/_ddbasic.refactor.scss */
 .search .form-text {
   padding-left: 49px;
 }
 
-/* line 215, ../sass/_ddbasic.refactor.scss */
+/* line 214, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -6887,11 +6846,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 218, ../sass/_ddbasic.refactor.scss */
+/* line 217, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 223, ../sass/_ddbasic.refactor.scss */
+/* line 222, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -6909,29 +6868,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 226, ../sass/_ddbasic.refactor.scss */
+/* line 225, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 232, ../sass/_ddbasic.refactor.scss */
+  /* line 231, ../sass/_ddbasic.refactor.scss */
   .user .form-item-pass {
     margin-top: 10px;
   }
 }
 
-/* line 239, ../sass/_ddbasic.refactor.scss */
+/* line 238, ../sass/_ddbasic.refactor.scss */
 .search,
 .user {
   display: none;
   width: 100%;
 }
-/* line 242, ../sass/_ddbasic.refactor.scss */
+/* line 241, ../sass/_ddbasic.refactor.scss */
 .search.js-topbar-toggled,
 .user.js-topbar-toggled {
   display: inline-block;
 }
-/* line 248, ../sass/_ddbasic.refactor.scss */
+/* line 247, ../sass/_ddbasic.refactor.scss */
 .search [class^="label-"],
 .user [class^="label-"] {
   font-size: 16px;
@@ -6943,7 +6902,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 5px;
   margin-left: 2px;
 }
-/* line 258, ../sass/_ddbasic.refactor.scss */
+/* line 257, ../sass/_ddbasic.refactor.scss */
 .search [class^="icon-"],
 .user [class^="icon-"] {
   font-size: 30px;
@@ -6953,13 +6912,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 24px;
   position: absolute;
 }
-/* line 267, ../sass/_ddbasic.refactor.scss */
+/* line 266, ../sass/_ddbasic.refactor.scss */
 .search .form-item,
 .user .form-item {
   display: inline-block;
   position: relative;
 }
-/* line 272, ../sass/_ddbasic.refactor.scss */
+/* line 271, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .user .form-text {
   font-size: 18px;
@@ -6977,7 +6936,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 0;
   width: 100%;
 }
-/* line 285, ../sass/_ddbasic.refactor.scss */
+/* line 284, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .search .form-submit,
 .user .form-text,
@@ -6985,7 +6944,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   min-height: 60px;
   padding-top: 0;
 }
-/* line 290, ../sass/_ddbasic.refactor.scss */
+/* line 289, ../sass/_ddbasic.refactor.scss */
 .search .form-submit,
 .user .form-submit {
   font-size: 20px;
@@ -6997,12 +6956,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 1px;
   min-width: 110px;
 }
-/* line 300, ../sass/_ddbasic.refactor.scss */
+/* line 299, ../sass/_ddbasic.refactor.scss */
 .search input[class^="form-"],
 .user input[class^="form-"] {
   margin-bottom: 0;
 }
-/* line 304, ../sass/_ddbasic.refactor.scss */
+/* line 303, ../sass/_ddbasic.refactor.scss */
 .search .form-actions,
 .user .form-actions {
   float: right;
@@ -7023,13 +6982,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: right;
 }
 @media only screen and (max-width: 480px) {
-  /* line 311, ../sass/_ddbasic.refactor.scss */
+  /* line 310, ../sass/_ddbasic.refactor.scss */
   .search [class^="label-"],
   .user [class^="label-"] {
     font-size: 14px;
     font-size: 0.875rem;
   }
-  /* line 315, ../sass/_ddbasic.refactor.scss */
+  /* line 314, ../sass/_ddbasic.refactor.scss */
   .search .form-item,
   .user .form-item {
     float: left;
@@ -7051,13 +7010,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 322, ../sass/_ddbasic.refactor.scss */
+  /* line 321, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 326, ../sass/_ddbasic.refactor.scss */
+  /* line 325, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7066,7 +7025,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 334, ../sass/_ddbasic.refactor.scss */
+  /* line 333, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7086,7 +7045,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 339, ../sass/_ddbasic.refactor.scss */
+  /* line 338, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
@@ -7097,13 +7056,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 322, ../sass/_ddbasic.refactor.scss */
+  /* line 321, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 326, ../sass/_ddbasic.refactor.scss */
+  /* line 325, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7112,7 +7071,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 334, ../sass/_ddbasic.refactor.scss */
+  /* line 333, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7132,7 +7091,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 339, ../sass/_ddbasic.refactor.scss */
+  /* line 338, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
