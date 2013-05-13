@@ -559,7 +559,7 @@ function ting_collection_page_view($object) {
  * Page title callback.
  */
 function ting_page_title($object) {
-  return check_plain($object->title);
+  return htmlspecialchars($object->title, ENT_NOQUOTES, 'UTF-8' );
 }
 
 /**
