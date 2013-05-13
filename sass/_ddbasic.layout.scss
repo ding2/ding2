@@ -191,11 +191,12 @@ $topbar-text-color:               #fff;
   }
 
   .secondary-content {
-    @include zen-grid-item(6, 1);
+    @include zen-grid-item(8, 1);
+    @include zen-clear(left);
   }
 
   .tertiary-content {
-    @include zen-grid-item(6, 1, right);
+    @include zen-grid-item(4, 1, right);
   }
 
   @include small-medium() {
@@ -227,18 +228,6 @@ $topbar-text-color:               #fff;
 
     .attachments-1-1 {
       @include attachment-100-100-100-100;
-    }
-  }
-
-  @include medium() {
-    .secondary-content {
-      @include zen-clear();
-    }
-  }  
-  
-  @include large-x-large() {
-    .secondary-content {
-      @include zen-clear();
     }
   }
 }
