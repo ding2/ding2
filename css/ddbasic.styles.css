@@ -3205,16 +3205,30 @@ ul.icons li [class*=" icon-"] {
 .ding-layout-1 .secondary-content,
 .ding-layout-1 .tertiary-content {
   clear: left;
-  background-color: white;
   margin-bottom: 20px;
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-  padding-left: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/* line 181, ../sass/_ddbasic.layout.scss */
+.ding-layout-1 .primary-content .grid-inner, .ding-layout-1 .primary-content .topbar .topbar-inner, .topbar .ding-layout-1 .primary-content .topbar-inner, .ding-layout-1 .primary-content .header-wrapper .header-inner, .header-wrapper .ding-layout-1 .primary-content .header-inner, .ding-layout-1 .primary-content .navigation-inner,
+.ding-layout-1 .secondary-content .grid-inner,
+.ding-layout-1 .secondary-content .topbar .topbar-inner,
+.topbar .ding-layout-1 .secondary-content .topbar-inner,
+.ding-layout-1 .secondary-content .header-wrapper .header-inner,
+.header-wrapper .ding-layout-1 .secondary-content .header-inner,
+.ding-layout-1 .secondary-content .navigation-inner,
+.ding-layout-1 .tertiary-content .grid-inner,
+.ding-layout-1 .tertiary-content .topbar .topbar-inner,
+.topbar .ding-layout-1 .tertiary-content .topbar-inner,
+.ding-layout-1 .tertiary-content .header-wrapper .header-inner,
+.header-wrapper .ding-layout-1 .tertiary-content .header-inner,
+.ding-layout-1 .tertiary-content .navigation-inner {
+  background-color: white;
+  padding: 20px;
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 187, ../sass/_ddbasic.layout.scss */
+  /* line 189, ../sass/_ddbasic.layout.scss */
   .secondary-content,
   .tertiary-content {
     float: left;
@@ -3235,7 +3249,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 187, ../sass/_ddbasic.layout.scss */
+  /* line 189, ../sass/_ddbasic.layout.scss */
   .secondary-content,
   .tertiary-content {
     float: left;
@@ -3329,7 +3343,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 197, ../sass/_ddbasic.layout.scss */
+/* line 199, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: rgba(0, 0, 0, 0.9);
   color: #00caff;
@@ -3456,7 +3470,6 @@ legend {
   margin: 0;
   padding: 0;
   width: 100%;
-  line-height: 48px;
 }
 
 /* line 23, ../sass/_ddbasic.typography.scss */
@@ -4460,7 +4473,7 @@ button#edit-cancel {
 }
 /* line 50, ../sass/_ddbasic.navigation.scss */
 .topbar-menu .menu-item:hover {
-  background-color: #33d5ff;
+  background-color: black;
   color: white;
   text-decoration: none;
 }
@@ -5953,6 +5966,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: white;
   padding: 0;
 }
+/* line 40, ../sass/_ddbasic.carousel.scss */
+.rs-carousel .ajax-loader {
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  top: 100px;
+}
+/* line 48, ../sass/_ddbasic.carousel.scss */
+.rs-carousel .rs-carousel-items {
+  background-color: transparent;
+}
 @media only screen and (max-width: 480px) {
   /* line 34, ../sass/_ddbasic.carousel.scss */
   .rs-carousel {
@@ -5966,68 +5992,69 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 45, ../sass/_ddbasic.carousel.scss */
+/* line 57, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner {
-  padding-top: 20px;
-  padding-right: 20px;
+  min-height: 225px;
   padding-bottom: 30px;
-  padding-left: 20px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 45, ../sass/_ddbasic.carousel.scss */
+  /* line 57, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-inner {
+    min-height: 150px;
+    padding-top: 20px;
+    padding-right: 20px;
     padding-bottom: 20px;
+    padding-left: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 45, ../sass/_ddbasic.carousel.scss */
+  /* line 57, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-inner {
+    min-height: 150px;
+    padding-top: 20px;
+    padding-right: 20px;
     padding-bottom: 20px;
+    padding-left: 20px;
   }
 }
 
-/* line 61, ../sass/_ddbasic.carousel.scss */
+/* line 75, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-pagination {
   display: none;
 }
 
-/* line 66, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
-  top: 165px;
-}
-/* line 69, ../sass/_ddbasic.carousel.scss */
+/* line 81, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-prev.rs-carousel-action-disabled,
 .rs-carousel-action-next.rs-carousel-action-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;
 }
 @media only screen and (max-width: 480px) {
-  /* line 66, ../sass/_ddbasic.carousel.scss */
+  /* line 80, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-action-prev,
   .rs-carousel-action-next {
     display: none;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 66, ../sass/_ddbasic.carousel.scss */
+  /* line 80, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-action-prev,
   .rs-carousel-action-next {
     display: none;
   }
 }
 
-/* line 78, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-action-prev {
-  left: 40px;
-}
-
-/* line 82, ../sass/_ddbasic.carousel.scss */
-.rs-carousel-action-next {
-  right: 40px;
-}
-
 /* line 90, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-action-prev {
+  left: 20px;
+}
+
+/* line 94, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-action-next {
+  right: 20px;
+}
+
+/* line 102, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6041,51 +6068,51 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 90, ../sass/_ddbasic.carousel.scss */
+  /* line 102, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-title {
     font-size: 19.2px;
     font-size: 1.2rem;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 90, ../sass/_ddbasic.carousel.scss */
+  /* line 102, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-title {
     color: white;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 90, ../sass/_ddbasic.carousel.scss */
+  /* line 102, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-title {
     color: white;
   }
 }
 
-/* line 108, ../sass/_ddbasic.carousel.scss */
+/* line 120, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li {
   margin-right: 20px;
   position: relative;
   width: 200px;
 }
-/* line 113, ../sass/_ddbasic.carousel.scss */
+/* line 125, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 119, ../sass/_ddbasic.carousel.scss */
+/* line 131, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li:hover .rs-carousel-item-title {
   background-color: black;
   text-decoration: none;
 }
-/* line 125, ../sass/_ddbasic.carousel.scss */
+/* line 137, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li a {
   max-height: 250px;
   width: 200px;
 }
-/* line 129, ../sass/_ddbasic.carousel.scss */
+/* line 141, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li a:hover {
   text-decoration: none;
 }
-/* line 134, ../sass/_ddbasic.carousel.scss */
+/* line 146, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li .rs-carousel-item-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6102,30 +6129,34 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: absolute;
 }
 @media only screen and (max-width: 480px) {
-  /* line 150, ../sass/_ddbasic.carousel.scss */
+  /* line 162, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-mask li {
     width: 100px;
   }
-  /* line 153, ../sass/_ddbasic.carousel.scss */
+  /* line 165, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-mask li a {
     max-height: 125px;
     width: 100px;
   }
-  /* line 158, ../sass/_ddbasic.carousel.scss */
+  /* line 170, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-mask li .rs-carousel-item-title {
-    font-size: 12px;
-    font-size: 0.75rem;
+    display: none;
   }
 }
 
-/* line 171, ../sass/_ddbasic.carousel.scss */
+/* line 177, ../sass/_ddbasic.carousel.scss */
+.rs-carousel-runner {
+  padding-left: 0;
+}
+
+/* line 187, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 180, ../sass/_ddbasic.carousel.scss */
+/* line 196, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -6134,18 +6165,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-/* line 188, ../sass/_ddbasic.carousel.scss */
+/* line 204, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a:hover {
   background-color: black;
   text-decoration: none;
 }
-/* line 195, ../sass/_ddbasic.carousel.scss */
+/* line 211, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
-/* line 200, ../sass/_ddbasic.carousel.scss */
+/* line 216, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a:before {
   border: 10px solid transparent;
   content: "";
@@ -6157,16 +6188,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-left: -10px;
   left: 50%;
 }
-/* line 206, ../sass/_ddbasic.carousel.scss */
+/* line 222, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
   display: none;
 }
-/* line 212, ../sass/_ddbasic.carousel.scss */
+/* line 228, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-select-tabs {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 170, ../sass/_ddbasic.carousel.scss */
+  /* line 186, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -6176,16 +6207,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 223, ../sass/_ddbasic.carousel.scss */
+  /* line 239, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-list-tabs {
     display: none;
   }
-  /* line 227, ../sass/_ddbasic.carousel.scss */
+  /* line 243, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs {
     display: block;
     width: 100%;
   }
-  /* line 231, ../sass/_ddbasic.carousel.scss */
+  /* line 247, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6196,7 +6227,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 20px;
     text-align: left;
   }
-  /* line 240, ../sass/_ddbasic.carousel.scss */
+  /* line 256, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6214,17 +6245,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 257, ../sass/_ddbasic.carousel.scss */
+  /* line 273, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 261, ../sass/_ddbasic.carousel.scss */
+  /* line 277, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 170, ../sass/_ddbasic.carousel.scss */
+  /* line 186, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -6234,16 +6265,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 223, ../sass/_ddbasic.carousel.scss */
+  /* line 239, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-list-tabs {
     display: none;
   }
-  /* line 227, ../sass/_ddbasic.carousel.scss */
+  /* line 243, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs {
     display: block;
     width: 100%;
   }
-  /* line 231, ../sass/_ddbasic.carousel.scss */
+  /* line 247, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6254,7 +6285,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 20px;
     text-align: left;
   }
-  /* line 240, ../sass/_ddbasic.carousel.scss */
+  /* line 256, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6272,11 +6303,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 257, ../sass/_ddbasic.carousel.scss */
+  /* line 273, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 261, ../sass/_ddbasic.carousel.scss */
+  /* line 277, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }

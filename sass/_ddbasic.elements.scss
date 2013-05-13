@@ -59,7 +59,7 @@ img {
 }
 
 ul {
-  padding-left: $default-spacing;
+  padding-left: 20px;
 }
 
 .page-content {
@@ -82,8 +82,6 @@ legend {
   margin: 0;
   padding: 0;
   width: 100%;
-
-  line-height: $theme-font-size * 3;
 }
 
 
