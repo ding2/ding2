@@ -600,45 +600,6 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
 }
 
 /**
- * Replace entity for the reservation in the case object in not in Ting anymore.
- *
- * @param $item
- *   Provider reservation object.
- * @return
- *   Ting entity object, filled with data from provider service.
- */
-function openruth_replace_entity($item) {
-  module_load_include('reservation.inc', 'openruth');
-
-  $faust_number = explode(':', $item->ding_entity_id);
-  $faust_number = $faust_number[1];
-  $openruth_object = openruth_seek_reserved_item($faust_number);
-
-  if (is_object($openruth_object)) {
-    $pseudo_ting_object = new TingEntity();
-    $pseudo_ting_object->localId = $faust_number;
-    $pseudo_ting_object->ding_entity_id = $item->ding_entity_id;
-    $pseudo_ting_object->reply = new TingClientObject();
-    $pseudo_ting_object->reply->record['dc:title']['dkdcplus:full'] = array($openruth_object->title);
-    // Unfortunately, openruth response doesnt contain anything about the loaned item type.
-    //$pseudo_ting_object->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array();
-    $pseudo_ting_object->reply->record['dc:creator']['dkdcplus:aut'] = array($openruth_object->author);
-    $pseudo_ting_object->reply->record['dc:date'][''] = array($openruth_object->publication_year);
-
-    $pseudo_ting_object->ting_title = array(LANGUAGE_NONE => array(array('id' => $item->ding_entity_id)));
-    //$pseudo_ting_object->ting_type = array(LANGUAGE_NONE => array(array('id' => $item->ding_entity_id)));
-    $pseudo_ting_object->ting_author = array(LANGUAGE_NONE => array(array('id' => $item->ding_entity_id)));
-    $pseudo_ting_object->ting_cover = array(LANGUAGE_NONE => array(array('local_id' => $item->ding_entity_id)));
-    $pseudo_ting_object->ding_entity_type = 'ding_entity';
-    $pseudo_ting_object->provider_id = $faust_number;
-
-    return $pseudo_ting_object;
-  }
-
-  return FALSE;
-}
-
-/**
  * Get a specific reserved item from reservation list.
  *
  * Since openruth doesnt have a direct query mechanism for fetching a loan by

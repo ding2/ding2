@@ -49,3 +49,39 @@ function openruth_loan_renew($account, $ids) {
   }
   return $result;
 }
+
+/**
+ * Replace entity for the reservation in the case object in not in Ting anymore
+ * or the reservation is an remote reservation.
+ *
+ * @param $ting_entity
+ *   Provider reservation object.
+ * @return
+ *   Ting entity object, filled with data from provider service.
+ */
+function alma_loan_populate_pseudo_entity($ting_entity) {
+  $openruth_object = openruth_seek_reserved_item($ting_entity->localId);
+
+  if (is_object($openruth_object)) {
+
+    // Unfortunately, openruth response doesnt contain anything about the loaned item type.
+
+    $ting_entity->reply->record['dc:title']['dkdcplus:full'] = array($openruth_object->title);;
+
+    $ting_entity->reply->record['dc:date'][''] = array($openruth_object['publication_year']);
+    $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = array($openruth_object->author);
+    $ting_entity->reply->record['dc:date'][''] = array($openruth_object->publication_year);
+
+    /**
+     * @TODO: Do openruth provide isbn's ?
+     */
+    //$ting_entity->reply->record['dc:identifier']['dkdcplus:ISBN'][0] = str_replace(array('-', ' ', 'ISBN'), '', $openruth_object['isbns'][0]);
+
+    $ting_entity->ting_title = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
+    $ting_entity->ting_type = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
+    $ting_entity->ting_author = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
+    $ting_entity->ting_cover = array(LANGUAGE_NONE => array(array('local_id' => $ting_entity->provider_id)));
+  }
+
+  return $ting_entity;
+}
