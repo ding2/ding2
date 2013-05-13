@@ -17,23 +17,23 @@ function openruth_ding_provider() {
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => drupal_get_path('module', 'openruth') . '/openruth.availability.inc',
+        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.availability.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => drupal_get_path('module', 'openruth') . '/openruth.user.inc',
+        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.user.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => drupal_get_path('module', 'openruth') . '/openruth.reservation.inc',
+        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.reservation.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => drupal_get_path('module', 'openruth') . '/openruth.loan.inc',
+        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.loan.inc',
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => drupal_get_path('module', 'openruth') . '/openruth.debt.inc',
+        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.debt.inc',
       ),
     ),
   );
