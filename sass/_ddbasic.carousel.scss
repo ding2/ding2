@@ -40,7 +40,7 @@ $carousel-title-font-size:                 24px;
   .ajax-loader {
     @include border-radius(12px);
 
-    border: 1px solid $gray-light;
+    border: 1px solid transparentize($black, .5);
     padding: 5px;
     top: 100px;
   }
@@ -55,10 +55,15 @@ $carousel-title-font-size:                 24px;
 }
 
 .rs-carousel-inner {
+  min-height: 225px;
   padding-bottom: 30px;
 
   @include small-medium() {
+    min-height: 150px;
+    padding-top: 20px;
+    padding-right: 20px;
     padding-bottom: 20px;
+    padding-left: 20px;
   }
 }
 
@@ -163,7 +168,7 @@ $carousel-title-font-size:                 24px;
       }
 
       .rs-carousel-item-title {
-        @include rem('font-size', 12px);
+        display: none;
       }
     }
   }
