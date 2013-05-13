@@ -503,7 +503,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 289, ../sass/_ddbasic.font.awesome.scss */
-.icon-home:before, .event-list-info .event-list-location:before {
+.icon-home:before {
   content: "\f015";
 }
 
@@ -513,7 +513,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 291, ../sass/_ddbasic.font.awesome.scss */
-.icon-time:before, .event-list-info .event-list-time:before {
+.icon-time:before {
   content: "\f017";
 }
 
@@ -1144,7 +1144,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 426, ../sass/_ddbasic.font.awesome.scss */
-.icon-credit-card:before, .event-list-info .event-list-price:before {
+.icon-credit-card:before {
   content: "\f09d";
 }
 
@@ -3295,7 +3295,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 23, ../sass/_ddbasic.extends.scss */
-.event-list ul, .news-list {
+.news-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -6255,37 +6255,28 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 26, ../sass/_ddbasic.event.scss */
-.event-list {
-  padding-bottom: 10px;
-}
-/* line 33, ../sass/_ddbasic.event.scss */
-.event-list .heading {
-  margin-bottom: 10px;
-}
-/* line 37, ../sass/_ddbasic.event.scss */
-.event-list .event-image-wrapper {
-  float: left;
-  margin-right: 20px;
-  max-width: 15%;
-}
-/* line 43, ../sass/_ddbasic.event.scss */
-.event-list .event-list-item {
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-/* line 48, ../sass/_ddbasic.event.scss */
-.event-list .event-list-item.last {
-  border-bottom: 0;
-}
-/* line 52, ../sass/_ddbasic.event.scss */
-.event-list .event-list-item .event-list-title {
-  margin-bottom: 10px;
+/* line 5, ../sass/_ddbasic.event.scss */
+.pane-ding-event-ding-event-list {
+  margin-top: 20px;
+  margin-bottom: -20px;
 }
 
-/* line 58, ../sass/_ddbasic.event.scss */
-.event-list-date-wrapper {
+/* line 12, ../sass/_ddbasic.event.scss */
+.secondary-content .event-list-description,
+.tertiary-content .event-list-description {
+  display: none;
+}
+
+/* line 17, ../sass/_ddbasic.event.scss */
+.event-group-heading {
+  background: #d5d5d5;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+/* line 24, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-date-wrapper {
   font-size: 14.4px;
   font-size: 0.9rem;
   display: inline-block;
@@ -6295,89 +6286,87 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: center;
   vertical-align: top;
 }
-/* line 69, ../sass/_ddbasic.event.scss */
-.event-list-date-wrapper .event-list-day {
+/* line 35, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-date-wrapper .event-list-day {
   background-color: #00caff;
   color: white;
   display: block;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 75, ../sass/_ddbasic.event.scss */
-.event-list-date-wrapper .event-list-inner-wrapper {
-  border-right: 1px solid #d5d5d5;
-  border-bottom: 1px solid #d5d5d5;
-  border-left: 1px solid #d5d5d5;
+/* line 42, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-date-wrapper .event-list-inner-wrapper {
   background: white;
 }
-/* line 82, ../sass/_ddbasic.event.scss */
-.event-list-date-wrapper .event-list-inner-wrapper .event-list-date {
-  font-size: 27.2px;
-  font-size: 1.7rem;
+/* line 46, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-date-wrapper .event-list-date {
+  font-size: 20px;
+  font-size: 1.25rem;
   display: block;
-  padding-top: 8px;
+  padding-top: 4px;
 }
-
-/* line 91, ../sass/_ddbasic.event.scss */
-.event-list-info {
-  display: inline-block;
-}
-/* line 96, ../sass/_ddbasic.event.scss */
-.event-list-info .event-list-location,
-.event-list-info .event-list-time,
-.event-list-info .event-list-price {
-  display: block;
-}
-/* line 99, ../sass/_ddbasic.event.scss */
-.event-list-info .event-list-location:before,
-.event-list-info .event-list-time:before,
-.event-list-info .event-list-price:before {
-  color: #959595;
-  display: inline-block;
-  font-family: FontAwesome;
-  margin-right: 5px;
-  min-width: 20px;
-}
-
-/* line 121, ../sass/_ddbasic.event.scss */
-.events-group-heading {
-  background: #efefef;
-  padding: 10px;
-  margin-bottom: 20px;
-}
-/* line 126, ../sass/_ddbasic.event.scss */
-.events-group-heading .event-list-date-wrapper {
+/* line 54, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-date-wrapper {
   vertical-align: middle;
   min-width: 50px;
   font-size: 9.6px;
 }
-/* line 131, ../sass/_ddbasic.event.scss */
-.events-group-heading .event-list-date-wrapper .event-list-date {
-  font-size: 16px;
+/* line 60, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-date {
   padding-top: 0.2em;
   margin-bottom: -10px;
 }
-/* line 137, ../sass/_ddbasic.event.scss */
-.events-group-heading .event-list-date-wrapper .event-list-day {
+/* line 65, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-day {
   line-height: 16.8px;
 }
-/* line 142, ../sass/_ddbasic.event.scss */
-.events-group-heading .ding-event-fulldate {
+/* line 69, ../sass/_ddbasic.event.scss */
+.event-group-heading .event-list-fulldate {
   font-size: 20px;
   font-size: 1.25rem;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 151, ../sass/_ddbasic.event.scss */
-.pane-ding-event-ding-event-list .event-list-info,
-.pane-ding-event-ding-event-list-library .event-list-info {
-  float: right;
-  padding-left: 20px;
-  margin-left: 20px;
-  border-left: 1px solid #efefef;
+/* line 77, ../sass/_ddbasic.event.scss */
+.event-list {
+  background: #efefef;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+/* line 85, ../sass/_ddbasic.event.scss */
+.event-list .event-list-item {
+  position: relative;
+}
+/* line 89, ../sass/_ddbasic.event.scss */
+.event-list .event-image-wrapper {
+  float: left;
+  margin-right: 20px;
+  max-width: 15%;
+}
+/* line 95, ../sass/_ddbasic.event.scss */
+.event-list .event-list-heading {
+  font-size: 20px;
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+}
+/* line 103, ../sass/_ddbasic.event.scss */
+.event-list .event-list-location,
+.event-list .event-list-time,
+.event-list .event-list-price {
+  margin-right: 5px;
+}
+/* line 107, ../sass/_ddbasic.event.scss */
+.event-list .event-arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 45%;
 }
 
-/* line 163, ../sass/_ddbasic.event.scss */
+/* line 120, ../sass/_ddbasic.event.scss */
 .ticket-available, .ticket-info {
   font-size: 16px;
   font-size: 1rem;
@@ -6387,14 +6376,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 172, ../sass/_ddbasic.event.scss */
+/* line 129, ../sass/_ddbasic.event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
   padding-top: 20px;
 }
 
-/* line 194, ../sass/_ddbasic.event.scss */
+/* line 151, ../sass/_ddbasic.event.scss */
 .event .event-image {
   float: left;
   margin-top: 5px;
@@ -6402,22 +6391,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   max-width: 300px;
 }
-/* line 202, ../sass/_ddbasic.event.scss */
+/* line 159, ../sass/_ddbasic.event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 206, ../sass/_ddbasic.event.scss */
+/* line 163, ../sass/_ddbasic.event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 211, ../sass/_ddbasic.event.scss */
+/* line 168, ../sass/_ddbasic.event.scss */
 .event .event-lead {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 217, ../sass/_ddbasic.event.scss */
+/* line 174, ../sass/_ddbasic.event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -6436,7 +6425,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 223, ../sass/_ddbasic.event.scss */
+/* line 180, ../sass/_ddbasic.event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -6455,16 +6444,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 228, ../sass/_ddbasic.event.scss */
+/* line 185, ../sass/_ddbasic.event.scss */
 .event .event-info p {
   margin-bottom: 10px;
 }
-/* line 231, ../sass/_ddbasic.event.scss */
+/* line 188, ../sass/_ddbasic.event.scss */
 .event .event-info p i[class^="icon-"] {
   display: inline-block;
   min-width: 20px;
 }
-/* line 238, ../sass/_ddbasic.event.scss */
+/* line 195, ../sass/_ddbasic.event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
@@ -6636,7 +6625,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 /* line 17, ../sass/_ddbasic.refactor.scss */
-.event-list ul, .news-list {
+.news-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -6746,11 +6735,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 20px;
     top: 45%;
   }
-  /* line 179, ../sass/_ddbasic.refactor.scss */
-  .news-list .news-arrow-link:before {
-    float: right;
-    font-family: FontAwesome;
-  }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   /* line 161, ../sass/_ddbasic.refactor.scss */
@@ -6773,22 +6757,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 20px;
     top: 45%;
   }
-  /* line 179, ../sass/_ddbasic.refactor.scss */
-  .news-list .news-arrow-link:before {
-    float: right;
-    font-family: FontAwesome;
-  }
 }
 
-/* line 190, ../sass/_ddbasic.refactor.scss */
+/* line 183, ../sass/_ddbasic.refactor.scss */
 .search .search-field-wrapper {
   position: relative;
 }
-/* line 195, ../sass/_ddbasic.refactor.scss */
+/* line 188, ../sass/_ddbasic.refactor.scss */
 .search .spinner i[class^="icon-"] {
   height: auto;
 }
-/* line 203, ../sass/_ddbasic.refactor.scss */
+/* line 196, ../sass/_ddbasic.refactor.scss */
 .search .form-item {
   float: left;
   width: 100%;
@@ -6806,12 +6785,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 207, ../sass/_ddbasic.refactor.scss */
+/* line 200, ../sass/_ddbasic.refactor.scss */
 .search .form-text {
   padding-left: 49px;
 }
 
-/* line 214, ../sass/_ddbasic.refactor.scss */
+/* line 207, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -6829,11 +6808,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 217, ../sass/_ddbasic.refactor.scss */
+/* line 210, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 222, ../sass/_ddbasic.refactor.scss */
+/* line 215, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -6851,29 +6830,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 225, ../sass/_ddbasic.refactor.scss */
+/* line 218, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 231, ../sass/_ddbasic.refactor.scss */
+  /* line 224, ../sass/_ddbasic.refactor.scss */
   .user .form-item-pass {
     margin-top: 10px;
   }
 }
 
-/* line 238, ../sass/_ddbasic.refactor.scss */
+/* line 231, ../sass/_ddbasic.refactor.scss */
 .search,
 .user {
   display: none;
   width: 100%;
 }
-/* line 241, ../sass/_ddbasic.refactor.scss */
+/* line 234, ../sass/_ddbasic.refactor.scss */
 .search.js-topbar-toggled,
 .user.js-topbar-toggled {
   display: inline-block;
 }
-/* line 247, ../sass/_ddbasic.refactor.scss */
+/* line 240, ../sass/_ddbasic.refactor.scss */
 .search [class^="label-"],
 .user [class^="label-"] {
   font-size: 16px;
@@ -6885,7 +6864,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 5px;
   margin-left: 2px;
 }
-/* line 257, ../sass/_ddbasic.refactor.scss */
+/* line 250, ../sass/_ddbasic.refactor.scss */
 .search [class^="icon-"],
 .user [class^="icon-"] {
   font-size: 30px;
@@ -6895,13 +6874,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 24px;
   position: absolute;
 }
-/* line 266, ../sass/_ddbasic.refactor.scss */
+/* line 259, ../sass/_ddbasic.refactor.scss */
 .search .form-item,
 .user .form-item {
   display: inline-block;
   position: relative;
 }
-/* line 271, ../sass/_ddbasic.refactor.scss */
+/* line 264, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .user .form-text {
   font-size: 18px;
@@ -6919,7 +6898,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 0;
   width: 100%;
 }
-/* line 284, ../sass/_ddbasic.refactor.scss */
+/* line 277, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .search .form-submit,
 .user .form-text,
@@ -6927,7 +6906,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   min-height: 60px;
   padding-top: 0;
 }
-/* line 289, ../sass/_ddbasic.refactor.scss */
+/* line 282, ../sass/_ddbasic.refactor.scss */
 .search .form-submit,
 .user .form-submit {
   font-size: 20px;
@@ -6939,12 +6918,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 1px;
   min-width: 110px;
 }
-/* line 299, ../sass/_ddbasic.refactor.scss */
+/* line 292, ../sass/_ddbasic.refactor.scss */
 .search input[class^="form-"],
 .user input[class^="form-"] {
   margin-bottom: 0;
 }
-/* line 303, ../sass/_ddbasic.refactor.scss */
+/* line 296, ../sass/_ddbasic.refactor.scss */
 .search .form-actions,
 .user .form-actions {
   float: right;
@@ -6965,13 +6944,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: right;
 }
 @media only screen and (max-width: 480px) {
-  /* line 310, ../sass/_ddbasic.refactor.scss */
+  /* line 303, ../sass/_ddbasic.refactor.scss */
   .search [class^="label-"],
   .user [class^="label-"] {
     font-size: 14px;
     font-size: 0.875rem;
   }
-  /* line 314, ../sass/_ddbasic.refactor.scss */
+  /* line 307, ../sass/_ddbasic.refactor.scss */
   .search .form-item,
   .user .form-item {
     float: left;
@@ -6993,13 +6972,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 321, ../sass/_ddbasic.refactor.scss */
+  /* line 314, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 325, ../sass/_ddbasic.refactor.scss */
+  /* line 318, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7008,7 +6987,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 333, ../sass/_ddbasic.refactor.scss */
+  /* line 326, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7028,7 +7007,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 338, ../sass/_ddbasic.refactor.scss */
+  /* line 331, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
@@ -7039,13 +7018,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 321, ../sass/_ddbasic.refactor.scss */
+  /* line 314, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 325, ../sass/_ddbasic.refactor.scss */
+  /* line 318, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7054,7 +7033,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 333, ../sass/_ddbasic.refactor.scss */
+  /* line 326, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7074,7 +7053,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 338, ../sass/_ddbasic.refactor.scss */
+  /* line 331, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;

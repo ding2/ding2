@@ -1,37 +1,89 @@
 // =============================================================================
-// Event pages
+// Event styling
 // =============================================================================
 //
+.pane-ding-event-ding-event-list {
+  margin-top: 20px;
+  margin-bottom: -20px;
+}
 
+.secondary-content,
+.tertiary-content {
+  .event-list-description {
+    display: none;
+  }
+}
 
-// -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
-//
+.event-group-heading {
+  background: $gray;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
 
+  .event-list-date-wrapper {
+    @include rem('font-size', $theme-font-size * .9);
 
-// -----------------------------------------------------------------------------
-// Extends
-// -----------------------------------------------------------------------------
-//
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 75px;
 
+    color: lighten($text-primary-color, 25%);
+    text-align: center;
+    vertical-align: top;
 
-// -----------------------------------------------------------------------------
-// Default styling
-// -----------------------------------------------------------------------------
-//
-// **
-// Event list
-// **
-.event-list {
-  padding-bottom: $default-spacing / 2;
+    .event-list-day {
+      background-color: $theme-primary-color;
+      color: $white;
+      display: block;
+      text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    }
 
-  ul {
-    @extend %reset-list;
+    .event-list-inner-wrapper {
+      background: $white;
+    }
+
+    .event-list-date {
+      @include rem('font-size', 20px);
+
+      display: block;
+      padding-top: 4px;
+    }
   }
 
-  .heading {
-    margin-bottom: $default-spacing / 2;
+  .event-list-date-wrapper {
+    vertical-align: middle;
+    min-width: $default-spacing * 2.5;
+    font-size: $theme-font-size * 0.6;
+  }
+
+  .event-list-date {
+    padding-top: 0.2em;
+    margin-bottom: -$default-spacing / 2;
+  }
+
+  .event-list-day {
+    line-height: $theme-line-height * 0.7;
+  }
+
+  .event-list-fulldate {
+    @include rem('font-size', $theme-font-size * 1.25);
+
+    font-family: $font-bold;
+    font-weight: $theme-font-weight-bold;
+  }
+}
+
+.event-list {
+  background: $gray-light;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+
+  .event-list-item {
+    position: relative;
   }
 
  .event-image-wrapper {
@@ -40,119 +92,24 @@
     max-width: 15%;
   }
 
-  .event-list-item {
-    border-bottom: 1px solid $gray-light;
-    margin-bottom: $default-spacing;
-    padding-bottom: $default-spacing;
+  .event-list-heading {
+    @include rem('font-size', 20px);
 
-    &.last {
-      border-bottom: 0;
-    }
-
-    .event-list-title {
-      margin-bottom: $default-spacing / 2;
-    }
+    margin-bottom: $default-spacing / 2;
   }
-}
-
-.event-list-date-wrapper {
-  @include rem('font-size', $theme-font-size * .9);
-
-  display: inline-block;
-  margin-right: $default-spacing / 2;
-  min-width: 75px;
-
-  color: lighten($text-primary-color, 25%);
-  text-align: center;
-  vertical-align: top;
-
-  .event-list-day {
-    background-color: $theme-primary-color;
-    color: $white;
-    display: block;
-    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-  }
-  .event-list-inner-wrapper {
-    border-right: 1px solid $gray;
-    border-bottom: 1px solid $gray;
-    border-left: 1px solid $gray;
-
-    background: $white;
-
-    .event-list-date {
-      @include rem('font-size', $theme-font-size * 1.7);
-
-      display: block;
-      padding-top: 8px;
-    }
-  }
-}
-
-.event-list-info {
-  display: inline-block;
 
   .event-list-location,
   .event-list-time,
   .event-list-price {
-    display: block;
-
-    &:before {
-      color: $gray-darker;
-      display: inline-block;
-      font-family: $theme-icon-library-font;
-      margin-right: 5px;
-      min-width: $default-spacing;
-    }
+    margin-right: 5px;
   }
 
-  .event-list-location {
-    @extend .icon-home;
+  .event-arrow-link {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 45%;
   }
-
-  .event-list-time {
-    @extend .icon-time;
-  }
-
-  .event-list-price {
-    @extend .icon-credit-card;
-  }
-}
-
-.events-group-heading {
-  background: $gray-light;
-  padding: $default-spacing/2;
-  margin-bottom: $default-spacing;
-
-  .event-list-date-wrapper {
-    vertical-align: middle;
-    min-width: $default-spacing * 2.5;
-    font-size: $theme-font-size * 0.6;
-
-    .event-list-date {
-      font-size: $theme-font-size;
-      padding-top: 0.2em;
-      margin-bottom: -$default-spacing / 2;
-    }
-
-    .event-list-day {
-      line-height: $theme-line-height * 0.7;
-    }
-  }
-
-  .ding-event-fulldate {
-    @include rem('font-size', $theme-font-size * 1.25);
-
-    font-family: $font-bold;
-    font-weight: $theme-font-weight-bold;
-  }
-}
-
-.pane-ding-event-ding-event-list .event-list-info,
-.pane-ding-event-ding-event-list-library .event-list-info {
-  float: right;
-  padding-left: $default-spacing;
-  margin-left: $default-spacing;
-  border-left: 1px solid $gray-light;
 }
 
 
