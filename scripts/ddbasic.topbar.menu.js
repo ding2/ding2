@@ -34,10 +34,6 @@
         ddbasic_header_wrapper.show();
         break;
       case 'menu':
-
-        // Add fixed class to body to avoid scrolling issues
-        $('body').toggleClass('js-fixed');
-
         ddbasic_topbar_menu.toggleClass('js-topbar-toggled');
 
         ddbasic_topbar_search.removeClass('js-topbar-toggled');
@@ -51,7 +47,6 @@
 
   // When ready start the magic.
   $(document).ready(function () {
-
     /*
      * Toggle functionality for topbar menu
      */
@@ -97,6 +92,9 @@
         ddbasic_topbar_link.one('touchend', function() {
           clicked.css('background-color', 'inherit');
         });
+
+        // Add a class to body to determine if body should be fixed.
+        $('body').removeClass('js-fixed');
       }
       else {
         // Make sure hardcoded style is removed
@@ -104,6 +102,8 @@
         // Remove active class from all links and add .active to clicked link.
         ddbasic_topbar_link.removeClass('active');
         clicked.addClass('active');
+
+        $('body').addClass('js-fixed');
       }
 
       // Prevent default (href).
