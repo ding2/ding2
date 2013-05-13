@@ -93,22 +93,17 @@
       margin-bottom: 0;
     }
   }
-}
 
-.logged-in {
-  .header-wrapper {
-    @include low() {
-      position: fixed;
-      overflow: auto;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      top: 44px;
-      z-index: 99;
-    }
+  @include low() {
+    position: fixed;
+    overflow: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 44px;
+    z-index: 99;
   }
 }
-
 
 // **
 // User profile
