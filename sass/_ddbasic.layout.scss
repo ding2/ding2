@@ -22,18 +22,19 @@ $topbar-text-color:               #fff;
 // -----------------------------------------------------------------------------
 //
 
-@include small-medium() {
-  #page.ding2-site-template {
+#page.ding2-site-template {
+  @include small-medium() {
     background-image: none !important;
   }
 }
+
 // -----------------------------------------------------------------------------
 // Site header, fixed position
 // -----------------------------------------------------------------------------
 //
 
-@include large-x-large() {
-  .site-header {
+.site-header {
+  @include large-x-large() {
     &.js-fixed {
       position: fixed;
       z-index: 99;
@@ -68,17 +69,14 @@ $topbar-text-color:               #fff;
       }
     }
   }
-}
 
-@include small-medium() {
-  .site-header {
+  @include small-medium() {
     &.js-fixed {
       .topbar {
         position: fixed;
         z-index: 99;
         width: 100%;
       }
-
     }
   }
 }
