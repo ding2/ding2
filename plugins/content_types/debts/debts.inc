@@ -104,6 +104,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
   $header = array(
     'fee_date' => t('Fee date'),
     'title' => t('Title'),
+    'type' => t('Fee type'),
     'amount' => t('Amount'),
   );
 
@@ -117,6 +118,10 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
       'title' => array(
         'data' => $debt->display_name,
         'class' => 'feetitle',
+      ),
+      'type' => array(
+        'data' => $debt->type,
+        'class' => 'feetype',
       ),
       'amount' => array(
         'data' => ( $debt->is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
@@ -135,6 +140,11 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
     'title' => array(
       'data' => '',
       'class' => 'feetitle',
+      'header' => TRUE
+    ),
+    'type' => array(
+      'data' => '',
+      'class' => 'feetype',
       'header' => TRUE
     ),
     'amount' => array(
@@ -157,12 +167,17 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         'class' => 'fee-invoice-note',
         'header' => TRUE
       ),
+      'type' => array(
+        'data' => '',
+        'class' => 'fee-invoice-note',
+        'header' => TRUE
+      ),
       'amount' => array(
         'data' => '',
         'class' => 'fee-invoice-note',
         'header' => TRUE
       ),
-    );
+    ); 
   }
   $form['debts'] = array(
     '#type' => 'tableselect_form',
