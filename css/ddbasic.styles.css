@@ -3523,25 +3523,25 @@ body {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
-/* line 52, ../sass/_ddbasic.mixins.scss */
+/* line 55, ../sass/_ddbasic.mixins.scss */
 ::-webkit-selection {
   color: #333333;
   background: #ffff99;
 }
 
-/* line 52, ../sass/_ddbasic.mixins.scss */
+/* line 55, ../sass/_ddbasic.mixins.scss */
 ::-moz-selection {
   color: #333333;
   background: #ffff99;
 }
 
-/* line 52, ../sass/_ddbasic.mixins.scss */
+/* line 55, ../sass/_ddbasic.mixins.scss */
 ::-o-selection {
   color: #333333;
   background: #ffff99;
 }
 
-/* line 52, ../sass/_ddbasic.mixins.scss */
+/* line 55, ../sass/_ddbasic.mixins.scss */
 ::selection {
   color: #333333;
   background: #ffff99;
@@ -5698,14 +5698,17 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.pending {
   background-color: #696a69;
   color: #fff;
-  padding: 5px 13.33333px;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
-/* line 22, ../sass/_ddbasic.mixins.scss */
+/* line 25, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.pending a {
   color: #fff;
   display: block;
 }
-/* line 26, ../sass/_ddbasic.mixins.scss */
+/* line 29, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.pending a:hover {
   text-decoration: none;
 }
@@ -5713,14 +5716,17 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.availability.processed {
   background-color: #ed1e88;
   color: #fff;
-  padding: 5px 13.33333px;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
-/* line 22, ../sass/_ddbasic.mixins.scss */
+/* line 25, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed a {
   color: #fff;
   display: block;
 }
-/* line 26, ../sass/_ddbasic.mixins.scss */
+/* line 29, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed a:hover {
   text-decoration: none;
 }
@@ -5728,14 +5734,17 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.availability.available {
   background-color: #4c9f45;
   color: #fff;
-  padding: 5px 13.33333px;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
-/* line 22, ../sass/_ddbasic.mixins.scss */
+/* line 25, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available a {
   color: #fff;
   display: block;
 }
-/* line 26, ../sass/_ddbasic.mixins.scss */
+/* line 29, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available a:hover {
   text-decoration: none;
 }
@@ -5743,14 +5752,17 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.availability.reservable {
   background-color: #ea9123;
   color: #fff;
-  padding: 5px 13.33333px;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
-/* line 22, ../sass/_ddbasic.mixins.scss */
+/* line 25, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable a {
   color: #fff;
   display: block;
 }
-/* line 26, ../sass/_ddbasic.mixins.scss */
+/* line 29, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover {
   text-decoration: none;
 }
@@ -5758,14 +5770,17 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable {
   background-color: #4c9f45;
   color: #fff;
-  padding: 5px 13.33333px;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
-/* line 22, ../sass/_ddbasic.mixins.scss */
+/* line 25, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable a {
   color: #fff;
   display: block;
 }
-/* line 26, ../sass/_ddbasic.mixins.scss */
+/* line 29, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover {
   text-decoration: none;
 }
@@ -5773,14 +5788,17 @@ input#edit-search-block-form--2.spinner {
 .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
   background-color: #0072bc;
   color: #fff;
-  padding: 5px 13.33333px;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
-/* line 22, ../sass/_ddbasic.mixins.scss */
+/* line 25, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a {
   color: #fff;
   display: block;
 }
-/* line 26, ../sass/_ddbasic.mixins.scss */
+/* line 29, ../sass/_ddbasic.mixins.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a:hover {
   text-decoration: none;
 }

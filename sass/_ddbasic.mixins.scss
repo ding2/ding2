@@ -17,7 +17,10 @@ $prefixes:            ("-webkit-","-moz-", "-o-", "");
 @mixin availability($bg-color) {
   background-color: $bg-color;
   color: #fff;
-  padding: $default-spacing / 4 $default-spacing / 1.5;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
 
   a {
     color: #fff;
