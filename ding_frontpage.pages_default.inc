@@ -150,7 +150,7 @@ function ding_frontpage_default_page_manager_pages() {
         3 => 'empty',
       ),
       'override_title' => 1,
-      'override_title_text' => 'Kampagner',
+      'override_title_text' => 'Campaigns',
     );
     $pane->cache = array();
     $pane->style = array(
