@@ -2296,55 +2296,55 @@ ul.icons li [class*=" icon-"] {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 19, ../sass/_ddbasic.layout.scss */
+  /* line 18, ../sass/_ddbasic.layout.scss */
   #page.ding2-site-template {
     background-image: none !important;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 19, ../sass/_ddbasic.layout.scss */
+  /* line 18, ../sass/_ddbasic.layout.scss */
   #page.ding2-site-template {
     background-image: none !important;
   }
 }
 
 @media only screen and (min-width: 769px) {
-  /* line 32, ../sass/_ddbasic.layout.scss */
+  /* line 31, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed {
     position: fixed;
     z-index: 99;
     width: 100%;
   }
-  /* line 37, ../sass/_ddbasic.layout.scss */
+  /* line 36, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .topbar-menu {
     margin-top: 0;
   }
-  /* line 41, ../sass/_ddbasic.layout.scss */
+  /* line 40, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .site-name-wrapper {
     margin-top: 10px;
   }
-  /* line 44, ../sass/_ddbasic.layout.scss */
+  /* line 43, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .site-name-wrapper .site-name, .site-header.js-fixed .site-name-wrapper .site-name-with-slogan {
     font-size: 24px;
     font-size: 1.5rem;
   }
-  /* line 49, ../sass/_ddbasic.layout.scss */
+  /* line 48, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .header-wrapper {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  /* line 53, ../sass/_ddbasic.layout.scss */
+  /* line 52, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .header-wrapper .user-name {
     display: none !important;
   }
-  /* line 59, ../sass/_ddbasic.layout.scss */
+  /* line 58, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .navigation-wrapper .menu-item {
     padding-top: 10px;
     padding-bottom: 10px;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 69, ../sass/_ddbasic.layout.scss */
+  /* line 68, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .topbar {
     position: fixed;
     z-index: 99;
@@ -2352,7 +2352,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 69, ../sass/_ddbasic.layout.scss */
+  /* line 68, ../sass/_ddbasic.layout.scss */
   .site-header.js-fixed .topbar {
     position: fixed;
     z-index: 99;
@@ -2360,16 +2360,16 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 82, ../sass/_ddbasic.layout.scss */
+/* line 81, ../sass/_ddbasic.layout.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
 }
-/* line 85, ../sass/_ddbasic.layout.scss */
+/* line 84, ../sass/_ddbasic.layout.scss */
 .topbar .topbar-inner {
   position: relative;
 }
 
-/* line 92, ../sass/_ddbasic.layout.scss */
+/* line 91, ../sass/_ddbasic.layout.scss */
 .site-name-wrapper {
   float: left;
   width: 33.33333%;
@@ -2389,7 +2389,7 @@ ul.icons li [class*=" icon-"] {
   margin-top: 30px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 92, ../sass/_ddbasic.layout.scss */
+  /* line 91, ../sass/_ddbasic.layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -2410,7 +2410,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 92, ../sass/_ddbasic.layout.scss */
+  /* line 91, ../sass/_ddbasic.layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -2431,14 +2431,14 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 104, ../sass/_ddbasic.layout.scss */
+/* line 103, ../sass/_ddbasic.layout.scss */
 .site-name, .site-name-with-slogan {
   font-size: 30px;
   font-size: 1.875rem;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 113, ../sass/_ddbasic.layout.scss */
+/* line 112, ../sass/_ddbasic.layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -2451,35 +2451,35 @@ ul.icons li [class*=" icon-"] {
   text-decoration: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 104, ../sass/_ddbasic.layout.scss */
+  /* line 103, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 24px;
     font-size: 1.5rem;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 104, ../sass/_ddbasic.layout.scss */
+  /* line 103, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 24px;
     font-size: 1.5rem;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 104, ../sass/_ddbasic.layout.scss */
+  /* line 103, ../sass/_ddbasic.layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 16px;
     font-size: 1rem;
   }
 }
 
-/* line 132, ../sass/_ddbasic.layout.scss */
+/* line 131, ../sass/_ddbasic.layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 138, ../sass/_ddbasic.layout.scss */
+/* line 137, ../sass/_ddbasic.layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -2498,21 +2498,21 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 147, ../sass/_ddbasic.layout.scss */
+/* line 146, ../sass/_ddbasic.layout.scss */
 .header-wrapper {
   background-color: #00caff;
 }
-/* line 152, ../sass/_ddbasic.layout.scss */
+/* line 151, ../sass/_ddbasic.layout.scss */
 .header-wrapper .header-inner {
   overflow: visible;
 }
 
-/* line 160, ../sass/_ddbasic.layout.scss */
+/* line 159, ../sass/_ddbasic.layout.scss */
 .content-wrapper {
   margin-top: 20px;
 }
 
-/* line 168, ../sass/_ddbasic.layout.scss */
+/* line 167, ../sass/_ddbasic.layout.scss */
 .ding-default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -2523,7 +2523,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 182, ../sass/_ddbasic.layout.scss */
+/* line 181, ../sass/_ddbasic.layout.scss */
 .ding-default-layout .primary-content,
 .ding-default-layout .secondary-content,
 .ding-default-layout .tertiary-content {
@@ -2531,7 +2531,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 188, ../sass/_ddbasic.layout.scss */
+/* line 187, ../sass/_ddbasic.layout.scss */
 .ding-default-layout .primary-content {
   float: right;
   width: 75%;
@@ -2549,7 +2549,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 192, ../sass/_ddbasic.layout.scss */
+/* line 191, ../sass/_ddbasic.layout.scss */
 .ding-default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -2567,7 +2567,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 196, ../sass/_ddbasic.layout.scss */
+/* line 195, ../sass/_ddbasic.layout.scss */
 .ding-default-layout .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -2586,7 +2586,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 
-/* line 205, ../sass/_ddbasic.layout.scss */
+/* line 204, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .primary-content,
 .ding-layout-1 .secondary-content,
 .ding-layout-1 .tertiary-content {
@@ -2594,7 +2594,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 211, ../sass/_ddbasic.layout.scss */
+/* line 210, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .primary-content {
   float: left;
   width: 100%;
@@ -2612,7 +2612,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 215, ../sass/_ddbasic.layout.scss */
+/* line 214, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .layout-wrapper {
   clear: left;
   background-color: white;
@@ -2623,7 +2623,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 227, ../sass/_ddbasic.layout.scss */
+/* line 226, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .secondary-content {
   float: left;
   width: 66.66667%;
@@ -2641,7 +2641,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 231, ../sass/_ddbasic.layout.scss */
+/* line 230, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -2660,7 +2660,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 480px) {
-  /* line 236, ../sass/_ddbasic.layout.scss */
+  /* line 235, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2678,7 +2678,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 240, ../sass/_ddbasic.layout.scss */
+  /* line 239, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2697,7 +2697,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 245, ../sass/_ddbasic.layout.scss */
+  /* line 244, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -2959,7 +2959,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 236, ../sass/_ddbasic.layout.scss */
+  /* line 235, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2977,7 +2977,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 240, ../sass/_ddbasic.layout.scss */
+  /* line 239, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2996,7 +2996,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 245, ../sass/_ddbasic.layout.scss */
+  /* line 244, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -3258,7 +3258,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 268, ../sass/_ddbasic.layout.scss */
+/* line 267, ../sass/_ddbasic.layout.scss */
 .footer {
   background-color: #262626;
   padding-top: 30px;
@@ -3335,7 +3335,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 274, ../sass/_ddbasic.layout.scss */
+/* line 273, ../sass/_ddbasic.layout.scss */
 .footer .pane-title {
   font-size: 18px;
   font-size: 1.125rem;
@@ -3423,12 +3423,12 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 287, ../sass/_ddbasic.layout.scss */
+/* line 286, ../sass/_ddbasic.layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 294, ../sass/_ddbasic.layout.scss */
+/* line 293, ../sass/_ddbasic.layout.scss */
 .footer-block .block-title, .footer-block .pane-title,
 .footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
@@ -3438,7 +3438,7 @@ ul.icons li [class*=" icon-"] {
   color: white;
 }
 
-/* line 299, ../sass/_ddbasic.layout.scss */
+/* line 298, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -3499,7 +3499,7 @@ ul.icons li [class*=" icon-"] {
   background-color: #0072bc;
 }
 
-/* line 11, ../sass/_ddbasic.elements.scss */
+/* line 5, ../sass/_ddbasic.elements.scss */
 body {
   background-color: #efefef;
   background-attachment: fixed;
@@ -3507,7 +3507,7 @@ body {
   line-height: 24px;
 }
 @media only screen and (max-height: 580px) and (max-width: 768px) {
-  /* line 18, ../sass/_ddbasic.elements.scss */
+  /* line 12, ../sass/_ddbasic.elements.scss */
   body.js-fixed-body {
     bottom: 0;
     left: 0;
@@ -3517,12 +3517,12 @@ body {
   }
 }
 
-/* line 28, ../sass/_ddbasic.elements.scss */
+/* line 22, ../sass/_ddbasic.elements.scss */
 body.toolbar {
   padding-top: 66px;
 }
 
-/* line 38, ../sass/_ddbasic.elements.scss */
+/* line 32, ../sass/_ddbasic.elements.scss */
 h1,
 h2,
 h3,
@@ -3533,7 +3533,7 @@ h6 {
   margin-top: 0;
 }
 
-/* line 42, ../sass/_ddbasic.elements.scss */
+/* line 36, ../sass/_ddbasic.elements.scss */
 img {
   display: inline;
   height: auto;
@@ -3541,24 +3541,24 @@ img {
   vertical-align: bottom;
 }
 
-/* line 49, ../sass/_ddbasic.elements.scss */
+/* line 43, ../sass/_ddbasic.elements.scss */
 ul {
   padding-left: 20px;
 }
 
-/* line 54, ../sass/_ddbasic.elements.scss */
+/* line 48, ../sass/_ddbasic.elements.scss */
 .page-content li {
   list-style: disc inside;
 }
 
-/* line 60, ../sass/_ddbasic.elements.scss */
+/* line 54, ../sass/_ddbasic.elements.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 66, ../sass/_ddbasic.elements.scss */
+/* line 60, ../sass/_ddbasic.elements.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
@@ -3771,7 +3771,7 @@ a:focus {
   font-size: 0.8rem;
 }
 
-/* line 22, ../sass/_ddbasic.forms.scss */
+/* line 18, ../sass/_ddbasic.forms.scss */
 input,
 textarea,
 select {
@@ -3781,12 +3781,12 @@ select {
   letter-spacing: 1px;
 }
 
-/* line 29, ../sass/_ddbasic.forms.scss */
+/* line 25, ../sass/_ddbasic.forms.scss */
 select {
   padding: 5px;
 }
 
-/* line 44, ../sass/_ddbasic.forms.scss */
+/* line 40, ../sass/_ddbasic.forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -3823,7 +3823,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 60, ../sass/_ddbasic.forms.scss */
+/* line 56, ../sass/_ddbasic.forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -3839,7 +3839,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 66, ../sass/_ddbasic.forms.scss */
+/* line 62, ../sass/_ddbasic.forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],
@@ -4157,7 +4157,7 @@ a[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-butt
   cursor: default;
 }
 
-/* line 100, ../sass/_ddbasic.buttons.scss */
+/* line 96, ../sass/_ddbasic.buttons.scss */
 .button, .form-submit,
 #edit-cancel,
 a.button,
@@ -4218,7 +4218,7 @@ a#edit-cancel:active,
   background-color: #1e1e1e;
 }
 
-/* line 110, ../sass/_ddbasic.buttons.scss */
+/* line 106, ../sass/_ddbasic.buttons.scss */
 .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
 .pane-bookmarks .renew-loan-button .renewable, .pane-loans .update-reservations .form-submit,
@@ -4267,7 +4267,7 @@ a#edit-cancel:active,
   background-color: #335900;
 }
 
-/* line 115, ../sass/_ddbasic.buttons.scss */
+/* line 111, ../sass/_ddbasic.buttons.scss */
 .ticket-info {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f6d346), color-stop(100%, #e4b90b));
   background-image: -webkit-linear-gradient(#f6d346, #e4b90b);
@@ -4292,7 +4292,7 @@ a#edit-cancel:active,
   background-color: #e4b90b;
 }
 
-/* line 120, ../sass/_ddbasic.buttons.scss */
+/* line 116, ../sass/_ddbasic.buttons.scss */
 .pane-loans .renew-loan-button .not-renewable,
 .pane-reservations .renew-loan-button .not-renewable,
 .pane-bookmarks .renew-loan-button .not-renewable, .pane-loans .delete-reservation .form-submit,
@@ -4359,7 +4359,7 @@ a#edit-cancel:active,
   background-color: #732000;
 }
 
-/* line 127, ../sass/_ddbasic.buttons.scss */
+/* line 123, ../sass/_ddbasic.buttons.scss */
 input[type=submit].button, input[type=submit].form-submit,
 input[type=submit]#edit-cancel,
 button.button,
@@ -4369,7 +4369,7 @@ button#edit-cancel {
 }
 
 @-moz-document url-prefix() {
-  /* line 138, ../sass/_ddbasic.buttons.scss */
+  /* line 134, ../sass/_ddbasic.buttons.scss */
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,
   input[type="button"]::-moz-focus-inner,
@@ -4476,7 +4476,7 @@ button#edit-cancel {
   background: #efefef;
 }
 
-/* line 24, ../sass/_ddbasic.labels.scss */
+/* line 20, ../sass/_ddbasic.labels.scss */
 .label, .label-inverted, .subjects .subject, .news-list .news-label {
   font-size: 13.6px;
   font-size: 0.85rem;
@@ -4492,46 +4492,46 @@ button#edit-cancel {
   vertical-align: baseline;
   white-space: nowrap;
 }
-/* line 41, ../sass/_ddbasic.labels.scss */
+/* line 37, ../sass/_ddbasic.labels.scss */
 .label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover {
   color: white;
   text-decoration: none;
 }
-/* line 49, ../sass/_ddbasic.labels.scss */
+/* line 45, ../sass/_ddbasic.labels.scss */
 .label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited {
   color: white;
 }
-/* line 53, ../sass/_ddbasic.labels.scss */
+/* line 49, ../sass/_ddbasic.labels.scss */
 .label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
 }
 
-/* line 65, ../sass/_ddbasic.labels.scss */
+/* line 57, ../sass/_ddbasic.labels.scss */
 .label-inverted {
   background-color: white;
   color: #00b7e7;
 }
-/* line 73, ../sass/_ddbasic.labels.scss */
+/* line 65, ../sass/_ddbasic.labels.scss */
 .label-inverted a:link {
   color: #00b7e7;
 }
-/* line 77, ../sass/_ddbasic.labels.scss */
+/* line 69, ../sass/_ddbasic.labels.scss */
 .label-inverted a:hover {
   color: #00b7e7;
 }
-/* line 83, ../sass/_ddbasic.labels.scss */
+/* line 75, ../sass/_ddbasic.labels.scss */
 .label-inverted:link {
   color: #00b7e7;
 }
-/* line 87, ../sass/_ddbasic.labels.scss */
+/* line 79, ../sass/_ddbasic.labels.scss */
 .label-inverted:hover {
   background-color: #e6e6e6;
   color: #00b7e7;
 }
 
-/* line 16, ../sass/_ddbasic.navigation.scss */
+/* line 10, ../sass/_ddbasic.navigation.scss */
 .topbar-menu {
   float: right;
   width: 66.66667%;
@@ -4551,11 +4551,11 @@ button#edit-cancel {
   margin-top: 45px;
   text-align: right;
 }
-/* line 22, ../sass/_ddbasic.navigation.scss */
+/* line 16, ../sass/_ddbasic.navigation.scss */
 .topbar-menu li {
   display: inline;
 }
-/* line 26, ../sass/_ddbasic.navigation.scss */
+/* line 20, ../sass/_ddbasic.navigation.scss */
 .topbar-menu .menu-item {
   font-size: 18px;
   font-size: 1.125rem;
@@ -4566,28 +4566,28 @@ button#edit-cancel {
   padding: 10px 15px;
   outline: 0;
 }
-/* line 37, ../sass/_ddbasic.navigation.scss */
+/* line 31, ../sass/_ddbasic.navigation.scss */
 .topbar-menu .menu-item:hover {
   background-color: black;
   color: white;
   text-decoration: none;
 }
-/* line 44, ../sass/_ddbasic.navigation.scss */
+/* line 38, ../sass/_ddbasic.navigation.scss */
 .topbar-menu .menu-item.active {
   color: white;
   text-decoration: none;
   background-color: #00caff;
 }
-/* line 51, ../sass/_ddbasic.navigation.scss */
+/* line 45, ../sass/_ddbasic.navigation.scss */
 .topbar-menu .menu-item.topbar-link-menu {
   display: none;
 }
-/* line 56, ../sass/_ddbasic.navigation.scss */
+/* line 50, ../sass/_ddbasic.navigation.scss */
 .topbar-menu i[class^="icon-"] {
   margin-right: 5px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 16, ../sass/_ddbasic.navigation.scss */
+  /* line 10, ../sass/_ddbasic.navigation.scss */
   .topbar-menu {
     float: right;
     width: 50%;
@@ -4607,21 +4607,21 @@ button#edit-cancel {
     margin-top: 0;
     padding: 0;
   }
-  /* line 66, ../sass/_ddbasic.navigation.scss */
+  /* line 60, ../sass/_ddbasic.navigation.scss */
   .topbar-menu i[class^="icon-"] {
     margin-right: 0;
   }
-  /* line 70, ../sass/_ddbasic.navigation.scss */
+  /* line 64, ../sass/_ddbasic.navigation.scss */
   .topbar-menu span {
     display: none;
   }
-  /* line 76, ../sass/_ddbasic.navigation.scss */
+  /* line 70, ../sass/_ddbasic.navigation.scss */
   .topbar-menu .menu-item.topbar-link-menu {
     display: inline-block;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 16, ../sass/_ddbasic.navigation.scss */
+  /* line 10, ../sass/_ddbasic.navigation.scss */
   .topbar-menu {
     float: right;
     width: 50%;
@@ -4641,52 +4641,52 @@ button#edit-cancel {
     margin-top: 0;
     padding: 0;
   }
-  /* line 66, ../sass/_ddbasic.navigation.scss */
+  /* line 60, ../sass/_ddbasic.navigation.scss */
   .topbar-menu i[class^="icon-"] {
     margin-right: 0;
   }
-  /* line 70, ../sass/_ddbasic.navigation.scss */
+  /* line 64, ../sass/_ddbasic.navigation.scss */
   .topbar-menu span {
     display: none;
   }
-  /* line 76, ../sass/_ddbasic.navigation.scss */
+  /* line 70, ../sass/_ddbasic.navigation.scss */
   .topbar-menu .menu-item.topbar-link-menu {
     display: inline-block;
   }
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 86, ../sass/_ddbasic.navigation.scss */
+  /* line 80, ../sass/_ddbasic.navigation.scss */
   .js-fixed .menu-item.active {
     background-color: transparent;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 86, ../sass/_ddbasic.navigation.scss */
+  /* line 80, ../sass/_ddbasic.navigation.scss */
   .js-fixed .menu-item.active {
     background-color: transparent;
   }
 }
 
-/* line 97, ../sass/_ddbasic.navigation.scss */
+/* line 91, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
   background-color: rgba(255, 255, 255, 0.95);
   display: block;
   width: 100%;
 }
-/* line 104, ../sass/_ddbasic.navigation.scss */
+/* line 98, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.js-topbar-toggled {
   display: block;
 }
 @media only screen and (max-width: 480px) {
-  /* line 109, ../sass/_ddbasic.navigation.scss */
+  /* line 103, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.js-fixed {
     position: relative;
     margin-top: 0;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 97, ../sass/_ddbasic.navigation.scss */
+  /* line 91, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -4701,7 +4701,7 @@ button#edit-cancel {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 97, ../sass/_ddbasic.navigation.scss */
+  /* line 91, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -4716,7 +4716,7 @@ button#edit-cancel {
   }
 }
 @media only screen and (max-height: 580px) and (max-width: 768px) {
-  /* line 97, ../sass/_ddbasic.navigation.scss */
+  /* line 91, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper {
     position: fixed;
     overflow: auto;
@@ -4728,7 +4728,7 @@ button#edit-cancel {
   }
 }
 
-/* line 141, ../sass/_ddbasic.navigation.scss */
+/* line 135, ../sass/_ddbasic.navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -4747,7 +4747,7 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 145, ../sass/_ddbasic.navigation.scss */
+/* line 139, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -4767,7 +4767,7 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 150, ../sass/_ddbasic.navigation.scss */
+  /* line 144, ../sass/_ddbasic.navigation.scss */
   .main-menu-wrapper,
   .secondary-menu-wrapper {
     float: left;
@@ -4789,7 +4789,7 @@ button#edit-cancel {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 150, ../sass/_ddbasic.navigation.scss */
+  /* line 144, ../sass/_ddbasic.navigation.scss */
   .main-menu-wrapper,
   .secondary-menu-wrapper {
     float: left;
@@ -4811,104 +4811,104 @@ button#edit-cancel {
   }
 }
 
-/* line 157, ../sass/_ddbasic.navigation.scss */
+/* line 151, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 20px;
   font-size: 1.25rem;
 }
 
-/* line 161, ../sass/_ddbasic.navigation.scss */
+/* line 155, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
   font-size: 16px;
   font-size: 1rem;
 }
-/* line 165, ../sass/_ddbasic.navigation.scss */
+/* line 159, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li {
   border-right: 1px solid #d5d5d5;
 }
-/* line 168, ../sass/_ddbasic.navigation.scss */
+/* line 162, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li .menu-item {
   margin-left: 15px;
 }
-/* line 173, ../sass/_ddbasic.navigation.scss */
+/* line 167, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.first .menu-item {
   margin-left: 0;
 }
-/* line 178, ../sass/_ddbasic.navigation.scss */
+/* line 172, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.last {
   border-right: 0;
 }
-/* line 181, ../sass/_ddbasic.navigation.scss */
+/* line 175, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.last .menu-item {
   margin-right: 0;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 189, ../sass/_ddbasic.navigation.scss */
+  /* line 183, ../sass/_ddbasic.navigation.scss */
   .secondary-menu li .menu-item {
     font-size: 80%;
     margin-left: 10px;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 161, ../sass/_ddbasic.navigation.scss */
+  /* line 155, ../sass/_ddbasic.navigation.scss */
   .secondary-menu {
     float: none;
   }
-  /* line 199, ../sass/_ddbasic.navigation.scss */
+  /* line 193, ../sass/_ddbasic.navigation.scss */
   .secondary-menu li {
     border-right: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 161, ../sass/_ddbasic.navigation.scss */
+  /* line 155, ../sass/_ddbasic.navigation.scss */
   .secondary-menu {
     float: none;
   }
-  /* line 199, ../sass/_ddbasic.navigation.scss */
+  /* line 193, ../sass/_ddbasic.navigation.scss */
   .secondary-menu li {
     border-right: 0;
   }
 }
 
-/* line 207, ../sass/_ddbasic.navigation.scss */
+/* line 201, ../sass/_ddbasic.navigation.scss */
 .main-menu,
 .secondary-menu,
 .system-user-menu {
   margin: 0;
   padding-left: 0;
 }
-/* line 211, ../sass/_ddbasic.navigation.scss */
+/* line 205, ../sass/_ddbasic.navigation.scss */
 .main-menu li,
 .secondary-menu li,
 .system-user-menu li {
   display: inline;
 }
-/* line 218, ../sass/_ddbasic.navigation.scss */
+/* line 212, ../sass/_ddbasic.navigation.scss */
 .main-menu li:before,
 .secondary-menu li:before,
 .system-user-menu li:before {
   display: none;
 }
-/* line 223, ../sass/_ddbasic.navigation.scss */
+/* line 217, ../sass/_ddbasic.navigation.scss */
 .main-menu li.first .menu-item,
 .secondary-menu li.first .menu-item,
 .system-user-menu li.first .menu-item {
   margin-left: 0;
 }
-/* line 228, ../sass/_ddbasic.navigation.scss */
+/* line 222, ../sass/_ddbasic.navigation.scss */
 .main-menu li.last,
 .secondary-menu li.last,
 .system-user-menu li.last {
   border-right: 0;
 }
-/* line 231, ../sass/_ddbasic.navigation.scss */
+/* line 225, ../sass/_ddbasic.navigation.scss */
 .main-menu li.last .menu-item,
 .secondary-menu li.last .menu-item,
 .system-user-menu li.last .menu-item {
   margin-right: 0;
 }
-/* line 237, ../sass/_ddbasic.navigation.scss */
+/* line 231, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item,
 .secondary-menu .menu-item,
 .system-user-menu .menu-item {
@@ -4916,20 +4916,20 @@ button#edit-cancel {
   display: inline-block;
   margin-right: 15px;
 }
-/* line 242, ../sass/_ddbasic.navigation.scss */
+/* line 236, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item:hover,
 .secondary-menu .menu-item:hover,
 .system-user-menu .menu-item:hover {
   color: black;
 }
-/* line 246, ../sass/_ddbasic.navigation.scss */
+/* line 240, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item.active,
 .secondary-menu .menu-item.active,
 .system-user-menu .menu-item.active {
   color: black;
   text-decoration: underline;
 }
-/* line 252, ../sass/_ddbasic.navigation.scss */
+/* line 246, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item,
 .secondary-menu .menu-item,
 .system-user-menu .menu-item {
@@ -4937,7 +4937,7 @@ button#edit-cancel {
   padding-bottom: 20px;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 258, ../sass/_ddbasic.navigation.scss */
+  /* line 252, ../sass/_ddbasic.navigation.scss */
   .main-menu .menu-item,
   .secondary-menu .menu-item,
   .system-user-menu .menu-item {
@@ -4948,21 +4948,21 @@ button#edit-cancel {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 207, ../sass/_ddbasic.navigation.scss */
+  /* line 201, ../sass/_ddbasic.navigation.scss */
   .main-menu,
   .secondary-menu,
   .system-user-menu {
     font-size: 16px;
     font-size: 1rem;
   }
-  /* line 269, ../sass/_ddbasic.navigation.scss */
+  /* line 263, ../sass/_ddbasic.navigation.scss */
   .main-menu li,
   .secondary-menu li,
   .system-user-menu li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     display: block;
   }
-  /* line 273, ../sass/_ddbasic.navigation.scss */
+  /* line 267, ../sass/_ddbasic.navigation.scss */
   .main-menu li:before,
   .secondary-menu li:before,
   .system-user-menu li:before {
@@ -4973,13 +4973,13 @@ button#edit-cancel {
     margin-top: 9px;
     margin-right: 5px;
   }
-  /* line 283, ../sass/_ddbasic.navigation.scss */
+  /* line 277, ../sass/_ddbasic.navigation.scss */
   .main-menu li.first .menu-item,
   .secondary-menu li.first .menu-item,
   .system-user-menu li.first .menu-item {
     margin-left: -12px;
   }
-  /* line 288, ../sass/_ddbasic.navigation.scss */
+  /* line 282, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item,
   .secondary-menu li .menu-item,
   .system-user-menu li .menu-item {
@@ -4991,7 +4991,7 @@ button#edit-cancel {
     padding-bottom: 10px;
     padding-left: 12px;
   }
-  /* line 297, ../sass/_ddbasic.navigation.scss */
+  /* line 291, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:hover,
   .secondary-menu li .menu-item:hover,
   .system-user-menu li .menu-item:hover {
@@ -5000,7 +5000,7 @@ button#edit-cancel {
     color: white;
     text-decoration: none;
   }
-  /* line 305, ../sass/_ddbasic.navigation.scss */
+  /* line 299, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:active, .main-menu li .menu-item:focus,
   .secondary-menu li .menu-item:active,
   .secondary-menu li .menu-item:focus,
@@ -5008,7 +5008,7 @@ button#edit-cancel {
   .system-user-menu li .menu-item:focus {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  /* line 309, ../sass/_ddbasic.navigation.scss */
+  /* line 303, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item.active,
   .secondary-menu li .menu-item.active,
   .system-user-menu li .menu-item.active {
@@ -5019,21 +5019,21 @@ button#edit-cancel {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 207, ../sass/_ddbasic.navigation.scss */
+  /* line 201, ../sass/_ddbasic.navigation.scss */
   .main-menu,
   .secondary-menu,
   .system-user-menu {
     font-size: 16px;
     font-size: 1rem;
   }
-  /* line 269, ../sass/_ddbasic.navigation.scss */
+  /* line 263, ../sass/_ddbasic.navigation.scss */
   .main-menu li,
   .secondary-menu li,
   .system-user-menu li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     display: block;
   }
-  /* line 273, ../sass/_ddbasic.navigation.scss */
+  /* line 267, ../sass/_ddbasic.navigation.scss */
   .main-menu li:before,
   .secondary-menu li:before,
   .system-user-menu li:before {
@@ -5044,13 +5044,13 @@ button#edit-cancel {
     margin-top: 9px;
     margin-right: 5px;
   }
-  /* line 283, ../sass/_ddbasic.navigation.scss */
+  /* line 277, ../sass/_ddbasic.navigation.scss */
   .main-menu li.first .menu-item,
   .secondary-menu li.first .menu-item,
   .system-user-menu li.first .menu-item {
     margin-left: -12px;
   }
-  /* line 288, ../sass/_ddbasic.navigation.scss */
+  /* line 282, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item,
   .secondary-menu li .menu-item,
   .system-user-menu li .menu-item {
@@ -5062,7 +5062,7 @@ button#edit-cancel {
     padding-bottom: 10px;
     padding-left: 12px;
   }
-  /* line 297, ../sass/_ddbasic.navigation.scss */
+  /* line 291, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:hover,
   .secondary-menu li .menu-item:hover,
   .system-user-menu li .menu-item:hover {
@@ -5071,7 +5071,7 @@ button#edit-cancel {
     color: white;
     text-decoration: none;
   }
-  /* line 305, ../sass/_ddbasic.navigation.scss */
+  /* line 299, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:active, .main-menu li .menu-item:focus,
   .secondary-menu li .menu-item:active,
   .secondary-menu li .menu-item:focus,
@@ -5079,7 +5079,7 @@ button#edit-cancel {
   .system-user-menu li .menu-item:focus {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  /* line 309, ../sass/_ddbasic.navigation.scss */
+  /* line 303, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item.active,
   .secondary-menu li .menu-item.active,
   .system-user-menu li .menu-item.active {
@@ -5090,49 +5090,49 @@ button#edit-cancel {
   }
 }
 
-/* line 322, ../sass/_ddbasic.navigation.scss */
+/* line 316, ../sass/_ddbasic.navigation.scss */
 .system-user-menu .last .menu-item {
   margin-right: 0;
 }
-/* line 326, ../sass/_ddbasic.navigation.scss */
+/* line 320, ../sass/_ddbasic.navigation.scss */
 .system-user-menu .menu-item {
   color: white;
   padding-top: 0;
   padding-bottom: 0;
 }
 @media only screen and (max-width: 480px) {
-  /* line 333, ../sass/_ddbasic.navigation.scss */
+  /* line 327, ../sass/_ddbasic.navigation.scss */
   .system-user-menu .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 333, ../sass/_ddbasic.navigation.scss */
+  /* line 327, ../sass/_ddbasic.navigation.scss */
   .system-user-menu .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 }
 
-/* line 345, ../sass/_ddbasic.navigation.scss */
+/* line 339, ../sass/_ddbasic.navigation.scss */
 .sub-menu-title, .library-menu h2 {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 351, ../sass/_ddbasic.navigation.scss */
+/* line 345, ../sass/_ddbasic.navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 354, ../sass/_ddbasic.navigation.scss */
+/* line 348, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 359, ../sass/_ddbasic.navigation.scss */
+/* line 353, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -5141,17 +5141,17 @@ button#edit-cancel {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 367, ../sass/_ddbasic.navigation.scss */
+/* line 361, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 372, ../sass/_ddbasic.navigation.scss */
+/* line 366, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 383, ../sass/_ddbasic.navigation.scss */
+/* line 377, ../sass/_ddbasic.navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -5161,23 +5161,23 @@ button#edit-cancel {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 395, ../sass/_ddbasic.navigation.scss */
+/* line 389, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 399, ../sass/_ddbasic.navigation.scss */
+/* line 393, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 16px;
 }
-/* line 408, ../sass/_ddbasic.navigation.scss */
+/* line 402, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
-/* line 420, ../sass/_ddbasic.navigation.scss */
+/* line 414, ../sass/_ddbasic.navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -5185,59 +5185,59 @@ button#edit-cancel {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 429, ../sass/_ddbasic.navigation.scss */
+/* line 423, ../sass/_ddbasic.navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: FontAwesome;
 }
-/* line 439, ../sass/_ddbasic.navigation.scss */
+/* line 433, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
   margin-bottom: 20px;
 }
-/* line 444, ../sass/_ddbasic.navigation.scss */
+/* line 438, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 450, ../sass/_ddbasic.navigation.scss */
+/* line 444, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: FontAwesome;
 }
-/* line 456, ../sass/_ddbasic.navigation.scss */
+/* line 450, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 460, ../sass/_ddbasic.navigation.scss */
+/* line 454, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 480px) {
-  /* line 468, ../sass/_ddbasic.navigation.scss */
+  /* line 462, ../sass/_ddbasic.navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 468, ../sass/_ddbasic.navigation.scss */
+  /* line 462, ../sass/_ddbasic.navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 
-/* line 478, ../sass/_ddbasic.navigation.scss */
+/* line 472, ../sass/_ddbasic.navigation.scss */
 .action-links {
   padding: 10px 20px;
 }
-/* line 481, ../sass/_ddbasic.navigation.scss */
+/* line 475, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 488, ../sass/_ddbasic.navigation.scss */
+/* line 482, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -5247,7 +5247,7 @@ button#edit-cancel {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 498, ../sass/_ddbasic.navigation.scss */
+/* line 492, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -5255,7 +5255,7 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 512, ../sass/_ddbasic.navigation.scss */
+  /* line 506, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.js-fixed {
     position: relative;
     margin-top: 0;
@@ -6091,7 +6091,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: #efefef;
 }
 
-/* line 30, ../sass/_ddbasic.carousel.scss */
+/* line 24, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-wrapper {
   *position: relative;
   *zoom: 1;
@@ -6106,7 +6106,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   clear: both;
 }
 
-/* line 34, ../sass/_ddbasic.carousel.scss */
+/* line 28, ../sass/_ddbasic.carousel.scss */
 .rs-carousel {
   float: left;
   width: 100%;
@@ -6125,7 +6125,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding: 0;
 }
-/* line 39, ../sass/_ddbasic.carousel.scss */
+/* line 33, ../sass/_ddbasic.carousel.scss */
 .rs-carousel .ajax-loader {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
@@ -6134,24 +6134,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding: 5px;
   top: 100px;
 }
-/* line 47, ../sass/_ddbasic.carousel.scss */
+/* line 41, ../sass/_ddbasic.carousel.scss */
 .rs-carousel .rs-carousel-items {
   background-color: transparent;
 }
 @media only screen and (max-width: 480px) {
-  /* line 34, ../sass/_ddbasic.carousel.scss */
+  /* line 28, ../sass/_ddbasic.carousel.scss */
   .rs-carousel {
     background-color: #d94110;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 34, ../sass/_ddbasic.carousel.scss */
+  /* line 28, ../sass/_ddbasic.carousel.scss */
   .rs-carousel {
     background-color: #d94110;
   }
 }
 
-/* line 56, ../sass/_ddbasic.carousel.scss */
+/* line 50, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-inner {
   background-color: white;
   min-height: 225px;
@@ -6161,7 +6161,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 20px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 56, ../sass/_ddbasic.carousel.scss */
+  /* line 50, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-inner {
     background-color: transparent;
     min-height: 150px;
@@ -6172,7 +6172,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 56, ../sass/_ddbasic.carousel.scss */
+  /* line 50, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-inner {
     background-color: transparent;
     min-height: 150px;
@@ -6183,43 +6183,43 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 79, ../sass/_ddbasic.carousel.scss */
+/* line 73, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-pagination {
   display: none;
 }
 
-/* line 85, ../sass/_ddbasic.carousel.scss */
+/* line 79, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-prev.rs-carousel-action-disabled,
 .rs-carousel-action-next.rs-carousel-action-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
   opacity: 0.5;
 }
 @media only screen and (max-width: 480px) {
-  /* line 84, ../sass/_ddbasic.carousel.scss */
+  /* line 78, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-action-prev,
   .rs-carousel-action-next {
     display: none;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 84, ../sass/_ddbasic.carousel.scss */
+  /* line 78, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-action-prev,
   .rs-carousel-action-next {
     display: none;
   }
 }
 
-/* line 94, ../sass/_ddbasic.carousel.scss */
+/* line 88, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-prev {
   left: 20px;
 }
 
-/* line 98, ../sass/_ddbasic.carousel.scss */
+/* line 92, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-action-next {
   right: 20px;
 }
 
-/* line 106, ../sass/_ddbasic.carousel.scss */
+/* line 100, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6233,51 +6233,51 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 106, ../sass/_ddbasic.carousel.scss */
+  /* line 100, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-title {
     font-size: 19.2px;
     font-size: 1.2rem;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 106, ../sass/_ddbasic.carousel.scss */
+  /* line 100, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-title {
     color: white;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 106, ../sass/_ddbasic.carousel.scss */
+  /* line 100, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-title {
     color: white;
   }
 }
 
-/* line 124, ../sass/_ddbasic.carousel.scss */
+/* line 118, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li {
   margin-right: 20px;
   position: relative;
   width: 200px;
 }
-/* line 129, ../sass/_ddbasic.carousel.scss */
+/* line 123, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 135, ../sass/_ddbasic.carousel.scss */
+/* line 129, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li:hover .rs-carousel-item-title {
   background-color: black;
   text-decoration: none;
 }
-/* line 141, ../sass/_ddbasic.carousel.scss */
+/* line 135, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li a {
   max-height: 250px;
   width: 200px;
 }
-/* line 145, ../sass/_ddbasic.carousel.scss */
+/* line 139, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li a:hover {
   text-decoration: none;
 }
-/* line 150, ../sass/_ddbasic.carousel.scss */
+/* line 144, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-mask li .rs-carousel-item-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6294,34 +6294,34 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: absolute;
 }
 @media only screen and (max-width: 480px) {
-  /* line 166, ../sass/_ddbasic.carousel.scss */
+  /* line 160, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-mask li {
     width: 100px;
   }
-  /* line 169, ../sass/_ddbasic.carousel.scss */
+  /* line 163, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-mask li a {
     max-height: 125px;
     width: 100px;
   }
-  /* line 174, ../sass/_ddbasic.carousel.scss */
+  /* line 168, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-mask li .rs-carousel-item-title {
     display: none;
   }
 }
 
-/* line 181, ../sass/_ddbasic.carousel.scss */
+/* line 175, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-runner {
   padding-left: 0;
 }
 
-/* line 191, ../sass/_ddbasic.carousel.scss */
+/* line 185, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 200, ../sass/_ddbasic.carousel.scss */
+/* line 194, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -6330,18 +6330,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-/* line 208, ../sass/_ddbasic.carousel.scss */
+/* line 202, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a:hover {
   background-color: black;
   text-decoration: none;
 }
-/* line 215, ../sass/_ddbasic.carousel.scss */
+/* line 209, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
-/* line 220, ../sass/_ddbasic.carousel.scss */
+/* line 214, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a:before {
   border: 10px solid transparent;
   content: "";
@@ -6353,16 +6353,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-left: -10px;
   left: 50%;
 }
-/* line 226, ../sass/_ddbasic.carousel.scss */
+/* line 220, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
   display: none;
 }
-/* line 232, ../sass/_ddbasic.carousel.scss */
+/* line 226, ../sass/_ddbasic.carousel.scss */
 .rs-carousel-tabs .rs-carousel-select-tabs {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 190, ../sass/_ddbasic.carousel.scss */
+  /* line 184, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -6372,16 +6372,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 243, ../sass/_ddbasic.carousel.scss */
+  /* line 237, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-list-tabs {
     display: none;
   }
-  /* line 247, ../sass/_ddbasic.carousel.scss */
+  /* line 241, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs {
     display: block;
     width: 100%;
   }
-  /* line 251, ../sass/_ddbasic.carousel.scss */
+  /* line 245, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6392,7 +6392,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 20px;
     text-align: left;
   }
-  /* line 260, ../sass/_ddbasic.carousel.scss */
+  /* line 254, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6410,17 +6410,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 277, ../sass/_ddbasic.carousel.scss */
+  /* line 271, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 281, ../sass/_ddbasic.carousel.scss */
+  /* line 275, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 190, ../sass/_ddbasic.carousel.scss */
+  /* line 184, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -6430,16 +6430,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 243, ../sass/_ddbasic.carousel.scss */
+  /* line 237, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-list-tabs {
     display: none;
   }
-  /* line 247, ../sass/_ddbasic.carousel.scss */
+  /* line 241, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs {
     display: block;
     width: 100%;
   }
-  /* line 251, ../sass/_ddbasic.carousel.scss */
+  /* line 245, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6450,7 +6450,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 20px;
     text-align: left;
   }
-  /* line 260, ../sass/_ddbasic.carousel.scss */
+  /* line 254, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6468,11 +6468,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 277, ../sass/_ddbasic.carousel.scss */
+  /* line 271, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 281, ../sass/_ddbasic.carousel.scss */
+  /* line 275, ../sass/_ddbasic.carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }
@@ -7887,57 +7887,57 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 1.25rem;
 }
 
-/* line 11, ../sass/_ddbasic.comment.scss */
+/* line 5, ../sass/_ddbasic.comment.scss */
 .comment-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
   padding-top: 20px;
 }
 
-/* line 17, ../sass/_ddbasic.comment.scss */
+/* line 11, ../sass/_ddbasic.comment.scss */
 .comment-title {
   margin-bottom: 20px;
 }
 
-/* line 30, ../sass/_ddbasic.comment.scss */
+/* line 24, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form .form-submit {
   float: left;
 }
-/* line 34, ../sass/_ddbasic.comment.scss */
+/* line 28, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form span {
   font-family: "SourceSansProLightItalic";
   line-height: 35px;
   margin-left: 5px;
 }
 
-/* line 41, ../sass/_ddbasic.comment.scss */
+/* line 35, ../sass/_ddbasic.comment.scss */
 .filter-guidelines {
   padding-top: 0;
   padding-left: 0;
 }
-/* line 45, ../sass/_ddbasic.comment.scss */
+/* line 39, ../sass/_ddbasic.comment.scss */
 .filter-guidelines .tips {
   margin-left: 0;
   padding-left: 0;
 }
 
-/* line 51, ../sass/_ddbasic.comment.scss */
+/* line 45, ../sass/_ddbasic.comment.scss */
 .filter-help {
   padding: 0;
 }
 
-/* line 55, ../sass/_ddbasic.comment.scss */
+/* line 49, ../sass/_ddbasic.comment.scss */
 .comment {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 60, ../sass/_ddbasic.comment.scss */
+/* line 54, ../sass/_ddbasic.comment.scss */
 .comment .new {
   float: right;
 }
 
-/* line 67, ../sass/_ddbasic.comment.scss */
+/* line 61, ../sass/_ddbasic.comment.scss */
 .ding-user-comment-forbidden-form {
   border-top: 1px solid #efefef;
   padding-top: 20px;

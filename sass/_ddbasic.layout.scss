@@ -12,21 +12,20 @@ $topbar-text-color:               #fff;
 
 
 // -----------------------------------------------------------------------------
-// Default styling
+// Don't show background in small and medium breakpoint
 // -----------------------------------------------------------------------------
 //
-
 #page.ding2-site-template {
   @include small-medium() {
     background-image: none !important;
   }
 }
 
+
 // -----------------------------------------------------------------------------
 // Site header, fixed position
 // -----------------------------------------------------------------------------
 //
-
 .site-header {
   @include large-x-large() {
     &.js-fixed {

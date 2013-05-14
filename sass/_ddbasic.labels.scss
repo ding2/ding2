@@ -17,10 +17,6 @@ $label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
 $label-padding:                   3px 10px;
 
 
-// -----------------------------------------------------------------------------
-// Default styling
-// -----------------------------------------------------------------------------
-//
 .label {
   @include rem('font-size', $theme-font-size * .85);
   @include rem('line-height', $theme-line-height * .85);
@@ -30,7 +26,7 @@ $label-padding:                   3px 10px;
 
   background-color: $label-bg-color;
   color: $label-text-color;
-  text-shadow: $label-shadow;  
+  text-shadow: $label-shadow;
   vertical-align: baseline;
   white-space: nowrap;
 
@@ -58,10 +54,6 @@ $label-padding:                   3px 10px;
 }
 
 
-// **
-// Variants
-// **
-//
 .label-inverted {
   @extend .label;
 
@@ -88,5 +80,4 @@ $label-padding:                   3px 10px;
     background-color: darken($label-bg-color-inverted, 10%);
     color: $label-text-color-inverted;
   }
-
 }
