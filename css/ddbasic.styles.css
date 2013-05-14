@@ -2539,6 +2539,17 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 /* line 186, ../sass/_ddbasic.layout.scss */
+.ding-layout-1 .layout-wrapper {
+  clear: left;
+  background-color: white;
+  margin-right: 10px;
+  margin-left: 10px;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/* line 198, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .secondary-content {
   float: left;
   width: 66.66667%;
@@ -2555,9 +2566,8 @@ ul.icons li [class*=" icon-"] {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  clear: left;
 }
-/* line 191, ../sass/_ddbasic.layout.scss */
+/* line 202, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -2576,7 +2586,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 480px) {
-  /* line 196, ../sass/_ddbasic.layout.scss */
+  /* line 207, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2594,7 +2604,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 200, ../sass/_ddbasic.layout.scss */
+  /* line 211, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2613,7 +2623,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 205, ../sass/_ddbasic.layout.scss */
+  /* line 216, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -2875,7 +2885,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 196, ../sass/_ddbasic.layout.scss */
+  /* line 207, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2893,7 +2903,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 200, ../sass/_ddbasic.layout.scss */
+  /* line 211, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2912,7 +2922,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 205, ../sass/_ddbasic.layout.scss */
+  /* line 216, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -3174,7 +3184,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 228, ../sass/_ddbasic.layout.scss */
+/* line 239, ../sass/_ddbasic.layout.scss */
 .footer {
   background-color: #262626;
   padding-top: 30px;
@@ -3251,7 +3261,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 234, ../sass/_ddbasic.layout.scss */
+/* line 245, ../sass/_ddbasic.layout.scss */
 .footer .pane-title {
   font-size: 18px;
   font-size: 1.125rem;
@@ -3339,12 +3349,12 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 247, ../sass/_ddbasic.layout.scss */
+/* line 258, ../sass/_ddbasic.layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 254, ../sass/_ddbasic.layout.scss */
+/* line 265, ../sass/_ddbasic.layout.scss */
 .footer-block .block-title, .footer-block .pane-title,
 .footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
@@ -3354,7 +3364,7 @@ ul.icons li [class*=" icon-"] {
   color: white;
 }
 
-/* line 259, ../sass/_ddbasic.layout.scss */
+/* line 270, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: #191919;
   color: white;

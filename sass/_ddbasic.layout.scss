@@ -183,9 +183,20 @@ $topbar-text-color:               #fff;
     @include zen-grid-item(12, 1);
   }
 
+  .layout-wrapper {
+    @include zen-clear(left);
+
+    background-color: $white;
+    margin-right: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
   .secondary-content {
     @include zen-grid-item(8, 1);
-    @include zen-clear(left);
   }
 
   .tertiary-content {
