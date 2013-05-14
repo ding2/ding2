@@ -2512,7 +2512,81 @@ ul.icons li [class*=" icon-"] {
   margin-top: 20px;
 }
 
-/* line 176, ../sass/_ddbasic.layout.scss */
+/* line 174, ../sass/_ddbasic.layout.scss */
+.ding-default-layout .layout-wrapper {
+  clear: left;
+  background-color: white;
+  margin-right: 10px;
+  margin-left: 10px;
+  overflow: hidden;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/* line 188, ../sass/_ddbasic.layout.scss */
+.ding-default-layout .primary-content,
+.ding-default-layout .secondary-content,
+.ding-default-layout .tertiary-content {
+  margin-bottom: 20px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/* line 194, ../sass/_ddbasic.layout.scss */
+.ding-default-layout .primary-content {
+  float: right;
+  width: 75%;
+  margin-right: 0%;
+  margin-left: -75%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 198, ../sass/_ddbasic.layout.scss */
+.ding-default-layout .secondary-content {
+  float: left;
+  width: 25%;
+  margin-left: 0%;
+  margin-right: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 202, ../sass/_ddbasic.layout.scss */
+.ding-default-layout .tertiary-content {
+  float: right;
+  width: 33.33333%;
+  margin-right: 0%;
+  margin-left: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+
+/* line 211, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .primary-content,
 .ding-layout-1 .secondary-content,
 .ding-layout-1 .tertiary-content {
@@ -2520,7 +2594,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 182, ../sass/_ddbasic.layout.scss */
+/* line 217, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .primary-content {
   float: left;
   width: 100%;
@@ -2538,7 +2612,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 186, ../sass/_ddbasic.layout.scss */
+/* line 221, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .layout-wrapper {
   clear: left;
   background-color: white;
@@ -2549,7 +2623,7 @@ ul.icons li [class*=" icon-"] {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 198, ../sass/_ddbasic.layout.scss */
+/* line 233, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .secondary-content {
   float: left;
   width: 66.66667%;
@@ -2567,7 +2641,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 202, ../sass/_ddbasic.layout.scss */
+/* line 237, ../sass/_ddbasic.layout.scss */
 .ding-layout-1 .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -2586,7 +2660,7 @@ ul.icons li [class*=" icon-"] {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 480px) {
-  /* line 207, ../sass/_ddbasic.layout.scss */
+  /* line 242, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2604,7 +2678,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 211, ../sass/_ddbasic.layout.scss */
+  /* line 246, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2623,7 +2697,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 216, ../sass/_ddbasic.layout.scss */
+  /* line 251, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -2885,7 +2959,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 207, ../sass/_ddbasic.layout.scss */
+  /* line 242, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .primary-content {
     float: left;
     width: 100%;
@@ -2903,7 +2977,7 @@ ul.icons li [class*=" icon-"] {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 211, ../sass/_ddbasic.layout.scss */
+  /* line 246, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .secondary-content {
     float: left;
     width: 100%;
@@ -2922,7 +2996,7 @@ ul.icons li [class*=" icon-"] {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 216, ../sass/_ddbasic.layout.scss */
+  /* line 251, ../sass/_ddbasic.layout.scss */
   .ding-layout-1 .tertiary-content {
     float: left;
     width: 100%;
@@ -3184,7 +3258,7 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 239, ../sass/_ddbasic.layout.scss */
+/* line 274, ../sass/_ddbasic.layout.scss */
 .footer {
   background-color: #262626;
   padding-top: 30px;
@@ -3261,7 +3335,7 @@ ul.icons li [class*=" icon-"] {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 245, ../sass/_ddbasic.layout.scss */
+/* line 280, ../sass/_ddbasic.layout.scss */
 .footer .pane-title {
   font-size: 18px;
   font-size: 1.125rem;
@@ -3349,12 +3423,12 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 258, ../sass/_ddbasic.layout.scss */
+/* line 293, ../sass/_ddbasic.layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 265, ../sass/_ddbasic.layout.scss */
+/* line 300, ../sass/_ddbasic.layout.scss */
 .footer-block .block-title, .footer-block .pane-title,
 .footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
@@ -3364,7 +3438,7 @@ ul.icons li [class*=" icon-"] {
   color: white;
 }
 
-/* line 270, ../sass/_ddbasic.layout.scss */
+/* line 305, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
