@@ -799,7 +799,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 353, ../sass/_ddbasic.font.awesome.scss */
-.icon-chevron-right:before, .footer .pane-title.js-toggled:before, .footer .menu li:before {
+.icon-chevron-right:before, .footer .pane-title.js-toggled:before {
   content: "\f054";
 }
 
@@ -1571,7 +1571,7 @@ ul.icons li [class*=" icon-"] {
 /* line 518, ../sass/_ddbasic.font.awesome.scss */
 .icon-angle-right:before, .main-menu li:before,
 .secondary-menu li:before,
-.system-user-menu li:before, .sub-menu li:before, .library-menu .links li:before {
+.system-user-menu li:before, .sub-menu li:before, .library-menu .links li:before, .footer .menu li:before {
   content: "\f105";
 }
 
@@ -3227,6 +3227,7 @@ ul.icons li [class*=" icon-"] {
 /* line 235, ../sass/_ddbasic.layout.scss */
 .footer {
   background-color: #262626;
+  padding-top: 30px;
 }
 /* line 34, ../sass/_ddbasic.mq.attachments.scss */
 .footer .attachment-first {
@@ -3299,6 +3300,11 @@ ul.icons li [class*=" icon-"] {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+}
+/* line 241, ../sass/_ddbasic.layout.scss */
+.footer .pane-title {
+  font-size: 18px;
+  font-size: 1.125rem;
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   /* line 129, ../sass/_ddbasic.mq.attachments.scss */
@@ -3383,7 +3389,22 @@ ul.icons li [class*=" icon-"] {
   }
 }
 
-/* line 249, ../sass/_ddbasic.layout.scss */
+/* line 254, ../sass/_ddbasic.layout.scss */
+.footer-block {
+  background-color: transparent;
+  color: white;
+}
+/* line 261, ../sass/_ddbasic.layout.scss */
+.footer-block .block-title, .footer-block .pane-title,
+.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
+.footer-block .pane-reservations h2,
+.pane-reservations .footer-block h2,
+.footer-block .pane-bookmarks h2,
+.pane-bookmarks .footer-block h2 {
+  color: white;
+}
+
+/* line 266, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -3393,7 +3414,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 23, ../sass/_ddbasic.extends.scss */
-.news-list {
+.footer .menu, .news-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -5065,8 +5086,6 @@ button#edit-cancel {
 }
 /* line 391, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
-  margin: 0;
-  padding: 0;
   margin-bottom: 20px;
 }
 /* line 396, ../sass/_ddbasic.navigation.scss */
@@ -5149,27 +5168,7 @@ button#edit-cancel {
   display: none;
 }
 
-/* line 31, ../sass/_ddbasic.miscellaneous.scss */
-.footer {
-  padding-top: 30px;
-}
-
-/* line 35, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block {
-  background-color: transparent;
-  color: white;
-}
-/* line 42, ../sass/_ddbasic.miscellaneous.scss */
-.footer-block .block-title, .footer-block .pane-title,
-.footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
-.footer-block .pane-reservations h2,
-.pane-reservations .footer-block h2,
-.footer-block .pane-bookmarks h2,
-.pane-bookmarks .footer-block h2 {
-  color: white;
-}
-
-/* line 48, ../sass/_ddbasic.miscellaneous.scss */
+/* line 30, ../sass/_ddbasic.miscellaneous.scss */
 .assistive-text {
   clip: rect(1px 1px 1px 1px);
   /* IE6, IE7 */
@@ -5177,7 +5176,7 @@ button#edit-cancel {
   position: absolute !important;
 }
 
-/* line 59, ../sass/_ddbasic.miscellaneous.scss */
+/* line 41, ../sass/_ddbasic.miscellaneous.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -5185,13 +5184,13 @@ button#edit-cancel {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 68, ../sass/_ddbasic.miscellaneous.scss */
+/* line 50, ../sass/_ddbasic.miscellaneous.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 75, ../sass/_ddbasic.miscellaneous.scss */
+/* line 57, ../sass/_ddbasic.miscellaneous.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
@@ -6746,7 +6745,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 /* line 17, ../sass/_ddbasic.refactor.scss */
-.news-list {
+.footer .menu, .news-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
