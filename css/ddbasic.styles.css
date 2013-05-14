@@ -3508,7 +3508,7 @@ body {
 }
 @media only screen and (max-height: 580px) and (max-width: 768px) {
   /* line 18, ../sass/_ddbasic.elements.scss */
-  body.js-fixed {
+  body.js-fixed-body {
     bottom: 0;
     left: 0;
     position: fixed;
@@ -4655,18 +4655,38 @@ button#edit-cancel {
   }
 }
 
-/* line 87, ../sass/_ddbasic.navigation.scss */
+@media only screen and (max-width: 480px) {
+  /* line 86, ../sass/_ddbasic.navigation.scss */
+  .js-fixed .menu-item.active {
+    background-color: transparent;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 86, ../sass/_ddbasic.navigation.scss */
+  .js-fixed .menu-item.active {
+    background-color: transparent;
+  }
+}
+
+/* line 97, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper {
   background-color: rgba(255, 255, 255, 0.95);
   display: block;
   width: 100%;
 }
-/* line 94, ../sass/_ddbasic.navigation.scss */
+/* line 104, ../sass/_ddbasic.navigation.scss */
 .navigation-wrapper.js-topbar-toggled {
   display: block;
 }
 @media only screen and (max-width: 480px) {
-  /* line 87, ../sass/_ddbasic.navigation.scss */
+  /* line 109, ../sass/_ddbasic.navigation.scss */
+  .navigation-wrapper.js-fixed {
+    position: relative;
+    margin-top: 0;
+  }
+}
+@media only screen and (max-width: 480px) {
+  /* line 97, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -4681,7 +4701,7 @@ button#edit-cancel {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 87, ../sass/_ddbasic.navigation.scss */
+  /* line 97, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -4696,7 +4716,7 @@ button#edit-cancel {
   }
 }
 @media only screen and (max-height: 580px) and (max-width: 768px) {
-  /* line 87, ../sass/_ddbasic.navigation.scss */
+  /* line 97, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper {
     position: fixed;
     overflow: auto;
@@ -4708,7 +4728,7 @@ button#edit-cancel {
   }
 }
 
-/* line 124, ../sass/_ddbasic.navigation.scss */
+/* line 141, ../sass/_ddbasic.navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -4727,7 +4747,7 @@ button#edit-cancel {
   _overflow-y: visible;
 }
 
-/* line 128, ../sass/_ddbasic.navigation.scss */
+/* line 145, ../sass/_ddbasic.navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -4747,7 +4767,7 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 133, ../sass/_ddbasic.navigation.scss */
+  /* line 150, ../sass/_ddbasic.navigation.scss */
   .main-menu-wrapper,
   .secondary-menu-wrapper {
     float: left;
@@ -4769,7 +4789,7 @@ button#edit-cancel {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 133, ../sass/_ddbasic.navigation.scss */
+  /* line 150, ../sass/_ddbasic.navigation.scss */
   .main-menu-wrapper,
   .secondary-menu-wrapper {
     float: left;
@@ -4791,104 +4811,104 @@ button#edit-cancel {
   }
 }
 
-/* line 140, ../sass/_ddbasic.navigation.scss */
+/* line 157, ../sass/_ddbasic.navigation.scss */
 .main-menu {
   font-size: 20px;
   font-size: 1.25rem;
 }
 
-/* line 144, ../sass/_ddbasic.navigation.scss */
+/* line 161, ../sass/_ddbasic.navigation.scss */
 .secondary-menu {
   float: right;
   font-size: 16px;
   font-size: 1rem;
 }
-/* line 148, ../sass/_ddbasic.navigation.scss */
+/* line 165, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li {
   border-right: 1px solid #d5d5d5;
 }
-/* line 151, ../sass/_ddbasic.navigation.scss */
+/* line 168, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li .menu-item {
   margin-left: 15px;
 }
-/* line 156, ../sass/_ddbasic.navigation.scss */
+/* line 173, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.first .menu-item {
   margin-left: 0;
 }
-/* line 161, ../sass/_ddbasic.navigation.scss */
+/* line 178, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.last {
   border-right: 0;
 }
-/* line 164, ../sass/_ddbasic.navigation.scss */
+/* line 181, ../sass/_ddbasic.navigation.scss */
 .secondary-menu li.last .menu-item {
   margin-right: 0;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 172, ../sass/_ddbasic.navigation.scss */
+  /* line 189, ../sass/_ddbasic.navigation.scss */
   .secondary-menu li .menu-item {
     font-size: 80%;
     margin-left: 10px;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 144, ../sass/_ddbasic.navigation.scss */
+  /* line 161, ../sass/_ddbasic.navigation.scss */
   .secondary-menu {
     float: none;
   }
-  /* line 182, ../sass/_ddbasic.navigation.scss */
+  /* line 199, ../sass/_ddbasic.navigation.scss */
   .secondary-menu li {
     border-right: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 144, ../sass/_ddbasic.navigation.scss */
+  /* line 161, ../sass/_ddbasic.navigation.scss */
   .secondary-menu {
     float: none;
   }
-  /* line 182, ../sass/_ddbasic.navigation.scss */
+  /* line 199, ../sass/_ddbasic.navigation.scss */
   .secondary-menu li {
     border-right: 0;
   }
 }
 
-/* line 190, ../sass/_ddbasic.navigation.scss */
+/* line 207, ../sass/_ddbasic.navigation.scss */
 .main-menu,
 .secondary-menu,
 .system-user-menu {
   margin: 0;
   padding-left: 0;
 }
-/* line 194, ../sass/_ddbasic.navigation.scss */
+/* line 211, ../sass/_ddbasic.navigation.scss */
 .main-menu li,
 .secondary-menu li,
 .system-user-menu li {
   display: inline;
 }
-/* line 201, ../sass/_ddbasic.navigation.scss */
+/* line 218, ../sass/_ddbasic.navigation.scss */
 .main-menu li:before,
 .secondary-menu li:before,
 .system-user-menu li:before {
   display: none;
 }
-/* line 206, ../sass/_ddbasic.navigation.scss */
+/* line 223, ../sass/_ddbasic.navigation.scss */
 .main-menu li.first .menu-item,
 .secondary-menu li.first .menu-item,
 .system-user-menu li.first .menu-item {
   margin-left: 0;
 }
-/* line 211, ../sass/_ddbasic.navigation.scss */
+/* line 228, ../sass/_ddbasic.navigation.scss */
 .main-menu li.last,
 .secondary-menu li.last,
 .system-user-menu li.last {
   border-right: 0;
 }
-/* line 214, ../sass/_ddbasic.navigation.scss */
+/* line 231, ../sass/_ddbasic.navigation.scss */
 .main-menu li.last .menu-item,
 .secondary-menu li.last .menu-item,
 .system-user-menu li.last .menu-item {
   margin-right: 0;
 }
-/* line 220, ../sass/_ddbasic.navigation.scss */
+/* line 237, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item,
 .secondary-menu .menu-item,
 .system-user-menu .menu-item {
@@ -4896,20 +4916,20 @@ button#edit-cancel {
   display: inline-block;
   margin-right: 15px;
 }
-/* line 225, ../sass/_ddbasic.navigation.scss */
+/* line 242, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item:hover,
 .secondary-menu .menu-item:hover,
 .system-user-menu .menu-item:hover {
   color: black;
 }
-/* line 229, ../sass/_ddbasic.navigation.scss */
+/* line 246, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item.active,
 .secondary-menu .menu-item.active,
 .system-user-menu .menu-item.active {
   color: black;
   text-decoration: underline;
 }
-/* line 235, ../sass/_ddbasic.navigation.scss */
+/* line 252, ../sass/_ddbasic.navigation.scss */
 .main-menu .menu-item,
 .secondary-menu .menu-item,
 .system-user-menu .menu-item {
@@ -4917,7 +4937,7 @@ button#edit-cancel {
   padding-bottom: 20px;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 241, ../sass/_ddbasic.navigation.scss */
+  /* line 258, ../sass/_ddbasic.navigation.scss */
   .main-menu .menu-item,
   .secondary-menu .menu-item,
   .system-user-menu .menu-item {
@@ -4928,21 +4948,21 @@ button#edit-cancel {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 190, ../sass/_ddbasic.navigation.scss */
+  /* line 207, ../sass/_ddbasic.navigation.scss */
   .main-menu,
   .secondary-menu,
   .system-user-menu {
     font-size: 16px;
     font-size: 1rem;
   }
-  /* line 252, ../sass/_ddbasic.navigation.scss */
+  /* line 269, ../sass/_ddbasic.navigation.scss */
   .main-menu li,
   .secondary-menu li,
   .system-user-menu li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     display: block;
   }
-  /* line 256, ../sass/_ddbasic.navigation.scss */
+  /* line 273, ../sass/_ddbasic.navigation.scss */
   .main-menu li:before,
   .secondary-menu li:before,
   .system-user-menu li:before {
@@ -4953,7 +4973,13 @@ button#edit-cancel {
     margin-top: 9px;
     margin-right: 5px;
   }
-  /* line 265, ../sass/_ddbasic.navigation.scss */
+  /* line 283, ../sass/_ddbasic.navigation.scss */
+  .main-menu li.first .menu-item,
+  .secondary-menu li.first .menu-item,
+  .system-user-menu li.first .menu-item {
+    margin-left: -12px;
+  }
+  /* line 288, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item,
   .secondary-menu li .menu-item,
   .system-user-menu li .menu-item {
@@ -4965,7 +4991,7 @@ button#edit-cancel {
     padding-bottom: 10px;
     padding-left: 12px;
   }
-  /* line 274, ../sass/_ddbasic.navigation.scss */
+  /* line 297, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:hover,
   .secondary-menu li .menu-item:hover,
   .system-user-menu li .menu-item:hover {
@@ -4974,7 +5000,7 @@ button#edit-cancel {
     color: white;
     text-decoration: none;
   }
-  /* line 282, ../sass/_ddbasic.navigation.scss */
+  /* line 305, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:active, .main-menu li .menu-item:focus,
   .secondary-menu li .menu-item:active,
   .secondary-menu li .menu-item:focus,
@@ -4982,7 +5008,7 @@ button#edit-cancel {
   .system-user-menu li .menu-item:focus {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  /* line 286, ../sass/_ddbasic.navigation.scss */
+  /* line 309, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item.active,
   .secondary-menu li .menu-item.active,
   .system-user-menu li .menu-item.active {
@@ -4993,21 +5019,21 @@ button#edit-cancel {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 190, ../sass/_ddbasic.navigation.scss */
+  /* line 207, ../sass/_ddbasic.navigation.scss */
   .main-menu,
   .secondary-menu,
   .system-user-menu {
     font-size: 16px;
     font-size: 1rem;
   }
-  /* line 252, ../sass/_ddbasic.navigation.scss */
+  /* line 269, ../sass/_ddbasic.navigation.scss */
   .main-menu li,
   .secondary-menu li,
   .system-user-menu li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     display: block;
   }
-  /* line 256, ../sass/_ddbasic.navigation.scss */
+  /* line 273, ../sass/_ddbasic.navigation.scss */
   .main-menu li:before,
   .secondary-menu li:before,
   .system-user-menu li:before {
@@ -5018,7 +5044,13 @@ button#edit-cancel {
     margin-top: 9px;
     margin-right: 5px;
   }
-  /* line 265, ../sass/_ddbasic.navigation.scss */
+  /* line 283, ../sass/_ddbasic.navigation.scss */
+  .main-menu li.first .menu-item,
+  .secondary-menu li.first .menu-item,
+  .system-user-menu li.first .menu-item {
+    margin-left: -12px;
+  }
+  /* line 288, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item,
   .secondary-menu li .menu-item,
   .system-user-menu li .menu-item {
@@ -5030,7 +5062,7 @@ button#edit-cancel {
     padding-bottom: 10px;
     padding-left: 12px;
   }
-  /* line 274, ../sass/_ddbasic.navigation.scss */
+  /* line 297, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:hover,
   .secondary-menu li .menu-item:hover,
   .system-user-menu li .menu-item:hover {
@@ -5039,7 +5071,7 @@ button#edit-cancel {
     color: white;
     text-decoration: none;
   }
-  /* line 282, ../sass/_ddbasic.navigation.scss */
+  /* line 305, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item:active, .main-menu li .menu-item:focus,
   .secondary-menu li .menu-item:active,
   .secondary-menu li .menu-item:focus,
@@ -5047,7 +5079,7 @@ button#edit-cancel {
   .system-user-menu li .menu-item:focus {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  /* line 286, ../sass/_ddbasic.navigation.scss */
+  /* line 309, ../sass/_ddbasic.navigation.scss */
   .main-menu li .menu-item.active,
   .secondary-menu li .menu-item.active,
   .system-user-menu li .menu-item.active {
@@ -5058,49 +5090,49 @@ button#edit-cancel {
   }
 }
 
-/* line 299, ../sass/_ddbasic.navigation.scss */
+/* line 322, ../sass/_ddbasic.navigation.scss */
 .system-user-menu .last .menu-item {
   margin-right: 0;
 }
-/* line 303, ../sass/_ddbasic.navigation.scss */
+/* line 326, ../sass/_ddbasic.navigation.scss */
 .system-user-menu .menu-item {
   color: white;
   padding-top: 0;
   padding-bottom: 0;
 }
 @media only screen and (max-width: 480px) {
-  /* line 310, ../sass/_ddbasic.navigation.scss */
+  /* line 333, ../sass/_ddbasic.navigation.scss */
   .system-user-menu .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 310, ../sass/_ddbasic.navigation.scss */
+  /* line 333, ../sass/_ddbasic.navigation.scss */
   .system-user-menu .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 }
 
-/* line 322, ../sass/_ddbasic.navigation.scss */
+/* line 345, ../sass/_ddbasic.navigation.scss */
 .sub-menu-title, .library-menu h2 {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 328, ../sass/_ddbasic.navigation.scss */
+/* line 351, ../sass/_ddbasic.navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 331, ../sass/_ddbasic.navigation.scss */
+/* line 354, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 336, ../sass/_ddbasic.navigation.scss */
+/* line 359, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -5109,17 +5141,17 @@ button#edit-cancel {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 344, ../sass/_ddbasic.navigation.scss */
+/* line 367, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 349, ../sass/_ddbasic.navigation.scss */
+/* line 372, ../sass/_ddbasic.navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 360, ../sass/_ddbasic.navigation.scss */
+/* line 383, ../sass/_ddbasic.navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -5129,23 +5161,23 @@ button#edit-cancel {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 372, ../sass/_ddbasic.navigation.scss */
+/* line 395, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 376, ../sass/_ddbasic.navigation.scss */
+/* line 399, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 16px;
 }
-/* line 385, ../sass/_ddbasic.navigation.scss */
+/* line 408, ../sass/_ddbasic.navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
-/* line 397, ../sass/_ddbasic.navigation.scss */
+/* line 420, ../sass/_ddbasic.navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -5153,59 +5185,59 @@ button#edit-cancel {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 406, ../sass/_ddbasic.navigation.scss */
+/* line 429, ../sass/_ddbasic.navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: FontAwesome;
 }
-/* line 416, ../sass/_ddbasic.navigation.scss */
+/* line 439, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
   margin-bottom: 20px;
 }
-/* line 421, ../sass/_ddbasic.navigation.scss */
+/* line 444, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 427, ../sass/_ddbasic.navigation.scss */
+/* line 450, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: FontAwesome;
 }
-/* line 433, ../sass/_ddbasic.navigation.scss */
+/* line 456, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 437, ../sass/_ddbasic.navigation.scss */
+/* line 460, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 480px) {
-  /* line 445, ../sass/_ddbasic.navigation.scss */
+  /* line 468, ../sass/_ddbasic.navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 445, ../sass/_ddbasic.navigation.scss */
+  /* line 468, ../sass/_ddbasic.navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 
-/* line 455, ../sass/_ddbasic.navigation.scss */
+/* line 478, ../sass/_ddbasic.navigation.scss */
 .action-links {
   padding: 10px 20px;
 }
-/* line 458, ../sass/_ddbasic.navigation.scss */
+/* line 481, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 465, ../sass/_ddbasic.navigation.scss */
+/* line 488, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -5215,7 +5247,7 @@ button#edit-cancel {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 475, ../sass/_ddbasic.navigation.scss */
+/* line 498, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -5223,7 +5255,7 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 489, ../sass/_ddbasic.navigation.scss */
+  /* line 512, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.js-fixed {
     position: relative;
     margin-top: 0;
