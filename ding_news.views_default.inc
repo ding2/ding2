@@ -23,7 +23,6 @@ function ding_news_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['css_class'] = 'news-list';
-  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Læs mere';
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -373,6 +372,15 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_node_1']['element_default_classes'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
 
   /* Display: Library news list */
   $handler = $view->new_display('panel_pane', 'Library news list', 'ding_news_library_list');
@@ -1023,15 +1031,12 @@ function ding_news_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['path'] = 'news/feed';
   $handler->display->display_options['displays'] = array(
-    'default' => 'default',
-    'ding_news_frontpage_list' => 'ding_news_frontpage_list',
-    'ding_news_default_list' => 0,
-    'panel_pane_1' => 0,
-    'ding_news_full_list_panel_pane' => 0,
-    'ding_news_library_teaser_list' => 0,
+    'default' => 0,
+    'ding_news_frontpage_list' => 0,
+    'ding_news_library_list' => 0,
+    'ding_news_list' => 0,
+    'ding_news_list_library' => 0,
     'panel_pane_2' => 0,
-    'panel_pane_3' => 0,
-    'panel_pane_5' => 0,
   );
   $handler->display->display_options['sitename_title'] = 1;
 
