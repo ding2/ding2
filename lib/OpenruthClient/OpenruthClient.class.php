@@ -44,10 +44,19 @@ class OpenruthClient {
       'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
       'exceptions' => TRUE,
     );
+
+    // Enable logging.
     if (variable_get('openruth_enable_logging', FALSE)) {
       $this->logging = TRUE;
       $options['trace'] = TRUE;
     }
+
+    // User proxy.
+    if ($proxy = variable_get('openruht_proxy', FALSE)) {
+      $options['proxy_host'] = $proxy['host'];
+      $options['proxy_port'] = $proxy['port'];
+    }
+
     $this->client = new SoapClient($this->wsdl_url, $options);
     self::$salt = rand();
   }
