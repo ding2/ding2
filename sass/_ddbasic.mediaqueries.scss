@@ -42,6 +42,10 @@ $breakpoint-x-large:  1210px;
 		@media only screen and (min-width: $breakpoint-x-large + 1) { @content; }
 	}
 
+  @else if $media == large-x-large {
+    @media only screen and (min-width: $breakpoint-medium + 1) { @content; }
+  }
+
 }
 
 
@@ -75,6 +79,5 @@ $breakpoint-x-large:  1210px;
 }
 
 @mixin large-x-large {
-  @include respond-to(large) { @content; }
-  @include respond-to(x-large) { @content; }
+  @include respond-to(large-x-large) { @content; }
 }
