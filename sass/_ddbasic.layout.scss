@@ -170,6 +170,41 @@ $topbar-text-color:               #fff;
 }
 
 
+.ding-default-layout {
+  .layout-wrapper {
+    @include zen-clear(left);
+
+    background-color: $white;
+    margin-right: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .primary-content,
+  .secondary-content,
+  .tertiary-content {
+    margin-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .primary-content {
+    @include zen-grid-item(9, 1, right);
+  }
+
+  .secondary-content {
+    @include zen-grid-item(3, 1);
+  }
+
+  .tertiary-content {
+    @include zen-grid-item(4, 1, right);
+  }
+}
+
+
 .ding-layout-1 {
   .primary-content,
   .secondary-content,
