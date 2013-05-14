@@ -102,7 +102,7 @@
         });
 
         // Add a class to body to determine if body should be fixed.
-        $('body').removeClass('js-fixed');
+        $('body').removeClass('js-fixed-body');
       }
       else {
         // Make sure hardcoded style is removed
@@ -111,7 +111,7 @@
         ddbasic_topbar_link.removeClass('active');
         clicked.addClass('active');
 
-        $('body').addClass('js-fixed');
+        $('body').addClass('js-fixed-body');
       }
 
       // Prevent default (href).
