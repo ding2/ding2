@@ -3447,54 +3447,54 @@ ul.icons li [class*=" icon-"] {
   text-align: center;
 }
 
-/* line 17, ../sass/_ddbasic.extends.scss */
+/* line 11, ../sass/_ddbasic.extends.scss */
 .footer .menu, .news-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 59, ../sass/_ddbasic.extends.scss */
+/* line 53, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
   color: #fff;
   padding: 5px 13.33333px;
 }
-/* line 63, ../sass/_ddbasic.extends.scss */
+/* line 57, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-ting-object .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-ting-object .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-ting-object .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-ting-object .field-name-ting-type li.availability.reservable a, .comment .new a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a, .pane-ting-object .field-name-ting-type li.availability.available.reservable a, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a {
   color: #fff;
   display: block;
 }
-/* line 67, ../sass/_ddbasic.extends.scss */
+/* line 61, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-ting-object .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-ting-object .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-ting-object .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.reservable a:hover, .comment .new a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.available.reservable a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a:hover {
   text-decoration: none;
 }
 
-/* line 73, ../sass/_ddbasic.extends.scss */
+/* line 67, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending {
   background-color: #696a69;
 }
 
-/* line 79, ../sass/_ddbasic.extends.scss */
+/* line 73, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed {
   background-color: #ed1e88;
 }
 
-/* line 85, ../sass/_ddbasic.extends.scss */
+/* line 79, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available {
   background-color: #4c9f45;
 }
 
-/* line 91, ../sass/_ddbasic.extends.scss */
+/* line 85, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new {
   background-color: #ea9123;
 }
 
-/* line 97, ../sass/_ddbasic.extends.scss */
+/* line 91, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
   background-color: #4c9f45;
 }
 
-/* line 103, ../sass/_ddbasic.extends.scss */
+/* line 97, ../sass/_ddbasic.extends.scss */
 .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
   background-color: #0072bc;
 }
