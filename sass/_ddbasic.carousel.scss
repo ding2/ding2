@@ -34,7 +34,6 @@ $carousel-title-font-size:                 24px;
 .rs-carousel {
   @include zen-grid-item(12, 1);
 
-  background-color: $carousel-background-color;
   padding: 0;
 
   .ajax-loader {
@@ -55,8 +54,12 @@ $carousel-title-font-size:                 24px;
 }
 
 .rs-carousel-inner {
+  background-color: $carousel-background-color;
   min-height: 225px;
+  padding-top: 20px;
+  padding-right: 20px;
   padding-bottom: 30px;
+  padding-left: 20px;
 
   @include small-medium() {
     min-height: 150px;
