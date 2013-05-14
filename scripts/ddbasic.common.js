@@ -3,6 +3,12 @@
   // When ready start the magic.
   $(document).ready(function () {
 
+    // Toggle for footer menu
+    $('.footer .pane-title').on('click', function() {
+      var element = $(this).parent();
+      $('.menu', element).toggle();
+      $(this).toggleClass('js-toggled');
+    });
   });
 
   // Add equal heights on $(window).load() instead of $(document).ready()
