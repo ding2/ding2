@@ -7,7 +7,27 @@
 // Variables
 // -----------------------------------------------------------------------------
 //
-$prefixes: ("-webkit-","-moz-", "-o-", "");
+$prefixes:            ("-webkit-","-moz-", "-o-", "");
+
+
+// **
+// Availability
+// **
+//
+@mixin availability($bg-color) {
+  background-color: $bg-color;
+  color: #fff;
+  padding: $default-spacing / 4 $default-spacing / 1.5;
+
+  a {
+    color: #fff;
+    display: block;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
 
 
 // **
@@ -22,7 +42,7 @@ $prefixes: ("-webkit-","-moz-", "-o-", "");
 
 // -----------------------------------------------------------------------------
 // Mixin for ::selection, which allows specify selected text background color
-// ----------------------------------------------------------------------------- 
+// -----------------------------------------------------------------------------
 //
 // $color - The color for the selected text.
 // $background - The background color for the selected text.
@@ -76,8 +96,8 @@ $prefixes: ("-webkit-","-moz-", "-o-", "");
 
 // -----------------------------------------------------------------------------
 // Mixin for transparent backgrounds, maing it cross browser compatible
-// ----------------------------------------------------------------------------- 
-// 
+// -----------------------------------------------------------------------------
+//
 // including IE8+. (https://gist.github.com/1949202)
 //
 // $color - The color of the background.
@@ -108,11 +128,11 @@ $prefixes: ("-webkit-","-moz-", "-o-", "");
 
 // -----------------------------------------------------------------------------
 // Mixin that converts pixel values to rem values
-// ----------------------------------------------------------------------------- 
+// -----------------------------------------------------------------------------
 //
 // https://github.com/ry5n/rem
 //
-// Returns two lines of code — one of the regular pixel values (for older 
+// Returns two lines of code — one of the regular pixel values (for older
 // browsers), and another with the converted rem values (for everything else).
 //
 // Basic usage: @include rem('padding',10px 0 2px 5px);

@@ -8,13 +8,6 @@
 // Extends
 // -----------------------------------------------------------------------------
 //
-%reset-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-
 %page-heading {
   @include rem('font-size', 30px);
 }
@@ -86,7 +79,9 @@
 
 // News
 .news-list {
-  @extend %reset-list;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
   .news-list-item {
     @extend %article-background;

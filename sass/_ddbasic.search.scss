@@ -427,27 +427,27 @@ input#edit-search-block-form--2.spinner {
             padding: 0;
 
             &.pending {
-              @extend %availability-pending;
-            }
-
+              @include availability($availability-pending);
+            }        
+            
             &.availability.processed {
-              @extend %availability-processed;
+              @include availability($availability-processed);
             }
 
             &.availability.available {
-              @extend %availability-available;
+              @include availability($availability-available);
             }
 
             &.availability.reservable {
-              @extend %availability-reservable;
+              @include availability($availability-reservable);
             }
 
             &.availability.available.reservable {
-              @extend %availability-available-reservable;
+              @include availability($availability-available-reservable);
             }
 
             &.availability.available.not-reservable {
-              @extend %availability-available-not-reservable;
+              @include availability($availability-available-not-reservable);
             }
 
             .availability-status {

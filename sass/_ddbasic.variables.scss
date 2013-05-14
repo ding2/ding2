@@ -112,3 +112,15 @@ $navbar-bg-color:                 transparentize($white, .95);
 $navbar-bg-active-color:          transparentize($white, .95);
 $navbar-text-color:               lighten($black, 30%);
 $navbar-text-color-active:        lighten($black, 30%);
+
+
+// -----------------------------------------------------------------------------
+// Availability
+// -----------------------------------------------------------------------------
+//
+$availability-pending:                  #696a69;
+$availability-processed:                #ed1e88;
+$availability-available:                #4c9f45;
+$availability-reservable:               #ea9123;
+$availability-available-reservable:     #4c9f45;
+$availability-available-not-reservable: #0072bc;

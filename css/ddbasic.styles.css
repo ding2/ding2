@@ -3515,58 +3515,6 @@ legend {
   text-align: center;
 }
 
-/* line 11, ../sass/_ddbasic.extends.scss */
-.footer .menu, .news-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* line 53, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending, .pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed, .pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available, .pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new, .pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
-  color: #fff;
-  padding: 5px 13.33333px;
-}
-/* line 57, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.pending a, .pane-ting-collection .field-name-ting-type li.pending a, .pane-ting-object .field-name-ting-type li.pending a, .pane-search-result .search-results .list .availability ul li.availability.processed a, .pane-ting-collection .field-name-ting-type li.availability.processed a, .pane-ting-object .field-name-ting-type li.availability.processed a, .pane-search-result .search-results .list .availability ul li.availability.available a, .pane-ting-collection .field-name-ting-type li.availability.available a, .pane-ting-object .field-name-ting-type li.availability.available a, .pane-search-result .search-results .list .availability ul li.availability.reservable a, .pane-ting-collection .field-name-ting-type li.availability.reservable a, .pane-ting-object .field-name-ting-type li.availability.reservable a, .comment .new a, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a, .pane-ting-object .field-name-ting-type li.availability.available.reservable a, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a {
-  color: #fff;
-  display: block;
-}
-/* line 61, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.pending a:hover, .pane-ting-collection .field-name-ting-type li.pending a:hover, .pane-ting-object .field-name-ting-type li.pending a:hover, .pane-search-result .search-results .list .availability ul li.availability.processed a:hover, .pane-ting-collection .field-name-ting-type li.availability.processed a:hover, .pane-ting-object .field-name-ting-type li.availability.processed a:hover, .pane-search-result .search-results .list .availability ul li.availability.available a:hover, .pane-ting-collection .field-name-ting-type li.availability.available a:hover, .pane-ting-object .field-name-ting-type li.availability.available a:hover, .pane-search-result .search-results .list .availability ul li.availability.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.reservable a:hover, .comment .new a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover, .pane-ting-collection .field-name-ting-type li.availability.available.reservable a:hover, .pane-ting-object .field-name-ting-type li.availability.available.reservable a:hover, .pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a:hover {
-  text-decoration: none;
-}
-
-/* line 67, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.pending, .pane-ting-collection .field-name-ting-type li.pending, .pane-ting-object .field-name-ting-type li.pending {
-  background-color: #696a69;
-}
-
-/* line 73, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.availability.processed, .pane-ting-collection .field-name-ting-type li.availability.processed, .pane-ting-object .field-name-ting-type li.availability.processed {
-  background-color: #ed1e88;
-}
-
-/* line 79, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.availability.available, .pane-ting-collection .field-name-ting-type li.availability.available, .pane-ting-object .field-name-ting-type li.availability.available {
-  background-color: #4c9f45;
-}
-
-/* line 85, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.availability.reservable, .pane-ting-collection .field-name-ting-type li.availability.reservable, .pane-ting-object .field-name-ting-type li.availability.reservable, .comment .new {
-  background-color: #ea9123;
-}
-
-/* line 91, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.availability.available.reservable, .pane-ting-collection .field-name-ting-type li.availability.available.reservable, .pane-ting-object .field-name-ting-type li.availability.available.reservable {
-  background-color: #4c9f45;
-}
-
-/* line 97, ../sass/_ddbasic.extends.scss */
-.pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
-  background-color: #0072bc;
-}
-
 /* line 5, ../sass/_ddbasic.typography.scss */
 body {
   font-size: 16px;
@@ -3575,25 +3523,25 @@ body {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 }
 
-/* line 32, ../sass/_ddbasic.mixins.scss */
+/* line 52, ../sass/_ddbasic.mixins.scss */
 ::-webkit-selection {
   color: #333333;
   background: #ffff99;
 }
 
-/* line 32, ../sass/_ddbasic.mixins.scss */
+/* line 52, ../sass/_ddbasic.mixins.scss */
 ::-moz-selection {
   color: #333333;
   background: #ffff99;
 }
 
-/* line 32, ../sass/_ddbasic.mixins.scss */
+/* line 52, ../sass/_ddbasic.mixins.scss */
 ::-o-selection {
   color: #333333;
   background: #ffff99;
 }
 
-/* line 32, ../sass/_ddbasic.mixins.scss */
+/* line 52, ../sass/_ddbasic.mixins.scss */
 ::selection {
   color: #333333;
   background: #ffff99;
@@ -5181,52 +5129,57 @@ button#edit-cancel {
 }
 /* line 433, ../sass/_ddbasic.navigation.scss */
 .footer .menu {
+  list-style: none;
+  margin-top: 0;
+  margin-right: 0;
   margin-bottom: 20px;
+  margin-left: 0;
+  padding: 0;
 }
-/* line 438, ../sass/_ddbasic.navigation.scss */
+/* line 441, ../sass/_ddbasic.navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 444, ../sass/_ddbasic.navigation.scss */
+/* line 447, ../sass/_ddbasic.navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: FontAwesome;
 }
-/* line 450, ../sass/_ddbasic.navigation.scss */
+/* line 453, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 454, ../sass/_ddbasic.navigation.scss */
+/* line 457, ../sass/_ddbasic.navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 480px) {
-  /* line 462, ../sass/_ddbasic.navigation.scss */
+  /* line 465, ../sass/_ddbasic.navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 462, ../sass/_ddbasic.navigation.scss */
+  /* line 465, ../sass/_ddbasic.navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 
-/* line 472, ../sass/_ddbasic.navigation.scss */
+/* line 475, ../sass/_ddbasic.navigation.scss */
 .action-links {
   padding: 10px 20px;
 }
-/* line 475, ../sass/_ddbasic.navigation.scss */
+/* line 478, ../sass/_ddbasic.navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 482, ../sass/_ddbasic.navigation.scss */
+/* line 485, ../sass/_ddbasic.navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -5236,7 +5189,7 @@ button#edit-cancel {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 492, ../sass/_ddbasic.navigation.scss */
+/* line 495, ../sass/_ddbasic.navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -5244,7 +5197,7 @@ button#edit-cancel {
 }
 
 @media only screen and (max-width: 480px) {
-  /* line 506, ../sass/_ddbasic.navigation.scss */
+  /* line 509, ../sass/_ddbasic.navigation.scss */
   .navigation-wrapper.js-fixed {
     position: relative;
     margin-top: 0;
@@ -5740,6 +5693,96 @@ input#edit-search-block-form--2.spinner {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
+}
+/* line 429, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.pending {
+  background-color: #696a69;
+  color: #fff;
+  padding: 5px 13.33333px;
+}
+/* line 22, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.pending a {
+  color: #fff;
+  display: block;
+}
+/* line 26, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.pending a:hover {
+  text-decoration: none;
+}
+/* line 433, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.processed {
+  background-color: #ed1e88;
+  color: #fff;
+  padding: 5px 13.33333px;
+}
+/* line 22, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.processed a {
+  color: #fff;
+  display: block;
+}
+/* line 26, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.processed a:hover {
+  text-decoration: none;
+}
+/* line 437, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available {
+  background-color: #4c9f45;
+  color: #fff;
+  padding: 5px 13.33333px;
+}
+/* line 22, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available a {
+  color: #fff;
+  display: block;
+}
+/* line 26, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available a:hover {
+  text-decoration: none;
+}
+/* line 441, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.reservable {
+  background-color: #ea9123;
+  color: #fff;
+  padding: 5px 13.33333px;
+}
+/* line 22, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 26, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.reservable a:hover {
+  text-decoration: none;
+}
+/* line 445, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.reservable {
+  background-color: #4c9f45;
+  color: #fff;
+  padding: 5px 13.33333px;
+}
+/* line 22, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 26, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.reservable a:hover {
+  text-decoration: none;
+}
+/* line 449, ../sass/_ddbasic.search.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.not-reservable {
+  background-color: #0072bc;
+  color: #fff;
+  padding: 5px 13.33333px;
+}
+/* line 22, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 26, ../sass/_ddbasic.mixins.scss */
+.pane-search-result .search-results .list .availability ul li.availability.available.not-reservable a:hover {
+  text-decoration: none;
 }
 /* line 454, ../sass/_ddbasic.search.scss */
 .pane-search-result .search-results .list .availability ul li .availability-status:before {
@@ -6847,14 +6890,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 50%;
   }
 }
-/* line 11, ../sass/_ddbasic.refactor.scss */
-.footer .menu, .news-list {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* line 22, ../sass/_ddbasic.refactor.scss */
+/* line 15, ../sass/_ddbasic.refactor.scss */
 .pane-title {
   font-size: 24px;
   font-size: 1.5rem;
@@ -6863,109 +6899,115 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 29, ../sass/_ddbasic.refactor.scss */
+/* line 22, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-item {
   margin-bottom: 10px;
 }
 
-/* line 33, ../sass/_ddbasic.refactor.scss */
+/* line 26, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-item {
   padding: 20px;
 }
 
-/* line 41, ../sass/_ddbasic.refactor.scss */
+/* line 34, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-item {
   background-color: #ebebeb;
 }
 
-/* line 45, ../sass/_ddbasic.refactor.scss */
+/* line 38, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-item:nth-child(odd) {
   background-color: #e8e8e8;
 }
 
-/* line 49, ../sass/_ddbasic.refactor.scss */
+/* line 42, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-item:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-/* line 53, ../sass/_ddbasic.refactor.scss */
+/* line 46, ../sass/_ddbasic.refactor.scss */
 .news-list .news-heading {
   font-size: 24px;
   font-size: 1.5rem;
 }
 
-/* line 66, ../sass/_ddbasic.refactor.scss */
+/* line 59, ../sass/_ddbasic.refactor.scss */
 .news-list .news-author {
   color: #4c4c4c;
 }
 
-/* line 70, ../sass/_ddbasic.refactor.scss */
+/* line 63, ../sass/_ddbasic.refactor.scss */
 .news-list .news-date {
   color: rgba(76, 76, 76, 0.5);
 }
 
-/* line 80, ../sass/_ddbasic.refactor.scss */
+/* line 73, ../sass/_ddbasic.refactor.scss */
 .pane-title {
   margin-bottom: 10px;
 }
 
-/* line 91, ../sass/_ddbasic.refactor.scss */
+/* line 81, ../sass/_ddbasic.refactor.scss */
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* line 86, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-item {
   overflow: hidden;
   position: relative;
 }
-/* line 112, ../sass/_ddbasic.refactor.scss */
+/* line 107, ../sass/_ddbasic.refactor.scss */
 .news-list .news-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 75px;
 }
-/* line 117, ../sass/_ddbasic.refactor.scss */
+/* line 112, ../sass/_ddbasic.refactor.scss */
 .news-list .news-image-wrapper a {
   display: block;
 }
-/* line 122, ../sass/_ddbasic.refactor.scss */
+/* line 117, ../sass/_ddbasic.refactor.scss */
 .news-list .news-label {
   margin-right: 5px;
 }
-/* line 128, ../sass/_ddbasic.refactor.scss */
+/* line 123, ../sass/_ddbasic.refactor.scss */
 .news-list .news-sub-heading {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 133, ../sass/_ddbasic.refactor.scss */
+/* line 128, ../sass/_ddbasic.refactor.scss */
 .news-list .news-sub-heading .news-date,
 .news-list .news-sub-heading .news-author {
   margin-right: 5px;
 }
-/* line 146, ../sass/_ddbasic.refactor.scss */
+/* line 141, ../sass/_ddbasic.refactor.scss */
 .news-list .news-list-content {
   max-height: 50px;
   overflow: hidden;
 }
-/* line 151, ../sass/_ddbasic.refactor.scss */
+/* line 146, ../sass/_ddbasic.refactor.scss */
 .news-list .news-link {
   float: right;
 }
-/* line 155, ../sass/_ddbasic.refactor.scss */
+/* line 150, ../sass/_ddbasic.refactor.scss */
 .news-list .news-arrow-link {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 163, ../sass/_ddbasic.refactor.scss */
+  /* line 158, ../sass/_ddbasic.refactor.scss */
   .news-list .news-label,
   .news-list .news-sub-heading,
   .news-list .news-list-content,
   .news-list .news-link {
     display: none;
   }
-  /* line 167, ../sass/_ddbasic.refactor.scss */
+  /* line 162, ../sass/_ddbasic.refactor.scss */
   .news-list .news-heading {
     font-size: 20px;
     font-size: 1.25rem;
     margin-right: 35px;
   }
-  /* line 173, ../sass/_ddbasic.refactor.scss */
+  /* line 168, ../sass/_ddbasic.refactor.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
@@ -6974,20 +7016,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 163, ../sass/_ddbasic.refactor.scss */
+  /* line 158, ../sass/_ddbasic.refactor.scss */
   .news-list .news-label,
   .news-list .news-sub-heading,
   .news-list .news-list-content,
   .news-list .news-link {
     display: none;
   }
-  /* line 167, ../sass/_ddbasic.refactor.scss */
+  /* line 162, ../sass/_ddbasic.refactor.scss */
   .news-list .news-heading {
     font-size: 20px;
     font-size: 1.25rem;
     margin-right: 35px;
   }
-  /* line 173, ../sass/_ddbasic.refactor.scss */
+  /* line 168, ../sass/_ddbasic.refactor.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
@@ -6996,15 +7038,15 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 185, ../sass/_ddbasic.refactor.scss */
+/* line 180, ../sass/_ddbasic.refactor.scss */
 .search .search-field-wrapper {
   position: relative;
 }
-/* line 190, ../sass/_ddbasic.refactor.scss */
+/* line 185, ../sass/_ddbasic.refactor.scss */
 .search .spinner i[class^="icon-"] {
   height: auto;
 }
-/* line 198, ../sass/_ddbasic.refactor.scss */
+/* line 193, ../sass/_ddbasic.refactor.scss */
 .search .form-item {
   float: left;
   width: 100%;
@@ -7022,12 +7064,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 202, ../sass/_ddbasic.refactor.scss */
+/* line 197, ../sass/_ddbasic.refactor.scss */
 .search .form-text {
   padding-left: 49px;
 }
 
-/* line 209, ../sass/_ddbasic.refactor.scss */
+/* line 204, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -7045,11 +7087,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 212, ../sass/_ddbasic.refactor.scss */
+/* line 207, ../sass/_ddbasic.refactor.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 217, ../sass/_ddbasic.refactor.scss */
+/* line 212, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -7067,29 +7109,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 220, ../sass/_ddbasic.refactor.scss */
+/* line 215, ../sass/_ddbasic.refactor.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 226, ../sass/_ddbasic.refactor.scss */
+  /* line 221, ../sass/_ddbasic.refactor.scss */
   .user .form-item-pass {
     margin-top: 10px;
   }
 }
 
-/* line 233, ../sass/_ddbasic.refactor.scss */
+/* line 228, ../sass/_ddbasic.refactor.scss */
 .search,
 .user {
   display: none;
   width: 100%;
 }
-/* line 236, ../sass/_ddbasic.refactor.scss */
+/* line 231, ../sass/_ddbasic.refactor.scss */
 .search.js-topbar-toggled,
 .user.js-topbar-toggled {
   display: inline-block;
 }
-/* line 242, ../sass/_ddbasic.refactor.scss */
+/* line 237, ../sass/_ddbasic.refactor.scss */
 .search [class^="label-"],
 .user [class^="label-"] {
   font-size: 16px;
@@ -7101,7 +7143,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 5px;
   margin-left: 2px;
 }
-/* line 252, ../sass/_ddbasic.refactor.scss */
+/* line 247, ../sass/_ddbasic.refactor.scss */
 .search [class^="icon-"],
 .user [class^="icon-"] {
   font-size: 30px;
@@ -7111,13 +7153,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 24px;
   position: absolute;
 }
-/* line 261, ../sass/_ddbasic.refactor.scss */
+/* line 256, ../sass/_ddbasic.refactor.scss */
 .search .form-item,
 .user .form-item {
   display: inline-block;
   position: relative;
 }
-/* line 266, ../sass/_ddbasic.refactor.scss */
+/* line 261, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .user .form-text {
   font-size: 18px;
@@ -7135,7 +7177,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 0;
   width: 100%;
 }
-/* line 279, ../sass/_ddbasic.refactor.scss */
+/* line 274, ../sass/_ddbasic.refactor.scss */
 .search .form-text,
 .search .form-submit,
 .user .form-text,
@@ -7143,7 +7185,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   min-height: 60px;
   padding-top: 0;
 }
-/* line 284, ../sass/_ddbasic.refactor.scss */
+/* line 279, ../sass/_ddbasic.refactor.scss */
 .search .form-submit,
 .user .form-submit {
   font-size: 20px;
@@ -7155,12 +7197,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 1px;
   min-width: 110px;
 }
-/* line 294, ../sass/_ddbasic.refactor.scss */
+/* line 289, ../sass/_ddbasic.refactor.scss */
 .search input[class^="form-"],
 .user input[class^="form-"] {
   margin-bottom: 0;
 }
-/* line 298, ../sass/_ddbasic.refactor.scss */
+/* line 293, ../sass/_ddbasic.refactor.scss */
 .search .form-actions,
 .user .form-actions {
   float: right;
@@ -7181,13 +7223,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: right;
 }
 @media only screen and (max-width: 480px) {
-  /* line 305, ../sass/_ddbasic.refactor.scss */
+  /* line 300, ../sass/_ddbasic.refactor.scss */
   .search [class^="label-"],
   .user [class^="label-"] {
     font-size: 14px;
     font-size: 0.875rem;
   }
-  /* line 309, ../sass/_ddbasic.refactor.scss */
+  /* line 304, ../sass/_ddbasic.refactor.scss */
   .search .form-item,
   .user .form-item {
     float: left;
@@ -7209,13 +7251,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 316, ../sass/_ddbasic.refactor.scss */
+  /* line 311, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 320, ../sass/_ddbasic.refactor.scss */
+  /* line 315, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7224,7 +7266,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 328, ../sass/_ddbasic.refactor.scss */
+  /* line 323, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7244,7 +7286,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 333, ../sass/_ddbasic.refactor.scss */
+  /* line 328, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;
@@ -7255,13 +7297,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 316, ../sass/_ddbasic.refactor.scss */
+  /* line 311, ../sass/_ddbasic.refactor.scss */
   .search i[class^="icon-"],
   .user i[class^="icon-"] {
     font-size: 20px;
     font-size: 1.25rem;
   }
-  /* line 320, ../sass/_ddbasic.refactor.scss */
+  /* line 315, ../sass/_ddbasic.refactor.scss */
   .search .form-text,
   .user .form-text {
     font-size: 18px;
@@ -7270,7 +7312,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 328, ../sass/_ddbasic.refactor.scss */
+  /* line 323, ../sass/_ddbasic.refactor.scss */
   .search .form-actions,
   .user .form-actions {
     float: left;
@@ -7290,7 +7332,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 333, ../sass/_ddbasic.refactor.scss */
+  /* line 328, ../sass/_ddbasic.refactor.scss */
   .search .form-submit,
   .user .form-submit {
     font-size: 18px;

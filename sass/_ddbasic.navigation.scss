@@ -431,9 +431,12 @@
   }
 
   .menu {
-    @extend %reset-list;
-
+    list-style: none;
+    margin-top: 0;
+    margin-right: 0;
     margin-bottom: 20px;
+    margin-left: 0;
+    padding: 0;
 
     li {
       @extend .icon-angle-right;
