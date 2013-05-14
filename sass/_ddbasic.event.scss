@@ -2,10 +2,12 @@
 // Event styling
 // =============================================================================
 //
-.pane-ding-event-ding-event-list {
-  margin-bottom: 20px;
-}
 
+
+// **
+// Content rules
+// **
+//
 .secondary-content,
 .tertiary-content {
   .event-list-description {
@@ -13,7 +15,9 @@
   }
 }
 
-.event-group-heading {
+
+// Event list heading
+.event-list-heading {
   background: $gray;
   padding-top: 10px;
   padding-right: 10px;
@@ -74,6 +78,15 @@
   }
 }
 
+
+// **
+// Event list
+// **
+//
+.pane-ding-event-ding-event-list {
+  margin-bottom: 20px;
+}
+
 .event-list {
   background: $gray-light;
   margin-bottom: 20px;
@@ -110,37 +123,6 @@
     right: 0;
     top: 45%;
   }
-}
-
-
-// **
-// Ticket styling
-// **
-//
-%ticket {
-  @include rem('font-size', $theme-font-size * 1);
-
-  font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
-  margin-left: 10%;
-  width: 70%;
-}
-
-.ticket-wrapper {
-  border-top: 1px solid $gray-light;
-
-  margin-top: $default-spacing;
-  padding-top: $default-spacing;
-}
-
-.ticket-available {
-  @extend %button-action;
-  @extend %ticket;
-}
-
-.ticket-info {
-  @extend %button-warning;
-  @extend %ticket;
 }
 
 
@@ -196,4 +178,35 @@
     clear: both;
     padding-top: $default-spacing;
   }
+}
+
+
+// **
+// Ticket styling
+// **
+//
+%ticket {
+  @include rem('font-size', $theme-font-size * 1);
+
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+  margin-left: 10%;
+  width: 70%;
+}
+
+.ticket-wrapper {
+  border-top: 1px solid $gray-light;
+
+  margin-top: $default-spacing;
+  padding-top: $default-spacing;
+}
+
+.ticket-available {
+  @extend %button-action;
+  @extend %ticket;
+}
+
+.ticket-info {
+  @extend %button-warning;
+  @extend %ticket;
 }
