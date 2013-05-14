@@ -104,7 +104,10 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->subtype = 'ding_news-ding_news_frontpage_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Library news',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -122,7 +125,10 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->subtype = 'ding_event-ding_event_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Events',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
