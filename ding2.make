@@ -76,3 +76,9 @@ projects[ding_event][type] = module
 projects[ding_event][download][type] = git
 projects[ding_event][download][url] = git@github.com:ding2/ding_event.git
 projects[ding_event][download][tag] = "7.x-0.20"
+
+projects[ding_tabroll][type] = module
+projects[ding_tabroll][download][type] = git
+projects[ding_tabroll][download][url] = git@github.com:vejlebib/ding_tabroll.git
+projects[ding_tabroll][download][tag] = "7.x-1.0"
+
