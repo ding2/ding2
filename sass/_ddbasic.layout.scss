@@ -233,7 +233,12 @@ $topbar-text-color:               #fff;
 .footer {
   @include attachment-25-25-25-25;
 
-  background-color: #262626;  
+  background-color: #262626;
+  padding-top: 30px;
+
+  .pane-title {
+    @include rem('font-size', 18px);
+  }
 
   @include medium() {
     @include attachment-50-50-50-50;
@@ -241,6 +246,18 @@ $topbar-text-color:               #fff;
 
   @include small() {
     @include attachment-100-100-100-100;
+  }
+}
+
+.footer-block {
+  @extend %block;
+  @extend %link-inverted;
+
+  background-color: transparent;
+  color: $white;
+
+  .block-title {
+    color: $white;
   }
 }
 

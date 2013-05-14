@@ -427,12 +427,12 @@
   }
 
   .menu {
-    margin: 0;
-    padding: 0;
+    @extend %reset-list;
+    
     margin-bottom: 20px;
 
     li {
-      @extend .icon-chevron-right;
+      @extend .icon-angle-right;
 
       margin: 0;
       margin-bottom: 10px;

@@ -27,24 +27,6 @@
   display: none;
 }
 
-
-.footer {
-  padding-top: 30px;
-}
-
-.footer-block {
-  @extend %block;
-  @extend %link-inverted;
-
-  background-color: transparent;
-  color: $white;
-
-  .block-title {
-    color: $white;
-  }
-}
-
-
 .assistive-text {
   clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
   clip: rect(1px, 1px, 1px, 1px);
