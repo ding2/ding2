@@ -1,11 +1,11 @@
 /*
 Syntax error: Undefined mixin 'border-radius'.
-        on line 24 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss, in `border-radius'
-        from line 24 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss
+        on line 12 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss, in `border-radius'
+        from line 12 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss
 
 Backtrace:
-/Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss:24:in `border-radius'
-/Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss:24
+/Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss:12:in `border-radius'
+/Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss:12
 /Applications/CodeKit.app/Contents/Resources/engines/compass/bin/../../scss/lib/sass/../sass/tree/visitors/perform.rb:253:in `visit_mixin'
 /Applications/CodeKit.app/Contents/Resources/engines/compass/bin/../../scss/lib/sass/../sass/tree/visitors/base.rb:37:in `send'
 /Applications/CodeKit.app/Contents/Resources/engines/compass/bin/../../scss/lib/sass/../sass/tree/visitors/base.rb:37:in `visit'
@@ -60,4 +60,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 24 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss, in `border-radius'\A         from line 24 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss"; }
+  content: "Syntax error: Undefined mixin 'border-radius'.\A         on line 12 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss, in `border-radius'\A         from line 12 of /Users/brianjensen/www/work/ding2tal/htdocs/profiles/ding2/themes/ddbasic/sass/_ddbasic.news.scss"; }

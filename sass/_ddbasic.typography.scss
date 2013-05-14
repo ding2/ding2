@@ -5,18 +5,6 @@
 
 
 // -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
-//
-
-
-// -----------------------------------------------------------------------------
-// Extends
-// -----------------------------------------------------------------------------
-//
-
-
-// -----------------------------------------------------------------------------
 // Default styling
 // -----------------------------------------------------------------------------
 //
@@ -48,19 +36,19 @@ h6 {
       color: $text-primary-color;
       text-decoration: none;
     }
-    
+
     &:visited {
       color: $text-primary-color;
     }
-    
+
     &:hover {
       color: darken($text-primary-color, 25%);
     }
-    
+
     &:focus {
       color: $link-color-hover;
     }
-    
+
     &:active {
       background-color: transparent;
       color: $text-selection-color;
@@ -121,12 +109,12 @@ a {
     color: $link-color;
     text-decoration: none;
   }
-  
+
   &:visited {
     color: darken($link-color, 15%);
     text-decoration: none;
   }
-  
+
   &:hover {
     color: $link-color-hover;
     text-decoration: underline;
@@ -135,7 +123,7 @@ a {
       text-decoration: none;
     }
   }
-  
+
   &:focus {
     color: $link-color-hover;
   }
@@ -169,9 +157,3 @@ a {
 .text-smallest {
   @include rem('font-size', $theme-font-size * .8);
 }
-
-
-// -----------------------------------------------------------------------------
-// Mediaqueries
-// -----------------------------------------------------------------------------
-//
