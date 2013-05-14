@@ -162,7 +162,13 @@
     border-right: 1px solid $gray;
 
     .menu-item {
-      margin-left: 20px;
+      margin-left: 15px;
+    }
+
+    &.first {
+      .menu-item {
+        margin-left: 0;
+      }      
     }
 
     &.last {
@@ -170,6 +176,15 @@
 
       .menu-item {
         margin-right: 0;
+      }
+    }
+  }
+
+  @include large() {
+    li {
+      .menu-item {
+        font-size: 80%;
+        margin-left: 10px;
       }
     }
   }
@@ -199,12 +214,26 @@
     &:before {
       display: none;
     }
+
+    &.first {
+      .menu-item {
+        margin-left: 0;
+      }      
+    }
+
+    &.last {
+      border-right: 0;
+
+      .menu-item {
+        margin-right: 0;
+      }
+    }
   }
 
   .menu-item {
     color: $gray-darker;
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 15px;
 
     &:hover {
       color: $black;
@@ -219,6 +248,15 @@
   .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
+  }
+
+  @include large() {
+    .menu-item {
+      font-size: 95%;
+      margin-right: 10px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
   }
 
   @include small-medium() {
