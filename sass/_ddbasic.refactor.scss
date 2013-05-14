@@ -25,9 +25,11 @@
   @include rem('font-size', 30px);
 }
 
-
 %section-heading {
   @include rem('font-size', 24px);
+  @include font-bold();
+
+  color: transparentize($black, .3);
 }
 
 %article-margin {
@@ -80,6 +82,12 @@
 // Default styling
 // -----------------------------------------------------------------------------
 //
+
+.pane-title {
+  @extend %section-heading;
+
+  margin-bottom: 10px;
+}
 
 
 // News

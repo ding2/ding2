@@ -3,8 +3,7 @@
 // =============================================================================
 //
 .pane-ding-event-ding-event-list {
-  margin-top: 20px;
-  margin-bottom: -20px;
+  margin-bottom: 20px;
 }
 
 .secondary-content,
@@ -69,6 +68,7 @@
   .event-list-fulldate {
     @include rem('font-size', $theme-font-size * 1.25);
 
+    color: transparentize($black, .3);
     font-family: $font-bold;
     font-weight: $theme-font-weight-bold;
   }
