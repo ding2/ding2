@@ -53,3 +53,12 @@
     min-width: 125px;
   }
 }
+
+.signature .tags a {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.signature .tags a:not(:last-child):after {
+  content: ",";
+}

@@ -4,12 +4,6 @@
 
 
 // -----------------------------------------------------------------------------
-// Default styling
-// -----------------------------------------------------------------------------
-//
-
-
-// -----------------------------------------------------------------------------
 // Primary 100% stacked secondary and tertiary 50% side by side
 // -----------------------------------------------------------------------------
 //
@@ -48,7 +42,7 @@
   .primary-content {
     @include zen-grid-item($grid-75, $grid-25 + 1);
   }
-  .secondary-content {  
+  .secondary-content {
     @include zen-grid-item($grid-25, 1);
   }
 }
@@ -66,7 +60,7 @@
     @include zen-grid-item($grid-66, 1);
   }
 
-  .tertiary-content {  
+  .tertiary-content {
     @include zen-grid-item($grid-33, 1, right);
   }
 }
@@ -85,11 +79,11 @@
     @include zen-grid-item($grid-50, $grid-25 + 1);
   }
 
-  .secondary-content {  
+  .secondary-content {
     @include zen-grid-item($grid-25, 1);
   }
-  
+
   .tertiary-content {
     @include zen-grid-item($grid-25, 1, right);
-  } 
+  }
 }
