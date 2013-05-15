@@ -54,8 +54,6 @@ function openruth_update_7000() {
       'storage_type' => 'virtual_field',
       'storage_module' => 'virtual_field',
     ))
-    ->condition('field_name', '%alma%', 'LIKE')
-    ->condition('field_name', 'field_openruth_interest_period', '!=')
-    ->condition('field_name', 'field_openruth_preferred_branch', '!=')
+    ->condition('field_name', '%openruth%', 'LIKE')
     ->execute();
 }
