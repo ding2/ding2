@@ -3326,7 +3326,7 @@ legend {
   }
 }
 
-/* line 336, ../sass/_ddbasic.layout.scss */
+/* line 341, ../sass/_ddbasic.layout.scss */
 .footer {
   background-color: #262626;
   padding-top: 30px;
@@ -3403,7 +3403,7 @@ legend {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 342, ../sass/_ddbasic.layout.scss */
+/* line 347, ../sass/_ddbasic.layout.scss */
 .footer .pane-title {
   font-size: 18px;
   font-size: 1.125rem;
@@ -3491,12 +3491,12 @@ legend {
   }
 }
 
-/* line 355, ../sass/_ddbasic.layout.scss */
+/* line 360, ../sass/_ddbasic.layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
-/* line 362, ../sass/_ddbasic.layout.scss */
+/* line 367, ../sass/_ddbasic.layout.scss */
 .footer-block .block-title, .footer-block .pane-title,
 .footer-block .pane-menu-title, .footer-block .library-title, .footer-block .pane-loans h2, .pane-loans .footer-block h2,
 .footer-block .pane-reservations h2,
@@ -3506,13 +3506,46 @@ legend {
   color: white;
 }
 
-/* line 367, ../sass/_ddbasic.layout.scss */
+/* line 372, ../sass/_ddbasic.layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center;
+}
+
+/* line 394, ../sass/_ddbasic.layout.scss */
+.pager {
+  padding-left: 0;
+}
+/* line 397, ../sass/_ddbasic.layout.scss */
+.pager li {
+  display: inline-block;
+  margin-left: -4px;
+  margin-right: 4px;
+}
+/* line 403, ../sass/_ddbasic.layout.scss */
+.pager li.pager-current,
+.pager li a {
+  background-color: #efefef;
+  display: inline-block;
+  padding: 5px 15px;
+}
+/* line 411, ../sass/_ddbasic.layout.scss */
+.pager .active a,
+.pager .active a:hover {
+  cursor: default;
+  text-decoration: underline;
+}
+/* line 416, ../sass/_ddbasic.layout.scss */
+.pager .disabled {
+  background-color: #fbfbfb;
+}
+/* line 419, ../sass/_ddbasic.layout.scss */
+.pager .disabled a:hover {
+  cursor: default;
+  text-decoration: none;
 }
 
 /* line 5, ../sass/_ddbasic.typography.scss */
@@ -3931,39 +3964,6 @@ table thead:first-child tr:first-child td {
 .table tbody tr:hover th,
 table tbody tr:hover th {
   background-color: #efefef;
-}
-
-/* line 5, ../sass/_ddbasic.pagination.scss */
-.pager {
-  padding-left: 0;
-}
-/* line 8, ../sass/_ddbasic.pagination.scss */
-.pager li {
-  display: inline-block;
-  margin-left: -4px;
-  margin-right: 4px;
-}
-/* line 14, ../sass/_ddbasic.pagination.scss */
-.pager li.pager-current,
-.pager li a {
-  background-color: #efefef;
-  display: inline-block;
-  padding: 5px 15px;
-}
-/* line 22, ../sass/_ddbasic.pagination.scss */
-.pager .active a,
-.pager .active a:hover {
-  cursor: default;
-  text-decoration: underline;
-}
-/* line 27, ../sass/_ddbasic.pagination.scss */
-.pager .disabled {
-  background-color: #fbfbfb;
-}
-/* line 30, ../sass/_ddbasic.pagination.scss */
-.pager .disabled a:hover {
-  cursor: default;
-  text-decoration: none;
 }
 
 /* line 32, ../sass/_ddbasic.buttons.scss */
