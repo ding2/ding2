@@ -338,7 +338,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           // This will problably change with new versions of the datawell.
           $search_term = str_replace('@serietitle' , drupal_strtolower($entity->serieTitle),variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"'));
           $element[$delta] = array(
-            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/' . $search_term , array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
+            '#markup' => l($entity->serieTitle, 'search/ting/' . $search_term , array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
           );
         } else if ($entity->serieDescription) {
           $element[$delta] = array(
