@@ -316,13 +316,25 @@ function alma_profile2_presave($entity) {
         $changes['mail'] = $value;
     }
 
-    // Update provider
+    // Update provider.
     if (!empty($changes)) {
       alma_update_provider($changes, $entity);
     }
   }
 }
 
+/**
+ * Update user information at the provider.
+ *
+ * @global object $user
+ *  The user object for the currently logged in user.
+ *
+ * @param array $changes
+ *  Array with the fields/information that have changed and should be updated at
+ *  the provider.
+ * @param object $entity
+ *  An profile2 entity, mainly used to the user credentials.
+ */
 function alma_update_provider($changes, $entity) {
   $error_message = t('Error communicating with library system.');
 
