@@ -48,42 +48,49 @@ function openruth_user_authenticate($name, $pass) {
 }
 
 /**
- * Update user account.
- */
-function openruth_user_account_update($account, $changes) {
-  $result = array();
-  $creds = ding_user_get_creds($account);
-  $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
-  if ($res !== TRUE) {
-    // Call failed, throw exception.
-    if (is_string($res)) {
-      $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
-    }
-    else {
-      $exception_message = t('Update userinfo failed.');
-    }
-    throw new Exception($exception_message);
-  }
-
-
-  if (isset($changes['pass'])) {
-    // Set new password.
-    $creds['pass'] = $changes['pass'];
-    // Update creds.
-    $result['creds'] = $creds;
-
-    // Update user status cache.
-    _openruth_user_status($creds, TRUE);
-  }
-  return $result;
-}
-
-
-/**
  * Clear user cache.
  */
 function openruth_user_clear_cache($account) {
   $creds = ding_user_get_creds($account);
   // Update user status cache.
   _openruth_user_status($creds, TRUE);
+}
+
+/**
+ * Update pin code at openruth.
+ *
+ * @param object $account
+ *  User account object or the user provider profile2.
+ * @param string $new_pincode
+ *  The users new pincode.
+ *
+ * @return array
+ *  Updated credential array.
+ */
+function openruth_user_update_pincode($account, $new_pincode) {
+  $result = array();
+
+  if (isset($new_pincode)) {
+    $creds = ding_user_get_creds($account);
+    $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], array('pass' => $new_pincode));
+    if ($res !== TRUE) {
+      // Call failed, throw exception.
+      if (is_string($res)) {
+        $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
+      }
+      else {
+        $exception_message = t('Update userinfo failed.');
+      }
+      throw new Exception($exception_message);
+    }
+
+    // Update creds in the return.
+    $creds['pass'] = $changes['pass'];
+    $result['creds'] = $creds;
+
+    // Update user status cache.
+    _openruth_user_status($creds, TRUE);
+  }
+
+  return $result;
 }
