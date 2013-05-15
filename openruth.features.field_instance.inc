@@ -10,6 +10,74 @@
 function openruth_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_city'
+  $field_instances['profile2-provider_openruth-field_openruth_city'] = array(
+    'bundle' => 'provider_openruth',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 7,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_openruth_city',
+    'label' => 'City',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_full_name'
+  $field_instances['profile2-provider_openruth-field_openruth_full_name'] = array(
+    'bundle' => 'provider_openruth',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_openruth_full_name',
+    'label' => 'Full name',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'profile2-provider_openruth-field_openruth_interest_period'
   $field_instances['profile2-provider_openruth-field_openruth_interest_period'] = array(
     'bundle' => 'provider_openruth',
@@ -41,7 +109,40 @@ function openruth_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 2,
+      'weight' => 5,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_mail'
+  $field_instances['profile2-provider_openruth-field_openruth_mail'] = array(
+    'bundle' => 'provider_openruth',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 9,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_openruth_mail',
+    'label' => 'E-mail',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 7,
     ),
   );
 
@@ -75,57 +176,41 @@ function openruth_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 8,
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_openruth-field_openruth_reservation_pause'
-  $field_instances['profile2-provider_openruth-field_openruth_reservation_pause'] = array(
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_postal_code'
+  $field_instances['profile2-provider_openruth-field_openruth_postal_code'] = array(
     'bundle' => 'provider_openruth',
+    'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Set your reservations on pause',
+    'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-          'show_repeat_rule' => 'show',
-        ),
-        'type' => 'hidden',
-        'weight' => 2,
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
       ),
     ),
     'entity_type' => 'profile2',
-    'field_name' => 'field_openruth_reservation_pause',
-    'label' => 'Reservation pause',
+    'field_name' => 'field_openruth_postal_code',
+    'label' => 'Postal code',
     'required' => 0,
     'settings' => array(
-      'default_value' => 'blank',
-      'default_value2' => 'blank',
-      'default_value_code' => '',
-      'default_value_code2' => '',
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'date',
+      'module' => 'text',
       'settings' => array(
-        'display_all_day' => 0,
-        'increment' => 15,
-        'input_format' => 'd/m/Y',
-        'input_format_custom' => '',
-        'label_position' => 'above',
-        'repeat_collapsed' => 0,
-        'text_parts' => array(),
-        'year_range' => '-3:+3',
+        'size' => 60,
       ),
-      'type' => 'date_popup',
-      'weight' => 3,
+      'type' => 'text_textfield',
+      'weight' => 2,
     ),
   );
 
@@ -156,19 +241,105 @@ function openruth_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_reservation_pause'
+  $field_instances['profile2-provider_openruth-field_openruth_reservation_pause'] = array(
+    'bundle' => 'provider_openruth',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 8,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_openruth_reservation_pause',
+    'label' => 'Reservation pause',
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'display_all_day' => 0,
+        'increment' => 15,
+        'input_format' => 'G:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-provider_openruth-field_openruth_street_name'
+  $field_instances['profile2-provider_openruth-field_openruth_street_name'] = array(
+    'bundle' => 'provider_openruth',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_openruth_street_name',
+    'label' => 'Street name',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
       'weight' => 1,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('City');
+  t('E-mail');
+  t('Full name');
   t('Interest period');
   t('Mobile phone');
   t('Period of interest - how long is a reservation valid for');
+  t('Postal code');
   t('Preferred branch');
   t('Reservation pause');
   t('Select preferred pickup branch');
-  t('Set your reservations on pause');
+  t('Street name');
   t('Your mobile phone');
 
   return $field_instances;
