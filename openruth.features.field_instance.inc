@@ -50,6 +50,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 0,
@@ -84,6 +85,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 8,
@@ -94,6 +96,7 @@ function openruth_field_default_field_instances() {
     'label' => 'Interest period',
     'required' => 0,
     'settings' => array(
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -114,6 +117,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'email',
         'settings' => array(),
         'type' => 'email_plain',
         'weight' => 4,
@@ -146,6 +150,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 5,
@@ -179,6 +184,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
@@ -205,10 +211,11 @@ function openruth_field_default_field_instances() {
     'bundle' => 'provider_openruth',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Select preferred pickup branch',
+    'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 7,
@@ -288,6 +295,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 1,
@@ -320,7 +328,7 @@ function openruth_field_default_field_instances() {
   t('Postal code');
   t('Preferred branch');
   t('Reservation pause');
-  t('Select preferred pickup branch');
+  t('Set your reservations on pause.');
   t('Street name');
   t('Your mobile phone');
 

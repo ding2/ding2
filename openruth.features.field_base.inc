@@ -99,14 +99,24 @@ function openruth_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_openruth_interest_period',
-    'foreign keys' => array(),
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
       'value' => array(
         0 => 'value',
       ),
     ),
     'locked' => 0,
-    'module' => 'list',
+    'module' => 'text',
     'settings' => array(
       'allowed_values' => array(
         30 => '1 month',
@@ -115,6 +125,7 @@ function openruth_field_default_field_bases() {
         180 => '6 months',
       ),
       'allowed_values_function' => '',
+      'max_length' => 255,
       'profile2_private' => 0,
     ),
     'storage' => array(
@@ -270,7 +281,7 @@ function openruth_field_default_field_bases() {
       'type' => 'virtual_field',
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'list_text',
     'virtual_field' => array(
       'entity_types' => array(
         0 => 'profile2',

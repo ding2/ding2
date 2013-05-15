@@ -13,6 +13,7 @@ dependencies[] = list
 dependencies[] = options
 dependencies[] = profile2
 dependencies[] = text
+dependencies[] = virtual_field
 configure = admin/config/ding/provider/openruth
 features[features_api][] = api:1
 features[field_base][] = field_openruth_city
