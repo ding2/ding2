@@ -101,25 +101,21 @@ legend {
 
 .header-wrapper {
   background-color: $theme-primary-color;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 100%;
-  overflow: hidden;
 
   .header-inner {
     margin-left: auto;
     margin-right: auto;
-    max-width: 100%;
+    max-width: 1200px;
     overflow: visible;
   }
 }
 
 
-.content-wrapper {
+.content-inner {
   margin-left: auto;
   margin-right: auto;
-  max-width: 100%;
-  overflow: hidden;
+  max-width: 1200px;
+  overflow: visible;
 }
 
 
@@ -287,7 +283,7 @@ legend {
   .topbar-inner {
     margin-left: auto;
     margin-right: auto;
-    max-width: 100%;
+    max-width: 1200px;
     overflow: hidden;
     position: relative;
   }
@@ -352,6 +348,7 @@ legend {
   @include attachment-25-25-25-25;
 
   background-color: #262626;
+  overflow: hidden;
   padding-top: 30px;
 
   .pane-title {
@@ -367,16 +364,19 @@ legend {
   }
 }
 
+.footer-inner {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  overflow: visible;
+}
+
 .footer-block {
   @extend %block;
   @extend %link-inverted;
 
   background-color: transparent;
   color: $white;
-
-  .block-title {
-    color: $white;
-  }
 }
 
 .bottom {

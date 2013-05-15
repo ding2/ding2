@@ -628,13 +628,6 @@ input#edit-search-block-form--2.spinner {
   @extend .pane-ting-ting-collection-types;
 
   margin-bottom: 20px;
-
-  .pane-title {
-    @extend .text-largest;
-
-    color: $gray-darker;
-    margin-bottom: 20px;
-  }
 }
 
 .pane-ting-ting-relation-anchors {
@@ -691,7 +684,7 @@ input#edit-search-block-form--2.spinner {
       font-family: $theme-icon-library-font;
     }
   }
-  
+
   .collapsible.collapsed .field-group-format-title {
     @extend .icon-plus-sign;
   }
@@ -709,11 +702,11 @@ input#edit-search-block-form--2.spinner {
       font-family: $theme-icon-library-font;
     }
   }
-  
+
   .expand-more {
     @extend .icon-plus-sign;
   }
-  
+
   .expand-less {
     @extend .icon-minus-sign;
   }
@@ -726,7 +719,7 @@ input#edit-search-block-form--2.spinner {
       min-width: 200px;
       margin-right: 10px;
     }
-    
+
     .field-items {
       max-width: 72%;
     }
