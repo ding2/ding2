@@ -20,8 +20,6 @@
 }
 
 .library-list {
-  @extend %list;
-
   .views-row {
     @include rem('padding', $default-spacing);
 
@@ -140,10 +138,6 @@
   .links {
     @extend .sub-menu;
   }
-}
-
-.list {
-  @extend %list;
 }
 
 
