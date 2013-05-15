@@ -54,61 +54,47 @@ function openruth_ding_devel_timers() {
   );
 }
 
-///**
-// * Implements hook_form_FORM_ID_alter().
-// * Add in pincode validation.
-// * Attach profile2 form
-// */
-//function openruth_form_user_profile_form_alter(&$form, &$form_state) {
-//  // Ensure that we're dealing with a provider user.
-//  if (!ding_user_is_provider_user($form_state['user'])) {
-//    return;
-//  }
-//  global $user;
-//  $profile2 = profile2_load_by_user($user, 'provider_openruth');
-//  // attach profile2 form to user_profile_form.
-//  // profile2 form could be shown by editing people->permissions->profile2, but profile2 adds a tab and we don't want that.
-//  if (ding_user_is_provider_user($user) && $profile2) {
-//    $form_state['profiles'] = array('provider_openruth' => $profile2);
-//    profile2_attach_form($form, $form_state);
-//  }
-//
-//  // custom validator
-//  $form['#validate'][] = 'openruth_profile_form_validate';
-//}
-//
-//
-///**
-// * Validate that new pincode is 4 numbers.
-// */
-//function openruth_profile_form_validate(&$form, &$form_state) {
-//  if (!empty($form_state['values']['pincode'])) {
-//    if (!preg_match('/^\d{4}$/', $form_state['values']['pincode'])) {
-//      form_error($form['account']['pincode'], t('Pincode must be four numbers.'));
-//    }
-//  }
-//
-//  if (!empty($form_state['values']['profile_provider_openruth'])) {
-//    $profile2 = ding_user_provider_profile($form['#user']);
-//    if (empty($profile2)) {
-//      return;
-//    }
-//    $langs = field_language('profile2', $profile2);
-//    $index = $langs['field_openruth_mobile_phone'];
-//
-//    if (!isset($index)) {
-//      return;
-//    }
-//
-//    $mob = isset($form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value']) ?
-//      $form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value'] : FALSE;
-//    if ($mob) {
-//      if (!preg_match('/^\d+$/', $mob)) {
-//        form_error($form['profile_provider_openruth']['field_openruth_mobile_phone'], t('Mobile number must be digits only'));
-//      }
-//    }
-//  }
-//}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Add in pincode validation.
+ * Attach profile2 form
+ */
+function openruth_form_user_profile_form_alter(&$form, &$form_state) {
+  // Ensure that we're dealing with a provider user.
+  if (!ding_user_is_provider_user($form_state['user'])) {
+    return;
+  }
+
+  // custom validator
+  $form['#validate'][] = 'openruth_profile_form_validate';
+}
+
+
+/**
+ * Validate user form fields.
+ */
+function openruth_profile_form_validate(&$form, &$form_state) {
+  if (!empty($form_state['values']['profile_provider_openruth'])) {
+    $profile2 = ding_user_provider_profile($form['#user']);
+    if (empty($profile2)) {
+      return;
+    }
+    $langs = field_language('profile2', $profile2);
+    $index = $langs['field_openruth_mobile_phone'];
+
+    if (!isset($index)) {
+      return;
+    }
+
+    $mob = isset($form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value']) ?
+    $form_state['values']['profile_provider_openruth']['field_openruth_mobile_phone'][$index][0]['value'] : FALSE;
+    if ($mob) {
+      if (!preg_match('/^\d+$/', $mob)) {
+        form_error($form['profile_provider_openruth']['field_openruth_mobile_phone'], t('Mobile number must be digits only'));
+      }
+    }
+  }
+}
 
 /**
  * Form callback for provider module settings.
@@ -343,11 +329,9 @@ function openruth_profile2_presave($profile2) {
     // throw new Exception($exception_message);
   }
 
-  // Update the profile2 with whatever Openruth says (overrule local saves).
+  // Update the local cache with new information.
   $creds = ding_user_get_creds($profile2);
-  if (($userStatus = _openruth_user_status($creds, TRUE)) && isset($userStatus->userInfo)) {
-    openruth_profile_update($profile2, $userStatus->userInfo);
-  }
+  _openruth_user_status($creds, TRUE);
 }
 
 /**
