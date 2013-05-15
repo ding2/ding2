@@ -18,11 +18,11 @@ function openruth_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 7,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'profile2',
@@ -52,11 +52,11 @@ function openruth_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 0,
       ),
     ),
     'entity_type' => 'profile2',
@@ -90,11 +90,11 @@ function openruth_field_default_field_instances() {
     'description' => 'Period of interest - how long is a reservation valid for',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 1,
+        'type' => 'list_default',
+        'weight' => 8,
       ),
     ),
     'entity_type' => 'profile2',
@@ -121,11 +121,11 @@ function openruth_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'email',
         'settings' => array(),
-        'type' => 'email_default',
-        'weight' => 9,
+        'type' => 'email_plain',
+        'weight' => 4,
       ),
     ),
     'entity_type' => 'profile2',
@@ -154,11 +154,11 @@ function openruth_field_default_field_instances() {
     'description' => 'Your mobile phone',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 3,
+        'type' => 'text_default',
+        'weight' => 5,
       ),
     ),
     'entity_type' => 'profile2',
@@ -188,11 +188,11 @@ function openruth_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'profile2',
@@ -222,11 +222,11 @@ function openruth_field_default_field_instances() {
     'description' => 'Select preferred pickup branch',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'list',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'list_default',
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'profile2',
@@ -252,7 +252,7 @@ function openruth_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'date',
         'settings' => array(
           'format_type' => 'long',
@@ -262,7 +262,7 @@ function openruth_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 8,
+        'weight' => 6,
       ),
     ),
     'entity_type' => 'profile2',
@@ -301,11 +301,11 @@ function openruth_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'profile2',
