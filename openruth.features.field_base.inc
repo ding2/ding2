@@ -99,24 +99,13 @@ function openruth_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_openruth_interest_period',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
+    'foreign keys' => array(),
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
       'value' => array(
         0 => 'value',
       ),
     ),
-    'locked' => 0,
-    'module' => 'text',
+    'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
         30 => '1 month',
@@ -125,11 +114,10 @@ function openruth_field_default_field_bases() {
         180 => '6 months',
       ),
       'allowed_values_function' => '',
-      'max_length' => 255,
       'profile2_private' => 0,
     ),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'list_text',
   );
 
   // Exported field_base: 'field_openruth_mail'
