@@ -580,9 +580,11 @@ function bpi_query_alter($query) {
   $filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
   $available_filters = array('bpi_only', 'bpi_syndicated', 'bpi_pushed');
 
+  // Alter the pagination query.
   if ($query->hasTag('tablesort')) {
-    $tables =& $query->getTables();
+    $tables = &$query->getTables();
 
+    // In any case, when BPI filter is used, attach the BPI table.
     if (in_array($filter, $available_filters)) {
       $tables['bs'] = array(
         'join type' => 'INNER',
@@ -594,6 +596,7 @@ function bpi_query_alter($query) {
     }
   }
 
+  // Alter the content query.
   if ($query->hasTag('node_load_multiple')) {
     $tables = &$query->getTables();
     $conditions = &$query->conditions();
