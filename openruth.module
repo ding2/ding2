@@ -428,7 +428,7 @@ function openruth_seek_reserved_item($faust_number) {
  * information is not stored locally.
  *
  * Note: Fields not filled out here is store locally in the database as OpenRuth
- * do not have the ability to store them.
+ *       do not have the ability to store them.
  */
 function openruth_profile2_load($entities) {
   foreach ($entities as $id => &$entity) {
@@ -468,23 +468,6 @@ function openruth_profile2_load($entities) {
 
       // Preferred_branch.
       $wrapper->field_openruth_preferred_branch->set($patron->agencyCounter);
-
-      // Reservation pause.
-
-      /**
-       * @TODO: OPENRUTH DO NOT RETURN THIS INFORMATION.
-       */
-
-      $wrapper->field_openruth_reservation_pause->set(array(
-        'value' => '',
-        'value2' => '',
-      ));
-      if (isset($patron->userAbsenceStartDate) && isset($patron->userAbsenceStartDate)) {
-        $wrapper->field_openruth_reservation_pause->set(array(
-          'value' => $patron->userAbsenceStartDate . ' 00:00:00',
-          'value2' => $patron->userAbsenceStartDate . ' 00:00:00',
-        ));
-      }
 
       // Mail address.
       $wrapper->field_openruth_mail->set($patron->userEmail);

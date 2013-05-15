@@ -55,5 +55,7 @@ function openruth_update_7000() {
       'storage_module' => 'virtual_field',
     ))
     ->condition('field_name', '%openruth%', 'LIKE')
+    ->condition('field_name', 'field_openruth_interest_period', '!=')
+    ->condition('field_name', 'field_openruth_reservation_pause', '!=')
     ->execute();
 }

@@ -128,19 +128,8 @@ function openruth_field_default_field_bases() {
       'max_length' => 255,
       'profile2_private' => 0,
     ),
-    'storage' => array(
-      'active' => 1,
-      'module' => 'virtual_field',
-      'settings' => array(),
-      'type' => 'virtual_field',
-    ),
     'translatable' => 0,
     'type' => 'text',
-    'virtual_field' => array(
-      'entity_types' => array(
-        0 => 'profile2',
-      ),
-    ),
   );
 
   // Exported field_base: 'field_openruth_mail'
@@ -315,19 +304,8 @@ function openruth_field_default_field_bases() {
       'todate' => 'required',
       'tz_handling' => 'none',
     ),
-    'storage' => array(
-      'active' => 1,
-      'module' => 'virtual_field',
-      'settings' => array(),
-      'type' => 'virtual_field',
-    ),
     'translatable' => 0,
     'type' => 'datetime',
-    'virtual_field' => array(
-      'entity_types' => array(
-        0 => 'profile2',
-      ),
-    ),
   );
 
   // Exported field_base: 'field_openruth_street_name'
