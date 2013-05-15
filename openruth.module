@@ -276,7 +276,7 @@ function openruth_profile2_presave($entity) {
     // fields value, which should be save here.
     $language = field_language('profile2', $entity, 'field_openruth_reservation_pause');
     $original_value = $entity->original->field_openruth_reservation_pause[$language][0];
-    if (!empty($original_value)) {
+    if (!empty($original_value) && isset($entity->field_openruth_reservation_pause[$language][0])) {
       $value = $entity->field_openruth_reservation_pause[$language][0];
       if ($value['value'] != $original_value['value'] || $value['value2'] != $original_value['value2']) {
 
