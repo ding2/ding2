@@ -21,6 +21,11 @@ function bpi_delete_action($type = 'ajax', $nid) {
     return;
   }
 
+  if (!bpi_ability($nid, 'delete')) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+
   $delete_form = drupal_get_form('bpi_delete_form', $nid);
 
   if ($ajax) {

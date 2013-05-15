@@ -384,8 +384,10 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       unset($row['operations']);
       $row['operations'] = $tmp;
 
+      $push_permission = bpi_ability($key, 'push');
+
       // Adds a push link to operations.
-      if (bpi_push_available($key)) {
+      if ($push_permission && bpi_push_available($key)) {
         $row['operations']['data']['#links']['push'] = array(
           'title' => t('push'),
           'href' => 'admin/bpi/push/nojs/' . $key,
@@ -397,8 +399,10 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         );
       }
 
+      $delete_permission = bpi_ability($key, 'delete');
+
       // Adds a delete from bpi link.
-      if (isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
+      if ($delete_permission && isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
         $row['operations']['data']['#links']['delete_from_bpi'] = array(
           'title' => t('delete from bpi'),
           'href' => 'admin/bpi/delete/nojs/' . $key,
@@ -459,6 +463,41 @@ function _bpi_node_admin_content_submit(&$form, &$form_state) {
   elseif ($op == 'Filter' || $op == 'Refine') {
     $_SESSION['bpi']['filter'] = $bpi_filter;
   }
+}
+
+/**
+ * Returns proper permission.
+ *
+ * @global object $user
+ *   Current user object.
+ * @param int $nid
+ *   Node id.
+ * @param string $op
+ *   Operation to check permissions for.
+ * @return boolean
+ *   Status.
+ */
+function bpi_ability($nid, $op) {
+  global $user;
+  $node = node_load($nid);
+  $ability = FALSE;
+
+  // Common check for ownership.
+  if (is_object($node)) {
+    if ($node->uid == $user->uid) {
+      $ability = TRUE;
+    }
+  }
+
+  switch ($op) {
+    case 'push':
+      return $ability && bpi_push_available($nid);
+      break;
+    case 'delete':
+      break;
+  }
+
+  return $ability;
 }
 
 /**

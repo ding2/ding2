@@ -20,8 +20,13 @@
 function bpi_push_action($type, $nid) {
   $is_ajax = ($type == 'ajax') ? TRUE : FALSE;
 
-  if (empty($nid) || !bpi_push_available($nid)) {
-    drupal_goto('admin/content');
+  if (empty($nid)) {
+    return;
+  }
+
+  if (!bpi_ability($nid, 'push')) {
+    drupal_access_denied();
+    drupal_exit();
   }
 
   $push_form = drupal_get_form('bpi_push_form', $nid);
