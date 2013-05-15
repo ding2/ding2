@@ -290,8 +290,6 @@ function openruth_field_default_field_bases() {
     'locked' => 0,
     'module' => 'date',
     'settings' => array(
-      'cache_count' => 4,
-      'cache_enabled' => 0,
       'granularity' => array(
         'day' => 'day',
         'hour' => 0,
@@ -301,12 +299,24 @@ function openruth_field_default_field_bases() {
         'year' => 'year',
       ),
       'profile2_private' => 0,
+      'repeat' => 0,
       'timezone_db' => '',
       'todate' => 'required',
       'tz_handling' => 'none',
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'datetime',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_street_name'

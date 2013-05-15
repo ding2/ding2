@@ -19,6 +19,7 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 3,
@@ -233,10 +234,11 @@ function openruth_field_default_field_instances() {
   $field_instances['profile2-provider_openruth-field_openruth_reservation_pause'] = array(
     'bundle' => 'provider_openruth',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Set your reservations on pause.',
     'display' => array(
       'default' => array(
         'label' => 'inline',
+        'module' => 'date',
         'settings' => array(
           'format_type' => 'long',
           'fromto' => 'both',
@@ -245,7 +247,7 @@ function openruth_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'profile2',
@@ -253,8 +255,8 @@ function openruth_field_default_field_instances() {
     'label' => 'Reservation pause',
     'required' => 0,
     'settings' => array(
-      'default_value' => 'now',
-      'default_value2' => 'same',
+      'default_value' => 'blank',
+      'default_value2' => 'blank',
       'default_value_code' => '',
       'default_value_code2' => '',
       'user_register_form' => FALSE,
@@ -265,9 +267,10 @@ function openruth_field_default_field_instances() {
       'settings' => array(
         'display_all_day' => 0,
         'increment' => 15,
-        'input_format' => 'G:i:s',
+        'input_format' => 'd/m/Y',
         'input_format_custom' => '',
         'label_position' => 'above',
+        'repeat_collapsed' => 0,
         'text_parts' => array(),
         'year_range' => '-3:+3',
       ),
