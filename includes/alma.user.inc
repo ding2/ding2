@@ -91,12 +91,12 @@ function alma_user_clear_cache($creds = NULL) {
 /**
  * Update pin code at alma.
  *
- * @TODO: Rename this function to change hook_alma_change_pincode and in
- * ding_user line 240.
- *
- * @param type $account
- * @param type $changes
- * @return type
+ * @param object $account
+ *  User account object or the user provider profile2.
+ * @param string $new_pincode
+ *  The users new pincode.
+ * @return array
+ *  Updated credential array.
  */
 function alma_user_update_pincode($account, $new_pincode) {
   $creds = ding_user_get_creds($account);
