@@ -258,34 +258,6 @@ function openruth_allowed_branches() {
 }
 
 /**
- * Update profile2 with values from Openruth userInfo.
- */
-function openruth_profile_update($profile, $userinfo) {
-  $langs = field_language('profile2', $profile);
-  //preferred branch
-  if (isset($profile->field_openruth_preferred_branch)) {
-    $profile->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value'] = $userinfo->agencyCounter;
-  }
-
-  // reservation pause
-  if (isset($profile->field_openruth_reservation_pause)) {
-    if (isset($userinfo->userAbsenceStartDate) && isset($userinfo->userAbsenceEndDate)) {
-      $profile->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value'] = $userinfo->userAbsenceStartDate;
-      $profile->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value2'] = $userinfo->userAbsenceEndDate;
-    }
-    else {
-      $profile->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value'] = ' ';
-      $profile->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value2'] = ' ';
-    }
-  }
-  // mobile phone
-  if (isset($profile->field_openruth_mobile_phone)) {
-    $profile->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] = isset($userinfo->userMobilePhone) ? $userinfo->userMobilePhone : '';
-  }
-
-}
-
-/**
  * Implements hook_profile2_presave().
  *
  * Sends changes to Openruth and updates profile with real values.
@@ -540,8 +512,8 @@ function openruth_seek_reserved_item($faust_number) {
  * this seams to be the right place and at the same time ensure that the
  * information is not stored locally.
  *
- * Note: that the fields not filled out here is store locally in the database
- *       as openruth do not have the ability to store them.
+ * Note: Fields not filled out here is store locally in the database as OpenRuth
+ * do not have the ability to store them.
  */
 function openruth_profile2_load($entities) {
   foreach ($entities as $id => &$entity) {
@@ -576,8 +548,23 @@ function openruth_profile2_load($entities) {
       $wrapper->field_openruth_postal_code->set($patron->userPostCode);
       $wrapper->field_openruth_city->set($patron->userCity);
 
-      // Mobile; also here openruth supports multiple phones - again we pick the first
+      // Mobile; also here openruth supports multiple phones - again we pick the first.
       $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
+
+      // Preferred_branch.
+      $wrapper->field_openruth_preferred_branch->set($patron->agencyCounter);
+
+      // Reservation pause.
+      $wrapper->field_openruth_reservation_pause->set(array(
+        'value' => '',
+        'value2' => '',
+      ));
+      if (isset($patron->userAbsenceStartDate) && isset($patron->userAbsenceStartDate)) {
+        $wrapper->field_openruth_reservation_pause->set(array(
+          'value' => $patron->userAbsenceStartDate . ' 00:00:00',
+          'value2' => $patron->userAbsenceStartDate . ' 00:00:00',
+        ));
+      }
 
       // Mail address.
       $wrapper->field_openruth_mail->set($patron->userEmail);

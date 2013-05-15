@@ -117,8 +117,19 @@ function openruth_field_default_field_bases() {
       'allowed_values_function' => '',
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
-    'type' => 'list_text',
+    'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_mail'
@@ -252,8 +263,19 @@ function openruth_field_default_field_bases() {
       'allowed_values_function' => 'openruth_allowed_branches',
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
-    'type' => 'list_text',
+    'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_reservation_pause'

@@ -19,7 +19,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 3,
@@ -50,7 +49,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 0,
@@ -85,7 +83,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 8,
@@ -116,7 +113,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'email',
         'settings' => array(),
         'type' => 'email_plain',
         'weight' => 4,
@@ -149,7 +145,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 5,
@@ -183,7 +178,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 2,
@@ -214,7 +208,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 7,
@@ -244,7 +237,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'date',
         'settings' => array(
           'format_type' => 'long',
           'fromto' => 'both',
@@ -293,7 +285,6 @@ function openruth_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 1,
