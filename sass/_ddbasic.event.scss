@@ -154,13 +154,13 @@
   }
 
   .event-content {
-    @include zen-grid-item($grid-66, 1);
+    @include zen-grid-item(8, 1);
 
     padding-left: 0;
   }
 
   .event-info {
-    @include zen-grid-item($grid-33, 1, right);
+    @include zen-grid-item(4, 1, right);
 
     padding-right: 0;
 

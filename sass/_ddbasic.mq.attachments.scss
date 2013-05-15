@@ -14,19 +14,19 @@
 //
 @mixin attachment-25-25-25-25 {
   .attachment-first {
-    @include zen-grid-item($grid-25, 1);
+    @include zen-grid-item(3, 1);
   }
 
   .attachment-second {
-    @include zen-grid-item($grid-25, $grid-25 + 1);
+    @include zen-grid-item(3, 3 + 1);
   }
 
   .attachment-third {
-    @include zen-grid-item($grid-25, $grid-25 + 1, right);
+    @include zen-grid-item(3, 3 + 1, right);
   }
 
   .attachment-fourth {
-    @include zen-grid-item($grid-25, 1, right);
+    @include zen-grid-item(3, 1, right);
   }
 }
 
@@ -44,20 +44,20 @@
 //
 @mixin attachment-33-33-33-100 {
   .attachment-first {
-    @include zen-grid-item($grid-33, 1);
+    @include zen-grid-item(4, 1);
   }
 
   .attachment-second {
-    @include zen-grid-item($grid-33, $grid-33 + 1);
+    @include zen-grid-item(4, 4 + 1);
   }
 
   .attachment-third {
-    @include zen-grid-item($grid-33, 1, right);
+    @include zen-grid-item(4, 1, right);
   }
 
   .attachment-fourth {
     @include zen-clear(both);
-    @include zen-grid-item($grid-column-count, 1);
+    @include zen-grid-item(12, 1);
   }
 }
 
@@ -78,21 +78,21 @@
 //
 @mixin attachment-50-50-100-100 {
   .attachment-first {
-    @include zen-grid-item($grid-50, 1);
+    @include zen-grid-item(6, 1);
   }
 
   .attachment-second {
-    @include zen-grid-item($grid-50, 1, right);
+    @include zen-grid-item(6, 1, right);
   }
 
   .attachment-third {
     @include zen-clear();
-    @include zen-grid-item($grid-column-count, 1);
+    @include zen-grid-item(12, 1);
   }
 
   .attachment-fourth {
     @include zen-clear();
-    @include zen-grid-item($grid-column-count, 1);
+    @include zen-grid-item(12, 1);
   }
 }
 
@@ -109,17 +109,17 @@
 //
 @mixin attachment-50-50-50-50 {
   .attachment-first {
-    @include zen-grid-item($grid-50, 1);
+    @include zen-grid-item(6, 1);
   }
 
   .attachment-third {
     @include zen-clear(both);
-    @include zen-grid-item($grid-50, 1);
+    @include zen-grid-item(6, 1);
   }
 
   .attachment-second,
   .attachment-fourth {
-    @include zen-grid-item($grid-50, 1, right);
+    @include zen-grid-item(6, 1, right);
   }
 }
 
@@ -146,6 +146,6 @@
   .attachment-third,
   .attachment-fourth {
     @include zen-clear();
-    @include zen-grid-item($grid-column-count, 1);
+    @include zen-grid-item(12, 1);
   }
 }

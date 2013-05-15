@@ -91,144 +91,35 @@ legend {
 }
 
 
-// -----------------------------------------------------------------------------
-// Site header, fixed position
-// -----------------------------------------------------------------------------
-//
-.site-header {
-  @include large-x-large() {
-    &.js-fixed {
-      position: fixed;
-      z-index: 99;
-      width: 100%;
-
-      .topbar-menu {
-        margin-top: 0;
-      }
-
-      .site-name-wrapper {
-        margin-top: 10px;
-
-        .site-name {
-          @include rem('font-size', 24px);
-        }
-      }
-
-      .header-wrapper {
-        padding-top: 10px;
-        padding-bottom: 10px;
-
-        .user-name {
-          display: none !important;
-        }
-      }
-
-      .navigation-wrapper {
-        .menu-item {
-          padding-top: 10px;
-          padding-bottom: 10px;
-        }
-      }
-    }
-  }
-
-  @include small-medium() {
-    &.js-fixed {
-      .topbar {
-        position: fixed;
-        z-index: 99;
-        width: 100%;
-      }
-    }
-  }
-}
-
-// -----------------------------------------------------------------------------
-// Topbar, site name, slogan and logo
-// -----------------------------------------------------------------------------
-//
-.topbar {
-  background-color: transparentize($black, .15);
-
-  .topbar-inner {
-    @extend .grid-inner;
-
-    position: relative;
-  }
-}
-
-.site-name-wrapper {
-  @include zen-grid-item(4, 1);
-
-  margin-top: 30px;
-
-  @include small-medium() {
-    @include zen-grid-item(6, 1);
-
-    margin-top: 6px;
-  }
-}
-
-.site-name {
-  @include rem('font-size', 30px);
-
-  font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
-
-  a,
-  a:link,
-  a:visited,
-  a:active {
-    background-color: transparent;
-    color: $topbar-text-color;
-    text-decoration: none;
-  }
-
-  @include small-medium() {
-    @include rem('font-size', 24px);
-  }
-
-  @include small() {
-    @include rem('font-size', 16px);
-  }
-}
-
-.site-name-with-slogan {
-  @extend .site-name;
-}
-
-.site-slogan {
-  color: $topbar-text-color;
-  margin-top: $default-spacing / 2;
-  margin-left: 2px;
-}
-
-.logo {
-  @include zen-grid-item($grid-33, 1);
-}
-
-
 // **
 // Layout
 // **
 //
-.header-wrapper {
-  @extend .grid-wrapper;
+#page {
+  @include zen-grid-container;
+}
 
+.header-wrapper {
   background-color: $theme-primary-color;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  overflow: hidden;
 
   .header-inner {
-    @extend .grid-inner;
-
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
     overflow: visible;
   }
 }
 
 
 .content-wrapper {
-  @extend .grid-wrapper;
-
-  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 
@@ -331,6 +222,125 @@ legend {
       @include attachment-100-100-100-100;
     }
   }
+}
+
+
+// -----------------------------------------------------------------------------
+// Site header, fixed position
+// -----------------------------------------------------------------------------
+//
+.site-header {
+  @include large-x-large() {
+    &.js-fixed {
+      position: fixed;
+      z-index: 99;
+      width: 100%;
+
+      .topbar-menu {
+        margin-top: 0;
+      }
+
+      .site-name-wrapper {
+        margin-top: 10px;
+
+        .site-name {
+          @include rem('font-size', 24px);
+        }
+      }
+
+      .header-wrapper {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        .user-name {
+          display: none !important;
+        }
+      }
+
+      .navigation-wrapper {
+        .menu-item {
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+
+  @include small-medium() {
+    &.js-fixed {
+      .topbar {
+        position: fixed;
+        z-index: 99;
+        width: 100%;
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Topbar, site name, slogan and logo
+// -----------------------------------------------------------------------------
+//
+.topbar {
+  background-color: transparentize($black, .15);
+
+  .topbar-inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.site-name-wrapper {
+  @include zen-grid-item(4, 1);
+
+  margin-top: 30px;
+
+  @include small-medium() {
+    @include zen-grid-item(6, 1);
+
+    margin-top: 6px;
+  }
+}
+
+.site-name {
+  @include rem('font-size', 30px);
+
+  font-family: $font-bold;
+  font-weight: $theme-font-weight-bold;
+
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    background-color: transparent;
+    color: $topbar-text-color;
+    text-decoration: none;
+  }
+
+  @include small-medium() {
+    @include rem('font-size', 24px);
+  }
+
+  @include small() {
+    @include rem('font-size', 16px);
+  }
+}
+
+.site-name-with-slogan {
+  @extend .site-name;
+}
+
+.site-slogan {
+  color: $topbar-text-color;
+  margin-top: $default-spacing / 2;
+  margin-left: 2px;
+}
+
+.logo {
+  @include zen-grid-item(4, 1);
 }
 
 
