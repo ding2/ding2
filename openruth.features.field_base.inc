@@ -36,8 +36,19 @@ function openruth_field_default_field_bases() {
       'max_length' => 255,
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_full_name'
@@ -66,8 +77,19 @@ function openruth_field_default_field_bases() {
       'max_length' => 255,
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_interest_period'
@@ -113,8 +135,19 @@ function openruth_field_default_field_bases() {
     'settings' => array(
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'email',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_mobile_phone'
@@ -143,8 +176,19 @@ function openruth_field_default_field_bases() {
       'max_length' => 255,
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_postal_code'
@@ -173,8 +217,19 @@ function openruth_field_default_field_bases() {
       'max_length' => 255,
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   // Exported field_base: 'field_openruth_preferred_branch'
@@ -258,8 +313,19 @@ function openruth_field_default_field_bases() {
       'max_length' => 255,
       'profile2_private' => 0,
     ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
     'translatable' => 0,
     'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
   );
 
   return $field_bases;

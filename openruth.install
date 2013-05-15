@@ -44,3 +44,18 @@ function openruth_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * Change most fields in the profile to virtual fields.
+ */
+function openruth_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('field_name', '%alma%', 'LIKE')
+    ->condition('field_name', 'field_openruth_interest_period', '!=')
+    ->condition('field_name', 'field_openruth_preferred_branch', '!=')
+    ->execute();
+}

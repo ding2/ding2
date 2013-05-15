@@ -34,12 +34,9 @@ function openruth_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
       'weight' => 3,
     ),
   );
@@ -68,12 +65,9 @@ function openruth_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
       'weight' => 0,
     ),
   );
@@ -204,12 +198,9 @@ function openruth_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
       'weight' => 2,
     ),
   );
@@ -317,12 +308,9 @@ function openruth_field_default_field_instances() {
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
       'weight' => 1,
     ),
   );
