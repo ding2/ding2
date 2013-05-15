@@ -544,7 +544,8 @@ function alma_profile2_load($entities) {
         'value' => '',
         'value2' => '',
       ));
-      if (isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
+      if (isset($patron->absentPeriods[0]) &&
+          isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
         $wrapper->field_alma_reservation_pause->set(array(
           'value' => $patron->absentPeriods[0]['from_date'] . ' 00:00:00',
           'value2' => $patron->absentPeriods[0]['to_date'] . ' 00:00:00',
