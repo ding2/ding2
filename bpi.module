@@ -384,7 +384,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       unset($row['operations']);
       $row['operations'] = $tmp;
 
-      $push_permission = bpi_ability($key, 'delete');
+      $push_permission = bpi_ability($key, 'push');
 
       // Adds a push link to operations.
       if ($push_permission && bpi_push_available($key)) {
