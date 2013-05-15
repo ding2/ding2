@@ -94,38 +94,6 @@ $prefixes: ("-webkit-","-moz-", "-o-", "");
 
 
 // -----------------------------------------------------------------------------
-// Mixin for transparent backgrounds, maing it cross browser compatible
-// -----------------------------------------------------------------------------
-//
-// including IE8+. (https://gist.github.com/1949202)
-//
-// $color - The color of the background.
-// $alpha - The alpha value for transparency.
-//
-@mixin rgba-background($color, $alpha) {
-  $rgba: rgba($color, $alpha);
-  // IE fallback
-  background-color: $color;
-  background-color: $rgba;
-}
-
-
-// **
-// Box sizing
-// **
-//
-@mixin box-sizing($bs) {
-  $bs: unquote($bs);
-  @include experimental(box-sizing, $bs,
-    -moz, -webkit, not -o, not -ms, not -khtml, official
-  );
-  @if $box-sizing-polyfill-path != "" {
-    *behavior: url($box-sizing-polyfill-path);
-  }
-}
-
-
-// -----------------------------------------------------------------------------
 // Mixin that converts pixel values to rem values
 // -----------------------------------------------------------------------------
 //

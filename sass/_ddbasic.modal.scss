@@ -22,14 +22,14 @@ $modal-border-radius:             12px;
 // -----------------------------------------------------------------------------
 //
 .ui-widget-overlay {
-  @include rgba-background($modal-overlay-color, $modal-overlay-transparency);
+  background-color: transparentize($modal-background-color, $modal-background-transparency);
 }
 
 .ui-dialog {
-  @include rgba-background($modal-background-color, $modal-background-transparency);
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius($button-border-radius);
-
+  
+  background-color: transparentize($modal-background-color, $modal-background-transparency);
   min-width: $modal-min-width;
 }
 
@@ -93,8 +93,6 @@ $modal-border-radius:             12px;
       margin-bottom: $default-spacing / 2;
 
       .description {
-        @extend .text-small;
-
         color: transparentize($white, .1);
         margin-top: -$default-spacing / 2;
       }

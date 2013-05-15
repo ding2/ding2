@@ -119,13 +119,6 @@ input#edit-search-block-form--2.spinner {
     color: $link-color;
   }
 
-  // Facetbrowser title.
-  h2 {
-    @extend .text-largest;
-
-    margin-bottom: 20px;
-  }
-
   legend {
     line-height: inherit;
     padding-top: 20px;
@@ -148,12 +141,6 @@ input#edit-search-block-form--2.spinner {
         margin: 5px 0;
       }
     }
-  }
-
-
-  // Facet title.
-  .fieldset-legend {
-    @extend .text-larger;
   }
 
   // Expand facets link.
@@ -258,8 +245,6 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 20px;
 
   #search-query-display {
-    @extend .text-largest;
-
     #search-query-label {
       color: $gray-darker;
     }
@@ -274,8 +259,6 @@ input#edit-search-block-form--2.spinner {
   float: right;
 
   .ting-search-amount-block {
-    @extend .text-larger;
-
     color: $gray-darker;
   }
 }
@@ -351,8 +334,6 @@ input#edit-search-block-form--2.spinner {
       margin-left: 10px;
 
       .availability-label {
-        @extend .text-smallest;
-
         font-weight: normal;
         color: $gray-darker;
       }
