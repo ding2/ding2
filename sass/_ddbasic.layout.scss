@@ -5,24 +5,6 @@
 
 
 // -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
-//
-$topbar-text-color:               #fff;
-
-
-// -----------------------------------------------------------------------------
-// Don't show background in small and medium breakpoint
-// -----------------------------------------------------------------------------
-//
-#page.ding2-site-template {
-  @include small-medium() {
-    background-image: none !important;
-  }
-}
-
-
-// -----------------------------------------------------------------------------
 // Standard elements
 // -----------------------------------------------------------------------------
 //
@@ -209,6 +191,30 @@ legend {
 #page {
   @include zen-grid-container;
 }
+
+// Don't show background in small and medium breakpoint
+#page.ding2-site-template {
+  @include small-medium() {
+    background-image: none !important;
+  }
+}
+
+.page-title {
+  @include rem('margin-bottom', 20px);
+}
+
+.page-image {
+  @include rem('margin-bottom', 10px);
+}
+
+.page-lead {
+  @include rem('margin-bottom', 10px);
+}
+
+.page-content {
+  @include rem('margin-bottom', 20px);
+}
+
 
 .header-wrapper {
   background-color: $theme-primary-color;
@@ -423,7 +429,7 @@ legend {
   a:visited,
   a:active {
     background-color: transparent;
-    color: $topbar-text-color;
+    color: $white;
     text-decoration: none;
   }
 
@@ -441,7 +447,7 @@ legend {
 }
 
 .site-slogan {
-  color: $topbar-text-color;
+  color: $white;
   margin-top: $default-spacing / 2;
   margin-left: 2px;
 }
