@@ -3,12 +3,6 @@
 // =============================================================================
 //
 
-// -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
-//
-$prefixes:            ("-webkit-","-moz-", "-o-", "");
-
 
 // **
 // Availability
@@ -50,6 +44,8 @@ $prefixes:            ("-webkit-","-moz-", "-o-", "");
 // $color - The color for the selected text.
 // $background - The background color for the selected text.
 //
+$prefixes: ("-webkit-","-moz-", "-o-", "");
+
 @mixin selection($color, $background) {
   @each $prefix in $prefixes {
     ::#{$prefix}selection {
