@@ -252,3 +252,15 @@ function openruth_reservation_branch_name($branch_id) {
   return NULL;
 }
 
+/**
+ * Helper function that returns the interest periods from the field options.
+ * 
+ * @return array
+ *  Array of interest periods that can be used as default value in form selects.
+ */
+function openruth_get_interest_periods() {
+  $field_info = field_info_field('field_openruth_interest_period');
+  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+
+  return $interest_periods;
+}

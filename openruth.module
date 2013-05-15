@@ -246,180 +246,109 @@ function openruth_allowed_branches() {
 /**
  * Implements hook_profile2_presave().
  *
- * Sends changes to Openruth and updates profile with real values.
- * sofar only preferred_branch is updateable
- * period of interest is saved locally
- * @todo; is period of interest in zruth
+ * Updates changes added to the profile when its saved.
  */
-function openruth_profile2_presave($profile2) {
-  if (!$profile2->type == 'provider_openruth') {
-    return;
-  }
+function openruth_profile2_presave($entity) {
+  // Check if the profile is just being created and is an openruth_provider
+  // profile. If it's being created the fields are not yet loaded and can't be
+  // saved back to the provider.
+  $try_to_save = ($entity->created == $entity->changed) ? FALSE : TRUE;
+  if ($entity->type == 'provider_openruth' && $try_to_save) {
+    $changes = array();
 
-  $langs = field_language('profile2', $profile2);
+    // Use a metadata wrapper to access the data.
+    $wrapper_original = entity_metadata_wrapper('profile2', $entity->original);
+    $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-  // preferred branch
-  if (!empty($profile2->original->field_openruth_preferred_branch)) {
-    if ($profile2->field_openruth_preferred_branch != $profile2->original->field_openruth_preferred_branch) {
-      $branch = isset($profile2->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value']) ? $profile2->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value'] : '_none';
-      $changes['preferred_branch'] = $branch;
+    // Preferred branch.
+    $original_value =  $wrapper_original->field_openruth_preferred_branch->value();
+    if (!is_null($original_value)) {
+      $value = $wrapper->field_openruth_preferred_branch->value();
+      if ($value != $original_value) {
+        $changes['preferred_branch'] = empty($value) ? '_none' : $value;
+      }
     }
-  }
 
-  // reservation pause
-  if (!empty($profile2->original->field_openruth_reservation_pause)) {
-    if ($profile2->field_openruth_reservation_pause != $profile2->original->field_openruth_reservation_pause) {
 
-      // if field is empty delete the pause (@todo delete reservation pause doesn't work. fix it)
-      if (empty($profile2->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']])) {
-        $start = '';
-        $stop = '';
-      }
-      else {
-        // remove trailing T00:00:00 openruth doesn't understand that
-        $start = $profile2->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value'];
-        $start = str_replace('T00:00:00', '', $start);
 
-        $stop = $profile2->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value2'];
-        $stop = str_replace('T00:00:00', '', $stop);
-      }
+    // Reservation pause (date fields do not work with entity wrappers -
+    // https://drupal.org/node/1803286). So we fallback and only take the first
+    // fields value, which should be save here.
+    $language = field_language('profile2', $entity, 'field_openruth_reservation_pause');
+    $original_value = $entity->original->field_openruth_reservation_pause[$language][0];
+    if (!empty($original_value)) {
+      $value = $entity->field_openruth_reservation_pause[$language][0];
+      if ($value['value'] != $original_value['value'] || $value['value2'] != $original_value['value2']) {
 
-      $org_start = $profile2->original->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value'];
-      $org_start = str_replace('T00:00:00', '', $org_start);
+        // Remove trailing T00:00:00 OpenRuth doesn't understand that
+        $start = $value['value'];
+        $start = str_replace(' 00:00:00', '', $start);
 
-      $org_stop = $profile2->original->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value2'];
-      $org_stop = str_replace('T00:00:00', '', $org_stop);
+        $stop = $value['value2'];
+        $stop = str_replace(' 00:00:00', '', $stop);
 
-      if ($start != $org_start || $stop != $org_stop) {
+        // Update values.
         $changes['reservation_pause_start'] = $start;
         $changes['reservation_pause_stop'] = $stop;
       }
     }
-  }
 
-  // mobile phone
-  if (!empty($profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']])) {
-    if (isset($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'])) {
-      if ($profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'] !=
-	   $profile2->original->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value']) {
-        $changes['mobile_phone'] = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
+    // Mobile phone.
+    $original_value = $wrapper_original->field_openruth_mobile_phone->value();
+    if (!empty($original_value)) {
+      $value = $wrapper->field_openruth_mobile_phone->value();
+      if (isset($value)) {
+        if ($value != $original_value) {
+          $changes['mobile_phone'] = $value;
+        }
+      }
+      else {
+        $changes['mobile_phone'] = '';
       }
     }
-    else {
-      $changes['mobile_phone'] = '';
+
+    // Mail.
+    $original_value = $wrapper_original->field_openruth_mail->value();
+    if (!empty($original_value)) {
+      $value = $wrapper->field_openruth_mail->value();
+      if (isset($value)) {
+        if ($value != $original_value) {
+          $changes['mail'] = $value;
+        }
+      }
+      else {
+        $changes['mail'] = '';
+      }
+    }
+
+    // Check if there where any changes and save them in the provider.
+    if (!empty($changes)) {
+      try {
+        $creds = ding_user_get_creds($entity);
+      }
+      catch (Exception $e) {
+        // Re-throw ??
+        throw $e;
+      }
+
+      // Update the information at the provider.
+      $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
+      if ($res !== TRUE) {
+        // Call failed, throw exception.
+        if (is_string($res)) {
+          $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
+        }
+        else {
+          $exception_message = t('Update userinfo failed.');
+        }
+        drupal_set_message($exception_message);
+      }
+
+      // Update the local cache with new information.
+      _openruth_user_status($creds, TRUE);
     }
   }
-
-  if (empty($changes)) {
-    return;
-  }
-
-  $creds = ding_user_get_creds($profile2);
-  $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
-
-  if ($res !== TRUE) {
-    // Call failed, throw exception.
-    if (is_string($res)) {
-      $exception_message = t('Update userinfo failed, message: @message', array('@message' => $res));
-    }
-    else {
-      $exception_message = t('Update userinfo failed.');
-    }
-    drupal_set_message($exception_message);
-    // throw new Exception($exception_message);
-  }
-
-  // Update the local cache with new information.
-  $creds = ding_user_get_creds($profile2);
-  _openruth_user_status($creds, TRUE);
 }
-
-/**
- * Get profile2 field; field_openruth_mobile_phone
- */
-function openruth_get_mobile_phone($profile2) {
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-  if (empty($profile2->field_openruth_mobile_phone)) {
-    return FALSE;
-  }
-
-  $mob = $profile2->field_openruth_mobile_phone[$langs['field_openruth_mobile_phone']][0]['value'];
-  return $mob;
-}
-
-/**
- * Get profile2 field; field_openruth_interest_period
- */
-function openruth_get_interest_period($profile2) {
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-  // get field-info to retrieve values for select list
-  $field_info = field_info_field('field_openruth_interest_period');
-
-  if (empty($profile2->field_openruth_interest_period)) {
-    return FALSE;
-  }
-
-  $interest_period = FALSE;
-  $int_values = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
-  if ($int_values) {
-    $int_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
-    $interest_period = isset($int_values[$int_period]) ? $int_values[$int_period] : FALSE;
-  }
-  return $interest_period;
-}
-
-function openruth_get_interest_periods() {
-  $field_info = field_info_field('field_openruth_interest_period');
-  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
-
-  return $interest_periods;
-}
-
-/**
- * Get profile2 field; field_openruth_preferred_branch
- */
-function openruth_get_preferred_branch($profile2) {
-  // get field languages
-  $pref = FALSE;
-  $langs = field_language('profile2', $profile2);
-  if (empty($profile2->field_openruth_preferred_branch)) {
-    return FALSE;
-  }
-  // get preferred branch
-  $pref_branch = $profile2->field_openruth_preferred_branch[$langs['field_openruth_preferred_branch']][0]['value'];
-  $branches = openruth_allowed_branches();
-  $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
-
-
-  return $pref;
-}
-
-/**
- * Get profile2 field; field_openruth_reservation_pause
- */
-function openruth_get_reservation_pause($profile2) {
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-  if (empty($profile2->field_openruth_reservation_pause)) {
-    return FALSE;
-  }
-
-  if (empty($profile2->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']])) {
-    return false;
-  }
-
-  $res_pause['start'] = $profile2->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value'];
-  $res_pause['stop'] = $profile2->field_openruth_reservation_pause[$langs['field_openruth_reservation_pause']][0]['value2'];
-
-  if (strlen($res_pause['start']) < 2 || strlen($res_pause['stop']) < 2) {
-    return false;
-  }
-
-  return $res_pause;
-}
-
 
 /**
  * Get user status.
@@ -436,6 +365,8 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
     return;
   }
 
+  // Why is this indexed by id in the session... the session only belongs to the
+  //current user.
   $id = hash('sha512', $creds['name'] . $creds['pass']);
 
   if (!isset($_SESSION['openruth_user_status'][$id]) || $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
@@ -539,6 +470,11 @@ function openruth_profile2_load($entities) {
       $wrapper->field_openruth_preferred_branch->set($patron->agencyCounter);
 
       // Reservation pause.
+
+      /**
+       * @TODO: OPENRUTH DO NOT RETURN THIS INFORMATION.
+       */
+
       $wrapper->field_openruth_reservation_pause->set(array(
         'value' => '',
         'value2' => '',
