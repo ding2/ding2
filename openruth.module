@@ -269,8 +269,6 @@ function openruth_profile2_presave($entity) {
       }
     }
 
-
-
     // Reservation pause (date fields do not work with entity wrappers -
     // https://drupal.org/node/1803286). So we fallback and only take the first
     // fields value, which should be save here.
@@ -354,7 +352,6 @@ function openruth_profile2_presave($entity) {
  * Get user status.
  *
  * Session cached for efficiency.
- * @todo; should this be cached in drupal instead ?? there might be an issue if drupal cache is invalidated
  */
 function _openruth_user_status($creds = NULL, $reset = FALSE) {
   // Flush cache if creds is not specified.
