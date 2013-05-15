@@ -47,17 +47,6 @@ function openruth_user_authenticate($name, $pass) {
   return $return;
 }
 
-///**
-// *
-// */
-//function openruth_user_profile_init($profile, $auth_res) {
-//  openruth_profile_update($profile, $auth_res['private']['userinfo']);
-//  // Don't save to Openruth in presave hook.
-//  $profile->openruth_init = TRUE;
-//  $profile->save();
-//  unset($profile->openruth_init);
-//}
-
 /**
  * Update user account.
  */
