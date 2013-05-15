@@ -3548,6 +3548,37 @@ legend {
   text-decoration: none;
 }
 
+/* line 430, ../sass/_ddbasic.layout.scss */
+.signature {
+  border-top: 1px solid #efefef;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* line 439, ../sass/_ddbasic.layout.scss */
+.signature .signature-image img {
+  float: left;
+  margin-top: 5px;
+  margin-right: 20px;
+}
+/* line 446, ../sass/_ddbasic.layout.scss */
+.signature .signature-label {
+  display: inline-block;
+  min-width: 125px;
+}
+
+/* line 452, ../sass/_ddbasic.layout.scss */
+.signature .tags a {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+/* line 457, ../sass/_ddbasic.layout.scss */
+.signature .tags a:not(:last-child):after {
+  content: ",";
+}
+
 /* line 5, ../sass/_ddbasic.typography.scss */
 body {
   font-size: 16px;
@@ -5203,50 +5234,6 @@ button#edit-cancel {
     margin-top: 0;
   }
 }
-/* line 20, ../sass/_ddbasic.miscellaneous.scss */
-.js-fixed-element {
-  display: none;
-}
-
-/* line 24, ../sass/_ddbasic.miscellaneous.scss */
-.assistive-text {
-  clip: rect(1px 1px 1px 1px);
-  /* IE6, IE7 */
-  clip: rect(1px, 1px, 1px, 1px);
-  position: absolute !important;
-}
-
-/* line 35, ../sass/_ddbasic.miscellaneous.scss */
-.signature {
-  border-top: 1px solid #efefef;
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-/* line 44, ../sass/_ddbasic.miscellaneous.scss */
-.signature .signature-image img {
-  float: left;
-  margin-top: 5px;
-  margin-right: 20px;
-}
-/* line 51, ../sass/_ddbasic.miscellaneous.scss */
-.signature .signature-label {
-  display: inline-block;
-  min-width: 125px;
-}
-
-/* line 57, ../sass/_ddbasic.miscellaneous.scss */
-.signature .tags a {
-  display: inline-block;
-  margin-right: 0.3em;
-}
-
-/* line 62, ../sass/_ddbasic.miscellaneous.scss */
-.signature .tags a:not(:last-child):after {
-  content: ",";
-}
-
 /* line 5, ../sass/_ddbasic.overrides.drupal.scss */
 ul li.leaf {
   list-style: none;
