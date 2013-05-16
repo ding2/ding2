@@ -124,6 +124,12 @@ function openruth_settings_form() {
     '#description' => t('The OpenRuth agency id of the library.'),
   );
 
+  // Add the option to select default interest period, which default as default
+  // to 180 days.
+  $periods = openruth_get_interest_periods();
+  $default = variable_get('openruth_default_interest_period', 180);
+  $form['openruth'] += ding_reservation_interest_period_selector('', 'openruth_default_interest_period', $default, $periods);
+
   $default_proxy = variable_get('openruht_proxy', array('host' => '', 'port' => ''));
   $form['openruth']['openruht_proxy'] = array(
     '#type' => 'fieldset',
@@ -444,10 +450,10 @@ function openruth_profile2_load($entities) {
   foreach ($entities as $id => &$entity) {
     if ($entity->type == 'provider_openruth') {
 
-      // User static cache to ensure that alma is not asked more than once.
+      // User static cache to ensure that OpenRuth is not asked more than once.
       $patron = &drupal_static(__FUNCTION__);
       if (!isset($patron)) {
-        // Get information from alma about the current user.
+        // Get information from OpenRuth about the current user.
         global $user;
         try {
           $creds = ding_user_get_creds($user);
@@ -457,7 +463,7 @@ function openruth_profile2_load($entities) {
           return;
         }
 
-        // Get user information from alma (using cache in user status).
+        // Get user information from OpenRuth (using cache in user status).
         $patron = _openruth_user_status($creds);
         $patron = $patron->userInfo;
       }

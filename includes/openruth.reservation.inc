@@ -210,12 +210,16 @@ function openruth_reservation_create($account, $id, $options) {
     $langs = field_language('profile2', $profile2);
     if (isset($profile2->field_openruth_interest_period)) {
       $interest_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
-      $expiry = REQUEST_TIME + ($interest_period * 24 * 60 * 60);
+
+      // Change the period from days into secounds.
+      $expiry = REQUEST_TIME + ($interest_period * 86400);
     }
   }
 
   if (!isset($expiry)) {
-    $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+    // The user don't have a default interest period, so use the system wide
+    // one for openruth (which default is 180 days).
+    $expiry = REQUEST_TIME + variable_get('openruth_default_interest_period', 180) * 86400;
   }
 
   $creds = ding_user_get_creds($account);
