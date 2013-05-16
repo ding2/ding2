@@ -1,7 +1,14 @@
 <?php
+/**
+ * @file
+ * Handels reservations for OpenRuth.
+ */
 
 /**
- * Get list of pickup branches
+ * Get list of pickup branches.
+ *
+ * @param type $account
+ * @return type
  */
 function openruth_reservation_pickup_branches($account) {
   // Throw exception if we're not logged in.
@@ -12,16 +19,23 @@ function openruth_reservation_pickup_branches($account) {
 }
 
 /**
- * Set preferred pickup branch
+ * Set preferred pickup branch.
+ *
+ * @param type $account
+ * @param type $branch
  */
 function openruth_reservation_set_preferred_branch($account, $branch) {
   // Throw exception if we're not logged in.
   ding_user_get_creds($account);
-  // Do nothing, ding_reservation will update local user if we don't throw an exception.
+  // Do nothing, ding_reservation will update local user if we don't throw an
+  // exception.
 }
 
 /**
- * Get list of reserved items
+ * Get list of reserved items.
+ *
+ * @param type $account
+ * @return \DingProviderReservation
  */
 function openruth_reservation_list($account) {
   $result = &drupal_static(__FUNCTION__, array());
@@ -41,7 +55,7 @@ function openruth_reservation_list($account) {
           // Only items that has been set aside for the user has a pickup order ID. Also, not all libraries use it.
           'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
           'pickup_branch_id' => $res->agencyCounter,
-          'order_arrived' =>  $res->orderArrived,
+          'order_arrived' => $res->orderArrived,
           'created' => $res->orderDate,
           'author' => $res->itemAuthor,
           'title' => $res->itemTitle,
@@ -55,7 +69,7 @@ function openruth_reservation_list($account) {
       foreach ($status->orders->orderNotReady as $res) {
         $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
           'order_id' => $res->orderId,
-          'ding_entity_id' => variable_get('ting_agency', '')  . ':' . $res->itemId,
+          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
           'display_name' => $res->itemDisplayTitle,
           'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
           'pickup_branch_id' => $res->agencyCounter,
@@ -74,14 +88,14 @@ function openruth_reservation_list($account) {
       foreach ($status->illOrders->illOrder as $res) {
         $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
           'order_id' => $res->orderId,
-          'ding_entity_id' => variable_get('ting_agency', '')  . ':' . $res->itemId,
+          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
           'display_name' => $res->itemDisplayTitle,
           'pickup_branch_id' => $res->agencyCounter,
           'expiry' => $res->orderLastInterestDate,
           'created' => $res->orderDate,
-          'author' => $res->itemAuthor,
+          'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
           'title' => $res->itemTitle,
-          'publication_year' => $res->itemPublicationYear,
+          'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
           'ill_status' => $res->illStatus,
           'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
@@ -94,6 +108,12 @@ function openruth_reservation_list($account) {
 
 /**
  * Provide options for reservation.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @return type
+ * @throws Exception
  */
 function openruth_reservation_options($type, $account, $reservables) {
   /*
@@ -109,15 +129,15 @@ function openruth_reservation_options($type, $account, $reservables) {
   $profile = ding_user_provider_profile($account);
 
   if (ding_user_is_provider_user($account)) {
-    $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
+    $preferred_branch = $profile->field_openruth_preferred_branch[field_language('profile2', $profile, 'field_openruth_preferred_branch')][0]['value'];
     $interest_period = $profile->field_openruth_interest_period[field_language('profile2', $profile, 'field_openruth_interest_period')][0]['value'];
   }
   else {
     $preferred_branch = '';
-    $interest_period = ''; // TO DO : get default provider period. ( openruth_get_interest_period($profile2) )?
+    $interest_period = ''; // @TODO: Get default provider period. ( openruth_get_interest_period($profile2) )?
   }
 
-  $form += ding_reservation_default_options_branch($type, 'openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
+  $form += ding_reservation_default_options_branch($type, 'field_openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
   $form += ding_reservation_interest_period_selector($type, 'openruth_interest_period', $interest_period, openruth_get_interest_periods());
 
   return $form;
@@ -125,22 +145,28 @@ function openruth_reservation_options($type, $account, $reservables) {
 
 /**
  * Validate reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
+ * @return type
  */
 function openruth_reservation_options_validate($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'];
+  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
   $interest_period = $profile->field_openruth_interest_period[$field_language['field_openruth_interest_period']][0]['value'];
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
   if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
     return array(
-      'openruth_preferred_branch' => $profile_branch,
+      'field_openruth_preferred_branch' => $profile_branch,
       'openruth_interest_period' => $interest_period,
     );
   }
   else {
-    $branch_valid = ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
+    $branch_valid = ding_reservation_default_options_branch_validate($type, 'field_openruth_preferred_branch', $profile_branch, $values);
     $period_valid = ding_reservation_default_options_interest_period_validate($type, 'openruth_interest_period', $interest_period, $values);
 
     return array_merge($branch_valid, $period_valid);
@@ -149,34 +175,46 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
 
 /**
  * Submit handler for reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
  */
 function openruth_reservation_options_submit($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'];
-  $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile_branch, $values);
-  if (!empty($update['openruth_preferred_branch'])) {
-    $profile->openruth_preferred_branch[$field_language['openruth_preferred_branch']][0]['value'] = $update['openruth_preferred_branch'];
+  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
+  $update = ding_reservation_default_options_branch_submit($type, 'field_openruth_preferred_branch', $profile_branch, $values);
+  if (!empty($update['field_openruth_preferred_branch'])) {
+    $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'] = $update['field_openruth_preferred_branch'];
     $profile->save();
   }
 }
 
 /**
- * Create a reservation for a given account
+ * Create a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @param type $options
+ * @return type
+ * @throws DingProviderReservationExists
+ * @throws DingProviderUserException
  */
 function openruth_reservation_create($account, $id, $options) {
-  $branch = $options['openruth_preferred_branch'];
+  $branch = $options['field_openruth_preferred_branch'];
 
   // get interest period from profile2
-  if (  $profile2 = profile2_load_by_user($account, 'provider_openruth') ) {
+  if ($profile2 = profile2_load_by_user($account, 'provider_openruth')) {
     $langs = field_language('profile2', $profile2);
-    if ( isset($profile2->field_openruth_interest_period) ) {
+    if (isset($profile2->field_openruth_interest_period)) {
       $interest_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
-      $expiry = REQUEST_TIME + ($interest_period * 24 * 60 * 60 );
+      $expiry = REQUEST_TIME + ($interest_period * 24 * 60 * 60);
     }
   }
 
-  if ( !isset($expiry) ) {
+  if (!isset($expiry)) {
     $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
   }
 
@@ -203,15 +241,19 @@ function openruth_reservation_create($account, $id, $options) {
 
 /**
  * Update order.
+ *
+ * @param type $account
+ * @param type $res_ids
+ * @param type $options
+ * @return type
  */
 function openruth_reservation_update($account, $res_ids, $options) {
   $reservations = openruth_reservation_list($account);
-  $update = FALSE;
   foreach ($res_ids as $res_id) {
-    if ( $res_id ) {
-      $branch = !empty($options['openruth_preferred_branch']) ? $options['openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
+    if ($res_id) {
+      $branch = !empty($options['field_openruth_preferred_branch']) ? $options['field_openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
       $expiry = !empty($options['openruth_interest_period']) ? date('Y-m-d', REQUEST_TIME + ($options['openruth_interest_period'] * 24 * 60 * 60)) : $reservations[$res_id]->expiry;
-      $res = openruth_client_invoke('update_order', $res_id, $branch, $expiry);
+      openruth_client_invoke('update_order', $res_id, $branch, $expiry);
     }
   }
   // Flush cache.
@@ -224,6 +266,9 @@ function openruth_reservation_update($account, $res_ids, $options) {
 
 /**
  * Delete a reservation for a given account
+ *
+ * @param type $account
+ * @param type $id
  */
 function openruth_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
@@ -231,15 +276,15 @@ function openruth_reservation_delete($account, $id) {
   $res = openruth_client_invoke('cancel_order', $id);
 
   if ($res == TRUE) {
-    $status = _openruth_user_status($creds, TRUE);
+    _openruth_user_status($creds, TRUE);
   }
 }
 
 /**
  * Return a branch name for a given branch id
  *
- * @param $branch_id String
- * @return String
+ * @param string $branch_id
+ * @return string
  */
 function openruth_reservation_branch_name($branch_id) {
   // Throw exception if we're not logged in.
@@ -252,3 +297,15 @@ function openruth_reservation_branch_name($branch_id) {
   return NULL;
 }
 
+/**
+ * Helper function that returns the interest periods from the field options.
+ *
+ * @return array
+ *  Array of interest periods that can be used as default value in form selects.
+ */
+function openruth_get_interest_periods() {
+  $field_info = field_info_field('field_openruth_interest_period');
+  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+
+  return $interest_periods;
+}

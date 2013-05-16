@@ -13,9 +13,9 @@ function openruth_default_profile2_type() {
     "userCategory" : true,
     "userView" : true,
     "type" : "provider_openruth",
-    "label" : "Openruth",
+    "label" : "Profile for OpenRuth",
     "weight" : "0",
-    "data" : { "registration" : 0 }
+    "data" : null
   }');
   return $items;
 }
