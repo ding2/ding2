@@ -214,7 +214,7 @@ function ding_place2book_node_update($node) {
     if ($node->place2book['maintain_copy'] == 1) {
       // current maintain_copy continues the previous state
       // - which means we perform an update
-      if ($settings['maintain_copy'] == 1) {
+      if (isset($settings['maintain_copy']) && $settings['maintain_copy'] == 1) {
         place2book_event_op('update', $node, $place2book_id);
       }
       // current maintain_copy differs from previous state and is now on
@@ -598,8 +598,10 @@ function place2book_build_xml($node, $service_settings) {
 
   // Set ticket price - multiplied by 100, Place2book receives amount in oere instead of kr.
   $field_ding_event_price = field_get_items('node', $node, 'field_ding_event_price');
-  $xml->event->price->value = $field_ding_event_price[0]['value'] * 100;
-
+  if (isset($field_ding_event_price[0]['value'])) {
+    $xml->event->price->value = $field_ding_event_price[0]['value'] * 100;
+  }
+  
   // -- set event times --
   $field_ding_event_date = field_get_items('node', $node, 'field_ding_event_date');
   // Set event time to begin
