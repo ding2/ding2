@@ -263,6 +263,13 @@ function ding_place2book_node_delete($node) {
                                WHERE nid = :nid', array(':nid' => $node->nid))
                      ->fetchField();
     if ($place2book_id) {
+      // Get existing Place2book settings for this node.
+      $settings = place2book_settings($node->nid);
+
+      // Insert the place2book settings and special fields into the node object before proceeding with delete
+      $node->place2book = $settings;
+      $node->capacity = $settings['capacity'];
+
       place2book_event_op('delete', $node, $place2book_id);
       _place2book_db_op('delete', $node, $place2book_id);
     }
@@ -766,7 +773,7 @@ function _place2book_db_op($op, $node, $place2book_id = NULL) {
                 WHERE nid = :nid
                 AND place2book_id = :place2book_id', 
                 array(
-                      ':nid' => $node-nid, 
+                      ':nid' => $node->nid,
                       ':place2book_id' => $place2book_id
                      )
       );
