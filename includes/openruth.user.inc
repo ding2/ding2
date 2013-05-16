@@ -1,7 +1,15 @@
 <?php
+/**
+ * @file
+ * Handels user authentication and update for OpenRuth.
+ */
 
 /**
  * Implements provider user, authenticate.
+ *
+ * @param type $name
+ * @param type $pass
+ * @return boolean
  */
 function openruth_user_authenticate($name, $pass) {
   $return = array(
@@ -28,19 +36,19 @@ function openruth_user_authenticate($name, $pass) {
     'pass' => $pass,
   );
 
-  $userStatus = _openruth_user_status($return['creds'], TRUE);
-  if ($userStatus && isset($userStatus->userInfo)) {
-    $userInfo = $userStatus->userInfo;
+  $status = _openruth_user_status($return['creds'], TRUE);
+  if ($status && isset($status->userInfo)) {
+    $user_info = $status->userInfo;
     $return['user'] = array(
       'data' => array(
-        'display_name' => $userInfo->userFirstName . ' ' . $userInfo->userLastName,
+        'display_name' => $user_info->userFirstName . ' ' . $user_info->userLastName,
       ),
     );
 
-    $return['private']['userinfo'] = $userInfo;
+    $return['private']['userinfo'] = $user_info;
 
-    if (isset($userInfo->userEmail)) {
-      $return['user']['mail'] = $userInfo->userEmail;
+    if (isset($user_info->userEmail)) {
+      $return['user']['mail'] = $user_info->userEmail;
     }
   }
 
@@ -49,6 +57,8 @@ function openruth_user_authenticate($name, $pass) {
 
 /**
  * Clear user cache.
+ *
+ * @param type $account
  */
 function openruth_user_clear_cache($account) {
   $creds = ding_user_get_creds($account);

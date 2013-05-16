@@ -1,8 +1,7 @@
 <?php
-
 /**
- * @file openruth.module
- * Drupal implementation of ZRuth's openruth SOAP API
+ * @file
+ * Drupal implementation of OpenRuth provider for the T!NG project.
  */
 
 include_once('openruth.features.inc');

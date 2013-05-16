@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Implements handling of loans through OpenRuth.
+ */
 
 /**
  * Get list of user loans.
@@ -28,7 +32,13 @@ function openruth_loan_list($account) {
 }
 
 /**
- * Renew loans.
+ * Renew of loans
+ *
+ * @param object $account
+ *  The user account the should have renewed loans
+ * @param array $ids
+ *  The ids of the loans to renew
+ * @return type
  */
 function openruth_loan_renew($account, $ids) {
   $creds = ding_user_get_creds($account);
@@ -37,7 +47,7 @@ function openruth_loan_renew($account, $ids) {
   $res = openruth_client_invoke('renew_loan', $creds['name'], $ids);
 
   if ($res == TRUE) {
-    $status = _openruth_user_status($creds, TRUE);
+    _openruth_user_status($creds, TRUE);
   }
   foreach ($ids as $id) {
     if ($res[$id] === TRUE) {
@@ -47,6 +57,7 @@ function openruth_loan_renew($account, $ids) {
       $result[$id] = DingProviderLoan::STATUS_NOT_RENEWED;
     }
   }
+
   return $result;
 }
 
