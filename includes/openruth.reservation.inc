@@ -93,9 +93,9 @@ function openruth_reservation_list($account) {
           'pickup_branch_id' => $res->agencyCounter,
           'expiry' => $res->orderLastInterestDate,
           'created' => $res->orderDate,
-          'author' => $res->itemAuthor,
+          'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
           'title' => $res->itemTitle,
-          'publication_year' => $res->itemPublicationYear,
+          'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
           'ill_status' => $res->illStatus,
           'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
