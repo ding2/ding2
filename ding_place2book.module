@@ -258,9 +258,10 @@ function ding_place2book_node_delete($node) {
      * REVIEW: Maybe a clean-up check could be execute by the
      *         administrator or cron?
      */
-    $place2book_id = db_result(db_query('SELECT place2book_id
-                                           FROM {ding_place2book}
-                                          WHERE nid = %d', $node->nid));
+    $place2book_id = db_query('SELECT place2book_id
+                               FROM {ding_place2book}
+                               WHERE nid = :nid', array(':nid' => $node->nid))
+                     ->fetchField();
     if ($place2book_id) {
       place2book_event_op('delete', $node, $place2book_id);
       _place2book_db_op('delete', $node, $place2book_id);
