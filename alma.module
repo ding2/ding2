@@ -319,6 +319,20 @@ function alma_profile2_presave($entity) {
     // Update provider.
     if (!empty($changes)) {
       alma_update_provider($changes, $entity);
+
+      // Update local drupal user (mail and display name).
+      if (isset($changes['mail'])) {
+        $creds = ding_user_get_creds($entity);
+        $auth_name = ding_user_default_authname($creds['name']);
+        _ding_user_create_account($auth_name, array(
+          'user' => array(
+            'mail' => $changes['mail'],
+            'data' => array(
+              'display_name' => $wrapper->field_alma_full_name->value(),
+            ),
+          ),
+        ));
+      }
     }
   }
 }
