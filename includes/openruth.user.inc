@@ -85,7 +85,7 @@ function openruth_user_update_pincode($account, $new_pincode) {
     }
 
     // Update creds in the return.
-    $creds['pass'] = $changes['pass'];
+    $creds['pass'] = $new_pincode;
     $result['creds'] = $creds;
 
     // Update user status cache.
