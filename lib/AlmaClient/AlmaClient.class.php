@@ -428,7 +428,7 @@ class AlmaClient {
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
       'reservable' => $reservation['id'],
-      'reservationPickUpBranch' => $reservation['pickup_branch']['alma_preferred_branch'],
+      'reservationPickUpBranch' => $reservation['pickup_branch'],
       'reservationValidFrom' => $reservation['valid_from'],
       'reservationValidTo' => $reservation['valid_to'],
     );

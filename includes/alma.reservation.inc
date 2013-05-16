@@ -164,14 +164,14 @@ function alma_reservation_list($account) {
  *
  * @param type $account
  * @param type $id
- * @param type $branch
+ * @param type $options
  * @param type $expiry
  * @return type
  * @throws DingProviderReservationExists
  * @throws DingProviderReservationNotAllowed
  * @throws DingProviderReservationNotAvailable
  */
-function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
+function alma_reservation_create($account, $id, $options = array(), $expiry = NULL) {
   $creds = ding_user_get_creds($account);
 
   // Check if the users has this reservation and throw exception.
@@ -188,16 +188,18 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
       // Use a metadata wrapper to access the data.
       $interest_period = $wrapper->field_alma_interest_period->value();
       if ($interest_period) {
-        $expiry = REQUEST_TIME + ($interest_period['key'] * 24 * 60 * 60);
+        // Change it to secounds from days.
+        $expiry = $interest_period * 86400;
       }
     }
     if (!isset($expiry)) {
-      $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+      $expiry = DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
     }
 
-    // preferred branch
-    if (empty($branch)) {
-      $branch = $wrapper->field_alma_preferred_branch->value();
+    // Preferred branch
+    $branch = $wrapper->field_alma_preferred_branch->value();
+    if (isset($options['alma_preferred_branch'])) {
+      $branch = $options['alma_preferred_branch'];
     }
   }
 
@@ -205,10 +207,11 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
   $params = array(
     'id' => $id,
     'valid_from' => date('Y-m-d'),
-    'valid_to' => alma_reservation_format_date($expiry),
+    'valid_to' => alma_reservation_format_date(time() + $expiry),
     'pickup_branch' => $branch,
   );
 
+  // Clear the local alma cache.
   alma_reservation_clear_cache();
 
   // Try to make the reservation.
@@ -347,12 +350,13 @@ function alma_reservation_exists($account, $item_id) {
 }
 
 /**
- * @TODO: add description.
+ * Helper function calculate the date in the feature base on interest period.
  *
- * @param type $datetime
- * @return type
+ * @param int $expiry
+ *  The number of secounds into the feature we need at date.
+ * @return string
+ *  The date in the feature in the format 'Y-m-d'.
  */
-function alma_reservation_format_date($datetime) {
-  $timestamp = (!is_int($datetime)) ? strtotime($datetime) : $datetime;
-  return date('Y-m-d', $timestamp);
+function alma_reservation_format_date($expiry) {
+  return date('Y-m-d', $expiry);
 }
