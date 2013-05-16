@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Handles update tasks for the module. 
+ */
+
+/**
+ * Remove old ting reference field table from events. 
+ */
+function ding_event_update_7000() {
+  // The tables are left over after change to virtual field, hence we have to 
+  // remove them the hard way without deleting the field.
+  db_drop_table('field_data_field_ding_event_materials');
+  db_drop_table('field_revision_field_ding_event_materials');
+}
