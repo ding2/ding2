@@ -1,12 +1,13 @@
 <?php
 /**
  * @file
- * Handles reservation with alma.
+ * Handles reservation with Alma.
  */
 
 
 /**
- * @TODO: Document this function... provider hook ?
+ * Creates form with which can be used during reservation to select preferred
+ * branch and interest period.
  *
  * @param type $type
  * @param type $account
@@ -40,6 +41,12 @@ function alma_reservation_options($type, $account, $reservables) {
 
 /**
  * Validate reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
+ * @return type
  */
 function alma_reservation_options_validate($type, $account, $reservables, $values) {
   // Load profile2 profile.
@@ -69,6 +76,11 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
 
 /**
  * Submit handler for reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
  */
 function alma_reservation_options_submit($type, $account, $reservables, $values) {
   // Load profile2 profile.
@@ -89,9 +101,8 @@ function alma_reservation_options_submit($type, $account, $reservables, $values)
 /**
  * Set preferred pickup branch.
  *
- * @TODO: Is the branch format here correct and where is this function called
- *        from.
- *
+ * @param type $account
+ * @param type $branch
  */
 function alma_reservation_set_preferred_branch($account, $branch) {
   // Throws an exception if we are not logged in.
@@ -103,9 +114,11 @@ function alma_reservation_set_preferred_branch($account, $branch) {
 
 /**
  * Get list of reserved items.
+ *
+ * @param type $account
+ * @return object DingProviderReservation
  */
 function alma_reservation_list($account) {
-  $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
   $result = array();
 
@@ -148,6 +161,15 @@ function alma_reservation_list($account) {
 
 /**
  * Create a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @param type $branch
+ * @param type $expiry
+ * @return type
+ * @throws DingProviderReservationExists
+ * @throws DingProviderReservationNotAllowed
+ * @throws DingProviderReservationNotAvailable
  */
 function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
   $creds = ding_user_get_creds($account);
@@ -215,6 +237,11 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
 
 /**
  * Update order, by defining new expiry date or pickup branch.
+ *
+ * @param type $account
+ * @param type $ids
+ * @param type $options
+ * @return boolean
  */
 function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
@@ -246,6 +273,10 @@ function alma_reservation_update($account, $ids, $options) {
 
 /**
  * Delete a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @return type
  */
 function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
