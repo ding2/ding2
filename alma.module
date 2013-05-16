@@ -110,13 +110,6 @@ function alma_settings_form() {
     '#default_value' => variable_get('alma_base_url', ''),
   );
 
-  $form['alma']['alma_pincode_length'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Length of the pin code'),
-    '#default_value' => variable_get('alma_pincode_length', '4'),
-    '#description' => t('The different libraries uses different pin code lenght (defaults to four).'),
-  );
-
   // Add the option to select default interest period, which default as default
   // to 180 days.
   $periods = alma_get_interest_periods();
