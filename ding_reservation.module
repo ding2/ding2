@@ -1,12 +1,8 @@
 <?php
-
 /**
  * @file
  * Handles display and creation/deletion of reservations for users.
  */
-
-// Default interest period is ~six months.
-define('DING_RESERVATION_DEFAULT_INTEREST_PERIOD', 183 * 86400);
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -904,33 +900,45 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
 
 
 /**
- * Create an interest period selector.
+ * Create an interest period form select element.
  *
- * Returns form element(s) for selecting an interest period.
+ * @TODO: Find a better solution on this type variable.
+ *
+ * @param string $type
+ *  The type of form element to create.
+ * @param string $name
+ *  Form element name
+ * @param int $default
+ *  The pre-selected value.
+ * @param array $options
+ *  The options that should be available in the dropdown.
+ * @return array $form
+ *  Form select element.
  */
 function ding_reservation_interest_period_selector($type, $name, $default, $options) {
-  $create = ($type == 'create');
+  $form = array();
 
-  // Used for options translation.
+  // Used to enable translation of options.
   if (is_array($options)) {
     foreach ($options as $k => $v) {
       $options[$k] = t(check_plain($v));
     }
   }
 
-  $allowed_periods = ($create ? array() : array('' => t('No change'))) + (array)$options;
-  // $default_value = $create ? $default : '';
+  $allowed_periods = ($type == 'create' ? array() : array('' => t('No change'))) + (array)$options;
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select interest period'),
     '#options' => $allowed_periods,
     '#default_value' => $default,
   );
-  if ($create) {
+
+  if ($type == 'create') {
     $form[$name . 'description'] = array(
       '#markup' => '<p>' . t('Select an interest period.') . '</p>',
     );
   }
+
   return $form;
 }
 
