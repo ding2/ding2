@@ -444,10 +444,10 @@ function openruth_profile2_load($entities) {
   foreach ($entities as $id => &$entity) {
     if ($entity->type == 'provider_openruth') {
 
-      // User static cache to ensure that alma is not asked more than once.
+      // User static cache to ensure that OpenRuth is not asked more than once.
       $patron = &drupal_static(__FUNCTION__);
       if (!isset($patron)) {
-        // Get information from alma about the current user.
+        // Get information from OpenRuth about the current user.
         global $user;
         try {
           $creds = ding_user_get_creds($user);
@@ -457,7 +457,7 @@ function openruth_profile2_load($entities) {
           return;
         }
 
-        // Get user information from alma (using cache in user status).
+        // Get user information from OpenRuth (using cache in user status).
         $patron = _openruth_user_status($creds);
         $patron = $patron->userInfo;
       }

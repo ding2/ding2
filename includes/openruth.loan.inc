@@ -70,7 +70,7 @@ function openruth_loan_renew($account, $ids) {
  * @return
  *   Ting entity object, filled with data from provider service.
  */
-function alma_loan_populate_pseudo_entity($ting_entity) {
+function openruth_loan_populate_pseudo_entity($ting_entity) {
   $openruth_object = openruth_seek_reserved_item($ting_entity->localId);
 
   if (is_object($openruth_object)) {
