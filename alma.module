@@ -267,22 +267,22 @@ function alma_profile2_presave($entity) {
     // Reservation pause
     $value = $wrapper->field_alma_reservation_pause->value();
     $start = is_null($value['value']) ? '' : $value['value'];
-    $start = str_replace('T00:00:00', '', $start);
+    $start = str_replace(' 00:00:00', '', $start);
     $stop = is_null($value['value2']) ? '' : $value['value2'];
-    $stop = str_replace('T00:00:00', '', $stop);
+    $stop = str_replace(' 00:00:00', '', $stop);
 
     $value = $wrapper_original->field_alma_reservation_pause->value();
     $org_start = is_null($value['value']) ? '' : $value['value'];
-    $org_start = str_replace('T00:00:00', '', $org_start);
+    $org_start = str_replace(' 00:00:00', '', $org_start);
     $org_stop = is_null($value['value2']) ? '' : $value['value2'];
-    $org_stop = str_replace('T00:00:00', '', $org_stop);
+    $org_stop = str_replace(' 00:00:00', '', $org_stop);
 
     if ($start != $org_start || $stop != $org_stop) {
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
 
       // Set absent id.
-      $wrapper->field_alma_absent_id->value();
+      $value = $wrapper->field_alma_absent_id->value();
       $changes['absent_id'] = is_null($value) ? '' : $value;
     }
 
