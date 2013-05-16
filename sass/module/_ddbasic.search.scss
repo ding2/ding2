@@ -32,7 +32,7 @@ $search-border-type: solid;
     @include rem('font-size', 74px);
 
     color: $gray-dark;
-    font-family: $theme-icon-library-font;
+    font-family: $base-icon-library-font;
     left: 29%;
     position: absolute;
     top: 45%;
@@ -662,7 +662,7 @@ input#edit-search-block-form--2.spinner {
       @include rem('padding', 0 6px 0 0);
 
       color: $link-color;
-      font-family: $theme-icon-library-font;
+      font-family: $base-icon-library-font;
     }
   }
 
@@ -680,7 +680,7 @@ input#edit-search-block-form--2.spinner {
       @include rem('padding', 0 6px 0 0);
 
       color: $link-color;
-      font-family: $theme-icon-library-font;
+      font-family: $base-icon-library-font;
     }
   }
 

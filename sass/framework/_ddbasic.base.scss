@@ -1,0 +1,157 @@
+body {
+  @include rem('font-size', $base-font-size);
+
+  background-color: $gray-light;
+  color: $font-color-primary;
+  font-family: $base-font-family;
+  line-height: $base-line-height;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include rem('line-height', $base-line-height * 1.25);
+
+  margin-top: 0;
+  margin-bottom: $medium-spacing;
+
+  a {
+    &:link {
+      color: $font-color-primary;
+      text-decoration: none;
+    }
+
+    &:visited {
+      color: darken($font-color-primary, 25%);
+    }
+
+    &:hover {
+      color: darken($font-color-primary, 25%);
+    }
+
+    &:focus {
+      color: darken($font-color-primary, 25%);
+    }
+
+    &:active {
+      background-color: transparent;
+      color: darken($font-color-primary, 25%);
+    }
+  }
+}
+
+h1 {
+  @include rem('font-size', $base-font-size * 2);
+}
+
+h2 {
+  @include rem('font-size', $base-font-size * 1.8);
+}
+
+h3 {
+  @include rem('font-size', $base-font-size * 1.6);
+  @include rem('line-height', $base-line-height * 1.25);
+}
+
+h4 {
+  @include rem('font-size', $base-font-size * 1.4);
+}
+
+h5 {
+  @include rem('font-size', $base-font-size * 1.1);
+}
+
+h6 {
+  @include rem('font-size', $base-font-size);
+}
+
+
+strong {
+  @include font-bold();
+}
+
+
+em {
+  @include font-italic();
+
+  strong {
+    @include font-bold();
+  }
+}
+
+
+// **
+// Links
+// **
+//
+a {
+  font-weight: $base-font-weight-normal;
+  
+  &:link {
+    color: $link-color;
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: darken($link-color, 15%);
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+
+    i[class^="icon-"] {
+      text-decoration: none;
+    }
+  }
+
+  &:focus {
+    color: $link-color-hover;
+  }
+}
+
+
+img {
+  display: inline;
+  height: auto;
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+.page-content {
+  li {
+    list-style: disc inside;
+  }
+}
+
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  display: block;
+
+  border-top: 1px solid $gray;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+::-moz-selection,
+::selection {
+  background-color: #ffff99;
+  color: #333;
+  text-shadow: none;
+}

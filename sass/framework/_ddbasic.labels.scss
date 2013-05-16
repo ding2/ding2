@@ -18,8 +18,8 @@ $label-padding:                   3px 10px;
 
 
 .label {
-  @include rem('font-size', $theme-font-size * .85);
-  @include rem('line-height', $theme-line-height * .85);
+  @include rem('font-size', $base-font-size * .85);
+  @include rem('line-height', $base-line-height * .85);
   @include border-radius($label-border-radius);
 
   padding: $label-padding;

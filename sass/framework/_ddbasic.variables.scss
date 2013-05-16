@@ -5,41 +5,50 @@
 
 
 // -----------------------------------------------------------------------------
-// Basic settings: Grid, spacing etc.
+// Spacing variables
 // -----------------------------------------------------------------------------
 //
-$default-spacing:                 20px;
+$large-spacing:                   20px;
+$medium-spacing:                  10px;
+$small-spacing:                   5px;
 
-$box-sizing-polyfill-path:        "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
+
+// -----------------------------------------------------------------------------
+// Zen Grid variables
+// -----------------------------------------------------------------------------
+//
+$zen-column-count: 12;
+$zen-gutter-width: 20px;
+$box-sizing-polyfill-path: "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
 
 
 // -----------------------------------------------------------------------------
 // Standard color definitions
 // -----------------------------------------------------------------------------
 //
-$white:                 #fff    !default;
-$black:                 #000    !default;
-$gray:                  #d5d5d5 !default;
-$gray-light:            lighten($gray, 10%) !default;
-$gray-lighter:          lighten($gray, 15%) !default;
-$gray-dark:             darken($gray, 10%) !default;
-$gray-darker:           darken($gray, 25%) !default;
+$white:                          #fff    !default;
+$black:                          #000    !default;
+$gray:                           #d5d5d5 !default;
+$gray-light:                     lighten($gray, 10%) !default;
+$gray-lighter:                   lighten($gray, 15%) !default;
+$gray-dark:                      darken($gray, 10%) !default;
+$gray-darker:                    darken($gray, 25%) !default;
 
 
 // -----------------------------------------------------------------------------
 // Theme color definitions
 // -----------------------------------------------------------------------------
 //
-$theme-primary-color:             #00caff;
-$theme-secondary-color:           #d94110;
-$theme-teritary-color:            #ecbe00;
+$base-primary-color:             #00caff;
+$base-secondary-color:           #d94110;
+$base-teritary-color:            #ecbe00;
 
 
 // -----------------------------------------------------------------------------
 // Font library
 // -----------------------------------------------------------------------------
 //
-$theme-icon-library-font:         FontAwesome;
+$base-icon-library-font:         FontAwesome;
 
 
 // -----------------------------------------------------------------------------
@@ -52,36 +61,20 @@ $font-regular:                    "SourceSansProRegular";
 $font-regular-italic:             "SourceSansProItalic";
 $font-bold:                       "SourceSansProSemibold";
 $font-bold-italic:                "SourceSansProSemiboldItalic";
-$font-color-primary:              transparentize($black, .2);;
+$font-color-primary:              transparentize($black, .3);;
 
 
 // -----------------------------------------------------------------------------
 // Font variables
 // -----------------------------------------------------------------------------
 //
-$theme-font-size:                 16px;
-$theme-line-height:               24px;
-$theme-font-family:               $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-$theme-font-weight-normal:        normal;
-$theme-font-weight-bold:          normal;
-$theme-font-selection-color:      $font-color-primary;
-$theme-font-selection-background: $gray;
-
-
-// -----------------------------------------------------------------------------
-// Base font size for rem() mixin, measured in pixels
-// -----------------------------------------------------------------------------
-//
-$base-font-size:  16px;
-
-
-// -----------------------------------------------------------------------------
-// Text colors
-// -----------------------------------------------------------------------------
-//
-$text-primary-color:         #4c4c4c;
-$text-selection-color:       #333;
-$text-selection-background:  #ffff99;
+$base-font-size:                  16px;
+$base-line-height:                24px;
+$base-font-family:                $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+$base-font-weight-normal:         normal;
+$base-font-weight-bold:           normal;
+$base-font-selection-color:       $font-color-primary;
+$base-font-selection-background:  $gray;
 
 
 // -----------------------------------------------------------------------------

@@ -2,6 +2,11 @@
 // Drupal styling overrides
 // =============================================================================
 //
+body.toolbar {
+  padding-top: 66px;
+}
+
+
 ul li.leaf {
   list-style: none;
 }
@@ -57,7 +62,7 @@ ul li.leaf {
 
   background: none !important; // Make sure the Drupal throbber is not visible in IE
   color: #000;
-  font-family: $theme-icon-library-font;
+  font-family: $base-icon-library-font;
   font-size: 50px;
   height: auto;
   left: 48%;
@@ -84,10 +89,10 @@ tr.odd {
 .field {
   .field-label {
     font-family: $font-bold;
-    font-weight: $theme-font-weight-bold;
+    font-weight: $base-font-weight-bold;
   }
 }
 
 .field-label {
-  margin-right: $default-spacing /4;
+  margin-right: $small-spacing;
 }

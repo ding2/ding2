@@ -17,7 +17,7 @@
 
 
 // Event list heading
-.event-list-heading {
+.event-list-leaf {
   background: $gray;
   padding-top: 10px;
   padding-right: 10px;
@@ -25,18 +25,17 @@
   padding-left: 10px;
 
   .event-list-date-wrapper {
-    @include rem('font-size', $theme-font-size * .9);
+    @include rem('font-size', $base-font-size * .9);
 
     display: inline-block;
     margin-right: 10px;
     min-width: 75px;
 
-    color: lighten($text-primary-color, 25%);
     text-align: center;
     vertical-align: top;
-
+    
     .event-list-day {
-      background-color: $theme-primary-color;
+      background-color: $base-primary-color;
       color: $white;
       display: block;
       text-shadow: 0 -1px 0 rgba(0,0,0,.25);
@@ -51,30 +50,30 @@
 
       display: block;
       padding-top: 4px;
-    }
+    }      
   }
-
+  
   .event-list-date-wrapper {
     vertical-align: middle;
-    min-width: $default-spacing * 2.5;
-    font-size: $theme-font-size * 0.6;
+    min-width: 50px;
+    font-size: $base-font-size * 0.6;
   }
 
   .event-list-date {
     padding-top: 0.2em;
-    margin-bottom: -$default-spacing / 2;
+    margin-bottom: -10px;
   }
 
   .event-list-day {
-    line-height: $theme-line-height * 0.7;
+    line-height: $base-line-height * 0.7;
   }
 
   .event-list-fulldate {
-    @include rem('font-size', $theme-font-size * 1.25);
+    @include rem('font-size', $base-font-size * 1.25);
 
     color: transparentize($black, .3);
     font-family: $font-bold;
-    font-weight: $theme-font-weight-bold;
+    font-weight: $base-font-weight-bold;
   }
 }
 
@@ -89,6 +88,8 @@
 
 .event-list {
   background: $gray-light;
+  list-style: none;
+  margin-top: 0;
   margin-bottom: 20px;
   padding-top: 10px;
   padding-right: 10px;
@@ -101,14 +102,12 @@
 
  .event-image-wrapper {
     float: left;
-    margin-right: $default-spacing;
+    margin-right: $large-spacing;
     max-width: 15%;
   }
 
   .event-list-heading {
-    @include rem('font-size', 20px);
-
-    margin-bottom: $default-spacing / 2;
+    @extend %article-heading--small;
   }
 
   .event-list-location,
@@ -132,25 +131,25 @@
 .event {
   .event-image {
     float: left;
-    margin-top: $default-spacing / 4;
-    margin-right: $default-spacing;
-    margin-bottom: $default-spacing / 2;
+    margin-top: $small-spacing;
+    margin-right: $large-spacing;
+    margin-bottom: $medium-spacing;
     max-width: 300px;
   }
 
   .event-tags {
-    margin-bottom: $default-spacing;
+    margin-bottom: $large-spacing;
 
     .event-category,
     .event-library {
-      margin-right: $default-spacing / 4;
+      margin-right: $small-spacing;
     }
   }
 
   .event-lead {
     border-bottom: 1px solid $gray-light;
-    margin-bottom: $default-spacing;
-    padding-bottom: $default-spacing;
+    margin-bottom: $large-spacing;
+    padding-bottom: $large-spacing;
   }
 
   .event-content {
@@ -165,18 +164,18 @@
     padding-right: 0;
 
     p {
-      margin-bottom: $default-spacing / 2;
+      margin-bottom: $medium-spacing;
 
       i[class^="icon-"] {
         display: inline-block;
-        min-width: $default-spacing;
+        min-width: $large-spacing;
       }
     }
   }
 
   .event-footer {
     clear: both;
-    padding-top: $default-spacing;
+    padding-top: $large-spacing;
   }
 }
 
@@ -186,10 +185,10 @@
 // **
 //
 %ticket {
-  @include rem('font-size', $theme-font-size * 1);
+  @include rem('font-size', $base-font-size * 1);
 
   font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
+  font-weight: $base-font-weight-bold;
   margin-left: 10%;
   width: 70%;
 }
@@ -197,8 +196,8 @@
 .ticket-wrapper {
   border-top: 1px solid $gray-light;
 
-  margin-top: $default-spacing;
-  padding-top: $default-spacing;
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
 }
 
 .ticket-available {

@@ -12,22 +12,22 @@
 
 .pane-week {
   border-top: 1px solid $gray-light;
-  margin-top: $default-spacing;
-  padding-top: $default-spacing;
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
 }
 
 .opening-hours-week {
   padding: 0;
 
   .header {
-    padding: $default-spacing / 2;
+    padding: $medium-spacing;
   }
 
   .days {
     padding: 0;
 
     .day {
-      padding: $default-spacing / 3;
+      padding: 6px;
     }
 
     .times {
@@ -52,11 +52,11 @@
 
   .prev {
     float: left;
-    margin-left: $default-spacing / 4;
+    margin-left: $small-spacing;
   }
 
   .next {
     float: right;
-    margin-right: $default-spacing / 4;
+    margin-right: $small-spacing;
   }
 }

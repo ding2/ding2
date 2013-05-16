@@ -35,8 +35,6 @@ $modal-border-radius:             12px;
 
 
 .ui-dialog-title {
-  @extend h3;
-
   color: $modal-text-color;
 }
 
@@ -48,14 +46,14 @@ $modal-border-radius:             12px;
 
 
 .ui-dialog {
-  padding: $default-spacing;
+  padding: $large-spacing;
 
   .ui-dialog-titlebar {
     .ui-dialog-titlebar-close {
       float: right;
-      right: $default-spacing / 4;
+      right: $small-spacing;
       padding: 0;
-      top: $default-spacing / 2;
+      top: $medium-spacing;
       width: auto;
 
       .ui-icon {
@@ -71,7 +69,7 @@ $modal-border-radius:             12px;
       }
 
       .ui-icon:before {
-        font-family: $theme-icon-library-font;
+        font-family: $base-icon-library-font;
         margin-right: 2px;
         margin-bottom: -1px;
       }
@@ -90,11 +88,11 @@ $modal-border-radius:             12px;
     }
 
     .form-item {
-      margin-bottom: $default-spacing / 2;
+      margin-bottom: $medium-spacing;
 
       .description {
         color: transparentize($white, .1);
-        margin-top: -$default-spacing / 2;
+        margin-top: -$medium-spacing;
       }
     }
 

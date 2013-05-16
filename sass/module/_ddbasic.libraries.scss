@@ -9,22 +9,24 @@
 // **
 //
 .pane-ding-library-map {
-  @include rem('margin-bottom', $default-spacing);
+  margin-bottom: $large-spacing;
 }
 
 .libraries-title,
 .opening-hours-title {
-  @include rem('margin', 0 0 $default-spacing);
-  @include rem('padding', 0 0 $default-spacing);
-  @include rem('font-size', $theme-font-size * 1.8);
+  @include rem('font-size', $base-font-size * 1.8);
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
 }
 
 .library-list {
   .views-row {
-    @include rem('padding', $default-spacing);
-
     background: $gray-lighter;
-    line-height: $theme-font-size * 2;
+    line-height: $base-font-size * 2;
+    padding-top: $large-spacing;
+    padding-right: $large-spacing;
+    padding-bottom: $large-spacing;
+    padding-left: $large-spacing;
   }
 }
 
@@ -39,7 +41,7 @@
     @include rem('font-size', 74px);
 
     color: $gray-dark;
-    font-family: $theme-icon-library-font;
+    font-family: $base-icon-library-font;
     left: 0;
     position: absolute;
     text-align: center;
@@ -49,9 +51,8 @@
   }
 
   .field-label-inline {
-    @include rem('padding-left', $default-spacing);
-
     margin-left: 25%;
+    padding-left: $large-spacing;
 
     .field-label {
       float: left;
@@ -76,8 +77,9 @@
   }
 }
 
-.library-link {
-  @include rem('padding', $default-spacing 0 0 $default-spacing);
+.library-link {  
+  padding-top: $large-spacing;
+  padding-left: $large-spacing;  
 }
 
 .libraries-opening-hours {
@@ -89,7 +91,7 @@
 
   .prev,
   .next {
-    font-family: $theme-icon-library-font;
+    font-family: $base-icon-library-font;
     font-size: 100%;
   }
 
@@ -116,8 +118,8 @@
 
 .pane-ding-news-ding-news-library-list {
   border-bottom: 1px solid $gray-light;
-  margin-bottom: $default-spacing;
-  padding-bottom: $default-spacing;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
 }
 
 
@@ -159,6 +161,7 @@
     padding-left: 50%;
   }
 }
+
 @include medium {
   .libraries {
     float: none;

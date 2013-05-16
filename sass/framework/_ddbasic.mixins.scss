@@ -33,26 +33,12 @@
 //
 @mixin font-bold() {
   font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
+  font-weight: $base-font-weight-bold;
 }
 
-
-// -----------------------------------------------------------------------------
-// Mixin for ::selection, which allows specify selected text background color
-// -----------------------------------------------------------------------------
-//
-// $color - The color for the selected text.
-// $background - The background color for the selected text.
-//
-$prefixes: ("-webkit-","-moz-", "-o-", "");
-
-@mixin selection($color, $background) {
-  @each $prefix in $prefixes {
-    ::#{$prefix}selection {
-      color: $color;
-      background: $background;
-    }
-  }
+@mixin font-italic() {
+  font-family: $font-light-italic;
+  font-weight: $base-font-weight-normal;
 }
 
 

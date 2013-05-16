@@ -1,0 +1,26 @@
+#page {
+  @include zen-grid-container;
+}
+
+// Don't show background in small and medium breakpoint
+#page.ding2-site-template {
+  @include small-medium() {
+    background-image: none !important;
+  }
+}
+
+.page-title {
+  @include rem('margin-bottom', 20px);
+}
+
+.page-image {
+  @include rem('margin-bottom', 10px);
+}
+
+.page-lead {
+  @include rem('margin-bottom', 10px);
+}
+
+.page-content {
+  @include rem('margin-bottom', 20px);
+}

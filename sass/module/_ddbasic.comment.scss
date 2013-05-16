@@ -4,12 +4,12 @@
 //
 .comment-wrapper {
   border-top: 1px solid $gray-light;
-  margin-top: $default-spacing;
-  padding-top: $default-spacing;
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
 }
 
 .comment-title {
-  margin-bottom: $default-spacing;
+  margin-bottom: $large-spacing;
 }
 
 .comment-form {
@@ -48,8 +48,8 @@
 
 .comment {
   background-color: $gray-light;
-  margin-bottom: $default-spacing;
-  padding: $default-spacing;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
 
   .new {
     @extend %availability-reservable;
@@ -60,5 +60,5 @@
 
 .ding-user-comment-forbidden-form {
   border-top: 1px solid $gray-light;
-  padding-top: $default-spacing;
+  padding-top: $large-spacing;
 }

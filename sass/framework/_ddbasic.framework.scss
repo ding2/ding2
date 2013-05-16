@@ -1,26 +1,27 @@
 // =============================================================================
-// Media queries
+//
+// This is our framework stylesheet which contain shared styling, mixins, etc.
+//
+// @author magnify
+//
 // =============================================================================
-//
+
 
 
 // -----------------------------------------------------------------------------
-// Variables
+// Media queries and breakpoints
 // -----------------------------------------------------------------------------
-//
-$breakpoint-low:      580px;
-$breakpoint-small:    480px;
-$breakpoint-medium:   768px;
-$breakpoint-large:    940px;
-$breakpoint-x-large:  1210px;
+
+// Breakpoints
+$breakpoint-low:        580px;
+$breakpoint-small:      480px;
+$breakpoint-medium:     768px;
+$breakpoint-large:      940px;
+$breakpoint-x-large:    1210px;
 
 
-// **
 // The respond-to mixin
-// **
-//
 @mixin respond-to($media) {
-
 	// Sizes
 	@if $media == small {
 		@media only screen and (max-width: $breakpoint-small) { @content; }
@@ -45,14 +46,10 @@ $breakpoint-x-large:  1210px;
   @else if $media == large-x-large {
     @media only screen and (min-width: $breakpoint-medium + 1) { @content; }
   }
-
 }
 
 
-// **
 // Size mixins
-// **
-//
 @mixin small {
   @include respond-to(small) { @content; }
 }

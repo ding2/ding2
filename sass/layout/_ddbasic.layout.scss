@@ -3,20 +3,9 @@
 // =============================================================================
 //
 
-
-// -----------------------------------------------------------------------------
-// Standard elements
-// -----------------------------------------------------------------------------
-//
 body {
-  @include rem('font-size', $theme-font-size);
-
-  background-color: $gray-light;
   background-attachment: fixed;
   background-size: cover;
-  color: $font-color-primary;
-  font-family: $theme-font-family;
-  line-height: $theme-line-height;
 
   @include small-medium-low() {
     &.js-fixed-body {
@@ -29,195 +18,8 @@ body {
   }
 }
 
-body.toolbar {
-  padding-top: 66px;
-}
-
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @include rem('line-height', $theme-line-height * 1.25);
-
-  margin-top: 0;
-
-  a {
-    &:link {
-      color: $text-primary-color;
-      text-decoration: none;
-    }
-
-    &:visited {
-      color: $text-primary-color;
-    }
-
-    &:hover {
-      color: darken($text-primary-color, 25%);
-    }
-
-    &:focus {
-      color: $link-color-hover;
-    }
-
-    &:active {
-      background-color: transparent;
-      color: $text-selection-color;
-    }
-  }
-}
-
-h1 {
-  @include rem('font-size', $theme-font-size * 2);
-}
-
-h2 {
-  @include rem('font-size', $theme-font-size * 1.8);
-}
-
-h3 {
-  @include rem('font-size', $theme-font-size * 1.6);
-  @include rem('line-height', $theme-line-height * 1.25);
-}
-
-h4 {
-  @include rem('font-size', $theme-font-size * 1.4);
-}
-
-h5 {
-  @include rem('font-size', $theme-font-size * 1.1);
-}
-
-h6 {
-  @include rem('font-size', $theme-font-size);
-}
-
-
-strong {
-  font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
-}
-
-
-em {
-  font-family: $font-light-italic;
-  font-weight: $theme-font-weight-normal;
-
-  strong {
-    @extend strong;
-
-    font-family: $font-bold-italic;
-  }
-}
-
-
-// **
-// Links
-// **
-//
-a {
-  &:link {
-    color: $link-color;
-    text-decoration: none;
-  }
-
-  &:visited {
-    color: darken($link-color, 15%);
-    text-decoration: none;
-  }
-
-  &:hover {
-    color: $link-color-hover;
-    text-decoration: underline;
-
-    i[class^="icon-"] {
-      text-decoration: none;
-    }
-  }
-
-  &:focus {
-    color: $link-color-hover;
-  }
-}
-
-
-img {
-  display: inline;
-  height: auto;
-  max-width: 100%;
-  vertical-align: bottom;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-.page-content {
-  li {
-    list-style: disc inside;
-  }
-}
-
-
-fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-
-legend {
-  display: block;
-
-  border-top: 1px solid $gray;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-
-// **
-// The default colors for ::selection
-// **
-//
-@include selection($text-selection-color, $text-selection-background);
-
-
-// **
-// Layout
-// **
-//
-#page {
-  @include zen-grid-container;
-}
-
-// Don't show background in small and medium breakpoint
-#page.ding2-site-template {
-  @include small-medium() {
-    background-image: none !important;
-  }
-}
-
-.page-title {
-  @include rem('margin-bottom', 20px);
-}
-
-.page-image {
-  @include rem('margin-bottom', 10px);
-}
-
-.page-lead {
-  @include rem('margin-bottom', 10px);
-}
-
-.page-content {
-  @include rem('margin-bottom', 20px);
-}
-
-
 .header-wrapper {
-  background-color: $theme-primary-color;
+  background-color: $base-primary-color;
 
   .header-inner {
     margin-left: auto;
@@ -271,7 +73,107 @@ legend {
 }
 
 
+%grid-inner-padding {
+  padding: 20px;
+}
+
+
+// -----------------------------------------------------------------------------
+// Layout template for 3 column panel layout delivered by ding_frontend
+// Left and Right sidebar content is optional
+// This template extends on ddbasic displays and ddbasic displays
+// -----------------------------------------------------------------------------
+//
+.ding-default-layout {
+  .attachments-wrapper {
+    @include zen-grid-container;
+    @include zen-clear();
+
+    margin-bottom: $large-spacing;
+
+    .grid-inner {
+      @extend %grid-inner-padding;
+    }
+  }
+
+  .attachments-4-4 {
+    @include attachment-25-25-25-25;
+  }
+
+  .attachments-3-3 {
+    @include attachment-33-33-33-100;
+  }
+
+  .attachments-2-2 {
+    @include attachment-50-50-100-100;
+  }
+
+  .attachments-1-1 {
+    @include attachment-100-100-100-100;
+  }
+}
+
+.sidebars {
+  @include medium() {
+    @include display-25-50-25;
+  }
+
+  @include large() {
+    @include display-25-50-25;
+  }
+
+  .grid-inner {
+    @extend %grid-inner-padding;
+  }
+}
+
+.empty-sidebars {
+  @include medium() {
+    @include display-100-50-50;
+  }
+
+  @include large() {
+    @include display-100-50-50;
+  }
+
+  .grid-inner {
+    @extend %grid-inner-padding;
+  }
+}
+
+.left-sidebar {
+  @include medium() {
+    @include ddbasic-display-33-66-secondary;
+  }
+
+  @include large() {
+    @include ddbasic-display-33-66-secondary;
+  }
+
+  .grid-inner {
+    @extend %grid-inner-padding;
+  }
+}
+
+.right-sidebar {
+  @include medium() {
+    @include ddbasic-display-66-33-tertiary;
+  }
+
+  @include large() {
+    @include ddbasic-display-66-33-tertiary;
+  }
+
+  .grid-inner {
+    @extend %grid-inner-padding;
+  }
+}
+
+
+
 .ding-layout-1 {
+  margin-top: $large-spacing;
+  
   .primary-content,
   .secondary-content,
   .tertiary-content {
@@ -422,7 +324,8 @@ legend {
   @include rem('font-size', 30px);
 
   font-family: $font-bold;
-  font-weight: $theme-font-weight-bold;
+  font-weight: $base-font-weight-bold;
+  margin-bottom: 0;
 
   a,
   a:link,
@@ -448,7 +351,7 @@ legend {
 
 .site-slogan {
   color: $white;
-  margin-top: $default-spacing / 2;
+  margin-top: $medium-spacing;
   margin-left: 2px;
 }
 
@@ -530,7 +433,10 @@ legend {
     a {
       background-color: $gray-light;
       display: inline-block;
-      padding: $default-spacing / 4 $default-spacing * 0.75;
+      padding-top: $small-spacing;
+      padding-right: 15px;
+      padding-bottom: $small-spacing;
+      padding-left: 15px;
     }
   }
 
@@ -558,15 +464,15 @@ legend {
   border-top: 1px solid $gray-light;
   border-bottom: 1px solid $gray-light;
 
-  margin-bottom: $default-spacing;
-  padding-top: $default-spacing;
-  padding-bottom: $default-spacing;
+  margin-bottom: $large-spacing;
+  padding-top: $large-spacing;
+  padding-bottom: $large-spacing;
 
   .signature-image {
     img {
       float: left;
-      margin-top: $default-spacing / 4;
-      margin-right: $default-spacing;
+      margin-top: $small-spacing;
+      margin-right: $large-spacing;
      }
   }
 

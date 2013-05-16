@@ -15,8 +15,6 @@
 %section-heading {
   @include rem('font-size', 24px);
   @include font-bold();
-
-  color: transparentize($black, .3);
 }
 
 %article-margin {
@@ -106,7 +104,7 @@
 
   .news-image-wrapper {
     float: left;
-    margin-right: $default-spacing;
+    margin-right: $large-spacing;
     max-width: 75px;
 
     a {

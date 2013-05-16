@@ -47,8 +47,8 @@
     color: transparentize($black, .5);;
 
     .user-name-title {
-      @include rem('font-size', $theme-font-size * 2.25);
-      @include rem('line-height', $theme-font-size * 3);
+      @include rem('font-size', $base-font-size * 2.25);
+      @include rem('line-height', $base-font-size * 3);
 
       overflow: hidden;
       max-height: 45px;
@@ -96,7 +96,7 @@
 
     label {
       font-family: $font-bold;
-      font-weight: $theme-font-weight-bold;
+      font-weight: $base-font-weight-bold;
       min-width: 25%;
     }
   }
@@ -104,15 +104,15 @@
   h3 {
     border: 0;
 
-    margin-top: $default-spacing * 1.5;
-    margin-bottom: $default-spacing / 1.5;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 
   .profile2-provider-alma {
     .field-label {
       float: left;
       font-family: $font-bold;
-      font-weight: $theme-font-weight-bold;
+      font-weight: $base-font-weight-bold;
       min-width: 25%;
     }
 
@@ -132,7 +132,7 @@
 .pane-bookmarks {
   table {
     border-bottom: 1px solid $gray-light;
-    margin-bottom: $default-spacing;
+    margin-bottom: $large-spacing;
   }
 
   h2 {
@@ -153,7 +153,7 @@
     text-align: center;
 
     &.select-all {
-      padding-left: $default-spacing / 2;
+      padding-left: $medium-spacing;
     }
 
     &.title {
@@ -225,7 +225,7 @@
   .delete-reservations,
   .update-reservations {
     display: inline;
-    margin-right: $default-spacing;
+    margin-right: $large-spacing;
   }
 
   .delete-reservation,
@@ -250,7 +250,7 @@
 
   .ding-entity-button {
     float: right;
-    margin-right: $default-spacing;
+    margin-right: $large-spacing;
 
     a {
       @extend %button-danger;
@@ -266,14 +266,14 @@
 
 .pane-reservations {
   border-bottom: 1px solid $gray-light;
-  margin-bottom: $default-spacing;
-  padding-bottom: $default-spacing;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
 }
 
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid $gray-light;
-  margin-bottom: $default-spacing;
-  padding-bottom: $default-spacing;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
 }
 
 #ding-bookmark-remove-form {
@@ -288,7 +288,7 @@
 // **
 .pane-debts {
   table {
-    margin-bottom: $default-spacing;
+    margin-bottom: $large-spacing;
 
     th,
     td {
@@ -303,7 +303,7 @@
   }
 
   .pay-button {
-    margin-bottom: $default-spacing;
+    margin-bottom: $large-spacing;
 
     .form-submit {
       @extend %button-action;
@@ -315,12 +315,12 @@
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
   border-bottom: 1px solid $gray-light;
-  margin-bottom: $default-spacing;
-  padding-bottom: $default-spacing;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
 
   #dibs-cards-supported {
     .card-name {
-      font-weight: $theme-font-weight-bold;
+      font-weight: $base-font-weight-bold;
       font-family: $font-bold;
     }
   }

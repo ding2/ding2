@@ -10,7 +10,7 @@
 
 print $wrapper_prefix;
   if (!empty($title)):
-    print '<div class="event-list-heading">' . $title . '</div>';
+    print '<div class="event-list-leaf">' . $title . '</div>';
   endif;
   print $list_type_prefix;
     foreach ($rows as $id => $row):
