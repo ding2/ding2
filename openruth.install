@@ -59,3 +59,40 @@ function openruth_update_7000() {
     ->condition('field_name', 'field_openruth_reservation_pause', '!=')
     ->execute();
 }
+
+/**
+ * Remove old field_sql_storage file data from the database as they are using
+ * virtual fields now and don't need a database table.
+ */
+function openruth_update_7001() {
+  // Mobile phone.
+  db_drop_table('field_data_field_openruth_mobile_phone');
+  db_drop_table('field_revision_field_openruth_mobile_phone');
+
+  // Preferred branch.
+  db_drop_table('field_data_openruth_preferred_branch');
+  db_drop_table('field_revision_openruth_preferred_branch');
+}
+
+/**
+ * Move reservarion pause field data into new tabels.
+ */
+function openruth_update_7002() {
+  // Move field data.
+  db_query('INSERT INTO {field_data_field_openruth_reservation_pause}
+              SELECT entity_type, bundle, deleted, entity_id, revision_id, language, delta,
+                     field_reservation_pause_value as field_openruth_reservation_pause_value,
+                     field_reservation_pause_value2 as field_openruth_reservation_pause_value2
+                FROM {field_data_field_reservation_pause}');
+
+  // Move revision data.
+  db_query('INSERT INTO {field_revision_field_openruth_reservation_pause}
+              SELECT entity_type, bundle, deleted, entity_id, revision_id, language, delta,
+                     field_reservation_pause_value as field_openruth_reservation_pause_value,
+                     field_reservation_pause_value2 as field_openruth_reservation_pause_value2
+                FROM {field_revision_field_reservation_pause}');
+
+  // Remove the old field.
+  field_delete_field('field_reservation_pause');
+  field_purge_batch(100);
+}
