@@ -332,6 +332,9 @@ function alma_profile2_presave($entity) {
           ),
         ));
       }
+
+      // Clear local session cache.
+      alma_user_clear_cache($creds, TRUE);
     }
   }
 }
@@ -505,27 +508,39 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
     $creds = ding_user_get_creds($user);
   }
 
-  static $patron;
+  // Try static cache.
+  $patron = &drupal_static(__FUNCTION__);
   if (!$patron || $reset) {
-    $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
-    $organisation = alma_get_organisation();
-    $patron = array(
-      'name' => $info['user_name'],
-      'email' => isset($info['mails'][0]) ? $info['mails'][0]['mail'] : '',
-      'address' => isset($info['addresses'][0]) ? $info['addresses'][0]['street'] : '',
-      'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
-      'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
-      'mobiles' => isset($info['phones']) ? $info['phones'] : '',
-      'branch' => $info['preferences']['patron_branch'],
-      'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
-      'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
-    );
-  }
-  if ($as_array) {
-    return $patron;
+    // Try session cache.
+    if (!$reset && isset($_SESSION['alma_patron_info'])) {
+      $patron = $_SESSION['alma_patron_info'];
+    }
+    else {
+      $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
+      $organisation = alma_get_organisation();
+      $patron = array(
+        'name' => $info['user_name'],
+        'email' => isset($info['mails'][0]) ? $info['mails'][0]['mail'] : '',
+        'address' => isset($info['addresses'][0]) ? $info['addresses'][0]['street'] : '',
+        'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
+        'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
+        'mobiles' => isset($info['phones']) ? $info['phones'] : '',
+        'branch' => $info['preferences']['patron_branch'],
+        'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
+        'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
+      );
+
+      // Store information in session cache.
+      $_SESSION['alma_patron_info'] = $patron;
+    }
   }
 
-  return (object)$patron;
+  // Cast petron to object.
+  if (!$as_array) {
+    $patron = (object)$patron;
+  }
+
+  return $patron;
 }
 
 /**

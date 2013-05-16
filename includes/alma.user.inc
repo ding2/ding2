@@ -80,12 +80,12 @@ function alma_user_profile_form_validate($form, $form_state) {
 }
 
 /**
- * Clear user cache based on creds.
+ * Clear user session cache based on creds.
  *
  * @param array $creds
  */
 function alma_user_clear_cache($creds = NULL) {
-  alma_get_patron($creds);
+  alma_get_patron($creds, TRUE);
 }
 
 /**
