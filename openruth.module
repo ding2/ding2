@@ -124,6 +124,12 @@ function openruth_settings_form() {
     '#description' => t('The OpenRuth agency id of the library.'),
   );
 
+  // Add the option to select default interest period, which default as default
+  // to 180 days.
+  $periods = openruth_get_interest_periods();
+  $default = variable_get('openruth_default_interest_period', 180);
+  $form['openruth'] += ding_reservation_interest_period_selector('', 'openruth_default_interest_period', $default, $periods);
+
   $default_proxy = variable_get('openruht_proxy', array('host' => '', 'port' => ''));
   $form['openruth']['openruht_proxy'] = array(
     '#type' => 'fieldset',
