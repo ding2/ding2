@@ -117,6 +117,12 @@ function alma_settings_form() {
     '#description' => t('The different libraries uses different pin code lenght (defaults to four).'),
   );
 
+  // Add the option to select default interest period, which default as default
+  // to 180 days.
+  $periods = alma_get_interest_periods();
+  $default = variable_get('alma_default_interest_period', 180);
+  $form['alma'] += ding_reservation_interest_period_selector('', 'alma_default_interest_period', $default, $periods);
+
   $form['alma']['alma_enable_reservation_deletion'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable reservation deletion'),

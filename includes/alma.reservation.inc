@@ -193,7 +193,9 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
       }
     }
     if (!isset($expiry)) {
-      $expiry = DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+      // The user don't have a default interest period, so use the system wide
+      // one for alma (which default is 180 days).
+      $expiry = variable_get('alma_default_interest_period', 180) * 86400;
     }
 
     // Preferred branch
