@@ -99,7 +99,7 @@ function connie_reservation_options_submit($type, $account, $reservables, $value
  */
 function connie_reservation_create($account, $id, $options) {
   $branch = $options['connie_preferred_branch'];
-  $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+  $expiry = REQUEST_TIME + 180;
   // Throw exception if we're not logged in.
   ding_user_get_creds($account);
   // Fake it.
