@@ -341,9 +341,23 @@ function openruth_profile2_presave($entity) {
         }
         drupal_set_message($exception_message);
       }
+      else {
+        // Update the local cache with new information.
+        _openruth_user_status($creds, TRUE);
 
-      // Update the local cache with new information.
-      _openruth_user_status($creds, TRUE);
+        // Update local drupal user (mail and display name).
+        if (isset($changes['mail'])) {
+          $auth_name = ding_user_default_authname($creds['name']);
+          _ding_user_create_account($auth_name, array(
+            'user' => array(
+              'mail' => $changes['mail'],
+              'data' => array(
+                'display_name' => $wrapper->field_openruth_full_name->value(),
+              ),
+            ),
+          ));
+        }
+      }
     }
   }
 }
