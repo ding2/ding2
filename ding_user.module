@@ -426,6 +426,7 @@ function ding_user_user_login_validate($form, &$form_state) {
         $auth_name = ding_user_default_authname($form_state['values']['name']);
       }
 
+      // Create new account in Drupal and if one exists update it.
       $account = _ding_user_create_account($auth_name, $auth_res);
 
       // Check that a profile exists for the user and if not create one.
