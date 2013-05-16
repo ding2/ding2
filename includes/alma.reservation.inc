@@ -1,12 +1,13 @@
 <?php
 /**
  * @file
- * Handles reservation with alma.
+ * Handles reservation with Alma.
  */
 
 
 /**
- * @TODO: Document this function... provider hook ?
+ * Creates form with which can be used during reservation to select preferred
+ * branch and interest period.
  *
  * @param type $type
  * @param type $account
@@ -40,6 +41,12 @@ function alma_reservation_options($type, $account, $reservables) {
 
 /**
  * Validate reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
+ * @return type
  */
 function alma_reservation_options_validate($type, $account, $reservables, $values) {
   // Load profile2 profile.
@@ -69,6 +76,11 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
 
 /**
  * Submit handler for reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
  */
 function alma_reservation_options_submit($type, $account, $reservables, $values) {
   // Load profile2 profile.
@@ -89,9 +101,8 @@ function alma_reservation_options_submit($type, $account, $reservables, $values)
 /**
  * Set preferred pickup branch.
  *
- * @TODO: Is the branch format here correct and where is this function called
- *        from.
- *
+ * @param type $account
+ * @param type $branch
  */
 function alma_reservation_set_preferred_branch($account, $branch) {
   // Throws an exception if we are not logged in.
@@ -103,9 +114,11 @@ function alma_reservation_set_preferred_branch($account, $branch) {
 
 /**
  * Get list of reserved items.
+ *
+ * @param type $account
+ * @return object DingProviderReservation
  */
 function alma_reservation_list($account) {
-  $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
   $result = array();
 
@@ -148,8 +161,17 @@ function alma_reservation_list($account) {
 
 /**
  * Create a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @param type $options
+ * @param type $expiry
+ * @return type
+ * @throws DingProviderReservationExists
+ * @throws DingProviderReservationNotAllowed
+ * @throws DingProviderReservationNotAvailable
  */
-function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
+function alma_reservation_create($account, $id, $options = array(), $expiry = NULL) {
   $creds = ding_user_get_creds($account);
 
   // Check if the users has this reservation and throw exception.
@@ -166,16 +188,20 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
       // Use a metadata wrapper to access the data.
       $interest_period = $wrapper->field_alma_interest_period->value();
       if ($interest_period) {
-        $expiry = REQUEST_TIME + ($interest_period['key'] * 24 * 60 * 60);
+        // Change it to secounds from days.
+        $expiry = $interest_period * 86400;
       }
     }
     if (!isset($expiry)) {
-      $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+      // The user don't have a default interest period, so use the system wide
+      // one for alma (which default is 180 days).
+      $expiry = variable_get('alma_default_interest_period', 180) * 86400;
     }
 
-    // preferred branch
-    if (empty($branch)) {
-      $branch = $wrapper->field_alma_preferred_branch->value();
+    // Preferred branch
+    $branch = $wrapper->field_alma_preferred_branch->value();
+    if (isset($options['alma_preferred_branch'])) {
+      $branch = $options['alma_preferred_branch'];
     }
   }
 
@@ -183,10 +209,11 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
   $params = array(
     'id' => $id,
     'valid_from' => date('Y-m-d'),
-    'valid_to' => alma_reservation_format_date($expiry),
+    'valid_to' => alma_reservation_format_date(time() + $expiry),
     'pickup_branch' => $branch,
   );
 
+  // Clear the local alma cache.
   alma_reservation_clear_cache();
 
   // Try to make the reservation.
@@ -215,6 +242,11 @@ function alma_reservation_create($account, $id, $branch, $expiry = NULL) {
 
 /**
  * Update order, by defining new expiry date or pickup branch.
+ *
+ * @param type $account
+ * @param type $ids
+ * @param type $options
+ * @return boolean
  */
 function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
@@ -246,6 +278,10 @@ function alma_reservation_update($account, $ids, $options) {
 
 /**
  * Delete a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @return type
  */
 function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
@@ -316,12 +352,13 @@ function alma_reservation_exists($account, $item_id) {
 }
 
 /**
- * @TODO: add description.
+ * Helper function calculate the date in the feature base on interest period.
  *
- * @param type $datetime
- * @return type
+ * @param int $expiry
+ *  The number of secounds into the feature we need at date.
+ * @return string
+ *  The date in the feature in the format 'Y-m-d'.
  */
-function alma_reservation_format_date($datetime) {
-  $timestamp = (!is_int($datetime)) ? strtotime($datetime) : $datetime;
-  return date('Y-m-d', $timestamp);
+function alma_reservation_format_date($expiry) {
+  return date('Y-m-d', $expiry);
 }
