@@ -14,10 +14,14 @@ h3,
 h4,
 h5,
 h6 {
-  @include rem('line-height', $base-line-height * 1.25);
+	// this fixes huge spaces when a heading wraps onto two lines
+	line-height: 1;
 
   margin-top: 0;
   margin-bottom: $medium-spacing;
+
+	// voodoo to enable ligatures and kerning
+	text-rendering: optimizeLegibility;
 
   a {
     &:link {
@@ -45,28 +49,27 @@ h6 {
 }
 
 h1 {
-  @include rem('font-size', $base-font-size * 2);
+  font-size: 200%;
 }
 
 h2 {
-  @include rem('font-size', $base-font-size * 1.8);
+  font-size: 180%;
 }
 
 h3 {
-  @include rem('font-size', $base-font-size * 1.6);
-  @include rem('line-height', $base-line-height * 1.25);
+  font-size: 160%;
 }
 
 h4 {
-  @include rem('font-size', $base-font-size * 1.4);
+  font-size: 140%;
 }
 
 h5 {
-  @include rem('font-size', $base-font-size * 1.1);
+  font-size: 110%;
 }
 
 h6 {
-  @include rem('font-size', $base-font-size);
+  font-size: 100%;
 }
 
 
@@ -90,7 +93,7 @@ em {
 //
 a {
   font-weight: $base-font-weight-normal;
-  
+
   &:link {
     color: $link-color;
     text-decoration: none;

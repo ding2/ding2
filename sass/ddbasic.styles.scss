@@ -8,7 +8,6 @@
 
 // Include compass
 @import "compass/css3";
-@import "compass/reset";
 
 
 // Grid - http://zengrids.com
@@ -16,40 +15,39 @@
 
 
 // Include framework
-@import "framework/_ddbasic.variables.scss";
-@import "framework/_ddbasic.mixins.scss";
-@import "framework/_ddbasic.normalize.scss";
-@import "framework/_ddbasic.base.scss";
-@import "framework/_ddbasic.framework.scss";
-@import "framework/_ddbasic.forms.scss";
-@import "framework/_ddbasic.tables.scss";
-@import "framework/_ddbasic.buttons.scss";
-@import "framework/_ddbasic.tabs.scss";
-@import "framework/_ddbasic.labels.scss";
-@import "framework/_ddbasic.navigation.scss";
-@import "framework/_ddbasic.modal.scss";
-@import "framework/_ddbasic.font.awesome.scss";
-@import "framework/_ddbasic.overrides.drupal.scss";
+@import "framework/_variables.scss";
+@import "framework/_mixins.scss";
+@import "framework/_normalize.scss";
+@import "framework/_base.scss";
+@import "framework/_framework.scss";
+@import "framework/_forms";
+@import "framework/_tables.scss";
+@import "framework/_buttons.scss";
+@import "framework/_tabs.scss";
+@import "framework/_labels.scss";
+@import "framework/_navigation.scss";
+@import "framework/_modal.scss";
+@import "framework/_fontawesome.scss";
+@import "framework/_drupaloverrides.scss";
 
 
 // Include media queries (displays and attachments)
-@import "layout/_ddbasic.mediaqueries.scss";
-@import "layout/_ddbasic.mq.displays.scss";
-@import "layout/_ddbasic.mq.attachments.scss";
-@import "layout/_ddbasic.layout.scss";
+@import "layout/_mqdisplays.scss";
+@import "layout/_mqattachments.scss";
+@import "layout/_layout.scss";
 
 
 // Include modules
-@import "module/_ddbasic.module.scss";
-@import "module/_ddbasic.refactor.scss";
-@import "module/_ddbasic.page.scss";
-@import "module/_ddbasic.search.scss";
-@import "module/_ddbasic.carousel.scss";
-@import "module/_ddbasic.event.scss";
-@import "module/_ddbasic.libraries.scss";
-@import "module/_ddbasic.openinghours.scss";
-@import "module/_ddbasic.user.scss";
-@import "module/_ddbasic.comment.scss";
+@import "module/_module.scss";
+@import "module/_refactor.scss";
+@import "module/_page.scss";
+@import "module/_search.scss";
+@import "module/_carousel.scss";
+@import "module/_event.scss";
+@import "module/_libraries.scss";
+@import "module/_openinghours.scss";
+@import "module/_user.scss";
+@import "module/_comment.scss";
 
 
 // Custom font

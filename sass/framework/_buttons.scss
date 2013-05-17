@@ -30,10 +30,10 @@ $button-danger-color:             #fff;
 // -----------------------------------------------------------------------------
 //
 %button {
-  @include rem('font-size', $base-font-size);
   @include border-radius($button-border-radius);
 
   display: inline-block;
+  font-size: 100%;
   padding: $button-padding;
   position: relative;
 
