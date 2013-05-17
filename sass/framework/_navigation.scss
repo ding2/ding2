@@ -18,12 +18,12 @@
   }
 
   .menu-item {
-    @include rem('font-size', 18px);
     @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
-    @extend %font-bold;
+    @include font-bold();
 
     color: $white;
     display: inline-block;
+    font-size: 110%;
     margin-left: -4px;
     padding: 10px 15px;
     outline: 0;

@@ -28,7 +28,7 @@ $modal-border-radius:             12px;
 .ui-dialog {
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius($button-border-radius);
-  
+
   background-color: transparentize($modal-background-color, $modal-background-transparency);
   min-width: $modal-min-width;
 }
@@ -57,7 +57,7 @@ $modal-border-radius:             12px;
       width: auto;
 
       .ui-icon {
-        @extend strong;
+        @include font-bold();
         @extend .icon-remove;
 
         text-indent: 0;

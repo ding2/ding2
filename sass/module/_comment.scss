@@ -17,13 +17,6 @@
   margin-bottom: $large-spacing;
 }
 
-.comment-form {
-  .form-actions {
-    .form-submit {
-      @extend %button-inverted;
-    }
-  }
-}
 
 .ding-user-comment-forbidden-form {
   .form-submit {

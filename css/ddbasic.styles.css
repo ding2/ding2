@@ -156,8 +156,7 @@ abbr[title] {
  */
 /* line 126, ../sass/framework/_normalize.scss */
 b,
-strong,
-.ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
+strong {
   font-weight: bold;
 }
 
@@ -541,7 +540,7 @@ h6 {
 }
 
 /* line 76, ../sass/framework/_base.scss */
-strong, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
+strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
@@ -552,7 +551,7 @@ em {
   font-weight: normal;
 }
 /* line 84, ../sass/framework/_base.scss */
-em strong, em .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close em .ui-icon {
+em strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
@@ -892,11 +891,8 @@ table tbody tr:hover th {
 }
 
 /* line 32, ../sass/framework/_buttons.scss */
-.button, .form-submit,
-#edit-cancel,
+.button,
 a.button,
-a.form-submit,
-a#edit-cancel,
 .search .form-submit,
 .user .form-submit, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
@@ -909,7 +905,8 @@ a#edit-cancel,
 .pane-reservations .delete-reservation .form-submit,
 .pane-reservations .delete-reservations .form-submit,
 .pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .form-submit,
+#edit-cancel, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -927,10 +924,7 @@ a#edit-cancel,
   vertical-align: middle;
 }
 /* line 47, ../sass/framework/_buttons.scss */
-.button:focus, .form-submit:focus,
-#edit-cancel:focus,
-a.form-submit:focus,
-a#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
+.button:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
 .pane-reservations .renew-loan-button .renewable:focus,
 .pane-bookmarks .renew-loan-button .renewable:focus, .pane-loans .update-reservations .form-submit:focus,
 .pane-reservations .update-reservations .form-submit:focus,
@@ -941,12 +935,10 @@ a#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .but
 .pane-reservations .delete-reservation .form-submit:focus,
 .pane-reservations .delete-reservations .form-submit:focus,
 .pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .form-submit:focus,
+#edit-cancel:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .button:hover, .form-submit:hover,
-#edit-cancel:hover,
-a.form-submit:hover,
-a#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
+.pane-ting-object .ding-entity-button:focus, .button:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
 .pane-reservations .renew-loan-button .renewable:hover,
 .pane-bookmarks .renew-loan-button .renewable:hover, .pane-loans .update-reservations .form-submit:hover,
 .pane-reservations .update-reservations .form-submit:hover,
@@ -957,12 +949,10 @@ a#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .but
 .pane-reservations .delete-reservation .form-submit:hover,
 .pane-reservations .delete-reservations .form-submit:hover,
 .pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .form-submit:hover,
+#edit-cancel:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .button:active, .form-submit:active,
-#edit-cancel:active,
-a.form-submit:active,
-a#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
+.pane-ting-object .ding-entity-button:hover, .button:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
 .pane-reservations .renew-loan-button .renewable:active,
 .pane-bookmarks .renew-loan-button .renewable:active, .pane-loans .update-reservations .form-submit:active,
 .pane-reservations .update-reservations .form-submit:active,
@@ -973,16 +963,14 @@ a#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .b
 .pane-reservations .delete-reservation .form-submit:active,
 .pane-reservations .delete-reservations .form-submit:active,
 .pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, .form-submit:active,
+#edit-cancel:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
 }
 /* line 53, ../sass/framework/_buttons.scss */
-.disabled.button, .disabled.form-submit,
-.disabled#edit-cancel,
-a.disabled.form-submit,
-a.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
+.disabled.button, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
 .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-bookmarks .renew-loan-button .disabled.renewable, .pane-loans .update-reservations .disabled.form-submit,
 .pane-reservations .update-reservations .disabled.form-submit,
@@ -993,12 +981,10 @@ a.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button
 .pane-reservations .delete-reservation .disabled.form-submit,
 .pane-reservations .delete-reservations .disabled.form-submit,
 .pane-bookmarks .delete-reservation .disabled.form-submit,
-.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, .disabled.form-submit,
+.disabled#edit-cancel, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, [disabled].button, [disabled].form-submit,
-[disabled]#edit-cancel,
-a[disabled].form-submit,
-a[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
+.pane-ting-object .disabled.ding-entity-button, [disabled].button, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
 .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-bookmarks .renew-loan-button [disabled].renewable, .pane-loans .update-reservations [disabled].form-submit,
 .pane-reservations .update-reservations [disabled].form-submit,
@@ -1009,7 +995,8 @@ a[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-butt
 .pane-reservations .delete-reservation [disabled].form-submit,
 .pane-reservations .delete-reservations [disabled].form-submit,
 .pane-bookmarks .delete-reservation [disabled].form-submit,
-.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, [disabled].form-submit,
+[disabled]#edit-cancel, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1021,11 +1008,8 @@ a[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-butt
 }
 
 /* line 96, ../sass/framework/_buttons.scss */
-.button, .form-submit,
-#edit-cancel,
+.button,
 a.button,
-a.form-submit,
-a#edit-cancel,
 .search .form-submit,
 .user .form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
@@ -1038,15 +1022,9 @@ a#edit-cancel,
   color: white;
 }
 /* line 78, ../sass/framework/_buttons.scss */
-.button:link, .form-submit:link,
-#edit-cancel:link, .button:visited, .form-submit:visited,
-#edit-cancel:visited,
+.button:link, .button:visited,
 a.button:link,
-a.form-submit:link,
-a#edit-cancel:link,
 a.button:visited,
-a.form-submit:visited,
-a#edit-cancel:visited,
 .search .form-submit:link,
 .user .form-submit:link,
 .search .form-submit:visited,
@@ -1054,19 +1032,10 @@ a#edit-cancel:visited,
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
-.button:focus, .form-submit:focus,
-#edit-cancel:focus, .button:hover, .form-submit:hover,
-#edit-cancel:hover, .button:active, .form-submit:active,
-#edit-cancel:active,
+.button:focus, .button:hover, .button:active,
 a.button:focus,
-a.form-submit:focus,
-a#edit-cancel:focus,
 a.button:hover,
-a.form-submit:hover,
-a#edit-cancel:hover,
 a.button:active,
-a.form-submit:active,
-a#edit-cancel:active,
 .search .form-submit:focus,
 .user .form-submit:focus,
 .search .form-submit:hover,
@@ -1223,11 +1192,8 @@ a#edit-cancel:active,
 }
 
 /* line 123, ../sass/framework/_buttons.scss */
-input[type=submit].button, input[type=submit].form-submit,
-input[type=submit]#edit-cancel,
-button.button,
-button.form-submit,
-button#edit-cancel {
+input[type=submit].button,
+button.button {
   -webkit-appearance: none;
 }
 
@@ -1426,11 +1392,12 @@ button#edit-cancel {
 }
 /* line 20, ../sass/framework/_navigation.scss */
 .topbar-menu .menu-item {
-  font-size: 18px;
-  font-size: 1.125rem;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   color: white;
   display: inline-block;
+  font-size: 110%;
   margin-left: -4px;
   padding: 10px 15px;
   outline: 0;
@@ -2022,6 +1989,8 @@ button#edit-cancel {
 }
 /* line 59, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   text-indent: 0;
   text-transform: capitalize;
 }
@@ -4601,7 +4570,7 @@ body {
   color: white;
 }
 
-/* line 447, ../sass/layout/_layout.scss */
+/* line 444, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -4612,28 +4581,28 @@ body {
 
 /* Drupal overrides
    ========================================================================== */
-/* line 459, ../sass/layout/_layout.scss */
+/* line 456, ../sass/layout/_layout.scss */
 body.toolbar {
   padding-top: 66px;
 }
 
-/* line 463, ../sass/layout/_layout.scss */
+/* line 460, ../sass/layout/_layout.scss */
 ul li.leaf {
   list-style: none;
 }
 
-/* line 467, ../sass/layout/_layout.scss */
+/* line 464, ../sass/layout/_layout.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 471, ../sass/layout/_layout.scss */
+/* line 468, ../sass/layout/_layout.scss */
 .form-item, .form-actions {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-/* line 482, ../sass/layout/_layout.scss */
+/* line 479, ../sass/layout/_layout.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4647,7 +4616,7 @@ ul li.leaf {
   text-align: center;
 }
 
-/* line 494, ../sass/layout/_layout.scss */
+/* line 491, ../sass/layout/_layout.scss */
 .ajax-progress .throbber {
   /* Make sure the Drupal throbber is not visible in IE */
   background: none !important;
@@ -4661,13 +4630,13 @@ ul li.leaf {
   width: 50px;
 }
 
-/* line 511, ../sass/layout/_layout.scss */
+/* line 508, ../sass/layout/_layout.scss */
 .field .field-label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 517, ../sass/layout/_layout.scss */
+/* line 513, ../sass/layout/_layout.scss */
 .field-label {
   margin-right: 5px;
 }
@@ -5243,7 +5212,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 222, ../sass/module/_search.scss */
-.subjects strong, .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .subjects .ui-icon {
+.subjects strong {
   font-weight: inherit;
 }
 /* line 226, ../sass/module/_search.scss */
@@ -5386,7 +5355,7 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 20px;
 }
 /* line 374, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .subjects strong, .pane-search-result .search-results .list .subjects .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .pane-search-result .search-results .list .subjects .ui-icon {
+.pane-search-result .search-results .list .subjects strong {
   font-weight: inherit;
 }
 /* line 378, ../sass/module/_search.scss */
@@ -7094,45 +7063,45 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
 }
 
-/* line 29, ../sass/module/_comment.scss */
+/* line 22, ../sass/module/_comment.scss */
 .ding-user-comment-forbidden-form .form-submit {
   float: left;
 }
-/* line 33, ../sass/module/_comment.scss */
+/* line 26, ../sass/module/_comment.scss */
 .ding-user-comment-forbidden-form span {
   font-family: "SourceSansProLightItalic";
   line-height: 35px;
   margin-left: 5px;
 }
 
-/* line 40, ../sass/module/_comment.scss */
+/* line 33, ../sass/module/_comment.scss */
 .filter-guidelines {
   padding-top: 0;
   padding-left: 0;
 }
-/* line 44, ../sass/module/_comment.scss */
+/* line 37, ../sass/module/_comment.scss */
 .filter-guidelines .tips {
   margin-left: 0;
   padding-left: 0;
 }
 
-/* line 50, ../sass/module/_comment.scss */
+/* line 43, ../sass/module/_comment.scss */
 .filter-help {
   padding: 0;
 }
 
-/* line 54, ../sass/module/_comment.scss */
+/* line 47, ../sass/module/_comment.scss */
 .comment {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 59, ../sass/module/_comment.scss */
+/* line 52, ../sass/module/_comment.scss */
 .comment .new {
   float: right;
 }
 
-/* line 66, ../sass/module/_comment.scss */
+/* line 59, ../sass/module/_comment.scss */
 .ding-user-comment-forbidden-form {
   border-top: 1px solid #efefef;
   padding-top: 20px;

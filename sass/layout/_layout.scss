@@ -437,9 +437,6 @@ body {
 }
 
 .footer-block {
-  @extend %block;
-  @extend %link-inverted;
-
   background-color: transparent;
   color: $white;
 }
@@ -475,7 +472,7 @@ ul li.leaf {
 
 .form-submit,
 #edit-cancel {
-  @extend .button;
+  @extend %button;
 }
 
 .ajax-progress,
@@ -509,8 +506,7 @@ ul li.leaf {
 
 .field {
   .field-label {
-    font-family: $font-bold;
-    font-weight: $base-font-weight-bold;
+    @include font-bold();
   }
 }
 
