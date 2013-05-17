@@ -1,68 +1,25 @@
-// =============================================================================
-// Search
-// =============================================================================
-//
+/**
+ * Search
+ *
+ *
+ * @author magnify
+ */
 
 
-// -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
-//
+
+/* Variables
+   ========================================================================== */
+
 $search-border-size: 1px;
 $search-border-type: solid;
 
 
-// -----------------------------------------------------------------------------
-// Extends
-// -----------------------------------------------------------------------------
-//
-%search-ting-cover {
-  @extend .icon-camera;
 
-  min-height: 150px;
-  position: relative;
-  width: 100%;
-
-  img {
-    position: relative;
-    z-index: 90;
-  }
-
-  &:before {
-    @include rem('font-size', 74px);
-
-    color: $gray-dark;
-    font-family: $base-icon-library-font;
-    left: 29%;
-    position: absolute;
-    top: 45%;
-  }
-}
-
-
-// -----------------------------------------------------------------------------
-// Markup overrides
-// -----------------------------------------------------------------------------
-//
 input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
-// Override Drupal system style
-.pane-ding-facetbrowser input.form-checkbox {
-  margin-top: 4px;
-  margin-right: 8px;
-  vertical-align: baseline;
-}
 
-.pane-ding-facetbrowser label.option {
-  font-weight: inherit;
-}
-
-// -----------------------------------------------------------------------------
-// Default styling
-// -----------------------------------------------------------------------------
-//
 .field-name-ding-entity-buttons {
   .reserve-button {
     @extend %button-action;
@@ -105,12 +62,23 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// **
-// Facet browser styling
-// **
-//
+
+
+/* Facet browser styling
+   ========================================================================== */
+
 .pane-ding-facetbrowser {
 
+  .pane-ding-facetbrowser input.form-checkbox {
+    margin-top: 4px;
+    margin-right: 8px;
+    vertical-align: baseline;
+  }
+
+  .pane-ding-facetbrowser label.option {
+    font-weight: inherit;
+  }  
+  
   // General link rules for facet browser.
   a:link {
     text-decoration:none;
@@ -149,7 +117,7 @@ input#edit-search-block-form--2.spinner {
     margin-left: 5px;
 
     &:before {
-      font-family: "FontAwesome";
+      font-family: $base-icon-library-font;
       padding-right: 5px;
       text-decoration: none;
       font-size: 1.1em;
@@ -364,14 +332,6 @@ input#edit-search-block-form--2.spinner {
         margin-bottom: 10px;
       }
 
-      .ting-cover {
-        @extend %search-ting-cover;
-
-        &:before {
-          @include rem('font-size', 54px);
-        }
-      }
-
       .content,
       .field {
         margin-bottom: 10px;
@@ -432,48 +392,48 @@ input#edit-search-block-form--2.spinner {
       }
     }
   }
+}
 
-  .availability {
-    margin-bottom: 0;
+.availability {
+  margin-bottom: 0;
 
-    &.content {
-      float: right;
+  &.content {
+    float: right;
+  }
+
+  li {
+    display: inline-block;
+    margin-bottom: 5px;
+    padding: 0;
+
+    &.pending {
+      @include availability($availability-pending);
     }
 
-    li {
-      display: inline-block;
-      margin-bottom: 5px;
-      padding: 0;
+    &.availability.processed {
+      @include availability($availability-processed);
+    }
 
-      &.pending {
-        @include availability($availability-pending);
-      }
+    &.availability.available {
+      @include availability($availability-available);
+    }
 
-      &.availability.processed {
-        @include availability($availability-processed);
-      }
+    &.availability.reservable {
+      @include availability($availability-reservable);
+    }
 
-      &.availability.available {
-        @include availability($availability-available);
-      }
+    &.availability.available.reservable {
+      @include availability($availability-available-reservable);
+    }
 
-      &.availability.reservable {
-        @include availability($availability-reservable);
-      }
+    &.availability.available.not-reservable {
+      @include availability($availability-available-not-reservable);
+    }
 
-      &.availability.available.reservable {
-        @include availability($availability-available-reservable);
-      }
-
-      &.availability.available.not-reservable {
-        @include availability($availability-available-not-reservable);
-      }
-
-      .availability-status {
-        &:before {
-          content: " - ";
-          margin-left: 5px;
-        }
+    .availability-status {
+      &:before {
+        content: " - ";
+        margin-left: 5px;
       }
     }
   }
@@ -510,14 +470,6 @@ input#edit-search-block-form--2.spinner {
     }
   }
 
-  .ting-cover {
-    @extend %search-ting-cover;
-
-    &:before {
-      @include rem('font-size', 54px);
-    }
-  }
-
   .view-mode-collection-list {
     background-color: $gray-light;
     margin-bottom: 20px;
@@ -540,30 +492,6 @@ input#edit-search-block-form--2.spinner {
 
   .field-name-ting-type {
     float: right;
-
-    li {
-      list-style: none;
-
-      &.pending {
-        @extend %availability-pending;
-      }
-
-      &.availability.processed {
-        @extend %availability-processed;
-      }
-
-      &.availability.available {
-        @extend %availability-available;
-      }
-
-      &.availability.reservable {
-        @extend %availability-reservable;
-      }
-
-      &.availability.available.reservable {
-        @extend %availability-available-reservable;
-      }
-    }
   }
 
   .field-name-ding-entity-buttons {
@@ -598,6 +526,34 @@ input#edit-search-block-form--2.spinner {
     padding: 11px 14px;
   }
 }
+
+.ting-cover {
+  @extend .icon-camera;
+
+  min-height: 150px;
+  position: relative;
+  width: 100%;
+
+  img {
+    position: relative;
+    z-index: 90;
+  }
+
+  &:before {
+    @include rem('font-size', 74px);
+
+    color: $gray-dark;
+    font-family: $base-icon-library-font;
+    left: 29%;
+    position: absolute;
+    top: 45%;
+  }
+
+  &:before {
+    font-size: 150%;
+  }
+}
+
 
 // **
 // Object display
@@ -652,18 +608,20 @@ input#edit-search-block-form--2.spinner {
   }
 
   // Material Details - Collapsible
+  .collapsible .field-group-format-title,
+  .ding-periodical-fold {
+    &:before {
+      color: $link-color;
+      font-family: $base-icon-library-font;
+      font-size: 125%;
+      padding-right: 6px;
+    }
+  }
+
   .collapsible .field-group-format-title {
     @extend .icon-minus-sign;
 
     display: inline-block;
-
-    &:before {
-      @include rem('font-size', 24px);
-      @include rem('padding', 0 6px 0 0);
-
-      color: $link-color;
-      font-family: $base-icon-library-font;
-    }
   }
 
   .collapsible.collapsed .field-group-format-title {
@@ -674,14 +632,6 @@ input#edit-search-block-form--2.spinner {
   .ding-periodical-fold {
     cursor: pointer;
     display: inline-block;
-
-    &:before {
-      @include rem('font-size', 14px);
-      @include rem('padding', 0 6px 0 0);
-
-      color: $link-color;
-      font-family: $base-icon-library-font;
-    }
   }
 
   .expand-more {
