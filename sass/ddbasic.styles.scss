@@ -31,10 +31,8 @@
 
 
 // Include media queries (displays and attachments)
+@import "layout/_mediaqueries.scss";
 @import "layout/_layout.scss";
-@import "layout/_mqdisplays.scss";
-@import "layout/_mqattachments.scss";
-@import "framework/_drupaloverrides.scss";
 
 
 // Include modules
