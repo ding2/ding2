@@ -28,13 +28,13 @@
 @import "framework/_navigation.scss";
 @import "framework/_modal.scss";
 @import "framework/_fontawesome.scss";
-@import "framework/_drupaloverrides.scss";
 
 
 // Include media queries (displays and attachments)
+@import "layout/_layout.scss";
 @import "layout/_mqdisplays.scss";
 @import "layout/_mqattachments.scss";
-@import "layout/_layout.scss";
+@import "framework/_drupaloverrides.scss";
 
 
 // Include modules
