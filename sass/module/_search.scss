@@ -15,6 +15,36 @@ $search-border-type: solid;
 
 
 
+/* Search in header
+   ========================================================================== */
+
+.search {
+  @extend %search-user-header;
+
+  .search-field-wrapper {
+    position: relative;
+  }
+
+  .spinner {
+    i[class^="icon-"] {
+      @extend .icon-spin;
+      @extend .icon-spinner;
+
+      height: auto;
+    }
+  }
+
+  .form-item {
+    @include zen-grid-item(12, 1);
+  }
+
+  .form-text {
+    padding-left: 49px;
+  }
+}
+
+
+
 input#edit-search-block-form--2.spinner {
   background-image: none;
 }
@@ -77,8 +107,8 @@ input#edit-search-block-form--2.spinner {
 
   .pane-ding-facetbrowser label.option {
     font-weight: inherit;
-  }  
-  
+  }
+
   // General link rules for facet browser.
   a:link {
     text-decoration:none;

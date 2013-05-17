@@ -1,9 +1,42 @@
-// =============================================================================
-// User
-// =============================================================================
-//
-.header-wrapper {
+/**
+ * User
+ *
+ * @author magnify
+ */
 
+
+
+/* User login in header
+   ========================================================================== */
+
+.user {
+  @extend %search-user-header;
+  
+  .form-item-name {
+    @include zen-grid-item(6, 1);
+
+    .form-text {
+      padding-left: 45px;
+    }
+  }
+
+  .form-item-pass {
+    @include zen-grid-item(6, 1, right);
+
+    .form-text {
+      padding-left: 42px;
+    }
+  }
+
+  @include small() {
+    .form-item-pass {
+      margin-top: 10px;
+    }
+  }
+}
+
+
+.header-wrapper {
   @include box-sizing(border-box);
 
   padding-top: 20px;

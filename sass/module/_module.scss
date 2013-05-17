@@ -8,6 +8,178 @@
 
 
 
+/* Extends for page elements
+   ========================================================================== */
+
+%page-heading {
+  font-size: 190%;
+}
+
+%section-heading {
+  @include font-bold();
+  
+  font-size: 150%;
+}
+
+%article-margin {
+  margin-bottom: 10px;
+}
+
+%article-padding {
+  padding: 20px;
+}
+
+%article-padding--small {
+  padding: 10px;
+}
+
+%article-background {
+  background-color: $article-background;
+}
+
+%article-background--odd {
+  background-color: $article-background-odd;
+}
+
+%article-background--even {
+  background-color: $article-background-even;
+}
+
+%article-heading {
+  font-size: 150%;
+}
+
+%article-heading--small {
+  font-size: 110%;
+}
+
+
+%article-text {
+  color: $article-text;
+}
+
+%article-text--opaque {
+  color: transparentize(#4c4c4c, .5);
+}
+
+
+
+/* Shared styling used for search and user form in topbar
+   ========================================================================== */
+
+%search-user-header {
+  display: none;
+
+  &.js-topbar-toggled {
+    display: inline-block;
+  }
+
+  width: 100%;
+
+  [class^="label-"] {
+    @include rem('font-size', 16px);
+    @include font-bold();
+
+    color: transparentize($white, .25);
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+  }
+
+  [class^="icon-"] {
+    @include rem('font-size', 30px);
+
+    color: $gray-darker;
+    bottom: 15px;
+    left: 24px;
+    position: absolute;
+  }
+
+  .form-item {
+    display: inline-block;
+    position: relative;
+  }
+
+  .form-text {
+    @include rem('font-size', 18px);
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    border: 0;
+    display: inline;
+    margin-right: 20px;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .form-text,
+  .form-submit {
+    min-height: 60px;
+    padding-top: 0;
+  }
+
+  .form-submit {
+    @include rem('font-size', 20px);
+    @include border-radius(12px);
+    @extend %button-default;
+
+    margin-top: 31px;
+    padding-bottom: 1px;
+    min-width: 110px;
+  }
+
+  input[class^="form-"] {
+    margin-bottom: 0;
+  }
+
+  .form-actions {
+    @include zen-grid-item(2, 1, right);
+
+    text-align: right;
+  }
+
+  /* Media queries */
+  @include small() {
+    [class^="label-"] {
+      @include rem('font-size', 14px);
+    }
+
+    .form-item {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
+    }
+  }
+
+  @include small-medium() {
+    i[class^="icon-"] {
+      @include rem('font-size', 20px);
+    }
+
+    .form-text {
+      @include rem('font-size', 18px);
+
+      min-height: 50px;
+      min-width: 100%;
+      padding-left: 42px;
+    }
+
+    .form-actions {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
+    }
+
+    .form-submit {
+      @include rem('font-size', 18px);
+
+      margin-top: 20px;
+      min-height: 44px;
+      min-width: 100%;
+    }
+  }
+}
+
+
+
 /* Pager
    ========================================================================== */
 
