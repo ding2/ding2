@@ -1,34 +1,51 @@
-// =============================================================================
-// Tables (orignally based on Twitter bootstrap).
-//
-// Provide default styling for HTML tables.
-// =============================================================================
+/**
+ * Tables
+ *
+ * Based on Twitter bootstrap
+ *
+ * @author magnify
+ */
 
 
-// -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
+
+/* Variables
+   ========================================================================== */
+
 $table-border-radius: 4px;
 
 
-// **
-// Base tables
-// **
-//
+/* Base tables
+   ========================================================================== */
+
 table {
   max-width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 
-  // Use baseline styling as default for tables
+  /* Use baseline styling as default for tables */
   @extend .table;
 }
 
 
-// **
-// Baseline styling
-// **
-//
+thead {
+  th {
+    background-color: darken($gray-light, 8%);
+  }
+}
+
+/* Drupal uses these */
+tr.even {
+  background-color: $gray-light;
+}
+
+tr.odd {
+  background-color: darken($gray-light, 4%);
+}
+
+
+/* Baseline styling
+   ========================================================================== */
+
 .table {
   width: 100%;
 
@@ -67,10 +84,7 @@ table {
   }
 }
 
-// **
-// Condensed table w/ half padding
-// **
-//
+/* Condensed table w/ half padding */
 .table-condensed {
   th,
   td {
@@ -78,16 +92,17 @@ table {
   }
 }
 
-// **
-// Bordered version
-// **
-//
+/* Bordered version
+   ========================================================================== */
+
 .table-bordered {
   @include border-radius($table-border-radius);
 
   border: 1px solid $gray;
-  border-collapse: separate; // Done so we can round those corners!
-  *border-collapse: collapsed; // IE7 can't round corners anyway
+  /* Done so we can round those corners! */
+  border-collapse: separate;
+  /* IE7 can't round corners anyway */
+  *border-collapse: collapsed;
   border-left: 0;
 
   th,
@@ -127,10 +142,9 @@ table {
   }
 }
 
-// **
-// Zebra-striping.
-// **
-//
+/* Zebra-striping
+   ========================================================================== */
+
 .table-striped {
   tbody {
     tr:nth-child(odd) td,
@@ -140,34 +154,13 @@ table {
   }
 }
 
-// **
-// Hover effect.
-// **
-//
-// Placed here since it has to come after the potential zebra striping.
-//
+/* Hover effect.
+   ========================================================================== */
+
+/* Placed here because it has to come after zebra striping */
 .table {
   tbody tr:hover td,
   tbody tr:hover th {
     background-color: $gray-light;
   }
-}
-
-
-// -----------------------------------------------------------------------------
-// Mediaqueries
-// -----------------------------------------------------------------------------
-//
-
-
-// Extend on this in your mediaqueries to decrease padding for tables
-//
-// How to use in your display:
-// @include medium() {
-//   .table {
-//     @extend %small-medium-table;
-//   }
-// }
-%small-medium-table {
-  padding: 0;
 }

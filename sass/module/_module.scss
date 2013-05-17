@@ -1,0 +1,81 @@
+/**
+ * Module
+ *
+ * Common styling shared among modules
+ *
+ * @author magnify
+ */
+
+
+
+/* Pager
+   ========================================================================== */
+
+.pager {
+  padding-left: 0;
+
+  li {
+    display: inline-block;
+    margin-left: -4px;
+    margin-right: 4px;
+
+    &.pager-current,
+    a {
+      background-color: $gray-light;
+      display: inline-block;
+      padding-top: $small-spacing;
+      padding-right: 15px;
+      padding-bottom: $small-spacing;
+      padding-left: 15px;
+    }
+  }
+
+  .active a,
+  .active a:hover {
+    cursor: default;
+    text-decoration: underline;
+  }
+
+  .disabled {
+    background-color: $gray-lighter;
+  }
+  .disabled a:hover {
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+
+/* Signature
+   ========================================================================== */
+
+.signature {
+  border-top: 1px solid $gray-light;
+  border-bottom: 1px solid $gray-light;
+
+  margin-bottom: $large-spacing;
+  padding-top: $large-spacing;
+  padding-bottom: $large-spacing;
+
+  .signature-image {
+    img {
+      float: left;
+      margin-top: $small-spacing;
+      margin-right: $large-spacing;
+     }
+  }
+
+  .signature-label {
+    display: inline-block;
+    min-width: 125px;
+  }
+}
+
+.signature .tags a {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.signature .tags a:not(:last-child):after {
+  content: ",";
+}

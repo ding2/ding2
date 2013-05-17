@@ -1,17 +1,15 @@
-// =============================================================================
-//
-// Layout
-//
-// Base layout stuff
-//
-// @author magnify
-//
-// =============================================================================
+/**
+ * Layout
+ *
+ * Base layout stuff
+ *
+ * @author magnify
+ */
 
 
-// **
-// Base
-// **
+
+/* Base
+   ========================================================================== */
 body {
   background-attachment: fixed;
   background-size: cover;
@@ -28,10 +26,8 @@ body {
 }
 
 
-// **
-// Header wrapper
-// **
-
+/* Header wrapper
+   ========================================================================== */
 .header-wrapper {
   background-color: $base-primary-color;
 
@@ -44,27 +40,11 @@ body {
 }
 
 
-// **
-// Content
-// **
-.content-wrapper {
-  margin-top: $large-spacing;
-}
-
-.content-inner {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1200px;
-  overflow: visible;
-}
-
-
-// **
-// Site header, fixed position
-// **
+/* Site header
+   ========================================================================== */
 
 .site-header {
-  // Large to x-large breakpoint
+  /* Large to x-large breakpoint */
   @include large-x-large() {
     &.js-fixed {
       position: fixed;
@@ -101,7 +81,7 @@ body {
     }
   }
 
-  // Small to medium breakpoint
+  /* Small to medium breakpoint */
   @include small-medium() {
     &.js-fixed {
       .topbar {
@@ -114,10 +94,90 @@ body {
 }
 
 
-// **
-// Layouts
-// **
+/* Topbar, site name, slogan and logo
+   ========================================================================== */
 
+.topbar {
+  background-color: transparentize($black, .15);
+
+  .topbar-inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    overflow: hidden;
+    position: relative;
+  }
+}
+
+.site-name-wrapper {
+  @include zen-grid-item(4, 1);
+
+  margin-top: 30px;
+
+  @include small-medium() {
+    @include zen-grid-item(6, 1);
+
+    margin-top: 6px;
+  }
+}
+
+.site-name {
+  @include rem('font-size', 30px);
+
+  font-family: $font-bold;
+  font-weight: $base-font-weight-bold;
+  margin-bottom: 0;
+
+  a,
+  a:link,
+  a:visited,
+  a:active {
+    background-color: transparent;
+    color: $white;
+    text-decoration: none;
+  }
+
+  @include small-medium() {
+    @include rem('font-size', 24px);
+  }
+
+  @include small() {
+    @include rem('font-size', 16px);
+  }
+}
+
+.site-name-with-slogan {
+  @extend .site-name;
+}
+
+.site-slogan {
+  color: $white;
+  margin-top: $medium-spacing;
+  margin-left: 2px;
+}
+
+.logo {
+  @include zen-grid-item(4, 1);
+}
+
+
+/* Content
+   ========================================================================== */
+
+.content-wrapper {
+  margin-top: $large-spacing;
+}
+
+.content-inner {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  overflow: visible;
+}
+
+
+/* Layouts
+   ========================================================================== */
 .frontpage-layout {
   .primary-content,
   .secondary-content,
@@ -208,7 +268,7 @@ body {
     @include zen-grid-item(4, 1, right);
   }
 
-  // Media queries
+  /* Media queries */
   @include small-medium() {
     .primary-content,
     .secondary-content,
@@ -218,7 +278,7 @@ body {
     }
   }
 
-  // Sidebars!
+  /* Sidebars! */
   &.sidebars {
     @include medium-large() {
       .primary-content {
@@ -235,7 +295,7 @@ body {
     }
   }
 
-  // No sidebars...
+  /* No sidebars... */
   &.empty-sidebars {
     @include medium-large() {
       .primary-content {
@@ -253,7 +313,7 @@ body {
     }
   }
 
-  // Left sidebar only
+  /* Left sidebar only */
   &.left-sidebar {
     @include medium-large() {
       .primary-content {
@@ -265,7 +325,7 @@ body {
     }
   }
 
-  // Right sidebar only
+  /* Right sidebar only */
   &.right-sidebar {
     @include medium-large() {
       .primary-content {
@@ -280,9 +340,8 @@ body {
 }
 
 
-// **
-// Attachments
-// **
+/* Attachments (aka. blocks/panes)
+   ========================================================================== */
 .attachment-first {
   @include zen-grid-item(3, 1);
 }
@@ -306,7 +365,7 @@ body {
   }
 }
 
-// Media queries
+/* Media queries */
 @include small() {
   .attachment-first,
   .attachment-third,
@@ -330,7 +389,7 @@ body {
   }
 }
 
-// Panel layout with 2 panes
+/* Panel layout with 2 panes */
 .attachments-2-2 {
   .attachment-first {
     @include zen-grid-item(6, 1);
@@ -341,7 +400,7 @@ body {
   }
 }
 
-// Panel layout with 3 panes
+/* Panel layout with 3 panes */
 .attachments-3-3 {
   .attachment-first {
     @include zen-grid-item(4, 1);
@@ -357,80 +416,9 @@ body {
 }
 
 
+/* Footer
+   ========================================================================== */
 
-
-// -----------------------------------------------------------------------------
-// Topbar, site name, slogan and logo
-// -----------------------------------------------------------------------------
-//
-.topbar {
-  background-color: transparentize($black, .15);
-
-  .topbar-inner {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
-    overflow: hidden;
-    position: relative;
-  }
-}
-
-.site-name-wrapper {
-  @include zen-grid-item(4, 1);
-
-  margin-top: 30px;
-
-  @include small-medium() {
-    @include zen-grid-item(6, 1);
-
-    margin-top: 6px;
-  }
-}
-
-.site-name {
-  @include rem('font-size', 30px);
-
-  font-family: $font-bold;
-  font-weight: $base-font-weight-bold;
-  margin-bottom: 0;
-
-  a,
-  a:link,
-  a:visited,
-  a:active {
-    background-color: transparent;
-    color: $white;
-    text-decoration: none;
-  }
-
-  @include small-medium() {
-    @include rem('font-size', 24px);
-  }
-
-  @include small() {
-    @include rem('font-size', 16px);
-  }
-}
-
-.site-name-with-slogan {
-  @extend .site-name;
-}
-
-.site-slogan {
-  color: $white;
-  margin-top: $medium-spacing;
-  margin-left: 2px;
-}
-
-.logo {
-  @include zen-grid-item(4, 1);
-}
-
-
-// **
-// Footer
-// **
-//
 .footer {
   background-color: #262626;
   overflow: hidden;
@@ -465,134 +453,30 @@ body {
 }
 
 
-// **
-// Facet browser
-// **
-//
-.facet-browser {
-  @extend .tertiary-menu-wrapper;
-}
+/* Drupal styling overrides
+   ========================================================================== */
 
-
-// **
-// Pager
-// **
-//
-.pager {
-  padding-left: 0;
-
-  li {
-    display: inline-block;
-    margin-left: -4px;
-    margin-right: 4px;
-
-    &.pager-current,
-    a {
-      background-color: $gray-light;
-      display: inline-block;
-      padding-top: $small-spacing;
-      padding-right: 15px;
-      padding-bottom: $small-spacing;
-      padding-left: 15px;
-    }
-  }
-
-  .active a,
-  .active a:hover {
-    cursor: default;
-    text-decoration: underline;
-  }
-
-  .disabled {
-    background-color: $gray-lighter;
-  }
-  .disabled a:hover {
-    cursor: default;
-    text-decoration: none;
-  }
-}
-
-
-// **
-// Signature
-// **
-//
-.signature {
-  border-top: 1px solid $gray-light;
-  border-bottom: 1px solid $gray-light;
-
-  margin-bottom: $large-spacing;
-  padding-top: $large-spacing;
-  padding-bottom: $large-spacing;
-
-  .signature-image {
-    img {
-      float: left;
-      margin-top: $small-spacing;
-      margin-right: $large-spacing;
-     }
-  }
-
-  .signature-label {
-    display: inline-block;
-    min-width: 125px;
-  }
-}
-
-.signature .tags a {
-  display: inline-block;
-  margin-right: 0.3em;
-}
-
-.signature .tags a:not(:last-child):after {
-  content: ",";
-}
-
-
-// =============================================================================
-// Drupal styling overrides
-// =============================================================================
-//
 body.toolbar {
   padding-top: 66px;
 }
-
 
 ul li.leaf {
   list-style: none;
 }
 
-
-// **
-// Drupal specific buttons. Extends from _ddbasic.buttons.scss
-// **
-//
 #edit-cancel {
   margin-left: .3em;
 }
-
 
 .form-item, .form-actions {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-
 .form-submit,
 #edit-cancel {
   @extend .button;
 }
-
-
-
-.feed-icon {
-  height: 16px;
-
-  img {
-    max-width: 16px;
-  }
-}
-
 
 .ajax-progress,
 .ajax-progress-throbber {
@@ -611,7 +495,8 @@ ul li.leaf {
   @extend .icon-spin;
   @extend .icon-spinner;
 
-  background: none !important; // Make sure the Drupal throbber is not visible in IE
+  /* Make sure the Drupal throbber is not visible in IE */
+  background: none !important;
   color: #000;
   font-family: $base-icon-library-font;
   font-size: 50px;
@@ -621,21 +506,6 @@ ul li.leaf {
   top: 48%;
   width: 50px;
 }
-
-thead {
-  th {
-    background-color: darken($gray-light, 8%);
-  }
-}
-
-tr.even {
-  background-color: $gray-light;
-}
-
-tr.odd {
-  background-color: darken($gray-light, 4%);
-}
-
 
 .field {
   .field-label {
