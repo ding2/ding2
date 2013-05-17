@@ -5,14 +5,6 @@
 
 (function($) {
 
-  /**
-   * Private: Check is the device have support for touch events.
-   */
-  function _is_touch_device() {
-    // First part work in most browser the last in IE 10.
-    return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
-  }
-
   /*
    * Toggle topbar menu items.
    */
@@ -154,16 +146,10 @@
       if (top > header_pos_relative && !header_fixed) {
         header.addClass('js-fixed');
         header_fixed = true;
-        if (!_is_touch_device()) {
-          $('.content-wrapper').css('margin-top', header.height() + 20);
-        }
       }
       else if (top < header_pos_relative && header_fixed) {
         header.removeClass('js-fixed');
         header_fixed = false;
-        if (!_is_touch_device()) {
-          $('.content-wrapper').css('margin-top', 20);
-        }
       }
     });
 

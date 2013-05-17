@@ -2,13 +2,16 @@
 //
 // Layout
 //
-// Base layout stuff and shared styling 
+// Base layout stuff
 //
 // @author magnify
 //
 // =============================================================================
 
 
+// **
+// Base
+// **
 body {
   background-attachment: fixed;
   background-size: cover;
@@ -24,6 +27,11 @@ body {
   }
 }
 
+
+// **
+// Header wrapper
+// **
+
 .header-wrapper {
   background-color: $base-primary-color;
 
@@ -36,6 +44,13 @@ body {
 }
 
 
+// **
+// Content
+// **
+.content-wrapper {
+  margin-top: $large-spacing;
+}
+
 .content-inner {
   margin-left: auto;
   margin-right: auto;
@@ -44,213 +59,12 @@ body {
 }
 
 
-.ding-default-layout {
-  .layout-wrapper {
-    @include zen-clear(left);
-
-    background-color: $white;
-    margin-right: 10px;
-    margin-left: 10px;
-    overflow: hidden;
-    padding-top: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .primary-content,
-  .secondary-content,
-  .tertiary-content {
-    margin-bottom: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .primary-content {
-    @include zen-grid-item(9, 1, right);
-  }
-
-  .secondary-content {
-    @include zen-grid-item(3, 1);
-  }
-
-  .tertiary-content {
-    @include zen-grid-item(4, 1, right);
-  }
-}
-
-
-%grid-inner-padding {
-  padding: 20px;
-}
-
-
-// -----------------------------------------------------------------------------
-// Layout template for 3 column panel layout delivered by ding_frontend
-// Left and Right sidebar content is optional
-// This template extends on ddbasic displays and ddbasic displays
-// -----------------------------------------------------------------------------
-//
-.ding-default-layout {
-  .attachments-wrapper {
-    @include zen-grid-container;
-    @include zen-clear();
-
-    margin-bottom: $large-spacing;
-
-    .grid-inner {
-      @extend %grid-inner-padding;
-    }
-  }
-
-  .attachments-4-4 {
-    @include attachment-25-25-25-25;
-  }
-
-  .attachments-3-3 {
-    @include attachment-33-33-33-100;
-  }
-
-  .attachments-2-2 {
-    @include attachment-50-50-100-100;
-  }
-
-  .attachments-1-1 {
-    @include attachment-100-100-100-100;
-  }
-}
-
-.sidebars {
-  @include medium() {
-    @include display-25-50-25;
-  }
-
-  @include large() {
-    @include display-25-50-25;
-  }
-
-  .grid-inner {
-    @extend %grid-inner-padding;
-  }
-}
-
-.empty-sidebars {
-  @include medium() {
-    @include display-100-50-50;
-  }
-
-  @include large() {
-    @include display-100-50-50;
-  }
-
-  .grid-inner {
-    @extend %grid-inner-padding;
-  }
-}
-
-.left-sidebar {
-  @include medium() {
-    @include ddbasic-display-33-66-secondary;
-  }
-
-  @include large() {
-    @include ddbasic-display-33-66-secondary;
-  }
-
-  .grid-inner {
-    @extend %grid-inner-padding;
-  }
-}
-
-.right-sidebar {
-  @include medium() {
-    @include ddbasic-display-66-33-tertiary;
-  }
-
-  @include large() {
-    @include ddbasic-display-66-33-tertiary;
-  }
-
-  .grid-inner {
-    @extend %grid-inner-padding;
-  }
-}
-
-
-
-.ding-layout-1 {
-  margin-top: $large-spacing;
-
-  .primary-content,
-  .secondary-content,
-  .tertiary-content {
-    margin-bottom: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .primary-content {
-    @include zen-grid-item(12, 1);
-  }
-
-  .layout-wrapper {
-    @include zen-clear(left);
-
-    background-color: $white;
-    margin-right: 10px;
-    margin-left: 10px;
-    overflow: hidden;
-    padding-top: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-
-  .secondary-content {
-    @include zen-grid-item(8, 1);
-  }
-
-  .tertiary-content {
-    @include zen-grid-item(4, 1, right);
-  }
-
-  @include small-medium() {
-    .primary-content {
-      @include zen-grid-item(12, 1);
-    }
-
-    .secondary-content {
-      @include zen-grid-item(12, 1);
-      @include zen-clear();
-    }
-
-    .tertiary-content {
-      @include zen-grid-item(12, 1);
-      @include zen-clear();
-    }
-
-    .attachments-4-4 {
-      @include attachment-25-25-25-25;
-    }
-
-    .attachments-3-3 {
-      @include attachment-33-33-33-100;
-    }
-
-    .attachments-2-2 {
-      @include attachment-50-50-100-100;
-    }
-
-    .attachments-1-1 {
-      @include attachment-100-100-100-100;
-    }
-  }
-}
-
-
-// -----------------------------------------------------------------------------
+// **
 // Site header, fixed position
-// -----------------------------------------------------------------------------
-//
+// **
+
 .site-header {
+  // Large to x-large breakpoint
   @include large-x-large() {
     &.js-fixed {
       position: fixed;
@@ -287,6 +101,7 @@ body {
     }
   }
 
+  // Small to medium breakpoint
   @include small-medium() {
     &.js-fixed {
       .topbar {
@@ -297,6 +112,252 @@ body {
     }
   }
 }
+
+
+// **
+// Layouts
+// **
+
+.frontpage-layout {
+  .primary-content,
+  .secondary-content,
+  .tertiary-content {
+    margin-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .primary-content {
+    @include zen-grid-item(12, 1);
+  }
+
+  .layout-wrapper {
+    @include zen-clear(left);
+
+    background-color: $white;
+    margin-right: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .secondary-content {
+    @include zen-grid-item(8, 1);
+  }
+
+  .tertiary-content {
+    @include zen-grid-item(4, 1, right);
+  }
+
+  @include small-medium() {
+    .primary-content,
+    .secondary-content,
+    .tertiary-content {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
+    }
+  }
+
+  .attachments-wrapper {
+    @include zen-grid-container;
+    @include zen-clear();
+
+    margin-bottom: $large-spacing;
+
+    .grid-inner {
+      padding: $large-spacing;
+    }
+  }
+}
+
+
+.default-layout {
+  margin-top: $large-spacing;
+
+  .primary-content,
+  .secondary-content,
+  .tertiary-content {
+    margin-bottom: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .primary-content {
+    @include zen-grid-item(9, 1);
+  }
+
+  .layout-wrapper {
+    @include zen-clear(left);
+
+    background-color: $white;
+    margin-right: 10px;
+    margin-left: 10px;
+    overflow: hidden;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .secondary-content {
+    @include zen-grid-item(8, 1);
+  }
+
+  .tertiary-content {
+    @include zen-grid-item(4, 1, right);
+  }
+
+  // Media queries
+  @include small-medium() {
+    .primary-content,
+    .secondary-content,
+    .tertiary-content {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
+    }
+  }
+
+  // Sidebars!
+  &.sidebars {
+    @include medium-large() {
+      .primary-content {
+        @include zen-grid-item(6, 3 + 1);
+      }
+
+      .secondary-content {
+        @include zen-grid-item(3, 1);
+      }
+
+      .tertiary-content {
+        @include zen-grid-item(3, 1, right);
+      }
+    }
+  }
+
+  // No sidebars...
+  &.empty-sidebars {
+    @include medium-large() {
+      .primary-content {
+        @include zen-grid-item(12, 1);
+      }
+
+      .secondary-content {
+        @include zen-clear(both);
+        @include zen-grid-item(6, 1);
+      }
+
+      .tertiary-content {
+        @include zen-grid-item(6, 1, right);
+      }
+    }
+  }
+
+  // Left sidebar only
+  &.left-sidebar {
+    @include medium-large() {
+      .primary-content {
+        @include zen-grid-item(9, 4);
+      }
+      .secondary-content {
+        @include zen-grid-item(3, 1);
+      }
+    }
+  }
+
+  // Right sidebar only
+  &.right-sidebar {
+    @include medium-large() {
+      .primary-content {
+        @include zen-grid-item(8, 1);
+      }
+
+      .tertiary-content {
+        @include zen-grid-item(4, 1, right);
+      }
+    }
+  }
+}
+
+
+// **
+// Attachments
+// **
+.attachment-first {
+  @include zen-grid-item(3, 1);
+}
+
+.attachment-second {
+  @include zen-grid-item(3, 4);
+}
+
+.attachment-third {
+  @include zen-grid-item(3, 4, right);
+}
+
+.attachment-fourth {
+  @include zen-grid-item(3, 1, right);
+}
+
+.attachments-1-1 {
+  .attachment-first {
+    @include zen-clear();
+    @include zen-grid-item(12, 1);
+  }
+}
+
+// Media queries
+@include small() {
+  .attachment-first,
+  .attachment-third,
+  .attachment-second,
+  .attachment-fourth {
+    @include zen-clear();
+    @include zen-grid-item(12, 1);
+  }
+}
+
+@include medium() {
+  .attachment-first,
+  .attachment-third {
+    @include zen-clear();
+    @include zen-grid-item(6, 1);
+  }
+
+  .attachment-second,
+  .attachment-fourth {
+    @include zen-grid-item(6, 1, right);
+  }
+}
+
+// Panel layout with 2 panes
+.attachments-2-2 {
+  .attachment-first {
+    @include zen-grid-item(6, 1);
+  }
+
+  .attachment-second {
+    @include zen-grid-item(6, 1, right);
+  }
+}
+
+// Panel layout with 3 panes
+.attachments-3-3 {
+  .attachment-first {
+    @include zen-grid-item(4, 1);
+  }
+
+  .attachment-second {
+    @include zen-grid-item(4, 4 + 1);
+  }
+
+  .attachment-third {
+    @include zen-grid-item(4, 1, right);
+  }
+}
+
+
+
 
 // -----------------------------------------------------------------------------
 // Topbar, site name, slogan and logo
@@ -371,22 +432,12 @@ body {
 // **
 //
 .footer {
-  @include attachment-25-25-25-25;
-
   background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 
   .pane-title {
     @include rem('font-size', 18px);
-  }
-
-  @include medium() {
-    @include attachment-50-50-50-50;
-  }
-
-  @include small() {
-    @include attachment-100-100-100-100;
   }
 }
 
