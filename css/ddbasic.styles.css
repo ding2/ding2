@@ -1344,7 +1344,7 @@ button#edit-cancel {
 }
 
 /* line 20, ../sass/framework/_labels.scss */
-.label, .label-inverted, .subjects .subject {
+.label, .label-inverted, .subjects .subject, .news-list .news-label {
   font-size: 13.6px;
   font-size: 0.85rem;
   line-height: 20.4px;
@@ -1362,16 +1362,16 @@ button#edit-cancel {
   white-space: nowrap;
 }
 /* line 37, ../sass/framework/_labels.scss */
-.label a:link, .label-inverted a:link, .subjects .subject a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover {
+.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover {
   color: white;
   text-decoration: none;
 }
 /* line 45, ../sass/framework/_labels.scss */
-.label:link, .label-inverted:link, .subjects .subject:link, .label:visited, .label-inverted:visited, .subjects .subject:visited {
+.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited {
   color: white;
 }
 /* line 49, ../sass/framework/_labels.scss */
-.label:hover, .label-inverted:hover, .subjects .subject:hover {
+.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
@@ -4693,9 +4693,49 @@ ul li.leaf {
   font-size: 150%;
 }
 
+/* line 24, ../sass/module/_module.scss */
+.news-list .news-list-item {
+  margin-bottom: 10px;
+}
+
+/* line 28, ../sass/module/_module.scss */
+.news-list .news-list-item {
+  padding: 20px;
+}
+
+/* line 36, ../sass/module/_module.scss */
+.news-list .news-list-item {
+  background-color: #ebebeb;
+}
+
+/* line 40, ../sass/module/_module.scss */
+.news-list .news-list-item:nth-child(odd) {
+  background-color: #e8e8e8;
+}
+
+/* line 44, ../sass/module/_module.scss */
+.news-list .news-list-item:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* line 48, ../sass/module/_module.scss */
+.news-list .news-heading {
+  font-size: 150%;
+}
+
 /* line 52, ../sass/module/_module.scss */
 .event-list .event-list-heading {
   font-size: 110%;
+}
+
+/* line 57, ../sass/module/_module.scss */
+.news-list .news-author {
+  color: #4c4c4c;
+}
+
+/* line 61, ../sass/module/_module.scss */
+.news-list .news-date {
+  color: rgba(76, 76, 76, 0.5);
 }
 
 /* Shared styling used for search and user form in topbar
@@ -6122,6 +6162,85 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   /* line 275, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
+  }
+}
+
+/**
+ * News
+ *
+ * Uses shared %article @extends
+ *
+ * @author magnify
+ */
+/* line 9, ../sass/module/_news.scss */
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Media queries */
+}
+/* line 14, ../sass/module/_news.scss */
+.news-list .news-list-item {
+  overflow: hidden;
+  position: relative;
+}
+/* line 35, ../sass/module/_news.scss */
+.news-list .news-image-wrapper {
+  float: left;
+  margin-right: 20px;
+  max-width: 75px;
+}
+/* line 40, ../sass/module/_news.scss */
+.news-list .news-image-wrapper a {
+  display: block;
+}
+/* line 45, ../sass/module/_news.scss */
+.news-list .news-label {
+  margin-right: 5px;
+}
+/* line 51, ../sass/module/_news.scss */
+.news-list .news-sub-heading {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 56, ../sass/module/_news.scss */
+.news-list .news-sub-heading .news-date,
+.news-list .news-sub-heading .news-author {
+  margin-right: 5px;
+}
+/* line 69, ../sass/module/_news.scss */
+.news-list .news-list-content {
+  max-height: 50px;
+  overflow: hidden;
+}
+/* line 74, ../sass/module/_news.scss */
+.news-list .news-link {
+  float: right;
+}
+/* line 78, ../sass/module/_news.scss */
+.news-list .news-arrow-link {
+  display: none;
+}
+@media only screen and (max-width: 768px) {
+  /* line 87, ../sass/module/_news.scss */
+  .news-list .news-label,
+  .news-list .news-sub-heading,
+  .news-list .news-list-content,
+  .news-list .news-link {
+    display: none;
+  }
+  /* line 91, ../sass/module/_news.scss */
+  .news-list .news-heading {
+    font-size: 20px;
+    font-size: 1.25rem;
+    margin-right: 35px;
+  }
+  /* line 97, ../sass/module/_news.scss */
+  .news-list .news-arrow-link {
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 45%;
   }
 }
 
