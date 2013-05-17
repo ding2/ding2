@@ -17,6 +17,7 @@
 // Include framework
 @import "framework/_variables.scss";
 @import "framework/_mixins.scss";
+@import "framework/_mediaqueries.scss";
 @import "framework/_normalize.scss";
 @import "framework/_base.scss";
 @import "framework/_framework.scss";
@@ -31,7 +32,6 @@
 
 
 // Include media queries (displays and attachments)
-@import "layout/_mediaqueries.scss";
 @import "layout/_layout.scss";
 
 
