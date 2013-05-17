@@ -192,7 +192,7 @@ body {
   }
 
   .layout-wrapper {
-    @include zen-clear(left);
+    @include zen-clear();
 
     background-color: $white;
     margin-right: 10px;
@@ -245,11 +245,11 @@ body {
   }
 
   .primary-content {
-    @include zen-grid-item(9, 1);
+    @include zen-grid-item(9, 4);
   }
 
   .layout-wrapper {
-    @include zen-clear(left);
+    @include zen-clear();
 
     background-color: $white;
     margin-right: 10px;
@@ -261,11 +261,12 @@ body {
   }
 
   .secondary-content {
-    @include zen-grid-item(8, 1);
+    @include zen-grid-item(3, 1);
   }
 
   .tertiary-content {
-    @include zen-grid-item(4, 1, right);
+    @include zen-grid-item(12, 1);
+    @include zen-clear();
   }
 
   /* Media queries */
@@ -273,8 +274,8 @@ body {
     .primary-content,
     .secondary-content,
     .tertiary-content {
-      @include zen-clear();
       @include zen-grid-item(12, 1);
+      @include zen-clear();
     }
   }
 
