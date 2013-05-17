@@ -30,7 +30,7 @@ else if (!empty($content['left_sidebar']) && !empty($content['right_sidebar'])) 
   $add_class = 'sidebars';
 }
 ?>
-<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="<?php echo $add_class; ?> ding-default-layout">
+<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="<?php echo $add_class; ?> default-layout">
   <div class="layout-wrapper">
     <div class="primary-content">
       <?php print $content['main_content']; ?>

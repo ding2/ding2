@@ -9,7 +9,7 @@
  * - $css_id: unique id if present.
  */
 ?>
-<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="ding-layout-1">
+<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="frontpage-layout">
 
   <?php if (!empty($content['primary'])): ?>
     <div class="primary-content">

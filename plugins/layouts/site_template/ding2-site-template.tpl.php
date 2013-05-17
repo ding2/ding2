@@ -29,14 +29,14 @@
   <?php endif; ?>
 
   <div class="content-wrapper">
-    <div class="grid-inner">
+    <div class="content-inner">
       <?php print render($content['content']); ?>
     </div>
   </div>
 
   <?php if (!empty($content['footer'])): ?>
     <footer class="footer">
-      <div class="grid-inner">
+      <div class="footer-inner">
         <?php print render($content['footer']); ?>
       </div>
     </footer>
