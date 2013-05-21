@@ -161,6 +161,9 @@
 .main-menu {
   font-size: $font-size-large;
 
+  /* For now Drupal's menu_tree function adds the class "main-menu" so sub-menus
+   * as well
+   */
   .main-menu {
     display: none;
   }
