@@ -6,7 +6,7 @@
 
 
 
-/* Mixins for media queries and breakpoints
+/* Media query
    ========================================================================== */
 
 @mixin respond-to($media) {
@@ -45,6 +45,9 @@
 }
 
 
+/* Breakpoints
+   ========================================================================== */
+
 @mixin small {
   @include respond-to(small) { @content; }
 }
@@ -79,6 +82,28 @@
 
 
 
+/* Typography mixins
+ * 
+ * These are mixins to allow for use in media queries
+   ========================================================================== */
+
+@mixin font-normal() {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight-normal;
+}
+
+@mixin font-bold() {
+  font-family: $font-bold;
+  font-weight: $base-font-weight-bold;
+}
+
+@mixin font-italic() {
+  font-family: $font-light-italic;
+  font-weight: $base-font-weight-normal;
+}
+
+
+
 /* Availability
    ========================================================================== */
 
@@ -98,28 +123,6 @@
       text-decoration: none;
     }
   }
-}
-
-
-
-/* Typography mixins
- * 
- * These are mixins to allow for use in media queries
-   ========================================================================== */
-
-@mixin font-normal() {
-  font-family: $base-font-family;
-  font-weight: $base-font-weight-normal;
-}
-
-@mixin font-bold() {
-  font-family: $font-bold;
-  font-weight: $base-font-weight-bold;
-}
-
-@mixin font-italic() {
-  font-family: $font-light-italic;
-  font-weight: $base-font-weight-normal;
 }
 
 
@@ -157,43 +160,5 @@
 
     #{$alignment}: $offset;
 
-  }
-}
-
-
-
-/* Mixin that converts pixel values to rem values
- *
- * https://github.com/ry5n/rem
- *
- * Returns two lines of code — one of the regular pixel values (for older
- * browsers), and another with the converted rem values (for everything else).
- *
- * Basic usage: @include rem('font-size',10px);
-   ========================================================================== */
-
-@mixin rem($property, $px-values) {
-  /* Convert the baseline into rems */
-  $baseline-rem: $base-font-size / 1rem;
-  /* Print the first line in pixel values */
-  #{$property}: $px-values;
-  /* If there is only one (numeric) value, return the property/value line for it. */
-  @if type-of($px-values) == "number" {
-    #{$property}: $px-values / $baseline-rem;
-  }
-  @else {
-    /* Create an empty list that we can dump values into */
-    $rem-values: unquote("");
-    @each $value in $px-values {
-      /* If the value is zero, return 0 */
-      @if $value == 0 {
-        $rem-values: append($rem-values, $value);
-      }
-      @else {
-        $rem-values: append($rem-values, $value / $baseline-rem);
-      }
-    }
-    /* Return the property and its list of converted values */
-    #{$property}: $rem-values;
   }
 }

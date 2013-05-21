@@ -10,7 +10,7 @@ input,
 textarea,
 select {
   font-family: $base-font-family;
-  font-size: 100%;
+  font-size: $font-size-reset;
   letter-spacing: 1px;
 }
 
@@ -39,7 +39,7 @@ textarea {
   border: 1px solid $gray-light;
   display: block;
   font-family: $base-font-family;
-  font-size: 100%;
+  font-size: $font-size-reset;
   min-height: $medium-spacing;
   margin-bottom: $medium-spacing;
   padding: $medium-spacing;

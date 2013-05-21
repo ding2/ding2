@@ -80,9 +80,7 @@
     color: transparentize($black, .5);;
 
     .user-name-title {
-      @include rem('font-size', $base-font-size * 2.25);
-      @include rem('line-height', $base-font-size * 3);
-
+      font-size: $font-size-giga;
       overflow: hidden;
       max-height: 45px;
       margin-bottom: 10px;

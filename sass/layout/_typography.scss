@@ -8,13 +8,13 @@
 /* Extends
    ========================================================================== */
 %page-heading {
-  font-size: 190%;
+  font-size: $font-size-giga;
 }
 
 %section-heading {
   @include font-bold();
 
-  font-size: 150%;
+  font-size: $font-size-larger;
 }
 
 

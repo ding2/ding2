@@ -88,8 +88,7 @@
     }
 
     .news-heading {
-      @include rem('font-size', 20px);
-
+      font-size: $font-size-large;
       margin-right: 35px;
     }
 

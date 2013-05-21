@@ -26,9 +26,8 @@
   padding-left: 10px;
 
   .event-list-date-wrapper {
-    @include rem('font-size', $base-font-size * .9);
-
     display: inline-block;
+    font-size: $font-size-small;
     margin-right: 10px;
     min-width: 75px;
 
@@ -47,9 +46,8 @@
     }
 
     .event-list-date {
-      @include rem('font-size', 20px);
-
       display: block;
+      font-size: $font-size-large;
       padding-top: 4px;
     }
   }
@@ -57,7 +55,7 @@
   .event-list-date-wrapper {
     vertical-align: middle;
     min-width: 50px;
-    font-size: $base-font-size * 0.6;
+    font-size: $font-size-small;
   }
 
   .event-list-date {
@@ -70,10 +68,9 @@
   }
 
   .event-list-fulldate {
-    @include rem('font-size', $base-font-size * 1.25);
-
     color: transparentize($black, .3);
     font-family: $font-bold;
+    font-size: $font-size-large;
     font-weight: $base-font-weight-bold;
   }
 }
@@ -186,8 +183,6 @@
    ========================================================================== */
 
 %ticket {
-  @include rem('font-size', $base-font-size * 1);
-
   font-family: $font-bold;
   font-weight: $base-font-weight-bold;
   margin-left: 10%;

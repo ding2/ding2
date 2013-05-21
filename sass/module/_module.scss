@@ -16,11 +16,11 @@
 }
 
 %article-padding {
-  padding: 20px;
+  padding: $large-spacing;
 }
 
 %article-padding--small {
-  padding: 10px;
+  padding: $medium-spacing;
 }
 
 %article-background {
@@ -36,11 +36,11 @@
 }
 
 %article-heading {
-  font-size: 150%;
+  font-size: $font-size-large;
 }
 
 %article-heading--small {
-  font-size: 110%;
+  font-size: $font-size-medium;
 }
 
 
@@ -49,7 +49,7 @@
 }
 
 %article-text--opaque {
-  color: transparentize(#4c4c4c, .5);
+  color: transparentize($article-text, .5);
 }
 
 
@@ -67,20 +67,20 @@
   width: 100%;
 
   [class^="label-"] {
-    @include rem('font-size', 16px);
     @include font-bold();
 
     color: transparentize($white, .25);
+    font-size: $font-size-reset;
     margin-top: 2px;
     margin-bottom: 5px;
     margin-left: 2px;
   }
 
   [class^="icon-"] {
-    @include rem('font-size', 30px);
 
     color: $gray-darker;
     bottom: 15px;
+    font-size: $font-size-largest;
     left: 24px;
     position: absolute;
   }
@@ -91,12 +91,12 @@
   }
 
   .form-text {
-    @include rem('font-size', 18px);
     @include box-sizing(border-box);
     @include border-radius(12px);
 
     border: 0;
     display: inline;
+    font-size: $font-size-medium;
     margin-right: 20px;
     padding-bottom: 0;
     width: 100%;
@@ -109,10 +109,10 @@
   }
 
   .form-submit {
-    @include rem('font-size', 20px);
     @include border-radius(12px);
     @extend %button-default;
 
+    font-size: $font-size-larger;
     margin-top: 31px;
     padding-bottom: 1px;
     min-width: 110px;
@@ -131,7 +131,7 @@
   /* Media queries */
   @include small() {
     [class^="label-"] {
-      @include rem('font-size', 14px);
+      font-size: $font-size-small;
     }
 
     .form-item {
@@ -142,12 +142,11 @@
 
   @include small-medium() {
     i[class^="icon-"] {
-      @include rem('font-size', 20px);
+      font-size: $font-size-large;
     }
 
     .form-text {
-      @include rem('font-size', 18px);
-
+      font-size: $font-size-medium;
       min-height: 50px;
       min-width: 100%;
       padding-left: 42px;
@@ -159,8 +158,7 @@
     }
 
     .form-submit {
-      @include rem('font-size', 18px);
-
+      font-size: $font-size-medium;
       margin-top: 20px;
       min-height: 44px;
       min-width: 100%;

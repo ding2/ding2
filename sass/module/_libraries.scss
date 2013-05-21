@@ -15,7 +15,7 @@
 
 .libraries-title,
 .opening-hours-title {
-  @include rem('font-size', $base-font-size * 1.8);
+  font-size: $font-size-largest;  
   margin-bottom: $large-spacing;
   padding-bottom: $large-spacing;
 }
@@ -39,10 +39,9 @@
   width: 73%;
 
   &:before {
-    @include rem('font-size', 74px);
-
     color: $gray-dark;
     font-family: $base-icon-library-font;
+    font-size: 74px;
     left: 0;
     position: absolute;
     text-align: center;
@@ -71,7 +70,7 @@
     width: 100%;
 
     &:before {
-      font-size: 185%;
+      font-size: $font-size-largest;
     }
   }
 }
@@ -103,7 +102,7 @@
   .prev,
   .next {
     font-family: $base-icon-library-font;
-    font-size: 100%;
+    font-size: $font-size-reset;
   }
 
   .even {

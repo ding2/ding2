@@ -15,6 +15,9 @@
   stylesheets[all][] = css/system.menus.css
   stylesheets[all][] = css/addressfield.css
   stylesheets[all][] = css/jquery.ui.theme.css
+  stylesheets[all][] = css/jquery.ui.theme.min.css
+  stylesheets[all][] = css/jquery.ui.dialog.css
+  stylesheets[all][] = css/jquery.ui.dialog.min.css
 
 
 ;----------// JavaScripts

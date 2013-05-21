@@ -24,7 +24,7 @@
 
     color: $white;
     display: inline-block;
-    font-size: 110%;
+    font-size: $font-size-medium;
     margin-left: -4px;
     padding: 10px 15px;
     outline: 0;
@@ -159,7 +159,7 @@
 }
 
 .main-menu {
-  font-size: 125%;
+  font-size: $font-size-large;
 }
 
 .secondary-menu {
@@ -175,7 +175,7 @@
 
   @include large() {
     .menu-item {
-      font-size: 80%;
+      font-size: $font-size-small;
       margin-left: 10px;
     }
   }
@@ -240,7 +240,7 @@
 
   @include large() {
     .menu-item {
-      font-size: 95%;
+      font-size: $font-size-small;
       margin-right: 10px;
       padding-top: 15px;
       padding-bottom: 15px;
@@ -248,7 +248,7 @@
   }
 
   @include small-medium() {
-    @include rem('font-size', 16px);
+    font-size: $font-size-reset;
 
     li {
       border-bottom: 1px solid transparentize($white, .75);
@@ -370,7 +370,7 @@
       color: $link-color;
       float: left;
       font-family: $base-icon-library-font;
-      font-size: 125%;
+      font-size: $font-size-large;
       margin-top: 8px;
       margin-left: 1px;
     }
@@ -478,11 +478,10 @@
     padding: 0 10px;
 
     &:before {
-      @include rem('font-size', $base-font-size * 1.2);
-
       color: $link-color;
       float: left;
       font-family: FontAwesome;
+      font-size: $font-size-medium;
       margin-top: 2px;
       margin-left: 1px;
     }

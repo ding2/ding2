@@ -15,7 +15,6 @@ $carousel-image-max-height:                250px;
 $carousel-tab-background-color:            transparentize($black, .5);
 $carousel-active-tab-background-color:     $black;
 $carousel-tab-color:                       $white;
-$carousel-title-font-size:                 24px;
 
 
 
@@ -101,14 +100,14 @@ $carousel-title-font-size:                 24px;
 
 .rs-carousel-title {
   @include box-sizing(border-box);
-  @include rem('font-size', $carousel-title-font-size);
   @include font-bold();
 
   color: transparentize($black, .3);
+  font-size: $font-size-larger;
   margin-bottom: 20px;
 
-  @include small() {
-    @include rem('font-size', $carousel-title-font-size / 1.25);
+  @include small() {    
+    font-size: $font-size-largest;
   }
 
   @include small-medium() {

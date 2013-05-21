@@ -6,11 +6,10 @@
 
 
 body {
-  @include rem('font-size', $base-font-size);
-
   background-color: $gray-light;
   color: $font-color-primary;
   font-family: $base-font-family;
+  font-size: $base-font-size;
   line-height: $base-line-height;
 }
 

@@ -151,7 +151,7 @@ input#edit-search-block-form--2.spinner {
       font-family: $base-icon-library-font;
       padding-right: 5px;
       text-decoration: none;
-      font-size: 1.1em;
+      font-size: $font-size-largest;
     }
   }
 
@@ -578,17 +578,16 @@ input#edit-search-block-form--2.spinner {
   }
 
   &:before {
-    @include rem('font-size', 74px);
-
     color: $gray-dark;
     font-family: $base-icon-library-font;
+    font-size: 74px;
     left: 29%;
     position: absolute;
     top: 45%;
   }
 
   &:before {
-    font-size: 150%;
+    font-size: $font-size-larger;
   }
 }
 
@@ -651,7 +650,7 @@ input#edit-search-block-form--2.spinner {
     &:before {
       color: $link-color;
       font-family: $base-icon-library-font;
-      font-size: 125%;
+      font-size: $font-size-medium;
       padding-right: 6px;
     }
   }

@@ -12,21 +12,23 @@
 $modal-overlay-color:             $black;
 $modal-overlay-transparency:      .8;
 $modal-text-color:                $black;
-$modal-background-color:          #00b7e7;
-$modal-background-transparency:   .95;
+$modal-background-color:          $black;
+$modal-background-transparency:   .25;
 $modal-min-width:                 450px;
 $modal-border-radius:             12px;
 
 
 .ui-widget-overlay {
-  background-color: transparentize($modal-background-color, $modal-background-transparency);
+  @include opacity(1);
+
+  background: transparentize($modal-background-color, $modal-background-transparency);
 }
 
 .ui-dialog {
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius($button-border-radius);
 
-  background-color: transparentize($modal-background-color, $modal-background-transparency);
+  background-color: $base-primary-color;
   min-width: $modal-min-width;
 }
 
@@ -61,7 +63,7 @@ $modal-border-radius:             12px;
         text-transform: capitalize;
 
         &:hover {
-          color: lighten($modal-background-color, 40%);
+          color: $white;
         }
       }
 

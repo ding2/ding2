@@ -19,14 +19,12 @@ $label-padding:                   3px 10px;
 
 
 .label {
-  @include rem('font-size', $base-font-size * .85);
-  @include rem('line-height', $base-line-height * .85);
   @include border-radius($label-border-radius);
-
-  padding: $label-padding;
 
   background-color: $label-bg-color;
   color: $label-text-color;
+  font-size: $font-size-small;
+  padding: $label-padding;
   text-shadow: $label-shadow;
   vertical-align: baseline;
   white-space: nowrap;
