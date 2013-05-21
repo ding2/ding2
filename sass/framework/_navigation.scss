@@ -364,11 +364,10 @@
     @extend .icon-angle-right;
 
     &:before {
-      @include rem('font-size', $base-font-size * 1.25);
-
       color: $link-color;
       float: left;
       font-family: $base-icon-library-font;
+      font-size: 125%;
       margin-top: 8px;
       margin-left: 1px;
     }
@@ -421,7 +420,6 @@
   }
 
   .menu {
-    list-style: none;
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 20px;

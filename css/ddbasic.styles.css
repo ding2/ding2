@@ -439,7 +439,12 @@ table {
   border-spacing: 0;
 }
 
-/* line 1, ../sass/framework/_base.scss */
+/**
+ * Base
+ *
+ * @author magnify
+ */
+/* line 8, ../sass/framework/_base.scss */
 body {
   font-size: 16px;
   font-size: 1rem;
@@ -449,19 +454,21 @@ body {
   line-height: 24px;
 }
 
-/* line 16, ../sass/framework/_base.scss */
+/* line 23, ../sass/framework/_base.scss */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
+  /* This fixes huge spaces when a heading wraps onto two lines */
   line-height: 1;
   margin-top: 0;
   margin-bottom: 10px;
+  /* Voodoo to enable ligatures and kerning */
   text-rendering: optimizeLegibility;
 }
-/* line 27, ../sass/framework/_base.scss */
+/* line 34, ../sass/framework/_base.scss */
 h1 a:link,
 h2 a:link,
 h3 a:link,
@@ -471,7 +478,7 @@ h6 a:link {
   color: rgba(0, 0, 0, 0.7);
   text-decoration: none;
 }
-/* line 32, ../sass/framework/_base.scss */
+/* line 39, ../sass/framework/_base.scss */
 h1 a:visited,
 h2 a:visited,
 h3 a:visited,
@@ -480,7 +487,7 @@ h5 a:visited,
 h6 a:visited {
   color: rgba(0, 0, 0, 0.7);
 }
-/* line 36, ../sass/framework/_base.scss */
+/* line 43, ../sass/framework/_base.scss */
 h1 a:hover,
 h2 a:hover,
 h3 a:hover,
@@ -489,7 +496,7 @@ h5 a:hover,
 h6 a:hover {
   color: rgba(0, 0, 0, 0.7);
 }
-/* line 40, ../sass/framework/_base.scss */
+/* line 47, ../sass/framework/_base.scss */
 h1 a:focus,
 h2 a:focus,
 h3 a:focus,
@@ -498,7 +505,7 @@ h5 a:focus,
 h6 a:focus {
   color: rgba(0, 0, 0, 0.7);
 }
-/* line 44, ../sass/framework/_base.scss */
+/* line 51, ../sass/framework/_base.scss */
 h1 a:active,
 h2 a:active,
 h3 a:active,
@@ -509,82 +516,86 @@ h6 a:active {
   color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 51, ../sass/framework/_base.scss */
+/* line 58, ../sass/framework/_base.scss */
 h1 {
   font-size: 200%;
 }
 
-/* line 55, ../sass/framework/_base.scss */
+/* line 62, ../sass/framework/_base.scss */
 h2 {
   font-size: 180%;
 }
 
-/* line 59, ../sass/framework/_base.scss */
+/* line 66, ../sass/framework/_base.scss */
 h3 {
   font-size: 160%;
 }
 
-/* line 63, ../sass/framework/_base.scss */
+/* line 70, ../sass/framework/_base.scss */
 h4 {
   font-size: 140%;
 }
 
-/* line 67, ../sass/framework/_base.scss */
+/* line 74, ../sass/framework/_base.scss */
 h5 {
   font-size: 110%;
 }
 
-/* line 71, ../sass/framework/_base.scss */
+/* line 78, ../sass/framework/_base.scss */
 h6 {
   font-size: 100%;
 }
 
-/* line 76, ../sass/framework/_base.scss */
+/* line 83, ../sass/framework/_base.scss */
 strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 81, ../sass/framework/_base.scss */
+/* line 88, ../sass/framework/_base.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 84, ../sass/framework/_base.scss */
+/* line 91, ../sass/framework/_base.scss */
 em strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 94, ../sass/framework/_base.scss */
+/* Links
+   ========================================================================== */
+/* line 101, ../sass/framework/_base.scss */
 a {
   font-weight: normal;
 }
-/* line 97, ../sass/framework/_base.scss */
+/* line 104, ../sass/framework/_base.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 102, ../sass/framework/_base.scss */
+/* line 109, ../sass/framework/_base.scss */
 a:visited {
   color: #007a9b;
   text-decoration: none;
 }
-/* line 107, ../sass/framework/_base.scss */
+/* line 114, ../sass/framework/_base.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 111, ../sass/framework/_base.scss */
+/* line 118, ../sass/framework/_base.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 116, ../sass/framework/_base.scss */
+/* line 123, ../sass/framework/_base.scss */
 a:focus {
   color: #006681;
 }
 
-/* line 122, ../sass/framework/_base.scss */
+/* Image
+   ========================================================================== */
+/* line 133, ../sass/framework/_base.scss */
 img {
   display: inline;
   height: auto;
@@ -592,25 +603,33 @@ img {
   vertical-align: bottom;
 }
 
-/* line 129, ../sass/framework/_base.scss */
+/* Lists
+   ========================================================================== */
+/* line 145, ../sass/framework/_base.scss */
 ul {
   margin: 0;
   padding-left: 20px;
 }
+/* line 149, ../sass/framework/_base.scss */
+ul li {
+  list-style: none;
+}
 
-/* line 135, ../sass/framework/_base.scss */
+/* line 155, ../sass/framework/_base.scss */
 .page-content li {
   list-style: disc inside;
 }
 
-/* line 141, ../sass/framework/_base.scss */
+/* Fieldset
+   ========================================================================== */
+/* line 165, ../sass/framework/_base.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 147, ../sass/framework/_base.scss */
+/* line 171, ../sass/framework/_base.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
@@ -619,7 +638,9 @@ legend {
   width: 100%;
 }
 
-/* line 157, ../sass/framework/_base.scss */
+/* Selection color
+   ========================================================================== */
+/* line 186, ../sass/framework/_base.scss */
 ::-moz-selection,
 ::selection {
   background-color: #ffff99;
@@ -1836,33 +1857,32 @@ button.button {
 }
 /* line 366, ../sass/framework/_navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
-  font-size: 20px;
-  font-size: 1.25rem;
   color: #00b7e7;
   float: left;
   font-family: "FontAwesome";
+  font-size: 125%;
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 378, ../sass/framework/_navigation.scss */
+/* line 377, ../sass/framework/_navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 382, ../sass/framework/_navigation.scss */
+/* line 381, ../sass/framework/_navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 25px;
 }
-/* line 391, ../sass/framework/_navigation.scss */
+/* line 390, ../sass/framework/_navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
 /* Footer menus
    ========================================================================== */
-/* line 404, ../sass/framework/_navigation.scss */
+/* line 403, ../sass/framework/_navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -1870,42 +1890,41 @@ button.button {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 413, ../sass/framework/_navigation.scss */
+/* line 412, ../sass/framework/_navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: "FontAwesome";
 }
-/* line 423, ../sass/framework/_navigation.scss */
+/* line 422, ../sass/framework/_navigation.scss */
 .footer .menu {
-  list-style: none;
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 20px;
   margin-left: 0;
   padding: 0;
 }
-/* line 431, ../sass/framework/_navigation.scss */
+/* line 429, ../sass/framework/_navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 437, ../sass/framework/_navigation.scss */
+/* line 435, ../sass/framework/_navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: "FontAwesome";
 }
-/* line 443, ../sass/framework/_navigation.scss */
+/* line 441, ../sass/framework/_navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 447, ../sass/framework/_navigation.scss */
+/* line 445, ../sass/framework/_navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 768px) {
-  /* line 455, ../sass/framework/_navigation.scss */
+  /* line 453, ../sass/framework/_navigation.scss */
   .footer .menu {
     display: none;
   }
@@ -1913,20 +1932,20 @@ button.button {
 
 /* Action Links
    ========================================================================== */
-/* line 466, ../sass/framework/_navigation.scss */
+/* line 464, ../sass/framework/_navigation.scss */
 .action-links {
   padding-top: 10px;
   padding-right: 20px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
-/* line 472, ../sass/framework/_navigation.scss */
+/* line 470, ../sass/framework/_navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 479, ../sass/framework/_navigation.scss */
+/* line 477, ../sass/framework/_navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -1936,7 +1955,7 @@ button.button {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 489, ../sass/framework/_navigation.scss */
+/* line 487, ../sass/framework/_navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -4586,22 +4605,17 @@ body.toolbar {
 }
 
 /* line 461, ../sass/layout/_layout.scss */
-ul li.leaf {
-  list-style: none;
-}
-
-/* line 465, ../sass/layout/_layout.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 469, ../sass/layout/_layout.scss */
+/* line 465, ../sass/layout/_layout.scss */
 .form-item, .form-actions {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-/* line 480, ../sass/layout/_layout.scss */
+/* line 476, ../sass/layout/_layout.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4615,7 +4629,7 @@ ul li.leaf {
   text-align: center;
 }
 
-/* line 492, ../sass/layout/_layout.scss */
+/* line 488, ../sass/layout/_layout.scss */
 .ajax-progress .throbber {
   /* Make sure the Drupal throbber is not visible in IE */
   background: none !important;
@@ -4629,13 +4643,13 @@ ul li.leaf {
   width: 50px;
 }
 
-/* line 509, ../sass/layout/_layout.scss */
+/* line 505, ../sass/layout/_layout.scss */
 .field .field-label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 514, ../sass/layout/_layout.scss */
+/* line 510, ../sass/layout/_layout.scss */
 .field-label {
   margin-right: 5px;
 }
@@ -6142,68 +6156,67 @@ ul.ui-autocomplete .ui-menu-item a:hover {
  */
 /* line 9, ../sass/module/_news.scss */
 .news-list {
-  list-style: none;
   margin: 0;
   padding: 0;
   /* Media queries */
 }
-/* line 14, ../sass/module/_news.scss */
+/* line 13, ../sass/module/_news.scss */
 .news-list .news-list-item {
   overflow: hidden;
   position: relative;
 }
-/* line 35, ../sass/module/_news.scss */
+/* line 34, ../sass/module/_news.scss */
 .news-list .news-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 75px;
 }
-/* line 40, ../sass/module/_news.scss */
+/* line 39, ../sass/module/_news.scss */
 .news-list .news-image-wrapper a {
   display: block;
 }
-/* line 45, ../sass/module/_news.scss */
+/* line 44, ../sass/module/_news.scss */
 .news-list .news-label {
   margin-right: 5px;
 }
-/* line 51, ../sass/module/_news.scss */
+/* line 50, ../sass/module/_news.scss */
 .news-list .news-sub-heading {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 56, ../sass/module/_news.scss */
+/* line 55, ../sass/module/_news.scss */
 .news-list .news-sub-heading .news-date,
 .news-list .news-sub-heading .news-author {
   margin-right: 5px;
 }
-/* line 69, ../sass/module/_news.scss */
+/* line 68, ../sass/module/_news.scss */
 .news-list .news-list-content {
   max-height: 50px;
   overflow: hidden;
 }
-/* line 74, ../sass/module/_news.scss */
+/* line 73, ../sass/module/_news.scss */
 .news-list .news-link {
   float: right;
 }
-/* line 78, ../sass/module/_news.scss */
+/* line 77, ../sass/module/_news.scss */
 .news-list .news-arrow-link {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 87, ../sass/module/_news.scss */
+  /* line 86, ../sass/module/_news.scss */
   .news-list .news-label,
   .news-list .news-sub-heading,
   .news-list .news-list-content,
   .news-list .news-link {
     display: none;
   }
-  /* line 91, ../sass/module/_news.scss */
+  /* line 90, ../sass/module/_news.scss */
   .news-list .news-heading {
     font-size: 20px;
     font-size: 1.25rem;
     margin-right: 35px;
   }
-  /* line 97, ../sass/module/_news.scss */
+  /* line 96, ../sass/module/_news.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
@@ -6286,7 +6299,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 89, ../sass/module/_event.scss */
 .event-list {
   background: #efefef;
-  list-style: none;
   margin-top: 0;
   margin-bottom: 20px;
   padding-top: 10px;
@@ -6294,23 +6306,23 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 99, ../sass/module/_event.scss */
+/* line 98, ../sass/module/_event.scss */
 .event-list .event-list-item {
   position: relative;
 }
-/* line 103, ../sass/module/_event.scss */
+/* line 102, ../sass/module/_event.scss */
 .event-list .event-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 15%;
 }
-/* line 115, ../sass/module/_event.scss */
+/* line 114, ../sass/module/_event.scss */
 .event-list .event-list-location,
 .event-list .event-list-time,
 .event-list .event-list-price {
   margin-right: 5px;
 }
-/* line 119, ../sass/module/_event.scss */
+/* line 118, ../sass/module/_event.scss */
 .event-list .event-arrow-link {
   display: inline-block;
   position: absolute;
@@ -6318,7 +6330,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   top: 45%;
 }
 
-/* line 132, ../sass/module/_event.scss */
+/* line 131, ../sass/module/_event.scss */
 .event .event-image {
   float: left;
   margin-top: 5px;
@@ -6326,22 +6338,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   max-width: 300px;
 }
-/* line 140, ../sass/module/_event.scss */
+/* line 139, ../sass/module/_event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 144, ../sass/module/_event.scss */
+/* line 143, ../sass/module/_event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 149, ../sass/module/_event.scss */
+/* line 148, ../sass/module/_event.scss */
 .event .event-lead {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 155, ../sass/module/_event.scss */
+/* line 154, ../sass/module/_event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -6360,7 +6372,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 161, ../sass/module/_event.scss */
+/* line 160, ../sass/module/_event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -6379,22 +6391,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 166, ../sass/module/_event.scss */
+/* line 165, ../sass/module/_event.scss */
 .event .event-info p {
   margin-bottom: 10px;
 }
-/* line 169, ../sass/module/_event.scss */
+/* line 168, ../sass/module/_event.scss */
 .event .event-info p i[class^="icon-"] {
   display: inline-block;
   min-width: 20px;
 }
-/* line 176, ../sass/module/_event.scss */
+/* line 175, ../sass/module/_event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
 }
 
-/* line 187, ../sass/module/_event.scss */
+/* line 186, ../sass/module/_event.scss */
 .ticket-available, .ticket-info {
   font-size: 16px;
   font-size: 1rem;
@@ -6404,7 +6416,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 196, ../sass/module/_event.scss */
+/* line 195, ../sass/module/_event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
@@ -6883,50 +6895,49 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
-  list-style: none;
   margin: 0;
   padding: 0;
 }
-/* line 184, ../sass/module/_user.scss */
+/* line 183, ../sass/module/_user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 188, ../sass/module/_user.scss */
+/* line 187, ../sass/module/_user.scss */
 .pane-loans th.select-all,
 .pane-reservations th.select-all,
 .pane-bookmarks th.select-all {
   padding-left: 10px;
 }
-/* line 192, ../sass/module/_user.scss */
+/* line 191, ../sass/module/_user.scss */
 .pane-loans th.title,
 .pane-reservations th.title,
 .pane-bookmarks th.title {
   text-align: left;
 }
-/* line 197, ../sass/module/_user.scss */
+/* line 196, ../sass/module/_user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 201, ../sass/module/_user.scss */
+/* line 200, ../sass/module/_user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 205, ../sass/module/_user.scss */
+/* line 204, ../sass/module/_user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
   text-align: left;
   width: 30%;
 }
-/* line 212, ../sass/module/_user.scss */
+/* line 211, ../sass/module/_user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -6935,7 +6946,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 216, ../sass/module/_user.scss */
+/* line 215, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -6944,7 +6955,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 223, ../sass/module/_user.scss */
+/* line 222, ../sass/module/_user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -6952,19 +6963,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 229, ../sass/module/_user.scss */
+/* line 228, ../sass/module/_user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 234, ../sass/module/_user.scss */
+/* line 233, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
   margin-bottom: 0;
 }
-/* line 241, ../sass/module/_user.scss */
+/* line 240, ../sass/module/_user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -6973,7 +6984,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .operations .delete-reservation {
   text-align: center;
 }
-/* line 259, ../sass/module/_user.scss */
+/* line 258, ../sass/module/_user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -6984,51 +6995,51 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 279, ../sass/module/_user.scss */
+/* line 278, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 284, ../sass/module/_user.scss */
+/* line 283, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 300, ../sass/module/_user.scss */
+/* line 299, ../sass/module/_user.scss */
 .pane-reservations {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 306, ../sass/module/_user.scss */
+/* line 305, ../sass/module/_user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 323, ../sass/module/_user.scss */
+/* line 322, ../sass/module/_user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 328, ../sass/module/_user.scss */
+/* line 327, ../sass/module/_user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 332, ../sass/module/_user.scss */
+/* line 331, ../sass/module/_user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 338, ../sass/module/_user.scss */
+/* line 337, ../sass/module/_user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 349, ../sass/module/_user.scss */
+/* line 348, ../sass/module/_user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -7036,7 +7047,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 355, ../sass/module/_user.scss */
+/* line 354, ../sass/module/_user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {

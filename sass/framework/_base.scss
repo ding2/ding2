@@ -1,3 +1,10 @@
+/**
+ * Base
+ *
+ * @author magnify
+ */
+
+
 body {
   @include rem('font-size', $base-font-size);
 
@@ -14,13 +21,13 @@ h3,
 h4,
 h5,
 h6 {
-	// this fixes huge spaces when a heading wraps onto two lines
+	/* This fixes huge spaces when a heading wraps onto two lines */
 	line-height: 1;
 
   margin-top: 0;
   margin-bottom: $medium-spacing;
 
-	// voodoo to enable ligatures and kerning
+	/* Voodoo to enable ligatures and kerning */
 	text-rendering: optimizeLegibility;
 
   a {
@@ -87,10 +94,10 @@ em {
 }
 
 
-// **
-// Links
-// **
-//
+
+/* Links
+   ========================================================================== */
+
 a {
   font-weight: $base-font-weight-normal;
 
@@ -119,6 +126,10 @@ a {
 }
 
 
+
+/* Image
+   ========================================================================== */
+
 img {
   display: inline;
   height: auto;
@@ -126,9 +137,18 @@ img {
   vertical-align: bottom;
 }
 
+
+
+/* Lists
+   ========================================================================== */
+
 ul {
   margin: 0;
   padding-left: 20px;
+  
+  li {
+    list-style: none;
+  }
 }
 
 .page-content {
@@ -137,6 +157,10 @@ ul {
   }
 }
 
+
+
+/* Fieldset
+   ========================================================================== */
 
 fieldset {
   border: none;
@@ -152,6 +176,11 @@ legend {
   padding: 0;
   width: 100%;
 }
+
+
+
+/* Selection color
+   ========================================================================== */
 
 ::-moz-selection,
 ::selection {
