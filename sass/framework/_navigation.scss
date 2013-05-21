@@ -1,12 +1,13 @@
-// =============================================================================
-// Navigation
-// =============================================================================
+/**
+ * Navigation
+ *
+ * @author magnify
+ */
 
 
-// **
-// Topbar menu
-// **
-//
+/* Topbar menu
+   ========================================================================== */
+
 .topbar-menu {
   @include zen-grid-item(8, 1, right);
 
@@ -41,7 +42,7 @@
       background-color: $base-primary-color;
     }
 
-    // Hide mobile link menu item
+    /* Hide mobile link menu item */
     &.topbar-link-menu {
       display: none;
     }
@@ -51,6 +52,7 @@
     margin-right: 5px;
   }
 
+  /* Media queries */
   @include small-medium() {
     @include zen-grid-item(6, 1, right);
 
@@ -66,7 +68,7 @@
     }
 
     .menu-item {
-      // Show mobile link menu item
+      /* Show mobile link menu item */
       &.topbar-link-menu {
         display: inline-block;
       }
@@ -84,10 +86,11 @@
   }
 }
 
-// **
-// Navigation, main menu and secondary menu
-// **
-//
+
+
+/* Navigation, main menu and secondary menu
+   ========================================================================== */
+
 .navigation-wrapper {
  	background-color: transparentize($white, .05);
   display: block;
@@ -101,6 +104,7 @@
     display: block;
   }
 
+  /* Media queries */
   @include small() {
     &.js-fixed {
       position: relative;
@@ -115,7 +119,8 @@
     display: none;
     padding-top: 10px;
     padding-right: 20px;
-    padding-bottom: 30px; // Extra space for device stuff below the menu
+    /* Extra space needed below the menu for device stuff (e.g. iOS) */
+    padding-bottom: 30px;
     padding-left: 20px;
   }
 
@@ -154,41 +159,24 @@
 }
 
 .main-menu {
-  @include rem('font-size', 20px);
+  font-size: 125%;
 }
 
 .secondary-menu {
   @include zen-float(right);
-  @include rem('font-size', 16px);
 
   li {
     border-right: 1px solid $gray;
+  }
 
-    .menu-item {
-      margin-left: 15px;
-    }
-
-    &.first {
-      .menu-item {
-        margin-left: 0;
-      }
-    }
-
-    &.last {
-      border-right: 0;
-
-      .menu-item {
-        margin-right: 0;
-      }
-    }
+  .menu-item {
+    margin-left: 15px;
   }
 
   @include large() {
-    li {
-      .menu-item {
-        font-size: 80%;
-        margin-left: 10px;
-      }
+    .menu-item {
+      font-size: 80%;
+      margin-left: 10px;
     }
   }
 
@@ -208,28 +196,28 @@
   padding-left: 0;
 
   li {
-    // Add the icon here so we can show it in other breakpoints
+    /* Add the icon here so we can show it in other breakpoints */
     @extend .icon-angle-right;
 
     display: inline;
 
-    // Make sure the icon is not displayed in this breakpoint
+    /* Make sure the icon is not displayed in this breakpoint */
     &:before {
       display: none;
     }
+  }
 
-    &.first {
-      .menu-item {
-        margin-left: 0;
-      }
+  .first {
+    .menu-item {
+      margin-left: 0;
     }
+  }
 
-    &.last {
-      border-right: 0;
+  .last {
+    border-right: 0;
 
-      .menu-item {
-        margin-right: 0;
-      }
+    .menu-item {
+      margin-right: 0;
     }
   }
 
@@ -237,6 +225,8 @@
     color: $gray-darker;
     display: inline-block;
     margin-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 
     &:hover {
       color: $black;
@@ -246,11 +236,6 @@
       color: $black;
       text-decoration: underline;
     }
-  }
-
-  .menu-item {
-    padding-top: 20px;
-    padding-bottom: 20px;
   }
 
   @include large() {
@@ -316,8 +301,8 @@
   }
 }
 
-.system-user-menu {
 
+.system-user-menu {
   .last .menu-item {
     margin-right: 0;
   }
@@ -337,10 +322,10 @@
 }
 
 
-// **
-// Sub menu
-// **
-//
+
+/* Sub menu
+   ========================================================================== */
+
 .sub-menu-title {
   border-bottom: 1px solid $gray-light;
   margin-bottom: 0;
@@ -375,7 +360,6 @@
     }
   }
 
-  // Add icon
   li {
     @extend .icon-angle-right;
 
@@ -411,10 +395,11 @@
   }
 }
 
-// **
-// Footer menu(s)
-// **
-//
+
+
+/* Footer menus
+   ========================================================================== */
+
 .footer {
   .pane-title {
     @extend .icon-chevron-down;
@@ -473,10 +458,11 @@
   }
 }
 
-// **
-// Action Links
-// **
-//
+
+
+/* Action Links
+   ========================================================================== */
+
 .action-links {
   padding-top: $medium-spacing;
   padding-right: $large-spacing;
@@ -504,19 +490,6 @@
       font-family: $base-font-family;
       margin-left: -$large-spacing;
       padding-left: 25px;
-    }
-  }
-}
-
-// -----------------------------------------------------------------------------
-// Mediaqueries
-// -----------------------------------------------------------------------------
-//
-@include small() {
-  .navigation-wrapper {
-    &.js-fixed {
-      position: relative;
-      margin-top: 0;
     }
   }
 }

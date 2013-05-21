@@ -1366,7 +1366,14 @@ button.button {
   color: #00b7e7;
 }
 
-/* line 10, ../sass/framework/_navigation.scss */
+/**
+ * Navigation
+ *
+ * @author magnify
+ */
+/* Topbar menu
+   ========================================================================== */
+/* line 11, ../sass/framework/_navigation.scss */
 .topbar-menu {
   float: right;
   width: 66.66667%;
@@ -1385,12 +1392,13 @@ button.button {
   _overflow-y: visible;
   margin-top: 45px;
   text-align: right;
+  /* Media queries */
 }
-/* line 16, ../sass/framework/_navigation.scss */
+/* line 17, ../sass/framework/_navigation.scss */
 .topbar-menu li {
   display: inline;
 }
-/* line 20, ../sass/framework/_navigation.scss */
+/* line 21, ../sass/framework/_navigation.scss */
 .topbar-menu .menu-item {
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
   font-family: "SourceSansProSemibold";
@@ -1401,29 +1409,30 @@ button.button {
   margin-left: -4px;
   padding: 10px 15px;
   outline: 0;
+  /* Hide mobile link menu item */
 }
-/* line 31, ../sass/framework/_navigation.scss */
+/* line 32, ../sass/framework/_navigation.scss */
 .topbar-menu .menu-item:hover {
   background-color: black;
   color: white;
   text-decoration: none;
 }
-/* line 38, ../sass/framework/_navigation.scss */
+/* line 39, ../sass/framework/_navigation.scss */
 .topbar-menu .menu-item.active {
   color: white;
   text-decoration: none;
   background-color: #00caff;
 }
-/* line 45, ../sass/framework/_navigation.scss */
+/* line 46, ../sass/framework/_navigation.scss */
 .topbar-menu .menu-item.topbar-link-menu {
   display: none;
 }
-/* line 50, ../sass/framework/_navigation.scss */
+/* line 51, ../sass/framework/_navigation.scss */
 .topbar-menu i[class^="icon-"] {
   margin-right: 5px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 10, ../sass/framework/_navigation.scss */
+  /* line 11, ../sass/framework/_navigation.scss */
   .topbar-menu {
     float: right;
     width: 50%;
@@ -1443,28 +1452,34 @@ button.button {
     margin-top: 0;
     padding: 0;
   }
-  /* line 60, ../sass/framework/_navigation.scss */
+  /* line 62, ../sass/framework/_navigation.scss */
   .topbar-menu i[class^="icon-"] {
     margin-right: 0;
   }
-  /* line 64, ../sass/framework/_navigation.scss */
+  /* line 66, ../sass/framework/_navigation.scss */
   .topbar-menu span {
     display: none;
   }
   /* line 70, ../sass/framework/_navigation.scss */
+  .topbar-menu .menu-item {
+    /* Show mobile link menu item */
+  }
+  /* line 72, ../sass/framework/_navigation.scss */
   .topbar-menu .menu-item.topbar-link-menu {
     display: inline-block;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  /* line 80, ../sass/framework/_navigation.scss */
+  /* line 82, ../sass/framework/_navigation.scss */
   .js-fixed .menu-item.active {
     background-color: transparent;
   }
 }
 
-/* line 91, ../sass/framework/_navigation.scss */
+/* Navigation, main menu and secondary menu
+   ========================================================================== */
+/* line 94, ../sass/framework/_navigation.scss */
 .navigation-wrapper {
   background-color: rgba(255, 255, 255, 0.95);
   display: block;
@@ -1473,20 +1488,21 @@ button.button {
   max-width: 100%;
   overflow: hidden;
   width: 100%;
+  /* Media queries */
 }
-/* line 100, ../sass/framework/_navigation.scss */
+/* line 103, ../sass/framework/_navigation.scss */
 .navigation-wrapper.js-topbar-toggled {
   display: block;
 }
 @media only screen and (max-width: 480px) {
-  /* line 105, ../sass/framework/_navigation.scss */
+  /* line 109, ../sass/framework/_navigation.scss */
   .navigation-wrapper.js-fixed {
     position: relative;
     margin-top: 0;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 91, ../sass/framework/_navigation.scss */
+  /* line 94, ../sass/framework/_navigation.scss */
   .navigation-wrapper {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1495,12 +1511,13 @@ button.button {
     display: none;
     padding-top: 10px;
     padding-right: 20px;
+    /* Extra space needed below the menu for device stuff (e.g. iOS) */
     padding-bottom: 30px;
     padding-left: 20px;
   }
 }
 @media only screen and (max-height: 580px) and (max-width: 768px) {
-  /* line 91, ../sass/framework/_navigation.scss */
+  /* line 94, ../sass/framework/_navigation.scss */
   .navigation-wrapper {
     position: fixed;
     overflow: auto;
@@ -1512,7 +1529,7 @@ button.button {
   }
 }
 
-/* line 133, ../sass/framework/_navigation.scss */
+/* line 138, ../sass/framework/_navigation.scss */
 .navigation-inner {
   margin-left: auto;
   margin-right: auto;
@@ -1520,7 +1537,7 @@ button.button {
   overflow: hidden;
 }
 
-/* line 140, ../sass/framework/_navigation.scss */
+/* line 145, ../sass/framework/_navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -1539,7 +1556,7 @@ button.button {
   _overflow-y: visible;
 }
 
-/* line 144, ../sass/framework/_navigation.scss */
+/* line 149, ../sass/framework/_navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -1559,7 +1576,7 @@ button.button {
 }
 
 @media only screen and (max-width: 768px) {
-  /* line 149, ../sass/framework/_navigation.scss */
+  /* line 154, ../sass/framework/_navigation.scss */
   .main-menu-wrapper,
   .secondary-menu-wrapper {
     float: left;
@@ -1581,123 +1598,105 @@ button.button {
   }
 }
 
-/* line 156, ../sass/framework/_navigation.scss */
+/* line 161, ../sass/framework/_navigation.scss */
 .main-menu {
-  font-size: 20px;
-  font-size: 1.25rem;
+  font-size: 125%;
 }
 
-/* line 160, ../sass/framework/_navigation.scss */
+/* line 165, ../sass/framework/_navigation.scss */
 .secondary-menu {
   float: right;
-  font-size: 16px;
-  font-size: 1rem;
 }
-/* line 164, ../sass/framework/_navigation.scss */
+/* line 168, ../sass/framework/_navigation.scss */
 .secondary-menu li {
   border-right: 1px solid #d5d5d5;
 }
-/* line 167, ../sass/framework/_navigation.scss */
-.secondary-menu li .menu-item {
+/* line 172, ../sass/framework/_navigation.scss */
+.secondary-menu .menu-item {
   margin-left: 15px;
 }
-/* line 172, ../sass/framework/_navigation.scss */
-.secondary-menu li.first .menu-item {
-  margin-left: 0;
-}
-/* line 177, ../sass/framework/_navigation.scss */
-.secondary-menu li.last {
-  border-right: 0;
-}
-/* line 180, ../sass/framework/_navigation.scss */
-.secondary-menu li.last .menu-item {
-  margin-right: 0;
-}
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 188, ../sass/framework/_navigation.scss */
-  .secondary-menu li .menu-item {
+  /* line 177, ../sass/framework/_navigation.scss */
+  .secondary-menu .menu-item {
     font-size: 80%;
     margin-left: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 160, ../sass/framework/_navigation.scss */
+  /* line 165, ../sass/framework/_navigation.scss */
   .secondary-menu {
     float: none;
   }
-  /* line 198, ../sass/framework/_navigation.scss */
+  /* line 186, ../sass/framework/_navigation.scss */
   .secondary-menu li {
     border-right: 0;
   }
 }
 
-/* line 206, ../sass/framework/_navigation.scss */
+/* line 194, ../sass/framework/_navigation.scss */
 .main-menu,
 .secondary-menu,
 .system-user-menu {
   margin: 0;
   padding-left: 0;
 }
-/* line 210, ../sass/framework/_navigation.scss */
+/* line 198, ../sass/framework/_navigation.scss */
 .main-menu li,
 .secondary-menu li,
 .system-user-menu li {
+  /* Add the icon here so we can show it in other breakpoints */
   display: inline;
+  /* Make sure the icon is not displayed in this breakpoint */
 }
-/* line 217, ../sass/framework/_navigation.scss */
+/* line 205, ../sass/framework/_navigation.scss */
 .main-menu li:before,
 .secondary-menu li:before,
 .system-user-menu li:before {
   display: none;
 }
-/* line 222, ../sass/framework/_navigation.scss */
-.main-menu li.first .menu-item,
-.secondary-menu li.first .menu-item,
-.system-user-menu li.first .menu-item {
+/* line 211, ../sass/framework/_navigation.scss */
+.main-menu .first .menu-item,
+.secondary-menu .first .menu-item,
+.system-user-menu .first .menu-item {
   margin-left: 0;
 }
-/* line 227, ../sass/framework/_navigation.scss */
-.main-menu li.last,
-.secondary-menu li.last,
-.system-user-menu li.last {
+/* line 216, ../sass/framework/_navigation.scss */
+.main-menu .last,
+.secondary-menu .last,
+.system-user-menu .last {
   border-right: 0;
 }
-/* line 230, ../sass/framework/_navigation.scss */
-.main-menu li.last .menu-item,
-.secondary-menu li.last .menu-item,
-.system-user-menu li.last .menu-item {
+/* line 219, ../sass/framework/_navigation.scss */
+.main-menu .last .menu-item,
+.secondary-menu .last .menu-item,
+.system-user-menu .last .menu-item {
   margin-right: 0;
 }
-/* line 236, ../sass/framework/_navigation.scss */
+/* line 224, ../sass/framework/_navigation.scss */
 .main-menu .menu-item,
 .secondary-menu .menu-item,
 .system-user-menu .menu-item {
   color: #959595;
   display: inline-block;
   margin-right: 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
-/* line 241, ../sass/framework/_navigation.scss */
+/* line 231, ../sass/framework/_navigation.scss */
 .main-menu .menu-item:hover,
 .secondary-menu .menu-item:hover,
 .system-user-menu .menu-item:hover {
   color: black;
 }
-/* line 245, ../sass/framework/_navigation.scss */
+/* line 235, ../sass/framework/_navigation.scss */
 .main-menu .menu-item.active,
 .secondary-menu .menu-item.active,
 .system-user-menu .menu-item.active {
   color: black;
   text-decoration: underline;
 }
-/* line 251, ../sass/framework/_navigation.scss */
-.main-menu .menu-item,
-.secondary-menu .menu-item,
-.system-user-menu .menu-item {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 257, ../sass/framework/_navigation.scss */
+  /* line 242, ../sass/framework/_navigation.scss */
   .main-menu .menu-item,
   .secondary-menu .menu-item,
   .system-user-menu .menu-item {
@@ -1708,21 +1707,21 @@ button.button {
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 206, ../sass/framework/_navigation.scss */
+  /* line 194, ../sass/framework/_navigation.scss */
   .main-menu,
   .secondary-menu,
   .system-user-menu {
     font-size: 16px;
     font-size: 1rem;
   }
-  /* line 268, ../sass/framework/_navigation.scss */
+  /* line 253, ../sass/framework/_navigation.scss */
   .main-menu li,
   .secondary-menu li,
   .system-user-menu li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     display: block;
   }
-  /* line 272, ../sass/framework/_navigation.scss */
+  /* line 257, ../sass/framework/_navigation.scss */
   .main-menu li:before,
   .secondary-menu li:before,
   .system-user-menu li:before {
@@ -1733,13 +1732,13 @@ button.button {
     margin-top: 9px;
     margin-right: 5px;
   }
-  /* line 282, ../sass/framework/_navigation.scss */
+  /* line 267, ../sass/framework/_navigation.scss */
   .main-menu li.first .menu-item,
   .secondary-menu li.first .menu-item,
   .system-user-menu li.first .menu-item {
     margin-left: -12px;
   }
-  /* line 287, ../sass/framework/_navigation.scss */
+  /* line 272, ../sass/framework/_navigation.scss */
   .main-menu li .menu-item,
   .secondary-menu li .menu-item,
   .system-user-menu li .menu-item {
@@ -1751,7 +1750,7 @@ button.button {
     padding-bottom: 10px;
     padding-left: 12px;
   }
-  /* line 296, ../sass/framework/_navigation.scss */
+  /* line 281, ../sass/framework/_navigation.scss */
   .main-menu li .menu-item:hover,
   .secondary-menu li .menu-item:hover,
   .system-user-menu li .menu-item:hover {
@@ -1760,7 +1759,7 @@ button.button {
     color: white;
     text-decoration: none;
   }
-  /* line 304, ../sass/framework/_navigation.scss */
+  /* line 289, ../sass/framework/_navigation.scss */
   .main-menu li .menu-item:active, .main-menu li .menu-item:focus,
   .secondary-menu li .menu-item:active,
   .secondary-menu li .menu-item:focus,
@@ -1768,7 +1767,7 @@ button.button {
   .system-user-menu li .menu-item:focus {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  /* line 308, ../sass/framework/_navigation.scss */
+  /* line 293, ../sass/framework/_navigation.scss */
   .main-menu li .menu-item.active,
   .secondary-menu li .menu-item.active,
   .system-user-menu li .menu-item.active {
@@ -1779,42 +1778,44 @@ button.button {
   }
 }
 
-/* line 321, ../sass/framework/_navigation.scss */
+/* line 306, ../sass/framework/_navigation.scss */
 .system-user-menu .last .menu-item {
   margin-right: 0;
 }
-/* line 325, ../sass/framework/_navigation.scss */
+/* line 310, ../sass/framework/_navigation.scss */
 .system-user-menu .menu-item {
   color: white;
   padding-top: 0;
   padding-bottom: 0;
 }
 @media only screen and (max-width: 768px) {
-  /* line 332, ../sass/framework/_navigation.scss */
+  /* line 317, ../sass/framework/_navigation.scss */
   .system-user-menu .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 }
 
-/* line 344, ../sass/framework/_navigation.scss */
+/* Sub menu
+   ========================================================================== */
+/* line 329, ../sass/framework/_navigation.scss */
 .sub-menu-title, .library-menu h2 {
   border-bottom: 1px solid #efefef;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 350, ../sass/framework/_navigation.scss */
+/* line 335, ../sass/framework/_navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 353, ../sass/framework/_navigation.scss */
+/* line 338, ../sass/framework/_navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 358, ../sass/framework/_navigation.scss */
+/* line 343, ../sass/framework/_navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -1823,17 +1824,17 @@ button.button {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 366, ../sass/framework/_navigation.scss */
+/* line 351, ../sass/framework/_navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 371, ../sass/framework/_navigation.scss */
+/* line 356, ../sass/framework/_navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 382, ../sass/framework/_navigation.scss */
+/* line 366, ../sass/framework/_navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   font-size: 20px;
   font-size: 1.25rem;
@@ -1843,23 +1844,25 @@ button.button {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 394, ../sass/framework/_navigation.scss */
+/* line 378, ../sass/framework/_navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 398, ../sass/framework/_navigation.scss */
+/* line 382, ../sass/framework/_navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 25px;
 }
-/* line 407, ../sass/framework/_navigation.scss */
+/* line 391, ../sass/framework/_navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
-/* line 419, ../sass/framework/_navigation.scss */
+/* Footer menus
+   ========================================================================== */
+/* line 404, ../sass/framework/_navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -1867,12 +1870,12 @@ button.button {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 428, ../sass/framework/_navigation.scss */
+/* line 413, ../sass/framework/_navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: "FontAwesome";
 }
-/* line 438, ../sass/framework/_navigation.scss */
+/* line 423, ../sass/framework/_navigation.scss */
 .footer .menu {
   list-style: none;
   margin-top: 0;
@@ -1881,47 +1884,49 @@ button.button {
   margin-left: 0;
   padding: 0;
 }
-/* line 446, ../sass/framework/_navigation.scss */
+/* line 431, ../sass/framework/_navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 452, ../sass/framework/_navigation.scss */
+/* line 437, ../sass/framework/_navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: "FontAwesome";
 }
-/* line 458, ../sass/framework/_navigation.scss */
+/* line 443, ../sass/framework/_navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 462, ../sass/framework/_navigation.scss */
+/* line 447, ../sass/framework/_navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 768px) {
-  /* line 470, ../sass/framework/_navigation.scss */
+  /* line 455, ../sass/framework/_navigation.scss */
   .footer .menu {
     display: none;
   }
 }
 
-/* line 480, ../sass/framework/_navigation.scss */
+/* Action Links
+   ========================================================================== */
+/* line 466, ../sass/framework/_navigation.scss */
 .action-links {
   padding-top: 10px;
   padding-right: 20px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
-/* line 486, ../sass/framework/_navigation.scss */
+/* line 472, ../sass/framework/_navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 493, ../sass/framework/_navigation.scss */
+/* line 479, ../sass/framework/_navigation.scss */
 .action-links li:before {
   font-size: 19.2px;
   font-size: 1.2rem;
@@ -1931,20 +1936,13 @@ button.button {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 503, ../sass/framework/_navigation.scss */
+/* line 489, ../sass/framework/_navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
   padding-left: 25px;
 }
 
-@media only screen and (max-width: 480px) {
-  /* line 517, ../sass/framework/_navigation.scss */
-  .navigation-wrapper.js-fixed {
-    position: relative;
-    margin-top: 0;
-  }
-}
 /* line 24, ../sass/framework/_modal.scss */
 .ui-widget-overlay {
   background-color: rgba(0, 183, 231, 0.05);
