@@ -63,10 +63,11 @@ input#edit-search-block-form--2.spinner {
   @extend %button-action;
 }
 
-// **
-// Column wrapper fields
-// **
-//
+
+
+/* Column wrapper fields
+   ========================================================================== */
+
 .ting-object-left {
   @include zen-grid-item(2, 1);
 
@@ -109,7 +110,7 @@ input#edit-search-block-form--2.spinner {
     font-weight: inherit;
   }
 
-  // General link rules for facet browser.
+  /* General link rules for facet browser */
   a:link {
     text-decoration:none;
   }
@@ -123,14 +124,14 @@ input#edit-search-block-form--2.spinner {
     padding-bottom: 10px;
   }
 
-  // Specific font color for headings and result count.
+  /* Specific font color for headings and result count */
   h2,
   .fieldset-legend,
   .count {
     color: $gray-darker;
   }
 
-  // Facet group spacing.
+  /* Facet group spacing */
   .form-wrapper {
     margin-bottom: 20px;
 
@@ -141,7 +142,7 @@ input#edit-search-block-form--2.spinner {
     }
   }
 
-  // Expand facets link.
+  /* Expand facets link */
   .expand {
     margin-right: 10px;
     margin-left: 5px;
@@ -167,7 +168,7 @@ input#edit-search-block-form--2.spinner {
     float: left;
   }
 
-  // Group for selected facets.
+  /* Group for selected facets */
   .selected-checkbox-group {
     overflow: hidden;
     margin-bottom: 20px;
@@ -186,12 +187,12 @@ input#edit-search-block-form--2.spinner {
     }
   }
 
-  // Group for unselected facets.
+  /* Group for unselected facets */
   .unselected-checkbox-group {
     clear: right;
   }
 
-  // Group with hidden facets.
+  /* Group with hidden facets */
   .hidden-facets-group {
     margin-bottom: 20px;
   }
@@ -214,10 +215,11 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// **
-// Search results list
-// **
-//
+
+
+/* Search results list
+   ========================================================================== */
+
 .subjects {
   strong {
     font-weight: inherit;
@@ -235,8 +237,10 @@ input#edit-search-block-form--2.spinner {
 }
 
 
-// Search query & results amount
-// Combine these as a page title
+
+/* Search query & results amount
+   ========================================================================== */
+
 .pane-ting-search-search-display-extended-query {
   float: left;
   overflow: hidden;
@@ -261,8 +265,11 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// Sorting, display amount and display format groups
-// Combine these as a group floating left and right
+
+
+/* Sorting, display amount and display format groups
+   ========================================================================== */
+
 .pane-ting-search-sort-form {
   clear: both;
   color: $gray-darker;
@@ -317,7 +324,7 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// Availability explaination legend
+/* Availability explaination legend */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
@@ -339,10 +346,11 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// **
-// Seach results list
-// **
-//
+
+
+/* Seach results list
+   ========================================================================== */
+
 .pane-search-result {
   clear: both;
   overflow: hidden;
@@ -382,7 +390,7 @@ input#edit-search-block-form--2.spinner {
         }
       }
 
-      // Compact search result display
+      /* Compact search result display */
       .ding-format-short {
         .ting-cover,
         .content,
@@ -390,7 +398,7 @@ input#edit-search-block-form--2.spinner {
           display: none;
         }
 
-        // Display the author
+        /* Display the author */
         .heading + div.content {
           display: inline;
           margin-left: 5px;
@@ -470,12 +478,12 @@ input#edit-search-block-form--2.spinner {
 }
 
 
-// **
-// Collection display
-// **
-//
 
-// Navigation
+/* Collection display
+   ========================================================================== */
+
+
+/* Navigation */
 .pane-ting-ting-collection-types {
   li {
     margin-bottom: 10px;
@@ -585,12 +593,12 @@ input#edit-search-block-form--2.spinner {
 }
 
 
-// **
-// Object display
-// **
-//
 
-// Navigation
+/* Object display
+   ========================================================================== */
+
+
+/* Navigation */
 .pane-ting-ting-object-types {
   @extend .pane-ting-ting-collection-types;
 
@@ -631,13 +639,13 @@ input#edit-search-block-form--2.spinner {
   }
 
   .subjects {
-    // forget that clearfix
+    /* forget that clearfix */
     &:after {
       clear: none;
     }
   }
 
-  // Material Details - Collapsible
+  /* Material Details - Collapsible */
   .collapsible .field-group-format-title,
   .ding-periodical-fold {
     &:before {
@@ -658,7 +666,7 @@ input#edit-search-block-form--2.spinner {
     @extend .icon-plus-sign;
   }
 
-  // List of Issues - Collapsible
+  /* List of Issues - Collapsible */
   .ding-periodical-fold {
     cursor: pointer;
     display: inline-block;
@@ -761,10 +769,11 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-// **
-// Search autocomplete
-// **
-//
+
+
+/* Search autocomplete
+   ========================================================================== */
+
 ul.ui-autocomplete {
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius(8px);
@@ -780,7 +789,7 @@ ul.ui-autocomplete {
     a {
       @include border-radius(8px);
 
-      color: $font-color-primary; // Located in _ddbasic.variables.scss
+      color: $font-color-primary;
       cursor: pointer;
       margin-bottom: 5px;
       padding: 5px 10px;

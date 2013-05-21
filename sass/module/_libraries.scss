@@ -1,13 +1,14 @@
-// =============================================================================
-// Styling of library pages.
-// =============================================================================
-//
+/**
+ * Libraries
+ *
+ * @author magnify
+ */
 
 
-// **
-// Library list
-// **
-//
+
+/* Library list
+   ========================================================================== */
+
 .pane-ding-library-map {
   margin-bottom: $large-spacing;
 }
@@ -63,6 +64,16 @@
       float: none;
     }
   }
+
+  /* Media queries */
+  @include small-medium {
+    float: none;
+    width: 100%;
+
+    &:before {
+      font-size: 185%;
+    }
+  }
 }
 
 .field-name-field-ding-library-list-image {
@@ -114,6 +125,12 @@
     padding: 0 .5em;
   }
 
+  /* Media queries */
+  @include small-medium {
+    .libraries-opening-hours {
+      margin-left: 0;
+    }
+  }
 }
 
 .pane-ding-news-ding-news-library-list {
@@ -123,10 +140,9 @@
 }
 
 
-// **
-// Single Library
-// **
-//
+
+/* Single Library
+   ========================================================================== */
 
 .library-menu {
   h2 {
@@ -135,48 +151,5 @@
 
   .links {
     @extend .sub-menu;
-  }
-}
-
-
-// -----------------------------------------------------------------------------
-// Mediaqueries
-// -----------------------------------------------------------------------------
-//
-@include small {
-  .libraries {
-    float: none;
-    width: 100%;
-
-    &:before {
-      @include rem('font-size', 30px);
-    }
-  }
-
-  .libraries-opening-hours {
-    margin-left: 0;
-  }
-
-  .field-items {
-    padding-left: 50%;
-  }
-}
-
-@include medium {
-  .libraries {
-    float: none;
-    width: 100%;
-
-    &:before {
-      @include rem('font-size', 50px);
-    }
-  }
-
-  .libraries-opening-hours {
-    margin-left: 0;
-  }
-
-  .field-items {
-    padding-left: 50%;
   }
 }

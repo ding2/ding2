@@ -1,13 +1,14 @@
-// =============================================================================
-// Event styling
-// =============================================================================
-//
+/**
+ * Event styling
+ *
+ * @author magnify
+ */
 
 
-// **
-// Content rules
-// **
-//
+
+/* Content rules
+   ========================================================================== */
+
 .secondary-content,
 .tertiary-content {
   .event-list-description {
@@ -16,7 +17,7 @@
 }
 
 
-// Event list heading
+/* Event list heading */
 .event-list-leaf {
   background: $gray;
   padding-top: 10px;
@@ -33,7 +34,7 @@
 
     text-align: center;
     vertical-align: top;
-    
+
     .event-list-day {
       background-color: $base-primary-color;
       color: $white;
@@ -50,9 +51,9 @@
 
       display: block;
       padding-top: 4px;
-    }      
+    }
   }
-  
+
   .event-list-date-wrapper {
     vertical-align: middle;
     min-width: 50px;
@@ -78,10 +79,10 @@
 }
 
 
-// **
-// Event list
-// **
-//
+
+/* Event list
+   ========================================================================== */
+
 .pane-ding-event-ding-event-list {
   margin-bottom: 20px;
 }
@@ -124,9 +125,10 @@
 }
 
 
-// **
-// Event
-// **
+
+/* Event
+   ========================================================================== */
+
 .event {
   .event-image {
     float: left;
@@ -179,10 +181,10 @@
 }
 
 
-// **
-// Ticket styling
-// **
-//
+
+/* Ticket styling
+   ========================================================================== */
+
 %ticket {
   @include rem('font-size', $base-font-size * 1);
 

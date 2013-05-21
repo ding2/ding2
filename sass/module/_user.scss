@@ -114,10 +114,11 @@
   }
 }
 
-// **
-// User profile
-// **
-//
+
+
+/* User profile
+   ========================================================================== */
+
 .pane-user-profile {
   .form-item {
     clear: both;
@@ -156,10 +157,11 @@
   }
 }
 
-// **
-// User loans
-// **
-//
+
+
+/* User loans
+   ========================================================================== */
+
 .pane-loans,
 .pane-reservations,
 .pane-bookmarks {
@@ -315,9 +317,10 @@
 }
 
 
-// **
-// User debts
-// **
+
+/* User debts
+   ========================================================================== */
+
 .pane-debts {
   table {
     margin-bottom: $large-spacing;
