@@ -342,6 +342,12 @@
 /* Sub menu
    ========================================================================== */
 
+.sub-menu-wrapper {
+  @include small-medium() {
+    display: none;
+  }
+}
+
 .sub-menu-title {
   @include font-normal();
 

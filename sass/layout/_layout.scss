@@ -335,7 +335,7 @@ body {
 
   /* Left sidebar only */
   &.left-sidebar {
-    @include medium-large() {
+    @include large() {
       .primary-content {
         @include zen-grid-item(9, 4);
       }
