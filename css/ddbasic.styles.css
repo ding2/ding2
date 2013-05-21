@@ -615,21 +615,22 @@ ul li {
   list-style: none;
 }
 
-/* line 155, ../sass/framework/_base.scss */
+/* Make sure lists in content get the icon */
+/* line 157, ../sass/framework/_base.scss */
 .page-content li {
   list-style: disc inside;
 }
 
 /* Fieldset
    ========================================================================== */
-/* line 165, ../sass/framework/_base.scss */
+/* line 167, ../sass/framework/_base.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 171, ../sass/framework/_base.scss */
+/* line 173, ../sass/framework/_base.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
@@ -640,7 +641,7 @@ legend {
 
 /* Selection color
    ========================================================================== */
-/* line 186, ../sass/framework/_base.scss */
+/* line 188, ../sass/framework/_base.scss */
 ::-moz-selection,
 ::selection {
   background-color: #ffff99;
