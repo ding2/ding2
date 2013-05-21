@@ -1,13 +1,13 @@
-// =============================================================================
-// Buttons
-// =============================================================================
-//
+/**
+  * Buttons
+  *
+  * @author magnify
+  */
 
 
-// -----------------------------------------------------------------------------
-// Variables
-// -----------------------------------------------------------------------------
-//
+/* Variables
+   ========================================================================== */
+
 $button-border:                   0;
 $button-box-shadow:               0 0 1px lighten($black, 35%) inset;
 $button-border-radius:            8px;
@@ -25,10 +25,10 @@ $button-danger-bg:                #bf3600;
 $button-danger-color:             #fff;
 
 
-// -----------------------------------------------------------------------------
-// Extends
-// -----------------------------------------------------------------------------
-//
+
+/* Extends
+   ========================================================================== */
+
 %button {
   @include border-radius($button-border-radius);
 
@@ -59,15 +59,15 @@ $button-danger-color:             #fff;
 }
 
 
-// -----------------------------------------------------------------------------
-// Mixins
-// -----------------------------------------------------------------------------
-//
+
+/* Mixins
+   ========================================================================== */
+
 @mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
   @include background-image(linear-gradient($bg-start-color, $bg-end-color));
   @extend %button;
 
-  // Make sure buttons get a background color in IE
+  /* Make sure buttons get a background color in IE */
   background-color: $bg-start-color;
   border: $border;
 
@@ -90,42 +90,42 @@ $button-danger-color:             #fff;
 }
 
 
-// Default button
+/* Default button */
 .button,
 a.button,
 %button-default {
   @include create-gradient-button($button-default-color, $button-default-bg, darken($button-default-bg, 15%));
 }
 
-// Theme button
+/* Theme button */
 %button-theme {
   @include create-gradient-button($button-theme-color, $button-theme-bg, darken($button-theme-bg, 15%));
 }
 
-// Action button
+/* Action button */
 %button-action {
   @include create-gradient-button($button-action-color, $button-action-bg, darken($button-action-bg, 15%));
 }
 
-// Warning button
+/* Warning button */
 %button-warning {
   @include create-gradient-button($button-warning-color, $button-warning-bg, darken($button-warning-bg, 15%));
 }
 
-// Danger button
+/* Danger button */
 %button-danger {
   @include create-gradient-button($button-danger-color, $button-danger-bg, darken($button-danger-bg, 15%));
 }
 
 
-// Don't use native buttons on iOS
+/* Don't use native buttons on iOS */
 input[type=submit].button,
 button.button {
   -webkit-appearance: none;
 }
 
 
-// Correct FF button padding
+/* Correct FF button padding */
 @-moz-document url-prefix() {
   button::-moz-focus-inner,
   input[type="reset"]::-moz-focus-inner,

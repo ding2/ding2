@@ -912,6 +912,15 @@ table tbody tr:hover th {
   background-color: #efefef;
 }
 
+/**
+  * Buttons
+  *
+  * @author magnify
+  */
+/* Variables
+   ========================================================================== */
+/* Extends
+   ========================================================================== */
 /* line 32, ../sass/framework/_buttons.scss */
 .button,
 a.button,
@@ -1029,6 +1038,9 @@ a.button,
   cursor: default;
 }
 
+/* Mixins
+   ========================================================================== */
+/* Default button */
 /* line 96, ../sass/framework/_buttons.scss */
 .button,
 a.button,
@@ -1039,6 +1051,7 @@ a.button,
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
   background-image: -o-linear-gradient(#444444, #1e1e1e);
   background-image: linear-gradient(#444444, #1e1e1e);
+  /* Make sure buttons get a background color in IE */
   background-color: #444444;
   border: 0;
   color: white;
@@ -1072,6 +1085,8 @@ a.button:active,
   background-color: #1e1e1e;
 }
 
+/* Theme button */
+/* Action button */
 /* line 106, ../sass/framework/_buttons.scss */
 .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
@@ -1083,6 +1098,7 @@ a.button:active,
   background-image: -moz-linear-gradient(#60a500, #335900);
   background-image: -o-linear-gradient(#60a500, #335900);
   background-image: linear-gradient(#60a500, #335900);
+  /* Make sure buttons get a background color in IE */
   background-color: #60a500;
   border: 0;
   color: white;
@@ -1121,6 +1137,7 @@ a.button:active,
   background-color: #335900;
 }
 
+/* Warning button */
 /* line 111, ../sass/framework/_buttons.scss */
 .ticket-info {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f6d346), color-stop(100%, #e4b90b));
@@ -1128,6 +1145,7 @@ a.button:active,
   background-image: -moz-linear-gradient(#f6d346, #e4b90b);
   background-image: -o-linear-gradient(#f6d346, #e4b90b);
   background-image: linear-gradient(#f6d346, #e4b90b);
+  /* Make sure buttons get a background color in IE */
   background-color: #f6d346;
   border: 0;
   color: black;
@@ -1146,6 +1164,7 @@ a.button:active,
   background-color: #e4b90b;
 }
 
+/* Danger button */
 /* line 116, ../sass/framework/_buttons.scss */
 .pane-loans .renew-loan-button .not-renewable,
 .pane-reservations .renew-loan-button .not-renewable,
@@ -1160,6 +1179,7 @@ a.button:active,
   background-image: -moz-linear-gradient(#bf3600, #732000);
   background-image: -o-linear-gradient(#bf3600, #732000);
   background-image: linear-gradient(#bf3600, #732000);
+  /* Make sure buttons get a background color in IE */
   background-color: #bf3600;
   border: 0;
   color: white;
@@ -1213,12 +1233,14 @@ a.button:active,
   background-color: #732000;
 }
 
+/* Don't use native buttons on iOS */
 /* line 123, ../sass/framework/_buttons.scss */
 input[type=submit].button,
 button.button {
   -webkit-appearance: none;
 }
 
+/* Correct FF button padding */
 @-moz-document url-prefix() {
   /* line 134, ../sass/framework/_buttons.scss */
   button::-moz-focus-inner,
