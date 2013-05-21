@@ -8,6 +8,8 @@
 /* Extends
    ========================================================================== */
 %page-heading {
+  @include font-bold();
+  
   font-size: $font-size-giga;
 }
 

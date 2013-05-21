@@ -2069,17 +2069,17 @@ button.button {
   color: black;
 }
 
-/* line 41, ../sass/framework/_modal.scss */
+/* line 43, ../sass/framework/_modal.scss */
 .ui-widget-content {
   color: black;
   padding: 0;
 }
 
-/* line 47, ../sass/framework/_modal.scss */
+/* line 49, ../sass/framework/_modal.scss */
 .ui-dialog {
   padding: 20px;
 }
-/* line 51, ../sass/framework/_modal.scss */
+/* line 53, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
   float: right;
   right: 5px;
@@ -2087,43 +2087,43 @@ button.button {
   top: 10px;
   width: auto;
 }
-/* line 58, ../sass/framework/_modal.scss */
+/* line 60, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   text-indent: 0;
   text-transform: capitalize;
 }
-/* line 65, ../sass/framework/_modal.scss */
+/* line 67, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:hover {
   color: white;
 }
-/* line 70, ../sass/framework/_modal.scss */
+/* line 72, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:before {
   font-family: "FontAwesome";
   margin-right: 2px;
   margin-bottom: -1px;
 }
-/* line 78, ../sass/framework/_modal.scss */
+/* line 80, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:active {
   color: black;
   text-decoration: none;
 }
-/* line 83, ../sass/framework/_modal.scss */
+/* line 85, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:hover {
   color: black;
   text-decoration: none;
 }
-/* line 89, ../sass/framework/_modal.scss */
+/* line 91, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .form-item {
   margin-bottom: 10px;
 }
-/* line 92, ../sass/framework/_modal.scss */
+/* line 94, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .form-item .description {
   color: rgba(255, 255, 255, 0.9);
   margin-top: -10px;
 }
-/* line 98, ../sass/framework/_modal.scss */
+/* line 100, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .openid-links {
   display: none;
 }
@@ -4703,31 +4703,89 @@ body {
   text-align: center;
 }
 
-/* Drupal overrides
+/**
+ * Typography
+ *
+ * @author magnify
+ */
+/* Extends
    ========================================================================== */
-/* line 476, ../sass/layout/_layout.scss */
+/* line 10, ../sass/layout/_typography.scss */
+.page-title, .ui-dialog-title {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  font-size: 200%;
+}
+
+/* line 16, ../sass/layout/_typography.scss */
+.pane-title {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  font-size: 160%;
+}
+
+/* Header variants
+   ========================================================================== */
+/* line 27, ../sass/layout/_typography.scss */
+.page-title, .ui-dialog-title {
+  margin-bottom: 20px;
+}
+
+/* line 33, ../sass/layout/_typography.scss */
+.pane-title {
+  margin-bottom: 10px;
+}
+
+/* Content and elements
+   ========================================================================== */
+/* line 43, ../sass/layout/_typography.scss */
+.page-image {
+  margin-bottom: 10px;
+}
+
+/* line 47, ../sass/layout/_typography.scss */
+.page-lead {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+/* line 53, ../sass/layout/_typography.scss */
+.page-content {
+  margin-bottom: 10px;
+}
+
+/**
+ * Drupal
+ *
+ * Overrides for Drupal specific markup
+ *
+ * @author magnify
+ */
+/* line 10, ../sass/layout/_drupal.scss */
 body.toolbar {
   padding-top: 66px;
 }
 
-/* line 480, ../sass/layout/_layout.scss */
+/* line 14, ../sass/layout/_drupal.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 484, ../sass/layout/_layout.scss */
+/* line 18, ../sass/layout/_drupal.scss */
 label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 488, ../sass/layout/_layout.scss */
-.form-item, .form-actions {
-  margin-bottom: 0;
+/* line 23, ../sass/layout/_drupal.scss */
+.form-item,
+.form-actions {
+  margin-bottom: 10px;
   margin-top: 0;
 }
 
-/* line 499, ../sass/layout/_layout.scss */
+/* line 34, ../sass/layout/_drupal.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4741,7 +4799,7 @@ label {
   text-align: center;
 }
 
-/* line 511, ../sass/layout/_layout.scss */
+/* line 46, ../sass/layout/_drupal.scss */
 .ajax-progress .throbber {
   /* Make sure the Drupal throbber is not visible in IE */
   background: none !important;
@@ -4755,65 +4813,15 @@ label {
   width: 50px;
 }
 
-/* line 528, ../sass/layout/_layout.scss */
+/* line 63, ../sass/layout/_drupal.scss */
 .field .field-label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 533, ../sass/layout/_layout.scss */
+/* line 68, ../sass/layout/_drupal.scss */
 .field-label {
   margin-right: 5px;
-}
-
-/**
- * Typography
- *
- * @author magnify
- */
-/* Extends
-   ========================================================================== */
-/* line 10, ../sass/layout/_typography.scss */
-.page-title {
-  font-size: 200%;
-}
-
-/* line 14, ../sass/layout/_typography.scss */
-.pane-title {
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
-  font-size: 160%;
-}
-
-/* Header variants
-   ========================================================================== */
-/* line 25, ../sass/layout/_typography.scss */
-.page-title {
-  margin-bottom: 20px;
-}
-
-/* line 31, ../sass/layout/_typography.scss */
-.pane-title {
-  margin-bottom: 10px;
-}
-
-/* Content and elements
-   ========================================================================== */
-/* line 41, ../sass/layout/_typography.scss */
-.page-image {
-  margin-bottom: 10px;
-}
-
-/* line 45, ../sass/layout/_typography.scss */
-.page-lead {
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
-  margin-bottom: 10px;
-}
-
-/* line 51, ../sass/layout/_typography.scss */
-.page-content {
-  margin-bottom: 10px;
 }
 
 /**
