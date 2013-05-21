@@ -5,6 +5,23 @@
  */
 
 
+/* Extends
+   ========================================================================== */
+%page-heading {
+  font-size: 190%;
+}
+
+%section-heading {
+  @include font-bold();
+  
+  font-size: 150%;
+}
+
+
+
+/* Header variants
+   ========================================================================== */
+
 .page-title {
   @extend %page-heading;
 
@@ -16,6 +33,10 @@
 
   margin-bottom: $medium-spacing;
 }
+
+
+/* Content and elements
+   ========================================================================== */
 
 .page-image {
   margin-bottom: $medium-spacing;

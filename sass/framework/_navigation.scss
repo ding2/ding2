@@ -327,7 +327,10 @@
    ========================================================================== */
 
 .sub-menu-title {
+  @include font-normal();
+
   border-bottom: 1px solid $gray-light;
+  font-size: $font-size-large;
   margin-bottom: 0;
   padding-bottom: $medium-spacing;
 }

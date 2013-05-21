@@ -20,6 +20,8 @@
    ========================================================================== */
 /* Font variables
    ========================================================================== */
+/* Font sizes
+   ========================================================================== */
 /* Links
    ========================================================================== */
 /* Navigation
@@ -37,7 +39,9 @@
    ========================================================================== */
 /* Availability
    ========================================================================== */
-/* Typography
+/* Typography mixins
+ * 
+ * These are mixins to allow for use in media queries
    ========================================================================== */
 /* Pseudo arrow
  *
@@ -540,48 +544,48 @@ h6 a:active {
   color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 60, ../sass/framework/_base.scss */
+/* line 61, ../sass/framework/_base.scss */
 h1 {
   font-size: 200%;
 }
 
-/* line 64, ../sass/framework/_base.scss */
+/* line 65, ../sass/framework/_base.scss */
 h2 {
   font-size: 180%;
 }
 
-/* line 68, ../sass/framework/_base.scss */
+/* line 69, ../sass/framework/_base.scss */
 h3 {
   font-size: 160%;
 }
 
-/* line 72, ../sass/framework/_base.scss */
+/* line 73, ../sass/framework/_base.scss */
 h4 {
   font-size: 140%;
 }
 
-/* line 76, ../sass/framework/_base.scss */
+/* line 77, ../sass/framework/_base.scss */
 h5 {
   font-size: 110%;
 }
 
-/* line 80, ../sass/framework/_base.scss */
+/* line 81, ../sass/framework/_base.scss */
 h6 {
   font-size: 100%;
 }
 
-/* line 85, ../sass/framework/_base.scss */
+/* line 86, ../sass/framework/_base.scss */
 strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 90, ../sass/framework/_base.scss */
+/* line 91, ../sass/framework/_base.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 93, ../sass/framework/_base.scss */
+/* line 94, ../sass/framework/_base.scss */
 em strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -589,37 +593,37 @@ em strong {
 
 /* Links
    ========================================================================== */
-/* line 103, ../sass/framework/_base.scss */
+/* line 104, ../sass/framework/_base.scss */
 a {
   font-weight: normal;
 }
-/* line 106, ../sass/framework/_base.scss */
+/* line 107, ../sass/framework/_base.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 111, ../sass/framework/_base.scss */
+/* line 112, ../sass/framework/_base.scss */
 a:visited {
   color: #007a9b;
   text-decoration: none;
 }
-/* line 116, ../sass/framework/_base.scss */
+/* line 117, ../sass/framework/_base.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 120, ../sass/framework/_base.scss */
+/* line 121, ../sass/framework/_base.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 125, ../sass/framework/_base.scss */
+/* line 126, ../sass/framework/_base.scss */
 a:focus {
   color: #006681;
 }
 
 /* Image
    ========================================================================== */
-/* line 135, ../sass/framework/_base.scss */
+/* line 136, ../sass/framework/_base.scss */
 img {
   display: inline;
   height: auto;
@@ -629,32 +633,32 @@ img {
 
 /* Lists
    ========================================================================== */
-/* line 147, ../sass/framework/_base.scss */
+/* line 148, ../sass/framework/_base.scss */
 ul {
   margin: 0;
   padding-left: 20px;
 }
-/* line 151, ../sass/framework/_base.scss */
+/* line 152, ../sass/framework/_base.scss */
 ul li {
   list-style: none;
 }
 
 /* Make sure lists in content get the icon */
-/* line 159, ../sass/framework/_base.scss */
+/* line 160, ../sass/framework/_base.scss */
 .page-content li {
   list-style: disc inside;
 }
 
 /* Fieldset
    ========================================================================== */
-/* line 169, ../sass/framework/_base.scss */
+/* line 170, ../sass/framework/_base.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 175, ../sass/framework/_base.scss */
+/* line 176, ../sass/framework/_base.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
@@ -665,7 +669,7 @@ legend {
 
 /* Selection color
    ========================================================================== */
-/* line 190, ../sass/framework/_base.scss */
+/* line 191, ../sass/framework/_base.scss */
 ::-moz-selection,
 ::selection {
   background-color: #ffff99;
@@ -1913,22 +1917,25 @@ button.button {
    ========================================================================== */
 /* line 329, ../sass/framework/_navigation.scss */
 .sub-menu-title, .library-menu h2 {
+  font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+  font-weight: normal;
   border-bottom: 1px solid #efefef;
+  font-size: 140%;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
 
-/* line 335, ../sass/framework/_navigation.scss */
+/* line 338, ../sass/framework/_navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 338, ../sass/framework/_navigation.scss */
+/* line 341, ../sass/framework/_navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 343, ../sass/framework/_navigation.scss */
+/* line 346, ../sass/framework/_navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -1937,17 +1944,17 @@ button.button {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 351, ../sass/framework/_navigation.scss */
+/* line 354, ../sass/framework/_navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 356, ../sass/framework/_navigation.scss */
+/* line 359, ../sass/framework/_navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 366, ../sass/framework/_navigation.scss */
+/* line 369, ../sass/framework/_navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   color: #00b7e7;
   float: left;
@@ -1956,25 +1963,25 @@ button.button {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 377, ../sass/framework/_navigation.scss */
+/* line 380, ../sass/framework/_navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 381, ../sass/framework/_navigation.scss */
+/* line 384, ../sass/framework/_navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 25px;
 }
-/* line 390, ../sass/framework/_navigation.scss */
+/* line 393, ../sass/framework/_navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
 /* Footer menus
    ========================================================================== */
-/* line 403, ../sass/framework/_navigation.scss */
+/* line 406, ../sass/framework/_navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -1982,12 +1989,12 @@ button.button {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 412, ../sass/framework/_navigation.scss */
+/* line 415, ../sass/framework/_navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: "FontAwesome";
 }
-/* line 422, ../sass/framework/_navigation.scss */
+/* line 425, ../sass/framework/_navigation.scss */
 .footer .menu {
   margin-top: 0;
   margin-right: 0;
@@ -1995,28 +2002,28 @@ button.button {
   margin-left: 0;
   padding: 0;
 }
-/* line 429, ../sass/framework/_navigation.scss */
+/* line 432, ../sass/framework/_navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 435, ../sass/framework/_navigation.scss */
+/* line 438, ../sass/framework/_navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: "FontAwesome";
 }
-/* line 441, ../sass/framework/_navigation.scss */
+/* line 444, ../sass/framework/_navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 445, ../sass/framework/_navigation.scss */
+/* line 448, ../sass/framework/_navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 768px) {
-  /* line 453, ../sass/framework/_navigation.scss */
+  /* line 456, ../sass/framework/_navigation.scss */
   .footer .menu {
     display: none;
   }
@@ -2024,20 +2031,20 @@ button.button {
 
 /* Action Links
    ========================================================================== */
-/* line 464, ../sass/framework/_navigation.scss */
+/* line 467, ../sass/framework/_navigation.scss */
 .action-links {
   padding-top: 10px;
   padding-right: 20px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
-/* line 470, ../sass/framework/_navigation.scss */
+/* line 473, ../sass/framework/_navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 477, ../sass/framework/_navigation.scss */
+/* line 480, ../sass/framework/_navigation.scss */
 .action-links li:before {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -2050,7 +2057,7 @@ button.button {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 487, ../sass/framework/_navigation.scss */
+/* line 490, ../sass/framework/_navigation.scss */
 .action-links li a {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -4804,27 +4811,45 @@ body.toolbar {
  *
  * @author magnify
  */
-/* line 8, ../sass/layout/_typography.scss */
+/* Extends
+   ========================================================================== */
+/* line 10, ../sass/layout/_typography.scss */
 .page-title {
-  margin-bottom: 20px;
+  font-size: 190%;
 }
 
 /* line 14, ../sass/layout/_typography.scss */
 .pane-title {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  font-size: 150%;
+}
+
+/* Header variants
+   ========================================================================== */
+/* line 25, ../sass/layout/_typography.scss */
+.page-title {
+  margin-bottom: 20px;
+}
+
+/* line 31, ../sass/layout/_typography.scss */
+.pane-title {
   margin-bottom: 10px;
 }
 
-/* line 20, ../sass/layout/_typography.scss */
+/* Content and elements
+   ========================================================================== */
+/* line 41, ../sass/layout/_typography.scss */
 .page-image {
   margin-bottom: 10px;
 }
 
-/* line 24, ../sass/layout/_typography.scss */
+/* line 45, ../sass/layout/_typography.scss */
 .page-lead {
   margin-bottom: 10px;
 }
 
-/* line 28, ../sass/layout/_typography.scss */
+/* line 49, ../sass/layout/_typography.scss */
 .page-content {
   margin-bottom: 10px;
 }
@@ -4839,75 +4864,63 @@ body.toolbar {
 /* Extends for page elements
    ========================================================================== */
 /* line 14, ../sass/module/_module.scss */
-.page-title {
-  font-size: 190%;
-}
-
-/* line 18, ../sass/module/_module.scss */
-.pane-title {
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
-  font-size: 150%;
-}
-
-/* line 24, ../sass/module/_module.scss */
 .news-list .news-list-item {
   margin-bottom: 10px;
 }
 
-/* line 28, ../sass/module/_module.scss */
+/* line 18, ../sass/module/_module.scss */
 .news-list .news-list-item {
   padding: 20px;
 }
 
-/* line 36, ../sass/module/_module.scss */
+/* line 26, ../sass/module/_module.scss */
 .news-list .news-list-item {
   background-color: #ebebeb;
 }
 
-/* line 40, ../sass/module/_module.scss */
+/* line 30, ../sass/module/_module.scss */
 .news-list .news-list-item:nth-child(odd) {
   background-color: #e8e8e8;
 }
 
-/* line 44, ../sass/module/_module.scss */
+/* line 34, ../sass/module/_module.scss */
 .news-list .news-list-item:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-/* line 48, ../sass/module/_module.scss */
+/* line 38, ../sass/module/_module.scss */
 .news-list .news-heading {
   font-size: 150%;
 }
 
-/* line 52, ../sass/module/_module.scss */
+/* line 42, ../sass/module/_module.scss */
 .event-list .event-list-heading {
   font-size: 110%;
 }
 
-/* line 57, ../sass/module/_module.scss */
+/* line 47, ../sass/module/_module.scss */
 .news-list .news-author {
   color: #4c4c4c;
 }
 
-/* line 61, ../sass/module/_module.scss */
+/* line 51, ../sass/module/_module.scss */
 .news-list .news-date {
   color: rgba(76, 76, 76, 0.5);
 }
 
 /* Shared styling used for search and user form in topbar
    ========================================================================== */
-/* line 70, ../sass/module/_module.scss */
+/* line 60, ../sass/module/_module.scss */
 .search, .user {
   display: none;
   width: 100%;
   /* Media queries */
 }
-/* line 73, ../sass/module/_module.scss */
+/* line 63, ../sass/module/_module.scss */
 .js-topbar-toggled.search, .js-topbar-toggled.user {
   display: inline-block;
 }
-/* line 79, ../sass/module/_module.scss */
+/* line 69, ../sass/module/_module.scss */
 .search [class^="label-"], .user [class^="label-"] {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -4921,7 +4934,7 @@ body.toolbar {
   margin-bottom: 5px;
   margin-left: 2px;
 }
-/* line 89, ../sass/module/_module.scss */
+/* line 79, ../sass/module/_module.scss */
 .search [class^="icon-"], .user [class^="icon-"] {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -4933,12 +4946,12 @@ body.toolbar {
   left: 24px;
   position: absolute;
 }
-/* line 98, ../sass/module/_module.scss */
+/* line 88, ../sass/module/_module.scss */
 .search .form-item, .user .form-item {
   display: inline-block;
   position: relative;
 }
-/* line 103, ../sass/module/_module.scss */
+/* line 93, ../sass/module/_module.scss */
 .search .form-text, .user .form-text {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -4957,14 +4970,14 @@ body.toolbar {
   padding-bottom: 0;
   width: 100%;
 }
-/* line 116, ../sass/module/_module.scss */
+/* line 106, ../sass/module/_module.scss */
 .search .form-text, .user .form-text,
 .search .form-submit,
 .user .form-submit {
   min-height: 60px;
   padding-top: 0;
 }
-/* line 121, ../sass/module/_module.scss */
+/* line 111, ../sass/module/_module.scss */
 .search .form-submit, .user .form-submit {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -4978,11 +4991,11 @@ body.toolbar {
   padding-bottom: 1px;
   min-width: 110px;
 }
-/* line 131, ../sass/module/_module.scss */
+/* line 121, ../sass/module/_module.scss */
 .search input[class^="form-"], .user input[class^="form-"] {
   margin-bottom: 0;
 }
-/* line 135, ../sass/module/_module.scss */
+/* line 125, ../sass/module/_module.scss */
 .search .form-actions, .user .form-actions {
   float: right;
   width: 16.66667%;
@@ -5002,7 +5015,7 @@ body.toolbar {
   text-align: right;
 }
 @media only screen and (max-width: 480px) {
-  /* line 143, ../sass/module/_module.scss */
+  /* line 133, ../sass/module/_module.scss */
   .search [class^="label-"], .user [class^="label-"] {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -5010,7 +5023,7 @@ body.toolbar {
     /* If there is only one (numeric) value, return the property/value line for it. */
     font-size: 0.875rem;
   }
-  /* line 147, ../sass/module/_module.scss */
+  /* line 137, ../sass/module/_module.scss */
   .search .form-item, .user .form-item {
     float: left;
     width: 100%;
@@ -5031,7 +5044,7 @@ body.toolbar {
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 154, ../sass/module/_module.scss */
+  /* line 144, ../sass/module/_module.scss */
   .search i[class^="icon-"], .user i[class^="icon-"] {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -5039,7 +5052,7 @@ body.toolbar {
     /* If there is only one (numeric) value, return the property/value line for it. */
     font-size: 1.25rem;
   }
-  /* line 158, ../sass/module/_module.scss */
+  /* line 148, ../sass/module/_module.scss */
   .search .form-text, .user .form-text {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -5050,7 +5063,7 @@ body.toolbar {
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 166, ../sass/module/_module.scss */
+  /* line 156, ../sass/module/_module.scss */
   .search .form-actions, .user .form-actions {
     float: left;
     width: 100%;
@@ -5069,7 +5082,7 @@ body.toolbar {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 171, ../sass/module/_module.scss */
+  /* line 161, ../sass/module/_module.scss */
   .search .form-submit, .user .form-submit {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -5084,17 +5097,17 @@ body.toolbar {
 
 /* Pager
    ========================================================================== */
-/* line 186, ../sass/module/_module.scss */
+/* line 176, ../sass/module/_module.scss */
 .pager {
   padding-left: 0;
 }
-/* line 189, ../sass/module/_module.scss */
+/* line 179, ../sass/module/_module.scss */
 .pager li {
   display: inline-block;
   margin-left: -4px;
   margin-right: 4px;
 }
-/* line 195, ../sass/module/_module.scss */
+/* line 185, ../sass/module/_module.scss */
 .pager li.pager-current,
 .pager li a {
   background-color: #efefef;
@@ -5104,17 +5117,17 @@ body.toolbar {
   padding-bottom: 5px;
   padding-left: 15px;
 }
-/* line 206, ../sass/module/_module.scss */
+/* line 196, ../sass/module/_module.scss */
 .pager .active a,
 .pager .active a:hover {
   cursor: default;
   text-decoration: underline;
 }
-/* line 211, ../sass/module/_module.scss */
+/* line 201, ../sass/module/_module.scss */
 .pager .disabled {
   background-color: #fbfbfb;
 }
-/* line 214, ../sass/module/_module.scss */
+/* line 204, ../sass/module/_module.scss */
 .pager .disabled a:hover {
   cursor: default;
   text-decoration: none;
@@ -5122,7 +5135,7 @@ body.toolbar {
 
 /* Signature
    ========================================================================== */
-/* line 224, ../sass/module/_module.scss */
+/* line 214, ../sass/module/_module.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -5130,25 +5143,25 @@ body.toolbar {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 233, ../sass/module/_module.scss */
+/* line 223, ../sass/module/_module.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 240, ../sass/module/_module.scss */
+/* line 230, ../sass/module/_module.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
 }
 
-/* line 246, ../sass/module/_module.scss */
+/* line 236, ../sass/module/_module.scss */
 .signature .tags a {
   display: inline-block;
   margin-right: 0.3em;
 }
 
-/* line 251, ../sass/module/_module.scss */
+/* line 241, ../sass/module/_module.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
 }

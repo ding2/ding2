@@ -102,8 +102,15 @@
 
 
 
-/* Typography
+/* Typography mixins
+ * 
+ * These are mixins to allow for use in media queries
    ========================================================================== */
+
+@mixin font-normal() {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight-normal;
+}
 
 @mixin font-bold() {
   font-family: $font-bold;
@@ -123,7 +130,6 @@
    ========================================================================== */
 
 @mixin pseudo-arrow($size, $color, $direction, $alignment, $offset: 20px) {
-
   border: $size solid transparent;
   content: "";
   height: 0;

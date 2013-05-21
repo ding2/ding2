@@ -57,28 +57,29 @@ h6 {
   }
 }
 
+
 h1 {
-  font-size: 200%;
+  font-size: $font-size-giga;
 }
 
 h2 {
-  font-size: 180%;
+  font-size: $font-size-largest;
 }
 
 h3 {
-  font-size: 160%;
+  font-size: $font-size-larger;
 }
 
 h4 {
-  font-size: 140%;
+  font-size: $font-size-large;
 }
 
 h5 {
-  font-size: 110%;
+  font-size: $font-size-medium;
 }
 
 h6 {
-  font-size: 100%;
+  font-size: $font-size-reset;
 }
 
 

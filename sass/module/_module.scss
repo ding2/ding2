@@ -11,16 +11,6 @@
 /* Extends for page elements
    ========================================================================== */
 
-%page-heading {
-  font-size: 190%;
-}
-
-%section-heading {
-  @include font-bold();
-  
-  font-size: 150%;
-}
-
 %article-margin {
   margin-bottom: 10px;
 }
