@@ -1,25 +1,9 @@
 /**
- * Page
- *
- * Styling of page elements
+ * Typography
  *
  * @author magnify
  */
 
-
-#page {
-  @include zen-grid-container;
-}
-
-/* Don't show background in small and medium breakpoint
- *
- * This have to be specific because Drupal adds it inline
- */
-#page.ding2-site-template {
-  @include small-medium() {
-    background-image: none !important;
-  }
-}
 
 .page-title {
   @extend %page-heading;

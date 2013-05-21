@@ -15,36 +15,36 @@
 
 
 // Include framework
-@import "framework/_variables.scss";
-@import "framework/_mixins.scss";
-@import "framework/_normalize.scss";
-@import "framework/_base.scss";
-@import "framework/_framework.scss";
+@import "framework/_variables";
+@import "framework/_mixins";
+@import "framework/_normalize";
+@import "framework/_base";
+@import "framework/_framework";
 @import "framework/_forms";
-@import "framework/_tables.scss";
-@import "framework/_buttons.scss";
-@import "framework/_tabs.scss";
-@import "framework/_labels.scss";
-@import "framework/_navigation.scss";
-@import "framework/_modal.scss";
-@import "framework/_fontawesome.scss";
+@import "framework/_tables";
+@import "framework/_buttons";
+@import "framework/_tabs";
+@import "framework/_labels";
+@import "framework/_navigation";
+@import "framework/_modal";
+@import "framework/_fontawesome";
 
 
 // Include media queries (displays and attachments)
-@import "layout/_layout.scss";
+@import "layout/_layout";
+@import "layout/_typography";
 
 
 // Include modules
-@import "module/_module.scss";
-@import "module/_page.scss";
-@import "module/_search.scss";
-@import "module/_carousel.scss";
-@import "module/_news.scss";
-@import "module/_event.scss";
-@import "module/_libraries.scss";
-@import "module/_openinghours.scss";
-@import "module/_user.scss";
-@import "module/_comment.scss";
+@import "module/_module";
+@import "module/_search";
+@import "module/_carousel";
+@import "module/_news";
+@import "module/_event";
+@import "module/_libraries";
+@import "module/_openinghours";
+@import "module/_user";
+@import "module/_comment";
 
 
 // Custom font

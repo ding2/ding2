@@ -483,6 +483,8 @@ h3,
 h4,
 h5,
 h6 {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   /* This fixes huge spaces when a heading wraps onto two lines */
   line-height: 1;
   margin-top: 0;
@@ -490,7 +492,7 @@ h6 {
   /* Voodoo to enable ligatures and kerning */
   text-rendering: optimizeLegibility;
 }
-/* line 34, ../sass/framework/_base.scss */
+/* line 36, ../sass/framework/_base.scss */
 h1 a:link,
 h2 a:link,
 h3 a:link,
@@ -500,7 +502,7 @@ h6 a:link {
   color: rgba(0, 0, 0, 0.7);
   text-decoration: none;
 }
-/* line 39, ../sass/framework/_base.scss */
+/* line 41, ../sass/framework/_base.scss */
 h1 a:visited,
 h2 a:visited,
 h3 a:visited,
@@ -509,7 +511,7 @@ h5 a:visited,
 h6 a:visited {
   color: rgba(0, 0, 0, 0.7);
 }
-/* line 43, ../sass/framework/_base.scss */
+/* line 45, ../sass/framework/_base.scss */
 h1 a:hover,
 h2 a:hover,
 h3 a:hover,
@@ -518,7 +520,7 @@ h5 a:hover,
 h6 a:hover {
   color: rgba(0, 0, 0, 0.7);
 }
-/* line 47, ../sass/framework/_base.scss */
+/* line 49, ../sass/framework/_base.scss */
 h1 a:focus,
 h2 a:focus,
 h3 a:focus,
@@ -527,7 +529,7 @@ h5 a:focus,
 h6 a:focus {
   color: rgba(0, 0, 0, 0.7);
 }
-/* line 51, ../sass/framework/_base.scss */
+/* line 53, ../sass/framework/_base.scss */
 h1 a:active,
 h2 a:active,
 h3 a:active,
@@ -538,48 +540,48 @@ h6 a:active {
   color: rgba(0, 0, 0, 0.7);
 }
 
-/* line 58, ../sass/framework/_base.scss */
+/* line 60, ../sass/framework/_base.scss */
 h1 {
   font-size: 200%;
 }
 
-/* line 62, ../sass/framework/_base.scss */
+/* line 64, ../sass/framework/_base.scss */
 h2 {
   font-size: 180%;
 }
 
-/* line 66, ../sass/framework/_base.scss */
+/* line 68, ../sass/framework/_base.scss */
 h3 {
   font-size: 160%;
 }
 
-/* line 70, ../sass/framework/_base.scss */
+/* line 72, ../sass/framework/_base.scss */
 h4 {
   font-size: 140%;
 }
 
-/* line 74, ../sass/framework/_base.scss */
+/* line 76, ../sass/framework/_base.scss */
 h5 {
   font-size: 110%;
 }
 
-/* line 78, ../sass/framework/_base.scss */
+/* line 80, ../sass/framework/_base.scss */
 h6 {
   font-size: 100%;
 }
 
-/* line 83, ../sass/framework/_base.scss */
+/* line 85, ../sass/framework/_base.scss */
 strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 88, ../sass/framework/_base.scss */
+/* line 90, ../sass/framework/_base.scss */
 em {
   font-family: "SourceSansProLightItalic";
   font-weight: normal;
 }
-/* line 91, ../sass/framework/_base.scss */
+/* line 93, ../sass/framework/_base.scss */
 em strong {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -587,37 +589,37 @@ em strong {
 
 /* Links
    ========================================================================== */
-/* line 101, ../sass/framework/_base.scss */
+/* line 103, ../sass/framework/_base.scss */
 a {
   font-weight: normal;
 }
-/* line 104, ../sass/framework/_base.scss */
+/* line 106, ../sass/framework/_base.scss */
 a:link {
   color: #00b7e7;
   text-decoration: none;
 }
-/* line 109, ../sass/framework/_base.scss */
+/* line 111, ../sass/framework/_base.scss */
 a:visited {
   color: #007a9b;
   text-decoration: none;
 }
-/* line 114, ../sass/framework/_base.scss */
+/* line 116, ../sass/framework/_base.scss */
 a:hover {
   color: #006681;
   text-decoration: underline;
 }
-/* line 118, ../sass/framework/_base.scss */
+/* line 120, ../sass/framework/_base.scss */
 a:hover i[class^="icon-"] {
   text-decoration: none;
 }
-/* line 123, ../sass/framework/_base.scss */
+/* line 125, ../sass/framework/_base.scss */
 a:focus {
   color: #006681;
 }
 
 /* Image
    ========================================================================== */
-/* line 133, ../sass/framework/_base.scss */
+/* line 135, ../sass/framework/_base.scss */
 img {
   display: inline;
   height: auto;
@@ -627,32 +629,32 @@ img {
 
 /* Lists
    ========================================================================== */
-/* line 145, ../sass/framework/_base.scss */
+/* line 147, ../sass/framework/_base.scss */
 ul {
   margin: 0;
   padding-left: 20px;
 }
-/* line 149, ../sass/framework/_base.scss */
+/* line 151, ../sass/framework/_base.scss */
 ul li {
   list-style: none;
 }
 
 /* Make sure lists in content get the icon */
-/* line 157, ../sass/framework/_base.scss */
+/* line 159, ../sass/framework/_base.scss */
 .page-content li {
   list-style: disc inside;
 }
 
 /* Fieldset
    ========================================================================== */
-/* line 167, ../sass/framework/_base.scss */
+/* line 169, ../sass/framework/_base.scss */
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
 
-/* line 173, ../sass/framework/_base.scss */
+/* line 175, ../sass/framework/_base.scss */
 legend {
   display: block;
   border-top: 1px solid #d5d5d5;
@@ -663,7 +665,7 @@ legend {
 
 /* Selection color
    ========================================================================== */
-/* line 188, ../sass/framework/_base.scss */
+/* line 190, ../sass/framework/_base.scss */
 ::-moz-selection,
 ::selection {
   background-color: #ffff99;
@@ -958,6 +960,8 @@ table tbody tr:hover th {
 /* line 32, ../sass/framework/_buttons.scss */
 .button,
 a.button,
+.form-submit,
+#edit-cancel,
 .search .form-submit,
 .user .form-submit, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
@@ -970,8 +974,7 @@ a.button,
 .pane-reservations .delete-reservation .form-submit,
 .pane-reservations .delete-reservations .form-submit,
 .pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .form-submit,
-#edit-cancel, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -989,7 +992,9 @@ a.button,
   vertical-align: middle;
 }
 /* line 47, ../sass/framework/_buttons.scss */
-.button:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
+.button:focus,
+.form-submit:focus,
+#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
 .pane-reservations .renew-loan-button .renewable:focus,
 .pane-bookmarks .renew-loan-button .renewable:focus, .pane-loans .update-reservations .form-submit:focus,
 .pane-reservations .update-reservations .form-submit:focus,
@@ -1000,10 +1005,11 @@ a.button,
 .pane-reservations .delete-reservation .form-submit:focus,
 .pane-reservations .delete-reservations .form-submit:focus,
 .pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .form-submit:focus,
-#edit-cancel:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .button:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
+.pane-ting-object .ding-entity-button:focus, .button:hover,
+.form-submit:hover,
+#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
 .pane-reservations .renew-loan-button .renewable:hover,
 .pane-bookmarks .renew-loan-button .renewable:hover, .pane-loans .update-reservations .form-submit:hover,
 .pane-reservations .update-reservations .form-submit:hover,
@@ -1014,10 +1020,11 @@ a.button,
 .pane-reservations .delete-reservation .form-submit:hover,
 .pane-reservations .delete-reservations .form-submit:hover,
 .pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .form-submit:hover,
-#edit-cancel:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .button:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
+.pane-ting-object .ding-entity-button:hover, .button:active,
+.form-submit:active,
+#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
 .pane-reservations .renew-loan-button .renewable:active,
 .pane-bookmarks .renew-loan-button .renewable:active, .pane-loans .update-reservations .form-submit:active,
 .pane-reservations .update-reservations .form-submit:active,
@@ -1028,14 +1035,15 @@ a.button,
 .pane-reservations .delete-reservation .form-submit:active,
 .pane-reservations .delete-reservations .form-submit:active,
 .pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, .form-submit:active,
-#edit-cancel:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
 }
 /* line 53, ../sass/framework/_buttons.scss */
-.disabled.button, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
+.disabled.button,
+.disabled.form-submit,
+.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
 .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-bookmarks .renew-loan-button .disabled.renewable, .pane-loans .update-reservations .disabled.form-submit,
 .pane-reservations .update-reservations .disabled.form-submit,
@@ -1046,10 +1054,11 @@ a.button,
 .pane-reservations .delete-reservation .disabled.form-submit,
 .pane-reservations .delete-reservations .disabled.form-submit,
 .pane-bookmarks .delete-reservation .disabled.form-submit,
-.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, .disabled.form-submit,
-.disabled#edit-cancel, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, [disabled].button, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
+.pane-ting-object .disabled.ding-entity-button, [disabled].button,
+[disabled].form-submit,
+[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
 .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-bookmarks .renew-loan-button [disabled].renewable, .pane-loans .update-reservations [disabled].form-submit,
 .pane-reservations .update-reservations [disabled].form-submit,
@@ -1060,8 +1069,7 @@ a.button,
 .pane-reservations .delete-reservation [disabled].form-submit,
 .pane-reservations .delete-reservations [disabled].form-submit,
 .pane-bookmarks .delete-reservation [disabled].form-submit,
-.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, [disabled].form-submit,
-[disabled]#edit-cancel, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1078,6 +1086,8 @@ a.button,
 /* line 96, ../sass/framework/_buttons.scss */
 .button,
 a.button,
+.form-submit,
+#edit-cancel,
 .search .form-submit,
 .user .form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
@@ -1094,10 +1104,10 @@ a.button,
 .button:link, .button:visited,
 a.button:link,
 a.button:visited,
-.search .form-submit:link,
-.user .form-submit:link,
-.search .form-submit:visited,
-.user .form-submit:visited {
+.form-submit:link,
+#edit-cancel:link,
+.form-submit:visited,
+#edit-cancel:visited {
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
@@ -1105,12 +1115,12 @@ a.button:visited,
 a.button:focus,
 a.button:hover,
 a.button:active,
-.search .form-submit:focus,
-.user .form-submit:focus,
-.search .form-submit:hover,
-.user .form-submit:hover,
-.search .form-submit:active,
-.user .form-submit:active {
+.form-submit:focus,
+#edit-cancel:focus,
+.form-submit:hover,
+#edit-cancel:hover,
+.form-submit:active,
+#edit-cancel:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
   background-image: -webkit-linear-gradient(#373737, #111111);
   background-image: -moz-linear-gradient(#373737, #111111);
@@ -3781,13 +3791,41 @@ body {
   }
 }
 
+/* Page
+   ========================================================================== */
+/* line 33, ../sass/layout/_layout.scss */
+#page {
+  *position: relative;
+  *zoom: 1;
+}
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+#page:before, #page:after {
+  content: "";
+  display: table;
+}
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+#page:after {
+  clear: both;
+}
+
+/* Don't show background in small and medium breakpoint
+ *
+ * This have to be specific because Drupal adds it inline
+ */
+@media only screen and (max-width: 768px) {
+  /* line 41, ../sass/layout/_layout.scss */
+  #page.ding2-site-template {
+    background-image: none !important;
+  }
+}
+
 /* Header wrapper
    ========================================================================== */
-/* line 31, ../sass/layout/_layout.scss */
+/* line 51, ../sass/layout/_layout.scss */
 .header-wrapper {
   background-color: #00caff;
 }
-/* line 34, ../sass/layout/_layout.scss */
+/* line 54, ../sass/layout/_layout.scss */
 .header-wrapper .header-inner {
   margin-left: auto;
   margin-right: auto;
@@ -3797,27 +3835,27 @@ body {
 
 /* Site header
    ========================================================================== */
-/* line 46, ../sass/layout/_layout.scss */
+/* line 66, ../sass/layout/_layout.scss */
 .site-header {
   /* Large to x-large breakpoint */
   /* Small to medium breakpoint */
 }
 @media only screen and (min-width: 769px) {
-  /* line 49, ../sass/layout/_layout.scss */
+  /* line 69, ../sass/layout/_layout.scss */
   .site-header.js-fixed {
     position: fixed;
     z-index: 99;
     width: 100%;
   }
-  /* line 54, ../sass/layout/_layout.scss */
+  /* line 74, ../sass/layout/_layout.scss */
   .site-header.js-fixed .topbar-menu {
     margin-top: 0;
   }
-  /* line 58, ../sass/layout/_layout.scss */
+  /* line 78, ../sass/layout/_layout.scss */
   .site-header.js-fixed .site-name-wrapper {
     margin-top: 10px;
   }
-  /* line 61, ../sass/layout/_layout.scss */
+  /* line 81, ../sass/layout/_layout.scss */
   .site-header.js-fixed .site-name-wrapper .site-name, .site-header.js-fixed .site-name-wrapper .site-name-with-slogan {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -3825,23 +3863,23 @@ body {
     /* If there is only one (numeric) value, return the property/value line for it. */
     font-size: 1.5rem;
   }
-  /* line 66, ../sass/layout/_layout.scss */
+  /* line 86, ../sass/layout/_layout.scss */
   .site-header.js-fixed .header-wrapper {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  /* line 70, ../sass/layout/_layout.scss */
+  /* line 90, ../sass/layout/_layout.scss */
   .site-header.js-fixed .header-wrapper .user-name {
     display: none !important;
   }
-  /* line 76, ../sass/layout/_layout.scss */
+  /* line 96, ../sass/layout/_layout.scss */
   .site-header.js-fixed .navigation-wrapper .menu-item {
     padding-top: 10px;
     padding-bottom: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 87, ../sass/layout/_layout.scss */
+  /* line 107, ../sass/layout/_layout.scss */
   .site-header.js-fixed .topbar {
     position: fixed;
     z-index: 99;
@@ -3851,11 +3889,11 @@ body {
 
 /* Site name, slogan and logo
    ========================================================================== */
-/* line 100, ../sass/layout/_layout.scss */
+/* line 120, ../sass/layout/_layout.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
 }
-/* line 103, ../sass/layout/_layout.scss */
+/* line 123, ../sass/layout/_layout.scss */
 .topbar .topbar-inner {
   margin-left: auto;
   margin-right: auto;
@@ -3864,7 +3902,7 @@ body {
   position: relative;
 }
 
-/* line 112, ../sass/layout/_layout.scss */
+/* line 132, ../sass/layout/_layout.scss */
 .site-name-wrapper {
   float: left;
   width: 33.33333%;
@@ -3884,7 +3922,7 @@ body {
   margin-top: 30px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 112, ../sass/layout/_layout.scss */
+  /* line 132, ../sass/layout/_layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -3905,7 +3943,7 @@ body {
   }
 }
 
-/* line 124, ../sass/layout/_layout.scss */
+/* line 144, ../sass/layout/_layout.scss */
 .site-name, .site-name-with-slogan {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -3916,7 +3954,7 @@ body {
   font-weight: normal;
   margin-bottom: 0;
 }
-/* line 134, ../sass/layout/_layout.scss */
+/* line 154, ../sass/layout/_layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -3929,7 +3967,7 @@ body {
   text-decoration: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 124, ../sass/layout/_layout.scss */
+  /* line 144, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -3939,7 +3977,7 @@ body {
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 124, ../sass/layout/_layout.scss */
+  /* line 144, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     /* Convert the baseline into rems */
     /* Print the first line in pixel values */
@@ -3949,14 +3987,14 @@ body {
   }
 }
 
-/* line 153, ../sass/layout/_layout.scss */
+/* line 173, ../sass/layout/_layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 159, ../sass/layout/_layout.scss */
+/* line 179, ../sass/layout/_layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -3977,12 +4015,12 @@ body {
 
 /* Content
    ========================================================================== */
-/* line 167, ../sass/layout/_layout.scss */
+/* line 187, ../sass/layout/_layout.scss */
 .content-wrapper {
   margin-top: 20px;
 }
 
-/* line 171, ../sass/layout/_layout.scss */
+/* line 191, ../sass/layout/_layout.scss */
 .content-inner {
   margin-left: auto;
   margin-right: auto;
@@ -3992,7 +4030,7 @@ body {
 
 /* Layouts
    ========================================================================== */
-/* line 184, ../sass/layout/_layout.scss */
+/* line 204, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content,
 .frontpage-layout .secondary-content,
 .frontpage-layout .tertiary-content {
@@ -4000,7 +4038,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 190, ../sass/layout/_layout.scss */
+/* line 210, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content {
   float: left;
   width: 100%;
@@ -4018,7 +4056,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 194, ../sass/layout/_layout.scss */
+/* line 214, ../sass/layout/_layout.scss */
 .frontpage-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4029,7 +4067,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 206, ../sass/layout/_layout.scss */
+/* line 226, ../sass/layout/_layout.scss */
 .frontpage-layout .secondary-content {
   float: left;
   width: 66.66667%;
@@ -4047,7 +4085,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 210, ../sass/layout/_layout.scss */
+/* line 230, ../sass/layout/_layout.scss */
 .frontpage-layout .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -4066,7 +4104,7 @@ body {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 768px) {
-  /* line 217, ../sass/layout/_layout.scss */
+  /* line 237, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4088,7 +4126,7 @@ body {
     _overflow-y: visible;
   }
 }
-/* line 223, ../sass/layout/_layout.scss */
+/* line 243, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -4104,12 +4142,12 @@ body {
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
-/* line 229, ../sass/layout/_layout.scss */
+/* line 249, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper .grid-inner {
   padding: 20px;
 }
 
-/* line 236, ../sass/layout/_layout.scss */
+/* line 256, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4118,7 +4156,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 241, ../sass/layout/_layout.scss */
+/* line 261, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4126,7 +4164,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 247, ../sass/layout/_layout.scss */
+/* line 267, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4144,7 +4182,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 251, ../sass/layout/_layout.scss */
+/* line 271, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4155,7 +4193,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 263, ../sass/layout/_layout.scss */
+/* line 283, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4173,7 +4211,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 267, ../sass/layout/_layout.scss */
+/* line 287, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4193,7 +4231,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 276, ../sass/layout/_layout.scss */
+  /* line 296, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4216,7 +4254,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 285, ../sass/layout/_layout.scss */
+  /* line 305, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4234,7 +4272,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 289, ../sass/layout/_layout.scss */
+  /* line 309, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4252,7 +4290,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 293, ../sass/layout/_layout.scss */
+  /* line 313, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4272,7 +4310,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 302, ../sass/layout/_layout.scss */
+  /* line 322, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .primary-content {
     float: left;
     width: 100%;
@@ -4290,7 +4328,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 306, ../sass/layout/_layout.scss */
+  /* line 326, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .secondary-content {
     clear: both;
     float: left;
@@ -4309,7 +4347,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 311, ../sass/layout/_layout.scss */
+  /* line 331, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .tertiary-content {
     float: right;
     width: 50%;
@@ -4329,7 +4367,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 320, ../sass/layout/_layout.scss */
+  /* line 340, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4347,7 +4385,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 323, ../sass/layout/_layout.scss */
+  /* line 343, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4367,7 +4405,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 332, ../sass/layout/_layout.scss */
+  /* line 352, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4385,7 +4423,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 336, ../sass/layout/_layout.scss */
+  /* line 356, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4407,7 +4445,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 346, ../sass/layout/_layout.scss */
+/* line 366, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4426,7 +4464,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 350, ../sass/layout/_layout.scss */
+/* line 370, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4445,7 +4483,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 354, ../sass/layout/_layout.scss */
+/* line 374, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4464,7 +4502,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 358, ../sass/layout/_layout.scss */
+/* line 378, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4483,7 +4521,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 363, ../sass/layout/_layout.scss */
+/* line 383, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4505,7 +4543,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 374, ../sass/layout/_layout.scss */
+  /* line 394, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4529,7 +4567,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 382, ../sass/layout/_layout.scss */
+  /* line 402, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4550,7 +4588,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 388, ../sass/layout/_layout.scss */
+  /* line 408, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4571,7 +4609,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 395, ../sass/layout/_layout.scss */
+/* line 415, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4589,7 +4627,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 399, ../sass/layout/_layout.scss */
+/* line 419, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4609,7 +4647,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 406, ../sass/layout/_layout.scss */
+/* line 426, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4627,7 +4665,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 410, ../sass/layout/_layout.scss */
+/* line 430, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4645,7 +4683,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 414, ../sass/layout/_layout.scss */
+/* line 434, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4666,13 +4704,13 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 423, ../sass/layout/_layout.scss */
+/* line 443, ../sass/layout/_layout.scss */
 .footer {
   background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 428, ../sass/layout/_layout.scss */
+/* line 448, ../sass/layout/_layout.scss */
 .footer .pane-title {
   /* Convert the baseline into rems */
   /* Print the first line in pixel values */
@@ -4681,7 +4719,7 @@ body {
   font-size: 1.125rem;
 }
 
-/* line 433, ../sass/layout/_layout.scss */
+/* line 453, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4689,13 +4727,13 @@ body {
   overflow: visible;
 }
 
-/* line 440, ../sass/layout/_layout.scss */
+/* line 460, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 445, ../sass/layout/_layout.scss */
+/* line 465, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -4706,23 +4744,23 @@ body {
 
 /* Drupal overrides
    ========================================================================== */
-/* line 457, ../sass/layout/_layout.scss */
+/* line 477, ../sass/layout/_layout.scss */
 body.toolbar {
   padding-top: 66px;
 }
 
-/* line 461, ../sass/layout/_layout.scss */
+/* line 481, ../sass/layout/_layout.scss */
 #edit-cancel {
   margin-left: .3em;
 }
 
-/* line 465, ../sass/layout/_layout.scss */
+/* line 485, ../sass/layout/_layout.scss */
 .form-item, .form-actions {
   margin-bottom: 0;
   margin-top: 0;
 }
 
-/* line 476, ../sass/layout/_layout.scss */
+/* line 496, ../sass/layout/_layout.scss */
 .ajax-progress,
 .ajax-progress-throbber {
   width: 100%;
@@ -4736,7 +4774,7 @@ body.toolbar {
   text-align: center;
 }
 
-/* line 488, ../sass/layout/_layout.scss */
+/* line 508, ../sass/layout/_layout.scss */
 .ajax-progress .throbber {
   /* Make sure the Drupal throbber is not visible in IE */
   background: none !important;
@@ -4750,15 +4788,45 @@ body.toolbar {
   width: 50px;
 }
 
-/* line 505, ../sass/layout/_layout.scss */
+/* line 525, ../sass/layout/_layout.scss */
 .field .field-label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
 
-/* line 510, ../sass/layout/_layout.scss */
+/* line 530, ../sass/layout/_layout.scss */
 .field-label {
   margin-right: 5px;
+}
+
+/**
+ * Typography
+ *
+ * @author magnify
+ */
+/* line 8, ../sass/layout/_typography.scss */
+.page-title {
+  margin-bottom: 20px;
+}
+
+/* line 14, ../sass/layout/_typography.scss */
+.pane-title {
+  margin-bottom: 10px;
+}
+
+/* line 20, ../sass/layout/_typography.scss */
+.page-image {
+  margin-bottom: 10px;
+}
+
+/* line 24, ../sass/layout/_typography.scss */
+.page-lead {
+  margin-bottom: 10px;
+}
+
+/* line 28, ../sass/layout/_typography.scss */
+.page-content {
+  margin-bottom: 10px;
 }
 
 /**
@@ -5083,64 +5151,6 @@ body.toolbar {
 /* line 251, ../sass/module/_module.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
-}
-
-/**
- * Page
- *
- * Styling of page elements
- *
- * @author magnify
- */
-/* line 10, ../sass/module/_page.scss */
-#page {
-  *position: relative;
-  *zoom: 1;
-}
-/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-#page:before, #page:after {
-  content: "";
-  display: table;
-}
-/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-#page:after {
-  clear: both;
-}
-
-/* Don't show background in small and medium breakpoint
- *
- * This have to be specific because Drupal adds it inline
- */
-@media only screen and (max-width: 768px) {
-  /* line 18, ../sass/module/_page.scss */
-  #page.ding2-site-template {
-    background-image: none !important;
-  }
-}
-
-/* line 24, ../sass/module/_page.scss */
-.page-title {
-  margin-bottom: 20px;
-}
-
-/* line 30, ../sass/module/_page.scss */
-.pane-title {
-  margin-bottom: 10px;
-}
-
-/* line 36, ../sass/module/_page.scss */
-.page-image {
-  margin-bottom: 10px;
-}
-
-/* line 40, ../sass/module/_page.scss */
-.page-lead {
-  margin-bottom: 10px;
-}
-
-/* line 44, ../sass/module/_page.scss */
-.page-content {
-  margin-bottom: 10px;
 }
 
 /**

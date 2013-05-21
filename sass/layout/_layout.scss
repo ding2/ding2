@@ -26,6 +26,26 @@ body {
 }
 
 
+
+/* Page
+   ========================================================================== */
+
+#page {
+  @include zen-grid-container;
+}
+
+/* Don't show background in small and medium breakpoint
+ *
+ * This have to be specific because Drupal adds it inline
+ */
+#page.ding2-site-template {
+  @include small-medium() {
+    background-image: none !important;
+  }
+}
+
+
+
 /* Header wrapper
    ========================================================================== */
 .header-wrapper {
@@ -469,7 +489,7 @@ body.toolbar {
 
 .form-submit,
 #edit-cancel {
-  @extend %button;
+  @extend %button-default;
 }
 
 .ajax-progress,
