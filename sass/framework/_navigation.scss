@@ -160,6 +160,19 @@
 
 .main-menu {
   font-size: $font-size-large;
+
+  .main-menu {
+    display: none;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .main-menu {
+      display: block;
+      font-size: $font-size-reset;
+      margin-left: $large-spacing;
+    }
+  }
 }
 
 .secondary-menu {
