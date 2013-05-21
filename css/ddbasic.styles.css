@@ -4846,10 +4846,12 @@ body.toolbar {
 
 /* line 45, ../sass/layout/_typography.scss */
 .page-lead {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   margin-bottom: 10px;
 }
 
-/* line 49, ../sass/layout/_typography.scss */
+/* line 51, ../sass/layout/_typography.scss */
 .page-content {
   margin-bottom: 10px;
 }

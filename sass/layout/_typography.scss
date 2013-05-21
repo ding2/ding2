@@ -13,7 +13,7 @@
 
 %section-heading {
   @include font-bold();
-  
+
   font-size: 150%;
 }
 
@@ -43,6 +43,8 @@
 }
 
 .page-lead {
+  @include font-bold();
+
   margin-bottom: $medium-spacing;
 }
 
