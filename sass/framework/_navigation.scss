@@ -301,11 +301,6 @@
           text-decoration: none;
         }
 
-        &:active,
-        &:focus {
-          background-color: transparentize($white, .9);
-        }
-
         &.active {
           @include font-bold();
 
