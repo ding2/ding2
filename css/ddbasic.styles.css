@@ -479,7 +479,7 @@ h6 {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   /* This fixes huge spaces when a heading wraps onto two lines */
-  line-height: 1;
+  line-height: 1.2;
   margin-top: 0;
   margin-bottom: 10px;
   /* Voodoo to enable ligatures and kerning */
@@ -550,7 +550,7 @@ h3 {
 
 /* line 72, ../sass/framework/_base.scss */
 h4 {
-  font-size: 140%;
+  font-size: 130%;
 }
 
 /* line 76, ../sass/framework/_base.scss */
@@ -1694,7 +1694,7 @@ button.button {
 
 /* line 161, ../sass/framework/_navigation.scss */
 .main-menu {
-  font-size: 140%;
+  font-size: 130%;
   /* For now Drupal's menu_tree function adds the class "main-menu" so sub-menus
    * as well
    */
@@ -1919,7 +1919,7 @@ button.button {
   font-family: "SourceSansProLight", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   font-weight: normal;
   border-bottom: 1px solid #efefef;
-  font-size: 140%;
+  font-size: 130%;
   margin-bottom: 0;
   padding-bottom: 10px;
 }
@@ -1958,7 +1958,7 @@ button.button {
   color: #00b7e7;
   float: left;
   font-family: "FontAwesome";
-  font-size: 140%;
+  font-size: 130%;
   margin-top: 8px;
   margin-left: 1px;
 }
@@ -3921,7 +3921,7 @@ body {
   _overflow-y: visible;
   margin-top: 30px;
 }
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 480px) {
   /* line 132, ../sass/layout/_layout.scss */
   .site-name-wrapper {
     float: left;
@@ -3939,18 +3939,39 @@ body {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
-    margin-top: 6px;
+    margin-top: 15px;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 132, ../sass/layout/_layout.scss */
+  .site-name-wrapper {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-top: 9px;
   }
 }
 
-/* line 144, ../sass/layout/_layout.scss */
+/* line 150, ../sass/layout/_layout.scss */
 .site-name, .site-name-with-slogan {
   font-family: "SourceSansProSemibold";
   font-size: 180%;
   font-weight: normal;
   margin-bottom: 0;
 }
-/* line 153, ../sass/layout/_layout.scss */
+/* line 159, ../sass/layout/_layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -3963,26 +3984,26 @@ body {
   text-decoration: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 144, ../sass/layout/_layout.scss */
+  /* line 150, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 160%;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 144, ../sass/layout/_layout.scss */
+  /* line 150, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 100%;
   }
 }
 
-/* line 172, ../sass/layout/_layout.scss */
+/* line 178, ../sass/layout/_layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 178, ../sass/layout/_layout.scss */
+/* line 184, ../sass/layout/_layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -4003,12 +4024,12 @@ body {
 
 /* Content
    ========================================================================== */
-/* line 186, ../sass/layout/_layout.scss */
+/* line 192, ../sass/layout/_layout.scss */
 .content-wrapper {
   margin-top: 20px;
 }
 
-/* line 190, ../sass/layout/_layout.scss */
+/* line 196, ../sass/layout/_layout.scss */
 .content-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4018,7 +4039,7 @@ body {
 
 /* Layouts
    ========================================================================== */
-/* line 203, ../sass/layout/_layout.scss */
+/* line 209, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content,
 .frontpage-layout .secondary-content,
 .frontpage-layout .tertiary-content {
@@ -4026,7 +4047,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 209, ../sass/layout/_layout.scss */
+/* line 215, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content {
   float: left;
   width: 100%;
@@ -4044,7 +4065,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 213, ../sass/layout/_layout.scss */
+/* line 219, ../sass/layout/_layout.scss */
 .frontpage-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4055,7 +4076,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 225, ../sass/layout/_layout.scss */
+/* line 231, ../sass/layout/_layout.scss */
 .frontpage-layout .secondary-content {
   float: left;
   width: 66.66667%;
@@ -4073,7 +4094,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 229, ../sass/layout/_layout.scss */
+/* line 235, ../sass/layout/_layout.scss */
 .frontpage-layout .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -4092,7 +4113,7 @@ body {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 768px) {
-  /* line 236, ../sass/layout/_layout.scss */
+  /* line 242, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4114,7 +4135,7 @@ body {
     _overflow-y: visible;
   }
 }
-/* line 242, ../sass/layout/_layout.scss */
+/* line 248, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -4130,12 +4151,12 @@ body {
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
-/* line 248, ../sass/layout/_layout.scss */
+/* line 254, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper .grid-inner {
   padding: 20px;
 }
 
-/* line 255, ../sass/layout/_layout.scss */
+/* line 261, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4144,7 +4165,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 260, ../sass/layout/_layout.scss */
+/* line 266, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4152,7 +4173,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 266, ../sass/layout/_layout.scss */
+/* line 272, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4170,7 +4191,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 270, ../sass/layout/_layout.scss */
+/* line 276, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4181,7 +4202,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 282, ../sass/layout/_layout.scss */
+/* line 288, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4199,7 +4220,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 286, ../sass/layout/_layout.scss */
+/* line 292, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4219,7 +4240,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 295, ../sass/layout/_layout.scss */
+  /* line 301, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4242,7 +4263,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 304, ../sass/layout/_layout.scss */
+  /* line 310, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4260,7 +4281,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 308, ../sass/layout/_layout.scss */
+  /* line 314, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4278,7 +4299,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 312, ../sass/layout/_layout.scss */
+  /* line 318, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4298,7 +4319,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 321, ../sass/layout/_layout.scss */
+  /* line 327, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .primary-content {
     float: left;
     width: 100%;
@@ -4316,7 +4337,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 325, ../sass/layout/_layout.scss */
+  /* line 331, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .secondary-content {
     clear: both;
     float: left;
@@ -4335,7 +4356,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 330, ../sass/layout/_layout.scss */
+  /* line 336, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .tertiary-content {
     float: right;
     width: 50%;
@@ -4355,7 +4376,7 @@ body {
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 339, ../sass/layout/_layout.scss */
+  /* line 345, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4373,7 +4394,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 342, ../sass/layout/_layout.scss */
+  /* line 348, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4393,7 +4414,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 351, ../sass/layout/_layout.scss */
+  /* line 357, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4411,7 +4432,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 355, ../sass/layout/_layout.scss */
+  /* line 361, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4433,7 +4454,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 365, ../sass/layout/_layout.scss */
+/* line 371, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4452,7 +4473,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 369, ../sass/layout/_layout.scss */
+/* line 375, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4471,7 +4492,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 373, ../sass/layout/_layout.scss */
+/* line 379, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4490,7 +4511,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 377, ../sass/layout/_layout.scss */
+/* line 383, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4509,7 +4530,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 382, ../sass/layout/_layout.scss */
+/* line 388, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4531,7 +4552,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 393, ../sass/layout/_layout.scss */
+  /* line 399, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4555,7 +4576,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 401, ../sass/layout/_layout.scss */
+  /* line 407, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4576,7 +4597,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 407, ../sass/layout/_layout.scss */
+  /* line 413, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4597,7 +4618,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 414, ../sass/layout/_layout.scss */
+/* line 420, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4615,7 +4636,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 418, ../sass/layout/_layout.scss */
+/* line 424, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4635,7 +4656,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 425, ../sass/layout/_layout.scss */
+/* line 431, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4653,7 +4674,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 429, ../sass/layout/_layout.scss */
+/* line 435, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4671,7 +4692,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 433, ../sass/layout/_layout.scss */
+/* line 439, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4692,18 +4713,18 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 442, ../sass/layout/_layout.scss */
+/* line 448, ../sass/layout/_layout.scss */
 .footer {
   background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 447, ../sass/layout/_layout.scss */
+/* line 453, ../sass/layout/_layout.scss */
 .footer .pane-title {
   font-size: 110%;
 }
 
-/* line 452, ../sass/layout/_layout.scss */
+/* line 458, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4711,13 +4732,13 @@ body {
   overflow: visible;
 }
 
-/* line 459, ../sass/layout/_layout.scss */
+/* line 465, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 464, ../sass/layout/_layout.scss */
+/* line 470, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -4883,7 +4904,7 @@ label {
 
 /* line 38, ../sass/module/_module.scss */
 .news-list .news-heading {
-  font-size: 140%;
+  font-size: 130%;
 }
 
 /* line 42, ../sass/module/_module.scss */
@@ -5019,7 +5040,7 @@ label {
 @media only screen and (max-width: 768px) {
   /* line 144, ../sass/module/_module.scss */
   .search i[class^="icon-"], .user i[class^="icon-"] {
-    font-size: 140%;
+    font-size: 130%;
   }
   /* line 148, ../sass/module/_module.scss */
   .search .form-text, .user .form-text {
@@ -6385,7 +6406,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
   /* line 90, ../sass/module/_news.scss */
   .news-list .news-heading {
-    font-size: 140%;
+    font-size: 130%;
     margin-right: 35px;
   }
   /* line 95, ../sass/module/_news.scss */
@@ -6422,60 +6443,52 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 28, ../sass/module/_event.scss */
 .event-list-leaf .event-list-date-wrapper {
   display: inline-block;
-  font-size: 85%;
+  font-size: 75%;
   margin-right: 10px;
-  min-width: 75px;
+  min-width: 65px;
   text-align: center;
   vertical-align: top;
 }
-/* line 37, ../sass/module/_event.scss */
-.event-list-leaf .event-list-date-wrapper .event-list-day {
+/* line 38, ../sass/module/_event.scss */
+.event-list-leaf .event-list-day {
   background-color: #00caff;
   color: white;
   display: block;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-/* line 44, ../sass/module/_event.scss */
-.event-list-leaf .event-list-date-wrapper .event-list-inner-wrapper {
+/* line 45, ../sass/module/_event.scss */
+.event-list-leaf .event-list-inner-wrapper {
   background: white;
 }
-/* line 48, ../sass/module/_event.scss */
-.event-list-leaf .event-list-date-wrapper .event-list-date {
-  display: block;
-  font-size: 140%;
-  padding-top: 4px;
-}
-/* line 55, ../sass/module/_event.scss */
-.event-list-leaf .event-list-date-wrapper {
-  vertical-align: middle;
-  min-width: 50px;
-  font-size: 85%;
-}
-/* line 61, ../sass/module/_event.scss */
+/* line 49, ../sass/module/_event.scss */
 .event-list-leaf .event-list-date {
-  padding-top: 0.2em;
+  display: block;
+  font-size: 130%;
+  padding-top: 5px;
   margin-bottom: -10px;
 }
-/* line 66, ../sass/module/_event.scss */
+/* line 56, ../sass/module/_event.scss */
 .event-list-leaf .event-list-day {
   line-height: 16.8px;
 }
-/* line 70, ../sass/module/_event.scss */
+/* line 60, ../sass/module/_event.scss */
 .event-list-leaf .event-list-fulldate {
   color: rgba(0, 0, 0, 0.7);
+  display: inline-block;
   font-family: "SourceSansProSemibold";
-  font-size: 140%;
+  font-size: 130%;
   font-weight: normal;
+  margin-top: 17px;
 }
 
 /* Event list
    ========================================================================== */
-/* line 83, ../sass/module/_event.scss */
+/* line 75, ../sass/module/_event.scss */
 .pane-ding-event-ding-event-list {
   margin-bottom: 20px;
 }
 
-/* line 87, ../sass/module/_event.scss */
+/* line 79, ../sass/module/_event.scss */
 .event-list {
   background: #efefef;
   margin-top: 0;
@@ -6485,23 +6498,27 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 96, ../sass/module/_event.scss */
+/* line 88, ../sass/module/_event.scss */
 .event-list .event-list-item {
   position: relative;
 }
-/* line 100, ../sass/module/_event.scss */
+/* line 92, ../sass/module/_event.scss */
 .event-list .event-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 15%;
 }
-/* line 112, ../sass/module/_event.scss */
+/* line 98, ../sass/module/_event.scss */
+.event-list .event-list-heading {
+  margin-right: 25px;
+}
+/* line 106, ../sass/module/_event.scss */
 .event-list .event-list-location,
 .event-list .event-list-time,
 .event-list .event-list-price {
   margin-right: 5px;
 }
-/* line 116, ../sass/module/_event.scss */
+/* line 110, ../sass/module/_event.scss */
 .event-list .event-arrow-link {
   display: inline-block;
   position: absolute;
@@ -6511,7 +6528,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* Event
    ========================================================================== */
-/* line 130, ../sass/module/_event.scss */
+/* line 124, ../sass/module/_event.scss */
 .event .event-image {
   float: left;
   margin-top: 5px;
@@ -6519,22 +6536,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   max-width: 300px;
 }
-/* line 138, ../sass/module/_event.scss */
+/* line 132, ../sass/module/_event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 142, ../sass/module/_event.scss */
+/* line 136, ../sass/module/_event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 147, ../sass/module/_event.scss */
+/* line 141, ../sass/module/_event.scss */
 .event .event-lead {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 153, ../sass/module/_event.scss */
+/* line 147, ../sass/module/_event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -6553,7 +6570,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 159, ../sass/module/_event.scss */
+/* line 153, ../sass/module/_event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -6572,16 +6589,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 164, ../sass/module/_event.scss */
+/* line 158, ../sass/module/_event.scss */
 .event .event-info p {
   margin-bottom: 10px;
 }
-/* line 167, ../sass/module/_event.scss */
+/* line 161, ../sass/module/_event.scss */
 .event .event-info p i[class^="icon-"] {
   display: inline-block;
   min-width: 20px;
 }
-/* line 174, ../sass/module/_event.scss */
+/* line 168, ../sass/module/_event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
@@ -6589,7 +6606,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* Ticket styling
    ========================================================================== */
-/* line 185, ../sass/module/_event.scss */
+/* line 179, ../sass/module/_event.scss */
 .ticket-available, .ticket-info {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -6597,7 +6614,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 192, ../sass/module/_event.scss */
+/* line 186, ../sass/module/_event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;

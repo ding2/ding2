@@ -134,10 +134,16 @@ body {
 
   margin-top: 30px;
 
-  @include small-medium() {
+  @include small() {
     @include zen-grid-item(6, 1);
 
-    margin-top: 6px;
+    margin-top: 15px;
+  }
+
+  @include medium() {
+    @include zen-grid-item(6, 1);
+
+    margin-top: 9px;
   }
 }
 
