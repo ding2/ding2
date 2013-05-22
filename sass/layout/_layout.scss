@@ -49,13 +49,36 @@ body {
 /* Header wrapper
    ========================================================================== */
 .header-wrapper {
+  @include box-sizing(border-box);
+
   background-color: $base-primary-color;
+  padding-top: 30px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  padding-left: 20px;
 
   .header-inner {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
     overflow: visible;
+  }
+  
+  /* Media queries */
+  @include small() {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Make sure the header wrapper get position fixed when low device height */
+  @include small-medium-low() {
+    position: fixed;
+    overflow: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 44px;
+    z-index: 99;
   }
 }
 
@@ -137,13 +160,13 @@ body {
   @include small() {
     @include zen-grid-item(6, 1);
 
-    margin-top: 15px;
+    margin-top: 12px;
   }
 
   @include medium() {
     @include zen-grid-item(6, 1);
 
-    margin-top: 9px;
+    margin-top: 8px;
   }
 }
 

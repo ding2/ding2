@@ -3819,59 +3819,87 @@ body {
    ========================================================================== */
 /* line 51, ../sass/layout/_layout.scss */
 .header-wrapper {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   background-color: #00caff;
+  padding-top: 30px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+  /* Media queries */
+  /* Make sure the header wrapper get position fixed when low device height */
 }
-/* line 54, ../sass/layout/_layout.scss */
+/* line 60, ../sass/layout/_layout.scss */
 .header-wrapper .header-inner {
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px;
   overflow: visible;
 }
+@media only screen and (max-width: 480px) {
+  /* line 51, ../sass/layout/_layout.scss */
+  .header-wrapper {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+@media only screen and (max-height: 580px) and (max-width: 768px) {
+  /* line 51, ../sass/layout/_layout.scss */
+  .header-wrapper {
+    position: fixed;
+    overflow: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 44px;
+    z-index: 99;
+  }
+}
 
 /* Site header
    ========================================================================== */
-/* line 66, ../sass/layout/_layout.scss */
+/* line 89, ../sass/layout/_layout.scss */
 .site-header {
   /* Large to x-large breakpoint */
   /* Small to medium breakpoint */
 }
 @media only screen and (min-width: 769px) {
-  /* line 69, ../sass/layout/_layout.scss */
+  /* line 92, ../sass/layout/_layout.scss */
   .site-header.js-fixed {
     position: fixed;
     z-index: 99;
     width: 100%;
   }
-  /* line 74, ../sass/layout/_layout.scss */
+  /* line 97, ../sass/layout/_layout.scss */
   .site-header.js-fixed .topbar-menu {
     margin-top: 0;
   }
-  /* line 78, ../sass/layout/_layout.scss */
+  /* line 101, ../sass/layout/_layout.scss */
   .site-header.js-fixed .site-name-wrapper {
     margin-top: 10px;
   }
-  /* line 81, ../sass/layout/_layout.scss */
+  /* line 104, ../sass/layout/_layout.scss */
   .site-header.js-fixed .site-name-wrapper .site-name, .site-header.js-fixed .site-name-wrapper .site-name-with-slogan {
     font-size: 160%;
   }
-  /* line 86, ../sass/layout/_layout.scss */
+  /* line 109, ../sass/layout/_layout.scss */
   .site-header.js-fixed .header-wrapper {
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  /* line 90, ../sass/layout/_layout.scss */
+  /* line 113, ../sass/layout/_layout.scss */
   .site-header.js-fixed .header-wrapper .user-name {
     display: none !important;
   }
-  /* line 96, ../sass/layout/_layout.scss */
+  /* line 119, ../sass/layout/_layout.scss */
   .site-header.js-fixed .navigation-wrapper .menu-item {
     padding-top: 10px;
     padding-bottom: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 107, ../sass/layout/_layout.scss */
+  /* line 130, ../sass/layout/_layout.scss */
   .site-header.js-fixed .topbar {
     position: fixed;
     z-index: 99;
@@ -3881,11 +3909,11 @@ body {
 
 /* Site name, slogan and logo
    ========================================================================== */
-/* line 120, ../sass/layout/_layout.scss */
+/* line 143, ../sass/layout/_layout.scss */
 .topbar {
   background-color: rgba(0, 0, 0, 0.85);
 }
-/* line 123, ../sass/layout/_layout.scss */
+/* line 146, ../sass/layout/_layout.scss */
 .topbar .topbar-inner {
   margin-left: auto;
   margin-right: auto;
@@ -3894,7 +3922,7 @@ body {
   position: relative;
 }
 
-/* line 132, ../sass/layout/_layout.scss */
+/* line 155, ../sass/layout/_layout.scss */
 .site-name-wrapper {
   float: left;
   width: 33.33333%;
@@ -3914,7 +3942,7 @@ body {
   margin-top: 30px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 132, ../sass/layout/_layout.scss */
+  /* line 155, ../sass/layout/_layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -3931,11 +3959,11 @@ body {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
-    margin-top: 15px;
+    margin-top: 12px;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 132, ../sass/layout/_layout.scss */
+  /* line 155, ../sass/layout/_layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -3952,18 +3980,18 @@ body {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
-    margin-top: 9px;
+    margin-top: 8px;
   }
 }
 
-/* line 150, ../sass/layout/_layout.scss */
+/* line 173, ../sass/layout/_layout.scss */
 .site-name, .site-name-with-slogan {
   font-family: "SourceSansProSemibold";
   font-size: 180%;
   font-weight: normal;
   margin-bottom: 0;
 }
-/* line 159, ../sass/layout/_layout.scss */
+/* line 182, ../sass/layout/_layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -3976,26 +4004,26 @@ body {
   text-decoration: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 150, ../sass/layout/_layout.scss */
+  /* line 173, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 160%;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 150, ../sass/layout/_layout.scss */
+  /* line 173, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 100%;
   }
 }
 
-/* line 178, ../sass/layout/_layout.scss */
+/* line 201, ../sass/layout/_layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 184, ../sass/layout/_layout.scss */
+/* line 207, ../sass/layout/_layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -4016,12 +4044,12 @@ body {
 
 /* Content
    ========================================================================== */
-/* line 192, ../sass/layout/_layout.scss */
+/* line 215, ../sass/layout/_layout.scss */
 .content-wrapper {
   margin-top: 20px;
 }
 
-/* line 196, ../sass/layout/_layout.scss */
+/* line 219, ../sass/layout/_layout.scss */
 .content-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4031,7 +4059,7 @@ body {
 
 /* Layouts
    ========================================================================== */
-/* line 209, ../sass/layout/_layout.scss */
+/* line 232, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content,
 .frontpage-layout .secondary-content,
 .frontpage-layout .tertiary-content {
@@ -4039,7 +4067,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 215, ../sass/layout/_layout.scss */
+/* line 238, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content {
   float: left;
   width: 100%;
@@ -4057,7 +4085,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 219, ../sass/layout/_layout.scss */
+/* line 242, ../sass/layout/_layout.scss */
 .frontpage-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4068,7 +4096,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 231, ../sass/layout/_layout.scss */
+/* line 254, ../sass/layout/_layout.scss */
 .frontpage-layout .secondary-content {
   float: left;
   width: 66.66667%;
@@ -4086,7 +4114,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 235, ../sass/layout/_layout.scss */
+/* line 258, ../sass/layout/_layout.scss */
 .frontpage-layout .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -4105,7 +4133,7 @@ body {
   _overflow-y: visible;
 }
 @media only screen and (max-width: 768px) {
-  /* line 242, ../sass/layout/_layout.scss */
+  /* line 265, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4127,7 +4155,7 @@ body {
     _overflow-y: visible;
   }
 }
-/* line 248, ../sass/layout/_layout.scss */
+/* line 271, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -4143,12 +4171,12 @@ body {
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
-/* line 254, ../sass/layout/_layout.scss */
+/* line 277, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper .grid-inner {
   padding: 20px;
 }
 
-/* line 261, ../sass/layout/_layout.scss */
+/* line 284, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4157,7 +4185,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 266, ../sass/layout/_layout.scss */
+/* line 289, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4165,7 +4193,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 272, ../sass/layout/_layout.scss */
+/* line 295, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4183,7 +4211,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 276, ../sass/layout/_layout.scss */
+/* line 299, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4194,7 +4222,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 288, ../sass/layout/_layout.scss */
+/* line 311, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4212,7 +4240,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 292, ../sass/layout/_layout.scss */
+/* line 315, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4232,7 +4260,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 301, ../sass/layout/_layout.scss */
+  /* line 324, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4255,7 +4283,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 310, ../sass/layout/_layout.scss */
+  /* line 333, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4273,7 +4301,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 314, ../sass/layout/_layout.scss */
+  /* line 337, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4291,7 +4319,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 318, ../sass/layout/_layout.scss */
+  /* line 341, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4311,7 +4339,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 327, ../sass/layout/_layout.scss */
+  /* line 350, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .primary-content {
     float: left;
     width: 100%;
@@ -4329,7 +4357,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 331, ../sass/layout/_layout.scss */
+  /* line 354, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .secondary-content {
     clear: both;
     float: left;
@@ -4348,7 +4376,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 336, ../sass/layout/_layout.scss */
+  /* line 359, ../sass/layout/_layout.scss */
   .default-layout.empty-sidebars .tertiary-content {
     float: right;
     width: 50%;
@@ -4368,7 +4396,7 @@ body {
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 345, ../sass/layout/_layout.scss */
+  /* line 368, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4386,7 +4414,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 348, ../sass/layout/_layout.scss */
+  /* line 371, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4406,7 +4434,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 357, ../sass/layout/_layout.scss */
+  /* line 380, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4424,7 +4452,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 361, ../sass/layout/_layout.scss */
+  /* line 384, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4446,7 +4474,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 371, ../sass/layout/_layout.scss */
+/* line 394, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4465,7 +4493,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 375, ../sass/layout/_layout.scss */
+/* line 398, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4484,7 +4512,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 379, ../sass/layout/_layout.scss */
+/* line 402, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4503,7 +4531,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 383, ../sass/layout/_layout.scss */
+/* line 406, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4522,7 +4550,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 388, ../sass/layout/_layout.scss */
+/* line 411, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4544,7 +4572,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 399, ../sass/layout/_layout.scss */
+  /* line 422, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4568,7 +4596,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 407, ../sass/layout/_layout.scss */
+  /* line 430, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4589,7 +4617,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 413, ../sass/layout/_layout.scss */
+  /* line 436, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4610,7 +4638,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 420, ../sass/layout/_layout.scss */
+/* line 443, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4628,7 +4656,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 424, ../sass/layout/_layout.scss */
+/* line 447, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4648,7 +4676,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 431, ../sass/layout/_layout.scss */
+/* line 454, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4666,7 +4694,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 435, ../sass/layout/_layout.scss */
+/* line 458, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4684,7 +4712,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 439, ../sass/layout/_layout.scss */
+/* line 462, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4705,18 +4733,18 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 448, ../sass/layout/_layout.scss */
+/* line 471, ../sass/layout/_layout.scss */
 .footer {
   background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 453, ../sass/layout/_layout.scss */
+/* line 476, ../sass/layout/_layout.scss */
 .footer .pane-title {
   font-size: 110%;
 }
 
-/* line 458, ../sass/layout/_layout.scss */
+/* line 481, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4724,13 +4752,13 @@ body {
   overflow: visible;
 }
 
-/* line 465, ../sass/layout/_layout.scss */
+/* line 488, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 470, ../sass/layout/_layout.scss */
+/* line 493, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -6875,26 +6903,38 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 42px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 32, ../sass/module/_user.scss */
+  /* line 33, ../sass/module/_user.scss */
+  .user .form-item-name,
   .user .form-item-pass {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 37, ../sass/module/_user.scss */
+  .user .form-actions {
+    margin-bottom: 0;
+  }
+  /* line 41, ../sass/module/_user.scss */
+  .user .form-submit {
     margin-top: 10px;
   }
 }
-
-/* line 39, ../sass/module/_user.scss */
-.header-wrapper {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 30px;
-  padding-left: 20px;
-}
-/* line 49, ../sass/module/_user.scss */
-.header-wrapper .user-name,
-.header-wrapper .user-menu-loans,
-.header-wrapper .user-menu {
+/* line 48, ../sass/module/_user.scss */
+.user .user-name,
+.user .user-menu-loans,
+.user .user-menu {
   clear: left;
   float: left;
   width: 100%;
@@ -6914,61 +6954,31 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   display: none;
   text-align: right;
 }
-/* line 57, ../sass/module/_user.scss */
-.header-wrapper .user-name.js-topbar-toggled,
-.header-wrapper .user-menu-loans.js-topbar-toggled,
-.header-wrapper .user-menu.js-topbar-toggled {
+/* line 55, ../sass/module/_user.scss */
+.user .user-name.js-topbar-toggled,
+.user .user-menu-loans.js-topbar-toggled,
+.user .user-menu.js-topbar-toggled {
   display: block;
 }
-/* line 61, ../sass/module/_user.scss */
-.header-wrapper .user-name .block-title, .header-wrapper .user-name .pane-loans h2, .pane-loans .header-wrapper .user-name h2,
-.header-wrapper .user-name .pane-reservations h2,
-.pane-reservations .header-wrapper .user-name h2,
-.header-wrapper .user-name .pane-bookmarks h2,
-.pane-bookmarks .header-wrapper .user-name h2,
-.header-wrapper .user-menu-loans .block-title,
-.header-wrapper .user-menu-loans .pane-loans h2,
-.pane-loans .header-wrapper .user-menu-loans h2,
-.header-wrapper .user-menu-loans .pane-reservations h2,
-.pane-reservations .header-wrapper .user-menu-loans h2,
-.header-wrapper .user-menu-loans .pane-bookmarks h2,
-.pane-bookmarks .header-wrapper .user-menu-loans h2,
-.header-wrapper .user-menu .block-title,
-.header-wrapper .user-menu .pane-loans h2,
-.pane-loans .header-wrapper .user-menu h2,
-.header-wrapper .user-menu .pane-reservations h2,
-.pane-reservations .header-wrapper .user-menu h2,
-.header-wrapper .user-menu .pane-bookmarks h2,
-.pane-bookmarks .header-wrapper .user-menu h2 {
+/* line 60, ../sass/module/_user.scss */
+.user .block-title, .user .pane-loans h2, .pane-loans .user h2,
+.user .pane-reservations h2,
+.pane-reservations .user h2,
+.user .pane-bookmarks h2,
+.pane-bookmarks .user h2 {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 49, ../sass/module/_user.scss */
-  .header-wrapper .user-name,
-  .header-wrapper .user-menu-loans,
-  .header-wrapper .user-menu {
+  /* line 12, ../sass/module/_user.scss */
+  .user {
     text-align: left;
   }
-  /* line 68, ../sass/module/_user.scss */
-  .header-wrapper .user-name .block-title, .header-wrapper .user-name .pane-loans h2, .pane-loans .header-wrapper .user-name h2,
-  .header-wrapper .user-name .pane-reservations h2,
-  .pane-reservations .header-wrapper .user-name h2,
-  .header-wrapper .user-name .pane-bookmarks h2,
-  .pane-bookmarks .header-wrapper .user-name h2,
-  .header-wrapper .user-menu-loans .block-title,
-  .header-wrapper .user-menu-loans .pane-loans h2,
-  .pane-loans .header-wrapper .user-menu-loans h2,
-  .header-wrapper .user-menu-loans .pane-reservations h2,
-  .pane-reservations .header-wrapper .user-menu-loans h2,
-  .header-wrapper .user-menu-loans .pane-bookmarks h2,
-  .pane-bookmarks .header-wrapper .user-menu-loans h2,
-  .header-wrapper .user-menu .block-title,
-  .header-wrapper .user-menu .pane-loans h2,
-  .pane-loans .header-wrapper .user-menu h2,
-  .header-wrapper .user-menu .pane-reservations h2,
-  .pane-reservations .header-wrapper .user-menu h2,
-  .header-wrapper .user-menu .pane-bookmarks h2,
-  .pane-bookmarks .header-wrapper .user-menu h2 {
+  /* line 67, ../sass/module/_user.scss */
+  .user .block-title, .user .pane-loans h2, .pane-loans .user h2,
+  .user .pane-reservations h2,
+  .pane-reservations .user h2,
+  .user .pane-bookmarks h2,
+  .pane-bookmarks .user h2 {
     display: block;
     color: white;
     margin-top: 10px;
@@ -6977,77 +6987,65 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 10px;
   }
 }
-/* line 79, ../sass/module/_user.scss */
-.header-wrapper .user-name {
+/* line 77, ../sass/module/_user.scss */
+.user .user-name {
   color: rgba(0, 0, 0, 0.5);
 }
-/* line 82, ../sass/module/_user.scss */
-.header-wrapper .user-name .user-name-title {
+/* line 80, ../sass/module/_user.scss */
+.user .user-name .user-name-title {
   font-size: 200%;
   overflow: hidden;
   max-height: 45px;
   margin-bottom: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 90, ../sass/module/_user.scss */
-  .header-wrapper .user-name .user-name-title {
+  /* line 88, ../sass/module/_user.scss */
+  .user .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
-/* line 96, ../sass/module/_user.scss */
-.header-wrapper .user-menu {
+/* line 94, ../sass/module/_user.scss */
+.user .user-menu {
   margin-bottom: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 96, ../sass/module/_user.scss */
-  .header-wrapper .user-menu {
+  /* line 94, ../sass/module/_user.scss */
+  .user .user-menu {
     margin-bottom: 0;
-  }
-}
-@media only screen and (max-height: 580px) and (max-width: 768px) {
-  /* line 39, ../sass/module/_user.scss */
-  .header-wrapper {
-    position: fixed;
-    overflow: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 44px;
-    z-index: 99;
   }
 }
 
 /* User profile
    ========================================================================== */
-/* line 121, ../sass/module/_user.scss */
+/* line 109, ../sass/module/_user.scss */
 .pane-user-profile .form-item {
   clear: both;
 }
-/* line 125, ../sass/module/_user.scss */
+/* line 113, ../sass/module/_user.scss */
 .pane-user-profile .form-item label,
 .pane-user-profile .form-item p {
   float: left;
 }
-/* line 129, ../sass/module/_user.scss */
+/* line 117, ../sass/module/_user.scss */
 .pane-user-profile .form-item label {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 136, ../sass/module/_user.scss */
+/* line 124, ../sass/module/_user.scss */
 .pane-user-profile h3 {
   border: 0;
   margin-top: 30px;
   margin-bottom: 30px;
 }
-/* line 144, ../sass/module/_user.scss */
+/* line 132, ../sass/module/_user.scss */
 .pane-user-profile .profile2-provider-alma .field-label {
   float: left;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   min-width: 25%;
 }
-/* line 152, ../sass/module/_user.scss */
+/* line 140, ../sass/module/_user.scss */
 .pane-user-profile .profile2-provider-alma .field-items,
 .pane-user-profile .profile2-provider-alma .field-item {
   display: inline;
@@ -7055,67 +7053,67 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User loans
    ========================================================================== */
-/* line 166, ../sass/module/_user.scss */
+/* line 154, ../sass/module/_user.scss */
 .pane-loans table,
 .pane-reservations table,
 .pane-bookmarks table {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
 }
-/* line 171, ../sass/module/_user.scss */
+/* line 159, ../sass/module/_user.scss */
 .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
   margin-top: 2px;
   max-width: 90%;
 }
-/* line 178, ../sass/module/_user.scss */
+/* line 166, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 183, ../sass/module/_user.scss */
+/* line 171, ../sass/module/_user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 187, ../sass/module/_user.scss */
+/* line 175, ../sass/module/_user.scss */
 .pane-loans th.select-all,
 .pane-reservations th.select-all,
 .pane-bookmarks th.select-all {
   padding-left: 10px;
 }
-/* line 191, ../sass/module/_user.scss */
+/* line 179, ../sass/module/_user.scss */
 .pane-loans th.title,
 .pane-reservations th.title,
 .pane-bookmarks th.title {
   text-align: left;
 }
-/* line 196, ../sass/module/_user.scss */
+/* line 184, ../sass/module/_user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 200, ../sass/module/_user.scss */
+/* line 188, ../sass/module/_user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 204, ../sass/module/_user.scss */
+/* line 192, ../sass/module/_user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
   text-align: left;
   width: 30%;
 }
-/* line 211, ../sass/module/_user.scss */
+/* line 199, ../sass/module/_user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -7124,7 +7122,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 215, ../sass/module/_user.scss */
+/* line 203, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -7133,7 +7131,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 222, ../sass/module/_user.scss */
+/* line 210, ../sass/module/_user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -7141,19 +7139,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 228, ../sass/module/_user.scss */
+/* line 216, ../sass/module/_user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 233, ../sass/module/_user.scss */
+/* line 221, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
   margin-bottom: 0;
 }
-/* line 240, ../sass/module/_user.scss */
+/* line 228, ../sass/module/_user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -7162,7 +7160,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .operations .delete-reservation {
   text-align: center;
 }
-/* line 258, ../sass/module/_user.scss */
+/* line 246, ../sass/module/_user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -7173,25 +7171,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 278, ../sass/module/_user.scss */
+/* line 266, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 283, ../sass/module/_user.scss */
+/* line 271, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 299, ../sass/module/_user.scss */
+/* line 287, ../sass/module/_user.scss */
 .pane-reservations {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 305, ../sass/module/_user.scss */
+/* line 293, ../sass/module/_user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
@@ -7200,26 +7198,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User debts
    ========================================================================== */
-/* line 323, ../sass/module/_user.scss */
+/* line 311, ../sass/module/_user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 328, ../sass/module/_user.scss */
+/* line 316, ../sass/module/_user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 332, ../sass/module/_user.scss */
+/* line 320, ../sass/module/_user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 338, ../sass/module/_user.scss */
+/* line 326, ../sass/module/_user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 349, ../sass/module/_user.scss */
+/* line 337, ../sass/module/_user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -7227,7 +7225,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 355, ../sass/module/_user.scss */
+/* line 343, ../sass/module/_user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {

@@ -29,27 +29,25 @@
   }
 
   @include small() {
+    .form-item-name,
     .form-item-pass {
-      margin-top: 10px;
+      @include zen-grid-item(12, 1);
+    }
+
+    .form-actions {
+      margin-bottom: 0;
+    }
+
+    .form-submit {
+      margin-top: $medium-spacing;
     }
   }
-}
-
-
-.header-wrapper {
-  @include box-sizing(border-box);
-
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 30px;
-  padding-left: 20px;
 
   .user-name,
   .user-menu-loans,
   .user-menu {
     @include zen-clear();
     @include zen-grid-item(12, 1);
-    @extend %header-sections;
 
     display: none;
     text-align: right;
@@ -57,22 +55,22 @@
     &.js-topbar-toggled {
       display: block;
     }
+  }
+
+  .block-title {
+    display: none;
+  }
+
+  @include small-medium() {
+    text-align: left;
 
     .block-title {
-      display: none;
-    }
-
-    @include small-medium() {
-      text-align: left;
-
-      .block-title {
-        display: block;
-        color: $white;
-        margin-top: 10px;
-        border-bottom: 1px solid transparentize($white, .75);
-        padding-top: 10px;
-        padding-bottom: 10px;
-      }
+      display: block;
+      color: $white;
+      margin-top: 10px;
+      border-bottom: 1px solid transparentize($white, .75);
+      padding-top: 10px;
+      padding-bottom: 10px;
     }
   }
 
@@ -99,16 +97,6 @@
     @include small-medium() {
       margin-bottom: 0;
     }
-  }
-
-  @include small-medium-low() {
-    position: fixed;
-    overflow: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 44px;
-    z-index: 99;
   }
 }
 
