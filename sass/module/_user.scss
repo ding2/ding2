@@ -28,6 +28,10 @@
     }
   }
 
+  .block-title {
+    display: none;
+  }
+
   @include small() {
     .form-item-name,
     .form-item-pass {
@@ -43,24 +47,6 @@
     }
   }
 
-  .user-name,
-  .user-menu-loans,
-  .user-menu {
-    @include zen-clear();
-    @include zen-grid-item(12, 1);
-
-    display: none;
-    text-align: right;
-
-    &.js-topbar-toggled {
-      display: block;
-    }
-  }
-
-  .block-title {
-    display: none;
-  }
-
   @include small-medium() {
     text-align: left;
 
@@ -73,31 +59,56 @@
       padding-bottom: 10px;
     }
   }
+}
 
-  .user-name {
-    color: transparentize($black, .5);;
 
-    .user-name-title {
-      font-size: $font-size-giga;
-      overflow: hidden;
-      max-height: 45px;
-      margin-bottom: 10px;
-    }
+.user-name {
+  color: $white;
 
-    @include small-medium() {
-      .user-name-title {
-        margin-bottom: 0;
-      }
-    }
+  .user-name-title {
+    font-size: $font-size-larger;
+    overflow: hidden;
+    max-height: 45px;
   }
 
-  .user-menu {
-    margin-bottom: 10px;
-
-    @include small-medium() {
+  @include small-medium() {
+    .user-name-title {
       margin-bottom: 0;
     }
   }
+}
+
+.user-name,
+.user-menu-loans,
+.user-menu {
+  border-bottom: 1px solid transparentize($white, .75);
+  display: none;
+  padding-right: $medium-spacing;
+  padding-bottom: $medium-spacing;
+  text-align: right;
+
+  &.js-topbar-toggled {
+    display: block;
+  }
+
+  @include small-medium() {
+    border-bottom: 0;
+    padding-bottom: 0;
+    text-align: left;
+  }
+}
+
+.user-menu-loans,
+.user-menu {
+  padding-top: $medium-spacing;
+
+  @include small-medium() {
+    padding-top: 0;
+  }
+}
+
+.user-menu {
+  @include font-bold();
 }
 
 
