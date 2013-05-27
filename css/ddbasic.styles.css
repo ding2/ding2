@@ -4059,6 +4059,10 @@ body {
 
 /* Layouts
    ========================================================================== */
+/* line 229, ../sass/layout/_layout.scss */
+.frontpage-layout {
+  /* Media queries */
+}
 /* line 232, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content,
 .frontpage-layout .secondary-content,
@@ -4132,8 +4136,28 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
+/* line 262, ../sass/layout/_layout.scss */
+.frontpage-layout .attachments-wrapper {
+  *position: relative;
+  *zoom: 1;
+  clear: left;
+  margin-bottom: 20px;
+}
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
+  content: "";
+  display: table;
+}
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.frontpage-layout .attachments-wrapper:after {
+  clear: both;
+}
+/* line 268, ../sass/layout/_layout.scss */
+.frontpage-layout .attachments-wrapper .grid-inner {
+  padding: 20px;
+}
 @media only screen and (max-width: 768px) {
-  /* line 265, ../sass/layout/_layout.scss */
+  /* line 277, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4155,28 +4179,8 @@ body {
     _overflow-y: visible;
   }
 }
-/* line 271, ../sass/layout/_layout.scss */
-.frontpage-layout .attachments-wrapper {
-  *position: relative;
-  *zoom: 1;
-  clear: left;
-  margin-bottom: 20px;
-}
-/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-.frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
-  content: "";
-  display: table;
-}
-/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-.frontpage-layout .attachments-wrapper:after {
-  clear: both;
-}
-/* line 277, ../sass/layout/_layout.scss */
-.frontpage-layout .attachments-wrapper .grid-inner {
-  padding: 20px;
-}
 
-/* line 284, ../sass/layout/_layout.scss */
+/* line 285, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4185,7 +4189,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 289, ../sass/layout/_layout.scss */
+/* line 290, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4193,7 +4197,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 295, ../sass/layout/_layout.scss */
+/* line 296, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4211,7 +4215,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 299, ../sass/layout/_layout.scss */
+/* line 300, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4222,7 +4226,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 311, ../sass/layout/_layout.scss */
+/* line 312, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4240,7 +4244,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 315, ../sass/layout/_layout.scss */
+/* line 316, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4260,7 +4264,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 324, ../sass/layout/_layout.scss */
+  /* line 325, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4283,7 +4287,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 333, ../sass/layout/_layout.scss */
+  /* line 334, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4301,7 +4305,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 337, ../sass/layout/_layout.scss */
+  /* line 338, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4319,7 +4323,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 341, ../sass/layout/_layout.scss */
+  /* line 342, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4338,65 +4342,63 @@ body {
     _overflow-y: visible;
   }
 }
-@media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 350, ../sass/layout/_layout.scss */
-  .default-layout.empty-sidebars .primary-content {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 354, ../sass/layout/_layout.scss */
-  .default-layout.empty-sidebars .secondary-content {
-    clear: both;
-    float: left;
-    width: 50%;
-    margin-left: 0%;
-    margin-right: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
-  /* line 359, ../sass/layout/_layout.scss */
-  .default-layout.empty-sidebars .tertiary-content {
-    float: right;
-    width: 50%;
-    margin-right: 0%;
-    margin-left: -50%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-  }
+/* line 350, ../sass/layout/_layout.scss */
+.default-layout.empty-sidebars .primary-content {
+  float: left;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 354, ../sass/layout/_layout.scss */
+.default-layout.empty-sidebars .secondary-content {
+  clear: both;
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 359, ../sass/layout/_layout.scss */
+.default-layout.empty-sidebars .tertiary-content {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 368, ../sass/layout/_layout.scss */
+  /* line 367, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4414,7 +4416,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 371, ../sass/layout/_layout.scss */
+  /* line 370, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4434,7 +4436,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 380, ../sass/layout/_layout.scss */
+  /* line 379, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4452,7 +4454,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 384, ../sass/layout/_layout.scss */
+  /* line 383, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4474,7 +4476,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 394, ../sass/layout/_layout.scss */
+/* line 393, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4493,7 +4495,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 398, ../sass/layout/_layout.scss */
+/* line 397, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4512,7 +4514,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 402, ../sass/layout/_layout.scss */
+/* line 401, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4531,7 +4533,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 406, ../sass/layout/_layout.scss */
+/* line 405, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4550,7 +4552,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 411, ../sass/layout/_layout.scss */
+/* line 410, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4572,7 +4574,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 422, ../sass/layout/_layout.scss */
+  /* line 421, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4596,7 +4598,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 430, ../sass/layout/_layout.scss */
+  /* line 429, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4617,7 +4619,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 436, ../sass/layout/_layout.scss */
+  /* line 435, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4638,7 +4640,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 443, ../sass/layout/_layout.scss */
+/* line 442, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4656,7 +4658,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 447, ../sass/layout/_layout.scss */
+/* line 446, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4676,7 +4678,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 454, ../sass/layout/_layout.scss */
+/* line 453, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4694,7 +4696,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 458, ../sass/layout/_layout.scss */
+/* line 457, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4712,7 +4714,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 462, ../sass/layout/_layout.scss */
+/* line 461, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4733,18 +4735,18 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 471, ../sass/layout/_layout.scss */
+/* line 470, ../sass/layout/_layout.scss */
 .footer {
   background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 476, ../sass/layout/_layout.scss */
+/* line 475, ../sass/layout/_layout.scss */
 .footer .pane-title {
   font-size: 110%;
 }
 
-/* line 481, ../sass/layout/_layout.scss */
+/* line 480, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4752,13 +4754,13 @@ body {
   overflow: visible;
 }
 
-/* line 488, ../sass/layout/_layout.scss */
+/* line 487, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 493, ../sass/layout/_layout.scss */
+/* line 492, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   color: white;

@@ -63,7 +63,7 @@ body {
     max-width: 1200px;
     overflow: visible;
   }
-  
+
   /* Media queries */
   @include small() {
     padding-top: 20px;
@@ -259,15 +259,6 @@ body {
     @include zen-grid-item(4, 1, right);
   }
 
-  @include small-medium() {
-    .primary-content,
-    .secondary-content,
-    .tertiary-content {
-      @include zen-clear();
-      @include zen-grid-item(12, 1);
-    }
-  }
-
   .attachments-wrapper {
     @include zen-grid-container;
     @include zen-clear();
@@ -276,6 +267,16 @@ body {
 
     .grid-inner {
       padding: $large-spacing;
+    }
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .primary-content,
+    .secondary-content,
+    .tertiary-content {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
     }
   }
 }
@@ -331,7 +332,7 @@ body {
   &.sidebars {
     @include medium-large() {
       .primary-content {
-        @include zen-grid-item(6, 3 + 1);
+        @include zen-grid-item(6, 4);
       }
 
       .secondary-content {
@@ -346,19 +347,17 @@ body {
 
   /* No sidebars... */
   &.empty-sidebars {
-    @include medium-large() {
-      .primary-content {
-        @include zen-grid-item(12, 1);
-      }
+    .primary-content {
+      @include zen-grid-item(12, 1);
+    }
 
-      .secondary-content {
-        @include zen-clear(both);
-        @include zen-grid-item(6, 1);
-      }
+    .secondary-content {
+      @include zen-clear(both);
+      @include zen-grid-item(6, 1);
+    }
 
-      .tertiary-content {
-        @include zen-grid-item(6, 1, right);
-      }
+    .tertiary-content {
+      @include zen-grid-item(6, 1, right);
     }
   }
 
