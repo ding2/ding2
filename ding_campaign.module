@@ -74,11 +74,11 @@ function ding_campaign_admin_paths() {
 /**
  * Implements hook_node_access().
  */
-function ding_campaign_node_access($node) {
-  if (isset($node->type) && $node->type == 'ding_campaign' && user_access('access campaign rules')) {
-    return TRUE;
+function ding_campaign_node_access($node, $op, $account) {
+  if (isset($node->type) && $node->type == 'ding_campaign' && !user_access('access campaign rules')) {
+    return NODE_ACCESS_DENY;
   }
-  return FALSE;
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
