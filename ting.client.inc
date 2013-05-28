@@ -168,6 +168,7 @@ function ting_get_objects($ids) {
  *    - rank: The ranking type, as defined in the XSD.
  *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
  *    - reply_only: Don't change the result objects to TingCollection objects.
+ *    - collectionType: The type of results to return. Single manifestions(object) or works (collections). Possible values manifestion,work or work-1. Defaults to work.
  * @return TingClientSearchResult
  *    The search result
  */
@@ -193,6 +194,9 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
   if (isset($options['sort']) && $options['sort']) {
     $request->setSort($options['sort']);
+  }
+  if (isset($options['collectionType'])) {
+    $request->setCollectionType($options['collectionType']);
   }
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
