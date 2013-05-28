@@ -127,22 +127,23 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           ),
         );
 
-        switch ($configured_facet['sorting']) {
-          case 'alphabetical':
-            ksort($facet->terms);
-            break;
-          case 'alphabetical_reverse':
-            krsort($facet->terms);
-            break;
-          case 'numeric':
-            ksort($facet->terms, SORT_NUMERIC);
-            break;
-          case 'numeric_reverse':
-            krsort($facet->terms, SORT_NUMERIC);
-            break;
-          default:
-
-            break;
+        if (!empty($configured_facet['sorting'])) {
+          switch ($configured_facet['sorting']) {
+            case 'alphabetical' :
+              ksort($facet->terms);
+              break;
+            case 'alphabetical_reverse' :
+              krsort($facet->terms);
+              break;
+            case 'numeric' :
+              ksort($facet->terms, SORT_NUMERIC);
+              break;
+            case 'numeric_reverse' :
+              krsort($facet->terms, SORT_NUMERIC);
+              break;
+            default :
+              break;
+          }
         }
 
         foreach ($facet->terms as $term_name => $term_count) {
