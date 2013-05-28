@@ -760,13 +760,74 @@ function ding_user_is_provider_user($account) {
 }
 
 /**
- * Implements hook_TYPE_load().
+ * Implements hook_comment_load().
+ *
  * Use actual user name instead of the hash.
  */
 function ding_user_comment_load($comments) {
+  $user_names = array();
+
+  // Get comment authors.
+  $uids = array();
   foreach ($comments as $comment) {
-    if (!empty($comment->data['display_name'])) {
-      $comment->name = $comment->data['display_name'];
+    if ($comment->uid == 0) {
+      continue;
+    }
+    $uids[] = $comment->uid;
+  }
+  $uids = array_unique($uids);
+  // Map uid => key.
+  $uids_rev = array_flip($uids);
+
+  // Get user names from cache.
+  $cids = array_map('_ding_user_comment_cache_id', $uids);
+  $caches = cache_get_multiple($cids);
+  foreach ($caches as $cache) {
+    $data = $cache->data;
+    $user_names[$data[0]] = $data[1];
+    unset($uids[$uids_rev[$data[0]]]);
+  }
+
+  // Get names from db.
+  if (!empty($uids)) {
+    $data = db_select('users', 'u')
+      ->fields('u', array('uid', 'data'))
+      ->isNotNull('u.data')
+      ->condition('u.uid', $uids)
+      ->execute()
+      ->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($data as $row) {
+      $user_data = unserialize($row['data']);
+      if (empty($user_data['display_name'])) {
+        $data = array($row['uid'], NULL);
+      }
+      else {
+        $data = array($row['uid'], $user_data['display_name']);
+      }
+      cache_set(_ding_user_comment_cache_id($row['uid']), $data);
+      $user_names[$data[0]] = $data[1];
     }
   }
+
+  // Set proper user names.
+  foreach ($comments as $comment) {
+    if (empty($user_names[$comment->uid])) {
+      continue;
+    }
+    $comment->name = $user_names[$comment->uid];
+  }
+}
+
+/**
+ * Get cache id by uid.
+ *
+ * @param int $uid
+ *   Comment author uid.
+ *
+ * @return string
+ *   Cache ID.
+ */
+function _ding_user_comment_cache_id($uid) {
+  return 'ding_user_comment_user_name:' . $uid;
 }
