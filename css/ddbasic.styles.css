@@ -299,7 +299,7 @@ figure {
  */
 /* line 253, ../sass/framework/_normalize.scss */
 fieldset {
-  border: 1px solid silver;
+  border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -954,20 +954,11 @@ table tbody tr:hover th {
 .button,
 a.button,
 .form-submit,
-#edit-cancel,
-.search .form-submit,
-.user .form-submit, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
+#edit-cancel, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .pane-loans .update-reservations .form-submit,
-.pane-reservations .update-reservations .form-submit,
-.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-debts .pay-button .form-submit, .ticket-info, .pane-loans .renew-loan-button .not-renewable,
+.pane-bookmarks .renew-loan-button .renewable, .ticket-info, .pane-loans .renew-loan-button .not-renewable,
 .pane-reservations .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-loans .delete-reservation .form-submit,
-.pane-loans .delete-reservations .form-submit,
-.pane-reservations .delete-reservation .form-submit,
-.pane-reservations .delete-reservations .form-submit,
-.pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+.pane-bookmarks .renew-loan-button .not-renewable, .pane-bookmarks .ding-entity-button a, .pane-ting-collection .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -989,46 +980,25 @@ a.button,
 .form-submit:focus,
 #edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
 .pane-reservations .renew-loan-button .renewable:focus,
-.pane-bookmarks .renew-loan-button .renewable:focus, .pane-loans .update-reservations .form-submit:focus,
-.pane-reservations .update-reservations .form-submit:focus,
-.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-debts .pay-button .form-submit:focus, .ticket-info:focus, .pane-loans .renew-loan-button .not-renewable:focus,
+.pane-bookmarks .renew-loan-button .renewable:focus, .ticket-info:focus, .pane-loans .renew-loan-button .not-renewable:focus,
 .pane-reservations .renew-loan-button .not-renewable:focus,
-.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-loans .delete-reservation .form-submit:focus,
-.pane-loans .delete-reservations .form-submit:focus,
-.pane-reservations .delete-reservation .form-submit:focus,
-.pane-reservations .delete-reservations .form-submit:focus,
-.pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .button:hover,
 .form-submit:hover,
 #edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
 .pane-reservations .renew-loan-button .renewable:hover,
-.pane-bookmarks .renew-loan-button .renewable:hover, .pane-loans .update-reservations .form-submit:hover,
-.pane-reservations .update-reservations .form-submit:hover,
-.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-debts .pay-button .form-submit:hover, .ticket-info:hover, .pane-loans .renew-loan-button .not-renewable:hover,
+.pane-bookmarks .renew-loan-button .renewable:hover, .ticket-info:hover, .pane-loans .renew-loan-button .not-renewable:hover,
 .pane-reservations .renew-loan-button .not-renewable:hover,
-.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-loans .delete-reservation .form-submit:hover,
-.pane-loans .delete-reservations .form-submit:hover,
-.pane-reservations .delete-reservation .form-submit:hover,
-.pane-reservations .delete-reservations .form-submit:hover,
-.pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover,
 .pane-ting-collection .ding-entity-button:hover,
 .pane-ting-object .ding-entity-button:hover, .button:active,
 .form-submit:active,
 #edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
 .pane-reservations .renew-loan-button .renewable:active,
-.pane-bookmarks .renew-loan-button .renewable:active, .pane-loans .update-reservations .form-submit:active,
-.pane-reservations .update-reservations .form-submit:active,
-.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-debts .pay-button .form-submit:active, .ticket-info:active, .pane-loans .renew-loan-button .not-renewable:active,
+.pane-bookmarks .renew-loan-button .renewable:active, .ticket-info:active, .pane-loans .renew-loan-button .not-renewable:active,
 .pane-reservations .renew-loan-button .not-renewable:active,
-.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-loans .delete-reservation .form-submit:active,
-.pane-loans .delete-reservations .form-submit:active,
-.pane-reservations .delete-reservation .form-submit:active,
-.pane-reservations .delete-reservations .form-submit:active,
-.pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-bookmarks .ding-entity-button a:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
@@ -1038,31 +1008,17 @@ a.button,
 .disabled.form-submit,
 .disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
 .pane-reservations .renew-loan-button .disabled.renewable,
-.pane-bookmarks .renew-loan-button .disabled.renewable, .pane-loans .update-reservations .disabled.form-submit,
-.pane-reservations .update-reservations .disabled.form-submit,
-.pane-bookmarks .update-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a.disabled, .pane-debts .pay-button .disabled.form-submit, .disabled.ticket-info, .pane-loans .renew-loan-button .disabled.not-renewable,
+.pane-bookmarks .renew-loan-button .disabled.renewable, .disabled.ticket-info, .pane-loans .renew-loan-button .disabled.not-renewable,
 .pane-reservations .renew-loan-button .disabled.not-renewable,
-.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-loans .delete-reservation .disabled.form-submit,
-.pane-loans .delete-reservations .disabled.form-submit,
-.pane-reservations .delete-reservation .disabled.form-submit,
-.pane-reservations .delete-reservations .disabled.form-submit,
-.pane-bookmarks .delete-reservation .disabled.form-submit,
-.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled,
 .pane-ting-collection .disabled.ding-entity-button,
 .pane-ting-object .disabled.ding-entity-button, [disabled].button,
 [disabled].form-submit,
 [disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
 .pane-reservations .renew-loan-button [disabled].renewable,
-.pane-bookmarks .renew-loan-button [disabled].renewable, .pane-loans .update-reservations [disabled].form-submit,
-.pane-reservations .update-reservations [disabled].form-submit,
-.pane-bookmarks .update-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a[disabled], .pane-debts .pay-button [disabled].form-submit, [disabled].ticket-info, .pane-loans .renew-loan-button [disabled].not-renewable,
+.pane-bookmarks .renew-loan-button [disabled].renewable, [disabled].ticket-info, .pane-loans .renew-loan-button [disabled].not-renewable,
 .pane-reservations .renew-loan-button [disabled].not-renewable,
-.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-loans .delete-reservation [disabled].form-submit,
-.pane-loans .delete-reservations [disabled].form-submit,
-.pane-reservations .delete-reservation [disabled].form-submit,
-.pane-reservations .delete-reservations [disabled].form-submit,
-.pane-bookmarks .delete-reservation [disabled].form-submit,
-.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-bookmarks .ding-entity-button a[disabled],
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1080,9 +1036,7 @@ a.button,
 .button,
 a.button,
 .form-submit,
-#edit-cancel,
-.search .form-submit,
-.user .form-submit {
+#edit-cancel {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
@@ -2313,7 +2267,7 @@ ul.icons li [class*=" icon-"] {
 /* line 150, ../sass/framework/_fontawesome.scss */
 .icon-border {
   border: solid 1px #eeeeee;
-  padding: 0.2em 0.25em 0.15em;
+  padding: .2em .25em .15em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -5734,7 +5688,7 @@ input#edit-search-block-form--2.spinner {
 /* line 488, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types li, .pane-ting-ting-object-types li, .pane-ting-ting-relation-anchors li {
   margin-bottom: 10px;
-  padding-bottom: default-spacing/2;
+  padding-bottom: default-spacing / 2;
 }
 /* line 493, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types .last, .pane-ting-ting-object-types .last, .pane-ting-ting-relation-anchors .last {
@@ -6770,7 +6724,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 123, ../sass/module/_libraries.scss */
 .libraries-opening-hours .day {
-  padding: 0 0.5em;
+  padding: 0 .5em;
 }
 @media only screen and (max-width: 768px) {
   /* line 129, ../sass/module/_libraries.scss */
