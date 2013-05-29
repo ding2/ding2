@@ -100,3 +100,73 @@
     }
   }
 }
+
+/* List of related materials */
+.field-name-field-ding-news-materials {
+  .field-item {
+    @extend %material-list-item;
+  }
+
+  /* Media queries */
+  @include small() {
+    .group_ting_object_teaser_left {
+      display:none;
+    }
+
+    .group_ting_object_teaser_right {
+      @include zen-grid-item(12, 1);
+    }
+  }
+  @include medium() {
+    .group_ting_object_teaser_left {
+      @include zen-grid-item(3, 1);
+    }
+
+    .group_ting_object_teaser_right {
+      @include zen-grid-item(9, 1, right);
+    }
+  }
+  @include large() {
+    .group_ting_object_teaser_left {
+      @include zen-grid-item(3, 1);
+    }
+
+    .group_ting_object_teaser_right {
+      @include zen-grid-item(9, 1, right);
+    }
+  }
+}
+
+/* Tags */
+.super-heading {
+  padding: $medium-spacing 0;
+
+  div {
+    display: inline;
+  }
+
+  .field-item {
+    padding-left: 5px;
+  }
+}
+
+/* Filter by Library box */
+.pane-library-list {
+  margin-bottom: $medium-spacing;
+
+  .choose-library-label,
+  .form-item-select-library {
+    display: inline;
+    margin-right: $small-spacing;
+  }
+
+  /* Media queries */
+  @include small() {
+    .choose-library-label {
+      display: none;
+    }
+    .form-select {
+      max-width: 75%;
+    }
+  }
+}

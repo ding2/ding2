@@ -52,6 +52,28 @@
   color: transparentize($article-text, .5);
 }
 
+/* Styling for material list items (example use: search results, related materials on news etc.) */
+%material-list-item {
+  @extend %article-background;
+  @extend %article-padding;
+  @extend %article-margin;
+
+  overflow: hidden;
+  position: relative;
+
+  &:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  &:nth-child(even) {
+    @extend %article-background--even;
+  }
+}
+
+%material-heading {
+  @extend %article-heading;
+}
+
 
 
 /* Shared styling used for search and user form in topbar

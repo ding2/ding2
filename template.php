@@ -444,9 +444,6 @@ function ddbasic_panels_default_style_render_region($vars) {
  */
 function ddbasic_menu_link($vars) {
 
-  // Run classes array through our custom stripper.
-  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
-
   // Check if the class array is empty.
   if(empty($vars['element']['#attributes']['class'])){
     unset($vars['element']['#attributes']['class']);

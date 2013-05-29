@@ -1,6 +1,7 @@
 /*
  * Creates the topbar toggle menu and fixed header.
  *
+ * TODO: Refactor and cleanup, this thing got messy!
  */
 
 (function($) {
@@ -153,6 +154,17 @@
       }
     });
 
+    /*
+     * Add News category menu as submenu to news in main menu
+     */
+    if ($(".pane-news-category-menu").length > 0) {
+      $(".pane-news-category-menu .sub-menu").clone().appendTo('.menu-mlid-1793');
+      // Do some class magic to get the submenu reacting like drupal standard submenus.
+      $(".main-menu .sub-menu").addClass('main-menu');
+      $(".main-menu .sub-menu").removeClass('sub-menu');
+      // Add sub-menu-wrapper class to texonomy menu
+      $(".pane-news-category-menu").addClass('sub-menu-wrapper');
+    }
   });
 
 })(jQuery);
