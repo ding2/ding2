@@ -306,13 +306,13 @@ function ting_block_view($delta = '') {
         $items = array();
         foreach ($collection->types as $type) {
           $uri = entity_uri('ting_collection', $collection);
-          $uri['options']['fragment'] = $type;
+          $uri['options']['fragment'] = _ting_anchor_name($type);
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 
         $block['content'] = array(
           '#theme' => 'item_list',
-          '#items' => $items,
+          '#items' => count($collection) > 1 ? $items : array(),
         );
       }
       break;
