@@ -22,16 +22,18 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 
-  /* Use baseline styling as default for tables */
+  /* Use bordered table styling as default for tables */
   @extend .table;
+  @extend .table-bordered;
 }
 
 
-thead {
-  th {
-    background-color: darken($gray-light, 8%);
-  }
+th {
+  background-color: $gray-light;
+  /* Drupal system stylesheet adds bottom border */
+  border-bottom: 0;
 }
+
 
 /* Drupal uses these */
 tr.even {
