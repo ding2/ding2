@@ -12,17 +12,31 @@
  * @return array
  *   DingProviderDebt objects in array, keyed by debt ID.
  */
-function alma_debt_list($account) {
-  $data = alma_debt_get_debts($account);
-  $debts = array();
+function alma_debt_list($account, $reset = FALSE) {
+  $creds = ding_user_get_creds($account);
 
-  // Create DingProviderDebt instances from Alma's list.
-  foreach ($data['debts'] as $debt) {
-    $debt_object = new DingProviderDebt($debt['id'], $debt);
-    $debts[$debt['id']] = $debt_object;
+  // Use session cache to speed up communication with Alma.
+  $cache_key = 'alma_debts';
+  $results = &drupal_static(__FUNCTION__, FALSE);
+  if (!$results || $reset) {
+    $results = ding_provider_session_cache_get($cache_key);
+    if (!$results || $reset) {
+      // Get debts from Alma.
+      $debts = alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
+
+      // Create DingProviderDebt instances from Alma's list.
+      $result = array();
+      foreach ($debts['debts'] as $debt) {
+        $debt_object = new DingProviderDebt($debt['id'], $debt);
+        $result[$debt['id']] = $debt_object;
+      }
+
+      // Store result into the session cache.
+      ding_provider_session_cache_set($cache_key, $results);
+    }
   }
 
-  return $debts;
+  return $result;
 }
 
 /**
@@ -36,16 +50,9 @@ function alma_debt_list($account) {
  *   Order ID of the payment transaction, to be recorded in the backend system.
  */
 function alma_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
-  // TODO: We should probably check that $amount adds up to the debts
-  // we're going to mark paid, since Alma doesn't.
+  // Clear loans session cache.
+  ding_provider_session_cache_clear('alma_debts');
+
+  // Return result from Alma.
   return alma_client_invoke('add_payment', implode(',', $debt_ids), $order_id);
-}
-
-/**
- * Get list of debts from Alma.
- */
-function alma_debt_get_debts($account, $reset = FALSE) {
-  $creds = ding_user_get_creds($account);
-
-  return alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
 }

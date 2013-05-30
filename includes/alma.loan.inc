@@ -20,7 +20,7 @@ function alma_loan_list($account, $reset = FALSE) {
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
     $results = ding_provider_session_cache_get($cache_key);
-    if (!$results) {
+    if (!$results || $reset) {
       try {
         // Get all loans form alma for the user account given.
         $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
