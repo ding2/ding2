@@ -6710,6 +6710,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* Event
    ========================================================================== */
+/* line 123, ../sass/module/_event.scss */
+.event {
+  /* Media queries */
+}
 /* line 124, ../sass/module/_event.scss */
 .event .event-image {
   float: left;
@@ -6736,25 +6740,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 20px;
 }
 /* line 149, ../sass/module/_event.scss */
-.event .event-content {
-  float: left;
-  width: 66.66667%;
-  margin-left: 0%;
-  margin-right: -66.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  padding-left: 0;
-}
-/* line 155, ../sass/module/_event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -6775,29 +6760,85 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-right: 0;
   padding-left: 20px;
 }
-/* line 162, ../sass/module/_event.scss */
+/* line 156, ../sass/module/_event.scss */
 .event .event-info p {
   border-left: 5px solid #efefef;
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 10px;
-  padding-left: 40px;
+  padding-left: 36px;
 }
-/* line 169, ../sass/module/_event.scss */
-.event .event-info p i[class^="icon-"] {
+/* line 164, ../sass/module/_event.scss */
+.event .event-info i[class^="icon-"] {
   display: inline-block;
   margin-left: -24px;
   min-width: 20px;
+}
+/* line 171, ../sass/module/_event.scss */
+.event .event-content {
+  float: left;
+  width: 66.66667%;
+  margin-left: 0%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
 }
 /* line 177, ../sass/module/_event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
 }
+@media only screen and (max-width: 768px) {
+  /* line 184, ../sass/module/_event.scss */
+  .event .event-info {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    border-top: 1px solid #d5d5d5;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* line 191, ../sass/module/_event.scss */
+  .event .event-info p {
+    background-color: #efefef;
+    border-left: 0;
+    border-bottom: 1px solid #d5d5d5;
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+  }
+  /* line 201, ../sass/module/_event.scss */
+  .event .event-content {
+    clear: left;
+    width: 100%;
+  }
+}
 
 /* Ticket styling
    ========================================================================== */
-/* line 188, ../sass/module/_event.scss */
+/* line 214, ../sass/module/_event.scss */
 .ticket-available, .ticket-info {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -6805,7 +6846,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 195, ../sass/module/_event.scss */
+/* line 221, ../sass/module/_event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
