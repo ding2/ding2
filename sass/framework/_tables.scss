@@ -77,6 +77,8 @@ tr.odd {
   colgroup + thead tr:first-child th,
   colgroup + thead tr:first-child td,
   thead:first-child tr:first-child th,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:first-child tr:first-child th,
   thead:first-child tr:first-child td {
     border-top: 0;
   }
@@ -125,20 +127,28 @@ tr.odd {
   }
 
   thead:first-child tr:first-child th:first-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:first-child tr:first-child th:first-child,
   tbody:first-child tr:first-child td:first-child {
     @include border-radius($table-border-radius 0 0);
   }
 
   thead:first-child tr:first-child th:last-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:first-child tr:first-child th:last-child,
   tbody:first-child tr:first-child td:last-child {
     @include border-radius(0 $table-border-radius 0 0);
   }
 
   thead:last-child tr:last-child th:first-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:last-child tr:last-child th:first-child,
   tbody:last-child tr:last-child td:first-child {
     @include border-radius(0 0 0 $table-border-radius);
   }
   thead:last-child tr:last-child th:last-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:last-child tr:last-child th:last-child,
   tbody:last-child tr:last-child td:last-child {
     @include border-radius(0 $table-border-radius 0 0);
   }

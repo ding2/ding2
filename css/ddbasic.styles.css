@@ -851,7 +851,7 @@ table td {
 .table thead th, table thead th {
   vertical-align: bottom;
 }
-/* line 80, ../sass/framework/_tables.scss */
+/* line 82, ../sass/framework/_tables.scss */
 .table caption + thead tr:first-child th, table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
 table caption + thead tr:first-child td,
@@ -861,17 +861,19 @@ table colgroup + thead tr:first-child th,
 table colgroup + thead tr:first-child td,
 .table thead:first-child tr:first-child th,
 table thead:first-child tr:first-child th,
+.table tbody:first-child tr:first-child th,
+table tbody:first-child tr:first-child th,
 .table thead:first-child tr:first-child td,
 table thead:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 84, ../sass/framework/_tables.scss */
+/* line 86, ../sass/framework/_tables.scss */
 .table tbody + tbody, table tbody + tbody {
   border-top: 2px solid #d5d5d5;
 }
 
 /* Condensed table w/ half padding */
-/* line 92, ../sass/framework/_tables.scss */
+/* line 94, ../sass/framework/_tables.scss */
 .table-condensed th,
 .table-condensed td {
   padding: 3px;
@@ -879,7 +881,7 @@ table thead:first-child tr:first-child td {
 
 /* Bordered version
    ========================================================================== */
-/* line 100, ../sass/framework/_tables.scss */
+/* line 102, ../sass/framework/_tables.scss */
 .table-bordered, table {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -893,13 +895,13 @@ table thead:first-child tr:first-child td {
   *border-collapse: collapsed;
   border-left: 0;
 }
-/* line 111, ../sass/framework/_tables.scss */
+/* line 113, ../sass/framework/_tables.scss */
 .table-bordered th, table th,
 .table-bordered td,
 table td {
   border-left: 1px solid #d5d5d5;
 }
-/* line 123, ../sass/framework/_tables.scss */
+/* line 125, ../sass/framework/_tables.scss */
 .table-bordered caption + thead tr:first-child th, table caption + thead tr:first-child th,
 .table-bordered caption + tbody tr:first-child th,
 table caption + tbody tr:first-child th,
@@ -919,8 +921,10 @@ table tbody:first-child tr:first-child th,
 table tbody:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 128, ../sass/framework/_tables.scss */
+/* line 132, ../sass/framework/_tables.scss */
 .table-bordered thead:first-child tr:first-child th:first-child, table thead:first-child tr:first-child th:first-child,
+.table-bordered tbody:first-child tr:first-child th:first-child,
+table tbody:first-child tr:first-child th:first-child,
 .table-bordered tbody:first-child tr:first-child td:first-child,
 table tbody:first-child tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0;
@@ -929,8 +933,10 @@ table tbody:first-child tr:first-child td:first-child {
   -o-border-radius: 4px 0 0;
   border-radius: 4px 0 0;
 }
-/* line 133, ../sass/framework/_tables.scss */
+/* line 139, ../sass/framework/_tables.scss */
 .table-bordered thead:first-child tr:first-child th:last-child, table thead:first-child tr:first-child th:last-child,
+.table-bordered tbody:first-child tr:first-child th:last-child,
+table tbody:first-child tr:first-child th:last-child,
 .table-bordered tbody:first-child tr:first-child td:last-child,
 table tbody:first-child tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -939,8 +945,10 @@ table tbody:first-child tr:first-child td:last-child {
   -o-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
-/* line 138, ../sass/framework/_tables.scss */
+/* line 146, ../sass/framework/_tables.scss */
 .table-bordered thead:last-child tr:last-child th:first-child, table thead:last-child tr:last-child th:first-child,
+.table-bordered tbody:last-child tr:last-child th:first-child,
+table tbody:last-child tr:last-child th:first-child,
 .table-bordered tbody:last-child tr:last-child td:first-child,
 table tbody:last-child tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
@@ -949,8 +957,10 @@ table tbody:last-child tr:last-child td:first-child {
   -o-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
 }
-/* line 142, ../sass/framework/_tables.scss */
+/* line 152, ../sass/framework/_tables.scss */
 .table-bordered thead:last-child tr:last-child th:last-child, table thead:last-child tr:last-child th:last-child,
+.table-bordered tbody:last-child tr:last-child th:last-child,
+table tbody:last-child tr:last-child th:last-child,
 .table-bordered tbody:last-child tr:last-child td:last-child,
 table tbody:last-child tr:last-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
@@ -962,7 +972,7 @@ table tbody:last-child tr:last-child td:last-child {
 
 /* Zebra-striping
    ========================================================================== */
-/* line 153, ../sass/framework/_tables.scss */
+/* line 163, ../sass/framework/_tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #fbfbfb;
@@ -971,7 +981,7 @@ table tbody:last-child tr:last-child td:last-child {
 /* Hover effect.
    ========================================================================== */
 /* Placed here because it has to come after zebra striping */
-/* line 165, ../sass/framework/_tables.scss */
+/* line 175, ../sass/framework/_tables.scss */
 .table tbody tr:hover td, table tbody tr:hover td,
 .table tbody tr:hover th,
 table tbody tr:hover th {
