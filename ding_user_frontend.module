@@ -29,9 +29,27 @@ function ding_user_frontend_block_info() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ding_user_frontend_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_user_frontend_user_name' => array(
+      'variables' => array('account' => NULL, 'name' => NULL),
+      'template' => 'ding_user_frontend_user_name',
+      'path' => $path . '/templates',
+    ),
+    'ding_user_frontend_user_status' => array(
+      'variables' => array('status' => array()),
+      'template' => 'ding_user_frontend_user_status',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
  * Implements hook_block_view().
  */
-function ding_user_frontend_block_view($delta = '') {
+function ding_user_frontend_block_view($delta) {
   $block = array();
   global $user;
 
@@ -54,17 +72,41 @@ function ding_user_frontend_block_view($delta = '') {
         // We don't really need the credentials here, but getting them
         // causes an exception to be thrown if user is not
         // authenticated, exiting this block of code, which is what we
-        // want. No credentials, no user status.
+        // want. No credentials, no user status. (The creds are store in the
+        // session, so it's a fast check, where ding_user_is_provider_user would
+        // use the database.)
         ding_user_get_creds($user);
 
-        $status = array();
-        foreach (array('loan', 'reservation', 'debt') as $type) {
-          $status[$type . '_count'] = ding_provider_implements($type, 'list') ? count(ding_provider_invoke_page($type, 'list', $user)) : 0;
+        // Define the types of information that the provider should be queried
+        // for and their labels.
+        $types = array(
+          'loan' => t('Loans'),
+          'reservation' => t('Reservation'),
+          'debt' => t('Debts'),
+        );
+
+        $content = array();
+        foreach ($types as $type => $label) {
+          if (ding_provider_implements($type, 'list')) {
+            $count = count(ding_provider_invoke_page($type, 'list', $user));
+            if ($count) {
+              $content[] = array(
+                '#theme' => 'ding_user_frontend_user_status',
+                '#status' => array(
+                  'type' => $type,
+                  'label' => $label,
+                  'count' => $count,
+                ),
+              );
+            }
+          }
         }
-        $status['bookmark_count'] = ding_bookmark_count_number();
-        $block['content'] = theme('ding_user_frontend_user_status', $status);
+
+
+        $block['subject'] = t('Your user loan status');
+        $block['content'] = $content;
       }
-      catch ( Exception $e ) {
+      catch (Exception $e) {
         return;
       }
       break;
@@ -84,24 +126,6 @@ function ding_user_frontend_block_view($delta = '') {
   }
 
   return $block;
-}
-
-/**
- * Implements hook_theme().
- */
-function ding_user_frontend_theme($existing, $type, $theme, $path) {
-  return array(
-    'ding_user_frontend_user_name' => array(
-      'variables' => array('account' => NULL, 'name' => NULL),
-      'template' => 'ding_user_frontend_user_name',
-      'path' => $path . '/templates',
-    ),
-    'ding_user_frontend_user_status' => array(
-      'variables' => array('loan_count' => NULL, 'reservation_count' => NULL, 'debt_count' => NULL),
-      'template' => 'ding_user_frontend_user_status',
-      'path' => $path . '/templates',
-    ),
-  );
 }
 
 include_once('ding_user_frontend.features.inc');

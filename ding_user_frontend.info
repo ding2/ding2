@@ -8,7 +8,6 @@ project = ding_user_frontend
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_popup
-dependencies[] = ding_bookmark
 dependencies[] = ding_debt
 dependencies[] = ding_loan
 dependencies[] = ding_reservation
