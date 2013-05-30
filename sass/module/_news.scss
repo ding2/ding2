@@ -149,24 +149,3 @@
     padding-left: 5px;
   }
 }
-
-/* Filter by Library box */
-.pane-library-list {
-  margin-bottom: $medium-spacing;
-
-  .choose-library-label,
-  .form-item-select-library {
-    display: inline;
-    margin-right: $small-spacing;
-  }
-
-  /* Media queries */
-  @include small() {
-    .choose-library-label {
-      display: none;
-    }
-    .form-select {
-      max-width: 75%;
-    }
-  }
-}
