@@ -13,31 +13,21 @@
   margin-bottom: $large-spacing;
 }
 
-.libraries-title,
-.opening-hours-title {
-  font-size: $font-size-largest;  
-  margin-bottom: $large-spacing;
-  padding-bottom: $large-spacing;
-}
-
 .library-list {
+  padding: 0;
   .views-row {
-    background: $gray-lighter;
-    line-height: $base-font-size * 2;
-    padding-top: $large-spacing;
-    padding-right: $large-spacing;
-    padding-bottom: $large-spacing;
-    padding-left: $large-spacing;
+    @extend %material-list-item;
   }
 }
 
 .libraries {
+  @include zen-grid-item(8, 1);
   @extend .icon-camera;
 
-  float: left;
   position: relative;
-  width: 73%;
+  padding: 0;
 
+  // Icon placement and font-face.
   &:before {
     color: $gray-dark;
     font-family: $base-icon-library-font;
@@ -45,15 +35,28 @@
     left: 0;
     position: absolute;
     text-align: center;
-    top: .5em;
-    width: 25%;
+    top: 1.5em;
+    width: 20%;
     z-index: 25;
   }
 
-  .field-label-inline {
-    margin-left: 25%;
-    padding-left: $large-spacing;
+  .field,
+  .library-title {
+    float: right;
+    width: 75%;
 
+    &.field-name-field-ding-library-list-image {
+      @include box-sizing(border-box);
+
+      position: relative;
+      float: left;
+      width: 25%;
+      padding-right: $large-spacing;
+      z-index: 26;
+    }
+  }
+
+  .field-label-inline {
     .field-label {
       float: left;
       width: auto;
@@ -75,25 +78,13 @@
   }
 }
 
-.field-name-field-ding-library-list-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 25%;
-  z-index: 90;
-
-  .field-items {
-    padding: 0;
-  }
-}
-
 .library-link {
   padding-top: $large-spacing;
   padding-left: $large-spacing;
 }
 
 .libraries-opening-hours {
-  margin-left: 75%;
+  @include zen-grid-item(4, 1, right);
 
   .header {
     background: $gray;

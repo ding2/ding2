@@ -82,10 +82,22 @@
   // Hide elements so we can render them later.
   hide($content['comments']);
   hide($content['links']);
-?>
 
+  /*
+   * If displaying teaser mode we need the node title in the render array
+   */
+  if ($view_mode == 'teaser') {
+    $content['title'][0]['#markup'] = '<h2 class="page-title library-title">' . $title . '</h2>';
+    $content['title']['#weight'] = '0';
+  }
+
+  kpr($content);
+
+?>
 <div class="<?php print $classes; ?>">
-  <h1 class="page-title"><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h1>
+  <?php if ($view_mode != 'teaser'): ?>
+    <h2 class="page-title"><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+  <?php endif ?>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="libraries"><?php print render($content); ?></div>
     <?php if (!empty($opening_hours)) : ?>
