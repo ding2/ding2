@@ -25,11 +25,11 @@ function ding_staff_field_default_field_instances() {
         'weight' => 4,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -74,7 +74,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 6,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -99,7 +99,7 @@ function ding_staff_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 8,
+      'weight' => 6,
     ),
   );
 
@@ -118,11 +118,10 @@ function ding_staff_field_default_field_instances() {
         'weight' => 6,
       ),
       'default' => array(
-        'label' => 'hidden',
-        'module' => 'email',
+        'label' => 'inline',
         'settings' => array(),
-        'type' => 'email_default',
-        'weight' => 6,
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -146,7 +145,7 @@ function ding_staff_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 6,
+      'weight' => 4,
     ),
   );
 
@@ -169,7 +168,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -216,13 +215,20 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'image',
+        'module' => 'cs_adaptive_image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'styles' => array(
+            'breakpoint_1' => 768,
+            'breakpoint_2' => 500,
+            'fallback_style' => 'ding_list_large',
+            'max_style' => 'ding_list_large',
+            'style_1' => 'ding_list_medium',
+            'style_2' => 'ding_list_small',
+          ),
         ),
-        'type' => 'image',
-        'weight' => 0,
+        'type' => 'cs_adaptive_image',
+        'weight' => 2,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -272,7 +278,7 @@ function ding_staff_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'media_generic',
-      'weight' => 0,
+      'weight' => 1,
     ),
   );
 
@@ -291,11 +297,11 @@ function ding_staff_field_default_field_instances() {
         'weight' => 3,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'og',
         'settings' => array(),
         'type' => 'og_list_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -336,11 +342,10 @@ function ding_staff_field_default_field_instances() {
         'weight' => 7,
       ),
       'default' => array(
-        'label' => 'above',
-        'module' => 'text',
+        'label' => 'inline',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 7,
+        'type' => 'hidden',
+        'weight' => 8,
       ),
       'token' => array(
         'label' => 'above',
@@ -365,7 +370,7 @@ function ding_staff_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 7,
+      'weight' => 5,
     ),
   );
 
@@ -388,7 +393,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 3,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -436,7 +441,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 1,
       ),
       'token' => array(
         'label' => 'hidden',

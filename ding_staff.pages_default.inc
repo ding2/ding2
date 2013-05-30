@@ -79,7 +79,7 @@ function ding_staff_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Personale';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -92,8 +92,8 @@ function ding_staff_default_page_manager_pages() {
     $pane->configuration = array(
       'view_mode' => 'full',
       'context' => 'argument_entity_id:user_1',
-      'override_title' => 1,
-      'override_title_text' => '%user:name %profile:field-ding-staff-forename %profile:field_ding_staff_surname',
+      'override_title' => 0,
+      'override_title_text' => '-- %title --',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -127,7 +127,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-2'] = $pane;
     $display->panels['right_sidebar'][0] = 'new-2';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
