@@ -139,8 +139,10 @@
   }
 
   .event-lead {
+    @include font-bold();
+
     border-bottom: 1px solid $gray-light;
-    margin-bottom: $large-spacing;
+    margin-bottom: $medium-spacing;
     padding-bottom: $large-spacing;
   }
 
@@ -153,13 +155,20 @@
   .event-info {
     @include zen-grid-item(4, 1, right);
 
+    margin-top: $large-spacing;
     padding-right: 0;
+    padding-left: $large-spacing;
 
     p {
-      margin-bottom: $medium-spacing;
+      border-left: 5px solid $gray-light;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-bottom: $medium-spacing;
+      padding-left: 40px;
 
       i[class^="icon-"] {
         display: inline-block;
+        margin-left: -24px;
         min-width: $large-spacing;
       }
     }

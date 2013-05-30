@@ -6719,11 +6719,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 141, ../sass/module/_event.scss */
 .event .event-lead {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-bottom: 20px;
 }
-/* line 147, ../sass/module/_event.scss */
+/* line 149, ../sass/module/_event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -6742,7 +6744,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 153, ../sass/module/_event.scss */
+/* line 155, ../sass/module/_event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -6759,18 +6761,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  margin-top: 20px;
   padding-right: 0;
+  padding-left: 20px;
 }
-/* line 158, ../sass/module/_event.scss */
+/* line 162, ../sass/module/_event.scss */
 .event .event-info p {
-  margin-bottom: 10px;
+  border-left: 5px solid #efefef;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  padding-left: 40px;
 }
-/* line 161, ../sass/module/_event.scss */
+/* line 169, ../sass/module/_event.scss */
 .event .event-info p i[class^="icon-"] {
   display: inline-block;
+  margin-left: -24px;
   min-width: 20px;
 }
-/* line 168, ../sass/module/_event.scss */
+/* line 177, ../sass/module/_event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
@@ -6778,7 +6787,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* Ticket styling
    ========================================================================== */
-/* line 179, ../sass/module/_event.scss */
+/* line 188, ../sass/module/_event.scss */
 .ticket-available, .ticket-info {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -6786,7 +6795,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 186, ../sass/module/_event.scss */
+/* line 195, ../sass/module/_event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
