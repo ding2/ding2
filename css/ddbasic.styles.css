@@ -689,10 +689,32 @@ select {
 
 /* line 17, ../sass/framework/_forms.scss */
 select {
-  padding: 5px;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #efefef), color-stop(100%, #fbfbfb));
+  background-image: -webkit-linear-gradient(#efefef, #fbfbfb);
+  background-image: -moz-linear-gradient(#efefef, #fbfbfb);
+  background-image: -o-linear-gradient(#efefef, #fbfbfb);
+  background-image: linear-gradient(#efefef, #fbfbfb);
+  /* Required for setting height in webkit browsers on mac */
+  -webkit-appearance: menulist-button;
+  border: 1px solid #d5d5d5;
+  height: 35px;
+  line-height: 35px;
+  padding: 7px;
 }
 
-/* line 32, ../sass/framework/_forms.scss */
+/* line 43, ../sass/framework/_forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -729,7 +751,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 48, ../sass/framework/_forms.scss */
+/* line 59, ../sass/framework/_forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -745,7 +767,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 54, ../sass/framework/_forms.scss */
+/* line 65, ../sass/framework/_forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],
@@ -5061,19 +5083,50 @@ label {
   }
 }
 
-/* Pager
+/* Filter by library box
    ========================================================================== */
 /* line 196, ../sass/module/_module.scss */
+.pane-library-list {
+  background-color: #efefef;
+  margin-bottom: 20px;
+  padding: 20px;
+  /* Media queries */
+}
+/* line 202, ../sass/module/_module.scss */
+.pane-library-list .choose-library-label,
+.pane-library-list .form-item-select-library {
+  display: inline;
+  margin-right: 5px;
+}
+/* line 207, ../sass/module/_module.scss */
+.pane-library-list .button {
+  /* Make sure the button aligns vertically with the select */
+  margin-top: -2px;
+}
+@media only screen and (max-width: 480px) {
+  /* line 214, ../sass/module/_module.scss */
+  .pane-library-list .choose-library-label {
+    display: none;
+  }
+  /* line 217, ../sass/module/_module.scss */
+  .pane-library-list .form-select {
+    max-width: 75%;
+  }
+}
+
+/* Pager
+   ========================================================================== */
+/* line 227, ../sass/module/_module.scss */
 .pager {
   padding-left: 0;
 }
-/* line 199, ../sass/module/_module.scss */
+/* line 230, ../sass/module/_module.scss */
 .pager li {
   display: inline-block;
   margin-left: -4px;
   margin-right: 4px;
 }
-/* line 205, ../sass/module/_module.scss */
+/* line 236, ../sass/module/_module.scss */
 .pager li.pager-current,
 .pager li a {
   background-color: #efefef;
@@ -5083,17 +5136,17 @@ label {
   padding-bottom: 5px;
   padding-left: 15px;
 }
-/* line 216, ../sass/module/_module.scss */
+/* line 247, ../sass/module/_module.scss */
 .pager .active a,
 .pager .active a:hover {
   cursor: default;
   text-decoration: underline;
 }
-/* line 221, ../sass/module/_module.scss */
+/* line 252, ../sass/module/_module.scss */
 .pager .disabled {
   background-color: #fbfbfb;
 }
-/* line 224, ../sass/module/_module.scss */
+/* line 255, ../sass/module/_module.scss */
 .pager .disabled a:hover {
   cursor: default;
   text-decoration: none;
@@ -5101,7 +5154,7 @@ label {
 
 /* Signature
    ========================================================================== */
-/* line 234, ../sass/module/_module.scss */
+/* line 265, ../sass/module/_module.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -5109,25 +5162,25 @@ label {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 243, ../sass/module/_module.scss */
+/* line 274, ../sass/module/_module.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 250, ../sass/module/_module.scss */
+/* line 281, ../sass/module/_module.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
 }
 
-/* line 256, ../sass/module/_module.scss */
+/* line 287, ../sass/module/_module.scss */
 .signature .tags a {
   display: inline-block;
   margin-right: 0.3em;
 }
 
-/* line 261, ../sass/module/_module.scss */
+/* line 292, ../sass/module/_module.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
 }
@@ -6520,29 +6573,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 148, ../sass/module/_news.scss */
 .super-heading .field-item {
   padding-left: 5px;
-}
-
-/* Filter by Library box */
-/* line 154, ../sass/module/_news.scss */
-.pane-library-list {
-  margin-bottom: 10px;
-  /* Media queries */
-}
-/* line 158, ../sass/module/_news.scss */
-.pane-library-list .choose-library-label,
-.pane-library-list .form-item-select-library {
-  display: inline;
-  margin-right: 5px;
-}
-@media only screen and (max-width: 480px) {
-  /* line 165, ../sass/module/_news.scss */
-  .pane-library-list .choose-library-label {
-    display: none;
-  }
-  /* line 168, ../sass/module/_news.scss */
-  .pane-library-list .form-select {
-    max-width: 75%;
-  }
 }
 
 /**
