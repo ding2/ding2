@@ -689,10 +689,32 @@ select {
 
 /* line 17, ../sass/framework/_forms.scss */
 select {
-  padding: 5px;
+  -webkit-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear;
+  -o-transition: all 0.15s linear;
+  transition: all 0.15s linear;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #efefef), color-stop(100%, #fbfbfb));
+  background-image: -webkit-linear-gradient(#efefef, #fbfbfb);
+  background-image: -moz-linear-gradient(#efefef, #fbfbfb);
+  background-image: -o-linear-gradient(#efefef, #fbfbfb);
+  background-image: linear-gradient(#efefef, #fbfbfb);
+  /* Required for setting height in webkit browsers on mac */
+  -webkit-appearance: menulist-button;
+  border: 1px solid #d5d5d5;
+  height: 35px;
+  line-height: 35px;
+  padding: 7px;
 }
 
-/* line 32, ../sass/framework/_forms.scss */
+/* line 43, ../sass/framework/_forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -729,7 +751,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 48, ../sass/framework/_forms.scss */
+/* line 59, ../sass/framework/_forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -745,7 +767,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 54, ../sass/framework/_forms.scss */
+/* line 65, ../sass/framework/_forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],
@@ -780,32 +802,34 @@ table {
   max-width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
-  /* Use baseline styling as default for tables */
+  /* Use bordered table styling as default for tables */
 }
 
 /* line 31, ../sass/framework/_tables.scss */
-thead th {
-  background-color: #dadada;
+th {
+  background-color: #efefef;
+  /* Drupal system stylesheet adds bottom border */
+  border-bottom: 0;
 }
 
 /* Drupal uses these */
-/* line 37, ../sass/framework/_tables.scss */
+/* line 39, ../sass/framework/_tables.scss */
 tr.even {
   background-color: #efefef;
 }
 
-/* line 41, ../sass/framework/_tables.scss */
+/* line 43, ../sass/framework/_tables.scss */
 tr.odd {
   background-color: #e4e4e4;
 }
 
 /* Baseline styling
    ========================================================================== */
-/* line 49, ../sass/framework/_tables.scss */
+/* line 51, ../sass/framework/_tables.scss */
 .table, table {
   width: 100%;
 }
-/* line 53, ../sass/framework/_tables.scss */
+/* line 55, ../sass/framework/_tables.scss */
 .table th, table th,
 .table td,
 table td {
@@ -814,7 +838,7 @@ table td {
   text-align: left;
   vertical-align: top;
 }
-/* line 60, ../sass/framework/_tables.scss */
+/* line 62, ../sass/framework/_tables.scss */
 .table th, table th {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -823,11 +847,11 @@ table td {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 69, ../sass/framework/_tables.scss */
+/* line 71, ../sass/framework/_tables.scss */
 .table thead th, table thead th {
   vertical-align: bottom;
 }
-/* line 78, ../sass/framework/_tables.scss */
+/* line 82, ../sass/framework/_tables.scss */
 .table caption + thead tr:first-child th, table caption + thead tr:first-child th,
 .table caption + thead tr:first-child td,
 table caption + thead tr:first-child td,
@@ -837,17 +861,19 @@ table colgroup + thead tr:first-child th,
 table colgroup + thead tr:first-child td,
 .table thead:first-child tr:first-child th,
 table thead:first-child tr:first-child th,
+.table tbody:first-child tr:first-child th,
+table tbody:first-child tr:first-child th,
 .table thead:first-child tr:first-child td,
 table thead:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 82, ../sass/framework/_tables.scss */
+/* line 86, ../sass/framework/_tables.scss */
 .table tbody + tbody, table tbody + tbody {
   border-top: 2px solid #d5d5d5;
 }
 
 /* Condensed table w/ half padding */
-/* line 90, ../sass/framework/_tables.scss */
+/* line 94, ../sass/framework/_tables.scss */
 .table-condensed th,
 .table-condensed td {
   padding: 3px;
@@ -855,8 +881,8 @@ table thead:first-child tr:first-child td {
 
 /* Bordered version
    ========================================================================== */
-/* line 98, ../sass/framework/_tables.scss */
-.table-bordered {
+/* line 102, ../sass/framework/_tables.scss */
+.table-bordered, table {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
@@ -869,53 +895,74 @@ table thead:first-child tr:first-child td {
   *border-collapse: collapsed;
   border-left: 0;
 }
-/* line 109, ../sass/framework/_tables.scss */
-.table-bordered th,
-.table-bordered td {
+/* line 113, ../sass/framework/_tables.scss */
+.table-bordered th, table th,
+.table-bordered td,
+table td {
   border-left: 1px solid #d5d5d5;
 }
-/* line 121, ../sass/framework/_tables.scss */
-.table-bordered caption + thead tr:first-child th,
+/* line 125, ../sass/framework/_tables.scss */
+.table-bordered caption + thead tr:first-child th, table caption + thead tr:first-child th,
 .table-bordered caption + tbody tr:first-child th,
+table caption + tbody tr:first-child th,
 .table-bordered caption + tbody tr:first-child td,
+table caption + tbody tr:first-child td,
 .table-bordered colgroup + thead tr:first-child th,
+table colgroup + thead tr:first-child th,
 .table-bordered colgroup + tbody tr:first-child th,
+table colgroup + tbody tr:first-child th,
 .table-bordered colgroup + tbody tr:first-child td,
+table colgroup + tbody tr:first-child td,
 .table-bordered thead:first-child tr:first-child th,
+table thead:first-child tr:first-child th,
 .table-bordered tbody:first-child tr:first-child th,
-.table-bordered tbody:first-child tr:first-child td {
+table tbody:first-child tr:first-child th,
+.table-bordered tbody:first-child tr:first-child td,
+table tbody:first-child tr:first-child td {
   border-top: 0;
 }
-/* line 126, ../sass/framework/_tables.scss */
-.table-bordered thead:first-child tr:first-child th:first-child,
-.table-bordered tbody:first-child tr:first-child td:first-child {
+/* line 132, ../sass/framework/_tables.scss */
+.table-bordered thead:first-child tr:first-child th:first-child, table thead:first-child tr:first-child th:first-child,
+.table-bordered tbody:first-child tr:first-child th:first-child,
+table tbody:first-child tr:first-child th:first-child,
+.table-bordered tbody:first-child tr:first-child td:first-child,
+table tbody:first-child tr:first-child td:first-child {
   -webkit-border-radius: 4px 0 0;
   -moz-border-radius: 4px 0 0;
   -ms-border-radius: 4px 0 0;
   -o-border-radius: 4px 0 0;
   border-radius: 4px 0 0;
 }
-/* line 131, ../sass/framework/_tables.scss */
-.table-bordered thead:first-child tr:first-child th:last-child,
-.table-bordered tbody:first-child tr:first-child td:last-child {
+/* line 139, ../sass/framework/_tables.scss */
+.table-bordered thead:first-child tr:first-child th:last-child, table thead:first-child tr:first-child th:last-child,
+.table-bordered tbody:first-child tr:first-child th:last-child,
+table tbody:first-child tr:first-child th:last-child,
+.table-bordered tbody:first-child tr:first-child td:last-child,
+table tbody:first-child tr:first-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
   -moz-border-radius: 0 4px 0 0;
   -ms-border-radius: 0 4px 0 0;
   -o-border-radius: 0 4px 0 0;
   border-radius: 0 4px 0 0;
 }
-/* line 136, ../sass/framework/_tables.scss */
-.table-bordered thead:last-child tr:last-child th:first-child,
-.table-bordered tbody:last-child tr:last-child td:first-child {
+/* line 146, ../sass/framework/_tables.scss */
+.table-bordered thead:last-child tr:last-child th:first-child, table thead:last-child tr:last-child th:first-child,
+.table-bordered tbody:last-child tr:last-child th:first-child,
+table tbody:last-child tr:last-child th:first-child,
+.table-bordered tbody:last-child tr:last-child td:first-child,
+table tbody:last-child tr:last-child td:first-child {
   -webkit-border-radius: 0 0 0 4px;
   -moz-border-radius: 0 0 0 4px;
   -ms-border-radius: 0 0 0 4px;
   -o-border-radius: 0 0 0 4px;
   border-radius: 0 0 0 4px;
 }
-/* line 140, ../sass/framework/_tables.scss */
-.table-bordered thead:last-child tr:last-child th:last-child,
-.table-bordered tbody:last-child tr:last-child td:last-child {
+/* line 152, ../sass/framework/_tables.scss */
+.table-bordered thead:last-child tr:last-child th:last-child, table thead:last-child tr:last-child th:last-child,
+.table-bordered tbody:last-child tr:last-child th:last-child,
+table tbody:last-child tr:last-child th:last-child,
+.table-bordered tbody:last-child tr:last-child td:last-child,
+table tbody:last-child tr:last-child td:last-child {
   -webkit-border-radius: 0 4px 0 0;
   -moz-border-radius: 0 4px 0 0;
   -ms-border-radius: 0 4px 0 0;
@@ -925,7 +972,7 @@ table thead:first-child tr:first-child td {
 
 /* Zebra-striping
    ========================================================================== */
-/* line 151, ../sass/framework/_tables.scss */
+/* line 163, ../sass/framework/_tables.scss */
 .table-striped tbody tr:nth-child(odd) td,
 .table-striped tbody tr:nth-child(odd) th {
   background-color: #fbfbfb;
@@ -934,7 +981,7 @@ table thead:first-child tr:first-child td {
 /* Hover effect.
    ========================================================================== */
 /* Placed here because it has to come after zebra striping */
-/* line 163, ../sass/framework/_tables.scss */
+/* line 175, ../sass/framework/_tables.scss */
 .table tbody tr:hover td, table tbody tr:hover td,
 .table tbody tr:hover th,
 table tbody tr:hover th {
@@ -5061,19 +5108,50 @@ label {
   }
 }
 
-/* Pager
+/* Filter by library box
    ========================================================================== */
 /* line 196, ../sass/module/_module.scss */
+.pane-library-list {
+  background-color: #efefef;
+  margin-bottom: 20px;
+  padding: 20px;
+  /* Media queries */
+}
+/* line 202, ../sass/module/_module.scss */
+.pane-library-list .choose-library-label,
+.pane-library-list .form-item-select-library {
+  display: inline;
+  margin-right: 5px;
+}
+/* line 207, ../sass/module/_module.scss */
+.pane-library-list .button {
+  /* Make sure the button aligns vertically with the select */
+  margin-top: -2px;
+}
+@media only screen and (max-width: 480px) {
+  /* line 214, ../sass/module/_module.scss */
+  .pane-library-list .choose-library-label {
+    display: none;
+  }
+  /* line 217, ../sass/module/_module.scss */
+  .pane-library-list .form-select {
+    max-width: 75%;
+  }
+}
+
+/* Pager
+   ========================================================================== */
+/* line 227, ../sass/module/_module.scss */
 .pager {
   padding-left: 0;
 }
-/* line 199, ../sass/module/_module.scss */
+/* line 230, ../sass/module/_module.scss */
 .pager li {
   display: inline-block;
   margin-left: -4px;
   margin-right: 4px;
 }
-/* line 205, ../sass/module/_module.scss */
+/* line 236, ../sass/module/_module.scss */
 .pager li.pager-current,
 .pager li a {
   background-color: #efefef;
@@ -5083,17 +5161,17 @@ label {
   padding-bottom: 5px;
   padding-left: 15px;
 }
-/* line 216, ../sass/module/_module.scss */
+/* line 247, ../sass/module/_module.scss */
 .pager .active a,
 .pager .active a:hover {
   cursor: default;
   text-decoration: underline;
 }
-/* line 221, ../sass/module/_module.scss */
+/* line 252, ../sass/module/_module.scss */
 .pager .disabled {
   background-color: #fbfbfb;
 }
-/* line 224, ../sass/module/_module.scss */
+/* line 255, ../sass/module/_module.scss */
 .pager .disabled a:hover {
   cursor: default;
   text-decoration: none;
@@ -5101,7 +5179,7 @@ label {
 
 /* Signature
    ========================================================================== */
-/* line 234, ../sass/module/_module.scss */
+/* line 265, ../sass/module/_module.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -5109,25 +5187,25 @@ label {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 243, ../sass/module/_module.scss */
+/* line 274, ../sass/module/_module.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 250, ../sass/module/_module.scss */
+/* line 281, ../sass/module/_module.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
 }
 
-/* line 256, ../sass/module/_module.scss */
+/* line 287, ../sass/module/_module.scss */
 .signature .tags a {
   display: inline-block;
   margin-right: 0.3em;
 }
 
-/* line 261, ../sass/module/_module.scss */
+/* line 292, ../sass/module/_module.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
 }
@@ -6522,29 +6600,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 5px;
 }
 
-/* Filter by Library box */
-/* line 154, ../sass/module/_news.scss */
-.pane-library-list {
-  margin-bottom: 10px;
-  /* Media queries */
-}
-/* line 158, ../sass/module/_news.scss */
-.pane-library-list .choose-library-label,
-.pane-library-list .form-item-select-library {
-  display: inline;
-  margin-right: 5px;
-}
-@media only screen and (max-width: 480px) {
-  /* line 165, ../sass/module/_news.scss */
-  .pane-library-list .choose-library-label {
-    display: none;
-  }
-  /* line 168, ../sass/module/_news.scss */
-  .pane-library-list .form-select {
-    max-width: 75%;
-  }
-}
-
 /**
  * Event styling
  *
@@ -6655,6 +6710,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* Event
    ========================================================================== */
+/* line 123, ../sass/module/_event.scss */
+.event {
+  /* Media queries */
+}
 /* line 124, ../sass/module/_event.scss */
 .event .event-image {
   float: left;
@@ -6674,11 +6733,48 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 /* line 141, ../sass/module/_event.scss */
 .event .event-lead {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-bottom: 20px;
 }
-/* line 147, ../sass/module/_event.scss */
+/* line 149, ../sass/module/_event.scss */
+.event .event-info {
+  float: right;
+  width: 33.33333%;
+  margin-right: 0%;
+  margin-left: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  margin-top: 20px;
+  padding-right: 0;
+  padding-left: 20px;
+}
+/* line 156, ../sass/module/_event.scss */
+.event .event-info p {
+  border-left: 5px solid #efefef;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  padding-left: 36px;
+}
+/* line 164, ../sass/module/_event.scss */
+.event .event-info i[class^="icon-"] {
+  display: inline-block;
+  margin-left: -24px;
+  min-width: 20px;
+}
+/* line 171, ../sass/module/_event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -6697,43 +6793,52 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 153, ../sass/module/_event.scss */
-.event .event-info {
-  float: right;
-  width: 33.33333%;
-  margin-right: 0%;
-  margin-left: -33.33333%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  padding-right: 0;
-}
-/* line 158, ../sass/module/_event.scss */
-.event .event-info p {
-  margin-bottom: 10px;
-}
-/* line 161, ../sass/module/_event.scss */
-.event .event-info p i[class^="icon-"] {
-  display: inline-block;
-  min-width: 20px;
-}
-/* line 168, ../sass/module/_event.scss */
+/* line 177, ../sass/module/_event.scss */
 .event .event-footer {
   clear: both;
   padding-top: 20px;
 }
+@media only screen and (max-width: 768px) {
+  /* line 184, ../sass/module/_event.scss */
+  .event .event-info {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    border-top: 1px solid #d5d5d5;
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* line 191, ../sass/module/_event.scss */
+  .event .event-info p {
+    background-color: #efefef;
+    border-left: 0;
+    border-bottom: 1px solid #d5d5d5;
+    padding-top: 12px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+  }
+  /* line 201, ../sass/module/_event.scss */
+  .event .event-content {
+    clear: left;
+    width: 100%;
+  }
+}
 
 /* Ticket styling
    ========================================================================== */
-/* line 179, ../sass/module/_event.scss */
+/* line 214, ../sass/module/_event.scss */
 .ticket-available, .ticket-info {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -6741,7 +6846,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 186, ../sass/module/_event.scss */
+/* line 221, ../sass/module/_event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;
