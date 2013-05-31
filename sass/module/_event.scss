@@ -181,6 +181,15 @@
 
   /* Media queries */
   @include small-medium {
+    .event-content {
+      margin-top: -20px;
+      padding-right: 0;
+    }
+
+    .event-image {
+      max-width: 100%;
+    }
+
     .event-info {
       @include zen-grid-item(12, 1);
 
