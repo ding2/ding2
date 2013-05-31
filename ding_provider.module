@@ -625,3 +625,72 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
 
   return $ting_entity;
 }
+
+/**
+ * Store provider data into the current session using it as a cache.
+ *
+ * The session is used as the data may contain sensitive information and can
+ * therefor not be saved safely in the database. Furthermore we have no idea
+ * where the cache data will be saved (memcache etc.).
+ *
+ * @param string $key
+ *  The key under which the data is stored.
+ * @param array $data
+ *  The data to store in the session.
+ * @param type $expire
+ *  An expire time in seconds.
+ */
+function ding_provider_session_cache_set($key, $data, $expire = FALSE) {
+  $cache = array(
+    'data' => $data,
+    'expire' => FALSE,
+  );
+
+  // If expire is given, set the expire time.
+  if ($expire) {
+    $cache['expire'] = time() + $expire;
+  }
+
+  // Set cache value.
+  $_SESSION[$key] = $cache;
+}
+
+/**
+ * Get cached content stored in the session.
+ *
+ * @param string $key
+ *  The key under which the data is stored in the session.
+ * @return mixed
+ *  The data found in the session or FALSE if not found or expired.
+ */
+function ding_provider_session_cache_get($key) {
+  $cache = array('data' => FALSE);
+
+  // Check is value exists in the cache.
+  if (isset($_SESSION[$key])) {
+    $cache = $_SESSION[$key];
+    // Check if cache is set to expire.
+    if ($cache['expire']) {
+      if ($cache['expire'] < time()) {
+        // Cache expired, so clear it.
+        ding_provider_session_cache_clear($key);
+        $cache = array('data' => FALSE);
+      }
+    }
+  }
+
+  return $cache['data'];
+}
+
+/**
+ * Clear cache entiry from the session.
+ *
+ * @param string $key
+ *  The key of the cached data to remove from the cache.
+ */
+function ding_provider_session_cache_clear($key) {
+  // Remove the value.
+  if (isset($_SESSION[$key])) {
+    unset($_SESSION[$key]);
+  }
+}
