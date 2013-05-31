@@ -105,7 +105,7 @@ function ting_sfx_get_markup($entity = NULL) {
             $sfx_url, array(
             'attributes' => array('class' => array('ting_sfx_group',),
               'target' => '_new',
-              'name' => $relation->type),
+            ),
             'html' => TRUE,
            )),
          );
