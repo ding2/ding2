@@ -3,34 +3,13 @@
  * @file
  * Template to render ting_releation content.
  */
-
-if (!empty($content)) {
-  if (is_array($content)) {
-    foreach ($content as $ns => $relations):
-      if (!empty($relations) && $ns != 'dbcaddi:hasOnlineAccess'): ?>
-        <a name="<?php echo $ns; ?>"></a>
-        <div class="<?php print $classes . ' ting-relation-' . drupal_html_class($ns) . ' clearfix'; ?>">
-          <h2><?php print $relations[0]['type']; ?></h2>
-          <?php foreach ($relations as $relation): ?>
-          <div class="meta">
-            <?php
-            if (isset($relation['title'])) {
-              print '<h3>' . $relation['title'] . '</h3>';
-            }
-            if (isset($relation['year'])) {
-              print '<div>' . $relation['year'] . '</div>';
-            }
-            if (isset($relation['creator'])) {
-              print '<div>' . $relation['creator'] . '</div>';
-            }
-            if (isset($relation['byline'])) {
-              print '<div>' . $relation['byline'] . '</div>';
-            }
-            if (isset($relation['isPartOf'])) {
-              print $relation['isPartOf'];
-            }
-            ?>
-          </div>
+if (is_array($content)) {
+  foreach ($content as $ns => $relations) {
+    if (!empty($relations) && $ns != 'dbcaddi:hasOnlineAccess') { ?>
+      <div id="<?php echo drupal_html_id($ns); ?>" class="<?php print $classes . ' ting-relation-' . drupal_html_class($ns) . ' clearfix'; ?>">
+      <h2><?php print $relations[0]['type']; ?></h2>
+      <?php foreach ($relations as $relation) { ?>
+        <div class="meta">
           <?php
           if (isset($relation['abstract'])) {
             print '<div>' . $relation['abstract'] . '</div>';
@@ -54,10 +33,9 @@ if (!empty($content)) {
           }
           ?>
           <div class="clearfix"></div>
-        <?php endforeach; ?>
+        <?php } ?>
         </div>
       <?php
-      endif;
-    endforeach;
+    }
   }
 }
