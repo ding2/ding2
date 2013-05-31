@@ -1,7 +1,7 @@
 /**
  * Libraries
  *
- * @author magnify
+ * @author magnify, zorp
  */
 
 
@@ -17,6 +17,9 @@
   padding: 0;
   .views-row {
     @extend %material-list-item;
+
+    padding-left: $medium-spacing;
+    padding-right: $medium-spacing;
   }
 }
 
@@ -35,45 +38,62 @@
     left: 0;
     position: absolute;
     text-align: center;
-    top: 1.5em;
-    width: 20%;
+    top: 1em;
+    width: 25%;
     z-index: 25;
+  }
+
+  .ding-library-left {
+    @include zen-grid-item(3, 1);
+  }
+
+  .ding-library-right {
+    @include zen-grid-item(9, 4);
+  }
+
+  .library-title {
+    font-size: $font-size-medium;
   }
 
   .field,
   .library-title {
-    float: right;
-    width: 75%;
+
+    margin-bottom: $small-spacing;
 
     &.field-name-field-ding-library-list-image {
       @include box-sizing(border-box);
 
+      // Make sure the actual image i above the icon inserted on before element on .libraries.
       position: relative;
-      float: left;
-      width: 25%;
-      padding-right: $large-spacing;
       z-index: 26;
     }
   }
 
   .field-label-inline {
     .field-label {
-      float: left;
-      width: auto;
+      @include zen-grid-item(3, 1);
+
+      padding-left: 0;
     }
 
     .field-items {
-      float: none;
+      @include zen-grid-item(9, 4);
     }
   }
 
-  /* Media queries */
-  @include small-medium {
-    float: none;
-    width: 100%;
+  .field-name-field-ding-library-addresse {
 
-    &:before {
-      font-size: $font-size-largest;
+    margin-bottom: $medium-spacing;
+
+    div {
+      display: inline;
+
+      .street-block,
+      .addressfield-container-inline {
+        &:after {
+          content: ', ';
+        }
+      }
     }
   }
 }
@@ -85,50 +105,7 @@
 
 .libraries-opening-hours {
   @include zen-grid-item(4, 1, right);
-
-  .header {
-    background: $gray;
-  }
-
-  .prev,
-  .next {
-    font-family: $base-icon-library-font;
-    font-size: $font-size-reset;
-  }
-
-  .even {
-    background: darken($gray-light,2%);
-  }
-  .odd {
-    background: darken($gray-light,5%);
-  }
-
-  .opening-hours-week {
-    padding: 0;
-  }
-
-  .days {
-    padding: 0;
-  }
-
-  .day {
-    padding: 0 .5em;
-  }
-
-  /* Media queries */
-  @include small-medium {
-    .libraries-opening-hours {
-      margin-left: 0;
-    }
-  }
 }
-
-.pane-ding-news-ding-news-library-list {
-  border-bottom: 1px solid $gray-light;
-  margin-bottom: $large-spacing;
-  padding-bottom: $large-spacing;
-}
-
 
 
 /* Single Library

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * DDBasic theme's implementation to display a node.
+ * DDBasic theme's implementation to display a node of the type library.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -77,22 +77,18 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
-?>
-<?php
-  // Hide elements so we can render them later.
-  hide($content['comments']);
-  hide($content['links']);
 
-  /*
-   * If displaying teaser mode we need the node title in the render array
-   */
-  if ($view_mode == 'teaser') {
-    $content['title'][0]['#markup'] = '<h2 class="page-title library-title">' . $title . '</h2>';
-    $content['title']['#weight'] = '0';
-  }
+// Hide elements we don't want displayed.
+hide($content['comments']);
+hide($content['links']);
 
-  kpr($content);
-
+/*
+ * If displaying teaser mode we need the node title in the render array
+ */
+if ($view_mode == 'teaser') {
+  $content['group_ding_library_right_column']['title'][0]['#markup'] = '<h2 class="page-title library-title"><a href="' . $node_url . '">' . $title . '</a></h2>';
+  $content['group_ding_library_right_column']['title']['#weight'] = '0';
+}
 ?>
 <div class="<?php print $classes; ?>">
   <?php if ($view_mode != 'teaser'): ?>
@@ -102,7 +98,6 @@
     <div class="libraries"><?php print render($content); ?></div>
     <?php if (!empty($opening_hours)) : ?>
     <div class="libraries-opening-hours">
-      <h2 class="libraries-opening-hours-title"><?php t('Opening hours') ?></h2>
       <?php print $opening_hours;  ?>
     </div>
     <?php endif; ?>

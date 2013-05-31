@@ -1,7 +1,7 @@
 /**
  * Opening hours
  *
- * @author magnify
+ * @author magnify, zorp
  */
 
 
@@ -20,10 +20,15 @@
 }
 
 .opening-hours-week {
-  padding: 0;
+  padding: $large-spacing;
+  background: $white;
 
   .header {
-    padding: $medium-spacing;
+    @include font-bold();
+
+    background: $white;
+    padding: 0;
+    padding-bottom: $small-spacing;
   }
 
   .days {
@@ -38,16 +43,19 @@
     }
 
     .odd {
-      background-color: darken($gray-lighter, 2%);
+      @extend %article-background--odd;
     }
 
     .even {
-      background-color: $gray-lighter;
+      @extend %article-background--even;
     }
   }
 
   .prev,
   .next {
+    font-family: $base-icon-library-font;
+    font-size: $font-size-reset;
+
     &:hover {
       text-decoration: none;
     }
@@ -61,5 +69,19 @@
   .next {
     float: right;
     margin-right: $small-spacing;
+  }
+
+  .notice-star {
+    @extend .icon-info-sign;
+
+    visibility: hidden;
+    margin-right: 0;
+    padding-left: $small-spacing;
+
+    // Icon placement and font-face.
+    &:before {
+      visibility: visible;
+      font-family: $base-icon-library-font;
+    }
   }
 }

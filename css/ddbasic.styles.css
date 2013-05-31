@@ -2943,7 +2943,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 359, ../sass/framework/_fontawesome.scss */
-.icon-info-sign:before {
+.icon-info-sign:before, .opening-hours-week .notice-star:before {
   content: "\f05a";
 }
 
@@ -4917,12 +4917,12 @@ label {
 }
 
 /* line 30, ../sass/module/_module.scss */
-.field-name-field-ding-news-materials .field-item:nth-child(odd), .library-list .views-row:nth-child(odd), .news-list .news-list-item:nth-child(odd) {
+.field-name-field-ding-news-materials .field-item:nth-child(odd), .library-list .views-row:nth-child(odd), .news-list .news-list-item:nth-child(odd), .opening-hours-week .days .odd {
   background-color: #e8e8e8;
 }
 
 /* line 34, ../sass/module/_module.scss */
-.field-name-field-ding-news-materials .field-item:nth-child(even), .library-list .views-row:nth-child(even), .news-list .news-list-item:nth-child(even) {
+.field-name-field-ding-news-materials .field-item:nth-child(even), .library-list .views-row:nth-child(even), .news-list .news-list-item:nth-child(even), .opening-hours-week .days .even {
   background-color: #f2f2f2;
 }
 
@@ -6408,7 +6408,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
  *
  * Uses shared %article @extends
  *
- * @author magnify
+ * @author magnify, zorp
  */
 /* line 9, ../sass/module/_news.scss */
 .news-list {
@@ -6856,7 +6856,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /**
  * Libraries
  *
- * @author magnify
+ * @author magnify, zorp
  */
 /* Library list
    ========================================================================== */
@@ -6869,8 +6869,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .library-list {
   padding: 0;
 }
+/* line 18, ../sass/module/_libraries.scss */
+.library-list .views-row {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 
-/* line 23, ../sass/module/_libraries.scss */
+/* line 26, ../sass/module/_libraries.scss */
 .libraries {
   float: left;
   width: 66.66667%;
@@ -6889,9 +6894,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   position: relative;
   padding: 0;
-  /* Media queries */
 }
-/* line 31, ../sass/module/_libraries.scss */
+/* line 34, ../sass/module/_libraries.scss */
 .libraries:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -6899,56 +6903,122 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 0;
   position: absolute;
   text-align: center;
-  top: 1.5em;
-  width: 20%;
+  top: 1em;
+  width: 25%;
   z-index: 25;
 }
-/* line 44, ../sass/module/_libraries.scss */
+/* line 46, ../sass/module/_libraries.scss */
+.libraries .ding-library-left {
+  float: left;
+  width: 25%;
+  margin-left: 0%;
+  margin-right: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 50, ../sass/module/_libraries.scss */
+.libraries .ding-library-right {
+  float: left;
+  width: 75%;
+  margin-left: 25%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 54, ../sass/module/_libraries.scss */
+.libraries .library-title {
+  font-size: 110%;
+}
+/* line 59, ../sass/module/_libraries.scss */
 .libraries .field,
 .libraries .library-title {
-  float: right;
-  width: 75%;
+  margin-bottom: 5px;
 }
-/* line 48, ../sass/module/_libraries.scss */
+/* line 63, ../sass/module/_libraries.scss */
 .libraries .field.field-name-field-ding-library-list-image,
 .libraries .library-title.field-name-field-ding-library-list-image {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
-  float: left;
-  width: 25%;
-  padding-right: 20px;
   z-index: 26;
 }
-/* line 60, ../sass/module/_libraries.scss */
+/* line 73, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-label {
   float: left;
-  width: auto;
+  width: 25%;
+  margin-left: 0%;
+  margin-right: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
 }
-/* line 65, ../sass/module/_libraries.scss */
+/* line 79, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-items {
-  float: none;
+  float: left;
+  width: 75%;
+  margin-left: 25%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
 }
-@media only screen and (max-width: 768px) {
-  /* line 23, ../sass/module/_libraries.scss */
-  .libraries {
-    float: none;
-    width: 100%;
-  }
-  /* line 75, ../sass/module/_libraries.scss */
-  .libraries:before {
-    font-size: 180%;
-  }
+/* line 84, ../sass/module/_libraries.scss */
+.libraries .field-name-field-ding-library-addresse {
+  margin-bottom: 10px;
+}
+/* line 88, ../sass/module/_libraries.scss */
+.libraries .field-name-field-ding-library-addresse div {
+  display: inline;
+}
+/* line 93, ../sass/module/_libraries.scss */
+.libraries .field-name-field-ding-library-addresse div .street-block:after,
+.libraries .field-name-field-ding-library-addresse div .addressfield-container-inline:after {
+  content: ', ';
 }
 
-/* line 81, ../sass/module/_libraries.scss */
+/* line 101, ../sass/module/_libraries.scss */
 .library-link {
   padding-top: 20px;
   padding-left: 20px;
 }
 
-/* line 86, ../sass/module/_libraries.scss */
+/* line 106, ../sass/module/_libraries.scss */
 .libraries-opening-hours {
   float: right;
   width: 33.33333%;
@@ -6965,50 +7035,6 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  /* Media queries */
-}
-/* line 89, ../sass/module/_libraries.scss */
-.libraries-opening-hours .header {
-  background: #d5d5d5;
-}
-/* line 94, ../sass/module/_libraries.scss */
-.libraries-opening-hours .prev,
-.libraries-opening-hours .next {
-  font-family: "FontAwesome";
-  font-size: 100%;
-}
-/* line 99, ../sass/module/_libraries.scss */
-.libraries-opening-hours .even {
-  background: #e9e9e9;
-}
-/* line 102, ../sass/module/_libraries.scss */
-.libraries-opening-hours .odd {
-  background: #e2e2e2;
-}
-/* line 106, ../sass/module/_libraries.scss */
-.libraries-opening-hours .opening-hours-week {
-  padding: 0;
-}
-/* line 110, ../sass/module/_libraries.scss */
-.libraries-opening-hours .days {
-  padding: 0;
-}
-/* line 114, ../sass/module/_libraries.scss */
-.libraries-opening-hours .day {
-  padding: 0 .5em;
-}
-@media only screen and (max-width: 768px) {
-  /* line 120, ../sass/module/_libraries.scss */
-  .libraries-opening-hours .libraries-opening-hours {
-    margin-left: 0;
-  }
-}
-
-/* line 126, ../sass/module/_libraries.scss */
-.pane-ding-news-ding-news-library-list {
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
 }
 
 /* Single Library
@@ -7016,7 +7042,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /**
  * Opening hours
  *
- * @author magnify
+ * @author magnify, zorp
  */
 /* line 8, ../sass/module/_openinghours.scss */
 .block-opening-hours {
@@ -7036,46 +7062,60 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* line 22, ../sass/module/_openinghours.scss */
 .opening-hours-week {
-  padding: 0;
+  padding: 20px;
+  background: white;
 }
-/* line 25, ../sass/module/_openinghours.scss */
+/* line 26, ../sass/module/_openinghours.scss */
 .opening-hours-week .header {
-  padding: 10px;
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
+  background: white;
+  padding: 0;
+  padding-bottom: 5px;
 }
-/* line 29, ../sass/module/_openinghours.scss */
+/* line 34, ../sass/module/_openinghours.scss */
 .opening-hours-week .days {
   padding: 0;
 }
-/* line 32, ../sass/module/_openinghours.scss */
+/* line 37, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .day {
   padding: 6px;
 }
-/* line 36, ../sass/module/_openinghours.scss */
+/* line 41, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .times {
   margin-right: 0;
 }
-/* line 40, ../sass/module/_openinghours.scss */
-.opening-hours-week .days .odd {
-  background-color: #f6f6f6;
+/* line 55, ../sass/module/_openinghours.scss */
+.opening-hours-week .prev,
+.opening-hours-week .next {
+  font-family: "FontAwesome";
+  font-size: 100%;
 }
-/* line 44, ../sass/module/_openinghours.scss */
-.opening-hours-week .days .even {
-  background-color: #fbfbfb;
-}
-/* line 51, ../sass/module/_openinghours.scss */
+/* line 59, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev:hover,
 .opening-hours-week .next:hover {
   text-decoration: none;
 }
-/* line 56, ../sass/module/_openinghours.scss */
+/* line 64, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev {
   float: left;
   margin-left: 5px;
 }
-/* line 61, ../sass/module/_openinghours.scss */
+/* line 69, ../sass/module/_openinghours.scss */
 .opening-hours-week .next {
   float: right;
   margin-right: 5px;
+}
+/* line 74, ../sass/module/_openinghours.scss */
+.opening-hours-week .notice-star {
+  visibility: hidden;
+  margin-right: 0;
+  padding-left: 5px;
+}
+/* line 82, ../sass/module/_openinghours.scss */
+.opening-hours-week .notice-star:before {
+  visibility: visible;
+  font-family: "FontAwesome";
 }
 
 /**
