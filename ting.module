@@ -940,3 +940,19 @@ function _ting_fetch_well_sources() {
     variable_set('ting_well_sources', $sources);
   }
 }
+
+/**
+ * Get anchor name from collection type.
+ *
+ * @param string $type
+ *   Name of the anchor.
+ * @return string
+ *   HTML safe name.
+ */
+function _ting_anchor_name($type) {
+  $name = str_replace(array('(', ')'), '', $type);
+  $name = str_replace(' ', '-', $name);
+  $name = str_replace(':', '', $name);
+  $name = strtolower($name);
+  return $name;
+}
