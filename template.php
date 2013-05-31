@@ -305,9 +305,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     // Add event time to variables. A render array is created based on the date format "time_only"
     $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings'=>array('format_type' => 'time_only', 'fromto' => 'both')) );
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
-
-    // Set a flag for existence of field_place2book_tickets
-    $variables['ddbasic_place2book_tickets'] = (isset($variables['content']['field_place2book_tickets'])) ? 1: 0;
   }
 
   $tags_fields = array(

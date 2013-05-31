@@ -111,10 +111,6 @@
     <?php if (isset($content['field_ding_event_price'])): ?>
       <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
     <?php endif; ?>
-
-    <?php if (isset($ddbasic_place2book_tickets)): ?>
-      <div class="ticket-wrapper"><?php print render($content['field_place2book_tickets'][0]); ?></div>
-    <?php endif; ?>
   </div>  
   <div class="event-content">
     <div class="event-image">
