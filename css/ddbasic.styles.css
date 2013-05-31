@@ -6717,7 +6717,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 124, ../sass/module/_event.scss */
 .event .event-image {
   float: left;
-  margin-top: 5px;
+  margin-top: 20px;
   margin-right: 20px;
   margin-bottom: 10px;
   max-width: 300px;
