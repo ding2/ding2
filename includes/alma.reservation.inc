@@ -310,28 +310,35 @@ function alma_reservation_branch_name($branch_id) {
 }
 
 /**
- * @TODO: add description.
+ * Get all reservation from Alma and store them in the cache.
  *
- * @param type $account
- * @param type $reset
- * @return type
+ * @param object $account
+ *  User account object.
+ * @param bool $reset
+ *  If TRUE the cache will be by-passed.
+ * @return mixed
+ *  Alma reservations.
  */
 function alma_reservation_get_reservations($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
 
-  // Try to look in the session for reservation information.
-  if (!isset($_SESSION['alma_reservations']) || !is_array($_SESSION['alma_reservations']) || $reset) {
-    $_SESSION['alma_reservations'] = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
+  $cache_key = 'alma_reservations';
+  $reservations = &drupal_static(__FUNCTION__, FALSE);
+  if (!$reservations || $reset) {
+    $reservations = ding_provider_session_cache_get($cache_key);
+    if (!$reservations || $reset) {
+      $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
+    }
   }
 
-  return $_SESSION['alma_reservations'];
+  return $reservations;
 }
 
 /**
- * @TODO: add description.
+ * Clear reservations stored in the current session cache.
  */
 function alma_reservation_clear_cache() {
-  unset($_SESSION['alma_reservations']);
+  ding_provider_session_cache_clear('alma_reservations');
 }
 
 /**
