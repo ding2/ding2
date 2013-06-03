@@ -55,7 +55,7 @@ class OpenruthClient {
     }
 
     // User proxy.
-    if ($proxy = variable_get('openruht_proxy', FALSE)) {
+    if ($proxy = variable_get('openruth_proxy', FALSE)) {
       $options['proxy_host'] = $proxy['host'];
       $options['proxy_port'] = $proxy['port'];
     }
