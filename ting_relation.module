@@ -24,7 +24,7 @@ function ting_relation_theme() {
 /**
  * kind of a hook - called from ting.module
  */
-function ting_relation_anchor_info() {
+function ting_relation_ding_anchor_info() {
   $relations = ting_relation_inline();
   // We need to know what kind of hasOnlineAccess
   // is provided with this object and return relevant anchor information.
