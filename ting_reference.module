@@ -371,7 +371,7 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
 }
 
 /* temporarily commented out due to deadline*/
-function ting_reference_anchor_info() {
+function ting_reference_ding_anchor_info() {
   return array('ting_reference' => t('On this site'));
 }
 
