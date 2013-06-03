@@ -6801,7 +6801,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 @media only screen and (max-width: 768px) {
   /* line 184, ../sass/module/_event.scss */
   .event .event-content {
-    margin-top: -20px;
+    padding-top: -20px;
     padding-right: 0;
   }
   /* line 189, ../sass/module/_event.scss */
