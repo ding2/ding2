@@ -84,7 +84,7 @@ function ting_infomedia_get_ting_relations() {
   return $types;
 }
 
-function ting_infomedia_anchor_info() {
+function ting_infomedia_ding_anchor_info() {
   $relations =  ting_infomedia_get_ting_relations();
   // We need to know what kind of hasOnlineAccess
   // is provided with this object and return relevant anchor information.
