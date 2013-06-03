@@ -252,7 +252,7 @@ function ting_block_view($delta = '') {
       if( $object = menu_get_object('ting_object',2) ) {
         $relations = ting_get_relations($object);
         if (!empty($relations)) {
-          $relation_types = module_invoke_all('anchor_info');
+          $relation_types = module_invoke_all('ding_anchor_info');
           $block['subject'] = array(
             '#markup' => t('About the material'),
             '#prefix' => '<div class="ting-relations-header">',
