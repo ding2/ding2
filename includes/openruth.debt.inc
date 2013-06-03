@@ -33,12 +33,16 @@ function openruth_debt_list($account) {
 }
 
 /**
- * @TODO: Missing documentation.
+ * Callback function used to update OpenRuth after a payment have been received.
  *
- * @param type $amount
- * @param type $debt_ids
- * @param type $order_id
+ * @param string $amount
+ *  The amount that have to be payed.
+ * @param array $debt_ids
+ *  The payment id's.
+ * @param string $order_id
+ *  The payments oroder id.
  * @return boolean
+ *  If TRUE the payment was received or FALSE on failur.
  */
 function openruth_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
   $creds = ding_user_get_creds();

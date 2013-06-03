@@ -116,11 +116,9 @@ function openruth_reservation_list($account) {
  * @throws Exception
  */
 function openruth_reservation_options($type, $account, $reservables) {
-  /*
-   * While we use ding_reservation for branch handling, we don't want to
-   * depend on the module, as it would mean that ding_reservation can't be
-   * disabled. So instead we throw an exception here.
-   */
+  // While we use ding_reservation for branch handling, we don't want to
+  // depend on the module, as it would mean that ding_reservation can't be
+  // disabled. So instead we throw an exception here.
   if (!module_exists('ding_reservation')) {
     throw new Exception('Openruth reservation options requires ding_reservation.');
   }
@@ -129,8 +127,9 @@ function openruth_reservation_options($type, $account, $reservables) {
   $profile = ding_user_provider_profile($account);
 
   if (ding_user_is_provider_user($account)) {
-    $preferred_branch = $profile->field_openruth_preferred_branch[field_language('profile2', $profile, 'field_openruth_preferred_branch')][0]['value'];
-    $interest_period = $profile->field_openruth_interest_period[field_language('profile2', $profile, 'field_openruth_interest_period')][0]['value'];
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
+    $preferred_branch = $wrapper->field_openruth_preferred_branch->value();
+    $interest_period = $wrapper->field_openruth_interest_period->value();
   }
   else {
     $preferred_branch = '';
@@ -154,9 +153,11 @@ function openruth_reservation_options($type, $account, $reservables) {
  */
 function openruth_reservation_options_validate($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
-  $interest_period = $profile->field_openruth_interest_period[$field_language['field_openruth_interest_period']][0]['value'];
+
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $profile_branch = $wrapper->field_openruth_preferred_branch->value();
+  $interest_period = $wrapper->field_openruth_interest_period->value();
+
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
   if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
@@ -183,8 +184,10 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
  */
 function openruth_reservation_options_submit($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
+
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $profile_branch = $wrapper->field_openruth_preferred_branch->value();
+
   $update = ding_reservation_default_options_branch_submit($type, 'field_openruth_preferred_branch', $profile_branch, $values);
   if (!empty($update['field_openruth_preferred_branch'])) {
     $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'] = $update['field_openruth_preferred_branch'];
@@ -205,8 +208,8 @@ function openruth_reservation_options_submit($type, $account, $reservables, $val
 function openruth_reservation_create($account, $id, $options) {
   $branch = $options['field_openruth_preferred_branch'];
 
-  // get interest period from profile2
-  if ($profile2 = profile2_load_by_user($account, 'provider_openruth')) {
+  // Get interest period from profile2
+  if ($profile2 = ding_user_provider_profile($account)) {
     $langs = field_language('profile2', $profile2);
     if (isset($profile2->field_openruth_interest_period)) {
       $interest_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
@@ -232,6 +235,10 @@ function openruth_reservation_create($account, $id, $options) {
     // order success; refresh cache
     $status = _openruth_user_status($creds, TRUE);
     $order_res['branch'] = $branch;
+    /**
+     * @todo: It seems like this function returns a response directly from the
+     *        OpenRuth client. Is this appropriate?
+     */
     return $order_res;
   }
   elseif ($order == 'already reserved by user') {
