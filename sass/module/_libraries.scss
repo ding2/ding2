@@ -45,10 +45,15 @@
 
   .ding-library-left {
     @include zen-grid-item(3, 1);
+
+    padding: 0;
   }
 
   .ding-library-right {
     @include zen-grid-item(9, 4);
+
+    padding: 0;
+    padding-left: 20px;
   }
 
   .library-title {
@@ -96,6 +101,31 @@
       }
     }
   }
+
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
+
+    // Icon placement and font-face.
+    &:before {
+      font-size: 30px;
+      top: 0.8em;
+    }
+
+    .field-name-field-ding-library-phone-number,
+    .field-name-field-ding-library-fax-number,
+    .field-name-field-ding-library-mail,
+    .field-name-field-ding-library-links {
+      display: none;
+    }
+  }
+
+  @include medium() {
+    // Icon placement and font-face.
+    &:before {
+      font-size: 50px;
+      top: 0.4em;
+    }
+  }
 }
 
 .library-link {
@@ -105,6 +135,13 @@
 
 .libraries-opening-hours {
   @include zen-grid-item(4, 1, right);
+
+  @include small-medium() {
+    @include zen-clear();
+    @include zen-grid-item(12, 1);
+
+    margin-top: 20px;
+  }
 }
 
 
