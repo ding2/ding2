@@ -153,9 +153,11 @@ function openruth_reservation_options($type, $account, $reservables) {
  */
 function openruth_reservation_options_validate($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
-  $interest_period = $profile->field_openruth_interest_period[$field_language['field_openruth_interest_period']][0]['value'];
+
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $profile_branch = $wrapper->field_openruth_preferred_branch->value();
+  $interest_period = $wrapper->field_openruth_interest_period->value();
+
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
   if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
@@ -182,8 +184,10 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
  */
 function openruth_reservation_options_submit($type, $account, $reservables, $values) {
   $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $profile_branch = $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'];
+
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $profile_branch = $wrapper->field_openruth_preferred_branch->value();
+
   $update = ding_reservation_default_options_branch_submit($type, 'field_openruth_preferred_branch', $profile_branch, $values);
   if (!empty($update['field_openruth_preferred_branch'])) {
     $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'] = $update['field_openruth_preferred_branch'];
