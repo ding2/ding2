@@ -116,8 +116,8 @@ class OpenruthClient {
     ));
 
     $this->log();
-    return $res;
 
+    return $res;
   }
 
   /**
