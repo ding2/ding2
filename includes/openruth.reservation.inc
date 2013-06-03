@@ -235,6 +235,10 @@ function openruth_reservation_create($account, $id, $options) {
     // order success; refresh cache
     $status = _openruth_user_status($creds, TRUE);
     $order_res['branch'] = $branch;
+    /**
+     * @todo: It seems like this function returns a response directly from the
+     *        OpenRuth client. Is this appropriate?
+     */
     return $order_res;
   }
   elseif ($order == 'already reserved by user') {
