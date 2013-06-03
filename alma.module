@@ -269,19 +269,29 @@ function alma_profile2_presave($entity) {
     $wrapper_original = entity_metadata_wrapper('profile2', $entity->original);
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-    // Reservation pause
+    // Reservation pause (Start)
     $value = $wrapper->field_alma_reservation_pause->value();
-    $start = is_null($value['value']) ? '' : $value['value'];
-    $start = str_replace(' 00:00:00', '', $start);
-    $stop = is_null($value['value2']) ? '' : $value['value2'];
-    $stop = str_replace(' 00:00:00', '', $stop);
+    $start = '';
+    if (!is_null($value['value'])) {
+      $start = date('Y-m-d', strtotime($value['value']));
+    }
+    $stop = '';
+    if (!is_null($value['value2'])) {
+      $stop = date('Y-m-d', strtotime($value['value2']));
+    }
 
+    // Reservation pause (Stop)
     $value = $wrapper_original->field_alma_reservation_pause->value();
-    $org_start = is_null($value['value']) ? '' : $value['value'];
-    $org_start = str_replace(' 00:00:00', '', $org_start);
-    $org_stop = is_null($value['value2']) ? '' : $value['value2'];
-    $org_stop = str_replace(' 00:00:00', '', $org_stop);
+    $org_start = '';
+    if (!is_null($value['value'])) {
+      $org_start = date('Y-m-d', strtotime($value['value']));
+    }
+    $org_stop = '';
+    if (!is_null($value['value2'])) {
+      $org_stop = date('Y-m-d', strtotime($value['value2']));
+    }
 
+    // Check if the reservation pause have changed.
     if ($start != $org_start || $stop != $org_stop) {
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
@@ -339,8 +349,8 @@ function alma_profile2_presave($entity) {
         ));
       }
 
-      // Clear local session cache.
-      alma_user_clear_cache($creds, TRUE);
+      // Clear local session cache by reloading patron from Alma.
+      alma_get_patron(NULL, TRUE);
     }
   }
 }
