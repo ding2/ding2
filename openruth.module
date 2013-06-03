@@ -130,8 +130,8 @@ function openruth_settings_form() {
   $default = variable_get('openruth_default_interest_period', 180);
   $form['openruth'] += ding_reservation_interest_period_selector('', 'openruth_default_interest_period', $default, $periods);
 
-  $default_proxy = variable_get('openruht_proxy', array('host' => '', 'port' => ''));
-  $form['openruth']['openruht_proxy'] = array(
+  $default_proxy = variable_get('openruth_proxy', array('host' => '', 'port' => ''));
+  $form['openruth']['openruth_proxy'] = array(
     '#type' => 'fieldset',
     '#title' => t('Proxy'),
     '#description' => t('If you don\'t have direct access to OpenRuth (e.g. debug during development) proxy can help you get access'),
@@ -140,13 +140,13 @@ function openruth_settings_form() {
     '#tree' => TRUE,
   );
 
-  $form['openruth']['openruht_proxy']['host'] = array(
+  $form['openruth']['openruth_proxy']['host'] = array(
     '#type' => 'textfield',
     '#title' => t('Host'),
     '#default_value' => $default_proxy['host'],
   );
 
-  $form['openruth']['openruht_proxy']['port'] = array(
+  $form['openruth']['openruth_proxy']['port'] = array(
     '#type' => 'textfield',
     '#title' => t('Port'),
     '#default_value' => $default_proxy['port'],
@@ -284,11 +284,14 @@ function openruth_profile2_presave($entity) {
       if ($value['value'] != $original_value['value'] || $value['value2'] != $original_value['value2']) {
 
         // Remove trailing T00:00:00 OpenRuth doesn't understand that
-        $start = $value['value'];
-        $start = str_replace(' 00:00:00', '', $start);
-
-        $stop = $value['value2'];
-        $stop = str_replace(' 00:00:00', '', $stop);
+        $start = '';
+        if (!is_null($value['value'])) {
+          $start = date('Y-m-d', $value['value']);
+        }
+        $stop = '';
+        if (!is_null($value['value2'])) {
+          $stop = date('Y-m-d', $value['value2']);
+        }
 
         // Update values.
         $changes['reservation_pause_start'] = $start;
