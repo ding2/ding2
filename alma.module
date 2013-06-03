@@ -110,7 +110,7 @@ function alma_settings_form() {
   );
 
   // Add the option to select a default interest period for reservations, if not
-  // selected it will default to 180 days (6 months). The users can override 
+  // selected it will default to 180 days (6 months). The users can override
   // this during reservation.
   $periods = alma_get_interest_periods();
   $default = variable_get('alma_default_interest_period', 180);
@@ -225,10 +225,16 @@ function alma_get_organisation($reset = FALSE) {
 }
 
 /**
- * Callback function to get OpenRuth user information
+ * Callback function to get user information from Alma.
+ *
+ * @param array $creds
+ *  The credentials for the user for which the information shold be retrived
+ *  from Alma.
+ * @return array
+ *  Available information about the patron from Alma.
  */
 function _alma_user_info($creds = NULL) {
-  // Get patron informations from ALMA.
+  // Get patron informations from Alma.
   $status = alma_get_patron($creds);
 
   // Build basic information array, with patron information.
