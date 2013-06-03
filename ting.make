@@ -13,12 +13,12 @@ projects[virtual_field][version] = "1.1"
 ; Libraries
 
 libraries[ting-client][download][type] = "git"
-libraries[ting-client][download][url] = "git@github.com:ding2/ting-client.git"
+libraries[ting-client][download][url] = "git@github.com:ding2tal/ting-client.git"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 ; Ding 2 modules
 
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
-projects[ding_entity][download][url] = "git@github.com:ding2/ding_entity.git"
+projects[ding_entity][download][url] = "git@github.com:ding2tal/ding_entity.git"
 projects[ding_entity][download][branch] = "master"
