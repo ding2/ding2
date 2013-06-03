@@ -109,8 +109,9 @@ function alma_settings_form() {
     '#default_value' => variable_get('alma_base_url', ''),
   );
 
-  // Add the option to select default interest period, which default as default
-  // to 180 days.
+  // Add the option to select a default interest period for reservations, if not
+  // selected it will default to 180 days (6 months). The users can override 
+  // this during reservation.
   $periods = alma_get_interest_periods();
   $default = variable_get('alma_default_interest_period', 180);
   $form['alma'] += ding_reservation_interest_period_selector('', 'alma_default_interest_period', $default, $periods);
@@ -208,7 +209,7 @@ function alma_get_organisation($reset = FALSE) {
         'location' => alma_client_invoke('get_locations'),
         'sublocation' => alma_client_invoke('get_sublocations'),
         'collection' => alma_client_invoke('get_collections'),
-        'reservation' =>  alma_reservation_pickup_branches(), //alma_client_invoke('get_reservation_branches'),
+        'reservation' =>  alma_reservation_pickup_branches(),
       );
 
       // Cache output for 24 hours if we got all the data correctly.
