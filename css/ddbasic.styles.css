@@ -6938,8 +6938,9 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  padding: 0;
 }
-/* line 50, ../sass/module/_libraries.scss */
+/* line 52, ../sass/module/_libraries.scss */
 .libraries .ding-library-right {
   float: left;
   width: 75%;
@@ -6956,17 +6957,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  padding: 0;
+  padding-left: 20px;
 }
-/* line 54, ../sass/module/_libraries.scss */
+/* line 59, ../sass/module/_libraries.scss */
 .libraries .library-title {
   font-size: 110%;
 }
-/* line 59, ../sass/module/_libraries.scss */
+/* line 64, ../sass/module/_libraries.scss */
 .libraries .field,
 .libraries .library-title {
   margin-bottom: 5px;
 }
-/* line 63, ../sass/module/_libraries.scss */
+/* line 68, ../sass/module/_libraries.scss */
 .libraries .field.field-name-field-ding-library-list-image,
 .libraries .library-title.field-name-field-ding-library-list-image {
   -webkit-box-sizing: border-box;
@@ -6975,7 +6978,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
   z-index: 26;
 }
-/* line 73, ../sass/module/_libraries.scss */
+/* line 78, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-label {
   float: left;
   width: 25%;
@@ -6994,7 +6997,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 79, ../sass/module/_libraries.scss */
+/* line 84, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-items {
   float: left;
   width: 75%;
@@ -7012,27 +7015,66 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 84, ../sass/module/_libraries.scss */
+/* line 89, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse {
   margin-bottom: 10px;
 }
-/* line 88, ../sass/module/_libraries.scss */
+/* line 93, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse div {
   display: inline;
 }
-/* line 93, ../sass/module/_libraries.scss */
+/* line 98, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse div .street-block:after,
 .libraries .field-name-field-ding-library-addresse div .addressfield-container-inline:after {
   content: ', ';
 }
+@media only screen and (max-width: 768px) {
+  /* line 26, ../sass/module/_libraries.scss */
+  .libraries {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 109, ../sass/module/_libraries.scss */
+  .libraries:before {
+    font-size: 30px;
+    top: 0.8em;
+  }
+  /* line 117, ../sass/module/_libraries.scss */
+  .libraries .field-name-field-ding-library-phone-number,
+  .libraries .field-name-field-ding-library-fax-number,
+  .libraries .field-name-field-ding-library-mail,
+  .libraries .field-name-field-ding-library-links {
+    display: none;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 124, ../sass/module/_libraries.scss */
+  .libraries:before {
+    font-size: 50px;
+    top: 0.4em;
+  }
+}
 
-/* line 101, ../sass/module/_libraries.scss */
+/* line 131, ../sass/module/_libraries.scss */
 .library-link {
   padding-top: 20px;
   padding-left: 20px;
 }
 
-/* line 106, ../sass/module/_libraries.scss */
+/* line 136, ../sass/module/_libraries.scss */
 .libraries-opening-hours {
   float: right;
   width: 33.33333%;
@@ -7049,6 +7091,28 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+}
+@media only screen and (max-width: 768px) {
+  /* line 136, ../sass/module/_libraries.scss */
+  .libraries-opening-hours {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-top: 20px;
+  }
 }
 
 /* Single Library
@@ -7075,11 +7139,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 22, ../sass/module/_openinghours.scss */
+.opening-hours-toggle {
+  display: none;
+}
+
+/* line 26, ../sass/module/_openinghours.scss */
 .opening-hours-week {
   padding: 20px;
   background: white;
 }
-/* line 26, ../sass/module/_openinghours.scss */
+/* line 30, ../sass/module/_openinghours.scss */
 .opening-hours-week .header {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -7087,46 +7156,46 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding: 0;
   padding-bottom: 5px;
 }
-/* line 34, ../sass/module/_openinghours.scss */
+/* line 38, ../sass/module/_openinghours.scss */
 .opening-hours-week .days {
   padding: 0;
 }
-/* line 37, ../sass/module/_openinghours.scss */
+/* line 41, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .day {
   padding: 6px;
 }
-/* line 41, ../sass/module/_openinghours.scss */
+/* line 45, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .times {
   margin-right: 0;
 }
-/* line 55, ../sass/module/_openinghours.scss */
+/* line 59, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev,
 .opening-hours-week .next {
   font-family: "FontAwesome";
   font-size: 100%;
 }
-/* line 59, ../sass/module/_openinghours.scss */
+/* line 63, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev:hover,
 .opening-hours-week .next:hover {
   text-decoration: none;
 }
-/* line 64, ../sass/module/_openinghours.scss */
+/* line 68, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev {
   float: left;
   margin-left: 5px;
 }
-/* line 69, ../sass/module/_openinghours.scss */
+/* line 73, ../sass/module/_openinghours.scss */
 .opening-hours-week .next {
   float: right;
   margin-right: 5px;
 }
-/* line 74, ../sass/module/_openinghours.scss */
+/* line 78, ../sass/module/_openinghours.scss */
 .opening-hours-week .notice-star {
   visibility: hidden;
   margin-right: 0;
   padding-left: 5px;
 }
-/* line 82, ../sass/module/_openinghours.scss */
+/* line 86, ../sass/module/_openinghours.scss */
 .opening-hours-week .notice-star:before {
   visibility: visible;
   font-family: "FontAwesome";
