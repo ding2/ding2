@@ -47,7 +47,11 @@ function alma_availability_holdings($provider_ids) {
 }
 
 /**
- * @TODO: Add function description.
+ * Get holdings base information from alma and base on if it's a periodical or
+ * not.
+ *
+ * @todo: Rewrite this to have the provider create the holdings tables and not
+ *        return HTML from inside the provides them self.
  *
  * @param type $res
  *  Returned array from alma_client class
