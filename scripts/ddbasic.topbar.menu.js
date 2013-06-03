@@ -155,7 +155,7 @@
     });
 
     /*
-     * Add News category menu as submenu to news in main menu
+     * Add news category menu as submenu to news in main menu
      */
     if ($(".pane-news-category-menu").length > 0) {
       $(".pane-news-category-menu .sub-menu").clone().appendTo('.menu-mlid-1793');
@@ -164,6 +164,18 @@
       $(".main-menu .sub-menu").removeClass('sub-menu');
       // Add sub-menu-wrapper class to texonomy menu
       $(".pane-news-category-menu").addClass('sub-menu-wrapper');
+    }
+
+    /*
+     * Add event category menu as submenu to event in main menu
+     */
+    if ($(".pane-event-category-menu").length > 0) {
+      $(".pane-event-category-menu .sub-menu").clone().appendTo('.menu-mlid-1816');
+      // Do some class magic to get the submenu reacting like drupal standard submenus.
+      $(".main-menu .sub-menu").addClass('main-menu');
+      $(".main-menu .sub-menu").removeClass('sub-menu');
+      // Add sub-menu-wrapper class to texonomy menu
+      $(".pane-event-category-menu").addClass('sub-menu-wrapper');
     }
   });
 
