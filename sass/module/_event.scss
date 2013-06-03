@@ -101,6 +101,10 @@
     margin-right: 25px;
   }
 
+  .event-list-description {
+    padding-right: $large-spacing;
+  }
+
   .event-list-location,
   .event-list-time,
   .event-list-price {
@@ -175,8 +179,9 @@
   }
 
   .event-footer {
+    border-bottom: 1px solid $gray-light;
     clear: both;
-    padding-top: $large-spacing;
+    margin-bottom: $large-spacing;
   }
 
   /* Media queries */
