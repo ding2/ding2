@@ -28,7 +28,7 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
 
   $options = array();
   if (!$selected_term) {
-    $options = array('attributes' => array('class' => array('active')));
+    $options = array('attributes' => array('class' => array('active', 'menu-item')));
   }
   // Might seem a bit odd to select 'all' when node doesn't have any category,
   // but we'll go with that for the moment being.
@@ -40,10 +40,10 @@ function ding_event_category_menu_content_type_render($subtype, $conf, $panel_ar
   foreach ($terms as $term) {
     $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
     if ($selected_term && $selected_term->tid == $term->tid) {
-      $options = array('attributes' => array('class' => array('active')));
+      $options = array('attributes' => array('class' => array('active', 'menu-item')));
     }
     else {
-      $options = array();
+      $options = array('attributes' => array('class' => array('menu-item')));
     }
     if (!$base) {
       if (isset($alias)) {
