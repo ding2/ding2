@@ -116,44 +116,56 @@
 /* User profile
    ========================================================================== */
 
-.pane-user-profile {
-  .form-item {
-    clear: both;
+.user-status-loan,
+.user-status-reservation,
+.user-status-debt {
+  @include font-bold();
 
-    label,
-    p {
-      float: left;
-    }
+  display: block;
+  margin-bottom: $medium-spacing;
+  padding: $medium-spacing;
+}
 
-    label {
-      font-family: $font-bold;
-      font-weight: $base-font-weight-bold;
-      min-width: 25%;
-    }
-  }
+.user-status-loan,
+.user-status-reservation {
+  background-color: $gray-light;
+  color: $link-color;
+}
 
-  h3 {
-    border: 0;
+.user-status-debt {
+  background-color: #bf3600;
+  color: $white;
 
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
-
-  .profile2-provider-alma {
-    .field-label {
-      float: left;
-      font-family: $font-bold;
-      font-weight: $base-font-weight-bold;
-      min-width: 25%;
-    }
-
-    .field-items,
-    .field-item {
-      display: inline;
-    }
+  &:hover {
+    color: $white;
   }
 }
 
+.pane-profile2 {
+  border-top: 1px solid $gray-light;
+
+  .field {
+    border-right: 1px solid $gray-light;
+    border-bottom: 1px solid $gray-light;
+    border-left: 1px solid $gray-light;
+  }
+
+  .field-label,
+  .field-item {
+    @include box-sizing(border-box);
+
+    display: inline-block;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
+  }
+
+  .field-label {
+    border-right: 1px solid $gray-light;
+    min-width: 200px;
+  }
+}
 
 
 /* User loans
