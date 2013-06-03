@@ -373,9 +373,9 @@ function alma_update_provider($changes, $entity) {
   try {
     $creds = ding_user_get_creds($entity);
   }
-  catch (Exception $e) {
-    // Re-throw ??
-    throw $e;
+  catch (Exception $exception) {
+    watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+    throw $exception;
   }
 
   // Mobile phone; add, change, delete.
@@ -385,8 +385,8 @@ function alma_update_provider($changes, $entity) {
       try {
         $res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
       }
-      catch (Exception $e) {
-        watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $exception) {
+        watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
       }
 
       if (empty($res)) {
@@ -399,8 +399,8 @@ function alma_update_provider($changes, $entity) {
       try {
         $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
       }
-      catch (Exception $e) {
-        watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $exception) {
+        watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
       }
 
       if (!$res) {
@@ -414,8 +414,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (!$res) {
       $error_message .= t('mobile not added');
@@ -431,8 +431,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res =  alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (empty($res)) {
       $error_message .= t('reservation pause not updated');
@@ -444,8 +444,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('add_absent_period', $creds['name'], $creds['pass'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (empty($res)) {
       $error_message .= t('reservation pause not added');
@@ -457,8 +457,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
   }
 
@@ -467,8 +467,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('change_patron_preferences', $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (empty($res)) {
       $error_message .= t('pickup branch not saved');
@@ -491,8 +491,8 @@ function alma_update_provider($changes, $entity) {
         $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $user->mail, $changes['mail']);
       }
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
 
     if (empty($res)) {
