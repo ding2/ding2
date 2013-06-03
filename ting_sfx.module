@@ -61,7 +61,7 @@ function ting_sfx_inline() {
   return $types;
 }
 
-function ting_sfx_anchor_info() {
+function ting_sfx_ding_anchor_info() {
   return ting_sfx_inline();
 }
 
