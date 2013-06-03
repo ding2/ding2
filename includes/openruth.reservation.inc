@@ -208,8 +208,8 @@ function openruth_reservation_options_submit($type, $account, $reservables, $val
 function openruth_reservation_create($account, $id, $options) {
   $branch = $options['field_openruth_preferred_branch'];
 
-  // get interest period from profile2
-  if ($profile2 = profile2_load_by_user($account, 'provider_openruth')) {
+  // Get interest period from profile2
+  if ($profile2 = ding_user_provider_profile($account)) {
     $langs = field_language('profile2', $profile2);
     if (isset($profile2->field_openruth_interest_period)) {
       $interest_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
