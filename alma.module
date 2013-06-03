@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- *
+ * Code for the Alma feature.
  */
 
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
@@ -110,8 +109,9 @@ function alma_settings_form() {
     '#default_value' => variable_get('alma_base_url', ''),
   );
 
-  // Add the option to select default interest period, which default as default
-  // to 180 days.
+  // Add the option to select a default interest period for reservations, if not
+  // selected it will default to 180 days (6 months). The users can override
+  // this during reservation.
   $periods = alma_get_interest_periods();
   $default = variable_get('alma_default_interest_period', 180);
   $form['alma'] += ding_reservation_interest_period_selector('', 'alma_default_interest_period', $default, $periods);
@@ -209,7 +209,7 @@ function alma_get_organisation($reset = FALSE) {
         'location' => alma_client_invoke('get_locations'),
         'sublocation' => alma_client_invoke('get_sublocations'),
         'collection' => alma_client_invoke('get_collections'),
-        'reservation' =>  alma_reservation_pickup_branches(), //alma_client_invoke('get_reservation_branches'),
+        'reservation' =>  alma_reservation_pickup_branches(),
       );
 
       // Cache output for 24 hours if we got all the data correctly.
@@ -225,10 +225,16 @@ function alma_get_organisation($reset = FALSE) {
 }
 
 /**
- * Callback function to get OpenRuth user information
+ * Callback function to get user information from Alma.
+ *
+ * @param array $creds
+ *  The credentials for the user for which the information shold be retrived
+ *  from Alma.
+ * @return array
+ *  Available information about the patron from Alma.
  */
 function _alma_user_info($creds = NULL) {
-  // Get patron informations from ALMA.
+  // Get patron informations from Alma.
   $status = alma_get_patron($creds);
 
   // Build basic information array, with patron information.
@@ -263,19 +269,29 @@ function alma_profile2_presave($entity) {
     $wrapper_original = entity_metadata_wrapper('profile2', $entity->original);
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-    // Reservation pause
+    // Reservation pause (Start)
     $value = $wrapper->field_alma_reservation_pause->value();
-    $start = is_null($value['value']) ? '' : $value['value'];
-    $start = str_replace(' 00:00:00', '', $start);
-    $stop = is_null($value['value2']) ? '' : $value['value2'];
-    $stop = str_replace(' 00:00:00', '', $stop);
+    $start = '';
+    if (!is_null($value['value'])) {
+      $start = date('Y-m-d', strtotime($value['value']));
+    }
+    $stop = '';
+    if (!is_null($value['value2'])) {
+      $stop = date('Y-m-d', strtotime($value['value2']));
+    }
 
+    // Reservation pause (Stop)
     $value = $wrapper_original->field_alma_reservation_pause->value();
-    $org_start = is_null($value['value']) ? '' : $value['value'];
-    $org_start = str_replace(' 00:00:00', '', $org_start);
-    $org_stop = is_null($value['value2']) ? '' : $value['value2'];
-    $org_stop = str_replace(' 00:00:00', '', $org_stop);
+    $org_start = '';
+    if (!is_null($value['value'])) {
+      $org_start = date('Y-m-d', strtotime($value['value']));
+    }
+    $org_stop = '';
+    if (!is_null($value['value2'])) {
+      $org_stop = date('Y-m-d', strtotime($value['value2']));
+    }
 
+    // Check if the reservation pause have changed.
     if ($start != $org_start || $stop != $org_stop) {
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
@@ -333,8 +349,8 @@ function alma_profile2_presave($entity) {
         ));
       }
 
-      // Clear local session cache.
-      alma_user_clear_cache($creds, TRUE);
+      // Clear local session cache by reloading patron from Alma.
+      alma_get_patron(NULL, TRUE);
     }
   }
 }
@@ -357,9 +373,9 @@ function alma_update_provider($changes, $entity) {
   try {
     $creds = ding_user_get_creds($entity);
   }
-  catch (Exception $e) {
-    // Re-throw ??
-    throw $e;
+  catch (Exception $exception) {
+    watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+    throw $exception;
   }
 
   // Mobile phone; add, change, delete.
@@ -369,8 +385,8 @@ function alma_update_provider($changes, $entity) {
       try {
         $res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
       }
-      catch (Exception $e) {
-        watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $exception) {
+        watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
       }
 
       if (empty($res)) {
@@ -383,8 +399,8 @@ function alma_update_provider($changes, $entity) {
       try {
         $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
       }
-      catch (Exception $e) {
-        watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $exception) {
+        watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
       }
 
       if (!$res) {
@@ -398,8 +414,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (!$res) {
       $error_message .= t('mobile not added');
@@ -415,8 +431,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res =  alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (empty($res)) {
       $error_message .= t('reservation pause not updated');
@@ -428,8 +444,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('add_absent_period', $creds['name'], $creds['pass'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (empty($res)) {
       $error_message .= t('reservation pause not added');
@@ -441,8 +457,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
   }
 
@@ -451,8 +467,8 @@ function alma_update_provider($changes, $entity) {
     try {
       $res = alma_client_invoke('change_patron_preferences', $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
     if (empty($res)) {
       $error_message .= t('pickup branch not saved');
@@ -475,8 +491,8 @@ function alma_update_provider($changes, $entity) {
         $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $user->mail, $changes['mail']);
       }
     }
-    catch (Exception $e) {
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
     }
 
     if (empty($res)) {
@@ -587,8 +603,8 @@ function alma_profile2_load($entities) {
       if (isset($patron->absentPeriods[0]) &&
           isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
         $wrapper->field_alma_reservation_pause->set(array(
-          'value' => $patron->absentPeriods[0]['from_date'] . ' 00:00:00',
-          'value2' => $patron->absentPeriods[0]['to_date'] . ' 00:00:00',
+          'value' => date('Y-m-d m:i:s', strtotime($patron->absentPeriods[0]['from_date'])),
+          'value2' => date('Y-m-d m:i:s', strtotime($patron->absentPeriods[0]['to_date'])),
         ));
         $wrapper->field_alma_absent_id->set($patron->absentPeriods[0]['id']);
       }
@@ -613,3 +629,6 @@ function alma_profile2_load($entities) {
     }
   }
 }
+
+// Include the feature code.
+include_once 'alma.features.inc';
