@@ -116,11 +116,9 @@ function openruth_reservation_list($account) {
  * @throws Exception
  */
 function openruth_reservation_options($type, $account, $reservables) {
-  /*
-   * While we use ding_reservation for branch handling, we don't want to
-   * depend on the module, as it would mean that ding_reservation can't be
-   * disabled. So instead we throw an exception here.
-   */
+  // While we use ding_reservation for branch handling, we don't want to
+  // depend on the module, as it would mean that ding_reservation can't be
+  // disabled. So instead we throw an exception here.
   if (!module_exists('ding_reservation')) {
     throw new Exception('Openruth reservation options requires ding_reservation.');
   }
@@ -129,8 +127,9 @@ function openruth_reservation_options($type, $account, $reservables) {
   $profile = ding_user_provider_profile($account);
 
   if (ding_user_is_provider_user($account)) {
-    $preferred_branch = $profile->field_openruth_preferred_branch[field_language('profile2', $profile, 'field_openruth_preferred_branch')][0]['value'];
-    $interest_period = $profile->field_openruth_interest_period[field_language('profile2', $profile, 'field_openruth_interest_period')][0]['value'];
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
+    $preferred_branch = $wrapper->field_openruth_preferred_branch->value();
+    $interest_period = $wrapper->field_openruth_interest_period->value();
   }
   else {
     $preferred_branch = '';
