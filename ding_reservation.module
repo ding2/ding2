@@ -200,9 +200,9 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
           else {
             // Else simply rebuild the form.
             if ($key == $provider . '_preferred_branch') {
-              $removal[] = $provider . '_interest_period';
+              $removal[] = 'interest_period';
             }
-            elseif ($key == $provider . '_interest_period') {
+            elseif ($key == 'interest_period') {
               $removal[] = $provider . '_preferred_branch';
             }
 
@@ -280,15 +280,12 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 
   $html = theme('status_messages');
   if ($form_state['rebuild'] || form_get_errors()) {
-    $provider = ding_provider_get_provider_module_name('reservation');
-
-    // Populate the inputs with default values from settings.
-    $field_name = $provider . '_interest_period';
-    $field_info = field_info_instance('profile2', 'field_' . $field_name, 'provider_' . $provider);
+    // Get the default interest period for the current user.
+    $default_interest_period = ding_provider_invoke('reservation', 'default_interest_period');
 
     // Use #value instead of #default_value when rendering forms
     // using drupal_render().
-    $form['provider_options'][$field_name]['#value'] = $field_info['default_value'][0]['value'];
+    $form['provider_options']['interest_period']['#value'] = $default_interest_period;
 
     // Hide certain fields, if any.
     if (is_array($form_state['removable'])) {
@@ -974,9 +971,8 @@ function ding_reservation_default_options_branch_validate($type, $name, $default
 function ding_reservation_default_options_interest_period_validate($type, $name, $default, $values) {
   if (empty($values[$name])) {
     $result = array();
-    $provider = ding_provider_get_provider_module_name('reservation');
     if ($type == 'create' && empty($default)) {
-      $result[$provider . '_interest_period'] = array(
+      $result['interest_period'] = array(
         '#error' => t('You must select an interest period'),
       );
     }
