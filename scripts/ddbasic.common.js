@@ -7,14 +7,18 @@
     // Set variables
     var element = $(".js-opening-hours-toggle");
 
+    element.addClass("js-collapsed");
+
     // Attach click
     element.on('click touchstart', function(event) {
       // Toggle
-      element.parent().next(".js-opening-hours-toggle-element").slideToggle();
-    });
+      element.parent().next(".js-opening-hours-toggle-element").slideToggle('slow', function() {
+        element.toggleClass("js-collapsed js-expanded");
+      });
 
-    // Prevent default (href)
-    event.preventDefault();
+      // Prevent default (href)
+      event.preventDefault();
+    });
   }
 
   // When ready start the magic

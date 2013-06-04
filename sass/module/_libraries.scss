@@ -149,8 +149,15 @@
 .opening-hours-toggle {
   @include zen-grid-item(9, 4);
   @include zen-clear();
-  @extend .icon-plus-sign;
-
+    
+  &.js-collapsed {
+    @extend .icon-plus-sign;
+  }
+  
+  &.js-expanded {
+    @extend .icon-minus-sign;
+  }
+  
   display: none;
   padding-left: $large-spacing;
 

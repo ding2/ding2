@@ -2897,12 +2897,12 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 354, ../sass/framework/_fontawesome.scss */
-.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle.js-collapsed:before {
   content: "\f055";
 }
 
 /* line 355, ../sass/framework/_fontawesome.scss */
-.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before, .opening-hours-toggle.js-expanded:before {
   content: "\f056";
 }
 
@@ -7118,11 +7118,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 20px;
   /* Media queries */
 }
-/* line 157, ../sass/module/_libraries.scss */
+/* line 164, ../sass/module/_libraries.scss */
 .opening-hours-toggle:hover {
   text-decoration: none;
 }
-/* line 161, ../sass/module/_libraries.scss */
+/* line 168, ../sass/module/_libraries.scss */
 .opening-hours-toggle:before {
   font-family: "FontAwesome";
   margin-right: 5px;
