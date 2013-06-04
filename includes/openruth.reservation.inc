@@ -284,6 +284,17 @@ function openruth_reservation_update($account, $res_ids, $options) {
   return;
 }
 
+/**
+ * Implements hook_reservation_deletion_enabled().
+ *
+ * Check where reservation deletion have been enabled in the providers settings.
+ *
+ * @return bool
+ *  If enabled TRUE else FALSE.
+ */
+function openruth_reservation_reservation_deletion_enabled() {
+  return variable_get('openruth_enable_reservation_deletion', FALSE);
+}
 
 /**
  * Delete a reservation for a given account
