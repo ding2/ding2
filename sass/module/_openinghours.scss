@@ -1,0 +1,89 @@
+/**
+ * Opening hours
+ *
+ * @author magnify, zorp
+ */
+
+
+.block-opening-hours {
+  min-height: 279px;
+
+  .read-more {
+    margin-left: 3px;
+  }
+}
+
+.pane-week {
+  border-top: 1px solid $gray-light;
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
+}
+
+.opening-hours-week {
+  padding: $large-spacing;
+  padding-top: $medium-spacing;
+  background: $white;
+
+  .header {
+    @include font-bold();
+
+    background: $white;
+    color: $gray-darker;
+    padding: 0;
+    padding-bottom: $medium-spacing;
+  }
+
+  .days {
+    padding: 0;
+
+    .day {
+      padding: 6px;
+    }
+
+    .times {
+      margin-right: 0;
+    }
+
+    .odd {
+      @extend %article-background--odd;
+    }
+
+    .even {
+      @extend %article-background--even;
+    }
+  }
+
+  .prev,
+  .next {
+    font-family: $base-icon-library-font;
+    font-size: $font-size-reset;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .prev {
+    float: left;
+    margin-left: $small-spacing;
+  }
+
+  .next {
+    float: right;
+    margin-right: $small-spacing;
+  }
+
+  .notice-star {
+    @extend .icon-info-sign;
+
+    visibility: hidden;
+    margin-right: 0;
+    padding-left: $small-spacing;
+
+    // Icon placement and font-face.
+    &:before {
+      visibility: visible;
+      font-family: $base-icon-library-font;
+    }
+  }
+}

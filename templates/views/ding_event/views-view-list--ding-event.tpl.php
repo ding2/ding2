@@ -18,4 +18,3 @@ print $wrapper_prefix;
     endforeach;
   print $list_type_suffix;
 print $wrapper_suffix;
-

@@ -1,208 +1,52 @@
 // =============================================================================
-// DDBasic styling
+//
+// DDBasic stylesheet combiner
+//
 // =============================================================================
 //
 
 
-// -----------------------------------------------------------------------------
-// Compass
-// -----------------------------------------------------------------------------
+// Include compass
 @import "compass/css3";
 
 
-// **
-// Variables
-// **
-//
-@import "_ddbasic.variables.scss";
+// Grid - http://zengrids.com
+@import "zen";
 
 
-// **
-// Grid
-// **
-//
-@import "_ddbasic.grid.scss";
+// Include framework
+@import "framework/_variables";
+@import "framework/_mixins";
+@import "framework/_normalize";
+@import "framework/_base";
+@import "framework/_framework";
+@import "framework/_forms";
+@import "framework/_tables";
+@import "framework/_buttons";
+@import "framework/_tabs";
+@import "framework/_labels";
+@import "framework/_navigation";
+@import "framework/_modal";
+@import "framework/_fontawesome";
 
 
-// **
-// Mixins
-// **
-@import "_ddbasic.mixins.scss";
+// Include media queries (displays and attachments)
+@import "layout/_layout";
+@import "layout/_typography";
+@import "layout/_drupal";
 
 
-// **
-// Font awesome
-// **
-@import "_ddbasic.font.awesome.scss";
+// Include modules
+@import "module/_module";
+@import "module/_search";
+@import "module/_carousel";
+@import "module/_news";
+@import "module/_event";
+@import "module/_libraries";
+@import "module/_openinghours";
+@import "module/_user";
+@import "module/_comment";
 
 
-// **
-// Media queries
-// **
-@import "_ddbasic.mq.displays.scss";
-@import "_ddbasic.mq.attachments.scss";
-@import "_ddbasic.mediaqueries.scss";
-@import "_ddbasic.mq.layouts.scss";
-
-
-// **
-// Layout
-// **
-@import "_ddbasic.layout.scss";
-
-
-// **
-// Header
-// **
-@import "_ddbasic.header.scss";
-
-
-// **
-// Extends
-// **
-@import "_ddbasic.extends.scss";
-
-
-// **
-// Default element styling
-// **
-@import "_ddbasic.elements.scss";
-
-
-// **
-// Typography
-// **
-@import "_ddbasic.typography.scss";
+// Custom font
 @import "../font/source-sans/stylesheet.css";
-
-
-// **
-// Blocks
-// **
-@import "_ddbasic.blocks.scss";
-
-
-// **
-// Forms
-// **
-@import "_ddbasic.forms.scss";
-
-
-// **
-// Links
-// **
-@import "_ddbasic.links.scss";
-
-
-// **
-// Lists
-// **
-@import "_ddbasic.lists.scss";
-
-
-// **
-// Tables
-// **
-@import "_ddbasic.tables.scss";
-
-
-// **
-// Tables
-// **
-@import "_ddbasic.pagination.scss";
-
-
-// **
-// Buttons
-// **
-@import "_ddbasic.buttons.scss";
-
-
-// **
-// Tabs
-// **
-@import "_ddbasic.tabs.scss";
-
-
-// **
-// Labels
-// **
-@import "_ddbasic.labels.scss";
-
-
-// **
-// Navigation
-// **
-@import "_ddbasic.navigation.scss";
-
-
-// **
-// Miscellaneous
-// **
-@import "_ddbasic.miscellaneous.scss";
-@import "_ddbasic.overrides.drupal.scss";
-
-
-// -----------------------------------------------------------------------------
-// Module styling
-// -----------------------------------------------------------------------------
-//
-
-// **
-// Search
-// **
-@import "_ddbasic.search.scss";
-
-
-// **
-// Carousel (ting_search_carousel)
-// **
-@import "_ddbasic.carousel.scss";
-
-
-// **
-// Event (ding_event)
-// **
-@import "_ddbasic.event.scss";
-
-
-// **
-// Libraries
-// **
-@import "_ddbasic.libraries.scss";
-
-
-// **
-// News
-// **
-@import "_ddbasic.news.scss";
-
-
-// **
-// Modal popups
-// **
-@import "_ddbasic.modal.scss";
-
-
-// **
-// Opening hours (opening_hours)
-// **
-@import "_ddbasic.openinghours.scss";
-
-
-// **
-// User (ding_user, ding_user_frontend)
-// **
-@import "_ddbasic.user.scss";
-
-
-// **
-// Page (ding_page)
-// **
-@import "_ddbasic.page.scss";
-
-
-// **
-// Comments (comments)
-// **
-@import "_ddbasic.comment.scss";

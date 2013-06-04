@@ -1,0 +1,294 @@
+/**
+ * Module
+ *
+ * Common styling shared among modules
+ *
+ * @author magnify
+ */
+
+
+
+/* Extends for page elements
+   ========================================================================== */
+
+%article-margin {
+  margin-bottom: 10px;
+}
+
+%article-padding {
+  padding: $large-spacing;
+}
+
+%article-padding--small {
+  padding: $medium-spacing;
+}
+
+%article-background {
+  background-color: $article-background;
+}
+
+%article-background--odd {
+  background-color: $article-background-odd;
+}
+
+%article-background--even {
+  background-color: $article-background-even;
+}
+
+%article-heading {
+  font-size: $font-size-large;
+}
+
+%article-heading--small {
+  font-size: $font-size-medium;
+}
+
+
+%article-text {
+  color: $article-text;
+}
+
+%article-text--opaque {
+  color: transparentize($article-text, .5);
+}
+
+/* Styling for material list items (example use: search results, related materials on news etc.) */
+%material-list-item {
+  @extend %article-background;
+  @extend %article-padding;
+  @extend %article-margin;
+
+  overflow: hidden;
+  position: relative;
+
+  &:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  &:nth-child(even) {
+    @extend %article-background--even;
+  }
+}
+
+%material-heading {
+  @extend %article-heading;
+}
+
+
+
+/* Shared styling used for search and user form in topbar
+   ========================================================================== */
+
+%search-user-header {
+  display: none;
+
+  &.js-topbar-toggled {
+    display: inline-block;
+  }
+
+  width: 100%;
+
+  [class^="label-"] {
+    @include font-bold();
+
+    color: transparentize($white, .25);
+    font-size: $font-size-reset;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+  }
+
+  [class^="icon-"] {
+
+    color: $gray-darker;
+    bottom: 15px;
+    font-size: $font-size-largest;
+    left: 24px;
+    position: absolute;
+  }
+
+  .form-item {
+    display: inline-block;
+    position: relative;
+  }
+
+  .form-text {
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    border: 0;
+    display: inline;
+    font-size: $font-size-medium;
+    margin-right: 20px;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .form-text,
+  .form-submit {
+    min-height: 60px;
+    padding-top: 0;
+  }
+
+  .form-submit {
+    @include border-radius(12px);
+    @extend %button-default;
+
+    font-size: $font-size-larger;
+    margin-top: 31px;
+    padding-bottom: 1px;
+    min-width: 110px;
+  }
+
+  input[class^="form-"] {
+    margin-bottom: 0;
+  }
+
+  .form-actions {
+    @include zen-grid-item(2, 1, right);
+
+    text-align: right;
+  }
+
+  /* Media queries */
+  @include small() {
+    [class^="label-"] {
+      font-size: $font-size-small;
+    }
+
+    .form-item {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
+    }
+  }
+
+  @include small-medium() {
+    i[class^="icon-"] {
+      font-size: $font-size-large;
+    }
+
+    .form-text {
+      font-size: $font-size-medium;
+      min-height: 50px;
+      min-width: 100%;
+      padding-left: 42px;
+    }
+
+    .form-actions {
+      @include zen-grid-item(12, 1);
+      @include zen-clear();
+    }
+
+    .form-submit {
+      font-size: $font-size-medium;
+      margin-top: 20px;
+      min-height: 44px;
+      min-width: 100%;
+    }
+  }
+}
+
+
+
+/* Filter by library box
+   ========================================================================== */
+
+.pane-library-list {
+  background-color: $gray-light;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
+
+  .choose-library-label,
+  .form-item-select-library {
+    display: inline;
+    margin-right: $small-spacing;
+  }
+
+  .button {
+    /* Make sure the button aligns vertically with the select */
+    margin-top: -2px;
+  }
+
+  /* Media queries */
+  @include small() {
+    .choose-library-label {
+      display: none;
+    }
+    .form-select {
+      max-width: 75%;
+    }
+  }
+}
+
+
+/* Pager
+   ========================================================================== */
+
+.pager {
+  padding-left: 0;
+
+  li {
+    display: inline-block;
+    margin-left: -4px;
+    margin-right: 4px;
+
+    &.pager-current,
+    a {
+      background-color: $gray-light;
+      display: inline-block;
+      padding-top: $small-spacing;
+      padding-right: 15px;
+      padding-bottom: $small-spacing;
+      padding-left: 15px;
+    }
+  }
+
+  .active a,
+  .active a:hover {
+    cursor: default;
+    text-decoration: underline;
+  }
+
+  .disabled {
+    background-color: $gray-lighter;
+  }
+  .disabled a:hover {
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+
+/* Signature
+   ========================================================================== */
+
+.signature {
+  border-top: 1px solid $gray-light;
+  border-bottom: 1px solid $gray-light;
+
+  margin-bottom: $large-spacing;
+  padding-top: $large-spacing;
+  padding-bottom: $large-spacing;
+
+  .signature-image {
+    img {
+      float: left;
+      margin-top: $small-spacing;
+      margin-right: $large-spacing;
+     }
+  }
+
+  .signature-label {
+    display: inline-block;
+    min-width: 125px;
+  }
+}
+
+.signature .tags a {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.signature .tags a:not(:last-child):after {
+  content: ",";
+}

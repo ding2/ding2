@@ -1,119 +1,56 @@
 (function($) {
 
-  // When ready start the magic.
-  $(document).ready(function () {
+  /*
+   * Toggle opening hours
+   */
+  function toggle_opening_hours() {
+    // Set variables
+    var element = $('.js-opening-hours-toggle');
+    var scrollOffset;
 
-    // Fix Drupal administration menu in relation to the fixed navigation menu.
-    var menu = $('.navigation-wrapper');
-    var pos = menu.offset();
-    var body_paddding = parseInt($('body').css('paddingTop'), 10);
-    if (body_paddding) {
-      pos.top = pos.top - body_paddding;
-    }
+    // Add collapsed class
+    element.addClass('js-collapsed');
 
-    // Only attched the scroll event and actions to the front page.
-    if ($('body').hasClass('front')) {
+    // Attach click
+    element.on('click touchstart', function(event) {
+      // Store clicked element for later use
+      var element = this;
 
-      // Get calculations for elements position on the page and their sizes.
-      var menu_height = menu.height();
-      var menu_pos_relative = (pos.top - 20) - menu_height;
-      /**
-      * @todo why do we need to have -20px offset ? If they are not there every
-      * thing jumps.
-      */
+      // Toggle
+      $(this).parent().next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
+        // Toggle class
+        $(element).toggleClass('js-collapsed js-expanded');
 
-      // User to keep track of navaigation menus fixed state.
-      var menu_fixed = false;
-
-      // Hook into window scroll event (it will fire when attched if window is
-      // scrolled down).
-      $(window).scroll(function(){
-        var top = $(window).scrollTop();
-
-        // Figure out if we should fix position the menu or not.
-        if (top > menu_pos_relative && !menu_fixed) {
-          menu.addClass('fixed');
-          menu.css('top', body_paddding);
-          menu_fixed = true;
-          ddbasic_header_panes_toggle();
+        // If the window is scrolled to the top increase offset
+        if ($(window).scrollTop() == 0) {
+          scrollOffset = -104;
+        } else {
+          scrollOffset = -60;
         }
-        else if (top < menu_pos_relative && menu_fixed) {
-          menu.removeClass('fixed');
-          menu.css('top', '');
-          menu_fixed = false;
-          ddbasic_header_panes_toggle();
-        }
+
+        // Scroll to the top
+        $.scrollTo($(element).parent(), 500, {offset: scrollOffset, axis: 'y'});
+        
+        // Remove focus from link
+        $(element).blur();
       });
 
-      // Defined "global" vars used to fix login form vs. slide-down box.
-      var ddbasic_login_pane_default = $('.header-inner .pane-user-login');
-      var ddbasic_login_pane_toolbar = $('.pane-ding-user-frontend-ding-user-ajax-login');
-      var ddbasic_search_pane = $('.header-inner .pane-search-form');
-      var ddbasic_login_state = false;
+      // Prevent default (href)
+      event.preventDefault();
+    });
+  }
 
-      // Remove login button (slide down), if header login is shown.
-      if ($(window).scrollTop() < menu_pos_relative) {
-        ddbasic_login_pane_toolbar.hide();
-      }
-    }
-    else {  // Not the front page
-      // The menu is always fixed.
-      $('.navigation-wrapper').addClass('fixed');
+  // When ready start the magic
+  $(document).ready(function () {
+    // Toggle opening hours
+    toggle_opening_hours();
 
-      // Fix Drupal admin menu.
-      menu.css('top', body_paddding);
-    }
-
-    // Helper functio to toggle login panes on the front page.
-    function ddbasic_header_panes_toggle() {
-      // Toggle the different login panes. We remove them to prevent elements
-      // with the same ids etc.
-
-      var ddbasic_user_name = $('.topbar .user-name');
-      var ddbasic_user_menu = $('.topbar .user-menu');
-
-      if (ddbasic_login_state) {
-        ddbasic_login_pane_toolbar.hide();
-        ddbasic_login_pane_default.show();
-
-        // Move search.
-        ddbasic_search_pane.remove();
-        $('.header-inner').append(ddbasic_search_pane);
-        ddbasic_search_pane.show();
-
-        // Hide user name and user menu
-        ddbasic_user_name.hide();
-        ddbasic_user_menu.hide();
-      }
-      else {
-        ddbasic_login_pane_default.hide();
-        ddbasic_login_pane_toolbar.show();
-
-        // Move search.
-        ddbasic_search_pane.remove();
-        $('.topbar > .topbar-inner').append(ddbasic_search_pane);
-        ddbasic_search_pane.show();
-
-        // Show user name and user menu
-        ddbasic_user_name.show();
-        ddbasic_user_menu.show();
-      }
-
-      // Toggle state.
-      ddbasic_login_state = !ddbasic_login_state;
-    }
-
-  });
-
-  // Add equal heights on $(window).load() instead of $(document).ready()
-  // See: http://www.cssnewbie.com/equalheights-jquery-plugin/#comment-13286
-  $(window).load(function () {
-
-    // Set equal heights on front page content
-    $('.main-wrapper .grid-inner').equalHeights();
-
-    // Set equal heights on front page attachments
-    $('.attachments-wrapper .grid-inner > div').equalHeights();
+    // Toggle footer menu
+    $('.footer .pane-title').on('click', function() {
+      var element = $(this).parent();
+      $('.menu', element).toggle();
+      $(this).toggleClass('js-toggled');
+    });
   });
 
 })(jQuery);

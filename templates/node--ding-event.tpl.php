@@ -95,6 +95,23 @@
   <div class="event-lead">
     <?php print render($content['field_ding_event_lead'][0]); ?>
   </div>
+  <div class="event-info">
+    <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
+
+    <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
+
+    <?php if (isset($ddbasic_event_location)): ?>
+      <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($content['field_ding_event_target'])): ?>
+      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($content['field_ding_event_price'])): ?>
+      <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
+    <?php endif; ?>
+  </div>  
   <div class="event-content">
     <div class="event-image">
       <?php print render($content['field_ding_event_title_image']); ?>
@@ -123,27 +140,6 @@
 
       print render($content);
     ?>
-  </div>
-  <div class="event-info">
-    <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
-
-    <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
-
-    <?php if (isset($ddbasic_event_location)): ?>
-      <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
-    <?php endif; ?>
-
-    <?php if (isset($content['field_ding_event_target'])): ?>
-      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
-    <?php endif; ?>
-
-    <?php if (isset($content['field_ding_event_price'])): ?>
-      <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
-    <?php endif; ?>
-
-    <?php if (isset($ddbasic_place2book_tickets)): ?>
-      <div class="ticket-wrapper"><?php print render($content['field_place2book_tickets'][0]); ?></div>
-    <?php endif; ?>
   </div>
 
   <footer class="event-footer">

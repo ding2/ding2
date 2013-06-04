@@ -1,0 +1,82 @@
+/**
+ * Labels
+ *
+ * @author magnify
+ */
+
+
+
+/* Variables
+   ========================================================================== */
+
+$label-bg-color:                  #00b7e7;
+$label-text-color:                #fff;
+$label-bg-color-inverted:         #fff;
+$label-text-color-inverted:       #00b7e7;
+$label-border-radius:             8px;
+$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
+$label-padding:                   3px 10px;
+
+
+.label {
+  @include border-radius($label-border-radius);
+
+  background-color: $label-bg-color;
+  color: $label-text-color;
+  font-size: $font-size-small;
+  padding: $label-padding;
+  text-shadow: $label-shadow;
+  vertical-align: baseline;
+  white-space: nowrap;
+
+  /* Make sure it works with a wrapper */
+  a {
+    &:link,
+    &:visited,
+    &:hover {
+      color: $label-text-color;
+      text-decoration: none;
+    }
+  }
+
+  /* Make sure it works on a link */
+  &:link,
+  &:visited {
+    color: $label-text-color;
+  }
+
+  &:hover {
+    background-color: darken($label-bg-color, 10%);
+    color: $label-text-color;
+    text-decoration: none;
+  }
+}
+
+
+.label-inverted {
+  @extend .label;
+
+  background-color: $label-bg-color-inverted;
+  color: $label-text-color-inverted;
+
+  /* Make sure it works with a wrapper */
+  a {
+    &:link {
+      color: $label-text-color-inverted;
+    }
+
+    &:hover {
+      color: $label-text-color-inverted;
+    }
+  }
+
+  /* Make sure it works on a link */
+  &:link {
+    color: $label-text-color-inverted;
+  }
+
+  &:hover {
+    background-color: darken($label-bg-color-inverted, 10%);
+    color: $label-text-color-inverted;
+  }
+}

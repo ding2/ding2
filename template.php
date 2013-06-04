@@ -119,7 +119,13 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'search_block_form':
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
-    break;
+      $form['search_block_form']['#title'] = t('Search the library database and the website');
+      $form['search_block_form']['#title_attribute'] = array('label-search');
+      
+      // Remove element-invisible
+      unset($form['search_block_form']['#title_display']);
+
+      break;
     case 'user_login_block':
 
       unset($form['name']['#title']);
@@ -174,6 +180,16 @@ function ddbasic_menu_tree__menu_block__2($vars) {
 // Sub menu
 function ddbasic_menu_tree__menu_block__3($vars) {
   return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
+}
+
+// Tabs menu
+function ddbasic_menu_tree__menu_tabs_menu($vars) {
+  return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
+}
+
+// System user menu
+function ddbasic_menu_tree__user_menu($vars) {
+  return '<ul class="system-user-menu">' . $vars['tree'] . '</ul>';
 }
 
 /**
@@ -289,9 +305,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     // Add event time to variables. A render array is created based on the date format "time_only"
     $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings'=>array('format_type' => 'time_only', 'fromto' => 'both')) );
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
-
-    // Set a flag for existence of field_place2book_tickets
-    $variables['ddbasic_place2book_tickets'] = (isset($variables['content']['field_place2book_tickets'])) ? 1: 0;
   }
 
   $tags_fields = array(
@@ -428,6 +441,102 @@ function ddbasic_panels_default_style_render_region($vars) {
  */
 function ddbasic_menu_link($vars) {
 
+  // Check if the class array is empty.
+  if(empty($vars['element']['#attributes']['class'])){
+    unset($vars['element']['#attributes']['class']);
+  }
+
+  $element = $vars['element'];
+
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+
+  // Add default class to a tag
+  $element['#localized_options']['attributes']['class'] = array(
+    'menu-item',
+  );
+
+  // Make sure text string is treated as html by l function
+  $element['#localized_options']['html'] = true;
+
+  $output = l('<span>'.$element['#title'].'</span>', $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * Implements theme_menu_link()
+ * Add specific markup for topbar menu exposed as menu_block_4.
+ */
+function ddbasic_menu_link__menu_tabs_menu($vars) {
+
+  // Run classes array through our custom stripper.
+  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
+
+  // Check if the class array is empty.
+  if(empty($vars['element']['#attributes']['class'])){
+    unset($vars['element']['#attributes']['class']);
+  }
+
+  $element = $vars['element'];
+
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    $sub_menu = drupal_render($element['#below']);
+  }
+
+  // Add default class to a tag
+  $element['#localized_options']['attributes']['class'] = array(
+    'menu-item',
+  );
+
+  // Make sure text string is treated as html by l function
+  $element['#localized_options']['html'] = true;
+
+  $element['#localized_options']['attributes']['class'][] = 'js-topbar-link';
+
+  // Add some icons to our topbar menu. We use system paths to check against.
+  switch($element['#href']) {
+    case 'search':
+      $title_prefix = '<i class="icon-search"></i>';
+      $element['#localized_options']['attributes']['class'][] = 'topbar-link-search';
+      $element['#attributes']['class'][] = 'topbar-link-search';
+      break;
+    case 'user':
+      $title_prefix = '<i class="icon-user"></i>';
+      $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+      $element['#attributes']['class'][] = 'topbar-link-user';
+      // If a user is logged in, we change the menu item title.
+      if (user_is_logged_in()) {
+        $element['#title'] = t('My Account');  
+      }
+      break;
+    default:
+      $title_prefix = '<i class="icon-align-justify"></i>';
+      $element['#localized_options']['attributes']['class'][] = 'topbar-link-menu';
+      $element['#attributes']['class'][] = 'topbar-link-menu';
+      break;
+  }
+
+  $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * Used to strip default class names from menu links.
+ *
+ * @param $classes
+ *   An array of class attributes.
+ */
+function ddbasic_remove_default_link_classes($classes) {
+
+  if (!isset($classes)) {
+    return false;
+  }
+
   // Remove classes.
   $remove = array();
 
@@ -450,29 +559,17 @@ function ddbasic_menu_link($vars) {
 
   // Remove the classes.
   if($remove){
-    $vars['element']['#attributes']['class'] = array_diff($vars['element']['#attributes']['class'],$remove);
+    //$vars['element']['#attributes']['class'] = array_diff($vars['element']['#attributes']['class'],$remove);
+    $classes = array_diff($classes,$remove);
   }
 
   // Remove menu-mlid-[NUMBER].
   if(theme_get_setting('ddbasic_classes_menu_items_mlid')){
-    $vars['element']['#attributes']['class'] = preg_grep('/^menu-mlid-/', $vars['element']['#attributes']['class'], PREG_GREP_INVERT);
+    //$vars['element']['#attributes']['class'] = preg_grep('/^menu-mlid-/', $vars['element']['#attributes']['class'], PREG_GREP_INVERT);
+    $classes = preg_grep('/^menu-mlid-/', $classes, PREG_GREP_INVERT);
   }
 
-  // Check if the class array is empty.
-  if(empty($vars['element']['#attributes']['class'])){
-    unset($vars['element']['#attributes']['class']);
-  }
-
-  $element = $vars['element'];
-
-  $sub_menu = '';
-
-  if ($element['#below']) {
-    $sub_menu = drupal_render($element['#below']);
-  }
-
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . drupal_attributes($element['#attributes']) . '><span>' . $output . $sub_menu . "</span></li>\n";
+  return $classes;
 }
 
 

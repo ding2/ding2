@@ -17,13 +17,19 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
+  <section class="search js-topbar-search <?php print $classes; ?>">
+    <div class="search-field-wrapper">
+      <?php if ($admin_links): ?>
+        <?php print $admin_links; ?>
+      <?php endif; ?>
 
-  <div class="user-menu js-topbar-user <?php print $classes; ?>">
-    <?php if ($admin_links): ?>
-      <?php print $admin_links; ?>
-    <?php endif; ?>
-    <?php if ($title): ?>
-      <h3 class="block-title"><?php print $title; ?></h3>
-    <?php endif ?>
-    <?php print render($content); ?>
-  </div>
+      <?php if ($title): ?>
+        <h2><?php print $title; ?></h2>
+      <?php endif; ?> 
+      <?php print render($content); ?>
+    </div>
+  </section>
+
+
+  
+
