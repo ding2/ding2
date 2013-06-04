@@ -186,11 +186,10 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#type' => 'radios',
     '#title' => t('Pin code length'),
     '#options' => array(
-      0 => t('Default'),
       4 => t('Max @number chars', array('@number' => 4)),
       5 => t('Max @number chars', array('@number' => 5)),
     ),
-    '#default_value' => variable_get('ding_user_pincode_length', 0),
+    '#default_value' => ding_user_get_pincode_length,
   );
 
   // Create time interval to set cache expire.
@@ -212,11 +211,7 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
  *  The length of the pincode, if not set it will return 4.
  */
 function ding_user_get_pincode_length() {
-  $length = variable_get('ding_user_pincode_length', 0);
-  if ($length == 0) {
-    $length = 4;
-  }
-  return $length;
+  return variable_get('ding_user_pincode_length', 4);;
 }
 
 /**
@@ -232,9 +227,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     $provider = _ding_provider_get_provider('user');
     $provider_profile_type = 'provider_' . $provider['module'];
     if ($form_state['profile2']->type == $provider_profile_type) {
-      // Add pincode change field. Defaults to 4 chars, as that seems the common
-      // option, providers may change this by implementing
-      // hook_user_pincode_length.
+      // Add pincode change field.
       $maxlength = ding_user_get_pincode_length();
       $form['pincode'] = array(
         '#type' => 'password_confirm',
@@ -302,12 +295,12 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
         ding_user_save_creds($update_res);
       }
     }
-    catch (Exception $execption) {
+    catch (Exception $exception) {
       // If update_account fails, we're in trouble, as we're too far in to
       // set form errors. So we'll just tell the user that it couldn't be, and
       // not save the fields.
       drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
-      watchdog_exception('ding_user', $execption);
+      watchdog_exception('ding_user', $exception);
       drupal_set_message(t("New pincode not saved."), 'error');
     }
   }
@@ -409,7 +402,7 @@ function ding_user_user_login_validate($form, &$form_state) {
     return;
   }
   try {
-    // Try loggin the user into the provider.
+    // Trying to login the user using the provider.
     $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
@@ -454,9 +447,9 @@ function ding_user_user_login_validate($form, &$form_state) {
         }
       }
     }
-  } catch (DingProviderException $e) {
+  } catch (DingProviderException $exception) {
     // Exception thrown, log error and carry on.
-    watchdog('ding_user', 'Provider exception, message: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
+    watchdog_exception('ding_user', $exception);
   }
 }
 
@@ -477,7 +470,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
   if (!$account) {
     // Register this new user.
     $userinfo = array(
-      // Name is only 60 chars, and authname is longer. Use a shorter SHAE1
+      // Name is only 60 chars, and authname is longer. Use a shorter SHA1
       // hash.
       'name' => hash('sha1', $auth_name),
       'pass' => user_password(),
@@ -495,6 +488,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     $account = user_save(drupal_anonymous_user(), $userinfo);
     // Terminate if an error occurred during user_save().
     if (!$account) {
+      watchdog('ding_user', t("User account could not be created for: %name."), array('%name' => $auth_res['user']['data']['display_name']), WATCHDOG_ERROR);
       drupal_set_message(t("Error saving user account."), 'error');
       return;
     }
