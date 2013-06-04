@@ -12,10 +12,13 @@
 
     // Attach click
     element.on('click touchstart', function(event) {
+      // Store clicked element for later use
+      var element = this;
+
       // Toggle
       $(this).parent().next(".js-opening-hours-toggle-element").slideToggle('fast', function() {
         // Toggle class
-        $(this).toggleClass("js-collapsed js-expanded");
+        $(element).toggleClass("js-collapsed js-expanded");
       });
 
       // Prevent default (href)
