@@ -6,6 +6,7 @@
   function toggle_opening_hours() {
     // Set variables
     var element = $('.js-opening-hours-toggle');
+    var scrollOffset;
 
     // Add collapsed class
     element.addClass('js-collapsed');
@@ -20,8 +21,18 @@
         // Toggle class
         $(element).toggleClass('js-collapsed js-expanded');
 
-        // Scroll to the top - offset (topbar)
-        $.scrollTo($(element).parent(), 500, {offset: -60, axis: 'y'});
+        // If the window is scrolled to the top increase offset
+        if ($(window).scrollTop() == 0) {
+          scrollOffset = -104;
+        } else {
+          scrollOffset = -60;
+        }
+
+        // Scroll to the top
+        $.scrollTo($(element).parent(), 500, {offset: scrollOffset, axis: 'y'});
+        
+        // Remove focus from link
+        $(element).blur();
       });
 
       // Prevent default (href)
