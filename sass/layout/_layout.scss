@@ -275,8 +275,8 @@ body {
     .primary-content,
     .secondary-content,
     .tertiary-content {
-      @include zen-clear();
       @include zen-grid-item(12, 1);
+      @include zen-clear();
     }
   }
 }
