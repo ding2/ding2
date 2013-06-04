@@ -6,7 +6,6 @@
 
 
 ;----------// Stylesheets
-  ; Import stylesheets.
   stylesheets[all][] = css/ddbasic.reset.css
   stylesheets[all][] = css/ddbasic.font.awesome.css
   stylesheets[all][] = css/ddbasic.styles.css
@@ -21,12 +20,10 @@
 
 
 ;----------// JavaScripts
-  ; Import javascripts.
   scripts[] = scripts/jquery.cookie.js
   scripts[] = scripts/ddbasic.topbar.menu.js
   scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/respond.min.js
-  scripts[] = scripts/jquery.equalheights.js
   scripts[] = scripts/jquery.scrollto.js
 
 
@@ -44,7 +41,7 @@
   regions[footer]            = Footer
   regions[bottom]            = Bottom
 
-; Information added by drush on 2013-04-24
+;----------// Information added by drush on 2013-04-24
 version = "development-dev"
 project = "ddbasic"
 datestamp = "1366825015"
