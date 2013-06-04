@@ -8,7 +8,6 @@ if (!empty($preface)) {
   print $preface;
 }
 ?>
-<a href="javascript:return false;" class="opening-hours-toggle"><?php print t('Opening hours'); ?></a>
 <div class="opening-hours-week placeholder" data-nid="<?php print $node->nid; ?>">
   <div class="header">
     <a class="prev" href="#prev"><i class="icon-arrow-left"></i></a>

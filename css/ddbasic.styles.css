@@ -2897,7 +2897,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 354, ../sass/framework/_fontawesome.scss */
-.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle:before {
   content: "\f055";
 }
 
@@ -7070,11 +7070,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  /* Media queries */
 }
 @media only screen and (max-width: 768px) {
   /* line 136, ../sass/module/_libraries.scss */
   .libraries-opening-hours {
-    clear: left;
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -7090,7 +7090,47 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
+    clear: left;
+    display: none;
     margin-top: 20px;
+  }
+}
+
+/* line 149, ../sass/module/_libraries.scss */
+.opening-hours-toggle {
+  float: left;
+  width: 75%;
+  margin-left: 25%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  clear: left;
+  display: none;
+  padding-left: 20px;
+  /* Media queries */
+}
+/* line 157, ../sass/module/_libraries.scss */
+.opening-hours-toggle:hover {
+  text-decoration: none;
+}
+/* line 161, ../sass/module/_libraries.scss */
+.opening-hours-toggle:before {
+  font-family: "FontAwesome";
+  margin-right: 5px;
+}
+@media only screen and (max-width: 768px) {
+  /* line 149, ../sass/module/_libraries.scss */
+  .opening-hours-toggle {
+    display: block;
   }
 }
 
@@ -7118,63 +7158,60 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* line 22, ../sass/module/_openinghours.scss */
-.opening-hours-toggle {
-  display: none;
-}
-
-/* line 26, ../sass/module/_openinghours.scss */
 .opening-hours-week {
   padding: 20px;
+  padding-top: 10px;
   background: white;
 }
-/* line 30, ../sass/module/_openinghours.scss */
+/* line 27, ../sass/module/_openinghours.scss */
 .opening-hours-week .header {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background: white;
+  color: #959595;
   padding: 0;
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
-/* line 38, ../sass/module/_openinghours.scss */
+/* line 36, ../sass/module/_openinghours.scss */
 .opening-hours-week .days {
   padding: 0;
 }
-/* line 41, ../sass/module/_openinghours.scss */
+/* line 39, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .day {
   padding: 6px;
 }
-/* line 45, ../sass/module/_openinghours.scss */
+/* line 43, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .times {
   margin-right: 0;
 }
-/* line 59, ../sass/module/_openinghours.scss */
+/* line 57, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev,
 .opening-hours-week .next {
   font-family: "FontAwesome";
   font-size: 100%;
 }
-/* line 63, ../sass/module/_openinghours.scss */
+/* line 61, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev:hover,
 .opening-hours-week .next:hover {
   text-decoration: none;
 }
-/* line 68, ../sass/module/_openinghours.scss */
+/* line 66, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev {
   float: left;
   margin-left: 5px;
 }
-/* line 73, ../sass/module/_openinghours.scss */
+/* line 71, ../sass/module/_openinghours.scss */
 .opening-hours-week .next {
   float: right;
   margin-right: 5px;
 }
-/* line 78, ../sass/module/_openinghours.scss */
+/* line 76, ../sass/module/_openinghours.scss */
 .opening-hours-week .notice-star {
   visibility: hidden;
   margin-right: 0;
   padding-left: 5px;
 }
-/* line 86, ../sass/module/_openinghours.scss */
+/* line 84, ../sass/module/_openinghours.scss */
 .opening-hours-week .notice-star:before {
   visibility: visible;
   font-family: "FontAwesome";

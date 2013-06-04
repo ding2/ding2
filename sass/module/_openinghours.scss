@@ -19,20 +19,18 @@
   padding-top: $large-spacing;
 }
 
-.opening-hours-toggle {
-  display: none;
-}
-
 .opening-hours-week {
   padding: $large-spacing;
+  padding-top: $medium-spacing;
   background: $white;
 
   .header {
     @include font-bold();
 
     background: $white;
+    color: $gray-darker;
     padding: 0;
-    padding-bottom: $small-spacing;
+    padding-bottom: $medium-spacing;
   }
 
   .days {

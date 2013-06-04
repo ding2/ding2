@@ -136,11 +136,36 @@
 .libraries-opening-hours {
   @include zen-grid-item(4, 1, right);
 
+  /* Media queries */
   @include small-medium() {
-    @include zen-clear();
     @include zen-grid-item(12, 1);
+    @include zen-clear();
 
+    display: none;
     margin-top: 20px;
+  }
+}
+
+.opening-hours-toggle {
+  @include zen-grid-item(9, 4);
+  @include zen-clear();
+  @extend .icon-plus-sign;
+
+  display: none;
+  padding-left: $large-spacing;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:before {
+    font-family: $base-icon-library-font;
+    margin-right: $small-spacing;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    display: block;
   }
 }
 

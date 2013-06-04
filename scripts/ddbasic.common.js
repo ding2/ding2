@@ -1,7 +1,24 @@
 (function($) {
 
-  // When ready start the magic.
+  /*
+   * Toggle opening hours
+   */
+  function toggle_opening_hours() {
+    // Set variables
+    var element = $(".js-opening-hours-toggle");
+
+    // Attach click
+    element.on('click touchstart', function() {
+      // Toggle
+      element.parent().next(".js-opening-hours-toggle-element").slideToggle();
+    });
+  }
+
+  // When ready start the magic
   $(document).ready(function () {
+
+    // Toggle opening hours
+    toggle_opening_hours();
 
     // Toggle for footer menu
     $('.footer .pane-title').on('click', function() {
