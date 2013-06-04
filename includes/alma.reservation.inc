@@ -179,12 +179,11 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
     throw new DingProviderReservationExists();
   }
 
-  $entity = profile2_load_by_user($account, 'provider_alma');
+  $entity = ding_user_provider_profile($account);;
   if (!empty($entity)) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
     // Interest period
-    $expiry = 0;
     if (!isset($options['interest_period'])) {
       if (!isset($expiry)) {
         // Use a metadata wrapper to access the data.
@@ -328,6 +327,18 @@ function alma_reservation_default_interest_period($profile = NULL) {
   }
 
   return $value;
+}
+
+/**
+ * Implements hook_reservation_deletion_enabled().
+ *
+ * Check where reservation deletion have been enabled in the providers settings.
+ *
+ * @return bool
+ *  If enabled TRUE else FALSE.
+ */
+function alma_reservation_reservation_deletion_enabled() {
+  return variable_get('alma_enable_reservation_deletion', FALSE);
 }
 
 /**
