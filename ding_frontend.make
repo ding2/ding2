@@ -18,7 +18,10 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "1.0"
+projects[features][version] = "2.0-beta2"
+
+projects[features_extra][subdir] = "contrib"
+projects[features_extra][version] = "1.0-beta1"
 
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"

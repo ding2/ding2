@@ -9,23 +9,27 @@
  * - $css_id: unique id if present.
  */
 ?>
-<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="ding-layout-1 panel-content-wrapper">
+<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="frontpage-layout">
 
   <?php if (!empty($content['primary'])): ?>
     <div class="primary-content">
-      <div class="grid-inner"><?php print $content['primary']; ?></div>
+      <?php print $content['primary']; ?>
     </div>
   <?php endif ?>
 
-  <?php if (!empty($content['secondary'])): ?>
-    <div class="secondary-content">
-      <div class="grid-inner"><?php print $content['secondary']; ?></div>
-    </div>
-  <?php endif ?>
+  <?php if (!empty($content['secondary']) || (!empty($content['tertiary']))): ?>
+    <div class="layout-wrapper">
+    <?php if (!empty($content['secondary'])): ?>
+      <div class="secondary-content">
+        <?php print $content['secondary']; ?>
+      </div>
+    <?php endif ?>
 
-  <?php if (!empty($content['tertiary'])): ?>
-    <div class="tertiary-content">
-      <div class="grid-inner"><?php print $content['tertiary']; ?></div>
+    <?php if (!empty($content['tertiary'])): ?>
+      <div class="tertiary-content">
+        <?php print $content['tertiary']; ?>
+      </div>
+    <?php endif ?>
     </div>
   <?php endif ?>
 
