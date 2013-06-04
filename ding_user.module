@@ -227,9 +227,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     $provider = _ding_provider_get_provider('user');
     $provider_profile_type = 'provider_' . $provider['module'];
     if ($form_state['profile2']->type == $provider_profile_type) {
-      // Add pincode change field. Defaults to 4 chars, as that seems the common
-      // option, providers may change this by implementing
-      // hook_user_pincode_length.
+      // Add pincode change field.
       $maxlength = ding_user_get_pincode_length();
       $form['pincode'] = array(
         '#type' => 'password_confirm',
