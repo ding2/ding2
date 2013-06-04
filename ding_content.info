@@ -25,3 +25,4 @@ features[taxonomy][] = category
 features[taxonomy][] = ding_content_tags
 features[variable][] = page_manager_node_view_disabled
 features[variable][] = page_manager_term_view_disabled
+features[wysiwyg][] = ding_wysiwyg

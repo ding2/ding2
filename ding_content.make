@@ -27,6 +27,9 @@ projects[entity][version] = "1.1"
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
 
+projects[features_extra][subdir] = "contrib"
+projects[features_extra][version] = "1.0-beta1"
+
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0-unstable7"
 
