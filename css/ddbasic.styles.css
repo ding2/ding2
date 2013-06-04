@@ -7118,11 +7118,15 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 20px;
   /* Media queries */
 }
-/* line 164, ../sass/module/_libraries.scss */
+/* line 153, ../sass/module/_libraries.scss */
+.opening-hours-toggle.js-opening-hours-not-available {
+  display: none;
+}
+/* line 168, ../sass/module/_libraries.scss */
 .opening-hours-toggle:hover {
   text-decoration: none;
 }
-/* line 168, ../sass/module/_libraries.scss */
+/* line 172, ../sass/module/_libraries.scss */
 .opening-hours-toggle:before {
   font-family: "FontAwesome";
   margin-right: 5px;

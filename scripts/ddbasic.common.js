@@ -4,26 +4,31 @@
    * Toggle opening hours
    */
   function toggle_opening_hours() {
-    // Set variables
     var element = $(".js-opening-hours-toggle");
+    
+    if ($(".opening-hours-week").length !== 'undefined') {
+      // Set variables
 
-    // Add collapsed class
-    element.addClass("js-collapsed");
+      // Add collapsed class
+      element.addClass("js-collapsed");
 
-    // Attach click
-    element.on('click touchstart', function(event) {
-      // Store clicked element for later use
-      var element = this;
+      // Attach click
+      element.on('click touchstart', function(event) {
+        // Store clicked element for later use
+        var element = this;
 
-      // Toggle
-      $(this).parent().next(".js-opening-hours-toggle-element").slideToggle('fast', function() {
-        // Toggle class
-        $(element).toggleClass("js-collapsed js-expanded");
+        // Toggle
+        $(this).parent().next(".js-opening-hours-toggle-element").slideToggle('fast', function() {
+          // Toggle class
+          $(element).toggleClass("js-collapsed js-expanded");
+        });
+
+        // Prevent default (href)
+        event.preventDefault();
       });
-
-      // Prevent default (href)
-      event.preventDefault();
-    });
+    } else {
+      $(element).addClass("js-opening-hours-not-available");
+    }
   }
 
   // When ready start the magic
