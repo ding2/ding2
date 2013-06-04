@@ -21,7 +21,7 @@
         $(element).toggleClass('js-collapsed js-expanded');
 
         // Scroll to the top - offset (topbar)
-        $.scrollTo($(element).parent(), 500, {offset: -60});
+        $.scrollTo($(element).parent(), 500, {offset: -60, axis: 'y'});
       });
 
       // Prevent default (href)
