@@ -27,6 +27,7 @@
   scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.equalheights.js
+  scripts[] = scripts/jquery.scrollto.js
 
 
 ;----------// Regions

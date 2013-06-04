@@ -5,10 +5,10 @@
    */
   function toggle_opening_hours() {
     // Set variables
-    var element = $(".js-opening-hours-toggle");
+    var element = $('.js-opening-hours-toggle');
 
     // Add collapsed class
-    element.addClass("js-collapsed");
+    element.addClass('js-collapsed');
 
     // Attach click
     element.on('click touchstart', function(event) {
@@ -16,9 +16,12 @@
       var element = this;
 
       // Toggle
-      $(this).parent().next(".js-opening-hours-toggle-element").slideToggle('fast', function() {
+      $(this).parent().next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
         // Toggle class
-        $(element).toggleClass("js-collapsed js-expanded");
+        $(element).toggleClass('js-collapsed js-expanded');
+
+        // Scroll to the top - offset (topbar)
+        $.scrollTo($(element).parent(), 500, {offset: -60});
       });
 
       // Prevent default (href)
