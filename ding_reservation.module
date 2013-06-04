@@ -200,9 +200,9 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
           else {
             // Else simply rebuild the form.
             if ($key == $provider . '_preferred_branch') {
-              $removal[] = $provider . '_interest_period';
+              $removal[] = 'interest_period';
             }
-            elseif ($key == $provider . '_interest_period') {
+            elseif ($key == 'interest_period') {
               $removal[] = $provider . '_preferred_branch';
             }
 
@@ -280,15 +280,12 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 
   $html = theme('status_messages');
   if ($form_state['rebuild'] || form_get_errors()) {
-    $provider = ding_provider_get_provider_module_name('reservation');
-
-    // Populate the inputs with default values from settings.
-    $field_name = $provider . '_interest_period';
-    $field_info = field_info_instance('profile2', 'field_' . $field_name, 'provider_' . $provider);
+    // Get the default interest period for the current user.
+    $default_interest_period = ding_provider_invoke('reservation', 'default_interest_period');
 
     // Use #value instead of #default_value when rendering forms
     // using drupal_render().
-    $form['provider_options'][$field_name]['#value'] = $field_info['default_value'][0]['value'];
+    $form['provider_options']['interest_period']['#value'] = $default_interest_period;
 
     // Hide certain fields, if any.
     if (is_array($form_state['removable'])) {
@@ -314,9 +311,13 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 function ding_reservation_reservations_form($form, &$form_state, $items = array(), $type = 'not_ready_for_pickup') {
   $options = array();
   $destination = drupal_get_destination();
-  $provider = ding_provider_get_provider_module_name('reservation');
-  $able_to_delete = variable_get($provider . '_enable_reservation_deletion', FALSE);
   $empty_message = '';
+
+  // Check if reservations should be able to be deleted by the user.
+  $able_to_delete = FALSE;
+  if (ding_provider_implements('reservation', 'reservation_deletion_enabled')) {
+    $able_to_delete = ding_provider_invoke('reservation', 'reservation_deletion_enabled');
+  }
 
   switch ($type) {
     case 'ready_for_pickup':
@@ -374,6 +375,7 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         '#value' => t('Delete'),
         '#options' => array('query' => $destination),
       );
+
       $options[$item->id] = array(
         'title' => array(
           'data' => array($entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name)),
@@ -395,11 +397,15 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'data' => $pickup_branch ? check_plain($pickup_branch) : '',
           'class' => 'pickup-branch',
         ),
-        'operations' => array(
-          'data' => ($able_to_delete && $provider != 'openruth') ? $delete_button : '',
-          'class' => 'operations',
-        ),
       );
+
+      // Check if able to delete reservation should be added.
+      if ($able_to_delete) {
+        $options[$item->id]['operations'] = array(
+          'data' => $delete_button,
+          'class' => 'operations',
+        );
+      }
 
       if (!empty($item->notes)) {
         $options[$item->id]['title']['data'][] = array(
@@ -974,9 +980,8 @@ function ding_reservation_default_options_branch_validate($type, $name, $default
 function ding_reservation_default_options_interest_period_validate($type, $name, $default, $values) {
   if (empty($values[$name])) {
     $result = array();
-    $provider = ding_provider_get_provider_module_name('reservation');
     if ($type == 'create' && empty($default)) {
-      $result[$provider . '_interest_period'] = array(
+      $result['interest_period'] = array(
         '#error' => t('You must select an interest period'),
       );
     }
