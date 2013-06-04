@@ -186,11 +186,10 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#type' => 'radios',
     '#title' => t('Pin code length'),
     '#options' => array(
-      0 => t('Default'),
       4 => t('Max @number chars', array('@number' => 4)),
       5 => t('Max @number chars', array('@number' => 5)),
     ),
-    '#default_value' => variable_get('ding_user_pincode_length', 0),
+    '#default_value' => ding_user_get_pincode_length,
   );
 
   // Create time interval to set cache expire.
@@ -212,11 +211,7 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
  *  The length of the pincode, if not set it will return 4.
  */
 function ding_user_get_pincode_length() {
-  $length = variable_get('ding_user_pincode_length', 0);
-  if ($length == 0) {
-    $length = 4;
-  }
-  return $length;
+  return variable_get('ding_user_pincode_length', 4);;
 }
 
 /**
