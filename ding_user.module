@@ -471,7 +471,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
   if (!$account) {
     // Register this new user.
     $userinfo = array(
-      // Name is only 60 chars, and authname is longer. Use a shorter SHAE1
+      // Name is only 60 chars, and authname is longer. Use a shorter SHA1
       // hash.
       'name' => hash('sha1', $auth_name),
       'pass' => user_password(),
@@ -489,6 +489,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     $account = user_save(drupal_anonymous_user(), $userinfo);
     // Terminate if an error occurred during user_save().
     if (!$account) {
+      watchdog('ding_user', t("User account could not be created for: %name."), array('%name' => $auth_res['user']['data']['display_name']), WATCHDOG_ERROR);
       drupal_set_message(t("Error saving user account."), 'error');
       return;
     }
