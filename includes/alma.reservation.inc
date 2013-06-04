@@ -34,7 +34,7 @@ function alma_reservation_options($type, $account, $reservables) {
 
   $form = array();
   $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch', $preferred_branch, $branches);
-  $form += ding_reservation_interest_period_selector($type, 'alma_interest_period', $interest_period, $periods);
+  $form += ding_reservation_interest_period_selector($type, 'interest_period', $interest_period, $periods);
 
   return $form;
 }
@@ -64,12 +64,12 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
   if (!empty($$preferred_branch) && !empty($interest_period) && $type == 'create') {
     return array(
       'alma_preferred_branch' => $$preferred_branch,
-      'alma_interest_period' => $interest_period,
+      'interest_period' => $interest_period,
     );
   }
   else {
     $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $preferred_branch, $values);
-    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'alma_interest_period', $interest_period, $values);
+    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'interest_period', $interest_period, $values);
     return array_merge($branch_valid, $period_valid);
   }
 }
@@ -182,20 +182,26 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   $entity = profile2_load_by_user($account, 'provider_alma');
   if (!empty($entity)) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
-    // interest period
-    if (!isset($expiry)) {
 
-      // Use a metadata wrapper to access the data.
-      $interest_period = $wrapper->field_alma_interest_period->value();
-      if ($interest_period) {
-        // Change it to secounds from days.
-        $expiry = $interest_period * 86400;
+    // Interest period
+    $expiry = 0;
+    if (!isset($options['interest_period'])) {
+      if (!isset($expiry)) {
+        // Use a metadata wrapper to access the data.
+        $interest_period = $wrapper->field_alma_interest_period->value();
+        if ($interest_period) {
+          // Change it to secounds from days.
+          $expiry = $interest_period * 86400;
+        }
+      }
+      else {
+        // The user don't have a default interest period, so use the system wide
+        // one for alma (which default is 180 days).
+        $expiry = variable_get('alma_default_interest_period', 180) * 86400;
       }
     }
-    if (!isset($expiry)) {
-      // The user don't have a default interest period, so use the system wide
-      // one for alma (which default is 180 days).
-      $expiry = variable_get('alma_default_interest_period', 180) * 86400;
+    else {
+      $expiry = $options['interest_period'] * 86400;
     }
 
     // Preferred branch
@@ -256,7 +262,7 @@ function alma_reservation_update($account, $ids, $options) {
   // Processing IDs. If at least one is updated, return true.
   foreach ($ids as $id) {
     if (isset($reservations[$id])) {
-      $expiry_date = !empty($options['alma_interest_period']) ? alma_reservation_format_date(strtotime($reservations[$id]['valid_from']) + $options['alma_interest_period'] * 86400) : $reservations[$id]['valid_to'];
+      $expiry_date = !empty($options['interest_period']) ? alma_reservation_format_date(strtotime($reservations[$id]['valid_from']) + $options['interest_period'] * 86400) : $reservations[$id]['valid_to'];
       $pickup_branch = !empty($options['alma_preferred_branch']) ? $options['alma_preferred_branch'] : $reservations[$id]['pickup_branch'];
       $changes = array(
         'valid_to' => $expiry_date,
@@ -291,6 +297,37 @@ function alma_reservation_delete($account, $id) {
   if (isset($reservations[(string)$id])) {
     return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[(string)$id]);
   }
+}
+
+/**
+ * Implements hook_default_interest_period().
+ *
+ * Tries to find the users default interst period based on the users profile2
+ * provider profile.
+ *
+ * @param object $profile
+ *  The users profile2 provider profile.
+ * @return string
+ *  The default interest period selected by the user in his/her profile or the
+ * default value selected by the site.
+ */
+function alma_reservation_default_interest_period($profile = NULL) {
+  // If profile is not given, try loading it for the user.
+  if (is_null($profile)) {
+    global $user;
+    $profile = ding_user_provider_profile($user);
+  }
+
+  // Get interest period from the profile.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $value = $wrapper->field_alma_interest_period->value();
+
+  // If no period is seleted, try getting default value.
+  if (is_null($value) || empty($value)) {
+    $value = variable_get('alma_default_interest_period', 180);
+  }
+
+  return $value;
 }
 
 /**
