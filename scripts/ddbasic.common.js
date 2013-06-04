@@ -8,10 +8,13 @@
     var element = $(".js-opening-hours-toggle");
 
     // Attach click
-    element.on('click touchstart', function() {
+    element.on('click touchstart', function(event) {
       // Toggle
       element.parent().next(".js-opening-hours-toggle-element").slideToggle();
     });
+
+    // Prevent default (href)
+    event.preventDefault();
   }
 
   // When ready start the magic
