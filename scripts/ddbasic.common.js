@@ -7,13 +7,15 @@
     // Set variables
     var element = $(".js-opening-hours-toggle");
 
+    // Add collapsed class
     element.addClass("js-collapsed");
 
     // Attach click
     element.on('click touchstart', function(event) {
       // Toggle
-      element.parent().next(".js-opening-hours-toggle-element").slideToggle('slow', function() {
-        element.toggleClass("js-collapsed js-expanded");
+      $(this).parent().next(".js-opening-hours-toggle-element").slideToggle('fast', function() {
+        // Toggle class
+        $(this).toggleClass("js-collapsed js-expanded");
       });
 
       // Prevent default (href)
