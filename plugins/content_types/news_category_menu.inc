@@ -27,8 +27,9 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   }
     
   $options = array();
+
   if ($selected_term == NULL) {
-    $options = array('attributes' => array('class' => array('active')));
+    $options = array('attributes' => array('class' => array('active', 'menu-item')));
   }
   // Might seem a bit odd to select 'all' when node doesn't have any category,
   // but we'll go with that for the moment being.
@@ -40,10 +41,10 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
   foreach ($terms as $term) {
     $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
     if ($selected_term && $selected_term->tid == $term->tid) {
-      $options = array('attributes' => array('class' => array('active')));
+      $options = array('attributes' => array('class' => array('active', 'menu-item')));
     }
     else {
-      $options = array();
+      $options = array('attributes' => array('class' => array('menu-item')));
     }
     if (!$base) {
       if (isset($alias)) {
@@ -54,7 +55,8 @@ function ding_news_category_menu_content_type_render($subtype, $conf, $panel_arg
     } else {
       $uri = $base . 'nyheder/' . $term->tid;
     }
-    $items[] = l($term->name, $uri, $options);
+    $options['html'] = true; 
+    $items[] = l('<span>' . $term->name . '</span>', $uri, $options);
   }
   $block->content = theme('item_list', array('items' => $items, 'attributes' => array('class' => array('sub-menu'))));
 
