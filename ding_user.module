@@ -297,12 +297,12 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
         ding_user_save_creds($update_res);
       }
     }
-    catch (Exception $execption) {
+    catch (Exception $exception) {
       // If update_account fails, we're in trouble, as we're too far in to
       // set form errors. So we'll just tell the user that it couldn't be, and
       // not save the fields.
       drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
-      watchdog_exception('ding_user', $execption);
+      watchdog_exception('ding_user', $exception);
       drupal_set_message(t("New pincode not saved."), 'error');
     }
   }
@@ -404,7 +404,7 @@ function ding_user_user_login_validate($form, &$form_state) {
     return;
   }
   try {
-    // Try loggin the user into the provider.
+    // Trying to login the user using the provider.
     $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
@@ -448,9 +448,9 @@ function ding_user_user_login_validate($form, &$form_state) {
         }
       }
     }
-  } catch (DingProviderException $e) {
+  } catch (DingProviderException $exception) {
     // Exception thrown, log error and carry on.
-    watchdog('ding_user', 'Provider exception, message: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
+    watchdog_exception('ding_user', $exception);
   }
 }
 
