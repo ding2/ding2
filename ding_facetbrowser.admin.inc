@@ -14,7 +14,7 @@ function ding_facetbrowser_settings($form_state) {
   form_load_include($form_state, 'inc', 'ding_facetbrowser', 'ding_facetbrowser.admin');
   $form = array();
   $facets = variable_get('ding_facetbrowser_facets', array());
-  
+
   $form['description'] = array(
     '#markup' => '<p>' . t('Configure facets shown in the facetbrowser. Facet names can be found at <a href="http://oss.dbc.dk/wiki/bin/view/Databroend/OpenSearchDocIndexes">DBC wiki</a> and is usually named <em>facet.something</em>.') . '</p>',
   );
@@ -36,7 +36,7 @@ function ding_facetbrowser_settings($form_state) {
     '#options' => drupal_map_assoc(range(1, 15)),
     '#default_value' => $number_of_terms,
   );
-  
+
   $form['ding_facetbrowser_facets'] = array(
     '#tree' => TRUE,
     '#weight' => -20,
@@ -123,7 +123,6 @@ function ding_facetbrowser_settings($form_state) {
   );
   $i++;
 
-
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
@@ -179,6 +178,7 @@ function theme_ding_facetbrowser_settings($variables) {
   $output = theme('table', array('header' => $header, 'rows' => $rows, 'attributes' => array('id' => 'facets')));
   $output .= drupal_render($form['actions']);
   $output = drupal_render_children($form) . $output;
+
   return $output;
 }
 
