@@ -684,11 +684,11 @@ function ding_event_field_default_field_instances() {
           'image_link' => '',
           'styles' => array(
             'breakpoint_1' => 768,
-            'breakpoint_2' => 500,
+            'breakpoint_2' => 480,
             'fallback_style' => 'ding_list_large',
             'max_style' => 'ding_list_large',
             'style_1' => 'ding_list_large',
-            'style_2' => 'ding_list_large',
+            'style_2' => 'ding_primary_small',
           ),
         ),
         'type' => 'cs_adaptive_image',
