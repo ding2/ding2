@@ -6164,11 +6164,17 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   display: none;
 }
 
-/* line 79, ../sass/module/_carousel.scss */
-.rs-carousel-action-prev.rs-carousel-action-disabled,
-.rs-carousel-action-next.rs-carousel-action-disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
-  opacity: 0.5;
+/* line 78, ../sass/module/_carousel.scss */
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
+  opacity: 0.25;
+}
+/* line 81, ../sass/module/_carousel.scss */
+.rs-carousel-action-prev.rs-carousel-action-active,
+.rs-carousel-action-next.rs-carousel-action-active {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
 }
 @media only screen and (max-width: 768px) {
   /* line 78, ../sass/module/_carousel.scss */
@@ -6178,19 +6184,19 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 88, ../sass/module/_carousel.scss */
+/* line 90, ../sass/module/_carousel.scss */
 .rs-carousel-action-prev {
   left: 20px;
 }
 
-/* line 92, ../sass/module/_carousel.scss */
+/* line 94, ../sass/module/_carousel.scss */
 .rs-carousel-action-next {
   right: 20px;
 }
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-/* line 101, ../sass/module/_carousel.scss */
+/* line 103, ../sass/module/_carousel.scss */
 .rs-carousel-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6202,44 +6208,44 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 101, ../sass/module/_carousel.scss */
+  /* line 103, ../sass/module/_carousel.scss */
   .rs-carousel-title {
     font-size: 180%;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 101, ../sass/module/_carousel.scss */
+  /* line 103, ../sass/module/_carousel.scss */
   .rs-carousel-title {
     color: white;
   }
 }
 
-/* line 119, ../sass/module/_carousel.scss */
+/* line 121, ../sass/module/_carousel.scss */
 .rs-carousel-mask li {
   margin-right: 20px;
   position: relative;
   width: 200px;
 }
-/* line 124, ../sass/module/_carousel.scss */
+/* line 126, ../sass/module/_carousel.scss */
 .rs-carousel-mask li img {
   min-width: 100%;
   padding: 0;
 }
-/* line 130, ../sass/module/_carousel.scss */
+/* line 132, ../sass/module/_carousel.scss */
 .rs-carousel-mask li:hover .rs-carousel-item-title {
   background-color: black;
   text-decoration: none;
 }
-/* line 136, ../sass/module/_carousel.scss */
+/* line 138, ../sass/module/_carousel.scss */
 .rs-carousel-mask li a {
   max-height: 250px;
   width: 200px;
 }
-/* line 140, ../sass/module/_carousel.scss */
+/* line 142, ../sass/module/_carousel.scss */
 .rs-carousel-mask li a:hover {
   text-decoration: none;
 }
-/* line 145, ../sass/module/_carousel.scss */
+/* line 147, ../sass/module/_carousel.scss */
 .rs-carousel-mask li .rs-carousel-item-title {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -6255,36 +6261,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: absolute;
 }
 @media only screen and (max-width: 480px) {
-  /* line 161, ../sass/module/_carousel.scss */
+  /* line 163, ../sass/module/_carousel.scss */
   .rs-carousel-mask li {
     width: 100px;
   }
-  /* line 164, ../sass/module/_carousel.scss */
+  /* line 166, ../sass/module/_carousel.scss */
   .rs-carousel-mask li a {
     max-height: 125px;
     width: 100px;
   }
-  /* line 169, ../sass/module/_carousel.scss */
+  /* line 171, ../sass/module/_carousel.scss */
   .rs-carousel-mask li .rs-carousel-item-title {
     display: none;
   }
 }
 
-/* line 176, ../sass/module/_carousel.scss */
+/* line 178, ../sass/module/_carousel.scss */
 .rs-carousel-runner {
   padding-left: 0;
 }
 
 /* Carousel tabs
    ========================================================================== */
-/* line 186, ../sass/module/_carousel.scss */
+/* line 188, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center;
 }
-/* line 195, ../sass/module/_carousel.scss */
+/* line 197, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -6293,18 +6299,18 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-/* line 203, ../sass/module/_carousel.scss */
+/* line 205, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a:hover {
   background-color: black;
   text-decoration: none;
 }
-/* line 210, ../sass/module/_carousel.scss */
+/* line 212, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   background-color: black;
 }
-/* line 215, ../sass/module/_carousel.scss */
+/* line 217, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a:before {
   border: 10px solid transparent;
   content: "";
@@ -6316,16 +6322,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-left: -10px;
   left: 50%;
 }
-/* line 221, ../sass/module/_carousel.scss */
+/* line 223, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
   display: none;
 }
-/* line 227, ../sass/module/_carousel.scss */
+/* line 229, ../sass/module/_carousel.scss */
 .rs-carousel-tabs .rs-carousel-select-tabs {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 185, ../sass/module/_carousel.scss */
+  /* line 187, ../sass/module/_carousel.scss */
   .rs-carousel-tabs {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -6334,16 +6340,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-bottom: 20px;
     padding-left: 20px;
   }
-  /* line 238, ../sass/module/_carousel.scss */
+  /* line 240, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-list-tabs {
     display: none;
   }
-  /* line 242, ../sass/module/_carousel.scss */
+  /* line 244, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs {
     display: block;
     width: 100%;
   }
-  /* line 246, ../sass/module/_carousel.scss */
+  /* line 248, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6354,7 +6360,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-left: 20px;
     text-align: left;
   }
-  /* line 255, ../sass/module/_carousel.scss */
+  /* line 257, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -6372,11 +6378,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     right: 0;
     z-index: 99;
   }
-  /* line 272, ../sass/module/_carousel.scss */
+  /* line 274, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
     display: none;
   }
-  /* line 276, ../sass/module/_carousel.scss */
+  /* line 278, ../sass/module/_carousel.scss */
   .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
     display: block;
   }
