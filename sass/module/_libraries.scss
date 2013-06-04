@@ -176,7 +176,8 @@
 
   /* Media queries */
   @include small-medium() {
-    display: block;
+    display: inline;
+    width: auto;
   }
 }
 

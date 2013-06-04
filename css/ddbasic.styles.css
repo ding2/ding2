@@ -7134,7 +7134,8 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 @media only screen and (max-width: 768px) {
   /* line 149, ../sass/module/_libraries.scss */
   .opening-hours-toggle {
-    display: block;
+    display: inline;
+    width: auto;
   }
 }
 
