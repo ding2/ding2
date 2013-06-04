@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Wraps the provider profile2 eidt form in a panel pane.
+ * Wraps the provider profile2 edit form in a panel pane.
  */
 
 
