@@ -39,7 +39,7 @@ function ding_library_field_default_field_instances() {
         'weight' => 13,
       ),
       'teaser' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'addressfield',
         'settings' => array(
           'format_handlers' => array(
@@ -48,7 +48,7 @@ function ding_library_field_default_field_instances() {
           'use_widget_handlers' => 1,
         ),
         'type' => 'addressfield_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -101,7 +101,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -148,7 +148,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -196,7 +196,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -249,7 +249,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 8,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -296,7 +296,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -368,7 +368,7 @@ function ding_library_field_default_field_instances() {
           'image_style' => 'ding_list_small',
         ),
         'type' => 'image',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -438,7 +438,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -483,7 +483,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -530,7 +530,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -576,7 +576,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -631,7 +631,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -704,7 +704,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
