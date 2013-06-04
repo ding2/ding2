@@ -131,13 +131,9 @@ function openruth_reservation_options($type, $account, $reservables) {
     $preferred_branch = $wrapper->field_openruth_preferred_branch->value();
     $interest_period = $wrapper->field_openruth_interest_period->value();
   }
-  else {
-    $preferred_branch = '';
-    $interest_period = ''; // @TODO: Get default provider period. ( openruth_get_interest_period($profile2) )?
-  }
 
   $form += ding_reservation_default_options_branch($type, 'field_openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
-  $form += ding_reservation_interest_period_selector($type, 'openruth_interest_period', $interest_period, openruth_get_interest_periods());
+  $form += ding_reservation_interest_period_selector($type, 'interest_period', $interest_period, openruth_get_interest_periods());
 
   return $form;
 }
@@ -163,12 +159,12 @@ function openruth_reservation_options_validate($type, $account, $reservables, $v
   if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
     return array(
       'field_openruth_preferred_branch' => $profile_branch,
-      'openruth_interest_period' => $interest_period,
+      'interest_period' => $interest_period,
     );
   }
   else {
     $branch_valid = ding_reservation_default_options_branch_validate($type, 'field_openruth_preferred_branch', $profile_branch, $values);
-    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'openruth_interest_period', $interest_period, $values);
+    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'interest_period', $interest_period, $values);
 
     return array_merge($branch_valid, $period_valid);
   }
@@ -205,29 +201,43 @@ function openruth_reservation_options_submit($type, $account, $reservables, $val
  * @throws DingProviderReservationExists
  * @throws DingProviderUserException
  */
-function openruth_reservation_create($account, $id, $options) {
-  $branch = $options['field_openruth_preferred_branch'];
+function openruth_reservation_create($account, $id, $options = array(), $expiry = NULL) {
+  $entity = ding_user_provider_profile($account);
+  if (!empty($entity)) {
+    $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-  // Get interest period from profile2
-  if ($profile2 = ding_user_provider_profile($account)) {
-    $langs = field_language('profile2', $profile2);
-    if (isset($profile2->field_openruth_interest_period)) {
-      $interest_period = $profile2->field_openruth_interest_period[$langs['field_openruth_interest_period']][0]['value'];
+    // Interest period
+    if (!isset($options['interest_period'])) {
+      if (!isset($expiry)) {
+        // Use a metadata wrapper to access the data.
+        $interest_period = $wrapper->field_openruth_interest_period->value();
+        if ($interest_period) {
+          // Change it to secounds from days.
+          $expiry = $interest_period * 86400;
+        }
+      }
+      else {
+        // The user don't have a default interest period, so use the system wide
+        // one for openruth (which default is 180 days).
+        $expiry = variable_get('openruth_default_interest_period', 180) * 86400;
+      }
+    }
+    else {
+      $expiry = $options['interest_period'] * 86400;
+    }
 
-      // Change the period from days into secounds.
-      $expiry = REQUEST_TIME + ($interest_period * 86400);
+    // Preferred branch
+    $branch = $wrapper->field_openruth_preferred_branch->value();
+    if (isset($options['field_openruth_preferred_branch'])) {
+      $branch = $options['field_openruth_preferred_branch'];
     }
   }
 
-  if (!isset($expiry)) {
-    // The user don't have a default interest period, so use the system wide
-    // one for openruth (which default is 180 days).
-    $expiry = REQUEST_TIME + variable_get('openruth_default_interest_period', 180) * 86400;
-  }
-
+  // Get creds and user status.
   $creds = ding_user_get_creds($account);
   $status = _openruth_user_status($creds, TRUE);
 
+  // Create the reservation at openruth.
   $internal_account = ding_user_get_creds($account);
   $order_res = openruth_client_invoke('order_item', $internal_account['name'], $id, 1, date('c', time()), date('Y-m-d', $expiry), $branch);
   $order = array_shift($order_res);
@@ -263,7 +273,7 @@ function openruth_reservation_update($account, $res_ids, $options) {
   foreach ($res_ids as $res_id) {
     if ($res_id) {
       $branch = !empty($options['field_openruth_preferred_branch']) ? $options['field_openruth_preferred_branch'] : $reservations[$res_id]->pickup_branch_id;
-      $expiry = !empty($options['openruth_interest_period']) ? date('Y-m-d', REQUEST_TIME + ($options['openruth_interest_period'] * 24 * 60 * 60)) : $reservations[$res_id]->expiry;
+      $expiry = !empty($options['interest_period']) ? date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60)) : $reservations[$res_id]->expiry;
       openruth_client_invoke('update_order', $res_id, $branch, $expiry);
     }
   }
@@ -306,6 +316,37 @@ function openruth_reservation_branch_name($branch_id) {
     return $branches[$branch_id];
   }
   return NULL;
+}
+
+/**
+ * Implements hook_default_interest_period().
+ *
+ * Tries to find the users default interst period based on the users profile2
+ * provider profile.
+ *
+ * @param object $profile
+ *  The users profile2 provider profile.
+ * @return string
+ *  The default interest period selected by the user in his/her profile or the
+ * default value selected by the site.
+ */
+function openruth_reservation_default_interest_period($profile = NULL) {
+  // If profile is not given, try loading it for the user.
+  if (is_null($profile)) {
+    global $user;
+    $profile = ding_user_provider_profile($user);
+  }
+
+  // Get interest period from the profile.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $value = $wrapper->field_openruth_interest_period->value();
+
+  // If no period is seleted, try getting default value.
+  if (is_null($value) || empty($value)) {
+    $value = variable_get('openruth_default_interest_period', 180);
+  }
+
+  return $value;
 }
 
 /**
