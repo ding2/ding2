@@ -101,6 +101,19 @@ class DingProviderLoan extends DingEntityBase {
     $this->_populate($properties, $data);
   }
 
+  public function __wakeup() {
+    foreach (get_object_vars($this) as $prop => $val) {
+      if (isset($this->properties[$prop]) && $val === self::NULL) {
+        // Restore property value.
+        $this->$prop = $this->properties[$prop];
+      }
+      else {
+        // Set the value to our special null value.
+        $this->properties[$prop] = self::NULL;
+      }
+    }
+  }
+
   function getEntity() {
     if (!isset($this->entity)) {
       if (!empty($this->ding_entity_id)) {
