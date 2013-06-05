@@ -76,39 +76,55 @@ function ding_user_frontend_block_view($delta) {
         // session, so it's a fast check, where ding_user_is_provider_user would
         // use the database.)
         ding_user_get_creds($user);
-
-        // Define the types of information that the provider should be queried
-        // for and their labels.
-        $types = array(
-          'loan' => t('Loans'),
-          'reservation' => t('Reservation'),
-          'debt' => t('Debts'),
-        );
-
-        $content = array();
-        foreach ($types as $type => $label) {
-          if (ding_provider_implements($type, 'list')) {
-            $count = count(ding_provider_invoke_page($type, 'list', $user));
-            if ($count) {
-              $content[] = array(
-                '#theme' => 'ding_user_frontend_user_status',
-                '#status' => array(
-                  'type' => $type,
-                  'label' => $label,
-                  'count' => $count,
-                ),
-              );
-            }
-          }
-        }
-
-
-        $block['subject'] = t('Your user loan status');
-        $block['content'] = $content;
       }
       catch (Exception $e) {
         return;
       }
+
+      // Define the types of information that the provider should be queried
+      // for and their labels.
+      $uri = entity_uri('user', $user);
+      $types = array(
+        'debt' => array(
+          'label' => t('Debts'),
+          'link' => $uri['path'] . '/status/debts',
+        ),
+        'loan' => array(
+          'label' => t('Loans'),
+          'link' => $uri['path'] . '/status/',
+        ),
+        'reservation' => array(
+          'label' => t('Reservation'),
+          'link' => $uri['path'] . '/status/reservation',
+        ),
+      );
+
+      // Fetch the information from the provider and add it to the render
+      // array.
+      $content = array();
+      foreach ($types as $type => $info) {
+        // Check if the provider supplies the information.
+        if (ding_provider_implements($type, 'list')) {
+          // Get the information.
+          $count = count(ding_provider_invoke_page($type, 'list', $user));
+          if ($count) {
+            $content[] = array(
+              '#theme' => 'ding_user_frontend_user_status',
+              '#status' => array(
+                'type' => $type,
+                'label' => $info['label'],
+                'count' => $count,
+                'link' => $info['link'],
+              ),
+            );
+          }
+        }
+      }
+
+      // Build the block.
+      $block['subject'] = t('Your user loan status');
+      $block['content'] = $content;
+
       break;
 
     case 'ding-user-ajax-login':
