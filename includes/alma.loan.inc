@@ -19,30 +19,24 @@ function alma_loan_list($account, $reset = FALSE) {
   $cache_key = 'alma_loans';
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
-    $results = ding_provider_session_cache_get($cache_key);
-    if (!$results || $reset) {
-      try {
-        // Get all loans form alma for the user account given.
-        $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
-      }
-      catch (Exception $e) {
-        throw new DingProviderLoanUserError($e->getMessage());
-      }
+    try {
+      // Get all loans form alma for the user account given.
+      $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
+    }
+    catch (Exception $e) {
+      throw new DingProviderLoanUserError($e->getMessage());
+    }
 
-      $results = array();
-      foreach ($loans as $loan) {
-        $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
-          'loan_date' => $loan['loan_date'],
-          'expiry' => $loan['due_date'],
-          'renewable' => $loan['is_renewable'],
-          'materials_number' => $loan['id'],
-          'notes' => isset($loan['notes']) ? $loan['notes'] : DingEntityBase::NULL,
-        ));
-      }
-
-      // Store result into the session cache.
-      ding_provider_session_cache_set($cache_key, $results, 300);
+    $results = array();
+    foreach ($loans as $loan) {
+      $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
+        'loan_date' => $loan['loan_date'],
+        'expiry' => $loan['due_date'],
+        'renewable' => $loan['is_renewable'],
+        'materials_number' => $loan['id'],
+        'notes' => isset($loan['notes']) ? $loan['notes'] : DingEntityBase::NULL,
+      ));
     }
   }
 
@@ -70,9 +64,6 @@ function alma_loan_renew($account, $ids) {
       $result[$id] = DingProviderLoan::STATUS_NOT_RENEWED;
     }
   }
-
-  // Clear loans session cache.
-  ding_provider_session_cache_clear('alma_loans');
 
   return $result;
 }
