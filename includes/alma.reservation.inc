@@ -373,10 +373,7 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
   $cache_key = 'alma_reservations';
   $reservations = &drupal_static(__FUNCTION__, FALSE);
   if (!$reservations || $reset) {
-    $reservations = ding_provider_session_cache_get($cache_key);
-    if (!$reservations || $reset) {
-      $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
-    }
+    $reservations = alma_client_invoke('get_reservations', $creds['name'], $creds['pass']);
   }
 
   return $reservations;
@@ -386,7 +383,7 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
  * Clear reservations stored in the current session cache.
  */
 function alma_reservation_clear_cache() {
-  ding_provider_session_cache_clear('alma_reservations');
+  
 }
 
 /**
