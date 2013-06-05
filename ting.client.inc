@@ -144,6 +144,11 @@ function ting_get_objects($ids) {
         }
       }
     }
+    else {
+      // Result was false, hence the more property used in the while do not
+      // exists
+      break;
+    }
     $i++;
   } while ($result->more);
 
