@@ -25,14 +25,37 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 
   // Get loans from the provider.
   $account = isset($context->data) ? $context->data : NULL;
-  $loans = ding_provider_invoke_page('loan', 'list', $account);
 
-  // Preload all entities to speed up the page.
-  $ids = array();
-  foreach ($loans as $item) {
-    $ids[] = $item->ding_entity_id;
+  $loans = FALSE;
+  if (module_exists('ding_user_cache')) {
+    $loans = ding_user_cache_get('ding_loan', 'list');
   }
-  ding_entity_load_multiple($ids);
+
+  if (!$loans) {
+    $loans = ding_provider_invoke_page('loan', 'list', $account);
+
+    // Preload all entities to speed up the page.
+    $ids = array();
+    foreach ($loans as $item) {
+      $ids[] = $item->ding_entity_id;
+    }
+    ding_entity_load_multiple($ids);
+
+    // Add the preload entity to each loan, if the entity exists.
+    foreach ($loans as $id => &$item) {
+      $item->creator = 'fake';
+      $entity = $item->entity;
+
+      if (!is_object($entity)) {
+        $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
+      }
+    }
+
+    // Store the loans into ding user cache.
+    if (module_exists('ding_user_cache')) {
+      ding_user_cache_set('ding_loan', 'list', $loans);
+    }
+  }
 
   // Set block content, with loans form.
   $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
@@ -78,10 +101,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   foreach ($loans as $id => $item) {
     $item->creator = 'fake';
     $entity = $item->entity;
-
-    if (!is_object($entity)) {
-      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
-    }
 
     $options[$item->id] = array(
       '#disabled' => $item->renewable,
