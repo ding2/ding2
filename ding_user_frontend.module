@@ -81,50 +81,70 @@ function ding_user_frontend_block_view($delta) {
         return;
       }
 
-      // Define the types of information that the provider should be queried
-      // for and their labels.
+      // Get debts count.
       $uri = entity_uri('user', $user);
-      $types = array(
-        'debt' => array(
-          'label' => t('Debts'),
-          'link' => $uri['path'] . '/status/debts',
-        ),
-        'loan' => array(
-          'label' => t('Loans'),
-          'link' => $uri['path'] . '/status/',
-        ),
-        'reservation' => array(
-          'label' => t('Reservation'),
-          'link' => $uri['path'] . '/status/reservation',
-        ),
-      );
+      $count = count(ding_provider_invoke_page('debt', 'list', $user));
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-debt',
+            'label' => t('Debts'),
+            'count' => $count,
+            'link' => $uri['path'] . '/status/debts',
+          ),
+        );
+      }
 
-      // Fetch the information from the provider and add it to the render
-      // array.
-      $content = array();
-      foreach ($types as $type => $info) {
-        // Check if the provider supplies the information.
-        if (ding_provider_implements($type, 'list')) {
-          // Get the information.
-          $count = count(ding_provider_invoke_page($type, 'list', $user));
-          if ($count) {
-            $content[] = array(
-              '#theme' => 'ding_user_frontend_user_status',
-              '#status' => array(
-                'type' => $type,
-                'label' => $info['label'],
-                'count' => $count,
-                'link' => $info['link'],
-              ),
-            );
-          }
-        }
+      // Get reservations ready for pick-up.
+      $count = count(ding_provider_invoke_page('reservation', 'list', $user, 'ready_for_pickup'));
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-ready-pickup',
+            'label' => t('Ready for pick-up'),
+            'count' => $count,
+            'link' => $uri['path'] . '/status/reservations',
+          ),
+        );
+      }
+
+      // Get loans.
+      $count = count(ding_provider_invoke_page('loan', 'list', $user));
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-loan',
+            'label' => t('Loan'),
+            'count' => $count,
+            'link' => $uri['path'] . '/status/',
+          ),
+        );
+      }
+
+      // Get total reservation count.
+      $types = ding_provider_invoke_page('reservation', 'list', $user);
+      $count = 0;
+      foreach ($types as $type) {
+        $count += count($type);
+      }
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-reservation',
+            'label' => t('Reservations'),
+            'count' => $count,
+            'link' => $uri['path'] . '/status/reservations',
+          ),
+        );
       }
 
       // Build the block.
       $block['subject'] = t('Your user loan status');
       $block['content'] = $content;
-
       break;
 
     case 'ding-user-ajax-login':
