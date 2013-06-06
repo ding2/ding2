@@ -16,27 +16,40 @@ function alma_loan_list($account, $reset = FALSE) {
   // is not longer logged in.
   $creds = ding_user_get_creds($account);
 
-  $cache_key = 'alma_loans';
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
-    try {
-      // Get all loans form alma for the user account given.
-      $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
-    }
-    catch (Exception $e) {
-      throw new DingProviderLoanUserError($e->getMessage());
+    // Check if ding_session_cache is available.
+    if (module_exists('ding_session_cache')) {
+      $results = ding_session_cache_get('alma', 'loans');
     }
 
-    $results = array();
-    foreach ($loans as $loan) {
-      $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
-        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
-        'loan_date' => $loan['loan_date'],
-        'expiry' => $loan['due_date'],
-        'renewable' => $loan['is_renewable'],
-        'materials_number' => $loan['id'],
-        'notes' => isset($loan['notes']) ? $loan['notes'] : DingEntityBase::NULL,
-      ));
+    // If both static cache and session cache faild, try reloading information
+    // from alma.
+    if (empty($results) || $reset) {
+      try {
+        // Get all loans form alma for the user account given.
+        $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
+      }
+      catch (Exception $e) {
+        throw new DingProviderLoanUserError($e->getMessage());
+      }
+
+      $results = array();
+      foreach ($loans as $loan) {
+        $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
+          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
+          'loan_date' => $loan['loan_date'],
+          'expiry' => $loan['due_date'],
+          'renewable' => $loan['is_renewable'],
+          'materials_number' => $loan['id'],
+          'notes' => isset($loan['notes']) ? $loan['notes'] : DingEntityBase::NULL,
+        ));
+      }
+
+      // Store the reservations into ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_set('alma', 'loans', $results);
+      }
     }
   }
 
@@ -56,6 +69,11 @@ function alma_loan_renew($account, $ids) {
   foreach ($ids as $id) {
     if (isset($res[$id]) && $res[$id] === TRUE) {
       $result[$id] = DingProviderLoan::STATUS_RENEWED;
+
+      // Clear ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_clear('alma', 'loans');
+      }
     }
     else {
       /**
@@ -86,8 +104,16 @@ function alma_loan_populate_pseudo_entity($ting_entity) {
     $ting_entity->reply->record['dc:title']['dkdcplus:full'] = array($source['titles'][0]);
     $ting_entity->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array($source['media_class']);
     $ting_entity->reply->record['dc:date'][''] = array($source['publication_year']);
-    $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = $source['authors'];
-    $ting_entity->reply->record['dc:identifier']['dkdcplus:ISBN'][0] = str_replace(array('-', ' ', 'ISBN'), '', $source['isbns'][0]);
+
+    // If it a ill Alma record authors are not always available.
+    if (isset($source['authors'])) {
+      $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = $source['authors'];
+    }
+
+    // If it a ill Alma record isbn are not always available.
+    if (isset($source['isbns'][0])) {
+      $ting_entity->reply->record['dc:identifier']['dkdcplus:ISBN'][0] = str_replace(array('-', ' ', 'ISBN'), '', $source['isbns'][0]);
+    }
 
     $ting_entity->ting_title = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
     $ting_entity->ting_type = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));

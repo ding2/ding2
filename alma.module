@@ -630,5 +630,19 @@ function alma_profile2_load($entities) {
   }
 }
 
+/**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function alma_ding_session_cache_defaults() {
+  return array(
+    'titel' => 'Alma (reservations, loans)',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
+}
+
 // Include the feature code.
 include_once 'alma.features.inc';
