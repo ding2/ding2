@@ -31,44 +31,62 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
   $block->content = t($conf['reservation_empty_text']);
   $form_id = $conf['reservation_form_id'];
 
-  // Get the reservations lists.
-  $reservations = ding_provider_invoke_page('reservation', 'list', $account);
+  $content = array();
+  if (module_exists('ding_session_cache')) {
+    $content = ding_session_cache_get('ding_reservation', 'reservations');
+  }
 
-  // Filter items base on configuration and preload ting entites.
-  $preloaded_reservations = &drupal_static(__FUNCTION__, array());
-  $items = array();
-  foreach ($types as $type) {
-    // Try to preload ting entities, if not already loaded.
-    if (!isset($preloaded_reservations[$type])) {
-      $preload_ids = array();
-      foreach ($reservations[$type] as $item) {
-        if (isset($item->ding_entity_id)) {
-          $preload_ids[] = $item->ding_entity_id;
+  if (empty($content) || !isset($content[$form_id])) {
+    // Get the reservations lists.
+    $reservations = ding_provider_invoke_page('reservation', 'list', $account);
+
+    // Filter items base on configuration and preload ting entites.
+    $preloaded_reservations = &drupal_static(__FUNCTION__, array());
+    $items = array();
+    foreach ($types as $type) {
+      // Try to preload ting entities, if not already loaded.
+      if (!isset($preloaded_reservations[$type])) {
+        $preload_ids = array();
+        foreach ($reservations[$type] as $item) {
+          if (isset($item->ding_entity_id)) {
+            $preload_ids[] = $item->ding_entity_id;
+          }
         }
+
+        // Preload all ting entities.
+        if (!empty($preload_ids)) {
+          ding_entity_load_multiple($preload_ids);
+        }
+
+        // Set this list type as preloaded.
+        $preloaded_reservations[$type] = TRUE;
       }
 
-      // Preload all ting entities.
-      if (!empty($preload_ids)) {
-        ding_entity_load_multiple($preload_ids);
-      }
-
-      // Set this list type as preloaded.
-      $preloaded_reservations[$type] = TRUE;
+      // Add the current type to the items we want.
+      $items += $reservations[$type];
     }
 
-    // Add the current type to the items we want.
-    $items += $reservations[$type];
+    // Add the preload entity to each loan (side effect of getting the entity).
+    foreach ($items as $id => &$item) {
+      $item->entity;
+    }
+
+    $content[$form_id] = $items;
+
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_set('ding_reservation', 'reservations', $content);
+    }
   }
 
   // Build block content.
-  if (!empty($items)) {
+  if (!empty($content[$form_id])) {
     if (count($types) > 1) {
       // If more than one type is selected we will fallback to the most generic
       // form type.
-      $block->content = ding_provider_get_form($form_id, $items, 'ready_for_pickup');
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'ready_for_pickup');
     }
     else {
-      $block->content = ding_provider_get_form($form_id, $items, array_shift($types));
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types));
     }
   }
 
