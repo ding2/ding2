@@ -13,7 +13,6 @@
 
     // Set variables
     var element = $('.js-opening-hours-toggle');
-    var siteHeaderHeight;
 
     // Attach click
     element.on('click touchstart', function(event) {
@@ -24,12 +23,9 @@
       $(this).next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
         // Toggle class
         $(element).toggleClass('js-collapsed js-expanded');
-        
-        // Make sure the header height is updated
-        siteHeaderHeight = $('.site-header').height()
 
         // Scroll to the top of the element
-        $.scrollTo($(element).parents('.views-row'), 500, {offset: -siteHeaderHeight, axis: 'y'});
+        $.scrollTo($(element).parents('.views-row'), 500, {offset: -$('.site-header').height(), axis: 'y'});
 
         // Remove focus from link
         $(element).blur();
@@ -42,11 +38,6 @@
 
   // When ready start the magic
   $(document).ready(function () {
-
-    $(window).scroll(function(){
-      console.log('Site header height: ' + $('.site-header').height());
-    });
-
     // Toggle opening hours
     toggle_opening_hours();
 
