@@ -89,7 +89,7 @@ function ding_user_frontend_block_view($delta) {
           '#theme' => 'ding_user_frontend_user_status',
           '#status' => array(
             'class' => 'user-status-debt',
-            'label' => t('Debts'),
+            'label' => format_plural($count, 'Debt', 'Debts'),
             'count' => $count,
             'link' => $uri['path'] . '/status/debts',
           ),
@@ -103,7 +103,7 @@ function ding_user_frontend_block_view($delta) {
           '#theme' => 'ding_user_frontend_user_status',
           '#status' => array(
             'class' => 'user-status-ready-pickup',
-            'label' => t('Ready for pick-up'),
+            'label' => format_plural($count, 'Reservation ready for pick-up', 'Reservations ready for pick-up'),
             'count' => $count,
             'link' => $uri['path'] . '/status/reservations',
           ),
@@ -117,7 +117,7 @@ function ding_user_frontend_block_view($delta) {
           '#theme' => 'ding_user_frontend_user_status',
           '#status' => array(
             'class' => 'user-status-loan',
-            'label' => t('Loan'),
+            'label' => format_plural($count, 'Loan', 'Loans'),
             'count' => $count,
             'link' => $uri['path'] . '/status/',
           ),
@@ -135,7 +135,7 @@ function ding_user_frontend_block_view($delta) {
           '#theme' => 'ding_user_frontend_user_status',
           '#status' => array(
             'class' => 'user-status-reservation',
-            'label' => t('Reservations'),
+            'label' => format_plural($count, 'Reservation', 'Reservations'),
             'count' => $count,
             'link' => $uri['path'] . '/status/reservations',
           ),
