@@ -10,14 +10,14 @@
  * Implements hook_form_FORM_ID_alter().
  *
  * Addes configration options to the system performance page based on the custom
- * hook_ding_user_cache_defaults() module implementations.
+ * hook_ding_session_cache_defaults() module implementations.
  *
  */
-function ding_user_cache_form_system_performance_settings_alter(&$form, &$form_state, $form_id) {
+function ding_session_cache_form_system_performance_settings_alter(&$form, &$form_state, $form_id) {
   $form['clear_cache']['#weight'] = -30;
 
   // Add new fieldset to display the new cache options.
-  $form['ding_user_cache'] = array(
+  $form['ding_session_cache'] = array(
     '#type' => 'fieldset',
     '#title' => t('Ding user cache'),
     '#description' => t('Configure the behaviour of the diffect elements cached for ding users.'),
@@ -29,16 +29,16 @@ function ding_user_cache_form_system_performance_settings_alter(&$form, &$form_s
   $period = drupal_map_assoc(array(60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400), 'format_interval');
 
   // Get pervious store default values.
-  $defaults = variable_get('ding_user_cache', array());
+  $defaults = variable_get('ding_session_cache', array());
 
-  // Find the modules that implements hook_ding_user_cache_defautls() and build
-  // the fieldset around them.
+  // Find the modules that implements hook_ding_session_cache_defautls() and 
+  // build the fieldset around them.
   $form_elements = array();
-  foreach (module_implements('ding_user_cache_defaults') as $module) {
-    $function = $module . '_ding_user_cache_defaults';
+  foreach (module_implements('ding_session_cache_defaults') as $module) {
+    $function = $module . '_ding_session_cache_defaults';
     if (function_exists($function)) {
       $result =  $function();
-      $form['ding_user_cache'][$module] = array(
+      $form['ding_session_cache'][$module] = array(
         '#type' => 'fieldset',
         '#title' => $result['titel'],
         'enabled' => array(
@@ -58,7 +58,7 @@ function ding_user_cache_form_system_performance_settings_alter(&$form, &$form_s
 
   // If non one supports this module insert an empty fieldset message.
   if (empty($form_elements)) {
-    $form['ding_user_cache']['#description'] = t('There where no modules enabled that implements this cache.');
+    $form['ding_session_cache']['#description'] = t('There where no modules enabled that implements this cache.');
   }
 }
 
@@ -75,9 +75,9 @@ function ding_user_cache_form_system_performance_settings_alter(&$form, &$form_s
  * @param mixed $data
  *  Data to store in the cache.
  */
-function ding_user_cache_set($module, $cid, $data) {
-  if (_ding_user_cache_enabled($module)) {
-    cache_set(_ding_user_cache_get_cid($module, $cid), $data, 'cache_ding_user_cache', _ding_user_cache_get_expire($module));
+function ding_session_cache_set($module, $cid, $data) {
+  if (_ding_session_cache_enabled($module)) {
+    cache_set(_ding_session_cache_get_cid($module, $cid), $data, 'cache_ding_session_cache', _ding_session_cache_get_expire($module));
   }
 }
 
@@ -91,9 +91,9 @@ function ding_user_cache_set($module, $cid, $data) {
  * @return mixed
  *  If data found it's returned else FALSE.
  */
-function ding_user_cache_get($module, $cid) {
-  if (_ding_user_cache_enabled($module)) {
-    $cache = cache_get(_ding_user_cache_get_cid($module, $cid), 'cache_ding_user_cache');
+function ding_session_cache_get($module, $cid) {
+  if (_ding_session_cache_enabled($module)) {
+    $cache = cache_get(_ding_session_cache_get_cid($module, $cid), 'cache_ding_session_cache');
     if (isset($cache->expire) && $cache->expire > REQUEST_TIME) {
       return $cache->data;
     }
@@ -106,8 +106,8 @@ function ding_user_cache_get($module, $cid) {
  *
  * Remove cached data for the user that is logging out.
  */
-function ding_user_cache_user_logout($account) {
-  cache_clear_all(session_id(), 'cache_ding_user_cache', TRUE);
+function ding_session_cache_user_logout($account) {
+  cache_clear_all(session_id(), 'cache_ding_session_cache', TRUE);
 }
 
 /**
@@ -119,8 +119,8 @@ function ding_user_cache_user_logout($account) {
  * @return boolean
  *  TRUE if enabled else FALSE.
  */
-function _ding_user_cache_enabled($module) {
-  $conf = variable_get('ding_user_cache', array());
+function _ding_session_cache_enabled($module) {
+  $conf = variable_get('ding_session_cache', array());
   if (isset($conf[$module]['enabled']) && $conf[$module]['enabled']) {
     return TRUE;
   }
@@ -136,8 +136,8 @@ function _ding_user_cache_enabled($module) {
  * @return string
  *  Unix timestamp with expire date or CACHE_TEMPORARY (-1).
  */
-function _ding_user_cache_get_expire($module) {
-  $conf = variable_get('ding_user_cache', array());
+function _ding_session_cache_get_expire($module) {
+  $conf = variable_get('ding_session_cache', array());
   if (isset($conf[$module]['expire'])) {
     return REQUEST_TIME + $conf[$module]['expire'];
   }
@@ -154,6 +154,6 @@ function _ding_user_cache_get_expire($module) {
  * @return string
  *  Id that can be used in the cache.
  */
-function _ding_user_cache_get_cid($module, $cid) {
+function _ding_session_cache_get_cid($module, $cid) {
   return session_id() . '_' . $module . '_' . $cid;
 }

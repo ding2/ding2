@@ -1,4 +1,0 @@
-name = Ding user cache
-description = Cache information for users (loans, reservations etc.).
-package = Ding!
-core = 7.x
