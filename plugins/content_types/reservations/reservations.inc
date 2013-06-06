@@ -18,10 +18,7 @@ $plugin = array(
  * Render the block
  */
 function ding_reservation_reservations_content_type_render($subtype, $conf, $panel_args, $context) {
-  static $preload_reservations = TRUE;
   $account = isset($context->data) ? $context->data : NULL;
-  $preload_ids = array();
-  $reservation_list = array();
 
   // Defined the return block.
   $block = new stdClass();
@@ -48,29 +45,31 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
       break;
   }
 
-  // Get the lists
-  $items = ding_provider_invoke_page('reservation', 'list', $account);
-  foreach ($items as $item) {
-    if (isset($item->ding_entity_id)) {
-      $preload_ids[] = $item->ding_entity_id;
-    }
-    if (isset($conf['reservation_type_list'])) {
-      if (($conf['reservation_type_list'] == 'ready_for_pickup' && $item->ready_for_pickup === 1) ||
-          ($conf['reservation_type_list'] == 'not_ready_for_pickup' && $item->ready_for_pickup === 0) ||
-          ($conf['reservation_type_list'] == 'interlibrary_loans' && isset($item->ill_status))) {
-        $reservation_list[] = $item;
+  // Get the reservations lists.
+  $reservations = ding_provider_invoke_page('reservation', 'list', $account);
+
+  // Try to preload ting entities, if not already loaded.
+  $preloaded_reservations = &drupal_static(__FUNCTION__, array());
+  if (!isset($preloaded_reservations[$conf['reservation_type_list']])) {
+    $preload_ids = array();
+    foreach ($reservations[$conf['reservation_type_list']] as $item) {
+      if (isset($item->ding_entity_id)) {
+        $preload_ids[] = $item->ding_entity_id;
       }
     }
-  }
-  // Preload all ting objects.
-  if ($preload_reservations) {
-    ding_entity_load_multiple($preload_ids);
-    $preload_reservations = FALSE;
+
+    // Preload all ting entities.
+    if (!empty($preload_ids)) {
+      ding_entity_load_multiple($preload_ids);
+    }
+
+    // Set this list type as preloaded.
+    $preloaded_reservations[$conf['reservation_type_list']] = TRUE;
   }
 
-  // Change the default block content, if the list is not empty
-  if (!empty($reservation_list)) {
-    $block->content = ding_provider_get_form($form_id, $reservation_list, $conf['reservation_type_list']);
+  // Set block content if any reservation of the type is listed.
+  if (!empty($reservations[$conf['reservation_type_list']])) {
+    $block->content = ding_provider_get_form($form_id, $reservations[$conf['reservation_type_list']], $conf['reservation_type_list']);
   }
 
   return $block;
