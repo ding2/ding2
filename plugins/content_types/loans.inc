@@ -27,8 +27,8 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $account = isset($context->data) ? $context->data : NULL;
 
   $loans = FALSE;
-  if (module_exists('ding_user_cache')) {
-    $loans = ding_user_cache_get('ding_loan', 'list');
+  if (module_exists('ding_session_cache')) {
+    $loans = ding_session_cache_get('ding_loan', 'list');
   }
 
   if (!$loans) {
@@ -52,8 +52,8 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
     }
 
     // Store the loans into ding user cache.
-    if (module_exists('ding_user_cache')) {
-      ding_user_cache_set('ding_loan', 'list', $loans);
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_set('ding_loan', 'list', $loans);
     }
   }
 
