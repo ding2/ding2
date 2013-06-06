@@ -128,7 +128,7 @@ function alma_reservation_list($account, $type = NULL) {
 
     // If both static cache and session cache faild, try reloading information
     // from alma.
-    if (!isset($result) || !$result) {
+    if (empty($result)) {
       $reservations = alma_reservation_get_reservations($account);
       $result = array(
         'ready_for_pickup' => array(),

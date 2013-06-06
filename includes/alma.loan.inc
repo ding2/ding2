@@ -16,27 +16,40 @@ function alma_loan_list($account, $reset = FALSE) {
   // is not longer logged in.
   $creds = ding_user_get_creds($account);
 
-  $cache_key = 'alma_loans';
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
-    try {
-      // Get all loans form alma for the user account given.
-      $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
-    }
-    catch (Exception $e) {
-      throw new DingProviderLoanUserError($e->getMessage());
+    // Check if ding_session_cache is available.
+    if (module_exists('ding_session_cache')) {
+      $results = ding_session_cache_get('alma', 'loans');
     }
 
-    $results = array();
-    foreach ($loans as $loan) {
-      $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
-        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
-        'loan_date' => $loan['loan_date'],
-        'expiry' => $loan['due_date'],
-        'renewable' => $loan['is_renewable'],
-        'materials_number' => $loan['id'],
-        'notes' => isset($loan['notes']) ? $loan['notes'] : DingEntityBase::NULL,
-      ));
+    // If both static cache and session cache faild, try reloading information
+    // from alma.
+    if (empty($results) || $reset) {
+      try {
+        // Get all loans form alma for the user account given.
+        $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
+      }
+      catch (Exception $e) {
+        throw new DingProviderLoanUserError($e->getMessage());
+      }
+
+      $results = array();
+      foreach ($loans as $loan) {
+        $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
+          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
+          'loan_date' => $loan['loan_date'],
+          'expiry' => $loan['due_date'],
+          'renewable' => $loan['is_renewable'],
+          'materials_number' => $loan['id'],
+          'notes' => isset($loan['notes']) ? $loan['notes'] : DingEntityBase::NULL,
+        ));
+      }
+
+      // Store the reservations into ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_set('alma', 'loans', $results);
+      }
     }
   }
 
