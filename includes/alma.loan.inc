@@ -69,6 +69,11 @@ function alma_loan_renew($account, $ids) {
   foreach ($ids as $id) {
     if (isset($res[$id]) && $res[$id] === TRUE) {
       $result[$id] = DingProviderLoan::STATUS_RENEWED;
+
+      // Clear ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_clear('alma', 'loans');
+      }
     }
     else {
       /**
