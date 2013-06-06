@@ -185,6 +185,7 @@
 /* Single Library
    ========================================================================== */
 
+/* Library menu */
 .library-menu {
   h2 {
     @extend .sub-menu-title;
@@ -193,4 +194,34 @@
   .links {
     @extend .sub-menu;
   }
+}
+
+.ding-library-image {
+  margin-bottom: $large-spacing;
+}
+
+.ding-library-contact {
+  @include zen-grid-item(6, 1);
+}
+
+.ding-library-address {
+  @include zen-grid-item(6, 1, right);
+}
+
+.ding-library-contact,
+.ding-library-address {
+  margin-bottom: $large-spacing;
+  padding-right: 0;
+  padding-bottom: $large-spacing;
+  padding-left: 0;
+
+  .pane-title {
+    @include font-bold();
+
+    font-size: $font-size-reset;
+  }
+}
+
+.ding-library-opening-hours {
+  @include zen-clear();
 }
