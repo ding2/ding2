@@ -41,15 +41,15 @@ function ding_loan_sort_expiry($a, $b) {
 }
 
 /**
- * Implements hook_ding_user_cache_defaults().
+ * Implements hook_ding_session_cache_defaults().
  *
- * Set default ding_user_cache settings and tell ding_user_cache that this
+ * Set default ding_session_cache settings and tell ding_session_cache that this
  * module supports it.
  */
-function ding_loan_ding_user_cache_defaults() {
+function ding_loan_ding_session_cache_defaults() {
   return array(
     'titel' => 'Ding loans',
     'enabled' => TRUE,
-    'expire' => 0,
+    'expire' => 3600,
   );
 }

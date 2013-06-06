@@ -27,8 +27,8 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $account = isset($context->data) ? $context->data : NULL;
 
   $loans = FALSE;
-  if (module_exists('ding_user_cache')) {
-    $loans = ding_user_cache_get('ding_loan', 'list');
+  if (module_exists('ding_session_cache')) {
+    $loans = ding_session_cache_get('ding_loan', 'list');
   }
 
   if (!$loans) {
@@ -43,17 +43,12 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 
     // Add the preload entity to each loan, if the entity exists.
     foreach ($loans as $id => &$item) {
-      $item->creator = 'fake';
-      $entity = $item->entity;
-
-      if (!is_object($entity)) {
-        $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
-      }
+      $item->entity;
     }
 
-    // Store the loans into ding user cache.
-    if (module_exists('ding_user_cache')) {
-      ding_user_cache_set('ding_loan', 'list', $loans);
+    // Store the loans into ding session cache.
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_set('ding_loan', 'list', $loans);
     }
   }
 
@@ -101,6 +96,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   foreach ($loans as $id => $item) {
     $item->creator = 'fake';
     $entity = $item->entity;
+    if (!is_object($entity)) {
+      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
+    }
 
     $options[$item->id] = array(
       '#disabled' => $item->renewable,
