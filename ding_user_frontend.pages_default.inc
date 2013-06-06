@@ -814,6 +814,16 @@ function ding_user_frontend_default_page_manager_pages() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -829,12 +839,19 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:user_1',
-      'reservation_type_list' => 'ready_for_pickup',
-      'form_build_id' => 'form-G6s64gjUFJ0Bhts4dwSIySYzormSwxY9gzniPrAKIUU',
-      'form_token' => 'k5YvrXuVEXOL31_hpy0IrSa_Cw8c4cSGJPpZjQhEftw',
+      'reservation_type_list' => array(
+        'ready_for_pickup' => 'ready_for_pickup',
+        'not_ready_for_pickup' => 0,
+        'interlibrary_loans' => 0,
+      ),
+      'form_build_id' => 'form-uqYqilRuJU-L4AtuQ398zk1P8y_lZwasKq93qm91EI8',
+      'form_token' => 'LrQ90mfel5sMMkKaFHXxQ64WU37lYRizqlHrit9CT18',
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 0,
       'override_title_text' => '',
+      'reservation_titel' => 'Reservations ready for pickup',
+      'reservation_empty_text' => 'There are no reservations ready for pickup.',
+      'reservation_form_id' => 'ding_reservation_reservations_ready_form',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -855,12 +872,19 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:user_1',
-      'reservation_type_list' => 'not_ready_for_pickup',
-      'form_build_id' => 'form-wicrwm_b27DxswOxAMqn3vNlC0kfxrmJkOvH8JMklY0',
-      'form_token' => 'k5YvrXuVEXOL31_hpy0IrSa_Cw8c4cSGJPpZjQhEftw',
+      'reservation_type_list' => array(
+        'not_ready_for_pickup' => 'not_ready_for_pickup',
+        'interlibrary_loans' => 'interlibrary_loans',
+        'ready_for_pickup' => 0,
+      ),
+      'form_build_id' => 'form-PcM2U3JZ4TDE1MaEasMNB0rdgROfJtRuTLvgn3D3ndA',
+      'form_token' => 'LrQ90mfel5sMMkKaFHXxQ64WU37lYRizqlHrit9CT18',
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 0,
       'override_title_text' => '',
+      'reservation_titel' => 'Reservations',
+      'reservation_empty_text' => 'There are no reservations.',
+      'reservation_form_id' => 'ding_reservation_reservations_notready_form',
     );
     $pane->cache = array();
     $pane->style = array(
