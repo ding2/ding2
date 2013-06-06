@@ -51,7 +51,7 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
       }
     }
 
-    // Store the loans into ding user cache.
+    // Store the loans into ding session cache.
     if (module_exists('ding_session_cache')) {
       ding_session_cache_set('ding_loan', 'list', $loans);
     }
