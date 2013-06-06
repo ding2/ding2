@@ -167,6 +167,16 @@ function alma_reservation_list($account, $type = NULL) {
     }
   }
 
+  if (!is_null($type)) {
+    if (isset($result[$type])) {
+      return $result[$type];
+    }
+    else {
+      watchdog('alma', 'Unknown reservation type (%type) requested', array('%type' => $type) , WATCHDOG_ERROR);
+      return array();
+    }
+  }
+
   return $result;
 }
 
