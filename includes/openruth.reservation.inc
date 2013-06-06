@@ -37,7 +37,7 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
  * @param type $account
  * @return \DingProviderReservation
  */
-function openruth_reservation_list($account) {
+function openruth_reservation_list($account, $type = NULL) {
   $result = &drupal_static(__FUNCTION__, array(
     'ready_for_pickup' => array(),
     'not_ready_for_pickup' => array(),
@@ -104,6 +104,16 @@ function openruth_reservation_list($account) {
           'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
+    }
+  }
+
+  if (!is_null($type)) {
+    if (isset($result[$type])) {
+      return $result[$type];
+    }
+    else {
+      watchdog('openruth', 'Unknown reservation type (%type) requested', array('%type' => $type) , WATCHDOG_ERROR);
+      return array();
     }
   }
 
