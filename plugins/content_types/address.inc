@@ -17,8 +17,6 @@ function ding_library_address_content_type_render($subtype, $conf, $panel_args, 
   }
   $node = $context->data;
 
-  print_r($node);
-
   $content = ' <div class="library-address">';
   if (!empty($node->field_ding_library_addresse['und'])) {
     $content .= '
