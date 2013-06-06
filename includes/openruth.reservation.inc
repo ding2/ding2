@@ -37,8 +37,12 @@ function openruth_reservation_set_preferred_branch($account, $branch) {
  * @param type $account
  * @return \DingProviderReservation
  */
-function openruth_reservation_list($account) {
-  $result = &drupal_static(__FUNCTION__, array());
+function openruth_reservation_list($account, $type = NULL) {
+  $result = &drupal_static(__FUNCTION__, array(
+    'ready_for_pickup' => array(),
+    'not_ready_for_pickup' => array(),
+    'interlibrary_loans' => array(),
+  ));
 
   if (empty($result)) {
     $creds = ding_user_get_creds($account);
@@ -46,7 +50,7 @@ function openruth_reservation_list($account) {
 
     if (isset($status->orders->orderReady)) {
       foreach ($status->orders->orderReady as $res) {
-        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+        $result['ready_for_pickup'][$res->orderId] = new DingProviderReservation($res->orderId, array(
           'order_id' => $res->orderId,
           'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
           'display_name' => $res->itemDisplayTitle,
@@ -67,7 +71,7 @@ function openruth_reservation_list($account) {
     }
     if (isset($status->orders->orderNotReady)) {
       foreach ($status->orders->orderNotReady as $res) {
-        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+        $result['not_ready_for_pickup'][$res->orderId] = new DingProviderReservation($res->orderId, array(
           'order_id' => $res->orderId,
           'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
           'display_name' => $res->itemDisplayTitle,
@@ -86,7 +90,7 @@ function openruth_reservation_list($account) {
     }
     if (isset($status->illOrders->illOrder)) {
       foreach ($status->illOrders->illOrder as $res) {
-        $result[$res->orderId] = new DingProviderReservation($res->orderId, array(
+        $result['interlibrary_loans'][$res->orderId] = new DingProviderReservation($res->orderId, array(
           'order_id' => $res->orderId,
           'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
           'display_name' => $res->itemDisplayTitle,
@@ -100,6 +104,16 @@ function openruth_reservation_list($account) {
           'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
         ));
       }
+    }
+  }
+
+  if (!is_null($type)) {
+    if (isset($result[$type])) {
+      return $result[$type];
+    }
+    else {
+      watchdog('openruth', 'Unknown reservation type (%type) requested', array('%type' => $type) , WATCHDOG_ERROR);
+      return array();
     }
   }
 
