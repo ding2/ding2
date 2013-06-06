@@ -9,8 +9,8 @@
  *
  * Defines a cache table for the module.
  */
-function ding_user_cache_schema() {
+function ding_session_cache_schema() {
   $schema = array();
-  $schema['cache_ding_user_cache'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_ding_session_cache'] = drupal_get_schema_unprocessed('system', 'cache');
   return $schema;
 }
