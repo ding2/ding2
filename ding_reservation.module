@@ -254,6 +254,9 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
       if (is_array($reservation_result) and !empty($reservation_result['queue_number'])) {
         drupal_set_message(t('You are number @number in queue.', array('@number' => $reservation_result['queue_number'])));
       }
+
+      // Clear reservation sesion cache.
+      ding_reservation_cache_clear();
     }
     catch (DingProviderUserException $e) {
       drupal_set_message($e->getMessageT(array('@title' => $reservable->getTitle())), 'error');
@@ -658,6 +661,9 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
   }
   foreach ($reservations as $entity_id) {
     ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+
+    // Clear reservation sesion cache.
+    ding_reservation_cache_clear();
   }
 }
 
@@ -839,12 +845,18 @@ function ding_reservation_delete_reservations_form_submit($form, &$form_state) {
   }
   foreach ($reservations as $entity_id) {
     ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+
+    // Clear reservation sesion cache.
+    ding_reservation_cache_clear();
   }
 }
 
 function ding_reservation_update_reservations_form_submit($form, &$form_state) {
   global $user;
   ding_provider_invoke('reservation', 'update', $user, $form_state['values']['reservations'], $form_state['values']['provider_options']);
+
+  // Clear reservation sesion cache.
+  ding_reservation_cache_clear();
 }
 
 /**
@@ -1008,6 +1020,26 @@ function ding_reservation_default_options_branch_submit($type, $name, $default, 
   return $result;
 }
 
+
+function ding_reservation_cache_clear() {
+  if (module_exists('ding_session_cache')) {
+    ding_session_cache_clear('ding_reservation', 'reservations');
+  }
+}
+
+/**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function ding_reservation_ding_session_cache_defaults() {
+  return array(
+    'titel' => 'Ding reservation',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
+}
 
 /**
  * Callback function to sort array by pickup date

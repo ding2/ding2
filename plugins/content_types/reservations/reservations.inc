@@ -18,59 +18,76 @@ $plugin = array(
  * Render the block
  */
 function ding_reservation_reservations_content_type_render($subtype, $conf, $panel_args, $context) {
-  static $preload_reservations = TRUE;
   $account = isset($context->data) ? $context->data : NULL;
-  $preload_ids = array();
-  $reservation_list = array();
 
   // Defined the return block.
   $block = new stdClass();
   $block->module = 'ding_reservation';
   $block->delta  = 'reservations';
 
-  // Set title and get the form id base on the list type.
-  switch ($conf['reservation_type_list']) {
-    case 'ready_for_pickup':
-      $block->title = t('Reservations ready for pickup');
-      $block->content = t('There are no reservations ready for pickup.');
-      $form_id = 'ding_reservation_reservations_ready_form';
-      break;
+  // Get configuration for this pane.
+  $types = array_filter($conf['reservation_type_list']);
+  $block->title = t($conf['reservation_titel']);
+  $block->content = t($conf['reservation_empty_text']);
+  $form_id = $conf['reservation_form_id'];
 
-    case 'interlibrary_loans':
-      $block->title = t('Interlibrary loans');
-      $block->content = t('There are no interlibrary loans.');
-      $form_id = 'ding_reservation_reservations_ill';
-
-    default:
-      $block->title = t('Reservations');
-      $block->content = t('There are no reservations.');
-      $form_id = 'ding_reservation_reservations_notready_form';
-      break;
+  $content = array();
+  if (module_exists('ding_session_cache')) {
+    $content = ding_session_cache_get('ding_reservation', 'reservations');
   }
 
-  // Get the lists
-  $items = ding_provider_invoke_page('reservation', 'list', $account);
-  foreach ($items as $item) {
-    if (isset($item->ding_entity_id)) {
-      $preload_ids[] = $item->ding_entity_id;
-    }
-    if (isset($conf['reservation_type_list'])) {
-      if (($conf['reservation_type_list'] == 'ready_for_pickup' && $item->ready_for_pickup === 1) ||
-          ($conf['reservation_type_list'] == 'not_ready_for_pickup' && $item->ready_for_pickup === 0) ||
-          ($conf['reservation_type_list'] == 'interlibrary_loans' && isset($item->ill_status))) {
-        $reservation_list[] = $item;
+  if (empty($content) || !isset($content[$form_id])) {
+    // Get the reservations lists.
+    $reservations = ding_provider_invoke_page('reservation', 'list', $account);
+
+    // Filter items base on configuration and preload ting entites.
+    $preloaded_reservations = &drupal_static(__FUNCTION__, array());
+    $items = array();
+    foreach ($types as $type) {
+      // Try to preload ting entities, if not already loaded.
+      if (!isset($preloaded_reservations[$type])) {
+        $preload_ids = array();
+        foreach ($reservations[$type] as $item) {
+          if (isset($item->ding_entity_id)) {
+            $preload_ids[] = $item->ding_entity_id;
+          }
+        }
+
+        // Preload all ting entities.
+        if (!empty($preload_ids)) {
+          ding_entity_load_multiple($preload_ids);
+        }
+
+        // Set this list type as preloaded.
+        $preloaded_reservations[$type] = TRUE;
       }
+
+      // Add the current type to the items we want.
+      $items += $reservations[$type];
+    }
+
+    // Add the preload entity to each loan (side effect of getting the entity).
+    foreach ($items as $id => &$item) {
+      $item->entity;
+    }
+
+    $content[$form_id] = $items;
+
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_set('ding_reservation', 'reservations', $content);
     }
   }
-  // Preload all ting objects.
-  if ($preload_reservations) {
-    ding_entity_load_multiple($preload_ids);
-    $preload_reservations = FALSE;
-  }
 
-  // Change the default block content, if the list is not empty
-  if (!empty($reservation_list)) {
-    $block->content = ding_provider_get_form($form_id, $reservation_list, $conf['reservation_type_list']);
+  // Build block content.
+  if (!empty($content[$form_id])) {
+    if (count($types) > 1) {
+      // If more than one type is selected we will fallback to the most generic
+      // form type.
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'ready_for_pickup');
+    }
+    else {
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types));
+    }
   }
 
   return $block;
@@ -82,14 +99,37 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 function ding_reservation_reservations_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
   $form['reservation_type_list'] = array(
-    '#type'    => 'radios',
-    '#title'   => t('Reservation list type'),
+    '#type'    => 'checkboxes',
+    '#title'   => t('Reservation list type(s)'),
     '#options' => array(
       'not_ready_for_pickup' => t('Not ready for pickup'),
       'ready_for_pickup' => t('Ready for pickup'),
       'interlibrary_loans' => t('Interlibrary loans'),
     ),
     '#default_value' => !empty($conf['reservation_type_list']) ? $conf['reservation_type_list'] : NULL,
+  );
+
+  $form['reservation_titel'] = array(
+    '#type'    => 'textfield',
+    '#title'   => t('List titel'),
+    '#default_value' => !empty($conf['reservation_titel']) ? $conf['reservation_titel'] : 'Reservations',
+  );
+
+  $form['reservation_empty_text'] = array(
+    '#type'    => 'textfield',
+    '#title'   => t('Empty text'),
+    '#default_value' => !empty($conf['reservation_empty_text']) ? $conf['reservation_empty_text'] : 'There are no reservations.',
+  );
+
+  $form['reservation_form_id'] = array(
+    '#type'    => 'select',
+    '#title'   => t('Form to user for reservations'),
+    '#options' => array(
+      'ding_reservation_reservations_notready_form' => t('Reservation form'),
+      'ding_reservation_reservations_ready_form' => t('Reservations ready form'),
+      'ding_reservation_reservations_ill' => t('Interlibrary reservation form'),
+    ),
+    '#default_value' => !empty($conf['reservation_form_id']) ? $conf['reservation_form_id'] : 'ding_reservation_reservations_notready_form',
   );
   return $form;
 }
@@ -103,4 +143,12 @@ function ding_reservation_reservations_content_type_edit_form_submit(&$form, &$f
       $form_state['conf'][$key] = $form_state['values'][$key];
     }
   }
+}
+
+/**
+ * Returns the administrative title.
+ */
+function ding_reservation_reservations_content_type_admin_title($subtype, $conf) {
+  $types = implode(', ', array_filter($conf['reservation_type_list']));
+  return 'Reservations (' . $types . ')';
 }
