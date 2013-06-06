@@ -4,12 +4,16 @@
    * Toggle opening hours
    */
   function toggle_opening_hours() {
+    // Create toggle link
+    $('<a />', {
+      'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed',
+      'href' : Drupal.t('#toggle-opening-hours'),
+      'text' : Drupal.t('Opening hours')
+    }).insertBefore('.js-opening-hours-toggle-element');
+
     // Set variables
     var element = $('.js-opening-hours-toggle');
-    var scrollOffset;
-
-    // Add collapsed class
-    element.addClass('js-collapsed');
+    var siteHeaderHeight;
 
     // Attach click
     element.on('click touchstart', function(event) {
@@ -17,20 +21,16 @@
       var element = this;
 
       // Toggle
-      $(this).parent().next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
+      $(this).next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
         // Toggle class
         $(element).toggleClass('js-collapsed js-expanded');
-
-        // If the window is scrolled to the top increase offset
-        if ($(window).scrollTop() == 0) {
-          scrollOffset = -104;
-        } else {
-          scrollOffset = -60;
-        }
-
-        // Scroll to the top
-        $.scrollTo($(element).parent(), 500, {offset: scrollOffset, axis: 'y'});
         
+        // Make sure the header height is updated
+        siteHeaderHeight = $('.site-header').height()
+
+        // Scroll to the top of the element
+        $.scrollTo($(element).parents('.views-row'), 500, {offset: -siteHeaderHeight, axis: 'y'});
+
         // Remove focus from link
         $(element).blur();
       });
@@ -42,6 +42,11 @@
 
   // When ready start the magic
   $(document).ready(function () {
+
+    $(window).scroll(function(){
+      console.log('Site header height: ' + $('.site-header').height());
+    });
+
     // Toggle opening hours
     toggle_opening_hours();
 

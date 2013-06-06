@@ -127,6 +127,8 @@ body {
   /* Small to medium breakpoint */
   @include small-medium() {
     &.js-fixed {
+      min-height: 44px;
+
       .topbar {
         position: fixed;
         z-index: 99;

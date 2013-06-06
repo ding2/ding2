@@ -21,6 +21,12 @@
     padding-left: $medium-spacing;
     padding-right: $medium-spacing;
   }
+
+  /* Opening hours toggle */
+  .opening-hours-toggle {
+    @include zen-grid-item(6, 1, right);
+    @include zen-clear();
+  }
 }
 
 .libraries {
@@ -136,53 +142,19 @@
 .libraries-opening-hours {
   @include zen-grid-item(4, 1, right);
 
+  display: none;
+  
   /* Media queries */
   @include small-medium() {
     @include zen-grid-item(12, 1);
     @include zen-clear();
 
-    display: none;
     margin-top: 20px;
   }
 }
 
-.opening-hours-toggle {
-  @include zen-grid-item(9, 4);
-  @include zen-clear();
 
-  &.js-opening-hours-not-available {
-    display: none;
-  }
-
-  &.js-collapsed {
-    @extend .icon-plus-sign;
-  }
-
-  &.js-expanded {
-    @extend .icon-minus-sign;
-  }
-
-  display: none;
-  padding-left: $large-spacing;
-
-  &:hover {
-    text-decoration: none;
-  }
-
-  &:before {
-    font-family: $base-icon-library-font;
-    margin-right: $small-spacing;
-  }
-
-  /* Media queries */
-  @include small-medium() {
-    display: inline;
-    width: auto;
-  }
-}
-
-
-/* Single Library
+/* Library page
    ========================================================================== */
 
 /* Library menu */
@@ -196,32 +168,54 @@
   }
 }
 
-.ding-library-image {
-  margin-bottom: $large-spacing;
-}
-
-.ding-library-contact {
-  @include zen-grid-item(6, 1);
-}
-
-.ding-library-address {
-  @include zen-grid-item(6, 1, right);
-}
-
-.ding-library-contact,
-.ding-library-address {
-  margin-bottom: $large-spacing;
-  padding-right: 0;
-  padding-bottom: $large-spacing;
-  padding-left: 0;
-
-  .pane-title {
-    @include font-bold();
-
-    font-size: $font-size-reset;
+/* Using id, can't remove and add better wrapper class */
+#ding-library-front {
+  .ding-library-image {
+    margin-bottom: $large-spacing;
   }
-}
 
-.ding-library-opening-hours {
-  @include zen-clear();
+  .ding-library-contact {
+    @include zen-grid-item(6, 1);
+  }
+
+  .ding-library-address {
+    @include zen-grid-item(6, 1, right);
+  }
+
+  .ding-library-contact,
+  .ding-library-address {
+    margin-bottom: $large-spacing;
+    padding-right: 0;
+    padding-bottom: $large-spacing;
+    padding-left: 0;
+
+    .pane-title {
+      @include font-bold();
+
+      font-size: $font-size-reset;
+      margin-bottom: $small-spacing;
+    }
+  }
+
+  .opening-hours-toggle {
+    @include zen-grid-item(6, 1, right);
+    @include zen-clear();
+
+    padding-left: 0;
+  }
+
+  .ding-library-opening-hours {
+    @include zen-clear();
+
+    /* Toggle opening hours with javascript */
+    display: none;
+  }
+
+  .ding-library-news {
+    @include zen-clear(both);
+  }
+
+  .ding-library-events {
+    @include zen-clear(both);
+  }
 }

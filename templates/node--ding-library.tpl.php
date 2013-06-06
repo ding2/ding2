@@ -97,7 +97,6 @@ if ($view_mode == 'teaser') {
   <div class="content"<?php print $content_attributes; ?>>
     <div class="libraries">
       <?php print render($content); ?>
-      <a href="#" class="opening-hours-toggle js-opening-hours-toggle"><?php print t('Opening hours'); ?></a>
     </div>
     <?php if (!empty($opening_hours)) : ?>
     <div class="libraries-opening-hours js-opening-hours-toggle-element">
