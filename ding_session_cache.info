@@ -1,0 +1,4 @@
+name = Ding session cache
+description = Cache information for the duration of a session.
+package = Ding!
+core = 7.x
