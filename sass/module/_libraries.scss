@@ -33,11 +33,12 @@
   /* Media queries */
   @include small-medium() {
     .opening-hours-toggle {
-      @include zen-grid-item(9, 1, right);
+      @include zen-grid-item(9, 4);
       @include zen-clear();
 
       padding-bottom: 0;
       text-align: left;
+      width: auto;
     }
   }
 }
@@ -135,7 +136,7 @@
 
   @include small-medium() {
     @include zen-grid-item(12, 1);
-    
+
     padding: 0;
 
     // Icon placement and font-face.
@@ -215,21 +216,48 @@
     @include zen-grid-item(6, 1, right);
     @include zen-clear();
 
+    margin-bottom: $large-spacing;
     padding-left: 0;
+    width: auto;
   }
 
   .ding-library-opening-hours {
-    @include zen-clear();
+    @include zen-clear(both);
 
     /* Toggle opening hours with javascript */
     display: none;
+    margin-bottom: $medium-spacing;
+  }
+
+  .opening-hours-week {
+    padding-right: 0;
+    padding-left: 0;
+
+    .header {
+      @extend %article-background;
+
+      padding-top: $medium-spacing;
+      padding-right: $medium-spacing;
+      padding-left: $medium-spacing;
+    }
+
+    .day {
+      padding-right: $medium-spacing;
+      padding-left: $medium-spacing;
+    }
+  }
+
+  .ding-library-news,
+  .ding-library-events {
+    @include zen-clear(both);
+
+    border-top: 1px solid $gray-light;
+    padding-top: $large-spacing;
   }
 
   .ding-library-news {
-    @include zen-clear(both);
   }
 
   .ding-library-events {
-    @include zen-clear(both);
   }
 }

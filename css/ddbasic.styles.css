@@ -4869,7 +4869,7 @@ label {
 }
 
 /* line 26, ../sass/module/_module.scss */
-.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item {
+.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item, #ding-library-front .opening-hours-week .header {
   background-color: #ebebeb;
 }
 
@@ -6876,10 +6876,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 @media only screen and (max-width: 768px) {
   /* line 35, ../sass/module/_libraries.scss */
   .library-list .opening-hours-toggle {
-    float: right;
+    float: left;
     width: 75%;
-    margin-right: 0%;
-    margin-left: -75%;
+    margin-left: 25%;
+    margin-right: -100%;
     padding-left: 10px;
     padding-right: 10px;
     -moz-box-sizing: border-box;
@@ -6894,10 +6894,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     clear: left;
     padding-bottom: 0;
     text-align: left;
+    width: auto;
   }
 }
 
-/* line 45, ../sass/module/_libraries.scss */
+/* line 46, ../sass/module/_libraries.scss */
 .libraries-opening-hours {
   float: right;
   width: 33.33333%;
@@ -6919,7 +6920,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   /* Media queries */
 }
 @media only screen and (max-width: 768px) {
-  /* line 45, ../sass/module/_libraries.scss */
+  /* line 46, ../sass/module/_libraries.scss */
   .libraries-opening-hours {
     float: left;
     width: 100%;
@@ -6941,7 +6942,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 60, ../sass/module/_libraries.scss */
+/* line 61, ../sass/module/_libraries.scss */
 .libraries {
   float: left;
   width: 66.66667%;
@@ -6961,7 +6962,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
   padding: 0;
 }
-/* line 68, ../sass/module/_libraries.scss */
+/* line 69, ../sass/module/_libraries.scss */
 .libraries:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -6973,7 +6974,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 25%;
   z-index: 25;
 }
-/* line 80, ../sass/module/_libraries.scss */
+/* line 81, ../sass/module/_libraries.scss */
 .libraries .ding-library-left {
   float: left;
   width: 25%;
@@ -6992,7 +6993,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding: 0;
 }
-/* line 86, ../sass/module/_libraries.scss */
+/* line 87, ../sass/module/_libraries.scss */
 .libraries .ding-library-right {
   float: left;
   width: 75%;
@@ -7010,16 +7011,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 90, ../sass/module/_libraries.scss */
+/* line 91, ../sass/module/_libraries.scss */
 .libraries .library-title {
   font-size: 110%;
 }
-/* line 95, ../sass/module/_libraries.scss */
+/* line 96, ../sass/module/_libraries.scss */
 .libraries .field,
 .libraries .library-title {
   margin-bottom: 5px;
 }
-/* line 99, ../sass/module/_libraries.scss */
+/* line 100, ../sass/module/_libraries.scss */
 .libraries .field.field-name-field-ding-library-list-image,
 .libraries .library-title.field-name-field-ding-library-list-image {
   -webkit-box-sizing: border-box;
@@ -7028,7 +7029,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
   z-index: 26;
 }
-/* line 109, ../sass/module/_libraries.scss */
+/* line 110, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-label {
   float: left;
   width: 25%;
@@ -7047,7 +7048,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 115, ../sass/module/_libraries.scss */
+/* line 116, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-items {
   float: left;
   width: 75%;
@@ -7065,21 +7066,21 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 120, ../sass/module/_libraries.scss */
+/* line 121, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse {
   margin-bottom: 10px;
 }
-/* line 124, ../sass/module/_libraries.scss */
+/* line 125, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse div {
   display: inline;
 }
-/* line 129, ../sass/module/_libraries.scss */
+/* line 130, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse div .street-block:after,
 .libraries .field-name-field-ding-library-addresse div .addressfield-container-inline:after {
   content: ', ';
 }
 @media only screen and (max-width: 768px) {
-  /* line 60, ../sass/module/_libraries.scss */
+  /* line 61, ../sass/module/_libraries.scss */
   .libraries {
     float: left;
     width: 100%;
@@ -7098,12 +7099,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     padding: 0;
   }
-  /* line 142, ../sass/module/_libraries.scss */
+  /* line 143, ../sass/module/_libraries.scss */
   .libraries:before {
     font-size: 30px;
     top: 0.8em;
   }
-  /* line 150, ../sass/module/_libraries.scss */
+  /* line 151, ../sass/module/_libraries.scss */
   .libraries .field-name-field-ding-library-phone-number,
   .libraries .field-name-field-ding-library-fax-number,
   .libraries .field-name-field-ding-library-mail,
@@ -7112,14 +7113,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 157, ../sass/module/_libraries.scss */
+  /* line 158, ../sass/module/_libraries.scss */
   .libraries:before {
     font-size: 50px;
     top: 0.4em;
   }
 }
 
-/* line 164, ../sass/module/_libraries.scss */
+/* line 165, ../sass/module/_libraries.scss */
 .library-link {
   padding-top: 20px;
   padding-left: 20px;
@@ -7129,11 +7130,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
    ========================================================================== */
 /* Library menu */
 /* Using id, can't remove and add better wrapper class */
-/* line 187, ../sass/module/_libraries.scss */
+/* line 188, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-image {
   margin-bottom: 20px;
 }
-/* line 191, ../sass/module/_libraries.scss */
+/* line 192, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact {
   float: left;
   width: 50%;
@@ -7151,7 +7152,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 195, ../sass/module/_libraries.scss */
+/* line 196, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-address {
   float: right;
   width: 50%;
@@ -7169,7 +7170,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 200, ../sass/module/_libraries.scss */
+/* line 201, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact,
 #ding-library-front .ding-library-address {
   margin-bottom: 20px;
@@ -7177,7 +7178,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 20px;
   padding-left: 0;
 }
-/* line 206, ../sass/module/_libraries.scss */
+/* line 207, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact .pane-title,
 #ding-library-front .ding-library-address .pane-title {
   font-family: "SourceSansProSemibold";
@@ -7185,7 +7186,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-size: 100%;
   margin-bottom: 5px;
 }
-/* line 214, ../sass/module/_libraries.scss */
+/* line 215, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-toggle {
   float: right;
   width: 50%;
@@ -7203,21 +7204,39 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
   clear: left;
+  margin-bottom: 20px;
   padding-left: 0;
+  width: auto;
 }
-/* line 221, ../sass/module/_libraries.scss */
+/* line 224, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-opening-hours {
-  clear: left;
+  clear: both;
   /* Toggle opening hours with javascript */
   display: none;
-}
-/* line 228, ../sass/module/_libraries.scss */
-#ding-library-front .ding-library-news {
-  clear: both;
+  margin-bottom: 10px;
 }
 /* line 232, ../sass/module/_libraries.scss */
+#ding-library-front .opening-hours-week {
+  padding-right: 0;
+  padding-left: 0;
+}
+/* line 236, ../sass/module/_libraries.scss */
+#ding-library-front .opening-hours-week .header {
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/* line 244, ../sass/module/_libraries.scss */
+#ding-library-front .opening-hours-week .day {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+/* line 251, ../sass/module/_libraries.scss */
+#ding-library-front .ding-library-news,
 #ding-library-front .ding-library-events {
   clear: both;
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
 }
 
 /**
