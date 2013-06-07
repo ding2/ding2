@@ -213,7 +213,7 @@ function ding_library_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Libraries list', 'ding_library_libraries_list');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['row_class'] = 'vcard clearfix library-[nid]';
+  $handler->display->display_options['style_options']['row_class'] = 'js-library-opening-hours-target';
   $handler->display->display_options['style_options']['class'] = 'library-list';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
