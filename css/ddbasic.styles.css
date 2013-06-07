@@ -7173,12 +7173,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 201, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact,
 #ding-library-front .ding-library-address {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-right: 0;
-  padding-bottom: 20px;
   padding-left: 0;
 }
-/* line 207, ../sass/module/_libraries.scss */
+/* line 206, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact .pane-title,
 #ding-library-front .ding-library-address .pane-title {
   font-family: "SourceSansProSemibold";
@@ -7186,12 +7185,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-size: 100%;
   margin-bottom: 5px;
 }
-/* line 215, ../sass/module/_libraries.scss */
+/* line 214, ../sass/module/_libraries.scss */
+#ding-library-front .library-address-postal-code {
+  margin-right: 5px;
+}
+/* line 218, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-toggle {
-  float: right;
+  float: left;
   width: 50%;
-  margin-right: 0%;
-  margin-left: -50%;
+  margin-left: 50%;
+  margin-right: -100%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -7203,35 +7206,35 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
-  clear: left;
+  clear: both;
   margin-bottom: 20px;
   padding-left: 0;
   width: auto;
 }
-/* line 224, ../sass/module/_libraries.scss */
+/* line 227, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-opening-hours {
   clear: both;
   /* Toggle opening hours with javascript */
   display: none;
   margin-bottom: 10px;
 }
-/* line 232, ../sass/module/_libraries.scss */
+/* line 235, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week {
   padding-right: 0;
   padding-left: 0;
 }
-/* line 236, ../sass/module/_libraries.scss */
+/* line 239, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .header {
   padding-top: 10px;
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 244, ../sass/module/_libraries.scss */
+/* line 247, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .day {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 251, ../sass/module/_libraries.scss */
+/* line 254, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-news,
 #ding-library-front .ding-library-events {
   clear: both;
@@ -7272,22 +7275,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 45, ../sass/module/_openinghours.scss */
+/* line 44, ../sass/module/_openinghours.scss */
 .block-opening-hours {
   min-height: 279px;
 }
-/* line 48, ../sass/module/_openinghours.scss */
+/* line 47, ../sass/module/_openinghours.scss */
 .block-opening-hours .read-more {
   margin-left: 3px;
 }
 
-/* line 53, ../sass/module/_openinghours.scss */
+/* line 52, ../sass/module/_openinghours.scss */
 .opening-hours-week {
   padding: 20px;
   padding-top: 10px;
   background: white;
 }
-/* line 58, ../sass/module/_openinghours.scss */
+/* line 57, ../sass/module/_openinghours.scss */
 .opening-hours-week .header {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -7296,46 +7299,46 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding: 0;
   padding-bottom: 10px;
 }
-/* line 67, ../sass/module/_openinghours.scss */
+/* line 66, ../sass/module/_openinghours.scss */
 .opening-hours-week .days {
   padding: 0;
 }
-/* line 70, ../sass/module/_openinghours.scss */
+/* line 69, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .day {
   padding: 6px;
 }
-/* line 74, ../sass/module/_openinghours.scss */
+/* line 73, ../sass/module/_openinghours.scss */
 .opening-hours-week .days .times {
   margin-right: 0;
 }
-/* line 88, ../sass/module/_openinghours.scss */
+/* line 87, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev,
 .opening-hours-week .next {
   font-family: "FontAwesome";
   font-size: 100%;
 }
-/* line 92, ../sass/module/_openinghours.scss */
+/* line 91, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev:hover,
 .opening-hours-week .next:hover {
   text-decoration: none;
 }
-/* line 97, ../sass/module/_openinghours.scss */
+/* line 96, ../sass/module/_openinghours.scss */
 .opening-hours-week .prev {
   float: left;
   margin-left: 5px;
 }
-/* line 102, ../sass/module/_openinghours.scss */
+/* line 101, ../sass/module/_openinghours.scss */
 .opening-hours-week .next {
   float: right;
   margin-right: 5px;
 }
-/* line 107, ../sass/module/_openinghours.scss */
+/* line 106, ../sass/module/_openinghours.scss */
 .opening-hours-week .notice-star {
   visibility: hidden;
   margin-right: 0;
   padding-left: 5px;
 }
-/* line 115, ../sass/module/_openinghours.scss */
+/* line 114, ../sass/module/_openinghours.scss */
 .opening-hours-week .notice-star:before {
   visibility: visible;
   font-family: "FontAwesome";

@@ -199,9 +199,8 @@
 
   .ding-library-contact,
   .ding-library-address {
-    margin-bottom: $large-spacing;
+    margin-bottom: $medium-spacing;
     padding-right: 0;
-    padding-bottom: $large-spacing;
     padding-left: 0;
 
     .pane-title {
@@ -212,9 +211,13 @@
     }
   }
 
+  .library-address-postal-code {
+    margin-right: $small-spacing;
+  }
+
   .opening-hours-toggle {
-    @include zen-grid-item(6, 1, right);
-    @include zen-clear();
+    @include zen-grid-item(6, 7);
+    @include zen-clear(both);
 
     margin-bottom: $large-spacing;
     padding-left: 0;
