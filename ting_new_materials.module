@@ -1,0 +1,204 @@
+<?php
+
+/**
+ * @file
+ * Enables listing the newest materials .
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function ting_new_materials_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implement hook_ctools_plugin_api().
+ */
+function ting_new_materials_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function ting_new_materials_theme() {
+  return array(
+//    'ting_search_results' => array(
+//      'variables' => array('results' => NULL, 'module' => NULL),
+//      'file'      => 'ting_search.pages.inc',
+//      'template'  => 'ting-search-results',
+//    ),
+//    'ting_search_mini_pager' => array(
+//      'variables' => array('tags' => array(), 'element' => 0, 'parameters' => array(), 'quantity' => 9),
+//    ),
+//    'ting_search_pager' => array(
+//      'variables' => array('tags' => array(), 'element' => 0, 'parameters' => array(), 'quantity' => 9),
+//    ),
+//    'ting_search_display_extended_query' => array(
+//      'variables' => array('query_label'=>NULL,'query_string' => NULL),
+//      'template' => 'ting-search-display-extended-query',
+//    ),
+//    'ting_search_extended_search' => array(
+//      'template' => 'ting-search-extended-search',
+//    ),
+  );
+}
+
+
+/**
+ * Gets the post from the Data well
+ * @param array $new_materials_node
+ * The new_materials node descriping the new materials list
+ */
+function ting_new_materials_get_new_materials_posts($new_materials_node) {
+  $cached = false;
+  $id = $new_materials_node->nid;
+  $cid = 'ting_new_materials' . $id;
+  $cache = cache_get($cid);
+  $page = pager_find_page();
+  $num_per_page = variable_get('ting_new_materials_number_per_page', 10);
+  $start = $num_per_page * $page;
+  $last = $start + $num_per_page - 1;
+
+  if ($cache && $cache->data ) {
+    $cached_materials = $cache->data;
+    $num_cached_materials = count($cached_materials['results']);
+    if (($num_cached_materials >= $last) || ($num_cached_materials > $start && !$cached_materials['has_more'])) {
+       $cached = TRUE;
+       file_put_contents("/home/quickstart/work/debug/debugnewslist5.txt", print_r('cached ', TRUE), FILE_APPEND);
+    }
+  }  
+  if (!$cached) {
+    ting_new_materials_get_posts_from_well($cached_materials, $new_materials_node, $num_per_page, $cid);
+  }
+  $results = array_slice($cached_materials['results'], $start, $num_per_page, true);
+  pager_default_initialize($cached_materials['pager_total'], $num_per_page);
+  file_put_contents("/home/quickstart/work/debug/debugnewslist5.txt", print_r(' I cache: ' . $cached_materials['pager_total'] , TRUE), FILE_APPEND);
+  file_put_contents("/home/quickstart/work/debug/debugnewslist5.txt", print_r(' Næste side:  ' . $cached_materials['next_page'] , TRUE), FILE_APPEND);
+  file_put_contents("/home/quickstart/work/debug/debugnewslist5.txt", print_r(' Har mere:  ' . $cached_materials['has_more'] , TRUE), FILE_APPEND);
+  
+  return $results;
+}
+
+/**
+ * Gets posts from the Datawell
+ * @param array $cached_materials
+ * A cache of the materials we already got.
+ * @param object $new_materials_node
+ * The new_materials node descriping the new materials list.
+ * @param int $num_per_page
+ * Number of posts per page. 
+ * @param string $cid
+ * id for cache entry.
+ */
+function ting_new_materials_get_posts_from_well(&$cached_materials, $new_materials_node, $num_per_page, $cid) {
+  if (!isset($cached_materials)) {
+    $cached_materials = array();
+    $cached_materials['next_page'] = 0;
+    $cached_materials['has_more'] = TRUE;
+    $cached_materials['results'] = array();
+  }
+
+  if ($cached_materials['has_more']) {
+    $query_value = field_get_items('node', $new_materials_node, 'field_search_string');
+    $query = $query_value[0]['value'];
+
+    $searchResult = ting_new_materials_do_search($query, $cached_materials['next_page']);
+    $rendered_results = ting_new_materials_render_collection($searchResult->collections);
+
+    $cached_materials['has_more'] = $searchResult->more;
+    $cached_materials['next_page'] += 1;
+
+    $all_results = array_merge($cached_materials['results'], $rendered_results);
+    $cached_materials['results'] = $all_results;
+    $cached_materials['pager_total'] = count($cached_materials['results']);
+
+    if ($cached_materials['has_more'] && ($cached_materials['pager_total'] % $num_per_page) == 0) {
+      // There are more results not currently in cache soo we add one to pager total
+      $cached_materials['pager_total'] += 1;
+    }
+
+    $ttl = variable_get('ting_new_materials_cache_lifetime', 84400);
+    cache_set($cid, $cached_materials, 'cache', REQUEST_TIME + $ttl);
+    file_put_contents("/home/quickstart/work/debug/debugnewslist5.txt", print_r('hentet ', TRUE), FILE_APPEND);
+  }
+}
+
+/**
+ * Renders a results object as a collection. We only search for single objects so every collection 
+ * automatically becomes an object
+ * @param array $collections
+ * Array of collection object from the search
+ * @return array $results
+ * Array of rendered objects.
+ */
+function ting_new_materials_render_collection($collections) {
+  $results = array();
+  foreach ($collections as &$collection) {
+    //file_put_contents("/home/quickstart/work/debug/debugnewslist4.txt", print_r(count($collection->getEntities()), TRUE), FILE_APPEND);
+    $build = ting_collection_view($collection, 'teaser');
+    $uri = entity_uri('ting_collection', $collection);
+    $results[] = array(
+      'link' => url($uri['path'], $uri['options']),
+      'type' => '',
+      'title' => $collection->title,
+      'user' => '',
+      'date' => '',
+      'snippet' => drupal_render($build),
+    );
+  }
+  return $results;
+}
+
+/**
+ * Helper function. Performs a query against the Data Well and returns the objects
+ * @param string @query
+ * The query string
+ * @param $page int
+ * The page number
+ * @return TingClientSearchResult
+ * The search result
+ * 
+ */
+function ting_new_materials_do_search($query, $page = 0) {
+  $options    = array();
+  module_load_include('client.inc', 'ting');
+  
+  $options['sort'] = 'acquisitionDate_descending';
+  $options['enrich'] = TRUE;
+  $options['collectionType'] = 'manifestation';
+  
+  try {
+    $searchResult = ting_do_search($query, $page + 1, 50, $options);
+
+    
+  } catch (TingClientException $e) {
+    watchdog('ting_new_materials', 'Failed to get objects from the Data well: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+    $searchResult = array();
+  }
+  return $searchResult;
+}
+
+/**
+ * Helper function. Makes query part to limit the query.
+ * @param int $number_of_months 
+ * The number of months back to limit the results.  Min 1 and max 12 month. 0 means unlimited.
+ */
+function make_limit_query ($number_of_months = 0) {
+  $limit_query = "";
+  if ($number_of_months > 0) {
+    //sort.acquisitionDate=(20130416 OR 20130405)
+  }
+  
+}
+
+

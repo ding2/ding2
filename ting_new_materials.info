@@ -1,0 +1,9 @@
+name = Ting New Materials
+description = New materials lists for Ting.
+package = Ding!
+version = "7.x-0.1"
+core = 7.x
+dependencies[] = ting
+dependencies[] = ting_search
+dependencies[] = page_manager
+
