@@ -120,7 +120,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         'class' => 'feetitle',
       ),
       'type' => array(
-        'data' => $debt->type,
+        'data' => t($debt->type),
         'class' => 'feetype',
       ),
       'amount' => array(
@@ -217,7 +217,7 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
       unset($debts[$debt_id]);
     }
   }
-  ding_debt_debts_perform_payment($debts, $amount);
+  ding_debt_debts_perform_payment($debts, $amount, $form_state);
 }
 
 /**
@@ -233,14 +233,14 @@ function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
       $debts[$debt_id] = $form_state['values']['debt_data'][$debt_id];
     } 
   }
-  ding_debt_debts_perform_payment($debts, $amount);
+  ding_debt_debts_perform_payment($debts, $amount, $form_state);
   
 }
 
 /**
  * Performs the payment
  */
-function ding_debt_debts_perform_payment($debts, $amount) {
+function ding_debt_debts_perform_payment($debts, $amount, &$form_state) {
   global $user;
   if ($amount > 0) {
     $params = array('params' => array('debt_ids' => array_keys($debts)));
