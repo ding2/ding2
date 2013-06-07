@@ -15,6 +15,7 @@
     var element = $('.js-opening-hours-toggle');
     var siteHeader = $('.site-header');
     var scrollOffset;
+    var scrollToTarget;
 
     // Attach click
     element.on('click touchstart', function(event) {
@@ -37,7 +38,15 @@
         }
 
         // Scroll to the top of the element
-        $.scrollTo($(element).parents('.views-row'), 500, {
+        if ($(element).parents('.js-library-opening-hours-target').length) {
+          // If there is a wrapper element with the target class
+          scrollToTarget = $(element).parents('.js-library-opening-hours-target');
+        } else {
+          // Else let's scroll to the element clicked
+          scrollToTarget = $(element);
+        }
+
+        $.scrollTo(scrollToTarget, 500, {
           offset: -scrollOffset,
           axis: 'y'
         });
