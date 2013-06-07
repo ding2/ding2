@@ -24,8 +24,36 @@
 
   /* Opening hours toggle */
   .opening-hours-toggle {
-    @include zen-grid-item(6, 1, right);
-    @include zen-clear();
+    @include zen-grid-item(4, 1, right);
+
+    padding-bottom: $medium-spacing;
+    text-align: right;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .opening-hours-toggle {
+      @include zen-grid-item(9, 1, right);
+      @include zen-clear();
+
+      padding-bottom: 0;
+      text-align: left;
+    }
+  }
+}
+
+.libraries-opening-hours {
+  @include zen-grid-item(4, 1, right);
+  @include zen-clear(right);
+
+  display: none;
+
+  /* Media queries */
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
+    @include zen-clear(both);
+
+    margin-top: 20px;
   }
 }
 
@@ -57,9 +85,6 @@
 
   .ding-library-right {
     @include zen-grid-item(9, 4);
-
-    padding: 0;
-    padding-left: 20px;
   }
 
   .library-title {
@@ -110,6 +135,8 @@
 
   @include small-medium() {
     @include zen-grid-item(12, 1);
+    
+    padding: 0;
 
     // Icon placement and font-face.
     &:before {
@@ -139,19 +166,6 @@
   padding-left: $large-spacing;
 }
 
-.libraries-opening-hours {
-  @include zen-grid-item(4, 1, right);
-
-  display: none;
-  
-  /* Media queries */
-  @include small-medium() {
-    @include zen-grid-item(12, 1);
-    @include zen-clear();
-
-    margin-top: 20px;
-  }
-}
 
 
 /* Library page

@@ -93,34 +93,6 @@ body {
       position: fixed;
       z-index: 99;
       width: 100%;
-
-      .topbar-menu {
-        margin-top: 0;
-      }
-
-      .site-name-wrapper {
-        margin-top: 10px;
-
-        .site-name {
-          font-size: $font-size-larger;
-        }
-      }
-
-      .header-wrapper {
-        padding-top: 10px;
-        padding-bottom: 10px;
-
-        .user-name {
-          display: none !important;
-        }
-      }
-
-      .navigation-wrapper {
-        .menu-item {
-          padding-top: 10px;
-          padding-bottom: 10px;
-        }
-      }
     }
   }
 

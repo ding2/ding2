@@ -13,6 +13,8 @@
 
     // Set variables
     var element = $('.js-opening-hours-toggle');
+    var siteHeader = $('.site-header');
+    var scrollOffset;
 
     // Attach click
     element.on('click touchstart', function(event) {
@@ -24,8 +26,21 @@
         // Toggle class
         $(element).toggleClass('js-collapsed js-expanded');
 
+        // Set scroll offset
+        if ($('.site-header.js-fixed').length) {
+          // If the site header is fixed use the height
+          scrollOffset = $(siteHeader).height();
+        } else {
+          // Else the window is scrolled to the top and we have to multiply the
+          // height by 2 because it get's position fixed
+          scrollOffset = $(siteHeader).height()*2;
+        }
+
         // Scroll to the top of the element
-        $.scrollTo($(element).parents('.views-row'), 500, {offset: -$('.site-header').height(), axis: 'y'});
+        $.scrollTo($(element).parents('.views-row'), 500, {
+          offset: -scrollOffset,
+          axis: 'y'
+        });
 
         // Remove focus from link
         $(element).blur();
