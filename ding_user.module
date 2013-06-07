@@ -385,7 +385,7 @@ function ding_user_default_authname($name) {
    * characters, leaving enough room for our suffix.
    */
   $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
-  return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+  return _password_base64_encode($hash, strlen($hash)) . '@ding_user';
 }
 
 /**
