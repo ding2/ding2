@@ -404,7 +404,40 @@ function ding_user_default_authname($name) {
    * characters, leaving enough room for our suffix.
    */
   $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
-  return _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+  _ding_user_update_old_accounts($hash);
+  return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+}
+
+/**
+ * FE user accounts created under 1.9.6 version have a different authname hash.
+ * This method updates the hash, and will become deprecated after a while.
+ */
+function _ding_user_update_old_accounts($hash) {
+  // Create authname hash using old workflow (the difference is in strlen VS drupal_strlen.
+  $auth_name_old = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+  // Load user account using old hash.
+  $account_old = user_external_load($auth_name_old);
+  // Proceed only in the case it exists and needs to be updated.
+  if ($account_old && strlen($account_old->init) == 96) {
+    // Create new hash.
+    $auth_name_new = _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+    $account_new = user_external_load($auth_name_new);
+    // Update old account only when there is no new account for the same user.
+    if (!$account_new) {
+      $updated = db_update('authmap')
+        ->fields(array(
+          'authname' => $auth_name_new,
+        ))
+        ->condition('authname', $auth_name_old, '=')
+        ->execute();
+      $updated = db_update('users')
+        ->fields(array(
+          'init' => $auth_name_new,
+        ))
+        ->condition('uid', $account_old->uid, '=')
+        ->execute();
+    }
+  }
 }
 
 /**
