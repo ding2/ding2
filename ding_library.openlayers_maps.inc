@@ -25,7 +25,7 @@ function ding_library_openlayers_maps() {
     'hide_empty_map' => 0,
     'center' => array(
       'initial' => array(
-        'centerpoint' => '12.543640136217, 55.68726232509',
+        'centerpoint' => '10.201468, 56.156099',
         'zoom' => '12',
       ),
       'restrict' => array(
