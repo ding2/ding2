@@ -120,7 +120,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         'class' => 'feetitle',
       ),
       'type' => array(
-        'data' => $debt->type,
+        'data' => t($debt->type),
         'class' => 'feetype',
       ),
       'amount' => array(
