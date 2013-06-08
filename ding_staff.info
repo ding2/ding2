@@ -57,6 +57,7 @@ features[profile2_type][] = staff
 features[taxonomy][] = ding_staff_department
 features[user_role][] = staff
 features[views_view][] = ding_staff
+features[views_view][] = ding_staff_admin_users
 features_exclude[field][profile2-staff-field_ding_staff_surname] = profile2-staff-field_ding_staff_surname
 features_exclude[field][profile2-staff-field_ding_staff_forename] = profile2-staff-field_ding_staff_forename
 features_exclude[field][profile2-staff-field_ding_staff_email] = profile2-staff-field_ding_staff_email
