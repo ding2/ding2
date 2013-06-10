@@ -22,6 +22,7 @@ function ding_news_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Library news';
   $handler->display->display_options['css_class'] = 'news-list';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Læs mere';
@@ -384,8 +385,6 @@ function ding_news_views_default_views() {
 
   /* Display: Library news list */
   $handler = $view->new_display('panel_pane', 'Library news list', 'ding_news_library_list');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'News from the library';
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -402,8 +401,32 @@ function ding_news_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Felt: Image (list image) */
+  $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['field'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['ui_name'] = 'Image (list image)';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_class'] = 'news-image-wrapper';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['type'] = 'cs_adaptive_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
+    'image_link' => 'content',
+    'styles' => array(
+      'breakpoint_1' => '768',
+      'style_1' => 'ding_list_medium',
+      'breakpoint_2' => '500',
+      'style_2' => 'ding_list_small',
+      'max_style' => 'ding_list_large',
+      'fallback_style' => 'ding_list_large',
+    ),
+  );
   /* Felt: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -411,7 +434,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_type'] = 'h3';
-  $handler->display->display_options['fields']['title']['element_class'] = 'heading';
+  $handler->display->display_options['fields']['title']['element_class'] = 'news-heading';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   /* Felt: Category */
@@ -449,83 +472,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['name']['element_default_classes'] = FALSE;
-  /* Felt: Image (list image) */
-  $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['field'] = 'field_ding_news_list_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['ui_name'] = 'Image (list image)';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['element_type'] = 'div';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['element_class'] = 'news-image-wrapper';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_list_image']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['type'] = 'cs_adaptive_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
-    'relationship' => 'none',
-    'ui_name' => 'Image (list image)',
-    'custom_label' => 0,
-    'label' => '',
-    'element_label_colon' => 0,
-    'exclude' => 0,
-    'element_type_enable' => 1,
-    'element_type' => 'div',
-    'element_class_enable' => 1,
-    'element_class' => 'news-image-wrapper',
-    'element_label_type_enable' => 0,
-    'element_label_type' => '',
-    'element_label_class_enable' => 0,
-    'element_label_class' => '',
-    'element_wrapper_type_enable' => 0,
-    'element_wrapper_type' => '',
-    'element_wrapper_class_enable' => 0,
-    'element_wrapper_class' => '',
-    'element_default_classes' => 0,
-    'alter' => array(
-      'alter_text' => 0,
-      'text' => '',
-      'make_link' => 0,
-      'path' => '',
-      'absolute' => 0,
-      'replace_spaces' => 0,
-      'external' => 0,
-      'path_case' => 'none',
-      'link_class' => '',
-      'alt' => '',
-      'rel' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'target' => '',
-      'trim' => 0,
-      'max_length' => '',
-      'word_boundary' => 1,
-      'ellipsis' => 1,
-      'more_link' => 0,
-      'more_link_text' => '',
-      'more_link_path' => '',
-      'html' => 0,
-      'strip_tags' => 0,
-      'preserve_tags' => '',
-      'trim_whitespace' => 0,
-      'nl2br' => 0,
-    ),
-    'empty' => '',
-    'empty_zero' => 0,
-    'hide_empty' => 0,
-    'hide_alter_empty' => 1,
-    'click_sort_column' => 'fid',
-    'type' => 'cs_adaptive_image',
-    'field_api_classes' => 0,
-    'image_link' => 'content',
-    'styles' => array(
-      'breakpoint_1' => '768',
-      'style_1' => 'ding_list_medium',
-      'breakpoint_2' => '500',
-      'style_2' => 'ding_list_small',
-      'max_style' => 'ding_list_large',
-      'fallback_style' => 'ding_list_large',
-    ),
-  );
   /* Felt: Lead */
   $handler->display->display_options['fields']['field_ding_news_lead']['id'] = 'field_ding_news_lead';
   $handler->display->display_options['fields']['field_ding_news_lead']['table'] = 'field_data_field_ding_news_lead';
@@ -548,34 +494,46 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  /* Felt: Indhold: Link */
+  $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
+  $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_node_1']['field'] = 'view_node';
+  $handler->display->display_options['fields']['view_node_1']['label'] = '';
+  $handler->display->display_options['fields']['view_node_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_node_1']['alter']['text'] = '<i class="icon-chevron-right"></i>';
+  $handler->display->display_options['fields']['view_node_1']['element_type'] = 'div';
+  $handler->display->display_options['fields']['view_node_1']['element_class'] = 'news-arrow-link';
+  $handler->display->display_options['fields']['view_node_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_node_1']['element_default_classes'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Kontekstuelt filter: Indhold: Library (field_ding_news_library:nid) */
-  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_news_library';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_options']['argument'] = 'all';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['ding_library_nid']['id'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['table'] = 'field_data_field_ding_news_library';
+  $handler->display->display_options['arguments']['ding_library_nid']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['ding_library_nid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid']['default_argument_options']['argument'] = 'all';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 0;
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
-    'ding_library_nid_1' => array(
+    'ding_library_nid' => array(
       'type' => 'panel',
       'context' => 'entity:user.uid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
       'label' => 'Indhold: Library (field_ding_news_library:nid)',
-    ),
-    'tid' => array(
-      'type' => 'none',
-      'context' => 'entity:user.uid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Indhold: Har taksonomiterm ID',
     ),
   );
 
@@ -788,6 +746,81 @@ function ding_news_views_default_views() {
       'label' => 'Indhold: Har taksonomiterm ID',
     ),
   );
+
+  /* Display: Library Feed */
+  $handler = $view->new_display('feed', 'Library Feed', 'ding_news_library_feed');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'rss';
+  $handler->display->display_options['row_plugin'] = 'node_rss';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Kontekstuelt filter: Indhold: Library (field_ding_news_library:nid) */
+  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_news_library';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['path'] = 'node/%/news/feed';
+  $handler->display->display_options['displays'] = array(
+    'default' => 0,
+    'ding_news_frontpage_list' => 0,
+    'ding_news_library_list' => 0,
+    'ding_news_list' => 0,
+    'ding_news_list_library' => 0,
+    'panel_pane_2' => 0,
+  );
+  $handler->display->display_options['sitename_title'] = 1;
+
+  /* Display: Feed */
+  $handler = $view->new_display('feed', 'Feed', 'ding_news_feed');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['style_plugin'] = 'rss';
+  $handler->display->display_options['row_plugin'] = 'node_rss';
+  $handler->display->display_options['path'] = 'news/feed';
+  $handler->display->display_options['displays'] = array(
+    'default' => 0,
+    'ding_news_frontpage_list' => 0,
+    'ding_news_library_list' => 0,
+    'ding_news_list' => 0,
+    'ding_news_list_library' => 0,
+    'panel_pane_2' => 0,
+  );
+  $handler->display->display_options['sitename_title'] = 1;
+
+  /* Display: Simple news list */
+  $handler = $view->new_display('panel_pane', 'Simple news list', 'panel_pane_2');
+  $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'news-list';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Felt: Date (excluded) */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['ui_name'] = 'Date (excluded)';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['element_type'] = 'span';
+  $handler->display->display_options['fields']['created']['element_class'] = 'date';
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['created']['custom_date_format'] = 'j. M';
+  /* Felt: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['title']['element_class'] = 'heading';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
 
   /* Display: News list (library) */
   $handler = $view->new_display('panel_pane', 'News list (library)', 'ding_news_list_library');
@@ -1015,83 +1048,9 @@ function ding_news_views_default_views() {
       'label' => 'Indhold: Har taksonomiterm ID',
     ),
   );
-
-  /* Display: Simple news list */
-  $handler = $view->new_display('panel_pane', 'Simple news list', 'panel_pane_2');
-  $handler->display->display_options['defaults']['css_class'] = FALSE;
-  $handler->display->display_options['css_class'] = 'news-list';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Felt: Date (excluded) */
-  $handler->display->display_options['fields']['created']['id'] = 'created';
-  $handler->display->display_options['fields']['created']['table'] = 'node';
-  $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['ui_name'] = 'Date (excluded)';
-  $handler->display->display_options['fields']['created']['label'] = '';
-  $handler->display->display_options['fields']['created']['element_type'] = 'span';
-  $handler->display->display_options['fields']['created']['element_class'] = 'date';
-  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['created']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['created']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['created']['custom_date_format'] = 'j. M';
-  /* Felt: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
-  $handler->display->display_options['fields']['title']['element_class'] = 'heading';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-
-  /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'ding_news_feed');
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'rss';
-  $handler->display->display_options['row_plugin'] = 'node_rss';
-  $handler->display->display_options['path'] = 'news/feed';
-  $handler->display->display_options['displays'] = array(
-    'default' => 0,
-    'ding_news_frontpage_list' => 0,
-    'ding_news_library_list' => 0,
-    'ding_news_list' => 0,
-    'ding_news_list_library' => 0,
-    'panel_pane_2' => 0,
-  );
-  $handler->display->display_options['sitename_title'] = 1;
-
-  /* Display: Library Feed */
-  $handler = $view->new_display('feed', 'Library Feed', 'ding_news_library_feed');
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'rss';
-  $handler->display->display_options['row_plugin'] = 'node_rss';
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Kontekstuelt filter: Indhold: Library (field_ding_news_library:nid) */
-  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_news_library';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['path'] = 'node/%/news/feed';
-  $handler->display->display_options['displays'] = array(
-    'default' => 0,
-    'ding_news_frontpage_list' => 0,
-    'ding_news_library_list' => 0,
-    'ding_news_list' => 0,
-    'ding_news_list_library' => 0,
-    'panel_pane_2' => 0,
-  );
-  $handler->display->display_options['sitename_title'] = 1;
   $translatables['ding_news'] = array(
     t('Master'),
+    t('Library news'),
     t('Læs mere'),
     t('Udfør'),
     t('Gendan'),
@@ -1106,7 +1065,6 @@ function ding_news_views_default_views() {
     t('<i class="icon-chevron-right"></i>'),
     t('View panes'),
     t('Library news list'),
-    t('News from the library'),
     t('News list'),
     t('Antal elementer'),
     t('- Alle -'),
@@ -1115,10 +1073,10 @@ function ding_news_views_default_views() {
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
-    t('News list (library)'),
-    t('Simple news list'),
-    t('Feed'),
     t('Library Feed'),
+    t('Feed'),
+    t('Simple news list'),
+    t('News list (library)'),
   );
   $export['ding_news'] = $view;
 
