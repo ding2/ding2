@@ -10,6 +10,8 @@
  * Provides the Configuration page block for all Ding modules.
  */
 function ding_base_menu() {
+  $items = array();
+  
   $items['admin/config/ding'] = array(
     'title' => 'Ding',
     'description' => 'Manage Ding.',
@@ -105,49 +107,16 @@ function ding_base_field_formatter_settings_summary($field, $instance, $view_mod
 
   return $summary;
 }
+
 /**
  * Implements hook_date_format_types().
  */
 function ding_base_date_format_types() {
   return array(
     'date_only' => t('Date only'),
+    'time_only' => t('Time only'),
+    'long_date_only' => t('Long date only'),
   );
-}
-
-/**
-* Implements hook_date_formats().
-* Provides specific extra formats used by Ding! modules and assigning them to specific date types
-*/
-function ding_base_date_formats() {
-  $formats = array();
-
-  $formats[] = array(
-    'type'    => 'medium',
-    'format'  => 'l j. F', 
-    'locales' => array(),
-  );
-
-  $formats[] = array(
-    'type'    => 'long',
-    'format'  => 'l j. F Y', 
-    'locales' => array(),
-  );
-  
-  $formats[] = array(
-    'type'    => 'short',
-    'format'  => 'G:i', 
-    'locales' => array(),
-  );
-
-  // save certain date formats into variables
-  foreach ($formats as $format) {
-    variable_set('date_format_' . $format['type'], $format['format']);
-  }
-  variable_set('date_format_long_date_only', 'l j. F Y');
-  variable_set('date_format_date_only', 'l j. F');
-  variable_set('date_format_time_only', 'G:i');
-
-  return $formats;
 }
 
 /**
@@ -297,3 +266,5 @@ function theme_tableselect_form($variables) {
 
   return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
 }
+
+include_once 'ding_base.features.inc';
