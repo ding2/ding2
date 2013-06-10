@@ -15,6 +15,10 @@ function ding_news_user_default_permissions() {
     'name' => 'create ding_news content',
     'roles' => array(
       'administrator' => 'administrator',
+      'formidler' => 'formidler',
+      'gæsteblogger' => 'gæsteblogger',
+      'lokalredaktør' => 'lokalredaktør',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'node',
   );
@@ -24,6 +28,8 @@ function ding_news_user_default_permissions() {
     'name' => 'delete any ding_news content',
     'roles' => array(
       'administrator' => 'administrator',
+      'lokalredaktør' => 'lokalredaktør',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'node',
   );
@@ -33,6 +39,9 @@ function ding_news_user_default_permissions() {
     'name' => 'delete own ding_news content',
     'roles' => array(
       'administrator' => 'administrator',
+      'formidler' => 'formidler',
+      'lokalredaktør' => 'lokalredaktør',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'node',
   );
@@ -42,6 +51,8 @@ function ding_news_user_default_permissions() {
     'name' => 'edit any ding_news content',
     'roles' => array(
       'administrator' => 'administrator',
+      'lokalredaktør' => 'lokalredaktør',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'node',
   );
@@ -51,6 +62,10 @@ function ding_news_user_default_permissions() {
     'name' => 'edit own ding_news content',
     'roles' => array(
       'administrator' => 'administrator',
+      'formidler' => 'formidler',
+      'gæsteblogger' => 'gæsteblogger',
+      'lokalredaktør' => 'lokalredaktør',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'node',
   );
