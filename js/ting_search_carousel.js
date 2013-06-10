@@ -168,6 +168,7 @@
 
       // Get the carousel running.
       carousel.carousel('refresh');
+      carousel.carousel('goToPage', 0);
     }
 
     /**
