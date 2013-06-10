@@ -451,7 +451,7 @@ function ding_user_user_login_validate($form, &$form_state) {
       // number or card number. In which cache a password reset link should not
       // be displayed.
       if (is_numeric(str_replace('-', '', $form_state['values']['name']))) {
-        form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new username or password'));
+        form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
         watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
       }
     }
