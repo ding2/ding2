@@ -58,7 +58,6 @@ features[variable][] = comment_form_location_ding_page
 features[variable][] = comment_preview_ding_page
 features[variable][] = comment_subject_ding_page
 features[variable][] = comment_subject_field_ding_page
-features[variable][] = date_format_long_date_only
 features[variable][] = field_bundle_settings_node__ding_page
 features[variable][] = language_content_type_ding_page
 features[variable][] = menu_block_3_admin_title

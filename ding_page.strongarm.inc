@@ -69,13 +69,6 @@ function ding_page_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_long_date_only';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_long_date_only'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__ding_page';
   $strongarm->value = array(
     'view_modes' => array(
