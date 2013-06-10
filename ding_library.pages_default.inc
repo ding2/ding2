@@ -259,18 +259,18 @@ function ding_library_default_page_manager_handlers() {
     $pane->pid = 'new-7';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_library_page_list';
+    $pane->subtype = 'ding_event-ding_event_library_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Library events',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'ding-library-events',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
