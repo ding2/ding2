@@ -118,26 +118,55 @@
 
 .user-status-loan,
 .user-status-reservation,
-.user-status-debt {
+.user-status-debt,
+.user-status-ready-pickup {
   @include font-bold();
 
   display: block;
   margin-bottom: $medium-spacing;
   padding: $medium-spacing;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .user-status-loan,
 .user-status-reservation {
   background-color: $gray-light;
   color: $link-color;
+
+  &:focus,
+  &:hover {
+    background-color: darken($gray-light, 5%);
+  }
+}
+
+.user-status-debt,
+.user-status-ready-pickup {
+  &:link,
+  &:visited,
+  &:focus,
+  &:active {
+    color: $white;
+  }
 }
 
 .user-status-debt {
-  background-color: #bf3600;
-  color: $white;
+  background-color: $red;
 
+  &:focus,
   &:hover {
-    color: $white;
+    background-color: darken($red, 5%);
+  }
+}
+
+.user-status-ready-pickup {
+  background-color: $green;
+
+  &:focus,
+  &:hover {
+    background-color: darken($green, 5%);
   }
 }
 
