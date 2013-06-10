@@ -193,6 +193,14 @@
   .field-label {
     min-width: 200px;
   }
+
+  /* Media queries */
+  @include small() {
+    .field-label {
+      margin-bottom: -8px;
+      padding-bottom: 0;
+    }
+  }
 }
 
 
