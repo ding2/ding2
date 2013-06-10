@@ -446,6 +446,14 @@ function ding_user_user_login_validate($form, &$form_state) {
           drupal_set_message(check_plain($message), $type);
         }
       }
+
+      // Check if the username entered is numeric, if it is it's properly a CPR
+      // number or card number. In which cache a password reset link should not
+      // be displayed.
+      if (is_numeric(str_replace('-', '', $form_state['values']['name']))) {
+        form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new username or password'));
+        watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
+      }
     }
   } catch (DingProviderException $exception) {
     // Exception thrown, log error and carry on.
