@@ -6549,16 +6549,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
+/* Series should not use default field-item styling */
+/* line 142, ../sass/module/_news.scss */
+.field-name-ting-series .field-item {
+  padding: 0;
+  margin-bottom: 0;
+  background-color: transparent !important;
+  /* have to make this rule important for it to take effect (had limited time to make it work) */
+}
+
 /* Tags */
-/* line 141, ../sass/module/_news.scss */
+/* line 150, ../sass/module/_news.scss */
 .super-heading {
   padding: 10px 0;
 }
-/* line 144, ../sass/module/_news.scss */
+/* line 153, ../sass/module/_news.scss */
 .super-heading div {
   display: inline;
 }
-/* line 148, ../sass/module/_news.scss */
+/* line 157, ../sass/module/_news.scss */
 .super-heading .field-item {
   padding-left: 5px;
 }
