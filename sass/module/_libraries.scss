@@ -191,17 +191,19 @@
 
   .ding-library-contact {
     @include zen-grid-item(6, 1);
+
+    padding-left: 0;
   }
 
   .ding-library-address {
     @include zen-grid-item(6, 1, right);
+
+    padding-right: 0;
   }
 
   .ding-library-contact,
   .ding-library-address {
     margin-bottom: $medium-spacing;
-    padding-right: 0;
-    padding-left: 0;
 
     .pane-title {
       @include font-bold();
@@ -220,7 +222,6 @@
     @include zen-clear(both);
 
     margin-bottom: $large-spacing;
-    padding-left: 0;
     width: auto;
   }
 
@@ -252,15 +253,20 @@
 
   .ding-library-news,
   .ding-library-events {
-    @include zen-clear(both);
+    //@include zen-clear(both);
 
     border-top: 1px solid $gray-light;
     padding-top: $large-spacing;
   }
 
   .ding-library-news {
+    @include zen-clear(both);
+    @include zen-grid-item(7, 1);
+    padding-left: 0;
   }
 
   .ding-library-events {
+    @include zen-grid-item(5, 1, right);
+    padding-right: 0;
   }
 }

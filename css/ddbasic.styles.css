@@ -6646,7 +6646,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .event-list {
   background: #efefef;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-top: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
@@ -7160,8 +7160,9 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  padding-left: 0;
 }
-/* line 196, ../sass/module/_libraries.scss */
+/* line 198, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-address {
   float: right;
   width: 50%;
@@ -7178,15 +7179,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  padding-right: 0;
 }
-/* line 201, ../sass/module/_libraries.scss */
+/* line 205, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact,
 #ding-library-front .ding-library-address {
   margin-bottom: 10px;
-  padding-right: 0;
-  padding-left: 0;
 }
-/* line 206, ../sass/module/_libraries.scss */
+/* line 208, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact .pane-title,
 #ding-library-front .ding-library-address .pane-title {
   font-family: "SourceSansProSemibold";
@@ -7194,11 +7194,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-size: 100%;
   margin-bottom: 5px;
 }
-/* line 214, ../sass/module/_libraries.scss */
+/* line 216, ../sass/module/_libraries.scss */
 #ding-library-front .library-address-postal-code {
   margin-right: 5px;
 }
-/* line 218, ../sass/module/_libraries.scss */
+/* line 220, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-toggle {
   float: left;
   width: 50%;
@@ -7217,38 +7217,75 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   clear: both;
   margin-bottom: 20px;
-  padding-left: 0;
   width: auto;
 }
-/* line 227, ../sass/module/_libraries.scss */
+/* line 228, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-opening-hours {
   clear: both;
   /* Toggle opening hours with javascript */
   display: none;
   margin-bottom: 10px;
 }
-/* line 235, ../sass/module/_libraries.scss */
+/* line 236, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week {
   padding-right: 0;
   padding-left: 0;
 }
-/* line 239, ../sass/module/_libraries.scss */
+/* line 240, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .header {
   padding-top: 10px;
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 247, ../sass/module/_libraries.scss */
+/* line 248, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .day {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 254, ../sass/module/_libraries.scss */
+/* line 255, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-news,
 #ding-library-front .ding-library-events {
-  clear: both;
   border-top: 1px solid #efefef;
   padding-top: 20px;
+}
+/* line 262, ../sass/module/_libraries.scss */
+#ding-library-front .ding-library-news {
+  clear: both;
+  float: left;
+  width: 58.33333%;
+  margin-left: 0%;
+  margin-right: -58.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
+}
+/* line 268, ../sass/module/_libraries.scss */
+#ding-library-front .ding-library-events {
+  float: right;
+  width: 41.66667%;
+  margin-right: 0%;
+  margin-left: -41.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-right: 0;
 }
 
 /**
