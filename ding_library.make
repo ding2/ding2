@@ -80,6 +80,7 @@ projects[tipsy][version] = "1.0-rc1"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.4-beta1"
+projects[opening_hours][patch][0] = "http://drupal.org/files/node-type-test-isset-2011684-2.patch"
 
 ; Libraries
 libraries[openlayers][download][type] = "get"
