@@ -389,11 +389,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'pickup-id',
         ),
         'created' => array(
-          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'long_date_only') : '',
+          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'ding_reservation_lists_date') : '',
           'class' => 'created-date',
         ),
         'pickup_date' => array(
-          'data' => $item->pickup_date ? format_date(strtotime(check_plain($item->pickup_date)), 'long_date_only' ) : '',
+          'data' => $item->pickup_date ? format_date(strtotime(check_plain($item->pickup_date)), 'ding_reservation_lists_date' ) : '',
           'class' => 'pickup-date',
         ),
         'pickup_branch' => array(
@@ -439,11 +439,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
         ),
 
         'created' => array(
-          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'long_date_only') : '',
+          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'ding_reservation_lists_date') : '',
           'class' => 'created-date',
         ),
         'expiry' => array(
-          'data' => $item->created ? format_date(strtotime(check_plain($item->expiry)), 'long_date_only') : '',
+          'data' => $item->created ? format_date(strtotime(check_plain($item->expiry)), 'ding_reservation_lists_date') : '',
           'class' => 'expire-date',
         ),
         'pickup_branch' => array(
@@ -493,11 +493,11 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           'class' => 'title',
         ),
         'created' => array(
-          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'long_date_only') : '',
+          'data' => $item->created ? format_date(strtotime(check_plain($item->created)), 'ding_reservation_lists_date') : '',
           'class' => 'created-date',
         ),
         'expiry' => array(
-          'data' => $item->created ? format_date(strtotime(check_plain($item->expiry)), 'long_date_only') : '',
+          'data' => $item->created ? format_date(strtotime(check_plain($item->expiry)), 'ding_reservation_lists_date') : '',
           'class' => 'expire-date',
         ),
         'library' => array(
