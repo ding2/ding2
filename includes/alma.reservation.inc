@@ -436,8 +436,8 @@ function alma_reservation_exists($account, $item_id) {
     if ($res['record_id'] == $item_id) {
       return TRUE;
     }
-    return FALSE;
   }
+  return FALSE;
 }
 
 /**
