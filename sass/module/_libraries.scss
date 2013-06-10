@@ -21,6 +21,41 @@
     padding-left: $medium-spacing;
     padding-right: $medium-spacing;
   }
+
+  /* Opening hours toggle */
+  .opening-hours-toggle {
+    @include zen-grid-item(4, 1, right);
+
+    padding-bottom: $medium-spacing;
+    text-align: right;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .opening-hours-toggle {
+      @include zen-grid-item(9, 4);
+      @include zen-clear();
+
+      padding-bottom: 0;
+      text-align: left;
+      width: auto;
+    }
+  }
+}
+
+.libraries-opening-hours {
+  @include zen-grid-item(4, 1, right);
+  @include zen-clear(right);
+
+  display: none;
+
+  /* Media queries */
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
+    @include zen-clear(both);
+
+    margin-top: 20px;
+  }
 }
 
 .libraries {
@@ -51,9 +86,6 @@
 
   .ding-library-right {
     @include zen-grid-item(9, 4);
-
-    padding: 0;
-    padding-left: 20px;
   }
 
   .library-title {
@@ -105,6 +137,8 @@
   @include small-medium() {
     @include zen-grid-item(12, 1);
 
+    padding: 0;
+
     // Icon placement and font-face.
     &:before {
       font-size: 30px;
@@ -133,58 +167,12 @@
   padding-left: $large-spacing;
 }
 
-.libraries-opening-hours {
-  @include zen-grid-item(4, 1, right);
-
-  /* Media queries */
-  @include small-medium() {
-    @include zen-grid-item(12, 1);
-    @include zen-clear();
-
-    display: none;
-    margin-top: 20px;
-  }
-}
-
-.opening-hours-toggle {
-  @include zen-grid-item(9, 4);
-  @include zen-clear();
-
-  &.js-opening-hours-not-available {
-    display: none;
-  }
-
-  &.js-collapsed {
-    @extend .icon-plus-sign;
-  }
-
-  &.js-expanded {
-    @extend .icon-minus-sign;
-  }
-
-  display: none;
-  padding-left: $large-spacing;
-
-  &:hover {
-    text-decoration: none;
-  }
-
-  &:before {
-    font-family: $base-icon-library-font;
-    margin-right: $small-spacing;
-  }
-
-  /* Media queries */
-  @include small-medium() {
-    display: inline;
-    width: auto;
-  }
-}
 
 
-/* Single Library
+/* Library page
    ========================================================================== */
 
+/* Library menu */
 .library-menu {
   h2 {
     @extend .sub-menu-title;
@@ -192,5 +180,87 @@
 
   .links {
     @extend .sub-menu;
+  }
+}
+
+/* Using id, can't remove and add better wrapper class */
+#ding-library-front {
+  .ding-library-image {
+    margin-bottom: $large-spacing;
+  }
+
+  .ding-library-contact {
+    @include zen-grid-item(6, 1);
+  }
+
+  .ding-library-address {
+    @include zen-grid-item(6, 1, right);
+  }
+
+  .ding-library-contact,
+  .ding-library-address {
+    margin-bottom: $medium-spacing;
+    padding-right: 0;
+    padding-left: 0;
+
+    .pane-title {
+      @include font-bold();
+
+      font-size: $font-size-reset;
+      margin-bottom: $small-spacing;
+    }
+  }
+
+  .library-address-postal-code {
+    margin-right: $small-spacing;
+  }
+
+  .opening-hours-toggle {
+    @include zen-grid-item(6, 7);
+    @include zen-clear(both);
+
+    margin-bottom: $large-spacing;
+    padding-left: 0;
+    width: auto;
+  }
+
+  .ding-library-opening-hours {
+    @include zen-clear(both);
+
+    /* Toggle opening hours with javascript */
+    display: none;
+    margin-bottom: $medium-spacing;
+  }
+
+  .opening-hours-week {
+    padding-right: 0;
+    padding-left: 0;
+
+    .header {
+      @extend %article-background;
+
+      padding-top: $medium-spacing;
+      padding-right: $medium-spacing;
+      padding-left: $medium-spacing;
+    }
+
+    .day {
+      padding-right: $medium-spacing;
+      padding-left: $medium-spacing;
+    }
+  }
+
+  .ding-library-news,
+  .ding-library-events {
+    @include zen-clear(both);
+
+    border-top: 1px solid $gray-light;
+    padding-top: $large-spacing;
+  }
+
+  .ding-library-news {
+  }
+
+  .ding-library-events {
   }
 }

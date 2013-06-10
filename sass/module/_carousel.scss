@@ -76,8 +76,10 @@ $carousel-tab-color:                       $white;
 
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
-  &.rs-carousel-action-disabled {
-    @include opacity(.5);
+  @include opacity(.25);
+
+  &.rs-carousel-action-active {
+    @include opacity(1);
   }
 
   @include small-medium() {
@@ -106,7 +108,7 @@ $carousel-tab-color:                       $white;
   font-size: $font-size-larger;
   margin-bottom: 20px;
 
-  @include small() {    
+  @include small() {
     font-size: $font-size-largest;
   }
 

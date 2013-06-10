@@ -5,18 +5,48 @@
  */
 
 
+
+/* Toggle opening hours
+   ========================================================================== */
+
+.opening-hours-toggle {
+  padding-left: $large-spacing;
+
+  &.js-opening-hours-not-available {
+    display: none;
+  }
+
+  &.js-collapsed {
+    @extend .icon-plus-sign;
+  }
+
+  &.js-expanded {
+    @extend .icon-minus-sign;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:before {
+    font-family: $base-icon-library-font;
+    margin-right: $small-spacing;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    display: inline;
+    width: auto;
+  }
+}
+
+
 .block-opening-hours {
   min-height: 279px;
 
   .read-more {
     margin-left: 3px;
   }
-}
-
-.pane-week {
-  border-top: 1px solid $gray-light;
-  margin-top: $large-spacing;
-  padding-top: $large-spacing;
 }
 
 .opening-hours-week {
