@@ -83,7 +83,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     if (count($types) > 1) {
       // If more than one type is selected we will fallback to the most generic
       // form type.
-      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'ready_for_pickup');
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'not_ready_for_pickup');
     }
     else {
       $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types));
