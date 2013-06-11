@@ -13,8 +13,15 @@
   margin-bottom: $large-spacing;
 }
 
+.form-item-select-library {
+  .form-select {
+    min-width: auto;
+  }
+}
+
 .library-list {
   padding: 0;
+
   .views-row {
     @extend %material-list-item;
 
