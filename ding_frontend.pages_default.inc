@@ -342,8 +342,12 @@ search/node',
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'system-messages',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
