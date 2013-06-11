@@ -192,6 +192,11 @@ function ddbasic_menu_tree__user_menu($vars) {
   return '<ul class="system-user-menu">' . $vars['tree'] . '</ul>';
 }
 
+// User provider menu (status, loans, etc.).
+function ddbasic_menu_tree__ding_user_frontend__ding_user_menu($vars) {
+  return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
+}
+
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
