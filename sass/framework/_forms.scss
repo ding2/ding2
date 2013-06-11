@@ -1,7 +1,7 @@
 /**
  * Forms
  *
- * @author magnify
+ * @author magnify, zorp
  */
 
 
@@ -24,9 +24,9 @@ select {
   -webkit-appearance: menulist-button;
 
   border: 1px solid $gray;
-  height: 35px;
-  line-height: 35px;
-  padding: 7px;
+  height: 36px;
+  min-width: 99%;
+  padding: 8px;
 }
 
 
@@ -54,7 +54,7 @@ textarea {
   min-height: $medium-spacing;
   margin-bottom: $medium-spacing;
   padding: $medium-spacing;
-  max-width: 99%;
+  min-width: 99%;
 
   &:focus {
     background-color: darken($white, 5%);

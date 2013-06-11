@@ -210,6 +210,7 @@ body {
   }
 
   .primary-content {
+    @include zen-clear();
     @include zen-grid-item(12, 1);
   }
 

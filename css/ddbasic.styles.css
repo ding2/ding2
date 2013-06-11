@@ -642,23 +642,32 @@ ul li {
    ========================================================================== */
 /* line 169, ../sass/framework/_base.scss */
 fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
+  border-color: #efefef;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: 20px;
+  margin-left: 0;
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
 }
 
-/* line 175, ../sass/framework/_base.scss */
+/* line 181, ../sass/framework/_base.scss */
 legend {
+  font-family: "SourceSansProSemibold";
+  font-weight: normal;
   display: block;
-  border-top: 1px solid #d5d5d5;
-  margin: 0;
-  padding: 0;
-  width: 100%;
+  font-size: 110%;
+  margin-right: -10px;
+  margin-left: -10px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 /* Selection color
    ========================================================================== */
-/* line 190, ../sass/framework/_base.scss */
+/* line 198, ../sass/framework/_base.scss */
 ::-moz-selection,
 ::selection {
   background-color: #ffff99;
@@ -676,7 +685,7 @@ legend {
 /**
  * Forms
  *
- * @author magnify
+ * @author magnify, zorp
  */
 /* line 11, ../sass/framework/_forms.scss */
 input,
@@ -709,9 +718,9 @@ select {
   /* Required for setting height in webkit browsers on mac */
   -webkit-appearance: menulist-button;
   border: 1px solid #d5d5d5;
-  height: 35px;
-  line-height: 35px;
-  padding: 7px;
+  height: 36px;
+  min-width: 99%;
+  padding: 8px;
 }
 
 /* line 43, ../sass/framework/_forms.scss */
@@ -749,7 +758,7 @@ textarea {
   min-height: 10px;
   margin-bottom: 10px;
   padding: 10px;
-  max-width: 99%;
+  min-width: 99%;
 }
 /* line 59, ../sass/framework/_forms.scss */
 input[type="text"]:focus,
@@ -1384,7 +1393,7 @@ button.button {
 /* Variables
    ========================================================================== */
 /* line 21, ../sass/framework/_labels.scss */
-.label, .label-inverted, .subjects .subject, .news-list .news-label {
+.label, .label-inverted, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -1401,16 +1410,16 @@ button.button {
   /* Make sure it works on a link */
 }
 /* line 36, ../sass/framework/_labels.scss */
-.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover {
+.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
   color: white;
   text-decoration: none;
 }
 /* line 44, ../sass/framework/_labels.scss */
-.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited {
+.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
   color: white;
 }
 /* line 48, ../sass/framework/_labels.scss */
-.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover {
+.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
@@ -2907,12 +2916,12 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 356, ../sass/framework/_fontawesome.scss */
-.icon-remove-sign:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before {
+.icon-remove-sign:before, .messages.error:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before {
   content: "\f057";
 }
 
 /* line 357, ../sass/framework/_fontawesome.scss */
-.icon-ok-sign:before {
+.icon-ok-sign:before, .messages.status:before {
   content: "\f058";
 }
 
@@ -3027,7 +3036,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 382, ../sass/framework/_fontawesome.scss */
-.icon-warning-sign:before {
+.icon-warning-sign:before, .messages.warning:before {
   content: "\f071";
 }
 
@@ -4032,6 +4041,7 @@ body {
 }
 /* line 212, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content {
+  clear: left;
   float: left;
   width: 100%;
   margin-left: 0%;
@@ -4048,7 +4058,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 216, ../sass/layout/_layout.scss */
+/* line 217, ../sass/layout/_layout.scss */
 .frontpage-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4059,7 +4069,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 228, ../sass/layout/_layout.scss */
+/* line 229, ../sass/layout/_layout.scss */
 .frontpage-layout .secondary-content {
   float: left;
   width: 66.66667%;
@@ -4077,7 +4087,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 232, ../sass/layout/_layout.scss */
+/* line 233, ../sass/layout/_layout.scss */
 .frontpage-layout .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -4095,7 +4105,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 236, ../sass/layout/_layout.scss */
+/* line 237, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -4111,12 +4121,12 @@ body {
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
-/* line 242, ../sass/layout/_layout.scss */
+/* line 243, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper .grid-inner {
   padding: 20px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 251, ../sass/layout/_layout.scss */
+  /* line 252, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4139,7 +4149,7 @@ body {
   }
 }
 
-/* line 259, ../sass/layout/_layout.scss */
+/* line 260, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4148,7 +4158,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 264, ../sass/layout/_layout.scss */
+/* line 265, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4156,7 +4166,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 270, ../sass/layout/_layout.scss */
+/* line 271, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4174,7 +4184,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 274, ../sass/layout/_layout.scss */
+/* line 275, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4185,7 +4195,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 286, ../sass/layout/_layout.scss */
+/* line 287, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4203,7 +4213,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 290, ../sass/layout/_layout.scss */
+/* line 291, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4223,7 +4233,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 299, ../sass/layout/_layout.scss */
+  /* line 300, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4246,7 +4256,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 308, ../sass/layout/_layout.scss */
+  /* line 309, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4264,7 +4274,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 312, ../sass/layout/_layout.scss */
+  /* line 313, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4282,7 +4292,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 316, ../sass/layout/_layout.scss */
+  /* line 317, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4303,7 +4313,7 @@ body {
   }
 }
 @media only screen and (min-width: 1211px) {
-  /* line 322, ../sass/layout/_layout.scss */
+  /* line 323, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4321,7 +4331,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 326, ../sass/layout/_layout.scss */
+  /* line 327, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4339,7 +4349,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 330, ../sass/layout/_layout.scss */
+  /* line 331, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4359,7 +4369,7 @@ body {
     clear: none;
   }
 }
-/* line 339, ../sass/layout/_layout.scss */
+/* line 340, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .primary-content {
   float: left;
   width: 100%;
@@ -4377,7 +4387,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 343, ../sass/layout/_layout.scss */
+/* line 344, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .secondary-content {
   clear: both;
   float: left;
@@ -4396,7 +4406,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 348, ../sass/layout/_layout.scss */
+/* line 349, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .tertiary-content {
   float: right;
   width: 50%;
@@ -4415,7 +4425,7 @@ body {
   _overflow-y: visible;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 356, ../sass/layout/_layout.scss */
+  /* line 357, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4433,7 +4443,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 359, ../sass/layout/_layout.scss */
+  /* line 360, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4453,7 +4463,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 368, ../sass/layout/_layout.scss */
+  /* line 369, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4471,7 +4481,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 372, ../sass/layout/_layout.scss */
+  /* line 373, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4493,7 +4503,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 382, ../sass/layout/_layout.scss */
+/* line 383, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4512,7 +4522,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 386, ../sass/layout/_layout.scss */
+/* line 387, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4531,7 +4541,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 390, ../sass/layout/_layout.scss */
+/* line 391, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4550,7 +4560,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 394, ../sass/layout/_layout.scss */
+/* line 395, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4569,7 +4579,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 399, ../sass/layout/_layout.scss */
+/* line 400, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4591,7 +4601,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 410, ../sass/layout/_layout.scss */
+  /* line 411, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4615,7 +4625,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 418, ../sass/layout/_layout.scss */
+  /* line 419, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4636,7 +4646,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 424, ../sass/layout/_layout.scss */
+  /* line 425, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4657,7 +4667,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 431, ../sass/layout/_layout.scss */
+/* line 432, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4675,7 +4685,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 435, ../sass/layout/_layout.scss */
+/* line 436, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4695,7 +4705,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 442, ../sass/layout/_layout.scss */
+/* line 443, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4713,7 +4723,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 446, ../sass/layout/_layout.scss */
+/* line 447, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4731,7 +4741,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 450, ../sass/layout/_layout.scss */
+/* line 451, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4752,18 +4762,18 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 459, ../sass/layout/_layout.scss */
+/* line 460, ../sass/layout/_layout.scss */
 .footer {
   background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 464, ../sass/layout/_layout.scss */
+/* line 465, ../sass/layout/_layout.scss */
 .footer .pane-title {
   font-size: 110%;
 }
 
-/* line 469, ../sass/layout/_layout.scss */
+/* line 470, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4771,13 +4781,13 @@ body {
   overflow: visible;
 }
 
-/* line 476, ../sass/layout/_layout.scss */
+/* line 477, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 481, ../sass/layout/_layout.scss */
+/* line 482, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   color: white;
@@ -4843,7 +4853,7 @@ body {
  *
  * Overrides for Drupal specific markup
  *
- * @author magnify
+ * @author magnify, zorp
  */
 /* line 10, ../sass/layout/_drupal.scss */
 body.toolbar {
@@ -4905,6 +4915,150 @@ label {
 /* line 68, ../sass/layout/_drupal.scss */
 .field-label {
   margin-right: 5px;
+}
+
+/**
+ * Drupal
+ *
+ * Overrides for Drupal system messages
+ * Drupals stylesheet system.messages.css is disabled in theme.info
+ *
+ * @author zorp
+ */
+/* Class added on panel pane */
+/* line 11, ../sass/layout/_drupal_system_messages.scss */
+.system-messages {
+  float: left;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  margin-bottom: 20px;
+}
+
+/* Using zen-grids on messages require that tabs get a clear */
+/* line 18, ../sass/layout/_drupal_system_messages.scss */
+.pane-page-tabs {
+  clear: left;
+}
+
+/* line 22, ../sass/layout/_drupal_system_messages.scss */
+.messages {
+  position: relative;
+  overflow: hidden;
+  padding-top: 15px;
+  padding-right: 20px;
+  padding-bottom: 15px;
+  padding-left: 60px;
+}
+/* line 30, ../sass/layout/_drupal_system_messages.scss */
+.messages:before {
+  position: absolute;
+  top: 35%;
+  left: 20px;
+  font-family: "FontAwesome";
+  font-size: 200%;
+  margin-right: 15px;
+}
+/* line 44, ../sass/layout/_drupal_system_messages.scss */
+.messages.status,
+.messages .ok {
+  color: white;
+}
+/* line 49, ../sass/layout/_drupal_system_messages.scss */
+.messages.status,
+.messages table tr.ok {
+  background-color: #528c10;
+}
+/* line 58, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning,
+.messages .warning {
+  color: black;
+}
+/* line 62, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning a:link,
+.messages .warning a:link {
+  color: black;
+}
+/* line 66, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning a:visited,
+.messages .warning a:visited {
+  color: black;
+}
+/* line 70, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning a:hover,
+.messages .warning a:hover {
+  color: #404040;
+}
+/* line 74, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning a:focus,
+.messages .warning a:focus {
+  color: #404040;
+}
+/* line 78, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning a:active,
+.messages .warning a:active {
+  color: #404040;
+}
+/* line 84, ../sass/layout/_drupal_system_messages.scss */
+.messages.warning,
+.messages table tr.warning {
+  background-color: #f0cb28;
+}
+/* line 93, ../sass/layout/_drupal_system_messages.scss */
+.messages.error,
+.messages .error {
+  color: white;
+}
+/* line 98, ../sass/layout/_drupal_system_messages.scss */
+.messages.error,
+.messages table tr.error {
+  background-color: #a32e10;
+}
+/* line 102, ../sass/layout/_drupal_system_messages.scss */
+.messages.error p.error {
+  color: white;
+}
+/* line 106, ../sass/layout/_drupal_system_messages.scss */
+.messages ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 110, ../sass/layout/_drupal_system_messages.scss */
+.messages ul li {
+  list-style-image: none;
+}
+/* line 115, ../sass/layout/_drupal_system_messages.scss */
+.messages a:link {
+  color: white;
+  text-decoration: underline;
+}
+/* line 120, ../sass/layout/_drupal_system_messages.scss */
+.messages a:visited {
+  color: white;
+}
+/* line 124, ../sass/layout/_drupal_system_messages.scss */
+.messages a:hover {
+  color: #bfbfbf;
+}
+/* line 128, ../sass/layout/_drupal_system_messages.scss */
+.messages a:focus {
+  color: #bfbfbf;
+}
+/* line 132, ../sass/layout/_drupal_system_messages.scss */
+.messages a:active {
+  background-color: transparent;
+  color: #bfbfbf;
 }
 
 /**
@@ -5860,51 +6014,55 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object .ding-entity-button {
   padding: 11px 14px;
 }
+/* line 567, ../sass/module/_search.scss */
+.pane-ting-collection .ting-cover, .pane-ting-object .ting-cover {
+  width: 100%;
+  min-height: 250px;
+}
+/* line 571, ../sass/module/_search.scss */
+.pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before {
+  font-size: 74px;
+  left: 25px;
+  top: 35px;
+}
 
-/* line 568, ../sass/module/_search.scss */
+/* line 579, ../sass/module/_search.scss */
 .ting-cover {
-  min-height: 150px;
+  min-height: 60px;
   position: relative;
   width: 100%;
 }
-/* line 575, ../sass/module/_search.scss */
+/* line 586, ../sass/module/_search.scss */
 .ting-cover img {
   position: relative;
   z-index: 90;
 }
-/* line 580, ../sass/module/_search.scss */
+/* line 591, ../sass/module/_search.scss */
 .ting-cover:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
-  font-size: 74px;
-  left: 29%;
   position: absolute;
-  top: 45%;
-}
-/* line 589, ../sass/module/_search.scss */
-.ting-cover:before {
-  font-size: 160%;
 }
 
 /* Object display
    ========================================================================== */
 /* Navigation */
-/* line 601, ../sass/module/_search.scss */
+/* line 605, ../sass/module/_search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
 
-/* line 607, ../sass/module/_search.scss */
+/* line 611, ../sass/module/_search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 613, ../sass/module/_search.scss */
+/* line 617, ../sass/module/_search.scss */
 .pane-ting-object {
   /* Material Details - Collapsible */
   /* List of Issues - Collapsible */
 }
-/* line 616, ../sass/module/_search.scss */
+/* line 620, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-left {
   float: left;
   width: 25%;
@@ -5924,7 +6082,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 200px;
   margin-bottom: 20px;
 }
-/* line 623, ../sass/module/_search.scss */
+/* line 627, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-right {
   float: right;
   width: 75%;
@@ -5943,26 +6101,21 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   margin-bottom: 20px;
 }
-/* line 629, ../sass/module/_search.scss */
-.pane-ting-object .ting-cover {
-  width: 100%;
-  min-height: 250px;
-}
-/* line 634, ../sass/module/_search.scss */
+/* line 633, ../sass/module/_search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 640, ../sass/module/_search.scss */
+/* line 639, ../sass/module/_search.scss */
 .pane-ting-object .subjects {
   /* forget that clearfix */
 }
-/* line 642, ../sass/module/_search.scss */
+/* line 641, ../sass/module/_search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 650, ../sass/module/_search.scss */
+/* line 649, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title:before,
 .pane-ting-object .ding-periodical-fold:before {
   color: #00b7e7;
@@ -5970,73 +6123,73 @@ input#edit-search-block-form--2.spinner {
   font-size: 110%;
   padding-right: 6px;
 }
-/* line 658, ../sass/module/_search.scss */
+/* line 657, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title {
   display: inline-block;
 }
-/* line 669, ../sass/module/_search.scss */
+/* line 668, ../sass/module/_search.scss */
 .pane-ting-object .ding-periodical-fold {
   cursor: pointer;
   display: inline-block;
 }
-/* line 682, ../sass/module/_search.scss */
+/* line 681, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details {
   clear: both;
 }
-/* line 685, ../sass/module/_search.scss */
+/* line 684, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 691, ../sass/module/_search.scss */
+/* line 690, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-items {
   max-width: 72%;
 }
-/* line 695, ../sass/module/_search.scss */
+/* line 694, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .ting-material-detail {
   display: block;
 }
-/* line 700, ../sass/module/_search.scss */
+/* line 699, ../sass/module/_search.scss */
 .pane-ting-object .group-holdings-available {
   clear: both;
 }
-/* line 704, ../sass/module/_search.scss */
+/* line 703, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   margin-bottom: 20px;
 }
-/* line 707, ../sass/module/_search.scss */
+/* line 706, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 711, ../sass/module/_search.scss */
+/* line 710, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 715, ../sass/module/_search.scss */
+/* line 714, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 721, ../sass/module/_search.scss */
+/* line 720, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   margin-top: 20px;
   margin-bottom: 0;
 }
-/* line 726, ../sass/module/_search.scss */
+/* line 725, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 732, ../sass/module/_search.scss */
+/* line 731, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 738, ../sass/module/_search.scss */
+/* line 737, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -6045,23 +6198,23 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 746, ../sass/module/_search.scss */
+/* line 745, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 750, ../sass/module/_search.scss */
+/* line 749, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 754, ../sass/module/_search.scss */
+/* line 753, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 758, ../sass/module/_search.scss */
+/* line 757, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 763, ../sass/module/_search.scss */
+/* line 762, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation .meta {
   padding: 20px;
   padding-bottom: 10px;
@@ -6070,7 +6223,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Search autocomplete
    ========================================================================== */
-/* line 776, ../sass/module/_search.scss */
+/* line 775, ../sass/module/_search.scss */
 ul.ui-autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -6087,7 +6240,7 @@ ul.ui-autocomplete {
   padding: 10px;
   width: 580px;
 }
-/* line 788, ../sass/module/_search.scss */
+/* line 787, ../sass/module/_search.scss */
 ul.ui-autocomplete .ui-menu-item a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -6097,14 +6250,14 @@ ul.ui-autocomplete .ui-menu-item a {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 796, ../sass/module/_search.scss */
+/* line 795, ../sass/module/_search.scss */
 ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 803, ../sass/module/_search.scss */
+/* line 802, ../sass/module/_search.scss */
 ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: #efefef;
 }
@@ -6621,13 +6774,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .super-heading {
   padding: 10px 0;
 }
-/* line 153, ../sass/module/_news.scss */
-.super-heading div {
+/* line 156, ../sass/module/_news.scss */
+.super-heading .label, .super-heading .label-inverted, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
+.super-heading .field,
+.super-heading .field-items,
+.super-heading .field-item {
   display: inline;
 }
-/* line 157, ../sass/module/_news.scss */
-.super-heading .field-item {
-  padding-left: 5px;
+/* line 160, ../sass/module/_news.scss */
+.super-heading .field-name-field-ding-news-library {
+  margin-left: 5px;
+}
+/* line 164, ../sass/module/_news.scss */
+.super-heading .field-name-field-ding-news-library .field-item {
+  background-color: #959595;
+}
+/* line 169, ../sass/module/_news.scss */
+.super-heading .field-name-field-ding-news-library .field-item:hover {
+  background-color: #7c7c7c;
 }
 
 /**
@@ -6909,18 +7073,23 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
 }
 
-/* line 16, ../sass/module/_libraries.scss */
+/* line 17, ../sass/module/_libraries.scss */
+.form-item-select-library .form-select {
+  min-width: auto;
+}
+
+/* line 22, ../sass/module/_libraries.scss */
 .library-list {
   padding: 0;
   /* Opening hours toggle */
   /* Media queries */
 }
-/* line 18, ../sass/module/_libraries.scss */
+/* line 25, ../sass/module/_libraries.scss */
 .library-list .views-row {
   padding-left: 10px;
   padding-right: 10px;
 }
-/* line 26, ../sass/module/_libraries.scss */
+/* line 33, ../sass/module/_libraries.scss */
 .library-list .opening-hours-toggle {
   float: right;
   width: 33.33333%;
@@ -6941,7 +7110,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: right;
 }
 @media only screen and (max-width: 768px) {
-  /* line 35, ../sass/module/_libraries.scss */
+  /* line 42, ../sass/module/_libraries.scss */
   .library-list .opening-hours-toggle {
     float: left;
     width: 75%;
@@ -6965,7 +7134,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 46, ../sass/module/_libraries.scss */
+/* line 53, ../sass/module/_libraries.scss */
 .libraries-opening-hours {
   float: right;
   width: 33.33333%;
@@ -6987,7 +7156,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   /* Media queries */
 }
 @media only screen and (max-width: 768px) {
-  /* line 46, ../sass/module/_libraries.scss */
+  /* line 53, ../sass/module/_libraries.scss */
   .libraries-opening-hours {
     float: left;
     width: 100%;
@@ -7009,7 +7178,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 61, ../sass/module/_libraries.scss */
+/* line 68, ../sass/module/_libraries.scss */
 .libraries {
   float: left;
   width: 66.66667%;
@@ -7029,7 +7198,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
   padding: 0;
 }
-/* line 69, ../sass/module/_libraries.scss */
+/* line 76, ../sass/module/_libraries.scss */
 .libraries:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -7041,7 +7210,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 25%;
   z-index: 25;
 }
-/* line 81, ../sass/module/_libraries.scss */
+/* line 88, ../sass/module/_libraries.scss */
 .libraries .ding-library-left {
   float: left;
   width: 25%;
@@ -7060,7 +7229,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding: 0;
 }
-/* line 87, ../sass/module/_libraries.scss */
+/* line 94, ../sass/module/_libraries.scss */
 .libraries .ding-library-right {
   float: left;
   width: 75%;
@@ -7078,16 +7247,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 91, ../sass/module/_libraries.scss */
+/* line 98, ../sass/module/_libraries.scss */
 .libraries .library-title {
   font-size: 110%;
 }
-/* line 96, ../sass/module/_libraries.scss */
+/* line 103, ../sass/module/_libraries.scss */
 .libraries .field,
 .libraries .library-title {
   margin-bottom: 5px;
 }
-/* line 100, ../sass/module/_libraries.scss */
+/* line 107, ../sass/module/_libraries.scss */
 .libraries .field.field-name-field-ding-library-list-image,
 .libraries .library-title.field-name-field-ding-library-list-image {
   -webkit-box-sizing: border-box;
@@ -7096,7 +7265,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
   z-index: 26;
 }
-/* line 110, ../sass/module/_libraries.scss */
+/* line 117, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-label {
   float: left;
   width: 25%;
@@ -7115,7 +7284,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 116, ../sass/module/_libraries.scss */
+/* line 123, ../sass/module/_libraries.scss */
 .libraries .field-label-inline .field-items {
   float: left;
   width: 75%;
@@ -7133,21 +7302,21 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 121, ../sass/module/_libraries.scss */
+/* line 128, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse {
   margin-bottom: 10px;
 }
-/* line 125, ../sass/module/_libraries.scss */
+/* line 132, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse div {
   display: inline;
 }
-/* line 130, ../sass/module/_libraries.scss */
+/* line 137, ../sass/module/_libraries.scss */
 .libraries .field-name-field-ding-library-addresse div .street-block:after,
 .libraries .field-name-field-ding-library-addresse div .addressfield-container-inline:after {
   content: ', ';
 }
 @media only screen and (max-width: 768px) {
-  /* line 61, ../sass/module/_libraries.scss */
+  /* line 68, ../sass/module/_libraries.scss */
   .libraries {
     float: left;
     width: 100%;
@@ -7166,12 +7335,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow-y: visible;
     padding: 0;
   }
-  /* line 143, ../sass/module/_libraries.scss */
+  /* line 150, ../sass/module/_libraries.scss */
   .libraries:before {
     font-size: 30px;
     top: 0.8em;
   }
-  /* line 151, ../sass/module/_libraries.scss */
+  /* line 158, ../sass/module/_libraries.scss */
   .libraries .field-name-field-ding-library-phone-number,
   .libraries .field-name-field-ding-library-fax-number,
   .libraries .field-name-field-ding-library-mail,
@@ -7180,14 +7349,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 158, ../sass/module/_libraries.scss */
+  /* line 165, ../sass/module/_libraries.scss */
   .libraries:before {
     font-size: 50px;
     top: 0.4em;
   }
 }
 
-/* line 165, ../sass/module/_libraries.scss */
+/* line 172, ../sass/module/_libraries.scss */
 .library-link {
   padding-top: 20px;
   padding-left: 20px;
@@ -7197,11 +7366,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
    ========================================================================== */
 /* Library menu */
 /* Using id, can't remove and add better wrapper class */
-/* line 188, ../sass/module/_libraries.scss */
+/* line 195, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-image {
   margin-bottom: 20px;
 }
-/* line 192, ../sass/module/_libraries.scss */
+/* line 199, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact {
   float: left;
   width: 50%;
@@ -7220,7 +7389,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 198, ../sass/module/_libraries.scss */
+/* line 205, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-address {
   float: right;
   width: 50%;
@@ -7239,12 +7408,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-right: 0;
 }
-/* line 205, ../sass/module/_libraries.scss */
+/* line 212, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact,
 #ding-library-front .ding-library-address {
   margin-bottom: 10px;
 }
-/* line 208, ../sass/module/_libraries.scss */
+/* line 215, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-contact .pane-title,
 #ding-library-front .ding-library-address .pane-title {
   font-family: "SourceSansProSemibold";
@@ -7252,11 +7421,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   font-size: 100%;
   margin-bottom: 5px;
 }
-/* line 216, ../sass/module/_libraries.scss */
+/* line 223, ../sass/module/_libraries.scss */
 #ding-library-front .library-address-postal-code {
   margin-right: 5px;
 }
-/* line 220, ../sass/module/_libraries.scss */
+/* line 227, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-toggle {
   float: left;
   width: 50%;
@@ -7277,36 +7446,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   width: auto;
 }
-/* line 228, ../sass/module/_libraries.scss */
+/* line 235, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-opening-hours {
   clear: both;
   /* Toggle opening hours with javascript */
   display: none;
   margin-bottom: 10px;
 }
-/* line 236, ../sass/module/_libraries.scss */
+/* line 243, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week {
   padding-right: 0;
   padding-left: 0;
 }
-/* line 240, ../sass/module/_libraries.scss */
+/* line 247, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .header {
   padding-top: 10px;
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 248, ../sass/module/_libraries.scss */
+/* line 255, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .day {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 255, ../sass/module/_libraries.scss */
+/* line 262, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-news,
 #ding-library-front .ding-library-events {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
-/* line 262, ../sass/module/_libraries.scss */
+/* line 269, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-news {
   clear: both;
   float: left;
@@ -7326,7 +7495,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 268, ../sass/module/_libraries.scss */
+/* line 275, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-events {
   float: right;
   width: 41.66667%;
@@ -7500,11 +7669,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 42px;
 }
 /* line 31, ../sass/module/_user.scss */
-.user .block-title, .user .pane-loans h2, .pane-loans .user h2,
-.user .pane-reservations h2,
-.pane-reservations .user h2,
-.user .pane-bookmarks h2,
-.pane-bookmarks .user h2 {
+.user .block-title {
   display: none;
 }
 @media only screen and (max-width: 480px) {
@@ -7542,11 +7707,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     text-align: left;
   }
   /* line 53, ../sass/module/_user.scss */
-  .user .block-title, .user .pane-loans h2, .pane-loans .user h2,
-  .user .pane-reservations h2,
-  .pane-reservations .user h2,
-  .user .pane-bookmarks h2,
-  .pane-bookmarks .user h2 {
+  .user .block-title {
     display: block;
     color: white;
     margin-top: 10px;
@@ -7621,7 +7782,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User profile
    ========================================================================== */
-/* line 122, ../sass/module/_user.scss */
+/* line 119, ../sass/module/_user.scss */
+.user-loan-status-wrapper {
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
+}
+
+/* line 127, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -7632,7 +7799,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 129, ../sass/module/_user.scss */
+/* line 134, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
@@ -7640,20 +7807,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-decoration: none;
 }
 
-/* line 135, ../sass/module/_user.scss */
+/* line 140, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 140, ../sass/module/_user.scss */
+/* line 145, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 150, ../sass/module/_user.scss */
+/* line 155, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -7662,36 +7829,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: white;
 }
 
-/* line 155, ../sass/module/_user.scss */
+/* line 160, ../sass/module/_user.scss */
 .user-status-debt {
-  background-color: #bf3600;
+  background-color: #a32e10;
 }
-/* line 159, ../sass/module/_user.scss */
-.user-status-debt:focus, .user-status-debt:hover {
-  background-color: #a62f00;
-}
-
 /* line 164, ../sass/module/_user.scss */
-.user-status-ready-pickup {
-  background-color: #60a500;
-}
-/* line 168, ../sass/module/_user.scss */
-.user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
-  background-color: #518b00;
+.user-status-debt:focus, .user-status-debt:hover {
+  background-color: #8c270e;
 }
 
+/* line 169, ../sass/module/_user.scss */
+.user-status-ready-pickup {
+  background-color: #528c10;
+}
 /* line 173, ../sass/module/_user.scss */
+.user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
+  background-color: #45750d;
+}
+
+/* line 178, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 176, ../sass/module/_user.scss */
+/* line 181, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 183, ../sass/module/_user.scss */
+/* line 188, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -7703,12 +7870,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 193, ../sass/module/_user.scss */
+/* line 198, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 199, ../sass/module/_user.scss */
+  /* line 204, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -7717,67 +7884,75 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User loans
    ========================================================================== */
-/* line 213, ../sass/module/_user.scss */
+/* line 218, ../sass/module/_user.scss */
 .pane-loans table,
 .pane-reservations table,
 .pane-bookmarks table {
   border-bottom: 1px solid #efefef;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
-/* line 218, ../sass/module/_user.scss */
+/* line 224, ../sass/module/_user.scss */
 .pane-loans h2,
 .pane-reservations h2,
 .pane-bookmarks h2 {
+  font-size: 110%;
   margin-top: 2px;
   max-width: 90%;
 }
-/* line 225, ../sass/module/_user.scss */
+/* line 230, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 230, ../sass/module/_user.scss */
+/* line 235, ../sass/module/_user.scss */
 .pane-loans th,
 .pane-reservations th,
 .pane-bookmarks th {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 234, ../sass/module/_user.scss */
+/* line 239, ../sass/module/_user.scss */
 .pane-loans th.select-all,
 .pane-reservations th.select-all,
 .pane-bookmarks th.select-all {
   padding-left: 10px;
 }
-/* line 238, ../sass/module/_user.scss */
+/* line 243, ../sass/module/_user.scss */
 .pane-loans th.title,
 .pane-reservations th.title,
 .pane-bookmarks th.title {
   text-align: left;
 }
-/* line 243, ../sass/module/_user.scss */
+/* line 248, ../sass/module/_user.scss */
 .pane-loans td:first-child,
 .pane-reservations td:first-child,
 .pane-bookmarks td:first-child {
   width: 30px;
 }
-/* line 247, ../sass/module/_user.scss */
+/* line 252, ../sass/module/_user.scss */
 .pane-loans td,
 .pane-reservations td,
 .pane-bookmarks td {
   border-top: 1px solid #efefef;
   text-align: center;
 }
-/* line 251, ../sass/module/_user.scss */
+/* line 256, ../sass/module/_user.scss */
 .pane-loans td.title,
 .pane-reservations td.title,
 .pane-bookmarks td.title {
   text-align: left;
   width: 30%;
 }
-/* line 258, ../sass/module/_user.scss */
+/* line 260, ../sass/module/_user.scss */
+.pane-loans td.title h2,
+.pane-reservations td.title h2,
+.pane-bookmarks td.title h2 {
+  margin-bottom: 0;
+}
+/* line 267, ../sass/module/_user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -7786,7 +7961,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 262, ../sass/module/_user.scss */
+/* line 271, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -7795,7 +7970,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 269, ../sass/module/_user.scss */
+/* line 278, ../sass/module/_user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -7803,19 +7978,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 275, ../sass/module/_user.scss */
+/* line 284, ../sass/module/_user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 280, ../sass/module/_user.scss */
+/* line 288, ../sass/module/_user.scss */
+.pane-loans .ting-cover:before,
+.pane-reservations .ting-cover:before,
+.pane-bookmarks .ting-cover:before {
+  font-size: 30px;
+  left: 5px;
+  top: 5px;
+}
+/* line 295, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
+  margin-top: 0;
   margin-bottom: 0;
+  margin-left: 47px;
 }
-/* line 287, ../sass/module/_user.scss */
+/* line 304, ../sass/module/_user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -7824,7 +8009,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .operations .delete-reservation {
   text-align: center;
 }
-/* line 305, ../sass/module/_user.scss */
+/* line 322, ../sass/module/_user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -7835,25 +8020,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 325, ../sass/module/_user.scss */
+/* line 342, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 330, ../sass/module/_user.scss */
+/* line 347, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 346, ../sass/module/_user.scss */
+/* line 363, ../sass/module/_user.scss */
 .pane-reservations {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 352, ../sass/module/_user.scss */
+/* line 369, ../sass/module/_user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
@@ -7862,26 +8047,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User debts
    ========================================================================== */
-/* line 370, ../sass/module/_user.scss */
+/* line 387, ../sass/module/_user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 375, ../sass/module/_user.scss */
+/* line 392, ../sass/module/_user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 379, ../sass/module/_user.scss */
+/* line 396, ../sass/module/_user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 385, ../sass/module/_user.scss */
+/* line 402, ../sass/module/_user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 396, ../sass/module/_user.scss */
+/* line 413, ../sass/module/_user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -7889,7 +8074,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 402, ../sass/module/_user.scss */
+/* line 419, ../sass/module/_user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {
