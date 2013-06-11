@@ -212,7 +212,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_staff-ding_staff_list_library';
+    $pane->subtype = 'ding_staff-ding_staff_library_departments';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();

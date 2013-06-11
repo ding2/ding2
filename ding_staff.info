@@ -50,6 +50,7 @@ features[field_instance][] = profile2-staff-field_ding_staff_library
 features[field_instance][] = profile2-staff-field_ding_staff_phone
 features[field_instance][] = profile2-staff-field_ding_staff_position
 features[field_instance][] = profile2-staff-field_ding_staff_surname
+features[image][] = ding_staff_thumbnail
 features[page_manager_pages][] = ding_staff
 features[page_manager_pages][] = ding_staff_library
 features[page_manager_pages][] = ding_staff_user
