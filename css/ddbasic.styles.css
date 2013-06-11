@@ -676,7 +676,7 @@ legend {
 /**
  * Forms
  *
- * @author magnify
+ * @author magnify, zorp
  */
 /* line 11, ../sass/framework/_forms.scss */
 input,
@@ -710,11 +710,10 @@ select {
   -webkit-appearance: menulist-button;
   border: 1px solid #d5d5d5;
   height: 35px;
-  line-height: 35px;
   padding: 7px;
 }
 
-/* line 43, ../sass/framework/_forms.scss */
+/* line 42, ../sass/framework/_forms.scss */
 input[type="text"],
 input[type="password"],
 input[type="date"],
@@ -751,7 +750,7 @@ textarea {
   padding: 10px;
   max-width: 99%;
 }
-/* line 59, ../sass/framework/_forms.scss */
+/* line 58, ../sass/framework/_forms.scss */
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -767,7 +766,7 @@ textarea:focus {
   border-color: #e6e6e6;
   color: black;
 }
-/* line 65, ../sass/framework/_forms.scss */
+/* line 64, ../sass/framework/_forms.scss */
 input[type="text"][disabled],
 input[type="password"][disabled],
 input[type="date"][disabled],
