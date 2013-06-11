@@ -150,11 +150,25 @@
 .super-heading {
   padding: $medium-spacing 0;
 
-  div {
+  .label,
+  .field,
+  .field-items,
+  .field-item {
     display: inline;
   }
 
-  .field-item {
-    padding-left: 5px;
+  .field-name-field-ding-news-library {
+
+    margin-left: 5px;
+
+    .field-item {
+      @extend .label;
+
+      background-color: $gray-darker;
+
+      &:hover {
+        background-color: darken($gray-darker, 10%);
+      }
+    }
   }
 }

@@ -1384,7 +1384,7 @@ button.button {
 /* Variables
    ========================================================================== */
 /* line 21, ../sass/framework/_labels.scss */
-.label, .label-inverted, .subjects .subject, .news-list .news-label {
+.label, .label-inverted, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -1401,16 +1401,16 @@ button.button {
   /* Make sure it works on a link */
 }
 /* line 36, ../sass/framework/_labels.scss */
-.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover {
+.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
   color: white;
   text-decoration: none;
 }
 /* line 44, ../sass/framework/_labels.scss */
-.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited {
+.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
   color: white;
 }
 /* line 48, ../sass/framework/_labels.scss */
-.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover {
+.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #008fb4;
   color: white;
   text-decoration: none;
@@ -6621,13 +6621,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .super-heading {
   padding: 10px 0;
 }
-/* line 153, ../sass/module/_news.scss */
-.super-heading div {
+/* line 156, ../sass/module/_news.scss */
+.super-heading .label, .super-heading .label-inverted, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
+.super-heading .field,
+.super-heading .field-items,
+.super-heading .field-item {
   display: inline;
 }
-/* line 157, ../sass/module/_news.scss */
-.super-heading .field-item {
-  padding-left: 5px;
+/* line 160, ../sass/module/_news.scss */
+.super-heading .field-name-field-ding-news-library {
+  margin-left: 5px;
+}
+/* line 164, ../sass/module/_news.scss */
+.super-heading .field-name-field-ding-news-library .field-item {
+  background-color: #959595;
+}
+/* line 169, ../sass/module/_news.scss */
+.super-heading .field-name-field-ding-news-library .field-item:hover {
+  background-color: #7c7c7c;
 }
 
 /**
