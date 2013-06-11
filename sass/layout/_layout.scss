@@ -210,6 +210,7 @@ body {
   }
 
   .primary-content {
+    @include zen-clear();
     @include zen-grid-item(12, 1);
   }
 
@@ -315,6 +316,21 @@ body {
 
       .tertiary-content {
         @include zen-grid-item(3, 1, right);
+        clear: none;
+      }
+    }
+    @include x-large() {
+      .primary-content {
+        @include zen-grid-item(6, 4);
+      }
+
+      .secondary-content {
+        @include zen-grid-item(3, 1);
+      }
+
+      .tertiary-content {
+        @include zen-grid-item(3, 1, right);
+        clear: none;
       }
     }
   }

@@ -137,15 +137,38 @@
   }
 }
 
+/* Series should not use default field-item styling */
+.field-name-ting-series {
+  .field-item {
+    padding: 0;
+    margin-bottom: 0;
+    background-color: transparent !important; /* have to make this rule important for it to take effect (had limited time to make it work) */
+  }
+}
+
 /* Tags */
 .super-heading {
   padding: $medium-spacing 0;
 
-  div {
+  .label,
+  .field,
+  .field-items,
+  .field-item {
     display: inline;
   }
 
-  .field-item {
-    padding-left: 5px;
+  .field-name-field-ding-news-library {
+
+    margin-left: 5px;
+
+    .field-item {
+      @extend .label;
+
+      background-color: $gray-darker;
+
+      &:hover {
+        background-color: darken($gray-darker, 10%);
+      }
+    }
   }
 }

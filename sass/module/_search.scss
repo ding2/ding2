@@ -563,12 +563,23 @@ input#edit-search-block-form--2.spinner {
 
     padding: 11px 14px;
   }
+
+  .ting-cover {
+    width: 100%;
+    min-height: 250px;
+
+    &:before {
+      font-size: 74px;
+      left: 25px;
+      top: 35px;
+    }
+  }
 }
 
 .ting-cover {
   @extend .icon-camera;
 
-  min-height: 150px;
+  min-height: 60px;
   position: relative;
   width: 100%;
 
@@ -580,14 +591,7 @@ input#edit-search-block-form--2.spinner {
   &:before {
     color: $gray-dark;
     font-family: $base-icon-library-font;
-    font-size: 74px;
-    left: 29%;
     position: absolute;
-    top: 45%;
-  }
-
-  &:before {
-    font-size: $font-size-larger;
   }
 }
 
@@ -624,11 +628,6 @@ input#edit-search-block-form--2.spinner {
     @include zen-grid-item(9, 1, right);
 
     margin-bottom: 20px;
-  }
-
-  .ting-cover {
-    width: 100%;
-    min-height: 250px;
   }
 
   .field {

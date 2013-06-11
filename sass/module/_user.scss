@@ -116,28 +116,62 @@
 /* User profile
    ========================================================================== */
 
+.user-loan-status-wrapper {
+  border-top: 1px solid $gray-light;
+  padding-top: $large-spacing;
+}
+
 .user-status-loan,
 .user-status-reservation,
-.user-status-debt {
+.user-status-debt,
+.user-status-ready-pickup {
   @include font-bold();
 
   display: block;
   margin-bottom: $medium-spacing;
   padding: $medium-spacing;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .user-status-loan,
 .user-status-reservation {
   background-color: $gray-light;
   color: $link-color;
+
+  &:focus,
+  &:hover {
+    background-color: darken($gray-light, 5%);
+  }
+}
+
+.user-status-debt,
+.user-status-ready-pickup {
+  &:link,
+  &:visited,
+  &:focus,
+  &:active {
+    color: $white;
+  }
 }
 
 .user-status-debt {
-  background-color: #bf3600;
-  color: $white;
+  background-color: $red;
 
+  &:focus,
   &:hover {
-    color: $white;
+    background-color: darken($red, 5%);
+  }
+}
+
+.user-status-ready-pickup {
+  background-color: $green;
+
+  &:focus,
+  &:hover {
+    background-color: darken($green, 5%);
   }
 }
 
@@ -164,6 +198,14 @@
   .field-label {
     min-width: 200px;
   }
+
+  /* Media queries */
+  @include small() {
+    .field-label {
+      margin-bottom: -8px;
+      padding-bottom: 0;
+    }
+  }
 }
 
 
@@ -175,12 +217,12 @@
 .pane-bookmarks {
   table {
     border-bottom: 1px solid $gray-light;
+    margin-top: $large-spacing;
     margin-bottom: $large-spacing;
   }
 
   h2 {
-    @extend .block-title;
-
+    font-size: $font-size-medium;
     margin-top: 2px;
     max-width: 90%;
   }
@@ -214,6 +256,10 @@
     &.title {
       text-align: left;
       width: 30%;
+
+      h2 {
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -238,10 +284,18 @@
     img {
       max-width: 85%;
     }
+
+    &:before {
+      font-size: 30px;
+      left: 5px;
+      top: 5px;
+    }
   }
 
   .order-id {
+    margin-top: 0;
     margin-bottom: 0;
+    margin-left: 47px;
   }
 
 
