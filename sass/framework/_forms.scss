@@ -24,9 +24,10 @@ select {
   -webkit-appearance: menulist-button;
 
   border: 1px solid $gray;
-  height: 35px;
-  line-height: 35px;
-  padding: 7px;
+  height: 42px;
+  line-height: 42px;
+  min-width: 99%;
+  padding: 10px;
 }
 
 
@@ -54,7 +55,7 @@ textarea {
   min-height: $medium-spacing;
   margin-bottom: $medium-spacing;
   padding: $medium-spacing;
-  max-width: 99%;
+  min-width: 99%;
 
   &:focus {
     background-color: darken($white, 5%);

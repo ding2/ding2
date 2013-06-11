@@ -167,18 +167,26 @@ ul {
    ========================================================================== */
 
 fieldset {
-  border: none;
-  margin: 0;
-  padding: 0;
+  border-color: $gray-light;
+  margin-top: 0;
+  margin-right: 0;
+  margin-bottom: $large-spacing;
+  margin-left: 0;
+  padding-top: $medium-spacing;
+  padding-right: $large-spacing;
+  padding-bottom: $medium-spacing;
+  padding-left: $large-spacing;
 }
 
 legend {
-  display: block;
+  @include font-bold();
 
-  border-top: 1px solid $gray;
-  margin: 0;
-  padding: 0;
-  width: 100%;
+  display: block;
+  font-size: $font-size-medium;
+  margin-right: -10px;
+  margin-left: -10px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 

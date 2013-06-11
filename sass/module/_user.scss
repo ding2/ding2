@@ -116,6 +116,11 @@
 /* User profile
    ========================================================================== */
 
+.user-loan-status-wrapper {
+  border-top: 1px solid $gray-light;
+  padding-top: $large-spacing;
+}
+
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -212,12 +217,12 @@
 .pane-bookmarks {
   table {
     border-bottom: 1px solid $gray-light;
+    margin-top: $large-spacing;
     margin-bottom: $large-spacing;
   }
 
   h2 {
-    @extend .block-title;
-
+    font-size: $font-size-medium;
     margin-top: 2px;
     max-width: 90%;
   }
@@ -274,6 +279,12 @@
 
     img {
       max-width: 85%;
+    }
+    
+    &:before {
+      font-size: 30px;
+      left: 10%;
+      top: 2%;
     }
   }
 
