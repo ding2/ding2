@@ -718,7 +718,7 @@ select {
   /* Required for setting height in webkit browsers on mac */
   -webkit-appearance: menulist-button;
   border: 1px solid #d5d5d5;
-  height: 38px;
+  height: 36px;
   min-width: 99%;
   padding: 8px;
 }
@@ -5869,19 +5869,30 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object .ding-entity-button {
   padding: 11px 14px;
 }
+/* line 567, ../sass/module/_search.scss */
+.pane-ting-collection .ting-cover, .pane-ting-object .ting-cover {
+  width: 100%;
+  min-height: 250px;
+}
+/* line 571, ../sass/module/_search.scss */
+.pane-ting-collection .ting-cover:before, .pane-ting-object .ting-cover:before {
+  font-size: 74px;
+  left: 25px;
+  top: 35px;
+}
 
-/* line 568, ../sass/module/_search.scss */
+/* line 579, ../sass/module/_search.scss */
 .ting-cover {
-  min-height: 150px;
+  min-height: 50px;
   position: relative;
   width: 100%;
 }
-/* line 575, ../sass/module/_search.scss */
+/* line 586, ../sass/module/_search.scss */
 .ting-cover img {
   position: relative;
   z-index: 90;
 }
-/* line 580, ../sass/module/_search.scss */
+/* line 591, ../sass/module/_search.scss */
 .ting-cover:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -5891,22 +5902,22 @@ input#edit-search-block-form--2.spinner {
 /* Object display
    ========================================================================== */
 /* Navigation */
-/* line 594, ../sass/module/_search.scss */
+/* line 605, ../sass/module/_search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
 
-/* line 600, ../sass/module/_search.scss */
+/* line 611, ../sass/module/_search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 606, ../sass/module/_search.scss */
+/* line 617, ../sass/module/_search.scss */
 .pane-ting-object {
   /* Material Details - Collapsible */
   /* List of Issues - Collapsible */
 }
-/* line 609, ../sass/module/_search.scss */
+/* line 620, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-left {
   float: left;
   width: 25%;
@@ -5926,7 +5937,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 200px;
   margin-bottom: 20px;
 }
-/* line 616, ../sass/module/_search.scss */
+/* line 627, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-right {
   float: right;
   width: 75%;
@@ -5944,17 +5955,6 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
   margin-bottom: 20px;
-}
-/* line 622, ../sass/module/_search.scss */
-.pane-ting-object .ting-cover {
-  width: 100%;
-  min-height: 250px;
-}
-/* line 626, ../sass/module/_search.scss */
-.pane-ting-object .ting-cover:before {
-  font-size: 74px;
-  left: 29%;
-  top: 45%;
 }
 /* line 633, ../sass/module/_search.scss */
 .pane-ting-object .field {
@@ -7801,7 +7801,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: left;
   width: 30%;
 }
-/* line 263, ../sass/module/_user.scss */
+/* line 260, ../sass/module/_user.scss */
+.pane-loans td.title h2,
+.pane-reservations td.title h2,
+.pane-bookmarks td.title h2 {
+  margin-bottom: 0;
+}
+/* line 267, ../sass/module/_user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -7810,7 +7816,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 267, ../sass/module/_user.scss */
+/* line 271, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -7819,7 +7825,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 274, ../sass/module/_user.scss */
+/* line 278, ../sass/module/_user.scss */
 .pane-loans .ting-cover,
 .pane-reservations .ting-cover,
 .pane-bookmarks .ting-cover {
@@ -7827,27 +7833,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 4px;
   max-width: 15%;
 }
-/* line 280, ../sass/module/_user.scss */
+/* line 284, ../sass/module/_user.scss */
 .pane-loans .ting-cover img,
 .pane-reservations .ting-cover img,
 .pane-bookmarks .ting-cover img {
   max-width: 85%;
 }
-/* line 284, ../sass/module/_user.scss */
+/* line 288, ../sass/module/_user.scss */
 .pane-loans .ting-cover:before,
 .pane-reservations .ting-cover:before,
 .pane-bookmarks .ting-cover:before {
   font-size: 30px;
-  left: 10%;
-  top: 2%;
+  left: 5px;
+  top: 5px;
 }
-/* line 291, ../sass/module/_user.scss */
+/* line 295, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
+  margin-top: 0;
   margin-bottom: 0;
+  margin-left: 47px;
 }
-/* line 298, ../sass/module/_user.scss */
+/* line 304, ../sass/module/_user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -7856,7 +7864,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .operations .delete-reservation {
   text-align: center;
 }
-/* line 316, ../sass/module/_user.scss */
+/* line 322, ../sass/module/_user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -7867,25 +7875,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 336, ../sass/module/_user.scss */
+/* line 342, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 341, ../sass/module/_user.scss */
+/* line 347, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 357, ../sass/module/_user.scss */
+/* line 363, ../sass/module/_user.scss */
 .pane-reservations {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 363, ../sass/module/_user.scss */
+/* line 369, ../sass/module/_user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
@@ -7894,26 +7902,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User debts
    ========================================================================== */
-/* line 381, ../sass/module/_user.scss */
+/* line 387, ../sass/module/_user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 386, ../sass/module/_user.scss */
+/* line 392, ../sass/module/_user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 390, ../sass/module/_user.scss */
+/* line 396, ../sass/module/_user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 396, ../sass/module/_user.scss */
+/* line 402, ../sass/module/_user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 407, ../sass/module/_user.scss */
+/* line 413, ../sass/module/_user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -7921,7 +7929,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 413, ../sass/module/_user.scss */
+/* line 419, ../sass/module/_user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {

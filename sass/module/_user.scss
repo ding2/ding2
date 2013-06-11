@@ -256,6 +256,10 @@
     &.title {
       text-align: left;
       width: 30%;
+
+      h2 {
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -280,16 +284,18 @@
     img {
       max-width: 85%;
     }
-    
+
     &:before {
       font-size: 30px;
-      left: 10%;
-      top: 2%;
+      left: 5px;
+      top: 5px;
     }
   }
 
   .order-id {
+    margin-top: 0;
     margin-bottom: 0;
+    margin-left: 47px;
   }
 
 
