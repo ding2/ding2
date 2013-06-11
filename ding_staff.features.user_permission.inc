@@ -15,6 +15,7 @@ function ding_staff_user_default_permissions() {
     'name' => 'delete terms in 6',
     'roles' => array(
       'administrator' => 'administrator',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'taxonomy',
   );
@@ -42,6 +43,7 @@ function ding_staff_user_default_permissions() {
     'name' => 'edit terms in 6',
     'roles' => array(
       'administrator' => 'administrator',
+      'redaktør' => 'redaktør',
     ),
     'module' => 'taxonomy',
   );
