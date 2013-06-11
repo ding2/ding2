@@ -107,7 +107,7 @@ function alma_field_default_field_instances() {
     'bundle' => 'provider_alma',
     'default_value' => array(
       0 => array(
-        'value' => 30,
+        'value' => 180,
       ),
     ),
     'deleted' => 0,
