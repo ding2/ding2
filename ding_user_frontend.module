@@ -60,7 +60,7 @@ function ding_user_frontend_block_view($delta) {
 
   switch ($delta) {
     case 'ding-username':
-      if ($user->uid > 0) {
+      if (user_is_logged_in()) {
         $name = (!empty($user->data['display_name'])) ? $user->data['display_name'] : $user->name;
 
         if (!empty($name)) {
