@@ -234,44 +234,45 @@ function ding_user_frontend_build_menu() {
   );
 
   // Build menu (render array).
-  foreach ($children[$router_item['tab_root']] as $item) {
-    $current = array();
-    // Check access.
-    if ($item['access']) {
-      $item = $tasks[$item['path']];
-      if ($item['tab_parent'] == $router_item['tab_root']) {
-        $current += $menu_item_defaults;
-        $current['#title'] = $item['title'];
-        $current['#href'] = $item['href'];
-      }
+  if (isset($children[$router_item['tab_root']])) {
+    foreach ($children[$router_item['tab_root']] as $item) {
+      $current = array();
+      // Check access.
+      if ($item['access']) {
+        $item = $tasks[$item['path']];
+        if ($item['tab_parent'] == $router_item['tab_root']) {
+          $current += $menu_item_defaults;
+          $current['#title'] = $item['title'];
+          $current['#href'] = $item['href'];
+        }
 
-      // Check if this is secondary.
-      if (isset($children[$item['path']]) && count($children[$item['path']]) > 1) {
-        // Check that the sub-menu should be display, based on the path.
-        $pos = stripos($router_item['href'], $item['href']);
-        if ($pos !== FALSE && !$pos) {
-          $current['#below'] = array(
-            '#theme_wrappers' => array(
-              'theme_hook_suggestion' => 'menu_tree__ding_user_frontend__ding_user_menu',
-            ),
-          );
+        // Check if this is secondary.
+        if (isset($children[$item['path']]) && count($children[$item['path']]) > 1) {
+          // Check that the sub-menu should be display, based on the path.
+          $pos = stripos($router_item['href'], $item['href']);
+          if ($pos !== FALSE && !$pos) {
+            $current['#below'] = array(
+              '#theme_wrappers' => array(
+                'theme_hook_suggestion' => 'menu_tree__ding_user_frontend__ding_user_menu',
+              ),
+            );
 
-          // Build sub-menu items.
-          $items = $children[$item['path']];
-          foreach ($items as $item) {
-            $below = array() + $menu_item_defaults;
-            $below['#title'] = $item['title'];
-            $below['#href'] = $item['href'];
-            $current['#below'][] = $below;
+            // Build sub-menu items.
+            $items = $children[$item['path']];
+            foreach ($items as $item) {
+              $below = array() + $menu_item_defaults;
+              $below['#title'] = $item['title'];
+              $below['#href'] = $item['href'];
+              $current['#below'][] = $below;
+            }
           }
         }
-      }
 
-      // Add current item and sub-menu to the menu.
-      $menu[] = $current;
+        // Add current item and sub-menu to the menu.
+        $menu[] = $current;
+      }
     }
   }
-
   return $menu;
 }
 
