@@ -76,23 +76,40 @@
         var element = $('#' + id);
         element.removeClass('pending').addClass('processed');
 
+        // Reserve button
+        var reserver_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
+
         if (available) {
           element.addClass('available');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('available');
+          }
         }
         else {
           element.addClass('unavailable');
-        }
 
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('unavailable');
+          }
+        }
+        
         if (reservable) {
           element.addClass('reservable');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('reservable');
+          }
         }
         else {
           element.addClass('not-reservable');
 
-          // Remove reservation form (button) when availability is not reservable.
-          var reserver_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
+          // Add class to reserve button
           if (reserver_btn.length) {
-            reserver_btn.remove();
+            reserver_btn.addClass('not-reservable');
           }
         }
 
