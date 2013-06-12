@@ -69,7 +69,7 @@
 
       // Add expand button, if there are more to show.
       if (terms_not_checked.length > number_of_terms) {
-        facetGroup.append('<a href="#" class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</a>');
+        facetGroup.append('<a href="javascript:void;" class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</a>');
       }
 
       // Add some classes to checkbox wrappers.
@@ -102,7 +102,7 @@
             if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= Drupal.settings.dingFacetBrowser.number_of_terms &&
                 facetGroup.find('#expand_less').size() === 0 &&
                 count % Drupal.settings.dingFacetBrowser.number_of_terms === 0) {
-              facetGroup.append('<a href="#" class="expand expand-less" id="expand_less">' + Drupal.t('Show less') + '</a>');
+              facetGroup.append('<a href="javascript:void;" class="expand expand-less" id="expand_less">' + Drupal.t('Show less') + '</a>');
             }
           });
         }
@@ -125,7 +125,7 @@
 
       if (clickedKey.id == 'expand_less'){
         if (!(facetGroup.find('#expand_more').length)) {
-          facetGroup.append('<span class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</span>');
+          facetGroup.append('<a href="javascript:void;" class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</a>');
         }
       }
 
