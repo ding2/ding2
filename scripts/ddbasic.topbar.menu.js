@@ -118,6 +118,11 @@
     // Toggle header off to begin with.
     ddbasic_header_wrapper.hide();
 
+    // Show search on frontpage and search pages.
+    var path = window.location.pathname;
+    if (path.indexOf('/search', 0) === 0 || path === '/') {
+      toggle_topbar('search');
+    }
 
     /*
      * Add .fixed class to site header upon scroll
