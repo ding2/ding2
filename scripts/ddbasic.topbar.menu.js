@@ -121,7 +121,7 @@
     // Show search on frontpage and search pages.
     var path = window.location.pathname;
     if (path.indexOf('/search', 0) === 0 || path === '/') {
-      toggle_topbar('search');
+      $('a.topbar-link-search').click();
     }
 
     /*
