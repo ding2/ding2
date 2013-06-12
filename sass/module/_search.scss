@@ -130,7 +130,7 @@ input#edit-search-block-form--2.spinner {
   h2,
   .fieldset-legend,
   .count {
-    color: $gray-darker;
+    color: $gray-darkest;
   }
 
   /* Facet group spacing */
@@ -146,14 +146,15 @@ input#edit-search-block-form--2.spinner {
 
   /* Expand facets link */
   .expand {
+    margin-top: 5px;
     margin-right: 10px;
-    margin-left: 5px;
+    vertical-align: top;
 
     &:before {
       font-family: $base-icon-library-font;
       padding-right: 5px;
       text-decoration: none;
-      font-size: $font-size-largest;
+      font-size: $font-size-large;
     }
   }
 
@@ -244,11 +245,14 @@ input#edit-search-block-form--2.spinner {
    ========================================================================== */
 
 .pane-ting-search-search-display-extended-query {
-  float: left;
+  @include zen-grid-item(8, 1);
+
   overflow: hidden;
   margin-bottom: 20px;
 
   #search-query-display {
+    margin: 0;
+
     #search-query-label {
       color: $gray-darker;
     }
@@ -260,7 +264,9 @@ input#edit-search-block-form--2.spinner {
 }
 
 .pane-ting-search {
-  float: right;
+  @include zen-grid-item(4, 1, right);
+
+  text-align: right;
 
   .ting-search-amount-block {
     color: $gray-darker;
@@ -339,6 +345,11 @@ input#edit-search-block-form--2.spinner {
     .availability-legend-item {
       margin: 0;
       margin-left: 10px;
+      line-height: normal;
+
+      img {
+        vertical-align: middle;
+      }
 
       .availability-label {
         font-weight: normal;
@@ -572,17 +583,6 @@ input#edit-search-block-form--2.spinner {
 
     padding: 11px 14px;
   }
-
-  .ting-cover {
-    width: 100%;
-    min-height: 250px;
-
-    &:before {
-      font-size: 74px;
-      left: 25px;
-      top: 35px;
-    }
-  }
 }
 
 .ting-cover {
@@ -600,7 +600,19 @@ input#edit-search-block-form--2.spinner {
   &:before {
     color: $gray-dark;
     font-family: $base-icon-library-font;
+    font-size: $font-size-giga;
     position: absolute;
+    top: 50%;
+    left: 30%;
+  }
+
+  /* Media queries */
+  @include small {
+    &:before {
+      font-size: $font-size-largest;
+      left: 20%;
+      top: 30%;
+    }
   }
 }
 
