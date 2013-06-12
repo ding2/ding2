@@ -133,9 +133,9 @@ $article-text:                    #4c4c4c;
 /* Availability
    ========================================================================== */
 
-$availability-pending:                  #696a69;
-$availability-processed:                #ed1e88;
-$availability-available:                #4c9f45;
-$availability-reservable:               #ea9123;
-$availability-available-reservable:     #4c9f45;
-$availability-available-not-reservable: #0072bc;
+$availability-pending:                  $gray-darker;
+$availability-processed:                $gray-darker;
+$availability-available:                $green;
+$availability-reservable:               $yellow;
+$availability-available-reservable:     $green;
+$availability-available-not-reservable: $red;

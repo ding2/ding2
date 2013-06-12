@@ -39,6 +39,7 @@
 
 // Include modules
 @import "module/_module";
+@import "module/_availability";
 @import "module/_search";
 @import "module/_carousel";
 @import "module/_news";
@@ -47,7 +48,6 @@
 @import "module/_openinghours";
 @import "module/_user";
 @import "module/_comment";
-
 
 // Custom font
 @import "../font/source-sans/stylesheet.css";

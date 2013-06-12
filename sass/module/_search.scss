@@ -61,6 +61,8 @@ input#edit-search-block-form--2.spinner {
 
 .button-see-online {
   @extend %button-action;
+
+  margin-left: 10px;
 }
 
 
@@ -468,6 +470,14 @@ input#edit-search-block-form--2.spinner {
       @include availability($availability-available-not-reservable);
     }
 
+    &.availability.unavailable.reservable {
+      @include availability($availability-reservable);
+    }
+
+    &.availability.unavailable.not-reservable {
+      @include availability($availability-available-not-reservable);
+    }
+
     .availability-status {
       &:before {
         content: " - ";
@@ -553,7 +563,6 @@ input#edit-search-block-form--2.spinner {
 
     .form-actions {
       margin: 0;
-      margin-right: 10px;
     }
   }
 
