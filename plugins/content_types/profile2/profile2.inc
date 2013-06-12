@@ -28,6 +28,11 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
   if (isset($context->data)) {
     $account = $context->data;
     $profile = ding_user_provider_profile($account);
+
+    // Change the label for this profile type.
+    $profile->label = t('Your information');
+
+    // View profile to get render array with profile content.
     $block->content = $profile->view('account');
   }
 
