@@ -43,7 +43,7 @@ function ting_relation_online($relations) {
     if ($relation['#ac_source'] == 'Ebrary') {
       $ret[] = ting_relation_online_ebrary($relation);
     }
-    elseif ($relation['#ac_source'] == 'Filmstriben (fjernlå)') {
+    elseif ($relation['#ac_source'] == 'Filmstriben (fjernlån)') {
       $ret[] = ting_relation_online_filmstriben($relation);
     }
   }
