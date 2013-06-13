@@ -111,7 +111,7 @@ function ting_covers_preprocess_ting_object(&$variables) {
  * @todo: handle image styles better and use API to flush expired images.
  *
  * @param int $time Timestamp where older files will be deleted.
- * 	Obmit or set to NULL to delete all files.
+ * 	Omit or set to NULL to delete all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
   // Collect potential locations of cover folders
