@@ -77,16 +77,26 @@
 }
 
 .event-list {
-  background: $gray-light;
   margin-top: 0;
-  margin-bottom: 10px;
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  margin-bottom: $large-spacing;
+  padding-left: 0;
 
   .event-list-item {
+    margin-bottom: $medium-spacing;
+    overflow: hidden;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
     position: relative;
+  }
+
+  .event-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .event-list-item:nth-child(even) {
+    @extend %article-background--even;
   }
 
  .event-image-wrapper {
