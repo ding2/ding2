@@ -131,40 +131,16 @@ function _ting_covers_delete_old_files($time = NULL) {
   foreach ($image_dirs as $uri) {
     $ting_covers_dir = $uri . 'ting' . DIRECTORY_SEPARATOR . 'covers';
     if (is_dir($ting_covers_dir)) {
-      $cover_files = array_merge($cover_files, _ting_covers_get_files($ting_covers_dir));
+      $cover_files = array_merge($cover_files, file_scan_directory($ting_covers_dir, "/./"));
     }
   }
 
   //Delete obsolete files
   foreach ($cover_files as $file) {
-    if (!$time || (filemtime($file) < $time)) {
-      file_unmanaged_delete($file);
+    if (!$time || (filemtime($file->uri) < $time)) {
+      file_unmanaged_delete($file->uri);
     }
   }
-}
-
-/**
- * Retrieve all files under a path recursively
- *
- * @param string $files_path Path or URI
- * @return array An array of file paths or URIs
- */
-function _ting_covers_get_files($files_path) {
-  $files = array();
-
-  foreach (scandir($files_path) as $path) {
-    $file_path = $files_path . DIRECTORY_SEPARATOR . $path;
-    if (is_dir($file_path)) {
-      if (!in_array($path, array('.', '..'))) {
-        $files = array_merge($files, _ting_covers_get_files($file_path));
-      }
-    }
-    else {
-      $files[] = $file_path;
-    }
-  }
-
-  return $files;
 }
 
 /**
