@@ -23,23 +23,36 @@ $plugin = array(
 /**
  * Implements render for the pane and loads the profile2 profile edit form.
  */
-function ding_staff_profile2_form_content_type_render($subtype, $conf, $panel_args, &$context) {
+function ding_staff_profile2_staff_form_content_type_render($subtype, $conf, $panel_args, &$context) {
   $block = new stdClass();
+  $user = $context->data;
+  
+  $profile2 = profile2_load_by_user($user);
 
   // staff is the profile2 type name for staff profiles
-  //$block->content = entity_ui_get_form('profile2', 'staff');
-  $block->content = 'hejsa';
-
-  return $block;
+  if (isset($profile2['staff'])) {
+    $block->content = entity_ui_get_form('profile2', $profile2['staff']);
+    return $block;
+  } 
+  // user doesn't have a staff profile, we need to show form for adding new staff profile
+  else {
+    $profile = profile_create(array(
+      'type' => 'staff',
+      'uid' => $user->uid,
+    ));
+    $block->content = entity_ui_get_form('profile2', $profile, 'add');
+    return $block;
+  } 
 }
 
-function ding_staff_profile2_form_content_type_admin_title($subtype, $conf, $context) {
-  return t('Provider edit form.');
+function ding_staff_profile2_staff_form_content_type_admin_title($subtype, $conf, $context) {
+  return t('Staff edit form.');
 }
 
 /**
  * Plugin settings form
  */
-function ding_staff_profile2_form_content_type_edit_form($form, &$form_state) {
+function ding_staff_profile2_staff_form_content_type_edit_form($form, &$form_state) {
   return $form;
 }
+
