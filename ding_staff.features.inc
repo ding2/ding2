@@ -67,7 +67,7 @@ function ding_staff_default_profile2_type() {
     "type" : "staff",
     "label" : "Staff",
     "weight" : "0",
-    "data" : { "registration" : 0 }
+    "data" : { "registration" : 0, "use_page" : 0 }
   }');
   return $items;
 }
