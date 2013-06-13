@@ -120,7 +120,7 @@ function _ting_covers_delete_old_files($time = NULL) {
 
   $styles_dir = $files_dir . 'styles';
   foreach (scandir($styles_dir) as $style_dir) {
-    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public';
+    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
     if (is_dir($style_dir)) {
       $image_dirs[] = $style_dir;
     }
@@ -129,7 +129,7 @@ function _ting_covers_delete_old_files($time = NULL) {
   // Collect cover files
   $cover_files = array();
   foreach ($image_dirs as $uri) {
-    $ting_covers_dir = $uri . DIRECTORY_SEPARATOR . 'ting' . DIRECTORY_SEPARATOR . 'covers';
+    $ting_covers_dir = $uri . 'ting' . DIRECTORY_SEPARATOR . 'covers';
     if (is_dir($ting_covers_dir)) {
       $cover_files = array_merge($cover_files, _ting_covers_get_files($ting_covers_dir));
     }
@@ -171,5 +171,5 @@ function _ting_covers_get_files($files_path) {
  * Return the path to the cover of the object.
  */
 function ting_covers_object_path($object_id) {
-  return file_default_scheme() . '://ting/covers/object/' . md5($object_id) . '.jpg';
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . 'object' . DIRECTORY_SEPARATOR . md5($object_id) . '.jpg';
 }
