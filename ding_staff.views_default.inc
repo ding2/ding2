@@ -742,7 +742,6 @@ function ding_staff_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'People (D!ng users)';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'menu';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -752,11 +751,11 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['style_options']['columns'] = array(
     'views_bulk_operations' => 'views_bulk_operations',
     'name' => 'name',
+    'data' => 'name',
     'mail' => 'name',
-    'data' => 'data',
     'rid' => 'rid',
     'field_ding_staff_forename' => 'field_ding_staff_forename',
-    'field_ding_staff_surname' => 'field_ding_staff_surname',
+    'field_ding_staff_surname' => 'field_ding_staff_forename',
     'status' => 'status',
     'created' => 'created',
     'access' => 'access',
@@ -777,14 +776,14 @@ function ding_staff_views_default_views() {
       'separator' => '<br />',
       'empty_column' => 0,
     ),
-    'mail' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
+    'data' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
     ),
-    'data' => array(
+    'mail' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -798,7 +797,7 @@ function ding_staff_views_default_views() {
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
-      'separator' => '',
+      'separator' => '&nbsp;',
       'empty_column' => 0,
     ),
     'field_ding_staff_surname' => array(
@@ -950,14 +949,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['mail']['label'] = '';
   $handler->display->display_options['fields']['mail']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
-  /* Field: User: Data */
-  $handler->display->display_options['fields']['data']['id'] = 'data';
-  $handler->display->display_options['fields']['data']['table'] = 'users';
-  $handler->display->display_options['fields']['data']['field'] = 'data';
-  $handler->display->display_options['fields']['data']['label'] = 'Display name (Provider)';
-  $handler->display->display_options['fields']['data']['hide_alter_empty'] = FALSE;
-  $handler->display->display_options['fields']['data']['format'] = 'key';
-  $handler->display->display_options['fields']['data']['key'] = 'display_name';
   /* Field: User: Roles */
   $handler->display->display_options['fields']['rid']['id'] = 'rid';
   $handler->display->display_options['fields']['rid']['table'] = 'users_roles';
@@ -968,7 +959,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['table'] = 'field_data_field_ding_staff_forename';
   $handler->display->display_options['fields']['field_ding_staff_forename']['field'] = 'field_ding_staff_forename';
   $handler->display->display_options['fields']['field_ding_staff_forename']['relationship'] = 'profile';
-  $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = 'Forename (Staff)';
+  $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = 'Name (in Staff)';
   /* Field: Profile: Surname */
   $handler->display->display_options['fields']['field_ding_staff_surname']['id'] = 'field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['table'] = 'field_data_field_ding_staff_surname';
@@ -1148,10 +1139,22 @@ function ding_staff_views_default_views() {
     8 => 0,
   );
 
-  /* Display: System */
-  $handler = $view->new_display('system', 'System', 'ding_staff_admin_people');
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'ding_staff_people_list');
   $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['path'] = 'admin/people';
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    7 => '7',
+    8 => '8',
+  );
+  $handler->display->display_options['path'] = 'admin/people/ding_users';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'D!ng Users';
+  $handler->display->display_options['menu']['description'] = 'Administer users - incl. staff profiles';
+  $handler->display->display_options['menu']['weight'] = '-1';
+  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
   $translatables['ding_staff_admin_users'] = array(
     t('Master'),
     t('People (D!ng users)'),
@@ -1172,9 +1175,8 @@ function ding_staff_views_default_views() {
     t('Profile'),
     t('User'),
     t('Name'),
-    t('Display name (Provider)'),
     t('Roles'),
-    t('Forename (Staff)'),
+    t('Name (in Staff)'),
     t('Surname (Staff)'),
     t('Status'),
     t('Member for'),
@@ -1184,7 +1186,8 @@ function ding_staff_views_default_views() {
     t('E-mail'),
     t('Active'),
     t('Role'),
-    t('System'),
+    t('Forename (Staff)'),
+    t('Page'),
   );
   $export['ding_staff_admin_users'] = $view;
 
