@@ -82,8 +82,3 @@ projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
 projects[ding_page][download][branch] = "development"
 
-projects[ding_footer][type] = "module"
-projects[ding_footer][download][type] = "git"
-projects[ding_footer][download][url] = "git@github.com:ding2tal/ding_footer.git"
-projects[ding_footer][download][branch] = "development"
-
