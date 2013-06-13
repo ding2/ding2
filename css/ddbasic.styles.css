@@ -6744,30 +6744,31 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* line 68, ../sass/module/_news.scss */
 .news-list .news-list-content {
   max-height: 50px;
+  margin-left: 95px;
   overflow: hidden;
 }
-/* line 73, ../sass/module/_news.scss */
+/* line 74, ../sass/module/_news.scss */
 .news-list .news-link {
   float: right;
 }
-/* line 77, ../sass/module/_news.scss */
+/* line 78, ../sass/module/_news.scss */
 .news-list .news-arrow-link {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 86, ../sass/module/_news.scss */
+  /* line 87, ../sass/module/_news.scss */
   .news-list .news-label,
   .news-list .news-sub-heading,
   .news-list .news-list-content,
   .news-list .news-link {
     display: none;
   }
-  /* line 90, ../sass/module/_news.scss */
+  /* line 91, ../sass/module/_news.scss */
   .news-list .news-heading {
     font-size: 130%;
     margin-right: 35px;
   }
-  /* line 95, ../sass/module/_news.scss */
+  /* line 96, ../sass/module/_news.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
@@ -6777,16 +6778,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* List of related materials */
-/* line 105, ../sass/module/_news.scss */
+/* line 106, ../sass/module/_news.scss */
 .field-name-field-ding-news-materials {
   /* Media queries */
 }
 @media only screen and (max-width: 480px) {
-  /* line 112, ../sass/module/_news.scss */
+  /* line 113, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_left {
     display: none;
   }
-  /* line 116, ../sass/module/_news.scss */
+  /* line 117, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_right {
     float: left;
     width: 100%;
@@ -6806,7 +6807,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 121, ../sass/module/_news.scss */
+  /* line 122, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_left {
     float: left;
     width: 25%;
@@ -6824,7 +6825,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 125, ../sass/module/_news.scss */
+  /* line 126, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_right {
     float: right;
     width: 75%;
@@ -6844,7 +6845,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 130, ../sass/module/_news.scss */
+  /* line 131, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_left {
     float: left;
     width: 25%;
@@ -6862,7 +6863,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 134, ../sass/module/_news.scss */
+  /* line 135, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_right {
     float: right;
     width: 75%;
@@ -6883,7 +6884,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* Series should not use default field-item styling */
-/* line 142, ../sass/module/_news.scss */
+/* line 143, ../sass/module/_news.scss */
 .field-name-ting-series .field-item {
   padding: 0;
   margin-bottom: 0;
@@ -6892,26 +6893,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* Tags */
-/* line 150, ../sass/module/_news.scss */
+/* line 151, ../sass/module/_news.scss */
 .super-heading {
   padding: 10px 0;
 }
-/* line 156, ../sass/module/_news.scss */
+/* line 157, ../sass/module/_news.scss */
 .super-heading .label, .super-heading .label-inverted, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
 .super-heading .field,
 .super-heading .field-items,
 .super-heading .field-item {
   display: inline;
 }
-/* line 160, ../sass/module/_news.scss */
+/* line 161, ../sass/module/_news.scss */
 .super-heading .field-name-field-ding-news-library {
   margin-left: 5px;
 }
-/* line 164, ../sass/module/_news.scss */
+/* line 165, ../sass/module/_news.scss */
 .super-heading .field-name-field-ding-news-library .field-item {
   background-color: #959595;
 }
-/* line 169, ../sass/module/_news.scss */
+/* line 170, ../sass/module/_news.scss */
 .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #7c7c7c;
 }
