@@ -6992,6 +6992,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 0;
+  /* Media queries */
 }
 /* line 84, ../sass/module/_event.scss */
 .event-list .event-list-item {
@@ -7030,14 +7031,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   right: 0;
   top: 45%;
 }
+@media only screen and (max-width: 768px) {
+  /* line 133, ../sass/module/_event.scss */
+  .event-list .event-list-description {
+    display: none;
+  }
+}
 
 /* Event
    ========================================================================== */
-/* line 137, ../sass/module/_event.scss */
+/* line 144, ../sass/module/_event.scss */
 .event {
   /* Media queries */
 }
-/* line 138, ../sass/module/_event.scss */
+/* line 145, ../sass/module/_event.scss */
 .event .event-image {
   float: left;
   margin-top: 20px;
@@ -7045,16 +7052,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   max-width: 300px;
 }
-/* line 146, ../sass/module/_event.scss */
+/* line 153, ../sass/module/_event.scss */
 .event .event-tags {
   margin-bottom: 20px;
 }
-/* line 150, ../sass/module/_event.scss */
+/* line 157, ../sass/module/_event.scss */
 .event .event-tags .event-category,
 .event .event-tags .event-library {
   margin-right: 5px;
 }
-/* line 155, ../sass/module/_event.scss */
+/* line 162, ../sass/module/_event.scss */
 .event .event-lead {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -7062,7 +7069,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   padding-bottom: 20px;
 }
-/* line 163, ../sass/module/_event.scss */
+/* line 170, ../sass/module/_event.scss */
 .event .event-info {
   float: right;
   width: 33.33333%;
@@ -7083,7 +7090,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-right: 0;
   padding-left: 20px;
 }
-/* line 170, ../sass/module/_event.scss */
+/* line 177, ../sass/module/_event.scss */
 .event .event-info p {
   border-left: 5px solid #efefef;
   margin-top: 0;
@@ -7091,13 +7098,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 36px;
 }
-/* line 178, ../sass/module/_event.scss */
+/* line 185, ../sass/module/_event.scss */
 .event .event-info i[class^="icon-"] {
   display: inline-block;
   margin-left: -24px;
   min-width: 20px;
 }
-/* line 185, ../sass/module/_event.scss */
+/* line 192, ../sass/module/_event.scss */
 .event .event-content {
   float: left;
   width: 66.66667%;
@@ -7116,23 +7123,23 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 191, ../sass/module/_event.scss */
+/* line 198, ../sass/module/_event.scss */
 .event .event-footer {
   border-bottom: 1px solid #efefef;
   clear: both;
   margin-bottom: 20px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 199, ../sass/module/_event.scss */
+  /* line 206, ../sass/module/_event.scss */
   .event .event-content {
     padding-top: -20px;
     padding-right: 0;
   }
-  /* line 204, ../sass/module/_event.scss */
+  /* line 211, ../sass/module/_event.scss */
   .event .event-image {
     max-width: 100%;
   }
-  /* line 208, ../sass/module/_event.scss */
+  /* line 215, ../sass/module/_event.scss */
   .event .event-info {
     float: left;
     width: 100%;
@@ -7153,7 +7160,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-right: 0;
     padding-left: 0;
   }
-  /* line 215, ../sass/module/_event.scss */
+  /* line 222, ../sass/module/_event.scss */
   .event .event-info p {
     background-color: #efefef;
     border-left: 0;
@@ -7162,7 +7169,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding-right: 20px;
     padding-bottom: 10px;
   }
-  /* line 225, ../sass/module/_event.scss */
+  /* line 232, ../sass/module/_event.scss */
   .event .event-content {
     clear: left;
     width: 100%;
@@ -7171,7 +7178,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* Ticket styling
    ========================================================================== */
-/* line 238, ../sass/module/_event.scss */
+/* line 245, ../sass/module/_event.scss */
 .ticket-available, .ticket-info {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -7179,7 +7186,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 70%;
 }
 
-/* line 245, ../sass/module/_event.scss */
+/* line 252, ../sass/module/_event.scss */
 .ticket-wrapper {
   border-top: 1px solid #efefef;
   margin-top: 20px;

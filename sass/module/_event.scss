@@ -127,6 +127,13 @@
     right: 0;
     top: 45%;
   }
+  
+  /* Media queries */  
+  @include small-medium() {
+    .event-list-description {
+      display: none;
+    }
+  }
 }
 
 
