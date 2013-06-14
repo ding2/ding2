@@ -936,6 +936,18 @@ function ding_staff_views_default_views() {
       'label' => '',
     ),
   );
+  /* Field: Profile: Image */
+  $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
+  $handler->display->display_options['fields']['field_ding_staff_image']['table'] = 'field_data_field_ding_staff_image';
+  $handler->display->display_options['fields']['field_ding_staff_image']['field'] = 'field_ding_staff_image';
+  $handler->display->display_options['fields']['field_ding_staff_image']['relationship'] = 'profile';
+  $handler->display->display_options['fields']['field_ding_staff_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_staff_image']['settings'] = array(
+    'image_style' => 'ding_staff_thumbnail',
+    'image_link' => '',
+  );
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
