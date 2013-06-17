@@ -10,10 +10,11 @@
  * information displayed.
  */
 function ding_availability_admin_holdings_settings($form_state) {
-  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form = array();
 
-  // Add button to update the types from the datawell.
+  // Add button to update the types from the datawell. Which requires us to load
+  // the administation file for the ting module to get the information.
+  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form['update'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update from datawell'),
