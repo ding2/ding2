@@ -20,7 +20,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   $selected_url = NULL;
   $suffix = '';
   if ($conf['type'] == 'news') {
-      $node_type = 'nyheder';
+    $node_type = 'nyheder';
   } elseif ($conf['type'] == 'events') {
     $node_type = 'arrangementer';
   }
