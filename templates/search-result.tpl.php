@@ -12,7 +12,7 @@
  * @see template_process()
  */
 ?>
-<li class="<?php print $classes; ?>"<?php print $attributes; ?>>
+<li class="list-item <?php print $classes; ?>"<?php print $attributes; ?>>
   <?php if ($snippet): ?>
     <?php print $snippet; ?>
   <?php endif; ?>

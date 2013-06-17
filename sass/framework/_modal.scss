@@ -1,0 +1,104 @@
+/**
+ * Modal popup styling (from jquery ui library)
+ *
+ * @author magnify
+ */
+
+
+
+/* Variables
+   ========================================================================== */
+
+$modal-overlay-color:             $black;
+$modal-overlay-transparency:      .8;
+$modal-text-color:                $black;
+$modal-background-color:          $black;
+$modal-background-transparency:   .25;
+$modal-min-width:                 450px;
+$modal-border-radius:             12px;
+
+
+.ui-widget-overlay {
+  @include opacity(1);
+
+  background: transparentize($modal-background-color, $modal-background-transparency);
+}
+
+.ui-dialog {
+  @include box-shadow(rgba(black, 0.35) 0 0 10px);
+  @include border-radius($button-border-radius);
+
+  background-color: $base-primary-color;
+  min-width: $modal-min-width;
+}
+
+
+.ui-dialog-title {
+  @extend .page-title;
+  
+  color: $modal-text-color;
+}
+
+
+.ui-widget-content {
+  color: $modal-text-color;
+  padding: 0;
+}
+
+
+.ui-dialog {
+  padding: $large-spacing;
+
+  .ui-dialog-titlebar {
+    .ui-dialog-titlebar-close {
+      float: right;
+      right: $small-spacing;
+      padding: 0;
+      top: $medium-spacing;
+      width: auto;
+
+      .ui-icon {
+        @include font-bold();
+        @extend .icon-remove;
+
+        text-indent: 0;
+        text-transform: capitalize;
+
+        &:hover {
+          color: $white;
+        }
+      }
+
+      .ui-icon:before {
+        font-family: $base-icon-library-font;
+        margin-right: 2px;
+        margin-bottom: -1px;
+      }
+
+      &:link,
+      &:visited,
+      &:active {
+        color: $modal-text-color;
+        text-decoration: none;
+      }
+
+      &:hover {
+        color: $modal-text-color;
+        text-decoration: none;
+      }
+    }
+
+    .form-item {
+      margin-bottom: $medium-spacing;
+
+      .description {
+        color: transparentize($white, .1);
+        margin-top: -$medium-spacing;
+      }
+    }
+
+    .openid-links {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,424 @@
+/**
+ * User
+ *
+ * @author magnify
+ */
+
+
+
+/* User login in header
+   ========================================================================== */
+
+.user {
+  @extend %search-user-header;
+
+  .form-item-name {
+    @include zen-grid-item(6, 1);
+
+    .form-text {
+      padding-left: 45px;
+    }
+  }
+
+  .form-item-pass {
+    @include zen-grid-item(6, 1, right);
+
+    .form-text {
+      padding-left: 42px;
+    }
+  }
+
+  .block-title {
+    display: none;
+  }
+
+  @include small() {
+    .form-item-name,
+    .form-item-pass {
+      @include zen-grid-item(12, 1);
+    }
+
+    .form-actions {
+      margin-bottom: 0;
+    }
+
+    .form-submit {
+      margin-top: $medium-spacing;
+    }
+  }
+
+  @include small-medium() {
+    text-align: left;
+
+    .block-title {
+      display: block;
+      color: $white;
+      margin-top: 10px;
+      border-bottom: 1px solid transparentize($white, .75);
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+
+.user-name {
+  color: $white;
+
+  .user-name-title {
+    font-size: $font-size-larger;
+    overflow: hidden;
+    max-height: 45px;
+  }
+
+  @include small-medium() {
+    .user-name-title {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.user-name,
+.user-menu-loans,
+.user-menu {
+  border-bottom: 1px solid transparentize($white, .75);
+  display: none;
+  padding-right: $medium-spacing;
+  padding-bottom: $medium-spacing;
+  text-align: right;
+
+  &.js-topbar-toggled {
+    display: block;
+  }
+
+  @include small-medium() {
+    border-bottom: 0;
+    padding-bottom: 0;
+    text-align: left;
+  }
+}
+
+.user-menu-loans,
+.user-menu {
+  padding-top: $medium-spacing;
+
+  @include small-medium() {
+    padding-top: 0;
+  }
+}
+
+.user-menu {
+  @include font-bold();
+}
+
+
+
+/* User profile
+   ========================================================================== */
+
+.user-loan-status-wrapper {
+  border-top: 1px solid $gray-light;
+  padding-top: $large-spacing;
+}
+
+.user-status-loan,
+.user-status-reservation,
+.user-status-debt,
+.user-status-ready-pickup {
+  @include font-bold();
+
+  display: block;
+  margin-bottom: $medium-spacing;
+  padding: $medium-spacing;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.user-status-loan,
+.user-status-reservation {
+  background-color: $gray-light;
+  color: $link-color;
+
+  &:focus,
+  &:hover {
+    background-color: darken($gray-light, 5%);
+  }
+}
+
+.user-status-debt,
+.user-status-ready-pickup {
+  &:link,
+  &:visited,
+  &:focus,
+  &:active {
+    color: $white;
+  }
+}
+
+.user-status-debt {
+  background-color: $red;
+
+  &:focus,
+  &:hover {
+    background-color: darken($red, 5%);
+  }
+}
+
+.user-status-ready-pickup {
+  background-color: $green;
+
+  &:focus,
+  &:hover {
+    background-color: darken($green, 5%);
+  }
+}
+
+.pane-profile2 {
+  border-top: 1px solid $gray-light;
+
+  .field {
+    border-right: 1px solid $gray-light;
+    border-bottom: 1px solid $gray-light;
+    border-left: 1px solid $gray-light;
+  }
+
+  .field-label,
+  .field-item {
+    @include box-sizing(border-box);
+
+    display: inline-block;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
+  }
+
+  .field-label {
+    min-width: 200px;
+  }
+
+  /* Media queries */
+  @include small() {
+    .field-label {
+      margin-bottom: -8px;
+      padding-bottom: 0;
+    }
+  }
+}
+
+
+/* User loans
+   ========================================================================== */
+
+.pane-loans,
+.pane-reservations,
+.pane-bookmarks {
+  table {
+    border-bottom: 1px solid $gray-light;
+    margin-top: $large-spacing;
+    margin-bottom: $large-spacing;
+  }
+
+  h2 {
+    font-size: $font-size-medium;
+    margin-top: 2px;
+    max-width: 90%;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  th {
+    border-top: 1px solid $gray-light;
+    text-align: center;
+
+    &.select-all {
+      padding-left: $medium-spacing;
+    }
+
+    &.title {
+      text-align: left;
+    }
+  }
+
+  td:first-child {
+    width: 30px;
+  }
+
+  td {
+    border-top: 1px solid $gray-light;
+    text-align: center;
+
+    &.title {
+      text-align: left;
+      width: 30%;
+
+      h2 {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .select-all,
+  .form-type-checkbox {
+    text-align: center;
+  }
+
+  .form-checkbox {
+    margin-top: 0;
+    margin-right: 1px;
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+
+  .ting-cover {
+    float: left;
+
+    margin-top: 4px;
+    max-width: 15%;
+
+    img {
+      max-width: 85%;
+    }
+
+    &:before {
+      font-size: 30px;
+      left: 5px;
+      top: 5px;
+    }
+  }
+
+  .order-id {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 47px;
+  }
+
+
+  .operations {
+    .renew-loan-button,
+    .delete-reservation {
+      text-align: center;
+    }
+  }
+
+  .renew-loan-button  {
+    .renewable {
+      @extend %button-action;
+    }
+  }
+
+  .renew-loan-button  {
+    .not-renewable {
+      @extend %button-danger;
+    }
+  }
+
+  .delete-reservations,
+  .update-reservations {
+    display: inline;
+    margin-right: $large-spacing;
+  }
+
+  .delete-reservation,
+  .delete-reservations {
+    .form-submit {
+      @extend %button-danger;
+    }
+  }
+
+  .update-reservations {
+    .form-submit {
+      @extend %button-action;
+    }
+  }
+}
+
+.pane-bookmarks {
+  td {
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .ding-entity-button {
+    float: right;
+    margin-right: $large-spacing;
+
+    a {
+      @extend %button-danger;
+    }
+
+    &.ding-bookmark-reservation-button {
+      a {
+        @extend %button-action;
+      }
+    }
+  }
+}
+
+.pane-reservations {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
+}
+
+#ding-reservation-reservations-ready-form {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
+}
+
+#ding-bookmark-remove-form {
+  .form-submit {
+    @extend %button-danger;
+  }
+}
+
+
+
+/* User debts
+   ========================================================================== */
+
+.pane-debts {
+  table {
+    margin-bottom: $large-spacing;
+
+    th,
+    td {
+      &.feedate {
+        width: 10%;
+      }
+
+      &.feeamount {
+        text-align: right;
+      }
+    }
+  }
+
+  .pay-button {
+    margin-bottom: $large-spacing;
+
+    .form-submit {
+      @extend %button-action;
+    }
+  }
+}
+
+.pane-debts,
+.pane-ding-dibs-dibs-terms-of-sale,
+.pane-ding-dibs-dibs-cards-supported {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
+
+  #dibs-cards-supported {
+    .card-name {
+      font-weight: $base-font-weight-bold;
+      font-family: $font-bold;
+    }
+  }
+}

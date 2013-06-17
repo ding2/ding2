@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Latto's theme implementation to display event nodes.
+ * DDBasic's theme implementation to display event nodes.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -16,8 +16,8 @@
  * - $name: Themed username of node author output from theme_username().
  * - $node_url: Direct url of the current node.
  * - $display_submitted: Whether submission information should be displayed.
- * - $submitted: Submission information created from $date (NOTE: modified for latto
- *   during latto_preprocess_node in templates.php)
+ * - $submitted: Submission information created from $date (NOTE: modified for ddbasic
+ *   during ddbasic_preprocess_node in templates.php)
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -73,120 +73,113 @@
  * language, e.g. $node->body['en'], thus overriding any language negotiation
  * rule that was previously applied.
  *
- * Latto specific variables:
- * - $latto_updated: Information about latest update on the node created from $date during
- *   latto_preprocess_node().  
- * - $latto_ding_content_tags: Tags, as a comma-separated list of links with leading text "Tags: "    
- * - $latto_event_location: String containing adress info for either field_address or group_audience,
- *   as relevant for the event node 
- * - $latto_ding_event_target: event target as link
- * - $latto_byline: outputs byline to be used before $name  
- * - $latto_place2book_tickets: flag for field_place2book_tickets   
- * 
+ * ddbasic specific variables:
+ * - $ddbasic_updated: Information about latest update on the node created from $date during
+ *   ddbasic_preprocess_node().
+ * - $ddbasic_event_date: Event date or period, printed as date(s) 
+ * - $ddbasic_event_time: Event time, printed as time(s) 
+ * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with leading text "Tags: "
+ * - $ddbasic_event_location: String containing adress info for either field_address or group_audience,
+ *   as relevant for the event node
+ * - $ddbasic_byline: outputs byline to be used before $name
+ * - $ddbasic_place2book_tickets: flag for field_place2book_tickets
+ *
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
 ?>
-<section class="span7" role="main">
-  <article>
-    <?php print render($content['field_main_image'][0]); ?>
+<article class="event">
+  <h1 class="page-title"><?php print $title; ?></h1>
 
-    <header class="page-header">
-        <p>
-            <i class="icon-tag"></i> <?php print render($content['field_ding_event_category'][0]); ?>
-            <i class="icon-map-marker"></i> <?php print render($content['group_audience'][0]); ?>
-        </p>
+  <div class="event-lead">
+    <?php print render($content['field_ding_event_lead'][0]); ?>
+  </div>
+  <div class="event-info">
+    <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
 
-        <hr/>
+    <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
 
-        <h1><?php print $title; ?></h1>
+    <?php if (isset($ddbasic_event_location)): ?>
+      <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
+    <?php endif; ?>
 
-        <div class="row-fluid">
-            <div class="lead span8">
-                <p><?php print render($content['field_ding_event_manchet'][0]); ?></p>
-                <?php if ($latto_place2book_tickets): ?>
-                  <p><?php print render($content['field_place2book_tickets'][0]); ?><p>
-                <?php endif; ?>
-            </div>
-            <div class="span4">
-                <p>
-                    <i class="icon-calendar"></i>
-                    <?php print render($variables['content']['field_event_date'][0]); ?>
-                </p>
-                <p>
-                    <i class="icon-home"></i>
-                    <?php print $latto_event_location; ?>
-                </p>
-                <p>
-                    <i class="icon-user"></i>
-                    <?php print render($content['field_ding_event_target'][0]); ?>
-                </p>
-                <p>
-                    <i class="icon-shopping-cart"></i>
-                    <?php print render($content['field_event_ticket_price'][0]); ?>
-                </p>
-            </div>
-        </div>
-    </header>
-    
+    <?php if (isset($content['field_ding_event_target'])): ?>
+      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($content['field_ding_event_price'])): ?>
+      <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
+    <?php endif; ?>
+  </div>  
+  <div class="event-content">
+    <div class="event-image">
+      <?php print render($content['field_ding_event_title_image']); ?>
+      <?php print render($content['field_ding_event_list_image']); ?>
+    </div>
+
     <?php
       // hide fields we have already rendered
-      hide($content['field_main_image']);
+      hide($content['field_ding_event_list_image']);
+      hide($content['field_ding_event_title_image']);
       hide($content['field_ding_event_category']);
-      hide($content['group_audience']);
-      hide($content['field_ding_event_manchet']);
+      hide($content['field_ding_event_library']);
+      hide($content['field_ding_event_lead']);
       hide($content['field_place2book_tickets']); //<-- field provided by optional module ding_place2book
-      hide($content['field_event_date']);
-      hide($content['field_address']);
+      hide($content['field_ding_event_date']);
+      hide($content['field_ding_event_location']);
       hide($content['field_ding_event_target']);
-      hide($content['field_event_ticket_price']);
-      
+      hide($content['field_ding_event_price']);
+
       // Hide fields that will be displayed as panel panes instead
       hide($content['comments']);
-      
+
       // Hide fields now so that we can render them later.
       hide($content['links']);
-      hide($content['ding_content_tags']);
+      hide($content['field_ding_event_tags']);
+
       print render($content);
     ?>
-  </article>
+  </div>
 
-  <hr/>
+  <footer class="event-footer">
+    <section class="event-tags">
+      <span class="event-category"><?php print render($content['field_ding_event_category']); ?></span>
+      <span class="event-library"><?php print render($content['field_ding_event_library']); ?></span>
 
-  <?php
-    // Remove the "Add new comment" link on the teaser page or if the comment
-    // form is being displayed on the same page.
-    if ($teaser || !empty($content['comments']['comment_form'])) {
-      unset($content['links']['comment']['#links']['comment-add']);
-    }
-    // Only display the wrapper div if there are links.
-    $links = render($content['links']);
-    if ($links):
-  ?>
-    <div class="link-wrapper">
-      <?php print $links; ?>
-    </div>
-  <?php endif; ?>
+      <?php if ($ddbasic_ding_event_tags): ?>
+        <?php $ddbasic_ding_event_tags; ?>
+      <?php endif; ?>
 
-  <?php if ($display_submitted): ?>
-    <footer class="row-fluid">
-        <?php print $user_picture; ?>
-        <div class="span10">
-            <h4>
-                <?php print $latto_byline; ?>
-                <?php print $name; ?>
-            </h4>
-            <p>
-                <i class="icon-time"></i>
-                <?php print $submitted; ?> • <?php print $latto_updated; ?>
-                <br>
-                <i class="icon-tag"></i>
-                <?php print $latto_ding_content_tags; ?>
-            </p>
+    </section>
+
+    <?php if ($display_submitted): ?>
+      <div class="signature">
+        <div class="signature-image"><?php print $user_picture; ?></div>
+        <div class="signature-info">
+          <p><span class="signature-label"><?php print t("Posted by:"); ?></span><?php print $name; ?></p>
+          <p><span class="signature-label"><?php print t("Posted at:"); ?></span><?php print $submitted ?></p>
+          <p><span class="signature-label"><?php print t("Last updated:"); ?></span><?php print $ddbasic_updated ?></p>
         </div>
-    </footer>
-      
-  <?php endif; ?>
-  
-</section>
+      </div>
+    <?php endif; ?>
+    
+    <?php
+      // Remove the "Add new comment" link on the teaser page or if the comment
+      // form is being displayed on the same page.
+      if ($teaser || !empty($content['comments']['comment_form'])) {
+        unset($content['links']['comment']['#links']['comment-add']);
+      }
+
+      // Only display the wrapper div if there are links.
+      $links = render($content['links']);
+      if ($links):
+    ?>
+
+      <div class="link-wrapper">
+        <?php print $links; ?>
+      </div>
+    <?php endif; ?>
+
+  </footer>
+</article>

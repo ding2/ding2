@@ -1,22 +1,50 @@
 ;----------// Theme Information
-  name        = DD Basic
-  description = A sub theme to Latto framework
+  name        = DDBasic
+  description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
-  base theme  = latto
+
 
 ;----------// Stylesheets
+  stylesheets[all][] = css/ddbasic.reset.css
+  stylesheets[all][] = css/ddbasic.font.awesome.css
+  stylesheets[all][] = css/ddbasic.styles.css
 
-  ; Unset Module CSS or other Stylesheets
-  ;
-  ; In your theme settings you can unset many stylesheets using the Unset CSS Extension. If for some
-  ; reason the file you want to unset is not showing, you can explicitly declare it here. Once you have
-  ; finished adding your declarations you must clear the sites cache, then go to your theme settings and
-  ; check the checkbox for the file, then save the theme settings and the file will be unset thereafter.
-  ;
-  ; Follow the syntax:
-  ;
-  ; unset_css[path/to/css/file.css] = 1
-  ;
-  ; For example to unset foobar_module.css you might use something like this:
-  ; unset_css[sites/all/modules/foobar_module/foobar_module.css] = 1
+  ; Override stylesheets
+  stylesheets[all][] = css/system.menus.css
+  stylesheets[all][] = css/system.messages.css
+  stylesheets[all][] = css/addressfield.css
+  stylesheets[all][] = css/date.css
+  stylesheets[all][] = css/jquery.ui.theme.css
+  stylesheets[all][] = css/jquery.ui.theme.min.css
+  stylesheets[all][] = css/jquery.ui.dialog.css
+  stylesheets[all][] = css/jquery.ui.dialog.min.css
+
+
+;----------// JavaScripts
+  scripts[] = scripts/jquery.cookie.js
+  scripts[] = scripts/ddbasic.topbar.menu.js
+  scripts[] = scripts/ddbasic.common.js
+  scripts[] = scripts/respond.min.js
+  scripts[] = scripts/jquery.scrollto.js
+
+
+;----------// Regions
+  regions[header]            = Header
+  regions[navigation]        = Navigation
+  regions[content_top]       = Content top
+  regions[content]           = Primary content
+  regions[secondary_content] = Secondary content
+  regions[tertiary_content]  = Tertiary content
+  regions[attachment_first]  = Attachment first
+  regions[attachment_second] = Attachment second
+  regions[attachment_third]  = Attachment third
+  regions[attachment_fourth] = Attachment fourth
+  regions[footer]            = Footer
+  regions[bottom]            = Bottom
+
+;----------// Information added by drush on 2013-04-24
+version = "development-dev"
+project = "ddbasic"
+datestamp = "1366825015"
+
