@@ -1,0 +1,89 @@
+/**
+ * Staff
+ *
+ * @author wiredloose
+ */
+
+.footable {
+  margin-bottom: $large-spacing;
+  border-radius: 0;
+}
+
+/* Staff list
+   ========================================================================== */
+
+.department-title,
+.staff-department-head {
+  background: $gray;
+  padding: $medium-spacing;
+  color: transparentize($black, .3);
+  font-family: $font-bold;
+  font-size: $font-size-large;
+  font-weight: $base-font-weight-bold;
+  text-align: left;
+}
+
+.staff-list {
+  margin-top: 0;
+  margin-bottom: $large-spacing;
+  padding-left: 0;
+
+  .staff-list-item {
+    overflow: hidden;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
+    position: relative;
+  }
+
+  .staff-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .staff-list-item:nth-child(even) {
+    @extend %article-background--even;
+  }
+
+  .staff-image-wrapper {
+    position: absolute;
+    width: 10%;
+  }
+
+  .staff-name-title {
+    margin-left:12%;
+  }
+
+  .staff-name-title,
+  .staff-contact {
+    float: left;
+    padding-bottom: $medium-spacing;
+    width: 40%;
+    max-width: 40%;
+  }
+
+  /* Media queries */  
+  @include small() {
+    .staff-image-wrapper {
+      width: 20%;
+    }
+        
+    .staff-name-title,
+    .staff-contact {
+      margin-left:25%;
+      width: 75%;
+      max-width: 75%;
+    }
+  }
+
+  @include medium() {
+    .staff-image-wrapper {
+      width: 15%;
+    }
+        
+    .staff-name-title {
+      margin-left:18%;
+    }
+  }
+
+}
