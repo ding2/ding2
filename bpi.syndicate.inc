@@ -172,6 +172,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
  *   - agency: content agency
  *   - audience: content audience
  *   - total_count: overall amount of items in the result
+ *   - assets: array of links representing the images content
  */
 function bpi_search_get_items() {
   $params = _bpi_build_query();
@@ -201,6 +202,7 @@ function bpi_search_get_items() {
       'agency' =>  isset($current_item['agency_id']) ? $current_item['agency_id'] : '',
       'audience' =>  isset($current_item['audience']) ? $current_item['audience'] : '',
       'total_count' => isset($response->total) ? $response->total : 0,
+      'assets' => ($item->getAssets()>0) ? $item->getAssets() : array(),
     );
   }
 

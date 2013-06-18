@@ -31,6 +31,14 @@
       </p>
     </div>
   </div>
+  <div class="item-indicate item-indicate-images">
+    <?php 
+      $variables = array();
+      $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets'])>0) ? 'photos' : 'no_photos') . '.png' ;
+      $variables['alt'] = (count($item['assets'])>0) ? 'Photos available for content' : 'No photos available for content';
+      echo theme_image($variables);
+    ?>
+  </div>
   <p class="item-action item-action-syndicate">
     <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']); ?>
   </p>
