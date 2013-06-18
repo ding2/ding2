@@ -18,3 +18,16 @@ function ding_staff_ctools_plugin_directory($module, $plugin) {
     return "plugins/$plugin";
   }
 }
+
+/**
+ * Implements hook_ding_library_menu_links().
+ */
+function ding_staff_ding_library_menu_links() {
+  return array(
+    'staff' => array(
+      'linktype' => 'general_view_linktype',
+      'title' => t('Staff'),
+      'weight' => 15,
+    ),
+  );
+}
