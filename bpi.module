@@ -70,7 +70,7 @@ function bpi_menu() {
 
   $menu['admin/bpi'] = array(
     'title' => 'BPI syndication',
-    'description' => 'Sindicate content from the well.',
+    'description' => 'Syndicate content from the well.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('bpi_syndicate_page_form'),
     'access arguments' => array('syndicate content'),
@@ -84,6 +84,14 @@ function bpi_menu() {
     'file' => 'bpi.syndicate.inc',
   );
 
+  $menu['admin/bpi/push_http/%'] = array(
+    'title' => 'Push to BPI',
+    'page arguments' => array(3),
+    'page callback' => 'http_bpi_push_action',
+    'access arguments' => array('push content'),
+    'file' => 'bpi.push.inc',
+  );
+  
   $menu['admin/bpi/push/nojs/%'] = array(
     'title' => 'Push to BPI',
     'page callback' => 'bpi_push_action',
@@ -428,6 +436,33 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
      'callback' => 'bpi_push_action_ajax_callback',
    );
   }
+
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    if (node_load(arg(1))->type == 'ding_news') {
+      $form['actions']['push'] = $form['actions']['submit'];
+      $form['actions']['push']['#value'] = t('Save && Push');
+      $form['actions']['push']['#submit'][] = 'push_directly_callback_action';
+    }
+  }
+}
+
+/**
+ * Custom submit form for "Save and Push" function.
+ *
+ * @param array $form
+ *   Form structure.
+ * @param array $form_state
+ *   Form state values.
+ */
+function push_directly_callback_action(&$form, &$form_state) {
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+      // arg(1) is the node id.
+      module_load_include('inc', 'bpi', 'bpi.push');
+      // Unset and re-set destination.
+      unset($_GET['destination']);
+      drupal_static_reset('drupal_get_destination');
+      $_GET['destination'] = 'admin/bpi/push_http/' . arg(1);
+    }
 }
 
 /**
