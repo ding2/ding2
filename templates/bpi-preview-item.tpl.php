@@ -1,17 +1,14 @@
 <?php
 /**
  * @file
- * Single item template.
+ * Single item preview template.
  */
-drupal_add_library('system', 'drupal.ajax');
-drupal_add_library('system', 'jquery.form');
-drupal_add_library('system', 'ui.dialog');
-
 ?>
-<div class="bpi-item bpi-single-well-item">
+<div class="bpi-item bpi-single-preview-item">
   <h3 class="item-title"><?php echo $item['title']; ?></h3>
-  <span class="item-date"><?php echo $item['date']; ?></span>
+  <span class="item-date"><?php echo $item['creation']; ?></span>
   <p class="item-teaser"><?php echo $item['teaser']; ?></p>
+  <p class="item-body"><?php echo $item['body']; ?></p>
   <div class="item-filters item-details">
     <div class="details-left">
       <p class="item-details-author">
@@ -20,7 +17,7 @@ drupal_add_library('system', 'ui.dialog');
       </p>
       <p class="item-details-agency">
         <span class="item-details-agency-label details-label"><?php echo bpi_label_mapper('agency'); ?>: </span>
-        <span class="item-details-agency-value details-value"><?php echo l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency']))); ?></span>
+        <span class="item-details-agency-value details-value"><?php echo l($item['agency_id'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))); ?></span>
       </p>
     </div>
     <div class="details-right">
@@ -34,10 +31,7 @@ drupal_add_library('system', 'ui.dialog');
       </p>
     </div>
   </div>
-  <p class="item-action item-action-preview">
-    <?php echo l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax'))); ?>
-  </p>
   <p class="item-action item-action-syndicate">
-    <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']); ?>
+    <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['id']); ?>
   </p>
 </div>

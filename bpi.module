@@ -77,6 +77,14 @@ function bpi_menu() {
     'file' => 'bpi.syndicate.inc',
   );
 
+  $menu['admin/bpi/preview/%/%'] = array(
+    'page callback' => 'admin_bpi_preview_ajax_callback',
+    'page arguments' => array(3, 4),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'bpi.preview.inc',
+  );
+
   $menu['admin/bpi/syndicate/%'] = array(
     'page callback' => 'bpi_syndicate_action',
     'page arguments' => array(3),
@@ -205,6 +213,12 @@ function bpi_theme($existing, $type, $theme, $path) {
     'variables' => array(),
     'path' => $path . '/templates/',
     'template' => 'bpi-filter-item',
+  );
+
+  $hooks['bpi_preview_item'] = array(
+    'variables' => array(),
+    'path' => $path . '/templates/',
+    'template' => 'bpi-preview-item',
   );
 
   return $hooks;
