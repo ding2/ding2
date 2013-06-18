@@ -13,6 +13,7 @@ dependencies[] = footable
 dependencies[] = og
 dependencies[] = page_manager
 dependencies[] = profile2
+dependencies[] = views
 dependencies[] = views_bulk_operations
 dependencies[] = views_content
 features[ctools][] = field_group:field_group:1

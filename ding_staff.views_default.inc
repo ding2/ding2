@@ -353,6 +353,117 @@ function ding_staff_views_default_views() {
 
   /* Display: Library staff list */
   $handler = $view->new_display('panel_pane', 'Library staff list', 'ding_staff_list_library');
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'footable';
+  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['columns'] = array(
+    'user' => 'user',
+    'field_ding_staff_forename' => 'field_ding_staff_forename',
+    'field_ding_staff_image' => 'field_ding_staff_surname',
+    'field_ding_staff_surname' => 'field_ding_staff_surname',
+    'field_ding_staff_position' => 'field_ding_staff_surname',
+    'field_ding_staff_department' => 'field_ding_staff_department',
+    'field_ding_staff_phone' => 'field_ding_staff_phone',
+    'field_ding_staff_email' => 'field_ding_staff_email',
+  );
+  $handler->display->display_options['style_options']['default'] = 'field_ding_staff_surname';
+  $handler->display->display_options['style_options']['info'] = array(
+    'user' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_forename' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_image' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_surname' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_position' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_department' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_phone' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_ding_staff_email' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
+  $handler->display->display_options['style_options']['sticky'] = TRUE;
+  $handler->display->display_options['style_options']['footable'] = array(
+    'expand' => 'field_ding_staff_surname',
+    'hide' => array(
+      'user' => array(
+        'phone' => 0,
+        'tablet' => 0,
+      ),
+      'field_ding_staff_forename' => array(
+        'phone' => 0,
+        'tablet' => 0,
+      ),
+      'field_ding_staff_image' => array(
+        'phone' => 0,
+        'tablet' => 0,
+      ),
+      'field_ding_staff_surname' => array(
+        'phone' => 0,
+        'tablet' => 0,
+      ),
+      'field_ding_staff_position' => array(
+        'phone' => 'phone',
+        'tablet' => 'tablet',
+      ),
+      'field_ding_staff_department' => array(
+        'phone' => 'phone',
+        'tablet' => 0,
+      ),
+      'field_ding_staff_phone' => array(
+        'phone' => 0,
+        'tablet' => 0,
+      ),
+      'field_ding_staff_email' => array(
+        'phone' => 'phone',
+        'tablet' => 0,
+      ),
+    ),
+  );
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: User uid (excluded) */
@@ -379,18 +490,13 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_image']['field'] = 'field_ding_staff_image';
   $handler->display->display_options['fields']['field_ding_staff_image']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_wrapper_class'] = 'staff-image-wrapper';
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_staff_image']['type'] = 'cs_adaptive_image';
   $handler->display->display_options['fields']['field_ding_staff_image']['settings'] = array(
+    'image_style' => 'ding_staff_thumbnail',
     'image_link' => '',
-    'styles' => array(
-      'breakpoint_1' => '',
-      'style_1' => '',
-      'breakpoint_2' => '',
-      'style_2' => '',
-      'max_style' => 'ding_staff_thumbnail',
-      'fallback_style' => 'ding_staff_thumbnail',
-    ),
   );
   /* Field: Surname Forename (Link) */
   $handler->display->display_options['fields']['field_ding_staff_surname']['id'] = 'field_ding_staff_surname';
@@ -402,12 +508,20 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_surname], [field_ding_staff_forename]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alt'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['link_class'] = 'staff-name';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_staff_surname']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_surname']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_surname']['type'] = 'text_plain';
   /* Field: Profile: Position */
   $handler->display->display_options['fields']['field_ding_staff_position']['id'] = 'field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['table'] = 'field_data_field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['field'] = 'field_ding_staff_position';
+  $handler->display->display_options['fields']['field_ding_staff_position']['element_type'] = 'div';
   $handler->display->display_options['fields']['field_ding_staff_position']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_position']['element_default_classes'] = FALSE;
   /* Field: Profile: Department */
   $handler->display->display_options['fields']['field_ding_staff_department']['id'] = 'field_ding_staff_department';
   $handler->display->display_options['fields']['field_ding_staff_department']['table'] = 'field_data_field_ding_staff_department';
@@ -415,6 +529,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_department']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_department']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_ding_staff_department']['delta_offset'] = '0';
+  $handler->display->display_options['fields']['field_ding_staff_department']['separator'] = '<br/>';
   /* Field: Profile: Phone */
   $handler->display->display_options['fields']['field_ding_staff_phone']['id'] = 'field_ding_staff_phone';
   $handler->display->display_options['fields']['field_ding_staff_phone']['table'] = 'field_data_field_ding_staff_phone';
@@ -456,8 +571,9 @@ function ding_staff_views_default_views() {
 
   /* Display: Library departments list */
   $handler = $view->new_display('panel_pane', 'Library departments list', 'ding_staff_library_departments');
+  $handler->display->display_options['display_description'] = 'Department grouped list, not using tables';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'footable';
+  $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['grouping'] = array(
     0 => array(
       'field' => 'field_ding_staff_department',
@@ -465,116 +581,14 @@ function ding_staff_views_default_views() {
       'rendered_strip' => 0,
     ),
   );
+  $handler->display->display_options['style_options']['row_class'] = 'list staff-list-item';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_ding_staff_department' => 'field_ding_staff_department',
-    'user' => 'user',
-    'field_ding_staff_forename' => 'field_ding_staff_forename',
-    'field_ding_staff_image' => 'field_ding_staff_surname',
-    'field_ding_staff_surname' => 'field_ding_staff_surname',
-    'field_ding_staff_position' => 'field_ding_staff_position',
-    'field_ding_staff_phone' => 'field_ding_staff_phone',
-    'field_ding_staff_email' => 'field_ding_staff_email',
-  );
-  $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_ding_staff_department' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'user' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ding_staff_forename' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ding_staff_image' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ding_staff_surname' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ding_staff_position' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ding_staff_phone' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ding_staff_email' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
-  $handler->display->display_options['style_options']['sticky'] = TRUE;
-  $handler->display->display_options['style_options']['footable'] = array(
-    'expand' => 'field_ding_staff_surname',
-    'hide' => array(
-      'field_ding_staff_department' => array(
-        'phone' => 'phone',
-        'tablet' => 0,
-      ),
-      'user' => array(
-        'phone' => 0,
-        'tablet' => 0,
-      ),
-      'field_ding_staff_forename' => array(
-        'phone' => 0,
-        'tablet' => 0,
-      ),
-      'field_ding_staff_image' => array(
-        'phone' => 0,
-        'tablet' => 0,
-      ),
-      'field_ding_staff_surname' => array(
-        'phone' => 0,
-        'tablet' => 0,
-      ),
-      'field_ding_staff_position' => array(
-        'phone' => 'phone',
-        'tablet' => 'tablet',
-      ),
-      'field_ding_staff_phone' => array(
-        'phone' => 0,
-        'tablet' => 0,
-      ),
-      'field_ding_staff_email' => array(
-        'phone' => 'phone',
-        'tablet' => 0,
-      ),
-    ),
-  );
+  $handler->display->display_options['style_options']['class'] = 'list staff-list';
+  $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Profile: Department (field_ding_staff_department) */
@@ -589,7 +603,12 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_department']['ui_name'] = 'Department (for group header)(excluded)';
   $handler->display->display_options['fields']['field_ding_staff_department']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_department']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_staff_department']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_department']['element_class'] = 'staff-list-department';
   $handler->display->display_options['fields']['field_ding_staff_department']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_department']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_department']['element_wrapper_class'] = 'staff-list-department';
+  $handler->display->display_options['fields']['field_ding_staff_department']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_department']['type'] = 'taxonomy_term_reference_plain';
   $handler->display->display_options['fields']['field_ding_staff_department']['group_rows'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_department']['delta_offset'] = '0';
@@ -616,46 +635,60 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_image']['table'] = 'field_data_field_ding_staff_image';
   $handler->display->display_options['fields']['field_ding_staff_image']['field'] = 'field_ding_staff_image';
   $handler->display->display_options['fields']['field_ding_staff_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_staff_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_wrapper_class'] = 'staff-image-wrapper';
+  $handler->display->display_options['fields']['field_ding_staff_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_staff_image']['type'] = 'cs_adaptive_image';
   $handler->display->display_options['fields']['field_ding_staff_image']['settings'] = array(
+    'image_style' => 'ding_staff_thumbnail',
     'image_link' => '',
-    'styles' => array(
-      'breakpoint_1' => '',
-      'style_1' => '',
-      'breakpoint_2' => '',
-      'style_2' => '',
-      'max_style' => 'ding_staff_thumbnail',
-      'fallback_style' => 'ding_staff_thumbnail',
-    ),
   );
-  /* Field: Surname Forename (Link) */
+  /* Field: Forename Surname (Link) */
   $handler->display->display_options['fields']['field_ding_staff_surname']['id'] = 'field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['table'] = 'field_data_field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['field'] = 'field_ding_staff_surname';
-  $handler->display->display_options['fields']['field_ding_staff_surname']['ui_name'] = 'Surname Forename (Link)';
-  $handler->display->display_options['fields']['field_ding_staff_surname']['label'] = 'Name';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['ui_name'] = 'Forename Surname (Link)';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_surname], [field_ding_staff_forename]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alt'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_staff_surname']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_surname']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['element_wrapper_class'] = 'staff-name';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_surname']['type'] = 'text_plain';
   /* Field: Profile: Position */
   $handler->display->display_options['fields']['field_ding_staff_position']['id'] = 'field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['table'] = 'field_data_field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['field'] = 'field_ding_staff_position';
+  $handler->display->display_options['fields']['field_ding_staff_position']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_staff_position']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_staff_position']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_position']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_position']['element_wrapper_class'] = 'staff-position';
+  $handler->display->display_options['fields']['field_ding_staff_position']['element_default_classes'] = FALSE;
   /* Field: Profile: Phone */
   $handler->display->display_options['fields']['field_ding_staff_phone']['id'] = 'field_ding_staff_phone';
   $handler->display->display_options['fields']['field_ding_staff_phone']['table'] = 'field_data_field_ding_staff_phone';
   $handler->display->display_options['fields']['field_ding_staff_phone']['field'] = 'field_ding_staff_phone';
-  $handler->display->display_options['fields']['field_ding_staff_phone']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_phone']['label'] = 'Ph';
+  $handler->display->display_options['fields']['field_ding_staff_phone']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_ding_staff_phone']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_phone']['element_wrapper_class'] = 'staff-phone';
+  $handler->display->display_options['fields']['field_ding_staff_phone']['element_default_classes'] = FALSE;
   /* Field: Profile: Email */
   $handler->display->display_options['fields']['field_ding_staff_email']['id'] = 'field_ding_staff_email';
   $handler->display->display_options['fields']['field_ding_staff_email']['table'] = 'field_data_field_ding_staff_email';
   $handler->display->display_options['fields']['field_ding_staff_email']['field'] = 'field_ding_staff_email';
-  $handler->display->display_options['fields']['field_ding_staff_email']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_staff_email']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_ding_staff_email']['element_wrapper_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_staff_email']['element_wrapper_class'] = 'staff-email';
+  $handler->display->display_options['fields']['field_ding_staff_email']['element_default_classes'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Taxonomy term: Weight */
   $handler->display->display_options['sorts']['weight']['id'] = 'weight';
@@ -684,6 +717,15 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'staff' => 'staff',
   );
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'ding_library_nid' => array(
       'type' => 'panel',
@@ -722,9 +764,12 @@ function ding_staff_views_default_views() {
     t('Staff list'),
     t('View panes'),
     t('Library staff list'),
+    t('[field_ding_staff_forename] [field_ding_staff_surname]'),
     t('All'),
     t('Library departments list'),
+    t('Department grouped list, not using tables'),
     t('term from field_ding_staff_department'),
+    t('Ph'),
   );
   $export['ding_staff'] = $view;
 
