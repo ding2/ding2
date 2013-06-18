@@ -40,7 +40,7 @@ function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
     $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
     $bpi_node = $bpi->getNode($bpi_id);
     $bpi_content = $bpi_node->getProperties();
-    }
+  }
   catch (Exception $e) {
     watchdog(
       'bpi',
@@ -60,11 +60,11 @@ function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
   if ($type == 'ajax') {
     $commands = array();
     $commands[] = ajax_command_ding_popup(
-          'bpi-push',
-          t('Push to BPI'),
-          $output,
-          array('refresh' => TRUE)
-        );
+      'bpi-push',
+      t('Push to BPI'),
+      $output,
+      array('refresh' => TRUE)
+    );
     $page = array('#type' => 'ajax', '#commands' => $commands);
     ajax_deliver($page);
   }
