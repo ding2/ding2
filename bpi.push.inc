@@ -47,6 +47,139 @@ function bpi_push_action($type, $nid) {
     return $push_form;
   }
 }
+/**
+ * BPI http action, with no ajax functionality.
+ *
+ * @param int $nid
+ *   The node id, waiting to be pushed.
+ * @return array
+ *   Form structure.
+ *
+ */
+function http_bpi_push_action($nid) {
+  return drupal_get_form('http_bpi_push_action_form', $nid);
+}
+/**
+ * BPI http push form, used in save and push on node/edit page.
+ *
+ * @param array $form
+ *   Form structure.
+ * @param array $form_state
+ *   Form state values.
+ * @param int $nid
+ *   The node id, waiting to be pushed.
+ * @return array
+ *   Form structure.
+ *
+ * @ingroup forms
+ */
+function http_bpi_push_action_form($form, &$form_state, $nid) {
+  $node_title = '';
+  if (!empty($nid)) {
+    $node = node_load($nid);
+    $node_title = $node->title;
+  }
+
+  $form['bpi_push_nid'] = array(
+    '#type' => 'hidden',
+    '#value' => isset($nid) ? $nid : 0,
+  );
+
+  $dictionaries = bpi_get_bpi_dictionaries();
+
+  $categories = array_values($dictionaries['category']);
+  $form['bpi_push_category'] = array(
+    '#type' => 'select',
+    '#title' => t('Category'),
+    '#options' => array_combine($categories, $categories),
+    '#default_value' => ','
+  );
+
+  $audiences = array_values($dictionaries['audience']);
+  $form['bpi_push_audience'] = array(
+    '#type' => 'select',
+    '#title' => t('Audience'),
+    '#options' => array_combine($audiences, $audiences),
+    '#default_value' => ','
+  );
+
+  $form['bpi_push_images'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Push with images'),
+  );
+
+  $form['bpi_push_ccl'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Written under Creative Commons License'),
+  );
+
+  return confirm_form(
+    $form,
+    t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
+    'admin/content'
+  );
+}
+/**
+ * Submit handler for the  push node form on node/edit page.
+ *
+ * @see bpi_push_form()
+ *
+ * @param array $form
+ *   Form structure.
+ * @param array $form_state
+ *   Form state values.
+ *
+ * @ingroup forms
+ */
+function http_bpi_push_action_form_submit($form, &$form_state) {
+  $nid = $form_state['input']['bpi_push_nid'];
+  $category = $form_state['input']['bpi_push_category'];
+  $audience = $form_state['input']['bpi_push_audience'];
+  $with_images = $form_state['input']['bpi_push_images'];
+  $authorship = $form_state['input']['bpi_push_ccl'];
+  if (empty($nid)) {
+    return;
+  }
+  $node = node_load($nid);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship);
+
+  $endpoint = variable_get('bpi_service_url', '');
+  $agency_id = variable_get('bpi_agency_id', '');
+  $api_key = variable_get('bpi_api_key', '');
+  $secret_key = variable_get('bpi_secret_key', '');
+
+  try {
+    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $push_result = $bpi->push($bpi_content)->getProperties();
+
+    if (!empty($push_result['id'])) {
+      db_merge('bpi_syndicated')
+        ->fields(array(
+          'nid' => $nid,
+          'bid' => $push_result['id'],
+          'status' => BPI_PUSHED,
+          'timestamp' => time(),
+        ))
+        ->condition('nid', $nid, '=')
+        ->execute();
+      drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
+    }
+    global $base_url;
+    drupal_goto($base_url . '/admin/bpi');
+  }
+  catch (Exception $e) {
+    watchdog(
+      'bpi',
+      t('Failed to push node %title, with message %message.'),
+      array(
+        '%title' => $node->title,
+        '%message' => $e->getMessage()
+      ),
+      WATCHDOG_ERROR
+    );
+    drupal_set_message(t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
+  }
+}
 
 /**
  * BPI push form.
