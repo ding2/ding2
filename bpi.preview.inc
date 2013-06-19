@@ -42,8 +42,9 @@ function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
     $bpi_content = $bpi_node->getProperties();
   }
   catch (Exception $e) {
-    watchdog(
+    watchdog_exception(
       'bpi',
+      $e,
       t('Error when syndicating node %title with message %message'),
       array(
         '%title' => $bpi_content['title'],
