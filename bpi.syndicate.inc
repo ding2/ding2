@@ -191,6 +191,7 @@ function bpi_search_get_items() {
 
   foreach ($response as $item) {
     $current_item = $item->getProperties();
+    $assets = $item->getAssets();
     $bpi_nodes[] = array(
       'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
       'title' =>  isset($current_item['title']) ? $current_item['title'] : '',
@@ -202,7 +203,7 @@ function bpi_search_get_items() {
       'agency' =>  isset($current_item['agency_id']) ? $current_item['agency_id'] : '',
       'audience' =>  isset($current_item['audience']) ? $current_item['audience'] : '',
       'total_count' => isset($response->total) ? $response->total : 0,
-      'assets' => ($item->getAssets()>0) ? $item->getAssets() : array(),
+      'assets' => (count($assets)>0) ? $item->getAssets() : array(),
     );
   }
 
