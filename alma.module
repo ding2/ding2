@@ -6,6 +6,10 @@
 
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 
+// Define date formats used by Alma
+define('ALMA_DATE', 'Y-m-d');
+define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
+
 /**
  * Get list of pickup branches.
  */
@@ -273,22 +277,22 @@ function alma_profile2_presave($entity) {
     $value = $wrapper->field_alma_reservation_pause->value();
     $start = '';
     if (!is_null($value['value'])) {
-      $start = date('Y-m-d', strtotime($value['value']));
+      $start = date(ALMA_DATE, strtotime($value['value']));
     }
     $stop = '';
     if (!is_null($value['value2'])) {
-      $stop = date('Y-m-d', strtotime($value['value2']));
+      $stop = date(ALMA_DATE, strtotime($value['value2']));
     }
 
     // Reservation pause (Stop)
     $value = $wrapper_original->field_alma_reservation_pause->value();
     $org_start = '';
     if (!is_null($value['value'])) {
-      $org_start = date('Y-m-d', strtotime($value['value']));
+      $org_start = date(ALMA_DATE, strtotime($value['value']));
     }
     $org_stop = '';
     if (!is_null($value['value2'])) {
-      $org_stop = date('Y-m-d', strtotime($value['value2']));
+      $org_stop = date(ALMA_DATE, strtotime($value['value2']));
     }
 
     // Check if the reservation pause have changed.
@@ -374,7 +378,7 @@ function alma_update_provider($changes, $entity) {
     $creds = ding_user_get_creds($entity);
   }
   catch (Exception $exception) {
-    watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+    watchdog_exception('Alma provider', $exception);
     throw $exception;
   }
 
@@ -386,7 +390,7 @@ function alma_update_provider($changes, $entity) {
         $res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
       }
       catch (Exception $exception) {
-        watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+        watchdog_exception('Alma provider', $exception);
       }
 
       if (empty($res)) {
@@ -400,7 +404,7 @@ function alma_update_provider($changes, $entity) {
         $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
       }
       catch (Exception $exception) {
-        watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+        watchdog_exception('Alma provider', $exception);
       }
 
       if (!$res) {
@@ -415,7 +419,7 @@ function alma_update_provider($changes, $entity) {
       $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile']);
     }
     catch (Exception $exception) {
-      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+      watchdog_exception('Alma provider', $exception);
     }
     if (!$res) {
       $error_message .= t('mobile not added');
@@ -432,7 +436,7 @@ function alma_update_provider($changes, $entity) {
       $res =  alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
     catch (Exception $exception) {
-      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+      watchdog_exception('Alma provider', $exception);
     }
     if (empty($res)) {
       $error_message .= t('reservation pause not updated');
@@ -445,7 +449,7 @@ function alma_update_provider($changes, $entity) {
       $res = alma_client_invoke('add_absent_period', $creds['name'], $creds['pass'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
     catch (Exception $exception) {
-      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+      watchdog_exception('Alma provider', $exception);
     }
     if (empty($res)) {
       $error_message .= t('reservation pause not added');
@@ -458,7 +462,7 @@ function alma_update_provider($changes, $entity) {
       $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
     }
     catch (Exception $exception) {
-      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+      watchdog_exception('Alma provider', $exception);
     }
   }
 
@@ -468,7 +472,7 @@ function alma_update_provider($changes, $entity) {
       $res = alma_client_invoke('change_patron_preferences', $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
     catch (Exception $exception) {
-      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+      watchdog_exception('Alma provider', $exception);
     }
     if (empty($res)) {
       $error_message .= t('pickup branch not saved');
@@ -492,7 +496,7 @@ function alma_update_provider($changes, $entity) {
       }
     }
     catch (Exception $exception) {
-      watchdog('Alma provider', $exception->getMessage(), array(), WATCHDOG_ERROR);
+      watchdog_exception('Alma provider', $exception);
     }
 
     if (empty($res)) {
@@ -603,8 +607,8 @@ function alma_profile2_load($entities) {
       if (isset($patron->absentPeriods[0]) &&
           isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
         $wrapper->field_alma_reservation_pause->set(array(
-          'value' => date('Y-m-d m:i:s', strtotime($patron->absentPeriods[0]['from_date'])),
-          'value2' => date('Y-m-d m:i:s', strtotime($patron->absentPeriods[0]['to_date'])),
+          'value' => date(ALMA_DATE_LONG, strtotime($patron->absentPeriods[0]['from_date'])),
+          'value2' => date(ALMA_DATE_LONG, strtotime($patron->absentPeriods[0]['to_date'])),
         ));
         $wrapper->field_alma_absent_id->set($patron->absentPeriods[0]['id']);
       }
