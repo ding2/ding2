@@ -213,7 +213,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   // Build the reservation parameters to send.
   $params = array(
     'id' => $id,
-    'valid_from' => date('Y-m-d'),
+    'valid_from' => date(ALMA_DATE),
     'valid_to' => alma_reservation_format_date(time() + $expiry),
     'pickup_branch' => $branch,
   );
@@ -405,8 +405,8 @@ function alma_reservation_exists($account, $item_id) {
  * @param int $expiry
  *  The number of secounds into the feature we need at date.
  * @return string
- *  The date in the feature in the format 'Y-m-d'.
+ *  The date in the feature in the format 'Y-m-d' (ALMA_DATE).
  */
 function alma_reservation_format_date($expiry) {
-  return date('Y-m-d', $expiry);
+  return date(ALMA_DATE, $expiry);
 }

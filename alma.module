@@ -6,6 +6,10 @@
 
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 
+// Define date formats used by Alma
+define('ALMA_DATE', 'Y-m-d');
+define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
+
 /**
  * Get list of pickup branches.
  */
@@ -273,22 +277,22 @@ function alma_profile2_presave($entity) {
     $value = $wrapper->field_alma_reservation_pause->value();
     $start = '';
     if (!is_null($value['value'])) {
-      $start = date('Y-m-d', strtotime($value['value']));
+      $start = date(ALMA_DATE, strtotime($value['value']));
     }
     $stop = '';
     if (!is_null($value['value2'])) {
-      $stop = date('Y-m-d', strtotime($value['value2']));
+      $stop = date(ALMA_DATE, strtotime($value['value2']));
     }
 
     // Reservation pause (Stop)
     $value = $wrapper_original->field_alma_reservation_pause->value();
     $org_start = '';
     if (!is_null($value['value'])) {
-      $org_start = date('Y-m-d', strtotime($value['value']));
+      $org_start = date(ALMA_DATE, strtotime($value['value']));
     }
     $org_stop = '';
     if (!is_null($value['value2'])) {
-      $org_stop = date('Y-m-d', strtotime($value['value2']));
+      $org_stop = date(ALMA_DATE, strtotime($value['value2']));
     }
 
     // Check if the reservation pause have changed.
@@ -603,8 +607,8 @@ function alma_profile2_load($entities) {
       if (isset($patron->absentPeriods[0]) &&
           isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
         $wrapper->field_alma_reservation_pause->set(array(
-          'value' => date('Y-m-d m:i:s', strtotime($patron->absentPeriods[0]['from_date'])),
-          'value2' => date('Y-m-d m:i:s', strtotime($patron->absentPeriods[0]['to_date'])),
+          'value' => date(ALMA_DATE_LONG, strtotime($patron->absentPeriods[0]['from_date'])),
+          'value2' => date(ALMA_DATE_LONG, strtotime($patron->absentPeriods[0]['to_date'])),
         ));
         $wrapper->field_alma_absent_id->set($patron->absentPeriods[0]['id']);
       }
