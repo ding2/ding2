@@ -557,9 +557,11 @@ function ting_collection_page_view($object) {
 
 /**
  * Page title callback.
+ * 
+ * Strips chars '<' and '>' in order to avoid HTML injections. 
  */
 function ting_page_title($object) {
-  return htmlspecialchars($object->title, ENT_NOQUOTES, 'UTF-8');
+  return str_replace('&amp;', '&', htmlspecialchars($object->title, ENT_NOQUOTES, 'UTF-8'));
 }
 
 /**
