@@ -72,9 +72,9 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
  * Search query string.
  */
 function ting_new_materials_build_search_query($new_materials_node) {
-  $query_field = field_get_items('node', $new_materials_node, 'field_search_string');
+  $query_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_search');
   $query = $query_field[0]['value'];
-  $number_of_months_field = field_get_items('node', $new_materials_node, 'field_limit_period');
+  $number_of_months_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_limit');
   $number_of_months = $number_of_months_field[0]['value']; 
   
   $query .= make_limit_query($number_of_months );

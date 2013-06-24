@@ -10,14 +10,14 @@
 function ting_new_materials_field_default_fields() {
   $fields = array();
 
-  // Exported field: 'node-new_materials-field_limit_period'.
-  $fields['node-new_materials-field_limit_period'] = array(
+  // Exported field: 'node-new_materials-field_ting_new_materials_limit'.
+  $fields['node-new_materials-field_ting_new_materials_limit'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_limit_period',
+      'field_name' => 'field_ting_new_materials_limit',
       'foreign keys' => array(),
       'indexes' => array(),
       'locked' => '0',
@@ -32,11 +32,11 @@ function ting_new_materials_field_default_fields() {
       'bundle' => 'new_materials',
       'default_value' => array(
         0 => array(
-          'value' => '3',
+          'value' => '0',
         ),
       ),
       'deleted' => '0',
-      'description' => 'Limits how the number of months worth of new materials there are shown. E.g. value of 3  means results from current month and the last three are shown. If left empty users can see all results of a query sorted newest first.',
+      'description' => 'Limits how the number of months worth of new materials there are shown. E.g. value of 3  means results from current month and the last three are shown. If left empty users can see all results of a query sorted newest first',
       'display' => array(
         'default' => array(
           'label' => 'above',
@@ -48,7 +48,7 @@ function ting_new_materials_field_default_fields() {
             'thousand_separator' => ' ',
           ),
           'type' => 'number_integer',
-          'weight' => 2,
+          'weight' => 1,
         ),
         'teaser' => array(
           'label' => 'above',
@@ -56,14 +56,20 @@ function ting_new_materials_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_limit_period',
+      'field_name' => 'field_ting_new_materials_limit',
       'label' => 'Limit period',
       'required' => 0,
       'settings' => array(
         'max' => '12',
-        'min' => '',
+        'min' => '0',
         'prefix' => '',
         'suffix' => '',
         'user_register_form' => FALSE,
@@ -73,19 +79,19 @@ function ting_new_materials_field_default_fields() {
         'module' => 'number',
         'settings' => array(),
         'type' => 'number',
-        'weight' => '33',
+        'weight' => '32',
       ),
     ),
   );
 
-  // Exported field: 'node-new_materials-field_search_string'.
-  $fields['node-new_materials-field_search_string'] = array(
+  // Exported field: 'node-new_materials-field_ting_new_materials_search'.
+  $fields['node-new_materials-field_ting_new_materials_search'] = array(
     'field_config' => array(
       'active' => '1',
       'cardinality' => '1',
       'deleted' => '0',
       'entity_types' => array(),
-      'field_name' => 'field_search_string',
+      'field_name' => 'field_ting_new_materials_search',
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -127,10 +133,16 @@ function ting_new_materials_field_default_fields() {
           'type' => 'hidden',
           'weight' => 0,
         ),
+        'teaser_highlight' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_search_string',
-      'label' => 'Search string',
+      'field_name' => 'field_ting_new_materials_search',
+      'label' => 'Search query',
       'required' => 1,
       'settings' => array(
         'text_processing' => '0',
@@ -151,9 +163,9 @@ function ting_new_materials_field_default_fields() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Limit period');
-  t('Limits how the number of months worth of new materials there are shown. E.g. value of 3  means results from current month and the last three are shown. If left empty users can see all results of a query sorted newest first.');
+  t('Limits how the number of months worth of new materials there are shown. E.g. value of 3  means results from current month and the last three are shown. If left empty users can see all results of a query sorted newest first');
+  t('Search query');
   t('Search query used to get new materials. In order to get rid of non relevant posts use following syntax: query AND NOT (id OR id) where faustnumber is the id of the posts to exclude. E.g. "krimi bog engelsk AND NOT  (25863690 OR 29258341)"');
-  t('Search string');
 
   return $fields;
 }

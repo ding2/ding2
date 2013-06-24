@@ -21,6 +21,7 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
   $title = $new_materials_node->title;
   $search_results = ting_new_materials_get_new_materials_posts($new_materials_node);
   
+  $number_of_results = '';
   global $pager_page_array, $pager_total;
   if ($pager_total[0] == TRUE) {
     $results = drupal_static('ting_search_results');

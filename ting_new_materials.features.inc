@@ -13,7 +13,7 @@ function ting_new_materials_node_info() {
     'new_materials' => array(
       'name' => t('New Materials'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Creates a list of new materials'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
