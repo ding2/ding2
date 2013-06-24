@@ -4,12 +4,12 @@ api = 2
 ; Projects
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
-projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
+projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
 projects[ding_page][download][branch] = "master"
 
 projects[ding_path_alias][type] = "module"
 projects[ding_path_alias][download][type] = "git"
-projects[ding_path_alias][download][url] = "git@github.com:ding2/ding_path_alias.git"
+projects[ding_path_alias][download][url] = "git@github.com:ding2tal/ding_path_alias.git"
 projects[ding_path_alias][download][branch] = "master"
 
 projects[cache_actions][subdir] = "contrib"
