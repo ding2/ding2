@@ -56,3 +56,26 @@ If you want a developer version with Git working copies, run this command instea
 
 Next go to your sites URL and run the ding2 installation profile.
 
+### Faster build process (~6 min)
+
+The ding2 makefiles utilizes recursive makefiles, which results in the projects
+and libraries being download more than once. You can work around this by cloning
+the http://github.com/ding2/drush-ding2-utils into your .drush folder.
+
+    ~$ cd ~/.drush
+    ~$ git clone https://github.com/ding2/drush-ding2-utils drush-ding2-utils
+
+Next go back to the profile folder.
+
+    ~$ cd DRUPAL/profiles/ding2
+
+Use the command below and you will only download resources once during the build
+process and only the first defined version.
+
+    ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
+
+This trick uses the drush cache and to build once more within 10 min you will
+need to clear the cache. This also applies if the build fails and you need to
+rebuild.
+
+    ~$ drush cc drush
