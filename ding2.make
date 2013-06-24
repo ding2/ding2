@@ -85,5 +85,5 @@ projects[ddbasic][download][branch] = "development"
 ; Libraries
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
-libraries[profiler][download][revision] = "d0137cb42bc7a4e9ce0a0431f875806285d09758"
+libraries[profiler][download][tag] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
