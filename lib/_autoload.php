@@ -49,6 +49,8 @@ class SimpleSAML_Auth_Simple {
   }
   
   private function setAttributes($attributes){
+    //enrich attriubutes with login_type
+    $attributes['login_type'] = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
     $_SESSION['wayf_login'] = $attributes;
   }
 
