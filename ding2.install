@@ -7,35 +7,126 @@
  * Perform actions to set up the site for this profile.
  */
 function ding2_install() {
-  // Enable ting search as default.
-  variable_set('search_active_modules', array(
-      'node' => 'node',
-      'ting_search' => 'ting_search',
-      'user' => 0,
-      'mkdru' => 'mkdru',
-    ));
-  variable_set('search_default_module', 'ting_search');
+  // Set default variables.
+  $default_theme = 'ddbasic';
+  $admin_theme = 'seven';
 
-  // Enable the panel pages for ting objects and search.
-  variable_set('ting_ting_object_disabled', FALSE);
-  variable_set('ting_ting_collection_disabled', FALSE);
-  variable_set('page_manager_search_disabled_ting_search', FALSE);
 
-  // Allow visitor account creation, but with administrative approval.
-  variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
+  //
+  // Disable all themes and only active default and admin themes.
+  //
+  db_update('system')
+    ->fields(array('status' => 0))
+    ->condition('type', 'theme')
+    ->execute();
 
-  // Enable default permissions for system roles.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
+  // Enable $default_theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', $default_theme)
+    ->execute();
 
+  // Enable $admin_theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', $admin_theme)
+    ->execute();
+  variable_set('admin_theme', $admin_theme);
+
+  // Activate admin theme when editing a node.
+  variable_set('node_admin_theme', '1');
+
+  //
+  // Fix all blocks, mostly disable them as we use panels everywhere.
+  //
+  $blocks = array(
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'user',
+      'delta' => 'login',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'sidebar_first',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => -10,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'main',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'content',
+      'pages' => '',
+      'cache' => -1,
+    ),
+    array(
+      'module' => 'system',
+      'delta' => 'help',
+      'theme' => $admin_theme,
+      'status' => 1,
+      'weight' => 0,
+      'region' => 'help',
+      'pages' => '',
+      'cache' => -1,
+    ),
+  );
+  // Drop system / user blocks to ensure correct building-
+  db_delete('block')->condition('module', 'system')->execute();
+  db_delete('block')->condition('module', 'user')->execute();
+
+  // Add in our blocks defined above.
+  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache'));
+  foreach ($blocks as $block) {
+    $query->values($block);
+  }
+  $query->execute();
+
+  //
+  // Add shortcuts to the default set on install.
+  //
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links = NULL;
+  $shortcut_set->links = array(
+    array(
+      'link_path' => 'admin/config/regional/translate',
+      'link_title' => st('Translation'),
+      'weight' => -17,
+    ),
+  );
+  shortcut_set_save($shortcut_set);
+
+  //
+  // User installation.
+  //
   // Check if the role from ding_user_roles have been created.
-  // Sometimes this happens, sometimes not.
-  // For instance, if the profile depends on ding_adhl_frontend, then this role exists, because for some reason cache_actions clear caches and rebuilds them.
   $admin_role = user_role_load_by_name('administrator');
   if ($admin_role == FALSE) {
     $admin_role = new stdClass();
     $admin_role->name = 'administrator';
-    $admin_role->weight = 6;
+    $admin_role->weight = 10;
     user_role_save($admin_role);
   }
   user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
@@ -46,25 +137,8 @@ function ding2_install() {
   db_insert('users_roles')
     ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
     ->execute();
-
-  // enable the themes and set the default themes
-  $enable = array(
-    'theme_default' => 'ddbasic',
-    'admin_theme' => 'seven',
-  );
-  theme_enable($enable);
-
-  foreach ($enable as $var => $theme) {
-    if (!is_numeric($var)) {
-      variable_set($var, $theme);
-    }
-  }
-
-  // Use the admin theme when editing nodes
-  variable_set('node_admin_theme', '1');
-
-  // Disable the default Bartik theme
-  theme_disable(array('bartik'));
+  // Update the menu router information (new permissions).
+  menu_rebuild();
 
   // Set default source language for i18n module
   variable_set('i18n_string_source_language', 'en');
@@ -73,8 +147,70 @@ function ding2_install() {
   variable_set('configurable_timezones', 0);
 
   // Select the ding_frontpage as front page.
-  variable_set('site_frontpage', 'ding_frontpage');
+//  variable_set('site_frontpage', 'ding_frontpage');
 
   // Select the siden-fundet as 404.
-  variable_set('site_404', 'page/siden-fundet');
+//  variable_set('site_404', 'page/siden-fundet');
+
+
+  //
+  // Enable ting search as default.
+  //
+  variable_set('search_active_modules', array(
+      'node' => 'node',
+      'ting_search' => 'ting_search',
+      'user' => 0,
+      'mkdru' => 'mkdru',
+    ));
+  variable_set('search_default_module', 'ting_search');
+
+  //
+  // Enable the panel pages for ting objects and search.
+  //
+  variable_set('ting_ting_object_disabled', FALSE);
+  variable_set('ting_ting_collection_disabled', FALSE);
+  variable_set('page_manager_search_disabled_ting_search', FALSE);
+
+  //
+  // Allow visitor account creation, but with administrative approval.
+  //
+  variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
+
+  //
+  // Enable default permissions for system roles.
+  //
+//  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
+//  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
+
+
+  //
+  //  Features.
+  //
+  //  Revert features to ensure they are all installed.
+  $features = array(
+    'ting_reference',
+    'ting_material_details',
+    'ding_base',
+    'ding_user_frontend',
+    'ding_path_alias',
+    'ding_content',
+    'ding_page',
+    'ding_frontend',
+    'ding_ting_frontend',
+    'ding_user_roles',
+    'ding_event',
+    'ding_frontpage',
+    'ding_library',
+    'ding_news',
+    'ding_campaign_ctype',
+//    'alma',
+//    'openruth',
+  );
+  features_revert($features);
+
+  // Ignore any rebuild messages.
+  node_access_needs_rebuild(FALSE);
+
+  // Ignore any other install messages.
+  drupal_get_messages();
 }
