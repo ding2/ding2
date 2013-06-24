@@ -77,6 +77,11 @@ projects[ding_webtrends][download][type] = "git"
 projects[ding_webtrends][download][url] = "git@github.com:ding2tal/ding_webtrends.git"
 projects[ding_webtrends][download][branch] = "development"
 
+projects[ding_user_cache][type] = "module"
+projects[ding_user_cache][download][type] = "git"
+projects[ding_user_cache][download][url] = "git@github.com:ding2tal/ding_user_cache.git"
+projects[ding_user_cache][download][branch] = "development"
+
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
 projects[ddbasic][download][url] = "git@github.com:ding2tal/ddbasic.git"
