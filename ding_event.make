@@ -37,7 +37,7 @@ projects[ting_reference][download][branch] = "master"
 projects[ding_place2book][type] = "module"
 projects[ding_place2book][download][type] = "git"
 projects[ding_place2book][download][url] = "git@github.com:vejlebib/ding_place2book.git"
-projects[ding_place2book][download][branch] = "ding2_compatibility"
+projects[ding_place2book][download][branch] = "ding2tal_compatibility"
 
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta3"
