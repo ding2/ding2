@@ -20,19 +20,13 @@ function ding2_install() {
     ->condition('type', 'theme')
     ->execute();
 
+  // Enable themes
+  theme_enable(array($default_theme, $admin_theme));
+
   // Enable $default_theme.
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', $default_theme)
-    ->execute();
+  variable_set('theme_default', $default_theme);
 
   // Enable $admin_theme.
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', $admin_theme)
-    ->execute();
   variable_set('admin_theme', $admin_theme);
 
   // Activate admin theme when editing a node.
@@ -212,4 +206,7 @@ function ding2_install() {
 
   // Ignore any other install messages.
   drupal_get_messages();
+
+  // Clear caches.
+  drupal_flush_all_caches();
 }
