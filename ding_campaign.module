@@ -27,10 +27,9 @@ function ding_campaign_menu() {
     'description' => 'Edit campaign rules',
     'page callback' => 'ding_campaign_rules_admin',
     'page arguments' => array(1),
-    'access arguments' => array(1),
+    'access arguments' => array('access campaign rules'),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_LOCAL_TASK,
-    'access callback' => 'ding_campaign_node_access',
     'weight' => 2,
   );
 
@@ -69,16 +68,6 @@ function ding_campaign_admin_paths() {
     'node/*/campaign_rules' => TRUE,
   );
   return $paths;
-}
-
-/**
- * Implements hook_node_access().
- */
-function ding_campaign_node_access($node, $op, $account) {
-  if (isset($node->type) && $node->type == 'ding_campaign' && !user_access('access campaign rules')) {
-    return NODE_ACCESS_DENY;
-  }
-  return NODE_ACCESS_IGNORE;
 }
 
 /**
