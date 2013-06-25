@@ -92,3 +92,7 @@ libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][tag] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
+
+; Contrib modules
+projects[module_filter][subdir] = "contrib"
+projects[module_filter][version] = "1.7"
