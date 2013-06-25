@@ -26,7 +26,7 @@ dependencies[] = ding_event
 dependencies[] = ding_frontpage
 dependencies[] = ding_library_menu
 dependencies[] = ding_news
-dependencies[] = ding_campaing
+dependencies[] = ding_campaign
 dependencies[] = ding_session_cache
 
 files[] = ding2.profile
