@@ -1,5 +1,9 @@
 <?php
 
+// Initialise profiler
+!function_exists('profiler_v2') ? require_once('libraries/profiler/profiler.inc') : FALSE;
+profiler_v2('ding2');
+
 /**
  * Implements hook_form_FORM_ID_alter().
  *
@@ -133,7 +137,7 @@ function ding2_ding_install_tasks() {
     $node->uid = 1;
 
     node_save($node);
-    
+
     //Provide default page for EU Cookie Compliance module
     $node = array();
     ob_start();
@@ -144,5 +148,4 @@ function ding2_ding_install_tasks() {
     $node->uid = 1;
 
     node_save($node);
-    
 }

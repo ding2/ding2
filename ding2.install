@@ -147,11 +147,10 @@ function ding2_install() {
   variable_set('configurable_timezones', 0);
 
   // Select the ding_frontpage as front page.
-//  variable_set('site_frontpage', 'ding_frontpage');
+  variable_set('site_frontpage', 'ding_frontpage');
 
   // Select the siden-fundet as 404.
-//  variable_set('site_404', 'page/siden-fundet');
-
+  variable_set('site_404', 'page/siden-fundet');
 
   //
   // Enable ting search as default.
@@ -179,8 +178,8 @@ function ding2_install() {
   //
   // Enable default permissions for system roles.
   //
-//  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
-//  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
 
 
   //
