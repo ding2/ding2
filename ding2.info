@@ -17,7 +17,7 @@ dependencies[] = translation
 ; Helper modules.
 dependencies[] = module_filter
 dependencies[] = menu_position
-dependencies[] = secure_pages
+dependencies[] = securepages
 
 ; Ding modules.
 dependencies[] = ding_user_frontend
