@@ -36,4 +36,5 @@ features[variable][] = node_preview_new_materials
 features[variable][] = node_submitted_new_materials
 features[variable][] = pathauto_node_new_materials_da_pattern
 features[variable][] = pathauto_node_new_materials_en_pattern
+features[variable][] = pathauto_node_new_materials_pattern
 features[variable][] = ting_new_materials_number_per_page
