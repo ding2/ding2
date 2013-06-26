@@ -16,7 +16,11 @@
     <?php endif; ?>
   </div>
 <?php endif; ?>
-<?php if ($title) : ?>
-   <?php print $results; ?>
+<?php if ($results) : ?>
+  <?php print $results; ?>
+<?php else : ?>
+  <div class="no-results-this-period">
+    <?php print t('There were no new materials in this period'); ?>
+  </div>
 <?php endif; ?>
 

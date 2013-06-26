@@ -22,20 +22,23 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
   $search_results = ting_new_materials_get_new_materials_posts($new_materials_node);
   
   $number_of_results = '';
-  global $pager_page_array, $pager_total;
-  if ($pager_total[0] == TRUE) {
-    $results = drupal_static('ting_search_results');
-    $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0])*$results->numTotalCollections+1);
-    $to = $from + ($results->numTotalCollections-1);
-    $total = $results->numTotalObjects;
-    $number_of_results =  format_plural($total, 'Show %from-%to of 1 result',
-      'Show %from-%to of <em class="placeholder">@count</em> results', array(
+  if (!(isset($search_results['noresultsthisperiod']) && $search_results['noresultsthisperiod'])) {
+    global $pager_page_array, $pager_total;
+    if ($pager_total[0] == TRUE) {
+      $results = drupal_static('ting_search_results');
+      $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0]) * $results->numTotalCollections + 1);
+      $to = $from + ($results->numTotalCollections - 1);
+      $total = $results->numTotalObjects;
+      $number_of_results = format_plural($total, 'Show %from-%to of 1 result', 'Show %from-%to of <em class="placeholder">@count</em> results', array(
         '%from' => $from,
         '%to' => $to,
-    )) ;
+        ));
+    }
+    $results = theme('ting_search_results', array('results' => $search_results));
+  } else {
+    //No results i this period
+    $results = null;
   }
-  
-  $results = theme('ting_search_results', array('results' => $search_results));  
   $block->content = theme('ting_new_materials', array('title' => $title, 'number_of_results' => $number_of_results, 'results' => $results));
   return $block;
 }
