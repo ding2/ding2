@@ -339,7 +339,7 @@ function ding_campaign_node_insert($node) {
   $enabled_types = variable_get('ding_campaign_node_types', array());
 
   // Process other types of nodes (selected in backend).
-  if (isset($enabled_types[$node->form_id]) && $enabled_types[$node->form_id] === $node->form_id) {
+  if (isset($node->form_id) && isset($enabled_types[$node->form_id]) && $enabled_types[$node->form_id] === $node->form_id) {
     if (isset($node->ding_campaigns) && is_array($node->ding_campaigns)) {
       foreach ($node->ding_campaigns as $k => $v) {
         $data = array(
