@@ -5,6 +5,7 @@ version = 7.x-0.1
 project = ding_base
 dependencies[] = ctools
 dependencies[] = strongarm
+dependencies[] = jquery_update
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[variable][] = date_api_use_iso8601
@@ -22,5 +23,8 @@ features[variable][] = date_format_day_text_full
 features[variable][] = date_format_month_text_full
 features[variable][] = date_format_time_only
 features[variable][] = date_format_date_only
+features[variable][] = jquery_update_compression_type
+features[variable][] = jquery_update_jquery_cdn
+features[variable][] = jquery_update_jquery_version
 
 configure = admin/config/ding
