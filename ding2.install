@@ -106,9 +106,15 @@ function ding2_install() {
   //
   // Enable default permissions for system roles.
   //
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
-
+  try {
+    user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
+    user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
+  }
+  catch (Exception $e) {
+    // If not all modules have been enabled, this may throw an exception. It
+    // should not happen, but its better to carry on then halt the installation
+    // at this point.
+  }
 
   //
   //  Features.
