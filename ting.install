@@ -30,7 +30,7 @@ function ting_schema() {
       'ding_entity_id' => array(
         'description' => 'The ting object id.',
         'type' => 'varchar',
-        'length' => 256,
+        'length' => 255,
         'not null' => TRUE,
         'default' => '',
       ),
