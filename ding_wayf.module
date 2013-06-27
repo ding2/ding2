@@ -57,6 +57,7 @@ function ding_wayf_menu() {
 function ding_wayf_accept() {
   // clear messages - this one comes via login-form,
   // so at least 'unrecognized user or password' is set
+
   drupal_get_messages();
 
   // add an accept form if provider implements it
@@ -75,11 +76,18 @@ function ding_wayf_accept() {
  * @global type $user 
  */
 function ding_wayf_init() {
-  global $user;
-  if (arg(0) != 'wayf') {
-    if ($user->uid == 0) {
-      if (isset($_SESSION['accept_wayf'])) {
-        unset($_SESSION['accept_wayf']);
+
+  if (isset($_SESSION['wayf_login'])) {
+    if (isset($_GET['idp'])) {
+      $loginType = $_GET['idp'];
+      if ($loginType == 'wayf') {
+        $loginType = 'wayf_id';
+      }
+      elseif ($loginType == 'nemlogin') {
+        $loginType = 'nem_id';
+      }
+      if ($_SESSION['wayf_login']['login_type'] != $loginType) {
+        drupal_set_message(t('Something went wrong. Please try again', array(), array('context' => 'ding_wayf')), 'warning');
         ding_wayf_user_logout();
       }
     }
@@ -148,7 +156,8 @@ function ding_wayf_form_alter(&$form, $form_state, $form_id) {
       if (isset($provider)) {
         $function = $provider . '_wayf_validate';
         if (function_exists($function)) {
-          $form['#validate'][] = $function;
+          //$form['#validate'][] = $function;
+          array_unshift($form['#validate'], $function);
         }
       }
       break;
@@ -197,6 +206,7 @@ function ding_wayf_redirect_login() {
 
     if ($saml->isAuthenticated()) {
       $wayf_data = $saml->getAttributes();
+
       $authentication_attributes = ding_wayf_get_required_attributes($wayf_data, $simplesaml['attributes']);
 // log user in
       ding_wayf_login($authentication_attributes);
@@ -252,11 +262,6 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
   $simplesaml = variable_get('ding_wayf', array());
   $url = NULL;
 
-  if (isset($_SESSION['accept_wayf'])) {
-    // unset _SESSION variables
-    unset($_SESSION['accept_wayf']);
-  }
-
   if (!empty($simplesaml)) {
     // require_once $simplesaml['installdir'] . '/lib/_autoload.php';
     //require_once('/lib/_autoload.php');
@@ -265,6 +270,13 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
     $saml = ding_wayf_get_saml_connection($simplesaml['sp']);
 
     if ($saml->isAuthenticated()) {
+      if (isset($_SESSION['accept_wayf'])) {
+        // unset _SESSION variables
+        unset($_SESSION['accept_wayf']);
+      }
+      if (isset($_SESSION['wayf_login'])) {
+        unset($_SESSION['wayf_login']);
+      }
       if (isset($origin)) {
         $url = $base_url . '/' . $origin;
       }
@@ -396,13 +408,16 @@ function ding_wayf_get_provider_attributes(&$simplesaml) {
 function ding_wayf_get_required_attributes($wayf_attributes, $required_attributes) {
   $attribute_list = array();
 
+  if (isset($_SESSION['accept_wayf']['name'])) {
+    $wayf_attributes['mail'][0] = $_SESSION['accept_wayf']['name'];
+  }
+
+
   if (isset($wayf_attributes) && is_array($required_attributes)) {
     foreach ($required_attributes as $attribute => $value) {
-      if (!isset($wayf_attributes[$attribute])) {
-        return array();
+      if (isset($wayf_attributes[$attribute])) {
+        $attribute_list[$attribute] = $wayf_attributes[$attribute];
       }
-
-      $attribute_list[$attribute] = $wayf_attributes[$attribute];
     }
 
     return $attribute_list;

@@ -9,29 +9,32 @@ class SimpleSAML_Auth_Simple {
   /**
    * Constructor, empty for now.
    */
-  public function __construct($sp) {}
+  public function __construct($sp) {
+    
+  }
 
-  public function isAuthenticated() {    
+  public function isAuthenticated() {
     // @TODO handle errors
     $error = isset($_GET['error']) ? $_GET['error'] : FALSE;
-    if( $error ) {
+    if ($error) {
+
       // handle this
     }
-    
+
     // gateway returns attributes in $_POST if authentication goes well
-    if( !empty($_POST['eduPersonTargetedID']) ) {
+    if (!empty($_POST['eduPersonTargetedID'])) {
       $this->setAttributes($_POST);
       return TRUE;
     }
-    
+
     // @TODO is this ok - maybe use $_GET instead
     /* if (isset($_GET['eduPersonTargetedID'])) {
       // set attributes
       $this->setAttribute('eduPersonTargetedID', $_GET['eduPersonTargetedID']);
       $this->setAttribute('mail', $_GET['mail']);
       return TRUE;
-    }*/
-    
+      } */
+
     // user might already be logged in
     //check in $_SESSION
     else {
@@ -45,12 +48,28 @@ class SimpleSAML_Auth_Simple {
   }
 
   public function getAttributes() {
+
+
+    // @TODO .. if user is 
+
     return isset($_SESSION['wayf_login']) ? $_SESSION['wayf_login'] : NULL;
   }
-  
-  private function setAttributes($attributes){
+
+  private function setAttributes($attributes) {
     //enrich attriubutes with login_type
-    $attributes['login_type'] = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
+    $loginType = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
+    if ($loginType == 'wayf') {
+      $loginType = 'wayf_id';
+    }
+    elseif ($loginType == 'nemlogin') {
+      $loginType = 'nem_id';
+    }
+    else {
+      // default
+      $loginType = 'wayf_id';
+    }
+
+    $attributes['login_type'] = $loginType;
     $_SESSION['wayf_login'] = $attributes;
   }
 
@@ -61,9 +80,10 @@ class SimpleSAML_Auth_Simple {
   /* \brief redirect to gatewayf for authentication via wayf
    * 
    */
+
   public function requireAuth($idp = NULL) {
     global $base_url;
-    $home = $base_url .'/'. current_path();
+    $home = $base_url . '/' . current_path();
     $config = variable_get('ding_wayf');
     $gateway = $config['gatewayf'];
 
@@ -99,4 +119,5 @@ class SimpleSAML_Auth_Simple {
     header('Location:' . $gateway . '?returnUrl=' . $base_url . '&op=logout');
     exit;
   }
+
 }
