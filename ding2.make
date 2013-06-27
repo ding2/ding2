@@ -96,3 +96,4 @@ libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 ; Contrib modules
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.7"
+
