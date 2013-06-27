@@ -18,7 +18,6 @@ dependencies[] = translation
 dependencies[] = module_filter
 dependencies[] = menu_position
 dependencies[] = securepages
-dependencies[] = jquery_update
 
 ; Ding modules.
 dependencies[] = ding_user_frontend
