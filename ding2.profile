@@ -116,20 +116,10 @@ function _ding2_remove_form_requirements(&$value, $key) {
  */
 function ding2_ding_install_tasks() {
 
+    // Create 404 page.
     $node = array();
     ob_start();
     require 'content/page-not-found.inc';
-    ob_end_clean();
-
-    $node = (object) $node;
-    $node->uid = 1;
-
-    node_save($node);
-
-    //Provide default page for EU Cookie Compliance module
-    $node = array();
-    ob_start();
-    require 'content/cookies.inc';
     ob_end_clean();
 
     $node = (object) $node;
