@@ -133,12 +133,12 @@ function ding2_install() {
     'ding_ting_frontend',
     'ding_user_roles',
     'ding_event',
-    'ding_frontpage',
     'ding_library',
     'ding_news',
     'ding_campaign_ctype',
+    'ding_frontpage',
   );
-  features_revert($features);
+  ding2_features_revert($features);
 
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
@@ -148,6 +148,21 @@ function ding2_install() {
 
   // Clear caches.
   drupal_flush_all_caches();
+}
+
+function ding2_features_revert($modules) {
+  foreach ($modules as $module) {
+    // Load the feature.
+    if (($feature = features_load_feature($module, TRUE)) && module_exists($module)) {
+      // Get all components of the feature.
+      foreach (array_keys($feature->info['features']) as $component) {
+        if (features_hook($component, 'features_revert')) {
+          // Revert each component (force).
+          features_revert(array($module => array($component)));
+        }
+      }
+    }
+  }
 }
 
 function ding2_theme_settings() {
