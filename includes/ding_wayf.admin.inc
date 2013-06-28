@@ -10,13 +10,13 @@ function ding_wayf_admin_settings_form() {
     'redirect' => 'user/%uid/status',
   ));
 
-/*  $form['ding_wayf']['installdir'] = array(
+  $form['ding_wayf']['installdir'] = array(
     '#type' => 'textfield',
-    '#title' => t('Simple SAML php instalation directory'),
+    '#title' => t('Simple SAML php installation directory'),
     '#default_value' => $default['installdir'],
     '#description' => t('Absolute path with no trailing slash to simple SAML installation.'),
     '#required' => FALSE,
-  );*/
+  );
 
   $form['ding_wayf']['sp'] = array(
     '#type' => 'textfield',

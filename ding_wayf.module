@@ -201,7 +201,6 @@ function ding_wayf_redirect_login() {
   }
 }
 
-
 /**
  * Helper function that redirectes the user to previous context or the fallback
  * URL given as parameter.
