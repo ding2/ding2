@@ -150,7 +150,13 @@ function ding2_install() {
   drupal_flush_all_caches();
 }
 
-function ding2_features_revert($modules) {
+/**
+ * Reverts a given set of feature modules.
+ *
+ * @param array $modules
+ *  Names of the modules to revert.
+ */
+function ding2_features_revert($modules = array()) {
   foreach ($modules as $module) {
     // Load the feature.
     if (($feature = features_load_feature($module, TRUE)) && module_exists($module)) {
@@ -165,6 +171,12 @@ function ding2_features_revert($modules) {
   }
 }
 
+/**
+ * Set default theme setting for ddbasic.
+ *
+ * @return array
+ *  The default theme settings.
+ */
 function ding2_theme_settings() {
   return array(
     'toggle_logo' => 0,
@@ -190,6 +202,9 @@ function ding2_theme_settings() {
   );
 }
 
+/**
+ * Adds a new static page to the site and set it as the default 404 page.
+ */
 function ding2_set_page_not_found() {
   $node = new stdClass();
   $node->uid = 1;
