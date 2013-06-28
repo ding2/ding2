@@ -635,7 +635,7 @@ ul li {
 /* Make sure lists in content get the icon */
 /* line 159, ../sass/framework/_base.scss */
 .page-content li {
-  list-style: disc inside;
+  list-style: disc outside;
 }
 
 /* Fieldset
