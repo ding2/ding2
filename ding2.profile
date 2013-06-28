@@ -51,17 +51,6 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Allows the profile to alter the site configuration form.
- */
-function ding2_form_install_configure_form_alter(&$form, &$form_state, $form_id) {
-  // Pre-populate the site name with the server name.
-  $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
-}
-
 /**
  * Implements hook_install_tasks().
  *
@@ -73,8 +62,7 @@ function ding2_install_tasks(&$install_state) {
 
   if (!empty($tasks)) {
     // Allow task callbacks to be located in an include file.
-    foreach ($tasks as $task) {#&$task) {
-
+    foreach ($tasks as $task) {
       if (isset($task['file'])) {
         require_once DRUPAL_ROOT . '/' . $task['file'];
       }
@@ -91,7 +79,7 @@ function ding2_install_tasks(&$install_state) {
   $ret = array(
     'ding2_fetch_ding_install_tasks' =>
       array(
-        'display_name' => '...',
+        'display_name' => 'Configure ding...',
         /**
          * This task should be skipped and hidden when ding install tasks
          * have been fetched. Fetched tasks will appear instead.
