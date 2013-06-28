@@ -22,13 +22,8 @@ dependencies[] = securepages
 ; Ding modules.
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
-dependencies[] = ding_event
 dependencies[] = ding_frontpage
 dependencies[] = ding_library_menu
-dependencies[] = ding_news
-dependencies[] = ding_campaign
-dependencies[] = ding_permissions
 dependencies[] = ding_session_cache
-dependencies[] = ding_adhl_frontend
 
 files[] = ding2.profile
