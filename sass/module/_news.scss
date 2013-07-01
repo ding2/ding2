@@ -41,10 +41,10 @@
     }
   }
 
-  .news-label {
-    @extend .label;
-
-    margin-right: 5px;
+  .news-heading,
+  .news-sub-heading,
+  .news-list-content {
+    margin-left: 95px;
   }
 
   .news-sub-heading {
@@ -55,6 +55,12 @@
     .news-author {
       margin-right: 5px;
     }
+  }
+
+  .news-label {
+    @extend .label;
+
+    margin-right: 5px;
   }
 
   .news-date {
