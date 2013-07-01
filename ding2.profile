@@ -157,16 +157,11 @@ function ding2_module_selection_form($form_state) {
   //
   $modules = array(
     'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
-    'ding_news' => st('Add news support (blog)'),
-    'ding_event' => st('Add event support'),
     'ding_campaign' => st('Add ding campaigns'),
     'ding_permissions' => st('Set default permissions'),
 
     // Modules thats not part of the makefiles yet.
     'ding_example_content' => st('Add example content to the site'),
-    'ding_tabroll' => st('Ding tabroll (news slider) -> NOT READY'),
-    'ding_staff' => st('Ding staff -> NOT READY'),
-    'ding_place2book' => st('Ding place2book -> NOT READY'),
   );
 
   $form['modules'] = array(
