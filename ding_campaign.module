@@ -28,6 +28,7 @@ function ding_campaign_menu() {
     'page callback' => 'ding_campaign_rules_admin',
     'page arguments' => array(1),
     'access arguments' => array('access campaign rules'),
+    'access callback' => array('ding_campaign_rules_access'),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 2,
@@ -44,6 +45,30 @@ function ding_campaign_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Custom access callback.
+ *
+ * Used to define access to ding campaign rules. Limits the menu item only for
+ * ding_campaign node types.
+ *
+ * @return boolean
+ *   TRUE or FALSE value.
+ */
+function ding_campaign_rules_access() {
+  $item = menu_get_item();
+  $node = NULL;
+
+  if (isset($item['page_arguments'][0]->type)) {
+    $node = $item['page_arguments'][0];
+
+    if ($node->type == 'ding_campaign') {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 /**
