@@ -35,22 +35,19 @@ function ding_user_contexts_profile2($empty, $data = NULL, $conf = FALSE) {
       $context->data = new stdClass();
     }
 
-    // Load types.
-    $types = profile2_get_types();
-
-    // Try to find corrent content type (from path).
+    // Try the load profile based on path.
     $args = arg();
     $type = array_pop($args);
-    if (isset($types[$type])) {
-      $context->data->profile_name = $type;
-      $context->data->profile_type = $types[$type];
+    $profile_type = profile2_type_load($type);
+
+    // If profile was not load try loading the default provider profile.
+    global $user;
+    if (!$profile_type && ding_user_is_provider_user($user)) {
+      $profile_type = ding_user_get_provider_profile_type();
     }
 
-    // Check if the user is a provider user and always load the provider
-    // profile.
-    global $user;
-    if (ding_user_is_provider_user($user)) {
-      $profile_type = ding_user_get_provider_profile_type();
+    // Set the context if profile type was loaded.
+    if ($profile_type) {
       $context->data->profile_name = $profile_type->type;
       $context->data->profile_type = $profile_type;
     }
