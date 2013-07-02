@@ -10,9 +10,6 @@
  * by the system that includes this file.
  */
 $plugin = array(
-  // Only provides a single content type
-  'single' => TRUE,
-  'render last' => TRUE,
   'title' => t('User edit form (with profile2 support)'),
   'icon' => 'icon_form.png',
   'description' => t('User edit form that have support for profile2 forms.'),
@@ -31,7 +28,7 @@ function ding_user_profile2_form_content_type_render($subtype, $conf, $panel_arg
   $block = new stdClass();
 
   // If profile context exists, try getting the form for that profile.
-  if (isset($context[1]->data)) {
+  if (isset($context[1]->data->profile_name)) {
     $profile_type = $context[1]->data;
 
     // Try to load profile if one exists for the current user.

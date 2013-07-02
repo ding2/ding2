@@ -15,7 +15,6 @@ $plugin = array(
   'description' => t('Detect profile 2 type (edit form).'),
   'context' => 'ding_user_contexts_profile2',
   'edit form' => 'ding_user_contexts_profile2_settings_form',
-  'defaults' => array('type' => 'select', 'uid' => ''),
   'keyword' => 'user',
   'context name' => 'profile2_type',
   'convert list' => 'ding_user_contexts_profile2_convert_list',
@@ -27,7 +26,7 @@ $plugin = array(
  */
 function ding_user_contexts_profile2($empty, $data = NULL, $conf = FALSE) {
   // Create context object.
-  $context = new ctools_context('profile2_type');
+  $context = new ctools_context(array('profile2_type', 'entity:profile2_type'));
   $context->plugin = 'profile2_type';
 
   if (!$empty) {
@@ -45,11 +44,19 @@ function ding_user_contexts_profile2($empty, $data = NULL, $conf = FALSE) {
     if (isset($types[$type])) {
       $context->data->profile_name = $type;
       $context->data->profile_type = $types[$type];
-      return $context;
+    }
+
+    // Check if the user is a provider user and always load the provider
+    // profile.
+    global $user;
+    if (ding_user_is_provider_user($user)) {
+      $profile_type = ding_user_get_provider_profile_type();
+      $context->data->profile_name = $profile_type->type;
+      $context->data->profile_type = $profile_type;
     }
   }
 
-  return FALSE;
+  return $context;
 }
 
 /**
