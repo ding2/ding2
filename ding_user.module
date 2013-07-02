@@ -16,10 +16,8 @@ define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
  * args, contexts, content_types. In this case the subdirectories of
  * ctools_plugin_example/panels are used.
  */
-function ding_user_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools' && !empty($plugin)) {
-    return "plugins/$plugin";
-  }
+function ding_user_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
 }
 
 /**
@@ -580,7 +578,7 @@ function _ding_user_create_profile2($account) {
  *
  * Enables the profile2 form panels pane to generate a form for a profile2
  * enity. The code is largely taken from the profile2 page module, but we only
- * which this part of the module.
+ * need this part of the module.
  */
 function ding_user_forms($form_id, $args) {
   // For efficiency, only act if the third argument is 'profile2'.
