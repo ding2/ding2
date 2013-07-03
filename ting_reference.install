@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Defines the field schema and entity fields.
+ */
 
 /**
  * Implements hook_field_schema().
@@ -31,7 +35,7 @@ function ting_reference_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -39,4 +43,18 @@ function ting_reference_ding_entity_fields() {
       ),
     ),
   );
+}
+
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_reference_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_reference')
+    ->execute();
 }
