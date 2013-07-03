@@ -1,16 +1,6 @@
 
-.pending {
+.pending, .availability.processed {
   color: #696a69;
-}
-
-/* Not available or reservable */
-/* Note: This applies to online resources as well. However, it's possible to style these, based on material type */
-.availability.processed {
-  color: #ed1e88;
-}
-
-.availability.available {
-  color: #0072bc;
 }
 
 .availability.reservable {
@@ -18,7 +8,13 @@
 }
 
 /* Available and reservable */
+.availability.available, 
 .availability.available.reservable {
   color: #4c9f45;
+}
+
+/* Available, but not reservable */
+.availability.available.not-reservable {
+  color: #0072bc;
 }
 
