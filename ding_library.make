@@ -56,8 +56,6 @@ projects[media][version] = "2.0-unstable7"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-unstable7"
 
-projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.3"
 
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
