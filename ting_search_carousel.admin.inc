@@ -19,6 +19,39 @@ function ting_search_carousel_admin_page() {
 }
 
 /**
+ * Admin settings form for frontend display of carousel.
+ */
+function ting_search_carousel_settings_admin_form($form, &$form_state) {
+  $form = array();
+
+  $form['ting_search_carousel_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Frontend settings'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_tabs_position'] = array(
+    '#title' => t('Position of navigational tabs'),
+    '#type' => 'select',
+    '#options' => array(
+      'bottom' => t("Bottom"),
+    ),
+    '#default_value' => variable_get('ting_search_carousel_tabs_position', 'bottom'),
+    '#required' => TRUE,
+    '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_description_toggle'] = array(
+    '#title' => t('Show descriptions for navigational tabs'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('ting_search_carousel_description_toggle', 0),
+    '#required' => FALSE,
+    '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
  * Search queries admin form.
  *
  * @param $form
@@ -289,9 +322,15 @@ function ting_search_carousel_search_submit($form, &$form_state) {
     }
   }
 
+  /**
+   * @TODO: Add clear cache button and detect changes in the query input fields
+   * so only partial cache can be rebuild. This will slow down the submit but
+   * may speed up the presentation for the users by kick starting the cache.
+   */
+
   // Save the queries as a persistent variable.
   variable_set('ting_carousel_search_queries', $searches);
 
-  // Make ting search requests.
-  ting_search_carousel_do_request();
+  // Clear carousel search cache
+  cache_clear_all('ting_search_carousel_result', 'cache');
 }
