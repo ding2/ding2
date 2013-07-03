@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Create tests to test the module.
+ */
 
 /**
  * Check that basic user login functionality works.
