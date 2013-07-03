@@ -361,16 +361,25 @@ search/node',
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
-        0 => array(
+        1 => array(
+          'name' => 'external_user',
+          'settings' => NULL,
+          'context' => array(
+            0 => 'logged-in-user',
+          ),
+          'not' => TRUE,
+        ),
+        2 => array(
           'name' => 'path_visibility',
           'settings' => array(
-            'visibility_setting' => '0',
+            'visibility_setting' => '1',
             'paths' => 'user/*',
           ),
           'context' => 'empty',
-          'not' => FALSE,
+          'not' => TRUE,
         ),
       ),
+      'logic' => 'or',
     );
     $pane->configuration = array(
       'type' => 'both',
