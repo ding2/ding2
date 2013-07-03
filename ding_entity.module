@@ -5,10 +5,6 @@
  * Interface module for talking with the materials backend.
  */
 
-// Load Field module hooks.
-module_load_include('inc', 'ding_entity', 'ding_entity.field');
-
-
 /**
  * Implements hook_menu().
  */
@@ -39,15 +35,10 @@ function ding_entity_uri($type, $object) {
  * Implements hook_modules_enabled().
  */
 function ding_entity_modules_enabled($modules) {
-  if (!ding_entity_info('ding_entity')) {
-    // No entity provider yet, queue for later.
-    variable_set('ding_entity_delayed_field_modules', array_unique(array_merge(variable_get('ding_entity_delayed_field_modules', array()), $modules)));
+  if (!ding_entity_info()) {
     return;
   }
-  elseif ($extra_modules = variable_get('ding_entity_delayed_field_modules', array())) {
-    variable_del('ding_entity_delayed_field_modules');
-    $modules = array_merge($modules, $extra_modules);
-  }
+
   // Ensure that Field API has discovered any new fields.
   field_info_cache_clear();
   foreach ($modules as $module) {
@@ -99,6 +90,7 @@ function ding_entity_info($ding_entity_type = NULL) {
     $types = array();
   }
   $entity_types = entity_get_info();
+
   foreach ($entity_types as $entity_type => $entity_info) {
     if (isset($entity_info['ding_entity_type'])) {
       $type = $entity_info['ding_entity_type'];
@@ -112,6 +104,7 @@ function ding_entity_info($ding_entity_type = NULL) {
       }
     }
   }
+
 
   if (empty($ding_entity_type)) {
     return $types;
@@ -167,7 +160,7 @@ function ding_entity_collection_load($id, $type = NULL) {
  * Display a ding_entity.
  */
 function ding_entity_view($object, $view_mode = 'full', $langcode = NULL) {
-  if (!empty($object->ding_entity_type)){
+  if (!empty($object->ding_entity_type)) {
     $type_info = ding_entity_info($object->ding_entity_type);
     if ($type_info) {
       $function = $type_info['entity_type'] . '_view';
@@ -197,6 +190,82 @@ function ding_entity_entity_load($entities, $type) {
       $entity->ding_entity_type = $ding_entity_type;
     }
   }
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function ding_entity_field_info() {
+  $fields = array();
+
+  $fields['ding_entity_buttons'] = array(
+    'label' => t('Action buttons.'),
+    'description' => t('Action buttons.'),
+    'default_widget' => 'hidden',
+    'default_formatter' => 'ding_entity_buttons_default',
+    'no_ui' => TRUE,
+  );
+
+  return $fields;
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ding_entity_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    $items[$id][0] = array(
+      'id' => $id,
+    );
+  }
+}
+
+/**
+ * Implements hook_widget_info_alter().
+ */
+function ding_entity_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ding_entity_buttons';
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_entity_field_formatter_info() {
+  $format = array();
+
+  $format['ding_entity_buttons_default'] = array(
+    'label' => t('Default'),
+    'field types' => array('ding_entity_buttons'),
+  );
+
+  $format['ding_entity_buttons_ajax'] = array(
+    'label' => t('Ajaxified'),
+    'field types' => array('ding_entity_buttons'),
+  );
+
+  return $format;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_entity_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  foreach ($items as $delta => $item) {
+    switch ($display['type']) {
+      case 'ding_entity_buttons_default':
+        $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity);
+        break;
+      case 'ding_entity_buttons_ajax':
+        $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity, 'ajax');
+        break;
+    }
+  }
+
+  return $element;
 }
 
 /**
@@ -244,36 +313,23 @@ class DingEntityBase {
           $this->properties[$prop] = call_user_func(array($this, $method));
         }
         else {
-          $trace = debug_backtrace();
-          trigger_error('No getter defined for ' . $prop .
-            ' in ' . $trace[0]['file'] .
-            ' on line ' . $trace[0]['line'],
-            E_USER_NOTICE);
           return NULL;
         }
       }
       return $this->properties[$prop];
     }
 
-    $trace = debug_backtrace();
-    trigger_error('Undefined property via __get(): ' . $prop .
-      ' in ' . $trace[0]['file'] .
-      ' on line ' . $trace[0]['line'],
-      E_USER_NOTICE);
-
     return NULL;
   }
 
   public function __isset($prop) {
     // isset() is defined as whether "a variable is set and is not NULL"
-    // If the property does not exist then isset() should always be FALSE.
-    // We cannot just call __get($prop), as that will trigger a NOTICE on
-    // non-existing properties, which __isset should not.
+    // If the property does not exist then isset() should always be false...
     if (!isset($this->properties[$prop])) {
       return FALSE;
     }
-    // $this->properties[$prop] needs proper initialization which __get() does.
-    // Check whether the value of existing properties is in fact NULL.
+    // $this->properties[$prop] needs proper initialization which __get() takes
+    // Check whether the value of existing properties is in fact NULL
     return $this->__get($prop) !== NULL;
   }
 
