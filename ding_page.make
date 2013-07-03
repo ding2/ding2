@@ -4,12 +4,12 @@ api = 2
 ; Projects
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
-projects[ding_base][download][url] = "git@github.com:ding2/ding_base.git"
+projects[ding_base][download][url] = "git@github.com:ding2tal/ding_base.git"
 projects[ding_base][download][branch] = "development"
 
 projects[ting_reference][type] = "module"
 projects[ting_reference][download][type] = "git"
-projects[ting_reference][download][url] = "git@github.com:ding2/ting_reference.git"
+projects[ting_reference][download][url] = "git@github.com:ding2tal/ting_reference.git"
 projects[ting_reference][download][branch] = "development"
 
 projects[cache_actions][subdir] = "contrib"
@@ -44,6 +44,10 @@ projects[media][version] = "2.0-unstable7"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-unstable7"
 
+projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][version] = "2.3"
+projects[menu_block][download][type] = "git"
+projects[menu_block][download][url] = "http://git.drupal.org/project/menu_block.git"
+projects[menu_block][download][revision] = "32ab1cf08b729c93302455d67dd05f64ad2fc056"
+projects[menu_block][patch][0] = "http://drupal.org/files/menu_block-ctools-693302-96.patch"
 
