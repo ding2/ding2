@@ -160,45 +160,37 @@ function ting_search_carousel_do_request($index) {
   // Initialize items array.
   $items = array();
 
-  // The cover service have a limit on the number of id's in one request, so we
-  // split it up into 45 id's per chunk. It's faster to ask the service with as
-  // many id's as possible at once as the look-up-time is the same for a single
-  // and multiply id's.
-  $covers = array();
-  $local_ids = array_chunk($local_ids, 45);
-  foreach ($local_ids as $ids) {
-    // Get covers for the ids.
-    $covers = $service->getByFaustNumber($ids);
+  // Get covers for the ids.
+  $covers = $service->getByFaustNumber($local_ids);
 
-    // Loop over the fetched covers and build items.
-    foreach ($covers as $local_id => $cover) {
-      // Build cover filename.
-      $filename = 'public://ting_search_carousel/' . md5($local_id) . '.jpg';
+  // Loop over the fetched covers and build items.
+  foreach ($covers as $local_id => $cover) {
+    // Build cover filename.
+    $filename = 'public://ting_search_carousel/' . md5($local_id) . '.jpg';
 
-      // Check if file have been downloaded.
-      if (!file_exists($filename)) {
-        // Extract the image source url.
-        $source_url = FALSE;
-        if ($cover->detailUrl) {
-          $source_url = $cover->detailUrl;
-        } elseif ($cover->thumbnailUrl) {
-          $source_url = $cover->thumbnailUrl;
-        }
-
-        // Download the cover image and get local uri.
-        $file = _ting_covers_pages_fetch_image($filename, $source_url);
-        $filename = isset($file->uri) ? $file->uri : $filename;
+    // Check if file have been downloaded.
+    if (!file_exists($filename)) {
+      // Extract the image source url.
+      $source_url = FALSE;
+      if ($cover->detailUrl) {
+        $source_url = $cover->detailUrl;
+      } elseif ($cover->thumbnailUrl) {
+        $source_url = $cover->thumbnailUrl;
       }
 
-      // Build object with the information collected.
-      $item = new stdClass();
-      $item->id = $objects[$local_id]['id'];
-      $item->title = $objects[$local_id]['title'];
-      $item->creator = $objects[$local_id]['creator'];
-      $item->image = image_style_url('ting_search_carousel', $filename);
-
-      $items[] = $item;
+      // Download the cover image and get local uri.
+      $file = _ting_covers_pages_fetch_image($filename, $source_url);
+      $filename = isset($file->uri) ? $file->uri : $filename;
     }
+
+    // Build object with the information collected.
+    $item = new stdClass();
+    $item->id = $objects[$local_id]['id'];
+    $item->title = $objects[$local_id]['title'];
+    $item->creator = $objects[$local_id]['creator'];
+    $item->image = image_style_url('ting_search_carousel', $filename);
+
+    $items[] = $item;
   }
 
   // Update the cache with the fetched items.
