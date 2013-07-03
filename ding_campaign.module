@@ -61,8 +61,7 @@ function ding_campaign_admin_paths() {
  * Implements hook_node_access().
  */
 function ding_campaign_node_access($node) {
-
-  if ( isset($node->type) && $node->type == 'ding_campaign') {
+  if (isset($node->type) && $node->type == 'ding_campaign') {
     return TRUE;
   }
   return FALSE;
@@ -74,7 +73,7 @@ function ding_campaign_node_access($node) {
 function ding_campaign_theme($existing, $type, $theme, $path) {
   $hooks = array();
 
-   $hooks['ding_campaign'] = array(
+  $hooks['ding_campaign'] = array(
     'variables' => array('content' => NULL),
     'template' => 'ding_campaign',
     'path' => DING_CAMPAIGN_PATH . '/templates/',
@@ -116,17 +115,20 @@ function ding_campaign_display($context, $count, $offset) {
         case 'plain':
           $camp_link = field_get_items('node', $node, 'field_camp_link');
           $camp_text_plain = field_get_items('node', $node, 'field_camp_text_plain');
-          $content = '<div class="'.$base_class.' ding-campaign-item-plain"><a href="' . $camp_link[0]['value'] . '">' . $camp_text_plain[0]['value'] . '</a></div>';
+          $content = '<div class="' . $base_class . ' ding-campaign-item-plain"><a href="' . $camp_link[0]['value'] . '">' . $camp_text_plain[0]['value'] . '</a></div>';
           break;
+
         case 'image':
           $camp_link = field_get_items('node', $node, 'field_camp_link');
           $camp_image = field_get_items('node', $node, 'field_camp_image');
-          $content = '<div class="'.$base_class.' ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '"><img src="' . file_create_url($camp_image[0]['uri']) . '" alt="" /></a></div>';
+          $content = '<div class="' . $base_class . ' ding-campaign-item-image"><a target="_blank" href="' . $camp_link[0]['value'] . '"><img src="' . file_create_url($camp_image[0]['uri']) . '" alt="" /></a></div>';
           break;
+
         case 'full':
           $camp_text_full = field_get_items('node', $node, 'field_camp_text_full');
-          $content = '<div class="'.$base_class.' ding-campaign-item-full">' . $camp_text_full[0]['safe_value'] . '</div>';
+          $content = '<div class="' . $base_class . ' ding-campaign-item-full">' . $camp_text_full[0]['safe_value'] . '</div>';
           break;
+
       }
 
       $theme = 'ding_campaign';

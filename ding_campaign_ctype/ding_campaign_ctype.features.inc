@@ -1,7 +1,7 @@
 <?php
-
 /**
  * @file
+ * ding_campaign_ctype.features.inc
  */
 
 /**
