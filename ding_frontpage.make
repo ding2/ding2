@@ -13,6 +13,6 @@ projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
 projects[ting_search_carousel][type] = "module"
 projects[ting_search_carousel][download][type] = "git"
-projects[ting_search_carousel][download][url] = "git@github.com:ding2tal/ting_search_carousel.git"
+projects[ting_search_carousel][download][url] = "git@github.com:ding2/ting_search_carousel.git"
 projects[ting_search_carousel][download][branch] = "development"
 
