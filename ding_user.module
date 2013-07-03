@@ -16,10 +16,8 @@ define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
  * args, contexts, content_types. In this case the subdirectories of
  * ctools_plugin_example/panels are used.
  */
-function ding_user_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools' && !empty($plugin)) {
-    return "plugins/$plugin";
-  }
+function ding_user_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
 }
 
 /**
@@ -224,9 +222,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
   global $user;
   if (ding_user_is_provider_user($user)) {
     // Check that it's the provider profile we are looking at.
-    $provider = _ding_provider_get_provider('user');
-    $provider_profile_type = 'provider_' . $provider['module'];
-    if ($form_state['profile2']->type == $provider_profile_type) {
+    $profile_type = ding_user_get_provider_profile_type();
+    if ($form_state['profile2']->type == $profile_type->type) {
       // Add pincode change field.
       $maxlength = ding_user_get_pincode_length();
       $form['pincode'] = array(
@@ -308,12 +305,32 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
 
 /**
  * Get the provider profile for the given user.
+ *
+ * @return entity
+ *  The profile entity provied by the current provider.
  */
 function ding_user_provider_profile($account) {
-  $provider = _ding_provider_get_provider('user');
-  $provider_profile_type = 'provider_' . $provider['module'];
+  $profile_type = ding_user_get_provider_profile_type();
+  return profile2_load_by_user($account, $profile_type->type);
+}
 
-  return profile2_load_by_user($account, $provider_profile_type);
+/**
+ * Get current provider profile type entity.
+ *
+ * @todo: Implement hook in the providers that returnes the name.
+ *
+ * @return entity
+ *  The profile type entity or FALSE if not found.
+ */
+function ding_user_get_provider_profile_type() {
+  // Get current provider.
+  $provider = _ding_provider_get_provider('user');
+
+  // Load provider profile type.
+  $profile_type = profile2_type_load('provider_' . $provider['module']);
+
+  // Return the profile type entity.
+  return $profile_type;
 }
 
 /**
@@ -533,9 +550,8 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
       return FALSE;
     }
     else {
-      $provider = _ding_provider_get_provider('user');
-      $provider_profile_type = 'provider_' . $provider['module'];
-      if ($provider_profile_type == $profile->type) {
+      $profile_type = ding_user_get_provider_profile_type();
+      if ($profile_type->type == $profile->type) {
         // Don't show provider profile to no provider user eiter.
         return FALSE;
       }
@@ -558,16 +574,13 @@ function _ding_user_create_profile2($account) {
   $profile = ding_user_provider_profile($account);
   if (!$profile) {
     // Load profile2 type
-    $provider = _ding_provider_get_provider('user');
-    $profile_type = profile2_type_load('provider_' . $provider['module']);
+    $profile_type = ding_user_get_provider_profile_type();
 
     // Create a profile for current user.
-    $profile = new Profile(
-      array(
-        'user' => $account,
-        'type' => $profile_type,
-      )
-    );
+    $profile = new Profile(array(
+      'user' => $account,
+      'type' => $profile_type,
+    ));
 
     // Bind this profile to the user.
     $profile->save();
@@ -580,7 +593,7 @@ function _ding_user_create_profile2($account) {
  *
  * Enables the profile2 form panels pane to generate a form for a profile2
  * enity. The code is largely taken from the profile2 page module, but we only
- * which this part of the module.
+ * need this part of the module.
  */
 function ding_user_forms($form_id, $args) {
   // For efficiency, only act if the third argument is 'profile2'.
