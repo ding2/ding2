@@ -114,11 +114,11 @@ function ting_menu() {
     'file' => 'ting.admin.inc'
   );
 
-  $items['admin/config/ting/online_url'] = array(
-    'title' => 'Online URL labels',
-    'description' => 'Define labels for online resources.',
+  $items['admin/config/ting/online_types'] = array(
+    'title' => 'Online types and URL labels',
+    'description' => 'Define online resource types and their corresponding URL labels.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_online_url_settings'),
+    'page arguments' => array('ting_admin_online_types_settings'),
     'access arguments' => array('administer ting settings'),
     'file' => 'ting.admin.inc'
   );
@@ -223,6 +223,8 @@ function ting_block_info() {
  * helper function - get relations for an ting_entity as an array ([$type] => array($relations))
  */
 function ting_get_relations($ting_entity) {
+  $relations = array();
+
   foreach( $ting_entity->relations as $relation ) {
     $relations[$relation->type][] = $relation;
   }
@@ -232,7 +234,7 @@ function ting_get_relations($ting_entity) {
     $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);
     if( !empty($refs) ) {
       foreach( $refs as $ref ) {
-  $relations[$ref->relation_type][] = $ref;
+        $relations[$ref->relation_type][] = $ref;
       }
     }
   }
@@ -249,25 +251,28 @@ function ting_block_view($delta = '') {
       $items = array();
       if( $object = menu_get_object('ting_object',2) ) {
         $relations = ting_get_relations($object);
-        $relation_types = module_invoke_all('anchor_info');
-        $block['subject'] = array(
-          '#markup' => t('About the material'),
-          '#prefix' => '<div class="ting-relations-header">',
-          '#suffix' => '</div>',
-        );
-        $block['subject'] = render($block['subject']);
-
-        foreach( $relations as $key => $relation ) {
-          if( isset($relation_types[$key]) ) {
-            $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
-          }
-        }
-        $block['content'] =
-          array(
-          '#theme' => 'item_list',
-          '#items' => $items,
+        if (!empty($relations)) {
+          $relation_types = module_invoke_all('ding_anchor_info');
+          $block['subject'] = array(
+            '#markup' => t('About the material'),
+            '#prefix' => '<div class="ting-relations-header">',
+            '#suffix' => '</div>',
           );
+          $block['subject'] = render($block['subject']);
+
+          foreach( $relations as $key => $relation ) {
+            if( isset($relation_types[$key]) ) {
+              $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
+            }
+          }
+          $block['content'] =
+            array(
+            '#theme' => 'item_list',
+            '#items' => $items,
+            );
+        }
       }
+
       break;
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
@@ -503,10 +508,8 @@ function ting_ding_entity_buttons($type, $entity) {
     $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
     return array(
       array(
-        '#prefix' => '<p class="ding-entity-button">',
-        '#suffix' => '</p>',
         '#type' => 'markup',
-        '#markup' => l($label, $entity->online_url, array('attributes'=>array('target'=>'_new')))
+        '#markup' => l($label, $entity->online_url, array('attributes'=>array('target'=>'_new', 'class' => 'button-see-online')))
       ),
     );
   }
@@ -819,6 +822,25 @@ function ting_ranking_field_element_process($element, $form_state) {
  */
 function theme_ting_ranking_field($element) {
   return theme('form_element', $element);
+}
+
+/**
+ * Default online types.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _ting_default_online_types() {
+  return array(
+    'musik (net)',
+    'ebog',
+    'netdokument',
+    'lydbog (net)',
+    'film (net)',
+    'tidsskrift (net)',
+    'periodikum (net)',
+    'pc-spil (net)',
+    'avis (net)',
+  );
 }
 
 /**

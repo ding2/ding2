@@ -33,7 +33,9 @@ class TingRelation extends DingEntityBase {
  */
 class TingEntity extends DingEntity {
   public $type = DingEntityBase::NULL;
+  public $serieNumber = DingEntityBase::NULL;
   public $serieTitle = DingEntityBase::NULL;
+  public $serieDescription = DingEntityBase::NULL;
   public $record = DingEntityBase::NULL;
   public $relations = DingEntityBase::NULL;
   public $localId = DingEntityBase::NULL;
@@ -115,16 +117,71 @@ class TingEntity extends DingEntity {
     return $title;
   }
 
-  function getSerieTitle() {
-    $serie_title = array();
-    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
-
-    if (preg_match('/^([^;]+);/', $serie, $serie_title)) {
-      return isset($serie_title[1]) ? trim($serie_title[1]) : FALSE;
-    }
-    else {
+  function getSerieNumber() {
+    $serie = $this->splitSerie();
+    // Last part is the number.
+    if (empty($serie[1])) {
       return FALSE;
     }
+    return $serie[1];
+  }
+
+  private function splitSerie() {
+    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
+    return explode(';', $serie);
+  }
+
+  function getSerieTitle() {
+    $serie = $this->splitSerie();
+    // First part is the title.
+    if (empty($serie[0])) {
+      return FALSE;
+    }
+    return trim($serie[0]);
+  }
+  
+ function getSerieDescription() {
+    $serie = !empty($this->reply->record['dc:description']['dkdcplus:series'][0]) ? $this->reply->record['dc:description']['dkdcplus:series'][0] : '';
+    return $this->process_series_description($serie);
+  }
+  
+  /**
+   * Process series information
+   * This could be handled more elegantly if we had better structured data.
+   * For now we have to work with what we got to convert titles to links
+   * Series information appear in the following formats:
+   * - Samhørende: [title 1] ; [title 2] ; [title 3]
+   * - [volumne number]. del af: [title]
+   */
+  private function process_series_description($series) {
+    $result = '';
+    $parts = explode(':', $series);
+
+    if (is_array($parts) && count($parts >= 2)) {
+      $prefix = $parts[0] . ': ';
+
+      if (stripos($prefix, 'del af:') !== FALSE) {
+        $title = $parts[1];
+        $result = $prefix . l($title, 'search/ting/' . '"' . $title . '"');
+      } else if (stripos($prefix, 'Samhørende:') !== FALSE) {
+
+        $titles = $parts[1];
+        // Multiple titles are separated by ' ; '. Explode to iterate over them
+        $titles = explode(' ; ', $titles);
+        foreach ($titles as &$title) {
+          $title = trim($title);
+          // Some title elements are actually volumne numbers. Do not convert these to links
+          if (!preg_match('/(nr.)? \d+/i', $title)) {
+            $title = l($title, 'search/ting/' . '"' . $title . '"');
+          }
+        }
+        // Reassemple titles
+        $titles = implode(', ', $titles);
+        $result = $prefix . ' ' . $titles;
+      }
+    }
+
+    return $result;
   }
 
   function getAbstract() {

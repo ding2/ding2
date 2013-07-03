@@ -109,8 +109,7 @@ function ting_field_load($entity_type, $entities, $field, $instances, $langcode,
         );
       }
     }
-  }
-  else {
+  } else {
     foreach ($entities as $id => $entity) {
       $items[$id][0] = array(
         'id' => $entity->id,
@@ -232,7 +231,7 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         '#default_value' => $settings['view_mode'],
         '#options' => $view_modes,
       );
-    break;
+      break;
   }
 
   return $element;
@@ -264,7 +263,6 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
 
   return $summary;
 }
-
 
 /**
  * Implements hook_field_formatter_view().
@@ -303,13 +301,14 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
          */
         $type = 'ting_object';
         if ($display['settings']['link_type'] == 'collection') {
-        //   // Check if the cache contains an collection for this id.
-        //   $x = ting_cache_get($entity->id);
-        //   if ($x instanceof TingClientObjectCollection) {
-            $type = 'ting_collection';
-        //   }
+          //   // Check if the cache contains an collection for this id.
+          //   $x = ting_cache_get($entity->id);
+          //   if ($x instanceof TingClientObjectCollection) {
+          $type = 'ting_collection';
+          //   }
         }
-        if ($display['settings']['link_type'] != 'none') {
+        // Only create the link if the object is available in the datawell.
+        if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
           $url = entity_uri($type, $entity);
           $title = l($entity->title, $url['path'], $url['options']);
         }
@@ -322,6 +321,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           '#markup' => $title,
         );
         break;
+
       case 'ting_type_default':
         $element[$delta] = array(
           '#theme' => 'item_list',
@@ -333,19 +333,30 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           ),
         );
         break;
+
       case 'ting_series_default':
         if ($entity->serieTitle) {
+          // The search string used is configurable because the datawell is not fully implemented regarding series.
+          // As default we search both in the serietitle register and the description field because many series only have data in the description field.
+          // This will problably change with new versions of the datawell.
+          $search_term = str_replace('@serietitle' , drupal_strtolower($entity->serieTitle),variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"'));
           $element[$delta] = array(
-            // should use phrase.title instead of dc.title but at the moment opensearch does not support the use of phrase.title
-            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/' . variable_get('ting_admin_register_serie_title', 'dc.title') . '=' . drupal_strtolower($entity->serieTitle), array('attributes' => array('class' => array('series')))),
+            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/' . $search_term , array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
+          );
+        }
+        else if ($entity->serieDescription) {
+          $element[$delta] = array(
+            '#markup' => $entity->serieDescription,
           );
         }
         break;
+
       case 'ting_abstract_default':
         $element[$delta] = array(
           '#markup' => check_plain($entity->abstract),
         );
         break;
+
       case 'ting_author_default':
         $creators = array();
         foreach ($entity->creators as $i => $creator) {
@@ -357,8 +368,8 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             $markup_string = t('By !author_link (@year)', array(
               '!author_link' => implode(', ', $creators),
               '@year' => $entity->date, // So wrong, but appears to
-                                        // be the way the data is.
-            ));
+              // be the way the data is.
+              ));
           }
           else {
             $markup_string = t('By !author_link', array(
@@ -366,13 +377,14 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             ));
           }
         }
-	elseif($entity->date != '') {
-	  $markup_string = t('(@year)', array('@year'=>$entity->date));
-	}
+        else if ($entity->date != '') {
+          $markup_string = t('(@year)', array('@year' => $entity->date));
+        }
         $element[$delta] = array(
           '#markup' => $markup_string,
         );
         break;
+
       case 'ting_subjects_default':
         if (count($entity->subjects) == TRUE) {
           $subjects = array();
@@ -384,9 +396,11 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           );
         }
         break;
+
       case 'ting_primary_object_default':
         $element[$delta] = ting_object_view($entity->primary_object, $display['settings']['view_mode']);
         break;
+
       case 'ting_collection_types_default':
         $types = array();
         foreach ($entity->types as $type) {

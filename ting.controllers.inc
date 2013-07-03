@@ -94,7 +94,7 @@ class TingObjectController extends DrupalDefaultEntityController {
       $get_ids[] = $qe->ding_entity_id;
     }
     if ($get_ids && $load_ids = array_diff($get_ids, $cached_entity_ids)) {
-      $objects = ting_get_objects($load_ids);
+      $objects = ting_get_objects(array_unique($load_ids));
     }
 
     // Not known locally. Create a proxy if it exists in the well.
@@ -138,6 +138,7 @@ class TingObjectController extends DrupalDefaultEntityController {
       $entities += $queried_entities;
     }
 
+    // If entity supports cache.
     if ($this->cache) {
       // Add entities to the cache if we are not loading a revision.
       if (!empty($queried_entities) && !$revision_id) {

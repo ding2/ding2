@@ -109,21 +109,28 @@ function ting_get_objects($ids) {
       $query[] = 'rec.id=' . $id;
     }
   }
-  if (sizeof($query)) {
-    $request = ting_get_request_factory()->getSearchRequest();
+  // Opensearch is limited to 50 results per call, so iterate until all results
+  // have been fetched.
+  $i = 0;
+  do {
+    // If the query is empty, then don't do it.
+    // Not necessary to do in each iteration, but it doesn't hurt much.
+    if (sizeof($query) == 0) {
+      break;
+    }
 
+    $request = ting_get_request_factory()->getSearchRequest();
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
     }
-
     $profile = variable_get('ting_search_profile', '');
     if (!empty($profile) && method_exists($request, 'setProfile')) {
       $request->setProfile($profile);
     }
-
     $request->setQuery(join(' OR ', $query));
-    $request->setStart(1);
-    $request->setNumResults(1000);
+    // Do it in steps of 50.
+    $request->setStart($i * 50 + 1);
+    $request->setNumResults(50);
     $request->setAllObjects(TRUE);
 
     $result = ting_execute_cache($request);
@@ -137,7 +144,9 @@ function ting_get_objects($ids) {
         }
       }
     }
-  }
+    $i++;
+  } while ($result->more);
+
   return $objects;
 }
 
@@ -376,6 +385,23 @@ function ting_cache_set($id, $value) {
     }
     $cache[$cid] = $value;
   }
+}
+
+/**
+ * Get recommendations for a given ISBN.
+ *
+ * @param string $isbn
+ *  ISBN number to get recommendations from.
+ * @param $numResults
+ *  The number of results to return.
+ * @return array
+ *  An array of TingClientObjectRecommendation objects.
+ */
+function ting_get_object_recommendations($isbn, $numResults = 10) {
+  $request = ting_get_request_factory()->getObjectRecommendationRequest();
+  $request->setIsbn($isbn);
+  $request->setNumResults($numResults);
+  return ting_execute($request);
 }
 
 /**
