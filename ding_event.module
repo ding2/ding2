@@ -9,7 +9,8 @@
  */
 function ding_event_ding_library_menu_links() {
   return array(
-    'events' => array(
+    'arrangementer' => array(
+      'linktype' => 'general_view_linktype',
       'title' => 'Events',
     ),
   );
@@ -75,6 +76,15 @@ function theme_date_time_seperate_lines($vars) {
       '<div class="field-items">' . $date . '</div></div>';
   }
   return FALSE;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_event_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
 }
 
 include_once('ding_event.features.inc');
