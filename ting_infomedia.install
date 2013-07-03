@@ -15,7 +15,7 @@ function ting_infomedia_ding_entity_fields() {
       'field' => array(
         'locked' => TRUE,
         'storage' => array(
-          'type' => 'blackhole',
+          'type' => 'virtual_field',
         ),
       ),
       'instance' => array(
@@ -43,4 +43,17 @@ function ting_infomedia_requirements($phase) {
   }
 
   return $requirements;
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_infomedia_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_infomedia')
+    ->execute();
 }
