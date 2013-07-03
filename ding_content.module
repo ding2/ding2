@@ -297,7 +297,7 @@ function ding_content_field_widget_form(&$form, &$form_state, $field, $instance,
         '#disabled' => empty($options),
         // Re-use options widget element validation, to correctly transform
         // submitted values from field => delta to delta => field.
-        // @see options_field_widget().
+        // @see options_field_widget()
         '#value_key' => 'gid',
         '#element_validate' => $type != 'item' ? array('options_field_widget_validate') : array(),
         '#properties' => $properties,

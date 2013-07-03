@@ -24,7 +24,7 @@ function ding_content_category_menu_content_type_render($subtype, $conf, $panel_
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $base =  $uri['path']. '/' . $conf['type'];
+    $base = $uri['path'] . '/' . $conf['type'];
   }
   else {
     $base = $conf['type'];
@@ -48,7 +48,7 @@ function ding_content_category_menu_content_type_render($subtype, $conf, $panel_
     else {
       $options = array();
     }
-    $items[] = l($term->name, $base . '/' . drupal_strtolower($term->name), $options);
+    $items[] = l($term->name, $base . '/' . $term->tid, $options);
   }
   $block->content = theme('item_list', array('items' => $items));
 
