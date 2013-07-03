@@ -10,7 +10,7 @@
 function ding_page_default_page_manager_handlers() {
   $export = array();
 
-  $handler = new stdClass;
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'node_view_panel_context_4';
@@ -71,8 +71,8 @@ function ding_page_default_page_manager_handlers() {
       'logic' => 'and',
     ),
   );
-  $display = new panels_display;
-  $display->layout = 'threecol_25_50_25';
+  $display = new panels_display();
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -80,17 +80,20 @@ function ding_page_default_page_manager_handlers() {
       'left' => NULL,
       'middle' => NULL,
       'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
     ),
   );
   $display->cache = array();
   $display->title = '';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass;
+    $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'left';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'block';
-    $pane->subtype = 'ding_library-ding_sidebar_menu';
+    $pane->subtype = 'menu_block-3';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -104,11 +107,12 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['left'][0] = 'new-1';
-    $pane = new stdClass;
+    $display->panels['left_sidebar'][0] = 'new-1';
+    $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'middle';
+    $pane->panel = 'main_content';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
     $pane->shown = TRUE;
@@ -135,11 +139,12 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
+    $pane->locks = '';
     $display->content['new-2'] = $pane;
-    $display->panels['middle'][0] = 'new-2';
-    $pane = new stdClass;
+    $display->panels['main_content'][0] = 'new-2';
+    $pane = new stdClass();
     $pane->pid = 'new-3';
-    $pane->panel = 'right';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -169,11 +174,12 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
+    $pane->locks = '';
     $display->content['new-3'] = $pane;
-    $display->panels['right'][0] = 'new-3';
-    $pane = new stdClass;
+    $display->panels['right_sidebar'][0] = 'new-3';
+    $pane = new stdClass();
     $pane->pid = 'new-4';
-    $pane->panel = 'right';
+    $pane->panel = 'right_sidebar';
     $pane->type = 'block';
     $pane->subtype = 'similarterms-ding_content_tags';
     $pane->shown = TRUE;
@@ -189,8 +195,9 @@ function ding_page_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
+    $pane->locks = '';
     $display->content['new-4'] = $pane;
-    $display->panels['right'][1] = 'new-4';
+    $display->panels['right_sidebar'][1] = 'new-4';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
