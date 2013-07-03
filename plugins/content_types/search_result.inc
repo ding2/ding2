@@ -78,15 +78,8 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   }
 
   if (!empty($results['#results'])) {
-    $output = "<ol class=\"search-results $conf[type]-results\">\n";
-    foreach ($results['#results'] as $result) {
-      $output .= theme('search_result', array('result' => $result, 'module' => $conf['type']));
-    }
-    $output .= "</ol>\n";
-    $output .= theme('ting_search_pager', array('tags' => NULL,));
-
     $block->title = t('Search results');
-    $block->content = $output;
+    $block->content = theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type']));;
   }
   else {
     if (empty($conf['override_empty'])) {
