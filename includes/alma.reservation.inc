@@ -1,148 +1,226 @@
 <?php
-
 /**
- * @todo
- * Where do the user enter the interest periode and preferred branch
- * information. (THIS IS NOT IMPLEMENTED YET, SO DEFAULT IS USED)
+ * @file
+ * Handles reservation with Alma.
  */
 
 
-
+/**
+ * Creates form with which can be used during reservation to select preferred
+ * branch and interest period.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @return type
+ */
 function alma_reservation_options($type, $account, $reservables) {
-  /*
-   * While we use ding_reservation for branch handling, we don't want to
-   * depend on the module, as it would mean that ding_reservation can't be
-   * disabled. So instead we throw an exception here.
-   */
+  $branches = alma_reservation_pickup_branches($account);
+  $periods = alma_get_interest_periods();
 
-  if (!module_exists('ding_reservation')) {
-    throw new Exception('Alma reservation options requires ding_reservation.');
-  }  
+  $preferred_branch = NULL;
+  $interest_period = NULL;
+  if (ding_user_is_provider_user($account)) {
+    // Load profile2 profile.
+    $profile = ding_user_provider_profile($account);
+
+    // Use a metadata wrapper to access the data.
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+    // Get values.
+    $preferred_branch = $wrapper->field_alma_preferred_branch->value();
+    $interest_period = $wrapper->field_alma_interest_period->value();
+  }
 
   $form = array();
-  $profile = ding_user_provider_profile($account);
-
-  $branches =  alma_reservation_pickup_branches($account);
-  // @todo; use local branches from issue - some migth not be available in all branches
-
-  if(ding_user_is_provider_user($account)) {
-    $preferred_branch = 'hb';
-    // $preferred_branch = $profile->openruth_preferred_branch[field_language('profile2', $profile, 'openruth_preferred_branch')][0]['value'];
-  }
-  else {
-    //$preferred_branch = NULL;
-  }
-  
-  $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch',$preferred_branch, $branches);
+  $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch', $preferred_branch, $branches);
+  $form += ding_reservation_interest_period_selector($type, 'interest_period', $interest_period, $periods);
 
   return $form;
 }
 
+/**
+ * Validate reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
+ * @return type
+ */
+function alma_reservation_options_validate($type, $account, $reservables, $values) {
+  // Load profile2 profile.
+  $profile = ding_user_provider_profile($account);
 
+  // Use a metadata wrapper to access the data.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
+  $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
+  $interest_period =  $wrapper->field_alma_interest_period->value();
+
+  // Perform a check to whether a show specific select dropdown.
+  // Returning NULL means to skip this check, therefore to reserve instantly.
+  if (!empty($$preferred_branch) && !empty($interest_period) && $type == 'create') {
+    return array(
+      'alma_preferred_branch' => $$preferred_branch,
+      'interest_period' => $interest_period,
+    );
+  }
+  else {
+    $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $preferred_branch, $values);
+    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'interest_period', $interest_period, $values);
+    return array_merge($branch_valid, $period_valid);
+  }
+}
 
 /**
- * Set preferred pickup branch
+ * Submit handler for reservations options.
+ *
+ * @param type $type
+ * @param type $account
+ * @param type $reservables
+ * @param type $values
+ */
+function alma_reservation_options_submit($type, $account, $reservables, $values) {
+  // Load profile2 profile.
+  $profile = ding_user_provider_profile($account);
+
+  // Use a metadata wrapper to access the data.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
+  $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
+
+  $update = ding_reservation_default_options_branch_submit($type, 'alma_preferred_branch', $preferred_branch, $values);
+  if (!empty($update['alma_preferred_branch'])) {
+    $wrapper->field_alma_preferred_branch->set($update['alma_preferred_branch']);
+  }
+}
+
+/**
+ * Set preferred pickup branch.
+ *
+ * @param type $account
+ * @param type $branch
  */
 function alma_reservation_set_preferred_branch($account, $branch) {
   // Throws an exception if we are not logged in.
   $creds = ding_user_get_creds($account);
 
-  /**
-   * @todo Should call alma an update the branch in the library system (not sure
-   * if branch has the right format).
-   */
-  //alma_client_invoke('get_reservations', $creds['name'], $creds['pass'], $branch);
+  // Update preferred branch.
+  alma_client_invoke('get_reservations', $creds['name'], $creds['pass'], $branch);
 }
 
 /**
  * Get list of reserved items.
+ *
+ * @param type $account
+ * @return object DingProviderReservation
  */
- function alma_reservation_list($account) {
-   $creds = ding_user_get_creds($account);
-   $reservations = alma_reservation_get_reservations($account);
-   $result = array();
+function alma_reservation_list($account) {
+  $reservations = alma_reservation_get_reservations($account);
+  $result = array();
 
-   // Create DingProviderReservation objects into to categories base on pickup
-   // status.
-   foreach ($reservations as $reservation) {
-     if (isset($reservation['pickup_number'])) {
-       $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
-         'order_id' => $reservation['id'],
-         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
-         'pickup_branch_id' => $reservation['pickup_branch'],
-         'pickup_date' => $reservation['pickup_expire_date'],
-         'created' => $reservation['create_date'],
-         'expiry' => $reservation['valid_to'],
-         'queue_number' => $reservation['queue_number'],
-         'ready_for_pickup' => 1,
-       ));
-     }
-     else {
-       $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
-         'order_id' => $reservation['id'],
-         'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
-         'pickup_branch_id' => $reservation['pickup_branch'],
-         'created' => $reservation['create_date'],
-         'expiry' => $reservation['valid_to'],
-         'queue_number' => $reservation['queue_number'],
-         'ready_for_pickup' => 0,
-       ));
-     }
-   }
+  // Create DingProviderReservation objects into to categories base on pickup
+  // status.
+  foreach ($reservations as $reservation) {
+    if (isset($reservation['pickup_number'])) {
+      $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
+        'order_id' => $reservation['id'],
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+        'pickup_branch_id' => $reservation['pickup_branch'],
+        'order_arrived' => NULL,
+        'pickup_order_id' => $reservation['pickup_number'],
+        'pickup_date' => $reservation['pickup_expire_date'],
+        'created' => $reservation['create_date'],
+        'expiry' => $reservation['valid_to'],
+        'queue_number' => $reservation['queue_number'],
+        'ready_for_pickup' => 1,
+        'notes' => isset($reservation['notes']) ? $reservation['notes'] : '',
+      ));
+    }
+    else {
+      $result[$reservation['id']] = new DingProviderReservation($reservation['id'], array(
+        'order_id' => $reservation['id'],
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+        'pickup_branch_id' => $reservation['pickup_branch'],
+        'order_arrived' => NULL,
+        'pickup_order_id' => NULL,
+        'created' => $reservation['create_date'],
+        'expiry' => $reservation['valid_to'],
+        'queue_number' => $reservation['queue_number'],
+        'ready_for_pickup' => 0,
+        'notes' => isset($reservation['notes']) ? $reservation['notes'] : '',
+      ));
+    }
+  }
 
-   return $result;
- }
+  return $result;
+}
 
-
- /**
+/**
  * Create a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @param type $options
+ * @param type $expiry
+ * @return type
+ * @throws DingProviderReservationExists
+ * @throws DingProviderReservationNotAllowed
+ * @throws DingProviderReservationNotAvailable
  */
-function alma_reservation_create($account, $id, $branch, $expiry=null) {
+function alma_reservation_create($account, $id, $options = array(), $expiry = NULL) {
   $creds = ding_user_get_creds($account);
+
   // Check if the users has this reservation and throw exception.
-  //if (alma_reservation_exists($creds, $id)) {
-  if( alma_reservation_exists($account, $id) ){
+  if (alma_reservation_exists($account, $id)) {
     throw new DingProviderReservationExists();
   }
 
-  $profile2 = profile2_load_by_user($account,'provider_alma');
-  if( !empty($profile2) ) {
-    // interest period
-    if( !isset($expiry) ) {
-      // get interest period from profile2
-      $interest_period = alma_get_interest_period($profile2);
-      if( $interest_period ){	
-	$expiry = REQUEST_TIME + ($interest_period['key'] * 24 * 60 * 60 );
-      }       
-    }    
-    if( !isset($expiry) ) {
-      $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+  $entity = ding_user_provider_profile($account);;
+  if (!empty($entity)) {
+    $wrapper = entity_metadata_wrapper('profile2', $entity);
+
+    // Interest period
+    if (!isset($options['interest_period'])) {
+      if (!isset($expiry)) {
+        // Use a metadata wrapper to access the data.
+        $interest_period = $wrapper->field_alma_interest_period->value();
+        if ($interest_period) {
+          // Change it to secounds from days.
+          $expiry = $interest_period * 86400;
+        }
+      }
+      else {
+        // The user don't have a default interest period, so use the system wide
+        // one for alma (which default is 180 days).
+        $expiry = variable_get('alma_default_interest_period', 180) * 86400;
+      }
+    }
+    else {
+      $expiry = $options['interest_period'] * 86400;
     }
 
-    // preferred branch
-    if( empty($branch) ) {
-      $pref_branch = alma_get_preferred_branch($profile2);
-      if( $pref_branch ){
-	$branches = alma_reservation_pickup_branches();
-	foreach($branches as $key => $val){
-	  if( $val == $pref_branch ) {
-	    $branch = $key;
-	    break;	    
-	  }
-	}
-      }
+    // Preferred branch
+    $branch = $wrapper->field_alma_preferred_branch->value();
+    if (isset($options['alma_preferred_branch'])) {
+      $branch = $options['alma_preferred_branch'];
     }
   }
 
   // Build the reservation parameters to send.
   $params = array(
     'id' => $id,
-    'valid_from' => date('Y-m-d'),
-    'valid_to' => alma_reservation_format_date($expiry),
+    'valid_from' => date(ALMA_DATE),
+    'valid_to' => alma_reservation_format_date(time() + $expiry),
     'pickup_branch' => $branch,
   );
 
+  // Clear the local alma cache.
   alma_reservation_clear_cache();
+
   // Try to make the reservation.
   $result = alma_client_invoke('add_reservation', $creds['name'], $creds['pass'], $params);
 
@@ -158,6 +236,7 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
     // Reset session cache
     alma_reservation_clear_cache();
     return array(
+      'branch' => $branch,
       'queue_number' => $result,
     );
   }
@@ -168,35 +247,98 @@ function alma_reservation_create($account, $id, $branch, $expiry=null) {
 
 /**
  * Update order, by defining new expiry date or pickup branch.
+ *
+ * @param type $account
+ * @param type $ids
+ * @param type $options
+ * @return boolean
  */
-function alma_reservation_update_order($account, $id, $pickup_branch, $expiry_date) {
+function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
-  if (isset($reservations[$id])) {
-    $changes = array(
-      'valid_to' => alma_reservation_format_date($expiry_date),
-      'pickup_branch' => $pickup_branch,
-    );
-    // Alma do not return a status.
-    alma_client_invoke('change_reservation', $creds['name'], $creds['pass'], $reservations[$id], $changes);
-    alma_reservation_clear_cache();
-    return TRUE;
+  $updated = FALSE;
+
+  // Processing IDs. If at least one is updated, return true.
+  foreach ($ids as $id) {
+    if (isset($reservations[$id])) {
+      $expiry_date = !empty($options['interest_period']) ? alma_reservation_format_date(strtotime($reservations[$id]['valid_from']) + $options['interest_period'] * 86400) : $reservations[$id]['valid_to'];
+      $pickup_branch = !empty($options['alma_preferred_branch']) ? $options['alma_preferred_branch'] : $reservations[$id]['pickup_branch'];
+      $changes = array(
+        'valid_to' => $expiry_date,
+        'pickup_branch' => $pickup_branch,
+      );
+      // Alma do not return a status.
+      alma_client_invoke('change_reservation', $creds['name'], $creds['pass'], $reservations[$id], $changes);
+      $updated = TRUE;
+    }
   }
 
-  return FALSE;
+  // Clear cache after all reservations have been updated.
+  if ($updated) {
+    alma_reservation_clear_cache();
+  }
+
+  return $updated;
 }
 
 /**
  * Delete a reservation for a given account.
+ *
+ * @param type $account
+ * @param type $id
+ * @return type
  */
 function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
   $reservations = alma_reservation_get_reservations($account);
-  
+
   alma_reservation_clear_cache();
-  if( isset($reservations[$id]) ) {
-    return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[$id]);
+  if (isset($reservations[(string)$id])) {
+    return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[(string)$id]);
   }
+}
+
+/**
+ * Implements hook_default_interest_period().
+ *
+ * Tries to find the users default interst period based on the users profile2
+ * provider profile.
+ *
+ * @param object $profile
+ *  The users profile2 provider profile.
+ * @return string
+ *  The default interest period selected by the user in his/her profile or the
+ * default value selected by the site.
+ */
+function alma_reservation_default_interest_period($profile = NULL) {
+  // If profile is not given, try loading it for the user.
+  if (is_null($profile)) {
+    global $user;
+    $profile = ding_user_provider_profile($user);
+  }
+
+  // Get interest period from the profile.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $value = $wrapper->field_alma_interest_period->value();
+
+  // If no period is seleted, try getting default value.
+  if (is_null($value) || empty($value)) {
+    $value = variable_get('alma_default_interest_period', 180);
+  }
+
+  return $value;
+}
+
+/**
+ * Implements hook_reservation_deletion_enabled().
+ *
+ * Check where reservation deletion have been enabled in the providers settings.
+ *
+ * @return bool
+ *  If enabled TRUE else FALSE.
+ */
+function alma_reservation_reservation_deletion_enabled() {
+  return variable_get('alma_enable_reservation_deletion', FALSE);
 }
 
 /**
@@ -208,16 +350,20 @@ function alma_reservation_delete($account, $id) {
 function alma_reservation_branch_name($branch_id) {
   // Get library organistation from alma.
   $organisation = alma_get_organisation();
-  if (isset($organisation['branch'][$branch_id])) {
-    return $organisation['branch'][$branch_id];
+  $branch = (is_array($branch_id) && isset($branch_id['alma_preferred_branch'])) ? $branch_id['alma_preferred_branch'] : $branch_id;
+  if (isset($organisation['branch'][$branch])) {
+    return $organisation['branch'][$branch];
   }
   return NULL;
 }
 
-/**********************************
- * Helper functions
+/**
+ * @TODO: add description.
+ *
+ * @param type $account
+ * @param type $reset
+ * @return type
  */
-
 function alma_reservation_get_reservations($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
 
@@ -229,12 +375,22 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
   return $_SESSION['alma_reservations'];
 }
 
+/**
+ * @TODO: add description.
+ */
 function alma_reservation_clear_cache() {
   unset($_SESSION['alma_reservations']);
 }
 
+/**
+ * @TODO: add description.
+ *
+ * @param type $account
+ * @param type $item_id
+ * @return boolean
+ */
 function alma_reservation_exists($account, $item_id) {
-  $reservations = alma_reservation_get_reservations( $account );
+  $reservations = alma_reservation_get_reservations($account);
   foreach ($reservations as $res) {
     if ($res['record_id'] == $item_id) {
       return TRUE;
@@ -243,7 +399,14 @@ function alma_reservation_exists($account, $item_id) {
   }
 }
 
-function alma_reservation_format_date($datetime) {
-  $timestamp = (!is_int($datetime)) ? strtotime($datetime) : $datetime;
-  return date('Y-m-d', $timestamp);
+/**
+ * Helper function calculate the date in the feature base on interest period.
+ *
+ * @param int $expiry
+ *  The number of secounds into the feature we need at date.
+ * @return string
+ *  The date in the feature in the format 'Y-m-d' (ALMA_DATE).
+ */
+function alma_reservation_format_date($expiry) {
+  return date(ALMA_DATE, $expiry);
 }

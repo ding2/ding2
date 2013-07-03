@@ -14,14 +14,12 @@
  */
 function alma_debt_list($account) {
   $data = alma_debt_get_debts($account);
-
   $debts = array();
 
   // Create DingProviderDebt instances from Alma's list.
   foreach ($data['debts'] as $debt) {
-    $debtObj = new DingProviderDebt($debt['id'], $debt);
-
-    $debts[$debt['id']] = $debtObj;
+    $debt_object = new DingProviderDebt($debt['id'], $debt);
+    $debts[$debt['id']] = $debt_object;
   }
 
   return $debts;
@@ -51,4 +49,3 @@ function alma_debt_get_debts($account, $reset = FALSE) {
 
   return alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
 }
-

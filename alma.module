@@ -1,32 +1,41 @@
 <?php
-
 /**
  * @file
- *
+ * Code for the Alma feature.
  */
 
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 
+// Define date formats used by Alma
+define('ALMA_DATE', 'Y-m-d');
+define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
+
 /**
  * Get list of pickup branches.
  */
-function alma_reservation_pickup_branches($account=null) {
-  // Throw exception if we're not logged in. ?? WHY this method needs no credentials
-  // ding_user_get_creds($account);
-  // return  alma_client_invoke('get_reservation_branches');
-
-  // cache alma pickup branches - they are not likely to change
+function alma_reservation_pickup_branches($account = NULL) {
+  // Cache alma pickup branches - they are not likely to change
   static $alma_pickup_branches;
-  if (!isset($alma_pickup_branches) ) {
-    if ( $cache = cache_get('alma_pickup_branches') ) {
-      $alma_pickup_branches = unserialize($cache->data);
+  if (!isset($alma_pickup_branches)) {
+    if ($cache = cache_get('alma_pickup_branches')) {
+      $alma_pickup_branches = $cache->data;
     }
     else {
       $alma_pickup_branches = alma_client_invoke('get_reservation_branches');
-      cache_set( 'alma_pickup_branches',  serialize($alma_pickup_branches),'cache');
+      cache_set('alma_pickup_branches', $alma_pickup_branches, 'cache');
     }
   }
   return $alma_pickup_branches;
+}
+
+/**
+ * Get a list of allowed interest periods.
+ */
+function alma_get_interest_periods() {
+  $field_info = field_info_field('field_alma_interest_period');
+  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+
+  return $interest_periods;
 }
 
 /**
@@ -88,6 +97,8 @@ function alma_ding_provider() {
  * This is a regular form callback.
  */
 function alma_settings_form() {
+  $form = array();
+
   $form['alma'] = array(
     '#type' => 'fieldset',
     '#title' => t('Alma service settings'),
@@ -102,6 +113,20 @@ function alma_settings_form() {
     '#default_value' => variable_get('alma_base_url', ''),
   );
 
+  // Add the option to select a default interest period for reservations, if not
+  // selected it will default to 180 days (6 months). The users can override
+  // this during reservation.
+  $periods = alma_get_interest_periods();
+  $default = variable_get('alma_default_interest_period', 180);
+  $form['alma'] += ding_reservation_interest_period_selector('', 'alma_default_interest_period', $default, $periods);
+
+  $form['alma']['alma_enable_reservation_deletion'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable reservation deletion'),
+    '#default_value' => variable_get('alma_enable_reservation_deletion', FALSE),
+    '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
+  );
+
   $form['alma']['alma_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
@@ -113,30 +138,6 @@ function alma_settings_form() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- * pjo notes: user_profile_form
- * Add in pincode validation.
- */
-function alma_form_user_profile_form_alter(&$form, &$form_state) {
-  // Ensure that we're dealing with a provider user.
-  if (!ding_user_is_provider_user($form_state['user'])) {
-    return;
-  }  
-  
-  // change size and length of pincode
-  $form['account']['pincode']['#size'] = 32;    
-  $form['account']['pincode']['#maxlength'] = 32;
- 
-  // @todo; WHAT are the rules for alma pincode
-  // HOW do we validate
-
-  // custom validator ?? maybe pincode validator ??
-  // $form['#validate'][] = 'alma_profile_form_validate';
-}
-
-
-
-/**
  * Return a fully instantiated AlmaClient instance.
  */
 function alma_client() {
@@ -146,7 +147,6 @@ function alma_client() {
   // page load.
   static $client;
   if (!isset($client)) {
-    $path = drupal_get_path('module', 'alma');
     try {
       $client = new AlmaClient(variable_get('alma_base_url', ''));
     }
@@ -213,7 +213,7 @@ function alma_get_organisation($reset = FALSE) {
         'location' => alma_client_invoke('get_locations'),
         'sublocation' => alma_client_invoke('get_sublocations'),
         'collection' => alma_client_invoke('get_collections'),
-        'reservation' =>  alma_reservation_pickup_branches(),//alma_client_invoke('get_reservation_branches'),
+        'reservation' =>  alma_reservation_pickup_branches(),
       );
 
       // Cache output for 24 hours if we got all the data correctly.
@@ -229,365 +229,286 @@ function alma_get_organisation($reset = FALSE) {
 }
 
 /**
- * Implements hook_user_view
+ * Callback function to get user information from Alma.
+ *
+ * @param array $creds
+ *  The credentials for the user for which the information shold be retrived
+ *  from Alma.
+ * @return array
+ *  Available information about the patron from Alma.
  */
-function alma_user_view( $account, $view_mode, $langcode ) {
-  $creds = ding_user_get_creds($account);
-  if (($userInfo =  alma_user_info($creds)) && isset($userInfo)) {
-    foreach ($userInfo as $key=>$prop) {
-      $data[$key] = isset($prop) ? $prop : '';
-    }
+function _alma_user_info($creds = NULL) {
+  // Get patron informations from Alma.
+  $status = alma_get_patron($creds);
 
-    $account->content['name'] = array(
-      '#type' => 'item',
-      '#title' => t('Name'),
-      '#markup' => $data['firstname'],
-    );
+  // Build basic information array, with patron information.
+  $info = array(
+    'firstname' => $status->name,
+    'lastname' => '',
+    'email' => $status->email,
+    'address' => $status->address,
+    'postal' => $status->postal,
+    'city' => $status->city,
+    'mobile' => $status->mobiles,
+    'agency' => $status->branchName,
+  );
 
-    $address_parts = array($data['address']);   
-    if (!empty($data['postal']) || !empty($data['city'])) {
-      $address_parts[] = join('<br /> ', array_filter(array($data['postal'], $data['city'])));
-    }
-
-    // @todo: really, there should be a template for this.
-    $account->content['address'] = array(
-      '#type' => 'item',
-      '#title' => t('Address'),
-      '#markup' => '<p>' . join('<br />',$address_parts) . '</p>',
-    );
-  };
-  // @todo: add provider specific fields
-  alma_set_profile2_fields( $account );
-  
-}
-
-
-function alma_set_profile2_fields($account) {
-  if( !module_exists('profile2') ) {
-    return;
-  } 
-
-  $profile2 = profile2_load_by_user($account, 'provider_alma');
-  if( empty($profile2) ) {
-    return;
-  }  
-
-  // wrapper for profile2-fields
-  $account->content['profile2'] = array(
-      '#type' => 'item',
-      '#title' => t('My library'),    
-      '#prefix' => '<div class="profile2_provider_fields">',
-      '#suffix' => '</div>',
-    ); 
-
-  // set preferred branch
-  if( $pref_branch = alma_get_preferred_branch( $profile2 ) ) {
-    $account->content['profile2']['preferred_branch'] = array(
-      '#type' => 'item',
-      '#title' => t('Pickup branch'),
-      '#markup' => '<span>'.$pref_branch.'</span>',      
-    );
-  }   
-
-  // set interest period
-  if( $interest_period = alma_get_interest_period($profile2) ) {
-    $account->content['profile2']['interest_period'] = array(
-      '#type' => 'item',
-      '#title' => t('Interest period'),
-      '#markup' => '<span>'.$interest_period['value'].'</span>',
-    );
-  }  
-
-  // set mobile phone
-  if( $mob = alma_get_mobile_phone($profile2) ) {
-    $account->content['profile2']['mobile'] = array(
-      '#type' => 'item',
-      '#title' => t('Mobile phone'),
-      '#markup' => '<span>'.$mob.'</span>',
-    );
-  } 
-  
-  // set reservation pause
-  if( $reservation_pause = alma_get_reservation_pause( $profile2 ) ) {
-        //wrapper for reservation pause
-       $account->content['profile2']['reservation_pause'] = array(
-         '#type' => 'item',
-         '#title' => t('Reservation pause'),
-         '#prefix' => '<div class="profile2_provider_reservation_pause">',
-         '#suffix' => '</div>',
-       );
-
-       $account->content['profile2']['reservation_pause']['start'] = array(
-         '#type' => 'item',
-         '#title' => t('Start'),
-         '#markup' => '<span>'.str_replace('T00:00:00','',$reservation_pause['start']).'</span>',
-       );
-
-        $account->content['profile2']['reservation_pause']['stop'] = array(
-         '#type' => 'item',
-         '#title' => t('Stop'),
-         '#markup' => '<span>'.str_replace('T00:00:00','',$reservation_pause['stop']).'</span>',
-       );       
-  }
-}
-
-function alma_get_mobile_phone( $profile2 ) {
-  $langs = field_language('profile2', $profile2);
-  
-  if(  empty($profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']] ) ) {
-    return false;
-  }
-
-  $mob = 
-    isset($profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ?
-    $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] : FALSE;
-  
-  return $mob;
-}
-
-function alma_get_reservation_pause($profile2){
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-  
-  if(  empty($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']] ) ) {
-    return false;
-  }
-  
-  $res_pause['start'] = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
-  $res_pause['stop'] = $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
-
-  if( strlen($res_pause['start']) < 2 || strlen($res_pause['stop']) < 2 ) {
-    return false;
-  }
-
-  return $res_pause;
-}
-
-function alma_get_interest_period( $profile2 ) {
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-  // get field-info to retrieve values for select list
-  $field_info = field_info_field('field_alma_interest_period');  
-
-  $interest_period = FALSE;
-  $int_values = isset( $field_info['settings']['allowed_values'] ) ?  $field_info['settings']['allowed_values']: FALSE;
-  if( $int_values ) {
-    $int_period = $profile2->field_alma_interest_period[$langs['field_alma_interest_period']][0]['value'];
-    $interest_period = isset($int_values[$int_period]) ? array('key'=>$int_period,'value'=>$int_values[$int_period]) : FALSE;
-  }  
-  return $interest_period;
-}
-
-function alma_get_preferred_branch( $profile2 ) {
-  // get field languages
-  $langs = field_language('profile2', $profile2);
-  
-  //get preferred branch
-  $pref_branch = 
-    isset($profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value']) ?
-    $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value']:'';
-
-  $branches = alma_reservation_pickup_branches();
-  $pref = isset($branches[$pref_branch]) ? $branches[$pref_branch] : FALSE;
-
-  return $pref;
+  return $info;
 }
 
 /**
  * Implements hook_profile2_presave().
  *
- * Sends changes to Alma 
+ * Updates changes add to the profile when its saved.
  */
-function alma_profile2_presave($profile2) {
-  if( !$profile2->type == 'provider_alma' ) {
-    return;
-  }
-  // do not presave when initializing
-  // @see alma.user/alma_user_profile_init
-  if( isset($profile2->alma_init) ) {
-    return;
-  }  
-  // providerfields: field_alma_preferred_branch, field_alma_interest_period, field_alma_reservation_pause; field_alma_mobile_phone
-  $langs = field_language('profile2', $profile2);
-  
-  // reservation pause
-   if( !empty( $profile2->original->field_alma_reservation_pause ) ) {   
-     $start = 
-       isset($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value']) ?
-       $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'] : '';
-    $start = str_replace('T00:00:00','',$start);
+function alma_profile2_presave($entity) {
+  // Check if the profile is just being created and is an alma_provider profile.
+  // If it's being created the fields are not yet loaded and can't be saved back
+  // to the provider.
+  $try_to_save = ($entity->created == $entity->changed) ? FALSE : TRUE;
+  if ($entity->type == 'provider_alma' && $try_to_save) {
+    $changes = array();
 
-    $stop = 
-      isset($profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2']) ?
-      $profile2->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'] : '';
-    $stop = str_replace('T00:00:00','',$stop);    
+    // Use a metadata wrapper to access the data.
+    $wrapper_original = entity_metadata_wrapper('profile2', $entity->original);
+    $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-    $org_start = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value'];
-    $org_start = str_replace('T00:00:00','',$org_start);
-    
-    $org_stop = $profile2->original->field_alma_reservation_pause[$langs['field_alma_reservation_pause']][0]['value2'];
-    $org_stop = str_replace('T00:00:00','',$org_stop);
-    
-    if( $start != $org_start || $stop != $org_stop ) {
+    // Reservation pause (Start)
+    $value = $wrapper->field_alma_reservation_pause->value();
+    $start = '';
+    if (!is_null($value['value'])) {
+      $start = date(ALMA_DATE, strtotime($value['value']));
+    }
+    $stop = '';
+    if (!is_null($value['value2'])) {
+      $stop = date(ALMA_DATE, strtotime($value['value2']));
+    }
+
+    // Reservation pause (Stop)
+    $value = $wrapper_original->field_alma_reservation_pause->value();
+    $org_start = '';
+    if (!is_null($value['value'])) {
+      $org_start = date(ALMA_DATE, strtotime($value['value']));
+    }
+    $org_stop = '';
+    if (!is_null($value['value2'])) {
+      $org_stop = date(ALMA_DATE, strtotime($value['value2']));
+    }
+
+    // Check if the reservation pause have changed.
+    if ($start != $org_start || $stop != $org_stop) {
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
-      $changes['absent_id'] = $profile2->field_absent_id[$langs['field_absent_id']][0]['value'];
-    }   
-   }
 
-   // alma_preferred_branch (patronBranch)
-   if( !empty( $profile2->original->field_alma_preferred_branch ) ) {
-     $org_branch = $profile2->original->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'];
-     $new_branch = $profile2->field_alma_preferred_branch[$langs['field_alma_preferred_branch']][0]['value'];
+      // Set absent id.
+      $value = $wrapper->field_alma_absent_id->value();
+      $changes['absent_id'] = is_null($value) ? '' : $value;
+    }
 
-     if( $org_branch != $new_branch ) {
-       $changes['preferred_branch'] = $new_branch;
-     }
-   } 
+    // Get preferred branch (patronBranch)
+    $value = $wrapper->field_alma_preferred_branch->value();
+    if (!is_null($value)) {
+      if ($value != $wrapper_original->field_alma_preferred_branch->value()) {
+        $changes['preferred_branch'] = $value;
+      }
+    }
 
-   //change or remove
-   if( !empty($profile2->original->field_alma_mobile_phone ) ) {
-     $org_phone = $profile2->original->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];
-     $new_phone = 
-       !empty( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value']) ? 
-       $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] :
-       'DELETE';
-     if( $org_phone != $new_phone ) {
-       $changes['mobile'] = $new_phone;
-       $changes['phone_id'] = $profile2->field_alma_phone_id[$langs['field_alma_phone_id']][0]['value'];
-     }
-   }
-   // add 
-   elseif( isset( $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] ) &&
-	   !isset( $profile2->original->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'] )) {
-    $changes['mobile'] = $profile2->field_alma_mobile_phone[$langs['field_alma_mobile_phone']][0]['value'];   
-  } 
-  
+    // Mobile phone.
+    $value = $wrapper->field_alma_mobile_phone->value();
+    if (!is_null($wrapper_original->field_alma_mobile_phone->value())) {
+      // Update mobile phone number.
+      $value = is_null($value) ? 'DELETE' : $value;
+      if ($value != $wrapper_original->field_alma_mobile_phone->value()) {
+        $changes['mobile'] = $value;
 
-   // Interest period ? apparently not an alma parameter.. @todo; check if Interest period should be saved on provider 
+        // Get phone id.
+        $changes['phone_id'] = $wrapper->field_alma_phone_id->value();
+      }
+    }
+    else if (!is_null($value) && is_null($wrapper_original->field_alma_mobile_phone->value())) {
+      $changes['mobile'] = $value;
+    }
 
-   // update provider
-   if( isset($changes) ) {
-     alma_update_provider( $changes,$profile2 );
-   }  
-   
+    // Get the mail.
+    $value = $wrapper->field_alma_mail->value();
+    if (!is_null($value) && $value != $wrapper_original->field_alma_mail->value()) {
+        $changes['mail'] = $value;
+    }
+
+    // Update provider.
+    if (!empty($changes)) {
+      alma_update_provider($changes, $entity);
+
+      // Update local drupal user (mail and display name).
+      if (isset($changes['mail'])) {
+        $creds = ding_user_get_creds($entity);
+        $auth_name = ding_user_default_authname($creds['name']);
+        _ding_user_create_account($auth_name, array(
+          'user' => array(
+            'mail' => $changes['mail'],
+            'data' => array(
+              'display_name' => $wrapper->field_alma_full_name->value(),
+            ),
+          ),
+        ));
+      }
+
+      // Clear local session cache by reloading patron from Alma.
+      alma_get_patron(NULL, TRUE);
+    }
+  }
 }
 
-function alma_update_provider( $changes, $profile2 ) {
-  $error_message = t('Error communicating with library system. ');
+/**
+ * Update user information at the provider.
+ *
+ * @global object $user
+ *  The user object for the currently logged in user.
+ *
+ * @param array $changes
+ *  Array with the fields/information that have changed and should be updated at
+ *  the provider.
+ * @param object $entity
+ *  An profile2 entity, mainly used to the user credentials.
+ */
+function alma_update_provider($changes, $entity) {
+  $error_message = t('Error communicating with library system.');
 
-  try{  $creds = ding_user_get_creds( $profile2 );}
-  catch(Exception $e){
-    // rethrow ??
-    throw $e;
+  try {
+    $creds = ding_user_get_creds($entity);
+  }
+  catch (Exception $exception) {
+    watchdog_exception('Alma provider', $exception);
+    throw $exception;
   }
 
-  // mobile phone; add, change, delete
-  if( isset($changes['phone_id']) ) {    
-    if( $changes['mobile'] == 'DELETE' ) {
-      //delete mobile
-      try{
-	$res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
+  // Mobile phone; add, change, delete.
+  if (isset($changes['phone_id'])) {
+    if ($changes['mobile'] == 'DELETE') {
+      // Delete mobile.
+      try {
+        $res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['phone_id']);
       }
-      catch(Exception $e){
-	watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $exception) {
+        watchdog_exception('Alma provider', $exception);
       }
-      if( !$res ) {
-	$error_message .= t('mobile not deleted');
-	drupal_set_message($error_message,'warning');
+
+      if (empty($res)) {
+        $error_message .= t('phone not deleted');
+        drupal_set_message($error_message, 'warning');
       }
     }
     else {
-      //update mobile
-       try{
-	$res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
+      // Update mobile.
+      try {
+        $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
       }
-      catch(Exception $e){
-	watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+      catch (Exception $exception) {
+        watchdog_exception('Alma provider', $exception);
       }
-      if( !$res ) {
-	$error_message .= t('mobile not updated');
-	drupal_set_message($error_message,'warning');
-      }      
-    }       
-  }
-  elseif( isset($changes['mobile']) ){
-    // add mobile
-    try{
-      $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile'] );
-    }
-    catch(Exception $e){
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
-    }
-    if( !$res ) {
-      $error_message .= t('mobile not added');
-      drupal_set_message($error_message,'warning');
-    }
-  }      
-  
-  // update reservation pause (absentPeriod)
-  if( !empty( $changes['absent_id'] ) &&
-      !empty($changes['reservation_pause_start']) && 
-      !empty( $changes['reservation_pause_stop'] )) {
 
-     try {
-      $res =  alma_client_invoke('change_absent_period',$creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'],$changes['reservation_pause_stop'] );
-    }
-    catch(Exception $e){
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
-    }
-    if( !$res ) {
-      $error_message .= t('reservation pause not updated');
-      drupal_set_message($error_message,'warning');
+      if (!$res) {
+        $error_message .= t('mobile not updated');
+        drupal_set_message($error_message, 'warning');
+      }
     }
   }
-  // add reservation pause
-  elseif( !empty($changes['reservation_pause_start'])  && 
-	  !empty( $changes['reservation_pause_stop'] ) ) {
+  elseif (isset($changes['mobile'])) {
+    // Add mobile.
     try {
-      $res = alma_client_invoke('add_absent_period',$creds['name'], $creds['pass'], $changes['reservation_pause_start'],$changes['reservation_pause_stop']);
+      $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile']);
     }
-    catch(Exception $e){
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
     }
-    if( !$res ) {
-      $error_message .= t('reservation pause not added');
-      drupal_set_message($error_message,'warning');
+    if (!$res) {
+      $error_message .= t('mobile not added');
+      drupal_set_message($error_message, 'warning');
     }
   }
-  // delete reservation pause
-  elseif( !empty( $changes['absent_id'] ) ) {
+
+  // Update reservation pause (absentPeriod).
+  if (!empty( $changes['absent_id']) &&
+      !empty($changes['reservation_pause_start']) &&
+      !empty( $changes['reservation_pause_stop'])) {
+
+    try {
+      $res =  alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
+    }
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
+    }
+    if (empty($res)) {
+      $error_message .= t('reservation pause not updated');
+      drupal_set_message($error_message, 'warning');
+    }
+  }
+  // Add reservation pause
+  elseif (!empty($changes['reservation_pause_start']) && !empty($changes['reservation_pause_stop'])) {
+    try {
+      $res = alma_client_invoke('add_absent_period', $creds['name'], $creds['pass'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
+    }
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
+    }
+    if (empty($res)) {
+      $error_message .= t('reservation pause not added');
+      drupal_set_message($error_message, 'warning');
+    }
+  }
+  // Delete reservation pause.
+  elseif (!empty($changes['absent_id'])) {
     try {
       $res = alma_client_invoke('remove_absent_period', $creds['name'], $creds['pass'], $changes['absent_id']);
     }
-    catch(Exception $e){
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
     }
-
-    // this one actually deletes the reservation pause, but returns an error ??
-    // for now disable messages...@todo; fix it.
-    /* if( !$res ) {
-      $error_message .= t('reservation pause not deleted');
-      drupal_set_message($error_message,'warning');
-      }*/
   }
 
-  // update preferred branch (patronBranch)
-  if( !empty($changes['preferred_branch'] ) ) {
+  // Update preferred branch (patronBranch).
+  if (!empty($changes['preferred_branch'])) {
     try {
-      $res = alma_client_invoke( 'change_patron_preferences' , $creds['name'], $creds['pass'], $changes['preferred_branch']);
+      $res = alma_client_invoke('change_patron_preferences', $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
-    catch(Exception $e){
-      watchdog('Alma provider', $e->getMessage(), array(), WATCHDOG_ERROR);
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
     }
-    if( !$res ) {
+    if (empty($res)) {
       $error_message .= t('pickup branch not saved');
-      drupal_set_message($error_message,'warning');
+      drupal_set_message($error_message, 'warning');
     }
-  }   
+  }
 
-   // refresh patron
-  alma_get_patron($creds, TRUE); 
+  // Update email (remeber to update the drupal user account).
+  if (!empty($changes['mail'])) {
+    global $user;
+
+    // Update or add mail to alma
+    try {
+      // Add email
+      if (empty($user->mail) && !empty($changes['mail'])) {
+        $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
+      }
+      // Change email
+      elseif (isset($user->mail) && !empty($changes['mail'])) {
+        $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $user->mail, $changes['mail']);
+      }
+    }
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
+    }
+
+    if (empty($res)) {
+      $error_message .= t('mail was not saved');
+      drupal_set_message($error_message, 'warning');
+    }
+    else {
+      // Update drupal user account mail.
+      $user->mail = $changes['mail'];
+      user_save($user);
+    }
+  }
 }
 
 /**
@@ -607,26 +528,111 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
     $creds = ding_user_get_creds($user);
   }
 
-  static $patron;
+  // Try static cache.
+  $patron = &drupal_static(__FUNCTION__);
   if (!$patron || $reset) {
-    $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
-    $organisation = alma_get_organisation();
-    $patron = array(
-      'name' => $info['user_name'],
-      'email' => isset($info['mails'][0]) ? $info['mails'][0]['mail'] : '',
-      'address' => isset($info['addresses'][0]) ? $info['addresses'][0]['street'] : '',
-      'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
-      'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
-      'mobiles' => isset($info['phones']) ? $info['phones'] : '',
-      'branch' => $info['preferences']['patron_branch'],
-      'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
-      'absentPeriods'=>isset($info['absent_periods']) ? $info['absent_periods'] : '',
-    );
-  }
-  if( $as_array ) {
-    return $patron;
+    // Try session cache.
+    if (!$reset && isset($_SESSION['alma_patron_info'])) {
+      $patron = $_SESSION['alma_patron_info'];
+    }
+    else {
+      $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
+      $organisation = alma_get_organisation();
+      $patron = array(
+        'name' => $info['user_name'],
+        'email' => isset($info['mails'][0]) ? $info['mails'][0]['mail'] : '',
+        'address' => isset($info['addresses'][0]) ? $info['addresses'][0]['street'] : '',
+        'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
+        'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
+        'mobiles' => isset($info['phones']) ? $info['phones'] : '',
+        'branch' => $info['preferences']['patron_branch'],
+        'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
+        'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
+      );
+
+      // Store information in session cache.
+      $_SESSION['alma_patron_info'] = $patron;
+    }
   }
 
-  return (object) $patron;
+  // Cast petron to object.
+  if (!$as_array) {
+    $patron = (object)$patron;
+  }
+
+  return $patron;
 }
 
+/**
+ * Implements hook_profile2_load().
+ *
+ * When every a profile2 profile is load this hook it called and as we are using
+ * virtual fields the content has to be field in from Alma just in time. So this
+ * seams to be the right place and at the same time ensure that the information
+ * is not stored locally.
+ *
+ * Note: that the interest period is store locally in the database as alma do
+ *       not have the ability to store it. So that field is not fill in here.
+ *
+ */
+function alma_profile2_load($entities) {
+  foreach ($entities as $id => &$entity) {
+    if ($entity->type == 'provider_alma') {
+
+      // User static cache to ensure that alma is not asked more than once.
+      $patron = &drupal_static(__FUNCTION__);
+      if (!isset($patron)) {
+        // Get information from alma about the current user.
+        global $user;
+        try {
+          $creds = ding_user_get_creds($user);
+        }
+        catch (DingProviderAuthException $e) {
+          // The user was not logged in, hence we can't fill out the profile.
+          return;
+        }
+
+        // Get uers information from alma.
+        $patron = alma_get_patron($creds);
+      }
+
+      // Use a metadata wrapper to access the data.
+      $wrapper = entity_metadata_wrapper('profile2', $entity);
+
+      // Reservation pause.
+      $wrapper->field_alma_reservation_pause->set(array(
+        'value' => '',
+        'value2' => '',
+      ));
+      if (isset($patron->absentPeriods[0]) &&
+          isset($patron->absentPeriods[0]['from_date']) && isset($patron->absentPeriods[0]['to_date'])) {
+        $wrapper->field_alma_reservation_pause->set(array(
+          'value' => date(ALMA_DATE_LONG, strtotime($patron->absentPeriods[0]['from_date'])),
+          'value2' => date(ALMA_DATE_LONG, strtotime($patron->absentPeriods[0]['to_date'])),
+        ));
+        $wrapper->field_alma_absent_id->set($patron->absentPeriods[0]['id']);
+      }
+
+      // Full name.
+      $wrapper->field_alma_full_name->set($patron->name);
+
+      // Set full address.
+      $wrapper->field_alma_street_name->set($patron->address);
+      $wrapper->field_alma_postal_code->set($patron->postal);
+      $wrapper->field_alma_city->set($patron->city);
+
+      // Preferred_branch.
+      $wrapper->field_alma_preferred_branch->set($patron->branch);
+
+      // Mobile; also here alma supports multiple phones - again we pick the first
+      $wrapper->field_alma_mobile_phone->set(isset($patron->mobiles[0]['phone']) ? $patron->mobiles[0]['phone'] : '');
+      $wrapper->field_alma_phone_id->set(isset($patron->mobiles[0]['id']) ? $patron->mobiles[0]['id'] : NULL);
+
+      // Mail address.
+      $wrapper->field_alma_mail->set($patron->email);
+    }
+  }
+}
+
+// Include the feature code.
+include_once 'alma.features.inc';
