@@ -33,7 +33,8 @@ function ding_user_authenticate_form($form, &$form_state) {
   }
 
   // Display login form:
-  $form['name'] = array('#type' => 'textfield',
+  $form['name'] = array(
+    '#type' => 'textfield',
     '#title' => t('Username'),
     '#size' => 60,
     '#maxlength' => USERNAME_MAX_LENGTH,
@@ -41,7 +42,8 @@ function ding_user_authenticate_form($form, &$form_state) {
   );
 
   $form['name']['#description'] = t('Enter your @s username.', array('@s' => variable_get('site_name', 'Drupal')));
-  $form['pass'] = array('#type' => 'password',
+  $form['pass'] = array(
+    '#type' => 'password',
     '#title' => t('Password'),
     '#description' => t('Enter the password that accompanies your username.'),
     '#required' => TRUE,
@@ -50,7 +52,10 @@ function ding_user_authenticate_form($form, &$form_state) {
   // specifying any special validators, but relying on the normal behaviour.
 
   $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Log in'));
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Log in'),
+  );
 
   return $form;
 }
@@ -94,17 +99,8 @@ function ding_user_authenticate_form_validate($form, &$form_state) {
  * Form submit function.
  */
 function ding_user_authenticate_form_submit($form, &$form_state) {
-  global $user;
   if ($form_state['authentication_success']) {
-    // user_save clears the session related properties off the $user
-    // object, causing session_write_close to emit a notice about an
-    // undefined property, which we don't want. But as we're a submit
-    // handler, we assume that nobody will rely on the $user object to
-    // have updated properties from the provider before this request
-    // ends, so we just hand the saving function a clone of the $user.
-    $account = clone $user;
-    ding_user_update_user($form_state['auth_res'], $account);
-    ding_user_save_creds($form_state['auth_res'], $user);
+    ding_user_save_creds($form_state['auth_res']);
     $form_state['redirect'] = 'user/' . $user->uid;
   }
 }

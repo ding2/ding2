@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Handles some tabs on the user profile page ?
+ */
 
 /**
  * Plugins are described by creating a $plugin array which will be used
