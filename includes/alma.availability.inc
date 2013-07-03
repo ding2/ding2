@@ -5,6 +5,18 @@
  */
 
 /**
+ * Implements provider availability, items.
+ */
+function alma_availability_items($provider_ids) {
+  $ids = join(',', $provider_ids);
+  $result = alma_client_invoke('get_availability', $ids);
+  if (!$result) {
+    $result = array();
+  }
+
+  return $result;
+}
+/**
  * Implements provider availability, holdings.
  */
 function alma_availability_holdings($provider_ids) {
@@ -16,6 +28,7 @@ function alma_availability_holdings($provider_ids) {
     foreach ($details['records'] as $alma_id => $record) {
       $holding = array(
         'local_id' => $alma_id,
+        'title' => $record['titles'][0],
         'available' => ($record['available_count'] > 0),
         'reservable' => $record['show_reservation_button'],
         'show_reservation_button' => $record['show_reservation_button'],
