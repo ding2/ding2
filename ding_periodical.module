@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Shows issue information on periodicals.
@@ -9,41 +8,224 @@
 module_load_include('inc', 'ding_periodical', 'ding_periodical.field');
 
 /**
+ * Implements hook_menu().
+ */
+function ding_periodical_menu() {
+  $items = array();
+
+  // Ajax callback to get issue information.
+  $items['ding_periodical/issues/%'] = array(
+    'title' => 'Periodical issue information',
+    'page callback' => 'ding_periodical_issues_ajax',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Callback function that load holdings information for a periodical and returns
+ * the information as a HTML table in JSON.
+ *
+ * @param string $ding_entity_id
+ *  Ding entity id for the periodical.
+ */
+function ding_periodical_issues_ajax($ding_entity_id) {
+  $output = array();
+
+  // Load the entity for the periodical.
+  $entity = ding_entity_load($ding_entity_id);
+
+  // Get availability
+  $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
+  if (isset($availability[$entity->provider_id])) {
+    $issues = $availability[$entity->provider_id]['issues'];
+    krsort($issues);
+
+    if ($issues) {
+      $output = array(
+        '#theme' => 'ding_periodical_issues',
+        '#entity' => $entity,
+        '#issues' => $issues,
+        '#availability' => $availability,
+      );
+    }
+  }
+
+  // Render the output to HTML an return it.
+  drupal_json_output(array(
+    'html' => empty($output) ? '' : render($output),
+  ));
+}
+
+/**
  * Implements hook_theme().
  */
 function ding_periodical_theme() {
   return array(
     'ding_periodical_issues' => array(
-      // 'variables' => array('entity', 'issues'),
-      'render element' => 'elements',
+      'variables' => array(
+        'entity' => NULL,
+        'issues' => array(),
+        'availability' => array(),
+      ),
+    ),
+    'ding_periodical_issues_ajax' => array(
+      'variables' => array(
+        'ding_entity_id' => NULL,
+      ),
+      'template' => 'ding-periodical-issues'
     ),
   );
 }
 
 /**
- * Theming function.
+ * Implements theme_ding_periodical_issues().
+ *
+ * Create list of periodical issues order by year.
  */
 function theme_ding_periodical_issues($variables) {
   $items = array();
-  foreach ($variables['elements']['#issues'] as $volume => $issues) {
-    $iss = array();
-      foreach ($issues as $key => $availability) {
-      $issue = $key;
-      // check user
-      if ($availability['reservable'] && module_exists('ding_periodical_reservation')) {
-	  $issue .= ' ' . ding_periodical_reservation_button($availability['local_id'], $volume, $key, $variables['elements']['#entity']);
-	}
-      $iss[] = $issue;
-      }  
 
-      $vol = 
-	array(
-	      'data' => '<div class="'.drupal_html_class('ding_periodical_fold').'">'.$volume.'</div>',
-	      'children' => $iss,
-	      'class' => array(drupal_html_class('ding_periodical_foldable'),),
-	      );
-      $items[] = $vol;
+  foreach ($variables['issues'] as $volume => $issues) {
+    $iss = array();
+    $i = 0;
+
+    foreach ($issues as $key => $availability) {
+      $issue = $key;
+      $issue_id = $availability['local_id'];
+
+      $normalized_id = md5($issue_id);
+
+      // Build table with holding information for the current volume.
+      $holding_data = ding_periodical_build_table($availability);
+
+      // Check if the volume is reservable and add reservation form.
+      if (!empty($issue_id) && ding_periodical_has_copies($issues[$key])) {
+        $reservation = new DingPeriodicalReservable($issue_id, $volume, $key, $variables['entity']);
+        $form = ding_provider_get_form('ding_reservation_reserve_form', $reservation, TRUE);
+        $holding_data .= drupal_render($form);
+      }
+
+      $holdings = array(
+        array(
+          'data' => '<div class="periodical-holdings">' . $holding_data . '</div>',
+        )
+      );
+
+      // Normal behavior - periodicals, dc.type=tidsskrift.
+      $iss[$i] = array(
+        'data' => '<span id="periodical-id-' . $normalized_id . '" class="ding-periodical-fold ding-reservable-periodical periodical-id-' . $normalized_id . '">' . $issue . '</span>',
+        'class' => array(
+          drupal_html_class('ding-periodical-container'),
+        ),
+      );
+
+      // Suppose we have dc.type=årbog, where keys for those periodicals are
+      // empty.
+      if (empty($issue)) {
+        $iss[$i]['data'] = $holdings[0]['data'];
+        $iss[$i]['class'][] = drupal_html_class('ding-periodical-no-issues');
+        $iss[$i]['class'][] = drupal_html_class('ding-reservable-periodical');
+        $iss[$i]['id'][] = drupal_html_id('periodical-id-' . $normalized_id);
+      }
+      else {
+        // Set children with holding information for periodicals.
+        $iss[$i]['children'] = $holdings;
+      }
+
+      $i++;
+    }
+
+    $vol = array(
+      'data' => '<div class="' . drupal_html_class('ding_periodical_fold') . '">' . $volume . '</div>',
+      'children' => $iss,
+      'class' => array(drupal_html_class('ding_periodical_foldable')),
+    );
+
+    $items[] = $vol;
   }
 
-  return theme('item_list', array('items' => $items,'attributes'=>array('class'=>drupal_html_class('ding_periodical_issues'))));
+  return theme('item_list', array('items' => $items, 'attributes' => array('class' => 'ding-periodical-issues')));
+}
+
+/**
+ * Build a markup for the availability table.
+ *
+ * @param $issue
+ *   Issue array, with keys:
+ *   - local_id: Periodical identifier.
+ *   - provider: Provider identifier, 'alma' here.
+ *   - placement: Item placement info.
+ *     - location: Actual location string.
+ *     - ordered_count
+ *     - checked_out_count
+ *     - reference_count
+ *     - total_count
+ *     - available_count
+ *     - reservable
+ *
+ * Keys checked_out_count, reference_count, ordered_count
+ * appear only in alma.
+ *
+ * @todo
+ *   This table DOES NOT contain the reservations count,
+ *   since this number comes as a separate value, for the whole
+ *   ting item, not the periodicals.
+ *
+ * @return
+ *   HTML markup for the availability table.
+ */
+function ding_periodical_build_table($availability) {
+  $header = array(
+    'placement' => t('Placement'),
+    'copies' => t('Copies'),
+    'home' => t('At home'),
+  );
+
+  $rows = array();
+
+  if ($availability['provider'] === 'alma') {
+    $header['not_for_loan'] = t('Not for loan');
+    $header['checked_out'] = t('Checked out');
+  }
+
+  $i = 0;
+  foreach ($availability['placement'] as $placement) {
+    $rows[$i] = array(
+      $placement['location'],
+      $placement['total_count'],
+      $placement['available_count'],
+    );
+
+    if ($availability['provider'] === 'alma') {
+      $rows[$i][] = $placement['reference_count'];
+      $rows[$i][] = $placement['checked_out_count'];
+    }
+
+    $i++;
+  }
+
+  // Note: If stikcy header is TRUE, it will keep adding the js in FF until the
+  //       browser goes down.
+  return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE));
+}
+
+/**
+ * Check if a given issue of a periodical have any copies on the libraries.
+ *
+ * @param array $issue
+ *  An periodical isssue form the provider.
+ * @return boolean
+ *  If a copy exists it return TRUE else FALSE.
+ */
+function ding_periodical_has_copies($issue) {
+  foreach ($issue['placement'] as $placement) {
+    if ($placement['total_count']) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
