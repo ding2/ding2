@@ -115,6 +115,42 @@ function ding_base_date_format_types() {
 }
 
 /**
+* Implements hook_date_formats().
+* Provides specific extra formats used by Ding! modules and assigning them to specific date types
+*/
+function ding_base_date_formats() {
+  $formats = array();
+
+  $formats[] = array(
+    'type'    => 'medium',
+    'format'  => 'l j. F', 
+    'locales' => array(),
+  );
+
+  $formats[] = array(
+    'type'    => 'long',
+    'format'  => 'l j. F Y', 
+    'locales' => array(),
+  );
+  
+  $formats[] = array(
+    'type'    => 'short',
+    'format'  => 'G:i', 
+    'locales' => array(),
+  );
+
+  // save certain date formats into variables
+  foreach ($formats as $format) {
+    variable_set('date_format_' . $format['type'], $format['format']);
+  }
+  variable_set('date_format_long_date_only', 'l j. F Y');
+  variable_set('date_format_date_only', 'l j. F');
+  variable_set('date_format_time_only', 'G:i');
+
+  return $formats;
+}
+
+/**
  * Implements hook_element_info().
  */
 function ding_base_element_info() {
@@ -217,7 +253,7 @@ function ding_base_element_process_tableselect_form($element) {
 function theme_tableselect_form($variables) {
   $element = $variables['element'];
   $rows = array();
-  $header = $element['#header'];
+  $header = array();
   if (!empty($element['#options'])) {
     // Generate a table row for each selectable item in #options.
     foreach (element_children($element) as $key) {
@@ -238,6 +274,10 @@ function theme_tableselect_form($variables) {
       // correct order by iterating over the header fields.
       foreach ($element['#header'] as $fieldname => $title) {
         $row['data'][] = $element['#options'][$key][$fieldname];
+        
+        // Add classes to table header columns.
+        $translated_title = $element['#header'][$fieldname];
+        $header[$fieldname] = array('data' => $translated_title, 'class' => $fieldname);
       }
       $rows[] = $row;
     }
