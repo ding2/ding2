@@ -435,7 +435,7 @@ class AlmaClient {
 
     // If there's not a validFrom date, set it as today.
     if (empty($params['reservationValidFrom'])) {
-      $params['reservationValidFrom'] = date('Y-m-d', $_SERVER['REQUEST_TIME']);
+      $params['reservationValidFrom'] = date(ALMA_DATE, $_SERVER['REQUEST_TIME']);
     }
 
     // If there's not a validTo date, set it a year in the future.
@@ -876,8 +876,8 @@ class AlmaClient {
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
       'absentId' => $absent_id,
-      'absentFrom' => date_format(date_create($from_date), 'Y-m-d'),
-      'absentTo' => date_format(date_create($to_date), 'Y-m-d'),
+      'absentFrom' => date_format(date_create($from_date), ALMA_DATE),
+      'absentTo' => date_format(date_create($to_date), ALMA_DATE),
     );
 
     $doc = $this->request('patron/absent/change', $params);
