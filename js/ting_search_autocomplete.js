@@ -11,10 +11,12 @@
         },
         search: function(event, ui) {
           // When a search is beginning, show the spinner
+          $('#edit-search-block-form--2').parent().addClass('spinner');
           $('#edit-search-block-form--2').addClass('spinner');
         },
         open: function(event, ui) {
           // When a search is done, use this, to hide the spinner.
+          $('#edit-search-block-form--2').parent().removeClass('spinner');
           $('#edit-search-block-form--2').removeClass('spinner');
         },
         select: function(event, ui) {
