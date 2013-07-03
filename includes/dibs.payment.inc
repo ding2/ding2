@@ -9,7 +9,7 @@
  */
 function ding_dibs_payment_get_url($amount, $params, $callback) {
   if (!empty($params['params']['debt_ids'])) {
-    $params['order_info_long'] = t('Payment of library dues: @debts', array('@debts' => implode(',', $params['params']['debt_ids'])));
+    $params['order_info_short'] = t('Payment of library dues: @debts', array('@debts' => implode(',', $params['params']['debt_ids'])));
   }
 
   $transaction_hash = ding_dibs_payment_prepare($amount, $params, $callback, FALSE);
