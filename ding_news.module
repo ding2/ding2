@@ -9,7 +9,8 @@
  */
 function ding_news_ding_library_menu_links() {
   return array(
-    'news' => array(
+    'nyheder' => array(
+      'linktype' => 'general_view_linktype',
       'title' => 'News',
     ),
   );
@@ -23,6 +24,16 @@ function ding_news_entity_info_alter(&$entity_info) {
     'label' => t('Teaser highlight'),
     'custom settings' => TRUE,
   );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+
+function ding_news_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
 }
 
 include_once('ding_news.features.inc');
