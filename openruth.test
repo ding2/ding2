@@ -26,7 +26,10 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
    * in. Used by parent class.
    */
   function getGoodUser() {
-    return array('1111111111', '1111');
+    return array(
+      '1111111111',
+      '1111',
+    );
   }
 
   function testUserData() {
@@ -77,7 +80,7 @@ class OpenruthUserProviderImplementationTestCase extends DingUserProviderImpleme
     if (!$edit_link) {
       $this->fail('Could not find edit link.');
     }
-    $this->assertTrue(preg_match('{^/user/'. $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
+    $this->assertTrue(preg_match('{^/user/' . $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
     $this->assertRaw('Anders And', t('Real name was properly reset.'));
     $user = user_load($uid, TRUE);
     $this->assertEqual('1111@dbc.dk', $user->mail, t('User email has been properly reset.'));
@@ -124,8 +127,7 @@ class OpenruthReservationProviderImplementationTestCase extends DingReservationP
   }
 
   function getUser() {
-    global $user;
-    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')), $user);
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')));
     return $user;
   }
 
@@ -156,8 +158,7 @@ class OpenruthLoanProviderImplementationTestCase extends DingLoanProviderImpleme
   }
 
   function getUser() {
-    global $user;
-    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')), $user);
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')));
     return $user;
   }
 }
@@ -178,8 +179,7 @@ class OpenruthDebtProviderImplementationTestCase extends DingDebtProviderImpleme
   }
 
   function getUser() {
-    global $user;
-    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')), $user);
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')));
     return $user;
   }
 }

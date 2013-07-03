@@ -1,21 +1,24 @@
 <?php
-// $Id$
+/**
+ * @file
+ * Implements the OpenruthClient library to talk with the web-service.
+ */
 
 class OpenruthClient {
 
   /**
    * Our SOAP client.
-   **/
+   */
   private $client;
 
   /**
    * The OpenRuth wsdl url.
-   **/
+   */
   private $wsdl_url;
 
   /**
    * The OpenRuth agency id.
-   **/
+   */
   private $agency_id;
 
   /**
@@ -44,10 +47,19 @@ class OpenruthClient {
       'features' => SOAP_SINGLE_ELEMENT_ARRAYS,
       'exceptions' => TRUE,
     );
+
+    // Enable logging.
     if (variable_get('openruth_enable_logging', FALSE)) {
       $this->logging = TRUE;
       $options['trace'] = TRUE;
     }
+
+    // User proxy.
+    if ($proxy = variable_get('openruth_proxy', FALSE)) {
+      $options['proxy_host'] = $proxy['host'];
+      $options['proxy_port'] = $proxy['port'];
+    }
+
     $this->client = new SoapClient($this->wsdl_url, $options);
     self::$salt = rand();
   }
@@ -80,15 +92,16 @@ class OpenruthClient {
       // shortest alternative.
       $replace_values = array();
       foreach (new RecursiveIteratorIterator(new RecursiveArrayIterator($sensitive)) as $value) {
-        $replace_values['>' . $value . '<'] = '>' . substr(md5($value . self::$salt), 0, strlen($value)) . '<';
+        $replace_values['>' . $value . '<'] = '>' . drupal_substr(md5($value . self::$salt), 0, drupal_strlen($value)) . '<';
       }
       if (isset($time)) {
-        watchdog('openruth', 'Sending request (@seconds sec): @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
+        watchdog('openruth', 'Sending request (@seconds sec): @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
 
-      } else {
-        watchdog('openruth', 'Sending request: @xml',array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
       }
-      watchdog('openruth', 'Response: @xml',array('@xml' => strtr($this->client->__getLastResponse(), $replace_values)), WATCHDOG_DEBUG);
+      else {
+        watchdog('openruth', 'Sending request: @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
+      }
+      watchdog('openruth', 'Response: @xml', array('@xml' => strtr($this->client->__getLastResponse(), $replace_values)), WATCHDOG_DEBUG);
     }
   }
 
@@ -98,115 +111,13 @@ class OpenruthClient {
   public function get_holdings($ids) {
     $this->log_start();
     $res = $this->client->holdings(array(
-             'agencyId' =>  $this->agency_id,
-             'itemId' => $ids,
-           ));
+      'agencyId' => $this->agency_id,
+      'itemId' => $ids,
+    ));
 
     $this->log();
-    if (isset($res->agencyError)) {
-      return $res->agencyError;
-    }
 
-   
-    elseif (isset($res->holding)) {
-      $holdings = array();
-      foreach ($res->holding as $holding) {
-        if (isset($holding->agencyHoldings)){
-          $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-          $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
-        }
-        else {
-          $available = FALSE;
-          $reservable = FALSE;
-        }
-        $h = array(
-          'local_id' => $holding->itemId,
-          'available' => $available,
-          'reservable' => $reservable,
-          'show_reservation_button' => $reservable,
-          'holdings' => array(),
-          'holdings_available' => array(),
-          'reserved_count' => isset($holding->ordersCount) ? (int) $holding->ordersCount : 0,
-          'issues' => array(),
-          'is_periodical' => FALSE,
-        );
-
-        $total = 0;
-        $available = 0;
-        if (isset($holding->itemHoldings)) {
-          foreach ($holding->itemHoldings as $itemHolding) {
-            $holding_reservable = FALSE;
-            $fields = array('itemLocation', 'itemComingLocation');
-
-            foreach ($fields as $field) {
-              if (isset($itemHolding->{$field})){
-                foreach ($itemHolding->{$field} as $itemLocation) {
-
-                  $location_available = 0;
-
-                  if ($itemLocation->orderAllowed) {
-                    $holding_reservable = TRUE;
-                  }
-                  $total += $itemLocation->copiesCount;
-
-                  if (isset($itemLocation->copiesAvailableCount)) {
-                    $available += $itemLocation->copiesAvailableCount;
-                    $location_available += $itemLocation->copiesAvailableCount;
-                  }
-                  $parts = array();
-                  if (isset($itemLocation->agencyBranchId->agencyBranchName)) {
-                    $parts[] = $itemLocation->agencyBranchId->agencyBranchName;
-                  }
-                  if (isset($itemLocation->agencyDepartmentId->agencyDepartmentName)) {
-                    $parts[] = $itemLocation->agencyDepartmentId->agencyDepartmentName;
-                  }
-                  if (isset($itemLocation->agencyCollectionId->agencyCollectionName)) {
-                    $parts[] = $itemLocation->agencyCollectionId->agencyCollectionName;
-                  }
-                  if (isset($itemLocation->agencyPlacementId->agencyPlacementName)) {
-                    $parts[] = $itemLocation->agencyPlacementId->agencyPlacementName;
-                  }
-                  if ($parts) {
-                    $h['holdings'][] = join(' → ', $parts);
-                  }
-                  if ($parts && ($location_available > 0)) {
-                    $h['holdings_available'][] = join(' → ', $parts);
-                  }
-                }
-              }
-            }
-
-            if (isset($itemHolding->itemSerialPartId) ||
-              isset($itemHolding->itemSerialPartVolume) ||
-              isset($itemHolding->itemSerialPartIssue)) {
-              $issue = array(
-                'local_id' => $itemHolding->itemSerialPartId,
-                'reservable' => $holding_reservable,
-              );
-              $h['issues'][$itemHolding->itemSerialPartVolume][$itemHolding->itemSerialPartIssue] = $issue;
-        // set flag for periodical
-        $h['is_periodical'] = TRUE;
-            }
-          }
-        }
-        $h['total_count'] = $total;
-        $h['reservable_count'] = $available;
-        if (sizeof($h['issues'])) {
-          $h['holdings'] = array_unique($h['holdings']);
-        }
-	
-	// check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
-	if( $h['available'] && ($available < 1) ) {
-	  $h['available'] = FALSE;
-	}
-
-        $holdings[$holding->itemId] = $h;
-      }
-      return $holdings;
-    }
-    else {
-      return FALSE;
-    }
+    return $res;
   }
 
   /**
@@ -215,10 +126,10 @@ class OpenruthClient {
   public function renew_loan($username, $copy_ids) {
     $this->log_start();
     $res = $this->client->renewLoan(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             'copyId' => $copy_ids,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      'copyId' => $copy_ids,
+    ));
     $this->log($username);
     if (isset($res->renewLoanError)) {
       return $res->renewLoanError;
@@ -241,16 +152,15 @@ class OpenruthClient {
   public function book_item($username, $provider_id, $count, $start_date, $end_date, $pickup_branch) {
     $this->log_start();
     $res = $this->client->bookItem(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             // 'bookingNote' => '',
-             'agencyCounter' => $pickup_branch,
-             'itemId' =>$provider_id,
-             'bookingTotalCount' => $count,
-             'bookingStartDate' => $start_date,
-             'bookingEndDate' => $end_date,
-
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      // 'bookingNote' => '',
+      'agencyCounter' => $pickup_branch,
+      'itemId' => $provider_id,
+      'bookingTotalCount' => $count,
+      'bookingStartDate' => $start_date,
+      'bookingEndDate' => $end_date,
+    ));
     $this->log($username);
     if (isset($res->bookingError)) {
       return $res->bookingError;
@@ -281,15 +191,15 @@ class OpenruthClient {
     }
     $this->log_start();
     $res = $this->client->orderItem(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             // 'orderNote' => '',
-             'orderLastInterestDate' => $expiry,
-             'agencyCounter' => $pickup_branch,
-             'orderOverRule' => FALSE,
-             'orderPriority' => 'normal',
-             'orderItemId' => $order_item_id,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      // 'orderNote' => '',
+      'orderLastInterestDate' => $expiry,
+      'agencyCounter' => $pickup_branch,
+      'orderOverRule' => FALSE,
+      'orderPriority' => 'normal',
+      'orderItemId' => $order_item_id,
+    ));
     $this->log($username);
     if (isset($res->orderItemError)) {
       return $res->orderItemError;
@@ -309,12 +219,14 @@ class OpenruthClient {
   /**
    * Get information about number of copies in a booking available at various times
    */
-  public function booking_info() {}
+  public function booking_info() {
+  }
 
   /**
    * Updating details about a booking
    */
-  public function update_booking() {}
+  public function update_booking() {
+  }
 
   /**
    * Cancelling a booking of an item
@@ -322,9 +234,9 @@ class OpenruthClient {
   public function cancel_booking($bookings_id) {
     $this->log_start();
     $res = $this->client->cancelBooking(array(
-             'agencyId' =>  $this->agency_id,
-             'bookingId' => $bookings_id,
-      ));
+      'agencyId' => $this->agency_id,
+      'bookingId' => $bookings_id,
+    ));
     $this->log();
     if (isset($res->bookingError)) {
       return $res->bookingError;
@@ -344,7 +256,7 @@ class OpenruthClient {
     $agency_info = array();
     $this->log_start();
     $res = $this->client->agencyCounters(array(
-      'agencyId' =>  $this->agency_id,
+      'agencyId' => $this->agency_id,
     ));
     $this->log();
     if ($res->agencyCounters instanceof stdClass) {
@@ -366,8 +278,8 @@ class OpenruthClient {
     $agencys = array();
     $this->log_start();
     $res = $this->client->agencyCounters(array(
-             'agencyId' =>  $this->agency_id,
-      ));
+      'agencyId' => $this->agency_id,
+    ));
     $this->log();
     if ($res->agencyCounters instanceof stdClass && is_array($res->agencyCounters->agencyCounterInfo)) {
       foreach ($res->agencyCounters->agencyCounterInfo as $agency) {
@@ -384,12 +296,12 @@ class OpenruthClient {
   public function update_order($order_id, $pickup_branch, $expiry) {
     $this->log_start();
     $res = $this->client->updateOrder(array(
-             'agencyId' =>  $this->agency_id,
-             'orderId' => $order_id,
-             'orderNote' => '',
-             'orderLastInterestDate' => $expiry,
-             'agencyCounter' => $pickup_branch,
-      ));
+      'agencyId' => $this->agency_id,
+      'orderId' => $order_id,
+      'orderNote' => '',
+      'orderLastInterestDate' => $expiry,
+      'agencyCounter' => $pickup_branch,
+    ));
     $this->log();
     if (isset($res->updateOrderError)) {
       return $res->updateOrderError;
@@ -408,9 +320,9 @@ class OpenruthClient {
   public function cancel_order($order_id) {
     $this->log_start();
     $res = $this->client->cancelOrder(array(
-             'agencyId' =>  $this->agency_id,
-             'orderId' => $order_id,
-      ));
+      'agencyId' => $this->agency_id,
+      'orderId' => $order_id,
+    ));
     $this->log();
     if (isset($res->cancelOrderError)) {
       return $res->cancelOrderError;
@@ -436,13 +348,13 @@ class OpenruthClient {
       'first_name' => 'userFirstName',
       'last_name' => 'userLastName',
       'preferred_branch' => 'agencyCounter',
-      'reservation_pause_start'=>'userAbsenceStartDate',
-      'reservation_pause_stop'=>'userAbsenceEndDate',
+      'reservation_pause_start' => 'userAbsenceStartDate',
+      'reservation_pause_stop' => 'userAbsenceEndDate',
     );
     $args = array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $name,
-             'userPinCode' => $pass,
+      'agencyId' => $this->agency_id,
+      'userId' => $name,
+      'userPinCode' => $pass,
     );
     foreach ($mapping as $from => $to) {
       if (isset($changes[$from])) {
@@ -473,10 +385,10 @@ class OpenruthClient {
   public function user_check($username, $pin_code) {
     $this->log_start();
     $res = $this->client->userCheck(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             'userPinCode' => $pin_code,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      'userPinCode' => $pin_code,
+    ));
     $this->log($username, $pin_code);
     if (isset($res->userError)) {
       return $res->userError;
@@ -495,10 +407,10 @@ class OpenruthClient {
   public function user_status($username, $pin_code) {
     $this->log_start();
     $res = $this->client->userStatus(array(
-             'agencyId' =>  $this->agency_id,
-             'userId' => $username,
-             'userPinCode' => $pin_code,
-      ));
+      'agencyId' => $this->agency_id,
+      'userId' => $username,
+      'userPinCode' => $pin_code,
+    ));
 
     $this->log($username, $pin_code);
     if (isset($res->userError)) {
@@ -517,7 +429,7 @@ class OpenruthClient {
    */
   public function add_payment($username, $amount, $transaction_id = NULL) {
     $params = array(
-      'agencyId' =>  $this->agency_id,
+      'agencyId' => $this->agency_id,
       'userId' => $username,
       'feeAmountPaid' => $amount,
     );
