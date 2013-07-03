@@ -49,7 +49,8 @@ return array(
  *
  * return a render array http://randyfay.com/node/79
  */
-function ting_infomedia_theme( $existing, $type, $theme, $path ) {
+function ting_infomedia_theme($existing, $type, $theme, $path) {
+  $render_array = array();
   // page view definitions - view articles
   $render_array['ting_infomedia_article'] = array(
     'template' => 'ting_infomedia_article_view',
