@@ -22,5 +22,5 @@ projects[virtual_field][version] = "1.1"
 projects[ding_provider][type] = "module"
 projects[ding_provider][download][type] = "git"
 projects[ding_provider][download][url] = "git@github.com:ding2tal/ding_provider.git"
-projects[ding_provider][download][branch] = "master"
+projects[ding_provider][download][branch] = "development"
 
