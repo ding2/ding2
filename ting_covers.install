@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Module installation and updates routine.
+ *
+ */
+
+/**
+ * Changed fected covers form managed to umanged files.
+ */
+function ting_covers_update_7100(&$sandbox) {
+  // Cleanup covers from DB, saved previously with file_save_data().
+  $query = db_delete('file_managed');
+  $query->where('LENGTH(filename) = :limit AND (uri LIKE :ting_obj OR uri LIKE :search_cr)', array(':limit' => 36, ':ting_obj' => '%ting/covers/object%', 'search_cr' => '%ting_search_carousel%'));
+  $query->execute();
+}
+
