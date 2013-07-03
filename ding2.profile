@@ -51,17 +51,6 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Allows the profile to alter the site configuration form.
- */
-function ding2_form_install_configure_form_alter(&$form, &$form_state, $form_id) {
-  // Pre-populate the site name with the server name.
-  $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
-}
-
 /**
  * Implements hook_install_tasks().
  *
@@ -73,8 +62,7 @@ function ding2_install_tasks(&$install_state) {
 
   if (!empty($tasks)) {
     // Allow task callbacks to be located in an include file.
-    foreach ($tasks as $task) {#&$task) {
-
+    foreach ($tasks as $task) {
       if (isset($task['file'])) {
         require_once DRUPAL_ROOT . '/' . $task['file'];
       }
@@ -89,16 +77,25 @@ function ding2_install_tasks(&$install_state) {
   include_once('libraries/profiler/profiler_api.inc');
 
   $ret = array(
-    'ding2_fetch_ding_install_tasks' =>
-      array(
-        'display_name' => '...',
-        /**
-         * This task should be skipped and hidden when ding install tasks
-         * have been fetched. Fetched tasks will appear instead.
-         */
-        'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
-        'display' => empty($tasks),
-      )
+    // Add task to select provider and extra ding modules.
+    'ding2_module_selection_form' => array (
+      'display_name' => 'Module selection',
+      'display' => TRUE,
+      'type' => 'form',
+      'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
+    ),
+
+    // Add extra taskes based on hook_ding_install_task, which may be provied by
+    // the selection task above.
+    'ding2_fetch_ding_install_tasks' => array(
+      'display_name' => 'Configure ding...',
+      /**
+       * This task should be skipped and hidden when ding install tasks
+       * have been fetched. Fetched tasks will appear instead.
+       */
+      'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
+      'display' => empty($tasks),
+    ),
   ) + $tasks + array('profiler_install_profile_complete' => array());
   return $ret;
 }
@@ -124,28 +121,88 @@ function _ding2_remove_form_requirements(&$value, $key) {
 }
 
 /**
- * Implements hook_ding_install_tasks().
+ * Installation task that handle selection of provider and modules to extend
+ * default ding2 installation.
+ *
+ * @return array
+ *  Form with selection of different modules.
  */
-function ding2_ding_install_tasks() {
+function ding2_module_selection_form($form_state) {
+  $form = array(
+    '#tree' => TRUE,
+  );
 
-    $node = array();
-    ob_start();
-    require 'content/page-not-found.inc';
-    ob_end_clean();
+  //
+  // Available providers.
+  //
+  $providers = array(
+    'alma' => 'Alma',
+    'openruth' => 'Openruth',
+  );
 
-    $node = (object) $node;
-    $node->uid = 1;
+  $form['providers'] = array(
+    '#title' => st('Select library provider'),
+    '#type' => 'fieldset',
+    '#description' => st('Select the provider that matches your library system.'),
+  );
 
-    node_save($node);
+  $form['providers']['selection'] = array(
+    '#title' => '', // Left empty to create more space in the ui.
+    '#type' => 'radios',
+    '#options' => $providers,
+  );
 
-    //Provide default page for EU Cookie Compliance module
-    $node = array();
-    ob_start();
-    require 'content/cookies.inc';
-    ob_end_clean();
+  //
+  // Optional modules.
+  //
+  $modules = array(
+    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
+    'ding_campaign' => st('Add ding campaigns'),
+    'ding_permissions' => st('Set default permissions'),
 
-    $node = (object) $node;
-    $node->uid = 1;
+    // Modules thats not part of the makefiles yet.
+    'ding_example_content' => st('Add example content to the site'),
+  );
 
-    node_save($node);
+  $form['modules'] = array(
+    '#title' => st('Select ding extras'),
+    '#type' => 'fieldset',
+    '#description' => st('Select optional ding extension. You can always enable/disable these in the administration interface.'),
+  );
+
+  $form['modules']['selection'] = array(
+    '#title' => '', // Left empty to create more space in the ui.
+    '#type' => 'checkboxes',
+    '#options' => $modules,
+  );
+
+  //
+  // Submit the selections.
+  //
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st('Enable modules'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler that enables the modules and provider selection in the form
+ * defined above.
+ */
+function ding2_module_selection_form_submit($form, &$form_state) {
+  $values = $form_state['values'];
+  $module_list = array();
+
+  // Get selected provider.
+  if (!empty($values['providers']['selection'])) {
+    $module_list[] = $values['providers']['selection'];
+  }
+
+  // Get list of selected modules.
+  $module_list += array_filter($values['modules']['selection']);
+
+  // Enable the provider (if selected) and modules.
+  module_enable($module_list, TRUE);
 }
