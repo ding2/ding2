@@ -13,7 +13,7 @@ function connie_user_authenticate($name, $pass) {
     'success' => FALSE,
   );
 
-  if (substr($name, -4) == $pass) {
+  if (drupal_substr($name, -4) == $pass) {
     $res['success'] = TRUE;
     if (preg_match('/blocked/', $name)) {
       $res['success'] = FALSE;

@@ -338,7 +338,7 @@ function ding_provider_build_form($form_id, &$form_state) {
     elseif ($e instanceof DingProviderAuthException) {
       if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
         // Something needs auth, save state and redirect to authentication page.
-        $expire = 21600;
+        $expire = 3600;
         $input = $form_state['method'] == 'get' ? $_GET : $_POST;
         $input['#ding_provider_messages'] = drupal_get_messages();
         cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
@@ -412,7 +412,7 @@ function ding_provider_ajax_form_callback() {
     elseif ($e instanceof DingProviderAuthException || $e instanceof EntityMalformedException) {
       if (module_exists('ding_user')) {
         // Something needs auth, save state and redirect to authentication page.
-        $expire = 21600;
+        $expire = 3600;
         $input = $form_state['method'] == 'get' ? $_GET : $_POST;
         $input['#ding_provider_messages'] = drupal_get_messages();
         $input['#ding_provider_user'] = $user;
@@ -473,36 +473,34 @@ function ding_provider_get_destination($query_args = array()) {
 }
 
 /**
- * Get the provide type
- **/
-function ding_provider_get_provider_type() {
-  foreach (module_implements('ding_provider') as $module) {
-    // simply return the first - there can be only one
-    return $module;
-  }
+ * Get the provider type.
+ *
+ * @param string $type
+ *  The type of module e.g reservation, availibility etc.
+ */
+function ding_provider_get_provider_module_name($type) {
+  $providers = _ding_provider_get_provider();
+  return $providers[$type]['module'];
 }
 
 /**
  * Returns the given provider.
  */
 function _ding_provider_get_provider($type = NULL) {
-  static $providers;
-  if (!isset($providers)) {
-    $providers = array();
-    foreach (module_implements('ding_provider') as $module) {
-      $module_provides = module_invoke($module, 'ding_provider') + array(
-        'title' => $module . '.module',
-        'settings' => NULL,
-        'file' => NULL,
-        'provides' => array(),
-      );
-      foreach ($module_provides['provides'] as $name => $module_provider) {
-        $module_provider['module'] = $module;
-        $module_provider['title'] = $module_provides['title'];
-        $module_provider['global settings'] = $module_provides['settings'];
-        $module_provider['global settings file'] = $module_provides['file'];
-        $providers[$name] = $module_provider;
-      }
+  $providers = array();
+  foreach (module_implements('ding_provider') as $module) {
+    $module_provides = module_invoke($module, 'ding_provider') + array(
+      'title' => $module . '.module',
+      'settings' => NULL,
+      'file' => NULL,
+      'provides' => array(),
+    );
+    foreach ($module_provides['provides'] as $name => $module_provider) {
+      $module_provider['module'] = $module;
+      $module_provider['title'] = $module_provides['title'];
+      $module_provider['global settings'] = $module_provides['settings'];
+      $module_provider['global settings file'] = $module_provides['file'];
+      $providers[$name] = $module_provider;
     }
   }
 
@@ -590,4 +588,40 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
     throw new DingProviderNoProvider(t("Provider module not configured for provider type @type.", array('@type' => $type)));
   }
   return NULL;
+}
+
+/**
+ * Wrapper function used to create an pseudo ting entity, which mainly is used
+ * when the provider returns reservation, loans or debts that do not have a ting
+ * entity in the datewell, but will stil wishes to use it in lists together with
+ * real ting entities.
+ *
+ * @param type $ding_entity_id
+ * @return type
+ */
+function ding_provider_get_pseudo_entity($ding_entity_id) {
+  $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
+
+  // Build entity based on available information.
+  $ting_entity = new TingEntity();
+  $ting_entity->tid = $local_id;
+  $ting_entity->localId = $local_id;
+  $ting_entity->ding_entity_id = $ding_entity_id;
+  $ting_entity->provider_id = $local_id;
+  $ting_entity->ding_entity_type = 'ding_entity';
+  $ting_entity->reply = new TingClientObject();
+  $ting_entity->reply->id = $ding_entity_id;
+  $ting_entity->reply->localId = $local_id;
+  $ting_entity->reply->relations = array();
+  $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, ':'));
+
+  // See if the provider have any information about the entity.
+  if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
+    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity);
+  }
+
+  // Mark this object as pseudo, so formatters can take action.
+  $ting_entity->is_available = FALSE;
+
+  return $ting_entity;
 }

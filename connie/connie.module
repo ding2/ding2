@@ -83,7 +83,7 @@ function connie_profile2_presave($profile) {
     $creds = ding_user_get_creds($profile);
     if ($data = FALSE /* Imagine a function that fetches data from backend.*/) {
       connie_profile_update($profile, $data);
-    };
+    }
   }
 }
 
@@ -94,8 +94,8 @@ function connie_availability_items($provider_ids) {
   $res = array();
   foreach ($provider_ids as $id) {
     $res[$id] = array(
-      'available' => (bool) (($id%2) == 0),
-      'reservable' => (bool) (((int)($id/10)%2) == 0),
+      'available' => (bool) (($id % 2) == 0),
+      'reservable' => (bool) (((int) ($id / 10) % 2) == 0),
     );
     // This is a periodical.
     if ($id == '06078362') {
@@ -132,7 +132,7 @@ function connie_availability_holdings($provider_ids) {
   // Holdings is a superset of items.
   $res = connie_availability_items($provider_ids);
   foreach ($res as $id => &$availability) {
-    if (((int)($id/100)%2) == 0) {
+    if (((int) ($id / 100) % 2) == 0) {
       $availability['holdings'] = array(
         'Andeby bibliotek',
         'Gåserød bibliotek',

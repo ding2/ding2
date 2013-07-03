@@ -15,7 +15,7 @@ function connie_reservation_pickup_branches($account) {
     'aby' => 'Andeby bibliotek',
     'grd' => 'Gåserød bibliotek',
   );
-  }
+}
 
 /**
  *
@@ -37,20 +37,20 @@ function connie_reservation_list($account) {
   if (isset($_SESSION['connie_reservations'])) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
       $result[$id] = new DingProviderReservation($id, array(
-                       'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res[0],
-                       'display_name' => $res[1],
-                       'pickup_branch_id' => $res[2],
-                       'expiry' => $res[3],
-                     ));
+        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res[0],
+        'display_name' => $res[1],
+        'pickup_branch_id' => $res[2],
+        'expiry' => $res[3],
+      ));
     }
   }
   // Fake a remote reservation.
   $result['ill-123'] = new DingProviderReservation('ill-123', array(
-                         'display_name' => 'Remote loan: The algebraist',
-                         'pickup_branch_id' => 'grd',
-                         'expiry' => date('Y-m-d', REQUEST_TIME + 86400),
-                         'ready_for_pickup' => TRUE,
-                       ));
+    'display_name' => 'Remote loan: The algebraist',
+    'pickup_branch_id' => 'grd',
+    'expiry' => date('Y-m-d', REQUEST_TIME + 86400),
+    'ready_for_pickup' => TRUE,
+  ));
   return $result;
 }
 
@@ -99,7 +99,7 @@ function connie_reservation_options_submit($type, $account, $reservables, $value
  */
 function connie_reservation_create($account, $id, $options) {
   $branch = $options['connie_preferred_branch'];
-  $expiry = REQUEST_TIME + DING_RESERVATION_DEFAULT_INTEREST_PERIOD;
+  $expiry = REQUEST_TIME + 180;
   // Throw exception if we're not logged in.
   ding_user_get_creds($account);
   // Fake it.
