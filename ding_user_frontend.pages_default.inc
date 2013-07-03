@@ -24,7 +24,17 @@ function ding_user_frontend_default_page_manager_handlers() {
     'pipeline' => 'standard',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Profile2 type',
+        'keyword' => 'user_2',
+        'name' => 'profile2',
+        'type' => 'select',
+        'uid' => '',
+        'default_type' => 'provider_alma',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(),
@@ -43,6 +53,16 @@ function ding_user_frontend_default_page_manager_handlers() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -52,12 +72,15 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'main_content';
-    $pane->type = 'form';
-    $pane->subtype = 'form';
+    $pane->type = 'profile2_form';
+    $pane->subtype = 'profile2_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_user_edit_1',
+      'context' => array(
+        0 => 'argument_user_edit_1',
+        1 => 'context_profile2_1',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -92,7 +115,16 @@ function ding_user_frontend_default_page_manager_handlers() {
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Profile2 type',
+        'keyword' => 'user_2',
+        'name' => 'profile2',
+        'type' => 'select',
+        'uid' => '',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
@@ -162,7 +194,10 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_user_edit_1',
+      'context' => array(
+        0 => 'argument_user_edit_1',
+        1 => 'context_profile2_1',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
