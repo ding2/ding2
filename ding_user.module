@@ -577,12 +577,10 @@ function _ding_user_create_profile2($account) {
     $profile_type = ding_user_get_provider_profile_type();
 
     // Create a profile for current user.
-    $profile = new Profile(
-      array(
-        'user' => $account,
-        'type' => $profile_type,
-      )
-    );
+    $profile = new Profile(array(
+      'user' => $account,
+      'type' => $profile_type,
+    ));
 
     // Bind this profile to the user.
     $profile->save();

@@ -38,8 +38,15 @@ function ding_user_profile2_form_content_type_render($subtype, $conf, $panel_arg
       $form = entity_ui_get_form('profile2', $profile);
     }
     else {
-      // Get new empty form for the profile.
-      $form = entity_ui_get_form('profile2', $profile_type->profile_type);
+      // Create new empty profile wiht the profile type.
+      $profile = profile2_create(array(
+        'user' => $context[0]->data,
+        'type' => $profile_type->profile_type,
+        'label' => $profile_type->profile_type->label,
+      ));
+
+      // Build form based on the empty profile.
+      $form = entity_ui_get_form('profile2', $profile);
     }
 
     // Set block delta and title.
