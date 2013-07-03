@@ -74,16 +74,11 @@ projects[l10n_update][version] = "1.0-beta3"
 
 projects[ding_campaign][type] = "module"
 projects[ding_campaign][download][type] = "git"
-projects[ding_campaign][download][url] = "git@github.com:ding2tal/ding_campaign.git"
-projects[ding_campaign][download][branch] = "development"
+projects[ding_campaign][download][url] = "git@github.com:ding2/ding_campaign.git"
+projects[ding_campaign][download][branch] = "master"
 
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
-projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
-projects[ding_page][download][branch] = "development"
-
-projects[ding_footer][type] = "module"
-projects[ding_footer][download][type] = "git"
-projects[ding_footer][download][url] = "git@github.com:ding2tal/ding_footer.git"
-projects[ding_footer][download][branch] = "development"
+projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
+projects[ding_page][download][branch] = "master"
 
