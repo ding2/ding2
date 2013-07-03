@@ -111,7 +111,7 @@ function ting_covers_preprocess_ting_object(&$variables) {
  * @todo: handle image styles better and use API to flush expired images.
  *
  * @param int $time Timestamp where older files will be deleted.
- * 	Obmit or set to NULL to delete all files.
+ * 	Omit or set to NULL to delete all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
   // Collect potential locations of cover folders
@@ -120,7 +120,7 @@ function _ting_covers_delete_old_files($time = NULL) {
 
   $styles_dir = $files_dir . 'styles';
   foreach (scandir($styles_dir) as $style_dir) {
-    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public';
+    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
     if (is_dir($style_dir)) {
       $image_dirs[] = $style_dir;
     }
@@ -129,47 +129,23 @@ function _ting_covers_delete_old_files($time = NULL) {
   // Collect cover files
   $cover_files = array();
   foreach ($image_dirs as $uri) {
-    $ting_covers_dir = $uri . DIRECTORY_SEPARATOR . 'ting' . DIRECTORY_SEPARATOR . 'covers';
+    $ting_covers_dir = $uri . 'ting' . DIRECTORY_SEPARATOR . 'covers';
     if (is_dir($ting_covers_dir)) {
-      $cover_files = array_merge($cover_files, _ting_covers_get_files($ting_covers_dir));
+      $cover_files = array_merge($cover_files, file_scan_directory($ting_covers_dir, "/./"));
     }
   }
 
   //Delete obsolete files
   foreach ($cover_files as $file) {
-    if (!$time || (filemtime($file) < $time)) {
-      file_unmanaged_delete($file);
+    if (!$time || (filemtime($file->uri) < $time)) {
+      file_unmanaged_delete($file->uri);
     }
   }
-}
-
-/**
- * Retrieve all files under a path recursively
- *
- * @param string $files_path Path or URI
- * @return array An array of file paths or URIs
- */
-function _ting_covers_get_files($files_path) {
-  $files = array();
-
-  foreach (scandir($files_path) as $path) {
-    $file_path = $files_path . DIRECTORY_SEPARATOR . $path;
-    if (is_dir($file_path)) {
-      if (!in_array($path, array('.', '..'))) {
-        $files = array_merge($files, _ting_covers_get_files($file_path));
-      }
-    }
-    else {
-      $files[] = $file_path;
-    }
-  }
-
-  return $files;
 }
 
 /**
  * Return the path to the cover of the object.
  */
 function ting_covers_object_path($object_id) {
-  return file_default_scheme() . '://ting/covers/object/' . md5($object_id) . '.jpg';
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . 'object' . DIRECTORY_SEPARATOR . md5($object_id) . '.jpg';
 }
