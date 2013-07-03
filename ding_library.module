@@ -8,6 +8,8 @@
  * Implements hook_init().
  */
 function ding_library_init() {
+  // Load ding library map javascript code if we have loaded the library
+  // overview page.
   if ($_GET['q'] == 'libraries') {
     drupal_add_js(drupal_get_path('module', 'ding_library') .  '/js/ding_library.map.js', array(
       'defer' => TRUE,
@@ -15,6 +17,10 @@ function ding_library_init() {
       'weight' => 42,
     ));
   }
+
+  /**
+   * @TODO: What does this next part do and why is it needed.
+   */
   $args = arg();
   if (sizeof($args) == 2 && $args[0] == 'node' && $node = menu_get_object()) {
     $types = array(
@@ -69,8 +75,8 @@ function ding_library_block_info() {
       'info' => 'Library address',
       'cache' => DRUPAL_CACHE_GLOBAL,
     ),
-    'ding_menu' => array(
-      'info' => 'Ding main menu',
+    'ding_library_menu' => array(
+      'info' => 'Ding library menu',
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
     'ding_sidebar_menu' => array(
@@ -131,24 +137,7 @@ function ding_library_block_view($delta = '') {
       '#node' => $node,
     );
   }
-  if ($delta == 'ding_menu') {
-    $block['subject'] = t('Main menu');
-    // First level of main menu.
-    $links = menu_navigation_links('main-menu', 0);
-    // Theme the lot as a list of links.
-    $block['content']['main-menu'] = array(
-      '#markup' => theme('links__library_menu', array(
-                   'links' => $links,
-                   'heading' => array(
-                     'text' => t('Main menu'),
-                     'level' => 'h2',
-                     'class' => array('element-invisible'),
-                   ),
-                 )),
-      '#prefix' => '<div class="main-menu">',
-      '#suffix' => '</div>',
-    );
-
+  if ($delta == 'ding_library_menu') {
     $trail = menu_get_active_trail();
 
     // Get the active menu item.
@@ -254,7 +243,7 @@ function template_preprocess_ding_library_address(&$vars) {
   if ($node) {
     $languages = field_language('node', $node);
     $vars['name'] = check_plain($node->title);
-    if (!empty($node->field_address[$languages['field_address']][0]) && ($address = $node->field_address[$languages['field_address']][0])) {
+    if (!empty($node->field_ding_library_address[$languages['field_ding_library_address']][0]) && ($address = $node->field_ding_library_address[$languages['field_ding_library_address']][0])) {
       $vars['address'] = check_plain($address['thoroughfare']);
       if ($address['premise']) {
         $vars['address'] .= ', ' . $address['premise'];
@@ -281,11 +270,11 @@ function template_preprocess_ding_library_address(&$vars) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
-  if (isset($form['field_slug'][$form['#node']->language])) {
-    $form['field_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
+  if (isset($form['field_ding_library_slug'][$form['#node']->language])) {
+    $form['field_ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
-  elseif (isset($form['field_slug']['und'])) {
-    $form['field_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
+  elseif (isset($form['field_ding_library_slug']['und'])) {
+    $form['field_ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
 }
 
@@ -305,11 +294,11 @@ function ding_library_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ding_library_slug_validate(&$form, &$form_state) {
   // Try to get the slug value.
-  if (isset($form_state['values']['field_slug'][$form_state['node']->language])) {
-    $slug = $form_state['values']['field_slug'][$form_state['node']->language][0]['value'];
+  if (isset($form_state['values']['field_ding_library_slug'][$form_state['node']->language])) {
+    $slug = $form_state['values']['field_ding_library_slug'][$form_state['node']->language][0]['value'];
   }
-  elseif (isset($form_state['values']['field_slug']['und'])) {
-    $slug = $form_state['values']['field_slug']['und'][0]['value'];
+  elseif (isset($form_state['values']['field_ding_library_slug']['und'])) {
+    $slug = $form_state['values']['field_ding_library_slug']['und'][0]['value'];
   }
 
   // If we found the slug do the actual validation.
@@ -339,6 +328,18 @@ function ding_library_views_data_alter(&$data) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_ding_library_menu_links().
+ */
+function ding_library_menu_ding_library_menu_links() {
+  return array(
+    'about' => array(
+      'title' => 'About the library',
+      'weight' => 11,
+    ),
+  );
 }
 
 include_once('ding_library.features.inc');

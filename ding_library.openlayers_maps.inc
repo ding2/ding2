@@ -10,7 +10,7 @@
 function ding_library_openlayers_maps() {
   $export = array();
 
-  $openlayers_maps = new stdClass;
+  $openlayers_maps = new stdClass();
   $openlayers_maps->disabled = FALSE; /* Edit this to true to make a default openlayers_maps disabled initially */
   $openlayers_maps->api_version = 1;
   $openlayers_maps->name = 'ding_library_map';
@@ -70,8 +70,8 @@ function ding_library_openlayers_maps() {
       'geofield_formatter' => 0,
       'ding_library_openlayers_1' => 0,
     ),
-    'projection' => '900913',
-    'displayProjection' => '4326',
+    'projection' => 'EPSG:900913',
+    'displayProjection' => 'EPSG:4326',
     'styles' => array(
       'default' => 'default',
       'select' => 'default',
