@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *
+ * TODO Add a brief description for this file.
  */
 
 
@@ -102,6 +102,8 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
     $identifiers = ding_adhl_frontend_extract_identifers($objects);
     $cid = md5(implode('', $identifiers));
     if (!$reset && $cache = cache_get($cid, 'cache_ding_adhl_frontend')) {
+      // TODO: Should we check for expiry here or has that been left out because
+      // of our long cache lifetimes?
       $recommended_objects = $cache->data;
     }
     else {
@@ -135,7 +137,7 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
         if ($ting_object && $ting_object->ownerId == $agency) {
           $recommended_objects[] = $ting_object;
 
-          // Don't get more than 10 valid objects.
+          // Don't get more than we want to display.
           if (count($recommended_objects) >= $number_of_objects) {
             break;
           }

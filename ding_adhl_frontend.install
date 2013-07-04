@@ -2,14 +2,15 @@
 
 /**
  * @file
- * Defines a cache table to store recommendation in based on the default system
- * cache table. *
+ * Install and update routines.
  */
 
 /**
  * Implements hook_schema().
  *
- * Defines an new cache table for ADHL recommendations.
+ * Defines an new cache table for ADHL recommendations based on the default system
+ * cache table.
+ * TODO: Please explain the reasoning behind this. Why not just use the default cache table?  
  */
 function ding_adhl_frontend_schema() {
   $schema = array();
