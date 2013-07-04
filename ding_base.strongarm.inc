@@ -136,5 +136,12 @@ function ding_base_strongarm() {
   $strongarm->value = '1.7';
   $export['jquery_update_jquery_version'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'i18n_language_list';
+  $strongarm->value = '4';
+  $export['i18n_language_list'] = $strongarm;
+
   return $export;
 }
