@@ -272,8 +272,8 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
          * @TODO: make view mode configurable.
          */
         // Load the entity and build it.
-        $entity = entity_load($entity_type, array($entity_id));
-        $build = node_view($entity, 'teaser');
+        $entities = entity_load($entity_type, array($entity_id));
+        $build = entity_view($entity_type, $entities, 'teaser');
 
         // Don't show links. Should be an option.
         unset($build['links']);
