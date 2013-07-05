@@ -5,10 +5,6 @@
  */
 
 include_once 'ting_reference.features.inc';
-/**
- * @file
- * Code for the ting_reference feature.
- */
 
 /**
  * Implements hook_preprocess_ting_object().
@@ -17,19 +13,6 @@ function ting_reference_preprocess_ting_object(&$variables) {
   if (isset($variables['content']['ting_reference_reverse'])) {
     $variables['content']['ting_reference_reverse']['#prefix'] =  '<a name="ting_reference"></a>';
   }
-}
-
-/**
- * Implements hook_element_info().
- */
-function ting_reference_element_info() {
-  return array(
-    'ting_reference_object_id' => array(
-      '#input' => TRUE,
-      '#process' => array('ting_reference_object_id_process'),
-      '#element_validate' => array('ting_reference_object_id_validate')
-    ),
-  );
 }
 
 /**
@@ -328,18 +311,6 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
     // Override default value with the ding entity id.
     $element['#default_value'] = $ding_entity_id;
   }
-
-  return $element;
-}
-
-/**
- * Process the object ID form element.
- */
-function ting_reference_object_id_process($element, $form_state, $complete_form) {
-  $element['identifier'] = array(
-    '#type' => 'textfield',
-    '#default_value' => $element['#default_value'],
-  );
 
   return $element;
 }
