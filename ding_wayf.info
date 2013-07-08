@@ -3,9 +3,12 @@ description = Implementation of login with WAYF (nemlog-in).
 core = 7.x
 version = 7.x-0.6+dbc.1
 package = Ding!
+
 files[] = ding_wayf.module
 files[] = ding_wayf.test
 files[] = tests/ding_wayf.test
+
 dependencies[] = ding_provider
 dependencies[] = ding_user
 dependencies[] = securepages
+dependencies[] = ding_base
