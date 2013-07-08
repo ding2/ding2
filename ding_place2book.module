@@ -587,7 +587,7 @@ function place2book_build_xml($node, $service_settings) {
   // where possible 
   //
   // The check is only made for venue street address - if it is not there, the rest is not used either
-  $field_address = field_get_items('node', $node, 'field_address');
+  $field_address = field_get_items('node', $node, 'field_ding_event_location');
   if (!empty($field_address[0]['thoroughfare'])) {
     $xml->event->venue->name = $field_address[0]['name_line'];
     $xml->event->venue->address1 = $field_address[0]['thoroughfare'];
