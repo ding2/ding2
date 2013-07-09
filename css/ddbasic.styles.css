@@ -8331,15 +8331,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
  *
  * @author wiredloose
  */
-/* line 7, ../sass/module/_staff.scss */
+/* FooTable staff list
+   ========================================================================== */
+/* line 10, ../sass/module/_staff.scss */
 .footable {
   margin-bottom: 20px;
   border-radius: 0;
 }
 
+/* line 17, ../sass/module/_staff.scss */
+.footable .staff-name img {
+  position: absolute;
+}
+/* line 21, ../sass/module/_staff.scss */
+.footable .staff-name a {
+  display: block;
+  margin-left: 60px;
+  min-height: 60px;
+  padding-left: 10px;
+}
+
 /* Staff list
    ========================================================================== */
-/* line 16, ../sass/module/_staff.scss */
+/* line 35, ../sass/module/_staff.scss */
 .department-title,
 .staff-department-head {
   background: #d5d5d5;
@@ -8351,14 +8365,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: left;
 }
 
-/* line 26, ../sass/module/_staff.scss */
+/* line 45, ../sass/module/_staff.scss */
 .staff-list {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 0;
   /* Media queries */
 }
-/* line 31, ../sass/module/_staff.scss */
+/* line 50, ../sass/module/_staff.scss */
 .staff-list .staff-list-item {
   overflow: hidden;
   padding-top: 10px;
@@ -8367,16 +8381,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 10px;
   position: relative;
 }
-/* line 48, ../sass/module/_staff.scss */
+/* line 67, ../sass/module/_staff.scss */
 .staff-list .staff-image-wrapper {
   position: absolute;
   width: 10%;
 }
-/* line 53, ../sass/module/_staff.scss */
+/* line 72, ../sass/module/_staff.scss */
 .staff-list .staff-name-title {
   margin-left: 12%;
 }
-/* line 58, ../sass/module/_staff.scss */
+/* line 77, ../sass/module/_staff.scss */
 .staff-list .staff-name-title,
 .staff-list .staff-contact {
   float: left;
@@ -8385,11 +8399,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   max-width: 40%;
 }
 @media only screen and (max-width: 480px) {
-  /* line 67, ../sass/module/_staff.scss */
+  /* line 86, ../sass/module/_staff.scss */
   .staff-list .staff-image-wrapper {
     width: 20%;
   }
-  /* line 72, ../sass/module/_staff.scss */
+  /* line 91, ../sass/module/_staff.scss */
   .staff-list .staff-name-title,
   .staff-list .staff-contact {
     margin-left: 25%;
@@ -8398,11 +8412,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 80, ../sass/module/_staff.scss */
+  /* line 99, ../sass/module/_staff.scss */
   .staff-list .staff-image-wrapper {
     width: 15%;
   }
-  /* line 84, ../sass/module/_staff.scss */
+  /* line 103, ../sass/module/_staff.scss */
   .staff-list .staff-name-title {
     margin-left: 18%;
   }
