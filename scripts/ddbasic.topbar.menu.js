@@ -43,6 +43,12 @@
         ddbasic_header_wrapper.hide();
         break;
     }
+
+    // Fix jumping header after toggle of menu links.
+    var header = $('.site-header');
+    if (header.hasClass('js-fixed')) {
+      $('.content-wrapper').css('paddingTop', header.outerHeight() - parseInt($('body').css('paddingTop'), 10));
+    }
   }
 
 
@@ -137,25 +143,23 @@
       pos.top = pos.top - body_paddding;
     }
 
-    // Get calculations for header position on the page and their sizes.
-    var header_pos_relative = pos.top + 5;
-
-    // User to keep track of headers fixed state.
-    var header_fixed = false;
-
     // Hook into window scroll event (it will fire when attched if window is
     // scrolled down).
     $(window).scroll(function(){
       var top = $(window).scrollTop();
 
       // Figure out if we should fix position the header or not.
-      if (top > header_pos_relative && !header_fixed) {
+      if (top > pos.top && !header.hasClass('js-fixed')) {
         header.addClass('js-fixed');
-        header_fixed = true;
+
+        // Fix jumping content.
+        $('.content-wrapper').css('paddingTop', header.outerHeight());
       }
-      else if (top < header_pos_relative && header_fixed) {
+      else if (top == 0 && header.hasClass('js-fixed')) {
         header.removeClass('js-fixed');
-        header_fixed = false;
+
+        // Fix jumping content.
+        $('.content-wrapper').css('paddingTop', '0');
       }
     });
 
