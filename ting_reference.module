@@ -41,7 +41,7 @@ function ting_reference_field_info() {
  * Implements hook_field_is_empty().
  */
 function ting_reference_field_is_empty($item, $field) {
-  return empty($item['identifier']);
+  return empty($item['ting_object_id']);
 }
 
 /**
@@ -66,24 +66,14 @@ function ting_reference_field_load($entity_type, $entities, $field, $instances, 
 }
 
 /**
- * Implements hook_field_validate().
- *
- * Possible error codes:
- * - 'invalid_nid': nid is not valid for the field (not a valid node id, or the node is not referenceable).
- */
-function ting_reference_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-
-}
-
-/**
  * Implements hook_field_insert().
  */
 function ting_reference_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
   $entity_info = entity_get_info($entity_type);
   $entity_id = $entity->{$entity_info['entity keys']['id']};
   foreach ($items as $item) {
-    if (!empty($item['object'])) {
-      ting_reference_create_relation($entity_type, $entity_id, $item['object']->tid);
+    if (!empty($item['tid'])) {
+      ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
     }
   }
   // Need to clear field cache to display fields properly.
@@ -107,17 +97,17 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
 
   // Loop through items, create new and mark existing to be kept.
   foreach ($items as $item) {
-    if (!empty($item['object'])) {
+    if (!empty($item['tid'])) {
       $found = FALSE;
       foreach ($relations as $relation) {
-        if ($relation->endpoints['und'][1]['entity_id'] == $item['object']->tid) {
+        if ($relation->endpoints['und'][1]['entity_id'] == $item['tid']) {
           $keep[$relation->rid] = $relation->rid;
           $found = TRUE;
           break;
         }
       }
       if (!$found) {
-        ting_reference_create_relation($entity_type, $entity_id, $item['object']->tid);
+        ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
         $clear_cache = TRUE;
       }
     }
@@ -280,6 +270,10 @@ function ting_reference_field_widget_info() {
         'default value' => FIELD_BEHAVIOR_NONE
       ),
     ),
+    'ting_reference_advanced' => array(
+      'label' => t('Ting reference (advanced)'),
+      'field types' => array('ting_reference'),
+    ),
   );
 }
 
@@ -296,20 +290,54 @@ function ting_reference_widget_info_alter(&$info) {
  * Implements hook_field_widget_form().
  */
 function ting_reference_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  // Default element definition.
-  $element['#type'] = 'ting_reference_object_id';
-  $element['#description'] = t('Enter object ID, FAUST or ISBN number, to select an object from the Ting datawell.');
-  $element['#default_value'] = '';
-
+  // Try to find the relation, if one exists for the current delta.
+  $ting_object_id = '';
+  $item = FALSE;
   if (!empty($items) && isset($items[$delta]['value'])) {
     // Get raltaion to ting entity.
     $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
+    $item = array_shift($item['ting_object']);
 
-    // Get the ding entity id.
-    $ding_entity_id = array_shift($item['ting_object'])->ding_entity_id;
+    // Get entity type.
+    $entity_type = $items[$delta]['value']->endpoints[$langcode][1]['entity_type'];
 
-    // Override default value with the ding entity id.
-    $element['#default_value'] = $ding_entity_id;
+    // Get the entity ids.
+    $entity_id = $item->tid;
+    $ting_object_id = $item->ding_entity_id;
+
+  }
+
+  // Hidden field used to get the drupal entity id (tid) for a ting_object_id.
+  $element['tid'] = array(
+    '#type' => 'hidden',
+    '#element_validate' => array('ting_reference_object_id_validate'),
+  );
+
+  switch ($instance['widget']['type']) {
+    case 'ting_reference_simple':
+      $element['ting_object_id'] = array(
+        '#type' => 'textfield',
+        '#description' => t('Enter object ID, FAUST or ISBN number, to select an object from the Ting datawell.'),
+        '#default_value' => $ting_object_id,
+      );
+      break;
+
+    case 'ting_reference_advanced':
+        $element['ting_object_id'] = array (
+          '#type' => 'textfield',
+          '#title' => t('Search'),
+          '#maxlength' => NULL,
+          '#description' => t('Enter a query to search for objects or collections to reference'),
+          '#default_value' => $ting_object_id,
+        );
+
+        // Load preview of the enity referenced.
+        if ($item) {
+          $ding_entity = reset(entity_load($entity_type, array($entity_id)));
+          $build = ting_object_view($ding_entity, 'teaser');
+          $element['preview'] = $build;
+        }
+      break;
   }
 
   return $element;
@@ -318,14 +346,18 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 /**
  * Validate the object ID form element.
  */
-function ting_reference_object_id_validate(&$element, &$form_state) {
+function ting_reference_object_id_validate($element, &$form_state, $form) {
+  // Get the value entered in ting_object_id (the visible element).
+  $parents = $element['#parents'];
+  $ting_object_id = $form_state['values'][$parents[0]][$parents[1]][$parents[2]]['ting_object_id'];
+
   // Don't bother validating empty fields.
-  if (!empty($element['#value']['identifier'])) {
+  if (!empty($ting_object_id)) {
     module_load_include('client.inc', 'ting');
 
     // If the colon was URL-encoded, decode it - and trim whitespace from
     // both ends of the input string.
-    $ting_object_id = trim(str_replace('%3A', ':', $element['#value']['identifier']));
+    $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
 
     // Load the object to validate it exists.
     // Loading it should make it available for use with ting_get_object().
@@ -333,7 +365,7 @@ function ting_reference_object_id_validate(&$element, &$form_state) {
 
     if ($ting_entity) {
       // Set the form values needed.
-      form_set_value($element, array('value' => '', 'object' => $ting_entity, 'identifier' => $ting_object_id), $form_state);
+      form_set_value($element, $ting_entity->tid, $form_state);
     }
     else {
       form_set_error(implode('][', $element['#parents']), t('Object “%identifier” could not be found.', array('%identifier' => $ting_object_id)));
