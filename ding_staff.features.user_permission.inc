@@ -53,6 +53,8 @@ function ding_staff_user_default_permissions() {
     'name' => 'view any staff profile',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'profile2',
   );
@@ -62,6 +64,8 @@ function ding_staff_user_default_permissions() {
     'name' => 'view own staff profile',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
     ),
     'module' => 'profile2',
   );
