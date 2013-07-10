@@ -2,7 +2,10 @@
 
 /**
  * @file
- * Provide an array of Ting objects as a Panels relation.
+ * TODO: Provide a valid description of the file.
+ * 
+ * TODO: Why is this placed in ding_adhl_frontend? It does not seem to have 
+ * anything to do with ADHL.
  */
 
 /**

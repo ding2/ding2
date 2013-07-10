@@ -66,6 +66,9 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
 
     $recommendations = array();
     foreach ($recommended_objects as $recommended_object) {
+      // Why reduce the recommended_object to a recommendation?
+      // Passing the entire object would only provide more possibilities for 
+      // the list even though they might not be used by default.
       $url = entity_uri("ting_object", $recommended_object);
       $recommendations[] = array(
         "url" => $url['path'],

@@ -1,7 +1,9 @@
 <?php
 /**
  * @file
- *
+ * TODO: Having odd/even implemented here seems like a very one-off solution.
+ * Could our base theme either provide this as an option for theme('item_list')
+ * or provide the necessary styling using nth-child selectors?
  */
 ?>
 <?php if (!empty($recommendations)) :?>
