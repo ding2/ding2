@@ -43,7 +43,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -65,7 +67,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -131,7 +135,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -197,7 +203,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -241,7 +249,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -309,7 +319,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -419,7 +431,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -485,7 +499,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -507,7 +523,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -573,7 +591,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
@@ -595,7 +615,9 @@ function ting_material_details_field_default_field_bases() {
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_material_details',
-    'settings' => array(),
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
     'storage' => array(
       'active' => 1,
       'module' => 'virtual_field',
