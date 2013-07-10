@@ -7,6 +7,26 @@
 include_once 'ting_reference.features.inc';
 
 /**
+ * Implements hook_entity_info_alter().
+ *
+ * Add new view mode used mainly to display the ting references on node edit
+ * pages.
+ */
+function ting_reference_entity_info_alter(&$entity_info) {
+  $ding_entity_info = ding_entity_info('ding_entity');
+  // Entity might not be defined yet (is the case in the installer).
+  if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
+    // Add a user_list display mode for addon modules to use.
+    $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
+      'ting_reference_preview' => array(
+        'label' => t('Reference preview'),
+        'custom settings' => TRUE,
+      ),
+    );
+  }
+}
+
+/**
  * Implements hook_preprocess_ting_object().
  */
 function ting_reference_preprocess_ting_object(&$variables) {
@@ -333,9 +353,15 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 
         // Load preview of the enity referenced.
         if ($item) {
+          // Load the entity and build it in preview view mode
           $ding_entity = reset(entity_load($entity_type, array($entity_id)));
-          $build = ting_object_view($ding_entity, 'teaser');
+          $build = ting_object_view($ding_entity, 'ting_reference_preview');
+
+          // Add the build to the form with some css.
           $element['preview'] = $build;
+          $element['#attached']['css'] = array(
+            drupal_get_path('module', 'ting_reference') . '/css/ting_reference.css',
+          );
         }
       break;
   }
