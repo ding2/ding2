@@ -1,9 +1,8 @@
 <?php
 /**
  * @file
- * TODO Add a brief description for this file.
+ * Enables the ADHL services to ding2 sites.
  */
-
 
 /**
  * Implements hook_menu().
@@ -101,9 +100,7 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
     // Build cache id to try persistent cache.
     $identifiers = ding_adhl_frontend_extract_identifers($objects);
     $cid = md5(implode('', $identifiers));
-    if (!$reset && $cache = cache_get($cid, 'cache_ding_adhl_frontend')) {
-      // TODO: Should we check for expiry here or has that been left out because
-      // of our long cache lifetimes?
+    if (!$reset && $cache = cache_get($cid, 'cache_ding_adhl_frontend') && $cache->expire > REQUEST_TIME) {
       $recommended_objects = $cache->data;
     }
     else {
