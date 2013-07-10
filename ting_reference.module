@@ -7,6 +7,23 @@
 include_once 'ting_reference.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function ting_reference_menu() {
+  $items = array();
+
+  // Callback for the advanced widget to do autocompletion.
+  $items['ting_reference/autocomplete/object/js'] = array(
+    'page callback' => '_ting_reference_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+/**
  * Implements hook_entity_info_alter().
  *
  * Add new view mode used mainly to display the ting references on node edit
@@ -346,7 +363,7 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
         $element['ting_object_id'] = array (
           '#type' => 'textfield',
           '#title' => t('Search'),
-          '#maxlength' => NULL,
+          '#autocomplete_path' => 'ting_reference/autocomplete/object/js',
           '#description' => t('Enter a query to search for objects or collections to reference'),
           '#default_value' => $ting_object_id,
         );
@@ -354,8 +371,8 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
         // Load preview of the enity referenced.
         if ($item) {
           // Load the entity and build it in preview view mode
-          $ding_entity = reset(entity_load($entity_type, array($entity_id)));
-          $build = ting_object_view($ding_entity, 'ting_reference_preview');
+          $ding_entity = entity_load($entity_type, array($entity_id));
+          $build = ting_object_view(reset($ding_entity), 'ting_reference_preview');
 
           // Add the build to the form with some css.
           $element['preview'] = $build;
@@ -466,4 +483,52 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
   relation_save($relation);
 
   return $relation;
+}
+
+/**
+ * Autocomplete callback function that searchs the datawell for objects based on
+ * the string entered in the UI or the SQL expression.
+ *
+ * @param sting $string
+ *  The sting to search for or the SQL expression.
+ */
+function _ting_reference_autocomplete($string) {
+  $matches = array();
+
+  // Load ting client.
+  module_load_include('client.inc', 'ting');
+
+  if ($string && (strlen($string) > 3)) {
+    // Try to build the best search query based on the inputed string.
+    if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $string)) {
+      // The query is either ISBN, tid or SQL search expression.
+      $query = $string;
+    }
+    else {
+      // Add wildcard to the search string.
+      $query  = _ting_search_quote($string) . '*';
+    }
+
+    // Search the data well.
+    $result = ting_do_search($query, 1, 10, array('facets' => array(), 'allObjects' => FALSE));
+
+    // If there is no usable result, exit immediately, providng no reply.
+    if ($result && $result->numTotalObjects) {
+      foreach ($result->collections as $collection) {
+        $object = array_shift($collection->reply->objects);
+        $matches[$collection->id] = t('!title (!type, !year, !id)',  array(
+          '!title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
+          '!type' => isset($object->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : '',
+          '!year' => $object->record['dc:date'][''][0],
+          '!id' => $object->localId,
+        ));
+      }
+    }
+    else {
+      $matches[$string] = t('No matches found');
+    }
+  }
+
+  // Return the result as JSON.
+  drupal_json_output($matches);
 }
