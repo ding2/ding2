@@ -45,39 +45,45 @@ function ding_adhl_frontend_recommendation_list_content_type_content_types() {
 /**
  * Return the pane contents.
  */
-function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $context) {
+function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $contexts) {
   // Get the objects to base the recommendation on based on the first supplied
   // context
-  $objects = FALSE;
-  foreach ($context as $c) {
-    switch ($c->type) {
+  $object = FALSE;
+  foreach ($contexts as $context) {
+    $ting_object_id = $context->get_original_argument()->getId();
+    switch ($context->type) {
       case 'ting_object':
-        $objects = ting_get_object($c->get_original_argument()->getId());
+        $object = ting_get_object($ting_object_id);
         break 2;
+
       case 'ting_collection':
-        $objects = ting_get_object($c->get_original_argument()->getId(), TRUE);
+        $object = ting_get_object($ting_object_id, TRUE);
         break 2;
     }
   }
 
+  // Build the block, if then context was present.
   $block = new stdClass();
-  if ($objects) {
-    $recommended_objects = ding_adhl_frontend_get_recommended_objects($objects);
+  if ($object) {
+    // Get recommandations based on the current object.
+    $entities = ding_adhl_frontend_get_recommended_objects($object);
 
-    $recommendations = array();
-    foreach ($recommended_objects as $recommended_object) {
-      // Why reduce the recommended_object to a recommendation?
-      // Passing the entire object would only provide more possibilities for 
-      // the list even though they might not be used by default.
-      $url = entity_uri("ting_object", $recommended_object);
-      $recommendations[] = array(
-        "url" => $url['path'],
-        "creators" => $recommended_object->creators,
-        "title" => $recommended_object->title,
+    // Build render array with the recommandations found.
+    $items = array();
+    foreach ($entities as $entity) {
+      $items[] = array(
+        '#theme' => 'ding_adhl_frontend_recommendation_list_entry',
+        '#item' => $entity,
       );
     }
 
-    $block->content = theme('ding_adhl_frontend_recommendation_list', array('recommendations' => $recommendations));
+    // Fill the found results into the block.
+    $block->subject = t("Others borrowed");
+    $block->content = array(
+      '#theme' => 'ding_adhl_frontend_recommendation_list',
+      '#type' => 'ul',
+      '#items' => $items,
+    );
   }
 
   return $block;
@@ -86,18 +92,18 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
 /**
  * Return the pane titles.
  */
-function ding_adhl_frontend_recommendation_list_content_type_admin_title($subtype, $conf, $context) {
-  $context_identifiers =  array();
-  foreach ($context as $c) {
-    if ($c->type != 'any') {
-      $context_identifiers[] = $c->identifier;
+function ding_adhl_frontend_recommendation_list_content_type_admin_title($subtype, $conf, $contexts) {
+  $identifiers =  array();
+  foreach ($contexts as $context) {
+    if ($context->type != 'any') {
+      $identifiers[] = $context->identifier;
     }
   }
-  $context_identifiers = implode(', ', $context_identifiers);
+  $identifiers = implode(', ', $identifiers);
 
   switch ($subtype) {
     case 'recommendation_list':
-      return t('“@s”: Ting recommendation list', array('@s' => $context_identifiers));
+      return t('“@s”: Ting recommendation list', array('@s' => $identifiers));
   }
 }
 
