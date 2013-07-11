@@ -1,0 +1,133 @@
+<?php
+/**
+ * @file
+ * Provides a subqueue for each node of specified content type.
+ */
+
+/**
+ * Implements hook_nodequeue_info().
+ */
+function smartqueue_nodetypes_nodequeue_info() {
+  return array(
+    'smartqueue_nodetypes' => array(
+      'title' => t('Content type queue'),
+      'description' => t('Provides a subqueue for each node of specified content type.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_nodequeue_form().
+ */
+function smartqueue_nodetypes_nodequeue_form($queue, &$form) {
+  $options = array();
+  foreach (node_type_get_types() as $type_name => $type) {
+    $options[$type_name] = $type->name;
+  }
+  $form['placeholder']['sq_nodetype'] = array(
+    '#type' => 'select',
+    '#title' => t('Subqueue nodes content type'),
+    '#description' => t('Select which content type to use; each node of this type will have a subqueue.'),
+    '#options' => $options,
+    '#default_value' => $queue->reference,
+  );
+  $form['placeholder']['sq_php'] = array(
+    '#type' => 'textarea',
+    '#title' => t('PHP code'),
+    '#description' => t('Additional filter. Should return <em>TRUE</em> only if <em>$node</em> <strong>could not</strong> be queued to <em>$sq_node</em> subqueue of this <em>$queue</em>. Note that <em>$sq_node</em> is not fully-loaded object, just <em>nid</em>, <em>type</em> and <em>title</em>. Do not include &lt;?php ?&gt;!'),
+    '#default_value' => (!empty($queue->qid)) ? variable_get('smartqueue_nodetypes_php_' . $queue->qid, '') : '',
+  );
+  $form['subqueue_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subqueue title'),
+    '#default_value' => $queue->subqueue_title,
+    '#size' => 50,
+    '#maxlength' => 64,
+    '#description' => t('What to display for the subqueue title; use %subqueue to embed the actual subqueue title. This is used to distinguish multiple nodequeues with subqueues from each other, as internal subqueue title is filled automatically.'),
+  );
+}
+
+/**
+ * Implements hook_nodequeue_form_validate().
+ */
+function smartqueue_nodetypes_nodequeue_form_validate($queue, &$form_state, &$form) {
+  // Prevent self-queuing.
+  // TODO: disable queue referense type checkbox from "Types" list on nodequeue's edit form
+  $types = array_flip($form_state['values']['types']);
+  $sq_nodetype = $form_state['values']['sq_nodetype'];
+  if (array_key_exists($sq_nodetype, $types)) {
+    // TODO: Explain better and mark form element!
+    form_set_error('', t('Illegal choise. Subqueue node type should not be used for nodes in queue.'));
+  }
+  if (!isset($queue->qid)) {
+    // First run.
+    form_set_value($form['reference'], $sq_nodetype, $form_state);
+  }
+}
+
+/**
+ * Implements hook_nodequeue_queue_form_submit_finish().
+ */
+function smartqueue_nodetypes_nodequeue_form_submit_finish($queue, &$form_state) {
+  variable_set('smartqueue_nodetypes_php_' . $queue->qid, $form_state['values']['sq_php']);
+}
+
+/**
+ * Implements hook_nodequeue_subqueues().
+ */
+function smartqueue_nodetypes_nodequeue_subqueues(&$queue, $node) {
+  $sq_nids = array();
+  $code = variable_get('smartqueue_nodetypes_php_' . $queue->qid, '');
+  $sq_nodes = _smartqueue_nodetypes_get_nodes_by_type($queue->reference);
+  $subqueues = nodequeue_load_subqueues_by_reference(array($queue->qid => array_keys($sq_nodes)));
+
+  $exists = array();
+  foreach ($subqueues as $subqueue) {
+    if (!array_key_exists($subqueue->reference, $sq_nodes)) {
+      // Remove orphaned subqueues.
+      nodequeue_remove_subqueue($subqueue->sqid);
+      continue;
+    }
+    if ($subqueue->title != $sq_nodes[$subqueue->reference]->title) {
+      // Update changed title.
+      nodequeue_subqueue_update_title($subqueue->sqid, $sq_nodes[$subqueue->reference]->title);
+    }
+    $exists[] = $subqueue->reference;
+  }
+
+  foreach ($sq_nodes as $sq_nid => $sq_node) {
+    if (!in_array($sq_nid, $exists)) {
+      // Add subqueue for new node.
+      nodequeue_add_subqueue($queue, $sq_node->title, $sq_nid);
+    }
+    if ($code) {
+      // Filter out candidates by user's PHP code.
+      ob_start();
+      if (!eval($code)) {
+        $sq_nids[] = $sq_nid;
+      }
+      ob_end_clean();
+    }
+    else {
+      $sq_nids[] = $sq_nid;
+    }
+  }
+  return $sq_nids;
+}
+
+/**
+ * Utility function to get all nodes of given type.
+ */
+function _smartqueue_nodetypes_get_nodes_by_type($type, $reset = FALSE) {
+  static $nodes = array();
+  if ($reset && isset($nodes[$type])) {
+    unset($nodes[$type]);
+  }
+  if (!array_key_exists($type, $nodes)) {
+    $result = db_query('SELECT nid, title, type FROM {node} WHERE type = :type', array(':type' => $type));
+    foreach ($result as $node) {
+      $nodes[$type][$node->nid] = $node;
+    }
+  }
+  return $nodes[$type];
+}

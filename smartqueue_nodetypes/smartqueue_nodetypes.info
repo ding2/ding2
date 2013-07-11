@@ -1,0 +1,13 @@
+; $Id: smartqueue_nodetypes.info,v 1.1.2.2 2010/05/18 08:40:58 tema Exp $
+name = Smartqueues for content types
+description = Provides a subqueue for each node of specified content type.
+core = 7.x
+package = Nodequeue
+dependencies[] = nodequeue
+
+; Information added by drupal.org packaging script on 2010-05-20
+version = "6.x-1.2-beta2"
+core = 7.x
+project = "smartqueue_nodetypes"
+datestamp = "1274350209"
+
