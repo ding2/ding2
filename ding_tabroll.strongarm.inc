@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * tabroll.strongarm.inc
+ * ding_tabroll.strongarm.inc
  */
 
 /**
@@ -16,48 +16,48 @@ function ding_tabroll_strongarm() {
   $strongarm->name = 'comment_anonymous_ding_rolltab';
   $strongarm->value = 0;
   $export['comment_anonymous_ding_rolltab'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_mode_ding_rolltab';
   $strongarm->value = 1;
   $export['comment_default_mode_ding_rolltab'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_per_page_ding_rolltab';
   $strongarm->value = '50';
   $export['comment_default_per_page_ding_rolltab'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_ding_rolltab';
-  $strongarm->value = 1;
-  $export['comment_form_location_ding_rolltab'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_preview_ding_rolltab';
-  $strongarm->value = '1';
-  $export['comment_preview_ding_rolltab'] = $strongarm;
-  
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'comment_subject_field_ding_rolltab';
-  $strongarm->value = 1;
-  $export['comment_subject_field_ding_rolltab'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_ding_rolltab';
   $strongarm->value = '2';
   $export['comment_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_form_location_ding_rolltab';
+  $strongarm->value = 1;
+  $export['comment_form_location_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_preview_ding_rolltab';
+  $strongarm->value = '1';
+  $export['comment_preview_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_subject_field_ding_rolltab';
+  $strongarm->value = 1;
+  $export['comment_subject_field_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
