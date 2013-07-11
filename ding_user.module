@@ -762,12 +762,13 @@ function ding_user_is_provider_user($account) {
 /**
  * Implements hook_comment_load().
  *
- * Use actual user name instead of the hash.
+ * Use actual user name (display_name) instead of the hash values for provider
+ * users.
  */
 function ding_user_comment_load($comments) {
   $user_names = array();
 
-  // Get comment authors.
+  // Get comment authors user id (uid).
   $uids = array();
   foreach ($comments as $comment) {
     if ($comment->uid == 0) {
@@ -785,10 +786,13 @@ function ding_user_comment_load($comments) {
   foreach ($caches as $cache) {
     $data = $cache->data;
     $user_names[$data[0]] = $data[1];
+
+    // User found in cache, so remove him/her form the lists of missing user
+    // names.
     unset($uids[$uids_rev[$data[0]]]);
   }
 
-  // Get names from db.
+  // Try to get names from the database for those not found in the cache..
   if (!empty($uids)) {
     $data = db_select('users', 'u')
       ->fields('u', array('uid', 'data'))
@@ -800,11 +804,15 @@ function ding_user_comment_load($comments) {
     foreach ($data as $row) {
       $user_data = unserialize($row['data']);
       if (empty($user_data['display_name'])) {
+        // Display name was not found for the user.
         $data = array($row['uid'], NULL);
       }
       else {
+        // Display name found.
         $data = array($row['uid'], $user_data['display_name']);
       }
+
+      // Store the usernames in cache for faster look-ups.
       cache_set(_ding_user_comment_cache_id($row['uid']), $data);
       $user_names[$data[0]] = $data[1];
     }
