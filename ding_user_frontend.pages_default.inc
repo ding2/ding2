@@ -291,7 +291,16 @@ function ding_user_frontend_default_page_manager_handlers() {
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Indlogget bruger',
+        'keyword' => 'logged_in_user',
+        'name' => 'user',
+        'type' => 'current',
+        'uid' => '',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
@@ -330,7 +339,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Welcome %user:name';
+  $display->title = 'Welcome %logged_in_user:name';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
