@@ -73,8 +73,32 @@ function ding_tabroll_theme($existing, $path) {
 }
 
 /**
+ * adds rolltab in queue based on referenced library
+ * Variables:
+ * $library_ref - ID of library node, or NULL for placement in frontpage tabroll
+ */
+function _ding_tabroll_queue_add($nid, $library_ref) {
+  if (isset($library_ref)) {
+    $queue = nodequeue_load_queue_by_name('ding_tabroll_for_libraries');
+    $subqueues = nodequeue_load_subqueues_by_reference(array($queue->qid => array($library_ref)));
+  }
+  else {
+    $queue = nodequeue_load_queue_by_name('ding_tabroll');
+    $subqueues = nodequeue_load_subqueues_by_queue($queue->qid);
+  }
+  $subqueues = array_values($subqueues);
+  $subqueue = $subqueues[0];
+
+  if (function_exists('views_invalidate_cache')) {
+    views_invalidate_cache();
+  }
+
+  nodequeue_subqueue_add($queue, $subqueue, $nid);
+}
+
+/**
  * Implements hook_node_insert().
- *  auto inserts nodequeue when submitting tabrolls
+ *  auto inserts nodequeue when submitting rolltab
  */
 function ding_tabroll_node_insert($node) {
   $nid = $node->nid;
@@ -84,6 +108,7 @@ function ding_tabroll_node_insert($node) {
     return FALSE;
   }
 
+  /*
   if (isset($node->field_ding_tabroll_library_ref['und'][0])) {
     $libraries = $node->field_ding_tabroll_library_ref['und'][0]['target_id'];
     $queue = nodequeue_load_queue_by_name('ding_tabroll_for_libraries');
@@ -101,4 +126,43 @@ function ding_tabroll_node_insert($node) {
   }
 
   nodequeue_subqueue_add($queue, $subqueue, $nid);
+  */
+  $library_ref = (isset($node->field_ding_tabroll_library_ref['und'][0])) ? $node->field_ding_tabroll_library_ref['und'][0]['target_id'] : NULL;
+  _ding_tabroll_queue_add($nid, $library_ref);
+}
+
+/**
+ * Implements hook_node_update().
+ *  auto updates nodequeues when assigning rolltab to another library
+ */
+function ding_tabroll_node_update($node) {
+  $nid = $node->nid;
+  $type = $node->type;
+  // Only process project node.
+  if ($type != 'ding_rolltab') {
+    return FALSE;
+  }
+
+  $library_ref = (isset($node->field_ding_tabroll_library_ref['und'][0])) ? $node->field_ding_tabroll_library_ref['und'][0]['target_id'] : NULL;
+  $old_node = node_load($node->nid);
+  $old_library_ref = (isset($old_node->field_ding_tabroll_library_ref['und'][0])) ? $old_node->field_ding_tabroll_library_ref['und'][0]['target_id'] : NULL;
+  
+  //if library ref field was not changed, exit
+  if ($library_ref == $old_library_ref) {
+    return FALSE;
+  }
+  
+  // Retrieve nodes to be removed
+  $result = db_query("SELECT sqid FROM {nodequeue_nodes} WHERE nid = :nid", 
+    array(
+    ':nid' => $nid, 
+    )
+  );
+  // Remove the nodes from queues
+  foreach ($result as $row) {
+    nodequeue_subqueue_remove_node($row->sqid, $nid);
+  }
+
+  // Add the node to the relevant queue
+  _ding_tabroll_queue_add($nid, $library_ref);
 }
