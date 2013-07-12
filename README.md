@@ -42,7 +42,7 @@ Download installation profile. Go into your Drupal installation path and into th
 
 Clone the ding2 profile repository from github.
 
-    ~$ git clone git@github.com:ding2/ding2.git
+    ~$ git clone git@github.com:ding2tal/ding2.git
 
 Place the install profile inside your Drupal installation, and run this command inside the profiles/ding2 folder:
 
@@ -60,10 +60,10 @@ Next go to your sites URL and run the ding2 installation profile.
 
 The ding2 makefiles utilizes recursive makefiles, which results in the projects
 and libraries being download more than once. You can work around this by cloning
-the http://github.com/ding2/drush-ding2-utils into your .drush folder.
+the http://github.com/ding2tal/drush-ding2-utils into your .drush folder.
 
     ~$ cd ~/.drush
-    ~$ git clone https://github.com/ding2/drush-ding2-utils drush-ding2-utils
+    ~$ git clone https://github.com/ding2tal/drush-ding2-utils drush-ding2-utils
 
 Next go back to the profile folder.
 
@@ -79,3 +79,4 @@ need to clear the cache. This also applies if the build fails and you need to
 rebuild.
 
     ~$ drush cc drush
+
