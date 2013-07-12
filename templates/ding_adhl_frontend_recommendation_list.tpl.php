@@ -1,16 +1,20 @@
 <?php
 /**
  * @file
+ * Default template for the recommandation item list.
  *
+ * Available variables:
+ * - $items: Render array with recommandated Ting Entities.
+ * - $type: The list type.
+ *
+ * Other variables:
+ * - $classes_array: Array of html class attribute values. It is flattened
+ *   into a string within the variable $classes.
  */
 ?>
-<?php if (!empty($recommendations)) :?>
-<h3><?php print t("Others borrowed:"); ?></h3>
-<ul>
-  <?php foreach ($recommendations as $i => $recommendation) : ?>
-    <li class="<?php echo (($i % 2) == 0) ? 'odd' : 'even' ?>">
-      <?php echo theme('ding_adhl_frontend_recommendation_list_entry', array("recommendation" => $recommendation)); ?>
-    </li>
+<h3><?php print t("Others borrowed"); ?></h3>
+<<?php print $type; ?>>
+  <?php foreach ($items as $item) : ?>
+    <?php print drupal_render($item); ?>
   <?php endforeach; ?>
-</ul>
-<?php endif; ?>
+</<?php print $type; ?>>

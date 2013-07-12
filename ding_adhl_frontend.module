@@ -1,9 +1,8 @@
 <?php
 /**
  * @file
- *
+ * Enables the ADHL services to ding2 sites.
  */
-
 
 /**
  * Implements hook_menu().
@@ -41,11 +40,11 @@ function ding_adhl_frontend_permission() {
 function ding_adhl_frontend_theme() {
   return array(
     'ding_adhl_frontend_recommendation_list' => array(
-      'variables' => array('recommendations' => array()),
+      'variables' => array('type' => 'ul', 'items' => array()),
       'template' => 'templates/ding_adhl_frontend_recommendation_list',
     ),
     'ding_adhl_frontend_recommendation_list_entry' => array(
-      'variables' => array('recommendation' => NULL),
+      'variables' => array('item' => NULL),
       'template' => 'templates/ding_adhl_frontend_recommendation_list_entry',
     ),
   );
@@ -56,14 +55,23 @@ function ding_adhl_frontend_theme() {
  *
  * Default implementation of preprocess function for ding_adhl_frontend_recommendation_list_entry
  * theme function.
- *
- * @param type $vars
  */
 function template_preprocess_ding_adhl_frontend_recommendation_list_entry(&$vars) {
-  // Create better title to use in link tag.
-  $creators = implode(", ", $vars['recommendation']['creators']);
-  $vars['recommendation']['link_title'] = $vars['recommendation']['title'] . (!empty($creators) ? ': ' . $creators : '');
-  $vars['recommendation']['creators_str'] = $creators;
+  $item = $vars['item'];
+
+  // Build string with the creators.
+  $creators = FALSE;
+  if (!empty($item->creators)) {
+    $creators = implode(", ", $item->creators);
+  }
+  $vars['creators'] = $creators;
+
+  // Create link and title back to the ting object.
+  $uri = entity_uri("ting_object", $item);
+  $vars['link'] = array(
+    'uri' => url($uri['path']),
+    'title' => $item->title . ($creators ? ': ' . $creators : ''),
+  );
 }
 
 /**
@@ -101,7 +109,8 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
     // Build cache id to try persistent cache.
     $identifiers = ding_adhl_frontend_extract_identifers($objects);
     $cid = md5(implode('', $identifiers));
-    if (!$reset && $cache = cache_get($cid, 'cache_ding_adhl_frontend')) {
+    $cache = cache_get($cid, 'cache_ding_adhl_frontend');
+    if (!$reset && $cache && $cache->expire > REQUEST_TIME) {
       $recommended_objects = $cache->data;
     }
     else {
@@ -135,7 +144,7 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
         if ($ting_object && $ting_object->ownerId == $agency) {
           $recommended_objects[] = $ting_object;
 
-          // Don't get more than 10 valid objects.
+          // Don't get more than we want to display.
           if (count($recommended_objects) >= $number_of_objects) {
             break;
           }
@@ -179,10 +188,12 @@ function ding_adhl_frontend_extract_identifers($objects) {
           return array();
         }
         break;
+
       case 'TingClientObjectCollection':
         // Get ids from each of the objects in the collection.
         return ding_adhl_frontend_extract_identifers($objects->objects);
         break;
+
       default:
         // Assume a string or integer has been passed and return it.
         return array($objects);
