@@ -115,7 +115,7 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
     }
   }
   else {
-    ding_wayf_redirect('user/%uid/edit');
+    drupal_goto('user/' . $user->uid  . '/edit');
   }
 }
 
