@@ -34,5 +34,5 @@ projects[smartqueue_nodetypes][type] = "module"
 projects[smartqueue_nodetypes][download][type] = "git"
 projects[smartqueue_nodetypes][download][url] = "http://git.drupal.org/project/smartqueue_nodetypes.git"
 projects[smartqueue_nodetypes][download][branch] = "6.x-1.x"
-projects[smartqueue_nodetypes][patch][0] = "https://drupal.org/files/smartqueue_nodetypes-drupal7-1381540-11_0.patch"
+projects[smartqueue_nodetypes][patch][0] = "http://drupal.org/files/smartqueue_nodetypes-drupal7-1381540-14.patch"
 
