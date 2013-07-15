@@ -15,7 +15,7 @@ function ding_tabroll_views_default_views() {
   $view->description = 'Display a list of all nodes in queue \'frontpage tabroll\'';
   $view->tag = 'nodequeue';
   $view->base_table = 'node';
-  $view->human_name = 'frontpage tabroll';
+  $view->human_name = 'Ding frontpage tabroll';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -165,8 +165,13 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  /* Display: Ding frontpage tabroll */
+  $handler = $view->new_display('panel_pane', 'Ding frontpage tabroll', 'ding_frontpage_tabroll');
+  $handler->display->display_options['display_description'] = 'Ding frontpage tabroll';
+  $handler->display->display_options['pane_title'] = 'Ding frontpage tabroll';
+  $handler->display->display_options['pane_description'] = 'Ding frontpage tablroll';
+  $handler->display->display_options['pane_category']['name'] = 'Ding!';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['ding_tabroll'] = array(
     t('Master'),
     t('Se flere'),
@@ -177,9 +182,10 @@ function ding_tabroll_views_default_views() {
     t('Desc'),
     t('frontpage tabroll'),
     t('Content entity referenced from field_ding_tabroll_link'),
-    t('Content pane'),
+    t('Ding frontpage tabroll'),
     t('more'),
-    t('View panes'),
+    t('Ding frontpage tablroll'),
+    t('Ding!'),
   );
   $export['ding_tabroll'] = $view;
 
@@ -188,7 +194,7 @@ function ding_tabroll_views_default_views() {
   $view->description = 'Display a list of all nodes in queue \'libraries\'';
   $view->tag = 'nodequeue';
   $view->base_table = 'node';
-  $view->human_name = 'libraries tabroll';
+  $view->human_name = 'Ding libraries tabroll';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -350,8 +356,13 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  /* Display: Ding libraries tabroll */
+  $handler = $view->new_display('panel_pane', 'Ding libraries tabroll', 'ding_libraries_tabroll');
+  $handler->display->display_options['display_description'] = 'Ding libraries tabroll';
+  $handler->display->display_options['pane_title'] = 'Ding libraries tabroll';
+  $handler->display->display_options['pane_description'] = 'Ding libraries tabroll';
+  $handler->display->display_options['pane_category']['name'] = 'Ding!';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['libraries_tabroll'] = array(
     t('Defaults'),
     t('Se flere'),
@@ -363,9 +374,9 @@ function ding_tabroll_views_default_views() {
     t('queue'),
     t('Content entity referenced from field_ding_tabroll_link'),
     t('All'),
-    t('Content pane'),
+    t('Ding libraries tabroll'),
     t('more'),
-    t('View panes'),
+    t('Ding!'),
   );
   $export['libraries_tabroll'] = $view;
 
