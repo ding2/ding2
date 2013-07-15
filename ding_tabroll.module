@@ -167,11 +167,6 @@ function _ding_tabroll_queue_add($nid, $library_ref = NULL) {
   // Get the first queue only, as ther always should only be one queue.
   $sub_queue = reset($sub_queues);
 
-  // Clear views cache.
-  if (function_exists('views_invalidate_cache')) {
-    views_invalidate_cache();
-  }
-
   // Add the node to the queue.
   nodequeue_subqueue_add($queue, $sub_queue, $nid);
 }
