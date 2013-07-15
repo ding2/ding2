@@ -68,7 +68,7 @@ function ding_base_default_page_manager_handlers() {
       'override_title_text' => '',
       'identifier' => '',
       'link' => 0,
-      'leave_node_title' => 1,
+      'leave_node_title' => 0,
       'build_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
     );
@@ -82,7 +82,7 @@ function ding_base_default_page_manager_handlers() {
     $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['main_content'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context_2'] = $handler;
