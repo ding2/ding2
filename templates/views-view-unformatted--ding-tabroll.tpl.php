@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @file
+ * This template defines the basic structure for the frontpage tabroll (with
+ * support for responsive design.)
+ *
+ * @ingroup views_templates
+ */
 ?>
 <div class="ding-tabroll-wrapper">
   <div id="ding-tabroll">

@@ -53,7 +53,7 @@ function ding_tabroll_theme() {
     ),
     'views_view_fields__libraries_tabroll' => array(
       'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-      'template' => 'views-view-fields--libraries-tabroll',
+      'template' => 'views-view-fields--ding-tabroll',
       'original hook' => 'views_view_fields',
       'path' => $path,
       'preprocess functions' => array(
