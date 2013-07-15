@@ -119,17 +119,8 @@ function ding_tabroll_node_update($node) {
 
     // If library reference field was not changed (no update needed).
     if ($library_ref_original != $library_ref_original) {
-      // Retrieve sub-queue ids for the queues containing node being updated.
-      $sqids = db_select('nodequeue_nodes', 'nn')
-        ->fields('nn', array('sqid'))
-        ->condition('nid', $node->nid)
-        ->execute()
-        ->fetchCol();
-
       // Remove the nodes from previouse queues.
-      foreach ($sqids as $sqid) {
-        nodequeue_subqueue_remove_node($sqid, $node->nid);
-      }
+      _ding_tabroll_queues_remove_node($node->nid);
     }
 
     // Add the node to the relevant new queue (if the reference is not null it
@@ -139,9 +130,35 @@ function ding_tabroll_node_update($node) {
 }
 
 /**
- * @todo node_delete ?
+ * Implements hook_node_delete().
+ *
+ * Remove the rolltab from all quese when deleted.
  */
+function ding_tabroll_node_delete($node) {
+  if ($node->type == 'ding_rolltab') {
+    _ding_tabroll_queues_remove_node($node->nid);
+  }
+}
 
+/**
+ * Removes a given node from all node queues.
+ *
+ * @param string $nid
+ *  The rolltab node id to remove from the node queues.
+ */
+function _ding_tabroll_queues_remove_node($nid) {
+  // Retrieve sub-queue ids for the queues containing node being updated.
+  $sqids = db_select('nodequeue_nodes', 'nn')
+    ->fields('nn', array('sqid'))
+    ->condition('nid', $nid)
+    ->execute()
+    ->fetchCol();
+
+  // Remove the nodes from previouse queues.
+  foreach ($sqids as $sqid) {
+    nodequeue_subqueue_remove_node($sqid, $nid);
+  }
+}
 
 /**
  * Add rolltab node to an queue.
