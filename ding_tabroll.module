@@ -109,16 +109,16 @@ function ding_tabroll_node_update($node) {
     if (!empty($item)) {
       // Found a reference.
       $library_ref = $item[0]['target_id'];
+    }
 
-      // Try to get the "before edit" reference.
-      $item = field_get_items('node', $node->original, 'field_ding_tabroll_library_ref');
-      if (!empty($item)) {
-        $library_ref_original = $item[0]['target_id'];
-      }
+    // Try to get the "before edit" reference.
+    $item = field_get_items('node', $node->original, 'field_ding_tabroll_library_ref');
+    if (!empty($item)) {
+      $library_ref_original = $item[0]['target_id'];
     }
 
     // If library reference field was not changed (no update needed).
-    if ($library_ref_original != $library_ref_original) {
+    if ($library_ref_original != $library_ref) {
       // Remove the nodes from previouse queues.
       _ding_tabroll_queues_remove_node($node->nid);
     }
@@ -184,6 +184,8 @@ function _ding_tabroll_queue_add($nid, $library_ref = NULL) {
   // Get the first queue only, as ther always should only be one queue.
   $sub_queue = reset($sub_queues);
 
-  // Add the node to the queue.
-  nodequeue_subqueue_add($queue, $sub_queue, $nid);
+  // Add the node to the queue, if not in the queue.
+  if (!nodequeue_subqueue_position($sub_queue->sqid, $nid)) {
+    nodequeue_subqueue_add($queue, $sub_queue, $nid);
+  }
 }
