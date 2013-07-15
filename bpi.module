@@ -451,7 +451,8 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
    );
   }
 
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
+  // Restricting where "Save && Push" appears.
+  if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit') {
     if (node_load(arg(1))->type == 'ding_news') {
       $form['actions']['push'] = $form['actions']['submit'];
       $form['actions']['push']['#value'] = t('Save && Push');
