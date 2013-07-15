@@ -8,15 +8,6 @@
 include_once 'ding_tabroll.features.inc';
 
 /**
- * Implements hook_init().
- */
-function ding_tabroll_init() {
-  // Add default CSS and JavaScript.
-  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
-  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
-}
-
-/**
  * Implements hook_theme().
  *
  * @see http://views-help.doc.logrus.com/help/views/api-default-views
@@ -33,6 +24,7 @@ function ding_tabroll_theme() {
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess',
         'ding_tabroll_preprocess_views_view_unformatted__ding_tabroll',
       ),
     ),
@@ -55,6 +47,7 @@ function ding_tabroll_theme() {
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess',
         'ding_tabroll_preprocess_views_view_unformatted__libraries_tabroll',
       ),
     ),
@@ -70,6 +63,21 @@ function ding_tabroll_theme() {
       ),
     ),
   );
+}
+
+/**
+ * Default ding_tabroll_preprocess().
+ *
+ * Adds jQuert UI tabs and default JavaScript/CSS for the frontpage and
+ * libraries tabroll.
+ */
+function ding_tabroll_preprocess($variables) {
+  // Add jQuery UI tabs library.
+  drupal_add_library('system', 'ui.tabs');
+
+  // Add default CSS and JavaScript.
+  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
+  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
 }
 
 /**

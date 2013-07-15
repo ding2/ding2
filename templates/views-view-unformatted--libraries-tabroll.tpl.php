@@ -1,9 +1,4 @@
 <?php
-// $Id$
-
-// We need jQuery UI tabs for this.
-
-drupal_add_library('system', 'ui.tabs');
 
 ?>
  <div id="featured">

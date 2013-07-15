@@ -1,13 +1,7 @@
 <?php
-// $Id$
-
-// We need jQuery UI tabs for this.
-
-drupal_add_library('system', 'ui.tabs');
 
 ?>
 <div class="ding-tabroll-wrapper">
-  
   <div id="ding-tabroll">
     <ul class="ui-tabs-nav">
       <?php
@@ -37,5 +31,4 @@ drupal_add_library('system', 'ui.tabs');
       }
     ?>
   </select>
-
 </div>
