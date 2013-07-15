@@ -23,14 +23,14 @@ function ding_tabroll_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Se flere';
+  $handler->display->display_options['use_more_text'] = 'See more';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Revert';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
@@ -174,10 +174,10 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['ding_tabroll'] = array(
     t('Master'),
-    t('Se flere'),
+    t('See more'),
     t('Apply'),
-    t('Gendan'),
-    t('Sortér efter'),
+    t('Revert'),
+    t('Sort by'),
     t('Asc'),
     t('Desc'),
     t('frontpage tabroll'),
@@ -202,14 +202,14 @@ function ding_tabroll_views_default_views() {
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Se flere';
+  $handler->display->display_options['use_more_text'] = 'See more';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Revert';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -365,10 +365,10 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['libraries_tabroll'] = array(
     t('Defaults'),
-    t('Se flere'),
+    t('See more'),
     t('Apply'),
-    t('Gendan'),
-    t('Sortér efter'),
+    t('Revert'),
+    t('Sort by'),
     t('Asc'),
     t('Desc'),
     t('queue'),
