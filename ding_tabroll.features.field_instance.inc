@@ -23,7 +23,7 @@ function ding_tabroll_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'cs_adaptive_image',
         'settings' => array(
           'image_link' => '',
@@ -54,12 +54,12 @@ function ding_tabroll_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_tabroll_image',
-    'label' => 'image',
+    'label' => 'Image',
     'required' => 1,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
-      'file_directory' => '',
+      'file_directory' => 'rolltab',
       'file_extensions' => 'png gif jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',
@@ -72,19 +72,18 @@ function ding_tabroll_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
-          'private' => 'private',
+          'private' => 0,
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'audio' => 0,
-          'default' => 0,
           0 => 0,
+          'audio' => 0,
+          'document' => 0,
           'image' => 'image',
           'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
-          'library' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
           'upload' => 0,
@@ -101,7 +100,7 @@ function ding_tabroll_field_default_field_instances() {
     'bundle' => 'ding_rolltab',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Short description displayed inside the tab in a overlay. ',
     'display' => array(
       'content_glider' => array(
         'label' => 'above',
@@ -110,7 +109,7 @@ function ding_tabroll_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
@@ -131,7 +130,7 @@ function ding_tabroll_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_tabroll_lead',
-    'label' => 'lead',
+    'label' => 'Lead',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -153,10 +152,10 @@ function ding_tabroll_field_default_field_instances() {
     'bundle' => 'ding_rolltab',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'If the a library is selected the tab will be shown on that libraries page. If non is selected the tab will be added to the front page tabroll.',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'entityreference',
         'settings' => array(
           'link' => FALSE,
@@ -179,7 +178,7 @@ function ding_tabroll_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_tabroll_library_ref',
-    'label' => 'library',
+    'label' => 'Library',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -198,7 +197,7 @@ function ding_tabroll_field_default_field_instances() {
     'bundle' => 'ding_rolltab',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Link to content that the tab should go to when clicked.',
     'display' => array(
       'content_glider' => array(
         'label' => 'above',
@@ -207,10 +206,10 @@ function ding_tabroll_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'entityreference',
         'settings' => array(
-          'link' => FALSE,
+          'link' => 1,
         ),
         'type' => 'entityreference_label',
         'weight' => 4,
@@ -230,7 +229,7 @@ function ding_tabroll_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_tabroll_link',
-    'label' => 'link',
+    'label' => 'Link',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -250,10 +249,13 @@ function ding_tabroll_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('image');
-  t('lead');
-  t('library');
-  t('link');
+  t('If the a library is selected the tab will be shown on that libraries page. If non is selected the tab will be added to the front page tabroll.');
+  t('Image');
+  t('Lead');
+  t('Library');
+  t('Link');
+  t('Link to content that the tab should go to when clicked.');
+  t('Short description displayed inside the tab in a overlay. ');
 
   return $field_instances;
 }

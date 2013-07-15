@@ -148,7 +148,6 @@ function ding_tabroll_field_default_field_bases() {
           'type' => 'none',
         ),
         'target_bundles' => array(
-          'ding_campaign' => 'ding_campaign',
           'ding_event' => 'ding_event',
           'ding_library' => 'ding_library',
           'ding_news' => 'ding_news',
