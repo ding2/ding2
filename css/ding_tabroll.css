@@ -126,6 +126,11 @@
     text-decoration: none !important;
 }
 
+.ding-tabroll-select-tabs {
+  margin: 1% 0;
+  width: 100%;
+  display: none;
+}
 
 /* 
  * Overrides for placing the nav tabs on the right 

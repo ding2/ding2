@@ -18,10 +18,7 @@ function ding_tabroll_ctools_plugin_api() {
  * Implements hook_views_api().
  */
 function ding_tabroll_views_api() {
-  list($module, $api) = func_get_args();
-  if ($module == "views" && $api == "views_default") {
-    return array("version" => "3.0");
-  }
+  return array("api" => "3.0");
 }
 
 /**
@@ -30,7 +27,7 @@ function ding_tabroll_views_api() {
 function ding_tabroll_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ding_tabroll_large
+  // Exported image style: ding_tabroll_large.
   $styles['ding_tabroll_large'] = array(
     'name' => 'ding_tabroll_large',
     'effects' => array(
@@ -44,15 +41,15 @@ function ding_tabroll_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '1200',
-          'height' => '400',
+          'width' => 1200,
+          'height' => 400,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
 
-  // Exported image style: ding_tabroll_medium
+  // Exported image style: ding_tabroll_medium.
   $styles['ding_tabroll_medium'] = array(
     'name' => 'ding_tabroll_medium',
     'effects' => array(
@@ -66,15 +63,15 @@ function ding_tabroll_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '900',
-          'height' => '300',
+          'width' => 900,
+          'height' => 300,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
 
-  // Exported image style: ding_tabroll_small
+  // Exported image style: ding_tabroll_small.
   $styles['ding_tabroll_small'] = array(
     'name' => 'ding_tabroll_small',
     'effects' => array(
@@ -88,10 +85,10 @@ function ding_tabroll_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => '450',
-          'height' => '150',
+          'width' => 450,
+          'height' => 150,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
   );
