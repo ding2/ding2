@@ -1,10 +1,10 @@
 <?php
-// $Id$
-
-// We need jQuery UI tabs for this.
-
-drupal_add_library('system', 'ui.tabs');
-
+/**
+ * @file
+ * This template defines the basic structure for the libraries tabroll.
+ *
+ * @ingroup views_templates
+ */
 ?>
  <div id="featured">
   <ul class="ui-tabs-nav">

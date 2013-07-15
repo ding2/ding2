@@ -10,38 +10,37 @@
 function ding_tabroll_views_default_views() {
   $export = array();
 
-  $view = new view;
+  $view = new view();
   $view->name = 'ding_tabroll';
   $view->description = 'Display a list of all nodes in queue \'frontpage tabroll\'';
   $view->tag = 'nodequeue';
   $view->base_table = 'node';
-  $view->human_name = 'frontpage tabroll';
+  $view->human_name = 'Ding frontpage tabroll';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['use_more_text'] = 'Se flere';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'See more';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Revert';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = 0;
-  $handler->display->display_options['row_options']['default_field_elements'] = 0;
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: Nodequeue: Queue */
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['label'] = 'frontpage tabroll';
-  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
     'ding_tabroll' => 'ding_tabroll',
@@ -51,52 +50,23 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['id'] = 'field_ding_tabroll_link_target_id';
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['table'] = 'field_data_field_ding_tabroll_link';
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['field'] = 'field_ding_tabroll_link_target_id';
-  $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['required'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['title']['link_to_node'] = 0;
-  /* Field: Content: image */
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Image */
   $handler->display->display_options['fields']['field_ding_tabroll_image']['id'] = 'field_ding_tabroll_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['table'] = 'field_data_field_ding_tabroll_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['field'] = 'field_ding_tabroll_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_tabroll_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_ding_tabroll_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_tabroll_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['type'] = 'cs_adaptive_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['settings'] = array(
@@ -161,59 +131,26 @@ function ding_tabroll_views_default_views() {
       'fallback_style' => 'ding_tabroll_large',
     ),
   );
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['field_api_classes'] = 0;
-  /* Field: Content: lead */
+  /* Field: Content: Lead */
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['id'] = 'field_ding_tabroll_lead';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['table'] = 'field_data_field_ding_tabroll_lead';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['field'] = 'field_ding_tabroll_lead';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_type'] = 'p';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['field_api_classes'] = 0;
-  /* Field: Content: link */
+  $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_default_classes'] = FALSE;
+  /* Field: Content: Link */
   $handler->display->display_options['fields']['field_ding_tabroll_link']['id'] = 'field_ding_tabroll_link';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['table'] = 'field_data_field_ding_tabroll_link';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['field'] = 'field_ding_tabroll_link';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['relationship'] = 'field_ding_tabroll_link_target_id';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_tabroll_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_ding_tabroll_link']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_tabroll_link']['type'] = 'entityreference_entity_id';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['settings'] = array(
     'link' => 0,
   );
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['field_api_classes'] = 0;
   /* Sort criterion: Nodequeue: Position */
   $handler->display->display_options['sorts']['position']['id'] = 'position';
   $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
@@ -227,56 +164,61 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  /* Display: Ding frontpage tabroll */
+  $handler = $view->new_display('panel_pane', 'Ding frontpage tabroll', 'ding_frontpage_tabroll');
+  $handler->display->display_options['display_description'] = 'Ding frontpage tabroll';
+  $handler->display->display_options['pane_title'] = 'Ding frontpage tabroll';
+  $handler->display->display_options['pane_description'] = 'Ding frontpage tablroll';
+  $handler->display->display_options['pane_category']['name'] = 'Ding!';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['ding_tabroll'] = array(
     t('Master'),
-    t('Se flere'),
+    t('See more'),
     t('Apply'),
-    t('Gendan'),
-    t('Sortér efter'),
+    t('Revert'),
+    t('Sort by'),
     t('Asc'),
     t('Desc'),
     t('frontpage tabroll'),
     t('Content entity referenced from field_ding_tabroll_link'),
-    t('Content pane'),
+    t('Ding frontpage tabroll'),
     t('more'),
-    t('View panes'),
+    t('Ding frontpage tablroll'),
+    t('Ding!'),
   );
   $export['ding_tabroll'] = $view;
 
-  $view = new view;
+  $view = new view();
   $view->name = 'libraries_tabroll';
   $view->description = 'Display a list of all nodes in queue \'libraries\'';
   $view->tag = 'nodequeue';
   $view->base_table = 'node';
-  $view->human_name = 'libraries tabroll';
+  $view->human_name = 'Ding libraries tabroll';
   $view->core = 0;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->display->display_options['use_more_text'] = 'Se flere';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'See more';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Revert';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = 0;
-  $handler->display->display_options['row_options']['default_field_elements'] = 0;
+  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: Nodequeue: Queue */
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = 1;
+  $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = TRUE;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
     'ding_tabroll_for_libraries' => 'ding_tabroll_for_libraries',
@@ -285,52 +227,20 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['id'] = 'field_ding_tabroll_link_target_id';
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['table'] = 'field_data_field_ding_tabroll_link';
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['field'] = 'field_ding_tabroll_link_target_id';
-  $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['required'] = 0;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['title']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['title']['alter']['html'] = 0;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = 1;
-  $handler->display->display_options['fields']['title']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['title']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['title']['link_to_node'] = 0;
-  /* Field: Content: image */
+  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+  /* Field: Content: Image */
   $handler->display->display_options['fields']['field_ding_tabroll_image']['id'] = 'field_ding_tabroll_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['table'] = 'field_data_field_ding_tabroll_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['field'] = 'field_ding_tabroll_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_tabroll_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_ding_tabroll_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_tabroll_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['type'] = 'cs_adaptive_image';
   $handler->display->display_options['fields']['field_ding_tabroll_image']['settings'] = array(
@@ -395,59 +305,26 @@ function ding_tabroll_views_default_views() {
       'fallback_style' => 'ding_tabroll_large',
     ),
   );
-  $handler->display->display_options['fields']['field_ding_tabroll_image']['field_api_classes'] = 0;
-  /* Field: Content: lead */
+  /* Field: Content: Lead */
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['id'] = 'field_ding_tabroll_lead';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['table'] = 'field_data_field_ding_tabroll_lead';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['field'] = 'field_ding_tabroll_lead';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_type'] = 'p';
   $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['hide_alter_empty'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_lead']['field_api_classes'] = 0;
-  /* Field: Content: link */
+  $handler->display->display_options['fields']['field_ding_tabroll_lead']['element_default_classes'] = FALSE;
+  /* Field: Content: Link */
   $handler->display->display_options['fields']['field_ding_tabroll_link']['id'] = 'field_ding_tabroll_link';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['table'] = 'field_data_field_ding_tabroll_link';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['field'] = 'field_ding_tabroll_link';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['relationship'] = 'field_ding_tabroll_link_target_id';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['alter_text'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['make_link'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['absolute'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['external'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['replace_spaces'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['trim_whitespace'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['nl2br'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['word_boundary'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['ellipsis'] = 1;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['strip_tags'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['trim'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['alter']['html'] = 0;
   $handler->display->display_options['fields']['field_ding_tabroll_link']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['element_default_classes'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['hide_empty'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['empty_zero'] = 0;
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['hide_alter_empty'] = 1;
+  $handler->display->display_options['fields']['field_ding_tabroll_link']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_tabroll_link']['type'] = 'entityreference_entity_id';
   $handler->display->display_options['fields']['field_ding_tabroll_link']['settings'] = array(
     'link' => 0,
   );
-  $handler->display->display_options['fields']['field_ding_tabroll_link']['field_api_classes'] = 0;
   /* Sort criterion: Nodequeue: Position */
   $handler->display->display_options['sorts']['position']['id'] = 'position';
   $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
@@ -460,14 +337,10 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['arguments']['reference']['relationship'] = 'nodequeue_rel';
   $handler->display->display_options['arguments']['reference']['default_action'] = 'default';
   $handler->display->display_options['arguments']['reference']['default_argument_type'] = 'node';
-  $handler->display->display_options['arguments']['reference']['default_argument_skip_url'] = 0;
   $handler->display->display_options['arguments']['reference']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['reference']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['reference']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['reference']['glossary'] = 0;
   $handler->display->display_options['arguments']['reference']['limit'] = '0';
-  $handler->display->display_options['arguments']['reference']['transform_dash'] = 0;
-  $handler->display->display_options['arguments']['reference']['break_phrase'] = 0;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -481,22 +354,27 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
 
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  /* Display: Ding libraries tabroll */
+  $handler = $view->new_display('panel_pane', 'Ding libraries tabroll', 'ding_libraries_tabroll');
+  $handler->display->display_options['display_description'] = 'Ding libraries tabroll';
+  $handler->display->display_options['pane_title'] = 'Ding libraries tabroll';
+  $handler->display->display_options['pane_description'] = 'Ding libraries tabroll';
+  $handler->display->display_options['pane_category']['name'] = 'Ding!';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['libraries_tabroll'] = array(
     t('Defaults'),
-    t('Se flere'),
+    t('See more'),
     t('Apply'),
-    t('Gendan'),
-    t('Sortér efter'),
+    t('Revert'),
+    t('Sort by'),
     t('Asc'),
     t('Desc'),
     t('queue'),
     t('Content entity referenced from field_ding_tabroll_link'),
     t('All'),
-    t('Content pane'),
+    t('Ding libraries tabroll'),
     t('more'),
-    t('View panes'),
+    t('Ding!'),
   );
   $export['libraries_tabroll'] = $view;
 

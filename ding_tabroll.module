@@ -8,22 +8,13 @@
 include_once 'ding_tabroll.features.inc';
 
 /**
- * Implements hook_init().
- */
-function ding_tabroll_init() {
-  // Add default CSS and JavaScript.
-  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
-  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
-}
-
-/**
  * Implements hook_theme().
  *
- * See http://views-help.doc.logrus.com/help/views/api-default-views
- * for help with providing default .tpl files for your views
+ * @see http://views-help.doc.logrus.com/help/views/api-default-views
  */
-function ding_tabroll_theme($existing, $path) {
+function ding_tabroll_theme() {
   $path = drupal_get_path('module', 'ding_tabroll') . '/templates';
+
   return array(
     'views_view_unformatted__ding_tabroll' => array(
       'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
@@ -33,6 +24,7 @@ function ding_tabroll_theme($existing, $path) {
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess',
         'ding_tabroll_preprocess_views_view_unformatted__ding_tabroll',
       ),
     ),
@@ -55,12 +47,13 @@ function ding_tabroll_theme($existing, $path) {
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess',
         'ding_tabroll_preprocess_views_view_unformatted__libraries_tabroll',
       ),
     ),
     'views_view_fields__libraries_tabroll' => array(
       'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-      'template' => 'views-view-fields--libraries-tabroll',
+      'template' => 'views-view-fields--ding-tabroll',
       'original hook' => 'views_view_fields',
       'path' => $path,
       'preprocess functions' => array(
@@ -73,32 +66,134 @@ function ding_tabroll_theme($existing, $path) {
 }
 
 /**
+ * Default ding_tabroll_preprocess().
+ *
+ * Adds jQuert UI tabs and default JavaScript/CSS for the frontpage and
+ * libraries tabroll.
+ */
+function ding_tabroll_preprocess($variables) {
+  // Add jQuery UI tabs library.
+  drupal_add_library('system', 'ui.tabs');
+
+  // Add default CSS and JavaScript.
+  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
+  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
+}
+
+/**
  * Implements hook_node_insert().
- *  auto inserts nodequeue when submitting tabrolls
+ *
+ * Insert the rolltab node into the right nod equeue.
  */
 function ding_tabroll_node_insert($node) {
-  $nid = $node->nid;
-  $type = $node->type;
-  // Only process project node.
-  if ($type != 'ding_rolltab') {
-    return FALSE;
-  }
+  if ($node->type == 'ding_rolltab') {
+    // Check if library reference is set, if it is set the variable to add it
+    // to the library's tabroll queue.
+    $item = field_get_items('node', $node, 'field_ding_tabroll_library_ref');
+    $library_ref = NULL;
+    if (!empty($item)) {
+      $library_ref = $item[0]['target_id'];
+    }
 
-  if (isset($node->field_ding_tabroll_library_ref['und'][0])) {
-    $libraries = $node->field_ding_tabroll_library_ref['und'][0]['target_id'];
+    // Add it to the a queue.
+    _ding_tabroll_queue_add($node->nid, $library_ref);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Update node queues when assigning rolltab to another library or removing the
+ * reference to library.
+ */
+function ding_tabroll_node_update($node) {
+  if ($node->type == 'ding_rolltab') {
+    // Set default reference values.
+    $library_ref = NULL;
+    $library_ref_original = NULL;
+
+    // Check if library ref. have been created.
+    $item = field_get_items('node', $node, 'field_ding_tabroll_library_ref');
+    if (!empty($item)) {
+      // Found a reference.
+      $library_ref = $item[0]['target_id'];
+    }
+
+    // Try to get the "before edit" reference.
+    $item = field_get_items('node', $node->original, 'field_ding_tabroll_library_ref');
+    if (!empty($item)) {
+      $library_ref_original = $item[0]['target_id'];
+    }
+
+    // If library reference field was not changed (no update needed).
+    if ($library_ref_original != $library_ref) {
+      // Remove the nodes from previouse queues.
+      _ding_tabroll_queues_remove_node($node->nid);
+    }
+
+    // Add the node to the relevant new queue (if the reference is not null it
+    // will be a library queue else the frontpage queue).
+    _ding_tabroll_queue_add($node->nid, $library_ref);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Remove the rolltab from all quese when deleted.
+ */
+function ding_tabroll_node_delete($node) {
+  if ($node->type == 'ding_rolltab') {
+    _ding_tabroll_queues_remove_node($node->nid);
+  }
+}
+
+/**
+ * Removes a given node from all node queues.
+ *
+ * @param string $nid
+ *  The rolltab node id to remove from the node queues.
+ */
+function _ding_tabroll_queues_remove_node($nid) {
+  // Retrieve sub-queue ids for the queues containing node being updated.
+  $sqids = db_select('nodequeue_nodes', 'nn')
+    ->fields('nn', array('sqid'))
+    ->condition('nid', $nid)
+    ->execute()
+    ->fetchCol();
+
+  // Remove the nodes from previouse queues.
+  foreach ($sqids as $sqid) {
+    nodequeue_subqueue_remove_node($sqid, $nid);
+  }
+}
+
+/**
+ * Add rolltab node to an queue.
+ *
+ * @param sting $nid
+ *  The rolltab node id.
+ * @param string $library_ref
+ *  If the library reference is given the node will be add the the correct
+ *  library tabroll else it will be added to the frontpage tabroll.
+ */
+function _ding_tabroll_queue_add($nid, $library_ref = NULL) {
+  if (!is_null($library_ref)) {
+    // The library reference was set, hence get the library tabroll queue.
     $queue = nodequeue_load_queue_by_name('ding_tabroll_for_libraries');
-    $subqueues = nodequeue_load_subqueues_by_reference(array($queue->qid => array($libraries)));
+    $sub_queues = nodequeue_load_subqueues_by_reference(array($queue->qid => array($library_ref)));
   }
   else {
+    // Get the frontpage tabroll queue.
     $queue = nodequeue_load_queue_by_name('ding_tabroll');
-    $subqueues = nodequeue_load_subqueues_by_queue($queue->qid);
-  }
-  $subqueues = array_values($subqueues);
-  $subqueue = $subqueues[0];
-
-  if (function_exists('views_invalidate_cache')) {
-    views_invalidate_cache();
+    $sub_queues = nodequeue_load_subqueues_by_queue($queue->qid);
   }
 
-  nodequeue_subqueue_add($queue, $subqueue, $nid);
+  // Get the first queue only, as ther always should only be one queue.
+  $sub_queue = reset($sub_queues);
+
+  // Add the node to the queue, if not in the queue.
+  if (!nodequeue_subqueue_position($sub_queue->sqid, $nid)) {
+    nodequeue_subqueue_add($queue, $sub_queue, $nid);
+  }
 }
