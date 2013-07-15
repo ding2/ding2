@@ -34,6 +34,17 @@ drupal_add_library('system', 'ui.dialog');
       </p>
     </div>
   </div>
+  <div class="item-indicate item-indicate-images">
+    <?php 
+      $variables = array();
+      $photos_str = (count($item['assets'])>0) ? t('Photos available for content') : t('No photos available for content');
+      $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets'])>0) ? 'photos' : 'no_photos') . '.png' ;
+      $variables['alt'] = $photos_str;
+      $variables['title'] = $photos_str;
+      $variables['attributes'] = array();
+      echo theme_image($variables);
+    ?>
+  </div>
   <p class="item-action item-action-preview">
     <?php echo l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax'))); ?>
   </p>
