@@ -29,7 +29,14 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
 
     // As we are using a pager, we need to find the current page.
     $page = pager_find_page();
-    $num_per_page = variable_get('ting_new_materials_number_per_page', 10);
+
+    /**
+     * @TODO check cache... for current page
+     */
+
+    // Get number of results.
+    $items = field_get_items('node', $entity, 'field_ting_new_materials_items');
+    $num_per_page = empty($items[0]['value']) ? 10 : $items[0]['value'];
 
     // Build search query based on node fields.
     $query = ting_new_materials_build_search_query($node);
@@ -71,19 +78,19 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
           'title' => $collection->title,
           'snippet' => drupal_render($build),
         );
-
-        // Return results.
-        $block->content = array(
-          '#theme' => 'ting_new_materials',
-          '#title' => $node->title,
-          '#legend' => $legend,
-          '#results' => array(
-            '#theme' => 'ting_search_results',
-            '#results' => $results,
-          ),
-        );
       }
     }
+
+    // Return results.
+    $block->content = array(
+      '#theme' => 'ting_new_materials',
+      '#title' => $node->title,
+      '#legend' => isset($legend) ? $legend : NULL,
+      '#results' => array(
+        '#theme' => 'ting_search_results',
+        '#results' => isset($results) ? $results : NULL,
+      ),
+    );
   }
 
   return $block;
