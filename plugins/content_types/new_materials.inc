@@ -20,7 +20,7 @@ $plugin = array(
  */
 function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
- 
+
   $new_materials_node = $context[0]->data;
   $title = $new_materials_node->title;
 

@@ -56,20 +56,22 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
 
   $query = ting_new_materials_build_search_query($new_materials_node);
   $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
-  
+
   if ($searchResult->numTotalObjects > 0) {
     $rendered_results = ting_new_materials_render_collection($searchResult->collections);
     pager_default_initialize($searchResult->numTotalObjects, $num_per_page);
-  } else {
+  }
+  else {
     // There are 3 possible outcomes: Hits, 0 hits because there aren't any materials or 0-hits because there no materials i this period.
-    $query = ting_new_materials_build_search_query($new_materials_node, false);
+    $query = ting_new_materials_build_search_query($new_materials_node, FALSE);
     $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
-    
+
     if ($searchResult->numTotalObjects > 0) {
       //We flag that there are materials but not in this period
-      $rendered_results = array('noresultsthisperiod' => true);
-    } else {
-      $rendered_results = null;
+      $rendered_results = array('noresultsthisperiod' => TRUE);
+    }
+    else {
+      $rendered_results = NULL;
     }
   }
   return $rendered_results;
@@ -83,7 +85,7 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
  * @return string $query
  * Search query string.
  */
-function ting_new_materials_build_search_query($new_materials_node, $addlimitquery = true) {
+function ting_new_materials_build_search_query($new_materials_node, $addlimitquery = TRUE) {
   $query_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_search');
   $query = $query_field[0]['value'];
   $number_of_months_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_limit');
@@ -97,16 +99,16 @@ function ting_new_materials_build_search_query($new_materials_node, $addlimitque
 
 /**
  * Helper function. Makes query part to limit the query.
- * @param int $number_of_months 
+ * @param int $number_of_months
  * The number of months back to limit the results.  Min 1 and max 12 month. 0 means unlimited.
  */
-function make_limit_query ($number_of_months = 0) { 
+function make_limit_query($number_of_months = 0) {
   $limit_query = "";
   if ($number_of_months > 0) {
     $date = date_create();
     $limit_query = ' AND sort.acquisitionDate=(' . date_format($date, 'Ym') . '*';
     for ($i = 1; $i <= $number_of_months; $i++) {
-      date_sub($date, date_interval_create_from_date_string('1 month'));      
+      date_sub($date, date_interval_create_from_date_string('1 month'));
       $limit_query .= ' OR ' . date_format($date, 'Ym') . '*';
     }
     $limit_query .= ')';
@@ -116,7 +118,7 @@ function make_limit_query ($number_of_months = 0) {
 
 
 /**
- * Renders a results object as a collection. We only search for single objects so every collection 
+ * Renders a results object as a collection. We only search for single objects so every collection
  * automatically becomes an object
  * @param array $collections
  * Array of collection object from the search
@@ -125,7 +127,7 @@ function make_limit_query ($number_of_months = 0) {
  */
 function ting_new_materials_render_collection($collections) {
   $results = array();
-  foreach ($collections as &$collection) {   
+  foreach ($collections as &$collection) {
     $build = ting_collection_view($collection, 'teaser');
     $uri = entity_uri('ting_collection', $collection);
     $results[] = array(
@@ -148,18 +150,18 @@ function ting_new_materials_render_collection($collections) {
  * The page number
  * @return TingClientSearchResult
  * The search result
- * 
+ *
  */
 function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   $options    = array();
   module_load_include('client.inc', 'ting');
-  
+
   $options['sort'] = 'acquisitionDate_descending';
   $options['enrich'] = TRUE;
   $options['collectionType'] = 'manifestation';
   try {
     $searchResult = ting_do_search($query, $page + 1, $num_per_page, $options);
-    
+
   } catch (TingClientException $e) {
     watchdog('ting_new_materials', 'Failed to get objects from the Data well: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
     $searchResult = array();
