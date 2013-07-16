@@ -17,7 +17,7 @@ function ting_new_materials_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 4;
+  $handler->weight = -26;
   $handler->conf = array(
     'title' => 'New Materials',
     'no_blocks' => 0,
