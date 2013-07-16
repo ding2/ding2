@@ -19,20 +19,6 @@ function ting_new_materials_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implement hook_ctools_plugin_api().
- */
-function ting_new_materials_ctools_plugin_api($module, $api) {
-  if ($module == 'page_manager' && $api == 'pages_default') {
-    return array('version' => 1);
-  }
-  list($module, $api) = func_get_args();
-  if ($module == "strongarm" && $api == "strongarm") {
-    return array("version" => "1");
-  }
-}
-
-
-/**
  * Implements hook_theme().
  */
 function ting_new_materials_theme($existing, $type, $theme, $path) {
@@ -83,22 +69,30 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
 /**
  * Builds a search query string against the Data Well.
  *
- * @param object $new_materials_node
- *  The new_materials node descriping the new materials list.
- * @return string $query
- *  Search query string.
+ * @param type $entity
+ *  A new materials entity content type.
+ * @param type $limit_query
+ *  If TRUE the search query will be limited to the number of months given in
+ *  the entity. Default TRUE.
+ * @return string
+ *  Ting data well search string.
  */
-function ting_new_materials_build_search_query($new_materials_node, $addlimitquery = TRUE) {
-  $query_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_search');
-  $query = $query_field[0]['value'];
+function ting_new_materials_build_search_query($entity, $limit_query = TRUE) {
+  // Get search query from the entity.
+  $items = field_get_items('node', $entity, 'field_ting_new_materials_search');
+  $query = $items[0]['value'];
 
-  $number_of_months_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_limit');
-  $number_of_months = $number_of_months_field[0]['value'];
+  // Check if limit expression should be added.
+  if ($limit_query) {
+    // Get the limit (number of months 1 to 12).
+    $items = field_get_items('node', $entity, 'field_ting_new_materials_limit');
+    $limit = $items[0]['value'];
 
-  if ($addlimitquery) {
-    $query .= ting_new_materials_make_limit_query($number_of_months);
+    // Add the limit to the query.
+    $query .= ting_new_materials_make_limit_query($limit);
   }
   $query = '(' . $query . ')';
+
   return $query;
 }
 
@@ -115,6 +109,7 @@ function ting_new_materials_make_limit_query($limit = 0) {
   $query = "";
 
   if ($limit > 0) {
+    // Get current date (defaults to now).
     $date = new DateTime();
     $query = ' AND sort.acquisitionDate=(' . $date->format('Ym') . '*';
     for ($i = 1; $i <= $limit; $i++) {
