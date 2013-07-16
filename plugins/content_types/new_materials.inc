@@ -111,7 +111,8 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
       }
 
       // @todo make cache expire configurable.
-      // Set cache entry with the content found.
+      // Set cache entry with the content found and the variables need to get
+      // the pager running.
       cache_set($cid, array(
         'total_objects' => $search_result->numTotalObjects,
         'num_per_page' => $num_per_page,
