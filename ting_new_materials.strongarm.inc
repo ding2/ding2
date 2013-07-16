@@ -62,6 +62,26 @@ function ting_new_materials_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_node__new_materials';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(
+        'title' => array(
+          'weight' => '-5',
+        ),
+        'path' => array(
+          'weight' => '30',
+        ),
+      ),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_node__new_materials'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_new_materials';
   $strongarm->value = '0';
   $export['language_content_type_new_materials'] = $strongarm;
@@ -104,14 +124,14 @@ function ting_new_materials_strongarm() {
   $strongarm->name = 'node_submitted_new_materials';
   $strongarm->value = 0;
   $export['node_submitted_new_materials'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_new_materials_da_pattern';
   $strongarm->value = 'nyematerialer/[node:title]';
   $export['pathauto_node_new_materials_da_pattern'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
@@ -125,13 +145,13 @@ function ting_new_materials_strongarm() {
   $strongarm->name = 'pathauto_node_new_materials_pattern';
   $strongarm->value = 'nyematerialer/[node:title]';
   $export['pathauto_node_new_materials_pattern'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ting_new_materials_number_per_page';
   $strongarm->value = 10;
   $export['ting_new_materials_number_per_page'] = $strongarm;
-  
+
   return $export;
 }
