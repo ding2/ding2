@@ -15,7 +15,7 @@
     <?php endif; ?>
   </div>
 <?php endif; ?>
-<?php if ($results['results']) : ?>
+<?php if ($results) : ?>
   <?php print drupal_render($results); ?>
 <?php else : ?>
   <div class="no-results-this-period">

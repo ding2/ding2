@@ -38,9 +38,24 @@ function ting_new_materials_theme($existing, $type, $theme, $path) {
  * results.
  */
 function ting_new_materials_node_validate($node, $form, &$form_state) {
-  // There are 3 possible outcomes: Hits, 0 hits because there aren't any
-  // materials or 0-hits because there no materials i this period.
+  if ($node->type == 'new_materials') {
+    // There are 3 possible outcomes: Hits, 0 hits because there aren't any
+    // materials or 0-hits because there no materials i this period.
+  }
 }
+
+/**
+ * Implements hook_node_update().
+ *
+ * Clear cache of search results (used in the panels plugin) for the node being
+ * updated.
+ */
+function ting_new_materials_node_update($node) {
+  if ($node->type == 'new_materials') {
+    cache_clear_all('ting_new_materials_' . $node->nid, 'cache', TRUE);
+  }
+}
+
 
 /**
  * Builds a search query string against the Data Well.
