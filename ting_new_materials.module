@@ -34,15 +34,16 @@ function ting_new_materials_theme($existing, $type, $theme, $path) {
 /**
  * Gets the post from the Data well.
  *
- * @param type $new_materials_node.
- *  The new_materials node descriping the new materials list
+ * @param type $entity
+ *  New materials entity content node.
  * @return null
  */
-function ting_new_materials_get_new_materials_posts($new_materials_node) {
+function ting_new_materials_get_new_materials_posts($entity) {
+
   $page = pager_find_page();
   $num_per_page = variable_get('ting_new_materials_number_per_page', 10);
 
-  $query = ting_new_materials_build_search_query($new_materials_node);
+  $query = ting_new_materials_build_search_query($entity);
   $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
 
   if ($searchResult->numTotalObjects > 0) {
@@ -52,11 +53,11 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
   else {
     // There are 3 possible outcomes: Hits, 0 hits because there aren't any
     // materials or 0-hits because there no materials i this period.
-    $query = ting_new_materials_build_search_query($new_materials_node, FALSE);
+    $query = ting_new_materials_build_search_query($entity, FALSE);
     $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
 
     if ($searchResult->numTotalObjects > 0) {
-      //We flag that there are materials but not in this period
+      // We flag that there are materials but not in this period
       $rendered_results = array('noresultsthisperiod' => TRUE);
     }
     else {
@@ -150,8 +151,7 @@ function ting_new_materials_render_collection($collections) {
 }
 
 /**
- * Helper function. Performs a query against the Data Well and returns the
- * objects.
+ * Performs a query against the Data Well and returns the objects.
  *
  * @param string @query
  *  The query string.
@@ -162,19 +162,22 @@ function ting_new_materials_render_collection($collections) {
  *
  */
 function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
-  $options    = array();
+  // Load the ting client.
   module_load_include('client.inc', 'ting');
 
+  // Build search options and ensure that they are sorted corretly.
+  $options = array();
   $options['sort'] = 'acquisitionDate_descending';
   $options['enrich'] = TRUE;
   $options['collectionType'] = 'manifestation';
-  try {
-    $searchResult = ting_do_search($query, $page + 1, $num_per_page, $options);
 
+  // Search the data well.
+  $search_result = array();
+  try {
+    $search_result = ting_do_search($query, $page + 1, $num_per_page, $options);
   } catch (TingClientException $e) {
     watchdog('ting_new_materials', 'Failed to get objects from the Data well: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
-    $searchResult = array();
   }
-  drupal_static('ting_search_results', $searchResult);
-  return $searchResult;
+
+  return $search_result;
 }
