@@ -35,20 +35,22 @@ function ting_new_materials_ctools_plugin_api($module, $api) {
 /**
  * Implements hook_theme().
  */
-function ting_new_materials_theme() {
+function ting_new_materials_theme($existing, $type, $theme, $path) {
   return array(
     'ting_new_materials' => array(
       'variables' => array('title' => NULL, 'number_of_results' => NULL, 'results' => NULL),
       'template'  => 'ting-new-materials',
+      'path' => $path . '/templates',
     ),
   );
 }
 
-
 /**
- * Gets the post from the Data well
- * @param array $new_materials_node
- * The new_materials node descriping the new materials list
+ * Gets the post from the Data well.
+ *
+ * @param type $new_materials_node.
+ *  The new_materials node descriping the new materials list
+ * @return null
  */
 function ting_new_materials_get_new_materials_posts($new_materials_node) {
   $page = pager_find_page();
@@ -62,7 +64,8 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
     pager_default_initialize($searchResult->numTotalObjects, $num_per_page);
   }
   else {
-    // There are 3 possible outcomes: Hits, 0 hits because there aren't any materials or 0-hits because there no materials i this period.
+    // There are 3 possible outcomes: Hits, 0 hits because there aren't any
+    // materials or 0-hits because there no materials i this period.
     $query = ting_new_materials_build_search_query($new_materials_node, FALSE);
     $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
 
@@ -77,53 +80,62 @@ function ting_new_materials_get_new_materials_posts($new_materials_node) {
   return $rendered_results;
 }
 
-
 /**
- * Builds a search query string against the Data Well
+ * Builds a search query string against the Data Well.
+ *
  * @param object $new_materials_node
- * The new_materials node descriping the new materials list.
+ *  The new_materials node descriping the new materials list.
  * @return string $query
- * Search query string.
+ *  Search query string.
  */
 function ting_new_materials_build_search_query($new_materials_node, $addlimitquery = TRUE) {
   $query_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_search');
   $query = $query_field[0]['value'];
+
   $number_of_months_field = field_get_items('node', $new_materials_node, 'field_ting_new_materials_limit');
   $number_of_months = $number_of_months_field[0]['value'];
+
   if ($addlimitquery) {
-    $query .= make_limit_query($number_of_months);
+    $query .= ting_new_materials_make_limit_query($number_of_months);
   }
   $query = '(' . $query . ')';
   return $query;
 }
 
 /**
- * Helper function. Makes query part to limit the query.
- * @param int $number_of_months
- * The number of months back to limit the results.  Min 1 and max 12 month. 0 means unlimited.
+ * Limit a search query expression to a specified number of months.
+ *
+ * @param int $limit
+ *  The number of months back to limit the results.  Min 1 and max 12 month. 0
+ *  means unlimited.
+ * @return string $query
+ *  The limit by month search query expression.
  */
-function make_limit_query($number_of_months = 0) {
-  $limit_query = "";
-  if ($number_of_months > 0) {
-    $date = date_create();
-    $limit_query = ' AND sort.acquisitionDate=(' . date_format($date, 'Ym') . '*';
-    for ($i = 1; $i <= $number_of_months; $i++) {
-      date_sub($date, date_interval_create_from_date_string('1 month'));
-      $limit_query .= ' OR ' . date_format($date, 'Ym') . '*';
+function ting_new_materials_make_limit_query($limit = 0) {
+  $query = "";
+
+  if ($limit > 0) {
+    $date = new DateTime();
+    $query = ' AND sort.acquisitionDate=(' . $date->format('Ym') . '*';
+    for ($i = 1; $i <= $limit; $i++) {
+      $date->sub(date_interval_create_from_date_string('1 month'));
+      $query .= ' OR ' . $date->format('Ym') . '*';
     }
-    $limit_query .= ')';
+    $query .= ')';
   }
-  return $limit_query;
+
+  return $query;
 }
 
 
 /**
- * Renders a results object as a collection. We only search for single objects so every collection
- * automatically becomes an object
+ * Renders a results object as a collection. We only search for single objects
+ * so every collection automatically becomes an object.
+ *
  * @param array $collections
- * Array of collection object from the search
+ *  Array of collection object from the search.
  * @return array $results
- * Array of rendered objects.
+ *  Array of rendered objects.
  */
 function ting_new_materials_render_collection($collections) {
   $results = array();
@@ -143,13 +155,15 @@ function ting_new_materials_render_collection($collections) {
 }
 
 /**
- * Helper function. Performs a query against the Data Well and returns the objects
+ * Helper function. Performs a query against the Data Well and returns the
+ * objects.
+ *
  * @param string @query
- * The query string
+ *  The query string.
  * @param $page int
- * The page number
+ *  The page number.
  * @return TingClientSearchResult
- * The search result
+ *  The search result.
  *
  */
 function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
@@ -169,7 +183,3 @@ function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   drupal_static('ting_search_results', $searchResult);
   return $searchResult;
 }
-
-
-
-
