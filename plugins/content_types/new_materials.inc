@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ *
+ */
 
 $plugin = array(
   'title' => t('Ting new materials list'),
@@ -19,8 +23,10 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
  
   $new_materials_node = $context[0]->data;
   $title = $new_materials_node->title;
+
   $search_results = ting_new_materials_get_new_materials_posts($new_materials_node);
-  
+
+  $results = NULL;
   $number_of_results = '';
   if (!(isset($search_results['noresultsthisperiod']) && $search_results['noresultsthisperiod'])) {
     global $pager_page_array, $pager_total;
@@ -34,17 +40,24 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
         '%to' => $to,
         ));
     }
-    $results = theme('ting_search_results', array('results' => $search_results));
-  } else {
-    //No results i this period
-    $results = null;
+    $results = array(
+      '#theme' => 'ting_search_results',
+      '#results' => $search_results,
+    );
   }
-  $block->content = theme('ting_new_materials', array('title' => $title, 'number_of_results' => $number_of_results, 'results' => $results));
+
+  $block->content = array(
+    '#theme' => 'ting_new_materials',
+    '#title' => $title,
+    '#number_of_results' => $number_of_results,
+    '#results' => $results,
+  );
+
   return $block;
 }
 
 /**
- * Enable admin settings page
+ * Enable admin settings page.
  */
 function ting_new_materials_content_type_edit_form($form, &$form_state) {
   return $form;
