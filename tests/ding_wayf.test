@@ -62,9 +62,9 @@ class DingWyafTestCase extends DrupalWebTestCase {
   }
 
   public function setUp() {
-    module_load_include('php', 'ding_wayf', 'tests/simplesaml_mock/lib/_autoload');
+    module_load_include('php', 'ding_wayf', 'lib/_autoload');
     module_load_include('inc', 'ding_wayf', 'tests/wyrna/wyrna.wayf');
-    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages'));
+    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages', 'devel', 'wayf_test_gateway'));
   }
 
   public function testDingWayfLogin() {
@@ -82,9 +82,13 @@ class DingWyafTestCase extends DrupalWebTestCase {
     $securepages = array(
 
     );
+    global $base_url;
     $ding_wayf = array(
       'ding_wayf[installdir]' => drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock',
       'ding_wayf[redirect]' => 'user',
+      'ding_wayf[wayflogin]' => 1,
+      'ding_wayf[nemlogin]' => 1,
+      'ding_wayf[gatewayf]' => $this->getAbsoluteUrl('wayf/gateway'),
     );
     $account = $this->drupalCreateUser(array('administer site configuration', 'configure wayf'));
     $this->drupalLogin($account);
@@ -99,46 +103,45 @@ class DingWyafTestCase extends DrupalWebTestCase {
   }
 
   private function testNotLoggedIn() {
-    $this->drupalGet('wayf/login');
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
+    // TODO: Relative URL
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->drupalPost(null, null, 'accept');
     $this->assertNoText(t('The WAYF login module is not configured yet, plase contact the site administrator.'), t('WAYF not configured error message.'));
     $this->assertUrl('wayf/accept');
-   // $this->assertText(t('Not WAYF authenticated.'), t('Not logged in using WAYF.'));
+    $this->assertText(t('You have been authenticated by wayf, but you have no account'), t('Not logged in using WAYF.'));
   }
 
   private function testAlreadyLoggedIn() {
     $account = $this->drupalCreateUser();
     $this->drupalLogin($account);
     $this->drupalGet('wayf/login');
-    $this->assertText(t('Log out'), t('User redirected to user profile page.'));
+    $this->assertText(t('Log out'), t('User redirected to front page.'));
     $this->drupalLogout();
   }
-  
+
   private function testWayfAcceptPage() {
-    $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
-    $this->drupalGet('wayf/login');
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->drupalPost(null, null, 'accept');
     $this->assertUrl('wayf/accept');
   }
-  
+
   private function testWayfAbort(){
-    $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
-    $this->drupalGet('wayf/login');
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
     $this->assertUrl('wayf/accept', array(), 'current page is accept form');
     $this->drupalPost(NULL, NULL, t('abort'));
-    $this->assertUrl('user', array(), 'Redirected to user page.');
-  }  
+    $this->assertUrl('<front>', array(), 'Redirected to user page.');
+  }
 
   private function testWayfLogin() {
-    $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
-    $provider = DingWayfUser::instance();
-    $provider->bindWayf('dummy@dbc.dk', 'WAYF-1234567890');
-    $this->drupalGet('wayf/login');
-    $this->assertUrl('wayf/accept', array(), 'current page is accept form');  
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->drupalPost(null, null, 'accept');
+    $this->assertUrl('wayf/accept', array(), 'current page is accept form');
     $edit = array();
     $edit['accept'] = TRUE;
-    $this->drupalPost(NULL, $edit, t('continue'));    
+    $this->drupalPost(NULL, $edit, t('continue'));
     $this->assertText(t('Log out'), t('User is logged in.'));
   }
 }
@@ -234,7 +237,7 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     $result = ding_wayf_regex_line($path);
     $this->assertEqual($result, $expected_pattern, 'String with slash and wildcard transformed correctly.');
   }
-} 
+}
 
 class DingWayfRequirementsTestCase extends DrupalWebTestCase {
   private $https;
