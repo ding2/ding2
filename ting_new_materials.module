@@ -24,7 +24,7 @@ function ting_new_materials_ctools_plugin_directory($module, $plugin) {
 function ting_new_materials_theme($existing, $type, $theme, $path) {
   return array(
     'ting_new_materials' => array(
-      'variables' => array('title' => NULL, 'number_of_results' => NULL, 'results' => NULL),
+      'variables' => array('title' => NULL, 'legend' => NULL, 'results' => NULL),
       'template'  => 'ting-new-materials',
       'path' => $path . '/templates',
     ),
@@ -32,39 +32,14 @@ function ting_new_materials_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Gets the post from the Data well.
+ * Implements hook_node_validate().
  *
- * @param type $entity
- *  New materials entity content node.
- * @return null
+ * Check that the search query entered on the New materials node yield any
+ * results.
  */
-function ting_new_materials_get_new_materials_posts($entity) {
-
-  $page = pager_find_page();
-  $num_per_page = variable_get('ting_new_materials_number_per_page', 10);
-
-  $query = ting_new_materials_build_search_query($entity);
-  $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
-
-  if ($searchResult->numTotalObjects > 0) {
-    $rendered_results = ting_new_materials_render_collection($searchResult->collections);
-    pager_default_initialize($searchResult->numTotalObjects, $num_per_page);
-  }
-  else {
-    // There are 3 possible outcomes: Hits, 0 hits because there aren't any
-    // materials or 0-hits because there no materials i this period.
-    $query = ting_new_materials_build_search_query($entity, FALSE);
-    $searchResult = ting_new_materials_do_search($query, $page, $num_per_page);
-
-    if ($searchResult->numTotalObjects > 0) {
-      // We flag that there are materials but not in this period
-      $rendered_results = array('noresultsthisperiod' => TRUE);
-    }
-    else {
-      $rendered_results = NULL;
-    }
-  }
-  return $rendered_results;
+function ting_new_materials_node_validate($node, $form, &$form_state) {
+  // There are 3 possible outcomes: Hits, 0 hits because there aren't any
+  // materials or 0-hits because there no materials i this period.
 }
 
 /**
@@ -121,33 +96,6 @@ function ting_new_materials_make_limit_query($limit = 0) {
   }
 
   return $query;
-}
-
-
-/**
- * Renders a results object as a collection. We only search for single objects
- * so every collection automatically becomes an object.
- *
- * @param array $collections
- *  Array of collection object from the search.
- * @return array $results
- *  Array of rendered objects.
- */
-function ting_new_materials_render_collection($collections) {
-  $results = array();
-  foreach ($collections as &$collection) {
-    $build = ting_collection_view($collection, 'teaser');
-    $uri = entity_uri('ting_collection', $collection);
-    $results[] = array(
-      'link' => url($uri['path'], $uri['options']),
-      'type' => '',
-      'title' => $collection->title,
-      'user' => '',
-      'date' => '',
-      'snippet' => drupal_render($build),
-    );
-  }
-  return $results;
 }
 
 /**

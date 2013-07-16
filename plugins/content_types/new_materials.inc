@@ -11,7 +11,7 @@ $plugin = array(
   'edit form' => 'ting_new_materials_content_type_edit_form',
   'render callback' => 'ting_new_materials_content_type_render',
   'category' => t('Ting'),
-  'required context' => array(new ctools_context_optional(t('New Materials'), 'node')),
+  'required context' => array(new ctools_context_required(t('New Materials'), 'node')),
   'render last' => TRUE,
 );
 
@@ -19,39 +19,72 @@ $plugin = array(
  * Render the ting new materials results results amount block.
  */
 function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $context) {
+  // Define the return block.
   $block = new stdClass();
 
-  $new_materials_node = $context[0]->data;
-  $title = $new_materials_node->title;
+  // Check if context exists.
+  if (isset($context[0]->data) && $context[0]->data->type == 'new_materials') {
+    // Get the node.
+    $node = $context[0]->data;
 
-  $search_results = ting_new_materials_get_new_materials_posts($new_materials_node);
+    // As we are using a pager, we need to find the current page.
+    $page = pager_find_page();
+    $num_per_page = variable_get('ting_new_materials_number_per_page', 10);
 
-  $results = NULL;
-  $number_of_results = '';
-  if (!(isset($search_results['noresultsthisperiod']) && $search_results['noresultsthisperiod'])) {
-    global $pager_page_array, $pager_total;
-    if ($pager_total[0] == TRUE) {
-      $results = drupal_static('ting_search_results');
-      $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0]) * $results->numTotalCollections + 1);
-      $to = $from + ($results->numTotalCollections - 1);
-      $total = $results->numTotalObjects;
-      $number_of_results = format_plural($total, 'Show %from-%to of 1 result', 'Show %from-%to of <em class="placeholder">@count</em> results', array(
-        '%from' => $from,
-        '%to' => $to,
+    // Build search query based on node fields.
+    $query = ting_new_materials_build_search_query($node);
+
+    // Search the data well with the query and pager page.
+    $search_result = ting_new_materials_do_search($query, $page, $num_per_page);
+
+    // Check if the search return any results.
+    if ($search_result->numTotalObjects > 0) {
+      // Now that we have a result set, initialize the pager.
+      pager_default_initialize($search_result->numTotalObjects, $num_per_page);
+
+      // Create legend with "Show y-x of result(s)", but only if pager is active
+      // for the current result.
+      if ($search_result->numTotalObjects > $num_per_page) {
+        $from = ($page * $num_per_page) + 1;
+        $to = $from + ($search_result->numTotalCollections - 1);
+        $total = $search_result->numTotalObjects;
+        $legend = format_plural($total, 'Show %from-%to of 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
+          '%from' => $from,
+          '%to' => $to,
         ));
-    }
-    $results = array(
-      '#theme' => 'ting_search_results',
-      '#results' => $search_results,
-    );
-  }
+      }
 
-  $block->content = array(
-    '#theme' => 'ting_new_materials',
-    '#title' => $title,
-    '#number_of_results' => $number_of_results,
-    '#results' => $results,
-  );
+      // We want to build the result as a normal search result. So we have to
+      // build the collections as search results "objects".
+      $results = array();
+      foreach ($search_result->collections as $collection) {
+        // Build the collection.
+        $build = ting_collection_view($collection, 'teaser');
+
+        // Get link to link the result back to the collection.
+        $uri = entity_uri('ting_collection', $collection);
+
+        // Add the result to an array for the "ting_search_results" theme
+        // function.
+        $results[] = array(
+          'link' => url($uri['path'], $uri['options']),
+          'title' => $collection->title,
+          'snippet' => drupal_render($build),
+        );
+
+        // Return results.
+        $block->content = array(
+          '#theme' => 'ting_new_materials',
+          '#title' => $node->title,
+          '#legend' => $legend,
+          '#results' => array(
+            '#theme' => 'ting_search_results',
+            '#results' => $results,
+          ),
+        );
+      }
+    }
+  }
 
   return $block;
 }
@@ -62,4 +95,3 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
 function ting_new_materials_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-

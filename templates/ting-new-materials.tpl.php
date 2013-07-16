@@ -8,9 +8,9 @@
 <?php if ($title) : ?>
   <div class="new-materials-header">
     <h2><?php print $title; ?></h2>
-    <?php if ($number_of_results) : ?>
+    <?php if ($legend) : ?>
       <div class="ting-search-amount-block">
-        <?php print $number_of_results; ?>
+        <?php print $legend; ?>
       </div>
     <?php endif; ?>
   </div>
