@@ -64,7 +64,7 @@ class DingWyafTestCase extends DrupalWebTestCase {
   public function setUp() {
     module_load_include('php', 'ding_wayf', 'lib/_autoload');
     module_load_include('inc', 'ding_wayf', 'tests/wyrna/wyrna.wayf');
-    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages', 'devel', 'wayf_test_gateway'));
+    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages', 'wayf_test_gateway'));
   }
 
   public function testDingWayfLogin() {
