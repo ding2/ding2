@@ -17,13 +17,7 @@ $plugin = array(
  * Render the block
  */
 function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $context) {
-  $preload_debts = &drupal_static('ids');
   $account = isset($context->data) ? $context->data : NULL;
-  $preload_ids = array();
-  $items = array();
-  $debt_list = array();
-  $rows = array();
-  $row = array();
   $total_amount = 0;
   $has_invoiced_fees = FALSE;
 
