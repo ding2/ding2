@@ -245,6 +245,7 @@ function ding_page_field_default_field_instances() {
   // Exported field_instance: 'node-ding_page-field_ding_page_materials'
   $field_instances['node-ding_page-field_ding_page_materials'] = array(
     'bundle' => 'ding_page',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -281,7 +282,7 @@ function ding_page_field_default_field_instances() {
       'active' => 0,
       'module' => 'ting_reference',
       'settings' => array(),
-      'type' => 'ting_reference_simple',
+      'type' => 'ting_reference_advanced',
       'weight' => 5,
     ),
   );
