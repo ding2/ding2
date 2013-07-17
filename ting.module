@@ -225,8 +225,8 @@ function ting_block_info() {
 function ting_get_relations($ting_entity) {
   $relations = array();
 
-  foreach ($ting_entity->relations as $k => $relation) {
-    if ($k == 'dbcaddi:hasOpenUrl' || $k == 'dbcaddi:hasOnlineAccess') {
+  foreach ($ting_entity->relations as $relation) {
+    if ($relation->type == 'dbcaddi:hasOpenUrl' || $relation->type == 'dbcaddi:hasOnlineAccess') {
       continue;
     }
     $relations[$relation->type][] = $relation;
