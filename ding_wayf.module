@@ -184,7 +184,8 @@ function ding_wayf_redirect_login() {
     $saml = ding_wayf_get_saml_connection();
     if ($saml->isAuthenticated()) {
       $wayf_data = $saml->getAttributes();
-      $authentication_attributes = ding_wayf_get_required_attributes($wayf_data);
+
+      $authentication_attributes = ding_wayf_get_authentication_attributes($wayf_data);
       //log user in
       ding_wayf_login($authentication_attributes);
     }
@@ -378,6 +379,20 @@ function ding_wayf_get_provider_attributes(&$simplesaml) {
   }
 }
 
+/** Get authentication attributes
+ * @param $wayf_data
+ * @return array
+ */
+function ding_wayf_get_authentication_attributes($wayf_data){
+  // required attributes
+  $simplesaml = variable_get('ding_wayf', array());
+  ding_wayf_get_provider_attributes($simplesaml);
+  $required_attributes = $simplesaml['attributes'];
+
+  return ding_wayf_get_required_attributes($wayf_data, $required_attributes);
+
+}
+
 /**
  * Extract required attributes from available WAYF attributes.
  *
@@ -389,10 +404,7 @@ function ding_wayf_get_provider_attributes(&$simplesaml) {
  *   array of attributes which will be empty if not all required attributes is
  *   present.
  */
-function ding_wayf_get_required_attributes($wayf_attributes) {
-  $simplesaml = variable_get('ding_wayf', array());
-  ding_wayf_get_provider_attributes($simplesaml);
-  $required_attributes = $simplesaml['attributes'];
+function ding_wayf_get_required_attributes($wayf_attributes, $required_attributes) {
 
   $attribute_list = array();
 

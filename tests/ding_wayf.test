@@ -161,31 +161,36 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     parent::setUp();
   }
 
+  public function testDebug(){
+    debug('it works');
+  }
+
   public function testExtractData() {
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $field = 'CPR';
     $expected = '0708741234';
     $result = ding_wayf_extract_data($data, $field);
-    $this->assertEqual($result, $expected, t('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
+    $this->assertEqual($result, $expected, format_string('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
 
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $field = 'dk';
     $expected = 'CPR:0708741234';
     $result = ding_wayf_extract_data($data, $field);
-    $this->assertEqual($result, $expected, t('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
+    $this->assertEqual($result, $expected, format_string('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
 
     // field not existing
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $field = 'garbage';
     $expected = '';
     $result = ding_wayf_extract_data($data, $field);
-    $this->assertEqual($result, $expected, t('Nothing found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0])));
+    $this->assertEqual($result, $expected, format_string('Nothing found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0])));
 
     // empty/unspecified field
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $expected = 'urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234';
     $result = ding_wayf_extract_data($data);
-    $this->assertEqual($result, $expected, t('Extracted all data cause no field was specified'));
+    $this->assertEqual($result, $expected, format_string('Extracted all data cause no field was specified'));
+
   }
 
   public function testGetRequiredAttributes() {
@@ -212,6 +217,7 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     $required = array('test' => array(), 'mixed' => array());
     $result = ding_wayf_get_required_attributes($wayf, $required);
     $expected = array('test' => 'yes', 'mixed' => 3);
+    debug($result);
     $this->assertEqual($result, $expected, 'Returned two required attributes from set of three.');
 
     $wayf = array('test' => 'yes', 'attribute' => 'test', 'mixed' => 3);
@@ -337,7 +343,7 @@ class DingWayfRequirementsTestCase extends DrupalWebTestCase {
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('SimpleSAMLphp installation not defined'), t('installdir defined.'));
     $this->assertText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php not found.'));
-    variable_set('ding_wayf', array('installdir' => drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock'));
+    variable_set('ding_wayf', array('installdir' => drupal_get_path('module', 'ding_wayf')));
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php found.'));
   }
