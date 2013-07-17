@@ -1,7 +1,8 @@
   <?php
 /**
  * @file
- *
+ * This plugin generates a search result based on a new materials node. It's
+ * mainly used to override the default page for this node type (node/%node).
  */
 
 $plugin = array(
@@ -110,14 +111,14 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
         );
       }
 
-      // @todo make cache expire configurable.
       // Set cache entry with the content found and the variables need to get
       // the pager running.
       cache_set($cid, array(
         'total_objects' => $search_result->numTotalObjects,
         'num_per_page' => $num_per_page,
         'content' => $content,
-      ), 'cache', REQUEST_TIME + (24+60+60));
+      ), 'cache', REQUEST_TIME + (24 * 60 * 60));
+      // @todo make cache expire time configurable.
     }
 
     // Set block content.
