@@ -1,9 +1,9 @@
 <?php
-
 /**
  * @file
  * Enables listing the newest materials .
  */
+
 include_once 'ting_new_materials.features.inc';
 
 /**
