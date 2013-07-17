@@ -243,7 +243,7 @@ function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
 function ding_debt_debts_perform_payment($debts, $amount, &$form_state) {
   global $user;
   if ($amount > 0) {
-    $params = array('params' => array('debt_ids' => array_keys($debts)));
+    $params = $params = array('params' => array('debt_ids' => array_keys($debts),'debts'=> $debts));
     $url = ding_provider_invoke('payment', 'get_url', $amount, $params, 'ding_debt_payment_callback');
 
     if ($url) {
