@@ -1,13 +1,13 @@
 <?php
-
 /**
  * @file
  * Install, update and uninstall functions for the ting ting_infomedia module.
  */
 
 /**
- * field-definitions
  * Implements hook_ding_entity_fields().
+ *
+ * field-definitions.
  */
 function ting_sfx_ding_entity_fields() {
   return array(
@@ -26,7 +26,7 @@ function ting_sfx_ding_entity_fields() {
 }
 
 /**
- * Implementing hook_requirements()
+ * Implements hook_requirements().
  */
 function ting_sfx_requirements($phase) {
   $requirements = array();
@@ -35,10 +35,11 @@ function ting_sfx_requirements($phase) {
     $url = variable_get('ting_sfx_url');
 
     if (!isset($url)) {
+      $t = get_t();
       $requirements['service_urls'] = array(
-        'title' => t('SFX settings'),
-        'value' =>  l(t('Url for SFX link resolver must be set in admin'), 'admin/config/ting/settings'),
-        'severity' => REQUIREMENT_ERROR
+        'title' => $t('SFX settings'),
+        'value' => l($t('Url for SFX link resolver must be set in admin'), 'admin/config/ting/settings'),
+        'severity' => REQUIREMENT_ERROR,
       );
     }
   }
