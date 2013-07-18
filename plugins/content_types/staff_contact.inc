@@ -23,7 +23,7 @@ function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $c
     return $block;
   }
   $account = $context->data;
-  $profile = profile2_load_by_user($account, 'staff');
+  $profile = profile2_load_by_user($account, 'ding_staff_profile');
 
   $content = ' <div class="pane-content">';
   if (!empty($profile->field_ding_staff_phone['und'])) {
@@ -40,7 +40,8 @@ function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $c
     ';
   }
   $content .= '</div>';
-  $block->title= t('Contact');
+
+  $block->title = t('Contact');
   $block->content = $content;
 
   return $block;

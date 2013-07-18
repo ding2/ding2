@@ -61,10 +61,10 @@ function ding_staff_image_default_styles() {
  */
 function ding_staff_default_profile2_type() {
   $items = array();
-  $items['staff'] = entity_import('profile2_type', '{
+  $items['ding_staff_profile'] = entity_import('profile2_type', '{
     "userCategory" : true,
     "userView" : true,
-    "type" : "staff",
+    "type" : "ding_staff_profile",
     "label" : "Staff",
     "weight" : "0",
     "data" : { "registration" : 0, "use_page" : 0 }
