@@ -41,6 +41,9 @@ projects[views][version] = "3.7"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
+projects[jquery_update][subdir] = "contrib"
+projects[jquery_update][version] = "2.3"
+
 projects[og][type] = "module"
 projects[og][subdir] = "contrib"
 projects[og][download][type] = "git"
@@ -57,3 +60,6 @@ projects[ding_news][type] = "module"
 projects[ding_news][download][type] = "git"
 projects[ding_news][download][url] = "git@github.com:ding2tal/ding_news.git"
 projects[ding_news][download][branch] = "development"
+
+libraries[FooTable][download][type] = "get"
+libraries[FooTable][download][url] = "https://github.com/bradvin/FooTable/archive/0.5.0.zip"
