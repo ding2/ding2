@@ -340,6 +340,7 @@ function ding_news_field_default_field_instances() {
   // Exported field_instance: 'node-ding_news-field_ding_news_materials'
   $field_instances['node-ding_news-field_ding_news_materials'] = array(
     'bundle' => 'ding_news',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -376,7 +377,7 @@ function ding_news_field_default_field_instances() {
       'active' => 0,
       'module' => 'ting_reference',
       'settings' => array(),
-      'type' => 'ting_reference_simple',
+      'type' => 'ting_reference_advanced',
       'weight' => 6,
     ),
   );
