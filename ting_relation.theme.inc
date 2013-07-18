@@ -125,7 +125,7 @@ function ting_relation_ispartofmanifestation($relations) {
     $content = array();
     $content['type'] = $relation['#title'];
     $related_object = $relation['#relation'];
-    $rendered_item = ting_object_view($related_object->object, 'teaser');
+    $rendered_item = ting_object_view($related_object->object, 'user_list');
     $content['text'] = render($rendered_item);
     $ret[] = $content;
   }
@@ -185,11 +185,13 @@ function ting_relation_review_other($relation) {
   $rel = $relation['#relation'];
   
   // Type title.
-  $content = array(
-    'type' => $relation['#title'],
-    'title' => $rel->object->title,
-  );
-  
+  $content['type'] = $relation['#title'];
+
+  // Title.
+  global $base_url;
+  $relation_title_link = l($rel->object->title, $base_url . '/ting/object/' . $ting->ding_entity_id); 
+  $content['title'] = $relation_title_link;
+
   // Creators.
   if ($names = ting_relation_array2names($rel->object->creators)) {
     $content['byline'] = t('by @author', array('@author' => $names));
@@ -216,13 +218,21 @@ function ting_relation_review($relation) {
   $ting = $relation['#object'];
   $rel = $relation['#relation'];
   // Type title ; generel.
-  $content = array(
-    'type' => $relation['#title'],
-    'title' => $rel->object->title,
-    'year' => $rel->object->date,
-    'creator' => ting_relation_array2names($ting->creators),
-    'text' => isset($ting->reply->record['dc:description'][''][0]) ? $ting->reply->record['dc:description'][''][0] : FALSE,
-  );
+  $content['type'] = $relation['#title'];
+
+  // Title ; generel.
+  global $base_url;
+  $relation_title_link = l($rel->object->title, $base_url . '/ting/object/' . $ting->ding_entity_id); 
+  $content['title'] = $relation_title_link;
+
+  // Year.
+  $content['year'] = $rel->object->date;
+
+  // Creator.
+  $content['creator'] = ting_relation_array2names($ting->creators);
+
+  // Text.
+  $content['text'] = isset($ting->reply->record['dc:description'][''][0]) ? $ting->reply->record['dc:description'][''][0] : FALSE;
 
   if ($url = $rel->object->online_url) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
