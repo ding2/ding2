@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ *
+ */
 
 $plugin = array(
   'title' => t('Ding staff contact info'),
@@ -10,6 +14,9 @@ $plugin = array(
   'category' => t('Ding!'),
 );
 
+/**
+ * @TODO ?
+ */
 function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
   if (empty($context->data)) {
@@ -17,7 +24,7 @@ function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $c
   }
   $account = $context->data;
   $profile = profile2_load_by_user($account, 'staff');
-  
+
   $content = ' <div class="pane-content">';
   if (!empty($profile->field_ding_staff_phone['und'])) {
     $content .= '<div class="phone field-label-inline clearfix">
