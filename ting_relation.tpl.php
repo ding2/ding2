@@ -6,7 +6,7 @@
 if (is_array($content)) {
   foreach ($content as $ns => $relations) {
     if (!empty($relations) && $ns != 'dbcaddi:hasOnlineAccess') { ?>
-      <div class="<?php print $classes . ' ' . drupal_html_class(str_replace(':', ' ', $ns)) . ' clearfix'; ?>">
+      <div class="<?php print $classes . ' ' . drupal_html_class(preg_replace('/(\B[A-Z]|:)/', '_$1', $ns)) . ' clearfix'; ?>">
         <h2><?php print $relations[0]['type']; ?></h2>
         <?php foreach ($relations as $relation) { ?>
           <div class="meta">
