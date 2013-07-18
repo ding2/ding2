@@ -4,6 +4,8 @@
  * Base setup and functions for Ding!.
  */
 
+include_once 'ding_base.features.inc';
+
 /**
  * Implements hook_menu().
  *
@@ -268,4 +270,10 @@ function theme_tableselect_form($variables) {
   return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
 }
 
-include_once 'ding_base.features.inc';
+/**
+* Implements hook_pathauto_alias_alter().
+*/
+function ding_base_pathauto_alias_alter(&$alias, array &$context) {
+  // Force all aliases to be saved as language neutral.
+  $context['language'] = LANGUAGE_NONE;
+}
