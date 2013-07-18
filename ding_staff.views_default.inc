@@ -380,6 +380,8 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['pane_category']['name'] = 'User';
+  $handler->display->display_options['pane_category']['weight'] = '0';
 
   /* Display: Library staff list */
   $handler = $view->new_display('panel_pane', 'Library staff list', 'ding_staff_list_library');
@@ -584,6 +586,8 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  $handler->display->display_options['pane_category']['name'] = 'User';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['argument_input'] = array(
     'ding_library_nid' => array(
       'type' => 'panel',
@@ -738,6 +742,8 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['arguments']['ding_library_nid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  $handler->display->display_options['pane_category']['name'] = 'User';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -784,7 +790,7 @@ function ding_staff_views_default_views() {
     t('E-mail'),
     t('Staff list'),
     t('more'),
-    t('View panes'),
+    t('User'),
     t('Library staff list'),
     t('[field_ding_staff_forename] [field_ding_staff_surname]'),
     t('Alle'),
