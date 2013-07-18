@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ *
+ */
 
 $plugin = array(
   'title' => t('Ding staff library menu'),
@@ -10,10 +14,13 @@ $plugin = array(
   'required context' => new ctools_context_optional(t('Library'), 'node'),
 );
 
+/**
+ * @TODO ?
+ */
 function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
   $selected_library = NULL;
-  
+
   // TODO: Set the selected library
   if (isset($context->data)) {
     $selected_library = $context->data;
@@ -24,7 +31,7 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
     $options = array('attributes' => array('class' => array('active')));
   }
 
-  // default link of 'All libraries' links to staff list page 
+  // default link of 'All libraries' links to staff list page
   $items = array(l(t('All libraries'), 'staff' , $options));
 
   // Get all library nids
@@ -37,7 +44,7 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
   if (isset($result['node'])) {
     $library_items_nids = array_keys($result['node']);
     $lib_nodes = node_load_multiple($library_items_nids);
-    
+
     foreach ($lib_nodes as $lib) {
       // Lookup in path checking if this is the library staff page shown
       //$alias = drupal_lookup_path('alias', 'bibliotek/' . $nid);
@@ -56,7 +63,7 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
   }
 
   $block->content = theme('item_list', array('items' => $items, 'attributes' => array('class' => array('sub-menu'))));
-    
+
   return $block;
 }
 
@@ -69,4 +76,3 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
 function ding_staff_library_menu_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-
