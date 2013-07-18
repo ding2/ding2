@@ -78,7 +78,7 @@ function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state)
 function ting_relation_ding_entity_buttons($type, $entity) {
   if ($entity instanceof TingEntity) {
     $relation = NULL;
-    $markup = '';
+    $markup = NULL;
     // Seek for a online version of related material.
     foreach ($entity->relations as $rel) {
       if ($rel->type == 'dbcaddi:hasOnlineAccess') {
@@ -118,13 +118,15 @@ function ting_relation_ding_entity_buttons($type, $entity) {
       $markup = l(t($label), $entity->online_url, array('attributes' => array('target' => '_new')));
     }
 
-    return array(
-      array(
-        '#prefix' => '<p class="ding-entity-button">',
-        '#suffix' => '</p>',
-        '#type' => 'markup',
-        '#markup' => $markup,
-      ),
-    );
+    if (isset($markup)) {
+      return array(
+        array(
+          '#prefix' => '<p class="ding-entity-button">',
+          '#suffix' => '</p>',
+          '#type' => 'markup',
+          '#markup' => $markup,
+        ),
+      );
+    }
   }
 }
