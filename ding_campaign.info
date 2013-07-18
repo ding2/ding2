@@ -8,5 +8,4 @@ dependencies[] = field
 dependencies[] = image
 dependencies[] = features
 dependencies[] = ctools
-;stylesheets[all][] = css/ding_campaign.css
-scripts[] = js/ding_campaign_scripts.js
+dependencies[] = ding_campaign_ctype
