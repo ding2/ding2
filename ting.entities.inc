@@ -51,16 +51,20 @@ class TingEntity extends DingEntity {
   public $isPartOf = DingEntityBase::NULL;
   public $extent = DingEntityBase::NULL;
   public $classification = DingEntityBase::NULL;
+  public $isbn = DingEntityBase::NULL;
 
   public function getExtent() {
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
   }
 
   function getClassification() {
-    $ret = (isset($this->reply->record['dc:subject']['dkdcplus:DK5'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5'][0] : '' .
-	    (isset($this->reply->record['dc:subject']['dkdcplus:DK5-Text']) ? ' (' . $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] . ')' : ''));
-    if( strlen($ret) > 0 ) {
-      return $ret;
+    $dk5 = '';
+    if (!empty($this->reply->record['dc:subject']['dkdcplus:DK5'][0])) {
+      $dk5 = $this->reply->record['dc:subject']['dkdcplus:DK5'][0];
+
+      if ($dk5 == 'sk') {
+        return '';
+      }
     }
     return FALSE;
   }
@@ -270,6 +274,29 @@ class TingEntity extends DingEntity {
   function getDescription() {
     return !empty($this->reply->record['dc:description'][''][0]) ? $this->reply->record['dc:description'][''][0] : FALSE;
   }
+
+  /**
+   * Get ISBN numbers of the object.
+   *
+   * @return array
+   */
+  function getIsbn() {
+    $isbn = array();
+
+    // Nothing to do.
+    if (empty($this->reply->record['dc:identifier']['dkdcplus:ISBN'])) {
+      return $isbn;
+    }
+
+    // Get ISBN numbers.
+    $isbn = $this->reply->record['dc:identifier']['dkdcplus:ISBN'];
+    foreach ($isbn as $k => $number) {
+      $isbn[$k] = str_replace(array(' ', '-'), '', $number);
+    }
+    rsort($isbn);
+    return $isbn;
+  }
+
 }
 
 /**

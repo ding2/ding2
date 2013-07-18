@@ -225,7 +225,10 @@ function ting_block_info() {
 function ting_get_relations($ting_entity) {
   $relations = array();
 
-  foreach( $ting_entity->relations as $relation ) {
+  foreach ($ting_entity->relations as $relation) {
+    if ($relation->type == 'dbcaddi:hasOpenUrl' || $relation->type == 'dbcaddi:hasOnlineAccess') {
+      continue;
+    }
     $relations[$relation->type][] = $relation;
   }
 
@@ -245,73 +248,63 @@ function ting_get_relations($ting_entity) {
  * Implements hook_block_view().
  */
 function ting_block_view($delta = '') {
-  $block = array();
+  $block = new stdClass();
+
   switch ($delta) {
     case 'ting_relation_anchors':
       $items = array();
-      if( $object = menu_get_object('ting_object',2) ) {
+      if ($object = menu_get_object('ting_object',2)) {
         $relations = ting_get_relations($object);
         if (!empty($relations)) {
           $relation_types = module_invoke_all('ding_anchor_info');
-          $block['subject'] = array(
-            '#markup' => t('About the material'),
-            '#prefix' => '<div class="ting-relations-header">',
-            '#suffix' => '</div>',
-          );
-          $block['subject'] = render($block['subject']);
+          $block->subject = t('About the material');
 
           foreach( $relations as $key => $relation ) {
             if( isset($relation_types[$key]) ) {
               $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
             }
           }
-          $block['content'] =
-            array(
+          $block->content = array(
             '#theme' => 'item_list',
             '#items' => $items,
-            );
+          );
         }
       }
 
       break;
+
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
-        $block['subject'] = array(
-          '#markup' => t('Types'),
-          '#prefix' => '<div class="ting-collection-types-header">',
-          '#suffix' => '</div>',
-        );
-        $block['subject'] = render($block['subject']);
+        $block->subject = t('Types');
         $items = array();
         foreach ($collection->types as $type) {
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE ));
         }
-        $block['content'] = array(
+        $block->content = array(
           '#theme' => 'item_list',
           '#items' => $items,
         );
       }
       break;
+
     case 'ting_object_types':
-      if (($object = menu_get_object('ting_object', 2)) &&
-        ($collection = ting_collection_load($object->id))) {
-        $block['subject'] = array(
-          '#markup' => t('Other materialtypes'),
-          '#prefix' => '<div class="ting-object-types-header">',
-          '#suffix' => '</div>',
-        );
-        $block['subject'] = render($block['subject']);
+      $object = menu_get_object('ting_object', 2);
+      if ($object && $collection = ting_collection_load($object->id)) {
         $items = array();
         foreach ($collection->types as $type) {
           $uri = entity_uri('ting_collection', $collection);
-          $uri['options']['fragment'] = $type;
+          $uri['options']['fragment'] = _ting_anchor_name($type);
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 
-        $block['content'] = array(
-          '#theme' => 'item_list',
-          '#items' => $items,
-        );
+        // Only display block if there are more than on item.
+        if ($items > 1) {
+          $block->subject = t('Other materialtypes');
+          $block->content = array(
+            '#theme' => 'item_list',
+            '#items' => $items,
+          );
+        }
       }
       break;
   }
@@ -523,7 +516,7 @@ function ting_ding_entity_buttons($type, $entity) {
  */
 function ting_page_alter(&$page) {
   $calls = &drupal_static('ting_execute_cache');
-  if (sizeof($calls) > 1) {
+  if (sizeof($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
       $calls_str[] = print_r($calls, TRUE);
@@ -555,9 +548,11 @@ function ting_collection_page_view($object) {
 
 /**
  * Page title callback.
+ * 
+ * Strips chars '<' and '>' in order to avoid HTML injections. 
  */
 function ting_page_title($object) {
-  return check_plain($object->title);
+  return str_replace('&amp;', '&', htmlspecialchars($object->title, ENT_NOQUOTES, 'UTF-8'));
 }
 
 /**
@@ -937,4 +932,20 @@ function _ting_fetch_well_sources() {
   if (!empty($sources)) {
     variable_set('ting_well_sources', $sources);
   }
+}
+
+/**
+ * Get anchor name from collection type.
+ *
+ * @param string $type
+ *   Name of the anchor.
+ * @return string
+ *   HTML safe name.
+ */
+function _ting_anchor_name($type) {
+  $name = str_replace(array('(', ')'), '', $type);
+  $name = str_replace(' ', '-', $name);
+  $name = str_replace(':', '', $name);
+  $name = strtolower($name);
+  return $name;
 }

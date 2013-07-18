@@ -23,6 +23,15 @@ function template_preprocess_ting_object(&$variables) {
       $variables['content']['overview']['types'][] = $key;
     }
   }
+
+  // Modify 'alt' attribute for list items.
+  if (!empty($variables['content']['ting_cover']) && !empty($variables['content']['group_collection_list'])) {
+    $variables['content']['ting_cover'][0]['#alt'] = implode(' ', array(
+      $variables['object']->title,
+      $variables['object']->type,
+      $variables['object']->date,
+    ));
+  }
 }
 
 /**
