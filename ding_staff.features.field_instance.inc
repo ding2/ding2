@@ -12,7 +12,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_department'
   $field_instances['profile2-staff-field_ding_staff_department'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -57,7 +57,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_description'
   $field_instances['profile2-staff-field_ding_staff_description'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -105,7 +105,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_email'
   $field_instances['profile2-staff-field_ding_staff_email'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -151,7 +151,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_forename'
   $field_instances['profile2-staff-field_ding_staff_forename'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -199,7 +199,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_image'
   $field_instances['profile2-staff-field_ding_staff_image'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -284,7 +284,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_library'
   $field_instances['profile2-staff-field_ding_staff_library'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -329,7 +329,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_phone'
   $field_instances['profile2-staff-field_ding_staff_phone'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -376,7 +376,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_position'
   $field_instances['profile2-staff-field_ding_staff_position'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -424,7 +424,7 @@ function ding_staff_field_default_field_instances() {
 
   // Exported field_instance: 'profile2-staff-field_ding_staff_surname'
   $field_instances['profile2-staff-field_ding_staff_surname'] = array(
-    'bundle' => 'staff',
+    'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
