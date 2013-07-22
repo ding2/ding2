@@ -16,7 +16,10 @@ function ding_staff_default_page_manager_pages() {
   $page->admin_title = 'Ding staff';
   $page->admin_description = '';
   $page->path = 'staff';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array();
   $page->conf = array(
@@ -120,7 +123,10 @@ function ding_staff_default_page_manager_pages() {
   $page->admin_title = 'Ding staff library';
   $page->admin_description = '';
   $page->path = 'bibliotek/%node/staff';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'node' => array(
@@ -244,7 +250,10 @@ function ding_staff_default_page_manager_pages() {
   $page->admin_title = 'Ding staff user';
   $page->admin_description = '';
   $page->path = 'staff/%user';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'user' => array(
@@ -314,14 +323,14 @@ function ding_staff_default_page_manager_pages() {
     $pane->pid = 'new-5';
     $pane->panel = 'main_content';
     $pane->type = 'entity_field_extra';
-    $pane->subtype = 'user:profile_staff';
+    $pane->subtype = 'user:profile_ding_staff_profile';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'view_mode' => 'full',
       'context' => 'argument_entity_id:user_1',
-      'override_title' => 0,
-      'override_title_text' => '-- %title --',
+      'override_title' => 1,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -380,7 +389,7 @@ function ding_staff_default_page_manager_pages() {
     $display->content['new-7'] = $pane;
     $display->panels['right_sidebar'][0] = 'new-7';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-5';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_staff_user'] = $page;

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ *
+ */
 
 $plugin = array(
   'title' => t('Ding staff library menu'),
@@ -10,53 +14,47 @@ $plugin = array(
   'required context' => new ctools_context_optional(t('Library'), 'node'),
 );
 
+/**
+ * @TODO ?
+ */
 function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
-  $selected_library = NULL;
-  
-  // TODO: Set the selected library
+  $selected_library = FALSE;
+  $items = array();
+
+  // Default link of 'All libraries' links to staff list page. Set active class
+  // if no library is given in the context.
+  $options = array('attributes' => array('class' => array('active')));
   if (isset($context->data)) {
     $selected_library = $context->data;
+    $options = array();
   }
+  $items[] = l(t('All libraries'), 'staff' , $options);
 
-  $options = array();
-  if ($selected_library == NULL) {
-    $options = array('attributes' => array('class' => array('active')));
-  }
+  // Select libray nids and titles.
+  $results = db_select('node', 'n')
+    ->fields('n', array('nid', 'title'))
+    ->condition('n.type', 'ding_library')
+    ->condition('n.status',   1)
+    ->execute();
 
-  // default link of 'All libraries' links to staff list page 
-  $items = array(l(t('All libraries'), 'staff' , $options));
-
-  // Get all library nids
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'ding_library')
-    ->propertyCondition('status', 1);
-  $result = $query->execute();
-
-  if (isset($result['node'])) {
-    $library_items_nids = array_keys($result['node']);
-    $lib_nodes = node_load_multiple($library_items_nids);
-    
-    foreach ($lib_nodes as $lib) {
-      // Lookup in path checking if this is the library staff page shown
-      //$alias = drupal_lookup_path('alias', 'bibliotek/' . $nid);
-      if ($selected_library && $selected_library->nid == $lib->nid) {
-        $options = array('attributes' => array('class' => array('active')));
-      }
-      else {
-        $options = array();
-      }
-
-      $uri = 'bibliotek/' . $lib->nid . '/staff' ;
-
-      $items[] = l($lib->title, $uri, $options);
+  // Create links for each library found to that libraries staff page.
+  foreach ($results as $row) {
+    $options = array();
+    if ($selected_library && $selected_library->nid == $row->nid) {
+      $options = array('attributes' => array('class' => array('active')));
     }
-
+    $items[] = l($row->title, 'bibliotek/' . $row->nid . '/staff', $options);
   }
 
-  $block->content = theme('item_list', array('items' => $items, 'attributes' => array('class' => array('sub-menu'))));
-    
+  $block->content = array(
+    '#theme' => 'item_list',
+    '#items' => $items,
+    '#attributes' => array(
+      'class' => array('sub-menu'),
+    ),
+  );
+
   return $block;
 }
 
@@ -69,4 +67,3 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
 function ding_staff_library_menu_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-

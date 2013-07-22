@@ -16,7 +16,7 @@ function ding_staff_field_group_info() {
   $field_group->identifier = 'group_ding_staff_contact|profile2|staff|form';
   $field_group->group_name = 'group_ding_staff_contact';
   $field_group->entity_type = 'profile2';
-  $field_group->bundle = 'staff';
+  $field_group->bundle = 'ding_staff_profile';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
@@ -44,7 +44,7 @@ function ding_staff_field_group_info() {
   $field_group->identifier = 'group_ding_staff_name|profile2|staff|form';
   $field_group->group_name = 'group_ding_staff_name';
   $field_group->entity_type = 'profile2';
-  $field_group->bundle = 'staff';
+  $field_group->bundle = 'ding_staff_profile';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
@@ -72,7 +72,7 @@ function ding_staff_field_group_info() {
   $field_group->identifier = 'group_ding_staff_organisation|profile2|staff|form';
   $field_group->group_name = 'group_ding_staff_organisation';
   $field_group->entity_type = 'profile2';
-  $field_group->bundle = 'staff';
+  $field_group->bundle = 'ding_staff_profile';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
