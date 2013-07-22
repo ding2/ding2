@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Handle module installation and updates. 
+ */
+
+/**
+ * Update the staff profile - prefix with module name.
+ */
+function ding_staff_update_7000() {
+  $ret = array();
+
+  // Update profile type name.
+  $ret[] = db_update('profile_type')
+    ->fields(array('type' => 'ding_staff_profile'))
+    ->condition('type', 'staff')
+    ->execute();
+
+  // Update existing profile to the new type.
+  $ret[] = db_update('profile')
+    ->fields(array('type' => 'ding_staff_profile'))
+    ->condition('type', 'staff')
+    ->execute();
+  
+  return $ret;
+}

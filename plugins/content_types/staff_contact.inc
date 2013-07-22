@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *
+ * Creates pane with contact informatio for a give staff profile.
  */
 
 $plugin = array(
@@ -15,33 +15,32 @@ $plugin = array(
 );
 
 /**
- * @TODO ?
+ * Implements hook_ID_content_type_render().
  */
 function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
-  if (empty($context->data)) {
-    return $block;
-  }
-  $account = $context->data;
-  $profile = profile2_load_by_user($account, 'staff');
+  if (!empty($context->data)) {
 
-  $content = ' <div class="pane-content">';
-  if (!empty($profile->field_ding_staff_phone['und'])) {
-    $content .= '<div class="phone field-label-inline clearfix">
-          <div class="field-label">' . t('Phone:') . '</div>
-          <div class="field-items">' . $profile->field_ding_staff_phone['und'][0]['value']. '</div></div>';
+    // Try to load the profile and extract field values.
+    $profile = profile2_load_by_user($context->data, 'ding_staff_profile');
+    if ($profile) {
+
+      $block->title = t('Contact');
+      $block->content = array();
+
+      // Get phone as render array.
+      $phone = field_view_field('profile2', $profile, 'field_ding_staff_phone');
+      if (!empty($phone)) {
+        $block->content = $phone;
+      }
+
+      // Get mail as render array.
+      $mail = field_view_field('profile2', $profile, 'field_ding_staff_email');
+      if (!empty($mail)) {
+        $block->content = $mail;
+      }
+    }
   }
-  if (!empty($profile->field_ding_staff_email['und'])) {
-    $content .= '
-        <div class="phone field-label-inline clearfix">
-          <div class="field-label">' . t('Email:') . '</div>
-          <div class="field-items">' . l($profile->field_ding_staff_email['und'][0]['email'], 'mailto:' . $profile->field_ding_staff_email['und'][0]['email']) . '</div>
-        </div>
-    ';
-  }
-  $content .= '</div>';
-  $block->title= t('Contact');
-  $block->content = $content;
 
   return $block;
 }
