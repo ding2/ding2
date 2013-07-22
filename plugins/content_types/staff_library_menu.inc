@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *
+ * Creates a menu with links to filter the staff based on libraries.
  */
 
 $plugin = array(
@@ -15,7 +15,7 @@ $plugin = array(
 );
 
 /**
- * @TODO ?
+ * Implements hook_ID_content_type_render().
  */
 function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
