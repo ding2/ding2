@@ -1,12 +1,11 @@
 api = 2
 core = 7.x
 
-; Contrib modules
+projects[node_export][subdir] = "contrib"
+projects[node_export][version] = "3.0"
 
-projects[defaultcontent][subdir] = "contrib"
-projects[defaultcontent][version] = "1.0-alpha9"
-
-; Ting! modules
+projects[uuid][subdir] = "contrib"
+projects[uuid ][version] = "1.0-alpha5"
 
 projects[ding_library][type] = "module"
 projects[ding_library][download][type] = "git"
@@ -22,3 +21,13 @@ projects[ding_news][type] = "module"
 projects[ding_news][download][type] = "git"
 projects[ding_news][download][url] = "git@github.com:ding2tal/ding_news.git"
 projects[ding_news][download][branch] = "development"
+
+projects[ding_page][type] = "module"
+projects[ding_page][download][type] = "git"
+projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
+projects[ding_page][download][branch] = "development"
+
+projects[ding_content][type] = "module"
+projects[ding_content][download][type] = "git"
+projects[ding_content][download][url] = "git@github.com:ding2tal/ding_content.git"
+projects[ding_content][download][branch] = "development"

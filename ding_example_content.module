@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Code for the Ding example content feature.
  */
 
-// Drupal needs this blank file.
+include_once 'ding_example_content.features.inc';
