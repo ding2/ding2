@@ -10,7 +10,7 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 14:36:15 +0200">
+<node_export created="Tue, 23 Jul 2013 15:35:13 +0200">
   <node>
     <vid>106</vid>
     <uid>41</uid>
@@ -1132,6 +1132,65 @@ function ding_example_content_node_export_features_default() {
     <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
     <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
+    <node_export_drupal_version>7</node_export_drupal_version>
+  </node>
+  <node>
+    <vid>12</vid>
+    <uid>1</uid>
+    <title>Vejledninger</title>
+    <log></log>
+    <status>1</status>
+    <comment>2</comment>
+    <promote>0</promote>
+    <sticky>0</sticky>
+    <vuuid>da83372f-e8d1-44ae-911c-075e381b5962</vuuid>
+    <nid>11</nid>
+    <type>ding_page</type>
+    <language>und</language>
+    <created>1346679230</created>
+    <changed>1346679230</changed>
+    <tnid>0</tnid>
+    <translate>0</translate>
+    <uuid>8a64a5f1-f0e0-4db6-9602-d7f6c306ef5d</uuid>
+    <revision_timestamp>1346679230</revision_timestamp>
+    <revision_uid>1</revision_uid>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
+    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
+    <cid>0</cid>
+    <last_comment_timestamp>1346679230</last_comment_timestamp>
+    <last_comment_name type="NULL"></last_comment_name>
+    <last_comment_uid>1</last_comment_uid>
+    <comment_count>0</comment_count>
+    <name>admin</name>
+    <picture>0</picture>
+    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <path>
+      <pid>215</pid>
+      <source>node/11</source>
+      <alias>det-kan-du/vejledninger</alias>
+      <language>und</language>
+    </path>
+    <menu>
+      <link_title>Vejledninger</link_title>
+      <mlid>0</mlid>
+      <plid>964</plid>
+      <menu_name>main-menu</menu_name>
+      <weight>0</weight>
+      <options _numeric_keys="1"></options>
+      <module>menu</module>
+      <expanded>0</expanded>
+      <hidden>0</hidden>
+      <has_children>1</has_children>
+      <customized>0</customized>
+      <parent_depth_limit>8</parent_depth_limit>
+      <description></description>
+      <enabled>1</enabled>
+    </menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
