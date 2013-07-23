@@ -195,51 +195,13 @@ function ding_example_content_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
   );
-  // Exported menu link: menu-footer-menu-3:http://ding2tal.ting.dk/node/85
-  $menu_links['menu-footer-menu-3:http://ding2tal.ting.dk/node/85'] = array(
-    'menu_name' => 'menu-footer-menu-3',
-    'link_path' => 'http://ding2tal.ting.dk/node/85',
-    'router_path' => '',
-    'link_title' => 'Biblioteket i lommen',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 1,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => -49,
-  );
-  // Exported menu link: menu-footer-menu-4:http://ding2tal.ting.dk/node/88
-  $menu_links['menu-footer-menu-4:http://ding2tal.ting.dk/node/88'] = array(
-    'menu_name' => 'menu-footer-menu-4',
-    'link_path' => 'http://ding2tal.ting.dk/node/88',
-    'router_path' => '',
-    'link_title' => 'Hjemmesiden',
-    'options' => array(
-      'attributes' => array(
-        'title' => '',
-      ),
-    ),
-    'module' => 'menu',
-    'hidden' => 0,
-    'external' => 1,
-    'has_children' => 0,
-    'expanded' => 0,
-    'weight' => 0,
-  );
   // Translatables
   // Included for use with string extractors like potx.
   t('Artikelsøgning');
   t('Bibliotek.dk');
-  t('Biblioteket i lommen');
   t('Borger.dk');
   t('Det kan du');
   t('Filmstriben');
-  t('Hjemmesiden');
   t('Litteratursiden');
   t('Lån et lokale');
   t('Netlydbog');

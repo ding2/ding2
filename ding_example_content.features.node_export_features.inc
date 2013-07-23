@@ -10,7 +10,7 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 17:23:48 +0200">
+<node_export created="Tue, 23 Jul 2013 17:30:54 +0200">
   <node>
     <vid>2</vid>
     <uid>0</uid>
@@ -24,17 +24,17 @@ function ding_example_content_node_export_features_default() {
     <nid>2</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592854</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1995926f-39d4-4e33-8013-d8e4d2152dfc</uuid>
-    <revision_timestamp>1374592854</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_event_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, helvetica, sans-serif; font-size: 12px; line-height: 17px; &quot;&gt;Parkour - &amp;quot;Biblioteket i bevægelse.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Fredag den 9.august fra kl.15-17, vil det være muligt at opleve biblioteket på en helt ny måde når Gagendran Srisurendran fra ParkourHerning og Team Tinana afholder en parkour workshop på ho-vedbiblioteket.&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Målgruppen er børn mellem 8 og 13 år&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;I workshoppen vil du kunne få inspiration og indblik i hvad parkour er for en størrelse!&lt;/p&gt;</value>
+          <value>&lt;p&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, helvetica, sans-serif; font-size: 12px; line-height: 17px; &quot;&gt;Parkour - &quot;Biblioteket i bevægelse.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Fredag den 9.august fra kl.15-17, vil det være muligt at opleve biblioteket på en helt ny måde når Gagendran Srisurendran fra ParkourHerning og Team Tinana afholder en parkour workshop på ho-vedbiblioteket.&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Målgruppen er børn mellem 8 og 13 år&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;I workshoppen vil du kunne få inspiration og indblik i hvad parkour er for en størrelse!&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p&gt;Parkour - &quot;Biblioteket i bevægelse.&lt;/p&gt;
 &lt;p&gt;Fredag den 9.august fra kl.15-17, vil det være muligt at opleve biblioteket på en helt ny måde når Gagendran Srisurendran fra ParkourHerning og Team Tinana afholder en parkour workshop på ho-vedbiblioteket.&lt;/p&gt;
@@ -95,7 +95,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5847</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>a5275a25-f2bd-4121-919c-6f51961c5bf9</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -158,7 +158,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>61408</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>f8b59a30-65dd-4ca6-9efb-7cd5d85229e7</uuid>
           <field_file_image_alt_text>
@@ -188,20 +188,20 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_event_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>20</pid>
       <source>node/2</source>
-      <alias>arrangementer/parkour-biblioteket-i-bevaegelse</alias>
+      <alias>arrangementer/workshop/parkour-biblioteket-i-bevaegelse</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -217,13 +217,13 @@ function ding_example_content_node_export_features_default() {
     <nid>3</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592903</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1c54a7aa-49b8-45a4-bb32-9bf9c77ae77e</uuid>
-    <revision_timestamp>1374592903</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -275,7 +275,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5721</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>0ee0dcc6-a0e2-4528-950e-018e689fea6d</uuid>
           <field_file_image_alt_text>
@@ -308,20 +308,20 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image _numeric_keys="1"></field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>21</pid>
       <source>node/3</source>
-      <alias>nyheder/fantastiske-rejser</alias>
+      <alias>nyheder/kort-nyt/fantastiske-rejser</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -337,13 +337,13 @@ function ding_example_content_node_export_features_default() {
     <nid>4</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592841</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>24ec65cb-ea62-4065-95b3-136cccf1cdf0</uuid>
-    <revision_timestamp>1374592841</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_event_body>
       <und _numeric_keys="1">
         <n0>
@@ -406,7 +406,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4188</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>f1441750-9a6f-4b76-8821-734487f9ca79</uuid>
           <field_file_image_alt_text>
@@ -485,7 +485,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>16583</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>23d30d1a-46cc-4bae-908e-a04286a87328</uuid>
           <field_file_image_alt_text>
@@ -515,20 +515,20 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_event_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>22</pid>
       <source>node/4</source>
-      <alias>arrangementer/tove-ditlevsens-liv-i-litteratur-og-musik</alias>
+      <alias>arrangementer/litteratur/tove-ditlevsens-liv-i-litteratur-og-musik</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -544,12 +544,12 @@ function ding_example_content_node_export_features_default() {
     <nid>5</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>31f30e60-40df-453d-a2cc-cd6bc6535a8f</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
     <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
@@ -559,15 +559,15 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
+    <path type="boolean">FALSE</path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -583,13 +583,13 @@ function ding_example_content_node_export_features_default() {
     <nid>6</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592919</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>3665c05a-1f05-48e4-a542-1b28e113e521</uuid>
-    <revision_timestamp>1374592919</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -641,7 +641,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5692</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>af1b163d-ff84-414c-b0ec-d139a93d1051</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -670,7 +670,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>145934</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>393f498e-866f-4eaa-8213-7ade96cb649c</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -684,20 +684,20 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>23</pid>
       <source>node/6</source>
-      <alias>nyheder/language-cafe</alias>
+      <alias>nyheder/anbefalinger/language-cafe</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -713,12 +713,12 @@ function ding_example_content_node_export_features_default() {
     <nid>7</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>49da3093-5f15-4501-b601-9de3c0310ecf</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
     <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
@@ -728,15 +728,15 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
+    <path type="boolean">FALSE</path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -752,12 +752,12 @@ function ding_example_content_node_export_features_default() {
     <nid>8</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>51b8b28c-d52a-4e38-b26f-9cd12d4bc616</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -809,15 +809,15 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
+    <path type="boolean">FALSE</path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -833,12 +833,12 @@ function ding_example_content_node_export_features_default() {
     <nid>9</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5386750d-f9d5-4be5-bfcd-9f75105107cb</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -886,7 +886,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>25441</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>5f8d34c9-2c1a-462c-85eb-aad2f2d90d3f</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -900,19 +900,13 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path>
-      <pid>24</pid>
-      <source>node/9</source>
-      <alias>det-kan-du</alias>
-      <language>und</language>
-    </path>
     <menu>
       <link_title>Det kan du</link_title>
       <mlid>0</mlid>
@@ -929,10 +923,16 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
+    <path>
+      <pid>24</pid>
+      <source>node/9</source>
+      <alias>det-kan-du</alias>
+      <language>und</language>
+    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>10</vid>
+    <vid>19</vid>
     <uid>0</uid>
     <title>Hjortshøj Kombi-bibliotek</title>
     <log></log>
@@ -940,17 +940,17 @@ function ding_example_content_node_export_features_default() {
     <comment>1</comment>
     <promote>0</promote>
     <sticky>0</sticky>
-    <vuuid>ab56e02e-6f32-4618-8905-56d707ae4305</vuuid>
+    <vuuid>e3f6922c-6faa-49d8-bc99-bb78c03152ba</vuuid>
     <nid>10</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593435</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5cb900a0-e318-4eb6-af13-9daf6e7c748c</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374593435</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
         <n0>
@@ -974,9 +974,12 @@ function ding_example_content_node_export_features_default() {
     <field_ding_library_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;Velkommen til Hjortshøj Kombi-bibliotek&lt;/p&gt;</value>
+          <value>&lt;p&gt;Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec ullamcorper nulla non metus auctor fringilla. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.&lt;br /&gt;&lt;br /&gt;Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec sed odio dui. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;br /&gt;&lt;br /&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta sem malesuada magna mollis euismod. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam id dolor id nibh ultricies vehicula ut id elit.&lt;br /&gt;&lt;br /&gt;Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Cras mattis consectetur purus sit amet fermentum.&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
-          <safe_value> &lt;p&gt;Velkommen til Hjortshøj Kombi-bibliotek&lt;/p&gt;
+          <safe_value> &lt;p&gt;Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec ullamcorper nulla non metus auctor fringilla. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.&lt;/p&gt;
+&lt;p&gt;Donec id elit non mi porta gravida at eget metus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Nullam id dolor id nibh ultricies vehicula ut id elit. Donec sed odio dui. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta sem malesuada magna mollis euismod. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam id dolor id nibh ultricies vehicula ut id elit.&lt;/p&gt;
+&lt;p&gt;Donec id elit non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper. Maecenas faucibus mollis interdum. Cras mattis consectetur purus sit amet fermentum.&lt;/p&gt;
  </safe_value>
         </n0>
       </und>
@@ -999,7 +1002,15 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_library_geocode>
-    <field_ding_library_lead _numeric_keys="1"></field_ding_library_lead>
+    <field_ding_library_lead>
+      <und _numeric_keys="1">
+        <n0>
+          <value>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod.</value>
+          <format type="NULL"></format>
+          <safe_value>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit non mi porta gravida at eget metus. Etiam porta sem malesuada magna mollis euismod.</safe_value>
+        </n0>
+      </und>
+    </field_ding_library_lead>
     <field_ding_library_links>
       <und _numeric_keys="1">
         <n0>
@@ -1025,7 +1036,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4524</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>d2b544d2-71fd-4d87-8bff-c8dcbdf1d2ae</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1078,7 +1089,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>65309</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>c84c5289-bf85-45af-9a5d-1a2110e383ee</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1099,20 +1110,20 @@ function ding_example_content_node_export_features_default() {
       </und>
     </group_group>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>25</pid>
       <source>node/10</source>
       <alias>biblioteker/hjortshoj</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1128,12 +1139,12 @@ function ding_example_content_node_export_features_default() {
     <nid>11</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>7b05feff-1012-40ef-a5fc-2a9f37fa82aa</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -1169,19 +1180,13 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path>
-      <pid>26</pid>
-      <source>node/11</source>
-      <alias>det-kan-du/vejledninger</alias>
-      <language>und</language>
-    </path>
     <menu>
       <link_title>Vejledninger</link_title>
       <mlid>0</mlid>
@@ -1198,6 +1203,12 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
+    <path>
+      <pid>26</pid>
+      <source>node/11</source>
+      <alias>det-kan-du/vejledninger</alias>
+      <language>und</language>
+    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1213,12 +1224,12 @@ function ding_example_content_node_export_features_default() {
     <nid>12</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>8a64a5f1-f0e0-4db6-9602-d7f6c306ef5d</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
     <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
@@ -1228,19 +1239,13 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path>
-      <pid>27</pid>
-      <source>node/12</source>
-      <alias>det-kan-duvejledninger/sporgsmal-og-svar</alias>
-      <language>und</language>
-    </path>
     <menu>
       <link_title>Spørgsmål og svar</link_title>
       <mlid>0</mlid>
@@ -1257,6 +1262,12 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
+    <path>
+      <pid>27</pid>
+      <source>node/12</source>
+      <alias>det-kan-duvejledninger/sporgsmal-og-svar</alias>
+      <language>und</language>
+    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1272,12 +1283,12 @@ function ding_example_content_node_export_features_default() {
     <nid>13</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>c181d47e-7c98-442a-9c3b-e23ed7b178ab</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -1317,15 +1328,15 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
+    <path type="boolean">FALSE</path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1341,12 +1352,12 @@ function ding_example_content_node_export_features_default() {
     <nid>14</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>e2388c84-6d60-4d8d-86e2-26972131914f</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_timestamp>1374593136</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -1373,19 +1384,13 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <path>
-      <pid>28</pid>
-      <source>node/14</source>
-      <alias>det-kan-du/lan-et-lokale</alias>
-      <language>und</language>
-    </path>
     <menu>
       <link_title>Lån et lokale</link_title>
       <mlid>0</mlid>
@@ -1402,6 +1407,12 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
+    <path>
+      <pid>28</pid>
+      <source>node/14</source>
+      <alias>det-kan-du/lan-et-lokale</alias>
+      <language>und</language>
+    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1417,13 +1428,13 @@ function ding_example_content_node_export_features_default() {
     <nid>15</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592937</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>eb7382f8-2d8f-4bd1-b920-e81aa79d4bb5</uuid>
-    <revision_timestamp>1374592937</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -1474,7 +1485,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>47772</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>8286cd5b-452a-4a63-9d29-1aa06280baca</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1491,20 +1502,20 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image _numeric_keys="1"></field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>29</pid>
       <source>node/15</source>
-      <alias>nyheder/biblioteket-anbefaler-fagboger</alias>
+      <alias>nyheder/kort-nyt/biblioteket-anbefaler-fagboger</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1520,13 +1531,13 @@ function ding_example_content_node_export_features_default() {
     <nid>16</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592952</changed>
+    <created>1374593136</created>
+    <changed>1374593136</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>ed698a02-32f3-4516-a293-6a6a8dc3dec1</uuid>
-    <revision_timestamp>1374592952</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -1581,7 +1592,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>85c4494f-f38c-4a80-bd15-53880894023b</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1610,7 +1621,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>651b19c4-c922-443b-a7e2-5a3640a4c29c</uuid>
           <field_file_image_alt_text>
@@ -1640,24 +1651,24 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>30</pid>
       <source>node/16</source>
-      <alias>nyheder/landsdaekkende-novellekonkurrence</alias>
+      <alias>nyheder/boger/landsdaekkende-novellekonkurrence</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>17</vid>
+    <vid>18</vid>
     <uid>0</uid>
     <title>Hovedbiblioteket</title>
     <log></log>
@@ -1665,17 +1676,17 @@ function ding_example_content_node_export_features_default() {
     <comment>1</comment>
     <promote>0</promote>
     <sticky>0</sticky>
-    <vuuid>a305bc6d-4285-4233-804b-0eb79e74719a</vuuid>
+    <vuuid>cca258e9-99dd-481a-91a9-ce896a443c4d</vuuid>
     <nid>17</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1374592683</created>
-    <changed>1374592683</changed>
+    <created>1374593136</created>
+    <changed>1374593395</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>f666fb17-4216-4fea-a5b2-5c9b9ad030ec</uuid>
-    <revision_timestamp>1374592683</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374593395</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
         <n0>
@@ -1699,15 +1710,12 @@ function ding_example_content_node_export_features_default() {
     <field_ding_library_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;&lt;strong&gt;Hovedbibliotekets ledelse&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Chef for Hovedbiblioteket &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba10&quot; title=&quot;Knud Schulz&quot;&gt;Knud Schulz&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Publikumschef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba91&quot; title=&quot;Charlotte Stoltenberg&quot;&gt;Charlotte Stoltenberg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Drifts- &amp; Ressourcechef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba54&quot; title=&quot;Troels Vestergaard&quot;&gt;Troels Vestergaard&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder for e-formidling &amp; arrangementer &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/users/mlog&quot; title=&quot;Marie Louise Overgaard&quot;&gt;Marie Louise Overgaard&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder for Læring &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkbd75&quot; title=&quot;Britta Hedegaard Christensen&quot;&gt;Britta Hedegaard Christensen&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder i &lt;span class=&quot;nav&quot;&gt;Team reception &amp; logistik&lt;/span&gt; &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba63&quot; title=&quot;Susanne Hansen&quot;&gt;Susanne Hansen&lt;/a&gt;&lt;/p&gt;</value>
+          <value>&lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;br /&gt;&lt;br /&gt;Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Curabitur blandit tempus porttitor. Maecenas sed diam eget risus varius blandit sit amet non magna.&lt;br /&gt;&lt;br /&gt;Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas faucibus mollis interdum.&lt;br /&gt;&lt;br /&gt;Nulla vitae elit libero, a pharetra augue. Donec sed odio dui. Maecenas sed diam eget risus varius blandit sit amet non magna. Cras mattis consectetur purus sit amet fermentum.&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
-          <safe_value> &lt;p&gt;&lt;strong&gt;Hovedbibliotekets ledelse&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Chef for Hovedbiblioteket &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba10&quot; title=&quot;Knud Schulz&quot;&gt;Knud Schulz&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Publikumschef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba91&quot; title=&quot;Charlotte Stoltenberg&quot;&gt;Charlotte Stoltenberg&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Drifts- &amp;amp; Ressourcechef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba54&quot; title=&quot;Troels Vestergaard&quot;&gt;Troels Vestergaard&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Teamleder for e-formidling &amp;amp; arrangementer &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/users/mlog&quot; title=&quot;Marie Louise Overgaard&quot;&gt;Marie Louise Overgaard&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Teamleder for Læring &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkbd75&quot; title=&quot;Britta Hedegaard Christensen&quot;&gt;Britta Hedegaard Christensen&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Teamleder i Team reception &amp;amp; logistik &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba63&quot; title=&quot;Susanne Hansen&quot;&gt;Susanne Hansen&lt;/a&gt;&lt;/p&gt;
+          <safe_value> &lt;p&gt;Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.&lt;/p&gt;
+&lt;p&gt;Maecenas sed diam eget risus varius blandit sit amet non magna. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Curabitur blandit tempus porttitor. Maecenas sed diam eget risus varius blandit sit amet non magna.&lt;/p&gt;
+&lt;p&gt;Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Maecenas faucibus mollis interdum.&lt;/p&gt;
+&lt;p&gt;Nulla vitae elit libero, a pharetra augue. Donec sed odio dui. Maecenas sed diam eget risus varius blandit sit amet non magna. Cras mattis consectetur purus sit amet fermentum.&lt;/p&gt;
  </safe_value>
         </n0>
       </und>
@@ -1741,25 +1749,9 @@ function ding_example_content_node_export_features_default() {
     <field_ding_library_lead>
       <und _numeric_keys="1">
         <n0>
-          <value>Hovedbiblioteket
-
-Hovedbibliotekets bygninger fra 1934 rummer i dag et moderne, gratis og centralt videnscenter og kultursted. Derfor kan du finde os midt i byen ved Mølleparken. Vores handicapindgang og -parkering er fra Vestergade. Hovedbiblioteket formidler og levendegør medier på tværs af genrer og format og afholder ofte koncerter, udstillinger, debatter og litterære arrangementer. Det også muligt at booke lokaler til dit eget arrangement.
-
-Nogle af Hovedbibliotekets servicetilbud er beskrevet i en række foldere 
-
-Hovedbiblioteket er nemlig brugernes bibliotek, og derfor arbejder medarbejderne og ledelsen i organisationen konstant med borgerinddragelse hvad enten det gælder udviklingsprojekter, løbende forbedringer eller vores kommende bibliotek Dokk1.
-
-Velkommen til Hovedbiblioteket. Det er også dit sted!</value>
+          <value>Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus.</value>
           <format type="NULL"></format>
-          <safe_value>Hovedbiblioteket
-
-Hovedbibliotekets bygninger fra 1934 rummer i dag et moderne, gratis og centralt videnscenter og kultursted. Derfor kan du finde os midt i byen ved Mølleparken. Vores handicapindgang og -parkering er fra Vestergade. Hovedbiblioteket formidler og levendegør medier på tværs af genrer og format og afholder ofte koncerter, udstillinger, debatter og litterære arrangementer. Det også muligt at booke lokaler til dit eget arrangement.
-
-Nogle af Hovedbibliotekets servicetilbud er beskrevet i en række foldere 
-
-Hovedbiblioteket er nemlig brugernes bibliotek, og derfor arbejder medarbejderne og ledelsen i organisationen konstant med borgerinddragelse hvad enten det gælder udviklingsprojekter, løbende forbedringer eller vores kommende bibliotek Dokk1.
-
-Velkommen til Hovedbiblioteket. Det er også dit sted!</safe_value>
+          <safe_value>Maecenas faucibus mollis interdum. Donec ullamcorper nulla non metus auctor fringilla. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus.</safe_value>
         </n0>
       </und>
     </field_ding_library_lead>
@@ -1778,7 +1770,7 @@ Velkommen til Hovedbiblioteket. Det er også dit sted!</safe_value>
           <filemime>image/jpeg</filemime>
           <filesize>4116</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>2f5cef11-193f-474f-958b-c2239b862da6</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1831,7 +1823,7 @@ Velkommen til Hovedbiblioteket. Det er også dit sted!</safe_value>
           <filemime>image/jpeg</filemime>
           <filesize>35376</filesize>
           <status>1</status>
-          <timestamp>1374592683</timestamp>
+          <timestamp>1374593136</timestamp>
           <type>image</type>
           <uuid>f5f4f78c-2316-4790-bb2c-42a796810fa8</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1852,20 +1844,20 @@ Velkommen til Hovedbiblioteket. Det er også dit sted!</safe_value>
       </und>
     </group_group>
     <cid>0</cid>
-    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_timestamp>1374593136</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <menu type="NULL"></menu>
     <path>
       <pid>31</pid>
       <source>node/17</source>
       <alias>biblioteker/hovedbiblioteket</alias>
       <language>und</language>
     </path>
-    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
 </node_export>',
