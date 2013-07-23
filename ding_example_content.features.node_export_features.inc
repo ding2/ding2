@@ -10,10 +10,10 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 17:30:54 +0200">
+<node_export created="Tue, 23 Jul 2013 17:41:52 +0200">
   <node>
     <vid>2</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Parkour – Biblioteket i bevægelse</title>
     <log></log>
     <status>1</status>
@@ -24,17 +24,17 @@ function ding_example_content_node_export_features_default() {
     <nid>2</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374594077</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1995926f-39d4-4e33-8013-d8e4d2152dfc</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374594077</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_event_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, helvetica, sans-serif; font-size: 12px; line-height: 17px; &quot;&gt;Parkour - &quot;Biblioteket i bevægelse.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Fredag den 9.august fra kl.15-17, vil det være muligt at opleve biblioteket på en helt ny måde når Gagendran Srisurendran fra ParkourHerning og Team Tinana afholder en parkour workshop på ho-vedbiblioteket.&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Målgruppen er børn mellem 8 og 13 år&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;I workshoppen vil du kunne få inspiration og indblik i hvad parkour er for en størrelse!&lt;/p&gt;</value>
+          <value>&lt;p&gt;&lt;span style=&quot;color: rgb(34, 34, 34); font-family: Arial, helvetica, sans-serif; font-size: 12px; line-height: 17px; &quot;&gt;Parkour - &amp;quot;Biblioteket i bevægelse.&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Fredag den 9.august fra kl.15-17, vil det være muligt at opleve biblioteket på en helt ny måde når Gagendran Srisurendran fra ParkourHerning og Team Tinana afholder en parkour workshop på ho-vedbiblioteket.&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;Målgruppen er børn mellem 8 og 13 år&lt;/p&gt;&lt;p style=&quot;margin-top: 0px; margin-bottom: 0.5em; font-size: 12px; font-family: Arial, helvetica, sans-serif; color: rgb(34, 34, 34); line-height: 17px; &quot;&gt;I workshoppen vil du kunne få inspiration og indblik i hvad parkour er for en størrelse!&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p&gt;Parkour - &quot;Biblioteket i bevægelse.&lt;/p&gt;
 &lt;p&gt;Fredag den 9.august fra kl.15-17, vil det være muligt at opleve biblioteket på en helt ny måde når Gagendran Srisurendran fra ParkourHerning og Team Tinana afholder en parkour workshop på ho-vedbiblioteket.&lt;/p&gt;
@@ -77,7 +77,7 @@ function ding_example_content_node_export_features_default() {
         <n0>
           <gid>2</gid>
           <state>1</state>
-          <created>1374592854</created>
+          <created>1374594077</created>
         </n0>
       </und>
     </field_ding_event_library>
@@ -95,7 +95,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5847</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>a5275a25-f2bd-4121-919c-6f51961c5bf9</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -158,7 +158,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>61408</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>f8b59a30-65dd-4ca6-9efb-7cd5d85229e7</uuid>
           <field_file_image_alt_text>
@@ -188,13 +188,13 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_event_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
+    <data>b:0;</data>
     <menu type="NULL"></menu>
     <path>
       <pid>20</pid>
@@ -206,7 +206,7 @@ function ding_example_content_node_export_features_default() {
   </node>
   <node>
     <vid>3</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Fantastiske rejser</title>
     <log></log>
     <status>1</status>
@@ -217,13 +217,13 @@ function ding_example_content_node_export_features_default() {
     <nid>3</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374594041</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1c54a7aa-49b8-45a4-bb32-9bf9c77ae77e</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374594041</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -257,7 +257,7 @@ function ding_example_content_node_export_features_default() {
         <n0>
           <gid>2</gid>
           <state>1</state>
-          <created>1374592904</created>
+          <created>1374594042</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -275,7 +275,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5721</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>0ee0dcc6-a0e2-4528-950e-018e689fea6d</uuid>
           <field_file_image_alt_text>
@@ -308,13 +308,13 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image _numeric_keys="1"></field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
+    <data>b:0;</data>
     <menu type="NULL"></menu>
     <path>
       <pid>21</pid>
@@ -326,7 +326,7 @@ function ding_example_content_node_export_features_default() {
   </node>
   <node>
     <vid>4</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Tove Ditlevsens liv i litteratur og musik</title>
     <log></log>
     <status>1</status>
@@ -337,13 +337,13 @@ function ding_example_content_node_export_features_default() {
     <nid>4</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374594067</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>24ec65cb-ea62-4065-95b3-136cccf1cdf0</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374594067</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_event_body>
       <und _numeric_keys="1">
         <n0>
@@ -388,7 +388,7 @@ function ding_example_content_node_export_features_default() {
         <n0>
           <gid>2</gid>
           <state>1</state>
-          <created>1374592841</created>
+          <created>1374594067</created>
         </n0>
       </und>
     </field_ding_event_library>
@@ -406,7 +406,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4188</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>f1441750-9a6f-4b76-8821-734487f9ca79</uuid>
           <field_file_image_alt_text>
@@ -485,7 +485,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>16583</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>23d30d1a-46cc-4bae-908e-a04286a87328</uuid>
           <field_file_image_alt_text>
@@ -515,13 +515,13 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_event_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
+    <data>b:0;</data>
     <menu type="NULL"></menu>
     <path>
       <pid>22</pid>
@@ -544,12 +544,12 @@ function ding_example_content_node_export_features_default() {
     <nid>5</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>31f30e60-40df-453d-a2cc-cd6bc6535a8f</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
     <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
@@ -559,7 +559,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -572,7 +572,7 @@ function ding_example_content_node_export_features_default() {
   </node>
   <node>
     <vid>6</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Language café</title>
     <log></log>
     <status>1</status>
@@ -583,19 +583,19 @@ function ding_example_content_node_export_features_default() {
     <nid>6</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374594012</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>3665c05a-1f05-48e4-a542-1b28e113e521</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374594012</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;We would like to welcome you to our language café at Aarhus Main Library. If you wish to speak, spanish, french, english, chinese, italian, german or other languages then join us in the language café each monday. Here you have the opportunity to practice different languages and socialize with interesting people. We will provide you with coffee, tea and water. The café is located in the basement.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</value>
+          <value>&lt;p&gt;We would like to welcome you to our language café at Ting Main Library. If you wish to speak, spanish, french, english, chinese, italian, german or other languages then join us in the language café each monday. Here you have the opportunity to practice different languages and socialize with interesting people. We will provide you with coffee, tea and water. The café is located in the basement.&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
-          <safe_value> &lt;p&gt;We would like to welcome you to our language café at Aarhus Main Library. If you wish to speak, spanish, french, english, chinese, italian, german or other languages then join us in the language café each monday. Here you have the opportunity to practice different languages and socialize with interesting people. We will provide you with coffee, tea and water. The café is located in the basement.&lt;/p&gt;
+          <safe_value> &lt;p&gt;We would like to welcome you to our language café at Ting Main Library. If you wish to speak, spanish, french, english, chinese, italian, german or other languages then join us in the language café each monday. Here you have the opportunity to practice different languages and socialize with interesting people. We will provide you with coffee, tea and water. The café is located in the basement.&lt;/p&gt;
 &lt;p&gt; &lt;/p&gt;
  </safe_value>
         </n0>
@@ -623,7 +623,7 @@ function ding_example_content_node_export_features_default() {
         <n0>
           <gid>2</gid>
           <state>1</state>
-          <created>1374592919</created>
+          <created>1374594012</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -641,7 +641,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5692</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>af1b163d-ff84-414c-b0ec-d139a93d1051</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -670,7 +670,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>145934</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>393f498e-866f-4eaa-8213-7ade96cb649c</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -684,13 +684,13 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
+    <data>b:0;</data>
     <menu type="NULL"></menu>
     <path>
       <pid>23</pid>
@@ -713,12 +713,12 @@ function ding_example_content_node_export_features_default() {
     <nid>7</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>49da3093-5f15-4501-b601-9de3c0310ecf</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
     <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
@@ -728,7 +728,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -752,17 +752,17 @@ function ding_example_content_node_export_features_default() {
     <nid>8</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>51b8b28c-d52a-4e38-b26f-9cd12d4bc616</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p class=&quot;content&quot;&gt;&lt;strong&gt;Ansøgning om lån af lokaler skal ske til det bibliotek, hvis lokale ønskes stillet til rådighed&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://aakb.halbooking.dk/&quot; title=&quot;bookingkalender&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Hovedbiblioteket&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://www.aakb.dk/node/167&quot; title=&quot;Risskov Bibliotek&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Risskov Bibliotek&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;Viby Bibliotek (Udlåner/udlejer en sal med plads til 150 personer, stilles ikke til rådighed til private selskaber eller erhvervsvirksomhed.)&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://www.aakb.dk/node/164&quot; title=&quot;Åby Bibliotek&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Åby Bibliotek&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;content&quot;&gt;&lt;strong&gt;Vilkår&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;content&quot;&gt;Lokaler stilles vederlagsfrit til rådighed til følgende formål:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Arrangementer i henhold til Folkeoplysningsloven, når arrangøren er en kreds, som er hjemmehørende i Aarhus Kommune.&lt;/li&gt;&lt;li&gt;Møde med offentlig adgang, hvortil der ikke opkræves entré, og som er arrangeret af foreninger, råd, bevægelser eller enkeltpersoner hjemmehørende i Aarhus Kommune.&lt;/li&gt;&lt;li&gt;Generalforsamlinger i foreninger.&lt;/li&gt;&lt;li&gt;Lukkede medlemsmøder i f.eks. politiske, faglige og religiøse foreninger hjemmehørende i Aarhus Kommune.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Lokaler stilles til rådighed mod betaling til følgende formål:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Kommercielle arrangementer, hvortil der opkræves entré.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Lokaler stilles ikke til rådighed til følgende formål:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Private selskaber.&lt;/li&gt;&lt;li&gt;Egentlig erhvervsvirksomhed.&lt;/li&gt;&lt;li&gt;Takster for leje af lokaler oplyses ved henvendelse til det enkelte bibliotek.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br /&gt;&lt;strong&gt;Regler for benyttelsen af lokaler&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lokaler må kun benyttes til de formål, i de tidsrum og på de vilkår, som er aftalt.&lt;/li&gt;&lt;li&gt;Ansvaret for benyttelse af lokaler, inventar og undervisningsmateriale påhviler den, der har truffet aftale om lån eller leje.&lt;/li&gt;&lt;li&gt;Ved offentlig annoncering af arrangementer, der afholdes i bibliotekslokaler, skal det tydeligt fremgå, hvem der er initiativtager og ansvarlig for arrangementet, og hvortil eventuelle spørgsmål kan rettes.&lt;/li&gt;&lt;li&gt;Meddelelse om eventuelle mangler eller beskadigelse af lokaler og inventar skal hurtigst muligt gives til biblioteket.&lt;/li&gt;&lt;li&gt;Med hensyn til salg og indtagelse af øl og spiritus samt tobaksrygning henvises til lokale regler på det enkelte bibliotek.&lt;/li&gt;&lt;li&gt;Aftaler om ændring i lokaler, inventar og installationer i forbindelse med et arrangement skal træffes med det enkelte bibliotek, og eventuelle merudgifter betales af den, der låner lokalet.&lt;/li&gt;&lt;li&gt;Eventuelle udgifter til ekstraordinær oprydning og rengøring efter et arrangement betales af den, der har lånt lokalet.&lt;/li&gt;&lt;li&gt;Biblioteket påtager sig intet ansvar for eventuel overlast på eller tyveri af brugernes ejendele.&lt;/li&gt;&lt;/ol&gt;</value>
+          <value>&lt;p class=&quot;content&quot;&gt;&lt;strong&gt;Ansøgning om lån af lokaler skal ske til det bibliotek, hvis lokale ønskes stillet til rådighed&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://aakb.halbooking.dk/&quot; title=&quot;bookingkalender&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Hovedbiblioteket&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://www.aakb.dk/node/167&quot; title=&quot;Risskov Bibliotek&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Risskov Bibliotek&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;Viby Bibliotek (Udlåner/udlejer en sal med plads til 150 personer, stilles ikke til rådighed til private selskaber eller erhvervsvirksomhed.)&lt;/li&gt;&lt;li&gt;&lt;a href=&quot;http://www.aakb.dk/node/164&quot; title=&quot;Åby Bibliotek&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Åby Bibliotek&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p class=&quot;content&quot;&gt;&lt;strong&gt;Vilkår&lt;/strong&gt;&lt;/p&gt;&lt;p class=&quot;content&quot;&gt;Lokaler stilles vederlagsfrit til rådighed til følgende formål:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Arrangementer i henhold til Folkeoplysningsloven, når arrangøren er en kreds, som er hjemmehørende i ting Kommune.&lt;/li&gt;&lt;li&gt;Møde med offentlig adgang, hvortil der ikke opkræves entré, og som er arrangeret af foreninger, råd, bevægelser eller enkeltpersoner hjemmehørende i ting Kommune.&lt;/li&gt;&lt;li&gt;Generalforsamlinger i foreninger.&lt;/li&gt;&lt;li&gt;Lukkede medlemsmøder i f.eks. politiske, faglige og religiøse foreninger hjemmehørende i ting Kommune.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Lokaler stilles til rådighed mod betaling til følgende formål:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Kommercielle arrangementer, hvortil der opkræves entré.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Lokaler stilles ikke til rådighed til følgende formål:&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Private selskaber.&lt;/li&gt;&lt;li&gt;Egentlig erhvervsvirksomhed.&lt;/li&gt;&lt;li&gt;Takster for leje af lokaler oplyses ved henvendelse til det enkelte bibliotek.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br /&gt;&lt;strong&gt;Regler for benyttelsen af lokaler&lt;/strong&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lokaler må kun benyttes til de formål, i de tidsrum og på de vilkår, som er aftalt.&lt;/li&gt;&lt;li&gt;Ansvaret for benyttelse af lokaler, inventar og undervisningsmateriale påhviler den, der har truffet aftale om lån eller leje.&lt;/li&gt;&lt;li&gt;Ved offentlig annoncering af arrangementer, der afholdes i bibliotekslokaler, skal det tydeligt fremgå, hvem der er initiativtager og ansvarlig for arrangementet, og hvortil eventuelle spørgsmål kan rettes.&lt;/li&gt;&lt;li&gt;Meddelelse om eventuelle mangler eller beskadigelse af lokaler og inventar skal hurtigst muligt gives til biblioteket.&lt;/li&gt;&lt;li&gt;Med hensyn til salg og indtagelse af øl og spiritus samt tobaksrygning henvises til lokale regler på det enkelte bibliotek.&lt;/li&gt;&lt;li&gt;Aftaler om ændring i lokaler, inventar og installationer i forbindelse med et arrangement skal træffes med det enkelte bibliotek, og eventuelle merudgifter betales af den, der låner lokalet.&lt;/li&gt;&lt;li&gt;Eventuelle udgifter til ekstraordinær oprydning og rengøring efter et arrangement betales af den, der har lånt lokalet.&lt;/li&gt;&lt;li&gt;Biblioteket påtager sig intet ansvar for eventuel overlast på eller tyveri af brugernes ejendele.&lt;/li&gt;&lt;/ol&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p class=&quot;content&quot;&gt;&lt;strong&gt;Ansøgning om lån af lokaler skal ske til det bibliotek, hvis lokale ønskes stillet til rådighed&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;&lt;li&gt;&lt;a href=&quot;http://aakb.halbooking.dk/&quot; title=&quot;bookingkalender&quot;&gt;Hovedbiblioteket&lt;/a&gt;&lt;/li&gt;
@@ -771,10 +771,10 @@ function ding_example_content_node_export_features_default() {
 &lt;li&gt;&lt;a href=&quot;http://www.aakb.dk/node/164&quot; title=&quot;Åby Bibliotek&quot;&gt;Åby Bibliotek&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;p class=&quot;content&quot;&gt;&lt;strong&gt;Vilkår&lt;/strong&gt;&lt;/p&gt;
 &lt;p class=&quot;content&quot;&gt;Lokaler stilles vederlagsfrit til rådighed til følgende formål:&lt;/p&gt;
-&lt;ul&gt;&lt;li&gt;Arrangementer i henhold til Folkeoplysningsloven, når arrangøren er en kreds, som er hjemmehørende i Aarhus Kommune.&lt;/li&gt;
-&lt;li&gt;Møde med offentlig adgang, hvortil der ikke opkræves entré, og som er arrangeret af foreninger, råd, bevægelser eller enkeltpersoner hjemmehørende i Aarhus Kommune.&lt;/li&gt;
+&lt;ul&gt;&lt;li&gt;Arrangementer i henhold til Folkeoplysningsloven, når arrangøren er en kreds, som er hjemmehørende i ting Kommune.&lt;/li&gt;
+&lt;li&gt;Møde med offentlig adgang, hvortil der ikke opkræves entré, og som er arrangeret af foreninger, råd, bevægelser eller enkeltpersoner hjemmehørende i ting Kommune.&lt;/li&gt;
 &lt;li&gt;Generalforsamlinger i foreninger.&lt;/li&gt;
-&lt;li&gt;Lukkede medlemsmøder i f.eks. politiske, faglige og religiøse foreninger hjemmehørende i Aarhus Kommune.&lt;/li&gt;
+&lt;li&gt;Lukkede medlemsmøder i f.eks. politiske, faglige og religiøse foreninger hjemmehørende i ting Kommune.&lt;/li&gt;
 &lt;/ul&gt;&lt;p&gt;Lokaler stilles til rådighed mod betaling til følgende formål:&lt;/p&gt;
 &lt;ul&gt;&lt;li&gt;Kommercielle arrangementer, hvortil der opkræves entré.&lt;/li&gt;
 &lt;/ul&gt;&lt;p&gt;Lokaler stilles ikke til rådighed til følgende formål:&lt;/p&gt;
@@ -809,7 +809,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -833,17 +833,17 @@ function ding_example_content_node_export_features_default() {
     <nid>9</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5386750d-f9d5-4be5-bfcd-9f75105107cb</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;App&amp;rsquo;en giver dig adgang til at&lt;/p&gt;&lt;ul&gt;&lt;li&gt;søge og bestille f.eks. bøger, musik, film eller spil&lt;/li&gt;&lt;li&gt;få overblik over dine bestillinger og lån&lt;/li&gt;&lt;li&gt;forlænge låneperioden for dine lånte materialer&lt;/li&gt;&lt;li&gt;blive inspireret til gode oplevelser, koncerter og foredrag&lt;/li&gt;&lt;li&gt;læse nyheder fra biblioteket&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Du får mest ud af app&amp;rsquo;en, når du er oprettet som bruger af Aarhus Kommunes Biblioteker. Hvis du ikke allerede er bruger/låner, så kom forbi biblioteket med dit sundhedskort og bliv oprettet som bruger.&lt;br /&gt;&lt;br /&gt;Du kan finde App&amp;rsquo;en i App Store eller i Google Play.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;iPhone&lt;/strong&gt;&lt;br /&gt;Hvis du har en iPhone, kan du&amp;nbsp;hente biblioteks app&amp;#39;en på&amp;nbsp;&lt;a href=&quot;http://itunes.apple.com/app/aarhus-kommunes-biblioteker/id561647976?mt=8&quot; target=&quot;_blank&quot; title=&quot;Biblioteks app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;iTunes&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Android&lt;/strong&gt;&lt;br /&gt;Har du en telefon med styresystemet Android, kan du hente applikationen på &lt;a href=&quot;https://play.google.com/store/search?q=aarhus+kommunes+biblioteker&amp;c=apps&quot; target=&quot;_blank&quot; title=&quot;Android app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Play Butik&lt;/font&gt;&lt;/u&gt;&lt;/a&gt; (Android market).&lt;/p&gt;</value>
+          <value>&lt;p&gt;App&amp;rsquo;en giver dig adgang til at&lt;/p&gt;&lt;ul&gt;&lt;li&gt;søge og bestille f.eks. bøger, musik, film eller spil&lt;/li&gt;&lt;li&gt;få overblik over dine bestillinger og lån&lt;/li&gt;&lt;li&gt;forlænge låneperioden for dine lånte materialer&lt;/li&gt;&lt;li&gt;blive inspireret til gode oplevelser, koncerter og foredrag&lt;/li&gt;&lt;li&gt;læse nyheder fra biblioteket&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Du får mest ud af app&amp;rsquo;en, når du er oprettet som bruger af ting Kommunes Biblioteker. Hvis du ikke allerede er bruger/låner, så kom forbi biblioteket med dit sundhedskort og bliv oprettet som bruger.&lt;br /&gt;&lt;br /&gt;Du kan finde App&amp;rsquo;en i App Store eller i Google Play.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;iPhone&lt;/strong&gt;&lt;br /&gt;Hvis du har en iPhone, kan du&amp;nbsp;hente biblioteks app&amp;#39;en på&amp;nbsp;&lt;a href=&quot;http://itunes.apple.com/app/aarhus-kommunes-biblioteker/id561647976?mt=8&quot; target=&quot;_blank&quot; title=&quot;Biblioteks app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;iTunes&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Android&lt;/strong&gt;&lt;br /&gt;Har du en telefon med styresystemet Android, kan du hente applikationen på &lt;a href=&quot;https://play.google.com/store/search?q=aarhus+kommunes+biblioteker&amp;c=apps&quot; target=&quot;_blank&quot; title=&quot;Android app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Play Butik&lt;/font&gt;&lt;/u&gt;&lt;/a&gt; (Android market).&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p&gt;App’en giver dig adgang til at&lt;/p&gt;
 &lt;ul&gt;&lt;li&gt;søge og bestille f.eks. bøger, musik, film eller spil&lt;/li&gt;
@@ -851,7 +851,7 @@ function ding_example_content_node_export_features_default() {
 &lt;li&gt;forlænge låneperioden for dine lånte materialer&lt;/li&gt;
 &lt;li&gt;blive inspireret til gode oplevelser, koncerter og foredrag&lt;/li&gt;
 &lt;li&gt;læse nyheder fra biblioteket&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;Du får mest ud af app’en, når du er oprettet som bruger af Aarhus Kommunes Biblioteker. Hvis du ikke allerede er bruger/låner, så kom forbi biblioteket med dit sundhedskort og bliv oprettet som bruger.&lt;/p&gt;
+&lt;/ul&gt;&lt;p&gt;Du får mest ud af app’en, når du er oprettet som bruger af ting Kommunes Biblioteker. Hvis du ikke allerede er bruger/låner, så kom forbi biblioteket med dit sundhedskort og bliv oprettet som bruger.&lt;/p&gt;
 &lt;p&gt;Du kan finde App’en i App Store eller i Google Play.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;iPhone&lt;/strong&gt;&lt;br /&gt;Hvis du har en iPhone, kan du hente biblioteks app\'en på &lt;a href=&quot;http://itunes.apple.com/app/aarhus-kommunes-biblioteker/id561647976?mt=8&quot; target=&quot;_blank&quot; title=&quot;Biblioteks app&quot;&gt;iTunes&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Android&lt;/strong&gt;&lt;br /&gt;Har du en telefon med styresystemet Android, kan du hente applikationen på &lt;a href=&quot;https://play.google.com/store/search?q=aarhus+kommunes+biblioteker&amp;amp;c=apps&quot; target=&quot;_blank&quot; title=&quot;Android app&quot;&gt;Play Butik&lt;/a&gt; (Android market).&lt;/p&gt;
@@ -886,7 +886,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>25441</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>5f8d34c9-2c1a-462c-85eb-aad2f2d90d3f</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -900,7 +900,7 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -932,9 +932,9 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>19</vid>
+    <vid>10</vid>
     <uid>0</uid>
-    <title>Hjortshøj Kombi-bibliotek</title>
+    <title>Test bibliotek</title>
     <log></log>
     <status>1</status>
     <comment>1</comment>
@@ -944,13 +944,13 @@ function ding_example_content_node_export_features_default() {
     <nid>10</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593435</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5cb900a0-e318-4eb6-af13-9daf6e7c748c</uuid>
-    <revision_timestamp>1374593435</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593775</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
         <n0>
@@ -1036,7 +1036,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4524</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>d2b544d2-71fd-4d87-8bff-c8dcbdf1d2ae</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1052,7 +1052,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_library_mail>
       <und _numeric_keys="1">
         <n0>
-          <email>hjortshoejbibliotek@aarhus.dk</email>
+          <email>testbibliotek@ting.dk</email>
         </n0>
       </und>
     </field_ding_library_mail>
@@ -1069,9 +1069,9 @@ function ding_example_content_node_export_features_default() {
     <field_ding_library_slug>
       <und _numeric_keys="1">
         <n0>
-          <value>hjortshoj</value>
+          <value>testbib</value>
           <format type="NULL"></format>
-          <safe_value>hjortshoj</safe_value>
+          <safe_value>testbib</safe_value>
         </n0>
       </und>
     </field_ding_library_slug>
@@ -1089,7 +1089,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>65309</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>c84c5289-bf85-45af-9a5d-1a2110e383ee</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1110,7 +1110,7 @@ function ding_example_content_node_export_features_default() {
       </und>
     </group_group>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -1121,7 +1121,7 @@ function ding_example_content_node_export_features_default() {
     <path>
       <pid>25</pid>
       <source>node/10</source>
-      <alias>biblioteker/hjortshoj</alias>
+      <alias>biblioteker/testbib</alias>
       <language>und</language>
     </path>
     <node_export_drupal_version>7</node_export_drupal_version>
@@ -1139,12 +1139,12 @@ function ding_example_content_node_export_features_default() {
     <nid>11</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>7b05feff-1012-40ef-a5fc-2a9f37fa82aa</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -1180,7 +1180,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -1190,7 +1190,7 @@ function ding_example_content_node_export_features_default() {
     <menu>
       <link_title>Vejledninger</link_title>
       <mlid>0</mlid>
-      <plid>442</plid>
+      <plid>441</plid>
       <menu_name>main-menu</menu_name>
       <weight>0</weight>
       <options _numeric_keys="1"></options>
@@ -1224,12 +1224,12 @@ function ding_example_content_node_export_features_default() {
     <nid>12</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>8a64a5f1-f0e0-4db6-9602-d7f6c306ef5d</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
     <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
@@ -1239,7 +1239,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -1249,7 +1249,7 @@ function ding_example_content_node_export_features_default() {
     <menu>
       <link_title>Spørgsmål og svar</link_title>
       <mlid>0</mlid>
-      <plid>446</plid>
+      <plid>444</plid>
       <menu_name>main-menu</menu_name>
       <weight>-50</weight>
       <options _numeric_keys="1"></options>
@@ -1283,20 +1283,20 @@ function ding_example_content_node_export_features_default() {
     <nid>13</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>c181d47e-7c98-442a-9c3b-e23ed7b178ab</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;Hjemmesiden er baseret på opensource CMS løsningen Drupal, og er udviklet af Signal Digital.&lt;/p&gt;&lt;p&gt;Den nye aakb.dk er en del af det langt større landsdækkende biblioteksprojekt &lt;a href=&quot;http://gnit.dk/&quot; target=&quot;_blank&quot; title=&quot;Ting-projektet&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;TING&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;, der er et samarbejde mellem bl.a. Københavns og Aarhus&amp;rsquo; Biblioteker samt DBC. TING er i høj grad en nytænkning af, hvordan information skal blandes og præsenteres - og en langt mere relevansorienteret løsning end det, man ser hos de fleste biblioteker i dag.&lt;/p&gt;&lt;p&gt;Grundkonceptet for det nye aakb.dk kan kort beskrives således&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Målrettet slutbrugere&lt;/li&gt;&lt;li&gt;Stærk simplificering&lt;/li&gt;&lt;li&gt;Eksplorativ søgning&lt;/li&gt;&lt;li&gt;Berigelse og inspiration&lt;/li&gt;&lt;li&gt;Søgning der fungerer&lt;/li&gt;&lt;li&gt;Opstramning af indhold og struktur&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Redaktionelt ansvar&lt;/strong&gt;&lt;br /&gt;Ansvar for vedligeholdelse og opdatering af hjemmesiden er uddelegeret til lokale formidlingskoordinatorer samt en overordnet webredaktion med repræsentanter for hovedbiblioteket, lokalbibliotekerne samt ITK &amp;ndash; afdeling for udvikling. Den centrale webredaktion kan kontaktes på: &lt;a href=&quot;mailto:webredaktionen@mkb.aarhus.dk&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;webredaktionen@mkb.aarhus.dk&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Blogindlæg på aakb.dk tilhører hver især en kategori. Vil du læse alle indlæg i en bestemt kategori, trykker du på kategoriens navn, for eksempel &amp;rdquo;Pressemeddelelser&amp;rdquo;. Eventuelle kommentarer til det pågældende indlæg finder du under indlægget. Du kan skrive dine kommentarer ved at logge dig på med dit lånerkortnummer / cpr-nummer og pinkode.&lt;/p&gt;&lt;p&gt;Aarhus Kommunes Biblioteker forbeholder sig ret til at ændre i eller slette et offentliggjort indlæg eller kommentar, for eksempel hvis en kommentar strider imod lovgivning eller ikke har relevans for det pågældende indlæg.&lt;/p&gt;&lt;p&gt;Holdninger og meninger i blogindlæggene er udtryk for medarbejdernes egne synspunkter og er ikke nødvendigvis udtryk for Aarhus Kommunes Bibliotekers holdning.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lige adgang for alle&lt;/strong&gt;&lt;br /&gt;Som public service organisation tilstræber vi adgang for bredest mulige brugergrupper, indholdsmæssigt såvel som teknisk.&lt;/p&gt;</value>
+          <value>&lt;p&gt;Hjemmesiden er baseret på opensource CMS løsningen Drupal, og er udviklet af Signal Digital.&lt;/p&gt;&lt;p&gt;Den nye aakb.dk er en del af det langt større landsdækkende biblioteksprojekt &lt;a href=&quot;http://gnit.dk/&quot; target=&quot;_blank&quot; title=&quot;Ting-projektet&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;TING&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;, der er et samarbejde mellem bl.a. Københavns og ting&amp;rsquo; Biblioteker samt DBC. TING er i høj grad en nytænkning af, hvordan information skal blandes og præsenteres - og en langt mere relevansorienteret løsning end det, man ser hos de fleste biblioteker i dag.&lt;/p&gt;&lt;p&gt;Grundkonceptet for det nye aakb.dk kan kort beskrives således&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Målrettet slutbrugere&lt;/li&gt;&lt;li&gt;Stærk simplificering&lt;/li&gt;&lt;li&gt;Eksplorativ søgning&lt;/li&gt;&lt;li&gt;Berigelse og inspiration&lt;/li&gt;&lt;li&gt;Søgning der fungerer&lt;/li&gt;&lt;li&gt;Opstramning af indhold og struktur&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Redaktionelt ansvar&lt;/strong&gt;&lt;br /&gt;Ansvar for vedligeholdelse og opdatering af hjemmesiden er uddelegeret til lokale formidlingskoordinatorer samt en overordnet webredaktion med repræsentanter for hovedbiblioteket, lokalbibliotekerne samt ITK &amp;ndash; afdeling for udvikling. Den centrale webredaktion kan kontaktes på: &lt;a href=&quot;mailto:webredaktionen@mkb.ting.dk&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;webredaktionen@mkb.ting.dk&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Blogindlæg på aakb.dk tilhører hver især en kategori. Vil du læse alle indlæg i en bestemt kategori, trykker du på kategoriens navn, for eksempel &amp;rdquo;Pressemeddelelser&amp;rdquo;. Eventuelle kommentarer til det pågældende indlæg finder du under indlægget. Du kan skrive dine kommentarer ved at logge dig på med dit lånerkortnummer / cpr-nummer og pinkode.&lt;/p&gt;&lt;p&gt;ting Kommunes Biblioteker forbeholder sig ret til at ændre i eller slette et offentliggjort indlæg eller kommentar, for eksempel hvis en kommentar strider imod lovgivning eller ikke har relevans for det pågældende indlæg.&lt;/p&gt;&lt;p&gt;Holdninger og meninger i blogindlæggene er udtryk for medarbejdernes egne synspunkter og er ikke nødvendigvis udtryk for ting Kommunes Bibliotekers holdning.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Lige adgang for alle&lt;/strong&gt;&lt;br /&gt;Som public service organisation tilstræber vi adgang for bredest mulige brugergrupper, indholdsmæssigt såvel som teknisk.&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p&gt;Hjemmesiden er baseret på opensource CMS løsningen Drupal, og er udviklet af Signal Digital.&lt;/p&gt;
-&lt;p&gt;Den nye aakb.dk er en del af det langt større landsdækkende biblioteksprojekt &lt;a href=&quot;http://gnit.dk/&quot; target=&quot;_blank&quot; title=&quot;Ting-projektet&quot;&gt;TING&lt;/a&gt;, der er et samarbejde mellem bl.a. Københavns og Aarhus’ Biblioteker samt DBC. TING er i høj grad en nytænkning af, hvordan information skal blandes og præsenteres - og en langt mere relevansorienteret løsning end det, man ser hos de fleste biblioteker i dag.&lt;/p&gt;
+&lt;p&gt;Den nye aakb.dk er en del af det langt større landsdækkende biblioteksprojekt &lt;a href=&quot;http://gnit.dk/&quot; target=&quot;_blank&quot; title=&quot;Ting-projektet&quot;&gt;TING&lt;/a&gt;, der er et samarbejde mellem bl.a. Københavns og ting’ Biblioteker samt DBC. TING er i høj grad en nytænkning af, hvordan information skal blandes og præsenteres - og en langt mere relevansorienteret løsning end det, man ser hos de fleste biblioteker i dag.&lt;/p&gt;
 &lt;p&gt;Grundkonceptet for det nye aakb.dk kan kort beskrives således&lt;/p&gt;
 &lt;ul&gt;&lt;li&gt;Målrettet slutbrugere&lt;/li&gt;
 &lt;li&gt;Stærk simplificering&lt;/li&gt;
@@ -1304,10 +1304,10 @@ function ding_example_content_node_export_features_default() {
 &lt;li&gt;Berigelse og inspiration&lt;/li&gt;
 &lt;li&gt;Søgning der fungerer&lt;/li&gt;
 &lt;li&gt;Opstramning af indhold og struktur&lt;/li&gt;
-&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Redaktionelt ansvar&lt;/strong&gt;&lt;br /&gt;Ansvar for vedligeholdelse og opdatering af hjemmesiden er uddelegeret til lokale formidlingskoordinatorer samt en overordnet webredaktion med repræsentanter for hovedbiblioteket, lokalbibliotekerne samt ITK – afdeling for udvikling. Den centrale webredaktion kan kontaktes på: &lt;a href=&quot;mailto:webredaktionen@mkb.aarhus.dk&quot;&gt;webredaktionen@mkb.aarhus.dk&lt;/a&gt;&lt;/p&gt;
+&lt;/ul&gt;&lt;p&gt;&lt;strong&gt;Redaktionelt ansvar&lt;/strong&gt;&lt;br /&gt;Ansvar for vedligeholdelse og opdatering af hjemmesiden er uddelegeret til lokale formidlingskoordinatorer samt en overordnet webredaktion med repræsentanter for hovedbiblioteket, lokalbibliotekerne samt ITK – afdeling for udvikling. Den centrale webredaktion kan kontaktes på: &lt;a href=&quot;mailto:webredaktionen@mkb.ting.dk&quot;&gt;webredaktionen@mkb.ting.dk&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Blogindlæg på aakb.dk tilhører hver især en kategori. Vil du læse alle indlæg i en bestemt kategori, trykker du på kategoriens navn, for eksempel ”Pressemeddelelser”. Eventuelle kommentarer til det pågældende indlæg finder du under indlægget. Du kan skrive dine kommentarer ved at logge dig på med dit lånerkortnummer / cpr-nummer og pinkode.&lt;/p&gt;
-&lt;p&gt;Aarhus Kommunes Biblioteker forbeholder sig ret til at ændre i eller slette et offentliggjort indlæg eller kommentar, for eksempel hvis en kommentar strider imod lovgivning eller ikke har relevans for det pågældende indlæg.&lt;/p&gt;
-&lt;p&gt;Holdninger og meninger i blogindlæggene er udtryk for medarbejdernes egne synspunkter og er ikke nødvendigvis udtryk for Aarhus Kommunes Bibliotekers holdning.&lt;/p&gt;
+&lt;p&gt;ting Kommunes Biblioteker forbeholder sig ret til at ændre i eller slette et offentliggjort indlæg eller kommentar, for eksempel hvis en kommentar strider imod lovgivning eller ikke har relevans for det pågældende indlæg.&lt;/p&gt;
+&lt;p&gt;Holdninger og meninger i blogindlæggene er udtryk for medarbejdernes egne synspunkter og er ikke nødvendigvis udtryk for ting Kommunes Bibliotekers holdning.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Lige adgang for alle&lt;/strong&gt;&lt;br /&gt;Som public service organisation tilstræber vi adgang for bredest mulige brugergrupper, indholdsmæssigt såvel som teknisk.&lt;/p&gt;
  </safe_value>
         </n0>
@@ -1317,9 +1317,9 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_lead>
       <und _numeric_keys="1">
         <n0>
-          <value>aakb.dk er hjemmeside for Aarhus Kommunes Biblioteker.</value>
+          <value>aakb.dk er hjemmeside for ting Kommunes Biblioteker.</value>
           <format type="NULL"></format>
-          <safe_value>aakb.dk er hjemmeside for Aarhus Kommunes Biblioteker.</safe_value>
+          <safe_value>aakb.dk er hjemmeside for ting Kommunes Biblioteker.</safe_value>
         </n0>
       </und>
     </field_ding_page_lead>
@@ -1328,7 +1328,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -1352,12 +1352,12 @@ function ding_example_content_node_export_features_default() {
     <nid>14</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>e2388c84-6d60-4d8d-86e2-26972131914f</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
+    <revision_timestamp>1374593775</revision_timestamp>
     <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
@@ -1384,7 +1384,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
@@ -1394,7 +1394,7 @@ function ding_example_content_node_export_features_default() {
     <menu>
       <link_title>Lån et lokale</link_title>
       <mlid>0</mlid>
-      <plid>442</plid>
+      <plid>441</plid>
       <menu_name>main-menu</menu_name>
       <weight>0</weight>
       <options _numeric_keys="1"></options>
@@ -1417,7 +1417,7 @@ function ding_example_content_node_export_features_default() {
   </node>
   <node>
     <vid>15</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Biblioteket anbefaler: Fagbøger</title>
     <log></log>
     <status>1</status>
@@ -1428,13 +1428,13 @@ function ding_example_content_node_export_features_default() {
     <nid>15</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374593987</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>eb7382f8-2d8f-4bd1-b920-e81aa79d4bb5</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374593987</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -1467,7 +1467,7 @@ function ding_example_content_node_export_features_default() {
         <n0>
           <gid>2</gid>
           <state>1</state>
-          <created>1374592937</created>
+          <created>1374593987</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -1485,7 +1485,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>47772</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>8286cd5b-452a-4a63-9d29-1aa06280baca</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1502,13 +1502,13 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image _numeric_keys="1"></field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
+    <data>b:0;</data>
     <menu type="NULL"></menu>
     <path>
       <pid>29</pid>
@@ -1520,7 +1520,7 @@ function ding_example_content_node_export_features_default() {
   </node>
   <node>
     <vid>16</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Landsdækkende novellekonkurrence</title>
     <log></log>
     <status>1</status>
@@ -1531,13 +1531,13 @@ function ding_example_content_node_export_features_default() {
     <nid>16</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593136</changed>
+    <created>1374593775</created>
+    <changed>1374594056</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>ed698a02-32f3-4516-a293-6a6a8dc3dec1</uuid>
-    <revision_timestamp>1374593136</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374594056</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -1574,7 +1574,7 @@ function ding_example_content_node_export_features_default() {
         <n0>
           <gid>1</gid>
           <state>1</state>
-          <created>1374592952</created>
+          <created>1374594056</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -1592,7 +1592,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>85c4494f-f38c-4a80-bd15-53880894023b</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1621,7 +1621,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>651b19c4-c922-443b-a7e2-5a3640a4c29c</uuid>
           <field_file_image_alt_text>
@@ -1651,13 +1651,13 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
+    <data>b:0;</data>
     <menu type="NULL"></menu>
     <path>
       <pid>30</pid>
@@ -1668,7 +1668,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>18</vid>
+    <vid>17</vid>
     <uid>0</uid>
     <title>Hovedbiblioteket</title>
     <log></log>
@@ -1680,13 +1680,13 @@ function ding_example_content_node_export_features_default() {
     <nid>17</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1374593136</created>
-    <changed>1374593395</changed>
+    <created>1374593775</created>
+    <changed>1374593775</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>f666fb17-4216-4fea-a5b2-5c9b9ad030ec</uuid>
-    <revision_timestamp>1374593395</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374593775</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
         <n0>
@@ -1770,7 +1770,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4116</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>2f5cef11-193f-474f-958b-c2239b862da6</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1786,7 +1786,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_library_mail>
       <und _numeric_keys="1">
         <n0>
-          <email>hovedbibliotek@aarhus.dk</email>
+          <email>hovedbibliotek@ting.dk</email>
         </n0>
       </und>
     </field_ding_library_mail>
@@ -1823,7 +1823,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>35376</filesize>
           <status>1</status>
-          <timestamp>1374593136</timestamp>
+          <timestamp>1374593775</timestamp>
           <type>image</type>
           <uuid>f5f4f78c-2316-4790-bb2c-42a796810fa8</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1844,7 +1844,7 @@ function ding_example_content_node_export_features_default() {
       </und>
     </group_group>
     <cid>0</cid>
-    <last_comment_timestamp>1374593136</last_comment_timestamp>
+    <last_comment_timestamp>1374593775</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
