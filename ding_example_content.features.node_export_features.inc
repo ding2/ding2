@@ -10,10 +10,10 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 16:43:25 +0200">
+<node_export created="Tue, 23 Jul 2013 17:23:48 +0200">
   <node>
-    <vid>106</vid>
-    <uid>41</uid>
+    <vid>2</vid>
+    <uid>0</uid>
     <title>Parkour – Biblioteket i bevægelse</title>
     <log></log>
     <status>1</status>
@@ -21,31 +21,16 @@ function ding_example_content_node_export_features_default() {
     <promote>1</promote>
     <sticky>0</sticky>
     <vuuid>022c0a32-7092-420e-8720-bc0573a6ae4a</vuuid>
-    <nid>92</nid>
+    <nid>2</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1371115807</created>
-    <changed>1372841840</changed>
+    <created>1374592683</created>
+    <changed>1374592854</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1995926f-39d4-4e33-8013-d8e4d2152dfc</uuid>
-    <revision_timestamp>1372841840</revision_timestamp>
-    <revision_uid>6</revision_uid>
-    <field_ding_event_category>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>41</tid>
-        </n0>
-      </und>
-    </field_ding_event_category>
-    <field_ding_event_files _numeric_keys="1"></field_ding_event_files>
-    <field_ding_event_target>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>50</tid>
-        </n0>
-      </und>
-    </field_ding_event_target>
+    <revision_timestamp>1374592854</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_event_body>
       <und _numeric_keys="1">
         <n0>
@@ -59,17 +44,25 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_body>
+    <field_ding_event_category>
+      <und _numeric_keys="1">
+        <n0>
+          <tid>7</tid>
+        </n0>
+      </und>
+    </field_ding_event_category>
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2013-07-06 13:00:00</value>
-          <value2>2013-08-09 15:00:00</value2>
+          <value>2015-07-06 13:00:00</value>
+          <value2>2015-08-09 15:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
         </n0>
       </und>
     </field_ding_event_date>
+    <field_ding_event_files _numeric_keys="1"></field_ding_event_files>
     <field_ding_event_lead>
       <und _numeric_keys="1">
         <n0>
@@ -79,6 +72,15 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_lead>
+    <field_ding_event_library>
+      <und _numeric_keys="1">
+        <n0>
+          <gid>2</gid>
+          <state>1</state>
+          <created>1374592854</created>
+        </n0>
+      </und>
+    </field_ding_event_library>
     <field_ding_event_list_image>
       <und _numeric_keys="1">
         <n0>
@@ -93,7 +95,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5847</filesize>
           <status>1</status>
-          <timestamp>1372841824</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>a5275a25-f2bd-4121-919c-6f51961c5bf9</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -134,13 +136,14 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_price>
-    <field_ding_event_tags>
+    <field_ding_event_tags _numeric_keys="1"></field_ding_event_tags>
+    <field_ding_event_target>
       <und _numeric_keys="1">
         <n0>
-          <tid>106</tid>
+          <tid>9</tid>
         </n0>
       </und>
-    </field_ding_event_tags>
+    </field_ding_event_target>
     <field_ding_event_title_image>
       <und _numeric_keys="1">
         <n0>
@@ -155,7 +158,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>61408</filesize>
           <status>1</status>
-          <timestamp>1372839403</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>f8b59a30-65dd-4ca6-9efb-7cd5d85229e7</uuid>
           <field_file_image_alt_text>
@@ -184,35 +187,26 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_title_image>
-    <field_ding_event_library>
-      <und _numeric_keys="1">
-        <n0>
-          <gid>9</gid>
-          <state>1</state>
-          <created>1372841841</created>
-        </n0>
-      </und>
-    </field_ding_event_library>
     <cid>0</cid>
-    <last_comment_timestamp>1371115807</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>41</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>Bente J</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>306</pid>
-      <source>node/92</source>
-      <alias>arrangementer/diverse/udstilling-af-billeder</alias>
+      <pid>20</pid>
+      <source>node/2</source>
+      <alias>arrangementer/parkour-biblioteket-i-bevaegelse</alias>
       <language>und</language>
     </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>114</vid>
-    <uid>6</uid>
+    <vid>3</vid>
+    <uid>0</uid>
     <title>Fantastiske rejser</title>
     <log></log>
     <status>1</status>
@@ -220,16 +214,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>c9b69a2a-71a1-4909-a2a9-53623971c26b</vuuid>
-    <nid>100</nid>
+    <nid>3</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1372626636</created>
-    <changed>1372847042</changed>
+    <created>1374592683</created>
+    <changed>1374592903</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1c54a7aa-49b8-45a4-bb32-9bf9c77ae77e</uuid>
-    <revision_timestamp>1372847042</revision_timestamp>
-    <revision_uid>6</revision_uid>
+    <revision_timestamp>1374592903</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -244,7 +238,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_category>
       <und _numeric_keys="1">
         <n0>
-          <tid>86</tid>
+          <tid>17</tid>
         </n0>
       </und>
     </field_ding_news_category>
@@ -261,9 +255,9 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_library>
       <und _numeric_keys="1">
         <n0>
-          <gid>9</gid>
+          <gid>2</gid>
           <state>1</state>
-          <created>1372847044</created>
+          <created>1374592904</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -281,7 +275,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5721</filesize>
           <status>1</status>
-          <timestamp>1372627029</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>0ee0dcc6-a0e2-4528-950e-018e689fea6d</uuid>
           <field_file_image_alt_text>
@@ -310,200 +304,29 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_news_list_image>
-    <field_ding_news_materials>
-      <und _numeric_keys="1">
-        <n0>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>37</vid>
-            <uid>6</uid>
-            <changed>1372626636</changed>
-            <arity>2</arity>
-            <rid>37</rid>
-            <created>1372626636</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372626636</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>100</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10827</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n0>
-        <n1>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>38</vid>
-            <uid>6</uid>
-            <changed>1372626636</changed>
-            <arity>2</arity>
-            <rid>38</rid>
-            <created>1372626636</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372626636</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>100</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10828</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n1>
-        <n2>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>39</vid>
-            <uid>6</uid>
-            <changed>1372626636</changed>
-            <arity>2</arity>
-            <rid>39</rid>
-            <created>1372626636</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372626636</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>100</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10829</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n2>
-        <n3>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>40</vid>
-            <uid>6</uid>
-            <changed>1372626636</changed>
-            <arity>2</arity>
-            <rid>40</rid>
-            <created>1372626636</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372626636</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>100</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10830</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n3>
-        <n4>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>41</vid>
-            <uid>6</uid>
-            <changed>1372626636</changed>
-            <arity>2</arity>
-            <rid>41</rid>
-            <created>1372626636</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372626636</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>100</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10831</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n4>
-        <n5>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>42</vid>
-            <uid>6</uid>
-            <changed>1372626636</changed>
-            <arity>2</arity>
-            <rid>42</rid>
-            <created>1372626636</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372626636</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>100</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10832</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n5>
-      </und>
-    </field_ding_news_materials>
-    <field_ding_news_tags>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>103</tid>
-        </n0>
-      </und>
-    </field_ding_news_tags>
+    <field_ding_news_materials _numeric_keys="1"></field_ding_news_materials>
+    <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image _numeric_keys="1"></field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1372626636</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>6</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>gba</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>325</pid>
-      <source>node/100</source>
-      <alias>nyheder/anbefalinger/fantastiske-rejser</alias>
+      <pid>21</pid>
+      <source>node/3</source>
+      <alias>nyheder/fantastiske-rejser</alias>
       <language>und</language>
     </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>120</vid>
-    <uid>6</uid>
+    <vid>4</vid>
+    <uid>0</uid>
     <title>Tove Ditlevsens liv i litteratur og musik</title>
     <log></log>
     <status>1</status>
@@ -511,31 +334,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>058c4aaa-398f-4cc1-b928-43ddedf0c896</vuuid>
-    <nid>106</nid>
+    <nid>4</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1372937992</created>
-    <changed>1372937992</changed>
+    <created>1374592683</created>
+    <changed>1374592841</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>24ec65cb-ea62-4065-95b3-136cccf1cdf0</uuid>
-    <revision_timestamp>1372937992</revision_timestamp>
-    <revision_uid>6</revision_uid>
-    <field_ding_event_category>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>46</tid>
-        </n0>
-      </und>
-    </field_ding_event_category>
-    <field_ding_event_files _numeric_keys="1"></field_ding_event_files>
-    <field_ding_event_target>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>53</tid>
-        </n0>
-      </und>
-    </field_ding_event_target>
+    <revision_timestamp>1374592841</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_event_body>
       <und _numeric_keys="1">
         <n0>
@@ -547,17 +355,25 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_body>
+    <field_ding_event_category>
+      <und _numeric_keys="1">
+        <n0>
+          <tid>4</tid>
+        </n0>
+      </und>
+    </field_ding_event_category>
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2013-08-21 17:00:00</value>
-          <value2>2013-08-21 18:00:00</value2>
+          <value>2015-08-21 17:00:00</value>
+          <value2>2015-08-21 18:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
         </n0>
       </und>
     </field_ding_event_date>
+    <field_ding_event_files _numeric_keys="1"></field_ding_event_files>
     <field_ding_event_lead>
       <und _numeric_keys="1">
         <n0>
@@ -567,6 +383,15 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_lead>
+    <field_ding_event_library>
+      <und _numeric_keys="1">
+        <n0>
+          <gid>2</gid>
+          <state>1</state>
+          <created>1374592841</created>
+        </n0>
+      </und>
+    </field_ding_event_library>
     <field_ding_event_list_image>
       <und _numeric_keys="1">
         <n0>
@@ -581,7 +406,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4188</filesize>
           <status>1</status>
-          <timestamp>1372937846</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>f1441750-9a6f-4b76-8821-734487f9ca79</uuid>
           <field_file_image_alt_text>
@@ -638,13 +463,14 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_price>
-    <field_ding_event_tags>
+    <field_ding_event_tags _numeric_keys="1"></field_ding_event_tags>
+    <field_ding_event_target>
       <und _numeric_keys="1">
         <n0>
-          <tid>108</tid>
+          <tid>12</tid>
         </n0>
       </und>
-    </field_ding_event_tags>
+    </field_ding_event_target>
     <field_ding_event_title_image>
       <und _numeric_keys="1">
         <n0>
@@ -659,7 +485,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>16583</filesize>
           <status>1</status>
-          <timestamp>1372937868</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>23d30d1a-46cc-4bae-908e-a04286a87328</uuid>
           <field_file_image_alt_text>
@@ -688,35 +514,26 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_event_title_image>
-    <field_ding_event_library>
-      <und _numeric_keys="1">
-        <n0>
-          <gid>9</gid>
-          <state>1</state>
-          <created>1372937992</created>
-        </n0>
-      </und>
-    </field_ding_event_library>
     <cid>0</cid>
-    <last_comment_timestamp>1372937992</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>6</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>gba</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>336</pid>
-      <source>node/106</source>
-      <alias>arrangementer/musik/tove-ditlevsens-liv-i-litteratur-og-musik</alias>
+      <pid>22</pid>
+      <source>node/4</source>
+      <alias>arrangementer/tove-ditlevsens-liv-i-litteratur-og-musik</alias>
       <language>und</language>
     </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>11</vid>
-    <uid>1</uid>
+    <vid>5</vid>
+    <uid>0</uid>
     <title>Internet på biblioteket</title>
     <log></log>
     <status>1</status>
@@ -724,58 +541,38 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>6fc0573c-9c9d-4395-8173-face97e02014</vuuid>
-    <nid>10</nid>
+    <nid>5</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1346679197</created>
-    <changed>1346679197</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>31f30e60-40df-453d-a2cc-cd6bc6535a8f</uuid>
-    <revision_timestamp>1346679197</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
+    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
     <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
     <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
-    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
-    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
-    <cid>2</cid>
-    <last_comment_timestamp>1361883391</last_comment_timestamp>
-    <last_comment_name></last_comment_name>
-    <last_comment_uid>48</last_comment_uid>
-    <comment_count>2</comment_count>
-    <name>admin</name>
+    <cid>0</cid>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_name type="NULL"></last_comment_name>
+    <last_comment_uid>0</last_comment_uid>
+    <comment_count>0</comment_count>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
-    <path>
-      <pid>214</pid>
-      <source>node/10</source>
-      <alias>node/13/internet-paa-biblioteket</alias>
-      <language>und</language>
-    </path>
-    <menu>
-      <link_title>Internet på biblioteket</link_title>
-      <mlid>0</mlid>
-      <plid>968</plid>
-      <menu_name>main-menu</menu_name>
-      <weight>-50</weight>
-      <options _numeric_keys="1"></options>
-      <module>menu</module>
-      <expanded>0</expanded>
-      <hidden>0</hidden>
-      <has_children>0</has_children>
-      <customized>0</customized>
-      <parent_depth_limit>8</parent_depth_limit>
-      <description></description>
-      <enabled>1</enabled>
-    </menu>
+    <data type="NULL"></data>
+    <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>93</vid>
-    <uid>39</uid>
+    <vid>6</vid>
+    <uid>0</uid>
     <title>Language café</title>
     <log></log>
     <status>1</status>
@@ -783,16 +580,16 @@ function ding_example_content_node_export_features_default() {
     <promote>1</promote>
     <sticky>0</sticky>
     <vuuid>cacef2dc-937c-4a3d-abd7-4fddb75ea683</vuuid>
-    <nid>79</nid>
+    <nid>6</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1370854196</created>
-    <changed>1372627343</changed>
+    <created>1374592683</created>
+    <changed>1374592919</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>3665c05a-1f05-48e4-a542-1b28e113e521</uuid>
-    <revision_timestamp>1372627343</revision_timestamp>
-    <revision_uid>6</revision_uid>
+    <revision_timestamp>1374592919</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -807,7 +604,7 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_category>
       <und _numeric_keys="1">
         <n0>
-          <tid>84</tid>
+          <tid>14</tid>
         </n0>
       </und>
     </field_ding_news_category>
@@ -815,18 +612,18 @@ function ding_example_content_node_export_features_default() {
     <field_ding_news_lead>
       <und _numeric_keys="1">
         <n0>
-          <value>Do you speak more than one language? And would you like to share your language skills with others? Then join us at our language café each monday throughout the summer! </value>
+          <value>Do you speak more than one language? And would you like to share your language skills with others? Then join us at our language café each monday throughout the summer!</value>
           <format type="NULL"></format>
-          <safe_value>Do you speak more than one language? And would you like to share your language skills with others? Then join us at our language café each monday throughout the summer! </safe_value>
+          <safe_value>Do you speak more than one language? And would you like to share your language skills with others? Then join us at our language café each monday throughout the summer!</safe_value>
         </n0>
       </und>
     </field_ding_news_lead>
     <field_ding_news_library>
       <und _numeric_keys="1">
         <n0>
-          <gid>9</gid>
+          <gid>2</gid>
           <state>1</state>
-          <created>1372627343</created>
+          <created>1374592919</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -844,7 +641,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5692</filesize>
           <status>1</status>
-          <timestamp>1370854162</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>af1b163d-ff84-414c-b0ec-d139a93d1051</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -858,13 +655,7 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_news_list_image>
     <field_ding_news_materials _numeric_keys="1"></field_ding_news_materials>
-    <field_ding_news_tags>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>104</tid>
-        </n0>
-      </und>
-    </field_ding_news_tags>
+    <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image>
       <und _numeric_keys="1">
         <n0>
@@ -879,7 +670,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>145934</filesize>
           <status>1</status>
-          <timestamp>1370854142</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>393f498e-866f-4eaa-8213-7ade96cb649c</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -893,25 +684,25 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1370854196</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>39</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>Lene Frandsen</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>292</pid>
-      <source>node/79</source>
-      <alias>nyheder/kort-nyt/language-cafe</alias>
+      <pid>23</pid>
+      <source>node/6</source>
+      <alias>nyheder/language-cafe</alias>
       <language>und</language>
     </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>13</vid>
-    <uid>1</uid>
+    <vid>7</vid>
+    <uid>0</uid>
     <title>Spørgsmål og svar</title>
     <log></log>
     <status>1</status>
@@ -919,58 +710,38 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>caf4caba-6372-4e8a-bfcb-d503d4588205</vuuid>
-    <nid>12</nid>
+    <nid>7</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1346679263</created>
-    <changed>1346679263</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>49da3093-5f15-4501-b601-9de3c0310ecf</uuid>
-    <revision_timestamp>1346679263</revision_timestamp>
-    <revision_uid>1</revision_uid>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
+    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
     <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
     <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
-    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
-    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
-    <cid>8</cid>
-    <last_comment_timestamp>1371480869</last_comment_timestamp>
-    <last_comment_name></last_comment_name>
-    <last_comment_uid>111</last_comment_uid>
-    <comment_count>2</comment_count>
-    <name>admin</name>
+    <cid>0</cid>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_name type="NULL"></last_comment_name>
+    <last_comment_uid>0</last_comment_uid>
+    <comment_count>0</comment_count>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
-    <path>
-      <pid>216</pid>
-      <source>node/12</source>
-      <alias>det-kan-du/vejledninger/spoergsmaal-og-svar</alias>
-      <language>und</language>
-    </path>
-    <menu>
-      <link_title>Spørgsmål og svar</link_title>
-      <mlid>0</mlid>
-      <plid>966</plid>
-      <menu_name>main-menu</menu_name>
-      <weight>-50</weight>
-      <options _numeric_keys="1"></options>
-      <module>menu</module>
-      <expanded>0</expanded>
-      <hidden>0</hidden>
-      <has_children>1</has_children>
-      <customized>0</customized>
-      <parent_depth_limit>8</parent_depth_limit>
-      <description></description>
-      <enabled>1</enabled>
-    </menu>
+    <data type="NULL"></data>
+    <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>15</vid>
-    <uid>1</uid>
+    <vid>8</vid>
+    <uid>0</uid>
     <title>Lån et lokale</title>
     <log></log>
     <status>1</status>
@@ -978,19 +749,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>388174b5-b0b5-46bb-a80e-2fb78e6b6692</vuuid>
-    <nid>14</nid>
+    <nid>8</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1346679320</created>
-    <changed>1370869758</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>51b8b28c-d52a-4e38-b26f-9cd12d4bc616</uuid>
-    <revision_timestamp>1370869758</revision_timestamp>
-    <revision_uid>39</revision_uid>
-    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
-    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
-    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -1026,52 +794,35 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_lead>
       <und _numeric_keys="1">
         <n0>
-          <value>Bibliotekernes mødesale og grupperum kan efter ansøgning stilles til rådighed for andre benyttere, når lokalerne ikke anvendes til biblioteksformål. </value>
+          <value>Bibliotekernes mødesale og grupperum kan efter ansøgning stilles til rådighed for andre benyttere, når lokalerne ikke anvendes til biblioteksformål.</value>
           <format type="NULL"></format>
-          <safe_value>Bibliotekernes mødesale og grupperum kan efter ansøgning stilles til rådighed for andre benyttere, når lokalerne ikke anvendes til biblioteksformål. </safe_value>
+          <safe_value>Bibliotekernes mødesale og grupperum kan efter ansøgning stilles til rådighed for andre benyttere, når lokalerne ikke anvendes til biblioteksformål.</safe_value>
         </n0>
       </und>
     </field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1346679320</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>1</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>admin</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
-    <path>
-      <pid>218</pid>
-      <source>node/14</source>
-      <alias>det-kan-du/laan-et-lokale</alias>
-      <language>und</language>
-    </path>
-    <menu>
-      <link_title>Lån et lokale</link_title>
-      <mlid>0</mlid>
-      <plid>964</plid>
-      <menu_name>main-menu</menu_name>
-      <weight>0</weight>
-      <options _numeric_keys="1"></options>
-      <module>menu</module>
-      <expanded>0</expanded>
-      <hidden>0</hidden>
-      <has_children>0</has_children>
-      <customized>0</customized>
-      <parent_depth_limit>8</parent_depth_limit>
-      <description></description>
-      <enabled>1</enabled>
-    </menu>
+    <data type="NULL"></data>
+    <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>99</vid>
-    <uid>39</uid>
+    <vid>9</vid>
+    <uid>0</uid>
     <title>Biblioteket på din telefon</title>
     <log></log>
     <status>1</status>
@@ -1079,23 +830,20 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>acc09217-069f-4e00-9cb6-d96b072af37a</vuuid>
-    <nid>85</nid>
+    <nid>9</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1370872887</created>
-    <changed>1370872969</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5386750d-f9d5-4be5-bfcd-9f75105107cb</uuid>
-    <revision_timestamp>1370872969</revision_timestamp>
-    <revision_uid>39</revision_uid>
-    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
-    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
-    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;App&amp;rsquo;en giver dig adgang til at&lt;/p&gt;&lt;ul&gt;&lt;li&gt;søge og bestille f.eks. bøger, musik, film eller spil&lt;/li&gt;&lt;li&gt;få overblik over dine bestillinger og lån&lt;/li&gt;&lt;li&gt;forlænge låneperioden for dine lånte materialer&lt;/li&gt;&lt;li&gt;blive inspireret til gode oplevelser, koncerter og foredrag&lt;/li&gt;&lt;li&gt;læse nyheder fra biblioteket&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Du får mest ud af app&amp;rsquo;en, når du er oprettet som bruger af Aarhus Kommunes Biblioteker. Hvis du ikke allerede er bruger/låner, så kom forbi biblioteket med dit sundhedskort og bliv oprettet som bruger.&lt;br /&gt;&lt;br /&gt;Du kan finde App&amp;rsquo;en i App Store eller i Google Play.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;iPhone&lt;/strong&gt;&lt;br /&gt;Hvis du har en iPhone, kan du&amp;nbsp;hente biblioteks app&amp;#39;en på&amp;nbsp;&lt;a href=&quot;http://itunes.apple.com/app/aarhus-kommunes-biblioteker/id561647976?mt=8&quot; target=&quot;_blank&quot; title=&quot;Biblioteks app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;iTunes&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Android&lt;/strong&gt;&lt;br /&gt;Har du en telefon med styresystemet Android, kan du hente applikationen på &lt;a href=&quot;https://play.google.com/store/search?q=aarhus+kommunes+biblioteker&amp;amp;c=apps&quot; target=&quot;_blank&quot; title=&quot;Android app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Play Butik&lt;/font&gt;&lt;/u&gt;&lt;/a&gt; (Android market).&lt;/p&gt;</value>
+          <value>&lt;p&gt;App&amp;rsquo;en giver dig adgang til at&lt;/p&gt;&lt;ul&gt;&lt;li&gt;søge og bestille f.eks. bøger, musik, film eller spil&lt;/li&gt;&lt;li&gt;få overblik over dine bestillinger og lån&lt;/li&gt;&lt;li&gt;forlænge låneperioden for dine lånte materialer&lt;/li&gt;&lt;li&gt;blive inspireret til gode oplevelser, koncerter og foredrag&lt;/li&gt;&lt;li&gt;læse nyheder fra biblioteket&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Du får mest ud af app&amp;rsquo;en, når du er oprettet som bruger af Aarhus Kommunes Biblioteker. Hvis du ikke allerede er bruger/låner, så kom forbi biblioteket med dit sundhedskort og bliv oprettet som bruger.&lt;br /&gt;&lt;br /&gt;Du kan finde App&amp;rsquo;en i App Store eller i Google Play.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;iPhone&lt;/strong&gt;&lt;br /&gt;Hvis du har en iPhone, kan du&amp;nbsp;hente biblioteks app&amp;#39;en på&amp;nbsp;&lt;a href=&quot;http://itunes.apple.com/app/aarhus-kommunes-biblioteker/id561647976?mt=8&quot; target=&quot;_blank&quot; title=&quot;Biblioteks app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;iTunes&lt;/font&gt;&lt;/u&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Android&lt;/strong&gt;&lt;br /&gt;Har du en telefon med styresystemet Android, kan du hente applikationen på &lt;a href=&quot;https://play.google.com/store/search?q=aarhus+kommunes+biblioteker&amp;c=apps&quot; target=&quot;_blank&quot; title=&quot;Android app&quot;&gt;&lt;u&gt;&lt;font color=&quot;#0066cc&quot;&gt;Play Butik&lt;/font&gt;&lt;/u&gt;&lt;/a&gt; (Android market).&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p&gt;App’en giver dig adgang til at&lt;/p&gt;
 &lt;ul&gt;&lt;li&gt;søge og bestille f.eks. bøger, musik, film eller spil&lt;/li&gt;
@@ -1111,6 +859,7 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_lead>
       <und _numeric_keys="1">
         <n0>
@@ -1120,7 +869,9 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image>
       <und _numeric_keys="1">
         <n0>
@@ -1135,7 +886,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>25441</filesize>
           <status>1</status>
-          <timestamp>1370872959</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>5f8d34c9-2c1a-462c-85eb-aad2f2d90d3f</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1149,30 +900,30 @@ function ding_example_content_node_export_features_default() {
       </und>
     </field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1370872887</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>39</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>Lene Frandsen</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>297</pid>
-      <source>node/85</source>
-      <alias>det-kan-du/biblioteket-pa-din-telefon</alias>
+      <pid>24</pid>
+      <source>node/9</source>
+      <alias>det-kan-du</alias>
       <language>und</language>
     </path>
     <menu>
-      <link_title>Biblioteket på din telefon</link_title>
+      <link_title>Det kan du</link_title>
       <mlid>0</mlid>
-      <plid>964</plid>
+      <plid>0</plid>
       <menu_name>main-menu</menu_name>
-      <weight>0</weight>
+      <weight>3</weight>
       <options _numeric_keys="1"></options>
       <module>menu</module>
       <expanded>0</expanded>
       <hidden>0</hidden>
-      <has_children>0</has_children>
+      <has_children>1</has_children>
       <customized>0</customized>
       <parent_depth_limit>8</parent_depth_limit>
       <description></description>
@@ -1181,8 +932,8 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>95</vid>
-    <uid>39</uid>
+    <vid>10</vid>
+    <uid>0</uid>
     <title>Hjortshøj Kombi-bibliotek</title>
     <log></log>
     <status>1</status>
@@ -1190,23 +941,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>ab56e02e-6f32-4618-8905-56d707ae4305</vuuid>
-    <nid>81</nid>
+    <nid>10</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1370862230</created>
-    <changed>1370862230</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5cb900a0-e318-4eb6-af13-9daf6e7c748c</uuid>
-    <revision_timestamp>1370862230</revision_timestamp>
-    <revision_uid>39</revision_uid>
-    <group_group>
-      <und _numeric_keys="1">
-        <n0>
-          <value>1</value>
-        </n0>
-      </und>
-    </group_group>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
         <n0>
@@ -1281,7 +1025,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4524</filesize>
           <status>1</status>
-          <timestamp>1370862065</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>d2b544d2-71fd-4d87-8bff-c8dcbdf1d2ae</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1334,7 +1078,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>65309</filesize>
           <status>1</status>
-          <timestamp>1370862037</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>c84c5289-bf85-45af-9a5d-1a2110e383ee</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1347,21 +1091,33 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_library_title_image>
+    <group_group>
+      <und _numeric_keys="1">
+        <n0>
+          <value>1</value>
+        </n0>
+      </und>
+    </group_group>
     <cid>0</cid>
-    <last_comment_timestamp>1370862230</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>39</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>Lene Frandsen</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
-    <path type="boolean">FALSE</path>
+    <data type="NULL"></data>
+    <path>
+      <pid>25</pid>
+      <source>node/10</source>
+      <alias>biblioteker/hjortshoj</alias>
+      <language>und</language>
+    </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>30</vid>
-    <uid>1</uid>
+    <vid>11</vid>
+    <uid>0</uid>
     <title>Cookies</title>
     <log></log>
     <status>1</status>
@@ -1369,19 +1125,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>113ce311-391e-44d6-af6d-fc6fa47594af</vuuid>
-    <nid>25</nid>
+    <nid>11</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1357820684</created>
-    <changed>1357820684</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>7b05feff-1012-40ef-a5fc-2a9f37fa82aa</uuid>
-    <revision_timestamp>1357820684</revision_timestamp>
-    <revision_uid>1</revision_uid>
-    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
-    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
-    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -1401,6 +1154,7 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_lead>
       <und _numeric_keys="1">
         <n0>
@@ -1410,57 +1164,20 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
-    <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
-    <cid>5</cid>
-    <last_comment_timestamp>1366190710</last_comment_timestamp>
-    <last_comment_name></last_comment_name>
-    <last_comment_uid>26</last_comment_uid>
-    <comment_count>3</comment_count>
-    <name>admin</name>
-    <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
-    <path type="boolean">FALSE</path>
-    <menu type="NULL"></menu>
-    <node_export_drupal_version>7</node_export_drupal_version>
-  </node>
-  <node>
-    <vid>12</vid>
-    <uid>1</uid>
-    <title>Vejledninger</title>
-    <log></log>
-    <status>1</status>
-    <comment>2</comment>
-    <promote>0</promote>
-    <sticky>0</sticky>
-    <vuuid>da83372f-e8d1-44ae-911c-075e381b5962</vuuid>
-    <nid>11</nid>
-    <type>ding_page</type>
-    <language>und</language>
-    <created>1346679230</created>
-    <changed>1346679230</changed>
-    <tnid>0</tnid>
-    <translate>0</translate>
-    <uuid>8a64a5f1-f0e0-4db6-9602-d7f6c306ef5d</uuid>
-    <revision_timestamp>1346679230</revision_timestamp>
-    <revision_uid>1</revision_uid>
     <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
     <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
     <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
-    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
-    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1346679230</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>1</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>admin</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>215</pid>
+      <pid>26</pid>
       <source>node/11</source>
       <alias>det-kan-du/vejledninger</alias>
       <language>und</language>
@@ -1468,7 +1185,7 @@ function ding_example_content_node_export_features_default() {
     <menu>
       <link_title>Vejledninger</link_title>
       <mlid>0</mlid>
-      <plid>964</plid>
+      <plid>442</plid>
       <menu_name>main-menu</menu_name>
       <weight>0</weight>
       <options _numeric_keys="1"></options>
@@ -1484,8 +1201,67 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>102</vid>
-    <uid>39</uid>
+    <vid>12</vid>
+    <uid>0</uid>
+    <title>Vejledninger</title>
+    <log></log>
+    <status>1</status>
+    <comment>2</comment>
+    <promote>0</promote>
+    <sticky>0</sticky>
+    <vuuid>da83372f-e8d1-44ae-911c-075e381b5962</vuuid>
+    <nid>12</nid>
+    <type>ding_page</type>
+    <language>und</language>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
+    <tnid>0</tnid>
+    <translate>0</translate>
+    <uuid>8a64a5f1-f0e0-4db6-9602-d7f6c306ef5d</uuid>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
+    <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_lead _numeric_keys="1"></field_ding_page_lead>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
+    <cid>0</cid>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
+    <last_comment_name type="NULL"></last_comment_name>
+    <last_comment_uid>0</last_comment_uid>
+    <comment_count>0</comment_count>
+    <name></name>
+    <picture>0</picture>
+    <data type="NULL"></data>
+    <path>
+      <pid>27</pid>
+      <source>node/12</source>
+      <alias>det-kan-duvejledninger/sporgsmal-og-svar</alias>
+      <language>und</language>
+    </path>
+    <menu>
+      <link_title>Spørgsmål og svar</link_title>
+      <mlid>0</mlid>
+      <plid>446</plid>
+      <menu_name>main-menu</menu_name>
+      <weight>-50</weight>
+      <options _numeric_keys="1"></options>
+      <module>menu</module>
+      <expanded>0</expanded>
+      <hidden>0</hidden>
+      <has_children>1</has_children>
+      <customized>0</customized>
+      <parent_depth_limit>8</parent_depth_limit>
+      <description></description>
+      <enabled>1</enabled>
+    </menu>
+    <node_export_drupal_version>7</node_export_drupal_version>
+  </node>
+  <node>
+    <vid>13</vid>
+    <uid>0</uid>
     <title>Om hjemmesiden</title>
     <log></log>
     <status>1</status>
@@ -1493,19 +1269,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>66e6e250-6f61-4608-9a60-18c602a55ce4</vuuid>
-    <nid>88</nid>
+    <nid>13</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1370874261</created>
-    <changed>1370874261</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>c181d47e-7c98-442a-9c3b-e23ed7b178ab</uuid>
-    <revision_timestamp>1370874261</revision_timestamp>
-    <revision_uid>39</revision_uid>
-    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
-    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
-    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -1529,32 +1302,35 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_lead>
       <und _numeric_keys="1">
         <n0>
-          <value>aakb.dk er hjemmeside for Aarhus Kommunes Biblioteker. </value>
+          <value>aakb.dk er hjemmeside for Aarhus Kommunes Biblioteker.</value>
           <format type="NULL"></format>
-          <safe_value>aakb.dk er hjemmeside for Aarhus Kommunes Biblioteker. </safe_value>
+          <safe_value>aakb.dk er hjemmeside for Aarhus Kommunes Biblioteker.</safe_value>
         </n0>
       </und>
     </field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1370874261</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>39</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>Lene Frandsen</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>10</vid>
-    <uid>1</uid>
+    <vid>14</vid>
+    <uid>0</uid>
     <title>Det kan du</title>
     <log></log>
     <status>1</status>
@@ -1562,19 +1338,16 @@ function ding_example_content_node_export_features_default() {
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>bf6111ce-322e-4e1e-b48b-547c6e3f5477</vuuid>
-    <nid>9</nid>
+    <nid>14</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1346679140</created>
-    <changed>1370870056</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>e2388c84-6d60-4d8d-86e2-26972131914f</uuid>
-    <revision_timestamp>1370870056</revision_timestamp>
-    <revision_uid>39</revision_uid>
-    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
-    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
-    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -1585,6 +1358,7 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_body>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
     <field_ding_page_lead>
       <und _numeric_keys="1">
         <n0>
@@ -1594,33 +1368,35 @@ function ding_example_content_node_export_features_default() {
         </n0>
       </und>
     </field_ding_page_lead>
-    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
     <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1346679140</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>1</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>admin</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>213</pid>
-      <source>node/9</source>
-      <alias>det-kan-du</alias>
+      <pid>28</pid>
+      <source>node/14</source>
+      <alias>det-kan-du/lan-et-lokale</alias>
       <language>und</language>
     </path>
     <menu>
-      <link_title>Det kan du</link_title>
+      <link_title>Lån et lokale</link_title>
       <mlid>0</mlid>
-      <plid>0</plid>
+      <plid>442</plid>
       <menu_name>main-menu</menu_name>
-      <weight>3</weight>
+      <weight>0</weight>
       <options _numeric_keys="1"></options>
       <module>menu</module>
       <expanded>0</expanded>
       <hidden>0</hidden>
-      <has_children>1</has_children>
+      <has_children>0</has_children>
       <customized>0</customized>
       <parent_depth_limit>8</parent_depth_limit>
       <description></description>
@@ -1629,36 +1405,31 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>117</vid>
-    <uid>6</uid>
-    <title>Biblioteket anbefaler: Fagbøger </title>
+    <vid>15</vid>
+    <uid>0</uid>
+    <title>Biblioteket anbefaler: Fagbøger</title>
     <log></log>
     <status>1</status>
     <comment>1</comment>
     <promote>1</promote>
     <sticky>0</sticky>
     <vuuid>6dc30794-5f20-4978-8cb3-74fa28c2a14b</vuuid>
-    <nid>103</nid>
+    <nid>15</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1372629350</created>
-    <changed>1372846922</changed>
+    <created>1374592683</created>
+    <changed>1374592937</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>eb7382f8-2d8f-4bd1-b920-e81aa79d4bb5</uuid>
-    <revision_timestamp>1372846922</revision_timestamp>
-    <revision_uid>6</revision_uid>
+    <revision_timestamp>1374592937</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
-          <value>Biblioteket indkøber hver uge nye bøger om mange emner, som løbende vil komme på bibliotekets hylder.
-Nedenfor præsenteres et pluk af de titler, som vores indkøbere har lagt særlig mærke til.
-Bliv inspireret og bestil med det samme.
-</value>
+          <value>&lt;p&gt;Biblioteket indkøber hver uge nye bøger om mange emner, som løbende vil komme på bibliotekets hylder. Nedenfor præsenteres et pluk af de titler, som vores indkøbere har lagt særlig mærke til. Bliv inspireret og bestil med det samme.&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
-          <safe_value> &lt;p&gt;Biblioteket indkøber hver uge nye bøger om mange emner, som løbende vil komme på bibliotekets hylder.&lt;br /&gt;
-Nedenfor præsenteres et pluk af de titler, som vores indkøbere har lagt særlig mærke til.&lt;br /&gt;
-Bliv inspireret og bestil med det samme.&lt;/p&gt;
+          <safe_value> &lt;p&gt;Biblioteket indkøber hver uge nye bøger om mange emner, som løbende vil komme på bibliotekets hylder. Nedenfor præsenteres et pluk af de titler, som vores indkøbere har lagt særlig mærke til. Bliv inspireret og bestil med det samme.&lt;/p&gt;
  </safe_value>
         </n0>
       </und>
@@ -1666,7 +1437,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <field_ding_news_category>
       <und _numeric_keys="1">
         <n0>
-          <tid>86</tid>
+          <tid>17</tid>
         </n0>
       </und>
     </field_ding_news_category>
@@ -1683,9 +1454,9 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <field_ding_news_library>
       <und _numeric_keys="1">
         <n0>
-          <gid>9</gid>
+          <gid>2</gid>
           <state>1</state>
-          <created>1372846923</created>
+          <created>1374592937</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -1703,7 +1474,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
           <filemime>image/jpeg</filemime>
           <filesize>47772</filesize>
           <status>1</status>
-          <timestamp>1372629442</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>8286cd5b-452a-4a63-9d29-1aa06280baca</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1716,200 +1487,29 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
         </n0>
       </und>
     </field_ding_news_list_image>
-    <field_ding_news_materials>
-      <und _numeric_keys="1">
-        <n0>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>43</vid>
-            <uid>6</uid>
-            <changed>1372629351</changed>
-            <arity>2</arity>
-            <rid>43</rid>
-            <created>1372629351</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372629351</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>103</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10833</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n0>
-        <n1>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>44</vid>
-            <uid>6</uid>
-            <changed>1372629351</changed>
-            <arity>2</arity>
-            <rid>44</rid>
-            <created>1372629351</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372629351</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>103</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10834</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n1>
-        <n2>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>45</vid>
-            <uid>6</uid>
-            <changed>1372629351</changed>
-            <arity>2</arity>
-            <rid>45</rid>
-            <created>1372629351</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372629351</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>103</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10835</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n2>
-        <n3>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>46</vid>
-            <uid>6</uid>
-            <changed>1372629351</changed>
-            <arity>2</arity>
-            <rid>46</rid>
-            <created>1372629351</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372629351</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>103</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10836</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n3>
-        <n4>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>47</vid>
-            <uid>6</uid>
-            <changed>1372629351</changed>
-            <arity>2</arity>
-            <rid>47</rid>
-            <created>1372629351</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372629351</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>103</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>10837</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n4>
-        <n5>
-          <value class="stdClass">
-            <relation_type>ting_reference</relation_type>
-            <vid>48</vid>
-            <uid>6</uid>
-            <changed>1372629351</changed>
-            <arity>2</arity>
-            <rid>48</rid>
-            <created>1372629351</created>
-            <revision_uid>6</revision_uid>
-            <revision_changed>1372629351</revision_changed>
-            <endpoints>
-              <und _numeric_keys="1">
-                <n0>
-                  <entity_type>node</entity_type>
-                  <entity_id>103</entity_id>
-                  <r_index>0</r_index>
-                </n0>
-                <n1>
-                  <entity_type>ting_object</entity_type>
-                  <entity_id>2545</entity_id>
-                  <r_index>1</r_index>
-                </n1>
-              </und>
-            </endpoints>
-          </value>
-        </n5>
-      </und>
-    </field_ding_news_materials>
-    <field_ding_news_tags>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>24</tid>
-        </n0>
-      </und>
-    </field_ding_news_tags>
+    <field_ding_news_materials _numeric_keys="1"></field_ding_news_materials>
+    <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image _numeric_keys="1"></field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1372629350</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>6</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>gba</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>330</pid>
-      <source>node/103</source>
-      <alias>nyheder/anbefalinger/biblioteket-anbefaler-fagboeger</alias>
+      <pid>29</pid>
+      <source>node/15</source>
+      <alias>nyheder/biblioteket-anbefaler-fagboger</alias>
       <language>und</language>
     </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>116</vid>
-    <uid>6</uid>
+    <vid>16</vid>
+    <uid>0</uid>
     <title>Landsdækkende novellekonkurrence</title>
     <log></log>
     <status>1</status>
@@ -1917,16 +1517,16 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <promote>1</promote>
     <sticky>0</sticky>
     <vuuid>bced5e1e-d7f9-4f6f-b549-aafee55c86fd</vuuid>
-    <nid>102</nid>
+    <nid>16</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1372628411</created>
-    <changed>1372628818</changed>
+    <created>1374592683</created>
+    <changed>1374592952</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>ed698a02-32f3-4516-a293-6a6a8dc3dec1</uuid>
-    <revision_timestamp>1372628818</revision_timestamp>
-    <revision_uid>6</revision_uid>
+    <revision_timestamp>1374592952</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_news_body>
       <und _numeric_keys="1">
         <n0>
@@ -1944,7 +1544,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <field_ding_news_category>
       <und _numeric_keys="1">
         <n0>
-          <tid>84</tid>
+          <tid>15</tid>
         </n0>
       </und>
     </field_ding_news_category>
@@ -1961,9 +1561,9 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <field_ding_news_library>
       <und _numeric_keys="1">
         <n0>
-          <gid>9</gid>
+          <gid>1</gid>
           <state>1</state>
-          <created>1372628818</created>
+          <created>1374592952</created>
         </n0>
       </und>
     </field_ding_news_library>
@@ -1981,7 +1581,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1372628318</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>85c4494f-f38c-4a80-bd15-53880894023b</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1995,13 +1595,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
       </und>
     </field_ding_news_list_image>
     <field_ding_news_materials _numeric_keys="1"></field_ding_news_materials>
-    <field_ding_news_tags>
-      <und _numeric_keys="1">
-        <n0>
-          <tid>105</tid>
-        </n0>
-      </und>
-    </field_ding_news_tags>
+    <field_ding_news_tags _numeric_keys="1"></field_ding_news_tags>
     <field_ding_news_title_image>
       <und _numeric_keys="1">
         <n0>
@@ -2016,7 +1610,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1372628236</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>651b19c4-c922-443b-a7e2-5a3640a4c29c</uuid>
           <field_file_image_alt_text>
@@ -2046,25 +1640,25 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
       </und>
     </field_ding_news_title_image>
     <cid>0</cid>
-    <last_comment_timestamp>1372628411</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>6</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>gba</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <data type="NULL"></data>
     <path>
-      <pid>328</pid>
-      <source>node/102</source>
-      <alias>nyheder/kort-nyt/landsdaekkende-novellekonkurrence</alias>
+      <pid>30</pid>
+      <source>node/16</source>
+      <alias>nyheder/landsdaekkende-novellekonkurrence</alias>
       <language>und</language>
     </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>81</vid>
-    <uid>39</uid>
+    <vid>17</vid>
+    <uid>0</uid>
     <title>Hovedbiblioteket</title>
     <log></log>
     <status>1</status>
@@ -2072,23 +1666,16 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <promote>0</promote>
     <sticky>0</sticky>
     <vuuid>a305bc6d-4285-4233-804b-0eb79e74719a</vuuid>
-    <nid>69</nid>
+    <nid>17</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1370524527</created>
-    <changed>1370524527</changed>
+    <created>1374592683</created>
+    <changed>1374592683</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>f666fb17-4216-4fea-a5b2-5c9b9ad030ec</uuid>
-    <revision_timestamp>1370524527</revision_timestamp>
-    <revision_uid>39</revision_uid>
-    <group_group>
-      <und _numeric_keys="1">
-        <n0>
-          <value>1</value>
-        </n0>
-      </und>
-    </group_group>
+    <revision_timestamp>1374592683</revision_timestamp>
+    <revision_uid>0</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
         <n0>
@@ -2112,7 +1699,7 @@ Bliv inspireret og bestil med det samme.&lt;/p&gt;
     <field_ding_library_body>
       <und _numeric_keys="1">
         <n0>
-          <value>&lt;p&gt;&lt;strong&gt;Hovedbibliotekets ledelse&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Chef for Hovedbiblioteket &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba10&quot; title=&quot;Knud Schulz&quot;&gt;Knud Schulz&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Publikumschef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba91&quot; title=&quot;Charlotte Stoltenberg&quot;&gt;Charlotte Stoltenberg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Drifts- &amp;amp; Ressourcechef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba54&quot; title=&quot;Troels Vestergaard&quot;&gt;Troels Vestergaard&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder for e-formidling &amp;amp; arrangementer &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/users/mlog&quot; title=&quot;Marie Louise Overgaard&quot;&gt;Marie Louise Overgaard&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder for Læring &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkbd75&quot; title=&quot;Britta Hedegaard Christensen&quot;&gt;Britta Hedegaard Christensen&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder i &lt;span class=&quot;nav&quot;&gt;Team reception &amp;amp; logistik&lt;/span&gt; &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba63&quot; title=&quot;Susanne Hansen&quot;&gt;Susanne Hansen&lt;/a&gt;&lt;/p&gt;</value>
+          <value>&lt;p&gt;&lt;strong&gt;Hovedbibliotekets ledelse&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;Chef for Hovedbiblioteket &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba10&quot; title=&quot;Knud Schulz&quot;&gt;Knud Schulz&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Publikumschef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba91&quot; title=&quot;Charlotte Stoltenberg&quot;&gt;Charlotte Stoltenberg&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Drifts- &amp; Ressourcechef &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba54&quot; title=&quot;Troels Vestergaard&quot;&gt;Troels Vestergaard&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder for e-formidling &amp; arrangementer &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/users/mlog&quot; title=&quot;Marie Louise Overgaard&quot;&gt;Marie Louise Overgaard&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder for Læring &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkbd75&quot; title=&quot;Britta Hedegaard Christensen&quot;&gt;Britta Hedegaard Christensen&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Teamleder i &lt;span class=&quot;nav&quot;&gt;Team reception &amp; logistik&lt;/span&gt; &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba63&quot; title=&quot;Susanne Hansen&quot;&gt;Susanne Hansen&lt;/a&gt;&lt;/p&gt;</value>
           <format>ding_wysiwyg</format>
           <safe_value> &lt;p&gt;&lt;strong&gt;Hovedbibliotekets ledelse&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Chef for Hovedbiblioteket &lt;a data-mce-=&quot;&quot; href=&quot;https://www.aakb.dk/profil/azkba10&quot; title=&quot;Knud Schulz&quot;&gt;Knud Schulz&lt;/a&gt;&lt;/p&gt;
@@ -2162,7 +1749,7 @@ Nogle af Hovedbibliotekets servicetilbud er beskrevet i en række foldere
 
 Hovedbiblioteket er nemlig brugernes bibliotek, og derfor arbejder medarbejderne og ledelsen i organisationen konstant med borgerinddragelse hvad enten det gælder udviklingsprojekter, løbende forbedringer eller vores kommende bibliotek Dokk1.
 
-Velkommen til Hovedbiblioteket. Det er også dit sted! </value>
+Velkommen til Hovedbiblioteket. Det er også dit sted!</value>
           <format type="NULL"></format>
           <safe_value>Hovedbiblioteket
 
@@ -2172,7 +1759,7 @@ Nogle af Hovedbibliotekets servicetilbud er beskrevet i en række foldere
 
 Hovedbiblioteket er nemlig brugernes bibliotek, og derfor arbejder medarbejderne og ledelsen i organisationen konstant med borgerinddragelse hvad enten det gælder udviklingsprojekter, løbende forbedringer eller vores kommende bibliotek Dokk1.
 
-Velkommen til Hovedbiblioteket. Det er også dit sted! </safe_value>
+Velkommen til Hovedbiblioteket. Det er også dit sted!</safe_value>
         </n0>
       </und>
     </field_ding_library_lead>
@@ -2191,7 +1778,7 @@ Velkommen til Hovedbiblioteket. Det er også dit sted! </safe_value>
           <filemime>image/jpeg</filemime>
           <filesize>4116</filesize>
           <status>1</status>
-          <timestamp>1370524392</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>2f5cef11-193f-474f-958b-c2239b862da6</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -2244,7 +1831,7 @@ Velkommen til Hovedbiblioteket. Det er også dit sted! </safe_value>
           <filemime>image/jpeg</filemime>
           <filesize>35376</filesize>
           <status>1</status>
-          <timestamp>1370524313</timestamp>
+          <timestamp>1374592683</timestamp>
           <type>image</type>
           <uuid>f5f4f78c-2316-4790-bb2c-42a796810fa8</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -2257,15 +1844,27 @@ Velkommen til Hovedbiblioteket. Det er også dit sted! </safe_value>
         </n0>
       </und>
     </field_ding_library_title_image>
+    <group_group>
+      <und _numeric_keys="1">
+        <n0>
+          <value>1</value>
+        </n0>
+      </und>
+    </group_group>
     <cid>0</cid>
-    <last_comment_timestamp>1370524527</last_comment_timestamp>
+    <last_comment_timestamp>1374592683</last_comment_timestamp>
     <last_comment_name type="NULL"></last_comment_name>
-    <last_comment_uid>39</last_comment_uid>
+    <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name>Lene Frandsen</name>
+    <name></name>
     <picture>0</picture>
-    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
-    <path type="boolean">FALSE</path>
+    <data type="NULL"></data>
+    <path>
+      <pid>31</pid>
+      <source>node/17</source>
+      <alias>biblioteker/hovedbiblioteket</alias>
+      <language>und</language>
+    </path>
     <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
