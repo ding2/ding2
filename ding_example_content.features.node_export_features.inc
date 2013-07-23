@@ -10,7 +10,7 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 11:13:51 +0200">
+<node_export created="Tue, 23 Jul 2013 14:31:23 +0200">
   <node>
     <vid>106</vid>
     <uid>41</uid>
