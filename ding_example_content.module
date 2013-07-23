@@ -5,3 +5,33 @@
  */
 
 include_once 'ding_example_content.features.inc';
+
+
+/**
+ * Implements hook_enable().
+ */
+function ding_example_content_enable() {
+  // Get information about the category vocabulary.
+  $vocab = taxonomy_vocabulary_machine_name_load('event_category');
+
+  $items = array(
+    'Bogsalg',
+    'Børn',
+    'Diverse',
+    'Foredrag & debat',
+    'Internet & undervisning',
+    'Litteratur',
+    'Musik',
+    'Udstilling',
+    'Workshop',
+  );
+
+  // Save terms.
+  foreach ($items as $item) {
+    taxonomy_term_save((object) array(
+      'name' => $item,
+      'vid' => $vocab->vid,
+      'format' => 'ding_wysiwyg',
+    ));
+  }
+}
