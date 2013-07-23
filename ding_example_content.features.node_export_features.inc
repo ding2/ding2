@@ -10,7 +10,7 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 14:31:23 +0200">
+<node_export created="Tue, 23 Jul 2013 14:36:15 +0200">
   <node>
     <vid>106</vid>
     <uid>41</uid>
@@ -1201,6 +1201,82 @@ function ding_example_content_node_export_features_default() {
     <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
     <path type="boolean">FALSE</path>
     <menu type="NULL"></menu>
+    <node_export_drupal_version>7</node_export_drupal_version>
+  </node>
+  <node>
+    <vid>10</vid>
+    <uid>1</uid>
+    <title>Det kan du</title>
+    <log></log>
+    <status>1</status>
+    <comment>2</comment>
+    <promote>0</promote>
+    <sticky>0</sticky>
+    <vuuid>bf6111ce-322e-4e1e-b48b-547c6e3f5477</vuuid>
+    <nid>9</nid>
+    <type>ding_page</type>
+    <language>und</language>
+    <created>1346679140</created>
+    <changed>1370870056</changed>
+    <tnid>0</tnid>
+    <translate>0</translate>
+    <uuid>e2388c84-6d60-4d8d-86e2-26972131914f</uuid>
+    <revision_timestamp>1370870056</revision_timestamp>
+    <revision_uid>39</revision_uid>
+    <field_ding_page_list_image _numeric_keys="1"></field_ding_page_list_image>
+    <field_ding_page_materials _numeric_keys="1"></field_ding_page_materials>
+    <field_ding_page_tags _numeric_keys="1"></field_ding_page_tags>
+    <field_ding_page_body>
+      <und _numeric_keys="1">
+        <n0>
+          <value>&lt;p&gt;&lt;strong&gt;Oversigt over bibliotekernes tilbud til dig&lt;/strong&gt;&lt;/p&gt;</value>
+          <format>ding_wysiwyg</format>
+          <safe_value> &lt;p&gt;&lt;strong&gt;Oversigt over bibliotekernes tilbud til dig&lt;/strong&gt;&lt;/p&gt;
+ </safe_value>
+        </n0>
+      </und>
+    </field_ding_page_body>
+    <field_ding_page_lead>
+      <und _numeric_keys="1">
+        <n0>
+          <value>Tilbud til dig</value>
+          <format type="NULL"></format>
+          <safe_value>Tilbud til dig</safe_value>
+        </n0>
+      </und>
+    </field_ding_page_lead>
+    <field_ding_page_files _numeric_keys="1"></field_ding_page_files>
+    <field_ding_page_title_image _numeric_keys="1"></field_ding_page_title_image>
+    <cid>0</cid>
+    <last_comment_timestamp>1346679140</last_comment_timestamp>
+    <last_comment_name type="NULL"></last_comment_name>
+    <last_comment_uid>1</last_comment_uid>
+    <comment_count>0</comment_count>
+    <name>admin</name>
+    <picture>0</picture>
+    <data>a:1:{s:7:&quot;overlay&quot;;i:1;}</data>
+    <path>
+      <pid>213</pid>
+      <source>node/9</source>
+      <alias>det-kan-du</alias>
+      <language>und</language>
+    </path>
+    <menu>
+      <link_title>Det kan du</link_title>
+      <mlid>0</mlid>
+      <plid>0</plid>
+      <menu_name>main-menu</menu_name>
+      <weight>3</weight>
+      <options _numeric_keys="1"></options>
+      <module>menu</module>
+      <expanded>0</expanded>
+      <hidden>0</hidden>
+      <has_children>1</has_children>
+      <customized>0</customized>
+      <parent_depth_limit>8</parent_depth_limit>
+      <description></description>
+      <enabled>1</enabled>
+    </menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
