@@ -23,6 +23,9 @@ projects[features][version] = "2.0-beta2"
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
+projects[globalredirect][subdir] = "contrib"
+projects[globalredirect][version] = "1.5"
+
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
