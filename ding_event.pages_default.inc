@@ -371,13 +371,14 @@ taxonomy/term/%term:tid',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
+      'type' => 'ding_event',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'arrangementer',
     );
     $pane->cache = array();
     $pane->style = array(
