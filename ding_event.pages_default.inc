@@ -129,13 +129,15 @@ function ding_event_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'event_category_menu';
-    $pane->subtype = 'event_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
       'context' => array(
-        0 => 'empty',
+        0 => 'relationship_entity_from_field:field_ding_event_category-node-taxonomy_term_1',
         1 => 'relationship_og_node_from_group_1',
       ),
       'override_title' => 0,
