@@ -318,11 +318,13 @@ taxonomy/term/%term:tid',
     $pane = new stdClass();
     $pane->pid = 'new-5';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'event_category_menu';
-    $pane->subtype = 'event_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
@@ -490,14 +492,16 @@ function ding_event_default_page_manager_pages() {
   $page->arguments = array(
     'tid' => array(
       'id' => 1,
-      'identifier' => 'Event category term',
+      'identifier' => 'Category term',
       'name' => 'term',
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
           3 => '3',
           1 => 0,
+          6 => 0,
           4 => 0,
+          5 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
@@ -564,17 +568,20 @@ events
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'event_category_menu';
-    $pane->subtype = 'event_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'empty',
+        0 => 'argument_term_1',
         1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'arrangementer',
+      'default_link' => 'All categories',
+      'default_link_text' => 'All categories',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -615,13 +622,14 @@ events
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
+      'type' => 'ding_event',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'arrangementer',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -698,7 +706,7 @@ events
   $page->task = 'page';
   $page->admin_title = 'Library events page';
   $page->admin_description = '';
-  $page->path = 'bibliotek/%node/arrangementer/!tid';
+  $page->path = 'bibliotek/%slug/arrangementer/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -716,12 +724,11 @@ events
   );
   $page->menu = array();
   $page->arguments = array(
-    'node' => array(
+    'slug' => array(
       'id' => 1,
       'identifier' => 'Library node',
-      'name' => 'entity_id:node',
+      'name' => 'slug',
       'settings' => array(),
-      'keyword' => 'node',
     ),
     'tid' => array(
       'id' => 1,
@@ -832,14 +839,16 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'event_category_menu';
-    $pane->subtype = 'event_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
       'context' => array(
-        0 => 'empty',
-        1 => 'argument_entity_id:node_1',
+        0 => 'argument_term_1',
+        1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -883,13 +892,14 @@ node/%node:nid/events
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'events',
+      'type' => 'ding_event',
       'context' => array(
         0 => 'argument_term_1',
-        1 => 'argument_entity_id:node_1',
+        1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'arrangementer',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -910,7 +920,7 @@ node/%node:nid/events
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        0 => 'argument_entity_id:node_1',
+        0 => 'argument_slug_1',
         1 => 'argument_term_1',
       ),
     );
