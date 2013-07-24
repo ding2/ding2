@@ -4,8 +4,8 @@ $plugin = array(
   'title' => t('Ding library selectbox'),
   'description' => t('Display a select box with available libraries.'),
   'single' => TRUE,
-  'edit form' => 'ding_content_library_list_content_type_edit_form',
-  'render callback' => 'ding_content_library_list_content_type_render',
+  'edit form' => 'ding_library_library_list_content_type_edit_form',
+  'render callback' => 'ding_library_library_list_content_type_render',
   'category' => t('Ding!'),
   'required context' => array(new ctools_context_optional(t('Selected category'), array('term', 'taxonomy_term')), new ctools_context_optional(t('Library'), 'node')),
   'defaults' => array(
@@ -13,7 +13,7 @@ $plugin = array(
   ),
 );
 
-function ding_content_library_list_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
+function ding_library_library_list_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
   $library = NULL;
   $selected_term = NULL;
@@ -48,7 +48,7 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
     return $block;
   }
 
-  uasort($nodes, 'ding_content_library_list_sort_title'); 
+  uasort($nodes, 'ding_library_library_list_sort_title');
   
   if (isset($alias)) {
     $items = array($alias => t('All libraries'));
@@ -62,11 +62,11 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   }
 
   // Generate the select box form.
-  $block->content = drupal_get_form('ding_content_library_list_select_library', $items, $context, $selected_url);
+  $block->content = drupal_get_form('ding_library_library_list_select_library', $items, $context, $selected_url);
   return $block;
 }
 
-function ding_content_library_list_sort_title($a, $b) {
+function ding_library_library_list_sort_title($a, $b) {
   if (!isset($b->title)) {
     return -1;
   }
@@ -80,7 +80,7 @@ function ding_content_library_list_sort_title($a, $b) {
 /**
  * Form which creates a select box with available libraries.
  */
-function ding_content_library_list_select_library($form, &$form_state, $items, $context, $selected_url) {
+function ding_library_library_list_select_library($form, &$form_state, $items, $context, $selected_url) {
   $form = array();
   $form['labe_select_library'] = array(
     '#markup' => t('Choose library'),
@@ -112,14 +112,14 @@ function ding_content_library_list_select_library($form, &$form_state, $items, $
 /**
  * Submit handler for the libraries list form.
  */
-function ding_content_library_list_select_library_submit($form, &$form_state) {
+function ding_library_library_list_select_library_submit($form, &$form_state) {
   drupal_goto($form_state['values']['select_library']);
 }
 
 /**
  * 'Edit form' callback for the content type.
  */
-function ding_content_library_list_content_type_edit_form($form, &$form_state) {
+function ding_library_library_list_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
 
   $form['type'] = array(
@@ -139,7 +139,7 @@ function ding_content_library_list_content_type_edit_form($form, &$form_state) {
 /**
  * Submit handler for the admin edit form.
  */
-function ding_content_library_list_content_type_edit_form_submit(&$form, &$form_state) {
+function ding_library_library_list_content_type_edit_form_submit(&$form, &$form_state) {
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
     $form_state['conf'][$key] = $form_state['values'][$key];
   }
