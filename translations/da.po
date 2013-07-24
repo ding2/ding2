@@ -1,7 +1,6 @@
-# $Id$
+# Danish translations of the BPI module
+# Copyright by Inlead ApS <info@inlead.dk>
 #
-# LANGUAGE translation of Drupal (general)
-# Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
 #  bpi.admin.inc: n/a
 #  bpi.delete.inc: n/a
