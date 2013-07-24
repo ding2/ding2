@@ -24,3 +24,48 @@ function ding_staff_update_7000() {
   
   return $ret;
 }
+
+/**
+ * Update bundle for staff field data and revisions.
+ */
+function ding_staff_update_7001() {
+  $ret = array();
+
+  $fields = array(
+    'field_ding_staff_department',
+    'field_ding_staff_description',
+    'field_ding_staff_email',
+    'field_ding_staff_forename',
+    'field_ding_staff_image',
+    'field_ding_staff_library',
+    'field_ding_staff_phone',
+    'field_ding_staff_position',
+    'field_ding_staff_surname',
+  );
+
+  foreach ($fields as $field_name) {
+    $ret[] = db_update('field_data_' . $field_name)
+      ->fields(array('bundle' => 'ding_staff_profile'))
+      ->execute();
+
+    $ret[] = db_update('field_revision_' . $field_name)
+      ->fields(array('bundle' => 'ding_staff_profile'))
+      ->execute();
+  }
+
+  return $ret;
+}
+
+/**
+ * Update staff bundle for field instances.
+ */
+function ding_staff_update_7002() {
+  $ret = array();
+
+  $ret[] = db_update('field_config_instance')
+    ->fields(array('bundle' => 'ding_staff_profile'))
+    ->condition('bundle', 'staff')
+    ->execute();
+
+  return $ret;
+}
