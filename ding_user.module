@@ -608,11 +608,14 @@ function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
         // Don't show provider profile to no provider user eiter.
         return FALSE;
       }
-      // Show all other profiles.
-      return TRUE;
     }
   }
-  return FALSE;
+  else {
+    if (ding_user_is_provider_user($profile)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
 }
 
 /**
