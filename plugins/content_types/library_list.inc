@@ -1,15 +1,23 @@
 <?php
+/**
+ * @file
+ *  
+ */
 
 $plugin = array(
-  'title' => t('Ding library selectbox'),
-  'description' => t('Display a select box with available libraries.'),
+  'title' => t('Ding library selection dropdown'),
+  'description' => t('Display a selection dropdown with available libraries.'),
   'single' => TRUE,
   'edit form' => 'ding_content_library_list_content_type_edit_form',
   'render callback' => 'ding_content_library_list_content_type_render',
   'category' => t('Ding!'),
-  'required context' => array(new ctools_context_optional(t('Selected category'), array('term', 'taxonomy_term')), new ctools_context_optional(t('Library'), 'node')),
+  'required context' => array(
+    new ctools_context_optional(t('Taxonomy term id'), array('term', 'taxonomy_term')),
+    new ctools_context_optional(t('Library'), 'node')
+  ),
   'defaults' => array(
-    'type' => 'news',
+    'type' => '',
+    'slug' => '',
   ),
 );
 
@@ -19,50 +27,47 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   $selected_term = NULL;
   $selected_url = NULL;
   $suffix = '';
-  if ($conf['type'] == 'news') {
-    $node_type = 'nyheder';
-  } elseif ($conf['type'] == 'events') {
-    $node_type = 'arrangementer';
-  }
 
+  // Taxonomy term as first context.
   if (isset($context[0]->data)) {
     $selected_term = $context[0]->data;
     $suffix = '/' . $selected_term->tid;
     $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $selected_term->tid);
   }
+
+  // Library node as context.
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $selected_url =  'bibliotek/' . $library->nid . '/' . $node_type  . $suffix;
+    $selected_url =  drupal_lookup_path('alias', $uri['path']) . '/' . $conf['slug']  . $suffix;
   }
 
-  $groups = og_load_multiple(FALSE, array('entity_type' => 'node'));
+  // Get all active library title and nids.
+  $nodes = db_select('node', 'n')
+    ->fields('n', array('nid', 'title'))
+    ->condition('type', 'ding_library')
+    ->condition('status', '1')
+    ->execute()
+    ->fetchAll();
 
-  $nids = array();
-  foreach ($groups as $group) {
-    $nids[$group->gid] = $group->etid;
+  // Generate link for each library.
+  if (!empty($nodes)) {
+    uasort($nodes, 'ding_content_library_list_sort_title');
+
+    $items = array($conf['slug'] . $suffix => t('All libraries'));
+    if (isset($alias)) {
+      $items = array($alias => t('All libraries'));
+    }
+
+    foreach ($nodes as $node) {
+      $uri =  drupal_lookup_path('alias', 'node/' . $node->nid) . '/' . $conf['slug']  . $suffix;
+      $items[$uri] = $node->title;
+    }
+
+    // Generate the select box form.
+    $block->content = drupal_get_form('ding_content_library_list_select_library', $items, $context, $selected_url);
   }
 
-  $nodes = node_load_multiple($nids, array('type' => 'ding_library'));
-  if (empty($nodes)) {
-    return $block;
-  }
-
-  uasort($nodes, 'ding_content_library_list_sort_title'); 
-  
-  if (isset($alias)) {
-    $items = array($alias => t('All libraries'));
-  } else {
-    $items = array($node_type . $suffix => t('All libraries'));
-  }
-
-  foreach ($nodes as $node) {
-    $uri =  'bibliotek/' . $node->nid . '/' . $node_type  . $suffix;
-    $items[$uri] = $node->title;
-  }
-
-  // Generate the select box form.
-  $block->content = drupal_get_form('ding_content_library_list_select_library', $items, $context, $selected_url);
   return $block;
 }
 
@@ -82,19 +87,15 @@ function ding_content_library_list_sort_title($a, $b) {
  */
 function ding_content_library_list_select_library($form, &$form_state, $items, $context, $selected_url) {
   $form = array();
-  $form['labe_select_library'] = array(
-    '#markup' => t('Choose library'),
-    '#prefix' => '<span class="choose-library-label">',
-    '#suffix' => '</span>',
-  );
+
   $form['select_library'] = array(
     '#type' => 'select',
-    '#prefix' => '',
-    '#title' => NULL,
+    '#title' => t('Choose library'),
     '#options' => $items,
     '#attributes' => array('onchange' => "form.submit('select_library');"),
     '#default_value' => $selected_url,
   );
+  
   $form['submit'] = array(
     '#type' => 'submit',
     '#attributes' => array(
@@ -102,8 +103,6 @@ function ding_content_library_list_select_library($form, &$form_state, $items, $
         'button',
       ),
     ),
-    '#prefix' => '',
-    '#suffix' => '',
     '#value' => t('Show'),
   );
   return $form;
@@ -122,14 +121,26 @@ function ding_content_library_list_select_library_submit($form, &$form_state) {
 function ding_content_library_list_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
 
+  // Get node types.
+  $options = array();
+  $types = node_type_get_types();
+  foreach ($types as $type) {
+    $options[$type->type] = $type->name;
+  }
+
   $form['type'] = array(
     '#type' => 'select',
     '#title' => t('Type of list to link to'),
-    '#options' => array(
-      'news' => t('News'),
-      'events' => t('Events'),
-    ),
-    '#default_value' => !empty($conf['type']) ? $conf['type'] : 'news',
+    '#options' => $options,
+    '#default_value' => $conf['type'],
+    '#required' => TRUE,
+  );
+
+  $form['slug'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slug'),
+    '#description' => t('The slug could be "arrangementer" or "nyheder" and will be inserted based on the context.'),
+    '#default_value' => $form_state['conf']['slug'],
     '#required' => TRUE,
   );
 
