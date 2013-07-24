@@ -26,39 +26,52 @@ function ding_library_slug_context($arg = NULL, $conf = NULL, $empty = FALSE) {
     return ctools_context_create('node', $arg);
   }
 
+  // Default value.
+  $node = FALSE;
+
   // Add static cache.
-
-  // Cast argument to an integer to see if it looks like a node ID.
-  $num = intval($arg);
-  if (is_numeric($num) && $num > 0) {
-    $nid = $num;
-  }
-  elseif (strlen($arg) > 1) {
-    // Try looking up the argument as a slug.
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'ding_library')
-      ->propertyCondition('status', 1)
-      ->fieldCondition('field_ding_library_slug', 'value', $arg);
-
-    $result = $query->execute();
-    $nid = reset(array_keys($result['node']));
-  }
-  else {
-    return FALSE;
+  $cache = &drupal_static(__FUNCTION__, array());
+  if (isset($cache['arg'])) {
+    $node = $cache['arg'];
   }
 
-  // Check that it is a number that we found.
-  if (!$nid || !is_numeric($nid)) {
-    return FALSE;
-  }
+  if (!$node) {
+    // Cast argument to an integer to see if it looks like a node ID.
+    $num = intval($arg);
+    if (is_numeric($num) && $num > 0) {
+      $nid = $num;
+    }
+    elseif (strlen($arg) > 1) {
+      // Try looking up the argument as a slug.
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'ding_library')
+        ->propertyCondition('status', 1)
+        ->fieldCondition('field_ding_library_slug', 'value', $arg);
 
-  // Load the related node.
-  $arg = node_load($nid);
-  if (!$arg) {
-    return FALSE;
+      $result = $query->execute();
+      $nid = array_keys($result['node']);
+      $nid = reset($nid);
+    }
+    else {
+      return FALSE;
+    }
+
+    // Check that it is a number that we found.
+    if (!$nid || !is_numeric($nid)) {
+      return FALSE;
+    }
+
+    // Load the related node.
+    $node = node_load($nid);
+    if (!$node) {
+      return FALSE;
+    }
+
+    // Save the node in cache.
+    $cache['arg'] = $node;
   }
 
   // Create the context.
-  return ctools_context_create('node', $arg);
+  return ctools_context_create('node', $node);
 }
