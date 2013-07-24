@@ -10,7 +10,7 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Tue, 23 Jul 2013 17:41:52 +0200">
+<node_export created="Wed, 24 Jul 2013 09:43:36 +0200">
   <node>
     <vid>2</vid>
     <uid>1</uid>
@@ -195,13 +195,13 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <menu type="NULL"></menu>
     <path>
       <pid>20</pid>
       <source>node/2</source>
       <alias>arrangementer/workshop/parkour-biblioteket-i-bevaegelse</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -315,13 +315,13 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <menu type="NULL"></menu>
     <path>
       <pid>21</pid>
       <source>node/3</source>
       <alias>nyheder/kort-nyt/fantastiske-rejser</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -522,13 +522,13 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <menu type="NULL"></menu>
     <path>
       <pid>22</pid>
       <source>node/4</source>
       <alias>arrangementer/litteratur/tove-ditlevsens-liv-i-litteratur-og-musik</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -566,8 +566,8 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <menu type="NULL"></menu>
     <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -691,13 +691,13 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <menu type="NULL"></menu>
     <path>
       <pid>23</pid>
       <source>node/6</source>
       <alias>nyheder/anbefalinger/language-cafe</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -735,8 +735,8 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <menu type="NULL"></menu>
     <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -816,8 +816,8 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <menu type="NULL"></menu>
     <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -907,6 +907,12 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <path>
+      <pid>24</pid>
+      <source>node/9</source>
+      <alias>det-kan-du</alias>
+      <language>und</language>
+    </path>
     <menu>
       <link_title>Det kan du</link_title>
       <mlid>0</mlid>
@@ -923,12 +929,6 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
-    <path>
-      <pid>24</pid>
-      <source>node/9</source>
-      <alias>det-kan-du</alias>
-      <language>und</language>
-    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1117,13 +1117,13 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <menu type="NULL"></menu>
     <path>
       <pid>25</pid>
       <source>node/10</source>
       <alias>biblioteker/testbib</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1187,6 +1187,12 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <path>
+      <pid>26</pid>
+      <source>node/11</source>
+      <alias>det-kan-du/vejledninger</alias>
+      <language>und</language>
+    </path>
     <menu>
       <link_title>Vejledninger</link_title>
       <mlid>0</mlid>
@@ -1203,12 +1209,6 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
-    <path>
-      <pid>26</pid>
-      <source>node/11</source>
-      <alias>det-kan-du/vejledninger</alias>
-      <language>und</language>
-    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1246,6 +1246,12 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <path>
+      <pid>27</pid>
+      <source>node/12</source>
+      <alias>det-kan-duvejledninger/sporgsmal-og-svar</alias>
+      <language>und</language>
+    </path>
     <menu>
       <link_title>Spørgsmål og svar</link_title>
       <mlid>0</mlid>
@@ -1262,17 +1268,11 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
-    <path>
-      <pid>27</pid>
-      <source>node/12</source>
-      <alias>det-kan-duvejledninger/sporgsmal-og-svar</alias>
-      <language>und</language>
-    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
     <vid>13</vid>
-    <uid>0</uid>
+    <uid>1</uid>
     <title>Om hjemmesiden</title>
     <log></log>
     <status>1</status>
@@ -1284,12 +1284,12 @@ function ding_example_content_node_export_features_default() {
     <type>ding_page</type>
     <language>und</language>
     <created>1374593775</created>
-    <changed>1374593775</changed>
+    <changed>1374594213</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>c181d47e-7c98-442a-9c3b-e23ed7b178ab</uuid>
-    <revision_timestamp>1374593775</revision_timestamp>
-    <revision_uid>0</revision_uid>
+    <revision_timestamp>1374594213</revision_timestamp>
+    <revision_uid>1</revision_uid>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -1332,11 +1332,11 @@ function ding_example_content_node_export_features_default() {
     <last_comment_name type="NULL"></last_comment_name>
     <last_comment_uid>0</last_comment_uid>
     <comment_count>0</comment_count>
-    <name></name>
+    <name>admin</name>
     <picture>0</picture>
-    <data type="NULL"></data>
-    <menu type="NULL"></menu>
+    <data>b:0;</data>
     <path type="boolean">FALSE</path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1391,6 +1391,12 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
+    <path>
+      <pid>28</pid>
+      <source>node/14</source>
+      <alias>det-kan-du/lan-et-lokale</alias>
+      <language>und</language>
+    </path>
     <menu>
       <link_title>Lån et lokale</link_title>
       <mlid>0</mlid>
@@ -1407,12 +1413,6 @@ function ding_example_content_node_export_features_default() {
       <description></description>
       <enabled>1</enabled>
     </menu>
-    <path>
-      <pid>28</pid>
-      <source>node/14</source>
-      <alias>det-kan-du/lan-et-lokale</alias>
-      <language>und</language>
-    </path>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1509,13 +1509,13 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <menu type="NULL"></menu>
     <path>
       <pid>29</pid>
       <source>node/15</source>
       <alias>nyheder/kort-nyt/biblioteket-anbefaler-fagboger</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1658,13 +1658,13 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <menu type="NULL"></menu>
     <path>
       <pid>30</pid>
       <source>node/16</source>
       <alias>nyheder/boger/landsdaekkende-novellekonkurrence</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
@@ -1851,13 +1851,13 @@ function ding_example_content_node_export_features_default() {
     <name></name>
     <picture>0</picture>
     <data type="NULL"></data>
-    <menu type="NULL"></menu>
     <path>
       <pid>31</pid>
       <source>node/17</source>
       <alias>biblioteker/hovedbiblioteket</alias>
       <language>und</language>
     </path>
+    <menu type="NULL"></menu>
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
 </node_export>',

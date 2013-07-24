@@ -195,16 +195,54 @@ function ding_example_content_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
   );
+  // Exported menu link: menu-footer-menu-3:node/9
+  $menu_links['menu-footer-menu-3:node/9'] = array(
+    'menu_name' => 'menu-footer-menu-3',
+    'link_path' => 'node/9',
+    'router_path' => 'node/%',
+    'link_title' => 'Biblioteket på din telefon',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+  );
+  // Exported menu link: menu-footer-menu-4:node/13
+  $menu_links['menu-footer-menu-4:node/13'] = array(
+    'menu_name' => 'menu-footer-menu-4',
+    'link_path' => 'node/13',
+    'router_path' => 'node/%',
+    'link_title' => 'Om hjemmesiden',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 0,
+  );
   // Translatables
   // Included for use with string extractors like potx.
   t('Artikelsøgning');
   t('Bibliotek.dk');
+  t('Biblioteket på din telefon');
   t('Borger.dk');
   t('Det kan du');
   t('Filmstriben');
   t('Litteratursiden');
   t('Lån et lokale');
   t('Netlydbog');
+  t('Om hjemmesiden');
   t('Spørgsmål og svar');
   t('Vejledninger');
   t('eReolen');
