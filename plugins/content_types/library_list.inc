@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *  
+ * Creates a library select dropdown pane.
  */
 
 $plugin = array(
@@ -21,6 +21,9 @@ $plugin = array(
   ),
 );
 
+/**
+ * Implements hook_ID_content_type_render().
+ */
 function ding_content_library_list_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
   $library = NULL;
@@ -71,16 +74,20 @@ function ding_content_library_list_content_type_render($subtype, $conf, $panel_a
   return $block;
 }
 
+/**
+ * Helper function to sort libraries based on name.
+ */
 function ding_content_library_list_sort_title($a, $b) {
   if (!isset($b->title)) {
     return -1;
   }
+
   if (!isset($a->title)) {
     return 1;
   }
+
   return strcasecmp($a->title, $b->title);
 }
-
 
 /**
  * Form which creates a select box with available libraries.
