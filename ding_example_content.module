@@ -1,6 +1,58 @@
 <?php
 /**
  * @file
+ * Code for the Ding example content feature.
  */
 
-// Drupal needs this blank file.
+include_once 'ding_example_content.features.inc';
+
+
+/**
+ * Implements hook_enable().
+ */
+function ding_example_content_enable() {
+  $items = array();
+
+  // Define terms for the event category.
+  $vocab = taxonomy_vocabulary_machine_name_load('event_category');
+  $items[$vocab->vid] = array(
+    'Bogsalg',
+    'Børn',
+    'Diverse',
+    'Litteratur',
+    'Musik',
+    'Udstilling',
+    'Workshop',
+  );
+
+  // Define terms for the event target.
+  $vocab = taxonomy_vocabulary_machine_name_load('event_target');
+  $items[$vocab->vid] = array(
+    'For alle',
+    'For børn',
+    'For studerende',
+    'For unge',
+    'For voksne',
+    'For ældre',
+  );
+
+  // Define terms for the news categories.
+  $vocab = taxonomy_vocabulary_machine_name_load('news_category');
+  $items[$vocab->vid] = array(
+    'Anbefalinger',
+    'Bøger',
+    'Film',
+    'Kort nyt',
+  );
+  
+  // Save terms in the database.
+  foreach ($items as $vid => $terms) {
+    foreach($terms as $term) {
+      taxonomy_term_save((object) array(
+        'name' => $term,
+        'vid' => $vid,
+        'format' => 'ding_wysiwyg',
+      ));
+    }
+  }
+}
