@@ -105,6 +105,16 @@ function ding_news_default_page_manager_handlers() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -114,14 +124,16 @@ function ding_news_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'news_category_menu';
-    $pane->subtype = 'news_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'nyheder',
+      'default_link_text' => 'All categories',
       'context' => array(
-        0 => 'empty',
-        1 => 'empty',
+        0 => 'relationship_entity_from_field:field_ding_news_category-node-taxonomy_term_1',
+        1 => 'relationship_og_node_from_group_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -281,6 +293,16 @@ taxonomy/term/%term:tid',
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -290,17 +312,19 @@ taxonomy/term/%term:tid',
     $pane = new stdClass();
     $pane->pid = 'new-5';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'news_category_menu';
-    $pane->subtype = 'news_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'nyheder',
+      'default_link_text' => 'All categories',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
-      'override_title' => 1,
-      'override_title_text' => 'Kategorier',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -341,13 +365,14 @@ taxonomy/term/%term:tid',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'news',
+      'type' => 'ding_news',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'nyheder',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -512,6 +537,16 @@ news/%tid:name',
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -521,17 +556,19 @@ news/%tid:name',
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'news_category_menu';
-    $pane->subtype = 'news_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'nyheder',
+      'default_link_text' => 'All categories',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
-      'override_title' => 1,
-      'override_title_text' => 'Kategorier',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -572,13 +609,14 @@ news/%tid:name',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'news',
+      'type' => 'ding_news',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'nyheder',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -677,7 +715,7 @@ news/%tid:name',
   $page->task = 'page';
   $page->admin_title = 'Library news page';
   $page->admin_description = '';
-  $page->path = 'bibliotek/%node/nyheder/!tid';
+  $page->path = 'bibliotek/%slug/nyheder/!tid';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -695,12 +733,11 @@ news/%tid:name',
   );
   $page->menu = array();
   $page->arguments = array(
-    'node' => array(
+    'slug' => array(
       'id' => 1,
-      'identifier' => 'Library node',
-      'name' => 'entity_id:node',
+      'identifier' => 'Node: Ding library slug',
+      'name' => 'slug',
       'settings' => array(),
-      'keyword' => 'node',
     ),
     'tid' => array(
       'id' => 1,
@@ -794,6 +831,16 @@ node/%node:nid/news
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -803,14 +850,16 @@ node/%node:nid/news
     $pane = new stdClass();
     $pane->pid = 'new-7';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'news_category_menu';
-    $pane->subtype = 'news_category_menu';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'slug' => 'nyheder',
+      'default_link_text' => 'All categories',
       'context' => array(
-        0 => 'empty',
-        1 => 'argument_entity_id:node_1',
+        0 => 'argument_term_1',
+        1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -854,13 +903,14 @@ node/%node:nid/news
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'news',
+      'type' => 'ding_news',
       'context' => array(
         0 => 'argument_term_1',
-        1 => 'argument_entity_id:node_1',
+        1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'slug' => 'nyheder',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -879,7 +929,12 @@ node/%node:nid/news
     $pane->subtype = 'ding_news-ding_news_list_library';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_slug_1',
+        1 => 'argument_term_1',
+      ),
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -902,12 +957,13 @@ node/%node:nid/news
       'ding_campaign_offset' => 0,
       'context' => array(
         0 => 'empty',
-        1 => 'relationship_og_node_from_group_1',
+        1 => 'argument_slug_1',
         2 => 'empty',
-        3 => 'empty',
+        3 => 'argument_term_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'ding_campaign_image_style' => 'medium',
     );
     $pane->cache = array(
       'method' => 'simple',
