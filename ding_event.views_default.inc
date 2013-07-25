@@ -651,8 +651,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['argument_input'] = array(
     'tid' => array(
       'type' => 'context',
-      'context' => 'terms.tid',
-      'context_optional' => 1,
+      'context' => 'entity:taxonomy_term.tid',
+      'context_optional' => 0,
       'panel' => '0',
       'fixed' => '%tid',
       'label' => 'Content: Has taxonomy term ID',
@@ -1201,21 +1201,21 @@ function ding_event_views_default_views() {
     'event_category' => 'event_category',
   );
   $handler->display->display_options['argument_input'] = array(
-    'tid' => array(
-      'type' => 'panel',
-      'context' => 'terms.tid',
-      'context_optional' => 1,
-      'panel' => '1',
-      'fixed' => '%tid',
-      'label' => 'Content: Has taxonomy term ID',
-    ),
     'ding_library_nid' => array(
-      'type' => 'panel',
-      'context' => 'entity:user.uid',
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
       'label' => 'Indhold: Library (field_ding_event_library:nid)',
+    ),
+    'tid' => array(
+      'type' => 'context',
+      'context' => 'entity:taxonomy_term.tid',
+      'context_optional' => 0,
+      'panel' => '1',
+      'fixed' => '%tid',
+      'label' => 'Content: Has taxonomy term ID',
     ),
   );
 
