@@ -282,9 +282,7 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
  * Implements hook_ctools_plugin_directory -
  */
 function ding_library_ctools_plugin_directory($owner, $plugin_type) {
-  if ($owner == 'ctools' && $plugin_type == 'content_types') {
-    return 'plugins/content_types';
-  }
+  return 'plugins/' . $plugin_type;
 }
 
 /**
