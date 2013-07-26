@@ -1,8 +1,5 @@
 .bpi-single-well-item {
-  border: 1px solid black;
   margin-bottom: 5px;
-  padding: 5px;
-  position: relative;
 }
 
 .bpi-single-well-item .item-action-syndicate {
