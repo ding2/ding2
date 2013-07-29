@@ -224,22 +224,29 @@ function bpi_search_get_markup($items) {
 
   // Iterate through items and theme them.
   if (is_array($items)) {
-    $th = array(
-      array('data' => 'Title', 'class' => 'bpi-title'),
+    $table_head = array(
+      array(
+        'data' => t('Title'),
+        'class' => 'bpi-title'
+      ),
       'Date',
-      array('data' => 'Details', 'class' => 'bpi-details'),
-      'Photo',
-      'Actions'
+      array(
+        'data' => t('Details'),
+        'class' => 'bpi-details'
+      ),
+      t('Photo'),
+      t('Actions')
     );
-    $td = array('title', 'date', 'details', 'photo', 'actions');
+
+    $rows = array('title', 'date', 'details', 'photo', 'actions');
     foreach ($items as $i => $item) {
-      $td[$i]['title'] = '<b>'.$item['title']."</b><br>".$item['teaser'];
-      $td[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
-      $td[$i]['details'] =
-        bpi_label_mapper('category')." ".l($item['category'], 'admin/bpi', array('query' => _bpi_build_query('category', $item['category']))).
-        "<br>".bpi_label_mapper('author')." ".l($item['author'], 'admin/bpi', array('query' => _bpi_build_query('author', $item['author']))).
-        "<br>".bpi_label_mapper('agency')." ".l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))).
-        "<br>".bpi_label_mapper('audience')." ".l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience'])));
+      $rows[$i]['title'] = '<b>'.$item['title'] . "</b><br/>" . $item['teaser'];
+      $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
+      $rows[$i]['details'] =
+        bpi_label_mapper('category') . " " . l($item['category'], 'admin/bpi', array('query' => _bpi_build_query('category', $item['category']))) .
+        "<br/>" . bpi_label_mapper('author') . " " . l($item['author'], 'admin/bpi', array('query' => _bpi_build_query('author', $item['author']))) .
+        "<br/>" . bpi_label_mapper('agency') . " " . l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))) .
+        "<br/>" . bpi_label_mapper('audience') . " " . l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience'])));
       $variables = array();
       $photos_str = (count($item['assets'])>0) ? t('Photos available for content') : t('No photos available for content');
       $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets'])>0) ? 'photos' : 'no_photos') . '.png' ;
@@ -248,19 +255,19 @@ function bpi_search_get_markup($items) {
       $variables['attributes'] = array();
       theme_image($variables);
 
-      $td[$i]['photo'] = array('data' => theme_image($variables), 'class' => 'bpi-photo');
-      $td[$i]['actions'] = l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax')))." ".l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']);
+      $rows[$i]['photo'] = array('data' => theme_image($variables), 'class' => 'bpi-photo');
+      $rows[$i]['actions'] = l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax'))) . " " . l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']);
     }
 
-    $data[] = theme('table', array(
-      'header' => $th,
-      'rows' => $td,
-      'sticky' => true,
+    $data = theme('table', array(
+      'header' => $table_head,
+      'rows' => $rows,
+      'sticky' => TRUE,
       'attributes'
     ));
   }
 
-  return implode('', $data);
+  return $data;
 }
 
 /**
