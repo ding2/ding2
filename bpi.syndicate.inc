@@ -227,20 +227,20 @@ function bpi_search_get_markup($items) {
     $table_head = array(
       array(
         'data' => t('Title'),
-        'class' => 'bpi-title'
+        'class' => 'bpi-title',
       ),
       'Date',
       array(
         'data' => t('Details'),
-        'class' => 'bpi-details'
+        'class' => 'bpi-details',
       ),
       t('Photo'),
-      t('Actions')
+      t('Actions'),
     );
 
     $rows = array('title', 'date', 'details', 'photo', 'actions');
     foreach ($items as $i => $item) {
-      $rows[$i]['title'] = '<b>'.$item['title'] . "</b><br/>" . $item['teaser'];
+      $rows[$i]['title'] = '<b>' . $item['title'] . "</b><br/>" . $item['teaser'];
       $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
       $rows[$i]['details'] =
         bpi_label_mapper('category') . " " . l($item['category'], 'admin/bpi', array('query' => _bpi_build_query('category', $item['category']))) .
@@ -248,8 +248,8 @@ function bpi_search_get_markup($items) {
         "<br/>" . bpi_label_mapper('agency') . " " . l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))) .
         "<br/>" . bpi_label_mapper('audience') . " " . l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience'])));
       $variables = array();
-      $photos_str = (count($item['assets'])>0) ? t('Photos available for content') : t('No photos available for content');
-      $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets'])>0) ? 'photos' : 'no_photos') . '.png' ;
+      $photos_str = (count($item['assets']) > 0) ? t('Photos available for content') : t('No photos available for content');
+      $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets']) > 0) ? 'photos' : 'no_photos') . '.png' ;
       $variables['alt'] = $photos_str;
       $variables['title'] = $photos_str;
       $variables['attributes'] = array();
@@ -263,7 +263,7 @@ function bpi_search_get_markup($items) {
       'header' => $table_head,
       'rows' => $rows,
       'sticky' => TRUE,
-      'attributes'
+      'attributes',
     ));
   }
 
