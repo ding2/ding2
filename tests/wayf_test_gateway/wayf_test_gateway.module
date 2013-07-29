@@ -1,0 +1,29 @@
+<?php
+
+
+function wayf_test_gateway_menu(){
+  $items['wayf/gateway'] = array(
+    'title' => t('test gateway'),
+    'description' => t('test gateway'),
+    'page callback' => 'wayf_test_gateway_callback',
+    'access callback' => true,
+  );
+
+  return $items;
+}
+
+
+function wayf_test_gateway_callback(){
+  if (isset($_GET['op']) && $_GET['op'] == 'logout')
+    drupal_goto($_GET['returnUrl']);
+  ?>
+
+  <form id='gateway_callback' method="post" action='<?php echo $_GET['returnUrl']; ?>'>
+    <input type='submit' value="accept"/>
+    <input type="hidden" name='eduPersonTargetedID[]' value="WAYF-test-ID" />
+    <input type="hidden" name='mail[]' value="dummy@dbc.dk" />
+  </form>
+
+<?php
+  exit;
+}

@@ -62,9 +62,9 @@ class DingWyafTestCase extends DrupalWebTestCase {
   }
 
   public function setUp() {
-    module_load_include('php', 'ding_wayf', 'tests/simplesaml_mock/lib/_autoload');
+    module_load_include('php', 'ding_wayf', 'lib/_autoload');
     module_load_include('inc', 'ding_wayf', 'tests/wyrna/wyrna.wayf');
-    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages'));
+    parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages', 'wayf_test_gateway'));
   }
 
   public function testDingWayfLogin() {
@@ -82,9 +82,13 @@ class DingWyafTestCase extends DrupalWebTestCase {
     $securepages = array(
 
     );
+    global $base_url;
     $ding_wayf = array(
       'ding_wayf[installdir]' => drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock',
       'ding_wayf[redirect]' => 'user',
+      'ding_wayf[wayflogin]' => 1,
+      'ding_wayf[nemlogin]' => 1,
+      'ding_wayf[gatewayf]' => $this->getAbsoluteUrl('wayf/gateway'),
     );
     $account = $this->drupalCreateUser(array('administer site configuration', 'configure wayf'));
     $this->drupalLogin($account);
@@ -99,46 +103,45 @@ class DingWyafTestCase extends DrupalWebTestCase {
   }
 
   private function testNotLoggedIn() {
-    $this->drupalGet('wayf/login');
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
+    // TODO: Relative URL
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->drupalPost(null, null, 'accept');
     $this->assertNoText(t('The WAYF login module is not configured yet, plase contact the site administrator.'), t('WAYF not configured error message.'));
     $this->assertUrl('wayf/accept');
-   // $this->assertText(t('Not WAYF authenticated.'), t('Not logged in using WAYF.'));
+    $this->assertText(t('You have been authenticated by wayf, but you have no account'), t('Not logged in using WAYF.'));
   }
 
   private function testAlreadyLoggedIn() {
     $account = $this->drupalCreateUser();
     $this->drupalLogin($account);
     $this->drupalGet('wayf/login');
-    $this->assertText(t('Log out'), t('User redirected to user profile page.'));
+    $this->assertText(t('Log out'), t('User redirected to front page.'));
     $this->drupalLogout();
   }
-  
+
   private function testWayfAcceptPage() {
-    $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
-    $this->drupalGet('wayf/login');
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->drupalPost(null, null, 'accept');
     $this->assertUrl('wayf/accept');
   }
-  
+
   private function testWayfAbort(){
-    $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
-    $this->drupalGet('wayf/login');
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
     $this->assertUrl('wayf/accept', array(), 'current page is accept form');
     $this->drupalPost(NULL, NULL, t('abort'));
-    $this->assertUrl('user', array(), 'Redirected to user page.');
-  }  
+    $this->assertUrl('<front>', array(), 'Redirected to user page.');
+  }
 
   private function testWayfLogin() {
-    $ss = new SimpleSAML_Auth_Simple('default-sp');
-    SimpleSAML_Auth_Simple::setAttributes(array('eduPersonTargetedID' => array('WAYF-1234567890'), 'mail' => array('dummy@dbc.dk'),));
-    $provider = DingWayfUser::instance();
-    $provider->bindWayf('dummy@dbc.dk', 'WAYF-1234567890');
-    $this->drupalGet('wayf/login');
-    $this->assertUrl('wayf/accept', array(), 'current page is accept form');  
+    $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->drupalPost(null, null, 'accept');
+    $this->assertUrl('wayf/accept', array(), 'current page is accept form');
     $edit = array();
     $edit['accept'] = TRUE;
-    $this->drupalPost(NULL, $edit, t('continue'));    
+    $this->drupalPost(NULL, $edit, t('continue'));
     $this->assertText(t('Log out'), t('User is logged in.'));
   }
 }
@@ -158,31 +161,36 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     parent::setUp();
   }
 
+  public function testDebug(){
+    debug('it works');
+  }
+
   public function testExtractData() {
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $field = 'CPR';
     $expected = '0708741234';
     $result = ding_wayf_extract_data($data, $field);
-    $this->assertEqual($result, $expected, t('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
+    $this->assertEqual($result, $expected, format_string('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
 
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $field = 'dk';
     $expected = 'CPR:0708741234';
     $result = ding_wayf_extract_data($data, $field);
-    $this->assertEqual($result, $expected, t('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
+    $this->assertEqual($result, $expected, format_string('"@result" found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0], '@result' => $result,)));
 
     // field not existing
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $field = 'garbage';
     $expected = '';
     $result = ding_wayf_extract_data($data, $field);
-    $this->assertEqual($result, $expected, t('Nothing found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0])));
+    $this->assertEqual($result, $expected, format_string('Nothing found as field "@field" in "@data"', array('@field' => $field, '@data' => $data[0])));
 
     // empty/unspecified field
     $data = array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234',);
     $expected = 'urn:mace:terena.org:schac:personalUniqueID:dk:CPR:0708741234';
     $result = ding_wayf_extract_data($data);
-    $this->assertEqual($result, $expected, t('Extracted all data cause no field was specified'));
+    $this->assertEqual($result, $expected, format_string('Extracted all data cause no field was specified'));
+
   }
 
   public function testGetRequiredAttributes() {
@@ -209,6 +217,7 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     $required = array('test' => array(), 'mixed' => array());
     $result = ding_wayf_get_required_attributes($wayf, $required);
     $expected = array('test' => 'yes', 'mixed' => 3);
+    debug($result);
     $this->assertEqual($result, $expected, 'Returned two required attributes from set of three.');
 
     $wayf = array('test' => 'yes', 'attribute' => 'test', 'mixed' => 3);
@@ -234,7 +243,7 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     $result = ding_wayf_regex_line($path);
     $this->assertEqual($result, $expected_pattern, 'String with slash and wildcard transformed correctly.');
   }
-} 
+}
 
 class DingWayfRequirementsTestCase extends DrupalWebTestCase {
   private $https;
@@ -334,7 +343,7 @@ class DingWayfRequirementsTestCase extends DrupalWebTestCase {
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('SimpleSAMLphp installation not defined'), t('installdir defined.'));
     $this->assertText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php not found.'));
-    variable_set('ding_wayf', array('installdir' => drupal_get_path('module', 'ding_wayf') . '/tests/simplesaml_mock'));
+    variable_set('ding_wayf', array('installdir' => drupal_get_path('module', 'ding_wayf')));
     $this->drupalGet('admin/reports/status');
     $this->assertNoText(t('SimpleSAMLphp installation has disappeared'), t('simpleSAML __autoload.php found.'));
   }
