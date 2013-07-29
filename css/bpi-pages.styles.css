@@ -1,47 +1,38 @@
-.bpi-single-well-item {
-  margin-bottom: 5px;
+.bpi-admin-actions a {
+  margin-right: 10px;
 }
 
-.bpi-single-well-item .item-action-syndicate {
-  border: 1px solid black;
-  bottom: 0;
-  padding: 3px;
-  position: absolute;
-  right: 3px;
+div.form-item-bpi-search-query {
+  float: left;
+  padding-top: 5px;
 }
 
-#bpi-syndicate-page-form .form-item-bpi-search-query,
-.bpi-single-well-item .item-title,
-.bpi-single-well-item .item-details .details-left,
-.bpi-single-well-item .item-details .details-right {
+.form-item-bpi-search-query input {
+  margin-right: 20px;
+}
+
+.edit-bpi-search-submit {
+  float: left;
+  margin-top: 10px;
+}
+
+.bpi-filter-text {
+  line-height: 16px;
+}
+
+.bpi-filter-remove-cross {
   display: inline-block;
+  height: 16px;
 }
 
-.bpi-single-well-item .item-details .details-left,
-.bpi-single-well-item .item-details .details-right {
-  width: 45%;
+.bpi-filter-remove-cross {
+  vertical-align: middle;
 }
 
-.bpi-single-well-item .item-details .details-label {
-  font-weight: bold;
+.bpi-title {
+  width: 40%;
 }
 
-#edit-bpi-search-sort {
-  text-align: right;
-}
-
-#edit-bpi-actions {
-  position: absolute;
-  right: 0;
-}
-
-#edit-bpi-actions a {
-  border: 1px solid black;
-  margin-right: 5px;
-  padding: 3px;
-}
-
-.bpi-marker {
-  color: green;
-  margin-left: 5px;
+.bpi-photo {
+  text-align: center;
 }
