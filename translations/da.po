@@ -181,11 +181,11 @@ msgstr "Send til BPI"
 
 #: bpi.push.inc:93;215 bpi.syndicate.inc:370
 msgid "Category"
-msgstr "Kategori:"
+msgstr "Kategori"
 
 #: bpi.push.inc:101;223 bpi.syndicate.inc:372
 msgid "Audience"
-msgstr "Målgruppe:"
+msgstr "Målgrupp"
 
 #: bpi.push.inc:108;230
 msgid "Push with images"
