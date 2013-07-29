@@ -99,7 +99,7 @@ function bpi_menu() {
     'access arguments' => array('push content'),
     'file' => 'bpi.push.inc',
   );
-  
+
   $menu['admin/bpi/push/nojs/%'] = array(
     'title' => 'Push to BPI',
     'page callback' => 'bpi_push_action',
@@ -210,12 +210,6 @@ function bpi_permission() {
  */
 function bpi_theme($existing, $type, $theme, $path) {
   $hooks = array();
-
-  $hooks['bpi_well_item'] = array(
-    'variables' => array(),
-    'path' => $path . '/templates/',
-    'template' => 'bpi-well-item',
-  );
 
   $hooks['bpi_filter_item'] = array(
     'variables' => array(),
