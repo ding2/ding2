@@ -192,6 +192,14 @@ function bpi_admin_content_mapping_form($form, $form_state) {
     '#default_value' => variable_get('bpi_field_body', ''),
   );
 
+  $form['bpi_mapper']['bpi_field_materials'] = array(
+    '#type' => 'select',
+    '#title' => t('BPI materials'),
+    '#description' => '',
+    '#options' => $field_instances,
+    '#default_value' => variable_get('bpi_field_materials', ''),
+  );
+
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
 
   return system_settings_form($form);
@@ -255,6 +263,7 @@ function bpi_get_field_instances($node_type) {
     'text_textfield',
     'text_textarea',
     'text_textarea_with_summary',
+    'ting_reference_simple',
   );
 
   if (!empty($node_type)) {

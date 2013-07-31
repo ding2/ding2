@@ -363,6 +363,8 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
     $teaser_map = variable_get('bpi_field_teaser', '');
     $body_map = variable_get('bpi_field_body', '');
+    $materials_map = variable_get('bpi_field_materials', '');
+    $materials_map = field_view_field('node', $node, $materials_map);
     $teaser_field = field_view_field('node', $node, $teaser_map);
     $body_field = field_view_field('node', $node, $body_map);
     $teaser = '';
@@ -375,6 +377,14 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     }
     elseif (isset($teaser_field['#items'][0]['safe_value'])) {
       $teaser = $teaser_field['#items'][0]['safe_value'];
+    }
+
+    foreach ($materials_map as $key => $value) {
+      if (is_numeric($key)) {
+        $record = $value['#object']->getRecord();
+        $ac_identifier_array = array_shift(array_values($record['ac:identifier']));
+        $materials_drupal[] = $ac_identifier_array[0];
+      }
     }
 
     if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
@@ -395,6 +405,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $bpi_content['type'] = $node->type;
     $bpi_content['category'] = $category;
     $bpi_content['audience'] = $audience;
+    $bpi_content['materials_drupal'] = $materials_drupal;
     $bpi_content['editable'] = 0;
     $bpi_content['authorship'] = ($authorship) ? TRUE : FALSE;
     $bpi_content['images'] = array();
