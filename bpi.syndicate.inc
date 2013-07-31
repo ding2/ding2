@@ -238,7 +238,7 @@ function bpi_search_get_markup($items) {
       t('Actions'),
     );
 
-    $rows = array('title', 'date', 'details', 'photo', 'actions');
+    $rows = array();
     foreach ($items as $i => $item) {
       $rows[$i]['title'] = '<b>' . $item['title'] . "</b><br/>" . $item['teaser'];
       $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
@@ -253,7 +253,6 @@ function bpi_search_get_markup($items) {
       $variables['alt'] = $photos_str;
       $variables['title'] = $photos_str;
       $variables['attributes'] = array();
-      theme_image($variables);
 
       $rows[$i]['photo'] = array('data' => theme_image($variables), 'class' => 'bpi-photo');
       $rows[$i]['actions'] = l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax'))) . " " . l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']);
@@ -263,7 +262,6 @@ function bpi_search_get_markup($items) {
       'header' => $table_head,
       'rows' => $rows,
       'sticky' => TRUE,
-      'attributes',
     ));
   }
 
