@@ -53,7 +53,6 @@ features[image][] = ding_staff_thumbnail
 features[page_manager_handlers][] = user_view_panel_context_3
 features[page_manager_pages][] = ding_staff
 features[page_manager_pages][] = ding_staff_library
-features[page_manager_pages][] = ding_staff_user
 features[profile2_type][] = ding_staff_profile
 features[taxonomy][] = ding_staff_department
 features[user_permission][] = edit any ding_staff_profile profile

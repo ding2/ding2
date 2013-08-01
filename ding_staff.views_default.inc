@@ -206,7 +206,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_surname], [field_ding_staff_forename]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_class'] = 'staff-name';
@@ -539,7 +539,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_surname], [field_ding_staff_forename]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alt'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['link_class'] = 'staff-name';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
@@ -683,7 +683,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alt'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_type'] = '0';
@@ -790,7 +790,6 @@ function ding_staff_views_default_views() {
     t('E-mail'),
     t('Staff list'),
     t('more'),
-    t('User'),
     t('Library staff list'),
     t('[field_ding_staff_forename] [field_ding_staff_surname]'),
     t('Alle'),
@@ -1287,7 +1286,6 @@ function ding_staff_views_default_views() {
     t('Rolle'),
     t('Forename (Staff)'),
     t('Page'),
-    t('more'),
   );
   $export['ding_staff_admin_users'] = $view;
 
