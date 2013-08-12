@@ -176,7 +176,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
   /* Field: Profile: Image */
   $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
@@ -514,7 +514,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
   /* Field: Profile: Image */
   $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
@@ -658,7 +658,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'staff/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
   /* Field: Profile: Image */
   $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
