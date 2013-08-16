@@ -12,6 +12,7 @@ dependencies[] = strongarm
 dependencies[] = text
 dependencies[] = ting
 dependencies[] = ting_search
+dependencies[] = ding_availability
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1

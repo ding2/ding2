@@ -24,7 +24,7 @@ function ting_new_materials_ctools_plugin_directory($module, $plugin) {
 function ting_new_materials_theme($existing, $type, $theme, $path) {
   return array(
     'ting_new_materials' => array(
-      'variables' => array('title' => NULL, 'legend' => NULL, 'results' => NULL),
+      'variables' => array('title' => NULL, 'legend' => NULL, 'availability_legend' => NULL, 'results' => NULL),
       'template'  => 'ting-new-materials',
       'path' => $path . '/templates',
     ),
