@@ -3830,12 +3830,12 @@ body {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../work/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -4158,12 +4158,12 @@ body {
   clear: left;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
@@ -6432,6 +6432,338 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /**
+ * New Materials search result
+ *
+ *
+ * @author Árni Loftsson
+ */
+/* Variables
+   ========================================================================== */
+/* line 16, ../sass/module/_newmaterials.scss */
+.new-materials-title {
+  float: left;
+  width: 66.66667%;
+  margin-left: 0%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* line 23, ../sass/module/_newmaterials.scss */
+.ting-search-amount {
+  float: right;
+  width: 33.33333%;
+  margin-right: 0%;
+  margin-left: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  text-align: right;
+}
+/* line 28, ../sass/module/_newmaterials.scss */
+.ting-search-amount .ting-search-amount-block {
+  color: #959595;
+}
+
+/* Availability explanation legend */
+/* line 34, ../sass/module/_newmaterials.scss */
+.ding-availability-legend {
+  clear: both;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+/* line 39, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend {
+  float: right;
+  border: none;
+  padding: 0;
+}
+/* line 44, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend .availability-legend-item {
+  margin: 0;
+  margin-left: 10px;
+  line-height: normal;
+}
+/* line 49, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend .availability-legend-item img {
+  vertical-align: middle;
+}
+/* line 53, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend .availability-legend-item .availability-label {
+  font-weight: normal;
+  color: #959595;
+}
+
+/* Search results list
+   ========================================================================== */
+/* line 65, ../sass/module/_newmaterials.scss */
+.pane-new-materials {
+  clear: both;
+  overflow: hidden;
+  padding-top: 20px;
+}
+/* line 70, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results {
+  padding-top: 20px;
+  border-top: 1px solid #d5d5d5;
+}
+/* line 74, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list {
+  /* Compact search result display */
+}
+/* line 75, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .list-item {
+  background-color: #efefef;
+  padding: 20px;
+}
+/* line 80, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .heading {
+  margin-bottom: 10px;
+}
+/* line 85, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .content,
+.pane-new-materials .search-results .list .field {
+  margin-bottom: 10px;
+}
+/* line 89, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .subjects {
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+/* line 93, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .subjects strong {
+  font-weight: inherit;
+}
+/* line 97, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .subjects a {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+/* line 105, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short {
+  /* Display the author */
+}
+/* line 108, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .ting-cover,
+.pane-new-materials .search-results .list .ding-format-short .content,
+.pane-new-materials .search-results .list .ding-format-short .field {
+  display: none;
+}
+/* line 113, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading + div.content {
+  display: inline;
+  margin-left: 5px;
+}
+/* line 120, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading,
+.pane-new-materials .search-results .list .ding-format-short .content,
+.pane-new-materials .search-results .list .ding-format-short .field {
+  margin-left: 0;
+  padding-left: 0;
+}
+/* line 125, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading {
+  display: inline;
+}
+/* line 128, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading h2 {
+  display: inline;
+}
+/* line 133, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .subjects {
+  display: none;
+}
+/* line 137, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short div.availability {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+/* line 146, ../sass/module/_newmaterials.scss */
+.availability {
+  margin-bottom: 0;
+}
+/* line 149, ../sass/module/_newmaterials.scss */
+.availability.content {
+  float: right;
+}
+/* line 153, ../sass/module/_newmaterials.scss */
+.availability li {
+  display: inline-block;
+  margin-bottom: 5px;
+  padding: 0;
+}
+/* line 158, ../sass/module/_newmaterials.scss */
+.availability li.pending {
+  background-color: #959595;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.pending a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.pending a:hover {
+  text-decoration: none;
+}
+/* line 162, ../sass/module/_newmaterials.scss */
+.availability li.availability.processed {
+  background-color: #959595;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.processed a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.processed a:hover {
+  text-decoration: none;
+}
+/* line 166, ../sass/module/_newmaterials.scss */
+.availability li.availability.available {
+  background-color: #528c10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.available a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.available a:hover {
+  text-decoration: none;
+}
+/* line 170, ../sass/module/_newmaterials.scss */
+.availability li.availability.reservable {
+  background-color: #f0cb28;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.reservable a:hover {
+  text-decoration: none;
+}
+/* line 174, ../sass/module/_newmaterials.scss */
+.availability li.availability.available.reservable {
+  background-color: #528c10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.available.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.available.reservable a:hover {
+  text-decoration: none;
+}
+/* line 178, ../sass/module/_newmaterials.scss */
+.availability li.availability.available.not-reservable {
+  background-color: #a32e10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.available.not-reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.available.not-reservable a:hover {
+  text-decoration: none;
+}
+/* line 182, ../sass/module/_newmaterials.scss */
+.availability li.availability.unavailable.reservable {
+  background-color: #f0cb28;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.reservable a:hover {
+  text-decoration: none;
+}
+/* line 186, ../sass/module/_newmaterials.scss */
+.availability li.availability.unavailable.not-reservable {
+  background-color: #a32e10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.not-reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.not-reservable a:hover {
+  text-decoration: none;
+}
+/* line 191, ../sass/module/_newmaterials.scss */
+.availability li .availability-status:before {
+  content: " - ";
+  margin-left: 5px;
+}
+
+/**
  * Carousel
  *
  * @author magnify
@@ -6445,12 +6777,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
