@@ -182,6 +182,7 @@ function ting_relation_reviews($relations) {
  * a variant of a review (ac:source = 'bibliotekets materialer'
  */
 function ting_relation_review_other($relation) {
+  $ting = $relation['#object'];
   $rel = $relation['#relation'];
   
   // Type title.
