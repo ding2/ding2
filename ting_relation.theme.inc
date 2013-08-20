@@ -215,6 +215,7 @@ function ting_relation_review_other($relation) {
  * a variant of a review (ac:source = 'Anmeldelser'
  */
 function ting_relation_review($relation) {
+  file_put_contents("/home/quickstart/work/debug/debugret5.txt", print_r($relation['#relation'], TRUE), FILE_APPEND);
   $ting = $relation['#object'];
   $rel = $relation['#relation'];
   // Type title ; generel.
@@ -236,6 +237,17 @@ function ting_relation_review($relation) {
 
   if ($url = $rel->object->online_url) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
+  }
+
+  // Add a read more link in order to see the rest of the "Lektørudtalelse" review
+  if (isset($rel->object->reply) && isset($rel->object->reply->formatsAvailable)) {
+    if (in_array('docbook', $rel->object->reply->formatsAvailable)) {
+      $content['readmore_link'] = array(
+        '#prefix' => '<div class="ting-relation-read-more">',
+        '#markup' => l(t('Read more'), 'ting/object/' . $rel->object->ding_entity_id . '/fulltext'),
+        '#suffix' => '</div>',
+      );
+    }
   }
 
   return $content;
