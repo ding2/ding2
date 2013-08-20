@@ -215,7 +215,6 @@ function ting_relation_review_other($relation) {
  * a variant of a review (ac:source = 'Anmeldelser'
  */
 function ting_relation_review($relation) {
-  file_put_contents("/home/quickstart/work/debug/debugret5.txt", print_r($relation['#relation'], TRUE), FILE_APPEND);
   $ting = $relation['#object'];
   $rel = $relation['#relation'];
   // Type title ; generel.
