@@ -115,7 +115,7 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
     }
   }
   else {
-    drupal_goto('user/' . $user->uid  . '/edit');
+    drupal_goto('user/' . $user->uid . '/edit');
   }
 }
 
@@ -306,6 +306,7 @@ function ding_wayf_get_saml_connection($sp = NULL) {
   }
   return FALSE;
 }
+
 /**
  * Check that simpleSAMLphp is installed at the location given.
  */
@@ -342,12 +343,15 @@ function ding_wayf_block_view($delta) {
       $wayf = isset($config['wayflogin']) ? $config['wayflogin'] : FALSE;
       $nemlogin = isset($config['nemlogin']) ? $config['nemlogin'] : FALSE;
       if ($wayf) {
-        $block['content'] .= l(t('Login using WAYF'), 'wayf/login',
-            // array('attributes'=>array('class'=>'link-ding-wayf-wayf-login'), 'query' => drupal_get_destination()));
-            array('attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'wayf')));
+        $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
+        $logo_path .= '/img/wayf.png';
+        $block['content'] .=
+            l('<img src="' . $logo_path . '" alt="wayf_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'wayf', drupal_get_destination())));
       }
       if ($nemlogin) {
-        $block['content'] .= l(t('Login using NEMLOGIN'), 'wayf/login', array('attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'nemlogin', drupal_get_destination())));
+        $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
+        $logo_path .= '/img/nemid_logo.png';
+        $block['content'] .= l('<img src="' . $logo_path . '" alt="nemid_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'nemlogin', drupal_get_destination())));
       }
     }
   }
@@ -383,14 +387,13 @@ function ding_wayf_get_provider_attributes(&$simplesaml) {
  * @param $wayf_data
  * @return array
  */
-function ding_wayf_get_authentication_attributes($wayf_data){
+function ding_wayf_get_authentication_attributes($wayf_data) {
   // required attributes
   $simplesaml = variable_get('ding_wayf', array());
   ding_wayf_get_provider_attributes($simplesaml);
   $required_attributes = $simplesaml['attributes'];
 
   return ding_wayf_get_required_attributes($wayf_data, $required_attributes);
-
 }
 
 /**
