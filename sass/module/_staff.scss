@@ -4,10 +4,29 @@
  * @author wiredloose
  */
 
+/* FooTable staff list
+   ========================================================================== */
+
 .footable {
   margin-bottom: $large-spacing;
   border-radius: 0;
 }
+
+.footable .staff-name {
+  
+  img {
+    position: absolute;
+  }
+  
+  a {
+    display: block;
+    margin-left: 60px;
+    min-height: 60px;
+    padding-left: $medium-spacing;
+  }
+
+}
+
 
 /* Staff list
    ========================================================================== */

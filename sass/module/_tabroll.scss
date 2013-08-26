@@ -1,0 +1,67 @@
+/**
+ * Tabroll
+ *
+ * @author wiredloose
+ */
+
+
+
+/* Variables
+   ========================================================================== */
+
+$tabroll-background-color:                $white;
+$tabroll-tab-background-color:            transparentize($black, .5);
+$tabroll-active-tab-background-color:     $black;
+$tabroll-tab-color:                       $white;
+
+
+
+/* Wrapper, load and inner
+   ========================================================================== */
+
+.ding-tabroll-wrapper {
+  @include small-medium() {
+    background-color: $base-secondary-color;
+    padding: $large-spacing;
+  }
+}
+
+
+/* Tabroll tabs
+   ========================================================================== */
+
+.ding-tabroll-select-tabs {
+  display: none;
+}
+
+@include small-medium() {
+  .ding-tabroll-select-tabs {
+    display: block;
+  }
+}
+
+#ding-tabroll {
+  @include small-medium() {
+    padding: 0 0 50%;
+    border: none;
+    
+    .ui-tabs-nav {
+      display: none;
+    }
+    
+    .ui-tabs-panel {
+      width: 100%;
+    }
+    
+    .ui-tabs-panel .info {
+      height: 4.5em;
+      width:100%;
+      margin: 0;
+      bottom: inherit;
+    }
+    
+    .ui-tabs-panel .image{
+      top: 4.5em;
+    }
+  }
+}

@@ -1,0 +1,200 @@
+/**
+ * New Materials search result
+ *
+ *
+ * @author Árni Loftsson
+ */
+
+
+
+/* Variables
+   ========================================================================== */
+
+$search-border-size: 1px;
+$search-border-type: solid;
+
+.new-materials-title {
+  @include zen-grid-item(8, 1);
+
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.ting-search-amount {
+  @include zen-grid-item(4, 1, right);
+
+  text-align: right;
+
+  .ting-search-amount-block {
+    color: $gray-darker;
+  }
+}
+
+/* Availability explanation legend */
+.ding-availability-legend {
+  clear: both;
+  overflow: hidden;
+  padding-bottom: 20px;
+
+  .availability-legend {
+    float: right;
+    border: none;
+    padding: 0;
+
+    .availability-legend-item {
+      margin: 0;
+      margin-left: 10px;
+      line-height: normal;
+
+      img {
+        vertical-align: middle;
+      }
+
+      .availability-label {
+        font-weight: normal;
+        color: $gray-darker;
+      }
+    }
+  }
+}
+
+
+/* Search results list
+   ========================================================================== */
+
+.pane-new-materials {
+  clear: both;
+  overflow: hidden;
+  padding-top: 20px;
+
+  .search-results {
+    padding-top: 20px;
+    border-top: $search-border-size $search-border-type $gray;
+
+    .list {
+      .list-item {
+        background-color: $gray-light;
+        padding: 20px;
+      }
+
+      .heading {
+        margin-bottom: 10px;
+      }
+
+      .content,
+      .field {
+        margin-bottom: 10px;
+      }
+
+      .subjects {
+        margin-bottom: 0;
+        padding-bottom: 20px;
+
+        strong {
+          font-weight: inherit;
+        }
+
+        a {
+          display: inline-block;
+          margin-right: 5px;
+          margin-bottom: 5px;
+        }
+      }
+
+      /* Compact search result display */
+      .ding-format-short {
+        .ting-cover,
+        .content,
+        .field {
+          display: none;
+        }
+
+        /* Display the author */
+        .heading + div.content {
+          display: inline;
+          margin-left: 5px;
+        }
+
+        .heading,
+        .content,
+        .field {
+          margin-left: 0;
+          padding-left: 0;
+        }
+
+        .heading {
+          display: inline;
+
+          h2 {
+            display: inline;
+          }
+        }
+
+        .subjects {
+          display: none;
+        }
+
+        div.availability {
+          display: inline-block;
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+
+.availability {
+  margin-bottom: 0;
+
+  &.content {
+    float: right;
+  }
+
+  li {
+    display: inline-block;
+    margin-bottom: 5px;
+    padding: 0;
+
+    &.pending {
+      @include availability($availability-pending);
+    }
+
+    &.availability.processed {
+      @include availability($availability-processed);
+    }
+
+    &.availability.available {
+      @include availability($availability-available);
+    }
+
+    &.availability.reservable {
+      @include availability($availability-reservable);
+    }
+
+    &.availability.available.reservable {
+      @include availability($availability-available-reservable);
+    }
+
+    &.availability.available.not-reservable {
+      @include availability($availability-available-not-reservable);
+    }
+
+    &.availability.unavailable.reservable {
+      @include availability($availability-reservable);
+    }
+
+    &.availability.unavailable.not-reservable {
+      @include availability($availability-available-not-reservable);
+    }
+
+    .availability-status {
+      &:before {
+        content: " - ";
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+
+

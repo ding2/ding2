@@ -299,7 +299,7 @@ figure {
  */
 /* line 253, ../sass/framework/_normalize.scss */
 fieldset {
-  border: 1px solid #c0c0c0;
+  border: 1px solid silver;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -1010,11 +1010,20 @@ table tbody tr:hover th {
 .button,
 a.button,
 .form-submit,
-#edit-cancel, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
+#edit-cancel,
+.search .form-submit,
+.user .form-submit, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
 .pane-reservations .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .ticket-info, .pane-loans .renew-loan-button .not-renewable,
+.pane-bookmarks .renew-loan-button .renewable, .pane-loans .update-reservations .form-submit,
+.pane-reservations .update-reservations .form-submit,
+.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-debts .pay-button .form-submit, .ticket-info, .pane-loans .renew-loan-button .not-renewable,
 .pane-reservations .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-bookmarks .ding-entity-button a, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit,
+.pane-bookmarks .renew-loan-button .not-renewable, .pane-loans .delete-reservation .form-submit,
+.pane-loans .delete-reservations .form-submit,
+.pane-reservations .delete-reservation .form-submit,
+.pane-reservations .delete-reservations .form-submit,
+.pane-bookmarks .delete-reservation .form-submit,
+.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -1036,25 +1045,46 @@ a.button,
 .form-submit:focus,
 #edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
 .pane-reservations .renew-loan-button .renewable:focus,
-.pane-bookmarks .renew-loan-button .renewable:focus, .ticket-info:focus, .pane-loans .renew-loan-button .not-renewable:focus,
+.pane-bookmarks .renew-loan-button .renewable:focus, .pane-loans .update-reservations .form-submit:focus,
+.pane-reservations .update-reservations .form-submit:focus,
+.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-debts .pay-button .form-submit:focus, .ticket-info:focus, .pane-loans .renew-loan-button .not-renewable:focus,
 .pane-reservations .renew-loan-button .not-renewable:focus,
-.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
+.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-loans .delete-reservation .form-submit:focus,
+.pane-loans .delete-reservations .form-submit:focus,
+.pane-reservations .delete-reservation .form-submit:focus,
+.pane-reservations .delete-reservations .form-submit:focus,
+.pane-bookmarks .delete-reservation .form-submit:focus,
+.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .button:hover,
 .form-submit:hover,
 #edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
 .pane-reservations .renew-loan-button .renewable:hover,
-.pane-bookmarks .renew-loan-button .renewable:hover, .ticket-info:hover, .pane-loans .renew-loan-button .not-renewable:hover,
+.pane-bookmarks .renew-loan-button .renewable:hover, .pane-loans .update-reservations .form-submit:hover,
+.pane-reservations .update-reservations .form-submit:hover,
+.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-debts .pay-button .form-submit:hover, .ticket-info:hover, .pane-loans .renew-loan-button .not-renewable:hover,
 .pane-reservations .renew-loan-button .not-renewable:hover,
-.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
+.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-loans .delete-reservation .form-submit:hover,
+.pane-loans .delete-reservations .form-submit:hover,
+.pane-reservations .delete-reservation .form-submit:hover,
+.pane-reservations .delete-reservations .form-submit:hover,
+.pane-bookmarks .delete-reservation .form-submit:hover,
+.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
 .pane-ting-collection .ding-entity-button:hover,
 .pane-ting-object .ding-entity-button:hover, .button:active,
 .form-submit:active,
 #edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
 .pane-reservations .renew-loan-button .renewable:active,
-.pane-bookmarks .renew-loan-button .renewable:active, .ticket-info:active, .pane-loans .renew-loan-button .not-renewable:active,
+.pane-bookmarks .renew-loan-button .renewable:active, .pane-loans .update-reservations .form-submit:active,
+.pane-reservations .update-reservations .form-submit:active,
+.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-debts .pay-button .form-submit:active, .ticket-info:active, .pane-loans .renew-loan-button .not-renewable:active,
 .pane-reservations .renew-loan-button .not-renewable:active,
-.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-bookmarks .ding-entity-button a:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
+.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-loans .delete-reservation .form-submit:active,
+.pane-loans .delete-reservations .form-submit:active,
+.pane-reservations .delete-reservation .form-submit:active,
+.pane-reservations .delete-reservations .form-submit:active,
+.pane-bookmarks .delete-reservation .form-submit:active,
+.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
@@ -1064,17 +1094,31 @@ a.button,
 .disabled.form-submit,
 .disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
 .pane-reservations .renew-loan-button .disabled.renewable,
-.pane-bookmarks .renew-loan-button .disabled.renewable, .disabled.ticket-info, .pane-loans .renew-loan-button .disabled.not-renewable,
+.pane-bookmarks .renew-loan-button .disabled.renewable, .pane-loans .update-reservations .disabled.form-submit,
+.pane-reservations .update-reservations .disabled.form-submit,
+.pane-bookmarks .update-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a.disabled, .pane-debts .pay-button .disabled.form-submit, .disabled.ticket-info, .pane-loans .renew-loan-button .disabled.not-renewable,
 .pane-reservations .renew-loan-button .disabled.not-renewable,
-.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
+.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-loans .delete-reservation .disabled.form-submit,
+.pane-loans .delete-reservations .disabled.form-submit,
+.pane-reservations .delete-reservation .disabled.form-submit,
+.pane-reservations .delete-reservations .disabled.form-submit,
+.pane-bookmarks .delete-reservation .disabled.form-submit,
+.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
 .pane-ting-collection .disabled.ding-entity-button,
 .pane-ting-object .disabled.ding-entity-button, [disabled].button,
 [disabled].form-submit,
 [disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
 .pane-reservations .renew-loan-button [disabled].renewable,
-.pane-bookmarks .renew-loan-button [disabled].renewable, [disabled].ticket-info, .pane-loans .renew-loan-button [disabled].not-renewable,
+.pane-bookmarks .renew-loan-button [disabled].renewable, .pane-loans .update-reservations [disabled].form-submit,
+.pane-reservations .update-reservations [disabled].form-submit,
+.pane-bookmarks .update-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a[disabled], .pane-debts .pay-button [disabled].form-submit, [disabled].ticket-info, .pane-loans .renew-loan-button [disabled].not-renewable,
 .pane-reservations .renew-loan-button [disabled].not-renewable,
-.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-bookmarks .ding-entity-button a[disabled], form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
+.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-loans .delete-reservation [disabled].form-submit,
+.pane-loans .delete-reservations [disabled].form-submit,
+.pane-reservations .delete-reservation [disabled].form-submit,
+.pane-reservations .delete-reservations [disabled].form-submit,
+.pane-bookmarks .delete-reservation [disabled].form-submit,
+.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1092,7 +1136,9 @@ a.button,
 .button,
 a.button,
 .form-submit,
-#edit-cancel {
+#edit-cancel,
+.search .form-submit,
+.user .form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
@@ -2303,7 +2349,7 @@ ul.icons li [class*=" icon-"] {
 /* line 150, ../sass/framework/_fontawesome.scss */
 .icon-border {
   border: solid 1px #eeeeee;
-  padding: .2em .25em .15em;
+  padding: 0.2em 0.25em 0.15em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -3784,12 +3830,12 @@ body {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../work/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -4112,12 +4158,12 @@ body {
   clear: left;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
@@ -6066,7 +6112,7 @@ input#edit-search-block-form--2.spinner {
 /* line 509, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types li, .pane-ting-ting-object-types li, .pane-ting-ting-relation-anchors li {
   margin-bottom: 10px;
-  padding-bottom: default-spacing / 2;
+  padding-bottom: default-spacing/2;
 }
 /* line 514, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types .last, .pane-ting-ting-object-types .last, .pane-ting-ting-relation-anchors .last {
@@ -6386,6 +6432,338 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /**
+ * New Materials search result
+ *
+ *
+ * @author Árni Loftsson
+ */
+/* Variables
+   ========================================================================== */
+/* line 16, ../sass/module/_newmaterials.scss */
+.new-materials-title {
+  float: left;
+  width: 66.66667%;
+  margin-left: 0%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* line 23, ../sass/module/_newmaterials.scss */
+.ting-search-amount {
+  float: right;
+  width: 33.33333%;
+  margin-right: 0%;
+  margin-left: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  text-align: right;
+}
+/* line 28, ../sass/module/_newmaterials.scss */
+.ting-search-amount .ting-search-amount-block {
+  color: #959595;
+}
+
+/* Availability explanation legend */
+/* line 34, ../sass/module/_newmaterials.scss */
+.ding-availability-legend {
+  clear: both;
+  overflow: hidden;
+  padding-bottom: 20px;
+}
+/* line 39, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend {
+  float: right;
+  border: none;
+  padding: 0;
+}
+/* line 44, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend .availability-legend-item {
+  margin: 0;
+  margin-left: 10px;
+  line-height: normal;
+}
+/* line 49, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend .availability-legend-item img {
+  vertical-align: middle;
+}
+/* line 53, ../sass/module/_newmaterials.scss */
+.ding-availability-legend .availability-legend .availability-legend-item .availability-label {
+  font-weight: normal;
+  color: #959595;
+}
+
+/* Search results list
+   ========================================================================== */
+/* line 65, ../sass/module/_newmaterials.scss */
+.pane-new-materials {
+  clear: both;
+  overflow: hidden;
+  padding-top: 20px;
+}
+/* line 70, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results {
+  padding-top: 20px;
+  border-top: 1px solid #d5d5d5;
+}
+/* line 74, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list {
+  /* Compact search result display */
+}
+/* line 75, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .list-item {
+  background-color: #efefef;
+  padding: 20px;
+}
+/* line 80, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .heading {
+  margin-bottom: 10px;
+}
+/* line 85, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .content,
+.pane-new-materials .search-results .list .field {
+  margin-bottom: 10px;
+}
+/* line 89, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .subjects {
+  margin-bottom: 0;
+  padding-bottom: 20px;
+}
+/* line 93, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .subjects strong {
+  font-weight: inherit;
+}
+/* line 97, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .subjects a {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+/* line 105, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short {
+  /* Display the author */
+}
+/* line 108, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .ting-cover,
+.pane-new-materials .search-results .list .ding-format-short .content,
+.pane-new-materials .search-results .list .ding-format-short .field {
+  display: none;
+}
+/* line 113, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading + div.content {
+  display: inline;
+  margin-left: 5px;
+}
+/* line 120, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading,
+.pane-new-materials .search-results .list .ding-format-short .content,
+.pane-new-materials .search-results .list .ding-format-short .field {
+  margin-left: 0;
+  padding-left: 0;
+}
+/* line 125, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading {
+  display: inline;
+}
+/* line 128, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .heading h2 {
+  display: inline;
+}
+/* line 133, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short .subjects {
+  display: none;
+}
+/* line 137, ../sass/module/_newmaterials.scss */
+.pane-new-materials .search-results .list .ding-format-short div.availability {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+/* line 146, ../sass/module/_newmaterials.scss */
+.availability {
+  margin-bottom: 0;
+}
+/* line 149, ../sass/module/_newmaterials.scss */
+.availability.content {
+  float: right;
+}
+/* line 153, ../sass/module/_newmaterials.scss */
+.availability li {
+  display: inline-block;
+  margin-bottom: 5px;
+  padding: 0;
+}
+/* line 158, ../sass/module/_newmaterials.scss */
+.availability li.pending {
+  background-color: #959595;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.pending a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.pending a:hover {
+  text-decoration: none;
+}
+/* line 162, ../sass/module/_newmaterials.scss */
+.availability li.availability.processed {
+  background-color: #959595;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.processed a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.processed a:hover {
+  text-decoration: none;
+}
+/* line 166, ../sass/module/_newmaterials.scss */
+.availability li.availability.available {
+  background-color: #528c10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.available a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.available a:hover {
+  text-decoration: none;
+}
+/* line 170, ../sass/module/_newmaterials.scss */
+.availability li.availability.reservable {
+  background-color: #f0cb28;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.reservable a:hover {
+  text-decoration: none;
+}
+/* line 174, ../sass/module/_newmaterials.scss */
+.availability li.availability.available.reservable {
+  background-color: #528c10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.available.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.available.reservable a:hover {
+  text-decoration: none;
+}
+/* line 178, ../sass/module/_newmaterials.scss */
+.availability li.availability.available.not-reservable {
+  background-color: #a32e10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.available.not-reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.available.not-reservable a:hover {
+  text-decoration: none;
+}
+/* line 182, ../sass/module/_newmaterials.scss */
+.availability li.availability.unavailable.reservable {
+  background-color: #f0cb28;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.reservable a:hover {
+  text-decoration: none;
+}
+/* line 186, ../sass/module/_newmaterials.scss */
+.availability li.availability.unavailable.not-reservable {
+  background-color: #a32e10;
+  color: #fff;
+  padding-top: 5px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+}
+/* line 118, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.not-reservable a {
+  color: #fff;
+  display: block;
+}
+/* line 122, ../sass/framework/_mixins.scss */
+.availability li.availability.unavailable.not-reservable a:hover {
+  text-decoration: none;
+}
+/* line 191, ../sass/module/_newmaterials.scss */
+.availability li .availability-status:before {
+  content: " - ";
+  margin-left: 5px;
+}
+
+/**
  * Carousel
  *
  * @author magnify
@@ -6399,12 +6777,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 52, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 56, ../../../../../../../work/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
@@ -8286,15 +8664,29 @@ ul.ui-autocomplete .ui-menu-item a:hover {
  *
  * @author wiredloose
  */
-/* line 7, ../sass/module/_staff.scss */
+/* FooTable staff list
+   ========================================================================== */
+/* line 10, ../sass/module/_staff.scss */
 .footable {
   margin-bottom: 20px;
   border-radius: 0;
 }
 
+/* line 17, ../sass/module/_staff.scss */
+.footable .staff-name img {
+  position: absolute;
+}
+/* line 21, ../sass/module/_staff.scss */
+.footable .staff-name a {
+  display: block;
+  margin-left: 60px;
+  min-height: 60px;
+  padding-left: 10px;
+}
+
 /* Staff list
    ========================================================================== */
-/* line 16, ../sass/module/_staff.scss */
+/* line 35, ../sass/module/_staff.scss */
 .department-title,
 .staff-department-head {
   background: #d5d5d5;
@@ -8306,14 +8698,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: left;
 }
 
-/* line 26, ../sass/module/_staff.scss */
+/* line 45, ../sass/module/_staff.scss */
 .staff-list {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 0;
   /* Media queries */
 }
-/* line 31, ../sass/module/_staff.scss */
+/* line 50, ../sass/module/_staff.scss */
 .staff-list .staff-list-item {
   overflow: hidden;
   padding-top: 10px;
@@ -8322,16 +8714,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 10px;
   position: relative;
 }
-/* line 48, ../sass/module/_staff.scss */
+/* line 67, ../sass/module/_staff.scss */
 .staff-list .staff-image-wrapper {
   position: absolute;
   width: 10%;
 }
-/* line 53, ../sass/module/_staff.scss */
+/* line 72, ../sass/module/_staff.scss */
 .staff-list .staff-name-title {
   margin-left: 12%;
 }
-/* line 58, ../sass/module/_staff.scss */
+/* line 77, ../sass/module/_staff.scss */
 .staff-list .staff-name-title,
 .staff-list .staff-contact {
   float: left;
@@ -8340,11 +8732,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   max-width: 40%;
 }
 @media only screen and (max-width: 480px) {
-  /* line 67, ../sass/module/_staff.scss */
+  /* line 86, ../sass/module/_staff.scss */
   .staff-list .staff-image-wrapper {
     width: 20%;
   }
-  /* line 72, ../sass/module/_staff.scss */
+  /* line 91, ../sass/module/_staff.scss */
   .staff-list .staff-name-title,
   .staff-list .staff-contact {
     margin-left: 25%;
@@ -8353,12 +8745,69 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 80, ../sass/module/_staff.scss */
+  /* line 99, ../sass/module/_staff.scss */
   .staff-list .staff-image-wrapper {
     width: 15%;
   }
-  /* line 84, ../sass/module/_staff.scss */
+  /* line 103, ../sass/module/_staff.scss */
   .staff-list .staff-name-title {
     margin-left: 18%;
+  }
+}
+
+/**
+ * Tabroll
+ *
+ * @author wiredloose
+ */
+/* Variables
+   ========================================================================== */
+/* Wrapper, load and inner
+   ========================================================================== */
+@media only screen and (max-width: 768px) {
+  /* line 22, ../sass/module/_tabroll.scss */
+  .ding-tabroll-wrapper {
+    background-color: #d94110;
+    padding: 20px;
+  }
+}
+
+/* Tabroll tabs
+   ========================================================================== */
+/* line 33, ../sass/module/_tabroll.scss */
+.ding-tabroll-select-tabs {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  /* line 38, ../sass/module/_tabroll.scss */
+  .ding-tabroll-select-tabs {
+    display: block;
+  }
+}
+@media only screen and (max-width: 768px) {
+  /* line 43, ../sass/module/_tabroll.scss */
+  #ding-tabroll {
+    padding: 0 0 50%;
+    border: none;
+  }
+  /* line 48, ../sass/module/_tabroll.scss */
+  #ding-tabroll .ui-tabs-nav {
+    display: none;
+  }
+  /* line 52, ../sass/module/_tabroll.scss */
+  #ding-tabroll .ui-tabs-panel {
+    width: 100%;
+  }
+  /* line 56, ../sass/module/_tabroll.scss */
+  #ding-tabroll .ui-tabs-panel .info {
+    height: 4.5em;
+    width: 100%;
+    margin: 0;
+    bottom: inherit;
+  }
+  /* line 63, ../sass/module/_tabroll.scss */
+  #ding-tabroll .ui-tabs-panel .image {
+    top: 4.5em;
   }
 }
