@@ -239,6 +239,17 @@ function ting_relation_review($relation) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
   }
 
+  // Add a read more link in order to see the rest of the "Lektørudtalelse" review
+  if (isset($rel->object->reply) && isset($rel->object->reply->formatsAvailable)) {
+    if (in_array('docbook', $rel->object->reply->formatsAvailable)) {
+      $content['readmore_link'] = array(
+        '#prefix' => '<div class="ting-relation-read-more">',
+        '#markup' => l(t('Read more'), 'ting/object/' . $rel->object->ding_entity_id . '/fulltext'),
+        '#suffix' => '</div>',
+      );
+    }
+  }
+
   return $content;
 }
 
