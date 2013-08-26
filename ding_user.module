@@ -587,36 +587,6 @@ function _ding_user_create_account($auth_name, $auth_res) {
   return $account;
 }
 
-/**
- * Implements hook_profile2_access().
- *
- * Only allows logged in users to see profile2 tabs and only there own tabs and
- * also only if the user is logged in through a ding provider.
- *
- */
-function ding_user_profile2_access($op, $profile = NULL, $account = NULL) {
-  if (user_is_logged_in() && ($GLOBALS['user']->uid === $profile->uid)) {
-    if (empty($profile) || ding_user_is_provider_user($profile)) {
-      // This disables the tabs in the user profile and as we never want the
-      // user to user the path... but only the panels extension. This will be
-      // okay for now.
-      return FALSE;
-    }
-    else {
-      $profile_type = ding_user_get_provider_profile_type();
-      if ($profile_type->type == $profile->type) {
-        // Don't show provider profile to no provider user eiter.
-        return FALSE;
-      }
-    }
-  }
-  else {
-    if (ding_user_is_provider_user($profile)) {
-      return FALSE;
-    }
-  }
-  return TRUE;
-}
 
 /**
  * Create a profile2 provider profile for the account, if one do not exists.
