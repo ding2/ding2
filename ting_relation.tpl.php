@@ -3,7 +3,7 @@
  * @file
  * Template to render ting_releation content.
  */
-if (is_array($content)) {
+if (isset($content) && is_array($content)) {
   foreach ($content as $ns => $relations) {
     if (!empty($relations) && $ns != 'dbcaddi:hasOnlineAccess') { ?>
       <div class="<?php print $classes . ' ' . drupal_html_class(preg_replace('/(\B[A-Z]|:)/', '_$1', $ns)) . ' clearfix'; ?>">
