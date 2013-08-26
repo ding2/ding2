@@ -27,6 +27,7 @@ features[variable][] = date_format_medium
 features[variable][] = date_format_month_text_full
 features[variable][] = date_format_short
 features[variable][] = date_format_time_only
+features[variable][] = globalredirect_settings
 features[variable][] = i18n_language_list
 features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_cdn
