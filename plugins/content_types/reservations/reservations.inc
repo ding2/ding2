@@ -25,7 +25,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
   $block->module = 'ding_reservation';
   $block->delta  = 'reservations';
 
-  // Get configuration for this pane.
+  // Get configuration for this pane. Set title and empty text.
   $types = array_filter($conf['reservation_type_list']);
   $block->title = t($conf['reservation_titel']);
   $block->content = t($conf['reservation_empty_text']);

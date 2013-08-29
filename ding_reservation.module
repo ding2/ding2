@@ -19,12 +19,16 @@ function ding_reservation_ctools_plugin_directory($module, $plugin) {
 
 /**
  * Implements hook_menu().
+ *
+ * These menu callbacks are used to handle non-ajax callbacks on the reservation
+ * update/delete buttons and simple redirects the users to the forms normal
+ * displayed in the ding_popup's.
+ *
+ * The id's is url_encoded in the last wildcard parameter.
  */
 function ding_reservation_menu() {
   $items = array();
 
-  // @todo ding_reservation really doesn't know that this path is correct. How
-  // to handle it?
   $items['user/%user/status/reservations/update/%'] = array(
     'title' => 'Update reservations',
     'page callback' => 'drupal_get_form',
@@ -297,8 +301,8 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
         unset($form['provider_options'][$v]);
         unset($form['provider_options'][$v . 'description']);
       }
-
     }
+
     // Redisplay form.
     $html .= drupal_render($form);
   }
@@ -419,12 +423,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           );
         }
 
-        $form['reservations'] = array(
-          '#type' => 'tableselect_form',
-          '#header' => $header,
-          '#options' => $options,
-          '#empty' => t('No reservations ready for pickup'),
-        );
         break;
 
       case 'not_ready_for_pickup':
@@ -478,12 +476,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           );
         }
 
-        $form['reservations'] = array(
-          '#type' => 'tableselect_form',
-          '#header' => $header,
-          '#options' => $options,
-          '#empty' => t('No Reservations'),
-        );
         break;
 
       case 'interlibrary_loans':
@@ -519,12 +511,6 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
           );
         }
 
-        $form['reservations'] = array(
-          '#type' => 'tableselect_form',
-          '#header' => $header,
-          '#options' => $options,
-          '#empty' => t('No inter-library loans'),
-        );
         break;
     }
   }
@@ -534,13 +520,12 @@ function ding_reservation_reservations_form($form, &$form_state, $items = array(
       '#type' => 'tableselect_form',
       '#header' => $header,
       '#options' => $options,
-      '#empty' => $empty_message,
     );
   }
   else {
     $form['reservations'] = array(
       '#type' => 'item',
-      '#markup' => theme('table', array('header' => $header, 'rows' => $options, 'empty' => $empty_message)),
+      '#markup' => theme('table', array('header' => $header, 'rows' => $options)),
     );
   }
 
@@ -669,6 +654,8 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
 
 /**
  * Submit handler for the delete form.
+ *
+ * @see ding_reservation_reservations_form().
  */
 function ding_reservation_deletes_form_submit($form, &$form_state) {
   global $user;
@@ -679,6 +666,8 @@ function ding_reservation_deletes_form_submit($form, &$form_state) {
 
 /**
  * Submit handler for the update form.
+ *
+ * @see ding_reservation_reservations_form().
  */
 function ding_reservation_updates_form_submit($form, &$form_state) {
   global $user;
@@ -689,6 +678,8 @@ function ding_reservation_updates_form_submit($form, &$form_state) {
 
 /**
  * Ajax callback for the delete form.
+ *
+ * @see ding_reservation_reservations_form().
  */
 function ding_reservation_deletes_form_callback($form, &$form_state) {
   global $user;
@@ -708,6 +699,8 @@ function ding_reservation_deletes_form_callback($form, &$form_state) {
 
 /**
  * Ajax callback for the update form.
+ *
+ * @see ding_reservation_reservations_form().
  */
 function ding_reservation_updates_form_callback($form, &$form_state) {
   global $user;
@@ -727,6 +720,8 @@ function ding_reservation_updates_form_callback($form, &$form_state) {
 
 /**
  * Delete reservations form.
+ *
+ * @see ding_reservation_reservations_form().
  */
 function ding_reservation_delete_reservations_form($form, $form_state, $account, $reservation_ids) {
   global $user;
@@ -829,6 +824,7 @@ function ding_reservation_update_reservations_form($form, $form_state, $account,
     ),
     '#value' => t('Update reservations'),
   );
+
   return $form;
 }
 
