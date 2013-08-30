@@ -40,7 +40,7 @@
 /* Breakpoints
    ========================================================================== */
 /* Typography mixins
- * 
+ *
  * These are mixins to allow for use in media queries
    ========================================================================== */
 /* Availability
@@ -571,7 +571,7 @@ strong {
 
 /* line 90, ../sass/framework/_base.scss */
 em {
-  font-family: "SourceSansProLightItalic";
+  font-family: "SourceSansProItalic";
   font-weight: normal;
 }
 /* line 93, ../sass/framework/_base.scss */
