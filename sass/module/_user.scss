@@ -8,7 +8,8 @@
 /* /user/$uid/status/reservations
    ========================================================================== */
 
-.pane-reservations {
+.pane-reservations,
+.pane-loans {
 
   .left-column {
     @include zen-grid-item(3, 1);
