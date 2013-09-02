@@ -4,13 +4,13 @@
  *
  */
 ?>
-<div class="material_item">
-  <div class="right">
-    <?php print $checkbox; ?>
+<div class="material-item <?php print $zebra; ?>">
+  <div class="left-column">
+    <div class="item-checkbox"><?php print $checkbox; ?></div>
     <?php print $cover; ?>
   </div>
-  <div class="left">
-    <strong><?php print $title; ?></strong>
+  <div class="right-column">
+    <h3 class="title"><?php print $title; ?></h3>
     <ul class="information">
       <?php foreach ($information as $info) : ?>
         <li class="<?php print $info['class']; ?>">
