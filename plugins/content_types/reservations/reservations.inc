@@ -32,7 +32,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 
   $content = array();
   if (module_exists('ding_session_cache')) {
-    //$content = ding_session_cache_get('ding_reservation', 'reservations');
+    $content = ding_session_cache_get('ding_reservation', 'reservations');
   }
 
   if (empty($content) || !isset($content[$form_id])) {
