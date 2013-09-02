@@ -56,6 +56,27 @@
       top: 5px;
     }
   }
+
+  .item-information-list {
+    overflow: hidden;
+    .item-information {
+      overflow: hidden;
+      clear: left;
+    }
+  }
+
+  .item-information-label {
+    @include zen-grid-item(4, 1);
+
+    padding: 0;
+    padding-right: 10px;
+  }
+
+  .item-information-data {
+    @include zen-grid-item(8, 1, right);
+
+    padding: 0;
+  }
 }
 
 

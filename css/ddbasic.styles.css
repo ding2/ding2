@@ -8170,11 +8170,59 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   left: 5px;
   top: 5px;
 }
+/* line 60, ../sass/module/_user.scss */
+.pane-reservations .item-information-list {
+  overflow: hidden;
+}
+/* line 62, ../sass/module/_user.scss */
+.pane-reservations .item-information-list .item-information {
+  overflow: hidden;
+  clear: left;
+}
+/* line 68, ../sass/module/_user.scss */
+.pane-reservations .item-information-label {
+  float: left;
+  width: 33.33333%;
+  margin-left: 0%;
+  margin-right: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding: 0;
+  padding-right: 10px;
+}
+/* line 75, ../sass/module/_user.scss */
+.pane-reservations .item-information-data {
+  float: right;
+  width: 66.66667%;
+  margin-right: 0%;
+  margin-left: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding: 0;
+}
 
 /* BELOW IS CODE FROM BEFORE REFACTORING */
 /* User login in header
    ========================================================================== */
-/* line 73, ../sass/module/_user.scss */
+/* line 94, ../sass/module/_user.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -8192,11 +8240,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 76, ../sass/module/_user.scss */
+/* line 97, ../sass/module/_user.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 81, ../sass/module/_user.scss */
+/* line 102, ../sass/module/_user.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -8214,16 +8262,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 84, ../sass/module/_user.scss */
+/* line 105, ../sass/module/_user.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
-/* line 89, ../sass/module/_user.scss */
+/* line 110, ../sass/module/_user.scss */
 .user .block-title {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 95, ../sass/module/_user.scss */
+  /* line 116, ../sass/module/_user.scss */
   .user .form-item-name,
   .user .form-item-pass {
     float: left;
@@ -8242,21 +8290,21 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 99, ../sass/module/_user.scss */
+  /* line 120, ../sass/module/_user.scss */
   .user .form-actions {
     margin-bottom: 0;
   }
-  /* line 103, ../sass/module/_user.scss */
+  /* line 124, ../sass/module/_user.scss */
   .user .form-submit {
     margin-top: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 70, ../sass/module/_user.scss */
+  /* line 91, ../sass/module/_user.scss */
   .user {
     text-align: left;
   }
-  /* line 111, ../sass/module/_user.scss */
+  /* line 132, ../sass/module/_user.scss */
   .user .block-title {
     display: block;
     color: white;
@@ -8267,24 +8315,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 123, ../sass/module/_user.scss */
+/* line 144, ../sass/module/_user.scss */
 .user-name {
   color: white;
 }
-/* line 126, ../sass/module/_user.scss */
+/* line 147, ../sass/module/_user.scss */
 .user-name .user-name-title {
   font-size: 160%;
   overflow: hidden;
   max-height: 45px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 133, ../sass/module/_user.scss */
+  /* line 154, ../sass/module/_user.scss */
   .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
 
-/* line 141, ../sass/module/_user.scss */
+/* line 162, ../sass/module/_user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -8294,14 +8342,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   text-align: right;
 }
-/* line 148, ../sass/module/_user.scss */
+/* line 169, ../sass/module/_user.scss */
 .user-name.js-topbar-toggled,
 .user-menu-loans.js-topbar-toggled,
 .user-menu.js-topbar-toggled {
   display: block;
 }
 @media only screen and (max-width: 768px) {
-  /* line 141, ../sass/module/_user.scss */
+  /* line 162, ../sass/module/_user.scss */
   .user-name,
   .user-menu-loans,
   .user-menu {
@@ -8311,20 +8359,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 160, ../sass/module/_user.scss */
+/* line 181, ../sass/module/_user.scss */
 .user-menu-loans,
 .user-menu {
   padding-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 160, ../sass/module/_user.scss */
+  /* line 181, ../sass/module/_user.scss */
   .user-menu-loans,
   .user-menu {
     padding-top: 0;
   }
 }
 
-/* line 168, ../sass/module/_user.scss */
+/* line 189, ../sass/module/_user.scss */
 .user-menu {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -8332,13 +8380,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User profile
    ========================================================================== */
-/* line 177, ../sass/module/_user.scss */
+/* line 198, ../sass/module/_user.scss */
 .user-loan-status-wrapper {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 
-/* line 185, ../sass/module/_user.scss */
+/* line 206, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -8349,7 +8397,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 192, ../sass/module/_user.scss */
+/* line 213, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
@@ -8357,20 +8405,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-decoration: none;
 }
 
-/* line 198, ../sass/module/_user.scss */
+/* line 219, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 203, ../sass/module/_user.scss */
+/* line 224, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 213, ../sass/module/_user.scss */
+/* line 234, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -8379,36 +8427,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: white;
 }
 
-/* line 218, ../sass/module/_user.scss */
+/* line 239, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 222, ../sass/module/_user.scss */
+/* line 243, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 227, ../sass/module/_user.scss */
+/* line 248, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 231, ../sass/module/_user.scss */
+/* line 252, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 236, ../sass/module/_user.scss */
+/* line 257, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 239, ../sass/module/_user.scss */
+/* line 260, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 246, ../sass/module/_user.scss */
+/* line 267, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -8420,12 +8468,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 256, ../sass/module/_user.scss */
+/* line 277, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 262, ../sass/module/_user.scss */
+  /* line 283, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -8434,14 +8482,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User loans
    ========================================================================== */
-/* line 276, ../sass/module/_user.scss */
+/* line 297, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 282, ../sass/module/_user.scss */
+/* line 303, ../sass/module/_user.scss */
 .pane-loans .select-all,
 .pane-loans .form-type-checkbox,
 .pane-reservations .select-all,
@@ -8450,7 +8498,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .form-type-checkbox {
   text-align: center;
 }
-/* line 286, ../sass/module/_user.scss */
+/* line 307, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -8459,7 +8507,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 293, ../sass/module/_user.scss */
+/* line 314, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -8467,7 +8515,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 47px;
 }
-/* line 302, ../sass/module/_user.scss */
+/* line 323, ../sass/module/_user.scss */
 .pane-loans .operations .renew-loan-button,
 .pane-loans .operations .delete-reservation,
 .pane-reservations .operations .renew-loan-button,
@@ -8476,7 +8524,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 .pane-bookmarks .operations .delete-reservation {
   text-align: center;
 }
-/* line 320, ../sass/module/_user.scss */
+/* line 341, ../sass/module/_user.scss */
 .pane-loans .delete-reservations,
 .pane-loans .update-reservations,
 .pane-reservations .delete-reservations,
@@ -8487,25 +8535,25 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-right: 20px;
 }
 
-/* line 340, ../sass/module/_user.scss */
+/* line 361, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 345, ../sass/module/_user.scss */
+/* line 366, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 361, ../sass/module/_user.scss */
+/* line 382, ../sass/module/_user.scss */
 .pane-reservations {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
 
-/* line 367, ../sass/module/_user.scss */
+/* line 388, ../sass/module/_user.scss */
 #ding-reservation-reservations-ready-form {
   border-bottom: 1px solid #efefef;
   margin-bottom: 20px;
@@ -8514,26 +8562,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User debts
    ========================================================================== */
-/* line 385, ../sass/module/_user.scss */
+/* line 406, ../sass/module/_user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 390, ../sass/module/_user.scss */
+/* line 411, ../sass/module/_user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 394, ../sass/module/_user.scss */
+/* line 415, ../sass/module/_user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 400, ../sass/module/_user.scss */
+/* line 421, ../sass/module/_user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 411, ../sass/module/_user.scss */
+/* line 432, ../sass/module/_user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -8541,7 +8589,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 417, ../sass/module/_user.scss */
+/* line 438, ../sass/module/_user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {
