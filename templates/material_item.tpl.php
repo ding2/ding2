@@ -7,6 +7,9 @@
 <div class="material-item <?php print $zebra; ?>">
   <div class="left-column">
     <div class="item-checkbox"><?php print $checkbox; ?></div>
+    <?php if (isset($material_message)) : ?>
+    <span class="<?php print $material_message_type; ?>"><?php print $material_message; ?></span>
+    <?php endif; ?>
     <?php print $cover; ?>
   </div>
   <div class="right-column">
