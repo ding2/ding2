@@ -69,15 +69,6 @@ function ding_loan_loans_content_type_edit_form($form, &$form_state) {
  * Implements a drupal form, which show a list of reservations
  */
 function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
-  $options = array();
-
-  $header = array(
-    'title' => t('Title'),
-    'loan_date' => t('Loan date'),
-    'expiry' => t('Return date'),
-    'operations' => '',
-  );
-
   // Sort loans base on exipre date.
   uasort($loans, 'ding_loan_sort_expiry');
 
@@ -93,69 +84,57 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#value' => $loans,
   );
 
-  foreach ($loans as $id => $item) {
-    $item->creator = 'fake';
-    $entity = $item->entity;
+  foreach ($loans as $id => $loan) {
+    $entity = $loan->entity;
     if (!is_object($entity)) {
-      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
+      $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
     }
 
-    $options[$item->id] = array(
-      '#disabled' => $item->renewable,
-      'title' => array(
-        'data' => array(
-          $entity ? ting_object_view($entity, 'user_list') : array('#markup' => $item->display_name),
+    $item = array(
+      '#type' => 'material_item',
+      '#id' => $loan->id,
+      '#title' => $entity ? $entity->getTitle() : $loan->display_name,
+      '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+      '#information' => array(
+        'loan_date' => array(
+          'label' => t('Loan date'),
+          'data' => format_date(strtotime(check_plain($loan->loan_date)), 'custom', 'd/m/Y'),
+          'class' => 'loan-date',
         ),
-        'class' => 'title',
-      ),
-      'loan_date' => array(
-          'data' => format_date(strtotime(check_plain($item->loan_date)), 'custom', 'd/m/Y'),
-          'class' => 'created-date',
-        ),
-      'expiry' => array(
-          'data' => format_date(strtotime(check_plain($item->expiry)), 'custom', 'd/m/Y'),
+        'expiry' => array(
+          'label' => t('Return date'),
+          'data' => format_date(strtotime(check_plain($loan->expiry)), 'custom', 'd/m/Y'),
           'class' => 'expire-date',
         ),
-      'operations' => array(
-        'data' =>  array(
-        ),
-        'class' => 'operations',
       ),
+      '#disabled' => $loan->renewable,
     );
 
     // Add material number.
-    if (isset($item->materials_number)) {
-      $options[$item->id]['title']['data'][] = array(
-        '#type' => 'markup',
-        '#prefix' => '<p class="order-id">',
-        '#markup' => t('Material no. @mat_no', array('@mat_no' => $item->materials_number)),
-        '#suffix' => '</p>',
+    if (isset($loan->materials_number)) {
+      $item['#information']['material_number'] = array(
+        'label' => t('Material no.'),
+        'data' => $loan->materials_number,
+        'class' => 'material-number',
       );
     }
 
-    // Add renew load opreation.
+    // If not renewable set message.
     if (!empty($item->renewable)) {
-      $options[$item->id]['operations']['data'][] = array(
-          '#type' => 'submit',
-          '#prefix' => '<div class="renew-loan-button">',
-          '#value' => t('Renew'),
-          '#submit' => array('ding_loan_loans_form_renew_submit'),
-          '#loan_id' => $item->id,
-          '#name' => 'renew-' . $item->id,
-          '#disabled' => !$item->renewable,
-          '#suffix' => '</div>',
-          '#attributes' => array(
-            'class' => array(
-              $item->renewable ? 'renewable' : 'not-renewable',
-            ),
-          ),
+      $item['#material_message'] = array(
+        'message' => t('This material can not be re-newed'),
+        'class' => 'warning',
       );
     }
+
+    // Add the reservation to the form.
+    $form['loans'][$loan->id] = $item;
   }
 
   $form['actions_top'] = array (
     '#weight' => 0,
   );
+
   $form['actions_top']['submit_first'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button">',
@@ -163,40 +142,12 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#suffix' => '</div>',
   );
 
-  $form['loans'] = array(
-    '#type' => 'tableselect_form',
-    '#header' => $header,
-    '#options' => $options,
-    '#empty' => t('No loans'),
-    '#process' => array('ding_base_element_process_tableselect_form', '_ding_loan_loans_disable'),
-    '#weight' => 1,
-  );
-
   $form['actions_bottom'] = array (
     '#weight' => 2,
-  );
-  $form['actions_bottom']['submit_second'] = array(
-    '#type' => 'submit',
-    '#prefix' => '<div class="renew-loan-button">',
-    '#value' => t('Renew selected'),
-    '#suffix' => '</div>',
+    'submit_second' => $form['actions_top']['submit_first'],
   );
 
   return $form;
-}
-
-
-/**
- * Process function to disable checkboxes for unrenewable materials.
- */
-function _ding_loan_loans_disable($element) {
-  foreach ($element['#options'] as $key => $choice) {
-    if (isset($choice['#disabled']) && !$choice['#disabled']) {
-      $element[$key]['#disabled'] = TRUE;
-      $element[$key]['#attributes']['title'] = t('Not renewable');
-    }
-  }
-  return $element;
 }
 
 /**
