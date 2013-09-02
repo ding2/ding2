@@ -32,7 +32,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 
   $content = array();
   if (module_exists('ding_session_cache')) {
-    $content = ding_session_cache_get('ding_reservation', 'reservations');
+    //$content = ding_session_cache_get('ding_reservation', 'reservations');
   }
 
   if (empty($content) || !isset($content[$form_id])) {
@@ -63,6 +63,17 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 
       // Add the current type to the items we want.
       $items += $reservations[$type];
+
+      // Sort the reservations based on type.
+      switch ($type) {
+        case 'ready_for_pickup':
+          uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
+          break;
+
+        case 'not_ready_for_pickup':
+          uasort($items, 'ding_reservation_sort_queue_by_queue_number');
+          break;
+      }
     }
 
     // Add the preload entity to each loan (side effect of getting the entity).
@@ -150,4 +161,24 @@ function ding_reservation_reservations_content_type_edit_form_submit(&$form, &$f
 function ding_reservation_reservations_content_type_admin_title($subtype, $conf) {
   $types = implode(', ', array_filter($conf['reservation_type_list']));
   return 'Reservations (' . $types . ')';
+}
+
+/**
+ * Callback function to sort array by pickup date
+ */
+function ding_reservation_sort_queue_by_pickup_date($a, $b) {
+  if ($a->pickup_date == $b->pickup_date) {
+    return 0;
+  }
+  return ($a->pickup_date < $b->pickup_date) ? -1 : 1;
+}
+
+/**
+ * Callback function for sorting loans by queue_number
+ */
+function ding_reservation_sort_queue_by_queue_number($a, $b) {
+  if ($a->queue_number == $b->queue_number) {
+    return 0;
+  }
+  return ($a->queue_number < $b->queue_number) ? -1 : 1;
 }
