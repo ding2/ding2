@@ -452,14 +452,14 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
 
     // Add extra information if it's a periodical.
     if (!empty($reservation->notes)) {
-      $item['#information']['extra'][] = array(
-        'data' => t('(Periodical no. @periodical)', array('@periodical' => check_plain($reservation->notes))),
+      $item['#information']['periodical_number'] = array(
+        'label' => t('Periodical no.'),
+        'data' => check_plain($reservation->notes),
         'class' => 'periodical-number',
       );
     }
 
-
-    // Render the items.
+    // Add the reservation to the form.
     $form['reservations'][$reservation->id] = $item;
   }
 
