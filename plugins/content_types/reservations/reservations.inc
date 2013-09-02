@@ -25,9 +25,8 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
   $block->module = 'ding_reservation';
   $block->delta  = 'reservations';
 
-  // Get configuration for this pane. Set title and empty text.
+  // Get configuration for this pane and set empty text.
   $types = array_filter($conf['reservation_type_list']);
-  $block->title = t($conf['reservation_titel']);
   $block->content = t($conf['reservation_empty_text']);
   $form_id = $conf['reservation_form_id'];
 
@@ -83,10 +82,10 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     if (count($types) > 1) {
       // If more than one type is selected we will fallback to the most generic
       // form type.
-      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'not_ready_for_pickup');
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'not_ready_for_pickup', $conf);
     }
     else {
-      $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types));
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types), $conf);
     }
   }
 
@@ -99,8 +98,8 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 function ding_reservation_reservations_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
   $form['reservation_type_list'] = array(
-    '#type'    => 'checkboxes',
-    '#title'   => t('Reservation list type(s)'),
+    '#type' => 'checkboxes',
+    '#title' => t('Reservation list type(s)'),
     '#options' => array(
       'not_ready_for_pickup' => t('Not ready for pickup'),
       'ready_for_pickup' => t('Ready for pickup'),
@@ -109,21 +108,21 @@ function ding_reservation_reservations_content_type_edit_form($form, &$form_stat
     '#default_value' => !empty($conf['reservation_type_list']) ? $conf['reservation_type_list'] : NULL,
   );
 
-  $form['reservation_titel'] = array(
-    '#type'    => 'textfield',
-    '#title'   => t('List titel'),
-    '#default_value' => !empty($conf['reservation_titel']) ? $conf['reservation_titel'] : 'Reservations',
+  $form['reservation_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('List title'),
+    '#default_value' => !empty($conf['reservation_title']) ? $conf['reservation_title'] : 'Reservations',
   );
 
   $form['reservation_empty_text'] = array(
-    '#type'    => 'textfield',
-    '#title'   => t('Empty text'),
+    '#type' => 'textfield',
+    '#title' => t('Empty text'),
     '#default_value' => !empty($conf['reservation_empty_text']) ? $conf['reservation_empty_text'] : 'There are no reservations.',
   );
 
   $form['reservation_form_id'] = array(
-    '#type'    => 'select',
-    '#title'   => t('Form to user for reservations'),
+    '#type' => 'select',
+    '#title' => t('Form to user for reservations'),
     '#options' => array(
       'ding_reservation_reservations_notready_form' => t('Reservation form'),
       'ding_reservation_reservations_ready_form' => t('Reservations ready form'),

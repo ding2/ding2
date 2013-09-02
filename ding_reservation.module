@@ -315,9 +315,26 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 /**
  * Show a reservation list form.
  */
-function ding_reservation_reservations_form($form, &$form_state, $reservations = array(), $type = 'not_ready_for_pickup') {
+function ding_reservation_reservations_form($form, &$form_state, $reservations = array(), $type = 'not_ready_for_pickup', $conf = array()) {
   $form = array(
     '#tree' => TRUE,
+  );
+
+  // Add title item.
+  $form['title'] = array(
+    '#type' => 'checkbox',
+    '#title' => $conf['reservation_title'],
+    '#attributes' => array(
+      'class' => array(
+        'select-all-checkbox',
+        drupal_html_id($type),
+      )
+    ),
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation.js',
+      ),
+    ),
   );
 
   // Check if reservations should be able to be deleted by the user.
