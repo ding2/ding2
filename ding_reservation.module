@@ -346,11 +346,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'data' => ding_reservation_get_pickup_id($reservation),
               'class' => 'pickup-id',
             ),
-            'created' => array(
-              'label' => t('Created date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
-              'class' => 'created-date',
-            ),
             'pickup_date' => array(
               'label' => t('Pickup date'),
               'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_reservation_lists_date' ) : '',
@@ -360,6 +355,11 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'label' => t('Pickup branch'),
               'data' => $pickup_branch ? check_plain($pickup_branch) : t('Unknown branch'),
               'class' => 'pickup-branch',
+            ),
+            'created' => array(
+              'label' => t('Created date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
+              'class' => 'created-date',
             ),
           ),
         );
@@ -372,15 +372,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
           '#title' => $entity ? $entity->getTitle() : $reservation->display_name,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
-            'order_nr' => array(
-              'label' => t('Order nr.'),
-              'data' => ding_reservation_get_order_nr($reservation),
-              'class' => 'pickup-id',
-            ),
-            'created' => array(
-              'label' => t('Created date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
-              'class' => 'created-date',
+            'queue_number' => array(
+              'label' => t('Queue number'),
+              'data' => $reservation->queue_number ? check_plain($reservation->queue_number) : '',
+              'class' => 'queue-number',
             ),
             'expiry' => array(
               'label' => t('Expiry date'),
@@ -392,10 +387,15 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'data' => $pickup_branch ? check_plain($pickup_branch) : '',
               'class' => 'pickup-branch',
             ),
-            'queue_number' => array(
-              'label' => t('Queue number'),
-              'data' => $reservation->queue_number ? check_plain($reservation->queue_number) : '',
-              'class' => 'queue-number',
+            'created' => array(
+              'label' => t('Created date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
+              'class' => 'created-date',
+            ),
+            'order_nr' => array(
+              'label' => t('Order nr.'),
+              'data' => ding_reservation_get_order_nr($reservation),
+              'class' => 'pickup-id',
             ),
           ),
         );
@@ -408,10 +408,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
           '#title' => $entity ? $entity->getTitle() : $reservation->display_name,
           '#cover' => field_view_field('ting_entity', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
-            'created' => array(
-              'label' => t('Expiry date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
-              'class' => 'created-date',
+            'ill_status' => array(
+              'label' => t('Status'),
+              'data' => $reservation->ill_status ? t(check_plain($reservation->ill_status)) : t('Unknown status'),
+              'class' => 'ill-status',
             ),
             'expiry' => array(
               'label' => t('Library'),
@@ -423,10 +423,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'data' => $pickup_branch ? check_plain($pickup_branch) : '',
               'class' => 'pickup-branch',
             ),
-            'ill_status' => array(
-              'label' => t('Status'),
-              'data' => $reservation->ill_status ? t(check_plain($reservation->ill_status)) : '',
-              'class' => 'ill-status',
+            'created' => array(
+              'label' => t('Expiry date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
+              'class' => 'created-date',
             ),
           ),
         );
