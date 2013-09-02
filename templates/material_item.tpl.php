@@ -10,12 +10,12 @@
     <?php print $cover; ?>
   </div>
   <div class="right-column">
-    <h3 class="title"><?php print $title; ?></h3>
-    <ul class="information">
+    <h3 class="item-title"><?php print $title; ?></h3>
+    <ul class="item-information-list">
       <?php foreach ($information as $info) : ?>
-        <li class="<?php print $info['class']; ?>">
-          <span class="label"><?php print $info['label']?></span>:
-          <?php print $info['data']; ?>
+        <li class="item-information <?php print $info['class']; ?>">
+          <div class="item-information-label"><?php print $info['label']?>:</div>
+          <div class="item-information-data"><?php print $info['data']; ?></div>
         </li>
       <?php endforeach; ?>
     </ul>
