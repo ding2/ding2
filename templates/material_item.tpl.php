@@ -12,7 +12,7 @@
   <div class="right-column">
     <h3 class="item-title"><?php print $title; ?></h3>
     <?php if (isset($material_message)) : ?>
-    <span class="<?php print $material_message['class']; ?>"><?php print $material_message['message']; ?></span>
+    <div class="<?php print $material_message['class']; ?>"><?php print $material_message['message']; ?></div>
     <?php endif; ?>
     <ul class="item-information-list">
       <?php foreach ($information as $info) : ?>
