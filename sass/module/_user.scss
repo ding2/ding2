@@ -5,6 +5,64 @@
  */
 
 
+/* /user/$uid/status/reservations
+   ========================================================================== */
+
+.pane-reservations {
+
+  .left-column {
+    @include zen-grid-item(3, 1);
+
+    .item-checkbox {
+      float: left;
+      width: 20%;
+
+      .form-item {
+        text-align: left;
+      }
+    }
+  }
+  
+  .right-column {
+    @include zen-grid-item(9, 1, right);
+  }
+
+  .material-item {
+    overflow: hidden;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+
+    &.odd {
+      background-color: $gray-light;
+    }
+    &.even {
+      background-color: $gray-lighter;
+    }
+  }
+
+  .ting-cover {
+    float: left;
+    max-width: 80%;
+
+    img {
+      /*max-width: 85%;*/
+    }
+
+    &:before {
+      font-size: 30px;
+      left: 5px;
+      top: 5px;
+    }
+  }
+}
+
+
+
+ /* BELOW IS CODE FROM BEFORE REFACTORING */
+
+
 
 /* User login in header
    ========================================================================== */
@@ -215,52 +273,9 @@
 .pane-loans,
 .pane-reservations,
 .pane-bookmarks {
-  table {
-    border-bottom: 1px solid $gray-light;
-    margin-top: $large-spacing;
-    margin-bottom: $large-spacing;
-  }
-
-  h2 {
-    font-size: $font-size-medium;
-    margin-top: 2px;
-    max-width: 90%;
-  }
-
   ul {
     margin: 0;
     padding: 0;
-  }
-
-  th {
-    border-top: 1px solid $gray-light;
-    text-align: center;
-
-    &.select-all {
-      padding-left: $medium-spacing;
-    }
-
-    &.title {
-      text-align: left;
-    }
-  }
-
-  td:first-child {
-    width: 30px;
-  }
-
-  td {
-    border-top: 1px solid $gray-light;
-    text-align: center;
-
-    &.title {
-      text-align: left;
-      width: 30%;
-
-      h2 {
-        margin-bottom: 0;
-      }
-    }
   }
 
   .select-all,
@@ -273,23 +288,6 @@
     margin-right: 1px;
     margin-bottom: 0;
     margin-left: 0;
-  }
-
-  .ting-cover {
-    float: left;
-
-    margin-top: 4px;
-    max-width: 15%;
-
-    img {
-      max-width: 85%;
-    }
-
-    &:before {
-      font-size: 30px;
-      left: 5px;
-      top: 5px;
-    }
   }
 
   .order-id {
