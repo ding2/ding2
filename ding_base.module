@@ -13,7 +13,7 @@ include_once 'ding_base.features.inc';
  */
 function ding_base_menu() {
   $items = array();
-  
+
   $items['admin/config/ding'] = array(
     'title' => 'Ding',
     'description' => 'Manage Ding.',
@@ -33,6 +33,11 @@ function ding_base_menu() {
  */
 function ding_base_theme() {
   return array(
+    // Used on the user library status pages.
+    'material_item' => array(
+      'render element' => 'element',
+      'template' => 'templates/material_item',
+    ),
     'tableselect_form' => array(
       'render element' => 'element',
     ),
@@ -126,6 +131,8 @@ function ding_base_date_format_types() {
  * Implements hook_element_info().
  */
 function ding_base_element_info() {
+  $types = array();
+
   $types['tableselect_form'] = array(
     '#input' => TRUE,
     '#js_select' => TRUE,
@@ -134,6 +141,12 @@ function ding_base_element_info() {
     '#options' => array(),
     '#empty' => '',
     '#theme' => 'tableselect_form',
+  );
+
+  $types['material_item'] = array(
+    '#input' => TRUE,
+    '#process' => array('ding_base_element_process_material_item'),
+    '#theme' => 'material_item',
   );
 
   return $types;
@@ -246,7 +259,7 @@ function theme_tableselect_form($variables) {
       // correct order by iterating over the header fields.
       foreach ($element['#header'] as $fieldname => $title) {
         $row['data'][] = $element['#options'][$key][$fieldname];
-        
+
         // Add classes to table header columns.
         $translated_title = $element['#header'][$fieldname];
         $header[$fieldname] = array('data' => $translated_title, 'class' => $fieldname);
@@ -268,6 +281,38 @@ function theme_tableselect_form($variables) {
   }
 
   return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
+}
+
+/**
+ * Default implemention of the process function for the material item.
+ *
+ * Addes a checkbox to with a cover, title and extra information supplied in the
+ * render array.
+ */
+function ding_base_element_process_material_item($element) {
+  // Add the checkbox to the element.
+  $element[$element['#id']] = array(
+    '#type' => 'checkbox',
+    '#return_value' => $element['#id'],
+    '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : array(),
+  );
+
+  return $element;
+}
+
+/**
+ * Default preprocess function for material_item theme function.
+ */
+function ding_base_preprocess_material_item(&$variables) {
+  $element = $variables['element'];
+
+  // Render the checkbox.
+  $variables['checkbox'] = drupal_render($element[$element['#id']]);
+
+  // Get the information part.
+  $variables['title'] = $element['#title'];
+  $variables['cover'] = drupal_render($element['#cover']);
+  $variables['information'] = $element['#information'];
 }
 
 /**
