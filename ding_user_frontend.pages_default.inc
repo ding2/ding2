@@ -1062,7 +1062,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 0,
       'override_title_text' => '',
-      'reservation_titel' => 'Reservations ready for pickup',
+      'reservation_title' => 'Reservations ready for pickup',
       'reservation_empty_text' => 'There are no reservations ready for pickup.',
       'reservation_form_id' => 'ding_reservation_reservations_ready_form',
     );
@@ -1095,7 +1095,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 0,
       'override_title_text' => '',
-      'reservation_titel' => 'Reservations',
+      'reservation_title' => 'Reservations',
       'reservation_empty_text' => 'There are no reservations.',
       'reservation_form_id' => 'ding_reservation_reservations_notready_form',
     );
