@@ -7,13 +7,13 @@
 <div class="material-item <?php print $zebra; ?>">
   <div class="left-column">
     <div class="item-checkbox"><?php print $checkbox; ?></div>
-    <?php if (isset($material_message)) : ?>
-    <span class="<?php print $material_message_type; ?>"><?php print $material_message; ?></span>
-    <?php endif; ?>
     <?php print $cover; ?>
   </div>
   <div class="right-column">
     <h3 class="item-title"><?php print $title; ?></h3>
+    <?php if (isset($material_message)) : ?>
+    <span class="<?php print $material_message['class']; ?>"><?php print $material_message['message']; ?></span>
+    <?php endif; ?>
     <ul class="item-information-list">
       <?php foreach ($information as $info) : ?>
         <li class="item-information <?php print $info['class']; ?>">

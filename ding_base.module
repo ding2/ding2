@@ -295,6 +295,7 @@ function ding_base_element_process_material_item($element) {
     '#type' => 'checkbox',
     '#return_value' => $element['#id'],
     '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : array(),
+    '#disabled' => isset($element['#disabled']) ? $element['#disabled'] : FALSE,
   );
 
   return $element;
@@ -313,6 +314,11 @@ function ding_base_preprocess_material_item(&$variables) {
   $variables['title'] = $element['#title'];
   $variables['cover'] = drupal_render($element['#cover']);
   $variables['information'] = $element['#information'];
+
+  // Check if material message have been set.
+  if (isset($element['#material_message'])) {
+    $variables['material_message'] = $element['#material_message'];
+  }
 }
 
 /**
