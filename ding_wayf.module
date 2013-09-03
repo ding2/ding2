@@ -52,7 +52,7 @@ function ding_wayf_menu() {
 }
 
 /** \brief accept page callback
- * 
+ *
  */
 function ding_wayf_accept() {
   // clear messages - this one comes via login-form,
@@ -72,8 +72,8 @@ function ding_wayf_accept() {
  * special case; user was authenticated with wayf, but for some reason
  * not with drupal - maybe user aborted while logging in.
  * make sure SESSION variables are removed, and user is logged out of wayf
- * 
- * @global type $user 
+ *
+ * @global type $user
  */
 function ding_wayf_init() {
 
@@ -97,7 +97,7 @@ function ding_wayf_init() {
 /** \brief Login a wayf user, as thay where logged in by the library system.
  * easy solution; fake form_state and submit user_login form. In that way
  * ding_user handles user-login as always.
- * 
+ *
  * pre; user is authenticated via wayf or we wouldn't be here
  */
 function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
@@ -120,7 +120,7 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
 }
 
 /** Implements hook_form_FORM_ID_alter (user_login)
- * 
+ *
  * add wayf login block to form['actions']
  */
 function ding_wayf_form_user_login_alter(&$form, &$form_state) {
@@ -130,8 +130,8 @@ function ding_wayf_form_user_login_alter(&$form, &$form_state) {
 }
 
 /** \brief Custom render function for ding_wayf_login block
- * 
- * @return html; the rendered block 
+ *
+ * @return html; the rendered block
  */
 function ding_wayf_render_login_block() {
   $block = block_load('ding_wayf', 'login');
@@ -139,7 +139,7 @@ function ding_wayf_render_login_block() {
 }
 
 /**
- * Implements hook_form_alter() (user_login, user_login_block). 
+ * Implements hook_form_alter() (user_login, user_login_block).
  * add hidden field to set authentication provider
  * add validate handler for wayf login
  */
@@ -198,7 +198,7 @@ function ding_wayf_redirect_login() {
   }
   else {
 // Send the user back to her context or use the fallback URL.
-    ding_wayf_redirect_user($simplesaml['redirect']);
+    ding_wayf_redirect_user();
   }
 }
 
@@ -208,7 +208,7 @@ function ding_wayf_redirect_login() {
  *
  * @param string $url
  */
-function ding_wayf_redirect_user($url) {
+function ding_wayf_redirect_user($url = null) {
   if (!empty($_REQUEST['destination'])) {
     $url = $_REQUEST['destination'];
   }
@@ -360,7 +360,7 @@ function ding_wayf_block_view($delta) {
 }
 
 /** \brief get the valid idp's
- * 
+ *
  */
 function ding_wayf_idps() {
   $ret = array(
