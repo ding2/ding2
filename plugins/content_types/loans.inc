@@ -72,6 +72,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   // Sort loans base on exipre date.
   uasort($loans, 'ding_loan_sort_expiry');
 
+  // Split the loans into groups based on the expiry date
+  $groups = _ding_loan_loans_group_loans_by_date($loans);
+
   // Store account information in the form (on server site).
   $form['account'] = array(
     '#type' => 'value',
@@ -84,51 +87,71 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#value' => $loans,
   );
 
-  foreach ($loans as $id => $loan) {
-    $entity = $loan->entity;
-    if (!is_object($entity)) {
-      $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
-    }
+  foreach ($groups as $gid => $group) {
+    foreach ($group['loans'] as $loan) {
 
-    $item = array(
-      '#type' => 'material_item',
-      '#id' => $loan->id,
-      '#title' => $entity ? $entity->getTitle() : $loan->display_name,
-      '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
-      '#information' => array(
-        'loan_date' => array(
-          'label' => t('Loan date'),
-          'data' => format_date(strtotime(check_plain($loan->loan_date)), 'custom', 'd/m/Y'),
-          'class' => 'loan-date',
+      // Add title item.
+      $form['loans'][$gid]['title'] = array(
+        '#type' => 'checkbox',
+        '#title' => $group['title'],
+        '#attributes' => array(
+          'class' => array(
+            'select-all-checkbox',
+            drupal_html_id($gid),
+          )
         ),
-        'expiry' => array(
-          'label' => t('Return date'),
-          'data' => format_date(strtotime(check_plain($loan->expiry)), 'custom', 'd/m/Y'),
-          'class' => 'expire-date',
+//        '#attached' => array(
+//          'js' => array(
+//            drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation.js',
+//          ),
+//        ),
+      );
+
+      $entity = $loan->entity;
+      if (!is_object($entity)) {
+        $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
+      }
+
+      $item = array(
+        '#type' => 'material_item',
+        '#id' => $loan->id,
+        '#title' => $entity ? $entity->getTitle() : $loan->display_name,
+        '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+        '#information' => array(
+          'loan_date' => array(
+            'label' => t('Loan date'),
+            'data' => format_date(strtotime(check_plain($loan->loan_date)), 'custom', 'd/m/Y'),
+            'class' => 'loan-date',
+          ),
+          'expiry' => array(
+            'label' => t('Return date'),
+            'data' => format_date(strtotime(check_plain($loan->expiry)), 'custom', 'd/m/Y'),
+            'class' => 'expire-date',
+          ),
         ),
-      ),
-      '#disabled' => $loan->renewable,
-    );
-
-    // Add material number.
-    if (isset($loan->materials_number)) {
-      $item['#information']['material_number'] = array(
-        'label' => t('Material no.'),
-        'data' => $loan->materials_number,
-        'class' => 'material-number',
+        '#disabled' => $loan->renewable,
       );
-    }
 
-    // If not renewable set message.
-    if (!empty($item->renewable)) {
-      $item['#material_message'] = array(
-        'message' => t('This material can not be re-newed'),
-        'class' => 'warning',
-      );
-    }
+      // Add material number.
+      if (isset($loan->materials_number)) {
+        $item['#information']['material_number'] = array(
+          'label' => t('Material no.'),
+          'data' => $loan->materials_number,
+          'class' => 'material-number',
+        );
+      }
 
-    // Add the reservation to the form.
-    $form['loans'][$loan->id] = $item;
+      // If not renewable set message.
+      if (!empty($item->renewable)) {
+        $item['#material_message'] = array(
+          'message' => t('This material can not be re-newed'),
+          'class' => 'warning',
+        );
+      }
+
+      // Add the reservation to the form.
+      $form['loans'][$gid][$loan->id] = $item;
+    }
   }
 
   $form['actions_top'] = array (
@@ -199,3 +222,50 @@ function ding_loan_loans_form_renew_submit($form, &$form_state) {
   ding_loan_loans_form_submit($form, $form_state);
 }
 
+/**
+ * Helper function to group loans by their due dates.
+ */
+function _ding_loan_loans_group_loans_by_date($loans) {
+  $groups = array();
+  $today = date('Y-m-d', REQUEST_TIME);
+
+  foreach ($loans as $loan) {
+    if ($loan->expiry < $today) {
+      // Loans that are overdue.
+      if (!isset($groups['overdue'])) {
+        $groups['overdue'] = array(
+          'title' => t('Loans overdue'),
+          'loans' => array(),
+        );
+      }
+      $groups['overdue']['loans'][$loan->id] = $loan;
+    }
+    elseif ($loan->expiry == $today) {
+      // Loans that should be handed in today.
+      if (!isset($groups['due'])) {
+        $groups['due'] = array(
+          'title' => t('Loans due'),
+          'loans' => array(),
+        );
+      }
+      $groups['due']['loans'][$loan->id] = $loan;
+    }
+    else {
+      // Loans that are to be handed in in x days.
+      if (!isset($groups[$loan->expiry])) {
+        $time = strtotime($loan->expiry);
+        $due_in = t('Due in @count, @date', array(
+          '@count' => format_interval($time - time(), 1),
+          '@date' => date('d/m/y', $time),
+        ));
+        $groups[$loan->expiry] = array(
+          'title' => $due_in,
+          'loans' => array(),
+        );
+      }
+      $groups[$loan->expiry]['loans'][$loan->id] = $loan;
+    }
+  }
+
+  return $groups;
+}
