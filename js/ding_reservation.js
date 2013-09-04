@@ -4,7 +4,7 @@
 (function ($) {
   $(document).ready(function($) {
     // Handle select all checkboxes.
-    $('.select-all-checkbox').click(function() {
+    $('.select-all input[type=checkbox]').click(function() {
       var checkboxes = $('input[type=checkbox]', $(this).closest('form'));
       if ($(this).prop('checked')) {
         checkboxes.prop('checked', true);
@@ -25,7 +25,7 @@
       // Handle all checkbox checked state, so if no all selected the checkbox
       // is not checked.
       if ($('.material-item input[type=checkbox]', form).length != count) {
-        $('.select-all-checkbox', form).prop('checked', false);
+        $('.select-all input[type=checkbox]', form).prop('checked', false);
       }
     })
 

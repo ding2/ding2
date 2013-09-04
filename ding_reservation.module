@@ -324,12 +324,8 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
   $form['title'] = array(
     '#type' => 'checkbox',
     '#title' => $conf['reservation_title'],
-    '#attributes' => array(
-      'class' => array(
-        'select-all-checkbox',
-        drupal_html_id($type),
-      )
-    ),
+    '#prefix' => '<div class="select-all ' . drupal_html_id($type) . '">',
+    '#suffix' => '</div>',
     '#attached' => array(
       'js' => array(
         drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation.js',
