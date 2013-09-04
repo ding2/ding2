@@ -475,7 +475,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
 
   if ($able_to_delete) {
     $form['actions_top']['delete'] = array(
-      '#prefix' => '<div class="delete-reservations">',
+      '#prefix' => '<div class="delete-reservations action-button">',
       '#suffix' => '</div>',
       '#submit' => array('ding_reservation_deletes_form_submit'),
       '#type' => 'submit',
@@ -490,7 +490,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
 
   if ($type == 'not_ready_for_pickup') {
     $form['actions_top']['update'] = array(
-      '#prefix' => '<div class="update-reservations">',
+      '#prefix' => '<div class="update-reservations action-button">',
       '#suffix' => '</div>',
       '#type' => 'submit',
       '#submit' => array('ding_reservation_updates_form_submit'),
