@@ -90,23 +90,20 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   foreach ($groups as $gid => $group) {
     foreach ($group['loans'] as $loan) {
 
-      // Add title item.
+      // Add title item (grouping by due dates).
       $form['loans'][$gid]['title'] = array(
         '#type' => 'checkbox',
         '#title' => $group['title'],
-        '#attributes' => array(
-          'class' => array(
-            'select-all-checkbox',
-            drupal_html_id($gid),
-          )
+        '#prefix' => '<div class="select-all ' . drupal_html_id($gid) . '">',
+        '#suffix' => '</div>',
+        '#attached' => array(
+          'js' => array(
+            drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
+          ),
         ),
-//        '#attached' => array(
-//          'js' => array(
-//            drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation.js',
-//          ),
-//        ),
       );
 
+      // Try to get entity for the loan.
       $entity = $loan->entity;
       if (!is_object($entity)) {
         $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
@@ -154,6 +151,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     }
   }
 
+  // Add the renew buttons to top and buttom of the form.
   $form['actions_top'] = array (
     '#weight' => 0,
   );
@@ -161,7 +159,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   $form['actions_top']['submit_first'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button">',
-    '#value' => t('Renew selected'),
+    '#value' => t('Renew selected (0)'),
     '#suffix' => '</div>',
   );
 
