@@ -94,7 +94,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       $form['loans'][$gid]['title'] = array(
         '#type' => 'checkbox',
         '#title' => $group['title'],
-        '#prefix' => '<div class="select-all ' . drupal_html_id($gid) . '">',
+        '#prefix' => '<div class="select-all ' . $gid . '">',
         '#suffix' => '</div>',
         '#attached' => array(
           'js' => array(
@@ -142,7 +142,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       if (!empty($loan->renewable)) {
         $item['#material_message'] = array(
           'message' => t('This material can not be re-newed'),
-          'class' => 'warning',
+          'class' => 'messages warning',
         );
       }
 
@@ -160,7 +160,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
   $form['actions_top']['submit_first'] = array(
     '#type' => 'submit',
-    '#prefix' => '<div class="renew-loan-button">',
+    '#prefix' => '<div class="renew-loan-button action-button">',
     '#value' => t('Renew selected (0)'),
     '#suffix' => '</div>',
   );
