@@ -13,16 +13,6 @@
 body {
   background-attachment: fixed;
   background-size: cover;
-
-  @include small-medium-low() {
-    &.js-fixed-body {
-      bottom: 0;
-      left: 0;
-      position: fixed;
-      right: 0;
-      top: 0;
-    }
-  }
 }
 
 
@@ -69,46 +59,11 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
   }
-
-  /* Make sure the header wrapper get position fixed when low device height */
-  @include small-medium-low() {
-    position: fixed;
-    overflow: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 44px;
-    z-index: 99;
-  }
 }
 
 
 /* Site header
    ========================================================================== */
-
-.site-header {
-  /* Large to x-large breakpoint */
-  @include large-x-large() {
-    &.js-fixed {
-      position: fixed;
-      z-index: 99;
-      width: 100%;
-    }
-  }
-
-  /* Small to medium breakpoint */
-  @include small-medium() {
-    &.js-fixed {
-      min-height: 44px;
-
-      .topbar {
-        position: fixed;
-        z-index: 99;
-        width: 100%;
-      }
-    }
-  }
-}
 
 
 /* Site name, slogan and logo

@@ -46,9 +46,6 @@
 
     // Fix jumping header after toggle of menu links.
     var header = $('.site-header');
-    if (header.hasClass('js-fixed')) {
-      $('.content-wrapper').css('paddingTop', header.outerHeight() - parseInt($('body').css('paddingTop'), 10));
-    }
   }
 
 
@@ -99,9 +96,6 @@
         ddbasic_topbar_link.one('touchend', function() {
           clicked.css('background-color', 'inherit');
         });
-
-        // Add a class to body to determine if body should be fixed.
-        $('body').removeClass('js-fixed-body');
       }
       else {
         // Make sure hardcoded style is removed
@@ -109,8 +103,6 @@
         // Remove active class from all links and add .active to clicked link.
         ddbasic_topbar_link.removeClass('active');
         clicked.addClass('active');
-
-        $('body').addClass('js-fixed-body');
       }
 
       // Prevent default (href).
@@ -142,26 +134,6 @@
     if (body_paddding) {
       pos.top = pos.top - body_paddding;
     }
-
-    // Hook into window scroll event (it will fire when attched if window is
-    // scrolled down).
-    $(window).scroll(function(){
-      var top = $(window).scrollTop();
-
-      // Figure out if we should fix position the header or not.
-      if (top > pos.top && !header.hasClass('js-fixed')) {
-        header.addClass('js-fixed');
-
-        // Fix jumping content.
-        $('.content-wrapper').css('paddingTop', header.outerHeight());
-      }
-      else if (top == 0 && header.hasClass('js-fixed')) {
-        header.removeClass('js-fixed');
-
-        // Fix jumping content.
-        $('.content-wrapper').css('paddingTop', '0');
-      }
-    });
 
     /*
      * Add news category menu as submenu to news in main menu
