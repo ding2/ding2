@@ -126,7 +126,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
             'class' => 'expire-date',
           ),
         ),
-        '#disabled' => $loan->renewable,
+        '#disabled' => !empty($loan->renewable),
       );
 
       // Add material number.
@@ -139,7 +139,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       }
 
       // If not renewable set message.
-      if (!empty($item->renewable)) {
+      if (!empty($loan->renewable)) {
         $item['#material_message'] = array(
           'message' => t('This material can not be re-newed'),
           'class' => 'warning',
