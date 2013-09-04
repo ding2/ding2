@@ -153,6 +153,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
   // Add the renew buttons to top and buttom of the form.
   $form['actions_top'] = array (
+    '#prefix' => '<div class="action-buttons">',
+    '#suffix' => '</div>',
     '#weight' => 0,
   );
 
@@ -164,6 +166,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   );
 
   $form['actions_bottom'] = array (
+    '#prefix' => '<div class="action-buttons">',
+    '#suffix' => '</div>',
     '#weight' => 2,
     'submit_second' => $form['actions_top']['submit_first'],
   );
