@@ -16,15 +16,15 @@
     });
 
     // Handle checkbox button count.
-    $('.material_item input[type=checkbox]').change(function() {
+    $('.material-item input[type=checkbox]').change(function() {
       var form = $(this).closest('form');
       var buttons = $('input[type=submit]', form);
-      var count = $('.material_item input[type=checkbox]:checked', form).length;
+      var count = $('.material-item input[type=checkbox]:checked', form).length;
       update_buttons(buttons, count);
 
       // Handle all checkbox checked state, so if no all selected the checkbox
       // is not checked.
-      if ($('.material_item input[type=checkbox]', form).length != count) {
+      if ($('.material-item input[type=checkbox]', form).length != count) {
         $('.select-all-checkbox', form).prop('checked', false);
       }
     })
