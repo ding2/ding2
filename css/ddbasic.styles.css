@@ -1010,11 +1010,9 @@ table tbody tr:hover th {
 .button,
 a.button,
 .form-submit,
-#edit-cancel, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
-.pane-reservations .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .ticket-info, .pane-loans .renew-loan-button .not-renewable,
-.pane-reservations .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-bookmarks .ding-entity-button a, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit,
+#edit-cancel, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
+.pane-loans .renew-loan-button .renewable, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
+.pane-loans .renew-loan-button .not-renewable, .pane-bookmarks .ding-entity-button a, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -1034,27 +1032,21 @@ a.button,
 /* line 47, ../sass/framework/_buttons.scss */
 .button:focus,
 .form-submit:focus,
-#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
-.pane-reservations .renew-loan-button .renewable:focus,
-.pane-bookmarks .renew-loan-button .renewable:focus, .ticket-info:focus, .pane-loans .renew-loan-button .not-renewable:focus,
-.pane-reservations .renew-loan-button .not-renewable:focus,
-.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
+#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
+.pane-loans .renew-loan-button .renewable:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
+.pane-loans .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .button:hover,
 .form-submit:hover,
-#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
-.pane-reservations .renew-loan-button .renewable:hover,
-.pane-bookmarks .renew-loan-button .renewable:hover, .ticket-info:hover, .pane-loans .renew-loan-button .not-renewable:hover,
-.pane-reservations .renew-loan-button .not-renewable:hover,
-.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
+#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
+.pane-loans .renew-loan-button .renewable:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
+.pane-loans .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
 .pane-ting-collection .ding-entity-button:hover,
 .pane-ting-object .ding-entity-button:hover, .button:active,
 .form-submit:active,
-#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
-.pane-reservations .renew-loan-button .renewable:active,
-.pane-bookmarks .renew-loan-button .renewable:active, .ticket-info:active, .pane-loans .renew-loan-button .not-renewable:active,
-.pane-reservations .renew-loan-button .not-renewable:active,
-.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-bookmarks .ding-entity-button a:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
+#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
+.pane-loans .renew-loan-button .renewable:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
+.pane-loans .renew-loan-button .not-renewable:active, .pane-bookmarks .ding-entity-button a:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
@@ -1062,19 +1054,15 @@ a.button,
 /* line 53, ../sass/framework/_buttons.scss */
 .disabled.button,
 .disabled.form-submit,
-.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-loans .renew-loan-button .disabled.renewable,
-.pane-reservations .renew-loan-button .disabled.renewable,
-.pane-bookmarks .renew-loan-button .disabled.renewable, .disabled.ticket-info, .pane-loans .renew-loan-button .disabled.not-renewable,
-.pane-reservations .renew-loan-button .disabled.not-renewable,
-.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
+.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
+.pane-loans .renew-loan-button .disabled.renewable, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
+.pane-loans .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
 .pane-ting-collection .disabled.ding-entity-button,
 .pane-ting-object .disabled.ding-entity-button, [disabled].button,
 [disabled].form-submit,
-[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-loans .renew-loan-button [disabled].renewable,
-.pane-reservations .renew-loan-button [disabled].renewable,
-.pane-bookmarks .renew-loan-button [disabled].renewable, [disabled].ticket-info, .pane-loans .renew-loan-button [disabled].not-renewable,
-.pane-reservations .renew-loan-button [disabled].not-renewable,
-.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-bookmarks .ding-entity-button a[disabled], form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
+[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
+.pane-loans .renew-loan-button [disabled].renewable, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
+.pane-loans .renew-loan-button [disabled].not-renewable, .pane-bookmarks .ding-entity-button a[disabled], form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1135,11 +1123,11 @@ a.button:active,
 /* Theme button */
 /* Action button */
 /* line 106, ../sass/framework/_buttons.scss */
-.field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-loans .renew-loan-button .renewable,
-.pane-reservations .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .pane-loans .update-reservations .form-submit,
-.pane-reservations .update-reservations .form-submit,
-.pane-bookmarks .update-reservations .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-debts .pay-button .form-submit {
+.field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
+.pane-loans .renew-loan-button .renewable, .pane-reservations .update-reservations .form-submit,
+.pane-reservations .renew-loan-button .form-submit,
+.pane-loans .update-reservations .form-submit,
+.pane-loans .renew-loan-button .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .pane-debts .pay-button .form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #60a500), color-stop(100%, #335900));
   background-image: -webkit-linear-gradient(#60a500, #335900);
   background-image: -moz-linear-gradient(#60a500, #335900);
@@ -1151,31 +1139,31 @@ a.button:active,
   color: white;
 }
 /* line 78, ../sass/framework/_buttons.scss */
-.field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-loans .renew-loan-button .renewable:link,
-.pane-reservations .renew-loan-button .renewable:link,
-.pane-bookmarks .renew-loan-button .renewable:link, .pane-loans .update-reservations .form-submit:link,
-.pane-reservations .update-reservations .form-submit:link,
-.pane-bookmarks .update-reservations .form-submit:link, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:link, .pane-debts .pay-button .form-submit:link, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-loans .renew-loan-button .renewable:visited,
-.pane-reservations .renew-loan-button .renewable:visited,
-.pane-bookmarks .renew-loan-button .renewable:visited, .pane-loans .update-reservations .form-submit:visited,
-.pane-reservations .update-reservations .form-submit:visited,
-.pane-bookmarks .update-reservations .form-submit:visited, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:visited, .pane-debts .pay-button .form-submit:visited {
+.field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-reservations .renew-loan-button .renewable:link,
+.pane-loans .renew-loan-button .renewable:link, .pane-reservations .update-reservations .form-submit:link,
+.pane-reservations .renew-loan-button .form-submit:link,
+.pane-loans .update-reservations .form-submit:link,
+.pane-loans .renew-loan-button .form-submit:link, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:link, .pane-debts .pay-button .form-submit:link, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
+.pane-loans .renew-loan-button .renewable:visited, .pane-reservations .update-reservations .form-submit:visited,
+.pane-reservations .renew-loan-button .form-submit:visited,
+.pane-loans .update-reservations .form-submit:visited,
+.pane-loans .renew-loan-button .form-submit:visited, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:visited, .pane-debts .pay-button .form-submit:visited {
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
-.field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-loans .renew-loan-button .renewable:focus,
-.pane-reservations .renew-loan-button .renewable:focus,
-.pane-bookmarks .renew-loan-button .renewable:focus, .pane-loans .update-reservations .form-submit:focus,
-.pane-reservations .update-reservations .form-submit:focus,
-.pane-bookmarks .update-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-debts .pay-button .form-submit:focus, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-loans .renew-loan-button .renewable:hover,
-.pane-reservations .renew-loan-button .renewable:hover,
-.pane-bookmarks .renew-loan-button .renewable:hover, .pane-loans .update-reservations .form-submit:hover,
-.pane-reservations .update-reservations .form-submit:hover,
-.pane-bookmarks .update-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-debts .pay-button .form-submit:hover, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-loans .renew-loan-button .renewable:active,
-.pane-reservations .renew-loan-button .renewable:active,
-.pane-bookmarks .renew-loan-button .renewable:active, .pane-loans .update-reservations .form-submit:active,
-.pane-reservations .update-reservations .form-submit:active,
-.pane-bookmarks .update-reservations .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-debts .pay-button .form-submit:active {
+.field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
+.pane-loans .renew-loan-button .renewable:focus, .pane-reservations .update-reservations .form-submit:focus,
+.pane-reservations .renew-loan-button .form-submit:focus,
+.pane-loans .update-reservations .form-submit:focus,
+.pane-loans .renew-loan-button .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .pane-debts .pay-button .form-submit:focus, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
+.pane-loans .renew-loan-button .renewable:hover, .pane-reservations .update-reservations .form-submit:hover,
+.pane-reservations .renew-loan-button .form-submit:hover,
+.pane-loans .update-reservations .form-submit:hover,
+.pane-loans .renew-loan-button .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .pane-debts .pay-button .form-submit:hover, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
+.pane-loans .renew-loan-button .renewable:active, .pane-reservations .update-reservations .form-submit:active,
+.pane-reservations .renew-loan-button .form-submit:active,
+.pane-loans .update-reservations .form-submit:active,
+.pane-loans .renew-loan-button .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .pane-debts .pay-button .form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #518b00), color-stop(100%, #253f00));
   background-image: -webkit-linear-gradient(#518b00, #253f00);
   background-image: -moz-linear-gradient(#518b00, #253f00);
@@ -1213,14 +1201,11 @@ a.button:active,
 
 /* Danger button */
 /* line 116, ../sass/framework/_buttons.scss */
-.pane-loans .renew-loan-button .not-renewable,
 .pane-reservations .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-loans .delete-reservation .form-submit,
-.pane-loans .delete-reservations .form-submit,
-.pane-reservations .delete-reservation .form-submit,
+.pane-loans .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
 .pane-reservations .delete-reservations .form-submit,
-.pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit {
+.pane-loans .delete-reservation .form-submit,
+.pane-loans .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #bf3600), color-stop(100%, #732000));
   background-image: -webkit-linear-gradient(#bf3600, #732000);
   background-image: -moz-linear-gradient(#bf3600, #732000);
@@ -1232,46 +1217,31 @@ a.button:active,
   color: white;
 }
 /* line 78, ../sass/framework/_buttons.scss */
-.pane-loans .renew-loan-button .not-renewable:link,
 .pane-reservations .renew-loan-button .not-renewable:link,
-.pane-bookmarks .renew-loan-button .not-renewable:link, .pane-loans .delete-reservation .form-submit:link,
-.pane-loans .delete-reservations .form-submit:link,
-.pane-reservations .delete-reservation .form-submit:link,
+.pane-loans .renew-loan-button .not-renewable:link, .pane-reservations .delete-reservation .form-submit:link,
 .pane-reservations .delete-reservations .form-submit:link,
-.pane-bookmarks .delete-reservation .form-submit:link,
-.pane-bookmarks .delete-reservations .form-submit:link, .pane-bookmarks .ding-entity-button a:link, #ding-bookmark-remove-form .form-submit:link, .pane-loans .renew-loan-button .not-renewable:visited,
-.pane-reservations .renew-loan-button .not-renewable:visited,
-.pane-bookmarks .renew-loan-button .not-renewable:visited, .pane-loans .delete-reservation .form-submit:visited,
-.pane-loans .delete-reservations .form-submit:visited,
-.pane-reservations .delete-reservation .form-submit:visited,
+.pane-loans .delete-reservation .form-submit:link,
+.pane-loans .delete-reservations .form-submit:link, .pane-bookmarks .ding-entity-button a:link, #ding-bookmark-remove-form .form-submit:link, .pane-reservations .renew-loan-button .not-renewable:visited,
+.pane-loans .renew-loan-button .not-renewable:visited, .pane-reservations .delete-reservation .form-submit:visited,
 .pane-reservations .delete-reservations .form-submit:visited,
-.pane-bookmarks .delete-reservation .form-submit:visited,
-.pane-bookmarks .delete-reservations .form-submit:visited, .pane-bookmarks .ding-entity-button a:visited, #ding-bookmark-remove-form .form-submit:visited {
+.pane-loans .delete-reservation .form-submit:visited,
+.pane-loans .delete-reservations .form-submit:visited, .pane-bookmarks .ding-entity-button a:visited, #ding-bookmark-remove-form .form-submit:visited {
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
-.pane-loans .renew-loan-button .not-renewable:focus,
 .pane-reservations .renew-loan-button .not-renewable:focus,
-.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-loans .delete-reservation .form-submit:focus,
-.pane-loans .delete-reservations .form-submit:focus,
-.pane-reservations .delete-reservation .form-submit:focus,
+.pane-loans .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
 .pane-reservations .delete-reservations .form-submit:focus,
-.pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-loans .renew-loan-button .not-renewable:hover,
-.pane-reservations .renew-loan-button .not-renewable:hover,
-.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-loans .delete-reservation .form-submit:hover,
-.pane-loans .delete-reservations .form-submit:hover,
-.pane-reservations .delete-reservation .form-submit:hover,
+.pane-loans .delete-reservation .form-submit:focus,
+.pane-loans .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-reservations .renew-loan-button .not-renewable:hover,
+.pane-loans .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
 .pane-reservations .delete-reservations .form-submit:hover,
-.pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-loans .renew-loan-button .not-renewable:active,
-.pane-reservations .renew-loan-button .not-renewable:active,
-.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-loans .delete-reservation .form-submit:active,
-.pane-loans .delete-reservations .form-submit:active,
-.pane-reservations .delete-reservation .form-submit:active,
+.pane-loans .delete-reservation .form-submit:hover,
+.pane-loans .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-reservations .renew-loan-button .not-renewable:active,
+.pane-loans .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
 .pane-reservations .delete-reservations .form-submit:active,
-.pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active {
+.pane-loans .delete-reservation .form-submit:active,
+.pane-loans .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #a62f00), color-stop(100%, #591900));
   background-image: -webkit-linear-gradient(#a62f00, #591900);
   background-image: -moz-linear-gradient(#a62f00, #591900);
@@ -8094,13 +8064,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
  */
 /* /user/$uid/status/reservations
    ========================================================================== */
-/* line 14, ../sass/module/_user.scss */
+/* line 12, ../sass/module/_user.scss */
+.pane-reservations,
+.pane-loans {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #d5d5d5;
+  margin-bottom: 30px;
+  /* BUTTONS */
+  /* END BUTTONS */
+}
+/* line 17, ../sass/module/_user.scss */
 .pane-reservations .left-column,
 .pane-loans .left-column {
   float: left;
-  width: 25%;
+  width: 16.66667%;
   margin-left: 0%;
-  margin-right: -25%;
+  margin-right: -16.66667%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -8113,24 +8092,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 17, ../sass/module/_user.scss */
-.pane-reservations .left-column .item-checkbox,
-.pane-loans .left-column .item-checkbox {
-  float: left;
-  width: 20%;
-}
 /* line 21, ../sass/module/_user.scss */
-.pane-reservations .left-column .item-checkbox .form-item,
-.pane-loans .left-column .item-checkbox .form-item {
-  text-align: left;
-}
-/* line 27, ../sass/module/_user.scss */
 .pane-reservations .right-column,
 .pane-loans .right-column {
   float: right;
-  width: 75%;
+  width: 83.33333%;
   margin-right: 0%;
-  margin-left: -75%;
+  margin-left: -83.33333%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -8143,7 +8111,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 31, ../sass/module/_user.scss */
+/* line 25, ../sass/module/_user.scss */
 .pane-reservations .material-item,
 .pane-loans .material-item {
   overflow: hidden;
@@ -8152,52 +8120,58 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 20px;
   margin-bottom: 10px;
 }
-/* line 38, ../sass/module/_user.scss */
+/* line 32, ../sass/module/_user.scss */
 .pane-reservations .material-item.odd,
 .pane-loans .material-item.odd {
   background-color: #efefef;
 }
-/* line 41, ../sass/module/_user.scss */
+/* line 35, ../sass/module/_user.scss */
 .pane-reservations .material-item.even,
 .pane-loans .material-item.even {
   background-color: #fbfbfb;
 }
-/* line 46, ../sass/module/_user.scss */
+/* line 40, ../sass/module/_user.scss */
+.pane-reservations .item-checkbox,
+.pane-loans .item-checkbox {
+  float: left;
+  width: 25%;
+}
+/* line 44, ../sass/module/_user.scss */
+.pane-reservations .item-checkbox .form-item,
+.pane-loans .item-checkbox .form-item {
+  text-align: left;
+}
+/* line 49, ../sass/module/_user.scss */
 .pane-reservations .ting-cover,
 .pane-loans .ting-cover {
   float: left;
-  max-width: 80%;
+  max-width: 75%;
 }
-/* line 50, ../sass/module/_user.scss */
-.pane-reservations .ting-cover img,
-.pane-loans .ting-cover img {
-  /*max-width: 85%;*/
-}
-/* line 54, ../sass/module/_user.scss */
+/* line 53, ../sass/module/_user.scss */
 .pane-reservations .ting-cover:before,
 .pane-loans .ting-cover:before {
-  font-size: 30px;
-  left: 5px;
-  top: 5px;
+  font-size: 200%;
+  left: 25%;
+  top: 5%;
 }
-/* line 61, ../sass/module/_user.scss */
+/* line 60, ../sass/module/_user.scss */
 .pane-reservations .item-information-list,
 .pane-loans .item-information-list {
   overflow: hidden;
 }
-/* line 63, ../sass/module/_user.scss */
+/* line 62, ../sass/module/_user.scss */
 .pane-reservations .item-information-list .item-information,
 .pane-loans .item-information-list .item-information {
   overflow: hidden;
   clear: left;
 }
-/* line 69, ../sass/module/_user.scss */
+/* line 68, ../sass/module/_user.scss */
 .pane-reservations .item-information-label,
 .pane-loans .item-information-label {
   float: left;
-  width: 33.33333%;
+  width: 41.66667%;
   margin-left: 0%;
-  margin-right: -33.33333%;
+  margin-right: -41.66667%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -8212,13 +8186,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding: 0;
   padding-right: 10px;
 }
-/* line 76, ../sass/module/_user.scss */
+/* line 75, ../sass/module/_user.scss */
 .pane-reservations .item-information-data,
 .pane-loans .item-information-data {
   float: right;
-  width: 66.66667%;
+  width: 58.33333%;
   margin-right: 0%;
-  margin-left: -66.66667%;
+  margin-left: -58.33333%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -8232,11 +8206,331 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow-y: visible;
   padding: 0;
 }
+/* line 81, ../sass/module/_user.scss */
+.pane-reservations .select-all,
+.pane-loans .select-all {
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 10px;
+  padding-left: 20px;
+  background-color: #d5d5d5;
+}
+/* line 88, ../sass/module/_user.scss */
+.pane-reservations .select-all .form-checkbox,
+.pane-loans .select-all .form-checkbox {
+  margin-right: 5px;
+}
+/* line 92, ../sass/module/_user.scss */
+.pane-reservations .select-all label,
+.pane-loans .select-all label {
+  vertical-align: middle;
+}
+/* line 97, ../sass/module/_user.scss */
+.pane-reservations .form-item,
+.pane-loans .form-item {
+  margin-bottom: 0;
+}
+/* line 101, ../sass/module/_user.scss */
+.pane-reservations .messages,
+.pane-loans .messages {
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 30px;
+  margin-bottom: 10px;
+}
+/* line 109, ../sass/module/_user.scss */
+.pane-reservations .messages:before,
+.pane-loans .messages:before {
+  top: 7px;
+  left: 7px;
+  font-size: 110%;
+}
+/* line 130, ../sass/module/_user.scss */
+.pane-reservations .action-button,
+.pane-loans .action-button {
+  display: inline-block;
+  margin-right: 20px;
+}
 
+/* line 152, ../sass/module/_user.scss */
+.pane-loans .select-all {
+  background-color: #528c10;
+  color: white;
+}
+/* line 156, ../sass/module/_user.scss */
+.pane-loans .select-all.overdue {
+  background-color: #a32e10;
+}
+/* line 160, ../sass/module/_user.scss */
+.pane-loans .select-all.due {
+  background-color: #f0cb28;
+}
+
+@media only screen and (max-width: 480px) {
+  /* line 169, ../sass/module/_user.scss */
+  .pane-reservations h3,
+  .pane-loans h3 {
+    font-size: 130%;
+  }
+  /* line 172, ../sass/module/_user.scss */
+  .pane-reservations .left-column,
+  .pane-loans .left-column {
+    float: left;
+    width: 8.33333%;
+    margin-left: 0%;
+    margin-right: -8.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 176, ../sass/module/_user.scss */
+  .pane-reservations .right-column,
+  .pane-loans .right-column {
+    float: right;
+    width: 91.66667%;
+    margin-right: 0%;
+    margin-left: -91.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 180, ../sass/module/_user.scss */
+  .pane-reservations .item-checkbox,
+  .pane-loans .item-checkbox {
+    width: 100%;
+    clear: both;
+    display: block;
+    float: none;
+    margin-right: 10px;
+  }
+  /* line 188, ../sass/module/_user.scss */
+  .pane-reservations .ting-cover,
+  .pane-loans .ting-cover {
+    display: none;
+    /*clear: both;
+    float: none;
+    max-width: 100%;
+    margin-top: 15px;*/
+  }
+  /* line 197, ../sass/module/_user.scss */
+  .pane-reservations .item-information-label,
+  .pane-loans .item-information-label {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding: 0;
+    font-weight: bold;
+  }
+  /* line 206, ../sass/module/_user.scss */
+  .pane-reservations .item-information-data,
+  .pane-loans .item-information-data {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  /* line 216, ../sass/module/_user.scss */
+  .pane-reservations .action-buttons .action-button,
+  .pane-loans .action-buttons .action-button {
+    margin-top: 10px;
+  }
+  /* line 219, ../sass/module/_user.scss */
+  .pane-reservations .action-buttons .action-button:nth-of-type(1),
+  .pane-loans .action-buttons .action-button:nth-of-type(1) {
+    margin-top: 0;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 231, ../sass/module/_user.scss */
+  .pane-reservations .left-column,
+  .pane-loans .left-column {
+    float: left;
+    width: 25%;
+    margin-left: 0%;
+    margin-right: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 235, ../sass/module/_user.scss */
+  .pane-reservations .right-column,
+  .pane-loans .right-column {
+    float: right;
+    width: 75%;
+    margin-right: 0%;
+    margin-left: -75%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+  /* line 239, ../sass/module/_user.scss */
+  .pane-reservations .item-checkbox,
+  .pane-loans .item-checkbox {
+    width: 30%;
+  }
+  /* line 243, ../sass/module/_user.scss */
+  .pane-reservations .ting-cover,
+  .pane-loans .ting-cover {
+    max-width: 70%;
+  }
+  /* line 247, ../sass/module/_user.scss */
+  .pane-reservations .item-information-label,
+  .pane-loans .item-information-label {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding: 0;
+    padding-right: 10px;
+  }
+  /* line 254, ../sass/module/_user.scss */
+  .pane-reservations .item-information-data,
+  .pane-loans .item-information-data {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding: 0;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 940px) {
+  /* line 265, ../sass/module/_user.scss */
+  .pane-reservations .item-checkbox,
+  .pane-loans .item-checkbox {
+    width: 35%;
+  }
+  /* line 269, ../sass/module/_user.scss */
+  .pane-reservations .ting-cover,
+  .pane-loans .ting-cover {
+    max-width: 65%;
+  }
+  /* line 273, ../sass/module/_user.scss */
+  .pane-reservations .item-information-label,
+  .pane-loans .item-information-label {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding: 0;
+    padding-right: 10px;
+  }
+  /* line 280, ../sass/module/_user.scss */
+  .pane-reservations .item-information-data,
+  .pane-loans .item-information-data {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+}
 /* BELOW IS CODE FROM BEFORE REFACTORING */
 /* User login in header
    ========================================================================== */
-/* line 95, ../sass/module/_user.scss */
+/* line 298, ../sass/module/_user.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -8254,11 +8548,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 98, ../sass/module/_user.scss */
+/* line 301, ../sass/module/_user.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 103, ../sass/module/_user.scss */
+/* line 306, ../sass/module/_user.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -8276,16 +8570,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 106, ../sass/module/_user.scss */
+/* line 309, ../sass/module/_user.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
-/* line 111, ../sass/module/_user.scss */
+/* line 314, ../sass/module/_user.scss */
 .user .block-title {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 117, ../sass/module/_user.scss */
+  /* line 320, ../sass/module/_user.scss */
   .user .form-item-name,
   .user .form-item-pass {
     float: left;
@@ -8304,21 +8598,21 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 121, ../sass/module/_user.scss */
+  /* line 324, ../sass/module/_user.scss */
   .user .form-actions {
     margin-bottom: 0;
   }
-  /* line 125, ../sass/module/_user.scss */
+  /* line 328, ../sass/module/_user.scss */
   .user .form-submit {
     margin-top: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 92, ../sass/module/_user.scss */
+  /* line 295, ../sass/module/_user.scss */
   .user {
     text-align: left;
   }
-  /* line 133, ../sass/module/_user.scss */
+  /* line 336, ../sass/module/_user.scss */
   .user .block-title {
     display: block;
     color: white;
@@ -8329,24 +8623,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 145, ../sass/module/_user.scss */
+/* line 348, ../sass/module/_user.scss */
 .user-name {
   color: white;
 }
-/* line 148, ../sass/module/_user.scss */
+/* line 351, ../sass/module/_user.scss */
 .user-name .user-name-title {
   font-size: 160%;
   overflow: hidden;
   max-height: 45px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 155, ../sass/module/_user.scss */
+  /* line 358, ../sass/module/_user.scss */
   .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
 
-/* line 163, ../sass/module/_user.scss */
+/* line 366, ../sass/module/_user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -8356,14 +8650,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   text-align: right;
 }
-/* line 170, ../sass/module/_user.scss */
+/* line 373, ../sass/module/_user.scss */
 .user-name.js-topbar-toggled,
 .user-menu-loans.js-topbar-toggled,
 .user-menu.js-topbar-toggled {
   display: block;
 }
 @media only screen and (max-width: 768px) {
-  /* line 163, ../sass/module/_user.scss */
+  /* line 366, ../sass/module/_user.scss */
   .user-name,
   .user-menu-loans,
   .user-menu {
@@ -8373,20 +8667,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 182, ../sass/module/_user.scss */
+/* line 385, ../sass/module/_user.scss */
 .user-menu-loans,
 .user-menu {
   padding-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 182, ../sass/module/_user.scss */
+  /* line 385, ../sass/module/_user.scss */
   .user-menu-loans,
   .user-menu {
     padding-top: 0;
   }
 }
 
-/* line 190, ../sass/module/_user.scss */
+/* line 393, ../sass/module/_user.scss */
 .user-menu {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -8394,13 +8688,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User profile
    ========================================================================== */
-/* line 199, ../sass/module/_user.scss */
+/* line 402, ../sass/module/_user.scss */
 .user-loan-status-wrapper {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 
-/* line 207, ../sass/module/_user.scss */
+/* line 410, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -8411,7 +8705,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 214, ../sass/module/_user.scss */
+/* line 417, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
@@ -8419,20 +8713,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-decoration: none;
 }
 
-/* line 220, ../sass/module/_user.scss */
+/* line 423, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 225, ../sass/module/_user.scss */
+/* line 428, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 235, ../sass/module/_user.scss */
+/* line 438, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -8441,36 +8735,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: white;
 }
 
-/* line 240, ../sass/module/_user.scss */
+/* line 443, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 244, ../sass/module/_user.scss */
+/* line 447, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 249, ../sass/module/_user.scss */
+/* line 452, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 253, ../sass/module/_user.scss */
+/* line 456, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 258, ../sass/module/_user.scss */
+/* line 461, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 261, ../sass/module/_user.scss */
+/* line 464, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 268, ../sass/module/_user.scss */
+/* line 471, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -8482,12 +8776,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 278, ../sass/module/_user.scss */
+/* line 481, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 284, ../sass/module/_user.scss */
+  /* line 487, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -8496,23 +8790,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User loans
    ========================================================================== */
-/* line 298, ../sass/module/_user.scss */
+/* line 501, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 304, ../sass/module/_user.scss */
-.pane-loans .select-all,
-.pane-loans .form-type-checkbox,
-.pane-reservations .select-all,
-.pane-reservations .form-type-checkbox,
-.pane-bookmarks .select-all,
-.pane-bookmarks .form-type-checkbox {
-  text-align: center;
-}
-/* line 308, ../sass/module/_user.scss */
+/* line 506, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -8521,7 +8806,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 315, ../sass/module/_user.scss */
+/* line 513, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -8529,73 +8814,40 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 47px;
 }
-/* line 324, ../sass/module/_user.scss */
-.pane-loans .operations .renew-loan-button,
-.pane-loans .operations .delete-reservation,
-.pane-reservations .operations .renew-loan-button,
-.pane-reservations .operations .delete-reservation,
-.pane-bookmarks .operations .renew-loan-button,
-.pane-bookmarks .operations .delete-reservation {
-  text-align: center;
-}
-/* line 342, ../sass/module/_user.scss */
-.pane-loans .delete-reservations,
-.pane-loans .update-reservations,
-.pane-reservations .delete-reservations,
-.pane-reservations .update-reservations,
-.pane-bookmarks .delete-reservations,
-.pane-bookmarks .update-reservations {
-  display: inline;
-  margin-right: 20px;
-}
 
-/* line 362, ../sass/module/_user.scss */
+/* line 521, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 367, ../sass/module/_user.scss */
+/* line 526, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
 }
 
-/* line 383, ../sass/module/_user.scss */
-.pane-reservations {
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-
-/* line 389, ../sass/module/_user.scss */
-#ding-reservation-reservations-ready-form {
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-}
-
 /* User debts
    ========================================================================== */
-/* line 407, ../sass/module/_user.scss */
+/* line 554, ../sass/module/_user.scss */
 .pane-debts table {
   margin-bottom: 20px;
 }
-/* line 412, ../sass/module/_user.scss */
+/* line 559, ../sass/module/_user.scss */
 .pane-debts table th.feedate,
 .pane-debts table td.feedate {
   width: 10%;
 }
-/* line 416, ../sass/module/_user.scss */
+/* line 563, ../sass/module/_user.scss */
 .pane-debts table th.feeamount,
 .pane-debts table td.feeamount {
   text-align: right;
 }
-/* line 422, ../sass/module/_user.scss */
+/* line 569, ../sass/module/_user.scss */
 .pane-debts .pay-button {
   margin-bottom: 20px;
 }
 
-/* line 433, ../sass/module/_user.scss */
+/* line 580, ../sass/module/_user.scss */
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
 .pane-ding-dibs-dibs-cards-supported {
@@ -8603,7 +8855,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 20px;
   padding-bottom: 20px;
 }
-/* line 439, ../sass/module/_user.scss */
+/* line 586, ../sass/module/_user.scss */
 .pane-debts #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-terms-of-sale #dibs-cards-supported .card-name,
 .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {
