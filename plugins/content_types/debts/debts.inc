@@ -95,116 +95,58 @@ function ding_debt_debts_form($form, &$form_state, $debts = array(), $has_invoic
  * Helper function to render the details of the debt form
  */
 function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amount) {
-  $options = array();
-  $header = array(
-    'fee_date' => t('Fee date'),
-    'title' => t('Title'),
-    'type' => t('Fee type'),
-    'amount' => t('Amount'),
-  );
-
   foreach ($debts as $debt) {
-    $options[$debt->id] = array(
-      '#disabled' => $debt->is_invoice,
-      'fee_date' => array(
-        'data' => format_date(strtotime(check_plain($debt->date)), 'date_only'),
-        'class' => 'feedate',
-      ),
-      'title' => array(
-        'data' => $debt->display_name,
-        'class' => 'feetitle',
-      ),
-      'type' => array(
-        'data' => t($debt->type),
-        'class' => 'feetype',
-      ),
-      'amount' => array(
-        'data' => ( $debt->is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
-        'class' => 'feeamount',
+    $item = array(
+      '#type' => 'material_item',
+      '#id' => $debt->id,
+      '#title' => $debt->display_name,
+      '#information' => array(
+        'fee_date' => array(
+          'label' => t('Fee date'),
+          'data' => format_date(strtotime(check_plain($debt->date)), 'date_only'),
+          'class' => 'fee-date',
+        ),
+        'fee_type' => array(
+          'label' => t('Fee type'),
+          'data' => t($debt->type),
+          'class' => 'fee-type',
+        ),
+        'amount' => array(
+          'label' => t('Amount'),
+          'data' => ($debt->is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
+          'class' => 'fee_amount',
+        ),
       ),
     );
+
+    // Add the debt to the form.
+    $form['debts'][$debt->id] = $item;
   }
 
-  // add total
-  $options['total_amount'] = array(
-    '#disabled' => TRUE,
-    'fee_date' => array(
-      'data' => t('Total'),
-      'class' => 'feedate',
-      'header' => TRUE
-    ),
-    'title' => array(
-      'data' => '',
-      'class' => 'feetitle',
-      'header' => TRUE
-    ),
-    'type' => array(
-      'data' => '',
-      'class' => 'feetype',
-      'header' => TRUE
-    ),
-    'amount' => array(
-      'data' => number_format($total_amount, 2, ',', ' '),
-      'class' => 'feeamount',
-      'header' => TRUE
-    ),
+  // Add item with the total amount.
+  $form['total'] = array(
+    '#type' => 'item',
+    '#prefix' => '<p class="total-amount">',
+    '#suffix' => '</p>',
+    '#markup' => t('Total') . ': <span class="amount">' . number_format($total_amount, 2, ',', ' ') . '</span>',
   );
 
   if ($has_invoiced_fees) {
-    $options['invoice-note'] = array(
-      '#disabled' => TRUE,
-      'fee_date' => array(
-        'data' => '',
-        'class' => 'fee-invoice-note',
-        'header' => TRUE
-      ),
-      'title' => array(
-        'data' => t("* Invoiced fees can't be paid online."),
-        'class' => 'fee-invoice-note',
-        'header' => TRUE
-      ),
-      'type' => array(
-        'data' => '',
-        'class' => 'fee-invoice-note',
-        'header' => TRUE
-      ),
-      'amount' => array(
-        'data' => '',
-        'class' => 'fee-invoice-note',
-        'header' => TRUE
-      ),
+    $form['notice'] = array(
+      '#type' => 'item',
+      '#prefix' => '<p class="notice">',
+      '#suffix' => '</p>',
+      '#markup' => t("* Invoiced fees can't be paid online."),
     );
   }
-  $form['debts'] = array(
-    '#type' => 'tableselect_form',
-    '#header' => $header,
-    '#options' => $options,
-    '#empty' => t('No Debt'),
-    '#process' => array('ding_base_element_process_tableselect_form', '_ding_debt_debt_disable'),
-    '#weight' => -1,
-  );
 }
-
-/**
- * Process function to disable checkboxes for unpayable debts.
- */
-function _ding_debt_debt_disable($element) {
-  foreach ($element['#options'] as $key => $choice) {
-    if (isset($choice['#disabled']) && $choice['#disabled']) {
-      $element[$key]['#disabled'] = TRUE;
-      $element[$key]['#attributes']['title'] = t('Not payable here');
-    }
-  }
-  return $element;
-}
-
 
 /**
  * Submit handler for the pay all submit button.
  */
 function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
   $amount = 0;
-  $debts = array_filter($form_state['values']['debt_data']);
+  $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
     if ( !$form_state['values']['debt_data'][$debt_id]->invoice_number ) {
       $amount += $form_state['values']['debt_data'][$debt_id]->amount;
@@ -222,16 +164,18 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
  */
 function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
   $amount = 0;
-  $debts = array();
-  foreach (array_filter($form_state['values']['debts']) as $debt_id => $debt_data) {
-    if ( !$form_state['values']['debt_data'][$debt_id]->invoice_number  ) {
-      $amount += $form_state['values']['debt_data'][$debt_id]->amount;
-      $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
-      $debts[$debt_id] = $form_state['values']['debt_data'][$debt_id];
+  $payments = array();
+  $debts = $form_state['values']['debt_data'];
+  foreach ($debts as $debt_id => $debt_data) {
+    if (!empty($form_state['values'][$debt_id])) {
+      if ( !$debt_data->invoice_number  ) {
+        $amount += $form_state['values']['debt_data'][$debt_id]->amount;
+        $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
+        $payments[$debt_id] = $form_state['values']['debt_data'][$debt_id];
+      }
     }
   }
-  ding_debt_debts_perform_payment($debts, $amount, $form_state);
-
+  ding_debt_debts_perform_payment($payments, $amount, $form_state);
 }
 
 /**
