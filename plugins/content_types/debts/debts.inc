@@ -35,20 +35,20 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
         $total_amount += $debt->amount;
         $total_amount -= $debt->amount_paid;
         $debt->is_invoice = FALSE;
-      } else {
+      }
+      else {
         $debt->is_invoice = TRUE;
         $has_invoiced_fees = TRUE;
       }
     }
-    $build = ding_provider_get_form('ding_debt_debts_form', $debts, $has_invoiced_fees, $total_amount);       
-    $block->content =  render($build);
+    $build = ding_provider_get_form('ding_debt_debts_form', $debts, $has_invoiced_fees, $total_amount);
+    $block->content = render($build);
   }
   else {
     $block->content = t('No debts');
   }
   return $block;
 }
-
 
 /**
  * Form for configuring the content type.
@@ -64,6 +64,7 @@ function ding_debt_debts_content_type_edit_form($form, &$form_state) {
  */
 function ding_debt_debts_form($form, &$form_state, $debts = array(), $has_invoiced_fees, $total_amount) {
   ding_debt_form_details($form, $debts, $has_invoiced_fees, $total_amount);
+
   if ($total_amount) {
     $form['debt_data'] = array(
       '#type' => 'value',
@@ -123,6 +124,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
       ),
     );
   }
+
   // add total
   $options['total_amount'] = array(
     '#disabled' => TRUE,
@@ -171,7 +173,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         'class' => 'fee-invoice-note',
         'header' => TRUE
       ),
-    ); 
+    );
   }
   $form['debts'] = array(
     '#type' => 'tableselect_form',
@@ -207,7 +209,8 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
     if ( !$form_state['values']['debt_data'][$debt_id]->invoice_number ) {
       $amount += $form_state['values']['debt_data'][$debt_id]->amount;
       $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
-    } else {
+    }
+    else {
       unset($debts[$debt_id]);
     }
   }
@@ -225,19 +228,23 @@ function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
       $amount += $form_state['values']['debt_data'][$debt_id]->amount;
       $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
       $debts[$debt_id] = $form_state['values']['debt_data'][$debt_id];
-    } 
+    }
   }
   ding_debt_debts_perform_payment($debts, $amount, $form_state);
-  
+
 }
 
 /**
  * Performs the payment
  */
 function ding_debt_debts_perform_payment($debts, $amount, &$form_state) {
-  global $user;
   if ($amount > 0) {
-    $params = $params = array('params' => array('debt_ids' => array_keys($debts),'debts'=> $debts));
+    $params = array(
+      'params' => array(
+        'debt_ids' => array_keys($debts),
+        'debts' => $debts,
+      ),
+    );
     $url = ding_provider_invoke('payment', 'get_url', $amount, $params, 'ding_debt_payment_callback');
 
     if ($url) {
