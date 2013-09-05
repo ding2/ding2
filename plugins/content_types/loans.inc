@@ -22,6 +22,7 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $block->module = 'ding_loan';
   $block->delta = 'loans';
   $block->title = t('Loan list');
+  $block->content = t('You do not currently have any loans.');
 
   // Get loans from the provider.
   $account = isset($context->data) ? $context->data : NULL;
@@ -50,10 +51,10 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
     if (module_exists('ding_session_cache')) {
       ding_session_cache_set('ding_loan', 'list', $loans);
     }
-  }
 
-  // Set block content, with loans form.
-  $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
+    // Set block content, with loans form.
+    $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
+  }
 
   return $block;
 }
