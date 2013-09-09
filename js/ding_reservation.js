@@ -2,6 +2,7 @@
  * Handle reservation checkboxes select all and select count on buttons.
  */
 (function ($) {
+  "use strict";
   $(document).ready(function($) {
     // Handle select all checkboxes.
     $('.select-all input[type=checkbox]').click(function() {
@@ -30,7 +31,7 @@
       else {
         $('.select-all input[type=checkbox]', form).prop('checked', true);
       }
-    })
+    });
 
     // Update count string on the buttons.
     function update_buttons(buttons, count) {

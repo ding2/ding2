@@ -161,7 +161,7 @@ function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_o
     '#attributes' => array(
       'class' => array(
         'action-button',
-        'reserve-button'
+        'reserve-button',
       ),
     ),
     '#ajax' => array(
@@ -181,17 +181,16 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
   if (user_is_logged_in() && ding_user_is_provider_user($user)) {
     if (ding_provider_implements('reservation', 'options_validate')) {
       $res = ding_provider_invoke('reservation', 'options_validate', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
-      // No valudation options returned by provider.
+      // No validation options returned by provider.
       if (is_null($res)) {
         return;
       }
 
-      /**
-      * We cannot set the value of the individual provider form elements, as
-      * they might not have been show, and thus not exist. However, setting the
-      * value of the parent element to an associative array gives the same end
-      * result.
-      */
+
+      // We cannot set the value of the individual provider form elements, as
+      // they might not have been show, and thus not exist. However, setting the
+      // value of the parent element to an associative array gives the same end
+      // result.
       $provider_options = array();
       $provider = ding_provider_get_provider_module_name('reservation');
       $removal = array();
@@ -259,7 +258,7 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
         drupal_set_message(t('You are number @number in queue.', array('@number' => $reservation_result['queue_number'])));
       }
 
-      // Clear reservation sesion cache.
+      // Clear reservation session cache.
       ding_reservation_cache_clear();
     }
     catch (DingProviderUserException $e) {
@@ -361,7 +360,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
             ),
             'pickup_date' => array(
               'label' => t('Pickup date'),
-              'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_reservation_lists_date' ) : '',
+              'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_reservation_lists_date') : '',
               'class' => 'pickup-date',
             ),
             'pickup_branch' => array(
@@ -510,9 +509,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
  * Get pickup id number.
  *
  * @param object $item
- *  Reserved item object.
+ *   Reserved item object.
+ *
  * @return int
- *  Pickup id, if any.
+ *   Pickup id, if any.
  */
 function ding_reservation_get_pickup_id($item) {
   if (isset($item->order_arrived) && !$item->order_arrived) {
@@ -529,16 +529,17 @@ function ding_reservation_get_pickup_id($item) {
  * Get order id number.
  *
  * @param object $item
- *  Reserved item object.
+ *   Reserved item object.
+ *
  * @return int
- *  Order number, if any.
+ *   Order number, if any.
  */
 function ding_reservation_get_order_nr($item) {
   if (!isset($item->pickup_order_id) && isset($item->order_id)) {
     return $item->order_id;
   }
   else {
-    return t('On route') . ' ' . l('(?)', current_path(), array('attributes' => array('title' => t('The material is on route to the library. You will be notified when it is ready for pickup.'))));
+    return t('On route') . ' ' . l(t('(?)'), current_path(), array('attributes' => array('title' => t('The material is on route to the library. You will be notified when it is ready for pickup.'))));
   }
 }
 
@@ -564,17 +565,17 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
 /**
  * Submit handler for the delete form.
  *
- * @see ding_reservation_reservations_form().
+ * @see ding_reservation_reservations_form()
  */
 function ding_reservation_deletes_form_submit($form, &$form_state) {
   global $user;
 
   // Extra checkbox values form the form.
   $ids = array();
-  foreach($form_state['values']['reservations'] as $reservations) {
+  foreach ($form_state['values']['reservations'] as $reservations) {
     $ids = array_merge($reservations, $ids);
   }
-  $ids = join(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
+  $ids = implode(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
 
   // Save the encoded id's and redirect the form.
   $form_state['encoded_reservations'] = $ids;
@@ -584,17 +585,17 @@ function ding_reservation_deletes_form_submit($form, &$form_state) {
 /**
  * Submit handler for the update form.
  *
- * @see ding_reservation_reservations_form().
+ * @see ding_reservation_reservations_form()
  */
 function ding_reservation_updates_form_submit($form, &$form_state) {
   global $user;
 
   // Extra checkbox values form the form.
   $ids = array();
-  foreach($form_state['values']['reservations'] as $reservations) {
+  foreach ($form_state['values']['reservations'] as $reservations) {
     $ids = array_merge($reservations, $ids);
   }
-  $ids = join(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'], 'is_string')));
+  $ids = implode(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'], 'is_string')));
 
   // Save the encoded id's and redirect the form.
   $form_state['encoded_reservations'] = $ids;
@@ -604,7 +605,7 @@ function ding_reservation_updates_form_submit($form, &$form_state) {
 /**
  * Ajax callback for the delete form.
  *
- * @see ding_reservation_reservations_form().
+ * @see ding_reservation_reservations_form()
  */
 function ding_reservation_deletes_form_callback($form, &$form_state) {
   global $user;
@@ -625,7 +626,7 @@ function ding_reservation_deletes_form_callback($form, &$form_state) {
 /**
  * Ajax callback for the update form.
  *
- * @see ding_reservation_reservations_form().
+ * @see ding_reservation_reservations_form()
  */
 function ding_reservation_updates_form_callback($form, &$form_state) {
   global $user;
@@ -646,7 +647,7 @@ function ding_reservation_updates_form_callback($form, &$form_state) {
 /**
  * Delete reservations form.
  *
- * @see ding_reservation_reservations_form().
+ * @see ding_reservation_reservations_form()
  */
 function ding_reservation_delete_reservations_form($form, $form_state, $account, $reservation_ids) {
   global $user;
@@ -687,7 +688,7 @@ function ding_reservation_delete_reservations_form($form, $form_state, $account,
 /**
  * Delete reservation submit normal handler.
  *
- * @see ding_reservation_delete_reservations_form_callback().
+ * @see ding_reservation_delete_reservations_form_callback()
  */
 function ding_reservation_delete_reservations_form_submit($form, &$form_state) {
   global $user;
@@ -700,7 +701,7 @@ function ding_reservation_delete_reservations_form_submit($form, &$form_state) {
   foreach ($reservations as $entity_id) {
     ding_provider_invoke('reservation', 'delete', $user, $entity_id);
 
-    // Clear reservation sesion cache.
+    // Clear reservation session cache.
     ding_reservation_cache_clear();
   }
 }
@@ -760,12 +761,11 @@ function ding_reservation_update_reservations_form_validate($form, &$form_state)
   global $user;
   if (ding_provider_implements('reservation', 'options_validate')) {
     $res = ding_provider_invoke('reservation', 'options_validate', 'update', $user, $form_state['values']['reservations'], $form_state['values']['provider_options']);
-    /**
-     * We cannot set the value of the individual provider form elements, as
-     * they might not have been show, and thus not exist. However, setting the
-     * value of the parent element to an associative array gives the same end
-     * result.
-     */
+
+    // We cannot set the value of the individual provider form elements, as
+    // they might not have been show, and thus not exist. However, setting the
+    // value of the parent element to an associative array gives the same end
+    // result.
     $provider_options = array();
     foreach ($res as $key => $value) {
       if (is_array($value) && !empty($value['#error'])) {
@@ -791,13 +791,13 @@ function ding_reservation_update_reservations_form_validate($form, &$form_state)
 /**
  * Update reservation normal submit handler.
  *
- * @see ding_reservation_update_reservations_form_callback().
+ * @see ding_reservation_update_reservations_form_callback()
  */
 function ding_reservation_update_reservations_form_submit($form, &$form_state) {
   global $user;
   ding_provider_invoke('reservation', 'update', $user, $form_state['values']['reservations'], $form_state['values']['provider_options']);
 
-  // Clear reservation sesion cache.
+  // Clear reservation session cache.
   ding_reservation_cache_clear();
 }
 
@@ -832,7 +832,7 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
   $form = array();
 
   $create = ($type == 'create');
-  $allowed_branches = ($create ? array('' => 'Select') : array($default => t('No change'))) + (array)$options;
+  $allowed_branches = ($create ? array('' => 'Select') : array($default => t('No change'))) + (array) $options;
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select branch'),
@@ -855,15 +855,16 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
  * @TODO: Find a better solution on this type variable.
  *
  * @param string $type
- *  The type of form element to create.
+ *   The type of form element to create.
  * @param string $name
- *  Form element name
+ *   Form element name
  * @param int $default
- *  The pre-selected value.
+ *   The pre-selected value.
  * @param array $options
- *  The options that should be available in the dropdown.
- * @return array $form
- *  Form select element.
+ *   The options that should be available in the dropdown.
+ *
+ * @return array
+ *   Form select element.
  */
 function ding_reservation_interest_period_selector($type, $name, $default, $options) {
   $form = array();
@@ -875,7 +876,7 @@ function ding_reservation_interest_period_selector($type, $name, $default, $opti
     }
   }
 
-  $allowed_periods = ($type == 'create' ? array() : array('' => t('No change'))) + (array)$options;
+  $allowed_periods = ($type == 'create' ? array() : array('' => t('No change'))) + (array) $options;
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select interest period'),

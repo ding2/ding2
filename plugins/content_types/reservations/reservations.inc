@@ -15,7 +15,7 @@ $plugin = array(
 );
 
 /**
- * Render the block
+ * Render the block.
  */
 function ding_reservation_reservations_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
@@ -39,11 +39,11 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     // Get the reservations lists.
     $reservations = ding_provider_invoke_page('reservation', 'list', $account);
 
-    // Filter items base on configuration and preload ting entites.
+    // Filter items base on configuration and pre-load ting entities.
     $preloaded_reservations = &drupal_static(__FUNCTION__, array());
     $items = array();
     foreach ($types as $type) {
-      // Try to preload ting entities, if not already loaded.
+      // Try to pre-load ting entities, if not already loaded.
       if (!isset($preloaded_reservations[$type])) {
         $preload_ids = array();
         foreach ($reservations[$type] as $item) {
@@ -52,7 +52,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
           }
         }
 
-        // Preload all ting entities.
+        // Pre-load all ting entities.
         if (!empty($preload_ids)) {
           ding_entity_load_multiple($preload_ids);
         }
@@ -76,7 +76,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
       }
     }
 
-    // Add the preload entity to each loan (side effect of getting the entity).
+    // Add the pre-load entity to each loan (side effect of getting the entity).
     foreach ($items as $id => &$item) {
       $item->entity;
     }
@@ -104,7 +104,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 }
 
 /**
- * Adding the admin form, to be able to control the required context
+ * Adding the admin form, to be able to control the required context.
  */
 function ding_reservation_reservations_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
@@ -145,7 +145,7 @@ function ding_reservation_reservations_content_type_edit_form($form, &$form_stat
 }
 
 /**
- * Submit handler for the admin form
+ * Submit handler for the admin form.
  */
 function ding_reservation_reservations_content_type_edit_form_submit(&$form, &$form_state) {
   foreach (element_children($form) as $key) {
@@ -164,7 +164,7 @@ function ding_reservation_reservations_content_type_admin_title($subtype, $conf)
 }
 
 /**
- * Callback function to sort array by pickup date
+ * Callback function to sort array by pickup date.
  */
 function ding_reservation_sort_queue_by_pickup_date($a, $b) {
   if ($a->pickup_date == $b->pickup_date) {
@@ -174,7 +174,7 @@ function ding_reservation_sort_queue_by_pickup_date($a, $b) {
 }
 
 /**
- * Callback function for sorting loans by queue_number
+ * Callback function for sorting loans by queue_number.
  */
 function ding_reservation_sort_queue_by_queue_number($a, $b) {
   if ($a->queue_number == $b->queue_number) {
