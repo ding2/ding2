@@ -342,6 +342,9 @@ function ding_wayf_block_view($delta) {
       $config = variable_get('ding_wayf', NULL);
       $wayf = isset($config['wayflogin']) ? $config['wayflogin'] : FALSE;
       $nemlogin = isset($config['nemlogin']) ? $config['nemlogin'] : FALSE;
+      if ( $wayf or $nemlogin ) {
+        $block['content'] .= '<div class=ding-wayf-logon-block> <span class = ding-wayf-logoninfo>' . t('Log in to WAYF or NemId') . '</span>';
+      }
       if ($wayf) {
         $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
         $logo_path .= '/img/wayf.png';
@@ -352,6 +355,9 @@ function ding_wayf_block_view($delta) {
         $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
         $logo_path .= '/img/nemid_logo.png';
         $block['content'] .= l('<img src="' . $logo_path . '" alt="nemid_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'nemlogin', drupal_get_destination())));
+      }
+      if ($wayf or $nemlogin ) {
+        $block['content'] .=  '</div>';
       }
     }
   }
