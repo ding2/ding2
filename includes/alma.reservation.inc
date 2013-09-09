@@ -57,7 +57,7 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
 
   // Get values.
   $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
-  $interest_period =  $wrapper->field_alma_interest_period->value();
+  $interest_period = $wrapper->field_alma_interest_period->value();
 
   // Perform a check to whether a show specific select dropdown.
   // Returning NULL means to skip this check, therefore to reserve instantly.
@@ -140,18 +140,18 @@ function alma_reservation_list($account, $type = NULL) {
       foreach ($reservations as $reservation) {
         // Build standard array which matches all types of reservations.
         $data = array(
-            'order_id' => $reservation['id'],
-            'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
-            'pickup_branch_id' => $reservation['pickup_branch'],
-            'order_arrived' => NULL,
-            'pickup_order_id' => NULL,
-            'pickup_date' => NULL,
-            'ready_for_pickup' => FALSE,
-            'created' => $reservation['create_date'],
-            'expiry' => $reservation['valid_to'],
-            'queue_number' => $reservation['queue_number'],
-            'ill_status' => FALSE,
-            'notes' => isset($reservation['notes']) ? $reservation['notes'] : '',
+          'order_id' => $reservation['id'],
+          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+          'pickup_branch_id' => $reservation['pickup_branch'],
+          'order_arrived' => NULL,
+          'pickup_order_id' => NULL,
+          'pickup_date' => NULL,
+          'ready_for_pickup' => FALSE,
+          'created' => $reservation['create_date'],
+          'expiry' => $reservation['valid_to'],
+          'queue_number' => $reservation['queue_number'],
+          'ill_status' => FALSE,
+          'notes' => isset($reservation['notes']) ? $reservation['notes'] : '',
         );
 
         // If the reservation is ready for pick-up, we fill in that data.
@@ -164,7 +164,7 @@ function alma_reservation_list($account, $type = NULL) {
           // Create reservation object.
           $result['ready_for_pickup'][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
         }
-        else if ($reservation['id'] < 0) {
+        elseif ($reservation['id'] < 0) {
           // Interlibrary loan reservations have negative IDs (undocumented Axiell "feature").
           $data['ill_status'] = TRUE;
 
@@ -189,7 +189,7 @@ function alma_reservation_list($account, $type = NULL) {
       return $result[$type];
     }
     else {
-      watchdog('alma', 'Unknown reservation type (%type) requested', array('%type' => $type) , WATCHDOG_ERROR);
+      watchdog('alma', 'Unknown reservation type (%type) requested', array('%type' => $type), WATCHDOG_ERROR);
       return array();
     }
   }
@@ -221,13 +221,13 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   if (!empty($entity)) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-    // Interest period
+    // Interest period.
     if (!isset($options['interest_period'])) {
       if (!isset($expiry)) {
         // Use a metadata wrapper to access the data.
         $interest_period = $wrapper->field_alma_interest_period->value();
         if ($interest_period) {
-          // Change it to secounds from days.
+          // Change it to seconds from days.
           $expiry = $interest_period * 86400;
         }
       }
@@ -241,7 +241,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
       $expiry = $options['interest_period'] * 86400;
     }
 
-    // Preferred branch
+    // Preferred branch.
     $branch = $wrapper->field_alma_preferred_branch->value();
     if (isset($options['alma_preferred_branch'])) {
       $branch = $options['alma_preferred_branch'];
@@ -263,15 +263,13 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   $result = alma_client_invoke('add_reservation', $creds['name'], $creds['pass'], $params);
 
   if ($result === ALMA_AUTH_BLOCKED) {
-    /**
-     * @todo return better exception that informs the user about the block
-     * status.
-     */
+    // @todo return better exception that informs the user about the block
+    // status.
     throw new DingProviderReservationNotAllowed();
   }
 
   if (is_int($result)) {
-    // Reset session cache
+    // Reset session cache.
     alma_reservation_clear_cache();
     return array(
       'branch' => $branch,
@@ -286,9 +284,10 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
 /**
  * Update order, by defining new expiry date or pickup branch.
  *
- * @param type $account
- * @param type $ids
- * @param type $options
+ * @param object $account
+ * @param array $ids
+ * @param array $options
+ *
  * @return boolean
  */
 function alma_reservation_update($account, $ids, $options) {
@@ -359,7 +358,7 @@ function alma_reservation_default_interest_period($profile = NULL) {
   $wrapper = entity_metadata_wrapper('profile2', $profile);
   $value = $wrapper->field_alma_interest_period->value();
 
-  // If no period is seleted, try getting default value.
+  // If no period is selected, try getting default value.
   if (is_null($value) || empty($value)) {
     $value = variable_get('alma_default_interest_period', 180);
   }
@@ -386,7 +385,7 @@ function alma_reservation_reservation_deletion_enabled() {
  * @return String
  */
 function alma_reservation_branch_name($branch_id) {
-  // Get library organistation from alma.
+  // Get library organization from alma.
   $organisation = alma_get_organisation();
   $branch = (is_array($branch_id) && isset($branch_id['alma_preferred_branch'])) ? $branch_id['alma_preferred_branch'] : $branch_id;
   if (isset($organisation['branch'][$branch])) {
@@ -444,7 +443,7 @@ function alma_reservation_exists($account, $item_id) {
  * Helper function calculate the date in the feature base on interest period.
  *
  * @param int $expiry
- *  The number of secounds into the feature we need at date.
+ *  The number of seconds into the feature we need at date.
  * @return string
  *  The date in the feature in the format 'Y-m-d' (ALMA_DATE).
  */
