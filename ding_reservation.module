@@ -572,8 +572,8 @@ function ding_reservation_deletes_form_submit($form, &$form_state) {
 
   // Extra checkbox values form the form.
   $ids = array();
-  foreach ($form_state['values']['reservations'] as $reservations) {
-    $ids = array_merge($reservations, $ids);
+  foreach ($form_state['values']['reservations'] as $id => $reservations) {
+    $ids[] = $reservations[$id];
   }
   $ids = implode(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
 
@@ -592,10 +592,10 @@ function ding_reservation_updates_form_submit($form, &$form_state) {
 
   // Extra checkbox values form the form.
   $ids = array();
-  foreach ($form_state['values']['reservations'] as $reservations) {
-    $ids = array_merge($reservations, $ids);
+  foreach ($form_state['values']['reservations'] as $id => $reservations) {
+    $ids[] = $reservations[$id];
   }
-  $ids = implode(',', array_map('rawurlencode', array_filter($form_state['values']['reservations'], 'is_string')));
+  $ids = implode(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
 
   // Save the encoded id's and redirect the form.
   $form_state['encoded_reservations'] = $ids;
