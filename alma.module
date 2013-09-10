@@ -6,7 +6,7 @@
 
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 
-// Define date formats used by Alma
+// Define date formats used by Alma.
 define('ALMA_DATE', 'Y-m-d');
 define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
 
@@ -14,7 +14,7 @@ define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
  * Get list of pickup branches.
  */
 function alma_reservation_pickup_branches($account = NULL) {
-  // Cache alma pickup branches - they are not likely to change
+  // Cache alma pickup branches - they are not likely to change.
   static $alma_pickup_branches;
   if (!isset($alma_pickup_branches)) {
     if ($cache = cache_get('alma_pickup_branches')) {
@@ -36,25 +36,6 @@ function alma_get_interest_periods() {
   $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
 
   return $interest_periods;
-}
-
-/**
- * Implements hook_requirements().
- */
-function alma_requirements($phase) {
-  $requirements = array();
-  // Ensure translations don't break at install time.
-  $t = get_t();
-
-  if (!function_exists('simplexml_load_string')) {
-    $requirements['simplexml'] = array(
-      'title' => 'SimpleXML',
-      'description' => $t('The Alma module requires SimpleXML to function. Please install and/or enable SimpleXML in your PHP configuration.'),
-      'severity' => REQUIREMENT_ERROR,
-    );
-  }
-
-  return $requirements;
 }
 
 /**
@@ -143,7 +124,7 @@ function alma_settings_form() {
 function alma_client() {
   // This is basically a singleton. We also wait until right before
   // instantiating to include our required classes. That seems like a
-  // decent performance tradeoff instead of loading everything on every
+  // decent performance trade-off instead of loading everything on every
   // page load.
   static $client;
   if (!isset($client)) {
@@ -164,10 +145,8 @@ function alma_client() {
  *
  * @param $method
  *   The desired method.
- * @param ...
- *   Arguments to the method.
  *
- * @return mixed
+ * @return array
  *   NULL on error, or the result of the method call.
  */
 function alma_client_invoke($method) {
@@ -189,15 +168,16 @@ function alma_client_invoke($method) {
 /**
  * Get the complete organisation info from Alma.
  *
- * Includes branches, departments, locations, sublocations and collections. The
+ * Includes branches, departments, locations, sub-locations and collections. The
  * information is cache until the cache is cleared or the reset parameter is
  * TRUE.
  *
  * @param boolean $reset
- * Optional. If TRUE reset the cached data and reload.
+ *   Optional. If TRUE reset the cached data and reload.
+ *
  * @return array
- * Array of the different organisational unit, each an array of their
- * member units.
+ *   Array of the different organisational unit, each an array of their
+ *   member units.
  */
 function alma_get_organisation($reset = FALSE) {
   // Return data from cache if available.
@@ -213,7 +193,7 @@ function alma_get_organisation($reset = FALSE) {
         'location' => alma_client_invoke('get_locations'),
         'sublocation' => alma_client_invoke('get_sublocations'),
         'collection' => alma_client_invoke('get_collections'),
-        'reservation' =>  alma_reservation_pickup_branches(),
+        'reservation' => alma_reservation_pickup_branches(),
       );
 
       // Cache output for 24 hours if we got all the data correctly.
@@ -232,10 +212,11 @@ function alma_get_organisation($reset = FALSE) {
  * Callback function to get user information from Alma.
  *
  * @param array $creds
- *  The credentials for the user for which the information shold be retrived
- *  from Alma.
+ *   The credentials for the user for which the information should be retrieved
+ *   from Alma.
+ *
  * @return array
- *  Available information about the patron from Alma.
+ *   Available information about the patron from Alma.
  */
 function _alma_user_info($creds = NULL) {
   // Get patron informations from Alma.
@@ -273,7 +254,7 @@ function alma_profile2_presave($entity) {
     $wrapper_original = entity_metadata_wrapper('profile2', $entity->original);
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-    // Reservation pause (Start)
+    // Reservation pause (Start).
     $value = $wrapper->field_alma_reservation_pause->value();
     $start = '';
     if (!is_null($value['value'])) {
@@ -284,7 +265,7 @@ function alma_profile2_presave($entity) {
       $stop = date(ALMA_DATE, strtotime($value['value2']));
     }
 
-    // Reservation pause (Stop)
+    // Reservation pause (Stop).
     $value = $wrapper_original->field_alma_reservation_pause->value();
     $org_start = '';
     if (!is_null($value['value'])) {
@@ -305,7 +286,7 @@ function alma_profile2_presave($entity) {
       $changes['absent_id'] = is_null($value) ? '' : $value;
     }
 
-    // Get preferred branch (patronBranch)
+    // Get preferred branch (patronBranch).
     $value = $wrapper->field_alma_preferred_branch->value();
     if (!is_null($value)) {
       if ($value != $wrapper_original->field_alma_preferred_branch->value()) {
@@ -325,14 +306,14 @@ function alma_profile2_presave($entity) {
         $changes['phone_id'] = $wrapper->field_alma_phone_id->value();
       }
     }
-    else if (!is_null($value) && is_null($wrapper_original->field_alma_mobile_phone->value())) {
+    elseif (!is_null($value) && is_null($wrapper_original->field_alma_mobile_phone->value())) {
       $changes['mobile'] = $value;
     }
 
     // Get the mail.
     $value = $wrapper->field_alma_mail->value();
     if (!is_null($value) && $value != $wrapper_original->field_alma_mail->value()) {
-        $changes['mail'] = $value;
+      $changes['mail'] = $value;
     }
 
     // Update provider.
@@ -363,13 +344,13 @@ function alma_profile2_presave($entity) {
  * Update user information at the provider.
  *
  * @global object $user
- *  The user object for the currently logged in user.
+ *   The user object for the currently logged in user.
  *
  * @param array $changes
- *  Array with the fields/information that have changed and should be updated at
- *  the provider.
+ *   Array with the fields/information that have changed and should be updated
+ *   at the provider.
  * @param object $entity
- *  An profile2 entity, mainly used to the user credentials.
+ *   An profile2 entity, mainly used to the user credentials.
  */
 function alma_update_provider($changes, $entity) {
   $error_message = t('Error communicating with library system.');
@@ -430,7 +411,7 @@ function alma_update_provider($changes, $entity) {
   // Update reservation pause (absentPeriod).
   if (!empty( $changes['absent_id']) &&
       !empty($changes['reservation_pause_start']) &&
-      !empty( $changes['reservation_pause_stop'])) {
+      !empty($changes['reservation_pause_stop'])) {
 
     try {
       $res =  alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
@@ -443,7 +424,7 @@ function alma_update_provider($changes, $entity) {
       drupal_set_message($error_message, 'warning');
     }
   }
-  // Add reservation pause
+  // Add reservation pause.
   elseif (!empty($changes['reservation_pause_start']) && !empty($changes['reservation_pause_stop'])) {
     try {
       $res = alma_client_invoke('add_absent_period', $creds['name'], $creds['pass'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
@@ -480,17 +461,17 @@ function alma_update_provider($changes, $entity) {
     }
   }
 
-  // Update email (remeber to update the drupal user account).
+  // Update email (remember to update the drupal user account).
   if (!empty($changes['mail'])) {
     global $user;
 
-    // Update or add mail to alma
+    // Update or add mail to ALMA.
     try {
-      // Add email
+      // Add email.
       if (empty($user->mail) && !empty($changes['mail'])) {
         $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
       }
-      // Change email
+      // Change email.
       elseif (isset($user->mail) && !empty($changes['mail'])) {
         $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $user->mail, $changes['mail']);
       }
@@ -555,9 +536,9 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
     }
   }
 
-  // Cast petron to object.
+  // Cast patron to object.
   if (!$as_array) {
-    $patron = (object)$patron;
+    $patron = (object) $patron;
   }
 
   return $patron;
@@ -573,7 +554,6 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
  *
  * Note: that the interest period is store locally in the database as alma do
  *       not have the ability to store it. So that field is not fill in here.
- *
  */
 function alma_profile2_load($entities) {
   foreach ($entities as $id => &$entity) {
@@ -592,7 +572,7 @@ function alma_profile2_load($entities) {
           return;
         }
 
-        // Get uers information from alma.
+        // Get user information from alma.
         $patron = alma_get_patron($creds);
       }
 
@@ -624,7 +604,8 @@ function alma_profile2_load($entities) {
       // Preferred_branch.
       $wrapper->field_alma_preferred_branch->set($patron->branch);
 
-      // Mobile; also here alma supports multiple phones - again we pick the first
+      // Mobile; also here alma supports multiple phones - again we pick the
+      // first.
       $wrapper->field_alma_mobile_phone->set(isset($patron->mobiles[0]['phone']) ? $patron->mobiles[0]['phone'] : '');
       $wrapper->field_alma_phone_id->set(isset($patron->mobiles[0]['id']) ? $patron->mobiles[0]['id'] : NULL);
 

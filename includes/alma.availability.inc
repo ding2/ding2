@@ -8,7 +8,7 @@
  * Implements provider availability, items.
  */
 function alma_availability_items($provider_ids) {
-  $ids = join(',', $provider_ids);
+  $ids = implode(',', $provider_ids);
   $result = alma_client_invoke('get_availability', $ids);
   if (!$result) {
     $result = array();
@@ -20,7 +20,7 @@ function alma_availability_items($provider_ids) {
  * Implements provider availability, holdings.
  */
 function alma_availability_holdings($provider_ids) {
-  $ids = join(',', $provider_ids);
+  $ids = implode(',', $provider_ids);
   $details = alma_client_invoke('catalogue_record_detail', $ids);
   $result = array();
 
@@ -66,13 +66,13 @@ function alma_availability_holdings($provider_ids) {
  * @todo: Rewrite this to have the provider create the holdings tables and not
  *        return HTML from inside the provides them self.
  *
- * @param type $res
- *  Returned array from alma_client class
- * @param boolean $is_periodical
- *  Indicates whether the shown record is a periodical or not
+ * @param array $res
+ *   Returned array from alma_client class
+ * @param bool $is_periodical
+ *   Indicates whether the shown record is a periodical or not
  *
  * @return string
- *  HTML to be shown or FALSE if no data is received from alma.
+ *   HTML to be shown or FALSE if no data is received from alma.
  */
 function _alma_get_holdings($res, $is_periodical = FALSE) {
   if (isset($res['records'])) {
@@ -92,6 +92,7 @@ function _alma_get_holdings($res, $is_periodical = FALSE) {
  * Set holdings for all kinds of material except periodicals.
  *
  * @param array $res
+ *
  * @return array $result;
  */
 function _alma_set_holdings($res) {
@@ -134,7 +135,8 @@ function _alma_set_holdings_periodical($res) {
  * Make the html-table.
  *
  * @param array $holding
- *  Holding information for a given material.
+ *   Holding information for a given material.
+ *
  * @return html-table
  */
 function _alma_set_table_html($holdings, $r_count) {
@@ -176,7 +178,8 @@ function _alma_set_table_html($holdings, $r_count) {
  * Set rows in table for given holdings.
  *
  * @param $holdings
- *  Holding information for a given material
+ *   Holding information for a given material
+ *
  * @return array;
  */
 function _alma_set_rows($holdings) {
@@ -213,16 +216,16 @@ function _alma_set_rows($holdings) {
 
     $row['placement'] = implode(' > ', $row['placement']);
 
-    $row['copies'] = isset($data['total_count']) ? (int)$data['total_count'] : 0;
+    $row['copies'] = isset($data['total_count']) ? (int) $data['total_count'] : 0;
     $copies_total += $row['copies'];
 
-    $row['home'] = isset($data['available_count']) ? (int)$data['available_count'] : 0;
+    $row['home'] = isset($data['available_count']) ? (int) $data['available_count'] : 0;
     $home_total += $row['home'];
 
-    $row['not_for_loan'] = isset($data['reference_count']) ? (int)$data['reference_count'] : 0;
+    $row['not_for_loan'] = isset($data['reference_count']) ? (int) $data['reference_count'] : 0;
     $not_for_loan_total += $row['not_for_loan'];
 
-    $row['checked_out'] = isset($data['checked_out_count']) ? (int)$data['checked_out_count'] : 0;
+    $row['checked_out'] = isset($data['checked_out_count']) ? (int) $data['checked_out_count'] : 0;
     $checked_out_total += $row['checked_out'];
 
     $rows[] = $row;
@@ -231,7 +234,7 @@ function _alma_set_rows($holdings) {
   if (count($rows) >= 1) {
     $rows = _clean_up_rows($rows);
   }
-  // Adding row - totals
+  // Adding row - totals.
   $row = array();
   $row['data']['Library'] = t('Total');
   $row['data']['Copies'] = $copies_total;
@@ -249,7 +252,7 @@ function _alma_set_rows($holdings) {
  *
  * @param array
  *
- * @return array;
+ * @return array
  */
 function _clean_up_rows($_rows) {
   $rows = array();
@@ -289,7 +292,7 @@ function _get_placements_with_key($_rows, $currkey) {
  * Sum material for same placement in one row.
  *
  * @param array $placementsarr
- *  All instances of the same placement - ie. 'Hovedbiblioteket'
+ *  All instances of the same placement - ie. 'Hovedbiblioteket'.
  *
  * @return array $row
  */
@@ -331,7 +334,6 @@ function _sum_placement($placementsarr) {
 function _alma_populate_issues($input) {
   $org = alma_get_organisation();
   $output = array();
-  $placement = array();
   $prev_hash = '';
 
   // Numeric info about the issue.

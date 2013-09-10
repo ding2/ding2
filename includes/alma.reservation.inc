@@ -6,13 +6,17 @@
 
 
 /**
- * Creates form with which can be used during reservation to select preferred
- * branch and interest period.
+ * Creates form which can be used during reservation.
  *
- * @param type $type
- * @param type $account
- * @param type $reservables
- * @return type
+ * It's used to select preferred branch and interest period.
+ *
+ * @param string $type
+ * @param stdClass $account
+ * @param array $reservables
+ *
+ * @return array
+ *   Form element with the provider reservation options (branch and interest
+ *   period).
  */
 function alma_reservation_options($type, $account, $reservables) {
   $branches = alma_reservation_pickup_branches($account);
@@ -46,6 +50,7 @@ function alma_reservation_options($type, $account, $reservables) {
  * @param type $account
  * @param type $reservables
  * @param type $values
+ *
  * @return type
  */
 function alma_reservation_options_validate($type, $account, $reservables, $values) {

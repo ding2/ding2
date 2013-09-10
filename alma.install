@@ -1,5 +1,23 @@
 <?php
 
+/**
+ * Implements hook_requirements().
+ */
+function alma_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if (!function_exists('simplexml_load_string')) {
+    $requirements['simplexml'] = array(
+      'title' => 'SimpleXML',
+      'description' => $t('The Alma module requires SimpleXML to function. Please install and/or enable SimpleXML in your PHP configuration.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
+}
 
 /**
  * Update system table set alma weight=10 to ensure form_alter hooks are called
@@ -32,7 +50,7 @@ function alma_update_7002() {
 function alma_update_7003() {
   return db_update('field_config')
     ->fields(array(
-      'type' => 'datetime'
+      'type' => 'datetime',
     ))
     ->condition('field_name', 'field_alma_reservation_pause', '=')
     ->execute();
