@@ -14,7 +14,7 @@ $plugin = array(
 );
 
 /**
- * Render the block
+ * Render the block.
  */
 function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $context) {
   // Define basic block object.
@@ -35,14 +35,14 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   if (!$loans) {
     $loans = ding_provider_invoke_page('loan', 'list', $account);
 
-    // Preload all entities to speed up the page.
+    // Pre-load all entities to speed up the page.
     $ids = array();
     foreach ($loans as $item) {
       $ids[] = $item->ding_entity_id;
     }
     ding_entity_load_multiple($ids);
 
-    // Add the preload entity to each loan, if the entity exists.
+    // Add the pre-load entity to each loan, if the entity exists.
     foreach ($loans as $id => &$item) {
       $item->entity;
     }
@@ -60,20 +60,20 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 }
 
 /**
- * Adding the admin form, to be able to control the required context
+ * Adding the admin form, to be able to control the required context.
  */
 function ding_loan_loans_content_type_edit_form($form, &$form_state) {
   return $form;
 }
 
 /**
- * Implements a drupal form, which show a list of reservations
+ * Implements a drupal form, which show a list of reservations.
  */
 function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
-  // Sort loans base on exipre date.
+  // Sort loans base on expire date.
   uasort($loans, 'ding_loan_sort_expiry');
 
-  // Split the loans into groups based on the expiry date
+  // Split the loans into groups based on the expiry date.
   $groups = _ding_loan_loans_group_loans_by_date($loans);
 
   // Store account information in the form (on server site).
@@ -152,8 +152,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     }
   }
 
-  // Add the renew buttons to top and buttom of the form.
-  $form['actions_top'] = array (
+  // Add the renew buttons to top and bottom of the form.
+  $form['actions_top'] = array(
     '#prefix' => '<div class="action-buttons">',
     '#suffix' => '</div>',
     '#weight' => 0,
@@ -166,7 +166,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#suffix' => '</div>',
   );
 
-  $form['actions_bottom'] = array (
+  $form['actions_bottom'] = array(
     '#prefix' => '<div class="action-buttons">',
     '#suffix' => '</div>',
     '#weight' => 2,
@@ -182,7 +182,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 function ding_loan_loans_form_submit($form, &$form_state) {
   $ids = array();
   foreach (array_filter($form_state['values']['loans']) as $id) {
-    // The loans array has _form_options array, henc the is_string check.
+    // The loans array has _form_options array, hence the is_string check.
     if (is_string($id) && $form_state['values']['items'][$id]->renewable) {
       $ids[] = $id;
     }
@@ -201,16 +201,20 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       case DingProviderLoan::STATUS_RENEWED:
         drupal_set_message(t('"@title renewed"', array('@title' => $title)));
         break;
+
       case DingProviderLoan::STATUS_NOT_RENEWED:
         if ($status['message'] == 'maxNofRenewals') {
           $message = t('Maximum number of renewals reached');
-        } elseif ($status['message'] == 'copyIsReserved') {
+        }
+        elseif ($status['message'] == 'copyIsReserved') {
           $message = t('The material is reserved by another loaner');
-        } else {
+        }
+        else {
           $message = t('Unable to renew material');
         }
         drupal_set_message(t('"@title not renewed: @message"', array('@title' => $title, '@message' => $message)), 'warning');
         break;
+
       default:
         watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
     }
@@ -218,7 +222,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
 }
 
 /**
- *
+ * Renew load submit handler.
  */
 function ding_loan_loans_form_renew_submit($form, &$form_state) {
   form_set_value($form['loans'], array($form_state['triggering_element']['#loan_id']), $form_state);
