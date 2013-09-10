@@ -8,6 +8,7 @@
  * Implements a ding_entity_flag.
  */
 class flag_ding_entity extends flag_flag {
+
   function options() {
     $options = parent::options();
     $options += array(
@@ -79,11 +80,11 @@ class flag_ding_entity extends flag_flag {
     }
     return db_select('flag_content', 'fc')
       ->fields('fc', array('content_id', 'content_type'))
-            ->condition('fid', $this->fid)
-            ->condition('uid', $uid)
-            ->condition('sid', $sid)
-            ->orderBy('fcid', 'DESC')
-            ->execute()
-            ->fetchAllKeyed();
+      ->condition('fid', $this->fid)
+      ->condition('uid', $uid)
+      ->condition('sid', $sid)
+      ->orderBy('fcid', 'DESC')
+      ->execute()
+      ->fetchAllKeyed();
   }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Ding bookmark pages.
@@ -13,10 +12,14 @@ function ding_bookmark_user_bookmark_page($account) {
 
   if ($content_ids) {
     $bookmark_form = drupal_get_form('ding_bookmark_remove_form', $content_ids);
-    // render reservation buttons outside bookmark form, so it's valid XHTML
+
+    // Render reservation buttons outside bookmark form, so it's valid XHTML.
     $reservation_forms = ding_bookmark_reservation_forms($content_ids);
-    drupal_add_js( drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js' );
-    drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css' );
+
+    // Add Javascript and CSS to handle the bookmarks.
+    drupal_add_js(drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js');
+    drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css');
+
     if (!empty($bookmark_form)) {
       return $reservation_forms . drupal_render($bookmark_form);
     }
@@ -107,16 +110,14 @@ function theme_ding_bookmark_remove_form($variables) {
     '',
   );
 
-  // Add classes to table header columns.
-
   // Create table rows.
   $rows = array();
   if (!empty($form['items']['#options'])) {
 
     foreach (element_children($form['items']) as $key) {
       $item_wid = $key;
-      // Clean checkbox
-      unset($form['items'][$key]['#title']) ;
+      // Clean checkbox.
+      unset($form['items'][$key]['#title']);
       // Create delete link.
       $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_wid));
       $delete_link = array(
@@ -126,7 +127,7 @@ function theme_ding_bookmark_remove_form($variables) {
         '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
       );
 
-      // Reservation button
+      // Reservation button.
       $reservation_div = NULL;
       if ($form['#builded_entities'][$item_wid]['#object']->ding_entity_type == 'ding_entity' &&
           $form['#builded_entities'][$item_wid]['#object']->is('reservable')) {
@@ -140,7 +141,7 @@ function theme_ding_bookmark_remove_form($variables) {
         );
       }
 
-      //Add row.
+      // Add row.
       $rows[] = array(
         drupal_render($form['items'][$key]),
         drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
@@ -171,9 +172,9 @@ function theme_ding_bookmark_remove_form($variables) {
 function ding_bookmark_reservation_forms($content_ids) {
   $reservation_block = '';
   foreach ($content_ids as $entity_id => $entity_type) {
-    // build item view.
+    // Build item view.
     $item_view_build = ding_bookmark_item_view($entity_type, $entity_id);
-    // reservation buttons
+    // Reservation buttons.
     if ($item_view_build['#object']->ding_entity_type == 'ding_entity' && $item_view_build['#object']->is('reservable')) {
       $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($item_view_build['#object']), TRUE));
       $reservation_form[0]['#id'] = 'ding-reservation-reserve-form-wid' . $entity_id;

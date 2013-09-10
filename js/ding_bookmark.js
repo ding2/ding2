@@ -1,5 +1,5 @@
 (function($) {
-
+  "use strict";
   Drupal.behaviors.bookmarkSubmit = {
       attach:function(context, settings) {
           $('.ding-bookmark-reservation-button', context).click(function() {
@@ -26,7 +26,4 @@
       });
     }
   };
-
-
 })(jQuery);
-
