@@ -14,7 +14,7 @@ $plugin = array(
 );
 
 /**
- * Render the block
+ * Render the block.
  */
 function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
@@ -30,8 +30,8 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
 
   if (count($debts) == TRUE) {
     foreach ($debts as $debt) {
-      // invoiced fees can't be paid online.
-      if ( !$debt->invoice_number ) {
+      // Invoiced fees can't be paid online.
+      if (!$debt->invoice_number) {
         $total_amount += $debt->amount;
         $total_amount -= $debt->amount_paid;
         $debt->is_invoice = FALSE;
@@ -60,12 +60,17 @@ function ding_debt_debts_content_type_edit_form($form, &$form_state) {
 }
 
 /**
- * Implements a drupal form, which implements a pay button and debts data
+ * Implements a drupal form, which implements a pay button and debts data.
  */
-function ding_debt_debts_form($form, &$form_state, $debts = array(), $has_invoiced_fees, $total_amount) {
+function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $total_amount) {
   ding_debt_form_details($form, $debts, $has_invoiced_fees, $total_amount);
 
   if ($total_amount) {
+    // Init debts.
+    if (!isset($debts)) {
+      $debts = array();
+    }
+
     $form['debt_data'] = array(
       '#type' => 'value',
       '#value' => $debts,
@@ -92,7 +97,7 @@ function ding_debt_debts_form($form, &$form_state, $debts = array(), $has_invoic
 }
 
 /**
- * Helper function to render the details of the debt form
+ * Helper function to render the details of the debt form.
  */
 function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amount) {
   foreach ($debts as $debt) {
@@ -113,11 +118,20 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         ),
         'amount' => array(
           'label' => t('Amount'),
-          'data' => ($debt->is_invoice ) ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
+          'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
           'class' => 'fee_amount',
         ),
       ),
     );
+
+    // Add material number if available.
+    if (isset($debt->material_number)) {
+      array_unshift($item['#information'], array(
+        'label' => t('Material no.'),
+        'data' => $debt->material_number,
+        'class' => 'material-number',
+      ));
+    }
 
     // Add the debt to the form.
     $form['debts'][$debt->id] = $item;
@@ -148,7 +162,7 @@ function ding_debt_debts_form_submit_pay_all($form, &$form_state) {
   $amount = 0;
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
-    if ( !$form_state['values']['debt_data'][$debt_id]->invoice_number ) {
+    if (!$form_state['values']['debt_data'][$debt_id]->invoice_number) {
       $amount += $form_state['values']['debt_data'][$debt_id]->amount;
       $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
     }
@@ -168,7 +182,7 @@ function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
   $debts = $form_state['values']['debt_data'];
   foreach ($debts as $debt_id => $debt_data) {
     if (!empty($form_state['values'][$debt_id])) {
-      if ( !$debt_data->invoice_number  ) {
+      if (!$debt_data->invoice_number) {
         $amount += $form_state['values']['debt_data'][$debt_id]->amount;
         $amount -= $form_state['values']['debt_data'][$debt_id]->amount_paid;
         $payments[$debt_id] = $form_state['values']['debt_data'][$debt_id];
@@ -179,7 +193,7 @@ function ding_debt_debts_form_submit_pay_selected($form, &$form_state) {
 }
 
 /**
- * Performs the payment
+ * Performs the payment.
  */
 function ding_debt_debts_perform_payment($debts, $amount, &$form_state) {
   if ($amount > 0) {
