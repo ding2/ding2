@@ -5,12 +5,13 @@
  */
 
 
-/* /user/$uid/status/reservations
+/* /user/$uid/status/*
    ========================================================================== */
 
 .pane-reservations,
 .pane-loans,
-.pane-debts {
+.pane-debts,
+.pane-bookmarks {
   padding-bottom: 30px;
   border-bottom: 1px solid $gray;
   margin-bottom: 30px;
@@ -173,6 +174,23 @@
   }
 }
 
+/* User debts specific
+   ========================================================================== */
+
+.pane-ding-dibs-dibs-terms-of-sale,
+.pane-ding-dibs-dibs-cards-supported {
+  border-bottom: 1px solid $gray-light;
+  margin-bottom: $large-spacing;
+  padding-bottom: $large-spacing;
+
+  #dibs-cards-supported {
+    .card-name {
+      font-weight: $base-font-weight-bold;
+      font-family: $font-bold;
+    }
+  }
+}
+
 .pane-debts {
   .left-column {
     @include zen-grid-item(1, 1);
@@ -193,6 +211,9 @@
 
   }
 }
+
+/* Breakpoints
+   ========================================================================== */
 
 @include small() {
   .pane-reservations,
@@ -573,25 +594,5 @@
 #ding-bookmark-remove-form {
   .form-submit {
     @extend %button-danger;
-  }
-}
-
-
-
-/* User debts
-   ========================================================================== */
-
-.pane-debts,
-.pane-ding-dibs-dibs-terms-of-sale,
-.pane-ding-dibs-dibs-cards-supported {
-  border-bottom: 1px solid $gray-light;
-  margin-bottom: $large-spacing;
-  padding-bottom: $large-spacing;
-
-  #dibs-cards-supported {
-    .card-name {
-      font-weight: $base-font-weight-bold;
-      font-family: $font-bold;
-    }
   }
 }
