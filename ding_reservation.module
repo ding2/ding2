@@ -478,7 +478,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
       '#suffix' => '</div>',
       '#submit' => array('ding_reservation_deletes_form_submit'),
       '#type' => 'submit',
-      '#value' => t('Delete reservations (0)'),
+      '#value' => t('Delete reservations (@count)', array('@count' => 0)),
       '#ajax' => array(
         'callback' => 'ding_reservation_deletes_form_callback',
         'wrapper' => 'ding-reservation-reservations-form',
@@ -493,7 +493,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
       '#suffix' => '</div>',
       '#type' => 'submit',
       '#submit' => array('ding_reservation_updates_form_submit'),
-      '#value' => t('Update reservations (0)'),
+      '#value' => t('Update reservations (@count)', array('@count' => 0)),
       '#ajax' => array(
         'callback' => 'ding_reservation_updates_form_callback',
         'wrapper' => 'ding-reservation-updates-form',
