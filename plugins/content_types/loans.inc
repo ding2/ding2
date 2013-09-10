@@ -164,7 +164,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   $form['actions_top']['submit_first'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button action-button">',
-    '#value' => t('Renew selected (0)'),
+    '#value' => t('Renew selected (@count)', array('@count' => 0)),
     '#suffix' => '</div>',
   );
 
