@@ -126,16 +126,16 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
   // Add item with the total amount.
   $form['total'] = array(
     '#type' => 'item',
-    '#prefix' => '<p class="total-amount">',
-    '#suffix' => '</p>',
+    '#prefix' => '<div class="total-amount">',
+    '#suffix' => '</div>',
     '#markup' => t('Total') . ': <span class="amount">' . number_format($total_amount, 2, ',', ' ') . '</span>',
   );
 
   if ($has_invoiced_fees) {
     $form['notice'] = array(
       '#type' => 'item',
-      '#prefix' => '<p class="notice">',
-      '#suffix' => '</p>',
+      '#prefix' => '<div class="messages warning">',
+      '#suffix' => '</div>',
       '#markup' => t("* Invoiced fees can't be paid online."),
     );
   }
