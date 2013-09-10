@@ -9,10 +9,12 @@
    ========================================================================== */
 
 .pane-reservations,
-.pane-loans {
+.pane-loans,
+.pane-debts {
   padding-bottom: 30px;
   border-bottom: 1px solid $gray;
   margin-bottom: 30px;
+  overflow: hidden;
 
   .left-column {
     @include zen-grid-item(2, 1);
@@ -22,7 +24,8 @@
     @include zen-grid-item(10, 1, right);
   }
 
-  .material-item {
+  .material-item,
+  .total-amount {
     overflow: hidden;
     padding: 10px;
     padding-top: 20px;
@@ -35,6 +38,12 @@
     &.even {
       background-color: $gray-lighter;
     }
+  }
+
+  .total-amount {
+    background-color: $gray;
+    font-size: $font-size-large;
+    margin-bottom: $large-spacing;
   }
 
   .item-checkbox {
@@ -59,6 +68,7 @@
 
   .item-information-list {
     overflow: hidden;
+    padding-left: 0;
     .item-information {
       overflow: hidden;
       clear: left;
@@ -160,6 +170,27 @@
     &.due {
       background-color: $yellow;
     }
+  }
+}
+
+.pane-debts {
+  .left-column {
+    @include zen-grid-item(1, 1);
+  }
+
+  .right-column {
+    @include zen-grid-item(11, 1, right);
+  }
+
+  .pay-button {
+    margin-right: $large-spacing;
+    margin-bottom: $large-spacing;
+    float: left;
+
+    .form-submit {
+      @extend %button-action;
+    }
+
   }
 }
 
@@ -549,31 +580,6 @@
 
 /* User debts
    ========================================================================== */
-
-.pane-debts {
-  table {
-    margin-bottom: $large-spacing;
-
-    th,
-    td {
-      &.feedate {
-        width: 10%;
-      }
-
-      &.feeamount {
-        text-align: right;
-      }
-    }
-  }
-
-  .pay-button {
-    margin-bottom: $large-spacing;
-
-    .form-submit {
-      @extend %button-action;
-    }
-  }
-}
 
 .pane-debts,
 .pane-ding-dibs-dibs-terms-of-sale,
