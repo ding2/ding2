@@ -19,19 +19,6 @@ function openruth_reservation_pickup_branches($account) {
 }
 
 /**
- * Set preferred pickup branch.
- *
- * @param type $account
- * @param type $branch
- */
-function openruth_reservation_set_preferred_branch($account, $branch) {
-  // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
-  // Do nothing, ding_reservation will update local user if we don't throw an
-  // exception.
-}
-
-/**
  * Get list of reserved items.
  *
  * @param type $account
