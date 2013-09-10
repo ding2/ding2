@@ -284,9 +284,9 @@ function theme_tableselect_form($variables) {
 }
 
 /**
- * Default implemention of the process function for the material item.
+ * Default implementation of the process function for the material item.
  *
- * Addes a checkbox to with a cover, title and extra information supplied in the
+ * Adds a checkbox to with a cover, title and extra information supplied in the
  * render array.
  */
 function ding_base_element_process_material_item($element) {
@@ -310,9 +310,12 @@ function ding_base_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  // Get the information part.
+  // Get the title and cover.
   $variables['title'] = $element['#title'];
   $variables['cover'] = drupal_render($element['#cover']);
+
+  // Sort the information elements based on weight.
+  uasort($element['#information'], 'element_sort');
   $variables['information'] = $element['#information'];
 
   // Check if material message have been set.
