@@ -8,6 +8,7 @@ project = alma
 dependencies[] = date
 dependencies[] = ding_provider
 dependencies[] = ding_reservation
+dependencies[] = ding_user
 dependencies[] = email
 dependencies[] = entity
 dependencies[] = features
