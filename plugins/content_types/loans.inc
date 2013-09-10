@@ -51,8 +51,10 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
     if (module_exists('ding_session_cache')) {
       ding_session_cache_set('ding_loan', 'list', $loans);
     }
+  }
 
-    // Set block content, with loans form.
+  // Set block content, with loans form if any loans exists.
+  if (!empty($loans)) {
     $block->content = ding_provider_get_form('ding_loan_loans_form', $account, $loans);
   }
 
