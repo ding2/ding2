@@ -104,20 +104,6 @@ function alma_reservation_options_submit($type, $account, $reservables, $values)
 }
 
 /**
- * Set preferred pickup branch.
- *
- * @param type $account
- * @param type $branch
- */
-function alma_reservation_set_preferred_branch($account, $branch) {
-  // Throws an exception if we are not logged in.
-  $creds = ding_user_get_creds($account);
-
-  // Update preferred branch.
-  alma_client_invoke('get_reservations', $creds['name'], $creds['pass'], $branch);
-}
-
-/**
  * Get list of reserved items index by reservation type.
  *
  * @param type $account
