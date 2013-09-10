@@ -5,7 +5,7 @@ projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid ][version] = "1.0-alpha5"
+projects[uuid][version] = "1.0-alpha5"
 
 projects[ding_library][type] = "module"
 projects[ding_library][download][type] = "git"
