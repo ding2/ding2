@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Plugin to provide a profile2 type context
  */
 

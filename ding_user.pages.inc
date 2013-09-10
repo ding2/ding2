@@ -48,9 +48,9 @@ function ding_user_authenticate_form($form, &$form_state) {
     '#description' => t('Enter the password that accompanies your username.'),
     '#required' => TRUE,
   );
+
   // This is where we diverge from the regular login form. We're not
   // specifying any special validators, but relying on the normal behaviour.
-
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
