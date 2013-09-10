@@ -357,21 +357,25 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'label' => t('Pickup id'),
               'data' => ding_reservation_get_pickup_id($reservation),
               'class' => 'pickup-id',
+              '#weight' => 0,
             ),
             'pickup_date' => array(
               'label' => t('Pickup date'),
               'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_reservation_lists_date') : '',
               'class' => 'pickup-date',
+              '#weight' => 4,
             ),
             'pickup_branch' => array(
               'label' => t('Pickup branch'),
               'data' => $pickup_branch ? check_plain($pickup_branch) : t('Unknown branch'),
               'class' => 'pickup-branch',
+              '#weight' => 8,
             ),
             'created' => array(
               'label' => t('Created date'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
               'class' => 'created-date',
+              '#weight' => 16,
             ),
           ),
         );
@@ -388,26 +392,31 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'label' => t('Queue number'),
               'data' => $reservation->queue_number ? check_plain($reservation->queue_number) : '',
               'class' => 'queue-number',
+              '#weight' => 0,
             ),
             'expiry' => array(
               'label' => t('Expiry date'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_reservation_lists_date') : '',
               'class' => 'expire-date',
+              '#weight' => 4,
             ),
             'pickup_branch' => array(
               'label' => t('Pickup branch'),
               'data' => $pickup_branch ? check_plain($pickup_branch) : '',
               'class' => 'pickup-branch',
+              '#weight' => 8,
             ),
             'created' => array(
               'label' => t('Created date'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
               'class' => 'created-date',
+              '#weight' => 16,
             ),
             'order_nr' => array(
               'label' => t('Order nr.'),
               'data' => ding_reservation_get_order_nr($reservation),
               'class' => 'pickup-id',
+              '#weight' => 32,
             ),
           ),
         );
@@ -424,21 +433,25 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
               'label' => t('Status'),
               'data' => $reservation->ill_status ? t(check_plain($reservation->ill_status)) : t('Unknown status'),
               'class' => 'ill-status',
+              '#weight' => 0,
             ),
             'expiry' => array(
               'label' => t('Library'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_reservation_lists_date') : '',
               'class' => 'expire-date',
+              '#weight' => 4,
             ),
             'library' => array(
               'label' => t('Library'),
               'data' => $pickup_branch ? check_plain($pickup_branch) : '',
               'class' => 'pickup-branch',
+              '#weight' => 8,
             ),
             'created' => array(
               'label' => t('Expiry date'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
               'class' => 'created-date',
+              '#weight' => 16,
             ),
           ),
         );
@@ -451,6 +464,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations =
         'label' => t('Periodical no.'),
         'data' => check_plain($reservation->notes),
         'class' => 'periodical-number',
+        '#weight' => -4,
       );
     }
 
