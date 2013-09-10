@@ -110,27 +110,31 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
           'label' => t('Fee date'),
           'data' => format_date(strtotime(check_plain($debt->date)), 'date_only'),
           'class' => 'fee-date',
+          '#weight' => 0,
         ),
         'fee_type' => array(
           'label' => t('Fee type'),
           'data' => t($debt->type),
           'class' => 'fee-type',
+          '#weight' => 4,
         ),
         'amount' => array(
           'label' => t('Amount'),
           'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
           'class' => 'fee_amount',
+          '#weight' => 8,
         ),
       ),
     );
 
     // Add material number if available.
     if (isset($debt->material_number)) {
-      array_unshift($item['#information'], array(
+      $item['#information']['material-number'] = array(
         'label' => t('Material no.'),
         'data' => $debt->material_number,
         'class' => 'material-number',
-      ));
+        '#weight' => -4,
+      );
     }
 
     // Add the debt to the form.
