@@ -122,11 +122,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
             'label' => t('Loan date'),
             'data' => format_date(strtotime(check_plain($loan->loan_date)), 'custom', 'd/m/Y'),
             'class' => 'loan-date',
+            '#weight' => 0,
           ),
           'expiry' => array(
             'label' => t('Return date'),
             'data' => format_date(strtotime(check_plain($loan->expiry)), 'custom', 'd/m/Y'),
             'class' => 'expire-date',
+            '#weight' => 4,
           ),
         ),
         '#disabled' => !empty($loan->renewable),
@@ -138,6 +140,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
           'label' => t('Material no.'),
           'data' => $loan->materials_number,
           'class' => 'material-number',
+          '#weight' => 8,
         );
       }
 
