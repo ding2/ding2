@@ -140,7 +140,15 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
+      // Change input type on name field to password as the user may enter CPR.
       $form['name']['#type'] = 'password';
+
+      // Make the name and password not required to by-pass error handling in
+      // default validation function. To prevent the "request new password"
+      // message.
+      $form['name']['#required'] = FALSE;
+      $form['pass']['#required'] = FALSE;
+
       // Add our own validation handler, after the default Drupal login
       // validator.
       $pos = array_search('user_login_authenticate_validate', $form['#validate']);
@@ -469,7 +477,7 @@ function _ding_user_update_old_accounts($hash) {
 function ding_user_user_login_validate($form, &$form_state) {
   // If $form_state['uid'] is set and has a true value, Drupal already found a
   // user, so we don't bother. Also, we require name and pass.
-  if (isset($form_state['uid']) && $form_state['uid'] || empty($form_state['values']['name']) || empty($form_state['values']['pass'])) {
+  if (isset($form_state['uid']) && $form_state['uid']) {
     // Normal Drupal user have been logged in.
     return;
   }
@@ -509,6 +517,7 @@ function ding_user_user_login_validate($form, &$form_state) {
       }
     }
     else {
+      // Check if any messages was returned from the provider.
       if (isset($auth_res['messages'])) {
         foreach ($auth_res['messages'] as $message) {
           $type = 'warning';
@@ -519,13 +528,17 @@ function ding_user_user_login_validate($form, &$form_state) {
         }
       }
 
-      // Check if the username entered is numeric, if it is it's properly a CPR
-      // number or card number. In which cache a password reset link should not
-      // be displayed.
-      if (is_numeric(str_replace('-', '', $form_state['values']['name']))) {
-        form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
-        watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
+      // Check if name and pass where filled out.
+      foreach (array('name', 'pass') as $field) {
+        if (empty($form_state['values'][$field])) {
+          form_set_error($field, t('!name field is required.', array('!name' => $form[$field]['#title'])));
+        }
       }
+
+      // If we reach this code the login have failed and we always want to
+      // display this message.
+      form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
+      watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
     }
   }
   catch (DingProviderException $exception) {
