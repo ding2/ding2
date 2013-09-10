@@ -271,6 +271,9 @@ function ding_bookmark_flag_view($entity_type, $entity) {
 
 /**
  * Display a bookmark item.
+ *
+ * Basically ding_entity_view just add an check that the entity exists in the
+ * library (may have been removed.).
  */
 function ding_bookmark_item_view($entity_type, $entity_id) {
   $type_info = ding_entity_info($entity_type);

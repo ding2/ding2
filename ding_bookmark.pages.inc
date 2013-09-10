@@ -16,7 +16,8 @@ function ding_bookmark_user_bookmark_page($account) {
     // Render reservation buttons outside bookmark form, so it's valid XHTML.
     $reservation_forms = ding_bookmark_reservation_forms($content_ids);
 
-    // Add Javascript and CSS to handle the bookmarks.
+    // Add Javascript and CSS (hides reservation forms outside the main form) to
+    // handle the bookmarks.
     drupal_add_js(drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js');
     drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css');
 
@@ -25,13 +26,6 @@ function ding_bookmark_user_bookmark_page($account) {
     }
   }
 
-  return ding_bookmark_user_bookmark_empty_page();
-}
-
-/**
- * Bookmark page empty text.
- */
-function ding_bookmark_user_bookmark_empty_page() {
   return t('Bookmarks is empty');
 }
 
@@ -86,7 +80,7 @@ function ding_bookmark_remove_form_submit($form, &$form_state) {
   // Filter selected items.
   $items_to_delete = array_filter($form_state['values']['items']);
   if ($items_to_delete) {
-    // Unflag all selected items.
+    // Un-flag all selected items.
     $flag = flag_get_flag('bookmark');
     foreach ($items_to_delete as $item_wid) {
       $flag->flag('unflag', $item_wid);
