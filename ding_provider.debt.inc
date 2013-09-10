@@ -27,9 +27,14 @@ class DingProviderDebt extends DingEntityBase {
    */
   protected $type = DingEntityBase::NULL;
 
-
+  /**
+   * Display name.
+   */
   protected $display_name = DingEntityBase::NULL;
 
+  /**
+   * Note from the provider about the debt.
+   */
   protected $note = DingEntityBase::NULL;
 
   /**
@@ -37,7 +42,19 @@ class DingProviderDebt extends DingEntityBase {
    */
   protected $amount = DingEntityBase::NULL;
 
+  /**
+   * Material number for which the debt is about.
+   */
+  protected $material_number = DingEntityBase::NULL;
 
+  /**
+   * Default constructor for this class.
+   *
+   * @param string $id
+   *   Debt id from the provider.
+   * @param array $data
+   *   Information about the debt from the provider.
+   */
   public function __construct($id, $data = array()) {
     parent::__construct();
     $this->properties['id'] = $id;
@@ -46,6 +63,7 @@ class DingProviderDebt extends DingEntityBase {
     $this->properties['amount_paid'] = 0;
     $this->properties['invoice_number'] = FALSE;
     $properties = array(
+      'material_number',
       'display_name',
       'pickup_branch_id',
       'date',
