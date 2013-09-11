@@ -831,13 +831,6 @@ function ding_reservation_update_reservations_form_callback($form, &$form_state)
 }
 
 /**
- * Default options handling.
- *
- * Reservation providers may use these to use standard implementations of
- * widgets like pickup branch and get much logic for free.
- */
-
-/**
  * Create a pickup branch selector.
  *
  * Returns form element(s) for selecting a pickup branch.
