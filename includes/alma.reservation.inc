@@ -89,7 +89,7 @@ function alma_reservation_options_submit($account, $values) {
 
   // If default branch was not found in the profile, update the profile with the
   // one selected.
-  if ($preferred_branch) {
+  if (!$preferred_branch) {
     $wrapper->field_alma_preferred_branch->set($values['alma_preferred_branch']);
     $profile->save();
   }
