@@ -841,6 +841,20 @@ function ding_reservation_update_reservations_form_callback($form, &$form_state)
  * Create a pickup branch selector.
  *
  * Returns form element(s) for selecting a pickup branch.
+ *
+ * @TODO: Find a better solution on this type variable.
+ *
+ * @param string $type
+ *   String used to indicate the type of operation ('create').
+ * @param string $name
+ *   The name of the form element to build.
+ * @param string $default
+ *   The default branch option name eg. hb => Hovedbiblioteket.
+ * @param array $options
+ *   The branches that should be available for selection in the form element.
+ *
+ * @return array
+ *   Form element with a selection input type to select pickup branch.
  */
 function ding_reservation_default_options_branch($type, $name, $default, $options) {
   $form = array();
@@ -869,16 +883,16 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
  * @TODO: Find a better solution on this type variable.
  *
  * @param string $type
- *   The type of form element to create.
+ *   String used to indicate the type of operation ('create').
  * @param string $name
- *   Form element name
+ *   The name of the form element to build.
  * @param int $default
  *   The pre-selected value.
  * @param array $options
- *   The options that should be available in the dropdown.
+ *   The periods that should be available for selection in the form element.
  *
  * @return array
- *   Form select element.
+ *   Form element with a selection input type to select interest period.
  */
 function ding_reservation_interest_period_selector($type, $name, $default, $options) {
   $form = array();
@@ -911,6 +925,8 @@ function ding_reservation_interest_period_selector($type, $name, $default, $opti
  * Validate pickup branch selector.
  *
  * Returns what ding_reservation expects.
+ *
+ * @TODO: Find a better solution on this type variable.
  */
 function ding_reservation_default_options_branch_validate($type, $name, $default, $values) {
   if (empty($values[$name])) {
@@ -935,6 +951,8 @@ function ding_reservation_default_options_branch_validate($type, $name, $default
  * Validate interest period selector.
  *
  * Returns what ding_reservation expects.
+ *
+ * @TODO: Find a better solution on this type variable.
  */
 function ding_reservation_default_options_interest_period_validate($type, $name, $default, $values) {
   if (empty($values[$name])) {
@@ -958,6 +976,8 @@ function ding_reservation_default_options_interest_period_validate($type, $name,
  * Submit pickup branch selector.
  *
  * Returns new properties to save, if any.
+ *
+ * @TODO: Find a better solution on this type variable.
  */
 function ding_reservation_default_options_branch_submit($type, $name, $default, $values) {
   $result = array();
