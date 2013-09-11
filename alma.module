@@ -13,7 +13,7 @@ define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
 /**
  * Get list of pickup branches.
  */
-function alma_reservation_pickup_branches($account = NULL) {
+function alma_reservation_pickup_branches() {
   // Cache alma pickup branches - they are not likely to change.
   static $alma_pickup_branches;
   if (!isset($alma_pickup_branches)) {
@@ -533,8 +533,8 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
         'postal' => isset($info['addresses'][0]) ? $info['addresses'][0]['postal_code'] : '',
         'city' => isset($info['addresses'][0]) ? $info['addresses'][0]['city'] : '',
         'mobiles' => isset($info['phones']) ? $info['phones'] : '',
-        'branch' => $info['preferences']['patron_branch'],
-        'branchName' => $organisation['branch'][$info['preferences']['patron_branch']],
+        'branch' => empty($info['preferences']['patron_branch']) ? FALSE : $info['preferences']['patron_branch'],
+        'branchName' => !empty($info['preferences']['patron_branch']) ? $organisation['branch'][$info['preferences']['patron_branch']] : FALSE,
         'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
       );
 

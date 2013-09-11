@@ -9,19 +9,15 @@
  *
  * It's used to select preferred branch and interest period.
  *
- * @param string $type
- *   String used to indicate the type of operation ('create').
  * @param stdClass $account
  *   Drupal user account object.
- * @param array $reservables
- *   Unknown parameter (@todo what is this used for?).
  *
  * @return array
  *   Form element with the provider reservation options (branch and interest
  *   period).
  */
-function alma_reservation_options($type, $account, $reservables) {
-  $branches = alma_reservation_pickup_branches($account);
+function alma_reservation_options($account) {
+  $branches = alma_reservation_pickup_branches();
   $periods = alma_get_interest_periods();
 
   $preferred_branch = NULL;
@@ -39,8 +35,8 @@ function alma_reservation_options($type, $account, $reservables) {
   }
 
   $form = array();
-  $form += ding_reservation_default_options_branch($type, 'alma_preferred_branch', $preferred_branch, $branches);
-  $form += ding_reservation_interest_period_selector($type, 'interest_period', $interest_period, $periods);
+  $form += ding_reservation_default_options_branch('alma_preferred_branch', $preferred_branch, $branches);
+  $form += ding_reservation_interest_period_selector('interest_period', $interest_period, $periods);
 
   return $form;
 }
@@ -48,19 +44,13 @@ function alma_reservation_options($type, $account, $reservables) {
 /**
  * Validate reservations options.
  *
- * @param string $type
- *   String used to indicate the type of operation ('create').
  * @param stdClass $account
  *   Drupal user account object.
- * @param array $reservables
- *   Unknown parameter (@todo what is this used for?).
- * @param array $values
- *   The values that should be validated.
  *
  * @return array
- *   The valid reservation options (@todo needs better description).
+ *   The interest period and default pick-up branch from the provider profile.
  */
-function alma_reservation_options_validate($type, $account, $reservables, $values) {
+function alma_reservation_default_options($account) {
   // Load profile2 profile.
   $profile = ding_user_provider_profile($account);
 
@@ -71,35 +61,23 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
   $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
   $interest_period = $wrapper->field_alma_interest_period->value();
 
-  // Perform a check to whether to show a specific select drop down.
-  // Returning NULL means to skip this check, therefore to reserve instantly.
-  if (!empty($$preferred_branch) && !empty($interest_period) && $type == 'create') {
-    return array(
-      'alma_preferred_branch' => $$preferred_branch,
-      'interest_period' => $interest_period,
-    );
-  }
-  else {
-    $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $preferred_branch, $values);
-    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'interest_period', $interest_period, $values);
+  $result = array(
+    'alma_preferred_branch' => $preferred_branch,
+    'interest_period' => $interest_period,
+  );
 
-    return array_merge($branch_valid, $period_valid);
-  }
+  return $result;
 }
 
 /**
  * Submit handler for reservations options.
  *
- * @param string $type
- *   String used to indicate the type of operation ('create').
  * @param stdClass $account
  *   Drupal user account object.
- * @param array $reservables
- *   Unknown parameter (@todo what is this used for?).
  * @param array $values
  *   The values that should be submitted (@todo needs better description).
  */
-function alma_reservation_options_submit($type, $account, $reservables, $values) {
+function alma_reservation_options_submit($account, $values) {
   // Load profile2 profile.
   $profile = ding_user_provider_profile($account);
 
@@ -107,11 +85,13 @@ function alma_reservation_options_submit($type, $account, $reservables, $values)
   $wrapper = entity_metadata_wrapper('profile2', $profile);
 
   // Get values.
-  $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
+  $preferred_branch = $wrapper->field_alma_preferred_branch->value();
 
-  $update = ding_reservation_default_options_branch_submit($type, 'alma_preferred_branch', $preferred_branch, $values);
-  if (!empty($update['alma_preferred_branch'])) {
-    $wrapper->field_alma_preferred_branch->set($update['alma_preferred_branch']);
+  // If default branch was not found in the profile, update the profile with the
+  // one selected.
+  if ($preferred_branch) {
+    $wrapper->field_alma_preferred_branch->set($values['alma_preferred_branch']);
+    $profile->save();
   }
 }
 
