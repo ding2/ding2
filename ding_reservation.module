@@ -206,15 +206,19 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
         }
         else {
           if (empty($default)) {
+            // If default value id not defined, try using the forms value.
             $provider_options[$key] = $form_state['values']['provider_options'][$key];
           }
           else {
+            // Default value was set, so we use it (as the forms selection
+            // options should not have been shown to the user).
             $provider_options[$key] = $default;
           }
-
         }
       }
 
+      // Do not set provider options, if the form was marked for rebuild. The
+      // user should have a change to select the values first.
       if (!$form_state['rebuild']) {
         form_set_value($form['provider_options'], $provider_options, $form_state);
       }
