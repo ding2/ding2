@@ -29,10 +29,10 @@ function ding_reservation_ctools_plugin_directory($module, $plugin) {
 function ding_reservation_menu() {
   $items = array();
 
-  $items['user/%user/status/reservations/update/%'] = array(
+  $items['user/%user/status/reservations/update/%/%'] = array(
     'title' => 'Update reservations',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_reservation_update_reservations_form', 1, 5),
+    'page arguments' => array('ding_reservation_update_reservations_form', 1, 5, 6),
     'access callback' => 'ding_reservation_access',
     'access arguments' => array(1),
   );
@@ -311,9 +311,15 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 /**
  * Show a reservation list form.
  */
-function ding_reservation_reservations_form($form, &$form_state, $reservations = array(), $type = 'not_ready_for_pickup', $conf = array()) {
+function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = 'not_ready_for_pickup', $conf = array()) {
   $form = array(
     '#tree' => TRUE,
+  );
+
+  // Store the reservations list in the form (on server site).
+  $form['reservations'] = array(
+    '#type' => 'value',
+    '#value' => $reservations,
   );
 
   // Add title item.
@@ -604,13 +610,28 @@ function ding_reservation_updates_form_submit($form, &$form_state) {
   // Extra checkbox values form the form.
   $ids = array();
   foreach ($form_state['values']['reservations'] as $id => $reservations) {
-    $ids[] = $reservations[$id];
+    if ($reservations[$id]) {
+      $ids[] = $reservations[$id];
+    }
   }
+
+  // Try to make a bette default branch selection based on the selected
+  // reservations.
+  $current_branch = $form['reservations']['#value'][$ids[0]]->pickup_branch_id;
+  foreach ($ids as $id) {
+    if ($form['reservations']['#value'][$id]->pickup_branch_id != $current_branch) {
+      $current_branch = FALSE;
+      break;
+    }
+  }
+
+  // Encode the ids.
   $ids = implode(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
 
   // Save the encoded id's and redirect the form.
+  $form_state['current_branch'] = $current_branch;
   $form_state['encoded_reservations'] = $ids;
-  $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/update/' . $ids, array('query' => drupal_get_destination()));
+  $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/update/' . $ids . '/' . $current_branch, array('query' => drupal_get_destination()));
 }
 
 /**
@@ -625,8 +646,11 @@ function ding_reservation_deletes_form_callback($form, &$form_state) {
     '#commands' => array(),
   );
 
+  // Get delete form.
+  $form_raw = drupal_get_form('ding_reservation_delete_reservations_form', $user, $form_state['encoded_reservations']);
+
   $html = theme('status_messages');
-  $html .= drupal_render(drupal_get_form('ding_reservation_delete_reservations_form', $user, $form_state['encoded_reservations']));
+  $html .= drupal_render($form_raw);
 
   if ($html) {
     $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Delete reservations'), $html, array('refresh' => TRUE));
@@ -647,7 +671,7 @@ function ding_reservation_updates_form_callback($form, &$form_state) {
   );
 
   // Get reservation form.
-  $form_raw = drupal_get_form('ding_reservation_update_reservations_form', $user, $form_state['encoded_reservations']);
+  $form_raw = drupal_get_form('ding_reservation_update_reservations_form', $user, $form_state['encoded_reservations'], $form_state['current_branch']);
 
   $html = theme('status_messages');
   $html .= drupal_render($form_raw);
@@ -738,18 +762,17 @@ function ding_reservation_delete_reservations_form_callback($form, &$form_state)
 /**
  * Update reservations form.
  */
-function ding_reservation_update_reservations_form($form, $form_state, $account, $reservation_ids) {
-  global $user;
+function ding_reservation_update_reservations_form($form, $form_state, $account, $reservation_ids, $current_branch) {
+  // Decode the reservation ids.
   $ids = array_map('rawurldecode', explode(',', $reservation_ids));
 
   $form_state['cache'] = TRUE;
-
   $form['reservations'] = array(
     '#type' => 'value',
     '#value' => $ids,
   );
 
-  if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', $user)) {
+  if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', $account, $current_branch)) {
     $form['provider_options'] = $provider_form + array(
       '#tree' => TRUE,
     );
