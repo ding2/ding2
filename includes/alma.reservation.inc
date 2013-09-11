@@ -4,7 +4,6 @@
  * Handles reservation with Alma.
  */
 
-
 /**
  * Creates form which can be used during reservation.
  *
@@ -302,11 +301,11 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
 /**
  * Update order, by defining new expiry date or pickup branch.
  *
- * @param object $account
+ * @param stdClass $account
  * @param array $ids
  * @param array $options
  *
- * @return boolean
+ * @return bool
  */
 function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
@@ -339,8 +338,9 @@ function alma_reservation_update($account, $ids, $options) {
 /**
  * Delete a reservation for a given account.
  *
- * @param type $account
- * @param type $id
+ * @param stdClass $account
+ * @param string $id
+ *
  * @return type
  */
 function alma_reservation_delete($account, $id) {
@@ -348,22 +348,23 @@ function alma_reservation_delete($account, $id) {
   $reservations = alma_reservation_get_reservations($account);
 
   alma_reservation_clear_cache();
-  if (isset($reservations[(string)$id])) {
-    return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[(string)$id]);
+  if (isset($reservations[(string) $id])) {
+    return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[(string) $id]);
   }
 }
 
 /**
  * Implements hook_default_interest_period().
  *
- * Tries to find the users default interst period based on the users profile2
+ * Tries to find the users default interest period based on the users profile2
  * provider profile.
  *
  * @param object $profile
- *  The users profile2 provider profile.
+ *   The users profile2 provider profile.
+ *
  * @return string
- *  The default interest period selected by the user in his/her profile or the
- * default value selected by the site.
+ *   The default interest period selected by the user in his/her profile or the
+ *   default value selected by the site.
  */
 function alma_reservation_default_interest_period($profile = NULL) {
   // If profile is not given, try loading it for the user.
@@ -390,7 +391,7 @@ function alma_reservation_default_interest_period($profile = NULL) {
  * Check where reservation deletion have been enabled in the providers settings.
  *
  * @return bool
- *  If enabled TRUE else FALSE.
+ *   If enabled TRUE else FALSE.
  */
 function alma_reservation_reservation_deletion_enabled() {
   return variable_get('alma_enable_reservation_deletion', FALSE);
@@ -399,8 +400,11 @@ function alma_reservation_reservation_deletion_enabled() {
 /**
  * Return a branch name for a given branch id.
  *
- * @param $branch_id String
- * @return String
+ * @param string $branch_id
+ *   The identifier for a given pick-up branch (e.g. hb)
+ *
+ * @return string
+ *   The human name for the id or NULL if one do not exist.
  */
 function alma_reservation_branch_name($branch_id) {
   // Get library organization from alma.
@@ -415,12 +419,14 @@ function alma_reservation_branch_name($branch_id) {
 /**
  * Get all reservation from Alma and store them in the cache.
  *
- * @param object $account
- *  User account object.
+ * @param stdClass $account
+ *   Drupal user account object.
+ *
  * @param bool $reset
- *  If TRUE the cache will be by-passed.
+ *   If TRUE the cache will be by-passed.
+ *
  * @return mixed
- *  Alma reservations.
+ *   Alma reservations.
  */
 function alma_reservation_get_reservations($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
@@ -441,16 +447,20 @@ function alma_reservation_clear_cache() {
 }
 
 /**
- * @TODO: add description.
+ * Check if a reservation exists at the provider (ALMA).
  *
- * @param type $account
- * @param type $item_id
- * @return boolean
+ * @param stdClass $account
+ *   Drupal user account object.
+ * @param string $reservation_id
+ *   The id of the reservation to test for.
+ *
+ * @return bool
+ *   TRUE if the reservation exists else FALSE.
  */
-function alma_reservation_exists($account, $item_id) {
+function alma_reservation_exists($account, $reservation_id) {
   $reservations = alma_reservation_get_reservations($account);
   foreach ($reservations as $res) {
-    if ($res['record_id'] == $item_id) {
+    if ($res['record_id'] == $reservation_id) {
       return TRUE;
     }
   }
@@ -461,9 +471,10 @@ function alma_reservation_exists($account, $item_id) {
  * Helper function calculate the date in the feature base on interest period.
  *
  * @param int $expiry
- *  The number of seconds into the feature we need at date.
+ *   The number of seconds into the feature we need at date.
+ *
  * @return string
- *  The date in the feature in the format 'Y-m-d' (ALMA_DATE).
+ *   The date in the feature in the format 'Y-m-d' (ALMA_DATE).
  */
 function alma_reservation_format_date($expiry) {
   return date(ALMA_DATE, $expiry);
