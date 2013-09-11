@@ -30,10 +30,17 @@ function alma_reservation_pickup_branches($account = NULL) {
 
 /**
  * Get a list of allowed interest periods.
+ *
+ * The values are extracted from the interest period field in the provider
+ * profile2 user profile.
+ *
+ * @return array
+ *   Array with the allowed interest period values.
  */
 function alma_get_interest_periods() {
+  // Get the interest period profile fields allowed values.
   $field_info = field_info_field('field_alma_interest_period');
-  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : array();
 
   return $interest_periods;
 }

@@ -11,8 +11,11 @@
  * It's used to select preferred branch and interest period.
  *
  * @param string $type
+ *   String used to indicate the type of operation ('create').
  * @param stdClass $account
+ *   Drupal user account object.
  * @param array $reservables
+ *   Unknown parameter (@todo what is this used for?).
  *
  * @return array
  *   Form element with the provider reservation options (branch and interest
@@ -46,12 +49,17 @@ function alma_reservation_options($type, $account, $reservables) {
 /**
  * Validate reservations options.
  *
- * @param type $type
- * @param type $account
- * @param type $reservables
- * @param type $values
+ * @param string $type
+ *   String used to indicate the type of operation ('create').
+ * @param stdClass $account
+ *   Drupal user account object.
+ * @param array $reservables
+ *   Unknown parameter (@todo what is this used for?).
+ * @param array $values
+ *   The values that should be validated.
  *
- * @return type
+ * @return array
+ *   The valid reservation options (@todo needs better description).
  */
 function alma_reservation_options_validate($type, $account, $reservables, $values) {
   // Load profile2 profile.
@@ -64,7 +72,7 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
   $preferred_branch = $wrapper->field_alma_preferred_branch->value();;
   $interest_period = $wrapper->field_alma_interest_period->value();
 
-  // Perform a check to whether a show specific select dropdown.
+  // Perform a check to whether to show a specific select drop down.
   // Returning NULL means to skip this check, therefore to reserve instantly.
   if (!empty($$preferred_branch) && !empty($interest_period) && $type == 'create') {
     return array(
@@ -75,6 +83,7 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
   else {
     $branch_valid = ding_reservation_default_options_branch_validate($type, 'alma_preferred_branch', $preferred_branch, $values);
     $period_valid = ding_reservation_default_options_interest_period_validate($type, 'interest_period', $interest_period, $values);
+
     return array_merge($branch_valid, $period_valid);
   }
 }
@@ -82,10 +91,14 @@ function alma_reservation_options_validate($type, $account, $reservables, $value
 /**
  * Submit handler for reservations options.
  *
- * @param type $type
- * @param type $account
- * @param type $reservables
- * @param type $values
+ * @param string $type
+ *   String used to indicate the type of operation ('create').
+ * @param stdClass $account
+ *   Drupal user account object.
+ * @param array $reservables
+ *   Unknown parameter (@todo what is this used for?).
+ * @param array $values
+ *   The values that should be submitted (@todo needs better description).
  */
 function alma_reservation_options_submit($type, $account, $reservables, $values) {
   // Load profile2 profile.
@@ -106,10 +119,18 @@ function alma_reservation_options_submit($type, $account, $reservables, $values)
 /**
  * Get list of reserved items index by reservation type.
  *
- * @param type $account
- * @return object DingProviderReservation
+ * @param stdClass $account
+ *   Drupal user account object.
+ * @param string $type
+ *   Reservation type to return. The sting should be one of 'ready_for_pickup',
+ *   'not_ready_for_pickup' or 'interlibrary_loans'.
+ *
+ * @return array
+ *   An empty array or an array of DingProviderReservation objects.
  */
 function alma_reservation_list($account, $type = NULL) {
+  // Use a static cache to speed up the process of getting reservations from
+  // alma, when call more than once in a single HTTP request.
   $result = &drupal_static(__FUNCTION__);
   if (!isset($result)) {
     // Check if ding_session_cache is available.
@@ -117,15 +138,18 @@ function alma_reservation_list($account, $type = NULL) {
       $result = ding_session_cache_get('alma', 'reservations');
     }
 
-    // If both static cache and session cache faild, try reloading information
+    // If both static cache and session cache failed, try reloading information
     // from alma.
     if (empty($result)) {
-      $reservations = alma_reservation_get_reservations($account);
+      // Set default reservation types.
       $result = array(
         'ready_for_pickup' => array(),
         'not_ready_for_pickup' => array(),
         'interlibrary_loans' => array(),
       );
+
+      // Get reservations from ALMA for the current account.
+      $reservations = alma_reservation_get_reservations($account);
 
       // Create DingProviderReservation objects into three categories.
       foreach ($reservations as $reservation) {
@@ -156,7 +180,8 @@ function alma_reservation_list($account, $type = NULL) {
           $result['ready_for_pickup'][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
         }
         elseif ($reservation['id'] < 0) {
-          // Interlibrary loan reservations have negative IDs (undocumented Axiell "feature").
+          // Inter-library loan reservations have negative IDs (undocumented
+          // Axiell "feature").
           $data['ill_status'] = TRUE;
 
           // Create reservation object.
@@ -189,13 +214,15 @@ function alma_reservation_list($account, $type = NULL) {
 }
 
 /**
- * Create a reservation for a given account.
+ * Create a new reservation in the library system.
  *
- * @param type $account
- * @param type $id
- * @param type $options
- * @param type $expiry
- * @return type
+ * @param stdClass $account
+ * @param string $id
+ * @param array $options
+ * @param string $expiry
+ *
+ * @return array
+ *
  * @throws DingProviderReservationExists
  * @throws DingProviderReservationNotAllowed
  * @throws DingProviderReservationNotAvailable
