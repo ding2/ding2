@@ -11,12 +11,14 @@
  *
  * @param stdClass $account
  *   Drupal user account object.
+ * @param string $default_value
+ *   The name of the branch that should be selected as default value.
  *
  * @return array
  *   Form element with the provider reservation options (branch and interest
  *   period).
  */
-function alma_reservation_options($account) {
+function alma_reservation_options($account, $default_value = '') {
   $branches = alma_reservation_pickup_branches();
   $periods = alma_get_interest_periods();
 
@@ -34,8 +36,14 @@ function alma_reservation_options($account) {
     $interest_period = $wrapper->field_alma_interest_period->value();
   }
 
+  // Set default value in the selection box if given else use preferred_branch.
+  $default = $preferred_branch;
+  if (!empty($default_value)) {
+    $default = $default_value;
+  }
+
   $form = array();
-  $form += ding_reservation_default_options_branch('alma_preferred_branch', $preferred_branch, $branches);
+  $form += ding_reservation_default_options_branch('alma_preferred_branch', $default, $branches);
   $form += ding_reservation_interest_period_selector('interest_period', $interest_period, $periods);
 
   return $form;
