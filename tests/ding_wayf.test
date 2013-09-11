@@ -64,8 +64,16 @@ class DingWyafTestCase extends DrupalWebTestCase {
   public function setUp() {
     module_load_include('php', 'ding_wayf', 'lib/_autoload');
     module_load_include('inc', 'ding_wayf', 'tests/wyrna/wyrna.wayf');
+    //module_enable('wayf_test_gateway');
+    //menu_rebuild();
     parent::setUp(array('wyrna', 'ding_wayf', 'bibdk_test_provider', 'ding_provider', 'ding_user', 'securepages', 'wayf_test_gateway'));
   }
+
+  public function tearDown(){
+    parent::tearDown();
+    //module_disable(array('wayf_test_gateway'));
+  }
+
 
   public function testDingWayfLogin() {
     $this->verbose(print_r(variable_get('ding_wayf', 'empty'), TRUE));
@@ -130,9 +138,8 @@ class DingWyafTestCase extends DrupalWebTestCase {
   private function testWayfAbort(){
     $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
     $this->assertUrl('wayf/accept', array(), 'current page is accept form');
-    // Omitted for green test /svi
-    //$this->drupalPost(NULL, NULL, t('abort'));
-    //$this->assertUrl('<front>', array(), 'Redirected to user page.');
+    $this->drupalPost(NULL, NULL, t('abort'));
+    $this->assertUrl('<front>', array(), 'Redirected to user page.');
   }
 
   private function testWayfLogin() {
@@ -160,10 +167,6 @@ class DingWayfUnitTestCase extends DrupalUnitTestCase {
     drupal_load('module', 'ding_wayf');
     module_load_include('install', 'ding_wayf');
     parent::setUp();
-  }
-
-  public function testDebug(){
-    debug('it works');
   }
 
   public function testExtractData() {
