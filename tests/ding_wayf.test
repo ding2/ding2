@@ -105,7 +105,7 @@ class DingWyafTestCase extends DrupalWebTestCase {
   private function testNotLoggedIn() {
     $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
     // TODO: Relative URL
-    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=' .$this->getAbsoluteUrl('/wayf/login') . '&idp=wayf', array(), t('User is redirected to gateway'));
     $this->drupalPost(null, null, 'accept');
     $this->assertNoText(t('The WAYF login module is not configured yet, plase contact the site administrator.'), t('WAYF not configured error message.'));
     $this->assertUrl('wayf/accept');
@@ -122,7 +122,7 @@ class DingWyafTestCase extends DrupalWebTestCase {
 
   private function testWayfAcceptPage() {
     $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
-    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=' .$this->getAbsoluteUrl('/wayf/login') . '&idp=wayf', array(), t('User is redirected to gateway'));
     $this->drupalPost(null, null, 'accept');
     $this->assertUrl('wayf/accept');
   }
@@ -136,7 +136,7 @@ class DingWyafTestCase extends DrupalWebTestCase {
 
   private function testWayfLogin() {
     $this->drupalGet('wayf/login', array('query' => array('idp' => 'wayf')));
-    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=http://localhost/bibdk/wayf/login&idp=wayf', array(), t('User is redirected to gateway'));
+    $this->assertUrl($this->getAbsoluteUrl('wayf/gateway') . '?returnUrl=' .$this->getAbsoluteUrl('/wayf/login') . '&idp=wayf', array(), t('User is redirected to gateway'));
     $this->drupalPost(null, null, 'accept');
     $this->assertUrl('wayf/accept', array(), 'current page is accept form');
     $edit = array();
