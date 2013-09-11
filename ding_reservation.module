@@ -75,6 +75,8 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
  */
 function ding_reservation_ding_entity_buttons($type, $entity) {
   if ($type == 'ding_entity' && $entity->is('reservable')) {
+    // The last parameter to the form below (TRUE) hides the provider options in
+    // the form (interest period and branch).
     return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
   }
 }
@@ -144,13 +146,24 @@ function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_o
     '#value' => array(),
   );
 
+  // Helps decide if the provider options should be displayed in the reserve
+  // form. If the user have default value these are used to make a quicker
+  // reservation process.
   $hide_options = !isset($form_state['options_hidden']) ? $hide_options : FALSE;
   $form_state['options_hidden'] = $hide_options;
 
   if (!$hide_options) {
-    if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', 'create', $user, $reservable)) {
+    if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', $user)) {
       $form['provider_options'] = $provider_form + array(
         '#tree' => TRUE,
+      );
+
+      // The normal reserve button and the reserve for with provider options are
+      // the same form. But DDBasic hides the reserve buttons until availability
+      // have been confirmed. So we need to add a class to the form to make it
+      // visible.
+      $form['#attributes'] = array(
+        'class' => array('reservable'),
       );
     }
   }
@@ -174,55 +187,35 @@ function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_o
 }
 
 /**
- * Form validation.
+ * Reserve form validation.
  */
 function ding_reservation_reserve_form_validate($form, &$form_state) {
   global $user;
   if (user_is_logged_in() && ding_user_is_provider_user($user)) {
-    if (ding_provider_implements('reservation', 'options_validate')) {
-      $res = ding_provider_invoke('reservation', 'options_validate', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
-      // No validation options returned by provider.
-      if (is_null($res)) {
-        return;
-      }
+    if (ding_provider_implements('reservation', 'default_options')) {
+      $defaults = ding_provider_invoke('reservation', 'default_options', $user);
 
-
-      // We cannot set the value of the individual provider form elements, as
-      // they might not have been show, and thus not exist. However, setting the
-      // value of the parent element to an associative array gives the same end
-      // result.
       $provider_options = array();
-      $provider = ding_provider_get_provider_module_name('reservation');
-      $removal = array();
-      foreach ($res as $key => $value) {
-        if (is_array($value) && !empty($value['#error'])) {
-          if (!$form_state['options_hidden']) {
-            // Only show an error if the user had a choice.
-            form_error($form['provider_options'], $res['#error']);
-          }
-          else {
-            // Else simply rebuild the form.
-            if ($key == $provider . '_preferred_branch') {
-              $removal[] = 'interest_period';
-            }
-            elseif ($key == 'interest_period') {
-              $removal[] = $provider . '_preferred_branch';
-            }
-
-            // In case both fields are not set, remove nothing.
-            if (count($removal) == 2) {
-              $removal = array();
-            }
-
-            $form_state['removable'] = $removal;
-            $form_state['rebuild'] = TRUE;
-          }
+      foreach ($defaults as $key => $default) {
+        // Check if the current provider options has a default value.
+        if (empty($default) && empty($form_state['values']['provider_options'][$key])) {
+          // Set form error to trigger display of the form in ding pop-up. The
+          // message will not be shown and the user will have to select values.
+          form_error($key, t('Please select a valied value.'));
+          $form_state['rebuild'] = TRUE;
         }
         else {
-          $provider_options[$key] = $value;
+          if (empty($default)) {
+            $provider_options[$key] = $form_state['values']['provider_options'][$key];
+          }
+          else {
+            $provider_options[$key] = $default;
+          }
+
         }
       }
-      if (!empty($provider_options)) {
+
+      if (!$form_state['rebuild']) {
         form_set_value($form['provider_options'], $provider_options, $form_state);
       }
     }
@@ -238,7 +231,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
 function ding_reservation_reserve_form_submit($form, &$form_state) {
   global $user;
   if (ding_provider_implements('reservation', 'options_submit')) {
-    ding_provider_invoke('reservation', 'options_submit', 'create', $user, $form_state['values']['reservable'], $form_state['values']['provider_options']);
+    ding_provider_invoke('reservation', 'options_submit', $user, $form_state['values']['provider_options']);
   }
   if ($form_state['values']['reservable']) {
     $reservable = $form_state['values']['reservable'];
@@ -571,7 +564,7 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
   foreach ($reservations as $entity_id) {
     ding_provider_invoke('reservation', 'delete', $user, $entity_id);
 
-    // Clear reservation sesion cache.
+    // Clear reservation session cache.
     ding_reservation_cache_clear();
   }
 }
@@ -649,8 +642,11 @@ function ding_reservation_updates_form_callback($form, &$form_state) {
     '#commands' => array(),
   );
 
+  // Get reservation form.
+  $form_raw = drupal_get_form('ding_reservation_update_reservations_form', $user, $form_state['encoded_reservations']);
+
   $html = theme('status_messages');
-  $html .= drupal_render(drupal_get_form('ding_reservation_update_reservations_form', $user, $form_state['encoded_reservations']));
+  $html .= drupal_render($form_raw);
 
   if ($html) {
     $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Update reservations'), $html, array('refresh' => TRUE));
@@ -749,7 +745,7 @@ function ding_reservation_update_reservations_form($form, $form_state, $account,
     '#value' => $ids,
   );
 
-  if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', 'update', $user, NULL)) {
+  if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', $user)) {
     $form['provider_options'] = $provider_form + array(
       '#tree' => TRUE,
     );
@@ -766,40 +762,6 @@ function ding_reservation_update_reservations_form($form, $form_state, $account,
   );
 
   return $form;
-}
-
-/**
- * Update reservation validation handler.
- */
-function ding_reservation_update_reservations_form_validate($form, &$form_state) {
-  global $user;
-  if (ding_provider_implements('reservation', 'options_validate')) {
-    $res = ding_provider_invoke('reservation', 'options_validate', 'update', $user, $form_state['values']['reservations'], $form_state['values']['provider_options']);
-
-    // We cannot set the value of the individual provider form elements, as
-    // they might not have been show, and thus not exist. However, setting the
-    // value of the parent element to an associative array gives the same end
-    // result.
-    $provider_options = array();
-    foreach ($res as $key => $value) {
-      if (is_array($value) && !empty($value['#error'])) {
-        if (!$form_state['options_hidden']) {
-          // Only show an error if the user had a choice.
-          form_error($form['provider_options'], $res['#error']);
-        }
-        else {
-          // Else simply rebuild the form.
-          $form_state['rebuild'] = TRUE;
-        }
-      }
-      else {
-        $provider_options[$key] = $value;
-      }
-    }
-    if (!empty($provider_options)) {
-      form_set_value($form['provider_options'], $provider_options, $form_state);
-    }
-  }
 }
 
 /**
@@ -835,10 +797,6 @@ function ding_reservation_update_reservations_form_callback($form, &$form_state)
  *
  * Returns form element(s) for selecting a pickup branch.
  *
- * @TODO: Find a better solution on this type variable.
- *
- * @param string $type
- *   String used to indicate the type of operation ('create').
  * @param string $name
  *   The name of the form element to build.
  * @param string $default
@@ -849,19 +807,18 @@ function ding_reservation_update_reservations_form_callback($form, &$form_state)
  * @return array
  *   Form element with a selection input type to select pickup branch.
  */
-function ding_reservation_default_options_branch($type, $name, $default, $options) {
+function ding_reservation_default_options_branch($name, $default, $options) {
   $form = array();
 
-  $create = ($type == 'create');
-  $allowed_branches = ($create ? array('' => 'Select') : array($default => t('No change'))) + (array) $options;
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select branch'),
-    '#options' => $allowed_branches,
-    '#default_value' => $default,
+    '#options' => $options,
+    '#required' => TRUE,
+    '#default_value' => !empty($default) ? $default : '',
   );
 
-  if ($create) {
+  if (empty($default)) {
     $form[$name . 'description'] = array(
       '#markup' => '<p>' . t('In order to make quick reservations, you must select a default pickup branch.') . '</p>',
     );
@@ -873,10 +830,6 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
 /**
  * Create an interest period form select element.
  *
- * @TODO: Find a better solution on this type variable.
- *
- * @param string $type
- *   String used to indicate the type of operation ('create').
  * @param string $name
  *   The name of the form element to build.
  * @param int $default
@@ -887,7 +840,7 @@ function ding_reservation_default_options_branch($type, $name, $default, $option
  * @return array
  *   Form element with a selection input type to select interest period.
  */
-function ding_reservation_interest_period_selector($type, $name, $default, $options) {
+function ding_reservation_interest_period_selector($name, $default, $options) {
   $form = array();
 
   // Used to enable translation of options.
@@ -897,87 +850,21 @@ function ding_reservation_interest_period_selector($type, $name, $default, $opti
     }
   }
 
-  $allowed_periods = ($type == 'create' ? array() : array('' => t('No change'))) + (array) $options;
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select interest period'),
-    '#options' => $allowed_periods,
-    '#default_value' => $default,
+    '#options' => $options,
+    '#required' => TRUE,
+    '#default_value' => !empty($default) ? $default : '',
   );
 
-  if ($type == 'create') {
+  if (empty($default)) {
     $form[$name . 'description'] = array(
       '#markup' => '<p>' . t('Select an interest period.') . '</p>',
     );
   }
 
   return $form;
-}
-
-/**
- * Validate pickup branch selector.
- *
- * Returns what ding_reservation expects.
- *
- * @TODO: Find a better solution on this type variable.
- */
-function ding_reservation_default_options_branch_validate($type, $name, $default, $values) {
-  if (empty($values[$name])) {
-    $result = array();
-    $provider = ding_provider_get_provider_module_name('reservation');
-    if ($type == 'create' && empty($default)) {
-      $result[$provider . '_preferred_branch'] = array(
-        '#error' => t('You must select a branch'),
-      );
-    }
-    else {
-      $result[$name] = $default;
-    }
-    return $result;
-  }
-  else {
-    return $values;
-  }
-}
-
-/**
- * Validate interest period selector.
- *
- * Returns what ding_reservation expects.
- *
- * @TODO: Find a better solution on this type variable.
- */
-function ding_reservation_default_options_interest_period_validate($type, $name, $default, $values) {
-  if (empty($values[$name])) {
-    $result = array();
-    if ($type == 'create' && empty($default)) {
-      $result['interest_period'] = array(
-        '#error' => t('You must select an interest period'),
-      );
-    }
-    else {
-      $result[$name] = $default;
-    }
-    return $result;
-  }
-  else {
-    return $values;
-  }
-}
-
-/**
- * Submit pickup branch selector.
- *
- * Returns new properties to save, if any.
- *
- * @TODO: Find a better solution on this type variable.
- */
-function ding_reservation_default_options_branch_submit($type, $name, $default, $values) {
-  $result = array();
-  if ($type == 'create' && !empty($values[$name]) && $values[$name] != $default) {
-    $result[$name] = $values['name'];
-  }
-  return $result;
 }
 
 /**
