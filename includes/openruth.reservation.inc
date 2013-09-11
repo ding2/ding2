@@ -181,7 +181,7 @@ function openruth_reservation_options_submit($account, $values) {
 
   // If default branch was not found in the profile, update the profile with the
   // one selected.
-  if ($profile_branch) {
+  if (!$profile_branch) {
     $wrapper->field_openruth_preferred_branch->set($values['openruth_preferred_branch']);
     $profile->save();
   }
