@@ -110,13 +110,11 @@ function openruth_reservation_list($account, $type = NULL) {
 /**
  * Provide options for reservation.
  *
- * @param type $type
  * @param type $account
- * @param type $reservables
  * @return type
  * @throws Exception
  */
-function openruth_reservation_options($type, $account, $reservables) {
+function openruth_reservation_options($account) {
   // While we use ding_reservation for branch handling, we don't want to
   // depend on the module, as it would mean that ding_reservation can't be
   // disabled. So instead we throw an exception here.
@@ -133,8 +131,8 @@ function openruth_reservation_options($type, $account, $reservables) {
     $interest_period = $wrapper->field_openruth_interest_period->value();
   }
 
-  $form += ding_reservation_default_options_branch($type, 'field_openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
-  $form += ding_reservation_interest_period_selector($type, 'interest_period', $interest_period, openruth_get_interest_periods());
+  $form += ding_reservation_default_options_branch('field_openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
+  $form += ding_reservation_interest_period_selector('interest_period', $interest_period, openruth_get_interest_periods());
 
   return $form;
 }
@@ -142,52 +140,49 @@ function openruth_reservation_options($type, $account, $reservables) {
 /**
  * Validate reservations options.
  *
- * @param type $type
- * @param type $account
- * @param type $reservables
- * @param type $values
- * @return type
+ * @param stdClass $account
+ *   Drupal user account object.
+ *
+ * @return array
+ *   The interest period and default pick-up branch from the provider profile.
  */
-function openruth_reservation_options_validate($type, $account, $reservables, $values) {
+function openruth_reservation_default_options($account) {
+  // Load profile2 profile.
   $profile = ding_user_provider_profile($account);
 
+  // Use a metadata wrapper to access the data.
   $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
   $profile_branch = $wrapper->field_openruth_preferred_branch->value();
   $interest_period = $wrapper->field_openruth_interest_period->value();
 
-  // Perform a check to whether a show specific select dropdown.
-  // Returning NULL means to skip this check, therefore to reserve instantly.
-  if (!empty($profile_branch) && !empty($interest_period) && $type == 'create') {
-    return array(
-      'field_openruth_preferred_branch' => $profile_branch,
-      'interest_period' => $interest_period,
-    );
-  }
-  else {
-    $branch_valid = ding_reservation_default_options_branch_validate($type, 'field_openruth_preferred_branch', $profile_branch, $values);
-    $period_valid = ding_reservation_default_options_interest_period_validate($type, 'interest_period', $interest_period, $values);
-
-    return array_merge($branch_valid, $period_valid);
-  }
+  return array(
+    'field_openruth_preferred_branch' => $profile_branch,
+    'interest_period' => $interest_period,
+  );
 }
 
 /**
  * Submit handler for reservations options.
  *
- * @param type $type
  * @param type $account
- * @param type $reservables
  * @param type $values
  */
-function openruth_reservation_options_submit($type, $account, $reservables, $values) {
+function openruth_reservation_options_submit($account, $values) {
+  // Load profile2 profile.
   $profile = ding_user_provider_profile($account);
 
+  // Use a metadata wrapper to access the data.
   $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
   $profile_branch = $wrapper->field_openruth_preferred_branch->value();
 
-  $update = ding_reservation_default_options_branch_submit($type, 'field_openruth_preferred_branch', $profile_branch, $values);
-  if (!empty($update['field_openruth_preferred_branch'])) {
-    $profile->field_openruth_preferred_branch[$field_language['field_openruth_preferred_branch']][0]['value'] = $update['field_openruth_preferred_branch'];
+  // If default branch was not found in the profile, update the profile with the
+  // one selected.
+  if ($profile_branch) {
+    $wrapper->field_openruth_preferred_branch->set($values['openruth_preferred_branch']);
     $profile->save();
   }
 }
