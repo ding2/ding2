@@ -108,30 +108,42 @@ function openruth_reservation_list($account, $type = NULL) {
 }
 
 /**
- * Provide options for reservation.
+ * Creates form which can be used during reservation.
  *
- * @param type $account
- * @return type
- * @throws Exception
+ * It's used to select preferred branch and interest period.
+ *
+ * @param stdClass $account
+ *   Drupal user account object.
+ * @param string $default_value
+ *   The name of the branch that should be selected as default value.
+ *
+ * @return array
+ *   Form element with the provider reservation options (branch and interest
+ *   period).
  */
-function openruth_reservation_options($account) {
-  // While we use ding_reservation for branch handling, we don't want to
-  // depend on the module, as it would mean that ding_reservation can't be
-  // disabled. So instead we throw an exception here.
-  if (!module_exists('ding_reservation')) {
-    throw new Exception('Openruth reservation options requires ding_reservation.');
-  }
-
-  $form = array();
-  $profile = ding_user_provider_profile($account);
-
+function openruth_reservation_options($account, $default_value) {
+  $preferred_branch = NULL;
+  $interest_period = NULL;
   if (ding_user_is_provider_user($account)) {
+    // Load profile2 profile.
+    $profile = ding_user_provider_profile($account);
+
+    // Use a metadata wrapper to access the data.
     $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+    // Get values.
     $preferred_branch = $wrapper->field_openruth_preferred_branch->value();
     $interest_period = $wrapper->field_openruth_interest_period->value();
   }
 
-  $form += ding_reservation_default_options_branch('field_openruth_preferred_branch', $preferred_branch, openruth_allowed_branches());
+  // Set default value in the selection box if given else use preferred_branch.
+  $default = $preferred_branch;
+  if (!empty($default_value)) {
+    $default = $default_value;
+  }
+
+  $form = array();
+  $form += ding_reservation_default_options_branch('field_openruth_preferred_branch', $default, openruth_allowed_branches());
   $form += ding_reservation_interest_period_selector('interest_period', $interest_period, openruth_get_interest_periods());
 
   return $form;
