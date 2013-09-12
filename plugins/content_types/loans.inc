@@ -131,7 +131,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
             '#weight' => 4,
           ),
         ),
-        '#disabled' => !empty($loan->renewable),
+        '#disabled' => !$loan->renewable,
       );
 
       // Add material number.
@@ -145,7 +145,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       }
 
       // If not renewable set message.
-      if (!empty($loan->renewable)) {
+      if (empty($loan->renewable)) {
         $item['#material_message'] = array(
           'message' => t('This material can not be re-newed'),
           'class' => 'messages warning',
@@ -186,10 +186,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
  */
 function ding_loan_loans_form_submit($form, &$form_state) {
   $ids = array();
-  foreach (array_filter($form_state['values']['loans']) as $id) {
-    // The loans array has _form_options array, hence the is_string check.
-    if (is_string($id) && $form_state['values']['items'][$id]->renewable) {
-      $ids[] = $id;
+  foreach ($form_state['values']['items'] as $item) {
+    if ($item->renewable && $form_state['values'][$item->id]) {
+      $ids[] = $item->id;
     }
   }
 
