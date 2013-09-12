@@ -35,22 +35,10 @@ function ding_bookmark_menu_alter(&$items) {
 }
 
 /**
- * Implements hook_theme().
- */
-function ding_bookmark_theme() {
-  return array(
-    'ding_bookmark_remove_form' => array(
-      'render element' => 'form',
-      'file' => 'ding_bookmark.pages.inc',
-    ),
-  );
-}
-
-/**
  * Implements hook_views_default_views_alter().
  *
  * Kill the views for the default bookmarks flag. They clash with our
- * paths. Disabling them does noht seem to be enough.
+ * paths. Disabling them does not seem to be enough.
  */
 function ding_bookmark_views_default_views_alter(&$views) {
   if (!empty($views['flag_bookmarks'])) {
@@ -72,16 +60,13 @@ function ding_bookmark_views_default_views_alter(&$views) {
  * @return string
  *   The bookmark item title.
  *
+ * @todo: Find another way to do this, as it has the side effect of SQL joins
+ *        and loads all flag types from the database or remove the count.
+ *
  * @see ding_bookmark_menu_alter()
  */
 function ding_bookmark_menu_item_title($title, $account = NULL) {
-  global $user;
-
-  if (is_null($account)) {
-    $account = $user;
-  }
-
-  return t($title) . ' (' . flag_load('bookmark')->get_user_count_number($account->uid) . ')';
+  return t($title) . ' (' . ding_bookmark_count_number($account) . ')';
 }
 
 /**
@@ -156,15 +141,18 @@ function ding_bookmark_flag_default_flags() {
     'api_version' => 2,
     'locked' => array('name', 'types', 'global', 'link_type', 'roles'),
   );
+
   return $flags;
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_flag_form_alter().
  */
 function ding_bookmark_form_flag_form_alter(&$form, &$form_state, $form_id) {
-  // Remove unnecessary parameters.
-  unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
+  if ($form['flag_name']['#value'] == 'bookmark') {
+    // Remove unnecessary parameters.
+    unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
+  }
 }
 
 /**
@@ -179,7 +167,7 @@ function ding_bookmark_ding_entity_buttons($type, $entity) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_flag_confirm_alter().
  */
 function ding_bookmark_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
   if ($form['flag_name']['#value'] == 'bookmark') {
@@ -272,28 +260,36 @@ function ding_bookmark_flag_view($entity_type, $entity) {
 }
 
 /**
- * Display a bookmark item.
+ * Load all bookmarks as entities based on user account object.
  *
- * Basically ding_entity_view just add an check that the entity exists in the
- * library (may have been removed.).
+ * @param stdClass $account
+ *   Drupal user account object.
+ *
+ * @return array
+ *   Array of entities bookmarked in the user account.
  */
-function ding_bookmark_item_view($entity_type, $entity_id) {
-  $type_info = ding_entity_info($entity_type);
-  $entities = entity_load($type_info['entity_type'], array($entity_id));
-  $entity = reset($entities);
-  // Library code can be changed at any time by the site administrator.
-  // Every time when bookmark item is loaded,
-  // module should check, whether item is available in the current library.
-  // If item does not exists in the library it should be deleted from bookmark.
-  if (!$entity) {
-    // Remove item.
-    $flag = flag_get_flag('bookmark');
-    $flag->flag('unflag', $entity_id);
-    return FALSE;
+function ding_bookmark_load_bookmarks($account) {
+  $bookmark_flags = flag_load('bookmark')->get_user_content_ids($account->uid);
+  $entities = array();
+
+  foreach ($bookmark_flags as $entity_id => $entity_type) {
+    $type_info = ding_entity_info($entity_type);
+    $entity = entity_load($type_info['entity_type'], array($entity_id));
+    // Library code can be changed at any time by the site administrator.
+    // Every time when bookmark item is loaded,
+    // module should check, whether item is available in the current library.
+    // If item does not exists in the library it should be deleted from bookmark.
+    if (!$entity) {
+      // Remove item.
+      $flag = flag_get_flag('bookmark');
+      $flag->flag('unflag', $entity_id);
+      continue;
+    }
+
+    $entities[] = reset($entity);
   }
 
-  $build = ding_entity_view($entity, 'user_list');
-  return $build;
+  return $entities;
 }
 
 /**
