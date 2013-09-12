@@ -4,6 +4,8 @@
  * Code for the Ding User Frontend feature.
  */
 
+include_once 'ding_user_frontend.features.inc';
+
 /**
  * Implements hook_block_info().
  */
@@ -176,10 +178,10 @@ function ding_user_frontend_block_view($delta) {
 }
 
 /**
- * Findes all local tasks (tabs) under /user/% and builds a menu based on that.
+ * Finds all local tasks (tabs) under /user/% and builds a menu based on that.
  *
  * @return array
- *  Render array with the menu.
+ *   Render array with the menu.
  */
 function ding_user_frontend_build_menu() {
   // Default menu item render array.
@@ -197,6 +199,7 @@ function ding_user_frontend_build_menu() {
     '#title' => '',
     '#href' => '',
     '#active' => FALSE,
+    '#weight' => 0,
   );
 
   // Get current menu path.
@@ -245,6 +248,7 @@ function ding_user_frontend_build_menu() {
           $current += $menu_item_defaults;
           $current['#title'] = $item['title'];
           $current['#href'] = $item['href'];
+          $current['#weight'] = $item['weight'];
         }
 
         // Check if this is secondary.
@@ -276,6 +280,3 @@ function ding_user_frontend_build_menu() {
   }
   return $menu;
 }
-
-include_once('ding_user_frontend.features.inc');
-
