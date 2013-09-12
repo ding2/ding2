@@ -333,6 +333,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation.js',
       ),
     ),
+    '#weight' => -10,
   );
 
   // Check if reservations should be able to be deleted by the user.
@@ -479,7 +480,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
   $form['actions_top'] = array(
     '#prefix' => '<div class="action-buttons">',
     '#suffix' => '</div>',
-    '#weight' => -10,
+    '#weight' => -20,
   );
 
   // Add action buttons to the bottom of the form.
