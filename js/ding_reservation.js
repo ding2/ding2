@@ -4,6 +4,10 @@
 (function ($) {
   "use strict";
   $(document).ready(function($) {
+    // Ensure that all checkboxes are on click (if user reloads the page etc.).
+    $('form input[type=checkbox]').prop('checked', false);
+    $('.action-buttons input[type=submit]').prop('disabled', 'disabled');
+
     // Handle select all checkboxes.
     $('.select-all input[type=checkbox]').click(function() {
       var checkboxes = $('input[type=checkbox]', $(this).closest('form'));
@@ -38,6 +42,14 @@
      buttons.each(function(index) {
        var btn = $(buttons[index]);
        btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
+
+       // Toggle buttons based on count.
+       if (count > 0) {
+         btn.removeAttr("disabled");
+       }
+       else {
+         btn.prop('disabled', 'disabled');
+       }
      });
     }
   });
