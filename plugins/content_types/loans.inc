@@ -116,10 +116,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
       }
 
+      // Create title that links to the object.
+      $uri = entity_uri('ting_object', $entity);
+      $title = l($entity->getTitle() ? $entity->getTitle() : $loan->display_name, $uri['path']);
+
       $item = array(
         '#type' => 'material_item',
         '#id' => $loan->id,
-        '#title' => $entity ? $entity->getTitle() : $loan->display_name,
+        '#title' => $title,
         '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
         '#information' => array(
           'loan_date' => array(
