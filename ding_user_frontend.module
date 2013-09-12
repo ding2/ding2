@@ -6,6 +6,19 @@
 
 include_once 'ding_user_frontend.features.inc';
 
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_user_frontend_menu_alter(&$items) {
+  // Disable sub-menu under user account edit for provider users.
+  $provider = _ding_provider_get_provider('user');
+  $items['user/%user/edit/provider_' . $provider['module']]['access'] = FALSE;
+
+  // Change weight of user edit link, so it always second menu item.
+  $items['user/%user/edit']['weight'] = -5;
+}
+
 /**
  * Implements hook_block_info().
  */
