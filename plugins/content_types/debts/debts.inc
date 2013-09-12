@@ -113,8 +113,8 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
           '#weight' => 0,
         ),
         'fee_type' => array(
-          'label' => t('Fee type'),
-          'data' => t($debt->type),
+          'label' => t('Fee cause'),
+          'data' => $debt->type,
           'class' => 'fee-type',
           '#weight' => 4,
         ),
