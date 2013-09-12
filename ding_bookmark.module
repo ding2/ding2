@@ -62,7 +62,7 @@ function ding_bookmark_views_default_views_alter(&$views) {
 }
 
 /**
- * Title callback; Alter title to add count items number.
+ * Alter title to add count items number.
  *
  * @param string $title
  *   Untranslated title.
@@ -71,6 +71,8 @@ function ding_bookmark_views_default_views_alter(&$views) {
  *
  * @return string
  *   The bookmark item title.
+ *
+ * @see ding_bookmark_menu_alter()
  */
 function ding_bookmark_menu_item_title($title, $account = NULL) {
   global $user;

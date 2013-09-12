@@ -31,8 +31,6 @@ class flag_ding_entity extends flag_flag {
     $form['messages']['unflag_short']['#weight'] = 5;
     $form['messages']['unflag_long']['#weight'] = 6;
     $form['messages']['unflag_message']['#weight'] = 7;
-
-    /* unset($form['messages']['tokens_help']); */
   }
 
   function _load_content($content_id) {
