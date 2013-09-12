@@ -2,7 +2,12 @@
  * Handle loan checkboxes select all and select count on buttons.
  */
 (function ($) {
+  "use strict";
   $(document).ready(function($) {
+    // Ensure that all checkboxes are on click (if user reloads the page etc.).
+    $('form input[type=checkbox]').prop('checked', false);
+    $('.action-buttons input[type=submit]').prop('disabled', 'disabled');
+
     // Handle select all checkboxes.
     $('.select-all input[type=checkbox]').click(function() {
       var checkboxes = $('input[type=checkbox]', $(this).closest('.select-all').nextUntil('.select-all'));
@@ -41,19 +46,27 @@
       });
 
       // Change the select all based on the count found above.
-      if (checked != checkboxes.length) {
+      if (checked !== checkboxes.length) {
         item.prevAll('.select-all').find('input[type=checkbox]').prop('checked', false);
       }
       else {
         item.prevAll('.select-all').find('input[type=checkbox]').prop('checked', true);
       }
-    })
+    });
 
     // Update count string on the buttons.
     function update_buttons(buttons, count) {
      buttons.each(function(index) {
        var btn = $(buttons[index]);
        btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
+
+       // Toggle buttons based on count.
+       if (count > 0) {
+         btn.removeAttr("disabled");
+       }
+       else {
+         btn.prop('disabled', 'disabled');
+       }
      });
     }
   });
