@@ -12,12 +12,18 @@
     $('.select-all input[type=checkbox]').click(function() {
       var checkboxes = $('input[type=checkbox]', $(this).closest('.select-all').nextUntil('.select-all'));
       if ($(this).prop('checked')) {
-        checkboxes.prop('checked', true);
+        // Only checkboxes that are enabled.
+        checkboxes.each(function(i) {
+          var box = $(checkboxes[i]);
+          if (!box.is(':disabled')) {
+              box.prop('checked', true);
+              box.change();
+          }
+        });
       }
       else {
         checkboxes.prop('checked', false);
       }
-      checkboxes.change();
     });
 
     // Handle checkbox button count.
@@ -31,10 +37,10 @@
       // checkbox is not checked.
       var item = $(this).closest('.material-item');
 
-      // Try to find the checkboxes in the current clicked group.
-      var checkboxes = $('input[type=checkbox]', item.prevUntil('.select-all'));
-      $.merge(checkboxes, $('input[type=checkbox]', item.nextUntil('.select-all')));
-      $.merge(checkboxes, $('input[type=checkbox]', item));
+      // Try to find the checkboxes in the current clicked group (not disabled).
+      var checkboxes = $('input[type=checkbox]', item.prevUntil('.select-all')).not(':disabled');
+      $.merge(checkboxes, $('input[type=checkbox]', item.nextUntil('.select-all'))).not(':disabled');
+      $.merge(checkboxes, $('input[type=checkbox]', item)).not(':disabled');
 
       // Find all checked checkboxes found above and count theme
       var checked = 0;

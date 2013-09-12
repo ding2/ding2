@@ -91,6 +91,10 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   );
 
   foreach ($groups as $gid => $group) {
+    // Counter to ensure that the "select all" checkbox is disabled if all loans
+    // in group are disabled.
+    $disabled_count = 0;
+
     foreach ($group['loans'] as $loan) {
 
       // Add title item (grouping by due dates).
@@ -146,6 +150,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // If not renewable set message.
       if (empty($loan->renewable)) {
+        $disabled_count++;
         $item['#material_message'] = array(
           'message' => t('This material can not be re-newed'),
           'class' => 'messages warning',
@@ -154,6 +159,11 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Add the reservation to the form.
       $form['loans'][$gid][$loan->id] = $item;
+    }
+
+    // Check if the "Select all" for this group should be disabled.
+    if (count($group['loans']) == $disabled_count) {
+      $form['loans'][$gid]['title']['#disabled'] = TRUE;
     }
   }
 
@@ -192,35 +202,37 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     }
   }
 
-  $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
-  foreach ($result as $id => $status) {
-    if ($object = $form_state['values']['items'][$id]->entity) {
-      $title = $object->title;
-    }
-    else {
-      $title = $item->display_name;
-    }
-    // @todo Better feedback.
-    switch ($status['state']) {
-      case DingProviderLoan::STATUS_RENEWED:
-        drupal_set_message(t('"@title renewed"', array('@title' => $title)));
-        break;
+  if (!empty($ids)) {
+    $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
+    foreach ($result as $id => $status) {
+      if ($object = $form_state['values']['items'][$id]->entity) {
+        $title = $object->title;
+      }
+      else {
+        $title = $item->display_name;
+      }
+      // @todo Better feedback.
+      switch ($status) {
+        case DingProviderLoan::STATUS_RENEWED:
+          drupal_set_message(t('"@title renewed"', array('@title' => $title)));
+          break;
 
-      case DingProviderLoan::STATUS_NOT_RENEWED:
-        if ($status['message'] == 'maxNofRenewals') {
-          $message = t('Maximum number of renewals reached');
-        }
-        elseif ($status['message'] == 'copyIsReserved') {
-          $message = t('The material is reserved by another loaner');
-        }
-        else {
-          $message = t('Unable to renew material');
-        }
-        drupal_set_message(t('"@title not renewed: @message"', array('@title' => $title, '@message' => $message)), 'warning');
-        break;
+        case DingProviderLoan::STATUS_NOT_RENEWED:
+          if ($status['message'] == 'maxNofRenewals') {
+            $message = t('Maximum number of renewals reached');
+          }
+          elseif ($status['message'] == 'copyIsReserved') {
+            $message = t('The material is reserved by another loaner');
+          }
+          else {
+            $message = t('Unable to renew material');
+          }
+          drupal_set_message(t('"@title not renewed: @message"', array('@title' => $title, '@message' => $message)), 'warning');
+          break;
 
-      default:
-        watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
+        default:
+          watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
+      }
     }
   }
 }
