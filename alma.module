@@ -158,7 +158,8 @@ function alma_client() {
  */
 function alma_client_invoke($method) {
   $args = func_get_args();
-  array_shift($args); // Lose the method.
+  // Lose the method.
+  array_shift($args);
   $client = alma_client();
 
   try {
@@ -179,7 +180,7 @@ function alma_client_invoke($method) {
  * information is cache until the cache is cleared or the reset parameter is
  * TRUE.
  *
- * @param boolean $reset
+ * @param bool $reset
  *   Optional. If TRUE reset the cached data and reload.
  *
  * @return array
@@ -226,7 +227,7 @@ function alma_get_organisation($reset = FALSE) {
  *   Available information about the patron from Alma.
  */
 function _alma_user_info($creds = NULL) {
-  // Get patron informations from Alma.
+  // Get patron information from Alma.
   $status = alma_get_patron($creds);
 
   // Build basic information array, with patron information.
@@ -504,8 +505,11 @@ function alma_update_provider($changes, $entity) {
  *
  * @param array $creds
  *   Array with 'name' and 'pass' keys, used to authenticate user with Alma.
- * @param boolean $reset
+ * @param bool $reset
  *   Reset static caching for this function.
+ * @param bool $as_array
+ *   Return the patron information as an array.
+ *
  * @return stdClass
  *   Patron object.
  */
