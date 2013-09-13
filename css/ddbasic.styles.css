@@ -8415,14 +8415,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* Breakpoints
    ========================================================================== */
 @media only screen and (max-width: 480px) {
-  /* line 221, ../sass/module/_user.scss */
+  /* line 222, ../sass/module/_user.scss */
   .pane-reservations h3,
-  .pane-loans h3 {
+  .pane-loans h3,
+  .pane-bookmarks h3 {
     font-size: 130%;
   }
-  /* line 224, ../sass/module/_user.scss */
+  /* line 225, ../sass/module/_user.scss */
   .pane-reservations .left-column,
-  .pane-loans .left-column {
+  .pane-loans .left-column,
+  .pane-bookmarks .left-column {
     float: left;
     width: 8.33333%;
     margin-left: 0%;
@@ -8439,9 +8441,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 228, ../sass/module/_user.scss */
+  /* line 229, ../sass/module/_user.scss */
   .pane-reservations .right-column,
-  .pane-loans .right-column {
+  .pane-loans .right-column,
+  .pane-bookmarks .right-column {
     float: right;
     width: 91.66667%;
     margin-right: 0%;
@@ -8458,27 +8461,30 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 232, ../sass/module/_user.scss */
+  /* line 233, ../sass/module/_user.scss */
   .pane-reservations .item-checkbox,
-  .pane-loans .item-checkbox {
+  .pane-loans .item-checkbox,
+  .pane-bookmarks .item-checkbox {
     width: 100%;
     clear: both;
     display: block;
     float: none;
     margin-right: 10px;
   }
-  /* line 240, ../sass/module/_user.scss */
+  /* line 241, ../sass/module/_user.scss */
   .pane-reservations .ting-cover,
-  .pane-loans .ting-cover {
+  .pane-loans .ting-cover,
+  .pane-bookmarks .ting-cover {
     display: none;
     /*clear: both;
     float: none;
     max-width: 100%;
     margin-top: 15px;*/
   }
-  /* line 249, ../sass/module/_user.scss */
+  /* line 250, ../sass/module/_user.scss */
   .pane-reservations .item-information-label,
-  .pane-loans .item-information-label {
+  .pane-loans .item-information-label,
+  .pane-bookmarks .item-information-label {
     clear: left;
     float: left;
     width: 100%;
@@ -8498,9 +8504,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding: 0;
     font-weight: bold;
   }
-  /* line 258, ../sass/module/_user.scss */
+  /* line 259, ../sass/module/_user.scss */
   .pane-reservations .item-information-data,
-  .pane-loans .item-information-data {
+  .pane-loans .item-information-data,
+  .pane-bookmarks .item-information-data {
     clear: left;
     float: left;
     width: 100%;
@@ -8520,21 +8527,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding: 0;
     margin-bottom: 10px;
   }
-  /* line 268, ../sass/module/_user.scss */
+  /* line 269, ../sass/module/_user.scss */
   .pane-reservations .action-buttons .action-button,
-  .pane-loans .action-buttons .action-button {
+  .pane-loans .action-buttons .action-button,
+  .pane-bookmarks .action-buttons .action-button {
     margin-top: 10px;
   }
-  /* line 271, ../sass/module/_user.scss */
+  /* line 272, ../sass/module/_user.scss */
   .pane-reservations .action-buttons .action-button:nth-of-type(1),
-  .pane-loans .action-buttons .action-button:nth-of-type(1) {
+  .pane-loans .action-buttons .action-button:nth-of-type(1),
+  .pane-bookmarks .action-buttons .action-button:nth-of-type(1) {
     margin-top: 0;
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 283, ../sass/module/_user.scss */
+  /* line 285, ../sass/module/_user.scss */
   .pane-reservations .left-column,
-  .pane-loans .left-column {
+  .pane-loans .left-column,
+  .pane-bookmarks .left-column {
     float: left;
     width: 25%;
     margin-left: 0%;
@@ -8551,9 +8561,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 287, ../sass/module/_user.scss */
+  /* line 289, ../sass/module/_user.scss */
   .pane-reservations .right-column,
-  .pane-loans .right-column {
+  .pane-loans .right-column,
+  .pane-bookmarks .right-column {
     float: right;
     width: 75%;
     margin-right: 0%;
@@ -8570,19 +8581,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 291, ../sass/module/_user.scss */
+  /* line 293, ../sass/module/_user.scss */
   .pane-reservations .item-checkbox,
-  .pane-loans .item-checkbox {
+  .pane-loans .item-checkbox,
+  .pane-bookmarks .item-checkbox {
     width: 30%;
   }
-  /* line 295, ../sass/module/_user.scss */
+  /* line 297, ../sass/module/_user.scss */
   .pane-reservations .ting-cover,
-  .pane-loans .ting-cover {
+  .pane-loans .ting-cover,
+  .pane-bookmarks .ting-cover {
     max-width: 70%;
   }
-  /* line 299, ../sass/module/_user.scss */
+  /* line 301, ../sass/module/_user.scss */
   .pane-reservations .item-information-label,
-  .pane-loans .item-information-label {
+  .pane-loans .item-information-label,
+  .pane-bookmarks .item-information-label {
     float: left;
     width: 50%;
     margin-left: 0%;
@@ -8601,9 +8615,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding: 0;
     padding-right: 10px;
   }
-  /* line 306, ../sass/module/_user.scss */
+  /* line 308, ../sass/module/_user.scss */
   .pane-reservations .item-information-data,
-  .pane-loans .item-information-data {
+  .pane-loans .item-information-data,
+  .pane-bookmarks .item-information-data {
     float: right;
     width: 50%;
     margin-right: 0%;
@@ -8623,19 +8638,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 317, ../sass/module/_user.scss */
+  /* line 320, ../sass/module/_user.scss */
   .pane-reservations .item-checkbox,
-  .pane-loans .item-checkbox {
+  .pane-loans .item-checkbox,
+  .pane-bookmarks .item-checkbox {
     width: 35%;
   }
-  /* line 321, ../sass/module/_user.scss */
+  /* line 324, ../sass/module/_user.scss */
   .pane-reservations .ting-cover,
-  .pane-loans .ting-cover {
+  .pane-loans .ting-cover,
+  .pane-bookmarks .ting-cover {
     max-width: 65%;
   }
-  /* line 325, ../sass/module/_user.scss */
+  /* line 328, ../sass/module/_user.scss */
   .pane-reservations .item-information-label,
-  .pane-loans .item-information-label {
+  .pane-loans .item-information-label,
+  .pane-bookmarks .item-information-label {
     float: left;
     width: 50%;
     margin-left: 0%;
@@ -8654,9 +8672,10 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     padding: 0;
     padding-right: 10px;
   }
-  /* line 332, ../sass/module/_user.scss */
+  /* line 335, ../sass/module/_user.scss */
   .pane-reservations .item-information-data,
-  .pane-loans .item-information-data {
+  .pane-loans .item-information-data,
+  .pane-bookmarks .item-information-data {
     float: right;
     width: 50%;
     margin-right: 0%;
@@ -8677,7 +8696,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* BELOW IS CODE FROM BEFORE REFACTORING */
 /* User login in header
    ========================================================================== */
-/* line 350, ../sass/module/_user.scss */
+/* line 353, ../sass/module/_user.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -8695,11 +8714,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 353, ../sass/module/_user.scss */
+/* line 356, ../sass/module/_user.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 358, ../sass/module/_user.scss */
+/* line 361, ../sass/module/_user.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -8717,16 +8736,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 361, ../sass/module/_user.scss */
+/* line 364, ../sass/module/_user.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
-/* line 366, ../sass/module/_user.scss */
+/* line 369, ../sass/module/_user.scss */
 .user .block-title {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 372, ../sass/module/_user.scss */
+  /* line 375, ../sass/module/_user.scss */
   .user .form-item-name,
   .user .form-item-pass {
     float: left;
@@ -8745,21 +8764,21 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 376, ../sass/module/_user.scss */
+  /* line 379, ../sass/module/_user.scss */
   .user .form-actions {
     margin-bottom: 0;
   }
-  /* line 380, ../sass/module/_user.scss */
+  /* line 383, ../sass/module/_user.scss */
   .user .form-submit {
     margin-top: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 347, ../sass/module/_user.scss */
+  /* line 350, ../sass/module/_user.scss */
   .user {
     text-align: left;
   }
-  /* line 388, ../sass/module/_user.scss */
+  /* line 391, ../sass/module/_user.scss */
   .user .block-title {
     display: block;
     color: white;
@@ -8770,24 +8789,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 400, ../sass/module/_user.scss */
+/* line 403, ../sass/module/_user.scss */
 .user-name {
   color: white;
 }
-/* line 403, ../sass/module/_user.scss */
+/* line 406, ../sass/module/_user.scss */
 .user-name .user-name-title {
   font-size: 160%;
   overflow: hidden;
   max-height: 45px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 410, ../sass/module/_user.scss */
+  /* line 413, ../sass/module/_user.scss */
   .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
 
-/* line 418, ../sass/module/_user.scss */
+/* line 421, ../sass/module/_user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -8797,14 +8816,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   text-align: right;
 }
-/* line 425, ../sass/module/_user.scss */
+/* line 428, ../sass/module/_user.scss */
 .user-name.js-topbar-toggled,
 .user-menu-loans.js-topbar-toggled,
 .user-menu.js-topbar-toggled {
   display: block;
 }
 @media only screen and (max-width: 768px) {
-  /* line 418, ../sass/module/_user.scss */
+  /* line 421, ../sass/module/_user.scss */
   .user-name,
   .user-menu-loans,
   .user-menu {
@@ -8814,20 +8833,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 437, ../sass/module/_user.scss */
+/* line 440, ../sass/module/_user.scss */
 .user-menu-loans,
 .user-menu {
   padding-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 437, ../sass/module/_user.scss */
+  /* line 440, ../sass/module/_user.scss */
   .user-menu-loans,
   .user-menu {
     padding-top: 0;
   }
 }
 
-/* line 445, ../sass/module/_user.scss */
+/* line 448, ../sass/module/_user.scss */
 .user-menu {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -8835,13 +8854,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User profile
    ========================================================================== */
-/* line 454, ../sass/module/_user.scss */
+/* line 457, ../sass/module/_user.scss */
 .user-loan-status-wrapper {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 
-/* line 462, ../sass/module/_user.scss */
+/* line 465, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -8852,7 +8871,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 469, ../sass/module/_user.scss */
+/* line 472, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
@@ -8860,20 +8879,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-decoration: none;
 }
 
-/* line 475, ../sass/module/_user.scss */
+/* line 478, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 480, ../sass/module/_user.scss */
+/* line 483, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 490, ../sass/module/_user.scss */
+/* line 493, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -8882,36 +8901,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: white;
 }
 
-/* line 495, ../sass/module/_user.scss */
+/* line 498, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 499, ../sass/module/_user.scss */
+/* line 502, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 504, ../sass/module/_user.scss */
+/* line 507, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 508, ../sass/module/_user.scss */
+/* line 511, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 513, ../sass/module/_user.scss */
+/* line 516, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 516, ../sass/module/_user.scss */
+/* line 519, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 523, ../sass/module/_user.scss */
+/* line 526, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -8923,12 +8942,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 533, ../sass/module/_user.scss */
+/* line 536, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 539, ../sass/module/_user.scss */
+  /* line 542, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -8937,14 +8956,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User loans
    ========================================================================== */
-/* line 553, ../sass/module/_user.scss */
+/* line 556, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 558, ../sass/module/_user.scss */
+/* line 561, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -8953,7 +8972,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 565, ../sass/module/_user.scss */
+/* line 568, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -8962,12 +8981,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-left: 47px;
 }
 
-/* line 573, ../sass/module/_user.scss */
+/* line 576, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 578, ../sass/module/_user.scss */
+/* line 581, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;

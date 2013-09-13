@@ -217,7 +217,8 @@
 
 @include small() {
   .pane-reservations,
-  .pane-loans {
+  .pane-loans,
+  .pane-bookmarks {
     h3 {
       font-size: 130%;
     }
@@ -279,7 +280,8 @@
 
 @include medium() {
   .pane-reservations,
-  .pane-loans {
+  .pane-loans,
+  .pane-bookmarks {
     .left-column {
       @include zen-grid-item(3, 1);
     }
@@ -313,7 +315,8 @@
 
 @include large() {
   .pane-reservations,
-  .pane-loans {
+  .pane-loans,
+  .pane-bookmarks {
     .item-checkbox {
       width: 35%;
     }
