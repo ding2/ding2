@@ -8,30 +8,40 @@
  * Menu callback; Display user bookmark items.
  */
 function ding_bookmark_user_bookmark_page($account) {
+  $output = t('You do not have any bookmarks yet.');
+
+  // Try to load all bookmarks for the user.
   $entities = ding_bookmark_load_bookmarks($account);
-
   if (!empty($entities)) {
+    // Bookmarks found, so render them as a material list form.
     $bookmark_form = drupal_get_form('ding_bookmark_remove_form', $entities);
-
-    // Render reservation buttons outside bookmark form, so it's valid XHTML.
-//    $reservation_forms = ding_bookmark_reservation_forms($entity_ids);
-
-    // Add Javascript and CSS (hides reservation forms outside the main form) to
-    // handle the bookmarks.
-    drupal_add_js(drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js');
-    drupal_add_css(drupal_get_path('module', 'ding_bookmark') . '/css/ding_bookmark.css');
-
-//  return $reservation_forms .
-    return drupal_render($bookmark_form);
+    $output = drupal_render($bookmark_form);
   }
 
-  return t('Bookmarks is empty');
+  return $output;
 }
 
 /**
  * Bookmark manage form.
  */
 function ding_bookmark_remove_form($form, &$form_state, $entities) {
+  $form['bookmarks'] = array(
+    '#tree' => TRUE,
+  );
+
+  // Add select all title.
+  $form['title'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Select all bookmarks'),
+    '#prefix' => '<div class="select-all bookmarks">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js',
+      ),
+    ),
+    '#weight' => -10,
+  );
 
   foreach ($entities as $entity) {
     // Create title that links to the object.
@@ -45,7 +55,7 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
     // Build the material item element.
     $item = array(
       '#type' => 'material_item',
-      '#id' => $entity->id,
+      '#id' => $entity->tid,
       '#title' => $title,
       '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
       '#information' => array(
@@ -98,36 +108,14 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
  * Submit handler.
  */
 function ding_bookmark_remove_form_submit($form, &$form_state) {
+  // Un-flag all selected items.
+  $flag = flag_get_flag('bookmark');
+
   // Filter selected items.
-  $items_to_delete = array_filter($form_state['values']['items']);
-  if ($items_to_delete) {
-    // Un-flag all selected items.
-    $flag = flag_get_flag('bookmark');
-    foreach ($items_to_delete as $item_wid) {
-      $flag->flag('unflag', $item_wid);
+  foreach ($form_state['values']['bookmarks'] as $item) {
+    $tid = array_pop($item);
+    if ($tid) {
+      $flag->flag('unflag', $tid);
     }
   }
 }
-
-//
-//function ding_bookmark_reservation_forms($content_ids) {
-//  $reservation_block = '';
-//  foreach ($content_ids as $entity_id => $entity_type) {
-//    // Build item view.
-//    $item_view_build = ding_bookmark_item_view($entity_type, $entity_id);
-//    // Reservation buttons.
-//    if ($item_view_build['#object']->ding_entity_type == 'ding_entity' && $item_view_build['#object']->is('reservable')) {
-//      $reservation_form = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($item_view_build['#object']), TRUE));
-//      $reservation_form[0]['#id'] = 'ding-reservation-reserve-form-wid' . $entity_id;
-//      // @TODO Update this, so class can be change in the theme layer.
-//      $reservation_div = array(
-//        '#prefix' => '<div class="ding-entity-button-reserve">',
-//        '#suffix' => '</div>',
-//        '#type' => 'markup',
-//        '#markup' => drupal_render($reservation_form),
-//      );
-//      $reservation_block .= drupal_render($reservation_div);
-//    }
-//  }
-//  return $reservation_block;
-//}

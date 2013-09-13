@@ -161,8 +161,7 @@ function ding_bookmark_form_flag_form_alter(&$form, &$form_state, $form_id) {
 function ding_bookmark_ding_entity_buttons($type, $entity) {
   // Add 'bookmark' button.
   if ($type == 'ding_entity') {
-    $bookmark_flag_button = ding_bookmark_flag_view($type, $entity);
-    return array($bookmark_flag_button);
+    return array(ding_bookmark_flag_action_button($type, $entity));
   }
 }
 
@@ -242,7 +241,7 @@ function ding_bookmark_flag_confirm_form_callback($form, &$form_state) {
 /**
  * Build 'add to bookmark' button.
  */
-function ding_bookmark_flag_view($entity_type, $entity) {
+function ding_bookmark_flag_action_button($entity_type, $entity) {
   $bookmark_flag = flag_get_flag('bookmark');
 
   $ding_entity_info = ding_entity_info($entity_type);
