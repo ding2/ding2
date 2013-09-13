@@ -4,7 +4,8 @@
 (function ($) {
   "use strict";
   $(document).ready(function($) {
-    // Ensure that all checkboxes are on click (if user reloads the page etc.).
+    // Ensure that all checkboxes are not checked (if user reloads the page
+    // etc.).
     $('form input[type=checkbox]').prop('checked', false);
     $('.action-buttons input[type=submit]').prop('disabled', 'disabled');
 
