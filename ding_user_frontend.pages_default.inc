@@ -1019,7 +1019,7 @@ function ding_user_frontend_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Mine reserveringer';
+  $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -1090,10 +1090,10 @@ function ding_user_frontend_default_page_manager_pages() {
         'interlibrary_loans' => 'interlibrary_loans',
         'ready_for_pickup' => 0,
       ),
-      'form_build_id' => 'form-PcM2U3JZ4TDE1MaEasMNB0rdgROfJtRuTLvgn3D3ndA',
-      'form_token' => 'LrQ90mfel5sMMkKaFHXxQ64WU37lYRizqlHrit9CT18',
+      'form_build_id' => 'form-QXSASI2sYP2qugnpOrh1aIrd6K-0Sj_sycEHjH96APE',
+      'form_token' => 'yMH3jgoKwdgE1jAihu7_Xlkwph9PhG1qk5-pG304fqc',
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'reservation_title' => 'Reservations',
       'reservation_empty_text' => 'There are no reservations.',
@@ -1109,8 +1109,8 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->locks = '';
     $display->content['new-11'] = $pane;
     $display->panels['main_content'][1] = 'new-11';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-10';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_reservations'] = $page;
