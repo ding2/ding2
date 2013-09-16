@@ -126,7 +126,7 @@ function ting_proxy_settings_form_submit($form, &$form_state) {
  */
 function ting_proxy_settings_form_after_build($form, &$form_state) {
   // Add form styling.
-  drupal_add_css(drupal_get_path('module', 'ting_proxy') . '/css/ting_proxy.css', 'module', 'all', FALSE);
+  drupal_add_css(drupal_get_path('module', 'ting_proxy') . '/css/ting_proxy.admin.css', 'module', 'all', FALSE);
 
   // Add js.
   drupal_add_js(drupal_get_path('module', 'ting_proxy') . '/js/ting_proxy.admin.js');
