@@ -22,6 +22,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 
   // Defined the return block.
   $block = new stdClass();
+  $block->title = t('My reservations');
   $block->module = 'ding_reservation';
   $block->delta  = 'reservations';
 
