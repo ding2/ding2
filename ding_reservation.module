@@ -428,16 +428,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
           ),
         );
-
-        // Set reservation expire message.
-        $expire = strtotime(check_plain($reservation->expiry));
-        if ($expire - (7 * 24 * 60 * 60) <= time()) {
-          $item['#material_message'] = array(
-            'message' => t('This reservation is about to expire.'),
-            'class' => 'messages warning',
-          );
-          $item['#weight'] = -30;
-        }
         break;
 
       case 'interlibrary_loans':
@@ -473,17 +463,19 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
           ),
         );
-
-        // Set reservation expire message.
-        $expire = strtotime(check_plain($reservation->expiry));
-        if ($expire - (7 * 24 * 60 * 60) <= time()) {
-          $item['#material_message'] = array(
-            'message' => t('This reservation is about to expire.'),
-            'class' => 'messages warning',
-          );
-        }
-        $item['#weight'] = -30;
         break;
+    }
+
+    if (in_array($type, array('not_ready_for_pickup', 'interlibrary_loans'))) {
+      // Set reservation expire message.
+      $expire = strtotime(check_plain($reservation->expiry));
+      if ($expire - variable_get('reservation_expire', 604800) <= time()) {
+        $item['#material_message'] = array(
+          'message' => t('This reservation is about to expire.'),
+          'class' => 'messages warning',
+        );
+        $item['#weight'] = -30;
+      }
     }
 
     // Add extra information if it's a periodical.
