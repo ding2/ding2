@@ -10,7 +10,7 @@ class SimpleSAML_Auth_Simple {
    * Constructor, empty for now.
    */
   public function __construct($sp) {
-    
+
   }
 
   public function isAuthenticated() {
@@ -50,7 +50,7 @@ class SimpleSAML_Auth_Simple {
   public function getAttributes() {
 
 
-    // @TODO .. if user is 
+    // @TODO .. if user is
 
     return isset($_SESSION['wayf_login']) ? $_SESSION['wayf_login'] : NULL;
   }
@@ -78,7 +78,7 @@ class SimpleSAML_Auth_Simple {
   }
 
   /* \brief redirect to gatewayf for authentication via wayf
-   * 
+   *
    */
 
   public function requireAuth($idp = NULL) {
@@ -111,7 +111,8 @@ class SimpleSAML_Auth_Simple {
     // log out drupal user
     // @see user/user.pages.inc::user_logout()
     global $user;
-    watchdog('wayf', 'Session closed for %name.', array('%name' => $user->mail));
+    if (isset($user->mail))
+      watchdog('wayf', 'Session closed for %name.', array('%name' => $user->mail));
     module_invoke_all('user_logout', $user);
     // Destroy the current session, and reset $user to the anonymous user.
     session_destroy();
