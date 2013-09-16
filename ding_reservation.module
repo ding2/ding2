@@ -316,12 +316,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     '#tree' => TRUE,
   );
 
-  // Store the reservations list in the form (on server site).
-  $form['reservations'] = array(
-    '#type' => 'value',
-    '#value' => $reservations,
-  );
-
   // Add title item.
   $form['title'] = array(
     '#type' => 'checkbox',
@@ -753,8 +747,8 @@ function ding_reservation_delete_reservations_form_submit($form, &$form_state) {
   else {
     $reservations = array_filter($form_state['values']['reservations']);
   }
-  foreach ($reservations as $entity_id) {
-    ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+  foreach ($reservations as $reservation_id) {
+    ding_provider_invoke('reservation', 'delete', $user, $reservation_id);
 
     // Clear reservation session cache.
     ding_reservation_cache_clear();
