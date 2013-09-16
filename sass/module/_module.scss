@@ -80,12 +80,6 @@
    ========================================================================== */
 
 %search-user-header {
-  display: none;
-
-  &.js-topbar-toggled {
-    display: inline-block;
-  }
-
   width: 100%;
 
   [class^="label-"] {

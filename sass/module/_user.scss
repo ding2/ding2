@@ -422,10 +422,6 @@
   padding-bottom: $medium-spacing;
   text-align: right;
 
-  &.js-topbar-toggled {
-    display: block;
-  }
-
   @include small-medium() {
     border-bottom: 0;
     padding-bottom: 0;
