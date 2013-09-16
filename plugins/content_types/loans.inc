@@ -206,6 +206,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     }
   }
 
+  $clear_cache = FALSE;
   if (!empty($ids)) {
     $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
     foreach ($result as $id => $status) {
@@ -219,6 +220,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       switch ($status) {
         case DingProviderLoan::STATUS_RENEWED:
           drupal_set_message(t('"@title renewed"', array('@title' => $title)));
+          $clear_cache = TRUE;
           break;
 
         case DingProviderLoan::STATUS_NOT_RENEWED:
@@ -237,6 +239,11 @@ function ding_loan_loans_form_submit($form, &$form_state) {
         default:
           watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
       }
+    }
+
+    // Clear session cache.
+    if ($clear_cache && module_exists('ding_session_cache')) {
+      ding_session_cache_clear('ding_loan', 'list');
     }
   }
 }
