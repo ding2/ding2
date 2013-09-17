@@ -140,6 +140,8 @@ function ting_proxy_hostname_element_validate($element, &$form_state) {
 
 /**
  * Implements hook_ting_online_url_alter().
+ *
+ * Hooks into the url and rewrites it based on the configuration.
  */
 function ting_proxy_ting_online_url_alter(&$url) {
   $proxy = variable_get('ting_proxy', array());
@@ -152,7 +154,7 @@ function ting_proxy_ting_online_url_alter(&$url) {
 }
 
 /**
- * Rewrite the URL of external restricted-access ressources.
+ * Rewrite the URL of external restricted-access resources.
  *
  * This allow access to the resources through the library's proxy server.
  *
@@ -160,7 +162,7 @@ function ting_proxy_ting_online_url_alter(&$url) {
  *   The url to rewrite
  * @param string $proxy_url
  *   The url to the proxy server to prepend to the url
- * @param array $hostnames_config
+ * @param array $hostnames
  *   Array of hostname configurations containing keys
  * 	   - hostname: The hostname for which the configuration applies in the
  *       format www.example.com
@@ -171,11 +173,11 @@ function ting_proxy_ting_online_url_alter(&$url) {
  * @return string
  *   The rewritten url.
  */
-function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames_config) {
+function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames) {
   $host = parse_url($url, PHP_URL_HOST);
 
   // Search host names (can this be optimized ? yes - save data in other format).
-  foreach ($hostnames_config as $config) {
+  foreach ($hostnames as $config) {
     if ($host == $config['hostname']) {
       // Rewrite/convert url using regex.
       if ((isset($config['expression']['regex']) && !empty($config['expression']['regex'])) &&
@@ -187,7 +189,7 @@ function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames_config) {
 
       // Add prefix, if chosen.
       if (!$config['disable_prefix']) {
-        $url = $proxy_url . urlencode($url);
+        $url = $proxy_url . $url;
       }
 
       // Exit the foreach loop.
