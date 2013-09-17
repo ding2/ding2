@@ -10,7 +10,7 @@ define('TING_DEFAULT_CACHE_LIFETIME', 0);
 module_load_include('inc', 'ting', 'ting.field');
 
 /**
- * Implementation of hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  */
 function ting_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
@@ -20,16 +20,19 @@ function ting_ctools_plugin_api($module, $api) {
 
 
 /**
- * Implements hook_ctools_plugin_directory() to let the system know
- * where our task and task_handler plugins are.
+ * Implements hook_ctools_plugin_directory().
+ *
+ * Lets the system know where our task and task_handler plugins are.
  */
 function ting_ctools_plugin_directory($owner, $plugin_type) {
-    return 'plugins/' . $plugin_type;
+  return 'plugins/' . $plugin_type;
 }
 
 /**
- * Implements hook_ctools_plugin_type() to inform the plugin system that Page
- * Manager owns task, task_handler, and page_wizard plugin types.
+ * Implements hook_ctools_plugin_type().
+ *
+ * Informs the plugin system that Page Manager owns task, task_handler, and
+ * page_wizard plugin types.
  *
  * All of these are empty because the defaults all work.
  */
@@ -43,6 +46,7 @@ function ting_ctools_plugin_type() {
     'contexts' => array(),
   );
 }
+
 /**
  * Implements hook_menu().
  */
@@ -84,7 +88,7 @@ function ting_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_admin_ting_settings'),
     'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc'
+    'file' => 'ting.admin.inc',
   );
 
   $items['admin/config/ting/ranking'] = array(
@@ -111,7 +115,7 @@ function ting_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_admin_register_settings'),
     'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc'
+    'file' => 'ting.admin.inc',
   );
 
   $items['admin/config/ting/online_types'] = array(
@@ -120,7 +124,7 @@ function ting_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_admin_online_types_settings'),
     'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc'
+    'file' => 'ting.admin.inc',
   );
 
   $items['admin/config/ting/reservable'] = array(
@@ -129,7 +133,7 @@ function ting_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_admin_reservable_settings'),
     'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc'
+    'file' => 'ting.admin.inc',
   );
 
   return $items;
@@ -220,7 +224,7 @@ function ting_block_info() {
 }
 
 /**
- * helper function - get relations for an ting_entity as an array ([$type] => array($relations))
+ * Get relations for an ting_entity as an array ([$type] => array($relations)).
  */
 function ting_get_relations($ting_entity) {
   $relations = array();
@@ -232,11 +236,11 @@ function ting_get_relations($ting_entity) {
     $relations[$relation->type][] = $relation;
   }
 
-  // get references from ting_reference
-  if( module_exists('ting_reference') ) {
-    $refs = module_invoke('ting_reference','get_relations','ting_object',$ting_entity);
-    if( !empty($refs) ) {
-      foreach( $refs as $ref ) {
+  // Get references from ting_reference.
+  if (module_exists('ting_reference')) {
+    $refs = module_invoke('ting_reference', 'get_relations', 'ting_object', $ting_entity);
+    if (!empty($refs)) {
+      foreach ($refs as $ref) {
         $relations[$ref->relation_type][] = $ref;
       }
     }
@@ -253,15 +257,15 @@ function ting_block_view($delta = '') {
   switch ($delta) {
     case 'ting_relation_anchors':
       $items = array();
-      if ($object = menu_get_object('ting_object',2)) {
+      if ($object = menu_get_object('ting_object', 2)) {
         $relations = ting_get_relations($object);
         if (!empty($relations)) {
           $relation_types = module_invoke_all('ding_anchor_info');
           $block->subject = t('About the material');
 
-          foreach( $relations as $key => $relation ) {
-            if( isset($relation_types[$key]) ) {
-              $items[] = l($relation_types[$key].' ('.count($relation).') ','#'.$key,array('external'=>TRUE));
+          foreach ($relations as $key => $relation) {
+            if (isset($relation_types[$key])) {
+              $items[] = l($relation_types[$key] . ' (' . count($relation) . ') ', '#' . $key, array('external' => TRUE));
             }
           }
           $block->content = array(
@@ -278,7 +282,7 @@ function ting_block_view($delta = '') {
         $block->subject = t('Types');
         $items = array();
         foreach ($collection->types as $type) {
-          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE ));
+          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
         }
         $block->content = array(
           '#theme' => 'item_list',
@@ -361,7 +365,7 @@ function ting_ding_devel_timers() {
     'ting_net' => array(
       'title' => 'Ting net time was @time ms.',
       'include in total' => FALSE,
-    )
+    ),
   );
 }
 
@@ -492,7 +496,7 @@ function ting_ding_entity_is($object, $class) {
 }
 
 /**
- * Implements hook_ding_entity_buttons()
+ * Implements hook_ding_entity_buttons().
  */
 function ting_ding_entity_buttons($type, $entity) {
   if ($entity instanceof TingEntity && $entity->online_url) {
@@ -513,18 +517,20 @@ function ting_ding_entity_buttons($type, $entity) {
  * Implements hook_page_alter().
  *
  * Log, and display if the devel module is active and the user has
- * permissions, a warning if the datawell was queried more than once.
+ * permissions, a warning if the data well was queried more than once.
  */
 function ting_page_alter(&$page) {
   $calls = &drupal_static('ting_execute_cache');
-  if (sizeof($calls) > 5) {
+  if (count($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
       $calls_str[] = print_r($calls, TRUE);
     }
-    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => sizeof($calls), '@queries' => join('" "', $calls_str)), WATCHDOG_WARNING);
+
+    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => count($calls), '@queries' => implode('" "', $calls_str)), WATCHDOG_WARNING);
+
     if (function_exists('dpm') && user_access('access devel information')) {
-      drupal_set_message(t('Warning, ting_execute called @x times.', array('@x' => sizeof($calls))), 'error');
+      drupal_set_message(t('Warning, ting_execute called @x times.', array('@x' => count($calls))), 'error');
       dpm($calls, 'ting_execute queries:');
     }
   }
@@ -541,7 +547,7 @@ function ting_object_page_view($object) {
  * Page callback: Display a ting collection.
  */
 function ting_collection_page_view($object) {
-  if (sizeof($object->entities) < 2) {
+  if (count($object->entities) < 2) {
     drupal_goto('ting/object/' . $object->id);
   }
   return ting_collection_view($object);
@@ -676,12 +682,13 @@ function ting_collection_view($object, $view_mode = 'full', $langcode = NULL) {
 }
 
 /**
- * Sorts the objects according to type and language, but maintains the order
- * of types and languages in the original array.
+ * Sorts the objects according to type and language.
+ *
+ * But maintains the order of types and languages in the original array.
  */
 function _ting_type_lang_sort($objects, &$return_types) {
   $types = array();
-  $language = array();
+  $languages = array();
   $sorted = array();
   // Sort the objects into type buckets containing language buckets.
   foreach ($objects as $object) {
