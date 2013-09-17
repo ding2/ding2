@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Interface module for talking with the materials backend.
@@ -259,6 +258,7 @@ function ding_entity_field_formatter_view($entity_type, $entity, $field, $instan
       case 'ding_entity_buttons_default':
         $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity);
         break;
+
       case 'ding_entity_buttons_ajax':
         $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity, 'ajax');
         break;
@@ -274,7 +274,7 @@ function ding_entity_field_formatter_view($entity_type, $entity, $field, $instan
  * Implements getters for properties.
  *
  * Subclasses should define properties with the value DingEntityBase::NULL, to
- * get them automatically converted. When an attemting to access
+ * get them automatically converted. When an attempting to access
  * $object->my_prop, DingEntityBase will call $this->getMy_prop, and store the
  * result for future accesses.
  */
