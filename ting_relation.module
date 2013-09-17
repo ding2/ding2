@@ -55,7 +55,8 @@ function ting_relation_inline() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter()
+ * Implements hook_form_FORM_ID_alter().
+ *
  * Adding ebrary url form field to Ting configurating form
  * Set required to FALSE - this is a part of the relation-module, and not everybody wants or has access to ebrary
  * TODO this field requires configuration. Maybe it should be moved to a module of its own?
@@ -70,63 +71,4 @@ function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state)
     '#required' => FALSE,
     '#default_value' => variable_get('ting_ebrary_url', ''),
   );
-}
-
-/**
- * Implements hook_ding_entity_buttons().
- */
-function ting_relation_ding_entity_buttons($type, $entity) {
-  if ($entity instanceof TingEntity) {
-    $relation = NULL;
-    $markup = NULL;
-    // Seek for a online version of related material.
-    foreach ($entity->relations as $rel) {
-      if ($rel->type == 'dbcaddi:hasOnlineAccess') {
-        $relation = $rel;
-        break;
-      }
-    }
-    // Replace the online material link to related stuff if present.
-    if ($relation) {
-      $ebrary_url = variable_get('ting_ebrary_url');
-
-      $url = '';
-      $use_absolute = FALSE;
-      if (strstr($relation->uri, '[URL]http')) {
-        $url = str_replace('[URL]', '', htmlspecialchars_decode($relation->uri));
-        $use_absolute = TRUE;
-      }
-      elseif (strstr($relation->uri, '[URL]')) {
-        $url = str_replace('[URL]', $ebrary_url, $relation->uri);
-      }
-      elseif (strstr($relation->uri, '[useraccessinfomedia]')) {
-        $url = 'ting/infomedia/' . $entity->localId;
-      }
-
-      $altered_url = module_invoke_all('ting_online_url_alter', $url);
-      $url = $altered_url[0];
-
-      if (!empty($url)) {
-        $markup = l(t('See online'), urldecode($url), array('attributes' => array('target' => '_blank'), 'absolute' => $use_absolute));
-      }
-    }
-
-    if (!$markup && $entity->online_url) {
-      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-      $type = drupal_strtolower($entity->type);
-      $label = !empty($settings[$type]) ? $settings[$type] : $settings['_default'];
-      $markup = l(t($label), $entity->online_url, array('attributes' => array('target' => '_new')));
-    }
-
-    if (isset($markup)) {
-      return array(
-        array(
-          '#prefix' => '<p class="ding-entity-button">',
-          '#suffix' => '</p>',
-          '#type' => 'markup',
-          '#markup' => $markup,
-        ),
-      );
-    }
-  }
 }
