@@ -42,4 +42,3 @@ if (isset($content) && is_array($content)) {
     }
   }
 }
-?>

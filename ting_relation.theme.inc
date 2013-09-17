@@ -5,7 +5,9 @@
  */
 
 /**
- * Preprocess variables for ting_relation.tpl.php.
+ * Implements template_preprocess_ting_relation().
+ *
+ * @see ting_relation.tpl.php
  */
 function template_preprocess_ting_relation(&$variables) {
   $all_relations = $variables['elements']['#relations'];
@@ -14,31 +16,37 @@ function template_preprocess_ting_relation(&$variables) {
       case 'dbcaddi:hasReview':
         $variables['content'][$ns] = ting_relation_reviews($relations);
         break;
+
       case 'dbcaddi:hasSubjectDescription':
         $variables['content'][$ns] = ting_relation_subjects($relations);
         break;
+
       case 'dbcaddi:hasCreatorDescription':
         $variables['content'][$ns] = ting_relation_creator_description($relations);
         break;
+
       case 'dbcaddi:hasOnlineAccess':
         $cont = ting_relation_online($relations);
         if (!empty($cont)) {
           $variables['content'][$ns] = $cont;
         }
         break;
+
       case 'isPartOfManifestation':
         $variables['content'][$ns] = ting_relation_ispartofmanifestation($relations);
-      default:
         break;
     }
   }
 }
 
 /**
- * two variants(sofar) Ebrary and filmstriben
+ * Helper function to handle the different hasOnlineAccess types.
+ *
+ * Two variants implemented is Ebrary and Filmstriben.
  */
 function ting_relation_online($relations) {
   $ret = array();
+
   foreach ($relations as $relation) {
     if ($relation['#ac_source'] == 'Ebrary') {
       $ret[] = ting_relation_online_ebrary($relation);
@@ -47,14 +55,15 @@ function ting_relation_online($relations) {
       $ret[] = ting_relation_online_filmstriben($relation);
     }
   }
+
   return $ret;
 }
 
 /**
- * a variant(Ebrary) of 'hasOnlineAccess'
+ * Handle Ebrary hasOnlineAccess url and create link.
  */
 function ting_relation_online_ebrary($relation) {
-  
+
   $ebrary_url = variable_get('ting_ebrary_url');
   if (!isset($ebrary_url)) {
     return;
@@ -107,15 +116,17 @@ function ting_relation_creator_description($relations) {
     if ($ting->creators) {
       $content['byline'] = t('by @author', array('@author' => ting_relation_array2names($ting->creators)));
     }
-    
+
     // @todo online_url.
     if ($url = $rel->object->online_url) {
-      $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
+      $content['online_url'] = array(
+        '#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))),
+      );
     }
 
     $ret[] = $content;
   }
-  
+
   return $ret;
 }
 
@@ -152,7 +163,9 @@ function ting_relation_subjects($relations) {
     $content['text'] = filter_xss_admin($ting->description);
 
     if ($url = $rel->object->online_url) {
-      $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
+      $content['online_url'] = array(
+        '#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))),
+      );
     }
 
     $ret[] = $content;
@@ -223,7 +236,7 @@ function ting_relation_review($relation) {
 
   // Title ; generel.
   global $base_url;
-  $relation_title_link = l($rel->object->title, $base_url . '/ting/object/' . $ting->ding_entity_id); 
+  $relation_title_link = l($rel->object->title, $base_url . '/ting/object/' . $ting->ding_entity_id);
   $content['title'] = $relation_title_link;
 
   // Year.
@@ -239,7 +252,8 @@ function ting_relation_review($relation) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
   }
 
-  // Add a read more link in order to see the rest of the "Lektørudtalelse" review
+  // Add a read more link in order to see the rest of the "Lektørudtalelse"
+  // review.
   if (isset($rel->object->reply) && isset($rel->object->reply->formatsAvailable)) {
     if (in_array('docbook', $rel->object->reply->formatsAvailable)) {
       $content['readmore_link'] = array(
