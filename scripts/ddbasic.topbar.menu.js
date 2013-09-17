@@ -4,9 +4,16 @@
 (function($) {
   "use strict";
 
+  /**
+   * Toggle the search form from the top-bar menu.
+   *
+   * @param bool init
+   *   If true the form and link is set to initialized state.
+   */
   function ddbasic_search(init) {
-    var search_link = $('.js-topbar-link.topbar-link-search');
-    var search_form = $('.header-wrapper');
+    var link = $('.js-topbar-link.topbar-link-search');
+    var header = $('.header-wrapper');
+    var form = $('.js-topbar-search');
 
     // Handle default init value (false);
     init = typeof init !== 'undefined' ? init : false;
@@ -14,20 +21,29 @@
     if (init) {
       // If on front-page display search.
       if ($('body').hasClass('front')) {
-        search_link.toggleClass('active');
-        search_form.toggle();
+        link.addClass('active');
+        form.show();
+        header.show();
       }
       else {
-        search_link.removeClass('active');
-        search_form.hide();
+        link.removeClass('active');
+        form.hide();
+        header.hide();
       }
     }
     else {
-      search_link.toggleClass('active');
-      search_form.toggle();
+      link.toggleClass('active');
+      form.toggle();
+      header.toggle();
     }
   }
 
+  /**
+   * Toggle the mobile menu from the top-bar menu.
+   *
+   * @param bool init
+   *   If true the form and link is set to initialized state.
+   */
   function ddbasic_mobile_menu(init) {
     var menu_link = $('.js-topbar-link.topbar-link-menu');
     var menu = $('.js-topbar-menu');
@@ -44,16 +60,42 @@
     }
   }
 
+  /**
+   * Toggle the user login form from the top-bar menu.
+   *
+   * @param bool init
+   *   If true the form and link is set to initialized state.
+   */
+  function ddbasic_user_login(init) {
+    var link = $('.js-topbar-link.topbar-link-user');
+    var header = $('.header-wrapper');
+    var form = $('.js-topbar-user');
+
+    // Handle default init value (false);
+    init = typeof init !== 'undefined' ? init : false;
+
+    if (init) {
+        form.hide();
+        header.hide();
+    }
+    else {
+      link.toggleClass('active');
+      form.toggle();
+      header.toggle();
+    }
+  }
 
   /**
    * When ready start the magic and handle the menu.
+   *
+   * @todo: We might be able to group some of the stuff together in the logic
+   *        below, but for now we just need to have it working.
    */
   $(document).ready(function () {
-    // Init search form/header.
-    ddbasic_search(true);
-
-    // Init mobile menu.
+    // Init the top bar.
     ddbasic_mobile_menu(true);
+    ddbasic_user_login(true);
+    ddbasic_search(true);
 
     // If the search link is click toggle mobile menu if shown and display search.
     $('.js-topbar-link.topbar-link-search').on('click touchstart', function(e) {
@@ -61,6 +103,11 @@
         // Mobile menu is open, so close it.
         ddbasic_mobile_menu();
       }
+      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
+        // User menu is open, so close it.
+        ddbasic_user_login();
+      }
+
       ddbasic_search();
       e.preventDefault();
     });
@@ -71,9 +118,28 @@
         // Search is open, so close it.
         ddbasic_search();
       }
+      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
+        // Mobile menu is open, so close it.
+        ddbasic_user_login();
+      }
       ddbasic_mobile_menu();
       e.preventDefault();
     });
+
+    // User login.
+    $('.js-topbar-link.topbar-link-user').on('click touchstart', function(e) {
+      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
+        // Search is open, so close it.
+        ddbasic_search();
+      }
+      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
+        // Mobile menu is open, so close it.
+        ddbasic_mobile_menu();
+      }
+      ddbasic_user_login();
+      e.preventDefault();
+    });
+
 
     /**
      * Add news category menu as sub-menu to news in main menu
