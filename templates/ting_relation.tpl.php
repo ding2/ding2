@@ -17,9 +17,6 @@ if (isset($content) && is_array($content)) {
 
             if (isset($relation['text'])) {
               print '<div>' . $relation['text'] . '</div>';
-              if (isset($relation['readmore_link'])) {
-                 print render($relation['readmore_link']);
-              }
             }
 
             if (!empty($relation['online_url'])) {

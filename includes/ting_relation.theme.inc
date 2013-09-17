@@ -71,7 +71,7 @@ function ting_relation_online_ebrary($relation) {
 
   $rel = $relation['#relation'];
   $url = str_replace('[URL]', $ebrary_url, $rel->uri);
-  
+
   $content = array(
     'type' => $relation['#title'],
     'online_url' => array(
@@ -88,7 +88,7 @@ function ting_relation_online_ebrary($relation) {
 function ting_relation_online_filmstriben($relation) {
   $rel = $relation['#relation'];
   $url = $rel->uri;
-  
+
   // Simply set a button.
   $content = array(
     'type' => $relation['#title'],
@@ -102,7 +102,7 @@ function ting_relation_online_filmstriben($relation) {
 
 function ting_relation_creator_description($relations) {
   $ret = array();
-  
+
   foreach ($relations as $relation) {
     $ting = $relation['#object'];
     $rel = $relation['#relation'];
@@ -146,7 +146,7 @@ function ting_relation_ispartofmanifestation($relations) {
 
 function ting_relation_subjects($relations) {
   $ret = array();
-  
+
   foreach ($relations as $relation) {
     $content = array();
     $ting = $relation['#object'];
@@ -197,20 +197,20 @@ function ting_relation_reviews($relations) {
 function ting_relation_review_other($relation) {
   $ting = $relation['#object'];
   $rel = $relation['#relation'];
-  
+
   // Type title.
   $content['type'] = $relation['#title'];
 
   // Title.
   global $base_url;
-  $relation_title_link = l($rel->object->title, $base_url . '/ting/object/' . $ting->ding_entity_id); 
+  $relation_title_link = l($rel->object->title, $base_url . '/ting/object/' . $ting->ding_entity_id);
   $content['title'] = $relation_title_link;
 
   // Creators.
   if ($names = ting_relation_array2names($rel->object->creators)) {
     $content['byline'] = t('by @author', array('@author' => $names));
   }
-  
+
   // Ispartof.
   if ($partOf = ting_relation_array2names($rel->object->isPartOf)) {
     $extent = $rel->object->extent;
@@ -250,18 +250,6 @@ function ting_relation_review($relation) {
 
   if ($url = $rel->object->online_url) {
     $content['online_url'] = array('#markup' => l($rel->object->ac_source, $url, array('attributes' => array('target' => '_blank'))));
-  }
-
-  // Add a read more link in order to see the rest of the "Lektørudtalelse"
-  // review.
-  if (isset($rel->object->reply) && isset($rel->object->reply->formatsAvailable)) {
-    if (in_array('docbook', $rel->object->reply->formatsAvailable)) {
-      $content['readmore_link'] = array(
-        '#prefix' => '<div class="ting-relation-read-more">',
-        '#markup' => l(t('Read more'), 'ting/object/' . $rel->object->ding_entity_id . '/fulltext'),
-        '#suffix' => '</div>',
-      );
-    }
   }
 
   return $content;

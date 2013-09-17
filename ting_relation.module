@@ -6,7 +6,7 @@
  */
 
 // Load Field module hooks.
-module_load_include('field.inc', 'ting_relation');
+require_once 'includes/ting_relation.field.inc';
 
 /**
  * Implements hook_theme().
@@ -14,25 +14,27 @@ module_load_include('field.inc', 'ting_relation');
 function ting_relation_theme() {
   return array(
     'ting_relation' => array(
-      'template' => 'ting_relation',
+      'template' => 'templates/ting_relation',
       'render element' => 'elements',
-      'file' => 'ting_relation.theme.inc',
+      'file' => 'includes/ting_relation.theme.inc',
     ),
   );
 }
 
 /**
- * kind of a hook - called from ting.module
+ * Implements hook_ding_anchor_info().
+ *
+ * Builds the lists of relations to use as anchors when display a ting entity.
  */
 function ting_relation_ding_anchor_info() {
   $relations = ting_relation_inline();
-  // We need to know what kind of hasOnlineAccess
-  // is provided with this object and return relevant anchor information.
+  // We need to know what kind of hasOnlineAccess is provided with this object
+  // and return relevant anchor information.
   $object = menu_get_object('ting_object', 2);
   if ($object->getAc_source() != 'Ebrary') {
     unset($relations['dbcaddi:hasOnlineAccess']);
   }
-  unset($relations['dbcaddi:isReviewOf']);
+
   return $relations;
 }
 
@@ -47,7 +49,6 @@ function ting_relation_inline() {
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
       'isPartOfManifestation' => t('Is part of manifestation'),
-      'dbcaddi:isReviewOf' => t('Is review of'),
       'dbcaddi:hasOnlineAccess' => t('Online access'),
     );
   }

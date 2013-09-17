@@ -7,6 +7,8 @@
 
 /**
  * Implements hook_field_info().
+ *
+ * Defines a field type to display relations on ting_entites.
  */
 function ting_relation_field_info() {
   return array(
@@ -35,6 +37,8 @@ function ting_relation_field_load($entity_type, $entities, $field, $instances, $
 
 /**
  * Implements hook_widget_info_alter().
+ *
+ * @todo: what dose this do ?
  */
 function ting_relation_widget_info_alter(&$info) {
   if (isset($info['hidden'])) {
