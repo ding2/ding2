@@ -256,8 +256,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             else {
               $url = entity_uri('ting_collection', $entities[0]);
             }
-            $url['options']['html'] = TRUE;
-            $typelink = l(check_plain($type) . $available_online_label, $url['path'], $url['options']);
+
+            // The online url can't be used with l(), has it will encode it.
+            $typelink = '<a href="' . $url['path'] . '">' . check_plain($type) . $available_online_label . '</a>';
           }
 
           // Create a list element for each type.
