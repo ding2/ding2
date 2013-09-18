@@ -260,8 +260,33 @@ class TingEntity extends DingEntity {
   }
 
   function getOnline_url() {
+    // Try to find the online url from relation data, which requires us to get
+    // relations. First check if relations are set; if not do another request
+    // to get relations
+    if (!isset($this->reply->relationsData)) {
+      $tingClientObject = ting_get_object_request($this->ding_entity_id);
+      if (isset($tingClientObject->relationsData)) {
+        $this->reply->relationsData = $tingClientObject->relationsData;
+      }
+    }
+    if (isset($this->reply->relationsData)) {
+      foreach ($this->reply->relationsData as $data) {
+        if ($data->relationType == 'dbcaddi:hasOnlineAccess') {
+          $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
+          // Check for correct url - some uri is only an id.
+          if (stripos($url, 'http') === 0) {
+            // Give ting_proxy a change to rewrite the url.
+            drupal_alter('ting_online_url', $url, $this);
+            return $url;
+          }
+        }
+      }
+    }
+
+    // No hasOnlineAccess found so fallback to dc:identifer.
     if (isset($this->reply->record['dc:identifier']['dcterms:URI'])) {
       $url = $this->reply->record['dc:identifier']['dcterms:URI'][0];
+      // Give ting_proxy a change to rewrite the url.
       drupal_alter('ting_online_url', $url, $this);
       return $url;
     }
