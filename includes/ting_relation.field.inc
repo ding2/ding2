@@ -98,7 +98,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
       // headline on the page.
       $groups[$relation->type]['#relations'][] = array(
         '#theme' => 'ting_relation',
-        '#title' => $relation->object->title,
+        '#title' => ting_relation_get_title($relation),
         '#abstract' => ting_relation_get_abstract($relation),
         '#online' => ting_relation_get_online_url($relation),
         '#relation' => $relation,
@@ -119,10 +119,41 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   return $element;
 }
 
+/**
+ * Finds the best title for a relation based on the relation type.
+ *
+ * @param TingRelationEntity $relation
+ *   The relation entity to get title from.
+ *
+ * @return string
+ *   The title found in the object.
+ */
+function ting_relation_get_title($relation) {
+  // Set default fallback title.
+  $title = isset($relation->object->title) ? $relation->object->title : FALSE;
+
+  // Find better title based on relation type.
+  switch ($relation->type) {
+    case 'dbcaddi:hasReview':
+      // If the relation has "isPartOf" it's always a better title than the one
+      // in  object title as it is always "Anmeldelse".
+      $is_part_of = $relation->object->getIsPartOf();
+      if (!empty($is_part_of)) {
+        $title = reset($is_part_of);
+      }
+      break;
+  }
+
+  return $title;
+}
+
 function ting_relation_get_abstract($relation) {
   $abstract = FALSE;
   switch ($relation->type) {
     case 'dbcaddi:hasReview':
+    case 'dbcaddi:hasSubjectDescription':
+    case 'dbcaddi:hasCreatorDescription':
+    case 'dbcaddi:hasDescriptionFromPublisher':
       $abstract = $relation->object->getDescription();
       if (empty($abstract)) {
         $abstract = $relation->object->getAbstract();
@@ -130,15 +161,19 @@ function ting_relation_get_abstract($relation) {
       $abstract = empty($abstract) ? FALSE : $abstract;
       break;
 
-    case 'dbcaddi:hasSubjectDescription':
-//      $variables['content'][$ns] = ting_relation_subjects($relations);
-      break;
-
-    case 'dbcaddi:hasCreatorDescription':
-//      $variables['content'][$ns] = ting_relation_creator_description($relations);
+    case 'dbcaddi:hasCreatorHomePage':
+      // This type of relation is basically a link without an object in the
+      // data well.
+      $abstract = t('You can find more information about the material on the creators homapge.');
       break;
 
     case 'isPartOfManifestation':
+//      $content = array();
+//      $content['type'] = $relation['#title'];
+//      $related_object = $relation['#relation'];
+//      $rendered_item = ting_object_view($related_object->object, 'user_list');
+//      $content['text'] = render($rendered_item);
+//      $ret[] = $content;
 //      $variables['content'][$ns] = ting_relation_is_part_of_manifestation($relations);
       break;
 
@@ -154,6 +189,8 @@ function ting_relation_get_online_url($relation) {
   $title = '';
   switch ($relation->type) {
     case 'dbcaddi:hasReview':
+    case 'dbcaddi:hasSubjectDescription':
+    case 'dbcaddi:hasCreatorDescription':
       $title = $relation->object->getAc_source();
       $url = $relation->object->getOnline_url();
       if (empty($url)) {
@@ -166,15 +203,18 @@ function ting_relation_get_online_url($relation) {
       if (!empty($is_part_of)) {
         $title = reset($is_part_of);
       }
-
       break;
 
-    case 'dbcaddi:hasSubjectDescription':
-//      $variables['content'][$ns] = ting_relation_subjects($relations);
+    case 'dbcaddi:hasDescriptionFromPublisher':
+      // This type have a docbook "read more" link, which is handled by
+      // ting_fulltext.
       break;
 
-    case 'dbcaddi:hasCreatorDescription':
-//      $variables['content'][$ns] = ting_relation_creator_description($relations);
+    case 'dbcaddi:hasCreatorHomePage':
+      // This type of relation is basically a link without an object in the
+      // data well.
+      $url = $relation->uri;
+      $title = $relation->uri;
       break;
 
     case 'isPartOfManifestation':
