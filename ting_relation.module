@@ -49,18 +49,14 @@ function ting_relation_theme() {
  */
 function ting_relation_ding_anchor_info() {
   $relations = ting_relation_inline();
-  // We need to know what kind of hasOnlineAccess is provided with this object
-  // and return relevant anchor information.
-  $object = menu_get_object('ting_object', 2);
-  if ($object->getAc_source() != 'Ebrary') {
-    unset($relations['dbcaddi:hasOnlineAccess']);
-  }
-
   return $relations;
 }
 
 /**
  * Inline relation types and their titles.
+ *
+ * @return array
+ *   Indexed by the relation types with a translatable string as data.
  */
 function ting_relation_inline() {
   static $types;

@@ -122,11 +122,11 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
 /**
  * Finds the best title for a relation based on the relation type.
  *
- * @param TingRelationEntity $relation
+ * @param TingRelation $relation
  *   The relation entity to get title from.
  *
- * @return string
- *   The title found in the object.
+ * @return string|bool
+ *   The title found in the object or FALSE if non found.
  */
 function ting_relation_get_title($relation) {
   // Set default fallback title.
@@ -147,6 +147,15 @@ function ting_relation_get_title($relation) {
   return $title;
 }
 
+/**
+ * Get the abstract from a TingRelation entity based on its type.
+ *
+ * @param TingRelation $relation
+ *   The relation entity to get abstract from.
+ *
+ * @return string|bool
+ *   The abstract found or FALSE if non found.
+ */
 function ting_relation_get_abstract($relation) {
   $abstract = FALSE;
   switch ($relation->type) {
@@ -176,14 +185,20 @@ function ting_relation_get_abstract($relation) {
 //      $ret[] = $content;
 //      $variables['content'][$ns] = ting_relation_is_part_of_manifestation($relations);
       break;
-
-    default:
-      break;
   }
 
   return $abstract;
 }
 
+/**
+ * Get the online url from a TingRelation entity based on its type.
+ *
+ * @param TingRelation $relation
+ *   The relation entity to get abstract from.
+ *
+ * @return array|bool
+ *   The online url found or FALSE if non found.
+ */
 function ting_relation_get_online_url($relation) {
   $url = FALSE;
   $title = '';
@@ -206,7 +221,7 @@ function ting_relation_get_online_url($relation) {
       break;
 
     case 'dbcaddi:hasDescriptionFromPublisher':
-      // This type have a docbook "read more" link, which is handled by
+      // This type have a doc-book "read more" link, which is handled by
       // ting_fulltext.
       break;
 
@@ -220,11 +235,9 @@ function ting_relation_get_online_url($relation) {
     case 'isPartOfManifestation':
 //      $variables['content'][$ns] = ting_relation_is_part_of_manifestation($relations);
       break;
-
-    default:
-      break;
   }
 
+  // If url was found return an array with the url and title.
   if ($url) {
     return array(
       'url' => $url,
@@ -232,5 +245,6 @@ function ting_relation_get_online_url($relation) {
     );
   }
 
-  return FALSE;
+  // No url found so return FALSE;
+  return $url;
 }

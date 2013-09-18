@@ -4,6 +4,8 @@
  * Default template file for ting_relations theme function.
  *
  * Available variables:
+ *   - $attributes: Mainly string with the rendered class variables.
+ *   - $attributes_array: Array with the attributes.
  *   - $title: The relation group title.
  *   - $source: The name of the type of relations in this group.
  *   - $relations: The relations inside this groups of relations, which should
