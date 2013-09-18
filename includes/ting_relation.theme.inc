@@ -5,99 +5,57 @@
  */
 
 /**
+ * Implements hook_preprocess_ting_relation_groups().
+ *
+ * Default implementation of the preprocess function, which simple copies some
+ * values from element into variables.
+ */
+function template_preprocess_ting_relation_groups(&$variables) {
+  $element = $variables['elements'];
+
+  // Find information about the field.
+  $variables['label_hidden'] = $element['#label_display'] == 'hidden' ? TRUE : FALSE;
+  $variables['title'] = $element['#title'];
+  $variables['view_mode'] = $element['#view_mode'];
+
+  // Get relations for easier access in the tpl.
+  $variables['groups'] = $element['#groups'];
+}
+
+/**
+ * Implements hook_preprocess_ting_relations().
+ *
+ * Ensures that attributes are formatted correctly.
+ */
+function template_preprocess_ting_relations(&$variables) {
+  $variables['attributes_array'] += $variables['attributes'];
+  $variables['attributes'] = drupal_attributes($variables['attributes']);
+}
+
+/**
  * Implements template_preprocess_ting_relation().
  *
  * @see ting_relation.tpl.php
  */
 function template_preprocess_ting_relation(&$variables) {
-  $all_relations = $variables['elements']['#relations'];
-  foreach ($all_relations as $ns => $relations) {
-    switch ($ns) {
-      case 'dbcaddi:hasReview':
-        $variables['content'][$ns] = ting_relation_reviews($relations);
-        break;
-
-      case 'dbcaddi:hasSubjectDescription':
-        $variables['content'][$ns] = ting_relation_subjects($relations);
-        break;
-
-      case 'dbcaddi:hasCreatorDescription':
-        $variables['content'][$ns] = ting_relation_creator_description($relations);
-        break;
-
-      case 'dbcaddi:hasOnlineAccess':
-        $cont = ting_relation_online($relations);
-        if (!empty($cont)) {
-          $variables['content'][$ns] = $cont;
-        }
-        break;
-
-      case 'isPartOfManifestation':
-        $variables['content'][$ns] = ting_relation_ispartofmanifestation($relations);
-        break;
-    }
-  }
-}
-
-/**
- * Helper function to handle the different hasOnlineAccess types.
- *
- * Two variants implemented is Ebrary and Filmstriben.
- */
-function ting_relation_online($relations) {
-  $ret = array();
-
-  foreach ($relations as $relation) {
-    if ($relation['#ac_source'] == 'Ebrary') {
-      $ret[] = ting_relation_online_ebrary($relation);
-    }
-    elseif ($relation['#ac_source'] == 'Filmstriben (fjernlån)') {
-      $ret[] = ting_relation_online_filmstriben($relation);
-    }
-  }
-
-  return $ret;
-}
-
-/**
- * Handle Ebrary hasOnlineAccess url and create link.
- */
-function ting_relation_online_ebrary($relation) {
-
-  $ebrary_url = variable_get('ting_ebrary_url');
-  if (!isset($ebrary_url)) {
-    return;
-  }
-
-  $rel = $relation['#relation'];
-  $url = str_replace('[URL]', $ebrary_url, $rel->uri);
-
-  $content = array(
-    'type' => $relation['#title'],
-    'online_url' => array(
-      '#markup' => l($relation['#ac_source'], $url, array('attributes' => array('target' => '_blank'))),
-    ),
-  );
-
-  return $content;
-}
-
-/**
- * a variant(filmstriben) of 'hasOnlineAccess'
- */
-function ting_relation_online_filmstriben($relation) {
-  $rel = $relation['#relation'];
-  $url = $rel->uri;
-
-  // Simply set a button.
-  $content = array(
-    'type' => $relation['#title'],
-    'online_url' => array(
-      '#markup' => l($relation['#ac_source'], $url, array('attributes' => array('target' => '_blank'))),
-    ),
-  );
-
-  return $content;
+//  $relation = $variables['relation'];
+//  switch ($relation->type) {
+//    case 'dbcaddi:hasReview':
+//      $variables['content'][$ns] = ting_relation_reviews($relations);
+//      break;
+//
+//    case 'dbcaddi:hasSubjectDescription':
+//      $variables['content'][$ns] = ting_relation_subjects($relations);
+//      break;
+//
+//    case 'dbcaddi:hasCreatorDescription':
+//      $variables['content'][$ns] = ting_relation_creator_description($relations);
+//      break;
+//
+//    case 'isPartOfManifestation':
+//      $variables['content'][$ns] = ting_relation_is_part_of_manifestation($relations);
+//      break;
+//  }
 }
 
 function ting_relation_creator_description($relations) {
@@ -130,7 +88,7 @@ function ting_relation_creator_description($relations) {
   return $ret;
 }
 
-function ting_relation_ispartofmanifestation($relations) {
+function ting_relation_is_part_of_manifestation($relations) {
   $ret = array();
   foreach ($relations as $relation_id => $relation) {
     $content = array();

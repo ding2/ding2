@@ -13,9 +13,30 @@ require_once 'includes/ting_relation.field.inc';
  */
 function ting_relation_theme() {
   return array(
-    'ting_relation' => array(
-      'template' => 'templates/ting_relation',
+    'ting_relation_groups' => array(
+      'template' => 'templates/ting-relation-groups',
       'render element' => 'elements',
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+    'ting_relations' => array(
+      'template' => 'templates/ting-relations',
+      'variables' => array(
+        'title' => NULL,
+        'source' => NULL,
+        'relations' => NULL,
+        'attributes' => array(),
+      ),
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+    'ting_relation' => array(
+      'template' => 'templates/ting-relation',
+      'variables' => array(
+        'title' => NULL,
+        'abstract' => NULL,
+        'online' => NULL,
+        'fulltext_link' => FALSE,
+        'relation' => NULL,
+      ),
       'file' => 'includes/ting_relation.theme.inc',
     ),
   );
@@ -48,8 +69,9 @@ function ting_relation_inline() {
       'dbcaddi:hasCreatorDescription' => t('Author portrait'),
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
+      'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
+      'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
       'isPartOfManifestation' => t('Is part of manifestation'),
-      'dbcaddi:hasOnlineAccess' => t('Online access'),
     );
   }
   return $types;
