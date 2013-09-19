@@ -33,6 +33,7 @@ function ting_get_object_request($object_id) {
  * fetched collection won't trigger another backend request.
  *
  * @param $object_id The id to fetch.
+ *   Object id.
  * @param $collection Whether to return a collection, if possible, or
  *   an object.
  *
@@ -59,10 +60,10 @@ function ting_get_object($object_id, $collection = FALSE) {
 
       $profile = variable_get('ting_search_profile', '');
       if (!empty($profile) && method_exists($request, 'setProfile')) {
-	$request->setProfile($profile);
+        $request->setProfile($profile);
       }
 
-      $request->setAllObjects(false);
+      $request->setAllObjects(FALSE);
       $object = ting_execute_cache($request);
     }
   }
@@ -88,7 +89,7 @@ function ting_get_object($object_id, $collection = FALSE) {
  */
 function ting_get_objects($ids) {
   $objects = array();
-  // Prefill from cache.
+  // Pre-fill from cache.
   foreach ($ids as $id) {
     $objects[$id] = ting_cache_get($id);
     if (isset($objects[$id]) && isset($objects[$id]->objects)) {
@@ -115,7 +116,7 @@ function ting_get_objects($ids) {
   do {
     // If the query is empty, then don't do it.
     // Not necessary to do in each iteration, but it doesn't hurt much.
-    if (sizeof($query) == 0) {
+    if (count($query) == 0) {
       break;
     }
 
@@ -127,7 +128,7 @@ function ting_get_objects($ids) {
     if (!empty($profile) && method_exists($request, 'setProfile')) {
       $request->setProfile($profile);
     }
-    $request->setQuery(join(' OR ', $query));
+    $request->setQuery(implode(' OR ', $query));
     // Do it in steps of 50.
     $request->setStart($i * 50 + 1);
     $request->setNumResults(50);
@@ -137,7 +138,7 @@ function ting_get_objects($ids) {
 
     if ($result && is_array($result->collections)) {
       foreach ($result->collections as $collection) {
-        if (is_array($collection->objects) && sizeof($collection->objects)) {
+        if (is_array($collection->objects) && count($collection->objects)) {
           foreach ($collection->objects as $object) {
             $objects[$object->id] = $object;
           }
@@ -146,7 +147,7 @@ function ting_get_objects($ids) {
     }
     else {
       // Result was false, hence the more property used in the while do not
-      // exists
+      // exists.
       break;
     }
     $i++;
@@ -156,26 +157,34 @@ function ting_get_objects($ids) {
 }
 
 /**
- * Performs a search agains the well
+ * Performs a search against the well.
  *
  * @param string $query
- *    The search query
+ *   The search query
  * @param int $page
- *    The page number to retrieve search results for
+ *   The page number to retrieve search results for
  * @param int $results_per_page
- *    The number of results to include per page
+ *   The number of results to include per page
  * @param array $options
- *    Options to pass to the search. Possible options are:
- *    - facets: Array of facet names for which to return results. Default: facet.subject, facet.creator, facet.type, facet.date, facet.language
+ *   Options to pass to the search. Possible options are:
+ *    - facets: Array of facet names for which to return results. Default:
+ *      facet.subject, facet.creator, facet.type, facet.date, facet.language
  *    - numFacets: The number of terms to include with each facet. Default: 10
- *    - enrich: Whether to include additional information and cover images with each object. Default: false
- *    - sort: The key to sort the results by. Default: "" (corresponds to relevance). The possible values are defined by the sortType type in the XSD.
+ *    - enrich: Whether to include additional information and cover images with
+ *      each object. Default: false
+ *    - sort: The key to sort the results by. Default: "" (corresponds to
+ *      relevance). The possible values are defined by the sortType type
+ *      in the XSD.
  *    - rank: The ranking type, as defined in the XSD.
- *    - supportingTypes: Whether to include supporting types such as reviews. Default: false
+ *    - supportingTypes: Whether to include supporting types such as reviews.
+ *      Default: false
  *    - reply_only: Don't change the result objects to TingCollection objects.
- *    - collectionType: The type of results to return. Single manifestions(object) or works (collections). Possible values manifestion,work or work-1. Defaults to work.
+ *    - collectionType: The type of results to return. Single
+ *      manifestions(object) or works (collections). Possible values
+ *      manifestion ,work or work-1. Defaults to work.
+ *
  * @return TingClientSearchResult
- *    The search result
+ *   The search result.
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();

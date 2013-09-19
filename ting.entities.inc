@@ -148,9 +148,10 @@ class TingEntity extends DingEntity {
     $serie = !empty($this->reply->record['dc:description']['dkdcplus:series'][0]) ? $this->reply->record['dc:description']['dkdcplus:series'][0] : '';
     return $this->process_series_description($serie);
   }
-  
+
   /**
-   * Process series information
+   * Process series information.
+   *
    * This could be handled more elegantly if we had better structured data.
    * For now we have to work with what we got to convert titles to links
    * Series information appear in the following formats:
@@ -182,6 +183,9 @@ class TingEntity extends DingEntity {
         // Reassemple titles
         $titles = implode(', ', $titles);
         $result = $prefix . ' ' . $titles;
+      }
+      else {
+        return $series;
       }
     }
 
