@@ -73,7 +73,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
       // current library.
-      $owner_id = is_object($relation->object) ? $relation->object->getOwnerId : NULL;
+      $owner_id = is_object($relation->object) ? $relation->object->getOwnerId() : NULL;
       if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', -1) != $owner_id) {
         continue;
       }
@@ -163,6 +163,7 @@ function ting_relation_get_abstract($relation) {
     case 'dbcaddi:hasSubjectDescription':
     case 'dbcaddi:hasCreatorDescription':
     case 'dbcaddi:hasDescriptionFromPublisher':
+
       $abstract = $relation->object->getDescription();
       if (empty($abstract)) {
         $abstract = $relation->object->getAbstract();
@@ -177,13 +178,7 @@ function ting_relation_get_abstract($relation) {
       break;
 
     case 'isPartOfManifestation':
-//      $content = array();
-//      $content['type'] = $relation['#title'];
-//      $related_object = $relation['#relation'];
-//      $rendered_item = ting_object_view($related_object->object, 'user_list');
-//      $content['text'] = render($rendered_item);
-//      $ret[] = $content;
-//      $variables['content'][$ns] = ting_relation_is_part_of_manifestation($relations);
+      $abstract = $relation->object->getSerieDescription();
       break;
   }
 
@@ -233,7 +228,9 @@ function ting_relation_get_online_url($relation) {
       break;
 
     case 'isPartOfManifestation':
-//      $variables['content'][$ns] = ting_relation_is_part_of_manifestation($relations);
+      $url = entity_uri('ting_object', $relation->getObject());
+      $url = '/' . $url['path'];
+      $title = $relation->object->getTitle();
       break;
   }
 
