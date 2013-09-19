@@ -53,7 +53,7 @@ function ting_fulltext_object_load($object_id) {
     $request->setFormat('docbook');
     $request->setObjectFormat('docbook');
     $request->setOutputType('xml');
-    $xml = ting_execute($request);
+    $xml = ting_execute_cache($request);
     ting_cache_set($object_id . ':FULLTEXT', $xml);
   }
 
