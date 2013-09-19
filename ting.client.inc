@@ -478,6 +478,14 @@ function ting_execute($request) {
     $res = ting_get_client()->execute($request);
     timer_stop('ting');
 
+    // When the request is for fulltext (doc-book) the result is XML but the
+    // next part expect JSON only formatted input. So this hack simply return
+    // the XML for now as later on we have to work with open format and XML
+    // parsing. So for now simply return the result to fulltext.
+    if ($request instanceof TingClientObjectRequest && $request->getOutputType() == 'xml' && $request->getFormat() == 'docbook') {
+      return $res;
+    }
+
     $response = $request->parseResponse($res);
 
     // Pass parsed results to other modules.
