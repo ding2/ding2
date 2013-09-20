@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Theming functions for ting.
@@ -18,8 +17,8 @@ function template_preprocess_ting_object(&$variables) {
     $variables['content'][$key] = $variables['elements'][$key];
   }
 
-  if ( isset($variables['content']['entities']) ) {
-    foreach ( $variables['content']['entities'] as $key => $val ) {
+  if (isset($variables['content']['entities'])) {
+    foreach ($variables['content']['entities'] as $key => $val) {
       $variables['content']['overview']['types'][] = $key;
     }
   }
