@@ -13,13 +13,12 @@
 function ting_fulltext_menu() {
   $items = array();
 
-  $items['ting/object/%ting_fulltext_object/fulltext'] =
-    array(
-      'page callback' => 'ting_fulltext_page_view',
-      'page arguments' => array(2),
-      'access arguments' => array('access content'),
-      'file' => 'includes/ting_fulltext.pages.inc',
-      'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
+  $items['ting/object/%ting_fulltext_object/fulltext'] = array(
+    'page callback' => 'ting_fulltext_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'file' => 'includes/ting_fulltext.pages.inc',
+    'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
   return $items;
@@ -54,7 +53,7 @@ function ting_fulltext_object_load($object_id) {
     $request->setFormat('docbook');
     $request->setObjectFormat('docbook');
     $request->setOutputType('xml');
-    $xml = ting_execute($request);
+    $xml = ting_execute_cache($request);
     ting_cache_set($object_id . ':FULLTEXT', $xml);
   }
 
@@ -62,22 +61,14 @@ function ting_fulltext_object_load($object_id) {
 }
 
 /**
- * Preprocess variables for ting_relation.tpl.php.
+ * Implements hook_preprocess_ting_relation().
  */
 function ting_fulltext_preprocess_ting_relation(&$variables) {
-  $relation = $variables['object'] = $variables['elements']['#object'];
+  $relation = $variables['relation'];
 
-  if (isset($relation->reply) && isset($relation->reply->formatsAvailable)) {
-    if (in_array('docbook', $relation->reply->formatsAvailable)) {
-      $variables['content']['docbook_link'][] = array(
-        'type' => 'docbook_link',
-        'title' => t('Docbook'),
-        'docbook_link' => array(
-          '#prefix' => '<div class="field-type-ting-relation"><div class="field-items">',
-          '#markup' => l(t('Full-text version'), 'ting/object/' . $relation->ding_entity_id . '/fulltext'),
-          '#suffix' => '</div></div>',
-        ),
-      );
+  if (!$variables['online'] && (isset($relation->object->reply) && isset($relation->object->reply->formatsAvailable))) {
+    if (in_array('docbook', $relation->object->reply->formatsAvailable)) {
+      $variables['fulltext_link'] = l(t('Full-text version'), 'ting/object/' . $relation->uri . '/fulltext');
     }
   }
 }
