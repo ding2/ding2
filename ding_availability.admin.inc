@@ -1,24 +1,24 @@
 <?php
 /**
  * @file
- * The administration interface to select the datawell types that should have
+ * The administration interface to select the data well types that should have
  * holdings information. 
  */
 
 /**
- * Administration for to select which datawell types that should have holdings
+ * Administration for to select which data well types that should have holdings
  * information displayed.
  */
 function ding_availability_admin_holdings_settings($form_state) {
   $form = array();
 
-  // Add button to update the types from the datawell. Which requires us to load
-  // the administation file for the ting module to get the information.
+  // Add button to update the types from the data well. Which requires us to
+  // load the administration file for the ting module to get the information.
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form['update'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update from datawell'),
-    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.')
+    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.'),
   );
 
   $form['update']['update'] = array(
@@ -45,6 +45,6 @@ function ding_availability_admin_holdings_settings($form_state) {
   );
   // Save us the trouble of running array_filter.
   $form['array_filter'] = array('#type' => 'value', '#value' => TRUE);
-  
+
   return system_settings_form($form);
 }

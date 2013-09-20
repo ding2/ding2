@@ -57,7 +57,7 @@ function ding_availability_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array(
         'ding_availability_item',
-        'ding_availability_holdings'
+        'ding_availability_holdings',
       ),
     ),
     'ding_availability_type' => array(
@@ -122,7 +122,7 @@ function ding_availability_field_formatter_settings_summary($field, $instance, $
       $linking = t('true');
     }
 
-    // Check if linking to the object have been selected
+    // Check if linking to the object have been selected.
     $summary = t('Link to ting objects: @link', array(
       '@link' => $linking,
     ));
@@ -146,11 +146,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js',
       ),
       'css' => array(
-        drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css'
+        drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css',
       ),
     );
 
-    // Extract records' source
+    // Extract records' source.
     if ($field['type'] != 'ting_collection_types') {
       $ac_source = $entity->reply->record['ac:source'][''][0];
     }
@@ -160,7 +160,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // Generate an unique id.
         $id = drupal_html_id('holdings-' . $entity->id);
 
-        // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
+        // If item is of type 'library materials' (where we can lookup holding
+        // data), prepare to check holding on the item.
         $holding_types = variable_get('ding_availability_holdings_types', _ding_availability_holdings_default_types());
         if (in_array($ac_source, $lib_materials_types) && in_array(strtolower($entity->type), $holding_types)) {
           $attached['js'][] = array(
@@ -170,7 +171,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                 $id => array($entity->localId),
               ),
             ),
-            'type' => 'setting'
+            'type' => 'setting',
           );
 
           $element[$delta] = array(
@@ -192,10 +193,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // Generate an unique id.
         $id = drupal_html_id('availability-' . $entity->id);
 
-        // Mark as available if it is an online resource
+        // Mark as available if it is an online resource,
         $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available' : 'not-available-online';
 
-        // If item is of type 'library materials' (where we can lookup holding data), prepare to check holding on the item
+        // If item is of type 'library materials' (where we can lookup holding
+        // data), prepare to check holding on the item.
         if (in_array($ac_source, $lib_materials_types)) {
           $attached['js'][1] = array(
             'data' => array(
@@ -203,7 +205,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                 $id => array($entity->localId),
               ),
             ),
-            'type' => 'setting'
+            'type' => 'setting',
           );
         }
 
@@ -218,9 +220,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                 'availability',
                 drupal_html_class($entity->type),
                 $available_online,
-                'pending'
+                'pending',
               ),
-            )
+            ),
           ),
         );
         break;
@@ -237,10 +239,10 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
 
-          // Extract records' source
+          // Extract records' source.
           $ac_source = $entities[0]->reply->record['ac:source'][''][0];
 
-          // Mark as available if it is an online resource
+          // Mark as available if it is an online resource.
           $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available' : '';
           $available_online_label = ($available_online) ? '<span class="availability-status">' . t('online') . '</span>' : '';
 
@@ -254,9 +256,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             else {
               $url = entity_uri('ting_collection', $entities[0]);
             }
-            $url['options']['html'] = TRUE;
-            $typelink = l(check_plain($type) . $available_online_label, $url['path'], $url['options']);
 
+            // The online url can't be used with l(), has it will encode it.
+            $typelink = '<a href="' . $url['path'] . '">' . check_plain($type) . $available_online_label . '</a>';
           }
 
           // Create a list element for each type.
@@ -268,22 +270,24 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
           $ids = array();
           foreach ($entities as $object_entity) {
-             $ids[] = $object_entity->localId;
+            $ids[] = $object_entity->localId;
           }
 
-          // If item is of type 'library materials' (where we can lookup holding data), map the HTML id to the list of entity ids.
+          // If item is of type 'library materials' (where we can lookup holding
+          // data), map the HTML id to the list of entity ids.
           if (in_array($ac_source, $lib_materials_types) && !$available_online) {
             $id_mapping[$id] = $ids;
           }
         }
 
         // Prepare to check holding on the item.
-        // It's importants that this is attached even if empty, else javascript will fail beacuse it gets an empty object.
+        // It's important that this is attached even if empty, else javascript
+        // will fail because it gets an empty object.
         $attached['js'][1] = array(
           'data' => array(
             'ding_availability' => $id_mapping,
             'ding_availability_link' => $display['settings']['link'],
-          ), 'type' => 'setting'
+          ), 'type' => 'setting',
         );
 
         $element[$delta] = array(

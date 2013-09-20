@@ -4,6 +4,7 @@
  */
 
 (function($) {
+  "use strict";
 
   // Cache of fetched availability information.
   Drupal.DADB = {};
