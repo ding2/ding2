@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Allows users to add ting items to wish list.
@@ -36,22 +35,10 @@ function ding_bookmark_menu_alter(&$items) {
 }
 
 /**
- * Implements hook_theme().
- */
-function ding_bookmark_theme() {
-  return array(
-    'ding_bookmark_remove_form' => array(
-      'render element' => 'form',
-      'file' => 'ding_bookmark.pages.inc',
-    ),
-  );
-}
-
-/**
  * Implements hook_views_default_views_alter().
  *
  * Kill the views for the default bookmarks flag. They clash with our
- * paths. Disabling them doesn't seem to be enough.
+ * paths. Disabling them does not seem to be enough.
  */
 function ding_bookmark_views_default_views_alter(&$views) {
   if (!empty($views['flag_bookmarks'])) {
@@ -63,21 +50,23 @@ function ding_bookmark_views_default_views_alter(&$views) {
 }
 
 /**
- * Title callback; Alter title to add count items number.
+ * Alter title to add count items number.
  *
- * @param $title
- *  Untranslated title.
- * @param $account
- *  User account object, for counting bookmark items.
+ * @param string $title
+ *   Untranslated title.
+ * @param stdClass $account
+ *   User account object, for counting bookmark items.
+ *
+ * @return string
+ *   The bookmark item title.
+ *
+ * @todo: Find another way to do this, as it has the side effect of SQL joins
+ *        and loads all flag types from the database or remove the count.
+ *
+ * @see ding_bookmark_menu_alter()
  */
 function ding_bookmark_menu_item_title($title, $account = NULL) {
-  global $user;
-
-  if (is_null($account)) {
-    $account = $user;
-  }
-
-  return t($title) . ' (' . flag_load('bookmark')->get_user_count_number($account->uid) . ')';
+  return t($title) . ' (' . ding_bookmark_count_number($account) . ')';
 }
 
 /**
@@ -91,8 +80,11 @@ function ding_bookmark_view_access($account) {
 /**
  * Bookmark count callback.
  *
- * @param $account
- *  User account object, for counting bookmark items.
+ * @param stdClass $account
+ *   User account object, for counting bookmark items.
+ *
+ * @return string
+ *   The number of bookmarks.
  */
 function ding_bookmark_count_number($account = NULL) {
   global $user;
@@ -121,42 +113,46 @@ function ding_bookmark_flag_definitions() {
  */
 function ding_bookmark_flag_default_flags() {
   $flags = array();
+
   // Add flag "Bookmark".
   $flags['bookmark'] = array(
-      'content_type' => 'ding_entity',
-      'name' => 'bookmark',
-      'title' => 'Bookmarks',
-      'global' => '0',
-      'types' => array(),
-      'flag_short' => 'Add to bookmarks',
-      'flag_long' => '',
-      'flag_message' => 'Added to bookmarks',
-      'flagged_already_message' => 'This item is in bookmarks already.',
-      'unflag_short' => 'Remove from bookmarks',
-      'unflag_long' => '',
-      'unflag_message' => 'Removed from bookmarks',
-      'unflag_denied_text' => '',
-      'link_type' => 'toggle',
-      'roles' => array(
-        'flag' => array(
-          0 => '2',
-        ),
-        'unflag' => array(
-          0 => '2',
-        ),
+    'content_type' => 'ding_entity',
+    'name' => 'bookmark',
+    'title' => 'Bookmarks',
+    'global' => '0',
+    'types' => array(),
+    'flag_short' => 'Add to bookmarks',
+    'flag_long' => '',
+    'flag_message' => 'Added to bookmarks',
+    'flagged_already_message' => 'This item is in bookmarks already.',
+    'unflag_short' => 'Remove from bookmarks',
+    'unflag_long' => '',
+    'unflag_message' => 'Removed from bookmarks',
+    'unflag_denied_text' => '',
+    'link_type' => 'toggle',
+    'roles' => array(
+      'flag' => array(
+        0 => '2',
       ),
-      'api_version' => 2,
-      'locked' => array('name', 'types', 'global', 'link_type', 'roles'),
+      'unflag' => array(
+        0 => '2',
+      ),
+    ),
+    'api_version' => 2,
+    'locked' => array('name', 'types', 'global', 'link_type', 'roles'),
   );
+
   return $flags;
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_flag_form_alter().
  */
 function ding_bookmark_form_flag_form_alter(&$form, &$form_state, $form_id) {
-  // Remove unnecessary parameters.
-  unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
+  if ($form['flag_name']['#value'] == 'bookmark') {
+    // Remove unnecessary parameters.
+    unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
+  }
 }
 
 /**
@@ -165,18 +161,18 @@ function ding_bookmark_form_flag_form_alter(&$form, &$form_state, $form_id) {
 function ding_bookmark_ding_entity_buttons($type, $entity) {
   // Add 'bookmark' button.
   if ($type == 'ding_entity') {
-    $bookmark_flag_button = ding_bookmark_flag_view($type, $entity);
-    return array($bookmark_flag_button);
+    return array(ding_bookmark_flag_action_button($type, $entity));
   }
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_flag_confirm_alter().
  */
 function ding_bookmark_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
   if ($form['flag_name']['#value'] == 'bookmark') {
-    // Flag module does not allow flag/unflag to anonymous users.
-    // Custom submit handler will show login popup to user instead of "You are not allowed to flag...".
+    // Flag module does not allow flag/un-flag to anonymous users.
+    // Custom submit handler will show login popup to user instead of "You are
+    // not allowed to flag...".
     $form['#native_submit'] = $form['#submit'];
     $form['#submit'] = array('ding_bookmark_form_flag_confirm_submit');
 
@@ -201,8 +197,7 @@ function ding_bookmark_form_flag_confirm_submit($form, &$form_state) {
 
   // Popup login form.
   if (!$user->uid) {
-    throw new DingProviderAuthException;
-    return;
+    throw new DingProviderAuthException();
   }
 
   $bookmark_flag = flag_get_flag('bookmark');
@@ -246,7 +241,7 @@ function ding_bookmark_flag_confirm_form_callback($form, &$form_state) {
 /**
  * Build 'add to bookmark' button.
  */
-function ding_bookmark_flag_view($entity_type, $entity) {
+function ding_bookmark_flag_action_button($entity_type, $entity) {
   $bookmark_flag = flag_get_flag('bookmark');
 
   $ding_entity_info = ding_entity_info($entity_type);
@@ -264,25 +259,36 @@ function ding_bookmark_flag_view($entity_type, $entity) {
 }
 
 /**
- * Display a bookmark item.
+ * Load all bookmarks as entities based on user account object.
+ *
+ * @param stdClass $account
+ *   Drupal user account object.
+ *
+ * @return array
+ *   Array of entities bookmarked in the user account.
  */
-function ding_bookmark_item_view($entity_type, $entity_id) {
-  $type_info = ding_entity_info($entity_type);
-  $entities = entity_load($type_info['entity_type'], array($entity_id));
-  $entity = reset($entities);
-  // Library code can be changed at any time by the site administrator.
-  // Every time when bookmark item is loaded,
-  //  module should check, whether item is available in the current library.
-  // If item does not exists in the library it shoul be deleted from bookmark.
-  if (!$entity) {
-    // Remove item.
-    $flag = flag_get_flag('bookmark');
-    $flag->flag('unflag', $entity_id);
-    return FALSE;
+function ding_bookmark_load_bookmarks($account) {
+  $bookmark_flags = flag_load('bookmark')->get_user_content_ids($account->uid);
+  $entities = array();
+
+  foreach ($bookmark_flags as $entity_id => $entity_type) {
+    $type_info = ding_entity_info($entity_type);
+    $entity = entity_load($type_info['entity_type'], array($entity_id));
+    // Library code can be changed at any time by the site administrator.
+    // Every time when bookmark item is loaded,
+    // module should check, whether item is available in the current library.
+    // If item does not exists in the library it should be deleted from bookmark.
+    if (!$entity) {
+      // Remove item.
+      $flag = flag_get_flag('bookmark');
+      $flag->flag('unflag', $entity_id);
+      continue;
+    }
+
+    $entities[] = reset($entity);
   }
 
-  $build = ding_entity_view($entity, 'user_list');
-  return $build;
+  return $entities;
 }
 
 /**
