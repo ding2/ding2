@@ -10,6 +10,7 @@ dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = ding_debt
 dependencies[] = ding_loan
+dependencies[] = ding_provider
 dependencies[] = ding_reservation
 dependencies[] = features
 dependencies[] = i18n_field

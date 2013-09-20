@@ -4,6 +4,21 @@
  * Code for the Ding User Frontend feature.
  */
 
+include_once 'ding_user_frontend.features.inc';
+
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_user_frontend_menu_alter(&$items) {
+  // Disable sub-menu under user account edit for provider users.
+  $provider = _ding_provider_get_provider('user');
+  $items['user/%user/edit/provider_' . $provider['module']]['access'] = FALSE;
+
+  // Change weight of user edit link, so it always second menu item.
+  $items['user/%user/edit']['weight'] = -5;
+}
+
 /**
  * Implements hook_block_info().
  */
@@ -176,10 +191,10 @@ function ding_user_frontend_block_view($delta) {
 }
 
 /**
- * Findes all local tasks (tabs) under /user/% and builds a menu based on that.
+ * Finds all local tasks (tabs) under /user/% and builds a menu based on that.
  *
  * @return array
- *  Render array with the menu.
+ *   Render array with the menu.
  */
 function ding_user_frontend_build_menu() {
   // Default menu item render array.
@@ -197,6 +212,7 @@ function ding_user_frontend_build_menu() {
     '#title' => '',
     '#href' => '',
     '#active' => FALSE,
+    '#weight' => 0,
   );
 
   // Get current menu path.
@@ -245,6 +261,7 @@ function ding_user_frontend_build_menu() {
           $current += $menu_item_defaults;
           $current['#title'] = $item['title'];
           $current['#href'] = $item['href'];
+          $current['#weight'] = $item['weight'];
         }
 
         // Check if this is secondary.
@@ -276,6 +293,3 @@ function ding_user_frontend_build_menu() {
   }
   return $menu;
 }
-
-include_once('ding_user_frontend.features.inc');
-
