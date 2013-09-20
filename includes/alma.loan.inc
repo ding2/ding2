@@ -9,7 +9,6 @@
  *
  * This functions finds all loans for a given user account and returns the loans
  * as DingProviderLoan objects.
- *
  */
 function alma_loan_list($account, $reset = FALSE) {
   // Get creds is outside cache function as it may throw exception if the user
@@ -23,12 +22,12 @@ function alma_loan_list($account, $reset = FALSE) {
       $results = ding_session_cache_get('alma', 'loans');
     }
 
-    // If both static cache and session cache faild, try reloading information
+    // If both static cache and session cache failed, try reloading information
     // from alma.
     if (empty($results) || $reset) {
       try {
         // Get all loans form alma for the user account given.
-        $loans =  alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
+        $loans = alma_client_invoke('get_loans', $creds['name'], $creds['pass']);
       }
       catch (Exception $e) {
         throw new DingProviderLoanUserError($e->getMessage());
@@ -76,9 +75,6 @@ function alma_loan_renew($account, $ids) {
       }
     }
     else {
-      /**
-       * @todo there are message saying why, the renew failed.
-       */
       $result[$id] = DingProviderLoan::STATUS_NOT_RENEWED;
     }
   }
@@ -87,12 +83,15 @@ function alma_loan_renew($account, $ids) {
 }
 
 /**
- * Replace entity for the reservation in the case object in not in Ting anymore
- * or the reservation is an remote reservation.
+ * Replace entity for the reservation.
  *
- * @param $ting_entity
+ * Should be used in the case object in not in Ting anymore or the reservation
+ * is an remote reservation.
+ *
+ * @param object $ting_entity
  *   Provider reservation object.
- * @return
+ *
+ * @return object
  *   Ting entity object, filled with data from provider service.
  */
 function alma_loan_populate_pseudo_entity($ting_entity) {
