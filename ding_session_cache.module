@@ -125,7 +125,7 @@ function ding_session_cache_user_logout($account) {
 /**
  * Implements hook_flush_cache().
  */
-function ding_session_flush_caches() {
+function ding_session_cache_flush_caches() {
   return 'cache_ding_session_cache';
 }
 
