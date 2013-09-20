@@ -89,7 +89,7 @@ function ding_user_profile2_form_content_type_admin_title($subtype, $conf, $cont
 }
 
 /**
- * Default edit form for the administarion form.
+ * Default edit form for the administration form.
  */
 function ding_user_profile2_form_content_type_edit_form($form, &$form_state) {
   // Provide a blank form so we have a place to override title
