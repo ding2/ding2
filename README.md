@@ -42,7 +42,7 @@ Download installation profile. Go into your Drupal installation path and into th
 
 Clone the ding2 profile repository from github.
 
-    ~$ git clone git@github.com:ding2/ding2.git
+    ~$ git clone git@github.com:ding2tal/ding2.git
 
 Place the install profile inside your Drupal installation, and run this command inside the profiles/ding2 folder:
 
@@ -55,4 +55,28 @@ If you want a developer version with Git working copies, run this command instea
     ~$ drush make --concurrency=1 --no-core --working-copy --contrib-destination=. ding2.make
 
 Next go to your sites URL and run the ding2 installation profile.
+
+### Faster build process (~6 min)
+
+The ding2 makefiles utilizes recursive makefiles, which results in the projects
+and libraries being download more than once. You can work around this by cloning
+the http://github.com/ding2tal/drush-ding2-utils into your .drush folder.
+
+    ~$ cd ~/.drush
+    ~$ git clone https://github.com/ding2tal/drush-ding2-utils drush-ding2-utils
+
+Next go back to the profile folder.
+
+    ~$ cd DRUPAL/profiles/ding2
+
+Use the command below and you will only download resources once during the build
+process and only the first defined version.
+
+    ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
+
+This trick uses the drush cache and to build once more within 10 min you will
+need to clear the cache. This also applies if the build fails and you need to
+rebuild.
+
+    ~$ drush cc drush
 
