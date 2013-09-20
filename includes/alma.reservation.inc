@@ -163,6 +163,13 @@ function alma_reservation_list($account, $type = NULL) {
           $data['pickup_date'] = $reservation['pickup_expire_date'];
           $data['ready_for_pickup'] = TRUE;
 
+          // Ready for pick-up can also be a inter-library loan.
+          if ($reservation['id'] < 0) {
+            // Inter-library loan reservations have negative IDs (undocumented
+            // Axiell "feature").
+            $data['ill_status'] = TRUE;
+          }
+
           // Create reservation object.
           $result['ready_for_pickup'][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
         }
