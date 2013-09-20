@@ -472,8 +472,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       }
     }
 
-    // Add extra information if it's a periodical.
-    if (!empty($reservation->notes)) {
+    // Add extra information if it's a periodical. There is an exception because
+    // the notes field is also used to set library information for ill's but
+    // only when they are ready for pick-up.
+    if (!empty($reservation->notes) && !($reservation->ill_status && $type == 'ready_for_pickup')) {
       $item['#information']['periodical_number'] = array(
         'label' => t('Periodical no.'),
         'data' => check_plain($reservation->notes),
