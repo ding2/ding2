@@ -1,0 +1,22 @@
+/**
+ * Carousel
+ *
+ * @author zorp
+ */
+
+
+form[id^='ding-reservation-reserve-form'] {
+  display: none;
+
+  &.reservable {
+    display: block;
+    margin-left: 10px;
+  }
+  &.unavailable.reservable {
+    .reserve-button {
+      @include create-gradient-button($white, $yellow, darken($yellow, 15%));
+      padding-top: 11px;
+      padding-bottom: 11px;
+    }
+  }
+}

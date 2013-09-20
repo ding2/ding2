@@ -1,191 +1,168 @@
-/*
- * Creates the topbar toggle menu and fixed header.
- *
- * TODO: Refactor and cleanup, this thing got messy!
+/**
+ * Creates the top-bar toggle menu.
  */
-
 (function($) {
+  "use strict";
 
-  /*
-   * Toggle topbar menu items.
+  /**
+   * Toggle the search form from the top-bar menu.
+   *
+   * @param bool init
+   *   If true the form and link is set to initialized state.
    */
-  function toggle_topbar(toggleItem) {
+  function ddbasic_search(init) {
+    var link = $('.js-topbar-link.topbar-link-search');
+    var header = $('.header-wrapper');
+    var form = $('.js-topbar-search');
 
-    // Elements to toggle
-    var ddbasic_topbar_user = $('.js-topbar-user');
-    var ddbasic_topbar_search = $('.js-topbar-search');
-    var ddbasic_topbar_menu = $('.js-topbar-menu');
-    var ddbasic_header_wrapper = $('.header-wrapper');
+    // Handle default init value (false);
+    init = typeof init !== 'undefined' ? init : false;
 
-    switch (toggleItem) {
-      case 'search':
-        ddbasic_topbar_search.toggleClass('js-topbar-toggled');
-
-        ddbasic_topbar_menu.removeClass('js-topbar-toggled');
-        ddbasic_topbar_user.removeClass('js-topbar-toggled');
-
-        ddbasic_header_wrapper.show();
-        break;
-      case 'user':
-        ddbasic_topbar_user.toggleClass('js-topbar-toggled');
-
-        ddbasic_topbar_search.removeClass('js-topbar-toggled');
-        ddbasic_topbar_menu.removeClass('js-topbar-toggled');
-
-        ddbasic_header_wrapper.show();
-        break;
-      case 'menu':
-        ddbasic_topbar_menu.toggleClass('js-topbar-toggled');
-
-        ddbasic_topbar_search.removeClass('js-topbar-toggled');
-        ddbasic_topbar_user.removeClass('js-topbar-toggled');
-
-        ddbasic_header_wrapper.hide();
-        break;
+    if (init) {
+      // If on front-page display search.
+      if ($('body').hasClass('front')) {
+        link.addClass('active');
+        form.show();
+        header.show();
+      }
+      else {
+        link.removeClass('active');
+        form.hide();
+        header.hide();
+      }
     }
-
-    // Fix jumping header after toggle of menu links.
-    var header = $('.site-header');
-    if (header.hasClass('js-fixed')) {
-      $('.content-wrapper').css('paddingTop', header.outerHeight() - parseInt($('body').css('paddingTop'), 10));
+    else {
+      link.toggleClass('active');
+      form.toggle();
+      header.toggle();
     }
   }
 
+  /**
+   * Toggle the mobile menu from the top-bar menu.
+   *
+   * @param bool init
+   *   If true the form and link is set to initialized state.
+   */
+  function ddbasic_mobile_menu(init) {
+    var menu_link = $('.js-topbar-link.topbar-link-menu');
+    var menu = $('.js-topbar-menu');
 
-  // When ready start the magic.
+    // Handle default init value (false);
+    init = typeof init !== 'undefined' ? init : false;
+
+    if (init) {
+      menu_link.removeClass('active');
+    }
+    else {
+      menu_link.toggleClass('active');
+      menu.toggleClass('js-topbar-toggled');
+    }
+  }
+
+  /**
+   * Toggle the user login form from the top-bar menu.
+   *
+   * @param bool init
+   *   If true the form and link is set to initialized state.
+   */
+  function ddbasic_user_login(init) {
+    var link = $('.js-topbar-link.topbar-link-user');
+    var header = $('.header-wrapper');
+    var form = $('.js-topbar-user');
+
+    // Handle default init value (false);
+    init = typeof init !== 'undefined' ? init : false;
+
+    if (init) {
+        form.hide();
+        header.hide();
+    }
+    else {
+      link.toggleClass('active');
+      form.toggle();
+      header.toggle();
+    }
+  }
+
+  /**
+   * When ready start the magic and handle the menu.
+   *
+   * @todo: We might be able to group some of the stuff together in the logic
+   *        below, but for now we just need to have it working.
+   */
   $(document).ready(function () {
-    /*
-     * Toggle functionality for topbar menu
-     */
+    // Init the top bar.
+    ddbasic_mobile_menu(true);
+    ddbasic_user_login(true);
+    ddbasic_search(true);
 
-    // Link elements
-    var ddbasic_topbar_link = $(".js-topbar-link");
-
-    // Header wrapper
-    var ddbasic_header_wrapper = $('.header-wrapper');
-
-    // Attach some onclick/touch magic
-    ddbasic_topbar_link.on('click touchstart', function(event) {
-
-      var clicked = $(this);
-
-      // Toggle elements based on wich link is clicked.
-      // User link was clicked.
-      if (clicked.hasClass('topbar-link-user')) {
-        toggle_topbar('user');
-        // Add focus to login field.
-        $('.js-topbar-user #edit-name').focus();
+    // If the search link is click toggle mobile menu if shown and display search.
+    $('.js-topbar-link.topbar-link-search').on('click touchstart', function(e) {
+      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
+        // Mobile menu is open, so close it.
+        ddbasic_mobile_menu();
       }
-      // Search link was clicked
-      if (clicked.hasClass('topbar-link-search')) {
-        toggle_topbar('search');
-        // Add focus to search field.
-        $('.js-topbar-search #edit-search-block-form--2').focus();
-      }
-      // Menu link was clicked
-      if (clicked.hasClass('topbar-link-menu')) {
-        toggle_topbar('menu');
-        clicked.focus();
+      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
+        // User menu is open, so close it.
+        ddbasic_user_login();
       }
 
-      // Set clicked to active link if not already active.
-      // This makes it possible to toggle the same element on/off.
-      if (clicked.hasClass('active')) {
-        clicked.removeClass('active');
-        ddbasic_header_wrapper.hide();
-        clicked.focus();
-        // Reset background color to avoid link being in focus when user toggle same element.
-        // This only apply to touchscreen devices.
-        ddbasic_topbar_link.one('touchend', function() {
-          clicked.css('background-color', 'inherit');
-        });
-
-        // Add a class to body to determine if body should be fixed.
-        $('body').removeClass('js-fixed-body');
-      }
-      else {
-        // Make sure hardcoded style is removed
-        clicked.css('background-color', '');
-        // Remove active class from all links and add .active to clicked link.
-        ddbasic_topbar_link.removeClass('active');
-        clicked.addClass('active');
-
-        $('body').addClass('js-fixed-body');
-      }
-
-      // Prevent default (href).
-      event.preventDefault();
-
+      ddbasic_search();
+      e.preventDefault();
     });
 
-    // Remove active class from topbar menu by default.
-    ddbasic_topbar_link.removeClass('active');
-
-    // Toggle header off to begin with.
-    ddbasic_header_wrapper.hide();
-
-    // Show search on frontpage and search pages.
-    var path = window.location.pathname;
-    if (path.indexOf('/search', 0) === 0 || path === '/') {
-      $('a.topbar-link-search').click();
-    }
-
-    /*
-     * Add .fixed class to site header upon scroll
-     */
-
-    var header = $('.site-header');
-    var pos = header.offset();
-
-    // Fix Drupal administration menu in relation to the fixed header.
-    var body_paddding = parseInt($('body').css('paddingTop'), 10);
-    if (body_paddding) {
-      pos.top = pos.top - body_paddding;
-    }
-
-    // Hook into window scroll event (it will fire when attched if window is
-    // scrolled down).
-    $(window).scroll(function(){
-      var top = $(window).scrollTop();
-
-      // Figure out if we should fix position the header or not.
-      if (top > pos.top && !header.hasClass('js-fixed')) {
-        header.addClass('js-fixed');
-
-        // Fix jumping content.
-        $('.content-wrapper').css('paddingTop', header.outerHeight());
+    // If the mobile menu is click toggle search if displayed and display menu.
+    $('.js-topbar-link.topbar-link-menu').on('click touchstart', function(e) {
+      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
+        // Search is open, so close it.
+        ddbasic_search();
       }
-      else if (top == 0 && header.hasClass('js-fixed')) {
-        header.removeClass('js-fixed');
-
-        // Fix jumping content.
-        $('.content-wrapper').css('paddingTop', '0');
+      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
+        // Mobile menu is open, so close it.
+        ddbasic_user_login();
       }
+      ddbasic_mobile_menu();
+      e.preventDefault();
     });
 
-    /*
-     * Add news category menu as submenu to news in main menu
+    // User login.
+    $('.js-topbar-link.topbar-link-user').on('click touchstart', function(e) {
+      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
+        // Search is open, so close it.
+        ddbasic_search();
+      }
+      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
+        // Mobile menu is open, so close it.
+        ddbasic_mobile_menu();
+      }
+      ddbasic_user_login();
+      e.preventDefault();
+    });
+
+
+    /**
+     * Add news category menu as sub-menu to news in main menu
      */
     if ($(".pane-news-category-menu").length > 0) {
       $(".pane-news-category-menu .sub-menu").clone().appendTo('.menu-mlid-1793');
-      // Do some class magic to get the submenu reacting like drupal standard submenus.
+      // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
       $(".main-menu .sub-menu").addClass('main-menu');
       $(".main-menu .sub-menu").removeClass('sub-menu');
-      // Add sub-menu-wrapper class to texonomy menu
+      // Add sub-menu-wrapper class to taxonomy menu
       $(".pane-news-category-menu").addClass('sub-menu-wrapper');
     }
 
     /*
-     * Add event category menu as submenu to event in main menu
+     * Add event category menu as sub-menu to event in main menu
      */
     if ($(".pane-event-category-menu").length > 0) {
       $(".pane-event-category-menu .sub-menu").clone().appendTo('.menu-mlid-1816');
-      // Do some class magic to get the submenu reacting like drupal standard submenus.
+      // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
       $(".main-menu .sub-menu").addClass('main-menu');
       $(".main-menu .sub-menu").removeClass('sub-menu');
-      // Add sub-menu-wrapper class to texonomy menu
+      // Add sub-menu-wrapper class to taxonomy menu
       $(".pane-event-category-menu").addClass('sub-menu-wrapper');
     }
   });
-
 })(jQuery);
