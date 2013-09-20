@@ -266,7 +266,7 @@ function openruth_profile2_presave($entity) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
     // Preferred branch.
-    $original_value =  $wrapper_original->field_openruth_preferred_branch->value();
+    $original_value = $wrapper_original->field_openruth_preferred_branch->value();
     if (!is_null($original_value)) {
       $value = $wrapper->field_openruth_preferred_branch->value();
       if ($value != $original_value) {
@@ -283,7 +283,7 @@ function openruth_profile2_presave($entity) {
       $value = $entity->field_openruth_reservation_pause[$language][0];
       if ($value['value'] != $original_value['value'] || $value['value2'] != $original_value['value2']) {
 
-        // Remove trailing T00:00:00 OpenRuth doesn't understand that
+        // Remove trailing T00:00:00 OpenRuth doesn't understand that.
         $start = '';
         if (!is_null($value['value'])) {
           $start = date('Y-m-d', $value['value']);
@@ -385,7 +385,7 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
   }
 
   // Why is this indexed by id in the session... the session only belongs to the
-  //current user.
+  // current user.
   $id = hash('sha512', $creds['name'] . $creds['pass']);
 
   if (!isset($_SESSION['openruth_user_status'][$id]) || $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
@@ -482,11 +482,13 @@ function openruth_profile2_load($entities) {
       $wrapper->field_openruth_postal_code->set($patron->userPostCode);
       $wrapper->field_openruth_city->set($patron->userCity);
 
-      // Mobile; also here openruth supports multiple phones - again we pick the first.
+      // Mobile; also here openRuth supports multiple phones - again we pick the
+      // first.
       $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
 
       // Preferred_branch.
-      $wrapper->field_openruth_preferred_branch->set($patron->agencyCounter);
+      $preferred_branch = !empty($patron->agencyCounter) ? $patron->agencyCounter : FALSE;
+      $wrapper->field_openruth_preferred_branch->set($preferred_branch);
 
       // Mail address.
       $wrapper->field_openruth_mail->set($patron->userEmail);
