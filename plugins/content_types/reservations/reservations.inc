@@ -15,19 +15,19 @@ $plugin = array(
 );
 
 /**
- * Render the block
+ * Render the block.
  */
 function ding_reservation_reservations_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = isset($context->data) ? $context->data : NULL;
 
   // Defined the return block.
   $block = new stdClass();
+  $block->title = t('My reservations');
   $block->module = 'ding_reservation';
   $block->delta  = 'reservations';
 
-  // Get configuration for this pane.
+  // Get configuration for this pane and set empty text.
   $types = array_filter($conf['reservation_type_list']);
-  $block->title = t($conf['reservation_titel']);
   $block->content = t($conf['reservation_empty_text']);
   $form_id = $conf['reservation_form_id'];
 
@@ -40,11 +40,11 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     // Get the reservations lists.
     $reservations = ding_provider_invoke_page('reservation', 'list', $account);
 
-    // Filter items base on configuration and preload ting entites.
+    // Filter items base on configuration and pre-load ting entities.
     $preloaded_reservations = &drupal_static(__FUNCTION__, array());
     $items = array();
     foreach ($types as $type) {
-      // Try to preload ting entities, if not already loaded.
+      // Try to pre-load ting entities, if not already loaded.
       if (!isset($preloaded_reservations[$type])) {
         $preload_ids = array();
         foreach ($reservations[$type] as $item) {
@@ -53,7 +53,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
           }
         }
 
-        // Preload all ting entities.
+        // Pre-load all ting entities.
         if (!empty($preload_ids)) {
           ding_entity_load_multiple($preload_ids);
         }
@@ -64,9 +64,20 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 
       // Add the current type to the items we want.
       $items += $reservations[$type];
+
+      // Sort the reservations based on type.
+      switch ($type) {
+        case 'ready_for_pickup':
+          uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
+          break;
+
+        case 'not_ready_for_pickup':
+          uasort($items, 'ding_reservation_sort_queue_by_queue_number');
+          break;
+      }
     }
 
-    // Add the preload entity to each loan (side effect of getting the entity).
+    // Add the pre-load entity to each loan (side effect of getting the entity).
     foreach ($items as $id => &$item) {
       $item->entity;
     }
@@ -83,10 +94,10 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     if (count($types) > 1) {
       // If more than one type is selected we will fallback to the most generic
       // form type.
-      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'not_ready_for_pickup');
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'not_ready_for_pickup', $conf);
     }
     else {
-      $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types));
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types), $conf);
     }
   }
 
@@ -94,13 +105,13 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 }
 
 /**
- * Adding the admin form, to be able to control the required context
+ * Adding the admin form, to be able to control the required context.
  */
 function ding_reservation_reservations_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
   $form['reservation_type_list'] = array(
-    '#type'    => 'checkboxes',
-    '#title'   => t('Reservation list type(s)'),
+    '#type' => 'checkboxes',
+    '#title' => t('Reservation list type(s)'),
     '#options' => array(
       'not_ready_for_pickup' => t('Not ready for pickup'),
       'ready_for_pickup' => t('Ready for pickup'),
@@ -109,21 +120,21 @@ function ding_reservation_reservations_content_type_edit_form($form, &$form_stat
     '#default_value' => !empty($conf['reservation_type_list']) ? $conf['reservation_type_list'] : NULL,
   );
 
-  $form['reservation_titel'] = array(
-    '#type'    => 'textfield',
-    '#title'   => t('List titel'),
-    '#default_value' => !empty($conf['reservation_titel']) ? $conf['reservation_titel'] : 'Reservations',
+  $form['reservation_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('List title'),
+    '#default_value' => !empty($conf['reservation_title']) ? $conf['reservation_title'] : 'Reservations',
   );
 
   $form['reservation_empty_text'] = array(
-    '#type'    => 'textfield',
-    '#title'   => t('Empty text'),
+    '#type' => 'textfield',
+    '#title' => t('Empty text'),
     '#default_value' => !empty($conf['reservation_empty_text']) ? $conf['reservation_empty_text'] : 'There are no reservations.',
   );
 
   $form['reservation_form_id'] = array(
-    '#type'    => 'select',
-    '#title'   => t('Form to user for reservations'),
+    '#type' => 'select',
+    '#title' => t('Form to user for reservations'),
     '#options' => array(
       'ding_reservation_reservations_notready_form' => t('Reservation form'),
       'ding_reservation_reservations_ready_form' => t('Reservations ready form'),
@@ -135,7 +146,7 @@ function ding_reservation_reservations_content_type_edit_form($form, &$form_stat
 }
 
 /**
- * Submit handler for the admin form
+ * Submit handler for the admin form.
  */
 function ding_reservation_reservations_content_type_edit_form_submit(&$form, &$form_state) {
   foreach (element_children($form) as $key) {
@@ -151,4 +162,24 @@ function ding_reservation_reservations_content_type_edit_form_submit(&$form, &$f
 function ding_reservation_reservations_content_type_admin_title($subtype, $conf) {
   $types = implode(', ', array_filter($conf['reservation_type_list']));
   return 'Reservations (' . $types . ')';
+}
+
+/**
+ * Callback function to sort array by pickup date.
+ */
+function ding_reservation_sort_queue_by_pickup_date($a, $b) {
+  if ($a->pickup_date == $b->pickup_date) {
+    return 0;
+  }
+  return ($a->pickup_date < $b->pickup_date) ? -1 : 1;
+}
+
+/**
+ * Callback function for sorting loans by queue_number.
+ */
+function ding_reservation_sort_queue_by_queue_number($a, $b) {
+  if ($a->queue_number == $b->queue_number) {
+    return 0;
+  }
+  return ($a->queue_number < $b->queue_number) ? -1 : 1;
 }
