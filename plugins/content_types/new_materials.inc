@@ -84,6 +84,7 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
     $content = array(
       '#theme' => 'ting_new_materials',
       '#title' => $node->title,
+      '#availability_legend' => ding_availability_render_legend(),
       '#legend' => isset($legend) ? $legend : NULL,
     );
 

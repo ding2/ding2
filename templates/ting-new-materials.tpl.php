@@ -7,15 +7,22 @@
 ?>
 <?php if ($title) : ?>
   <div class="new-materials-header">
-    <h2><?php print $title; ?></h2>
+    <div class="new-materials-title">
+      <h1><?php print $title; ?></h1>
+    </div>
     <?php if ($legend) : ?>
-      <div class="ting-search-amount-block">
-        <?php print $legend; ?>
+      <div class="ting-search-amount">
+        <div class="ting-search-amount-block">
+          <?php print $legend; ?>
+        </div>
       </div>
     <?php endif; ?>
   </div>
 <?php endif; ?>
 <?php if ($results) : ?>
+  <div class="ding-availability-legend">
+    <?php print $availability_legend; ?>
+  </div>  
   <?php print drupal_render($results); ?>
 <?php else : ?>
   <div class="no-results-this-period">
