@@ -1,16 +1,11 @@
 
-.ting-relation {
+.ting-relations {
     background-color: #F6F6F2;
     margin-bottom: 2em;
     margin-top: 2em;
 }
 
-div.ting-relation-meta {
-    background-color:#DDDDDD;
-    padding:0 0 0.1em 0.5em;
-}
-
-.ting-relation .meta {
+.ting-relations .meta {
     border-bottom:1px solid #CCCCCC;
     margin-bottom:0.5em;
     margin-top:0.5em;
