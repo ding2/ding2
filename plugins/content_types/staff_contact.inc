@@ -23,6 +23,7 @@ function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $c
 
     // Try to load the profile and extract field values.
     $profile = profile2_load_by_user($context->data, 'ding_staff_profile');
+  
     if ($profile) {
 
       $block->title = t('Contact');
@@ -31,13 +32,13 @@ function ding_staff_contact_content_type_render($subtype, $conf, $panel_args, $c
       // Get phone as render array.
       $phone = field_view_field('profile2', $profile, 'field_ding_staff_phone');
       if (!empty($phone)) {
-        $block->content = $phone;
+        $block->content[] = $phone;
       }
 
       // Get mail as render array.
       $mail = field_view_field('profile2', $profile, 'field_ding_staff_email');
       if (!empty($mail)) {
-        $block->content = $mail;
+        $block->content[] = $mail;
       }
     }
   }

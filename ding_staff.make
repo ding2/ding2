@@ -41,6 +41,9 @@ projects[views][version] = "3.7"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
+projects[role_delegation][subdir] = "contrib"
+projects[role_delegation][version] = "1.1"
+
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.3"
 
