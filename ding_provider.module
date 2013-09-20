@@ -422,12 +422,20 @@ function ding_provider_ajax_form_callback() {
         return array(
           '#type' => 'ajax',
           '#commands' => array(
-            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id))
+            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id)),
           ),
         );
       }
     }
+    else {
+      // Send the exception into watchdog to help debug.
+      watchdog_exception('ding_provider', $e);
+    }
   }
+
+  // Log message to watchdog to help debug the problem.
+  watchdog('ding_provider', 'Internal error exception unhandled in ajax request.', array(), WATCHDOG_ERROR);
+
 
   // Else show internal error.
   return array(
