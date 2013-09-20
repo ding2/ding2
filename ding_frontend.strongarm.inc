@@ -117,13 +117,13 @@ background-attachment: fixed;',
     'name' => 'Danish',
     'native' => 'Dansk',
     'direction' => '0',
-    'enabled' => 1,
+    'enabled' => '1',
     'plurals' => '2',
     'formula' => '($n!=1)',
     'domain' => '',
     'prefix' => 'da',
     'weight' => '-10',
-    'javascript' => 'DlydI_ZhnaXAaN_ckP-aJJdBAYmYfMFtF-mj1vCalxw',
+    'javascript' => 'XmLYARGC5bprW7SUzfi5QL7EjiLGQfsRR1oohtbe_0w',
   );
   $export['language_default'] = $strongarm;
 

@@ -64,9 +64,28 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
   );
+  // Exported menu link: menu-tabs-menu:user/logout
+  $menu_links['menu-tabs-menu:user/logout'] = array(
+    'menu_name' => 'menu-tabs-menu',
+    'link_path' => 'user/logout',
+    'router_path' => 'user/logout',
+    'link_title' => 'Logout',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => 50,
+  );
   // Translatables
   // Included for use with string extractors like potx.
   t('Log in / Create user');
+  t('Logout');
   t('Menu');
   t('Search');
 
