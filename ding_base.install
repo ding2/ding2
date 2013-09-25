@@ -31,8 +31,8 @@ function ding_base_requirements($phase) {
 
     // Get "raw" numeric value.
     preg_match("|\d+|", $memory, $value);
-    $severity_time = ($time < $min_time) ? REQUIREMENT_WARNING : REQUIREMENT_OK;
-    $severity_memory = ($value[0] < $min_memory) ? REQUIREMENT_WARNING : REQUIREMENT_OK;
+    $severity_time = ($time < $min_time) ? REQUIREMENT_ERROR : REQUIREMENT_OK;
+    $severity_memory = ($value[0] < $min_memory) ? REQUIREMENT_ERROR : REQUIREMENT_OK;
     $t = get_t();
     if ($phase == 'install') {
       $requirements['max_execution_time'] = array(
