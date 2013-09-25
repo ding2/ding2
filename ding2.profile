@@ -1,7 +1,7 @@
 <?php
 
-// Initialise profiler
-!function_exists('profiler_v2') ? require_once('libraries/profiler/profiler.inc') : FALSE;
+// Initialise profiler.
+!function_exists('profiler_v2') ? require_once 'libraries/profiler/profiler.inc' : FALSE;
 profiler_v2('ding2');
 
 /**
@@ -38,13 +38,13 @@ if (!function_exists("system_form_install_select_profile_form_alter")) {
  * These elements will usually be added by modules implementing
  * hook_ding_install_tasks and passing a default administration form. While
  * setting elements as required in the administration is reasonable, during
- * the instalation we may present the users with required form elements
+ * the installation we may present the users with required form elements
  * they do not know how to handle and thus prevent them from completing the
  * installation.
  */
 function ding2_form_alter(&$form, &$form_state, $form_id) {
-  // Proces all forms during installation except the Drupal default
-  // configuration form
+  // Process all forms during installation except the Drupal default
+  // configuration form.
   if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install' &&
       $form_id != 'install_configure_form') {
     array_walk_recursive($form, '_ding2_remove_form_requirements');
@@ -74,25 +74,23 @@ function ding2_install_tasks(&$install_state) {
     variable_del('ding_install_tasks');
   }
 
-  include_once('libraries/profiler/profiler_api.inc');
+  include_once 'libraries/profiler/profiler_api.inc';
 
   $ret = array(
     // Add task to select provider and extra ding modules.
-    'ding2_module_selection_form' => array (
+    'ding2_module_selection_form' => array(
       'display_name' => 'Module selection',
       'display' => TRUE,
       'type' => 'form',
       'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
     ),
 
-    // Add extra taskes based on hook_ding_install_task, which may be provied by
+    // Add extra tasks based on hook_ding_install_task, which may be provided by
     // the selection task above.
     'ding2_fetch_ding_install_tasks' => array(
       'display_name' => 'Configure ding...',
-      /**
-       * This task should be skipped and hidden when ding install tasks
-       * have been fetched. Fetched tasks will appear instead.
-       */
+      // This task should be skipped and hidden when ding install tasks
+      // have been fetched. Fetched tasks will appear instead.
       'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
       'display' => empty($tasks),
     ),
@@ -132,9 +130,7 @@ function ding2_module_selection_form($form_state) {
     '#tree' => TRUE,
   );
 
-  //
   // Available providers.
-  //
   $providers = array(
     'alma' => 'Alma',
     'openruth' => 'Openruth',
@@ -147,7 +143,8 @@ function ding2_module_selection_form($form_state) {
   );
 
   $form['providers']['selection'] = array(
-    '#title' => '', // Left empty to create more space in the ui.
+    // Title left empty to create more space in the ui.
+    '#title' => '',
     '#type' => 'radios',
     '#options' => $providers,
   );
@@ -160,7 +157,7 @@ function ding2_module_selection_form($form_state) {
     'ding_campaign' => st('Add ding campaigns'),
     'ding_permissions' => st('Set default permissions'),
 
-    // Modules thats not part of the makefiles yet.
+    // Modules that's not part of the make files yet.
     'ding_example_content' => st('Add example content to the site'),
   );
 
@@ -171,7 +168,8 @@ function ding2_module_selection_form($form_state) {
   );
 
   $form['modules']['selection'] = array(
-    '#title' => '', // Left empty to create more space in the ui.
+    // Title left empty to create more space in the ui.
+    '#title' => '',
     '#type' => 'checkboxes',
     '#options' => $modules,
   );
@@ -188,8 +186,9 @@ function ding2_module_selection_form($form_state) {
 }
 
 /**
- * Submit handler that enables the modules and provider selection in the form
- * defined above.
+ * Submit handler that enables the modules.
+ *
+ * It also enabled the provider selected in the form defined above.
  */
 function ding2_module_selection_form_submit($form, &$form_state) {
   $values = $form_state['values'];
@@ -205,4 +204,47 @@ function ding2_module_selection_form_submit($form, &$form_state) {
 
   // Enable the provider (if selected) and modules.
   module_enable($module_list, TRUE);
+}
+
+/**
+ * Implements hook_requirements().
+ *
+ * Checks that the memory limit and execution time out is not set to low as the
+ * installation will fail in the background.
+ */
+function ding2_requirements($phase) {
+  $requirements = array();
+
+  // Min required PHP execution time.
+  $min_time  = 120;
+
+  // Min required memory limit, Mb.
+  $min_memory = 512;
+
+  // Get current value of "max_execution_time".
+  $time = ini_get('max_execution_time');
+
+  // Get current value of "max_execution_time".
+  $memory = ini_get('memory_limit');
+
+  // Get "raw" numeric value.
+  preg_match("|\d+|", $memory, $value);
+  $severity_time = ($time < $min_time) ? REQUIREMENT_WARNING : REQUIREMENT_OK;
+  $severity_memory = ($value[0] < $min_memory) ? REQUIREMENT_WARNING : REQUIREMENT_OK;
+  $t = get_t();
+  if ($phase == 'install') {
+    $requirements['max_execution_time'] = array(
+      'title' => $t('PHP max execution time'),
+      'value' => $t('Please increase the parameter "max_execution_time" in your PHP settings . Recommended value is at least @min sec. and more (now you have @current sec.)',
+        array('@min' => $min_time, '@current' => $time)),
+      'severity' => $severity_time,
+    );
+    $requirements['memory_limit'] = array(
+      'title' => $t('PHP memory limit'),
+      'value' => $t('Please increase the parameter "memory_limit" in your PHP settings . Recommended value is @minM (now you have @current). You can lower this after the installation is completed.',
+        array('@min' => $min_memory, '@current' => $memory)),
+      'severity' => $severity_memory,
+    );
+  }
+  return $requirements;
 }
