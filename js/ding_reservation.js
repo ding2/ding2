@@ -4,6 +4,11 @@
 (function ($) {
   "use strict";
   $(document).ready(function($) {
+    // Variables used to make the buttons follow scroll.
+    var actions = $(".action-buttons:first");
+    var actions_offset = 0;
+    var win = $(window);
+
     // Ensure that all checkboxes are not checked (if user reloads the page
     // etc.).
     $('form input[type=checkbox]').prop('checked', false);
@@ -38,20 +43,46 @@
       }
     });
 
-    // Update count string on the buttons.
+    /**
+     * Update count string on the buttons.
+     */
     function update_buttons(buttons, count) {
-     buttons.each(function(index) {
-       var btn = $(buttons[index]);
-       btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
+      buttons.each(function(index) {
+      var btn = $(buttons[index]);
+        btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
 
-       // Toggle buttons based on count.
-       if (count > 0) {
-         btn.removeAttr("disabled");
-       }
-       else {
-         btn.prop('disabled', 'disabled');
-       }
-     });
+        // Toggle buttons based on count.
+        if (count > 0) {
+          btn.closest('.action-buttons').addClass('action-buttons-is-visible');
+          actions_offset = actions.offset().top;
+          btn.removeAttr("disabled");
+        }
+        else {
+          btn.closest('.action-buttons').removeClass('action-buttons-is-visible');
+          btn.prop('disabled', 'disabled');
+        }
+      });
+
+      toggle_scroll_buttons();
+    }
+
+    // Enable scroll and toggle of buttons. It uses class to this effect can be
+    // cancelled by removing classes from the theme.
+    $(window).scroll(function(){
+      toggle_scroll_buttons();
+    });
+
+    /**
+     * Helper function to toggle the "action-buttons-is-scrolling" class, which
+     * moves the out of flow to follow the top of the screen on scroll.
+     */
+    function toggle_scroll_buttons() {
+      if (actions_offset < win.scrollTop() && actions.hasClass('action-buttons-is-visible')) {
+        actions.addClass('action-buttons-is-scrolling');
+      }
+      else {
+        actions.removeClass('action-buttons-is-scrolling');
+      }
     }
   });
 })(jQuery);
