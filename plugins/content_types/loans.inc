@@ -185,13 +185,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#suffix' => '</div>',
   );
 
-  $form['actions_bottom'] = array(
-    '#prefix' => '<div class="action-buttons">',
-    '#suffix' => '</div>',
-    '#weight' => 2,
-    'submit_second' => $form['actions_top']['submit_first'],
-  );
-
   return $form;
 }
 
