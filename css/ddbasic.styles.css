@@ -1557,7 +1557,7 @@ button.button {
   display: inline-block;
   font-size: 110%;
   margin-left: -4px;
-  padding: 10px 15px;
+  padding: 10px 14px;
   outline: 0;
   /* Hide mobile link menu item */
 }
@@ -5372,7 +5372,7 @@ label {
 /* Action buttons
    ========================================================================== */
 /* line 294, ../sass/module/_module.scss */
-.action-buttons, .action-buttons-is-visible, .action-buttons-is-scrolling {
+.action-buttons {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -5381,12 +5381,12 @@ label {
 }
 
 /* line 302, ../sass/module/_module.scss */
-.action-buttons-is-visible, .action-buttons-is-scrolling {
+.action-buttons-is-visible {
   background: rgba(0, 0, 0, 0.15);
   display: block;
 }
 
-/* line 310, ../sass/module/_module.scss */
+/* line 308, ../sass/module/_module.scss */
 .action-buttons-is-scrolling {
   background: rgba(0, 0, 0, 0.85);
   left: 0;
@@ -8553,23 +8553,15 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     margin-bottom: 10px;
   }
   /* line 269, ../sass/module/_user.scss */
-  .pane-reservations .action-buttons .action-button, .pane-reservations .action-buttons-is-visible .action-button, .pane-reservations .action-buttons-is-scrolling .action-button,
+  .pane-reservations .action-buttons .action-button,
   .pane-loans .action-buttons .action-button,
-  .pane-loans .action-buttons-is-visible .action-button,
-  .pane-loans .action-buttons-is-scrolling .action-button,
-  .pane-bookmarks .action-buttons .action-button,
-  .pane-bookmarks .action-buttons-is-visible .action-button,
-  .pane-bookmarks .action-buttons-is-scrolling .action-button {
+  .pane-bookmarks .action-buttons .action-button {
     margin-top: 10px;
   }
   /* line 272, ../sass/module/_user.scss */
-  .pane-reservations .action-buttons .action-button:nth-of-type(1), .pane-reservations .action-buttons-is-visible .action-button:nth-of-type(1), .pane-reservations .action-buttons-is-scrolling .action-button:nth-of-type(1),
+  .pane-reservations .action-buttons .action-button:nth-of-type(1),
   .pane-loans .action-buttons .action-button:nth-of-type(1),
-  .pane-loans .action-buttons-is-visible .action-button:nth-of-type(1),
-  .pane-loans .action-buttons-is-scrolling .action-button:nth-of-type(1),
-  .pane-bookmarks .action-buttons .action-button:nth-of-type(1),
-  .pane-bookmarks .action-buttons-is-visible .action-button:nth-of-type(1),
-  .pane-bookmarks .action-buttons-is-scrolling .action-button:nth-of-type(1) {
+  .pane-bookmarks .action-buttons .action-button:nth-of-type(1) {
     margin-top: 0;
   }
 }
