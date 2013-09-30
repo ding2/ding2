@@ -5,7 +5,7 @@
   "use strict";
   $(document).ready(function($) {
     // Variables used to make the buttons follow scroll.
-    var actions = $(".action-buttons:first");
+    var actions = $(".action-buttons");
     var actions_offset = 0;
     var win = $(window);
 
@@ -54,7 +54,10 @@
         // Toggle buttons based on count.
         if (count > 0) {
           btn.closest('.action-buttons').addClass('action-buttons-is-visible');
-          actions_offset = actions.offset().top;
+          if (!actions_offset) {
+            // First time buttons are shown, get their offset value.
+            actions_offset = actions.offset().top;
+          }
           btn.removeAttr("disabled");
         }
         else {
