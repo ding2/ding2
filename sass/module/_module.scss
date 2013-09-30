@@ -286,3 +286,34 @@
 .signature .tags a:not(:last-child):after {
   content: ",";
 }
+
+
+/* Action buttons
+   ========================================================================== */
+
+.action-buttons {
+  @include box-sizing(border-box);
+
+  display: none;
+  padding: 20px;
+}
+
+
+.action-buttons-is-visible {
+  @extend .action-buttons;
+
+  background: transparentize($black, .85);
+
+  display: block;
+}
+
+.action-buttons-is-scrolling {
+  @extend .action-buttons-is-visible;
+
+  background: transparentize($black, .15);
+  left: 0;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+}
