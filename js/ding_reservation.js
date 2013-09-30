@@ -31,10 +31,10 @@
       // Handle all checkbox checked state, so if not are all selected the
       // checkbox is not checked.
       if ($('.material-item input[type=checkbox]', form).length != count) {
-        $('.select-all input[type=checkbox]', form).prop('checked', false);
+        $('.select-all input[type=checkbox]:not(:disabled)', form).prop('checked', false);
       }
       else {
-        $('.select-all input[type=checkbox]', form).prop('checked', true);
+        $('.select-all input[type=checkbox]:not(:disabled)', form).prop('checked', true);
       }
     });
 
