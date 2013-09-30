@@ -1584,7 +1584,7 @@ button.button {
 @media only screen and (max-width: 480px) {
   /* line 57, ../sass/framework/_navigation.scss */
   .topbar-menu .menu-item {
-    padding: 10px 8px;
+    padding: 10px 12px;
   }
 }
 @media only screen and (max-width: 768px) {
