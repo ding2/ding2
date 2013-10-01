@@ -26,7 +26,7 @@
     display: inline-block;
     font-size: $font-size-medium;
     margin-left: -4px;
-    padding: 10px 15px;
+    padding: 10px 14px;
     outline: 0;
 
     &:hover {
@@ -53,6 +53,12 @@
   }
 
   /* Media queries */
+  @include small() {
+    .menu-item {
+      padding: 10px 12px;
+    }
+  }
+
   @include small-medium() {
     @include zen-grid-item(6, 1, right);
 

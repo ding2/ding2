@@ -300,16 +300,12 @@
 
 
 .action-buttons-is-visible {
-  @extend .action-buttons;
-
   background: transparentize($black, .85);
 
   display: block;
 }
 
 .action-buttons-is-scrolling {
-  @extend .action-buttons-is-visible;
-
   background: transparentize($black, .15);
   left: 0;
   position: fixed;
