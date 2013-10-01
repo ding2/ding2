@@ -70,6 +70,7 @@
   .item-information-list {
     overflow: hidden;
     padding-left: 0;
+
     .item-information {
       overflow: hidden;
       clear: left;
@@ -77,16 +78,18 @@
   }
 
   .item-information-label {
-    @include zen-grid-item(5, 1);
+    @include zen-grid-item(7, 1);
 
     padding: 0;
     padding-right: 10px;
   }
 
   .item-information-data {
-    @include zen-grid-item(7, 1, right);
+    @include zen-grid-item(5, 1, right);
 
     padding: 0;
+
+    text-align: right;
   }
 
   .select-all {
@@ -248,20 +251,13 @@
     }
 
     .item-information-label {
-      @include zen-clear();
-      @include zen-grid-item(12, 1);
-
       padding: 0;
 
       font-weight: bold;
     }
 
     .item-information-data {
-      @include zen-clear();
-      @include zen-grid-item(12, 1);
-
       padding: 0;
-
       margin-bottom: 10px;
     }
 
