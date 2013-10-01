@@ -175,6 +175,10 @@
       background-color: $yellow;
     }
   }
+
+  .form-checkbox[disabled^="disabled"] {
+    display: none;
+  }
 }
 
 /* User debts specific
