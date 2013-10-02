@@ -20,6 +20,7 @@ dependencies[] = menu_position
 dependencies[] = securepages
 
 ; Ding modules.
+dependencies[] = ding_base
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 dependencies[] = ding_frontpage
