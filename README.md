@@ -1,25 +1,39 @@
 # Ding2
-Ding2 is a continuation of [ding.TING](http://ting.dk/content/om-dingting) [Drupal](http://drupal.org/project/drupal) distribution for libraries as part of the [TING concept](http://ting.dk).
+Ding2 is a continuation of [ding.TING](http://ting.dk/content/om-dingting)
+[Drupal](http://drupal.org/project/drupal) distribution for libraries as part
+of the [TING concept](http://ting.dk).
 
 # Installation
-This read me assumes that you have installed a working web-server with Apache/Nginx, APC, Memcached, PHP 5.4 (_optional_ varnish) and that you have tested your setup.
+This README assumes that you have install a configured your server with a
+working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
+stack should be optimized to run a Drupal site.
 
 ## Dependencies
-* [Drupal 7.23](https://drupal.org/drupal-7.23-release-notes) The latest stable version of Drupal Core that ding2 have been tested on and the last stable release when this was written.
-* [Drush 6.1.0](https://github.com/drush-ops/drush) Which has build in drush make API version 2 and was the latest release when this was written. See it's readme for installation instructions.
+* [Drupal 7.23](https://drupal.org/drupal-7.23-release-notes) - latest stable
+  version of Drupal Core that ding2 have been tested on and the last stable
+  release when this was written.
+* [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
+  was written. See its README for installation instructions.
 
 # Build instructions
-Download a fresh copy of Drupal and make sure that it's ready to begin the installation process (e.g. your LAMP stack is configured).
+The reset of this document explains how to download Drupal and patch the core
+to run a Ding2 based site.
 
 ## Drush utils
-The ding2 makefiles uses nested makefiles (each module have its own dependencies), which results in projects and libraries being download more than once. You can work around this by cloning the [drush-ding2-utils](http://github.com/ding2tal/drush-ding2-utils) into your .drush folder.
+Ding2uses nested makefiles (each module have its own dependencies), which
+results in projects and libraries being download more than once with the
+default drush installation. You can work around this by cloning the
+[drush-ding2-utils](http://github.com/ding2tal/drush-ding2-utils) into your
+.drush folder.
 ```sh
   ~$ cd ~/.drush
   ~$ git clone http://github.com/ding2tal/drush-ding2-utils.git drush-ding2-utils
 ```
 
 ## Drupal
-Go into your web-root and execute this drush command to download Drupal version 7.23, you omit the version number the newest version will be downloaded.
+Go into your web-root (from now on named DRUPAL) and execute this drush command
+to download a fresh copy of Drupal version 7.23. IF you omit the version number
+the newest version of Drupal will be downloaded.
 ```sh
   ~$ drush dl drupal-7.23
   ~$ mv drupal-7.23/* .
@@ -28,59 +42,70 @@ Go into your web-root and execute this drush command to download Drupal version 
 ```
 
 ### Patches
-You need to apply a set of patches to Drupal core to run the installation and the site after the installation. To apply the patch go into your Drupal installation path and execute the commands below.
+You need to apply a set of patches to Drupal core to run the installation and
+the site after the installation. To apply the patch go into your Drupal
+root path and execute the commands below.
 
 This [patch](https://drupal.org/node/1232346) fixes a problem with recursive menu rebuilds.
 ```sh
-  ~$ cd DRUPAL
   ~$ wget -qO- http://drupal.org/files/menu-get-item-rebuild-1232346-22_0.patch | patch -p1
 ```
 
-This [patch](https://drupal.org/node/1879970) ensure that communication with web-services that runs OpenSSL v1.0.x or newer works.
+This [patch](https://drupal.org/node/1879970) ensure that communication with
+web-services that runs OpenSSL v1.0.x or newer works.
 ```sh
-  ~$ cd DRUPAL
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
-Ding2 sites uses the [CacheTags](http://drupal.org/project/cachetags) 2.x module, which require core to be patched.
+Ding2 sites uses the [CacheTags](http://drupal.org/project/cachetags) 2.x
+module, which require core to be patched.
 ```sh
-  ~$ cd DRUPAL
   ~$ wget -qO- http://drupalcode.org/project/cachetags.git/blob_plain/refs/heads/7.x-2.x:/cachetags.patch | patch -p1
 ```
 
-## Ding2 installation profile
-Go into your Drupal installation path and into the profiles folder.
+## Build Ding2 installation profile
+Ding2 comes in the form of a Drupal installation profile and the first step is
+to build that profile. So go into your Drupal installations _profiles_ folder.
 ```sh
   ~$ cd DRUPAL/profiles
 ```
 
-Clone the ding2 profile repository from http://github.com/ding2tal.
+Clone the ding2 repository from http://github.com/ding2tal/ding2.
 ```sh
   ~$ git clone git@github.com:ding2tal/ding2.git ding2
 ```
 
-Now that you have cloned the installation profile you need to run the build process using drush make. It will download all the modules and the theme from http://github.com/ding2tal
+Now that you have cloned the installation profile you need to run the build
+process using drush make. It will download all the modules and the theme from
+the different repositories at http://github.com/ding2tal
 ```sh
   ~$ cd DRUPAL/profiles/ding2
   ~$ ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
 ```
 
-If you want a developer version with Git working copies, run this command instead. This is because drush automatically deletes _.git_ after it has cloned the repositories and by adding _--working-copy_ it will not delete these.
+If you want a developer version with _working copies_ of the Git repositories,
+run this command instead. It is because drush automatically deletes _.git_
+folders after it has cloned the repositories and by adding _--working-copy_, it
+will not delete these.
 ```sh
   ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --working-copy --contrib-destination=. ding2.make
 ```
 
-Next goto your sites URL and run the ding2 installation profile.
-
+Next goto your sites URL and run the ding2 installation profile and fill out
+all the questions.
 
 ### Note
-The fix in [drush-ding2-utils](http://github.com/ding2tal/drush-ding2-utils) uses drush cache and to build the site more than once within 10 min of each other you will need to clear the cache. This also applies if the build fails and you need to rebuild.
+The fix in [drush-ding2-utils](http://github.com/ding2tal/drush-ding2-utils)
+uses drush cache and to build the site more than once within 10 min of each
+other you will need to clear the cache. This also applies if the build fails
+and you need to rebuild.
 ```sh
   ~$ drush cc drush
 ```
 
 # Post installation
-After you have finished the installation there are some performance optimization that you should put into your settings.php file.
+After you have finished the installation there are some performance optimization
+that you should put into your settings.php file.
 
 ## Drupal cache
 
@@ -104,7 +129,6 @@ After you have finished the installation there are some performance optimization
 
 ## Memcache
 This optimization assumes that you have memcached installed on your server.
-
 ```php
   $conf += array(
     'memcache_extension' => 'Memcache',
@@ -130,8 +154,8 @@ This optimization assumes that you have memcached installed on your server.
 ```
 
 ### CacheTags
-Cache tags extendes Drupals default caching with tags, so the cache can be divided into logic parts.
-
+Cache tags extendes Drupals default caching with tags, so the cache can be
+divided into logic parts.
 ```php
   $conf['cache_backends'] = array('profiles/ding2/modules/contrib/cachetags/cache-memcache.inc');
   $conf['cache_class_???'] = 'DrupalMemcacheCacheTagsPlugin';
