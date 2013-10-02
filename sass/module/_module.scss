@@ -80,12 +80,6 @@
    ========================================================================== */
 
 %search-user-header {
-  display: none;
-
-  &.js-topbar-toggled {
-    display: inline-block;
-  }
-
   width: 100%;
 
   [class^="label-"] {
@@ -291,4 +285,31 @@
 
 .signature .tags a:not(:last-child):after {
   content: ",";
+}
+
+
+/* Action buttons
+   ========================================================================== */
+
+.action-buttons {
+  @include box-sizing(border-box);
+
+  display: none;
+  padding: 20px;
+}
+
+
+.action-buttons-is-visible {
+  background: transparentize($black, .85);
+
+  display: block;
+}
+
+.action-buttons-is-scrolling {
+  background: transparentize($black, .15);
+  left: 0;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  width: 100%;
 }

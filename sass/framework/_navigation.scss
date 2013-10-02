@@ -26,7 +26,7 @@
     display: inline-block;
     font-size: $font-size-medium;
     margin-left: -4px;
-    padding: 10px 15px;
+    padding: 10px 14px;
     outline: 0;
 
     &:hover {
@@ -53,6 +53,12 @@
   }
 
   /* Media queries */
+  @include small() {
+    .menu-item {
+      padding: 10px 9px;
+    }
+  }
+
   @include small-medium() {
     @include zen-grid-item(6, 1, right);
 
@@ -76,23 +82,12 @@
   }
 }
 
-.js-fixed {
-  @include small-medium() {
-    .menu-item {
-      &.active {
-        background-color: transparent;
-      }
-    }
-  }
-}
-
-
 
 /* Navigation, main menu and secondary menu
    ========================================================================== */
 
 .navigation-wrapper {
- 	background-color: transparentize($white, .05);
+  background-color: transparentize($white, .05);
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -105,13 +100,6 @@
   }
 
   /* Media queries */
-  @include small() {
-    &.js-fixed {
-      position: relative;
-      margin-top: 0;
-    }
-  }
-
   @include small-medium() {
     @include box-sizing(border-box);
 
@@ -122,16 +110,6 @@
     /* Extra space needed below the menu for device stuff (e.g. iOS) */
     padding-bottom: 30px;
     padding-left: 20px;
-  }
-
-  @include small-medium-low() {
-    position: fixed;
-    overflow: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 44px;
-    z-index: 99;
   }
 }
 

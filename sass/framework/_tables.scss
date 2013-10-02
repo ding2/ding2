@@ -150,7 +150,7 @@ tr.odd {
   /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
   tbody:last-child tr:last-child th:last-child,
   tbody:last-child tr:last-child td:last-child {
-    @include border-radius(0 $table-border-radius 0 0);
+    @include border-radius(0 0 $table-border-radius 0);
   }
 }
 
