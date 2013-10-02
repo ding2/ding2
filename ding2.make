@@ -108,3 +108,6 @@ projects[memcache][version] = "1.0"
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
 
+projects[varnish][subdir] = "contrib"
+projects[varnish][version] = "1.0-beta2"
+
