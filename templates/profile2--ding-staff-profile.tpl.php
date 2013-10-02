@@ -29,21 +29,20 @@
  */
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-
-  <?php if (!$page): ?>
-    <h3<?php print $title_attributes; ?>>
-        <?php 
-          print render($content['field_ding_staff_forename'][0]) . ' ' . render($content['field_ding_staff_surname'][0]);
-        ?>
-    </h3>
-  <?php endif; ?>
-
+  
+  <h3><?php print render($content['field_ding_staff_forename'][0])?> <?php print render($content['field_ding_staff_surname'][0])?></h3>
+  
   <div class="content"<?php print $content_attributes; ?>>
     <?php
-      // hide fields we have already rendered
+      // Hide previously rendered fields
       hide($content['field_ding_staff_forename']);
       hide($content['field_ding_staff_surname']);
       
+      // Hide fields 
+      hide($content['field_ding_staff_email']);
+      hide($content['field_ding_staff_phone']);
+
+      // Render remaining fields
       print render($content);
     ?>
   </div>
