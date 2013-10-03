@@ -3,11 +3,12 @@
   description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
+  css_folder = css
 
+;----------// Sass
+  sass[all][] = sass/ddbasic.styles.scss
 
 ;----------// Stylesheets
-  stylesheets[all][] = css/ddbasic.reset.css
-  stylesheets[all][] = css/ddbasic.font.awesome.css
   stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
