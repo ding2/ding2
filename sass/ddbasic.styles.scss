@@ -14,8 +14,12 @@
 @import "zen";
 
 
+// Include configuration
+@import "configuration/_variables";
+@import "configuration/_colors";
+
+
 // Include framework
-@import "framework/_variables";
 @import "framework/_mixins";
 @import "framework/_normalize";
 @import "framework/_base";
@@ -51,6 +55,7 @@
 @import "module/_comment";
 @import "module/_staff";
 @import "module/_tabroll";
+
 
 // Custom font
 @import "../font/source-sans/stylesheet.css";

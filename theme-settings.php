@@ -21,11 +21,12 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#weight' => -12,
   );
 
-  $form['ddbasic-settings']['colors']['topbar_background_color'] = array(
+  $form['ddbasic-settings']['colors']['ddbasic_topbar_background_color'] = array(
     '#type' => 'textfield',
     '#title' => t('Topbar background color'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('ddbasic_topbar_background_color', NULL),
   );
 
   // CSS class and markup.
