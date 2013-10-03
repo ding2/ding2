@@ -19,7 +19,7 @@ stack should be optimized to run a Drupal site.
 The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
-## Drush utils
+## Drush utils (this is a most)
 Ding2uses nested makefiles (each module have its own dependencies), which
 results in projects and libraries being download more than once with the
 default drush installation. You can work around this by cloning the
@@ -75,6 +75,7 @@ Clone the ding2 repository from http://github.com/ding2tal/ding2.
   ~$ git clone git@github.com:ding2tal/ding2.git ding2
 ```
 
+### Production
 Now that you have cloned the installation profile you need to run the build
 process using drush make. It will download all the modules and the theme from
 the different repositories at http://github.com/ding2tal
@@ -83,6 +84,7 @@ the different repositories at http://github.com/ding2tal
   ~$ ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
 ```
 
+### Development
 If you want a developer version with _working copies_ of the Git repositories,
 run this command instead. It is because drush automatically deletes _.git_
 folders after it has cloned the repositories and by adding _--working-copy_, it
