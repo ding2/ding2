@@ -45,7 +45,7 @@ body {
     display: inline-block;
   }
 
-  background-color: $base-primary-color;
+  background-color: $header_background_color;
   padding-top: 30px;
   padding-right: 20px;
   padding-bottom: 30px;
@@ -175,7 +175,7 @@ body {
   .layout-wrapper {
     @include zen-clear();
 
-    background-color: $white;
+    background-color: $content-background-color;
     margin-right: 10px;
     margin-left: 10px;
     overflow: hidden;
@@ -416,7 +416,7 @@ body {
    ========================================================================== */
 
 .footer {
-  background-color: #262626;
+  background-color: $footer-background-color;
   overflow: hidden;
   padding-top: 30px;
 
@@ -438,7 +438,7 @@ body {
 }
 
 .bottom {
-  background-color: #191919;
+  background-color: darken($footer-background-color, 5%);
   clear: both;
   color: white;
   padding-top: 20px;

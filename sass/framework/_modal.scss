@@ -28,7 +28,7 @@ $modal-border-radius:             12px;
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius($button-border-radius);
 
-  background-color: $base-primary-color;
+  background-color: $blue;
   min-width: $modal-min-width;
 }
 
