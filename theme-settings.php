@@ -15,26 +15,71 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['ddbasic-settings']['colors'] = array(
     '#type' => 'fieldset',
     '#title' => t('Colors'),
-    '#description' => t('Choose colors for the website.'),
+    '#description' => t('Configure colors for the website.'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#weight' => -12,
   );
 
-  $form['ddbasic-settings']['colors']['ddbasic_primary_color'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Primary color (header, labels)'),
+  $form['ddbasic-settings']['colors']['header_elements'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Header elements'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#default_value' => theme_get_setting('ddbasic_primary_color', NULL),
+    '#collapsed' => FALSE,
   );
 
-  $form['ddbasic-settings']['colors']['ddbasic_topbar_background_color'] = array(
+  $form['ddbasic-settings']['colors']['header_elements']['topbar_background_color'] = array(
     '#type' => 'textfield',
     '#title' => t('Topbar background color'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-    '#default_value' => theme_get_setting('ddbasic_topbar_background_color', NULL),
+    '#default_value' => theme_get_setting('topbar_background_color', NULL),
+  );
+
+  $form['ddbasic-settings']['colors']['header_elements']['header_background_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Header background color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('header_background_color', NULL),
+  );
+
+  $form['ddbasic-settings']['colors']['navigation'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Navigation'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['ddbasic-settings']['colors']['navigation']['navigation_background_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Navigation background color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('navigation_background_color', NULL),
+  );
+
+  $form['ddbasic-settings']['colors']['labels'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Labels'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['ddbasic-settings']['colors']['labels']['labels_background_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Label background color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('labels_background_color', NULL),
+  );
+
+  $form['ddbasic-settings']['colors']['labels']['labels_text_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Label text color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('labels_text_color', NULL),
   );
 
   // CSS class and markup.
