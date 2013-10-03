@@ -5,7 +5,21 @@
  */
 
 
-/* Topbar
-   ========================================================================== */
+/* Topbar */
+$topbar-background-color:         transparentize($black, .15) !default;
 
-$topbar-background-color: transparentize($black, .15) !default;
+/* Header */
+$header_background_color:         $blue;
+
+/* Navigation */
+$navigation_background_color:     transparentize($white, .05) !default;
+
+/* Links */
+$link-color:                      #00b7e7;
+$link-color-hover:                darken($link-color, 20%);
+
+/* Labels */
+$label-bg-color:                  $blue !default;
+$label-text-color:                $white !default;
+$label-bg-color-inverted:         $label-text-color !default;
+$label-text-color-inverted:       $label-bg-color !default;

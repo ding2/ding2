@@ -59,6 +59,29 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => theme_get_setting('navigation_background_color', NULL),
   );
 
+  $form['ddbasic-settings']['colors']['links'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Links'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['ddbasic-settings']['colors']['links']['link_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('link_color', NULL),
+  );
+
+  $form['ddbasic-settings']['colors']['links']['link_color_hover'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Label color hover'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('link_color_hover', NULL),
+  );
+
   $form['ddbasic-settings']['colors']['labels'] = array(
     '#type' => 'fieldset',
     '#title' => t('Labels'),

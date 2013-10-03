@@ -87,7 +87,7 @@
    ========================================================================== */
 
 .navigation-wrapper {
-  background-color: transparentize($white, .05);
+  background-color: $navigation_background_color;
   display: block;
   margin-left: auto;
   margin-right: auto;
