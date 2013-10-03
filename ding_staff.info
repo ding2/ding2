@@ -6,6 +6,7 @@ php = 5.2.4
 project = ding_staff
 dependencies[] = cs_adaptive_image
 dependencies[] = ctools
+dependencies[] = ding_base
 dependencies[] = ding_content
 dependencies[] = ding_news
 dependencies[] = email
