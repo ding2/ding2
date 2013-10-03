@@ -73,7 +73,7 @@ body {
    ========================================================================== */
 
 .topbar {
-  background-color: transparentize($black, .15);
+  background-color: $topbar-background-color;
 
   .topbar-inner {
     margin-left: auto;
