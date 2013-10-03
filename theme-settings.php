@@ -156,5 +156,11 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['favicon']['#collapsed'] = TRUE;
   $form['favicon']['#weight'] = 50;
 
-  $form['actions']['submit']['#submit'][] = 'sass_compile';
+  $form['#submit'][] = 'ddbasic_form_system_theme_settings_submit';
+}
+
+function ddbasic_form_system_theme_settings_submit($form, &$form_state) {
+  if (function_exists('sass_compile')) {
+    sass_compile('ddbasic');
+  }
 }
