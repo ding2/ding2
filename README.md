@@ -122,7 +122,7 @@ that you should put into your settings.php file.
 ## APC
 
 ```php
-  $conf['cache_backends'][] = 'profiles/ding2/modules/contrib/apc/drupal_apc_cache.inc');
+  $conf['cache_backends'][] = 'profiles/ding2/modules/contrib/apc/drupal_apc_cache.inc';
   $conf['cache_class_cache'] = 'DrupalAPCCache';
   $conf['cache_class_cache_bootstrap'] = 'DrupalAPCCache';
 ```
