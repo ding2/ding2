@@ -19,7 +19,7 @@ stack should be optimized to run a Drupal site.
 The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
-## Drush utils
+## Drush utils (this is as most)
 Ding2uses nested makefiles (each module have its own dependencies), which
 results in projects and libraries being download more than once with the
 default drush installation. You can work around this by cloning the
