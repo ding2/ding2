@@ -39,7 +39,7 @@
     &.active {
       color: $white;
       text-decoration: none;
-      background-color: $base-primary-color;
+      background-color: $blue;
     }
 
     /* Hide mobile link menu item */
@@ -103,7 +103,7 @@
   @include small-medium() {
     @include box-sizing(border-box);
 
-    background-color: $base-primary-color;
+    background-color: $blue;
     display: none;
     padding-top: 10px;
     padding-right: 20px;

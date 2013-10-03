@@ -49,20 +49,13 @@ $gray-darkest:                   darken($gray, 35%) !default;
 $red:                            #a32e10;
 $green:                          #528c10;
 $yellow:                         #f0cb28;
-
-/* Theme color definitions
-   ========================================================================== */
-
-$base-primary-color:             #00caff;
-$base-secondary-color:           #d94110;
-$base-tertiary-color:            #ecbe00;
+$blue:                           #00caff;
 
 
 /* Font library
    ========================================================================== */
 
 $base-icon-library-font:         "FontAwesome";
-
 
 
 /* Typography
@@ -109,6 +102,14 @@ $font-size-tiny:                  75%;
 $link-color:                      #00b7e7;
 $link-color-hover:                darken($link-color, 20%);
 
+
+$label-bg-color:                  $blue;
+$label-text-color:                $white;
+$label-bg-color-inverted:         $white;
+$label-text-color-inverted:       $blue;
+$label-border-radius:             8px;
+$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
+$label-padding:                   3px 10px;
 
 
 /* Navigation

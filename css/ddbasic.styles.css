@@ -12,8 +12,6 @@
    ========================================================================== */
 /* Standard color definitions
    ========================================================================== */
-/* Theme color definitions
-   ========================================================================== */
 /* Font library
    ========================================================================== */
 /* Typography
@@ -1463,16 +1461,14 @@ button.button {
  *
  * @author magnify
  */
-/* Variables
-   ========================================================================== */
-/* line 21, ../sass/framework/_labels.scss */
+/* line 8, ../sass/framework/_labels.scss */
 .label, .label-inverted, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
   border-radius: 8px;
-  background-color: #00b7e7;
+  background-color: #00caff;
   color: white;
   font-size: 85%;
   padding: 3px 10px;
@@ -1482,45 +1478,45 @@ button.button {
   /* Make sure it works with a wrapper */
   /* Make sure it works on a link */
 }
-/* line 36, ../sass/framework/_labels.scss */
+/* line 23, ../sass/framework/_labels.scss */
 .label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
   color: white;
   text-decoration: none;
 }
-/* line 44, ../sass/framework/_labels.scss */
+/* line 31, ../sass/framework/_labels.scss */
 .label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
   color: white;
 }
-/* line 48, ../sass/framework/_labels.scss */
+/* line 35, ../sass/framework/_labels.scss */
 .label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
-  background-color: #008fb4;
+  background-color: #00a2cc;
   color: white;
   text-decoration: none;
 }
 
-/* line 56, ../sass/framework/_labels.scss */
+/* line 43, ../sass/framework/_labels.scss */
 .label-inverted {
   background-color: white;
-  color: #00b7e7;
+  color: #00caff;
   /* Make sure it works with a wrapper */
   /* Make sure it works on a link */
 }
-/* line 64, ../sass/framework/_labels.scss */
+/* line 51, ../sass/framework/_labels.scss */
 .label-inverted a:link {
-  color: #00b7e7;
+  color: #00caff;
 }
-/* line 68, ../sass/framework/_labels.scss */
+/* line 55, ../sass/framework/_labels.scss */
 .label-inverted a:hover {
-  color: #00b7e7;
+  color: #00caff;
 }
-/* line 74, ../sass/framework/_labels.scss */
+/* line 61, ../sass/framework/_labels.scss */
 .label-inverted:link {
-  color: #00b7e7;
+  color: #00caff;
 }
-/* line 78, ../sass/framework/_labels.scss */
+/* line 65, ../sass/framework/_labels.scss */
 .label-inverted:hover {
   background-color: #e6e6e6;
-  color: #00b7e7;
+  color: #00caff;
 }
 
 /**
@@ -6805,7 +6801,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 @media only screen and (max-width: 768px) {
   /* line 28, ../sass/module/_carousel.scss */
   .rs-carousel {
-    background-color: #d94110;
+    background-color: #a32e10;
   }
 }
 
@@ -9166,7 +9162,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 @media only screen and (max-width: 768px) {
   /* line 22, ../sass/module/_tabroll.scss */
   .ding-tabroll-wrapper {
-    background-color: #d94110;
+    background-color: #a32e10;
     padding: 20px;
   }
 }

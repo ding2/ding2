@@ -21,6 +21,14 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#weight' => -12,
   );
 
+  $form['ddbasic-settings']['colors']['ddbasic_primary_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Primary color (header, labels)'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#default_value' => theme_get_setting('ddbasic_primary_color', NULL),
+  );
+
   $form['ddbasic-settings']['colors']['ddbasic_topbar_background_color'] = array(
     '#type' => 'textfield',
     '#title' => t('Topbar background color'),
