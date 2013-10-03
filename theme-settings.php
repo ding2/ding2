@@ -11,13 +11,30 @@ require_once(drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc');
  * Implements form_system_theme_settings_alter().
  */
 function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
+  // Design and layout.
+  $form['ddbasic-settings']['colors'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Colors'),
+    '#description' => t('Choose colors for the website.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#weight' => -12,
+  );
+
+  $form['ddbasic-settings']['colors']['topbar_background_color'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Topbar background color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
   // CSS class and markup.
   $form['ddbasic-settings']['classes'] = array(
     '#type' => 'fieldset',
     '#title' => t('Classes & Markup'),
     '#description' => t('Modify the default classes and markup from Drupal.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -11,
   );
 
@@ -53,7 +70,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Sticky menus'),
     '#description' => t('<h3>Sticky menus</h3>Here you can choose which menus you want to be sticky.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -71,7 +88,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Polyfills'),
     '#description' => t('<h3>Polyfills</h3>Here you can enable commonly used Polyfills supplied with the core theme.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -116,7 +133,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Plugins'),
     '#description' => t('<h3>Plugins</h3>Here you can enable plugins supplied with the core theme.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
