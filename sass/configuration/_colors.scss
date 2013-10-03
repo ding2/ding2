@@ -1,5 +1,5 @@
 /**
- * Colors than can be configured through theme settings.
+ * Colors that can be configured through theme settings.
  *
  * @author magnify
  */
@@ -23,3 +23,6 @@ $label-bg-color:                  $blue !default;
 $label-text-color:                $white !default;
 $label-bg-color-inverted:         $label-text-color !default;
 $label-text-color-inverted:       $label-bg-color !default;
+
+/* Content */
+$content_background_color:        $white !default;

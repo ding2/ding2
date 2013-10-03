@@ -175,7 +175,7 @@ body {
   .layout-wrapper {
     @include zen-clear();
 
-    background-color: $white;
+    background-color: $content_background_color;
     margin-right: 10px;
     margin-left: 10px;
     overflow: hidden;
