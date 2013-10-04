@@ -98,6 +98,7 @@ projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.7"
 
 projects[cachetags][type] = "module"
+projects[cachetags][subdir] = "contrib"
 projects[cachetags][download][type] = "git"
 projects[cachetags][download][url] = "http://git.drupal.org/project/cachetags.git"
 projects[cachetags][download][revision] = "c8a4a7c0aab5cd59130a2413fc9ca79bbb0b54c0"
