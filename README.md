@@ -57,12 +57,6 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
-Ding2 sites uses the [CacheTags](http://drupal.org/project/cachetags) 2.x
-module, which require core to be patched.
-```sh
-  ~$ wget -qO- http://drupalcode.org/project/cachetags.git/blob_plain/refs/heads/7.x-2.x:/cachetags.patch | patch -p1
-```
-
 ## Build Ding2 installation profile
 Ding2 comes in the form of a Drupal installation profile and the first step is
 to build that profile. So go into your Drupal installations _profiles_ folder.
@@ -153,13 +147,4 @@ This optimization assumes that you have memcached installed on your server.
   $conf['memcache_bins'] = array(
     'cache' => 'default',
   );
-```
-
-### CacheTags
-Cache tags extendes Drupals default caching with tags, so the cache can be
-divided into logic parts.
-```php
-  $conf['cache_backends'] = array('profiles/ding2/modules/contrib/cachetags/cache-memcache.inc');
-  $conf['cache_class_???'] = 'DrupalMemcacheCacheTagsPlugin';
-  $conf['cache_tags_class'] = 'DrupalMemcacheCacheTags';
 ```
