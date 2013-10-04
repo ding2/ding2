@@ -16,11 +16,6 @@ projects[ding_user][download][type] = "git"
 projects[ding_user][download][url] = "git@github.com:ding2tal/ding_user.git"
 projects[ding_user][download][branch] = "development"
 
-projects[ding_user_cache][type] = "module"
-projects[ding_user_cache][download][type] = "git"
-projects[ding_user_cache][download][url] = "git@github.com:ding2tal/ding_user_cache.git"
-projects[ding_user_cache][download][branch] = "development"
-
 projects[ding_provider][type] = "module"
 projects[ding_provider][download][type] = "git"
 projects[ding_provider][download][url] = "git@github.com:ding2tal/ding_provider.git"
