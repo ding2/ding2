@@ -15,8 +15,8 @@ $header_background_color:         $blue;
 $navigation_background_color:     transparentize($white, .05) !default;
 
 /* Links */
-$link-color:                      #00b7e7;
-$link-color-hover:                darken($link-color, 20%);
+$link-color:                      #00b7e7 !default;
+$link-color-hover:                darken($link-color, 20%) !default;
 
 /* Labels */
 $label-bg-color:                  $blue !default;
