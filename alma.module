@@ -106,7 +106,7 @@ function alma_settings_form() {
   // this during reservation.
   $periods = alma_get_interest_periods();
   $default = variable_get('alma_default_interest_period', 180);
-  $form['alma'] += ding_reservation_interest_period_selector('', 'alma_default_interest_period', $default, $periods);
+  $form['alma'] += ding_reservation_interest_period_selector('alma_default_interest_period', $default, $periods);
 
   $form['alma']['alma_enable_reservation_deletion'] = array(
     '#type' => 'checkbox',
