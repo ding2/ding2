@@ -65,6 +65,12 @@ function ddbasic_preprocess_html(&$vars) {
     'weight' => 999,
     'preprocess' => FALSE,
   ));
+
+  // Color module.
+  // Hook into color.module.
+  if (module_exists('color')) {
+    _color_html_alter($vars);
+  }
 }
 
 
@@ -835,4 +841,14 @@ function ddbasic_item_list($variables) {
     $output .= "</$type>";
   }
   return $output;
+}
+
+/**
+ * Implements hook_process_page().
+ */
+function ddbasic_process_page(&$vars) {
+  // Hook into color.module
+  if (module_exists('color')) {
+    _color_page_alter($vars);
+  }
 }
