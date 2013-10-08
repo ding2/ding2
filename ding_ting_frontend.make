@@ -113,6 +113,11 @@ projects[ting_material_details][download][type] = "git"
 projects[ting_material_details][download][url] = "git@github.com:ding2tal/ting_material_details.git"
 projects[ting_material_details][download][branch] = "development"
 
+projects[ting_new_materials][type] = "module"
+projects[ting_new_materials][download][type] = "git"
+projects[ting_new_materials][download][url] = "git@github.com:ding2tal/ting_new_materials.git"
+projects[ting_new_materials][download][branch] = "development"
+
 projects[ting][type] = "module"
 projects[ting][download][type] = "git"
 projects[ting][download][url] = "git@github.com:ding2tal/ting.git"
