@@ -4,12 +4,11 @@
  * Handles user authentication with the alma provider.
  */
 
-
 /**
  * Implements hook_user_authenticate().
  *
- * @param <type> $name
- * @param <type> $pass
+ * @param string $uid
+ * @param string $pass
  */
 function alma_user_authenticate($uid, $pass) {
   $return = array(
@@ -65,8 +64,11 @@ function alma_user_authenticate($uid, $pass) {
 /**
  * Check if the user creds is set correctly.
  *
- * @param type $creds
- * @return type
+ * @param array $creds
+ *   Array with the user credentials.
+ *
+ * @return bool
+ *   TRUE if user is authenticated else FALSE
  */
 function alma_user_is_authenticated($creds) {
   return (isset($creds['name']) && isset($creds['pass']));
@@ -83,11 +85,12 @@ function alma_user_profile_form_validate($form, $form_state) {
  * Update pin code at alma.
  *
  * @param object $account
- *  User account object or the user provider profile2.
+ *   User account object or the user provider profile2.
  * @param string $new_pincode
- *  The users new pincode.
+ *   The users new pin-code.
+ *
  * @return array
- *  Updated credential array.
+ *   Updated credential array.
  */
 function alma_user_update_pincode($account, $new_pincode) {
   $creds = ding_user_get_creds($account);
@@ -106,4 +109,16 @@ function alma_user_update_pincode($account, $new_pincode) {
       return $result;
     }
   }
+}
+
+/**
+ * Implements clear_cache().
+ *
+ * This hook is only called from ding_dibs after a payment have been accepted.
+ *
+ * @param stdClass $account
+ *   Drupal user account object.
+ */
+function alma_user_clear_cache($account) {
+  // As the ALMA currently only uses a static cache for debt... do nothing.
 }
