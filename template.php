@@ -65,12 +65,6 @@ function ddbasic_preprocess_html(&$vars) {
     'weight' => 999,
     'preprocess' => FALSE,
   ));
-
-  // Color module.
-  // Hook into color.module.
-  if (module_exists('color')) {
-    _color_html_alter($vars);
-  }
 }
 
 
@@ -136,6 +130,12 @@ function ddbasic_process_html(&$vars) {
         $vars['classes_array'][] = 'page-panels';
         break;
     }
+  }
+
+  // Color module.
+  // Hook into color.module.
+  if (module_exists('color')) {
+    _color_html_alter($vars);
   }
 }
 
