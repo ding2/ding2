@@ -1,31 +1,32 @@
 /**
  * Colors that can be configured through theme settings.
  *
+ * Every color settings MUST be in HEX format..
  * @author magnify
  */
 
 
 /* Topbar */
-$topbar-background-color:         transparentize($black, .15) !default;
+$topbar-background-color:         #000000 !default;
 
 /* Header */
-$header_background_color:         $blue;
+$header_background_color:         #00caff;
 
 /* Navigation */
-$navigation_background_color:     transparentize($white, .05) !default;
+$navigation_background_color:     #ffffff !default;
 
 /* Links */
 $link-color:                      #00b7e7 !default;
-$link-color-hover:                darken($link-color, 20%) !default;
+$link-color-hover:                #006681 !default;
 
 /* Labels */
-$label-bg-color:                  $blue !default;
-$label-text-color:                $white !default;
-$label-bg-color-inverted:         $label-text-color !default;
-$label-text-color-inverted:       $label-bg-color !default;
+$label-bg-color:                  #00cafe !default;
+$label-text-color:                #fffffe !default;
+$label-bg-color-inverted:         #00000a !default;
+$label-text-color-inverted:       #00cafc !default;
 
 /* Content */
-$content-background-color:        $white !default;
+$content-background-color:        #fffffd !default;
 
 /* List */
 $list-background-color:           #ebebeb !default;
