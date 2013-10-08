@@ -45,7 +45,6 @@ body {
     display: inline-block;
   }
 
-  background-color: $base-primary-color;
   padding-top: 30px;
   padding-right: 20px;
   padding-bottom: 30px;
@@ -72,16 +71,12 @@ body {
 /* Site name, slogan and logo
    ========================================================================== */
 
-.topbar {
-  background-color: transparentize($black, .15);
-
-  .topbar-inner {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
-    overflow: hidden;
-    position: relative;
-  }
+.topbar-inner {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  overflow: hidden;
+  position: relative;
 }
 
 .site-name-wrapper {
@@ -175,7 +170,6 @@ body {
   .layout-wrapper {
     @include zen-clear();
 
-    background-color: $white;
     margin-right: 10px;
     margin-left: 10px;
     overflow: hidden;
@@ -416,7 +410,6 @@ body {
    ========================================================================== */
 
 .footer {
-  background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 
@@ -438,7 +431,7 @@ body {
 }
 
 .bottom {
-  background-color: #191919;
+  background-color: darken($footer-background-color, 5%);
   clear: both;
   color: white;
   padding-top: 20px;

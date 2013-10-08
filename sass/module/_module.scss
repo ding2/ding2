@@ -23,18 +23,6 @@
   padding: $medium-spacing;
 }
 
-%article-background {
-  background-color: $article-background;
-}
-
-%article-background--odd {
-  background-color: $article-background-odd;
-}
-
-%article-background--even {
-  background-color: $article-background-even;
-}
-
 %article-heading {
   font-size: $font-size-large;
 }
@@ -45,11 +33,11 @@
 
 
 %article-text {
-  color: $article-text;
+  color: $list-text-color;
 }
 
 %article-text--opaque {
-  color: transparentize($article-text, .5);
+  color: transparentize($list-text-color, .5);
 }
 
 /* Styling for material list items (example use: search results, related materials on news etc.) */

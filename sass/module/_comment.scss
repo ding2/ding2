@@ -49,8 +49,6 @@
   padding: $large-spacing;
 
   .new {
-    @extend %availability-reservable;
-
     float: right;
   }
 }

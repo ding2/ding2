@@ -21,7 +21,7 @@ $tabroll-tab-color:                       $white;
 
 .ding-tabroll-wrapper {
   @include small-medium() {
-    background-color: $base-secondary-color;
+    background-color: $red;
     padding: $large-spacing;
   }
 }

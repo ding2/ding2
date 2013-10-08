@@ -101,7 +101,8 @@ function ddbasic_process_html(&$vars) {
     // Add unique class for each page.
     $path = drupal_get_path_alias($_GET['q']);
     // Add unique class for each website section.
-    list($section, $tmp) = explode('/', $path, 2);
+    $section = explode('/', $path);
+    $section = array_shift($section);
     $arg = explode('/', $_GET['q']);
     if ($arg[0] == 'node' && isset($arg[1])) {
       if ($arg[1] == 'add') {
@@ -129,6 +130,12 @@ function ddbasic_process_html(&$vars) {
         $vars['classes_array'][] = 'page-panels';
         break;
     }
+  }
+
+  // Color module.
+  // Hook into color.module.
+  if (module_exists('color')) {
+    _color_html_alter($vars);
   }
 }
 
@@ -835,4 +842,14 @@ function ddbasic_item_list($variables) {
     $output .= "</$type>";
   }
   return $output;
+}
+
+/**
+ * Implements hook_process_page().
+ */
+function ddbasic_process_page(&$vars) {
+  // Hook into color.module
+  if (module_exists('color')) {
+    _color_page_alter($vars);
+  }
 }

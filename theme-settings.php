@@ -17,7 +17,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Classes & Markup'),
     '#description' => t('Modify the default classes and markup from Drupal.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -11,
   );
 
@@ -53,7 +53,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Sticky menus'),
     '#description' => t('<h3>Sticky menus</h3>Here you can choose which menus you want to be sticky.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -71,7 +71,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Polyfills'),
     '#description' => t('<h3>Polyfills</h3>Here you can enable commonly used Polyfills supplied with the core theme.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -116,7 +116,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Plugins'),
     '#description' => t('<h3>Plugins</h3>Here you can enable plugins supplied with the core theme.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -138,4 +138,12 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['favicon']['#collapsible'] = TRUE;
   $form['favicon']['#collapsed'] = TRUE;
   $form['favicon']['#weight'] = 50;
+
+  $form['#submit'][] = 'ddbasic_form_system_theme_settings_submit';
+}
+
+function ddbasic_form_system_theme_settings_submit($form, &$form_state) {
+  if (function_exists('sass_compile')) {
+    sass_compile('ddbasic');
+  }
 }
