@@ -3,13 +3,8 @@
   description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
-  css_folder = css
-
-;----------// Sass
-  sass[all][] = sass/ddbasic.styles.scss
 
 ;----------// Stylesheets
-  stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
   stylesheets[all][] = css/system.menus.css
@@ -20,7 +15,7 @@
   stylesheets[all][] = css/jquery.ui.theme.min.css
   stylesheets[all][] = css/jquery.ui.dialog.css
   stylesheets[all][] = css/jquery.ui.dialog.min.css
-
+  stylesheets[all][] = css/ddbasic.styles.css
 
 ;----------// JavaScripts
   scripts[] = scripts/jquery.cookie.js
