@@ -107,7 +107,8 @@ function ddbasic_process_html(&$vars) {
     // Add unique class for each page.
     $path = drupal_get_path_alias($_GET['q']);
     // Add unique class for each website section.
-    list($section, $tmp) = explode('/', $path, 2);
+    $section = explode('/', $path);
+    $section = array_shift($section);
     $arg = explode('/', $_GET['q']);
     if ($arg[0] == 'node' && isset($arg[1])) {
       if ($arg[1] == 'add') {
