@@ -405,6 +405,7 @@ function bpi_available_map() {
     'category' => t('Category'),
     'agency' => t('Agency'),
     'audience' => t('Audience'),
+    'material' => 'Related materials',
   );
 }
 

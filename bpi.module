@@ -281,7 +281,13 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     $form['title']['#default_value'] = isset($bpi_content['title']) ? $bpi_content['title'] : '';
     $teaser = variable_get('bpi_field_teaser', '');
     $body = variable_get('bpi_field_body', '');
+    $materials_field = variable_get('bpi_field_materials', '');
     $current_language = $form['language']['#value'];
+
+    foreach($bpi_content['material'] as $key => $material_number) {
+      ting_reference_field_widget_form($form, $form_state, 'field_materials', array(), $current_language, array(), 0, &$form[$materials_field][$current_language][$key]);
+      $form[$materials_field][$current_language][$key]['#default_value'] = $material_number;
+    }
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
