@@ -4,7 +4,15 @@
  * Wrapper functions for Ting client.
  */
 
-
+/**
+ * Get ting object based on an object id.
+ *
+ * @param string $object_id
+ *   Ting object id.
+ *
+ * @return TingClientObject
+ *   The object requested.
+ */
 function ting_get_object_request($object_id) {
   $request = ting_get_request_factory()->getObjectRequest();
   if ($agency = variable_get('ting_agency', FALSE)) {
@@ -32,12 +40,16 @@ function ting_get_object_request($object_id) {
  * result, and any sub-objects, so fetching objects from a recently
  * fetched collection won't trigger another backend request.
  *
- * @param $object_id The id to fetch.
- *   Object id.
- * @param $collection Whether to return a collection, if possible, or
+ * @param string $object_id
+ *   The id to fetch.
+ * @param bool $collection
+ *   Whether to return a collection, if possible, or
  *   an object.
  *
  * @todo Should use getObject, but the ting-client lib doesn't implement that.
+ *
+ * @return TingClientObject
+ *   Ting object.
  */
 function ting_get_object($object_id, $collection = FALSE) {
   if (empty($object_id)) {
@@ -110,7 +122,7 @@ function ting_get_objects($ids) {
       $query[] = 'rec.id=' . $id;
     }
   }
-  // Opensearch is limited to 50 results per call, so iterate until all results
+  // Open search is limited to 50 results per call, so iterate until all results
   // have been fetched.
   $i = 0;
   do {
@@ -203,7 +215,16 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     }
   }
 
-  $request->setFacets((isset($options['facets'])) ? $options['facets'] : array('facet.subject', 'facet.creator', 'facet.type', 'facet.category', 'facet.language', 'facet.date', 'facet.acSource'));
+  $default_facets = array(
+    'facet.subject',
+    'facet.creator',
+    'facet.type',
+    'facet.category',
+    'facet.language',
+    'facet.date',
+    'facet.acSource',
+  );
+  $request->setFacets((isset($options['facets'])) ? $options['facets'] : $default_facets);
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
   if (isset($options['sort']) && $options['sort']) {
     $request->setSort($options['sort']);
@@ -291,6 +312,9 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  *
  * @param object $request
  *   The request.
+ *
+ * @return object
+ *   The search reply from the data well.
  */
 function ting_execute_cache($request) {
   $calls = &drupal_static(__FUNCTION__);
@@ -298,6 +322,7 @@ function ting_execute_cache($request) {
     $calls = array();
   }
   $calls[] = $request->getRequest()->getParameters();
+
   $reply = ting_execute($request);
 
   // Cache any sub-objects (mostly true for collections).
@@ -375,7 +400,8 @@ function ting_cache_get($id, $collection = FALSE) {
     if (!isset($cache)) {
       $cache = array();
     }
-    // Using array_key_exists, as we might contain NULL values (which is !isset()).
+    // Using array_key_exists, as we might contain NULL values (which is
+    // !isset()).
     if (array_key_exists($cid, $cache)) {
       return $cache[$cid];
     }
@@ -394,7 +420,7 @@ function ting_cache_set($id, $value) {
   $cid .= ':' . $id;
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    $cache = cache_set($cid, $value, 'cache', REQUEST_TIME + $ttl);
+    cache_set($cid, $value, 'cache', REQUEST_TIME + $ttl);
   }
   else {
     // Without proper caching, use a request cache.
@@ -410,23 +436,29 @@ function ting_cache_set($id, $value) {
  * Get recommendations for a given ISBN.
  *
  * @param string $isbn
- *  ISBN number to get recommendations from.
- * @param $numResults
- *  The number of results to return.
+ *   ISBN number to get recommendations from.
+ * @param int $num_results
+ *   The number of results to return.
+ *
  * @return array
- *  An array of TingClientObjectRecommendation objects.
+ *   An array of TingClientObjectRecommendation objects.
  */
-function ting_get_object_recommendations($isbn, $numResults = 10) {
+function ting_get_object_recommendations($isbn, $num_results = 10) {
   $request = ting_get_request_factory()->getObjectRecommendationRequest();
   $request->setIsbn($isbn);
-  $request->setNumResults($numResults);
+  $request->setNumResults($num_results);
   return ting_execute($request);
 }
 
 /**
  * Retrieves an initialized Ting client request factory.
  *
+ * @throws TingClientException
+ *   If there is no end-point url defined in the configuration this exception is
+ *   thrown.
+ *
  * @return TingClientRequestFactory
+ *   TingClientRequestFactory object.
  */
 function ting_get_request_factory() {
   static $request_factory;
@@ -460,6 +492,17 @@ function ting_get_request_factory() {
   return $request_factory;
 }
 
+/**
+ * Add relation type to a search request object.
+ *
+ * @param TingClientSearchRequest $request
+ *   The search request to add the relation to.
+ * @param string $type
+ *   The type of relation add to the request.
+ *
+ * @return TingClientSearchRequest
+ *   The request added the relation.
+ */
 function ting_add_relations($request, $type = 'full') {
   $request->setAllRelations(TRUE);
   $request->setRelationData($type);
@@ -516,9 +559,12 @@ function ting_execute($request) {
 }
 
 /**
- * Retrieves an initialized Ting client with appropriate request adapter and logger
+ * Retrieves an initialized Ting client.
+ *
+ * The client returned is with appropriate request adapter and logger.
  *
  * @return TingClient
+ *   The ting client object that can be used to communicate with the data well.
  */
 function ting_get_client() {
   static $client;
@@ -532,14 +578,21 @@ function ting_get_client() {
 }
 
 /**
- * Use OpenScan to search for keyword, check
- * http://oss.dbc.dk/twiki/bin/view/Databroend/OpenSearchDocIndexes
- * for which phrase index to search, default is 'anyIndexes'
+ * Use OpenScan to search for keyword.
  *
- * @param string $query The prefix to scan for
- * @param string $phrase Which phrase index to search
- * @param int $num_results The numver of results to return
- * @return TingClientScanResult
+ * See http://oss.dbc.dk/twiki/bin/view/Databroend/OpenSearchDocIndexes for
+ * information about which phrase index to search, default is 'anyIndexes'.
+ *
+ * @param string $query
+ *   The prefix to scan for
+ * @param string $phrase
+ *   Which phrase index to search.
+ * @param int $num_results
+ *   The number of results to return.
+ *
+ * @return mixed
+ *   A TingClientScanResult object with the scan results found or FALSE if non
+ *   found or connection failed.
  */
 function ting_do_scan($query, $phrase = 'anyIndexes', $num_results = 10) {
   $request = ting_get_request_factory()->getScanRequest();
@@ -551,8 +604,13 @@ function ting_do_scan($query, $phrase = 'anyIndexes', $num_results = 10) {
 }
 
 /**
- * @param object $request - The TingClient object
+ * Add agency to ting scan request.
+ *
+ * @param TingClientScanRequest $request
+ *   The request to add agency to.
+ *
  * @return TingClientScanRequest
+ *   The request with the added agency.
  */
 function ting_add_agency(TingClientScanRequest $request) {
   if ($agency = variable_get('ting_agency', FALSE)) {
@@ -562,9 +620,16 @@ function ting_add_agency(TingClientScanRequest $request) {
 }
 
 /**
- * @param string $word The word to get spell suggestions for
- * @param $num_results The number of results to return
- * @return array An array of TingClientSpellSuggestion objects
+ * Get spell suggestions from the open spell service.
+ *
+ * @param string $word
+ *   The word to get spell suggestions for.
+ * @param int $num_results
+ *   The number of results to return.
+ *
+ * @return mixed
+ *   Array with TingClientSpellSuggestion objects or FALSE if non found or
+ *   connection failed.
  */
 function ting_get_spell_suggestions($word, $num_results = 10) {
   $request = ting_get_request_factory()->getSpellRequest();
@@ -572,4 +637,3 @@ function ting_get_spell_suggestions($word, $num_results = 10) {
   $request->setNumResults($num_results);
   return ting_execute($request);
 }
-
