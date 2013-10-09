@@ -118,6 +118,13 @@ function ding2_install() {
     // at this point.
   }
 
+  // Submit theme settings.
+  $form_state = form_state_defaults();
+  $form_state['build_info']['args'][0] = 'ding2';
+  $form_state['values'] = array();
+  $form_state['values']['scheme'] = 'classic';
+  drupal_form_submit('system_theme_settings', $form_state);
+
   //
   //  Features.
   //
