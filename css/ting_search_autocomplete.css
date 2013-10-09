@@ -1,6 +1,8 @@
-ul.ui-autocomplete { z-index:100 !important;max-width:300px;}
-  ul.ui-autocomplete li { text-align: left;}
-    ul.ui-autocomplete li a { font-size: 14px; }
+.form-item-search-block-form #autocomplete {
+  z-index: 5000;
+  color: pink;
+}
+
 
 input#edit-search-block-form--2.spinner {
   background-image: url(../img/spinner.gif);
