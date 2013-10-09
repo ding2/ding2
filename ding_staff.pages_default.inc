@@ -85,16 +85,16 @@ function ding_staff_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'main_content';
-    $pane->type = 'entity_field_extra';
-    $pane->subtype = 'user:profile_ding_staff_profile';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'staff_name_menu';
+    $pane->subtype = 'staff_name_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'view_mode' => 'full',
+      'menu_levels' => '1',
       'context' => 'argument_entity_id:user_1',
-      'override_title' => 1,
-      'override_title_text' => '%user:name %profile:field-ding-staff-forename %profile:field_ding_staff_surname',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -105,18 +105,16 @@ function ding_staff_default_page_manager_handlers() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['main_content'][0] = 'new-1';
+    $display->panels['left_sidebar'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'main_content';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-ding_news_list_user';
+    $pane->type = 'staff_profile';
+    $pane->subtype = 'staff_profile';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:user_1',
-      ),
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -126,21 +124,21 @@ function ding_staff_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $display->content['new-2'] = $pane;
-    $display->panels['main_content'][1] = 'new-2';
+    $display->panels['main_content'][0] = 'new-2';
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'right_sidebar';
-    $pane->type = 'staff_contact';
-    $pane->subtype = 'staff_contact';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-ding_news_simple_list_user';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:user_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'context' => array(
+        0 => 'argument_entity_id:user_1',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -153,7 +151,7 @@ function ding_staff_default_page_manager_handlers() {
     $display->content['new-3'] = $pane;
     $display->panels['right_sidebar'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-1';
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $export['user_view_panel_context_3'] = $handler;
 
