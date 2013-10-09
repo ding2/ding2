@@ -35,7 +35,7 @@ $search-border-type: solid;
   }
 
   .form-item {
-    @include zen-grid-item(12, 1);
+    width: 100%
   }
 
   .form-text {

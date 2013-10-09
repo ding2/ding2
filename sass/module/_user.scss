@@ -350,6 +350,12 @@
 .user {
   @extend %search-user-header;
 
+  overflow: hidden;
+
+  .user-field-wrapper {
+    position: relative;
+  }
+
   .form-item-name {
     @include zen-grid-item(6, 1);
 
@@ -374,6 +380,7 @@
     .form-item-name,
     .form-item-pass {
       @include zen-grid-item(12, 1);
+      @include zen-clear();
     }
 
     .form-actions {

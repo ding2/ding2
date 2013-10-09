@@ -127,8 +127,9 @@
   }
 
   .form-actions {
-    @include zen-grid-item(2, 1, right);
-
+    position: absolute;
+    top: 0;
+    right: 0;
     text-align: right;
   }
 
@@ -138,9 +139,9 @@
       font-size: $font-size-small;
     }
 
-    .form-item {
-      @include zen-grid-item(12, 1);
-      @include zen-clear();
+    .form-actions {
+      position: relative;
+      clear: both;
     }
   }
 
@@ -157,8 +158,8 @@
     }
 
     .form-actions {
-      @include zen-grid-item(12, 1);
-      @include zen-clear();
+      position: relative;
+      clear: both;
     }
 
     .form-submit {
