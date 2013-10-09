@@ -5,35 +5,6 @@
  */
 
 /**
- * Get ting object based on an object id.
- *
- * @param string $object_id
- *   Ting object id.
- *
- * @return TingClientObject
- *   The object requested.
- */
-function ting_get_object_request($object_id) {
-  $request = ting_get_request_factory()->getObjectRequest();
-  if ($agency = variable_get('ting_agency', FALSE)) {
-    $request->setAgency($agency);
-  }
-  $request->setObjectId($object_id);
-  $request->setAllRelations(TRUE);
-  $request->setRelationData('full');
-
-  // Set search profile, if applicable.
-  $profile = variable_get('ting_search_profile', '');
-  if (!empty($profile) && method_exists($request, 'setProfile')) {
-    $request->setProfile($profile);
-  }
-
-  $object = ting_execute_cache($request);
-
-  return $object;
-}
-
-/**
  * Get an ting object or collection.
  *
  * Returns the search response for the given id. This will cache the
@@ -43,55 +14,65 @@ function ting_get_object_request($object_id) {
  * @param string $object_id
  *   The id to fetch.
  * @param bool $collection
- *   Whether to return a collection, if possible, or
- *   an object.
+ *   Whether to return a collection, if possible, or an object.
+ * @param bool $with_relations
+ *   Whether to return all relations. Defaults to FALSE.
  *
  * @todo Should use getObject, but the ting-client lib doesn't implement that.
  *
  * @return TingClientObject
  *   Ting object.
  */
-function ting_get_object($object_id, $collection = FALSE) {
-  if (empty($object_id)) {
-    return FALSE;
-  }
-
-  // Check the cache first.
-  $object = ting_cache_get($object_id, $collection);
-  if (!$object) {
-    // Put a negative reply in the cache. It will be overwritten by the
-    // object, or ensure that we won't try to fetch this id again.
-    ting_cache_set($object_id, NULL);
-
+function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
+  if (!empty($object_id)) {
+    // Check the cache first.
+    $object = ting_cache_get($object_id, $collection);
     if (!$object) {
+      // Put a negative reply in the cache. It will be overwritten by the
+      // object, or ensure that we won't try to fetch this id again.
+      ting_cache_set($object_id, NULL);
+
+      // Build request request and set object id.
       $request = ting_get_request_factory()->getCollectionRequest();
       $request->setObjectId($object_id);
+
+      // Set agency from the administration interface.
       if ($agency = variable_get('ting_agency', FALSE)) {
         $request->setAgency($agency);
       }
 
+      // Set search profile from the administration interface.
       $profile = variable_get('ting_search_profile', '');
       if (!empty($profile) && method_exists($request, 'setProfile')) {
         $request->setProfile($profile);
       }
 
+      // Get all relations for the object.
+      if ($with_relations) {
+        $request->setAllRelations(TRUE);
+        $request->setRelationData('full');
+      }
+
+      // Execute the request.
       $request->setAllObjects(FALSE);
       $object = ting_execute_cache($request);
     }
+
+    // If not asking for a collection, and the object is, return the
+    // sub-object with the same id.
+    if (!$collection && isset($object->objects)) {
+      foreach ($object->objects as $sub_object) {
+        if ($sub_object->id == $object_id) {
+          return $sub_object;
+        }
+      }
+      // No sub-object had the same id. Somethings broken.
+      return NULL;
+    }
+    return $object;
   }
 
-  // If not asking for a collection, and the object is, return the
-  // sub-object with the same id.
-  if (!$collection && isset($object->objects)) {
-    foreach ($object->objects as $sub_object) {
-      if ($sub_object->id == $object_id) {
-        return $sub_object;
-      }
-    }
-    // No sub-object had the same id. Somethings broken.
-    return NULL;
-  }
-  return $object;
+  return NULL;
 }
 
 /**
