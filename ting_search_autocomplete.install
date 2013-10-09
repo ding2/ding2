@@ -1,10 +1,9 @@
 <?php
 /**
  * @file
- * Performs auto-complete for the Ting search box.
+ * Defines the cache table to store auto-complete data from the web-services
+ * used by this module.
  */
-
-
 
 /**
  * Implements hook_schema().
