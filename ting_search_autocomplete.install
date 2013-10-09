@@ -1,21 +1,12 @@
 <?php
 /**
- * @file ting_search_autocomplete.module
- * Performs autocomplete for the Ting search box.
+ * @file
+ * Defines the cache table to store auto-complete data from the web-services
+ * used by this module.
  */
 
 /**
- * Implementation of hook_install().
- */
-function ting_search_autocomplete_install() {}
-
-/**
- * Implementation of hook_uninstall().
- */
-function ting_search_autocomplete_uninstall() {}
-
-/**
- * Implementation of hook_schema().
+ * Implements hook_schema().
  */
 function ting_search_autocomplete_schema() {
   $schema = array();
