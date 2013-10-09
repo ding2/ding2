@@ -105,8 +105,6 @@ function ding_availability_field_formatter_settings_form($field, $instance, $vie
   return $element;
 }
 
-
-
 /**
  * Implements hook_field_formatter_settings_summary().
  */
@@ -258,7 +256,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             }
 
             // The online url can't be used with l(), has it will encode it.
-            $typelink = '<a href="' . $url['path'] . '">' . check_plain($type) . $available_online_label . '</a>';
+            $typelink = '<a href="/' . $url['path'] . '">' . check_plain($type) . $available_online_label . '</a>';
           }
 
           // Create a list element for each type.
