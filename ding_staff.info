@@ -40,6 +40,7 @@ features[field_base][] = field_ding_staff_library
 features[field_base][] = field_ding_staff_phone
 features[field_base][] = field_ding_staff_position
 features[field_base][] = field_ding_staff_surname
+features[field_group][] = group_contactinfo|profile2|ding_staff_profile|default
 features[field_group][] = group_ding_staff_contact|profile2|staff|form
 features[field_group][] = group_ding_staff_name|profile2|staff|form
 features[field_group][] = group_ding_staff_organisation|profile2|staff|form
