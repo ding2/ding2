@@ -70,7 +70,10 @@ function ting_search_autocomplete($string = '', $reset = FALSE) {
       // Add the results to the matches array, but truncate it to ensure that it
       // is displayed correctly in the frontend.
       foreach ($terms as $term) {
-        $matches[drupal_strtolower($term->name)] = truncate_utf8($term->name, 128, TRUE);
+        // The term is truncate to 128 chars as this is the default max-length
+        // for the search field.
+        $name = truncate_utf8($term->name, 128, TRUE);
+        $matches[drupal_strtolower($name)] = $name;
       }
     }
 
