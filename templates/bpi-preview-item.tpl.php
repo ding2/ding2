@@ -29,6 +29,10 @@
         <span class="item-details-audience-label details-label"><?php echo bpi_label_mapper('audience'); ?>: </span>
         <span class="item-details-audience-value details-value"><?php echo l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience']))); ?></span>
       </p>
+      <p class="item-details-material">
+        <span class="details-label"><?php echo bpi_label_mapper('material'); ?>: </span>
+        <span class="details-value"><?php echo implode(', ', (array) $item['material']) ?></span>
+      </p>
     </div>
   </div>
   <p class="item-action item-action-syndicate">

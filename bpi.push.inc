@@ -383,7 +383,8 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       if (is_numeric($key)) {
         $record = $value['#object']->getRecord();
         $ac_identifier_array = array_shift(array_values($record['ac:identifier']));
-        $materials_drupal[] = $ac_identifier_array[0];
+        $parts = explode('|', $ac_identifier_array[0]);
+        $materials_drupal[] = $parts[1] . ':' . $parts[0];
       }
     }
 
@@ -405,7 +406,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $bpi_content['type'] = $node->type;
     $bpi_content['category'] = $category;
     $bpi_content['audience'] = $audience;
-    $bpi_content['materials_drupal'] = $materials_drupal;
+    $bpi_content['related_materials'] = $materials_drupal;
     $bpi_content['editable'] = 0;
     $bpi_content['authorship'] = ($authorship) ? TRUE : FALSE;
     $bpi_content['images'] = array();
