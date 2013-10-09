@@ -48,6 +48,16 @@ function ding2_install() {
       'link_title' => $t('Translation'),
       'weight' => -17,
     ),
+    array(
+      'link_path' => 'admin/appearance/settings/ddbasic',
+      'link_title' => $t('Theme settings'),
+      'weight' => -18,
+    ),
+    array(
+      'link_path' => 'admin/config/user-interface/backgrounds',
+      'link_title' => $t('Backgrounds'),
+      'weight' => -19,
+    ),
   );
   shortcut_set_save($shortcut_set);
 
