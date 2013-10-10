@@ -24,25 +24,17 @@ function ding_staff_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Staff';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'footable';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['columns'] = array(
@@ -216,7 +208,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_position']['id'] = 'field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['table'] = 'field_data_field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['field'] = 'field_ding_staff_position';
-  $handler->display->display_options['fields']['field_ding_staff_position']['label'] = 'Position';
   $handler->display->display_options['fields']['field_ding_staff_position']['element_label_colon'] = FALSE;
   /* Field: Profile: Department */
   $handler->display->display_options['fields']['field_ding_staff_department']['id'] = 'field_ding_staff_department';
@@ -230,7 +221,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_library']['id'] = 'field_ding_staff_library';
   $handler->display->display_options['fields']['field_ding_staff_library']['table'] = 'field_data_field_ding_staff_library';
   $handler->display->display_options['fields']['field_ding_staff_library']['field'] = 'field_ding_staff_library';
-  $handler->display->display_options['fields']['field_ding_staff_library']['label'] = 'Library';
   $handler->display->display_options['fields']['field_ding_staff_library']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_library']['click_sort_column'] = 'gid';
   $handler->display->display_options['fields']['field_ding_staff_library']['delta_offset'] = '0';
@@ -259,6 +249,8 @@ function ding_staff_views_default_views() {
 
   /* Display: All staff list */
   $handler = $view->new_display('panel_pane', 'All staff list', 'ding_staff_list_all');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'All libraries: Staff';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['grouping'] = array(
@@ -547,16 +539,16 @@ function ding_staff_views_default_views() {
   );
   $translatables['ding_staff'] = array(
     t('Master'),
-    t('Personale'),
-    t('mere'),
-    t('Udfør'),
+    t('Staff'),
+    t('more'),
+    t('Apply'),
     t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
     t('« første'),
     t('‹ forrige'),
     t('næste ›'),
@@ -567,16 +559,17 @@ function ding_staff_views_default_views() {
     t('[field_ding_staff_surname], [field_ding_staff_forename]'),
     t('Position'),
     t('Department'),
-    t('Bibliotek'),
+    t('Library'),
     t('Phone'),
     t('E-mail'),
     t('All staff list'),
+    t('All libraries: Staff'),
     t('Ph'),
     t('Department(s)'),
     t('Bruger'),
     t('Library departments list'),
     t('Department grouped list, not using tables'),
-    t('term fra field_ding_staff_department'),
+    t('term from field_ding_staff_department'),
     t('[field_ding_staff_forename] [field_ding_staff_surname]'),
     t('Alle'),
   );
@@ -596,25 +589,17 @@ function ding_staff_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'People (D!ng users)';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'more';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '50';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'views_bulk_operations' => 'views_bulk_operations',
@@ -1050,20 +1035,20 @@ function ding_staff_views_default_views() {
   $translatables['ding_staff_admin_users'] = array(
     t('Master'),
     t('People (D!ng users)'),
-    t('mere'),
-    t('Udfør'),
+    t('more'),
+    t('Apply'),
     t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
     t('« første'),
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
-    t('Ingen brugere tilgængelige.'),
+    t('No users available.'),
     t('Profil'),
     t('Bruger'),
     t('Navn'),
