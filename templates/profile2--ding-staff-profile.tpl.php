@@ -30,17 +30,15 @@
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   
-  <h3><?php print render($content['field_ding_staff_forename'][0])?> <?php print render($content['field_ding_staff_surname'][0])?></h3>
-  
   <div class="content"<?php print $content_attributes; ?>>
     <?php
-      // Hide previously rendered fields
+      // Hide name fields - they are present in the panel pane title 
       hide($content['field_ding_staff_forename']);
       hide($content['field_ding_staff_surname']);
       
       // Hide fields 
-      hide($content['field_ding_staff_email']);
-      hide($content['field_ding_staff_phone']);
+      //hide($content['field_ding_staff_email']);
+      //hide($content['field_ding_staff_phone']);
 
       // Render remaining fields
       print render($content);
