@@ -379,6 +379,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       $teaser = $teaser_field['#items'][0]['safe_value'];
     }
 
+    $materials_drupal = array();
     foreach ($materials_map as $key => $value) {
       if (is_numeric($key)) {
         $record = $value['#object']->getRecord();
