@@ -94,6 +94,9 @@ libraries[profiler][download][tag] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 ; Contrib modules
+projects[entitycache][subdir] = "contrib"
+projects[entitycache][version] = "1.1"
+
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 
