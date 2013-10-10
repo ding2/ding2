@@ -230,6 +230,13 @@ function ting_block_info() {
 }
 
 /**
+ * Implements hook_flush_caches().
+ */
+function ting_flush_caches() {
+  return array('cache_ting');
+}
+
+/**
  * Get relations for an ting_entity as an array ([$type] => array($relations)).
  */
 function ting_get_relations($ting_entity) {
@@ -776,10 +783,13 @@ function ting_boost_field_element_process($element, $form_state) {
   return $element;
 }
 
+/**
+ * Validate the boost form.
+ */
 function boost_weight_validate($element, &$form_state) {
-   if ( !empty($element['#value']) && ($element['#value'] != (string)(int)$element['#value']) ) {
-     form_error($element, t('Boost weight is an integer.'));
-   }
+  if (!empty($element['#value']) && (is_int($element['#value']))) {
+    form_error($element, t('Boost weight is an integer.'));
+  }
 }
 
 /**

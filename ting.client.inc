@@ -398,7 +398,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT) {
   $cid = $type . ':' . $id;
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    $cache = cache_get($cid);
+    $cache = cache_get($cid, 'cache_ting');
     if ($cache && ($cache->expire > REQUEST_TIME)) {
       return $cache->data;
     }
@@ -444,7 +444,7 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
   $cid = $type . ':' . $id;
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
-    cache_set($cid, $value, 'cache', REQUEST_TIME + $ttl);
+    cache_set($cid, $value, 'cache_ting', REQUEST_TIME + $ttl);
   }
   else {
     // Without proper caching, use a static cache that only works on pr.
