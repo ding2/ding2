@@ -28,4 +28,7 @@ dependencies[] = ding_library_menu
 dependencies[] = ding_session_cache
 dependencies[] = ding_bookmark
 
+; Cache/performance modules
+dependencies[] = entitycache
+
 files[] = ding2.profile
