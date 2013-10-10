@@ -4,8 +4,6 @@
  * Enables listing the newest materials .
  */
 
-include_once 'ting_new_materials.features.inc';
-
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -74,13 +72,14 @@ function ting_new_materials_node_update($node) {
 /**
  * Builds a search query string against the Data Well.
  *
- * @param type $entity
- *  A new materials entity content type.
- * @param type $limit_query
- *  If TRUE the search query will be limited to the number of months given in
- *  the entity. Default TRUE.
+ * @param Entity $entity
+ *   A new materials entity content type.
+ * @param bool $limit_query
+ *   If TRUE the search query will be limited to the number of months given in
+ *   the entity. Default TRUE.
+ *
  * @return string
- *  Ting data well search string.
+ *   Ting data well search string.
  */
 function ting_new_materials_build_search_query($entity, $limit_query = TRUE) {
   // Get search query from the entity.
@@ -105,10 +104,11 @@ function ting_new_materials_build_search_query($entity, $limit_query = TRUE) {
  * Limit a search query expression to a specified number of months.
  *
  * @param int $limit
- *  The number of months back to limit the results.  Min 1 and max 12 month. 0
- *  means unlimited.
- * @return string $query
- *  The limit by month search query expression.
+ *   The number of months back to limit the results.  Min 1 and max 12 month. 0
+ *   means unlimited.
+ *
+ * @return string
+ *   The limit by month search query expression.
  */
 function ting_new_materials_make_limit_query($limit = 0) {
   $query = "";
@@ -130,19 +130,21 @@ function ting_new_materials_make_limit_query($limit = 0) {
 /**
  * Performs a query against the Data Well and returns the objects.
  *
- * @param string @query
- *  The query string.
- * @param $page int
- *  The page number.
- * @return TingClientSearchResult
- *  The search result.
+ * @param string $query
+ *   The query string.
+ * @param int $page
+ *   The current page number.
+ * @param int $num_per_page
+ *   The page number.
  *
+ * @return TingClientSearchResult
+ *   The search result.
  */
 function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   // Load the ting client.
   module_load_include('client.inc', 'ting');
 
-  // Build search options and ensure that they are sorted corretly.
+  // Build search options and ensure that they are sorted correctly.
   $options = array();
   $options['sort'] = 'acquisitionDate_descending';
   $options['enrich'] = TRUE;
@@ -152,9 +154,12 @@ function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   $search_result = array();
   try {
     $search_result = ting_do_search($query, $page + 1, $num_per_page, $options);
-  } catch (TingClientException $e) {
+  }
+  catch (TingClientException $e) {
     watchdog('ting_new_materials', 'Failed to get objects from the Data well: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
   }
 
   return $search_result;
 }
+
+include_once 'ting_new_materials.features.inc';
