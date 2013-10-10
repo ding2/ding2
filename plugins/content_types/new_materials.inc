@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**
  * @file
  * This plugin generates a search result based on a new materials node. It's

@@ -2,7 +2,6 @@
 /**
  * @file
  * Default theme implementation for displaying ting new materials results.
- *
  */
 ?>
 <?php if ($title) : ?>
@@ -29,4 +28,3 @@
     <?php print t('There were no new materials in this period'); ?>
   </div>
 <?php endif; ?>
-
