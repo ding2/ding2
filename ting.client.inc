@@ -26,7 +26,7 @@
 function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
     // Check the cache first.
-    $object = ting_cache_get($object_id, $collection);
+    $object = ting_cache_get($object_id, ($collection ? TING_CACHE_COLLECTION : TING_CACHE_TING_OBJECT));
     if (!$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.
@@ -298,75 +298,104 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  *   The search reply from the data well.
  */
 function ting_execute_cache($request) {
+  $parms = $request->getRequest()->getParameters();
+
+  // Handle fulltext vs. dkabm caching of object.
+  $type = TING_CACHE_TING_OBJECT;
+  if ($parms['format'] == 'docbook') {
+    $type = TING_CACHE_TING_OBJECT_FULLTEXT;
+  }
+
+  // User static cache to store request, used in another function to see if the
+  // same request is made more than once.
   $calls = &drupal_static(__FUNCTION__);
   if (!isset($calls)) {
     $calls = array();
   }
-  $calls[] = $request->getRequest()->getParameters();
+  $calls[] = $parms;
 
-  $reply = ting_execute($request);
+  // Check if the reply have been stored in cache.
+  $reply = ting_cache_get(md5(serialize($parms)), TING_CACHE_REPLY);
 
-  // Cache any sub-objects (mostly true for collections).
-  if (isset($reply->objects)) {
-    foreach ($reply->objects as $object) {
-      ting_cache_set($object->id, $object);
-      // Cache any relations.
-      if (isset($object->relations)) {
-        foreach ($object->relations as $relation) {
-          if (isset($relation->id)) {
-            ting_cache_set($relation->id, $relation);
-          }
-        }
-      }
-    }
-    // Cache the reply as the first object's id. This is for collections.
-    if (!isset($reply->id) and isset($reply->objects[0])) {
-      ting_cache_set($reply->objects[0]->id, $reply);
-    }
-  }
+  if (!isset($reply)) {
+    // Reply for the request was not found, so we have to ask the data well.
+    $reply = ting_execute($request);
 
-  // Cache any collections. Done after objects to ensure that collections take
-  // precedence.
-  if (isset($reply->collections)) {
-    foreach ($reply->collections as &$collection) {
-      if (isset($collection->objects[0])) {
-        foreach ($collection->objects as $object) {
-          // Cache any relations.
-          if (isset($object->relations)) {
-            foreach ($object->relations as $relation) {
-              if (isset($relation->id)) {
-                ting_cache_set($relation->id, $relation);
-              }
+    // Cache any sub-objects (mostly true for collections).
+    if (isset($reply->objects)) {
+      foreach ($reply->objects as $object) {
+        ting_cache_set($object->id, $object, $type);
+        // Cache any relations.
+        if (isset($object->relations)) {
+          foreach ($object->relations as $relation) {
+            if (isset($relation->id)) {
+              ting_cache_set($relation->id, $relation);
             }
           }
-          ting_cache_set($object->id, $object);
         }
-
-        ting_cache_set($collection->objects[0]->id, $collection);
       }
     }
-  }
 
-  // Cache any relations.
-  if (isset($reply->relations)) {
-    foreach ($reply->relations as $object) {
-      ting_cache_set($object->id, $object);
+    // Cache any collections. Done after objects to ensure that collections take
+    // precedence.
+    if (isset($reply->collections)) {
+      foreach ($reply->collections as &$collection) {
+        if (isset($collection->objects[0])) {
+          foreach ($collection->objects as $object) {
+            // Cache any relations.
+            if (isset($object->relations)) {
+              foreach ($object->relations as $relation) {
+                if (isset($relation->id)) {
+                  ting_cache_set($relation->id, $relation);
+                }
+              }
+            }
+            ting_cache_set($object->id, $object, $type);
+          }
+          ting_cache_set($collection->objects[0]->id, $collection, TING_CACHE_COLLECTION);
+        }
+      }
     }
-  }
 
-  // Lastly cache the reply itself if it has an id.
-  if (isset($reply->id)) {
-    ting_cache_set($reply->id, $reply);
+    // Cache any relations.
+    if (isset($reply->relations)) {
+      foreach ($reply->relations as $relation) {
+        ting_cache_set($relation->id, $relation);
+      }
+    }
+
+    // Store the reply for the request itself in the cache.
+    ting_cache_set(md5(serialize($parms)), $reply, TING_CACHE_REPLY);
   }
 
   return $reply;
 }
 
 /**
- * Get item from static cache.
+ * Get cached version of a data well search.
+ *
+ * The cache can lookup ting objects, ting collections or even a replay from
+ * the data well.
+ *
+ * To retrieve an reply simple extract the params from the request object,
+ * serialize them and make a MD5 hash as id.
+ *
+ * @see ting_execute_cache()
+ *
+ * @param string $id
+ *   Object id or the MD5 hash of the parameters used to execute a search
+ *   against the date well.
+ * @param string $type
+ *   The type of data to cache, which is used to set the cache id. It should be
+ *   one off: TING_CACHE_TING_OBJECT, TING_CACHE_COLLECTION,
+ *   TING_CACHE_TING_OBJECT_FULLTEXT or TING_CACHE_REPLY.
+ *
+ * @return mixed
+ *   The cached item based on the $type and $id given. If non found in the cache
+ *   NULL is returned.
  */
-function ting_cache_get($id, $collection = FALSE) {
-  $cid = 'ting-' . ($collection ? 'collection' : 'object') . ':' . $id;
+function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT) {
+  $cid = $type . ':' . $id;
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get($cid);
@@ -391,20 +420,35 @@ function ting_cache_get($id, $collection = FALSE) {
 }
 
 /**
- * Put item in the static cache.
+ * Store cached version of a data well search.
+ *
+ * The cache can store ting objects, ting collections or even a replay from
+ * the data well.
+ *
+ * To store an reply simple extract the params from the request object,
+ * serialize them and make a MD5 hash as id.
+ *
+ * @see ting_execute_cache()
+ *
+ * @param string $id
+ *   Id that the item was cached under.
+ * @param mixed $value
+ *   The value to store in the cache.
+ * @param string $type
+ *   The type of data to cache, which is used to set the cache id. It should be
+ *   one off: TING_CACHE_TING_OBJECT, TING_CACHE_COLLECTION,
+ *   TING_CACHE_TING_OBJECT_FULLTEXT or TING_CACHE_REPLY.
  */
-function ting_cache_set($id, $value) {
-  $cid = 'ting-object';
-  if ($value instanceof TingClientObjectCollection) {
-    $cid = 'ting-collection';
-  }
-  $cid .= ':' . $id;
+function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
+  // Define the cache id.
+  $cid = $type . ':' . $id;
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     cache_set($cid, $value, 'cache', REQUEST_TIME + $ttl);
   }
   else {
-    // Without proper caching, use a request cache.
+    // Without proper caching, use a static cache that only works on pr.
+    // request.
     $cache = &drupal_static(__FUNCTION__);
     if (!isset($cache)) {
       $cache = array();
