@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Field hook implementations.
@@ -51,7 +50,7 @@ function ting_covers_field_formatter_info() {
       'settings' => array(
         'image_style' => 'medium',
       ),
-    )
+    ),
   );
 }
 
@@ -60,7 +59,7 @@ function ting_covers_field_formatter_info() {
  */
 function ting_covers_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
   $element = array();
-  
+
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
 
@@ -102,16 +101,17 @@ function ting_covers_field_formatter_settings_summary($field, $instance, $view_m
  */
 function ting_covers_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+
   foreach ($items as $delta => $item) {
     $element[$delta] = array(
       '#theme' => 'ting_object_cover',
       '#object' => $entity,
       '#image_style' => $display['settings']['image_style'],
       '#attached' => array(
-    	'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
-    ),
-  );
-
+        'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
+      ),
+    );
   }
+
   return $element;
 }
