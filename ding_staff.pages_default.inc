@@ -221,7 +221,7 @@ function ding_staff_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'All libraries: staff';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -249,7 +249,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_staff-ding_staff_list';
+    $pane->subtype = 'ding_staff-ding_staff_list_all';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -264,7 +264,7 @@ function ding_staff_default_page_manager_pages() {
     $display->content['new-2'] = $pane;
     $display->panels['main_content'][0] = 'new-2';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-2';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_staff'] = $page;
