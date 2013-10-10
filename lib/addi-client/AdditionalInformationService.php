@@ -12,8 +12,8 @@ class AdditionalInformationService {
 
 
   /**
-    * Instantiate the addi client.
-    */
+   * Instantiate the addi client.
+   */
   public function __construct($wsdl_url, $username, $group, $password) {
     $this->wsdlUrl = $wsdl_url;
     $this->username = $username;
@@ -50,8 +50,8 @@ class AdditionalInformationService {
    * @return array
    *   Array of the images that were found.
    */
-  public function getByFaustNumber($faustNumber) {
-    $identifiers = $this->collectIdentifiers('faust', $faustNumber);
+  public function getByFaustNumber($faust_number) {
+    $identifiers = $this->collectIdentifiers('faust', $faust_number);
     $response = $this->sendRequest($identifiers);
     return $this->extractAdditionalInformation('faust', $response);
   }
@@ -100,18 +100,20 @@ class AdditionalInformationService {
    * Send request to the addi server, returning the data response.
    */
   protected function sendRequest($identifiers) {
-    $authInfo = array('authenticationUser' => $this->username,
-                      'authenticationGroup' => $this->group,
-                      'authenticationPassword' => $this->password);
+    $auth_info = array(
+      'authenticationUser' => $this->username,
+      'authenticationGroup' => $this->group,
+      'authenticationPassword' => $this->password,
+    );
 
     // New moreinfo service.
     $client = new SoapClient($this->wsdlUrl . '/moreinfo.wsdl');
 
     // Record the start time, so we can calculate the difference, once
     // the addi service responds.
-    $startTime = explode(' ', microtime());
+    $start_time = explode(' ', microtime());
 
-    // Start on the responce object.
+    // Start on the responds object.
     $response = new stdClass();
     $response->identifierInformation = array();
 
@@ -121,7 +123,7 @@ class AdditionalInformationService {
       $ids = array_slice($identifiers, $offset, 40);
       while (!empty($ids)) {
         $data = $client->moreInfo(array(
-          'authentication' => $authInfo,
+          'authentication' => $auth_info,
           'identifier' => $ids,
         ));
 
@@ -143,7 +145,6 @@ class AdditionalInformationService {
         }
 
         // Single image... not array but object.
-
         $offset += 40;
         $ids = array_splice($identifiers, $offset, 40);
       }
@@ -153,11 +154,11 @@ class AdditionalInformationService {
       throw new AdditionalInformationServiceException($e->getMessage());
     }
 
-    $stopTime = explode(' ', microtime());
-    $time = floatval(($stopTime[1] + $stopTime[0]) - ($startTime[1] + $startTime[0]));
+    $stop_time = explode(' ', microtime());
+    $time = floatval(($stop_time[1] + $stop_time[0]) - ($start_time[1] + $start_time[0]));
 
-    //Drupal specific code - consider moving this elsewhere
-    if (variable_get('addi_enable_logging', false)) {
+    // Drupal specific code - consider moving this elsewhere.
+    if (variable_get('addi_enable_logging', FALSE)) {
       watchdog('addi', 'Completed request (' . round($time, 3) . 's): Ids: %ids', array('%ids' => implode(', ', $ids)), WATCHDOG_DEBUG, 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
     }
 
@@ -171,12 +172,12 @@ class AdditionalInformationService {
   /**
    * Extract the data we need from the server response.
    */
-  protected function extractAdditionalInformation($idName, $response) {
-    $additionalInformations = array();
+  protected function extractAdditionalInformation($id_name, $response) {
+    $additional_informations = array();
 
     foreach ($response->identifierInformation as $info) {
       $thumbnail_url = $detail_url = NULL;
-      $cover_image =  isset($info->coverImage) ? $info->coverImage : FALSE;
+      $cover_image = isset($info->coverImage) ? $info->coverImage : FALSE;
 
       if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
         if (!is_array($cover_image)) {
@@ -188,20 +189,22 @@ class AdditionalInformationService {
             case 'thumbnail':
               $thumbnail_url = $image->_;
               break;
+
             case 'detail':
               $detail_url = $image->_;
               break;
+
             default:
               // Do nothing other image sizes may appear but ignore them for
               // now.
           }
         }
 
-        $additionalInfo = new AdditionalInformation($thumbnail_url, $detail_url);
-        $additionalInformations[$info->identifier->$idName] = $additionalInfo;
+        $additional_info = new AdditionalInformation($thumbnail_url, $detail_url);
+        $additional_informations[$info->identifier->$id_name] = $additional_info;
       }
     }
 
-    return $additionalInformations;
+    return $additional_informations;
   }
 }
