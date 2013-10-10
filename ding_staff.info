@@ -13,7 +13,6 @@ dependencies[] = email
 dependencies[] = entity
 dependencies[] = features
 dependencies[] = field_group
-dependencies[] = footable
 dependencies[] = image
 dependencies[] = media
 dependencies[] = og
