@@ -4,7 +4,6 @@
  * Handles sfx-fields for ting entities.
  */
 
-
 /**
  * Implements hook_field_info().
  *
@@ -85,7 +84,7 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
   $element = array();
   switch ($display['type']) {
     case 'ting_sfx_default':
-      foreach ($items as $delta => $items) {
+      foreach ($items as $delta => $item) {
         $element[$delta] = ting_sfx_get_markup($entity);
       }
       break;
@@ -99,7 +98,7 @@ function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance,
 /**
  * Get markup for the sfx button.
  *
- * @param TingObject $entity
+ * @param TingEntity $entity
  *   TingObject object, sfx value which is to be rendered.
  *
  * @return array
