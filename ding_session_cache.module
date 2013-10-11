@@ -5,7 +5,6 @@
  * should only be available during a sessions lifespan.
  */
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  *
@@ -89,7 +88,7 @@ function ding_session_cache_set($module, $cid, $data) {
  *   Index data is stored under.
  *
  * @return mixed
- *  If data found it's returned else FALSE.
+ *   If data found it's returned else FALSE.
  */
 function ding_session_cache_get($module, $cid) {
   if (_ding_session_cache_enabled($module)) {
@@ -97,8 +96,8 @@ function ding_session_cache_get($module, $cid) {
     if (isset($cache->expire) && $cache->expire > REQUEST_TIME) {
       return $cache->data;
     }
-    return FALSE;
   }
+  return FALSE;
 }
 
 /**
@@ -130,8 +129,7 @@ function ding_session_cache_flush_caches() {
 }
 
 /**
- * Checks if caching is activated in the administration interface for the module
- * given.
+ * Checks if caching is activated for the module given as parameter.
  *
  * @param string $module
  *   Name of the module to check.
@@ -148,8 +146,8 @@ function _ding_session_cache_enabled($module) {
 }
 
 /**
- * Get expire timestamp based on the maximum cache lifetime configured for the
- * module given.
+ * Get expire timestamp based on the maximum cache lifetime for the module
+ * given as parameter.
  *
  * @param string $module
  *   Name of the module to get the expire for.
@@ -178,7 +176,7 @@ function _ding_session_cache_get_conf($module) {
   // First try to load conf from database.
   $conf = variable_get('ding_session_cache', array());
   if (!isset($conf[$module])) {
-    // Configuraion not found, try the modules defaults.
+    // Configuration not found, try the modules defaults.
     $function = $module . '_ding_session_cache_defaults';
     if (function_exists($function)) {
       return $function();
