@@ -1,9 +1,14 @@
 <?php
+/**
+ * @file
+ *
+ */
 
-// Install and update hooks for ding_library.
-
+/**
+ * Implements hook_install().
+ */
 function ding_library_install() {
-  // Disable default OG member rules
+  // Disable default OG member rules.
   db_update('rules_config')
     ->fields(array('active' => 0))
     ->condition(db_or()
@@ -11,6 +16,22 @@ function ding_library_install() {
     ->condition('name', 'rules_og_member_pending')
     ->condition('name', 'rules_og_group_content_notification'))
     ->execute();
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ding_library_enable() {
+  $path = array(
+    'source' => 'libraries',
+    'language' => 'da',
+  );
+
+  // Create Danish alias for libraries if needed.
+  if (!path_load($path)) {
+    $path['alias'] = 'biblioteker';
+    path_save($path);
+  }
 }
 
 /**
@@ -22,15 +43,17 @@ function ding_library_update_7001() {
   // Delete menu_block menu, not needed anymore.
   db_delete('block')
     ->condition('module', 'menu_block')
-    ->condition('delta','ding_content-main-lvl1')
-    ->condition('theme',$default_theme)
+    ->condition('delta', 'ding_content-main-lvl1')
+    ->condition('theme', $default_theme)
     ->execute();
+
   // Delete any left over library_menus.
   db_delete('block')
     ->condition('module', 'ding_library')
     ->condition('delta', 'library_menu')
     ->condition('theme', $default_theme)
     ->execute();
+
   // Add the new ding_menu.
   db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'))->values(array(
       'module' => 'ding_library',

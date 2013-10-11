@@ -12,9 +12,10 @@ function ding_library_menu_menu_alter(&$items) {
     // If the Link is to news og events we use the general news and event views.
     if (isset($item['linktype']) && $item['linktype'] == 'general_view_linktype') {
       $full_path = 'bibliotek/%pm_arg/' . $path_suffix;
-    } else {
-       $full_path = 'node/%pm_arg/' . $path_suffix;
-    }    
+    }
+    else {
+      $full_path = 'node/%pm_arg/' . $path_suffix;
+    }
     if (isset($items[$full_path]) && isset($item['title'])) {
       $items[$full_path]['title'] = $item['title'];
     }
@@ -77,14 +78,12 @@ function _ding_libary_menu_rebuild() {
     $path = implode('/', $path_parts);
     // If link does not exist, create it.
     if (empty($existing_links[$path])) {
-      /*
-       * We cannot use the same title as the router item to get the
-       * link title translated, as the router item for node/% is empty
-       * and an empty string would then be used in the menu admin
-       * pages. The loss isn't that great though, as library names are
-       * proper names, and you'd translate the node itself which gets
-       * a new menu link anyway.
-       */
+      // We cannot use the same title as the router item to get the
+      // link title translated, as the router item for node/% is empty
+      // and an empty string would then be used in the menu admin
+      // pages. The loss isn't that great though, as library names are
+      // proper names, and you'd translate the node itself which gets
+      // a new menu link anyway.
       $item = _ding_libary_menu_save($path, $node->title, $parent);
       $existing_links[$path] = $item;
     }
@@ -97,13 +96,15 @@ function _ding_libary_menu_rebuild() {
 
 
     foreach (module_invoke_all('ding_library_menu_links') as $path_suffix => $link) {
-      // If the Link is to news og events we use the general news and event views.
+      // If the Link is to news og events we use the general news and event
+      // views.
       if (isset($link['linktype']) && $link['linktype'] == 'general_view_linktype') {
         $path_parts = array('bibliotek', $node->nid);
-      } else {
+      }
+      else {
         $path_parts = array('node', $node->nid);
       }
-      
+
       $path_parts[] = $path_suffix;
 
       // Use the main page as parent.
@@ -120,7 +121,7 @@ function _ding_libary_menu_rebuild() {
 
       // If link does not exist, create it.
       if (empty($existing_links[$path])) {
-        /* Using the same as the router  makes translation work. */
+        // Using the same as the router  makes translation work.
         $item = _ding_libary_menu_save($path, $link['title'], $parent, empty($link['weight']) ? 0 : $link['weight']);
 
         $existing_links[$path] = $item;
@@ -135,6 +136,21 @@ function _ding_libary_menu_rebuild() {
   }
 }
 
+/**
+ * Helper function create new library menu path.
+ *
+ * @param string $path
+ *   Path that the menu item should point to.
+ * @param string $title
+ *   Menu item title to display to the user.
+ * @param array $parent
+ *   Parent menu item.
+ * @param int $weight
+ *   Item weight in the menu.
+ *
+ * @return mixed
+ *   If the menu item is saved it is returned else FALSE.
+ */
 function _ding_libary_menu_save($path, $title, $parent, $weight = NULL) {
   $item = array(
     'plid' => $parent['mlid'],
