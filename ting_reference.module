@@ -48,7 +48,7 @@ function ting_reference_entity_info_alter(&$entity_info) {
  */
 function ting_reference_preprocess_ting_object(&$variables) {
   if (isset($variables['content']['ting_reference_reverse'])) {
-    $variables['content']['ting_reference_reverse']['#prefix'] =  '<a name="ting_reference"></a>';
+    $variables['content']['ting_reference_reverse']['#prefix'] = '<a name="ting_reference"></a>';
   }
 }
 
@@ -256,7 +256,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
     case 'ting_reference_default':
       $entity_ids = array();
 
-      // Extract the IDs for the ting_object entites we need to load.
+      // Extract the IDs for the ting_object entities we need to load.
       foreach ($items as $item) {
         $entity_id = $item['value']->endpoints[$langcode][1]['entity_id'];
         $entity_ids[$item['value']->rid] = $entity_id;
@@ -270,17 +270,13 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
       break;
 
     case 'ting_reference_reverse_default':
-      $entity_ids = array();
-
-      // Extract the IDs for the entites we need to load.
+      // Extract the IDs for the entities we need to load.
       foreach ($items as $item) {
         // Get endpoint information.
         $entity_id = $item['value']->endpoints[$langcode][0]['entity_id'];
         $entity_type = $item['value']->endpoints[$langcode][0]['entity_type'];
 
-        /**
-         * @TODO: make view mode configurable.
-         */
+        // @TODO: make view mode configurable.
         // Load the entity and build it.
         $entities = entity_load($entity_type, array($entity_id));
         $build = entity_view($entity_type, $entities, 'teaser');
@@ -304,7 +300,7 @@ function ting_reference_field_widget_info() {
       'label' => t('Ting reference (simple)'),
       'field types' => array('ting_reference'),
       'behaviors' => array(
-        'default value' => FIELD_BEHAVIOR_NONE
+        'default value' => FIELD_BEHAVIOR_NONE,
       ),
     ),
     'ting_reference_advanced' => array(
@@ -331,17 +327,12 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
   $ting_object_id = '';
   $item = FALSE;
   if (!empty($items) && isset($items[$delta]['value'])) {
-    // Get raltaion to ting entity.
+    // Get relations to ting entity.
     $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
     $item = array_shift($item['ting_object']);
 
-    // Get entity type.
-    $entity_type = $items[$delta]['value']->endpoints[$langcode][1]['entity_type'];
-
-    // Get the entity ids.
-    $entity_id = $item->tid;
+    // Get ting object id.
     $ting_object_id = $item->ding_entity_id;
-
   }
 
   // Hidden field used to get the drupal entity id (tid) for a ting_object_id.
@@ -360,26 +351,29 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
       break;
 
     case 'ting_reference_advanced':
-        $element['ting_object_id'] = array (
-          '#type' => 'textfield',
-          '#title' => t('Search'),
-          '#autocomplete_path' => 'ting_reference/autocomplete/object/js',
-          '#description' => t('Enter a query to search for objects or collections to reference'),
-          '#default_value' => $ting_object_id,
+      $element['ting_object_id'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Search'),
+        '#autocomplete_path' => 'ting_reference/autocomplete/object/js',
+        '#description' => t('Enter a query to search for objects or collections to reference'),
+        '#default_value' => $ting_object_id,
+      );
+
+      // Load preview of the entity referenced.
+      if ($item) {
+        // Get entity type.
+        $entity_type = $items[$delta]['value']->endpoints[$langcode][1]['entity_type'];
+
+        // Load the entity and build it in preview view mode.
+        $ding_entity = entity_load($entity_type, array($item->tid));
+        $build = ting_object_view(reset($ding_entity), 'ting_reference_preview');
+
+        // Add the build to the form with some css.
+        $element['preview'] = $build;
+        $element['#attached']['css'] = array(
+          drupal_get_path('module', 'ting_reference') . '/css/ting_reference.css',
         );
-
-        // Load preview of the enity referenced.
-        if ($item) {
-          // Load the entity and build it in preview view mode
-          $ding_entity = entity_load($entity_type, array($entity_id));
-          $build = ting_object_view(reset($ding_entity), 'ting_reference_preview');
-
-          // Add the build to the form with some css.
-          $element['preview'] = $build;
-          $element['#attached']['css'] = array(
-            drupal_get_path('module', 'ting_reference') . '/css/ting_reference.css',
-          );
-        }
+      }
       break;
   }
 
@@ -416,7 +410,9 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
   }
 }
 
-/* temporarily commented out due to deadline*/
+/**
+ * Implements hook_ding_anchor_info().
+ */
 function ting_reference_ding_anchor_info() {
   return array('ting_reference' => t('On this site'));
 }
@@ -424,12 +420,13 @@ function ting_reference_ding_anchor_info() {
 /**
  * Utility function to get relations for an entity.
  *
- * @param $entity_type
- *    The entity type
- * @param $entity
- *    The loaded entity.
+ * @param string $entity_type
+ *   The entity type.
+ * @param entity $entity
+ *   The loaded entity.
  *
- * @return array of loaded relation entities.
+ * @return array
+ *   With loaded relation entities.
  */
 function ting_reference_get_relations($entity_type, $entity) {
   $entity_ids = entity_extract_ids($entity_type, $entity);
@@ -458,14 +455,15 @@ function ting_reference_get_relations($entity_type, $entity) {
 /**
  * Utility function to create a relation entity and save it.
  *
- * @param $entity_type
- *    The type of the entity to create the relation from.
- * @param $entity_id
- *    The id of the entity to create the relation from.
- * @param $tid
- *    The ting object entity id (Primary key).
+ * @param string $entity_type
+ *   The type of the entity to create the relation from.
+ * @param string $entity_id
+ *   The id of the entity to create the relation from.
+ * @param int $tid
+ *   The ting object entity id (Primary key).
  *
- * @return The created and saved relation entity.
+ * @return entity
+ *   The created and saved relation entity.
  */
 function ting_reference_create_relation($entity_type, $entity_id, $tid) {
   $relation = relation_create('ting_reference', array(
@@ -486,11 +484,12 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
 }
 
 /**
- * Autocomplete callback function that searchs the datawell for objects based on
- * the string entered in the UI or the SQL expression.
+ * Auto-complete callback function that searches the data well for objects.
  *
- * @param sting $string
- *  The sting to search for or the SQL expression.
+ * The search is based on the string entered in the UI or the SQL expression.
+ *
+ * @param string $string
+ *   The sting to search for or the SQL expression.
  */
 function _ting_reference_autocomplete($string) {
   $matches = array();
@@ -516,7 +515,7 @@ function _ting_reference_autocomplete($string) {
     if ($result && $result->numTotalObjects) {
       foreach ($result->collections as $collection) {
         $object = array_shift($collection->reply->objects);
-        $matches[$collection->id] = t('!title (!type, !year, !id)',  array(
+        $matches[$collection->id] = t('!title (!type, !year, !id)', array(
           '!title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
           '!type' => isset($object->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : '',
           '!year' => $object->record['dc:date'][''][0],
