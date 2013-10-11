@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Administration interface for the webtrends module.
+ */
 
 /**
  * Admin settings form.
