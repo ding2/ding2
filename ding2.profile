@@ -158,7 +158,7 @@ function ding2_module_selection_form($form_state) {
     'ding_permissions' => st('Set default permissions'),
 
     // Modules that's not part of the make files yet.
-    'ding_example_content' => st('Add example content to the site'),
+    //'ding_example_content' => st('Add example content to the site'),
   );
 
   $form['modules'] = array(
