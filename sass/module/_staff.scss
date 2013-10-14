@@ -28,6 +28,48 @@
 }
 
 
+/* Staff page
+   ========================================================================== */
+.profile2-ding-staff-profile {
+  .field-name-field-ding-staff-position {
+    font-size: $font-size-large;
+    margin-bottom: $large-spacing;
+  }
+  
+  .field-name-field-ding-staff-image {
+    float: left;
+    width: 40%;
+  }
+  
+  .group_contactinfo {
+    float: right;
+    width: 57%;
+  }
+  
+  .field-name-field-ding-staff-description {
+    clear: both;
+    padding-top: $small-spacing;
+  }
+  
+  /* Media queries */  
+  @include small() {
+    .field-name-field-ding-staff-image,
+    .group_contactinfo {
+      float: none;
+      width: 100%;
+    }
+  }
+
+  @include medium() {
+    .field-name-field-ding-staff-image,
+    .group_contactinfo {
+      float: none;
+      width: 100%;
+    }
+  }
+}
+
+
 /* Staff list
    ========================================================================== */
 

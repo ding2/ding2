@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -147,7 +148,7 @@ a:focus {
  *
  * Usage example: pseudo-arrow(10px, #000, top, center, $offset: 20px)
    ========================================================================== */
-/* normalize.css v2.1.2 | MIT License | git.io/normalize */
+/*! normalize.css v2.1.2 | MIT License | git.io/normalize */
 /* ==========================================================================
    HTML5 display definitions
    ========================================================================== */
@@ -397,7 +398,7 @@ figure {
  */
 /* line 253, ../sass/framework/_normalize.scss */
 fieldset {
-  border: 1px solid silver;
+  border: 1px solid #c0c0c0;
   margin: 0 2px;
   padding: 0.35em 0.625em 0.75em;
 }
@@ -768,6 +769,7 @@ select {
 select {
   -webkit-transition: all 0.15s linear;
   -moz-transition: all 0.15s linear;
+  -ms-transition: all 0.15s linear;
   -o-transition: all 0.15s linear;
   transition: all 0.15s linear;
   -webkit-border-radius: 8px;
@@ -782,6 +784,7 @@ select {
   background-image: -webkit-linear-gradient(#efefef, #fbfbfb);
   background-image: -moz-linear-gradient(#efefef, #fbfbfb);
   background-image: -o-linear-gradient(#efefef, #fbfbfb);
+  background-image: -ms-linear-gradient(#efefef, #fbfbfb);
   background-image: linear-gradient(#efefef, #fbfbfb);
   /* Required for setting height in webkit browsers on mac */
   -webkit-appearance: menulist-button;
@@ -805,6 +808,7 @@ input[type="url"],
 textarea {
   -webkit-transition: all 0.15s linear;
   -moz-transition: all 0.15s linear;
+  -ms-transition: all 0.15s linear;
   -o-transition: all 0.15s linear;
   transition: all 0.15s linear;
   -webkit-border-radius: 8px;
@@ -1130,7 +1134,7 @@ a.button,
 .pane-debts .update-reservations .form-submit:focus,
 .pane-debts .renew-loan-button .form-submit:focus,
 .pane-bookmarks .update-reservations .form-submit:focus,
-.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
+.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
 .pane-loans .renew-loan-button .not-renewable:focus,
 .pane-debts .renew-loan-button .not-renewable:focus,
 .pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
@@ -1140,7 +1144,7 @@ a.button,
 .pane-debts .delete-reservation .form-submit:focus,
 .pane-debts .delete-reservations .form-submit:focus,
 .pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
+.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .button:hover,
 .form-submit:hover,
@@ -1154,7 +1158,7 @@ a.button,
 .pane-debts .update-reservations .form-submit:hover,
 .pane-debts .renew-loan-button .form-submit:hover,
 .pane-bookmarks .update-reservations .form-submit:hover,
-.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
+.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
 .pane-loans .renew-loan-button .not-renewable:hover,
 .pane-debts .renew-loan-button .not-renewable:hover,
 .pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
@@ -1164,7 +1168,7 @@ a.button,
 .pane-debts .delete-reservation .form-submit:hover,
 .pane-debts .delete-reservations .form-submit:hover,
 .pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
+.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
 .pane-ting-collection .ding-entity-button:hover,
 .pane-ting-object .ding-entity-button:hover, .button:active,
 .form-submit:active,
@@ -1178,7 +1182,7 @@ a.button,
 .pane-debts .update-reservations .form-submit:active,
 .pane-debts .renew-loan-button .form-submit:active,
 .pane-bookmarks .update-reservations .form-submit:active,
-.pane-bookmarks .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
+.pane-bookmarks .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
 .pane-loans .renew-loan-button .not-renewable:active,
 .pane-debts .renew-loan-button .not-renewable:active,
 .pane-bookmarks .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
@@ -1188,7 +1192,7 @@ a.button,
 .pane-debts .delete-reservation .form-submit:active,
 .pane-debts .delete-reservations .form-submit:active,
 .pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
@@ -1206,7 +1210,7 @@ a.button,
 .pane-debts .update-reservations .disabled.form-submit,
 .pane-debts .renew-loan-button .disabled.form-submit,
 .pane-bookmarks .update-reservations .disabled.form-submit,
-.pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a.disabled, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
+.pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
 .pane-loans .renew-loan-button .disabled.not-renewable,
 .pane-debts .renew-loan-button .disabled.not-renewable,
 .pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-reservations .delete-reservation .disabled.form-submit,
@@ -1216,7 +1220,7 @@ a.button,
 .pane-debts .delete-reservation .disabled.form-submit,
 .pane-debts .delete-reservations .disabled.form-submit,
 .pane-bookmarks .delete-reservation .disabled.form-submit,
-.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
+.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
 .pane-ting-collection .disabled.ding-entity-button,
 .pane-ting-object .disabled.ding-entity-button, [disabled].button,
 [disabled].form-submit,
@@ -1230,7 +1234,7 @@ a.button,
 .pane-debts .update-reservations [disabled].form-submit,
 .pane-debts .renew-loan-button [disabled].form-submit,
 .pane-bookmarks .update-reservations [disabled].form-submit,
-.pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a[disabled], [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
+.pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
 .pane-loans .renew-loan-button [disabled].not-renewable,
 .pane-debts .renew-loan-button [disabled].not-renewable,
 .pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-reservations .delete-reservation [disabled].form-submit,
@@ -1240,7 +1244,7 @@ a.button,
 .pane-debts .delete-reservation [disabled].form-submit,
 .pane-debts .delete-reservations [disabled].form-submit,
 .pane-bookmarks .delete-reservation [disabled].form-submit,
-.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1265,6 +1269,7 @@ a.button,
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
   background-image: -o-linear-gradient(#444444, #1e1e1e);
+  background-image: -ms-linear-gradient(#444444, #1e1e1e);
   background-image: linear-gradient(#444444, #1e1e1e);
   /* Make sure buttons get a background color in IE */
   background-color: #444444;
@@ -1296,6 +1301,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#373737, #111111);
   background-image: -moz-linear-gradient(#373737, #111111);
   background-image: -o-linear-gradient(#373737, #111111);
+  background-image: -ms-linear-gradient(#373737, #111111);
   background-image: linear-gradient(#373737, #111111);
   background-color: #1e1e1e;
 }
@@ -1318,6 +1324,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#60a500, #335900);
   background-image: -moz-linear-gradient(#60a500, #335900);
   background-image: -o-linear-gradient(#60a500, #335900);
+  background-image: -ms-linear-gradient(#60a500, #335900);
   background-image: linear-gradient(#60a500, #335900);
   /* Make sure buttons get a background color in IE */
   background-color: #60a500;
@@ -1384,6 +1391,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#518b00, #253f00);
   background-image: -moz-linear-gradient(#518b00, #253f00);
   background-image: -o-linear-gradient(#518b00, #253f00);
+  background-image: -ms-linear-gradient(#518b00, #253f00);
   background-image: linear-gradient(#518b00, #253f00);
   background-color: #335900;
 }
@@ -1395,6 +1403,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#f6d346, #e4b90b);
   background-image: -moz-linear-gradient(#f6d346, #e4b90b);
   background-image: -o-linear-gradient(#f6d346, #e4b90b);
+  background-image: -ms-linear-gradient(#f6d346, #e4b90b);
   background-image: linear-gradient(#f6d346, #e4b90b);
   /* Make sure buttons get a background color in IE */
   background-color: #f6d346;
@@ -1411,6 +1420,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#f5cd2e, #cca50a);
   background-image: -moz-linear-gradient(#f5cd2e, #cca50a);
   background-image: -o-linear-gradient(#f5cd2e, #cca50a);
+  background-image: -ms-linear-gradient(#f5cd2e, #cca50a);
   background-image: linear-gradient(#f5cd2e, #cca50a);
   background-color: #e4b90b;
 }
@@ -1432,6 +1442,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#bf3600, #732000);
   background-image: -moz-linear-gradient(#bf3600, #732000);
   background-image: -o-linear-gradient(#bf3600, #732000);
+  background-image: -ms-linear-gradient(#bf3600, #732000);
   background-image: linear-gradient(#bf3600, #732000);
   /* Make sure buttons get a background color in IE */
   background-color: #bf3600;
@@ -1498,6 +1509,7 @@ a.button:active,
   background-image: -webkit-linear-gradient(#a62f00, #591900);
   background-image: -moz-linear-gradient(#a62f00, #591900);
   background-image: -o-linear-gradient(#a62f00, #591900);
+  background-image: -ms-linear-gradient(#a62f00, #591900);
   background-image: linear-gradient(#a62f00, #591900);
   background-color: #732000;
 }
@@ -2332,7 +2344,7 @@ button.button {
   display: none;
 }
 
-/*
+/*!
  *  Font Awesome 3.0.1
  *  the iconic font designed for use with Twitter Bootstrap
  *  -------------------------------------------------------
@@ -2502,7 +2514,7 @@ ul.icons li [class*=" icon-"] {
 /* line 150, ../sass/framework/_fontawesome.scss */
 .icon-border {
   border: solid 1px #eeeeee;
-  padding: 0.2em 0.25em 0.15em;
+  padding: .2em .25em .15em;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -4015,7 +4027,6 @@ body {
   margin-left: auto;
   margin-right: auto;
   max-width: 1200px;
-  overflow: hidden;
 }
 @media only screen and (max-width: 480px) {
   /* line 41, ../sass/layout/_layout.scss */
@@ -4029,7 +4040,7 @@ body {
    ========================================================================== */
 /* Site name, slogan and logo
    ========================================================================== */
-/* line 74, ../sass/layout/_layout.scss */
+/* line 73, ../sass/layout/_layout.scss */
 .topbar-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4038,7 +4049,7 @@ body {
   position: relative;
 }
 
-/* line 82, ../sass/layout/_layout.scss */
+/* line 81, ../sass/layout/_layout.scss */
 .site-name-wrapper {
   float: left;
   width: 33.33333%;
@@ -4058,7 +4069,7 @@ body {
   margin-top: 30px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 82, ../sass/layout/_layout.scss */
+  /* line 81, ../sass/layout/_layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -4079,7 +4090,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 82, ../sass/layout/_layout.scss */
+  /* line 81, ../sass/layout/_layout.scss */
   .site-name-wrapper {
     float: left;
     width: 50%;
@@ -4100,14 +4111,14 @@ body {
   }
 }
 
-/* line 100, ../sass/layout/_layout.scss */
+/* line 99, ../sass/layout/_layout.scss */
 .site-name, .site-name-with-slogan {
   font-family: "SourceSansProSemibold";
   font-size: 180%;
   font-weight: normal;
   margin-bottom: 0;
 }
-/* line 109, ../sass/layout/_layout.scss */
+/* line 108, ../sass/layout/_layout.scss */
 .site-name a, .site-name-with-slogan a,
 .site-name a:link,
 .site-name-with-slogan a:link,
@@ -4120,26 +4131,26 @@ body {
   text-decoration: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 100, ../sass/layout/_layout.scss */
+  /* line 99, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 160%;
   }
 }
 @media only screen and (max-width: 480px) {
-  /* line 100, ../sass/layout/_layout.scss */
+  /* line 99, ../sass/layout/_layout.scss */
   .site-name, .site-name-with-slogan {
     font-size: 100%;
   }
 }
 
-/* line 128, ../sass/layout/_layout.scss */
+/* line 127, ../sass/layout/_layout.scss */
 .site-slogan {
   color: white;
   margin-top: 10px;
   margin-left: 2px;
 }
 
-/* line 134, ../sass/layout/_layout.scss */
+/* line 133, ../sass/layout/_layout.scss */
 .logo {
   float: left;
   width: 33.33333%;
@@ -4160,12 +4171,12 @@ body {
 
 /* Content
    ========================================================================== */
-/* line 142, ../sass/layout/_layout.scss */
+/* line 141, ../sass/layout/_layout.scss */
 .content-wrapper {
   margin-top: 20px;
 }
 
-/* line 146, ../sass/layout/_layout.scss */
+/* line 145, ../sass/layout/_layout.scss */
 .content-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4175,11 +4186,11 @@ body {
 
 /* Layouts
    ========================================================================== */
-/* line 156, ../sass/layout/_layout.scss */
+/* line 155, ../sass/layout/_layout.scss */
 .frontpage-layout {
   /* Media queries */
 }
-/* line 159, ../sass/layout/_layout.scss */
+/* line 158, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content,
 .frontpage-layout .secondary-content,
 .frontpage-layout .tertiary-content {
@@ -4187,7 +4198,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 165, ../sass/layout/_layout.scss */
+/* line 164, ../sass/layout/_layout.scss */
 .frontpage-layout .primary-content {
   clear: left;
   float: left;
@@ -4206,7 +4217,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 170, ../sass/layout/_layout.scss */
+/* line 169, ../sass/layout/_layout.scss */
 .frontpage-layout .layout-wrapper {
   clear: left;
   margin-right: 10px;
@@ -4216,7 +4227,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 181, ../sass/layout/_layout.scss */
+/* line 180, ../sass/layout/_layout.scss */
 .frontpage-layout .secondary-content {
   float: left;
   width: 66.66667%;
@@ -4234,7 +4245,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 185, ../sass/layout/_layout.scss */
+/* line 184, ../sass/layout/_layout.scss */
 .frontpage-layout .tertiary-content {
   float: right;
   width: 33.33333%;
@@ -4252,7 +4263,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 189, ../sass/layout/_layout.scss */
+/* line 188, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper {
   *position: relative;
   *zoom: 1;
@@ -4268,12 +4279,12 @@ body {
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
-/* line 195, ../sass/layout/_layout.scss */
+/* line 194, ../sass/layout/_layout.scss */
 .frontpage-layout .attachments-wrapper .grid-inner {
   padding: 20px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 204, ../sass/layout/_layout.scss */
+  /* line 203, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4296,7 +4307,7 @@ body {
   }
 }
 
-/* line 212, ../sass/layout/_layout.scss */
+/* line 211, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4305,7 +4316,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 217, ../sass/layout/_layout.scss */
+/* line 216, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4313,7 +4324,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 223, ../sass/layout/_layout.scss */
+/* line 222, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4331,7 +4342,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 227, ../sass/layout/_layout.scss */
+/* line 226, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4342,7 +4353,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 239, ../sass/layout/_layout.scss */
+/* line 238, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4360,7 +4371,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 243, ../sass/layout/_layout.scss */
+/* line 242, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4380,7 +4391,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 252, ../sass/layout/_layout.scss */
+  /* line 251, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4403,7 +4414,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 261, ../sass/layout/_layout.scss */
+  /* line 260, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4421,7 +4432,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 265, ../sass/layout/_layout.scss */
+  /* line 264, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4439,7 +4450,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 269, ../sass/layout/_layout.scss */
+  /* line 268, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4460,7 +4471,7 @@ body {
   }
 }
 @media only screen and (min-width: 1211px) {
-  /* line 275, ../sass/layout/_layout.scss */
+  /* line 274, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4478,7 +4489,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 279, ../sass/layout/_layout.scss */
+  /* line 278, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4496,7 +4507,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 283, ../sass/layout/_layout.scss */
+  /* line 282, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4516,7 +4527,7 @@ body {
     clear: none;
   }
 }
-/* line 292, ../sass/layout/_layout.scss */
+/* line 291, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .primary-content {
   float: left;
   width: 100%;
@@ -4534,7 +4545,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 296, ../sass/layout/_layout.scss */
+/* line 295, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .secondary-content {
   clear: both;
   float: left;
@@ -4553,7 +4564,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 301, ../sass/layout/_layout.scss */
+/* line 300, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .tertiary-content {
   float: right;
   width: 50%;
@@ -4572,7 +4583,7 @@ body {
   _overflow-y: visible;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 309, ../sass/layout/_layout.scss */
+  /* line 308, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4590,7 +4601,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 312, ../sass/layout/_layout.scss */
+  /* line 311, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4610,7 +4621,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 321, ../sass/layout/_layout.scss */
+  /* line 320, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4628,7 +4639,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 325, ../sass/layout/_layout.scss */
+  /* line 324, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4650,7 +4661,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 335, ../sass/layout/_layout.scss */
+/* line 334, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4669,7 +4680,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 339, ../sass/layout/_layout.scss */
+/* line 338, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4688,7 +4699,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 343, ../sass/layout/_layout.scss */
+/* line 342, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4707,7 +4718,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 347, ../sass/layout/_layout.scss */
+/* line 346, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4726,7 +4737,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 352, ../sass/layout/_layout.scss */
+/* line 351, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4748,7 +4759,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 363, ../sass/layout/_layout.scss */
+  /* line 362, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4772,7 +4783,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 371, ../sass/layout/_layout.scss */
+  /* line 370, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4793,7 +4804,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 377, ../sass/layout/_layout.scss */
+  /* line 376, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4814,7 +4825,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 384, ../sass/layout/_layout.scss */
+/* line 383, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4832,7 +4843,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 388, ../sass/layout/_layout.scss */
+/* line 387, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4852,7 +4863,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 395, ../sass/layout/_layout.scss */
+/* line 394, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4870,7 +4881,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 399, ../sass/layout/_layout.scss */
+/* line 398, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4888,7 +4899,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 403, ../sass/layout/_layout.scss */
+/* line 402, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4909,17 +4920,17 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 412, ../sass/layout/_layout.scss */
+/* line 411, ../sass/layout/_layout.scss */
 .footer {
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 416, ../sass/layout/_layout.scss */
+/* line 415, ../sass/layout/_layout.scss */
 .footer .pane-title {
   font-size: 110%;
 }
 
-/* line 421, ../sass/layout/_layout.scss */
+/* line 420, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4927,13 +4938,13 @@ body {
   overflow: visible;
 }
 
-/* line 428, ../sass/layout/_layout.scss */
+/* line 427, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 433, ../sass/layout/_layout.scss */
+/* line 432, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   clear: both;
@@ -5322,80 +5333,40 @@ label {
 }
 /* line 129, ../sass/module/_module.scss */
 .search .form-actions, .user .form-actions {
-  float: right;
-  width: 16.66667%;
-  margin-right: 0%;
-  margin-left: -16.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
+  position: absolute;
+  top: 0;
+  right: 0;
   text-align: right;
 }
 @media only screen and (max-width: 480px) {
-  /* line 137, ../sass/module/_module.scss */
+  /* line 138, ../sass/module/_module.scss */
   .search [class^="label-"], .user [class^="label-"] {
     font-size: 85%;
   }
-  /* line 141, ../sass/module/_module.scss */
-  .search .form-item, .user .form-item {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-    clear: left;
+  /* line 142, ../sass/module/_module.scss */
+  .search .form-actions, .user .form-actions {
+    position: relative;
+    clear: both;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 148, ../sass/module/_module.scss */
+  /* line 149, ../sass/module/_module.scss */
   .search i[class^="icon-"], .user i[class^="icon-"] {
     font-size: 130%;
   }
-  /* line 152, ../sass/module/_module.scss */
+  /* line 153, ../sass/module/_module.scss */
   .search .form-text, .user .form-text {
     font-size: 110%;
     min-height: 50px;
     min-width: 100%;
     padding-left: 42px;
   }
-  /* line 159, ../sass/module/_module.scss */
+  /* line 160, ../sass/module/_module.scss */
   .search .form-actions, .user .form-actions {
-    float: left;
-    width: 100%;
-    margin-left: 0%;
-    margin-right: -100%;
-    padding-left: 10px;
-    padding-right: 10px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    word-wrap: break-word;
-    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-    _display: inline;
-    _overflow: hidden;
-    _overflow-y: visible;
-    clear: left;
+    position: relative;
+    clear: both;
   }
-  /* line 164, ../sass/module/_module.scss */
+  /* line 165, ../sass/module/_module.scss */
   .search .form-submit, .user .form-submit {
     font-size: 110%;
     margin-top: 20px;
@@ -5406,30 +5377,30 @@ label {
 
 /* Filter by library box
    ========================================================================== */
-/* line 178, ../sass/module/_module.scss */
+/* line 179, ../sass/module/_module.scss */
 .pane-library-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
   /* Media queries */
 }
-/* line 184, ../sass/module/_module.scss */
+/* line 185, ../sass/module/_module.scss */
 .pane-library-list .choose-library-label,
 .pane-library-list .form-item-select-library {
   display: inline;
   margin-right: 5px;
 }
-/* line 189, ../sass/module/_module.scss */
+/* line 190, ../sass/module/_module.scss */
 .pane-library-list .button {
   /* Make sure the button aligns vertically with the select */
   margin-top: -2px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 196, ../sass/module/_module.scss */
+  /* line 197, ../sass/module/_module.scss */
   .pane-library-list .choose-library-label {
     display: none;
   }
-  /* line 199, ../sass/module/_module.scss */
+  /* line 200, ../sass/module/_module.scss */
   .pane-library-list .form-select {
     max-width: 75%;
   }
@@ -5437,17 +5408,17 @@ label {
 
 /* Pager
    ========================================================================== */
-/* line 209, ../sass/module/_module.scss */
+/* line 210, ../sass/module/_module.scss */
 .pager {
   padding-left: 0;
 }
-/* line 212, ../sass/module/_module.scss */
+/* line 213, ../sass/module/_module.scss */
 .pager li {
   display: inline-block;
   margin-left: -4px;
   margin-right: 4px;
 }
-/* line 218, ../sass/module/_module.scss */
+/* line 219, ../sass/module/_module.scss */
 .pager li.pager-current,
 .pager li a {
   background-color: #efefef;
@@ -5457,17 +5428,17 @@ label {
   padding-bottom: 5px;
   padding-left: 15px;
 }
-/* line 229, ../sass/module/_module.scss */
+/* line 230, ../sass/module/_module.scss */
 .pager .active a,
 .pager .active a:hover {
   cursor: default;
   text-decoration: underline;
 }
-/* line 234, ../sass/module/_module.scss */
+/* line 235, ../sass/module/_module.scss */
 .pager .disabled {
   background-color: #fbfbfb;
 }
-/* line 237, ../sass/module/_module.scss */
+/* line 238, ../sass/module/_module.scss */
 .pager .disabled a:hover {
   cursor: default;
   text-decoration: none;
@@ -5475,7 +5446,7 @@ label {
 
 /* Signature
    ========================================================================== */
-/* line 247, ../sass/module/_module.scss */
+/* line 248, ../sass/module/_module.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -5483,32 +5454,32 @@ label {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 256, ../sass/module/_module.scss */
+/* line 257, ../sass/module/_module.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 263, ../sass/module/_module.scss */
+/* line 264, ../sass/module/_module.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
 }
 
-/* line 269, ../sass/module/_module.scss */
+/* line 270, ../sass/module/_module.scss */
 .signature .tags a {
   display: inline-block;
   margin-right: 0.3em;
 }
 
-/* line 274, ../sass/module/_module.scss */
+/* line 275, ../sass/module/_module.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
 }
 
 /* Action buttons
    ========================================================================== */
-/* line 282, ../sass/module/_module.scss */
+/* line 283, ../sass/module/_module.scss */
 .action-buttons {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -5517,13 +5488,13 @@ label {
   padding: 20px;
 }
 
-/* line 290, ../sass/module/_module.scss */
+/* line 291, ../sass/module/_module.scss */
 .action-buttons-is-visible {
   background: rgba(0, 0, 0, 0.15);
   display: block;
 }
 
-/* line 296, ../sass/module/_module.scss */
+/* line 297, ../sass/module/_module.scss */
 .action-buttons-is-scrolling {
   background: rgba(0, 0, 0, 0.85);
   left: 0;
@@ -5553,6 +5524,7 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
   background-image: -webkit-linear-gradient(#f0cb28, #be9d0d);
   background-image: -moz-linear-gradient(#f0cb28, #be9d0d);
   background-image: -o-linear-gradient(#f0cb28, #be9d0d);
+  background-image: -ms-linear-gradient(#f0cb28, #be9d0d);
   background-image: linear-gradient(#f0cb28, #be9d0d);
   /* Make sure buttons get a background color in IE */
   background-color: #f0cb28;
@@ -5571,6 +5543,7 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
   background-image: -webkit-linear-gradient(#eec511, #a68a0c);
   background-image: -moz-linear-gradient(#eec511, #a68a0c);
   background-image: -o-linear-gradient(#eec511, #a68a0c);
+  background-image: -ms-linear-gradient(#eec511, #a68a0c);
   background-image: linear-gradient(#eec511, #a68a0c);
   background-color: #be9d0d;
 }
@@ -5595,21 +5568,7 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
 }
 /* line 37, ../sass/module/_search.scss */
 .search .form-item {
-  float: left;
   width: 100%;
-  margin-left: 0%;
-  margin-right: -100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
 }
 /* line 41, ../sass/module/_search.scss */
 .search .form-text {
@@ -6219,7 +6178,7 @@ input#edit-search-block-form--2.spinner {
 /* line 509, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types li, .pane-ting-ting-object-types li, .pane-ting-ting-relation-anchors li {
   margin-bottom: 10px;
-  padding-bottom: default-spacing/2;
+  padding-bottom: default-spacing / 2;
 }
 /* line 514, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types .last, .pane-ting-ting-object-types .last, .pane-ting-ting-relation-anchors .last {
@@ -7203,63 +7162,67 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   overflow: hidden;
   position: relative;
 }
-/* line 34, ../sass/module/_news.scss */
+/* line 22, ../sass/module/_news.scss */
+.news-list .simple-list-item {
+  border-bottom: 1px solid #efefef;
+}
+/* line 38, ../sass/module/_news.scss */
 .news-list .news-image-wrapper {
   float: left;
   margin-right: 20px;
   max-width: 75px;
 }
-/* line 39, ../sass/module/_news.scss */
+/* line 43, ../sass/module/_news.scss */
 .news-list .news-image-wrapper a {
   display: block;
 }
-/* line 46, ../sass/module/_news.scss */
+/* line 50, ../sass/module/_news.scss */
 .news-list .news-heading,
 .news-list .news-sub-heading,
 .news-list .news-list-content {
   margin-left: 95px;
 }
-/* line 50, ../sass/module/_news.scss */
+/* line 54, ../sass/module/_news.scss */
 .news-list .news-sub-heading {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 55, ../sass/module/_news.scss */
+/* line 59, ../sass/module/_news.scss */
 .news-list .news-sub-heading .news-date,
 .news-list .news-sub-heading .news-author {
   margin-right: 5px;
 }
-/* line 60, ../sass/module/_news.scss */
+/* line 64, ../sass/module/_news.scss */
 .news-list .news-label {
   margin-right: 5px;
 }
-/* line 74, ../sass/module/_news.scss */
+/* line 78, ../sass/module/_news.scss */
 .news-list .news-list-content {
   max-height: 50px;
   overflow: hidden;
 }
-/* line 79, ../sass/module/_news.scss */
+/* line 83, ../sass/module/_news.scss */
 .news-list .news-link {
   float: right;
 }
-/* line 83, ../sass/module/_news.scss */
+/* line 87, ../sass/module/_news.scss */
 .news-list .news-arrow-link {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 92, ../sass/module/_news.scss */
+  /* line 96, ../sass/module/_news.scss */
   .news-list .news-label,
   .news-list .news-sub-heading,
   .news-list .news-list-content,
   .news-list .news-link {
     display: none;
   }
-  /* line 96, ../sass/module/_news.scss */
+  /* line 100, ../sass/module/_news.scss */
   .news-list .news-heading {
     font-size: 130%;
     margin-right: 35px;
   }
-  /* line 101, ../sass/module/_news.scss */
+  /* line 105, ../sass/module/_news.scss */
   .news-list .news-arrow-link {
     display: inline-block;
     position: absolute;
@@ -7269,16 +7232,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* List of related materials */
-/* line 111, ../sass/module/_news.scss */
+/* line 116, ../sass/module/_news.scss */
 .field-name-field-ding-news-materials {
   /* Media queries */
 }
 @media only screen and (max-width: 480px) {
-  /* line 118, ../sass/module/_news.scss */
+  /* line 123, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_left {
     display: none;
   }
-  /* line 122, ../sass/module/_news.scss */
+  /* line 127, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_right {
     float: left;
     width: 100%;
@@ -7298,7 +7261,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 127, ../sass/module/_news.scss */
+  /* line 132, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_left {
     float: left;
     width: 25%;
@@ -7316,7 +7279,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 131, ../sass/module/_news.scss */
+  /* line 136, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_right {
     float: right;
     width: 75%;
@@ -7336,7 +7299,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 136, ../sass/module/_news.scss */
+  /* line 141, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_left {
     float: left;
     width: 25%;
@@ -7354,7 +7317,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 140, ../sass/module/_news.scss */
+  /* line 145, ../sass/module/_news.scss */
   .field-name-field-ding-news-materials .group_ting_object_teaser_right {
     float: right;
     width: 75%;
@@ -7375,7 +7338,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* Series should not use default field-item styling */
-/* line 148, ../sass/module/_news.scss */
+/* line 153, ../sass/module/_news.scss */
 .field-name-ting-series .field-item {
   padding: 0;
   margin-bottom: 0;
@@ -7384,26 +7347,26 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 }
 
 /* Tags */
-/* line 156, ../sass/module/_news.scss */
+/* line 161, ../sass/module/_news.scss */
 .super-heading {
   padding: 10px 0;
 }
-/* line 162, ../sass/module/_news.scss */
+/* line 167, ../sass/module/_news.scss */
 .super-heading .label, .super-heading .label-inverted, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
 .super-heading .field,
 .super-heading .field-items,
 .super-heading .field-item {
   display: inline;
 }
-/* line 166, ../sass/module/_news.scss */
+/* line 171, ../sass/module/_news.scss */
 .super-heading .field-name-field-ding-news-library {
   margin-left: 5px;
 }
-/* line 170, ../sass/module/_news.scss */
+/* line 175, ../sass/module/_news.scss */
 .super-heading .field-name-field-ding-news-library .field-item {
   background-color: #959595;
 }
-/* line 175, ../sass/module/_news.scss */
+/* line 180, ../sass/module/_news.scss */
 .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #7c7c7c;
 }
@@ -8831,7 +8794,15 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 /* BELOW IS CODE FROM BEFORE REFACTORING */
 /* User login in header
    ========================================================================== */
-/* line 353, ../sass/module/_user.scss */
+/* line 350, ../sass/module/_user.scss */
+.user {
+  overflow: hidden;
+}
+/* line 355, ../sass/module/_user.scss */
+.user .user-field-wrapper {
+  position: relative;
+}
+/* line 359, ../sass/module/_user.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -8849,11 +8820,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 356, ../sass/module/_user.scss */
+/* line 362, ../sass/module/_user.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 361, ../sass/module/_user.scss */
+/* line 367, ../sass/module/_user.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -8871,16 +8842,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 364, ../sass/module/_user.scss */
+/* line 370, ../sass/module/_user.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
-/* line 369, ../sass/module/_user.scss */
+/* line 375, ../sass/module/_user.scss */
 .user .block-title {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 375, ../sass/module/_user.scss */
+  /* line 381, ../sass/module/_user.scss */
   .user .form-item-name,
   .user .form-item-pass {
     float: left;
@@ -8898,12 +8869,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
+    clear: left;
   }
-  /* line 379, ../sass/module/_user.scss */
+  /* line 386, ../sass/module/_user.scss */
   .user .form-actions {
     margin-bottom: 0;
   }
-  /* line 383, ../sass/module/_user.scss */
+  /* line 390, ../sass/module/_user.scss */
   .user .form-submit {
     margin-top: 10px;
   }
@@ -8913,7 +8885,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   .user {
     text-align: left;
   }
-  /* line 391, ../sass/module/_user.scss */
+  /* line 398, ../sass/module/_user.scss */
   .user .block-title {
     display: block;
     color: white;
@@ -8924,24 +8896,24 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 403, ../sass/module/_user.scss */
+/* line 410, ../sass/module/_user.scss */
 .user-name {
   color: white;
 }
-/* line 406, ../sass/module/_user.scss */
+/* line 413, ../sass/module/_user.scss */
 .user-name .user-name-title {
   font-size: 160%;
   overflow: hidden;
   max-height: 45px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 413, ../sass/module/_user.scss */
+  /* line 420, ../sass/module/_user.scss */
   .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
 
-/* line 421, ../sass/module/_user.scss */
+/* line 428, ../sass/module/_user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -8952,7 +8924,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: right;
 }
 @media only screen and (max-width: 768px) {
-  /* line 421, ../sass/module/_user.scss */
+  /* line 428, ../sass/module/_user.scss */
   .user-name,
   .user-menu-loans,
   .user-menu {
@@ -8962,20 +8934,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 
-/* line 436, ../sass/module/_user.scss */
+/* line 443, ../sass/module/_user.scss */
 .user-menu-loans,
 .user-menu {
   padding-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 436, ../sass/module/_user.scss */
+  /* line 443, ../sass/module/_user.scss */
   .user-menu-loans,
   .user-menu {
     padding-top: 0;
   }
 }
 
-/* line 444, ../sass/module/_user.scss */
+/* line 451, ../sass/module/_user.scss */
 .user-menu {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -8983,13 +8955,13 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User profile
    ========================================================================== */
-/* line 453, ../sass/module/_user.scss */
+/* line 460, ../sass/module/_user.scss */
 .user-loan-status-wrapper {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 
-/* line 461, ../sass/module/_user.scss */
+/* line 468, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -9000,7 +8972,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 10px;
   padding: 10px;
 }
-/* line 468, ../sass/module/_user.scss */
+/* line 475, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
@@ -9008,20 +8980,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-decoration: none;
 }
 
-/* line 474, ../sass/module/_user.scss */
+/* line 481, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 479, ../sass/module/_user.scss */
+/* line 486, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 489, ../sass/module/_user.scss */
+/* line 496, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -9030,36 +9002,36 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   color: white;
 }
 
-/* line 494, ../sass/module/_user.scss */
+/* line 501, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 498, ../sass/module/_user.scss */
+/* line 505, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 503, ../sass/module/_user.scss */
+/* line 510, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 507, ../sass/module/_user.scss */
+/* line 514, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 512, ../sass/module/_user.scss */
+/* line 519, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 515, ../sass/module/_user.scss */
+/* line 522, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 522, ../sass/module/_user.scss */
+/* line 529, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -9071,12 +9043,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 532, ../sass/module/_user.scss */
+/* line 539, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 538, ../sass/module/_user.scss */
+  /* line 545, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -9085,14 +9057,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
 
 /* User loans
    ========================================================================== */
-/* line 552, ../sass/module/_user.scss */
+/* line 559, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 557, ../sass/module/_user.scss */
+/* line 564, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -9101,7 +9073,7 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 564, ../sass/module/_user.scss */
+/* line 571, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -9110,12 +9082,12 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   margin-left: 47px;
 }
 
-/* line 572, ../sass/module/_user.scss */
+/* line 579, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 577, ../sass/module/_user.scss */
+/* line 584, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
@@ -9207,9 +9179,52 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   padding-left: 10px;
 }
 
+/* Staff page
+   ========================================================================== */
+/* line 33, ../sass/module/_staff.scss */
+.profile2-ding-staff-profile {
+  /* Media queries */
+}
+/* line 34, ../sass/module/_staff.scss */
+.profile2-ding-staff-profile .field-name-field-ding-staff-position {
+  font-size: 130%;
+  margin-bottom: 20px;
+}
+/* line 39, ../sass/module/_staff.scss */
+.profile2-ding-staff-profile .field-name-field-ding-staff-image {
+  float: left;
+  width: 40%;
+}
+/* line 44, ../sass/module/_staff.scss */
+.profile2-ding-staff-profile .group_contactinfo {
+  float: right;
+  width: 57%;
+}
+/* line 49, ../sass/module/_staff.scss */
+.profile2-ding-staff-profile .field-name-field-ding-staff-description {
+  clear: both;
+  padding-top: 5px;
+}
+@media only screen and (max-width: 480px) {
+  /* line 57, ../sass/module/_staff.scss */
+  .profile2-ding-staff-profile .field-name-field-ding-staff-image,
+  .profile2-ding-staff-profile .group_contactinfo {
+    float: none;
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  /* line 65, ../sass/module/_staff.scss */
+  .profile2-ding-staff-profile .field-name-field-ding-staff-image,
+  .profile2-ding-staff-profile .group_contactinfo {
+    float: none;
+    width: 100%;
+  }
+}
+
 /* Staff list
    ========================================================================== */
-/* line 36, ../sass/module/_staff.scss */
+/* line 78, ../sass/module/_staff.scss */
 .department-title,
 .staff-department-head,
 .staff-library-head {
@@ -9222,14 +9237,14 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   text-align: left;
 }
 
-/* line 47, ../sass/module/_staff.scss */
+/* line 89, ../sass/module/_staff.scss */
 .staff-list,
 .staff-list-all {
   margin-top: 0;
   margin-bottom: 20px;
   padding-left: 0;
 }
-/* line 52, ../sass/module/_staff.scss */
+/* line 94, ../sass/module/_staff.scss */
 .staff-list .staff-list-item,
 .staff-list-all .staff-list-item {
   overflow: hidden;
@@ -9240,20 +9255,20 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   position: relative;
 }
 
-/* line 71, ../sass/module/_staff.scss */
+/* line 113, ../sass/module/_staff.scss */
 .staff-list {
   /* Media queries */
 }
-/* line 72, ../sass/module/_staff.scss */
+/* line 114, ../sass/module/_staff.scss */
 .staff-list .staff-image-wrapper {
   position: absolute;
   width: 10%;
 }
-/* line 77, ../sass/module/_staff.scss */
+/* line 119, ../sass/module/_staff.scss */
 .staff-list .staff-name-title {
   margin-left: 12%;
 }
-/* line 82, ../sass/module/_staff.scss */
+/* line 124, ../sass/module/_staff.scss */
 .staff-list .staff-name-title,
 .staff-list .staff-contact {
   float: left;
@@ -9262,11 +9277,11 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   max-width: 40%;
 }
 @media only screen and (max-width: 480px) {
-  /* line 91, ../sass/module/_staff.scss */
+  /* line 133, ../sass/module/_staff.scss */
   .staff-list .staff-image-wrapper {
     width: 20%;
   }
-  /* line 96, ../sass/module/_staff.scss */
+  /* line 138, ../sass/module/_staff.scss */
   .staff-list .staff-name-title,
   .staff-list .staff-contact {
     margin-left: 25%;
@@ -9275,30 +9290,30 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 104, ../sass/module/_staff.scss */
+  /* line 146, ../sass/module/_staff.scss */
   .staff-list .staff-image-wrapper {
     width: 15%;
   }
-  /* line 108, ../sass/module/_staff.scss */
+  /* line 150, ../sass/module/_staff.scss */
   .staff-list .staff-name-title {
     margin-left: 18%;
   }
 }
 
-/* line 115, ../sass/module/_staff.scss */
+/* line 157, ../sass/module/_staff.scss */
 .staff-list-all {
   /* Media queries */
 }
-/* line 116, ../sass/module/_staff.scss */
+/* line 158, ../sass/module/_staff.scss */
 .staff-list-all .staff-image-wrapper {
   position: absolute;
   width: 10%;
 }
-/* line 121, ../sass/module/_staff.scss */
+/* line 163, ../sass/module/_staff.scss */
 .staff-list-all .staff-name-title {
   margin-left: 12%;
 }
-/* line 127, ../sass/module/_staff.scss */
+/* line 169, ../sass/module/_staff.scss */
 .staff-list-all .staff-name-title,
 .staff-list-all .staff-contact,
 .staff-list-all .staff-departments {
@@ -9307,16 +9322,16 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   width: 29%;
   max-width: 29%;
 }
-/* line 134, ../sass/module/_staff.scss */
+/* line 176, ../sass/module/_staff.scss */
 .staff-list-all .staff-departments strong {
   display: block;
 }
 @media only screen and (max-width: 480px) {
-  /* line 140, ../sass/module/_staff.scss */
+  /* line 182, ../sass/module/_staff.scss */
   .staff-list-all .staff-image-wrapper {
     width: 20%;
   }
-  /* line 146, ../sass/module/_staff.scss */
+  /* line 188, ../sass/module/_staff.scss */
   .staff-list-all .staff-name-title,
   .staff-list-all .staff-contact,
   .staff-list-all .staff-departments {
@@ -9326,22 +9341,22 @@ ul.ui-autocomplete .ui-menu-item a:hover {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 154, ../sass/module/_staff.scss */
+  /* line 196, ../sass/module/_staff.scss */
   .staff-list-all .staff-image-wrapper {
     width: 15%;
   }
-  /* line 159, ../sass/module/_staff.scss */
+  /* line 201, ../sass/module/_staff.scss */
   .staff-list-all .staff-name-title,
   .staff-list-all .staff-departments {
     margin-left: 18%;
   }
-  /* line 164, ../sass/module/_staff.scss */
+  /* line 206, ../sass/module/_staff.scss */
   .staff-list-all .staff-name-title,
   .staff-list-all .staff-contact {
     width: 38%;
     max-width: 38%;
   }
-  /* line 169, ../sass/module/_staff.scss */
+  /* line 211, ../sass/module/_staff.scss */
   .staff-list-all .staff-departments {
     width: 75%;
     max-width: 75%;
