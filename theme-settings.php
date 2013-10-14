@@ -107,7 +107,6 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     ),
   );
 
-
   /*
    * Plugins
    */
@@ -139,4 +138,6 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['favicon']['#collapsed'] = TRUE;
   $form['favicon']['#weight'] = 50;
 
+  // Add css file to display:none on preview.
+  drupal_add_css(drupal_get_path('theme', 'ddbasic') . "/color/disable.css");
 }
