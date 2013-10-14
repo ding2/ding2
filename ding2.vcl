@@ -14,7 +14,25 @@ sub vcl_recv {
       set req.http.X-Forwarded-For = client.ip;
     }
   }
- 
+
+  // Allow forms to be posted.
+  if (req.request == "POST") {
+    return (pass);
+  }
+
+  // We'll always restart once. Therefore, when restarts == 0 we can ensure
+  // that the HTTP headers haven't been tampered with by the client.
+  if (req.restarts == 0) {
+    unset req.http.X-Drupal-Roles;
+
+    // We're going to change the URL to x-drupal-roles so we'll need to save
+    // the original one first.
+    set req.http.X-Original-URL = req.url;
+    set req.url = "/varnish/roles";
+
+    return (lookup);
+  }
+
   # Do not cache these paths.
   if (req.url ~ "^/status\.php$" ||
     req.url ~ "^/update\.php$" ||
@@ -31,7 +49,7 @@ sub vcl_recv {
   if (req.url ~ "^/admin/content/backup_migrate/export") {
     return (pipe);
   }
- 
+
   # Allow the backend to serve up stale content if it is responding slowly.
   set req.grace = 6h;
  
@@ -44,13 +62,12 @@ sub vcl_recv {
   if (req.url ~ "(?i)\.(png|gif|jpeg|jpg|ico|swf|css|js|html|htm)(\?[a-z0-9]+)?$") {
     unset req.http.Cookie;
   }
- 
+
   # Remove all cookies that Drupal doesn't need to know about. ANY remaining
   # cookie will cause the request to pass-through to Apache. For the most part
   # we always set the NO_CACHE cookie after any POST request, disabling the
-  # Varnish cache temporarily. The session cookie allows all authenticated users
-  # to pass through as long as they're logged in.
-  if (req.http.Cookie) {
+  # Varnish cache temporarily.
+  if (req.http.Cookie && req.http.X-Drupal-Roles == "1") {
     set req.http.Cookie = ";" + req.http.Cookie;
     set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
     set req.http.Cookie = regsuball(req.http.Cookie, ";(SESS[a-z0-9]+|NO_CACHE)=", "; \1=");
@@ -90,9 +107,41 @@ sub vcl_recv {
   }  
   return (lookup);
 }
- 
+
+sub vcl_deliver {
+  // If the response contains the X-Drupal-Roles header and the request URL
+  // is right. Copy the X-Drupal-Roles header over to the request and restart.
+  if (req.url == "/varnish/roles" && resp.http.X-Drupal-Roles) {
+    set req.http.X-Drupal-Roles = resp.http.X-Drupal-Roles;
+    set req.url = req.http.X-Original-URL;
+    unset req.http.X-Original-URL;
+    return (restart);
+  }
+
+  // If resp x-drupal-roles is not set, move them from the request.
+  if (!resp.http.X-Drupal-Roles) {
+    set resp.http.X-Drupal-Roles = req.http.X-Drupal-Roles;
+  }
+
+  # Remove server information
+  set resp.http.X-Powered-By = "Ding T!NG";
+
+  # Debug
+  if (obj.hits > 0 ) {
+    set resp.http.X-Cache = "HIT";
+  }
+  else {
+    set resp.http.X-Cache = "MISS";
+  }
+}
+
 # Code determining what to do when serving items from the Apache servers.
 sub vcl_fetch {
   # Allow items to be stale if needed.
   set beresp.grace = 6h;
+
+  // If ding_varnish has marked the page as cachable.
+  if (beresp.http.X-Drupal-Varnish-Cache) {
+    return (deliver);
+  }
 }
