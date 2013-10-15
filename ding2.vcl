@@ -15,8 +15,8 @@ sub vcl_recv {
     }
   }
 
-  # Allow forms to be posted.
-  if (req.request == "POST") {
+  if (req.request != "GET" && req.request != "HEAD") {
+    /* We only deal with GET and HEAD by default */
     return (pass);
   }
 
