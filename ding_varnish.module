@@ -156,5 +156,5 @@ function ding_varnish_page_build() {
   // after a login and not server browser cached pages. We have to set the
   // header as Drupal do in bootstrap, as this will override the default header
   // for not logged in users.
-  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',must-revalidate,no-store');
+  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',no-cache');
 }
