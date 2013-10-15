@@ -131,7 +131,7 @@ function ding_varnish_init() {
 function ding_varnish_page_build() {
   // Check the static variable form init.
   $cacheable = &drupal_static('ding_varnish_init', FALSE);
-  $ttl = variable_get('page_cache_maximum_age', FAÆSE);
+  $ttl = variable_get('page_cache_maximum_age', FALSE);
 
   // Check if this request is cacheabel and that ttl have been set.
   if ($cacheable && $ttl) {
