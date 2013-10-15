@@ -87,13 +87,10 @@ function ding_varnish_init() {
   // marked for caching.
   if (empty($_POST) && user_is_logged_in() && !drupal_page_is_cacheable()) {
     // Get the roles selected.
-    $ding_varnish_roles = array_filter(variable_get('ding_varnish_roles', array()));
-    foreach ($ding_varnish_roles as $rid) {
-      if (isset($user->roles[$rid])) {
-        // Role was cacheable.
-        $cacheable = TRUE;
-        break;
-      }
+    $ding_varnish_role = variable_get('ding_varnish_role', 2);
+    if (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 1) {
+      // Role was cacheable.
+      $cacheable = TRUE;
     }
 
     // So the role is cacheable, so now we look at the path.
