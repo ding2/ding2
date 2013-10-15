@@ -134,15 +134,12 @@ function ding_varnish_page_build() {
   $hook_boot_headers = drupal_get_http_header();
   $max_age = !isset($_COOKIE[session_name()]) || isset($hook_boot_headers['vary']) ? variable_get('page_cache_maximum_age', 0) : 0;
 
-  // Check if this request is cacheabel and that ttl have been set.
+  // Check if this request is cacheable and that ttl have been set.
   if ($cacheable) {
-    // Force max-age as session was set above.
+    // Force max-age as session was set above, but page is marked as cacheable.
     $max_age = variable_get('page_cache_maximum_age', 0);
 
     if ($max_age) {
-      // Override core's expires header.
-      drupal_add_http_header('Expires', date('r', REQUEST_TIME + $ttl));
-
       // Set header to mark this as candidate for caching.
       drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
     }
@@ -151,9 +148,13 @@ function ding_varnish_page_build() {
   // Regardless, always vary on X-Drupal-Roles.
   drupal_add_http_header('Vary', 'X-Drupal-Roles,Accept-Encoding');
 
+  // We always need to set expire header or default will be set, which makes
+  // Drupal's page cache miss.
+  drupal_add_http_header('Expires', date('r', REQUEST_TIME + $max_age));
+
   // Add headers to make sure that the browser re-checks Varnish for changes
   // after a login and not server browser cached pages. We have to set the
   // header as Drupal do in bootstrap, as this will override the default header
   // for not logged in users.
-  drupal_add_http_header('Cache-Control', 'public, max-age=' . $max_age . ',must-revalidate,no-store');
+  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',must-revalidate,no-store');
 }
