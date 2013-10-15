@@ -5,9 +5,13 @@
  * module behaviour.
  */
 
+/**
+ * Defines the administration form for this module.
+ */
 function ding_varnish_settings_form() {
   $form = array();
 
+  // Which roles should be cacheable.
   $roles = user_roles(TRUE);
   $form['ding_varnish_roles'] = array(
     '#type' => 'checkboxes',
@@ -17,6 +21,7 @@ function ding_varnish_settings_form() {
     '#default_value' => variable_get('ding_varnish_roles', array()),
   );
 
+  // Which node views should be cacheable.
   $options = array();
   $types = node_type_get_types();
   foreach ($types as $machine_name => $type) {
@@ -30,6 +35,7 @@ function ding_varnish_settings_form() {
     '#default_value' => variable_get('ding_varnish_content_types', array()),
   );
 
+  // Cacheable paths e.g. views and panel pages.
   $form['ding_varnish_paths'] = array(
     '#type' => 'textarea',
     '#title' => t('Paths'),

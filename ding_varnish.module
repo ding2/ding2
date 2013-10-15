@@ -6,13 +6,18 @@
  * are logged in.
  *
  * This is achieved by using a menu callback and a new header variable
- * 'X-Drupal-Roles' that varnish can react on.
+ * 'X-Drupal-Roles' that varnish can react on. The module uses the 'vary' header
+ * in combination with X headers to allow varnish to cache content based on user
+ * roles.
  *
  * The basic idea used in this module is taken form the link below.
  *
  * @see http://joshwaihi.com/content/authenticated-page-caching-varnish-drupal
  */
 
+/**
+ * Implements hook_menu().
+ */
 function ding_varnish_menu() {
   $items = array();
 
@@ -26,6 +31,7 @@ function ding_varnish_menu() {
     'file' => 'includes/ding_varnish.admin.inc',
   );
 
+  // This callback is used to get the current users roles.
   $items['varnish/roles'] = array(
     'title' => 'Varnish roles header',
     'description' => 'Returns headers with current role',
@@ -74,19 +80,23 @@ function ding_varnish_init() {
   global $user;
 
   // Use static variable to indicate that this module have marked the page as
-  // cacheable.
+  // cacheable, defaults to FALSE.
   $cacheable = &drupal_static(__FUNCTION__, FALSE);
 
+  // We only make changes to logged in users that drupal not already have
+  // marked for caching.
   if (empty($_POST) && user_is_logged_in() && !drupal_page_is_cacheable()) {
     // Get the roles selected.
     $ding_varnish_roles = array_filter(variable_get('ding_varnish_roles', array()));
     foreach ($ding_varnish_roles as $rid) {
       if (isset($user->roles[$rid])) {
+        // Role was cacheable.
         $cacheable = TRUE;
         break;
       }
     }
 
+    // So the role is cacheable, so now we look at the path.
     if ($cacheable) {
       // Check path.
       $pages = drupal_strtolower(variable_get('ding_varnish_paths', ''));
@@ -96,15 +106,17 @@ function ding_varnish_init() {
 
       // Compare the lowercase internal and lowercase path alias (if any).
       if (!drupal_match_path($path, $pages)) {
+        // Path was not cacheable.
         $cacheable = FALSE;
       }
 
-      // Check node type.
+      // Check node type, if path was not cacheable.
       if (!$cacheable) {
         $node = menu_get_object();
         if (!empty($node)) {
           $types = array_filter(variable_get('ding_varnish_content_types', array()));
           if (in_array($node->type, $types)) {
+            // Even though the path was not cacheable the node type is.
             $cacheable = TRUE;
           }
         }
@@ -117,14 +129,17 @@ function ding_varnish_init() {
  * Implements hook_page_build().
  */
 function ding_varnish_page_build() {
+  // Check the static variable form init.
   $cacheable = &drupal_static('ding_varnish_init', FALSE);
-  $ttl = variable_get('page_cache_maximum_age', '86400');
+  $ttl = variable_get('page_cache_maximum_age', FAÆSE);
 
+  // Check if this request is cacheabel and that ttl have been set.
   if ($cacheable && $ttl) {
-
     // Override core's expiration header.
     drupal_add_http_header('Expires', date('r', REQUEST_TIME + $ttl));
     drupal_add_http_header('Cache-Control', 'public, max-age=' . $ttl);
+
+    // Set header to mark this as candidate for caching.
     drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
   }
 
