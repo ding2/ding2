@@ -15,18 +15,18 @@ sub vcl_recv {
     }
   }
 
-  // Allow forms to be posted.
+  # Allow forms to be posted.
   if (req.request == "POST") {
     return (pass);
   }
 
-  // We'll always restart once. Therefore, when restarts == 0 we can ensure
-  // that the HTTP headers haven't been tampered with by the client.
+  # We'll always restart once. Therefore, when restarts == 0 we can ensure
+  # that the HTTP headers haven't been tampered with by the client.
   if (req.restarts == 0) {
     unset req.http.X-Drupal-Roles;
 
-    // We're going to change the URL to x-drupal-roles so we'll need to save
-    // the original one first.
+    # We're going to change the URL to x-drupal-roles so we'll need to save
+    # the original one first.
     set req.http.X-Original-URL = req.url;
     set req.url = "/varnish/roles";
 
@@ -66,7 +66,8 @@ sub vcl_recv {
   # Remove all cookies that Drupal doesn't need to know about. ANY remaining
   # cookie will cause the request to pass-through to Apache. For the most part
   # we always set the NO_CACHE cookie after any POST request, disabling the
-  # Varnish cache temporarily.
+  # Varnish cache temporarily. Cookies are only removed for not logged in users
+  # theme with role 1.
   if (req.http.Cookie && req.http.X-Drupal-Roles == "1") {
     set req.http.Cookie = ";" + req.http.Cookie;
     set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
@@ -109,8 +110,8 @@ sub vcl_recv {
 }
 
 sub vcl_deliver {
-  // If the response contains the X-Drupal-Roles header and the request URL
-  // is right. Copy the X-Drupal-Roles header over to the request and restart.
+  # If the response contains the X-Drupal-Roles header and the request URL
+  # is right. Copy the X-Drupal-Roles header over to the request and restart.
   if (req.url == "/varnish/roles" && resp.http.X-Drupal-Roles) {
     set req.http.X-Drupal-Roles = resp.http.X-Drupal-Roles;
     set req.url = req.http.X-Original-URL;
@@ -118,7 +119,7 @@ sub vcl_deliver {
     return (restart);
   }
 
-  // If resp x-drupal-roles is not set, move them from the request.
+  # If responces X-Drupal-Roles is not set, move it from the request.
   if (!resp.http.X-Drupal-Roles) {
     set resp.http.X-Drupal-Roles = req.http.X-Drupal-Roles;
   }
@@ -140,7 +141,8 @@ sub vcl_fetch {
   # Allow items to be stale if needed.
   set beresp.grace = 6h;
 
-  // If ding_varnish has marked the page as cachable.
+  # If ding_varnish has marked the page as cachable simeply deliver is to make
+  # sure that it's cached.
   if (beresp.http.X-Drupal-Varnish-Cache) {
     return (deliver);
   }
