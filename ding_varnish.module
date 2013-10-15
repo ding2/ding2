@@ -137,7 +137,7 @@ function ding_varnish_page_build() {
   if ($cacheable && $ttl) {
     // Override core's expiration header.
     drupal_add_http_header('Expires', date('r', REQUEST_TIME + $ttl));
-    drupal_add_http_header('Cache-Control', 'public, max-age=' . $ttl);
+    drupal_add_http_header('Cache-Control', 'must-revalidate, public, max-age=' . $ttl);
 
     // Set header to mark this as candidate for caching.
     drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
