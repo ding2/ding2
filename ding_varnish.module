@@ -155,3 +155,12 @@ function ding_varnish_page_build() {
   // for not logged in users.
   drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',no-cache');
 }
+
+/**
+ * Implements hook_flush_caches().
+ *
+ * Ensures that varnish is clear when caches are flushed.
+ */
+function ding_varnish_flush_caches() {
+  varnish_purge_all_pages();
+}
