@@ -54,7 +54,7 @@ function _ding_varnish_header() {
 
   // Cache response for 3 minutes to reduce request load on roll requests.
   header('Expires', date('r', REQUEST_TIME + 180));
-  header('Cache-Control:public, max-age=180');
+  header('Cache-Control:public,max-age=180');
 
   // Change the cache of this response on any criteria that may determine this
   // user is coming from a different device.
@@ -131,22 +131,24 @@ function ding_varnish_init() {
 function ding_varnish_page_build() {
   // Check the static variable form init.
   $cacheable = &drupal_static('ding_varnish_init', FALSE);
-  $ttl = variable_get('page_cache_maximum_age', FALSE);
+  $hook_boot_headers = drupal_get_http_header();
+  $max_age = !isset($_COOKIE[session_name()]) || isset($hook_boot_headers['vary']) ? variable_get('page_cache_maximum_age', 0) : 0;
 
   // Check if this request is cacheabel and that ttl have been set.
-  if ($cacheable && $ttl) {
-    // Override core's expiration header.
+  if ($cacheable && $max_age) {
+    // Override core's expires header.
     drupal_add_http_header('Expires', date('r', REQUEST_TIME + $ttl));
-    drupal_add_http_header('Cache-Control', 'must-revalidate, no-store, public, max-age=' . $ttl);
 
     // Set header to mark this as candidate for caching.
     drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
   }
 
   // Regardless, always vary on X-Drupal-Roles.
-  drupal_add_http_header('Vary', 'X-Drupal-Roles, Accept-Encoding');
+  drupal_add_http_header('Vary', 'X-Drupal-Roles,Accept-Encoding');
 
   // Add headers to make sure that the browser re-checks Varnish for changes
-  // after a login and not server browser cached pages.
-  drupal_add_http_header('Cache-Control', 'must-revalidate, no-store', TRUE);
+  // after a login and not server browser cached pages. We have to set the
+  // header as Drupal do in bootstrap, as this will override the default header
+  // for not logged in users.
+  drupal_add_http_header('Cache-Control', 'public, max-age=' . $max_age . ',must-revalidate,no-store');
 }
