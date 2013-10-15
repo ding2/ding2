@@ -135,12 +135,17 @@ function ding_varnish_page_build() {
   $max_age = !isset($_COOKIE[session_name()]) || isset($hook_boot_headers['vary']) ? variable_get('page_cache_maximum_age', 0) : 0;
 
   // Check if this request is cacheabel and that ttl have been set.
-  if ($cacheable && $max_age) {
-    // Override core's expires header.
-    drupal_add_http_header('Expires', date('r', REQUEST_TIME + $ttl));
+  if ($cacheable) {
+    // Force max-age as session was set above.
+    $max_age = variable_get('page_cache_maximum_age', 0);
 
-    // Set header to mark this as candidate for caching.
-    drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
+    if ($max_age) {
+      // Override core's expires header.
+      drupal_add_http_header('Expires', date('r', REQUEST_TIME + $ttl));
+
+      // Set header to mark this as candidate for caching.
+      drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
+    }
   }
 
   // Regardless, always vary on X-Drupal-Roles.
