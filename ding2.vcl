@@ -36,7 +36,6 @@ sub vcl_recv {
   # Do not cache these paths.
   if (req.url ~ "^/status\.php$" ||
     req.url ~ "^/update\.php$" ||
-    req.url ~ "^/ooyala/ping$" ||
     req.url ~ "^/admin/build/features" ||
     req.url ~ "^/info/.*$" ||
     req.url ~ "^/flag/.*$" ||
@@ -61,7 +60,7 @@ sub vcl_recv {
   }
  
   # Always cache the following file types for all users.
-  if (req.url ~ "(?i)\.(png|gif|jpeg|jpg|ico|swf|css|js|html|htm)(\?[a-z0-9]+)?$") {
+  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|css|js)(\?[a-z0-9]+)?$") {
     unset req.http.Cookie;
   }
 
@@ -131,10 +130,10 @@ sub vcl_deliver {
 
   # Debug
   if (obj.hits > 0 ) {
-    set resp.http.X-Cache = "HIT";
+    set resp.http.X-Varnish-Cache = "HIT";
   }
   else {
-    set resp.http.X-Cache = "MISS";
+    set resp.http.X-Varnish-Cache = "MISS";
   }
 }
 
@@ -143,9 +142,57 @@ sub vcl_fetch {
   # Allow items to be stale if needed.
   set beresp.grace = 6h;
 
+# We need this to cache 404s, 301s, 500s. Otherwise, depending on backend but
+  # definitely in Drupal's case these responses are not cacheable by default.
+  if (beresp.status == 404 || beresp.status == 301 || beresp.status == 500) {
+    set beresp.ttl = 10m;
+  }
+
+  # Don't allow static files to set cookies.
+  # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
+  # This list of extensions appears twice, once here and again in vcl_recv so
+  # make sure you edit both and keep them equal.
+  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|css|js)(\?.*)?$") {
+    unset beresp.http.set-cookie;
+  }
+
   # If ding_varnish has marked the page as cachable simeply deliver is to make
   # sure that it's cached.
   if (beresp.http.X-Drupal-Varnish-Cache) {
     return (deliver);
   }
+}
+
+# In the event of an error, show friendlier messages.
+sub vcl_error {
+  # Redirect to some other URL in the case of a homepage failure.
+  #if (req.url ~ "^/?$") {
+  #  set obj.status = 302;
+  #  set obj.http.Location = "http://backup.example.com/";
+  #}
+
+  # Otherwise redirect to the homepage, which will likely be in the cache.
+  set obj.http.Content-Type = "text/html; charset=utf-8";
+  synthetic {"
+<html>
+<head>
+  <title>Page Unavailable</title>
+  <style>
+    body { background: #303030; text-align: center; color: white; }
+    #page { border: 1px solid #CCC; width: 500px; margin: 100px auto 0; padding: 30px; background: #323232; }
+    a, a:link, a:visited { color: #CCC; }
+    .error { color: #222; }
+  </style>
+</head>
+<body onload="setTimeout(function() { window.location = '/' }, 5000)">
+  <div id="page">
+    <h1 class="title">Page Unavailable</h1>
+    <p>The page you requested is temporarily unavailable.</p>
+    <p>We're redirecting you to the <a href="/">homepage</a> in 5 seconds.</p>
+    <div class="error">(Error "} + obj.status + " " + obj.response + {")</div>
+  </div>
+</body>
+</html>
+"};
+  return (deliver);
 }
