@@ -53,7 +53,6 @@ function _ding_varnish_header() {
   global $user;
 
   // Cache response for 3 minutes to reduce request load on roll requests.
-  header('Expires', date('r', REQUEST_TIME + 180));
   header('Cache-Control:public,max-age=180');
 
   // Change the cache of this response on any criteria that may determine this
@@ -139,9 +138,6 @@ function ding_varnish_page_build() {
     if ($max_age) {
       // Set header to mark this as candidate for caching.
       drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
-
-      // Set expire header to ensure caching in Varnish.
-      drupal_add_http_header('Expires', date('r', REQUEST_TIME + $max_age));
     }
   }
 
@@ -149,10 +145,10 @@ function ding_varnish_page_build() {
   // changes after a login and not server browser cached pages. We have to set
   // the header as Drupal do in bootstrap, as this will override the default
   // header for not logged in users.
-  drupal_add_http_header('Cache-Control', 'public, max-age=' . $max_age . ', no-cache');
+  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',no-cache');
 
   // Regardless, always vary on X-Drupal-Roles.
-  drupal_add_http_header('Vary', 'X-Drupal-Roles, Accept-Encoding');
+  drupal_add_http_header('Vary', 'X-Drupal-Roles,Accept-Encoding');
 }
 
 /**
