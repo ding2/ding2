@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * This module tries to create  better caching between varnish and drupal by
+ * This module tries to create better caching between varnish and drupal by
  * allowing varnish to cache content type pages based on user roles when users
  * are logged in.
  *
@@ -85,7 +85,7 @@ function ding_varnish_init() {
 
   // We only make changes to logged in users that drupal not already have
   // marked for caching.
-  if (empty($_POST) && user_is_logged_in() && !drupal_page_is_cacheable()) {
+  if (empty($_POST) && user_is_logged_in()) {
     // Get the roles selected.
     $ding_varnish_role = variable_get('ding_varnish_role', 2);
     if (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 1) {
@@ -139,21 +139,20 @@ function ding_varnish_page_build() {
     if ($max_age) {
       // Set header to mark this as candidate for caching.
       drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
+
+      // Set expire header to ensure caching in Varnish.
+      drupal_add_http_header('Expires', date('r', REQUEST_TIME + $max_age));
     }
   }
 
+  // Add header "no-cache" to make sure that the browser re-checks Varnish for
+  // changes after a login and not server browser cached pages. We have to set
+  // the header as Drupal do in bootstrap, as this will override the default
+  // header for not logged in users.
+  drupal_add_http_header('Cache-Control', 'public, max-age=' . $max_age . ', no-cache');
+
   // Regardless, always vary on X-Drupal-Roles.
-  drupal_add_http_header('Vary', 'X-Drupal-Roles,Accept-Encoding');
-
-  // We always need to set expire header or default will be set, which makes
-  // Drupal's page cache miss.
-  drupal_add_http_header('Expires', date('r', REQUEST_TIME + $max_age));
-
-  // Add headers to make sure that the browser re-checks Varnish for changes
-  // after a login and not server browser cached pages. We have to set the
-  // header as Drupal do in bootstrap, as this will override the default header
-  // for not logged in users.
-  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',no-cache');
+  drupal_add_http_header('Vary', 'X-Drupal-Roles, Accept-Encoding');
 }
 
 /**
