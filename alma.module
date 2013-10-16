@@ -13,16 +13,19 @@ define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
 /**
  * Get list of pickup branches.
  */
-function alma_reservation_pickup_branches() {
+function alma_reservation_pickup_branches($reset = FALSE) {
   // Cache alma pickup branches - they are not likely to change.
   static $alma_pickup_branches;
   if (!isset($alma_pickup_branches)) {
-    if ($cache = cache_get('alma_pickup_branches')) {
+    $cache = cache_get('alma_pickup_branches');
+    if (!$reset && $cache && $cache->expire > REQUEST_TIME) {
       $alma_pickup_branches = $cache->data;
     }
     else {
       $alma_pickup_branches = alma_client_invoke('get_reservation_branches');
-      cache_set('alma_pickup_branches', $alma_pickup_branches, 'cache');
+
+      // Cache output for 24 hours.
+      cache_set('alma_pickup_branches', $alma_pickup_branches, 'cache', REQUEST_TIME + 86400);
     }
   }
   return $alma_pickup_branches;
@@ -191,7 +194,8 @@ function alma_get_organisation($reset = FALSE) {
   // Return data from cache if available.
   static $organisation;
   if (!$organisation || $reset) {
-    if (($cache = cache_get('alma_organisation')) && !empty($cache->data) && !$reset) {
+    $cache = cache_get('alma_organisation');
+    if (!$reset && $cache && isset($cache->data) && $cache->expire > REQUEST_TIME) {
       $organisation = $cache->data;
     }
     else {
@@ -208,7 +212,7 @@ function alma_get_organisation($reset = FALSE) {
       if ($organisation['branch'] && $organisation['department'] &&
           $organisation['location'] && $organisation['sublocation'] &&
           $organisation['collection'] && $organisation['reservation']) {
-        cache_set('alma_organisation', $organisation, 'cache');
+        cache_set('alma_organisation', $organisation, 'cache', REQUEST_TIME + 86400);
       }
     }
   }
