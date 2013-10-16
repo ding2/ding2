@@ -104,6 +104,8 @@ After you have finished the installation there are some performance optimization
 that you should put into your settings.php file.
 
 ## Drupal cache
+This ensures that cache is enfored and that it can not be disabled in the
+administration interface.
 
 ```php
   $conf['cache'] = 1;
@@ -111,12 +113,19 @@ that you should put into your settings.php file.
   $conf['preprocess_css'] = 1;
   $conf['preprocess_js'] = 1;
 
-  // Ensures that form data is not moved out of the database.
+  // Ensures that form data is not moved out of the database. It's important to
+  // keep this in non-volatile memory (e.g. the database).
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
 ```
 
 ## Varnish
+This project assumes that you are using Varnish as a revers proxy and the
+project comes with a specially design VCL file, so that authenticated library
+users can be served cached pages (ding_varnish). It also allows Varnish to have
+paths purged when content is edited (varnish and expire modules).
 
+The other varnish configurations (not listed here) are added by ding_base
+feature with the strong arm module.
 ```php
   // Tell Drupal it's behind a proxy.
   $conf['reverse_proxy'] = TRUE;
@@ -126,13 +135,30 @@ that you should put into your settings.php file.
 
   // Bypass Drupal bootstrap for anonymous users so that Drupal sets max-age < 0.
   $conf['page_cache_invoke_hooks'] = FALSE;
+
+  // Set varnish configuration.
+  $conf['varnish_control_key'] = 'THE KEY';
+  $conf['varnish_socket_timeout'] = 500;
+
+  // Set varnish server IP's sperated by spaces
+  $conf['varnish-control-terminal'] = 'IP:6082 IP:6082';
 ```
 
+If you do not use varnish, you should disable varnish, exipre and ding_varnish
+modules as they may give you problems.
+
 ## APC
+This optimization assumes that you have APC installed on your server.
+
+__More information on the way__
 
 
 ## Memcache
 This optimization assumes that you have memcached installed on your server.
+Alternatively you can use redis as a key/value store, but it will not give you
+advantages as the more advanced stuff that redis as is not used by Drupal. So
+from a performance point it's more what you are use to setup.
+
 ```php
   $conf += array(
     'memcache_extension' => 'Memcache',
