@@ -82,6 +82,12 @@ projects[ding_session_cache][download][type] = "git"
 projects[ding_session_cache][download][url] = "git@github.com:ding2tal/ding_session_cache.git"
 projects[ding_session_cache][download][branch] = "development"
 
+projects[ding_varnish][type] = "module"
+projects[ding_varnish][download][type] = "git"
+projects[ding_varnish][download][url] = "git@github.com:ding2tal/ding_varnish.git"
+projects[ding_varnish][download][branch] = "development"
+
+; Base theme
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
 projects[ddbasic][download][url] = "git@github.com:ding2tal/ddbasic.git"
@@ -94,6 +100,12 @@ libraries[profiler][download][tag] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 ; Contrib modules
+projects[entitycache][subdir] = "contrib"
+projects[entitycache][version] = "1.1"
+
+projects[expire][subdir] = "contrib"
+projects[expire][version] = "1.0-beta1"
+
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 

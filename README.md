@@ -115,13 +115,21 @@ that you should put into your settings.php file.
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
 ```
 
-## APC
+## Varnish
 
 ```php
-  $conf['cache_backends'][] = 'profiles/ding2/modules/contrib/apc/drupal_apc_cache.inc';
-  $conf['cache_class_cache'] = 'DrupalAPCCache';
-  $conf['cache_class_cache_bootstrap'] = 'DrupalAPCCache';
+  // Tell Drupal it's behind a proxy.
+  $conf['reverse_proxy'] = TRUE;
+
+  // Tell Drupal what addresses the proxy server(s) use.
+  $conf['reverse_proxy_addresses'] = array('127.0.0.1');
+
+  // Bypass Drupal bootstrap for anonymous users so that Drupal sets max-age < 0.
+  $conf['page_cache_invoke_hooks'] = FALSE;
 ```
+
+## APC
+
 
 ## Memcache
 This optimization assumes that you have memcached installed on your server.
