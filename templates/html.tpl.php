@@ -44,6 +44,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" version="XHTML+RDFa 1.0" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces; ?>>
 <head profile="<?php print $grddl_profile; ?>">
   <?php print $head; ?>
+  <?php if (!empty($ios_logo)): ?><link rel="apple-touch-icon" href="<?php print $ios_logo; ?>"/><?php endif; ?>
   <title><?php print $head_title; ?></title>
   <meta name="viewport" content="width=device-width">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

@@ -31,6 +31,9 @@ function ddbasic_preprocess_html(&$vars) {
   global $theme_key, $language;
   $theme_name = $theme_key;
 
+  // Setup iOS logo if it's set.
+  $vars['ios_logo'] = theme_get_setting('iosicon_upload');
+
   // Set variable for the base path.
   $vars['base_path'] = base_path();
 
