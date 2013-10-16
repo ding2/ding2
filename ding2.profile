@@ -152,9 +152,6 @@ function ding2_module_selection_form($form, &$form_state) {
     'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
     'ding_campaign' => st('Add ding campaigns'),
     'ding_permissions' => st('Set default permissions'),
-
-    // Modules that's not part of the make files yet.
-    //'ding_example_content' => st('Add example content to the site'),
   );
 
   $form['modules'] = array(
