@@ -108,6 +108,11 @@ function bpi_admin_settings_form($form, $form_state) {
 function bpi_admin_settings_form_validate(&$form, &$form_state) {
   $url = $form_state['values']['bpi_service_url'];
 
+  // Check if ting agency matches bpi agency.
+  if (module_exists('ting') && variable_get('ting_agency', FALSE) != $form_state['values']['bpi_agency_id']) {
+    drupal_set_message(t('T!NG agency ID %id does not match BPI agency ID', array('%id' => variable_get('ting_agency', FALSE))), 'warning');
+  }
+
   if (!valid_url($url, TRUE)) {
     form_set_error('bpi_service_url', t('Please enter a valid url.'));
   }
