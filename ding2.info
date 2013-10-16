@@ -30,5 +30,6 @@ dependencies[] = ding_bookmark
 
 ; Cache/performance modules
 dependencies[] = entitycache
+dependencies[] = ding_varnish
 
 files[] = ding2.profile
