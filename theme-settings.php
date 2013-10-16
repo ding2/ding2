@@ -138,6 +138,44 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['favicon']['#collapsed'] = TRUE;
   $form['favicon']['#weight'] = 50;
 
+  // iOS icon.
+  $form['iosicon'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('iOS icon settings'),
+    '#description' => st("Your iOS icon, is displayed at the homescreen."),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['iosicon']['default_iosicon'] = array(
+    '#type' => 'checkbox',
+    '#title' => st('Use the default iOS icon.'),
+    '#default_value' => TRUE,
+    '#description' => st('Check here if you want the theme to use the default iOS icon.'),
+  );
+  $form['iosicon']['settings'] = array(
+    '#type' => 'container',
+    '#states' => array(
+      // Hide the favicon settings when using the default favicon.
+      'invisible' => array(
+        'input[name="default_iosicon"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  $form['iosicon']['settings']['iosicon_path'] = array(
+    '#type' => 'textfield',
+    '#title' => st('Path to custom iOS icon'),
+    '#description' => st('The path to the image file you would like to use as your custom iOS icon.'),
+  );
+  $form['iosicon']['settings']['iosicon_upload'] = array(
+    '#type' => 'file',
+    '#title' => st('Upload iOS icon image'),
+    '#description' => st("If you don't have direct file access to the server, use this field to upload your iOS icon."),
+  );
+
   // Add css file to display:none on preview.
   drupal_add_css(drupal_get_path('theme', 'ddbasic') . "/color/disable.css");
+
+  // Validate and submit logo, iOS logo and favicon.
+  $form['#validate'][] = 'ding2_module_selection_form_validate';
+  $form['#submit'][] = 'ding2_module_selection_form_submit';
 }
