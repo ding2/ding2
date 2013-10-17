@@ -9,16 +9,18 @@
  * Defines the administration form for this module.
  */
 function ding_varnish_settings_form() {
-  $form = array();
+  $form = array(
+    '#tree' => FALSE,
+  );
 
-  // Which roles should be cacheable.
+  // Which role is the library user and should be cacheable.
   $roles = user_roles(TRUE);
-  $form['ding_varnish_roles'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Authenticated user roles'),
-    '#description' => t('Select the roles that should be cacheable in varnish for logged in users.'),
+  $form['ding_varnish_role'] = array(
+    '#type' => 'radios',
+    '#title' => t('Library user role'),
+    '#description' => t('Select the role that should be cached in varnish for logged in library users.'),
     '#options' => $roles,
-    '#default_value' => variable_get('ding_varnish_roles', array()),
+    '#default_value' => variable_get('ding_varnish_role', 2),
   );
 
   // Which node views should be cacheable.
@@ -39,7 +41,7 @@ function ding_varnish_settings_form() {
   $form['ding_varnish_paths'] = array(
     '#type' => 'textarea',
     '#title' => t('Paths'),
-    '#description' => t('Enter a comma sperated list of paths that should be cached by varnish.'),
+    '#description' => t("Angiv sider ved at bruge deres stier. Indtast én sti pr. linje. '*'-tegnet er joker. Eksempler på stier er blog for blogsiden og blog/* for alle personlige blogs. &lt;front&gt; er forsiden."),
     '#default_value' => variable_get('ding_varnish_paths', ''),
   );
 
