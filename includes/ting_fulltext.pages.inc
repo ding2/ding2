@@ -7,14 +7,14 @@
 /**
  * Fulltext page view.
  */
-function ting_fulltext_page_view($object) {
+function ting_fulltext_page_view($xml) {
   return array(
     'ting_fulltext' => array(
       '#theme' => 'ting_fulltext',
-      '#fields' => ting_fulltext_parse($object),
+      '#fields' => ting_fulltext_parse($xml),
       '#attached' => array(
         'css' => array(
-          drupal_get_path('module', 'ting_fulltext') . '/ting_fulltext.css',
+          drupal_get_path('module', 'ting_fulltext') . '/css/ting_fulltext.css',
         ),
       ),
     ),
