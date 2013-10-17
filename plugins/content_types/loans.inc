@@ -128,13 +128,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         '#information' => array(
           'loan_date' => array(
             'label' => t('Loan date'),
-            'data' => format_date(strtotime(check_plain($loan->loan_date)), 'custom', 'd/m/Y'),
+            'data' => format_date(strtotime(check_plain($loan->loan_date)), 'ding_material_lists_date'),
             'class' => 'loan-date',
             '#weight' => 0,
           ),
           'expiry' => array(
             'label' => t('Return date'),
-            'data' => format_date(strtotime(check_plain($loan->expiry)), 'custom', 'd/m/Y'),
+            'data' => format_date(strtotime(check_plain($loan->expiry)), 'ding_material_lists_date'),
             'class' => 'expire-date',
             '#weight' => 4,
           ),
