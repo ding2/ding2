@@ -1,0 +1,6 @@
+name = Ding Contact
+description = Enable contact module and add default categories.
+core = 7.x
+version = 7.1
+package = Ding!
+dependencies[] = contact
