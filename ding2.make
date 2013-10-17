@@ -87,6 +87,11 @@ projects[ding_varnish][download][type] = "git"
 projects[ding_varnish][download][url] = "git@github.com:ding2tal/ding_varnish.git"
 projects[ding_varnish][download][branch] = "development"
 
+projects[ding_contact][type] = "module"
+projects[ding_contact][download][type] = "git"
+projects[ding_contact][download][url] = "git@github.com:ding2tal/ding_contact.git"
+projects[ding_contact][download][branch] = "development"
+
 ; Base theme
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"

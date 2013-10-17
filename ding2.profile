@@ -152,6 +152,7 @@ function ding2_module_selection_form($form, &$form_state) {
     'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
     'ding_campaign' => st('Add ding campaigns'),
     'ding_permissions' => st('Set default permissions'),
+    'ding_contact' => st('Contact module'),
   );
 
   $form['modules'] = array(
