@@ -105,7 +105,8 @@
             reserver_btn.addClass('reservable');
           }
         }
-        else {
+
+        if (!available && !reservable) {
           element.addClass('not-reservable');
 
           // Add class to reserve button
@@ -114,7 +115,7 @@
           }
         }
 
-        if (available && reservable || is_internet) {
+        if (available || is_internet) {
           element.attr('title', Drupal.t('available'));
           // If availability is a link append the status inside the link.
           if (settings.ding_availability_link === 1) {
@@ -134,7 +135,7 @@
             $('a', element).append('<span class="availability-status">' + Drupal.t('not reservable') + '<span>');
           }
         }
-        else if (!available && ! reservable) {
+        else if (!available && !reservable) {
           element.attr('title', Drupal.t('unavailable'));
           // If availability is a link append the status inside the link.
           if (settings.ding_availability_link === 1) {

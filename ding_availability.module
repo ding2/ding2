@@ -93,7 +93,7 @@ function ding_availability_items($provider_ids) {
       );
 
       // Marks internet resources as available.
-      if ($item['is_internet']) {
+      if (isset($item['is_internet']) && $item['is_internet']) {
         $item['available'] = TRUE;
       }
 
@@ -143,7 +143,7 @@ function ding_availability_holdings($provider_ids) {
  * Adds the human readable status text of an item.
  */
 function _ding_availability_text(&$item) {
-  if ($item['available'] && $item['reservable'] || $item['is_internet']) {
+  if ($item['available'] || (isset($item['is_internet']) && $item['is_internet'])) {
     $item['status'] = t('available');
   }
   elseif (!$item['available'] && $item['reservable']) {
