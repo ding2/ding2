@@ -108,7 +108,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
       '#information' => array(
         'fee_date' => array(
           'label' => t('Fee date'),
-          'data' => format_date(strtotime(check_plain($debt->date)), 'date_only'),
+          'data' => format_date(strtotime(check_plain($debt->date)), 'ding_material_lists_date'),
           'class' => 'fee-date',
           '#weight' => 0,
         ),
