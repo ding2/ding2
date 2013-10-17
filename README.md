@@ -104,7 +104,7 @@ After you have finished the installation there are some performance optimization
 that you should put into your settings.php file.
 
 ## Drupal cache
-This ensures that cache is enfored and that it can not be disabled in the
+This ensures that caching is enforced and that it can not be disabled in the
 administration interface.
 
 ```php
