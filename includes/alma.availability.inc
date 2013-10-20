@@ -19,44 +19,59 @@ function alma_availability_items($provider_ids) {
 /**
  * Implements provider availability, holdings.
  */
-function alma_availability_holdings($provider_ids) {
-  $ids = implode(',', $provider_ids);
-  $details = alma_client_invoke('catalogue_record_detail', $ids);
-  $result = array();
+function alma_availability_holdings($provider_ids, $reset = FALSE) {
+  // Create cache id.
+  $cid = md5(serialize($provider_ids));
 
-  if ($details && isset($details['records'])) {
-    foreach ($details['records'] as $alma_id => $record) {
-      $holding = array(
-        'local_id' => $alma_id,
-        'title' => $record['titles'][0],
-        'available' => ($record['available_count'] > 0),
-        'reservable' => $record['show_reservation_button'],
-        'show_reservation_button' => $record['show_reservation_button'],
-        'holdings' => $record['holdings'],
-        'reserved_count' => (int) $record['reservation_count'],
-        'deferred_period' => FALSE,
-        'issues' => FALSE,
-        'is_periodical' => ($record['media_class'] == 'periodical'),
-        'is_internet' => ($record['media_class'] == 'internet'),
-      );
+  // Check the check to speed up the process, it's only cached for 10 min. to
+  // ensure freshness.
+  $cache = cache_get($cid, 'cache');
+  if (!$reset && $cache && $cache->expire > REQUEST_TIME) {
+    $result = $cache->data;
+  }
+  else {
+    $ids = implode(',', $provider_ids);
+    $details = alma_client_invoke('catalogue_record_detail', $ids);
+    $result = array();
 
-      // If periodical render issue information.
-      if ($holding['is_periodical']) {
-        $holding['issues'] = _alma_populate_issues($record['holdings']);
+    if ($details && isset($details['records'])) {
+      foreach ($details['records'] as $alma_id => $record) {
+        $holding = array(
+          'local_id' => $alma_id,
+          'title' => $record['titles'][0],
+          'available' => ($record['available_count'] > 0),
+          'reservable' => $record['show_reservation_button'],
+          'show_reservation_button' => $record['show_reservation_button'],
+          'holdings' => $record['holdings'],
+          'reserved_count' => (int) $record['reservation_count'],
+          'deferred_period' => FALSE,
+          'issues' => FALSE,
+          'is_periodical' => ($record['media_class'] == 'periodical'),
+          'is_internet' => ($record['media_class'] == 'internet'),
+        );
+
+        // If periodical render issue information.
+        if ($holding['is_periodical']) {
+          $holding['issues'] = _alma_populate_issues($record['holdings']);
+        }
+
+        // If it's an internet holding, don't display holdings information.
+        if ($holding['is_internet']) {
+          $holding['holdings'] = FALSE;
+        }
+
+        $result[$alma_id] = $holding;
+
+        $result[$alma_id]['html'] = _alma_get_holdings($details, $holding['is_periodical']);
       }
 
-      // If it's an internet holding, don't display holdings information.
-      if ($holding['is_internet']) {
-        $holding['holdings'] = FALSE;
-      }
-
-      $result[$alma_id] = $holding;
-
-      $result[$alma_id]['html'] = _alma_get_holdings($details, $holding['is_periodical']);
+      // Cache the result for 10 min. This will speed up materials with many
+      // copies and loans.
+      cache_set($cid, $result, 'cache', REQUEST_TIME + 600);
     }
   }
-  return $result;
 
+  return $result;
 }
 
 /**
@@ -143,7 +158,7 @@ function _alma_set_table_html($holdings, $r_count) {
   // Set a classname for styling the table.
   $variables['attributes'] = array(
     'class' => array(
-      drupal_html_class('availability_holdings_table')
+      drupal_html_class('availability_holdings_table'),
     ),
   );
 
@@ -336,14 +351,6 @@ function _alma_populate_issues($input) {
   $output = array();
   $prev_hash = '';
 
-  // Numeric info about the issue.
-  $ordered_count = 0;
-  $checked_out_count = 0;
-  $reference_count = 0;
-  $total_count = 0;
-  $available_count = 0;
-
-  $i = -1;
   // Loop through volumes.
   foreach ($input as $year => $volume) {
     // Loop through issues.
