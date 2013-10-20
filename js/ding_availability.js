@@ -33,7 +33,7 @@
 
       // Fetch availability.
       if (ids.length > 0) {
-        $.getJSON(settings.basePath + 'ding_availability/' + (settings.ding_availability_mode ? settings.ding_availability_mode: 'items') + '/' + ids.join(','), {}, update);
+        $.getJSON(settings.basePath + 'ding_availability/' + (settings.ding_availability_mode ? settings.ding_availability_mode : 'items') + '/' + ids.join(','), {}, update);
       }
       else {
         // Apply already fetched availability, if any.
@@ -148,7 +148,13 @@
         var entity_id = entity_ids.pop();
         if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
           // Show status for material.
-          $('#' + id).append(Drupal.DADB[entity_id].html) ;
+          $('#' + id).append(Drupal.DADB[entity_id].html);
+
+          // Add reservation and total counts.
+          if (Drupal.DADB[entity_id].total_count != undefined) {
+            var reserver = Drupal.t('We have !x copies and !y reservations for this material.', {'!x' : Drupal.DADB[entity_id].total_count, '!y' : Drupal.DADB[entity_id].reserved_count});
+            $('#' + id).prepend($('<p />', { 'class' : 'holdings-total-count', 'text' : reserver }));
+          }
         }
       }
     }
