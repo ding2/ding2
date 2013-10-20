@@ -36,6 +36,13 @@ function ting_search_autocomplete_flush_caches() {
  */
 function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_state) {
   $form['search_block_form']['#autocomplete_path'] = 'ting/autocomplete';
+
+  // Add class to make sure that the form is auto-submitted.
+  $form['search_block_form']['#attributes']['class'] = array('auto-submit');
+
+  // Modify the core auto-complete behaviour to search on enter. It has a high
+  // weight to ensure that it's include after core auto complete script.
+  drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js', array('weight' => 1000));
 }
 
 /**
