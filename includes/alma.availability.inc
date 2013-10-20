@@ -60,8 +60,12 @@ function alma_availability_holdings($provider_ids, $reset = FALSE) {
           $holding['holdings'] = FALSE;
         }
 
+        // Count total materials.
+        $holding['total_count'] = _alma_holdings_total_count($holding['holdings']);
+
         $result[$alma_id] = $holding;
 
+        // Generate holdings as HTML. @todo: this really need to be changed.
         $result[$alma_id]['html'] = _alma_get_holdings($details, $holding['is_periodical']);
       }
 
@@ -72,6 +76,21 @@ function alma_availability_holdings($provider_ids, $reset = FALSE) {
   }
 
   return $result;
+}
+
+/**
+ * Summeries total number of materials from holdings information.
+ *
+ * @param array $holdings
+ *   Holdings information return form alma.
+ */
+function _alma_holdings_total_count($holdings) {
+  $total = 0;
+  foreach ($holdings as $holding) {
+    $total += (int) $holding['total_count'];
+  }
+
+  return $total;
 }
 
 /**
