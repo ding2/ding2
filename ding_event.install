@@ -67,3 +67,30 @@ function ding_event_update_7003() {
   field_delete_field('field_ding_event_library');
   field_purge_batch(1000);
 }
+
+/**
+ * Move content into the OG library groups.
+ */
+function ding_event_update_7004() {
+  $query = db_select('field_data_og_group_ref', 'group_ref');
+  $query->join('og', 'og', 'group_ref.og_group_ref_target_id = og.gid');
+  $query->fields('group_ref', array('entity_id', 'og_group_ref_target_id'))
+    ->condition('bundle', 'ding_event');
+  $query->addField('og', 'etid');
+  $rows = $query->execute();
+  foreach ($rows as $row) {
+    db_insert('og_membership')
+      ->fields(array(
+        'type' => 'og_membership_type_default',
+        'etid' => $row->entity_id,
+        'entity_type' => 'node',
+        'gid' => $row->etid,
+        'state' => 1,
+        'created' => time(),
+        'group_type' => 'node',
+        'field_name' => 'og_group_ref',
+        'language' => 'und',
+      ))
+      ->execute();
+  }
+}
