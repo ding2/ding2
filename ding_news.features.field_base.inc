@@ -135,35 +135,6 @@ function ding_news_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_news_library'
-  $field_bases['field_ding_news_library'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_ding_news_library',
-    'foreign keys' => array(
-      'og' => array(
-        'columns' => array(
-          'gid' => 'gid',
-        ),
-        'table' => 'og',
-      ),
-    ),
-    'indexes' => array(
-      'gid' => array(
-        0 => 'gid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'og',
-    'settings' => array(
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'group',
-  );
-
   // Exported field_base: 'field_ding_news_list_image'
   $field_bases['field_ding_news_list_image'] = array(
     'active' => 1,
