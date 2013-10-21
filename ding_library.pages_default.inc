@@ -257,6 +257,12 @@ function ding_library_default_page_manager_handlers() {
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => 'Library events',
+      'arguments' => array(
+        'og_group_ref_target_id' => '',
+      ),
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
