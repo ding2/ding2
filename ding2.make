@@ -128,3 +128,6 @@ projects[varnish][version] = "1.0-beta2"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.1"
+
+projects[autosave][subdir] = "contrib"
+projects[autosave][version] = "2.2"
