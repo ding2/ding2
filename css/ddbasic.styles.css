@@ -48,7 +48,7 @@
 /* Topbar background color */
 /* line 9, ../sass/configuration/_configuration.scss */
 .topbar {
-  background-color: black;
+  background-color: #000001;
 }
 
 /* Header background color */
@@ -60,7 +60,7 @@
 /* Navigation background color */
 /* line 23, ../sass/configuration/_configuration.scss */
 .navigation-wrapper {
-  background-color: white;
+  background-color: #fffffc;
 }
 
 /* Links */
@@ -95,7 +95,7 @@ a:focus {
 /* Layout background color */
 /* line 60, ../sass/configuration/_configuration.scss */
 .layout-wrapper {
-  background-color: #fffffd;
+  background-color: #fffffe;
 }
 
 /* Article background extends */
@@ -1532,7 +1532,7 @@ button.button {
   -o-border-radius: 8px;
   border-radius: 8px;
   background-color: #00cafe;
-  color: #fffffe;
+  color: #fffffd;
   font-size: 85%;
   padding: 3px 10px;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -1543,23 +1543,23 @@ button.button {
 }
 /* line 23, ../sass/framework/_labels.scss */
 .label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
-  color: #fffffe;
+  color: #fffffd;
   text-decoration: none;
 }
 /* line 31, ../sass/framework/_labels.scss */
 .label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
-  color: #fffffe;
+  color: #fffffd;
 }
 /* line 35, ../sass/framework/_labels.scss */
 .label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #00a1cb;
-  color: #fffffe;
+  color: #fffffd;
   text-decoration: none;
 }
 
 /* line 43, ../sass/framework/_labels.scss */
 .label-inverted {
-  background-color: #00000a;
+  background-color: #000002;
   color: #00cafc;
   /* Make sure it works with a wrapper */
   /* Make sure it works on a link */
