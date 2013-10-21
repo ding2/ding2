@@ -63,11 +63,13 @@
   // This is not the best solution, but it was decided to make a quick solution
   function facet_browser_mobile() {
     // Create toogle link
-    $('<a />', {
-      'class' : 'facet-browser-toggle js-facet-browser-hide',
-      'href' : Drupal.t('#toggle-facet-browser'),
-      'text' : Drupal.t('Show search filters')
-    }).prependTo('.primary-content');
+    if ($('body').hasClass('page-search')) {
+      $('<a />', {
+        'class' : 'facet-browser-toggle js-facet-browser-hide',
+        'href' : Drupal.t('#toggle-facet-browser'),
+        'text' : Drupal.t('Show search filters')
+      }).prependTo('.primary-content');
+    }
 
     // Define vars
     var facet_browser = $('.pane-ding-facetbrowser');
