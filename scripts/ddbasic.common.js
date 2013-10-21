@@ -62,17 +62,15 @@
 
   // This is not the best solution, but it was decided to make a quick solution
   function facet_browser_mobile() {
-    // Create toogle link
-    if ($('body').hasClass('page-search')) {
-      $('<a />', {
-        'class' : 'facet-browser-toggle js-facet-browser-hide',
-        'href' : Drupal.t('#toggle-facet-browser'),
-        'text' : Drupal.t('Show search filters')
-      }).prependTo('.primary-content');
-    }
-
     // Define vars
     var facet_browser = $('.pane-ding-facetbrowser');
+
+    // Create toogle link
+    $('<a />', {
+      'class' : 'facet-browser-toggle js-facet-browser-hide',
+      'href' : Drupal.t('#toggle-facet-browser'),
+      'text' : Drupal.t('Show search filters')
+    }).prependTo('.primary-content');
 
     // Move and show filters on click
     $('.facet-browser-toggle').on('click touchstart', function() {
@@ -132,7 +130,9 @@
     });
 
     // Responsive facet browser
-    facet_browser_mobile();
+    if ($('.pane-ding-facetbrowser').length) {
+      facet_browser_mobile();
+    }
   });
 
 })(jQuery);
