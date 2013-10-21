@@ -216,8 +216,61 @@ input#edit-search-block-form--2.spinner {
   .expand-facets-hidden {
     @extend .icon-plus-sign;
   }
+
+  /* Media queries */
+  @include small-medium() {
+    display: none;
+  }
 }
 
+.facet-browser-toggle {
+  @extend .button;
+
+  display: none;
+
+  /* Media queries */
+  @include small-medium() {
+    clear: both;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.facet-browser-responsive {
+  border: $search-border-size $search-border-type $gray;
+  margin-bottom: 20px;
+  padding: 20px;
+
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  .fieldset-wrapper,
+  .expand-more {
+    display: none;
+  }
+
+  .fieldset-legend {
+    @extend .icon-plus-sign;
+
+    color: $link-color;
+    cursor: pointer;
+
+    &:hover {
+      color: $link-color-hover;
+    }
+
+    &:before {
+      font-family: $base-icon-library-font;
+      margin-right: 8px;
+    }
+
+    &.js-facet-browser-legend-visible {
+      @extend .icon-minus-sign;
+    }
+  }
+}
 
 
 /* Search results list

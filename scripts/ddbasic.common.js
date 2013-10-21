@@ -60,6 +60,63 @@
     });
   }
 
+  // This is not the best solution, but it was decided to make a quick solution
+  function facet_browser_mobile() {
+    // Create toogle link
+    $('<a />', {
+      'class' : 'facet-browser-toggle js-facet-browser-hide',
+      'href' : Drupal.t('#toggle-facet-browser'),
+      'text' : Drupal.t('Show search filters')
+    }).prependTo('.primary-content');
+
+    // Define vars
+    var facet_browser = $('.pane-ding-facetbrowser');
+
+    // Move and show filters on click
+    $('.facet-browser-toggle').on('click touchstart', function() {
+      // Clone facet browser
+      if (!$('.facet-browser-responsive').length) {
+        // Clone facets
+        facet_browser
+          .clone()
+          .insertAfter(this)
+          .removeAttr('class')
+          .addClass('facet-browser-responsive');
+      }
+
+      var facet_browser_clone = $('.facet-browser-responsive');
+
+      if (facet_browser_clone.hasClass('js-facet-browser-visible')) {
+        facet_browser_clone.hide();
+
+        facet_browser_clone.toggleClass('js-facet-browser-visible');
+      } else {
+        facet_browser_clone.show();
+
+        facet_browser_clone.addClass('js-facet-browser-visible');
+      }
+
+      // Add toggle to legend
+      $('.fieldset-legend', facet_browser_clone).on('click touchstart', function() {
+        if ($(this).hasClass('js-facet-browser-legend-visible')) {
+          $(this)
+            .parent()
+            .siblings('.fieldset-wrapper')
+            .hide();
+
+          $(this).toggleClass('js-facet-browser-legend-visible');
+        } else {
+          $(this)
+            .parent()
+            .next()
+            .show();
+
+          $(this).addClass('js-facet-browser-legend-visible');
+        }
+      });
+    });
+  }
+
   // When ready start the magic
   $(document).ready(function () {
     // Toggle opening hours
@@ -71,6 +128,9 @@
       $('.menu', element).toggle();
       $(this).toggleClass('js-toggled');
     });
+
+    // Responsive facet browser
+    facet_browser_mobile();
   });
 
 })(jQuery);

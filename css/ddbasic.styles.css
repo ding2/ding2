@@ -1075,7 +1075,7 @@ table tbody tr:hover th {
 /* Extends
    ========================================================================== */
 /* line 32, ../sass/framework/_buttons.scss */
-.button,
+.button, .facet-browser-toggle,
 a.button,
 .form-submit,
 #edit-cancel, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
@@ -1102,7 +1102,7 @@ a.button,
   vertical-align: middle;
 }
 /* line 47, ../sass/framework/_buttons.scss */
-.button:focus,
+.button:focus, .facet-browser-toggle:focus,
 .form-submit:focus,
 #edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
 .pane-loans .renew-loan-button .renewable:focus,
@@ -1112,7 +1112,7 @@ a.button,
 .pane-debts .renew-loan-button .not-renewable:focus,
 .pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .button:hover,
+.pane-ting-object .ding-entity-button:focus, .button:hover, .facet-browser-toggle:hover,
 .form-submit:hover,
 #edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
 .pane-loans .renew-loan-button .renewable:hover,
@@ -1122,7 +1122,7 @@ a.button,
 .pane-debts .renew-loan-button .not-renewable:hover,
 .pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .button:active,
+.pane-ting-object .ding-entity-button:hover, .button:active, .facet-browser-toggle:active,
 .form-submit:active,
 #edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
 .pane-loans .renew-loan-button .renewable:active,
@@ -1136,7 +1136,7 @@ a.button,
   text-decoration: none;
 }
 /* line 53, ../sass/framework/_buttons.scss */
-.disabled.button,
+.disabled.button, .disabled.facet-browser-toggle,
 .disabled.form-submit,
 .disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-loans .renew-loan-button .disabled.renewable,
@@ -1146,7 +1146,7 @@ a.button,
 .pane-debts .renew-loan-button .disabled.not-renewable,
 .pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, [disabled].button,
+.pane-ting-object .disabled.ding-entity-button, [disabled].button, [disabled].facet-browser-toggle,
 [disabled].form-submit,
 [disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-loans .renew-loan-button [disabled].renewable,
@@ -1169,8 +1169,9 @@ a.button,
    ========================================================================== */
 /* Default button */
 /* line 96, ../sass/framework/_buttons.scss */
-.button,
+.button, .facet-browser-toggle,
 a.button,
+a.facet-browser-toggle,
 .form-submit,
 #edit-cancel {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
@@ -1184,9 +1185,11 @@ a.button,
   color: white;
 }
 /* line 78, ../sass/framework/_buttons.scss */
-.button:link, .button:visited,
+.button:link, .facet-browser-toggle:link, .button:visited, .facet-browser-toggle:visited,
 a.button:link,
+a.facet-browser-toggle:link,
 a.button:visited,
+a.facet-browser-toggle:visited,
 .form-submit:link,
 #edit-cancel:link,
 .form-submit:visited,
@@ -1194,10 +1197,13 @@ a.button:visited,
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
-.button:focus, .button:hover, .button:active,
+.button:focus, .facet-browser-toggle:focus, .button:hover, .facet-browser-toggle:hover, .button:active, .facet-browser-toggle:active,
 a.button:focus,
+a.facet-browser-toggle:focus,
 a.button:hover,
+a.facet-browser-toggle:hover,
 a.button:active,
+a.facet-browser-toggle:active,
 .form-submit:focus,
 #edit-cancel:focus,
 .form-submit:hover,
@@ -1416,8 +1422,9 @@ a.button:active,
 
 /* Don't use native buttons on iOS */
 /* line 123, ../sass/framework/_buttons.scss */
-input[type=submit].button,
-button.button {
+input[type=submit].button, input[type=submit].facet-browser-toggle,
+button.button,
+button.facet-browser-toggle {
   -webkit-appearance: none;
 }
 
@@ -3053,12 +3060,12 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 354, ../sass/framework/_fontawesome.scss */
-.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle.js-collapsed:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .facet-browser-responsive .fieldset-legend:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle.js-collapsed:before {
   content: "\f055";
 }
 
 /* line 355, ../sass/framework/_fontawesome.scss */
-.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before, .opening-hours-toggle.js-expanded:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .facet-browser-responsive .fieldset-legend.js-facet-browser-legend-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before, .opening-hours-toggle.js-expanded:before {
   content: "\f056";
 }
 
@@ -5327,7 +5334,7 @@ label {
   margin-right: 5px;
 }
 /* line 190, ../sass/module/_module.scss */
-.pane-library-list .button {
+.pane-library-list .button, .pane-library-list .facet-browser-toggle {
   /* Make sure the button aligns vertically with the select */
   margin-top: -2px;
 }
@@ -5603,6 +5610,7 @@ input#edit-search-block-form--2.spinner {
   /* Group for selected facets */
   /* Group for unselected facets */
   /* Group with hidden facets */
+  /* Media queries */
 }
 /* line 105, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .pane-ding-facetbrowser input.form-checkbox {
@@ -5697,14 +5705,65 @@ input#edit-search-block-form--2.spinner {
   margin-top: 10px;
   border-top: 1px solid #d5d5d5;
 }
+@media only screen and (max-width: 768px) {
+  /* line 103, ../sass/module/_search.scss */
+  .pane-ding-facetbrowser {
+    display: none;
+  }
+}
+
+/* line 226, ../sass/module/_search.scss */
+.facet-browser-toggle {
+  display: none;
+  /* Media queries */
+}
+@media only screen and (max-width: 768px) {
+  /* line 226, ../sass/module/_search.scss */
+  .facet-browser-toggle {
+    clear: both;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+/* line 239, ../sass/module/_search.scss */
+.facet-browser-responsive {
+  border: 1px solid #d5d5d5;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+/* line 244, ../sass/module/_search.scss */
+.facet-browser-responsive fieldset {
+  border: 0;
+  padding: 0;
+}
+/* line 250, ../sass/module/_search.scss */
+.facet-browser-responsive .fieldset-wrapper,
+.facet-browser-responsive .expand-more {
+  display: none;
+}
+/* line 254, ../sass/module/_search.scss */
+.facet-browser-responsive .fieldset-legend {
+  color: #00b7e7;
+  cursor: pointer;
+}
+/* line 260, ../sass/module/_search.scss */
+.facet-browser-responsive .fieldset-legend:hover {
+  color: #006681;
+}
+/* line 264, ../sass/module/_search.scss */
+.facet-browser-responsive .fieldset-legend:before {
+  font-family: "FontAwesome";
+  margin-right: 8px;
+}
 
 /* Search results list
    ========================================================================== */
-/* line 227, ../sass/module/_search.scss */
+/* line 280, ../sass/module/_search.scss */
 .subjects strong {
   font-weight: inherit;
 }
-/* line 231, ../sass/module/_search.scss */
+/* line 284, ../sass/module/_search.scss */
 .subjects a {
   display: inline-block;
   margin-right: 5px;
@@ -5713,7 +5772,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Search query & results amount
    ========================================================================== */
-/* line 247, ../sass/module/_search.scss */
+/* line 300, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query {
   float: left;
   width: 66.66667%;
@@ -5733,20 +5792,20 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 253, ../sass/module/_search.scss */
+/* line 306, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display {
   margin: 0;
 }
-/* line 256, ../sass/module/_search.scss */
+/* line 309, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 260, ../sass/module/_search.scss */
+/* line 313, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 266, ../sass/module/_search.scss */
+/* line 319, ../sass/module/_search.scss */
 .pane-ting-search {
   float: right;
   width: 33.33333%;
@@ -5765,92 +5824,92 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   text-align: right;
 }
-/* line 271, ../sass/module/_search.scss */
+/* line 324, ../sass/module/_search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
 /* Sorting, display amount and display format groups
    ========================================================================== */
-/* line 281, ../sass/module/_search.scss */
+/* line 334, ../sass/module/_search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   color: #959595;
   float: left;
   overflow: hidden;
 }
-/* line 287, ../sass/module/_search.scss */
+/* line 340, ../sass/module/_search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 291, ../sass/module/_search.scss */
+/* line 344, ../sass/module/_search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 296, ../sass/module/_search.scss */
+/* line 349, ../sass/module/_search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 302, ../sass/module/_search.scss */
+/* line 355, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   color: #959595;
   float: right;
   margin-left: 20px;
   overflow: hidden;
 }
-/* line 308, ../sass/module/_search.scss */
+/* line 361, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #006681;
   text-decoration: underline;
 }
-/* line 314, ../sass/module/_search.scss */
+/* line 367, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #006681;
   text-decoration: none;
 }
-/* line 319, ../sass/module/_search.scss */
+/* line 372, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 325, ../sass/module/_search.scss */
+/* line 378, ../sass/module/_search.scss */
 .pane-ding-toggle-format-toggle {
   float: right;
 }
-/* line 330, ../sass/module/_search.scss */
+/* line 383, ../sass/module/_search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
 /* Availability explaination legend */
-/* line 336, ../sass/module/_search.scss */
+/* line 389, ../sass/module/_search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 340, ../sass/module/_search.scss */
+/* line 393, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend {
   float: right;
   border: none;
   padding: 0;
 }
-/* line 345, ../sass/module/_search.scss */
+/* line 398, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
   line-height: normal;
 }
-/* line 350, ../sass/module/_search.scss */
+/* line 403, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item img {
   vertical-align: middle;
 }
-/* line 354, ../sass/module/_search.scss */
+/* line 407, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
@@ -5858,105 +5917,105 @@ input#edit-search-block-form--2.spinner {
 
 /* Seach results list
    ========================================================================== */
-/* line 367, ../sass/module/_search.scss */
+/* line 420, ../sass/module/_search.scss */
 .pane-search-result {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 372, ../sass/module/_search.scss */
+/* line 425, ../sass/module/_search.scss */
 .pane-search-result .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 376, ../sass/module/_search.scss */
+/* line 429, ../sass/module/_search.scss */
 .pane-search-result .search-results .list {
   /* Compact search result display */
 }
-/* line 377, ../sass/module/_search.scss */
+/* line 430, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 382, ../sass/module/_search.scss */
+/* line 435, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .heading {
   margin-bottom: 10px;
 }
-/* line 387, ../sass/module/_search.scss */
+/* line 440, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .content,
 .pane-search-result .search-results .list .field {
   margin-bottom: 10px;
 }
-/* line 391, ../sass/module/_search.scss */
+/* line 444, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 395, ../sass/module/_search.scss */
+/* line 448, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects strong {
   font-weight: inherit;
 }
-/* line 399, ../sass/module/_search.scss */
+/* line 452, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects a {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
-/* line 407, ../sass/module/_search.scss */
+/* line 460, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short {
   /* Display the author */
 }
-/* line 410, ../sass/module/_search.scss */
+/* line 463, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 415, ../sass/module/_search.scss */
+/* line 468, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 422, ../sass/module/_search.scss */
+/* line 475, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 427, ../sass/module/_search.scss */
+/* line 480, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 430, ../sass/module/_search.scss */
+/* line 483, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 435, ../sass/module/_search.scss */
+/* line 488, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 439, ../sass/module/_search.scss */
+/* line 492, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short div.availability {
   display: inline-block;
   margin-top: 20px;
 }
 
-/* line 448, ../sass/module/_search.scss */
+/* line 501, ../sass/module/_search.scss */
 .availability {
   margin-bottom: 0;
 }
-/* line 451, ../sass/module/_search.scss */
+/* line 504, ../sass/module/_search.scss */
 .availability.content {
   float: right;
 }
-/* line 455, ../sass/module/_search.scss */
+/* line 508, ../sass/module/_search.scss */
 .availability li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 460, ../sass/module/_search.scss */
+/* line 513, ../sass/module/_search.scss */
 .availability li.pending {
   background-color: #959595;
   color: #fff;
@@ -5974,7 +6033,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.pending a:hover {
   text-decoration: none;
 }
-/* line 464, ../sass/module/_search.scss */
+/* line 517, ../sass/module/_search.scss */
 .availability li.availability.processed {
   background-color: #959595;
   color: #fff;
@@ -5992,7 +6051,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.processed a:hover {
   text-decoration: none;
 }
-/* line 468, ../sass/module/_search.scss */
+/* line 521, ../sass/module/_search.scss */
 .availability li.availability.available {
   background-color: #528c10;
   color: #fff;
@@ -6010,7 +6069,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available a:hover {
   text-decoration: none;
 }
-/* line 472, ../sass/module/_search.scss */
+/* line 525, ../sass/module/_search.scss */
 .availability li.availability.reservable {
   background-color: #f0cb28;
   color: #fff;
@@ -6028,7 +6087,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.reservable a:hover {
   text-decoration: none;
 }
-/* line 476, ../sass/module/_search.scss */
+/* line 529, ../sass/module/_search.scss */
 .availability li.availability.available.reservable {
   background-color: #528c10;
   color: #fff;
@@ -6046,7 +6105,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available.reservable a:hover {
   text-decoration: none;
 }
-/* line 480, ../sass/module/_search.scss */
+/* line 533, ../sass/module/_search.scss */
 .availability li.availability.available.not-reservable {
   background-color: #a32e10;
   color: #fff;
@@ -6064,7 +6123,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available.not-reservable a:hover {
   text-decoration: none;
 }
-/* line 484, ../sass/module/_search.scss */
+/* line 537, ../sass/module/_search.scss */
 .availability li.availability.unavailable.reservable {
   background-color: #f0cb28;
   color: #fff;
@@ -6082,7 +6141,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.unavailable.reservable a:hover {
   text-decoration: none;
 }
-/* line 488, ../sass/module/_search.scss */
+/* line 541, ../sass/module/_search.scss */
 .availability li.availability.unavailable.not-reservable {
   background-color: #a32e10;
   color: #fff;
@@ -6100,7 +6159,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.unavailable.not-reservable a:hover {
   text-decoration: none;
 }
-/* line 493, ../sass/module/_search.scss */
+/* line 546, ../sass/module/_search.scss */
 .availability li .availability-status:before {
   content: " - ";
   margin-left: 5px;
@@ -6109,93 +6168,93 @@ input#edit-search-block-form--2.spinner {
 /* Collection display
    ========================================================================== */
 /* Navigation */
-/* line 509, ../sass/module/_search.scss */
+/* line 562, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types li, .pane-ting-ting-object-types li, .pane-ting-ting-relation-anchors li {
   margin-bottom: 10px;
   padding-bottom: default-spacing / 2;
 }
-/* line 514, ../sass/module/_search.scss */
+/* line 567, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types .last, .pane-ting-ting-object-types .last, .pane-ting-ting-relation-anchors .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 523, ../sass/module/_search.scss */
+/* line 576, ../sass/module/_search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 527, ../sass/module/_search.scss */
+/* line 580, ../sass/module/_search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 532, ../sass/module/_search.scss */
+/* line 585, ../sass/module/_search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 538, ../sass/module/_search.scss */
+/* line 591, ../sass/module/_search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-bottom: 10px;
 }
-/* line 541, ../sass/module/_search.scss */
+/* line 594, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 547, ../sass/module/_search.scss */
+/* line 600, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 552, ../sass/module/_search.scss */
+/* line 605, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-type, .pane-ting-object .field-name-ting-type {
   float: right;
 }
-/* line 556, ../sass/module/_search.scss */
+/* line 609, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   float: right;
   margin: 0;
 }
-/* line 561, ../sass/module/_search.scss */
+/* line 614, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons form, .pane-ting-object .field-name-ding-entity-buttons form,
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button,
 .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button {
   float: left;
 }
-/* line 566, ../sass/module/_search.scss */
+/* line 619, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: black;
 }
-/* line 569, ../sass/module/_search.scss */
+/* line 622, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 575, ../sass/module/_search.scss */
+/* line 628, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
 }
-/* line 581, ../sass/module/_search.scss */
+/* line 634, ../sass/module/_search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   padding: 11px 14px;
 }
 
-/* line 588, ../sass/module/_search.scss */
+/* line 641, ../sass/module/_search.scss */
 .ting-cover {
   min-height: 60px;
   position: relative;
   width: 100%;
   /* Media queries */
 }
-/* line 595, ../sass/module/_search.scss */
+/* line 648, ../sass/module/_search.scss */
 .ting-cover img {
   position: relative;
   z-index: 90;
 }
-/* line 600, ../sass/module/_search.scss */
+/* line 653, ../sass/module/_search.scss */
 .ting-cover:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -6205,7 +6264,7 @@ input#edit-search-block-form--2.spinner {
   left: 30%;
 }
 @media only screen and (max-width: 480px) {
-  /* line 611, ../sass/module/_search.scss */
+  /* line 664, ../sass/module/_search.scss */
   .ting-cover:before {
     font-size: 180%;
     left: 20%;
@@ -6216,22 +6275,22 @@ input#edit-search-block-form--2.spinner {
 /* Object display
    ========================================================================== */
 /* Navigation */
-/* line 626, ../sass/module/_search.scss */
+/* line 679, ../sass/module/_search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
 
-/* line 632, ../sass/module/_search.scss */
+/* line 685, ../sass/module/_search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 638, ../sass/module/_search.scss */
+/* line 691, ../sass/module/_search.scss */
 .pane-ting-object {
   /* Material Details - Collapsible */
   /* List of Issues - Collapsible */
 }
-/* line 641, ../sass/module/_search.scss */
+/* line 694, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-left {
   float: left;
   width: 25%;
@@ -6251,7 +6310,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 200px;
   margin-bottom: 20px;
 }
-/* line 648, ../sass/module/_search.scss */
+/* line 701, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-right {
   float: right;
   width: 75%;
@@ -6270,21 +6329,21 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   margin-bottom: 20px;
 }
-/* line 654, ../sass/module/_search.scss */
+/* line 707, ../sass/module/_search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 660, ../sass/module/_search.scss */
+/* line 713, ../sass/module/_search.scss */
 .pane-ting-object .subjects {
   /* forget that clearfix */
 }
-/* line 662, ../sass/module/_search.scss */
+/* line 715, ../sass/module/_search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 670, ../sass/module/_search.scss */
+/* line 723, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title:before,
 .pane-ting-object .ding-periodical-fold:before {
   color: #00b7e7;
@@ -6292,73 +6351,73 @@ input#edit-search-block-form--2.spinner {
   font-size: 110%;
   padding-right: 6px;
 }
-/* line 678, ../sass/module/_search.scss */
+/* line 731, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title {
   display: inline-block;
 }
-/* line 689, ../sass/module/_search.scss */
+/* line 742, ../sass/module/_search.scss */
 .pane-ting-object .ding-periodical-fold {
   cursor: pointer;
   display: inline-block;
 }
-/* line 702, ../sass/module/_search.scss */
+/* line 755, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details {
   clear: both;
 }
-/* line 705, ../sass/module/_search.scss */
+/* line 758, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 711, ../sass/module/_search.scss */
+/* line 764, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-items {
   max-width: 72%;
 }
-/* line 715, ../sass/module/_search.scss */
+/* line 768, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .ting-material-detail {
   display: block;
 }
-/* line 720, ../sass/module/_search.scss */
+/* line 773, ../sass/module/_search.scss */
 .pane-ting-object .group-holdings-available {
   clear: both;
 }
-/* line 724, ../sass/module/_search.scss */
+/* line 777, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   margin-bottom: 20px;
 }
-/* line 727, ../sass/module/_search.scss */
+/* line 780, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 731, ../sass/module/_search.scss */
+/* line 784, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 735, ../sass/module/_search.scss */
+/* line 788, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 741, ../sass/module/_search.scss */
+/* line 794, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   margin-top: 20px;
   margin-bottom: 0;
 }
-/* line 746, ../sass/module/_search.scss */
+/* line 799, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 752, ../sass/module/_search.scss */
+/* line 805, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 758, ../sass/module/_search.scss */
+/* line 811, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -6367,23 +6426,23 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 766, ../sass/module/_search.scss */
+/* line 819, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 770, ../sass/module/_search.scss */
+/* line 823, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 774, ../sass/module/_search.scss */
+/* line 827, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 778, ../sass/module/_search.scss */
+/* line 831, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 783, ../sass/module/_search.scss */
+/* line 836, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation .meta {
   padding: 20px;
   padding-bottom: 10px;
@@ -6392,7 +6451,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Search autocomplete
    ========================================================================== */
-/* line 796, ../sass/module/_search.scss */
+/* line 849, ../sass/module/_search.scss */
 ul.ui-autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -6409,7 +6468,7 @@ ul.ui-autocomplete {
   padding: 10px;
   width: 580px;
 }
-/* line 808, ../sass/module/_search.scss */
+/* line 861, ../sass/module/_search.scss */
 ul.ui-autocomplete .ui-menu-item a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -6419,14 +6478,14 @@ ul.ui-autocomplete .ui-menu-item a {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 816, ../sass/module/_search.scss */
+/* line 869, ../sass/module/_search.scss */
 ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 823, ../sass/module/_search.scss */
+/* line 876, ../sass/module/_search.scss */
 ul.ui-autocomplete .ui-menu-item a:hover {
   background-color: #efefef;
 }
