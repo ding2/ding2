@@ -2176,26 +2176,43 @@ button.button {
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
   border-radius: 8px;
-  background-color: #00caff;
+  background: #00caff;
   min-width: 450px;
+  /* Media queries */
+}
+@media only screen and (max-width: 768px) {
+  /* line 27, ../sass/framework/_modal.scss */
+  .ui-dialog {
+    min-width: 0;
+    max-width: 100% !important;
+  }
 }
 
-/* line 36, ../sass/framework/_modal.scss */
+/* line 42, ../sass/framework/_modal.scss */
 .ui-dialog-title {
   color: black;
 }
 
-/* line 43, ../sass/framework/_modal.scss */
+/* line 49, ../sass/framework/_modal.scss */
 .ui-widget-content {
   color: black;
   padding: 0;
 }
 
-/* line 49, ../sass/framework/_modal.scss */
+/* line 54, ../sass/framework/_modal.scss */
+.ui-widget-header {
+  background: none;
+  border: 0;
+}
+
+/* line 59, ../sass/framework/_modal.scss */
 .ui-dialog {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   padding: 20px;
 }
-/* line 53, ../sass/framework/_modal.scss */
+/* line 65, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
   float: right;
   right: 5px;
@@ -2203,45 +2220,64 @@ button.button {
   top: 10px;
   width: auto;
 }
-/* line 60, ../sass/framework/_modal.scss */
+/* line 72, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
+  background: none;
+  height: 24px;
   text-indent: 0;
   text-transform: capitalize;
 }
-/* line 67, ../sass/framework/_modal.scss */
+/* line 81, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:hover {
+  background: none;
+  border: 0;
   color: white;
 }
-/* line 72, ../sass/framework/_modal.scss */
+/* line 88, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:before {
   font-family: "FontAwesome";
   margin-right: 2px;
   margin-bottom: -1px;
 }
-/* line 80, ../sass/framework/_modal.scss */
+/* line 96, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:link, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:visited, .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:active {
   color: black;
   text-decoration: none;
 }
-/* line 85, ../sass/framework/_modal.scss */
+/* line 101, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close:hover {
   color: black;
   text-decoration: none;
 }
-/* line 91, ../sass/framework/_modal.scss */
+/* line 107, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .form-item {
   margin-bottom: 10px;
 }
-/* line 94, ../sass/framework/_modal.scss */
+/* line 110, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .form-item .description {
   color: rgba(255, 255, 255, 0.9);
   margin-top: -10px;
 }
-/* line 100, ../sass/framework/_modal.scss */
+/* line 116, ../sass/framework/_modal.scss */
 .ui-dialog .ui-dialog-titlebar .openid-links {
   display: none;
+}
+/* line 121, ../sass/framework/_modal.scss */
+.ui-dialog .form-text {
+  width: 100%;
+}
+
+/* line 131, ../sass/framework/_modal.scss */
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+  background: none;
+  border: 0;
 }
 
 /*!
