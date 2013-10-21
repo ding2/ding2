@@ -391,7 +391,7 @@ function ding_event_field_default_field_bases() {
         ),
         'membership_type' => 'og_membership_type_default',
         'sort' => array(
-          'direction' => 'DESC',
+          'direction' => 'ASC',
           'property' => 'title',
           'type' => 'property',
         ),
