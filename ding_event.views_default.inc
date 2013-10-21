@@ -870,6 +870,14 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Library (og_group_ref) */
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['table'] = 'og_membership';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['og_group_ref_target_id']['summary_options']['items_per_page'] = '25';
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
@@ -892,16 +900,16 @@ function ding_event_views_default_views() {
   $handler->display->display_options['allow']['more_link'] = 0;
   $handler->display->display_options['allow']['path_override'] = 0;
   $handler->display->display_options['allow']['title_override'] = 'title_override';
-  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['exposed_form'] = 'exposed_form';
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
-    'ding_library_nid' => array(
-      'type' => 'panel',
-      'context' => 'entity:user.uid',
+    'og_group_ref_target_id' => array(
+      'type' => 'context',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Indhold: Library (field_ding_event_library:nid)',
+      'label' => 'Content: Library (og_group_ref)',
     ),
     'tid' => array(
       'type' => 'panel',
@@ -1656,8 +1664,8 @@ function ding_event_views_default_views() {
     t('<i class="icon-chevron-right"></i>'),
     t('Læs mere'),
     t('Library event list'),
-    t('Event list (library)'),
     t('All'),
+    t('Event list (library)'),
     t('Simple event list'),
     t('RSS event list'),
     t('Event list (same tag)'),
