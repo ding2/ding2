@@ -161,8 +161,7 @@ function ding_news_field_group_info() {
     'label' => 'Relations',
     'weight' => '6',
     'children' => array(
-      0 => 'field_ding_news_library',
-      1 => 'og_group_ref',
+      0 => 'og_group_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
