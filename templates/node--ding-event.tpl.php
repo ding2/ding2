@@ -101,7 +101,7 @@
     <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
 
     <?php if (isset($ddbasic_event_location)): ?>
-      <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
+      <p><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_target'])): ?>
@@ -123,7 +123,7 @@
       hide($content['field_ding_event_list_image']);
       hide($content['field_ding_event_title_image']);
       hide($content['field_ding_event_category']);
-      hide($content['field_ding_event_library']);
+      hide($content['og_group_ref']);
       hide($content['field_ding_event_lead']);
       hide($content['field_place2book_tickets']); //<-- field provided by optional module ding_place2book
       hide($content['field_ding_event_date']);

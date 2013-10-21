@@ -314,13 +314,12 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
     // Add event location variables.
     if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
-      $event_location = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
+      $variables['ddbasic_event_location'] = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
     }
     else {
-      // @TODO: the full address wil have to be retrieved from the database
-      $event_location = render($variables['content']['field_ding_event_library'][0]);
+      // User OG group ref to link back to library.
+      $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
     }
-    $variables['ddbasic_event_location'] = $event_location;
 
     // Add event date to variables. A render array is created based on the date
     // format "date_only".
