@@ -126,3 +126,5 @@ projects[apc][version] = "1.0-beta4"
 projects[varnish][subdir] = "contrib"
 projects[varnish][version] = "1.0-beta2"
 
+projects[scheduler][subdir] = "contrib"
+projects[scheduler][version] = "1.1"
