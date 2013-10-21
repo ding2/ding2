@@ -187,5 +187,26 @@ function ding_event_strongarm() {
   $strongarm->value = 'arrangementer/[term:name]';
   $export['pathauto_taxonomy_term_event_category_pattern'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'scheduler_publish_enable_ding_event';
+  $strongarm->value = 1;
+  $export['scheduler_publish_enable_ding_event'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'scheduler_publish_touch_ding_event';
+  $strongarm->value = 1;
+  $export['scheduler_publish_touch_ding_event'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'scheduler_unpublish_enable_ding_event';
+  $strongarm->value = 1;
+  $export['scheduler_unpublish_enable_ding_event'] = $strongarm;
+
   return $export;
 }
