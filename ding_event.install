@@ -13,3 +13,57 @@ function ding_event_update_7000() {
   db_drop_table('field_data_field_ding_event_materials');
   db_drop_table('field_revision_field_ding_event_materials');
 }
+
+/**
+ * Move group information into new field.
+ */
+function ding_event_update_7001() {
+  $rows = db_select('field_data_field_ding_event_library', 'fdel')
+    ->fields('fdel')
+    ->execute();
+  foreach ($rows as $row) {
+    db_insert('field_data_og_group_ref')
+      ->fields(array(
+        'entity_type' => $row->entity_type,
+        'bundle' => $row->bundle,
+        'deleted' => $row->deleted,
+        'entity_id' => $row->entity_id,
+        'revision_id' => $row->revision_id,
+        'language' => $row->language,
+        'delta' => $row->delta,
+        'og_group_ref_target_id' => $row->field_ding_event_library_gid,
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Move group information revision into new field.
+ */
+function ding_event_update_7002() {
+  $rows = db_select('field_revision_field_ding_event_library', 'fdel')
+    ->fields('fdel')
+    ->execute();
+  foreach ($rows as $row) {
+    db_insert('field_revision_og_group_ref')
+      ->fields(array(
+        'entity_type' => $row->entity_type,
+        'bundle' => $row->bundle,
+        'deleted' => $row->deleted,
+        'entity_id' => $row->entity_id,
+        'revision_id' => $row->revision_id,
+        'language' => $row->language,
+        'delta' => $row->delta,
+        'og_group_ref_target_id' => $row->field_ding_event_library_gid,
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Remove old library reference field.
+ */
+function ding_event_update_7003() {
+  field_delete_field('field_ding_event_library');
+  field_purge_batch(1000);
+}
