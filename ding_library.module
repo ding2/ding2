@@ -17,34 +17,6 @@ function ding_library_init() {
       'weight' => 42,
     ));
   }
-
-  // @TODO: What does this next part do and why is it needed. Set active path?
-  // If so remove the this and use menu position, if possible.
-  $args = arg();
-  if (count($args) == 2 && $args[0] == 'node' && $node = menu_get_object()) {
-    $types = array(
-      'ding_event' => 'events',
-      'ding_news' => 'news',
-    );
-    if (isset($types[$node->type])) {
-      // Check if node is part of a group. Get all groups.
-      if ($groups = og_get_entity_groups('node', $node)) {
-        // Load the first.
-        $group = og_load(array_shift($groups));
-        // The entity_id the group references, is the nid of the library.
-        $library_nid = $group->etid;
-        // Use the nodes path.
-        $path = 'node/' . $library_nid . '/' . $types[$node->type];
-      }
-      else {
-        // Not part of any group, put them under the site list.
-        $path = $types[$node->type];
-      }
-
-      // Set the active path for the main menu.
-      menu_tree_set_path('main-menu', $path);
-    };
-  }
 }
 
 /**
@@ -289,27 +261,6 @@ function ding_library_slug_validate(&$form, &$form_state) {
     if (!(preg_match('/^[a-z0-9_\-]+$/', $slug))) {
       // @TODO use url filter function for this.
       form_set_error(implode('][', $form['#parents']), t('Illeagal charecters detected, only small letters (a-z), numbers (0-9), dashes (-) and underscores (_) allowed'));
-    }
-  }
-}
-
-/**
- * Implements hook_views_data_alter().
- */
-function ding_library_views_data_alter(&$data) {
-  foreach (field_info_fields() as $name => $field) {
-    $name = 'field_data_' . $name;
-    if ($field['type'] == 'group') {
-      foreach ($data[$name] as $column => $views_data) {
-        if (strpos($column, 'gid') !== FALSE) {
-          $data[$name]['ding_library_nid'] = $views_data;
-          unset($data[$name]['ding_library_nid']['filter']);
-          unset($data[$name]['ding_library_nid']['sort']);
-          $data[$name]['ding_library_nid']['title'] = str_replace('gid', 'nid', $data[$name]['ding_library_nid']['title']);
-          $data[$name]['ding_library_nid']['title short'] = str_replace('gid', 'nid', $data[$name]['ding_library_nid']['title short']);
-          $data[$name]['ding_library_nid']['argument']['handler'] = 'ding_library_nid_to_gid_argument';
-        }
-      }
     }
   }
 }
