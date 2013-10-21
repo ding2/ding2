@@ -73,7 +73,7 @@
     }).prependTo('.primary-content');
 
     // Move and show filters on click
-    $('.facet-browser-toggle').on('click touchstart', function() {
+    $('.facet-browser-toggle').click(function() {
       // Clone facet browser
       if (!$('.facet-browser-responsive').length) {
         // Clone facets
@@ -97,7 +97,7 @@
       }
 
       // Add toggle to legend
-      $('.fieldset-legend', facet_browser_clone).on('click touchstart', function() {
+      $('.fieldset-legend', facet_browser_clone).click(function() {
         if ($(this).hasClass('js-facet-browser-legend-visible')) {
           $(this)
             .parent()
