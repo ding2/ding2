@@ -16,3 +16,8 @@ projects[ting_search_carousel][download][type] = "git"
 projects[ting_search_carousel][download][url] = "git@github.com:ding2tal/ting_search_carousel.git"
 projects[ting_search_carousel][download][branch] = "development"
 
+projects[ding_tabroll][type] = "module"
+projects[ding_tabroll][download][type] = "git"
+projects[ding_tabroll][download][url] = "git@github.com:ding2tal/ding_tabroll.git"
+projects[ding_tabroll][download][branch] = "development"
+
