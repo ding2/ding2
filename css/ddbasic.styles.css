@@ -6468,7 +6468,7 @@ input#edit-search-block-form--2.spinner {
 /* Search autocomplete
    ========================================================================== */
 /* line 854, ../sass/module/_search.scss */
-ul.ui-autocomplete {
+#autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -6480,12 +6480,12 @@ ul.ui-autocomplete {
   box-sizing: border-box;
   background-color: white;
   margin-top: 10px;
-  max-width: 580px;
+  max-width: 100%;
   padding: 10px;
   width: 580px;
 }
 /* line 866, ../sass/module/_search.scss */
-ul.ui-autocomplete .ui-menu-item a {
+#autocomplete li a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -6495,14 +6495,14 @@ ul.ui-autocomplete .ui-menu-item a {
   padding: 5px 10px;
 }
 /* line 874, ../sass/module/_search.scss */
-ul.ui-autocomplete .ui-menu-item a.ui-state-hover {
+#autocomplete li a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
 /* line 881, ../sass/module/_search.scss */
-ul.ui-autocomplete .ui-menu-item a:hover {
+#autocomplete li a:hover {
   background-color: #efefef;
 }
 

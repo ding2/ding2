@@ -851,18 +851,18 @@ input#edit-search-block-form--2.spinner {
 /* Search autocomplete
    ========================================================================== */
 
-ul.ui-autocomplete {
+#autocomplete {
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius(8px);
   @include box-sizing(border-box);
 
   background-color: $white;
   margin-top: 10px;
-  max-width: 580px;
+  max-width: 100%;
   padding: 10px;
   width: 580px;
 
-  .ui-menu-item {
+  li {
     a {
       @include border-radius(8px);
 
