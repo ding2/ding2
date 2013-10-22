@@ -1,0 +1,28 @@
+<?php
+/**
+ * @file
+ * Handle installation related tasks and update functions.
+ */
+
+/**
+ * Remove old path alias from ding_path_alias.
+ */
+function ding_content_update_7000() {
+  $nids = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'ding_library')
+    ->execute();
+  foreach ($nids as $nid) {
+    db_delete('url_alias')
+      ->condition('source', 'node/' . $nid->nid . '/events')
+      ->execute();
+
+    db_delete('url_alias')
+      ->condition('source', 'node/' . $nid->nid . '/news')
+      ->execute();
+
+    db_delete('url_alias')
+      ->condition('source', 'node/' . $nid->nid . '/about')
+      ->execute();
+  }
+}
