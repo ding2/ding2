@@ -48,11 +48,13 @@ projects[libraries][version] = "2.1"
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.1"
 
-projects[media][subdir] = "contrib"
-projects[media][version] = "2.0-unstable7"
+projects[media][type] = "module"
+projects[media][download][type] = "git"
+projects[media][download][url] = "http://git.drupal.org/project/media.git"
+projects[media][download][revision] = "e7be30f"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-unstable7"
+projects[file_entity][version] = "2.0-alpha2"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.3"
