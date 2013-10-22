@@ -49,12 +49,8 @@ projects[media][download][revision] = "e7be30f"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
 
-projects[og][type] = "module"
 projects[og][subdir] = "contrib"
-projects[og][download][type] = "git"
-projects[og][download][url] = "http://git.drupal.org/project/og.git"
-projects[og][download][tag] = "7.x-1.3"
-projects[og][patch][0] = "http://drupal.org/files/1320778.patch"
+projects[og][version] = "2.3"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
@@ -65,8 +61,13 @@ projects[strongarm][version] = "2.0"
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
+<<<<<<< HEAD
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.1"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+=======
+projects[views_bulk_operations][subdir] = "contrib"
+projects[views_bulk_operations][version] = "3.1"
+>>>>>>> 3d00442b110a47316929c47b142a0a8e68fbb408
