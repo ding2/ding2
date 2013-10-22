@@ -9,7 +9,6 @@ dependencies[] = comment
 dependencies[] = ctools
 dependencies[] = ctools_custom_content
 dependencies[] = ding_page
-dependencies[] = ding_path_alias
 dependencies[] = features
 dependencies[] = file_entity
 dependencies[] = filter
