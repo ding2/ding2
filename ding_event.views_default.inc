@@ -1200,7 +1200,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
-      'context' => 'entity:node.og-group-ref--og-membership--1',
+      'context' => 'entity:node.nid',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
