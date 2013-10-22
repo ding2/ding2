@@ -451,7 +451,7 @@ function ding_library_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'About library';
   $page->admin_description = '';
-  $page->path = 'node/%node/about';
+  $page->path = 'bibliotek/%slug/om';
   $page->access = array(
     'plugins' => array(
       2 => array(
@@ -472,12 +472,11 @@ function ding_library_default_page_manager_pages() {
   );
   $page->menu = array();
   $page->arguments = array(
-    'node' => array(
+    'slug' => array(
       'id' => 1,
-      'identifier' => 'Node: ID',
-      'name' => 'entity_id:node',
+      'identifier' => 'Library node',
+      'name' => 'slug',
       'settings' => array(),
-      'keyword' => 'node',
     ),
   );
   $page->conf = array(
