@@ -61,13 +61,11 @@ projects[strongarm][version] = "2.0"
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
-<<<<<<< HEAD
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.1"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
-=======
+
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.1"
->>>>>>> 3d00442b110a47316929c47b142a0a8e68fbb408
