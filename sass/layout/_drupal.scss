@@ -59,6 +59,15 @@ label {
   width: 50px;
 }
 
+html.js .search input.form-autocomplete {
+  background-image: none;
+  margin-bottom: 0;
+}
+
+.search .form-item, .form-actions {
+  margin-bottom: 0;
+}
+
 .field {
   .field-label {
     @include font-bold();

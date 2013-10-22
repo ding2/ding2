@@ -25,6 +25,11 @@ $search-border-type: solid;
     position: relative;
   }
 
+  [class^="icon-"] {
+    bottom: 14px;
+    left: 14px;
+  }
+
   .spinner {
     i[class^="icon-"] {
       @extend .icon-spin;
