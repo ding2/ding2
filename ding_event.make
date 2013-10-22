@@ -68,12 +68,8 @@ projects[media][version] = "2.0-unstable7"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-unstable7"
 
-projects[og][type] = "module"
 projects[og][subdir] = "contrib"
-projects[og][download][type] = "git"
-projects[og][download][url] = "http://git.drupal.org/project/og.git"
-projects[og][download][tag] = "7.x-1.3"
-projects[og][patch][0] = "http://drupal.org/files/1320778.patch"
+projects[og][version] = "2.3"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
@@ -86,3 +82,6 @@ projects[scheduler][version] = "1.1"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+
+projects[views_bulk_operations][subdir] = "contrib"
+projects[views_bulk_operations][version] = "3.1"
