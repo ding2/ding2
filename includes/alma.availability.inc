@@ -87,7 +87,9 @@ function alma_availability_holdings($provider_ids, $reset = FALSE) {
 function _alma_holdings_total_count($holdings) {
   $total = 0;
   foreach ($holdings as $holding) {
-    $total += (int) $holding['total_count'];
+    if (isset($holding['total_count'])) {
+      $total += (int) $holding['total_count'];
+    }
   }
 
   return $total;
