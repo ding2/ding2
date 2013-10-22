@@ -100,18 +100,22 @@
       // Add toggle to legend
       $('.fieldset-legend', facet_browser_clone).click(function() {
         if ($(this).hasClass('js-facet-browser-legend-visible')) {
+          // Hide siblings
           $(this)
             .parent()
             .siblings()
             .hide();
 
+          // Toggle class
           $(this).toggleClass('js-facet-browser-legend-visible');
         } else {
+          // Show siblings
           $(this)
             .parent()
             .siblings()
             .show();
 
+          // Toggle class
           $(this).addClass('js-facet-browser-legend-visible');
         }
       });
