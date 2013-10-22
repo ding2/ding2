@@ -78,7 +78,8 @@
       if (!$('.facet-browser-responsive').length) {
         // Clone facets
         facet_browser
-          .clone()
+          .clone(true)
+          .data( "arr", $.extend( [], facet_browser.data( "arr" ) ) )
           .insertAfter(this)
           .removeAttr('class')
           .addClass('facet-browser-responsive');
@@ -101,14 +102,14 @@
         if ($(this).hasClass('js-facet-browser-legend-visible')) {
           $(this)
             .parent()
-            .siblings('.fieldset-wrapper')
+            .siblings()
             .hide();
 
           $(this).toggleClass('js-facet-browser-legend-visible');
         } else {
           $(this)
             .parent()
-            .next()
+            .siblings()
             .show();
 
           $(this).addClass('js-facet-browser-legend-visible');
