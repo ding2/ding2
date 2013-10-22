@@ -29,7 +29,7 @@ projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
 projects[media][subdir] = "contrib"
-projects[media][version] = "2.0-unstable7"
+projects[media][version] = "2.x-dev"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-unstable7"
@@ -55,6 +55,12 @@ projects[workbench][version] = "1.2"
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"
+
+projects[media_vimeo][subdir] = "contrib"
+projects[media_vimeo][version] = "2.0-rc1"
+
+projects[media_youtube][subdir] = "contrib"
+projects[media_youtube][version] = "2.0-rc3"
 
 ; Libraries
 libraries[ckeditor][download][type] = "get"
