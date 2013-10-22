@@ -34,7 +34,7 @@ projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "e7be30f"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-unstable7"
+projects[file_entity][version] = "2.0-alpha2"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.3"
