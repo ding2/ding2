@@ -75,7 +75,7 @@ process using drush make. It will download all the modules and the theme from
 the different repositories at http://github.com/ding2tal
 ```sh
   ~$ cd DRUPAL/profiles/ding2
-  ~$ ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
+  ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
 ```
 
 ### Development
