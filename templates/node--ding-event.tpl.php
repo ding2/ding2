@@ -96,9 +96,12 @@
     <?php print render($content['field_ding_event_lead'][0]); ?>
   </div>
   <div class="event-info">
-    <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
-
-    <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
+    <?php if (isset($ddbasic_event_date)) : ?>
+      <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
+    <?php endif; ?>
+    <?php if (isset($ddbasic_event_date)) : ?>
+      <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
+    <?php endif; ?>
 
     <?php if (isset($ddbasic_event_location)): ?>
       <p><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
