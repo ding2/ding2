@@ -41,8 +41,4 @@ foreach ($fields as $id => $field) {
     print $field->content;
     print $field->wrapper_suffix;
   }
-
-  if ($id == 'field_ding_event_price') {
-    print "</div>";
-  }
 }
