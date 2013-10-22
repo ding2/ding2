@@ -74,12 +74,11 @@
 
     // Move and show filters on click
     $('.facet-browser-toggle').click(function() {
-      // Clone facet browser
+      // Clone facet browser if it does not exist
       if (!$('.facet-browser-responsive').length) {
         // Clone facets
         facet_browser
-          .clone(true)
-          .data( "arr", $.extend( [], facet_browser.data( "arr" ) ) )
+          .clone()
           .insertAfter(this)
           .removeAttr('class')
           .addClass('facet-browser-responsive');
