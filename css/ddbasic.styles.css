@@ -6482,9 +6482,8 @@ input#edit-search-block-form--2.spinner {
   margin-top: 10px;
   max-width: 100%;
   padding: 10px;
-  width: 580px;
 }
-/* line 866, ../sass/module/_search.scss */
+/* line 865, ../sass/module/_search.scss */
 #autocomplete li a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -6494,14 +6493,14 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 874, ../sass/module/_search.scss */
+/* line 873, ../sass/module/_search.scss */
 #autocomplete li a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 881, ../sass/module/_search.scss */
+/* line 880, ../sass/module/_search.scss */
 #autocomplete li a:hover {
   background-color: #efefef;
 }
