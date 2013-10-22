@@ -28,8 +28,10 @@ projects[features][version] = "2.0-beta2"
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
-projects[media][subdir] = "contrib"
-projects[media][version] = "2.x-dev"
+projects[media][type] = "module"
+projects[media][download][type] = "git"
+projects[media][download][url] = "http://git.drupal.org/project/media.git"
+projects[media][download][revision] = "e7be30f"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-unstable7"
