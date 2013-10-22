@@ -99,7 +99,8 @@ function _ding_libary_menu_rebuild() {
       // If the Link is to news og events we use the general news and event
       // views.
       if (isset($link['linktype']) && $link['linktype'] == 'general_view_linktype') {
-        $path_parts = array('bibliotek', $node->nid);
+        $wrapper = entity_metadata_wrapper('node', $node);
+        $path_parts = array('bibliotek', $wrapper->field_ding_library_slug->value());
       }
       else {
         $path_parts = array('node', $node->nid);
