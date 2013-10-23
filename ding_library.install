@@ -108,3 +108,81 @@ function ding_library_update_7003() {
       ->execute();
   }
 }
+
+/**
+ * Updated OG permission roles.
+ */
+function ding_library_update_7004() {
+  $roles = array(
+    array(
+      'rid' => 1,
+      'permission' => 'subscribe',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 2,
+      'permission' => 'unsubscribe',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'add user',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'approve and deny subscription',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage members',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage permissions',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage roles',
+      'module' => 'og_ui',
+    ),
+  );
+
+  foreach ($roles as $role) {
+    db_insert('og_role_permission')
+      ->fields($role)
+      ->execute();
+  }
+}
+
+/**
+ * Update group roles with type and bundle.
+ */
+function ding_library_update_7005() {
+  db_update('og_role')
+    ->fields(array(
+      'group_type' => 'node',
+      'group_bundle' => 'ding_library',
+    ))
+    ->execute();
+}
+
+/**
+ * Ensure that the OG audience field is add to users.
+ */
+function ding_library_update_7006() {
+  // Get basic OG audience field information.
+  $og_field = og_fields_info(OG_AUDIENCE_FIELD);
+  $og_field['field']['settings']['target_type'] = 'node';
+  $og_field['instance']['label'] = t('Group membership');
+
+  // If the user entity type has multiple bundles, make sure to attach a field
+  // instance to all of them.
+  $entity_info = entity_get_info('user');
+  foreach (array_keys($entity_info['bundles']) as $user_bundle) {
+    og_create_field('og_user_node', 'user', $user_bundle, $og_field);
+  }
+}
