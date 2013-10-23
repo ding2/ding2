@@ -39,10 +39,16 @@ function ding_library_field_default_field_instances() {
         'weight' => 13,
       ),
       'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
+        'label' => 'hidden',
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -107,7 +113,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -159,7 +165,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'inline',
@@ -271,10 +277,9 @@ function ding_library_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 1,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -326,7 +331,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'inline',
@@ -412,7 +417,7 @@ function ding_library_field_default_field_instances() {
           ),
         ),
         'type' => 'cs_adaptive_image',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -488,11 +493,11 @@ function ding_library_field_default_field_instances() {
         'weight' => 0,
       ),
       'search_result' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
-        'weight' => 2,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'inline',
@@ -593,10 +598,13 @@ function ding_library_field_default_field_instances() {
         'weight' => 14,
       ),
       'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
+        'label' => 'hidden',
+        'module' => 'ding_base',
+        'settings' => array(
+          'body_snippet_length' => 100,
+        ),
+        'type' => 'body_snippet',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'inline',
@@ -649,7 +657,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -710,7 +718,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -748,11 +756,11 @@ function ding_library_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'audio' => 0,
-          'default' => 0,
-          0 => 0,
           'image' => 'image',
           'video' => 0,
+          0 => 0,
+          'audio' => 0,
+          'default' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
@@ -789,7 +797,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
