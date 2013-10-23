@@ -52,6 +52,27 @@ function ding_availability_ding_provider_user() {
 }
 
 /**
+ * Implements hook_theme();
+ */
+function ding_availability_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_availability' => array(
+      'template' => 'ding-availability',
+      'variables' => array(
+        'status' => NULL,
+        'reservable' => NULL,
+        'available' => NULL,
+        'holdings' => NULL,
+        'total_count' => NULL,
+        'reservable_count' => NULL,
+        'reserved_count' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
  * Output the availability information as json.
  *
  * @param array $provider_ids
@@ -134,6 +155,40 @@ function ding_availability_holdings($provider_ids) {
     }
 
     _ding_availability_text($item);
+
+    // Support for creating the html here instead of in the provider.
+    // The provider must devliver a location array, total_count, available_count, reserved_count, reservable_count.
+    // We assume that the provider supports this, if it didn't deliver html.
+    if (isset($item['html'])) {
+      // If it is there then don't try to create it.
+      continue;
+    }
+    $rows = array();
+    foreach ($item['holdings'] as $holding) {
+      $rows[] = array(
+        'class' => array($holding['available_count'] > 0 ? 'available' : 'unava$
+        'data' => array(
+          'placement' => join(' → ', $holding['location']),
+          'home' => $holding['available_count'],
+        ),
+      );
+    }
+    $holdings = theme('table__ding_availability', array(
+      'header' => array(
+        'placement' => t('Placement'),
+        'home' => t('Home'),
+      ),
+      'rows' => $rows,
+    ));
+    $item['html'] = theme('ding_availability', array(
+      'status' => $item['status'],
+      'reservable' => $item['reservable'],
+      'available' => $item['available'],
+      'holdings' => $holdings,
+      'total_count' => $item['total_count'],
+      'reservable_count' => $item['reservable_count'],
+      'reserved_count' => $item['reserved_count'],
+    ));
   }
 
   return $items;
