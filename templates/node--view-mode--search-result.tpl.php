@@ -78,8 +78,6 @@
  */
 ?>
 <div class="<?php print $classes; ?>">
-
-
   <div class="content"<?php print $content_attributes; ?>>
     <?php print render($content); ?>
   </div>

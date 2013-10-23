@@ -80,4 +80,20 @@ html.js .search input.form-autocomplete {
 
 .view-node-search-result {
   @extend .pane-search-result;
+
+  .list-item {
+    @include zen-grid-container();
+
+    .field-type-taxonomy-term-reference a {
+      @extend .label;
+    }
+  }
+}
+
+.search-left {
+  @extend .ting-object-left;
+}
+
+.search-right {
+  @extend .ting-object-right;
 }

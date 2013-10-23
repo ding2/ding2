@@ -1621,7 +1621,7 @@ button.facet-browser-toggle {
  * @author magnify
  */
 /* line 8, ../sass/framework/_labels.scss */
-.label, .label-inverted, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
+.label, .label-inverted, .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -1638,16 +1638,16 @@ button.facet-browser-toggle {
   /* Make sure it works on a link */
 }
 /* line 23, ../sass/framework/_labels.scss */
-.label a:link, .label-inverted a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
+.label a:link, .label-inverted a:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
   color: #fffffd;
   text-decoration: none;
 }
 /* line 31, ../sass/framework/_labels.scss */
-.label:link, .label-inverted:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
+.label:link, .label-inverted:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
   color: #fffffd;
 }
 /* line 35, ../sass/framework/_labels.scss */
-.label:hover, .label-inverted:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
+.label:hover, .label-inverted:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #00a1cb;
   color: #fffffd;
   text-decoration: none;
@@ -5118,6 +5118,21 @@ html.js .search input.form-autocomplete {
   margin-right: 5px;
 }
 
+/* line 84, ../sass/layout/_drupal.scss */
+.view-node-search-result .list-item {
+  *position: relative;
+  *zoom: 1;
+}
+/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.view-node-search-result .list-item:before, .view-node-search-result .list-item:after {
+  content: "";
+  display: table;
+}
+/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.view-node-search-result .list-item:after {
+  clear: both;
+}
+
 /**
  * Drupal
  *
@@ -5640,7 +5655,7 @@ input#edit-search-block-form--2.spinner {
 /* Column wrapper fields
    ========================================================================== */
 /* line 78, ../sass/module/_search.scss */
-.ting-object-left {
+.ting-object-left, .search-left {
   float: left;
   width: 16.66667%;
   margin-left: 0%;
@@ -5661,12 +5676,12 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 86, ../sass/module/_search.scss */
-.ding-format-short .ting-object-left {
+.ding-format-short .ting-object-left, .ding-format-short .search-left {
   display: none;
 }
 
 /* line 91, ../sass/module/_search.scss */
-.ting-object-right {
+.ting-object-right, .search-right {
   float: right;
   width: 83.33333%;
   margin-right: 0%;
@@ -5686,7 +5701,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 98, ../sass/module/_search.scss */
-.ding-format-short .ting-object-right {
+.ding-format-short .ting-object-right, .ding-format-short .search-right {
   float: right;
   width: 100%;
   margin-right: 0%;
@@ -6401,7 +6416,7 @@ input#edit-search-block-form--2.spinner {
   /* List of Issues - Collapsible */
 }
 /* line 699, ../sass/module/_search.scss */
-.pane-ting-object .ting-object-left {
+.pane-ting-object .ting-object-left, .pane-ting-object .search-left {
   float: left;
   width: 25%;
   margin-left: 0%;
@@ -6421,7 +6436,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 20px;
 }
 /* line 706, ../sass/module/_search.scss */
-.pane-ting-object .ting-object-right {
+.pane-ting-object .ting-object-right, .pane-ting-object .search-right {
   float: right;
   width: 75%;
   margin-right: 0%;
@@ -7454,7 +7469,7 @@ input#edit-search-block-form--2.spinner {
   padding: 10px 0;
 }
 /* line 166, ../sass/module/_news.scss */
-.super-heading .label, .super-heading .label-inverted, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
+.super-heading .label, .super-heading .label-inverted, .super-heading .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .view-node-search-result .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
 .super-heading .field,
 .super-heading .field-items,
 .super-heading .field-item {

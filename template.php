@@ -355,19 +355,18 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
-    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__' . $variables['view_mode'];
+    $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
   }
 
   // For search result view mode move title into left col. group.
-  if ($variables['type'] == 'ding_event') {
-    $variables['content']['group_left_col_search']['title'] = array(
+  if (in_array($variables['type'], array('ding_event')) && $variables['view_mode'] == 'search_result') {
+    $variables['content']['group_right_col_search']['title'] = array(
       '#theme' => 'link',
       '#text' => $variables['title'],
       '#path' => 'node/' . $variables['nid'],
       '#options' => array(
         'attributes' => array(
           'title' => $variables['title'],
-          'class' => 'page-title',
         ),
         'html' => FALSE,
       ),
@@ -384,7 +383,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['submitted'] = t('!datetime', array('!datetime' => format_date($variables['created'], $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
   }
 }
-
 
 /**
  * Implements template_preprocess_field().
@@ -407,6 +405,11 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
+
+    // Stream line tags in search result view mode.
+    if ($vars['element']['#field_type'] == 'taxonomy_term_reference') {
+      $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
+    }
 
     switch ($vars['element']['#field_name']) {
       case 'ting_author':
