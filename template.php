@@ -359,7 +359,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   }
 
   // For search result view mode move title into left col. group.
-  if (in_array($variables['type'], array('ding_event')) && $variables['view_mode'] == 'search_result') {
+  if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
       '#theme' => 'link',
       '#text' => $variables['title'],
