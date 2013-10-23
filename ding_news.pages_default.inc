@@ -738,6 +738,7 @@ news/%tid:name',
       'identifier' => 'Node: Ding library slug',
       'name' => 'slug',
       'settings' => array(),
+      'keyword' => 'slug',
     ),
     'tid' => array(
       'id' => 1,
