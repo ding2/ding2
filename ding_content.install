@@ -5,6 +5,28 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function ding_content_install() {
+  ding_content_remove_html5_video_display();
+}
+
+/**
+ * Remove HTML5 video. This is done to let Youtube, Vimeo or other
+ * players to be disaplyed.
+ */
+function ding_content_remove_html5_video_display() {
+  db_update('file_display')
+    ->fields(array(
+      'status' => 0,
+    ))
+    ->condition('name', 'video__default__file_field_file_video')
+    ->condition('status', 1)
+    ->execute();
+
+}
+
+/**
  * Remove old path alias from ding_path_alias.
  */
 function ding_content_update_7000() {
@@ -25,4 +47,11 @@ function ding_content_update_7000() {
       ->condition('source', 'node/' . $nid->nid . '/about')
       ->execute();
   }
+}
+
+/**
+ * Remove HTML5 video.
+ */
+function ding_content_upadte_7001() {
+  ding_content_remove_html5_video_display();
 }

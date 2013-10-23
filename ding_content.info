@@ -17,7 +17,6 @@ dependencies[] = media_internet
 dependencies[] = media_vimeo
 dependencies[] = media_youtube
 dependencies[] = menu
-dependencies[] = node
 dependencies[] = nodequeue
 dependencies[] = opening_hours
 dependencies[] = panels
@@ -39,7 +38,6 @@ features[file_display][] = video__teaser__file_field_media_large_icon
 features[filter][] = ding_wysiwyg
 features[taxonomy][] = category
 features[taxonomy][] = ding_content_tags
-
 features[variable][] = page_manager_node_view_disabled
 features[variable][] = page_manager_term_view_disabled
 features[wysiwyg][] = ding_wysiwyg
