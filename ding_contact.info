@@ -4,3 +4,7 @@ core = 7.x
 version = 7.1
 package = Ding!
 dependencies[] = contact
+dependencies[] = features
+features[features_api][] = api:1
+features[user_permission][] = access site-wide contact form
+features[user_permission][] = administer contact forms
