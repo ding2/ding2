@@ -332,6 +332,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
 
+  // @todo: WTF is this needed for ??????
   $tags_fields = array(
     'event',
     'news',
@@ -352,6 +353,28 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
+  // Add tpl suggestions for node view modes.
+  if (isset($variables['view_mode'])) {
+    $variables['theme_hook_suggestions'][] = 'node__' . $variables['node']->type . '__' . $variables['view_mode'];
+  }
+
+  // For search result view mode move title into left col. group.
+  if ($variables['type'] == 'ding_event') {
+    $variables['content']['group_left_col_search']['title'] = array(
+      '#theme' => 'link',
+      '#text' => $variables['title'],
+      '#path' => 'node/' . $variables['nid'],
+      '#options' => array(
+        'attributes' => array(
+          'title' => $variables['title'],
+          'class' => 'page-title',
+        ),
+        'html' => FALSE,
+      ),
+      '#prefix' => '<h2>',
+      '#suffix' => '</h2>',
+    );
+  }
 
   // Add updated to variables.
   $variables['ddbasic_updated'] = t('!datetime', array('!datetime' => format_date($variables['node']->changed, $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
@@ -768,7 +791,7 @@ function ddbasic_polly_wants_a_cracker($polly) {
  *   Name of the current theme.
  */
 function ddbasic_get_info($theme_name) {
-  $info = drupal_static(__FUNCTION__, array());
+  $info = &drupal_static(__FUNCTION__, array());
   if (empty($info)) {
     $themes = list_themes();
     foreach ($themes as $key => $value) {
