@@ -77,3 +77,7 @@ html.js .search input.form-autocomplete {
 .field-label {
   margin-right: $small-spacing;
 }
+
+.view-node-search-result {
+  @extend .pane-search-result;
+}
