@@ -5,6 +5,12 @@
  */
 
 /**
+ * Used to indicate that a given cache entry have return no reply from the data
+ * well.
+ */
+define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
+
+/**
  * Get an ting object or collection.
  *
  * Returns the search response for the given id. This will cache the
@@ -26,11 +32,12 @@
 function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
     // Check the cache first.
-    $object = ting_cache_get($object_id, ($collection ? TING_CACHE_COLLECTION : TING_CACHE_TING_OBJECT));
-    if (!$object) {
+    $type = ($collection ? TING_CACHE_COLLECTION : TING_CACHE_TING_OBJECT);
+    $object = ting_cache_get($object_id, $type, $with_relations);
+    if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.
-      ting_cache_set($object_id, NULL);
+      ting_cache_set($object_id, TING_CACHE_EMPTY_ENTRY, $type);
 
       // Build request request and set object id.
       $request = ting_get_request_factory()->getCollectionRequest();
@@ -63,12 +70,22 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
     if (!$collection && isset($object->objects)) {
       foreach ($object->objects as $sub_object) {
         if ($sub_object->id == $object_id) {
+          // If not asking for a collection, and the object is, return the
+          // sub-object with the same id.
+          _ting_cache_no_relations($sub_object, $with_relations);
           return $sub_object;
         }
       }
       // No sub-object had the same id. Somethings broken.
       return NULL;
     }
+
+    // If not asking for a collection, and the object is, return the
+    // sub-object with the same id.
+    if ($object == TING_CACHE_EMPTY_ENTRY) {
+      return NULL;
+    }
+
     return $object;
   }
 
@@ -99,7 +116,7 @@ function ting_get_objects($ids) {
 
   $query = array();
   foreach ($objects as $id => $object) {
-    if (!isset($object)) {
+    if ($object === FALSE) {
       $query[] = 'rec.id=' . $id;
     }
   }
@@ -317,7 +334,7 @@ function ting_execute_cache($request) {
   // Check if the reply have been stored in cache.
   $reply = ting_cache_get(md5(serialize($parms)), TING_CACHE_REPLY);
 
-  if (!isset($reply)) {
+  if (!$reply) {
     // Reply for the request was not found, so we have to ask the data well.
     $reply = ting_execute($request);
 
@@ -365,9 +382,16 @@ function ting_execute_cache($request) {
     }
 
     // Store the reply for the request itself in the cache.
+    if (is_null($reply)) {
+      // Handle empty data well replies.
+      $reply = TING_CACHE_EMPTY_ENTRY;
+    }
     ting_cache_set(md5(serialize($parms)), $reply, TING_CACHE_REPLY);
   }
 
+  if ($reply == TING_CACHE_EMPTY_ENTRY) {
+    return NULL;
+  }
   return $reply;
 }
 
@@ -389,20 +413,32 @@ function ting_execute_cache($request) {
  *   The type of data to cache, which is used to set the cache id. It should be
  *   one off: TING_CACHE_TING_OBJECT, TING_CACHE_COLLECTION,
  *   TING_CACHE_TING_OBJECT_FULLTEXT or TING_CACHE_REPLY.
+ * @param bool $with_relations
+ *   Is the object we are looking up with relations (addi posts).
  *
  * @return mixed
  *   The cached item based on the $type and $id given. If non found in the cache
  *   NULL is returned.
  */
-function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT) {
+function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = FALSE) {
   $cid = $type . ':' . $id;
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get($cid, 'cache_ting');
     if ($cache && ($cache->expire > REQUEST_TIME)) {
-      return $cache->data;
+      $data = $cache->data;
+      // Check if cached version has relations, if request. If it's an empty
+      // array it have not been request by the server yet with relations, so
+      // return FALSE to trigger a data well request.
+      if ($with_relations && (isset($data->relations) && is_array($data->relations) && !count($data->relations))) {
+        return FALSE;
+      }
+
+      // The data maybe NULL which means that the data well have been asked
+      // about this object and no where found.
+      return $data;
     }
-    return NULL;
+    return FALSE;
   }
   else {
     // Without proper caching, use a request cache.
@@ -415,7 +451,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT) {
     if (array_key_exists($cid, $cache)) {
       return $cache[$cid];
     }
-    return NULL;
+    return FALSE;
   }
 }
 
@@ -454,6 +490,35 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
       $cache = array();
     }
     $cache[$cid] = $value;
+  }
+}
+
+/**
+ * Mark the object in the cache as having no relations in the data well.
+ *
+ * This is need as object may have been cached without relations in a search
+ * request, but a get_object request may ask for the same object from cache with
+ * relations. So this FALSE value is used to ensure that the data well is only
+ * asked once for a object with relations even, if it do not have relations.
+ *
+ * Default value from the data well is an empty array, so if the array is empty
+ * the ting_cache_set, function will not return the cached if relations are
+ * requested.
+ *
+ * @param StdClass $object
+ *   Ting data well object.
+ * @param bool $with_relations
+ *   If TRUE relations will be marked.
+ */
+function _ting_cache_no_relations($object, $with_relations) {
+  if ($with_relations && $object instanceof TingClientObject) {
+    if (empty($object->relations)) {
+      // Mark this object as having no relations.
+      $object->relations = FALSE;
+    }
+
+    // Update cache with the object.
+    ting_cache_set($object->id, $object);
   }
 }
 
