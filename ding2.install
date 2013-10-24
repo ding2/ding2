@@ -150,7 +150,6 @@ function ding2_install() {
     'ding_page',
     'ding_frontend',
     'ding_ting_frontend',
-    'ding_user_roles',
     'ding_event',
     'ding_library',
     'ding_news',
