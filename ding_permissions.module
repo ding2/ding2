@@ -17,12 +17,10 @@ include_once 'ding_permissions.features.inc';
  */
 function ding_permissions_secure_permissions_roles() {
   return array(
-    'anonym bruger',
-    'godkendt bruger',
-    'gæsteblogger',
-    'formidler',
-    'lokalredaktør',
-    'redaktør',
+    'guest blogger',
+    'provider',
+    'local editor',
+    'editor',
   );
 }
 
@@ -40,7 +38,7 @@ function ding_permissions_secure_permissions_roles() {
  */
 function ding_permissions_secure_permissions($role) {
   $permissions = array(
-    'anonym bruger' => array(
+    'anonymous user' => array(
       'access comments',
       'access content',
       'access site-wide contact form',
@@ -48,7 +46,7 @@ function ding_permissions_secure_permissions($role) {
       'search content',
       'view files',
     ),
-    'godkendt bruger' => array(
+    'authenticated user' => array(
       'access comments',
       'access content',
       'access site-wide contact form',
@@ -61,14 +59,14 @@ function ding_permissions_secure_permissions($role) {
       'view own files',
       'view own private files',
     ),
-    'gæsteblogger' => array(
+    'guest blogger' => array(
       'access workbench',
       'create ding_news content',
       'create files',
       'edit own ding_news content',
       'view own private files',
     ),
-    'formidler' => array(
+    'provider' => array(
       'access workbench',
       'create ding_event content',
       'create ding_news content',
@@ -79,7 +77,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_news content',
       'view own private files',
     ),
-    'lokalredaktør' => array(
+    'local editor' => array(
       'administer contact forms',
       'create ding_event content',
       'create ding_library content',
@@ -103,7 +101,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_news content',
       'edit own ding_page content',
     ),
-    'redaktør' => array(
+    'editor' => array(
       'access overlay',
       'access toolbar',
       'administer blocks',
