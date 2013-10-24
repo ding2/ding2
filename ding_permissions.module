@@ -4,6 +4,8 @@
  * Module file for secure permissions in code.
  */
 
+include_once 'ding_permissions.features.inc';
+
 /**
  * Define site roles in code.
  *
