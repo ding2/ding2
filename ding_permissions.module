@@ -1,6 +1,135 @@
 <?php
 /**
- * @file
+ * @file ding_permissions.module
+ * Module file for secure permissions in code.
  */
 
-// Drupal needs this blank file.
+/**
+ * Define site roles in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @return
+ *   An array defining all the roles for the site.
+ */
+function ding_permissions_secure_permissions_roles() {
+  return array(
+    'anonym bruger',
+    'godkendt bruger',
+    'gæsteblogger',
+    'formidler',
+    'lokalredaktør',
+    'redaktør',
+  );
+}
+
+/**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return
+ *   An array defining all the permissions for the site.
+ */
+function ding_permissions_secure_permissions($role) {
+  $permissions = array(
+    'anonym bruger' => array(
+      'access comments',
+      'access content',
+      'access user profiles',
+      'search content',
+      'view files',
+    ),
+    'godkendt bruger' => array(
+      'access comments',
+      'access content',
+      'access site-wide contact form',
+      'access user profiles',
+      'edit own comments',
+      'post comments',
+      'search content',
+      'skip comment approval',
+      'view files',
+      'view own files',
+      'view own private files',
+    ),
+    'gæsteblogger' => array(
+      'access workbench',
+      'create ding_news content',
+      'create files',
+      'edit own ding_news content',
+      'view own private files',
+    ),
+    'formidler' => array(
+      'access workbench',
+      'create ding_event content',
+      'create ding_news content',
+      'create files',
+      'delete own ding_event content',
+      'delete own ding_news content',
+      'edit own ding_event content',
+      'edit own ding_news content',
+      'view own private files',
+    ),
+    'lokalredaktør' => array(
+      'administer contact forms',
+      'create ding_event content',
+      'create ding_library content',
+      'create ding_news content',
+      'create ding_page content',
+      'create files',
+      'delete any ding_event content',
+      'delete any ding_library content',
+      'delete any ding_news content',
+      'delete any ding_page content',
+      'delete own ding_event content',
+      'delete own ding_library content',
+      'delete own ding_news content',
+      'delete own ding_page content',
+      'edit any ding_event content',
+      'edit any ding_library content',
+      'edit any ding_news content',
+      'edit any ding_page content',
+      'edit own ding_event content',
+      'edit own ding_library content',
+      'edit own ding_news content',
+      'edit own ding_page content',
+    ),
+    'redaktør' => array(
+      'access overlay',
+      'access toolbar',
+      'administer blocks',
+      'administer contact forms',
+      'create ding_event content',
+      'create ding_library content',
+      'create ding_news content',
+      'create ding_page content',
+      'create files',
+      'delete any ding_event content',
+      'delete any ding_library content',
+      'delete any ding_news content',
+      'delete any ding_page content',
+      'delete own ding_event content',
+      'delete own ding_library content',
+      'delete own ding_news content',
+      'delete own ding_page content',
+      'edit any ding_event content',
+      'edit any ding_library content',
+      'edit any ding_news content',
+      'edit any ding_page content',
+      'edit own ding_event content',
+      'edit own ding_library content',
+      'edit own ding_news content',
+      'edit own ding_page content',
+      'view the administration theme',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
