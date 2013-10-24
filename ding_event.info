@@ -12,7 +12,6 @@ dependencies[] = date_all_day
 dependencies[] = date_views
 dependencies[] = ding_content
 dependencies[] = ding_frontend
-dependencies[] = ding_user_roles
 dependencies[] = entityreference
 dependencies[] = field_group
 dependencies[] = number
