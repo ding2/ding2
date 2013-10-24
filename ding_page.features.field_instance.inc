@@ -79,7 +79,7 @@ function ding_page_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -135,7 +135,7 @@ function ding_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -184,10 +184,14 @@ function ding_page_field_default_field_instances() {
         'weight' => 6,
       ),
       'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
+        'label' => 'hidden',
+        'module' => 'cs_adaptive_image',
+        'settings' => array(
+          'image_link' => '',
+          'styles' => '',
+        ),
+        'type' => 'cs_adaptive_image',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -247,11 +251,11 @@ function ding_page_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'image' => 'image',
-          'video' => 0,
-          0 => 0,
           'audio' => 0,
           'default' => 0,
+          0 => 0,
+          'image' => 'image',
+          'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
@@ -337,7 +341,7 @@ function ding_page_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -396,20 +400,9 @@ function ding_page_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'cs_adaptive_image',
-        'settings' => array(
-          'image_link' => '',
-          'styles' => array(
-            'breakpoint_1' => 768,
-            'breakpoint_2' => 500,
-            'fallback_style' => 'ding_panorama_primary_large',
-            'max_style' => 'ding_panorama_primary_large',
-            'style_1' => 'ding_panorama_primary_medium',
-            'style_2' => 'ding_panorama_primary_small',
-          ),
-        ),
-        'type' => 'cs_adaptive_image',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -447,11 +440,11 @@ function ding_page_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'audio' => 0,
-          'default' => 0,
-          0 => 0,
           'image' => 'image',
           'video' => 0,
+          0 => 0,
+          'audio' => 0,
+          'default' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
