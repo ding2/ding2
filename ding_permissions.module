@@ -43,6 +43,7 @@ function ding_permissions_secure_permissions($role) {
     'anonym bruger' => array(
       'access comments',
       'access content',
+      'access site-wide contact form',
       'access user profiles',
       'search content',
       'view files',
