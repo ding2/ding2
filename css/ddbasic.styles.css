@@ -1621,7 +1621,7 @@ button.facet-browser-toggle {
  * @author magnify
  */
 /* line 8, ../sass/framework/_labels.scss */
-.label, .label-inverted, .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
+.label, .label-inverted, .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -1638,16 +1638,16 @@ button.facet-browser-toggle {
   /* Make sure it works on a link */
 }
 /* line 23, ../sass/framework/_labels.scss */
-.label a:link, .label-inverted a:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
+.label a:link, .label-inverted a:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:link, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:visited, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:hover, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
   color: #fffffd;
   text-decoration: none;
 }
 /* line 31, ../sass/framework/_labels.scss */
-.label:link, .label-inverted:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
+.label:link, .label-inverted:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:link, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:visited, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
   color: #fffffd;
 }
 /* line 35, ../sass/framework/_labels.scss */
-.label:hover, .label-inverted:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
+.label:hover, .label-inverted:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:hover, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #00a1cb;
   color: #fffffd;
   text-decoration: none;
@@ -5118,19 +5118,38 @@ html.js .search input.form-autocomplete {
   margin-right: 5px;
 }
 
-/* line 84, ../sass/layout/_drupal.scss */
-.view-node-search-result .list-item {
+/**
+ * Homepage search result listing
+ */
+/* line 87, ../sass/layout/_drupal.scss */
+.view-node-search-result .list-item, .ting-reference-reverse-list .list-item {
   *position: relative;
   *zoom: 1;
 }
 /* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-.view-node-search-result .list-item:before, .view-node-search-result .list-item:after {
+.view-node-search-result .list-item:before, .ting-reference-reverse-list .list-item:before, .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   content: "";
   display: table;
 }
 /* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-.view-node-search-result .list-item:after {
+.view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   clear: both;
+}
+
+/**
+ * Ting reference reverse listing (view mode search-result)
+ */
+/* line 108, ../sass/layout/_drupal.scss */
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-left,
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-right {
+  min-height: 0px;
+  margin-bottom: 0px;
+}
+
+/* line 113, ../sass/layout/_drupal.scss */
+.pane-ting-object .ting-reference-reverse-list .search-results {
+  border-top: none;
+  padding-top: 0px;
 }
 
 /**
@@ -5655,7 +5674,7 @@ input#edit-search-block-form--2.spinner {
 /* Column wrapper fields
    ========================================================================== */
 /* line 78, ../sass/module/_search.scss */
-.ting-object-left, .search-left {
+.ting-object-left, .view-node-search-result .list-item .search-left, .ting-reference-reverse-list .list-item .search-left {
   float: left;
   width: 16.66667%;
   margin-left: 0%;
@@ -5676,12 +5695,12 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 86, ../sass/module/_search.scss */
-.ding-format-short .ting-object-left, .ding-format-short .search-left {
+.ding-format-short .ting-object-left, .ding-format-short .view-node-search-result .list-item .search-left, .view-node-search-result .list-item .ding-format-short .search-left, .ding-format-short .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item .ding-format-short .search-left {
   display: none;
 }
 
 /* line 91, ../sass/module/_search.scss */
-.ting-object-right, .search-right {
+.ting-object-right, .view-node-search-result .list-item .search-right, .ting-reference-reverse-list .list-item .search-right {
   float: right;
   width: 83.33333%;
   margin-right: 0%;
@@ -5701,7 +5720,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 /* line 98, ../sass/module/_search.scss */
-.ding-format-short .ting-object-right, .ding-format-short .search-right {
+.ding-format-short .ting-object-right, .ding-format-short .view-node-search-result .list-item .search-right, .view-node-search-result .list-item .ding-format-short .search-right, .ding-format-short .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item .ding-format-short .search-right {
   float: right;
   width: 100%;
   margin-right: 0%;
@@ -6038,90 +6057,95 @@ input#edit-search-block-form--2.spinner {
 /* Search results list
    ========================================================================== */
 /* line 425, ../sass/module/_search.scss */
-.pane-search-result, .view-node-search-result {
+.pane-search-result, .view-node-search-result, .ting-reference-reverse-list {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
 /* line 430, ../sass/module/_search.scss */
-.pane-search-result .search-results, .view-node-search-result .search-results {
+.pane-search-result .search-results, .view-node-search-result .search-results, .ting-reference-reverse-list .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
 /* line 434, ../sass/module/_search.scss */
-.pane-search-result .search-results .list, .view-node-search-result .search-results .list {
+.pane-search-result .search-results .list, .view-node-search-result .search-results .list, .ting-reference-reverse-list .search-results .list {
   /* Compact search result display */
 }
 /* line 435, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .list-item, .view-node-search-result .search-results .list .list-item {
+.pane-search-result .search-results .list .list-item, .view-node-search-result .search-results .list .list-item, .ting-reference-reverse-list .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
 /* line 440, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .heading, .view-node-search-result .search-results .list .heading {
+.pane-search-result .search-results .list .heading, .view-node-search-result .search-results .list .heading, .ting-reference-reverse-list .search-results .list .heading {
   margin-bottom: 10px;
 }
 /* line 445, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .content, .view-node-search-result .search-results .list .content,
+.pane-search-result .search-results .list .content, .view-node-search-result .search-results .list .content, .ting-reference-reverse-list .search-results .list .content,
 .pane-search-result .search-results .list .field,
-.view-node-search-result .search-results .list .field {
+.view-node-search-result .search-results .list .field,
+.ting-reference-reverse-list .search-results .list .field {
   margin-bottom: 10px;
 }
 /* line 449, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .subjects, .view-node-search-result .search-results .list .subjects {
+.pane-search-result .search-results .list .subjects, .view-node-search-result .search-results .list .subjects, .ting-reference-reverse-list .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
 /* line 453, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .subjects strong, .view-node-search-result .search-results .list .subjects strong {
+.pane-search-result .search-results .list .subjects strong, .view-node-search-result .search-results .list .subjects strong, .ting-reference-reverse-list .search-results .list .subjects strong {
   font-weight: inherit;
 }
 /* line 457, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .subjects a, .view-node-search-result .search-results .list .subjects a {
+.pane-search-result .search-results .list .subjects a, .view-node-search-result .search-results .list .subjects a, .ting-reference-reverse-list .search-results .list .subjects a {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
 /* line 465, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short, .view-node-search-result .search-results .list .ding-format-short {
+.pane-search-result .search-results .list .ding-format-short, .view-node-search-result .search-results .list .ding-format-short, .ting-reference-reverse-list .search-results .list .ding-format-short {
   /* Display the author */
 }
 /* line 468, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short .ting-cover, .view-node-search-result .search-results .list .ding-format-short .ting-cover,
+.pane-search-result .search-results .list .ding-format-short .ting-cover, .view-node-search-result .search-results .list .ding-format-short .ting-cover, .ting-reference-reverse-list .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .view-node-search-result .search-results .list .ding-format-short .content,
+.ting-reference-reverse-list .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field,
-.view-node-search-result .search-results .list .ding-format-short .field {
+.view-node-search-result .search-results .list .ding-format-short .field,
+.ting-reference-reverse-list .search-results .list .ding-format-short .field {
   display: none;
 }
 /* line 473, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short .heading + div.content, .view-node-search-result .search-results .list .ding-format-short .heading + div.content {
+.pane-search-result .search-results .list .ding-format-short .heading + div.content, .view-node-search-result .search-results .list .ding-format-short .heading + div.content, .ting-reference-reverse-list .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
 /* line 480, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading,
+.pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .view-node-search-result .search-results .list .ding-format-short .content,
+.ting-reference-reverse-list .search-results .list .ding-format-short .content,
 .pane-search-result .search-results .list .ding-format-short .field,
-.view-node-search-result .search-results .list .ding-format-short .field {
+.view-node-search-result .search-results .list .ding-format-short .field,
+.ting-reference-reverse-list .search-results .list .ding-format-short .field {
   margin-left: 0;
   padding-left: 0;
 }
 /* line 485, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading {
+.pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading {
   display: inline;
 }
 /* line 488, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short .heading h2, .view-node-search-result .search-results .list .ding-format-short .heading h2 {
+.pane-search-result .search-results .list .ding-format-short .heading h2, .view-node-search-result .search-results .list .ding-format-short .heading h2, .ting-reference-reverse-list .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
 /* line 493, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short .subjects, .view-node-search-result .search-results .list .ding-format-short .subjects {
+.pane-search-result .search-results .list .ding-format-short .subjects, .view-node-search-result .search-results .list .ding-format-short .subjects, .ting-reference-reverse-list .search-results .list .ding-format-short .subjects {
   display: none;
 }
 /* line 497, ../sass/module/_search.scss */
-.pane-search-result .search-results .list .ding-format-short div.availability, .view-node-search-result .search-results .list .ding-format-short div.availability {
+.pane-search-result .search-results .list .ding-format-short div.availability, .view-node-search-result .search-results .list .ding-format-short div.availability, .ting-reference-reverse-list .search-results .list .ding-format-short div.availability {
   display: inline-block;
   margin-top: 20px;
 }
@@ -6416,7 +6440,7 @@ input#edit-search-block-form--2.spinner {
   /* List of Issues - Collapsible */
 }
 /* line 699, ../sass/module/_search.scss */
-.pane-ting-object .ting-object-left, .pane-ting-object .search-left {
+.pane-ting-object .ting-object-left, .pane-ting-object .view-node-search-result .list-item .search-left, .view-node-search-result .list-item .pane-ting-object .search-left, .pane-ting-object .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item .pane-ting-object .search-left {
   float: left;
   width: 25%;
   margin-left: 0%;
@@ -6436,7 +6460,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 20px;
 }
 /* line 706, ../sass/module/_search.scss */
-.pane-ting-object .ting-object-right, .pane-ting-object .search-right {
+.pane-ting-object .ting-object-right, .pane-ting-object .view-node-search-result .list-item .search-right, .view-node-search-result .list-item .pane-ting-object .search-right, .pane-ting-object .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item .pane-ting-object .search-right {
   float: right;
   width: 75%;
   margin-right: 0%;
@@ -7469,7 +7493,7 @@ input#edit-search-block-form--2.spinner {
   padding: 10px 0;
 }
 /* line 166, ../sass/module/_news.scss */
-.super-heading .label, .super-heading .label-inverted, .super-heading .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .view-node-search-result .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
+.super-heading .label, .super-heading .label-inverted, .super-heading .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .view-node-search-result .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
 .super-heading .field,
 .super-heading .field-items,
 .super-heading .field-item {

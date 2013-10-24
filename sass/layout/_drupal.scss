@@ -78,6 +78,9 @@ html.js .search input.form-autocomplete {
   margin-right: $small-spacing;
 }
 
+/**
+ * Homepage search result listing
+ */
 .view-node-search-result {
   @extend .pane-search-result;
 
@@ -87,13 +90,31 @@ html.js .search input.form-autocomplete {
     .field-type-taxonomy-term-reference a {
       @extend .label;
     }
+
+    .search-left {
+      @extend .ting-object-left;
+    }
+
+    .search-right {
+      @extend .ting-object-right;
+    }
   }
 }
 
-.search-left {
-  @extend .ting-object-left;
+/**
+ * Ting reference reverse listing (view mode search-result)
+ */
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-left,
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-right {
+  min-height: 0px;
+  margin-bottom: 0px;
 }
 
-.search-right {
-  @extend .ting-object-right;
+.pane-ting-object .ting-reference-reverse-list .search-results {
+  border-top: none;
+  padding-top: 0px;
+}
+
+.ting-reference-reverse-list {
+  @extend .view-node-search-result;
 }
