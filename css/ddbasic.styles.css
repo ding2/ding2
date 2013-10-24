@@ -1075,13 +1075,13 @@ table tbody tr:hover th {
 /* Extends
    ========================================================================== */
 /* line 32, ../sass/framework/_buttons.scss */
-.button, .facet-browser-toggle,
+.button,
 a.button,
-a.facet-browser-toggle,
 .form-submit,
 #edit-cancel,
 .search .form-submit,
-.user .form-submit, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
+.user .form-submit,
+.facet-browser-toggle, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
 .pane-loans .renew-loan-button .renewable,
 .pane-debts .renew-loan-button .renewable,
 .pane-bookmarks .renew-loan-button .renewable, .pane-reservations .update-reservations .form-submit,
@@ -1119,9 +1119,10 @@ a.facet-browser-toggle,
   vertical-align: middle;
 }
 /* line 47, ../sass/framework/_buttons.scss */
-.button:focus, .facet-browser-toggle:focus,
+.button:focus,
 .form-submit:focus,
-#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
+#edit-cancel:focus,
+.facet-browser-toggle:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
 .pane-loans .renew-loan-button .renewable:focus,
 .pane-debts .renew-loan-button .renewable:focus,
 .pane-bookmarks .renew-loan-button .renewable:focus, .pane-reservations .update-reservations .form-submit:focus,
@@ -1143,9 +1144,10 @@ a.facet-browser-toggle,
 .pane-bookmarks .delete-reservation .form-submit:focus,
 .pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .button:hover, .facet-browser-toggle:hover,
+.pane-ting-object .ding-entity-button:focus, .button:hover,
 .form-submit:hover,
-#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
+#edit-cancel:hover,
+.facet-browser-toggle:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
 .pane-loans .renew-loan-button .renewable:hover,
 .pane-debts .renew-loan-button .renewable:hover,
 .pane-bookmarks .renew-loan-button .renewable:hover, .pane-reservations .update-reservations .form-submit:hover,
@@ -1167,9 +1169,10 @@ a.facet-browser-toggle,
 .pane-bookmarks .delete-reservation .form-submit:hover,
 .pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .button:active, .facet-browser-toggle:active,
+.pane-ting-object .ding-entity-button:hover, .button:active,
 .form-submit:active,
-#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
+#edit-cancel:active,
+.facet-browser-toggle:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
 .pane-loans .renew-loan-button .renewable:active,
 .pane-debts .renew-loan-button .renewable:active,
 .pane-bookmarks .renew-loan-button .renewable:active, .pane-reservations .update-reservations .form-submit:active,
@@ -1195,9 +1198,10 @@ a.facet-browser-toggle,
   text-decoration: none;
 }
 /* line 53, ../sass/framework/_buttons.scss */
-.disabled.button, .disabled.facet-browser-toggle,
+.disabled.button,
 .disabled.form-submit,
-.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
+.disabled#edit-cancel,
+.disabled.facet-browser-toggle, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-loans .renew-loan-button .disabled.renewable,
 .pane-debts .renew-loan-button .disabled.renewable,
 .pane-bookmarks .renew-loan-button .disabled.renewable, .pane-reservations .update-reservations .disabled.form-submit,
@@ -1219,9 +1223,10 @@ a.facet-browser-toggle,
 .pane-bookmarks .delete-reservation .disabled.form-submit,
 .pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, [disabled].button, [disabled].facet-browser-toggle,
+.pane-ting-object .disabled.ding-entity-button, [disabled].button,
 [disabled].form-submit,
-[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
+[disabled]#edit-cancel,
+[disabled].facet-browser-toggle, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-loans .renew-loan-button [disabled].renewable,
 .pane-debts .renew-loan-button [disabled].renewable,
 .pane-bookmarks .renew-loan-button [disabled].renewable, .pane-reservations .update-reservations [disabled].form-submit,
@@ -1256,13 +1261,13 @@ a.facet-browser-toggle,
    ========================================================================== */
 /* Default button */
 /* line 96, ../sass/framework/_buttons.scss */
-.button, .facet-browser-toggle,
+.button,
 a.button,
-a.facet-browser-toggle,
 .form-submit,
 #edit-cancel,
 .search .form-submit,
-.user .form-submit {
+.user .form-submit,
+.facet-browser-toggle {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
@@ -1274,31 +1279,31 @@ a.facet-browser-toggle,
   color: white;
 }
 /* line 78, ../sass/framework/_buttons.scss */
-.button:link, .facet-browser-toggle:link, .button:visited, .facet-browser-toggle:visited,
+.button:link, .button:visited,
 a.button:link,
-a.facet-browser-toggle:link,
 a.button:visited,
-a.facet-browser-toggle:visited,
 .form-submit:link,
 #edit-cancel:link,
+.facet-browser-toggle:link,
 .form-submit:visited,
-#edit-cancel:visited {
+#edit-cancel:visited,
+.facet-browser-toggle:visited {
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
-.button:focus, .facet-browser-toggle:focus, .button:hover, .facet-browser-toggle:hover, .button:active, .facet-browser-toggle:active,
+.button:focus, .button:hover, .button:active,
 a.button:focus,
-a.facet-browser-toggle:focus,
 a.button:hover,
-a.facet-browser-toggle:hover,
 a.button:active,
-a.facet-browser-toggle:active,
 .form-submit:focus,
 #edit-cancel:focus,
+.facet-browser-toggle:focus,
 .form-submit:hover,
 #edit-cancel:hover,
+.facet-browser-toggle:hover,
 .form-submit:active,
-#edit-cancel:active {
+#edit-cancel:active,
+.facet-browser-toggle:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
   background-image: -webkit-linear-gradient(#373737, #111111);
   background-image: -moz-linear-gradient(#373737, #111111);
@@ -1511,9 +1516,8 @@ a.facet-browser-toggle:active,
 
 /* Don't use native buttons on iOS */
 /* line 123, ../sass/framework/_buttons.scss */
-input[type=submit].button, input[type=submit].facet-browser-toggle,
-button.button,
-button.facet-browser-toggle {
+input[type=submit].button,
+button.button {
   -webkit-appearance: none;
 }
 
@@ -5468,7 +5472,7 @@ html.js .search input.form-autocomplete {
   margin-right: 5px;
 }
 /* line 190, ../sass/module/_module.scss */
-.pane-library-list .button, .pane-library-list .facet-browser-toggle {
+.pane-library-list .button {
   /* Make sure the button aligns vertically with the select */
   margin-top: -2px;
 }
