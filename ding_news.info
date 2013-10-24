@@ -13,7 +13,6 @@ dependencies[] = ctools
 dependencies[] = ding_content
 dependencies[] = ding_event
 dependencies[] = ding_page
-dependencies[] = ding_user_roles
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = file
