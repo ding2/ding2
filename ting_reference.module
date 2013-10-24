@@ -12,7 +12,7 @@ include_once 'ting_reference.features.inc';
 function ting_reference_menu() {
   $items = array();
 
-  // Callback for the advanced widget to do autocompletion.
+  // Callback for the advanced widget to do auto-completion.
   $items['ting_reference/autocomplete/object/js'] = array(
     'page callback' => '_ting_reference_autocomplete',
     'access arguments' => array('access content'),
@@ -33,7 +33,7 @@ function ting_reference_entity_info_alter(&$entity_info) {
   $ding_entity_info = ding_entity_info('ding_entity');
   // Entity might not be defined yet (is the case in the installer).
   if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
-    // Add a user_list display mode for addon modules to use.
+    // Add a user_list display mode for add-on modules to use.
     $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
       'ting_reference_preview' => array(
         'label' => t('Reference preview'),
@@ -279,7 +279,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         // @TODO: make view mode configurable.
         // Load the entity and build it.
         $entities = entity_load($entity_type, array($entity_id));
-        $build = entity_view($entity_type, $entities, 'teaser');
+        $build = entity_view($entity_type, $entities, 'search_result');
 
         // Don't show links. Should be an option.
         unset($build['links']);
