@@ -332,27 +332,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
 
-  // @todo: WTF is this needed for ??????
-  $tags_fields = array(
-    'event',
-    'news',
-    'page',
-  );
-  foreach ($tags_fields as $tag_field) {
-    // Add ddbasic_ding_xxx_tags  to variables.
-    $variables['ddbasic_ding_' . $tag_field . '_tags'] = '';
-    if (isset($variables['content']['field_ding_' . $tag_field . '_tags'])) {
-      $ddbasic_tags = '';
-      $items = $variables['content']['field_ding_' . $tag_field . '_tags']['#items'];
-      if (count($items) > 0) {
-        foreach ($items as $delta => $item) {
-          $ddbasic_tags .= render($variables['content']['field_ding_' . $tag_field . '_tags'][$delta]);
-        }
-        $variables['ddbasic_ding_' . $tag_field . '_tags'] = $ddbasic_tags;
-      }
-    }
-  }
-
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
@@ -401,15 +380,15 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   // Add suggestion for ddbasic field in specific view mode.
   $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $view_mode;
 
+  // Stream line tags in view modes using the same tpl.
+  if ($vars['element']['#field_type'] == 'taxonomy_term_reference') {
+    $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
+  }
+
   // Clean up fields in search result view mode aka. search result page.
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
-
-    // Stream line tags in search result view mode.
-    if ($vars['element']['#field_type'] == 'taxonomy_term_reference') {
-      $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
-    }
 
     switch ($vars['element']['#field_name']) {
       case 'ting_author':
@@ -429,6 +408,25 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       $vars['element']['#formatter'] == 'ding_availability_types') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
+}
+
+/**
+ * Implements theme_link().
+ *
+ * Adds a class "label" to all link in taxonomies.
+ *
+ * @see theme_link()
+ */
+function ddbasic_link($variables) {
+  if (isset($variables['options']['entity_type']) && $variables['options']['entity_type'] == 'taxonomy_term') {
+    // Add classes label and label-info.
+    if (!isset($variables['options']['attributes']['class'])) {
+      $variables['options']['attributes']['class'] = array();
+    }
+    $variables['options']['attributes']['class'][] = 'label';
+    $variables['options']['attributes']['class'][] = 'label-info';
+  }
+  return '<a href="' . check_plain(url($variables['path'], $variables['options'])) . '"' . drupal_attributes($variables['options']['attributes']) . '>' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a>';
 }
 
 /**

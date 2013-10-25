@@ -85,66 +85,57 @@
  * @see template_process()
  */
 ?>
-
-<?php
-  // Hide fields we have already rendered.
-  hide($content['field_ding_page_title_image']);
-  hide($content['field_ding_page_lead']);
-
-  // Hide fields that will be displayed as panel panes instead.
-  hide($content['comments']);
-
-  // Hide fields now so that we can render them later.
-  hide($content['links']);
-  hide($content['field_ding_page_tags']);
-?>
-
-<article>
+<article class="page">
   <header class="page-header">
     <h1 class="page-title"><?php print $title; ?></h1>
-    <div class="page-image"><?php print render($content['field_ding_page_title_image'][0]); ?></div>
-    <div class="page-lead"><?php print render($content['field_ding_page_lead'][0]); ?></div>
+    <div class="page-image"><?php print render($content['field_ding_page_title_image']); ?></div>
+    <div class="page-lead"><?php print render($content['field_ding_page_lead']); ?></div>
   </header>
-  <section class="page-content"><?php print render($content); ?></section>
-</article>
+  <section class="page-content">
+    <?php
+      // Hide fields that will be displayed as panel panes instead.
+      hide($content['comments']);
 
-<?php
-  // Remove the "Add new comment" link on the teaser page or if the comment
-  // form is being displayed on the same page.
-  if ($teaser || !empty($content['comments']['comment_form'])) :
-    unset($content['links']['comment']['#links']['comment-add']);
-  endif;
-?>
-
-<?php
-  // Render comments
-  print render($content['comments']);
-?>
-
-<?php
-  // Only display the wrapper div if there are links.
-  $links = render($content['links']);
-?>
-
-<?php if ($links): ?>
-
-  <section class="links">
-    <?php print $links; ?>
+      // Hide fields now so that we can render them later.
+      hide($content['links']);
+      hide($content['field_ding_page_tags']);
+    ?>
+    <?php print render($content); ?>
   </section>
-
-<?php endif; ?>
-
-<?php if ($display_submitted): ?>
   <footer class="page-footer">
-    <div class="page-user-picture"><?php print $user_picture; ?></div>
-    <div class=""><?php print $ddbasic_byline; ?></div>
-    <span class="page-author"><?php print $name; ?></span>
-    <span class="page-submitted"><?php print $submitted; ?></span>
-    <span class="page-updated"><?php print $ddbasic_updated; ?></span>
-    <?php if ($ddbasic_ding_page_tags): ?>
+    <?php if (isset($content['field_ding_page_tags'])) : ?>
       <section class="page-tags">
-          <?php print t('Tags: ') . $ddbasic_ding_page_tags; ?>
+        <span class="page-tags">
+          <?php print render($content['field_ding_page_tags']); ?>
+        </span>
       </section>
     <?php endif; ?>
+
+    <?php
+      // Remove the "Add new comment" link on the teaser page or if the comment
+      // form is being displayed on the same page.
+      if ($teaser || !empty($content['comments']['comment_form'])) :
+        unset($content['links']['comment']['#links']['comment-add']);
+      endif;
+    ?>
+
+    <?php if ($content['links']): ?>
+      <section class="links">
+        <?php print render($content['links']); ?>
+      </section>
+    <?php endif; ?>
+
+    <?php if ($display_submitted): ?>
+     <section class="signature">
+        <div class="page-user-picture"><?php print $user_picture; ?></div>
+        <div class=""><?php print $ddbasic_byline; ?></div>
+        <span class="page-author"><?php print $name; ?></span>
+        <span class="page-submitted"><?php print $submitted; ?></span>
+        <span class="page-updated"><?php print $ddbasic_updated; ?></span>
+      </section>
+    <?php endif; ?>
+
+    <?php print render($content['comments']); ?>
   </footer>
-<?php endif; ?>
+</article>
+
