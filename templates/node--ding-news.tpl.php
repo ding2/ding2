@@ -97,13 +97,8 @@
       <span class="news-category"><?php print render($content['field_ding_news_category']); ?></span>
       <span class="library-ref"><?php print render($content['og_group_ref']); ?></span>
     </div>
-    <h2 class="heading"><?php print $title; ?></h2>
-
-    <div class="lead">
-      <p>
-        <?php print render($content['field_ding_news_lead']); ?>
-      </p>
-    </div>
+    <h1 class="page-title"><?php print $title; ?></h1>
+    <div class="page-lead"><?php print render($content['field_ding_news_lead']); ?></div>
   </header>
 
   <section class="news-content">

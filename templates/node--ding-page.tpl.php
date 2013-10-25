@@ -87,8 +87,15 @@
 ?>
 <article class="page">
   <header class="page-header">
-    <h1 class="page-title"><?php print $title; ?></h1>
     <div class="page-image"><?php print render($content['field_ding_page_title_image']); ?></div>
+    <div class="super-heading">
+      <?php if (isset($content['field_ding_page_tags'])) : ?>
+        <span class="page-tags">
+          <?php print render($content['field_ding_page_tags']); ?>
+        </span>
+      <?php endif; ?>
+    </div>
+    <h1 class="page-title"><?php print $title; ?></h1>
     <div class="page-lead"><?php print render($content['field_ding_page_lead']); ?></div>
   </header>
   <section class="page-content">
@@ -103,14 +110,6 @@
     <?php print render($content); ?>
   </section>
   <footer class="page-footer">
-    <?php if (isset($content['field_ding_page_tags'])) : ?>
-      <section class="page-tags">
-        <span class="page-tags">
-          <?php print render($content['field_ding_page_tags']); ?>
-        </span>
-      </section>
-    <?php endif; ?>
-
     <?php
       // Remove the "Add new comment" link on the teaser page or if the comment
       // form is being displayed on the same page.
