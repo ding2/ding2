@@ -151,7 +151,7 @@
           <?php print render($content['field_ding_event_tags']); ?>
         </span>
       <?php endif; ?>
-      <span class="library-ref"><?php print render($content['og_group_ref']); ?></span>
+      <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
     </section>
 
     <?php if ($display_submitted) : ?>
