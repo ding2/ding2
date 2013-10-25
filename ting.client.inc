@@ -40,7 +40,13 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       ting_cache_set($object_id, TING_CACHE_EMPTY_ENTRY, $type);
 
       // Build request request and set object id.
-      $request = ting_get_request_factory()->getCollectionRequest();
+      $request = ting_get_request_factory()->getObjectRequest();
+      if ($collection) {
+        // If this is a collection we need to do a collection request, which is
+        // a search request.
+        $request = ting_get_request_factory()->getCollectionRequest();
+        $request->setAllObjects(FALSE);
+      }
       $request->setObjectId($object_id);
 
       // Set agency from the administration interface.
@@ -61,7 +67,6 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       }
 
       // Execute the request.
-      $request->setAllObjects(FALSE);
       $object = ting_execute_cache($request);
     }
 
@@ -78,6 +83,11 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       }
       // No sub-object had the same id. Somethings broken.
       return NULL;
+    }
+
+    // Mark the object in cache as relations have been loaded.
+    if (!$collection) {
+      _ting_cache_no_relations($object, $with_relations);
     }
 
     // If not asking for a collection, and the object is, return the
@@ -112,12 +122,26 @@ function ting_get_objects($ids) {
       // No sub-object had the same id. Somethings broken.
       $objects[$id] = NULL;
     }
+
+    if ($objects[$id] == TING_CACHE_EMPTY_ENTRY) {
+      $objects[$id] = NULL;
+    }
   }
 
+  // Not all object are searchable, such as relation etc. So to get over this we
+  // split the request into to groups "own id's" and "others". Where the first
+  // is ensured to be searchable.
+  $agency = variable_get('ting_agency', FALSE);
   $query = array();
   foreach ($objects as $id => $object) {
     if ($object === FALSE) {
-      $query[] = 'rec.id=' . $id;
+      if (preg_match('/^' . $agency . '/', $id)) {
+        $query[] = 'rec.id=' . $id;
+      }
+      else {
+        // Get objects.
+        $objects[$id] = ting_get_object($id);
+      }
     }
   }
   // Open search is limited to 50 results per call, so iterate until all results
@@ -131,7 +155,7 @@ function ting_get_objects($ids) {
     }
 
     $request = ting_get_request_factory()->getSearchRequest();
-    if ($agency = variable_get('ting_agency', FALSE)) {
+    if ($agency) {
       $request->setAgency($agency);
     }
     $profile = variable_get('ting_search_profile', '');
@@ -392,6 +416,7 @@ function ting_execute_cache($request) {
   if ($reply == TING_CACHE_EMPTY_ENTRY) {
     return NULL;
   }
+
   return $reply;
 }
 
@@ -437,19 +462,6 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
       // The data maybe NULL which means that the data well have been asked
       // about this object and no where found.
       return $data;
-    }
-    return FALSE;
-  }
-  else {
-    // Without proper caching, use a request cache.
-    $cache = &drupal_static('ting_cache_set');
-    if (!isset($cache)) {
-      $cache = array();
-    }
-    // Using array_key_exists, as we might contain NULL values (which is
-    // !isset()).
-    if (array_key_exists($cid, $cache)) {
-      return $cache[$cid];
     }
     return FALSE;
   }
