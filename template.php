@@ -355,11 +355,27 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   }
 
   // Add updated to variables.
-  $variables['ddbasic_updated'] = t('!datetime', array('!datetime' => format_date($variables['node']->changed, $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
+  $variables['ddbasic_updated'] = t('!datetime', array(
+    '!datetime' => format_date(
+      $variables['node']->changed,
+      $type = 'long',
+      $format = '',
+      $timezone = NULL,
+      $langcode = NULL
+    ))
+  );
 
   // Modified submitted variable.
   if ($variables['display_submitted']) {
-    $variables['submitted'] = t('!datetime', array('!datetime' => format_date($variables['created'], $type = 'long', $format = '', $timezone = NULL, $langcode = NULL)));
+    $variables['submitted'] = t('!datetime', array(
+      '!datetime' => format_date(
+        $variables['created'],
+        $type = 'long',
+        $format = '',
+        $timezone = NULL,
+        $langcode = NULL
+      ))
+    );
   }
 }
 

@@ -138,4 +138,3 @@
     <?php print render($content['comments']); ?>
   </footer>
 </article>
-
