@@ -60,84 +60,17 @@
     });
   }
 
-  // This is not the best solution, but it was decided to make a quick solution
-  function facet_browser_mobile() {
-    // Define vars
-    var facet_browser = $('.pane-ding-facetbrowser');
-
-    // Create toogle link
-    $('<a />', {
-      'class' : 'facet-browser-toggle js-facet-browser-hide',
-      'href' : Drupal.t('#toggle-facet-browser'),
-      'text' : Drupal.t('Show search filters')
-    }).prependTo('.primary-content');
-
-    // Move and show filters on click
-    $('.facet-browser-toggle').click(function() {
-      // Clone facet browser if it does not exist
-      if (!$('.facet-browser-responsive').length) {
-        // Clone facets
-        facet_browser
-          .clone(true)
-          .data( "arr", $.extend( [], facet_browser.data( "arr" )))
-          .insertAfter(this)
-          .removeAttr('class')
-          .addClass('facet-browser-responsive');
-      }
-
-      var facet_browser_clone = $('.facet-browser-responsive');
-
-      if (facet_browser_clone.hasClass('js-facet-browser-visible')) {
-        facet_browser_clone.hide();
-
-        facet_browser_clone.toggleClass('js-facet-browser-visible');
-      } else {
-        facet_browser_clone.show();
-
-        facet_browser_clone.addClass('js-facet-browser-visible');
-      }
-
-      // Add toggle to legend
-      $('.fieldset-legend', facet_browser_clone).click(function() {
-        if ($(this).hasClass('js-facet-browser-legend-visible')) {
-          // Hide siblings
-          $(this)
-            .parent()
-            .siblings()
-            .hide();
-
-          // Toggle class
-          $(this).toggleClass('js-facet-browser-legend-visible');
-        } else {
-          // Show siblings
-          $(this)
-            .parent()
-            .siblings()
-            .show();
-
-          // Toggle class
-          $(this).addClass('js-facet-browser-legend-visible');
-        }
-      });
-    });
-  }
-
-  // When ready start the magic
+  // When ready start the magic.
   $(document).ready(function () {
-    // Toggle opening hours
+    // Toggle opening hours.
     toggle_opening_hours();
 
-    // Toggle footer menu
+    // Toggle footer menu.
     $('.footer .pane-title').on('click', function() {
       var element = $(this).parent();
       $('.menu', element).toggle();
       $(this).toggleClass('js-toggled');
     });
-
-    // Responsive facet browser
-    if ($('.pane-ding-facetbrowser').length) {
-      facet_browser_mobile();
-    }
   });
 
 })(jQuery);
