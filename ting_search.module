@@ -716,10 +716,11 @@ function records_per_page_controls_content() {
   $def_size = variable_get('ting_search_results_per_page', 10);
   // Set default as the first value
   $sizes = array($def_size => t($def_size));
-  // Increment the default size by 2.5 and 5 to provide options.
-  $size2 = $def_size * 2.5;
+  // Increment the default size by 2.5 and 5 to provide the user with three different options. 
+  // Defaults to 10, 25, 50 posts per search page.
+  $size2 = round($def_size * 2.5);
   $sizes[$size2] = t($size2);
-  $size3 = $def_size * 5;
+  $size3 = round($def_size * 5);
   $sizes[$size3] = t($size3);
   // create size render array
   $size = array(
