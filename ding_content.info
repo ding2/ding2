@@ -6,6 +6,7 @@ php = 5.2.4
 version = 7.x-0.15
 project = ding_content
 dependencies[] = comment
+dependencies[] = clone
 dependencies[] = ctools
 dependencies[] = ctools_custom_content
 dependencies[] = ding_page

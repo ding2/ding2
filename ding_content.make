@@ -65,6 +65,9 @@ projects[media_vimeo][version] = "2.0-rc1"
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc3"
 
+projects[node_clone][subdir] = "contrib"
+projects[node_clone][version] = "1.0-rc1"
+
 ; Libraries
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.2/ckeditor_3.6.2.zip"
