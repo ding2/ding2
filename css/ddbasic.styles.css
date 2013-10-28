@@ -5143,18 +5143,22 @@ html.js .search input.form-autocomplete {
 .view-node-search-result .node-ding-event .group-right-col-search, .ting-reference-reverse-list .node-ding-event .group-right-col-search {
   position: relative;
 }
+/* line 112, ../sass/layout/_drupal.scss */
+.view-node-search-result .news-link, .ting-reference-reverse-list .news-link {
+  float: right;
+}
 
 /**
  * Ting reference reverse listing (view mode search-result)
  */
-/* line 117, ../sass/layout/_drupal.scss */
+/* line 121, ../sass/layout/_drupal.scss */
 .pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-left,
 .pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-right {
   min-height: 0px;
   margin-bottom: 0px;
 }
 
-/* line 122, ../sass/layout/_drupal.scss */
+/* line 126, ../sass/layout/_drupal.scss */
 .pane-ting-object .ting-reference-reverse-list .search-results {
   border-top: none;
   padding-top: 0px;

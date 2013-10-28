@@ -108,6 +108,10 @@ html.js .search input.form-autocomplete {
       @extend %arrow-link;
     }
   }
+
+  .news-link {
+    float: right;
+  }
 }
 
 /**

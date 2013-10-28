@@ -357,14 +357,30 @@ function ddbasic_preprocess_node(&$variables, $hook) {
           '#weight' => 6,
         );
 
-        $variables['content']['group_right_col_search']['field_more_link'] = $more_link;
+        $variables['content']['group_right_col_search']['more_link'] = $more_link;
         break;
 
       case 'ding_news':
+        $more_link = array(
+          '#theme' => 'link',
+          '#text' => t('Read more'),
+          '#path' => 'node/' . $variables['nid'],
+          '#options' => array(
+            'attributes' => array(
+              'title' => $variables['title'],
+            ),
+            'html' => FALSE,
+          ),
+          '#prefix' => '<span class="news-link">',
+          '#surfix' => '</span>',
+          '#weight' => 6,
+        );
 
+//        <span class="news-link"><span><a href="/nyheder/anbefalinger/test-nyhed">Læs mere</a></span></span>
+
+        $variables['content']['group_right_col_search']['more_link'] = $more_link;
         break;
     }
-//    <div class="event-arrow-link"><a href="/arrangementer/udstilling/fotoudstilling-med-billeder-fra-ostgronland"><i class="icon-chevron-right"></i></a></div>
   }
 
   // For search result view mode move title into left col. group.

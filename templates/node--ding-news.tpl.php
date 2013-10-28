@@ -95,7 +95,14 @@
     </div>
     <div class="super-heading">
       <span class="news-category"><?php print render($content['field_ding_news_category']); ?></span>
-      <span class="library-ref"><?php print render($content['og_group_ref']); ?></span>
+      <?php if (isset($content['og_group_ref'])) : ?>
+        <span class="library-ref"><?php print render($content['og_group_ref']); ?></span>
+      <?php endif; ?>
+      <?php if (isset($content['field_ding_news_tags'])) : ?>
+        <span class="news-tags">
+            <?php print render($content['field_ding_news_tags']); ?>
+          </span>
+      <?php endif; ?>
     </div>
     <h1 class="page-title"><?php print $title; ?></h1>
     <div class="page-lead"><?php print render($content['field_ding_news_lead']); ?></div>
@@ -115,14 +122,6 @@
   </section>
 
   <footer class="news-footer">
-    <?php if (isset($content['field_ding_news_tags'])) : ?>
-      <section class="news-tags">
-        <span class="news-tags">
-            <?php print render($content['field_ding_news_tags']); ?>
-          </span>
-      </section>
-    <?php endif; ?>
-
     <?php if ($display_submitted): ?>
       <section class="signature">
         <div class="signature-image"><?php print $user_picture; ?></div>
