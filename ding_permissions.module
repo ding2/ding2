@@ -51,6 +51,7 @@ function ding_permissions_secure_permissions($role) {
       'access content',
       'access site-wide contact form',
       'access user profiles',
+      'clone own nodes',
       'edit own comments',
       'post comments',
       'search content',
@@ -61,6 +62,7 @@ function ding_permissions_secure_permissions($role) {
     ),
     'guest blogger' => array(
       'access workbench',
+      'clone node',
       'create ding_news content',
       'create files',
       'edit own ding_news content',
@@ -68,6 +70,7 @@ function ding_permissions_secure_permissions($role) {
     ),
     'provider' => array(
       'access workbench',
+      'clone node',
       'create ding_event content',
       'create ding_news content',
       'create files',
@@ -79,6 +82,7 @@ function ding_permissions_secure_permissions($role) {
     ),
     'local editor' => array(
       'administer contact forms',
+      'clone node',
       'create ding_event content',
       'create ding_library content',
       'create ding_news content',
@@ -106,6 +110,7 @@ function ding_permissions_secure_permissions($role) {
       'access toolbar',
       'administer blocks',
       'administer contact forms',
+      'clone node',
       'create ding_event content',
       'create ding_library content',
       'create ding_news content',
