@@ -151,8 +151,8 @@
       <?php if (isset($content['field_ding_event_tags'])) : ?>
         <span class="event-tags"><?php print render($content['field_ding_event_tags']); ?></span>
       <?php endif; ?>
-      <?php if (isset($content['og_group_ref'])) : ?>
-      <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
+      <?php if (isset($content['og_group_ref']['#items'])) : ?>
+        <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
       <?php endif; ?>
     </section>
 
