@@ -116,9 +116,11 @@
     <?php endif; ?>
   </div>  
   <div class="event-content">
+    <?php if (isset($content['field_ding_event_title_image'])) : ?>
     <div class="event-image">
       <?php print render($content['field_ding_event_title_image']); ?>
     </div>
+    <?php endif; ?>
 
     <?php
       // Hide fields we have already rendered.
