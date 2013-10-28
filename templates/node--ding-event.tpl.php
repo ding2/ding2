@@ -149,11 +149,11 @@
     <section class="event-tags">
       <span class="event-category"><?php print render($content['field_ding_event_category']); ?></span>
       <?php if (isset($content['field_ding_event_tags'])) : ?>
-        <span class="event-tags">
-          <?php print render($content['field_ding_event_tags']); ?>
-        </span>
+        <span class="event-tags"><?php print render($content['field_ding_event_tags']); ?></span>
       <?php endif; ?>
+      <?php if (isset($content['og_group_ref'])) : ?>
       <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
+      <?php endif; ?>
     </section>
 
     <?php if ($display_submitted) : ?>
