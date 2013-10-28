@@ -1,3 +1,4 @@
+@charset "US-ASCII";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -1075,33 +1076,16 @@ table tbody tr:hover th {
 /* Extends
    ========================================================================== */
 /* line 32, ../sass/framework/_buttons.scss */
-.button,
+.button, .facet-browser-toggle,
 a.button,
 .form-submit,
-#edit-cancel,
-.search .form-submit,
-.user .form-submit,
-.facet-browser-toggle, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
+#edit-cancel, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
 .pane-loans .renew-loan-button .renewable,
 .pane-debts .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .pane-reservations .update-reservations .form-submit,
-.pane-reservations .renew-loan-button .form-submit,
-.pane-loans .update-reservations .form-submit,
-.pane-loans .renew-loan-button .form-submit,
-.pane-debts .update-reservations .form-submit,
-.pane-debts .renew-loan-button .form-submit,
-.pane-bookmarks .update-reservations .form-submit,
-.pane-bookmarks .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
+.pane-bookmarks .renew-loan-button .renewable, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
 .pane-loans .renew-loan-button .not-renewable,
 .pane-debts .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
-.pane-reservations .delete-reservations .form-submit,
-.pane-loans .delete-reservation .form-submit,
-.pane-loans .delete-reservations .form-submit,
-.pane-debts .delete-reservation .form-submit,
-.pane-debts .delete-reservations .form-submit,
-.pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+.pane-bookmarks .renew-loan-button .not-renewable, .pane-bookmarks .ding-entity-button a, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -1119,134 +1103,59 @@ a.button,
   vertical-align: middle;
 }
 /* line 47, ../sass/framework/_buttons.scss */
-.button:focus,
+.button:focus, .facet-browser-toggle:focus,
 .form-submit:focus,
-#edit-cancel:focus,
-.facet-browser-toggle:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
+#edit-cancel:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
 .pane-loans .renew-loan-button .renewable:focus,
 .pane-debts .renew-loan-button .renewable:focus,
-.pane-bookmarks .renew-loan-button .renewable:focus, .pane-reservations .update-reservations .form-submit:focus,
-.pane-reservations .renew-loan-button .form-submit:focus,
-.pane-loans .update-reservations .form-submit:focus,
-.pane-loans .renew-loan-button .form-submit:focus,
-.pane-debts .update-reservations .form-submit:focus,
-.pane-debts .renew-loan-button .form-submit:focus,
-.pane-bookmarks .update-reservations .form-submit:focus,
-.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
+.pane-bookmarks .renew-loan-button .renewable:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
 .pane-loans .renew-loan-button .not-renewable:focus,
 .pane-debts .renew-loan-button .not-renewable:focus,
-.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
-.pane-reservations .delete-reservations .form-submit:focus,
-.pane-loans .delete-reservation .form-submit:focus,
-.pane-loans .delete-reservations .form-submit:focus,
-.pane-debts .delete-reservation .form-submit:focus,
-.pane-debts .delete-reservations .form-submit:focus,
-.pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
+.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
 .pane-ting-collection .ding-entity-button:focus,
-.pane-ting-object .ding-entity-button:focus, .button:hover,
+.pane-ting-object .ding-entity-button:focus, .button:hover, .facet-browser-toggle:hover,
 .form-submit:hover,
-#edit-cancel:hover,
-.facet-browser-toggle:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
+#edit-cancel:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
 .pane-loans .renew-loan-button .renewable:hover,
 .pane-debts .renew-loan-button .renewable:hover,
-.pane-bookmarks .renew-loan-button .renewable:hover, .pane-reservations .update-reservations .form-submit:hover,
-.pane-reservations .renew-loan-button .form-submit:hover,
-.pane-loans .update-reservations .form-submit:hover,
-.pane-loans .renew-loan-button .form-submit:hover,
-.pane-debts .update-reservations .form-submit:hover,
-.pane-debts .renew-loan-button .form-submit:hover,
-.pane-bookmarks .update-reservations .form-submit:hover,
-.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
+.pane-bookmarks .renew-loan-button .renewable:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
 .pane-loans .renew-loan-button .not-renewable:hover,
 .pane-debts .renew-loan-button .not-renewable:hover,
-.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
-.pane-reservations .delete-reservations .form-submit:hover,
-.pane-loans .delete-reservation .form-submit:hover,
-.pane-loans .delete-reservations .form-submit:hover,
-.pane-debts .delete-reservation .form-submit:hover,
-.pane-debts .delete-reservations .form-submit:hover,
-.pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
+.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
 .pane-ting-collection .ding-entity-button:hover,
-.pane-ting-object .ding-entity-button:hover, .button:active,
+.pane-ting-object .ding-entity-button:hover, .button:active, .facet-browser-toggle:active,
 .form-submit:active,
-#edit-cancel:active,
-.facet-browser-toggle:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
+#edit-cancel:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
 .pane-loans .renew-loan-button .renewable:active,
 .pane-debts .renew-loan-button .renewable:active,
-.pane-bookmarks .renew-loan-button .renewable:active, .pane-reservations .update-reservations .form-submit:active,
-.pane-reservations .renew-loan-button .form-submit:active,
-.pane-loans .update-reservations .form-submit:active,
-.pane-loans .renew-loan-button .form-submit:active,
-.pane-debts .update-reservations .form-submit:active,
-.pane-debts .renew-loan-button .form-submit:active,
-.pane-bookmarks .update-reservations .form-submit:active,
-.pane-bookmarks .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
+.pane-bookmarks .renew-loan-button .renewable:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
 .pane-loans .renew-loan-button .not-renewable:active,
 .pane-debts .renew-loan-button .not-renewable:active,
-.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
-.pane-reservations .delete-reservations .form-submit:active,
-.pane-loans .delete-reservation .form-submit:active,
-.pane-loans .delete-reservations .form-submit:active,
-.pane-debts .delete-reservation .form-submit:active,
-.pane-debts .delete-reservations .form-submit:active,
-.pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
+.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-bookmarks .ding-entity-button a:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
 }
 /* line 53, ../sass/framework/_buttons.scss */
-.disabled.button,
+.disabled.button, .disabled.facet-browser-toggle,
 .disabled.form-submit,
-.disabled#edit-cancel,
-.disabled.facet-browser-toggle, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
+.disabled#edit-cancel, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-loans .renew-loan-button .disabled.renewable,
 .pane-debts .renew-loan-button .disabled.renewable,
-.pane-bookmarks .renew-loan-button .disabled.renewable, .pane-reservations .update-reservations .disabled.form-submit,
-.pane-reservations .renew-loan-button .disabled.form-submit,
-.pane-loans .update-reservations .disabled.form-submit,
-.pane-loans .renew-loan-button .disabled.form-submit,
-.pane-debts .update-reservations .disabled.form-submit,
-.pane-debts .renew-loan-button .disabled.form-submit,
-.pane-bookmarks .update-reservations .disabled.form-submit,
-.pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
+.pane-bookmarks .renew-loan-button .disabled.renewable, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
 .pane-loans .renew-loan-button .disabled.not-renewable,
 .pane-debts .renew-loan-button .disabled.not-renewable,
-.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-reservations .delete-reservation .disabled.form-submit,
-.pane-reservations .delete-reservations .disabled.form-submit,
-.pane-loans .delete-reservation .disabled.form-submit,
-.pane-loans .delete-reservations .disabled.form-submit,
-.pane-debts .delete-reservation .disabled.form-submit,
-.pane-debts .delete-reservations .disabled.form-submit,
-.pane-bookmarks .delete-reservation .disabled.form-submit,
-.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
+.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
 .pane-ting-collection .disabled.ding-entity-button,
-.pane-ting-object .disabled.ding-entity-button, [disabled].button,
+.pane-ting-object .disabled.ding-entity-button, [disabled].button, [disabled].facet-browser-toggle,
 [disabled].form-submit,
-[disabled]#edit-cancel,
-[disabled].facet-browser-toggle, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
+[disabled]#edit-cancel, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-loans .renew-loan-button [disabled].renewable,
 .pane-debts .renew-loan-button [disabled].renewable,
-.pane-bookmarks .renew-loan-button [disabled].renewable, .pane-reservations .update-reservations [disabled].form-submit,
-.pane-reservations .renew-loan-button [disabled].form-submit,
-.pane-loans .update-reservations [disabled].form-submit,
-.pane-loans .renew-loan-button [disabled].form-submit,
-.pane-debts .update-reservations [disabled].form-submit,
-.pane-debts .renew-loan-button [disabled].form-submit,
-.pane-bookmarks .update-reservations [disabled].form-submit,
-.pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
+.pane-bookmarks .renew-loan-button [disabled].renewable, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
 .pane-loans .renew-loan-button [disabled].not-renewable,
 .pane-debts .renew-loan-button [disabled].not-renewable,
-.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-reservations .delete-reservation [disabled].form-submit,
-.pane-reservations .delete-reservations [disabled].form-submit,
-.pane-loans .delete-reservation [disabled].form-submit,
-.pane-loans .delete-reservations [disabled].form-submit,
-.pane-debts .delete-reservation [disabled].form-submit,
-.pane-debts .delete-reservations [disabled].form-submit,
-.pane-bookmarks .delete-reservation [disabled].form-submit,
-.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
+.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-bookmarks .ding-entity-button a[disabled], form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1261,13 +1170,11 @@ a.button,
    ========================================================================== */
 /* Default button */
 /* line 96, ../sass/framework/_buttons.scss */
-.button,
+.button, .facet-browser-toggle,
 a.button,
+a.facet-browser-toggle,
 .form-submit,
-#edit-cancel,
-.search .form-submit,
-.user .form-submit,
-.facet-browser-toggle {
+#edit-cancel {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
   background-image: -moz-linear-gradient(#444444, #1e1e1e);
@@ -1279,31 +1186,31 @@ a.button,
   color: white;
 }
 /* line 78, ../sass/framework/_buttons.scss */
-.button:link, .button:visited,
+.button:link, .facet-browser-toggle:link, .button:visited, .facet-browser-toggle:visited,
 a.button:link,
+a.facet-browser-toggle:link,
 a.button:visited,
+a.facet-browser-toggle:visited,
 .form-submit:link,
 #edit-cancel:link,
-.facet-browser-toggle:link,
 .form-submit:visited,
-#edit-cancel:visited,
-.facet-browser-toggle:visited {
+#edit-cancel:visited {
   color: white;
 }
 /* line 85, ../sass/framework/_buttons.scss */
-.button:focus, .button:hover, .button:active,
+.button:focus, .facet-browser-toggle:focus, .button:hover, .facet-browser-toggle:hover, .button:active, .facet-browser-toggle:active,
 a.button:focus,
+a.facet-browser-toggle:focus,
 a.button:hover,
+a.facet-browser-toggle:hover,
 a.button:active,
+a.facet-browser-toggle:active,
 .form-submit:focus,
 #edit-cancel:focus,
-.facet-browser-toggle:focus,
 .form-submit:hover,
 #edit-cancel:hover,
-.facet-browser-toggle:hover,
 .form-submit:active,
-#edit-cancel:active,
-.facet-browser-toggle:active {
+#edit-cancel:active {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #373737), color-stop(100%, #111111));
   background-image: -webkit-linear-gradient(#373737, #111111);
   background-image: -moz-linear-gradient(#373737, #111111);
@@ -1516,8 +1423,9 @@ a.button:active,
 
 /* Don't use native buttons on iOS */
 /* line 123, ../sass/framework/_buttons.scss */
-input[type=submit].button,
-button.button {
+input[type=submit].button, input[type=submit].facet-browser-toggle,
+button.button,
+button.facet-browser-toggle {
   -webkit-appearance: none;
 }
 
@@ -2486,17 +2394,21 @@ a [class*=" icon-"] {
   line-height: .9em;
 }
 /* line 106, ../sass/framework/_fontawesome.scss */
-.btn [class^="icon-"].icon-spin, .btn .ajax-progress [class^="icon-"].throbber, .ajax-progress .btn [class^="icon-"].throbber, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"],
+.btn [class^="icon-"].icon-spin, .btn .ajax-progress [class^="icon-"].throbber, .ajax-progress .btn [class^="icon-"].throbber, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .search-in-content .spinner i[class^="icon-"], .search-in-content .spinner .btn i[class^="icon-"],
 .btn [class*=" icon-"].icon-spin,
 .btn .ajax-progress [class*=" icon-"].throbber,
 .ajax-progress .btn [class*=" icon-"].throbber,
 .btn .search .spinner i[class*=" icon-"][class^="icon-"],
-.search .spinner .btn i[class*=" icon-"][class^="icon-"], .nav [class^="icon-"].icon-spin, .nav .ajax-progress [class^="icon-"].throbber, .ajax-progress .nav [class^="icon-"].throbber, .nav .search .spinner i[class^="icon-"], .search .spinner .nav i[class^="icon-"],
+.search .spinner .btn i[class*=" icon-"][class^="icon-"],
+.btn .search-in-content .spinner i[class*=" icon-"][class^="icon-"],
+.search-in-content .spinner .btn i[class*=" icon-"][class^="icon-"], .nav [class^="icon-"].icon-spin, .nav .ajax-progress [class^="icon-"].throbber, .ajax-progress .nav [class^="icon-"].throbber, .nav .search .spinner i[class^="icon-"], .search .spinner .nav i[class^="icon-"], .nav .search-in-content .spinner i[class^="icon-"], .search-in-content .spinner .nav i[class^="icon-"],
 .nav [class*=" icon-"].icon-spin,
 .nav .ajax-progress [class*=" icon-"].throbber,
 .ajax-progress .nav [class*=" icon-"].throbber,
 .nav .search .spinner i[class*=" icon-"][class^="icon-"],
-.search .spinner .nav i[class*=" icon-"][class^="icon-"] {
+.search .spinner .nav i[class*=" icon-"][class^="icon-"],
+.nav .search-in-content .spinner i[class*=" icon-"][class^="icon-"],
+.search-in-content .spinner .nav i[class*=" icon-"][class^="icon-"] {
   display: inline-block;
 }
 
@@ -2620,12 +2532,14 @@ ul.icons li [class*=" icon-"] {
   margin-top: .18em;
 }
 /* line 204, ../sass/framework/_fontawesome.scss */
-.btn [class^="icon-"].icon-spin.icon-large, .btn .ajax-progress [class^="icon-"].icon-large.throbber, .ajax-progress .btn [class^="icon-"].icon-large.throbber, .btn .search .spinner i[class^="icon-"].icon-large, .search .spinner .btn i[class^="icon-"].icon-large,
+.btn [class^="icon-"].icon-spin.icon-large, .btn .ajax-progress [class^="icon-"].icon-large.throbber, .ajax-progress .btn [class^="icon-"].icon-large.throbber, .btn .search .spinner i[class^="icon-"].icon-large, .search .spinner .btn i[class^="icon-"].icon-large, .btn .search-in-content .spinner i[class^="icon-"].icon-large, .search-in-content .spinner .btn i[class^="icon-"].icon-large,
 .btn [class*=" icon-"].icon-spin.icon-large,
 .btn .ajax-progress [class*=" icon-"].icon-large.throbber,
 .ajax-progress .btn [class*=" icon-"].icon-large.throbber,
 .btn .search .spinner i[class*=" icon-"].icon-large[class^="icon-"],
-.search .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"] {
+.search .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"],
+.btn .search-in-content .spinner i[class*=" icon-"].icon-large[class^="icon-"],
+.search-in-content .spinner .btn i[class*=" icon-"].icon-large[class^="icon-"] {
   line-height: .8em;
 }
 
@@ -2659,7 +2573,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 230, ../sass/framework/_fontawesome.scss */
-.icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"] {
+.icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"], .search-in-content .spinner i[class^="icon-"] {
   display: inline-block;
   -moz-animation: spin 2s infinite linear;
   -o-animation: spin 2s infinite linear;
@@ -2729,22 +2643,22 @@ ul.icons li [class*=" icon-"] {
 
 @-moz-document url-prefix() {
   /* line 260, ../sass/framework/_fontawesome.scss */
-  .icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"] {
+  .icon-spin, .ajax-progress .throbber, .search .spinner i[class^="icon-"], .search-in-content .spinner i[class^="icon-"] {
     height: .9em;
   }
 
   /* line 261, ../sass/framework/_fontawesome.scss */
-  .btn .icon-spin, .btn .ajax-progress .throbber, .ajax-progress .btn .throbber, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"] {
+  .btn .icon-spin, .btn .ajax-progress .throbber, .ajax-progress .btn .throbber, .btn .search .spinner i[class^="icon-"], .search .spinner .btn i[class^="icon-"], .btn .search-in-content .spinner i[class^="icon-"], .search-in-content .spinner .btn i[class^="icon-"] {
     height: auto;
   }
 
   /* line 262, ../sass/framework/_fontawesome.scss */
-  .icon-spin.icon-large, .ajax-progress .icon-large.throbber, .search .spinner i.icon-large[class^="icon-"] {
+  .icon-spin.icon-large, .ajax-progress .icon-large.throbber, .search .spinner i.icon-large[class^="icon-"], .search-in-content .spinner i.icon-large[class^="icon-"] {
     height: 1.25em;
   }
 
   /* line 263, ../sass/framework/_fontawesome.scss */
-  .btn .icon-spin.icon-large, .btn .ajax-progress .icon-large.throbber, .ajax-progress .btn .icon-large.throbber, .btn .search .spinner i.icon-large[class^="icon-"], .search .spinner .btn i.icon-large[class^="icon-"] {
+  .btn .icon-spin.icon-large, .btn .ajax-progress .icon-large.throbber, .ajax-progress .btn .icon-large.throbber, .btn .search .spinner i.icon-large[class^="icon-"], .search .spinner .btn i.icon-large[class^="icon-"], .btn .search-in-content .spinner i.icon-large[class^="icon-"], .search-in-content .spinner .btn i.icon-large[class^="icon-"] {
     height: .75em;
   }
 }
@@ -3970,7 +3884,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 529, ../sass/framework/_fontawesome.scss */
-.icon-spinner:before, .ajax-progress .throbber:before, .search .spinner i[class^="icon-"]:before {
+.icon-spinner:before, .ajax-progress .throbber:before, .search .spinner i[class^="icon-"]:before, .search-in-content .spinner i[class^="icon-"]:before {
   content: "\f110";
 }
 
@@ -4021,12 +3935,12 @@ body {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -4306,12 +4220,12 @@ body {
   clear: left;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
@@ -5101,13 +5015,13 @@ label {
 }
 
 /* line 62, ../sass/layout/_drupal.scss */
-html.js .search input.form-autocomplete {
+html.js .search input.form-autocomplete, html.js .search-in-content input.form-autocomplete {
   background-image: none;
   margin-bottom: 0;
 }
 
 /* line 67, ../sass/layout/_drupal.scss */
-.search .form-item, .form-actions {
+.search .form-item, .search-in-content .form-item, .form-actions {
   margin-bottom: 0;
 }
 
@@ -5130,12 +5044,12 @@ html.js .search input.form-autocomplete {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .view-node-search-result .list-item:before, .ting-reference-reverse-list .list-item:before, .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   clear: both;
 }
@@ -5357,12 +5271,12 @@ html.js .search input.form-autocomplete {
 /* Shared styling used for search and user form in topbar
    ========================================================================== */
 /* line 70, ../sass/module/_module.scss */
-.search, .user {
+.search, .search-in-content, .user {
   width: 100%;
   /* Media queries */
 }
 /* line 73, ../sass/module/_module.scss */
-.search [class^="label-"], .user [class^="label-"] {
+.search [class^="label-"], .search-in-content [class^="label-"], .user [class^="label-"] {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   color: rgba(255, 255, 255, 0.75);
@@ -5372,7 +5286,7 @@ html.js .search input.form-autocomplete {
   margin-left: 2px;
 }
 /* line 83, ../sass/module/_module.scss */
-.search [class^="icon-"], .user [class^="icon-"] {
+.search [class^="icon-"], .search-in-content [class^="icon-"], .user [class^="icon-"] {
   color: #959595;
   bottom: 15px;
   font-size: 180%;
@@ -5380,12 +5294,12 @@ html.js .search input.form-autocomplete {
   position: absolute;
 }
 /* line 92, ../sass/module/_module.scss */
-.search .form-item, .user .form-item {
+.search .form-item, .search-in-content .form-item, .user .form-item {
   display: inline-block;
   position: relative;
 }
 /* line 97, ../sass/module/_module.scss */
-.search .form-text, .user .form-text {
+.search .form-text, .search-in-content .form-text, .user .form-text {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -5400,14 +5314,15 @@ html.js .search input.form-autocomplete {
   width: 100%;
 }
 /* line 110, ../sass/module/_module.scss */
-.search .form-text, .user .form-text,
+.search .form-text, .search-in-content .form-text, .user .form-text,
 .search .form-submit,
+.search-in-content .form-submit,
 .user .form-submit {
   min-height: 60px;
   padding-top: 0;
 }
 /* line 115, ../sass/module/_module.scss */
-.search .form-submit, .user .form-submit {
+.search .form-submit, .search-in-content .form-submit, .user .form-submit {
   -webkit-border-radius: 12px;
   -moz-border-radius: 12px;
   border-radius: 12px;
@@ -5417,11 +5332,11 @@ html.js .search input.form-autocomplete {
   min-width: 110px;
 }
 /* line 125, ../sass/module/_module.scss */
-.search input[class^="form-"], .user input[class^="form-"] {
+.search input[class^="form-"], .search-in-content input[class^="form-"], .user input[class^="form-"] {
   margin-bottom: 0;
 }
 /* line 129, ../sass/module/_module.scss */
-.search .form-actions, .user .form-actions {
+.search .form-actions, .search-in-content .form-actions, .user .form-actions {
   position: absolute;
   top: 0;
   right: 0;
@@ -5429,34 +5344,34 @@ html.js .search input.form-autocomplete {
 }
 @media only screen and (max-width: 480px) {
   /* line 138, ../sass/module/_module.scss */
-  .search [class^="label-"], .user [class^="label-"] {
+  .search [class^="label-"], .search-in-content [class^="label-"], .user [class^="label-"] {
     font-size: 85%;
   }
   /* line 142, ../sass/module/_module.scss */
-  .search .form-actions, .user .form-actions {
+  .search .form-actions, .search-in-content .form-actions, .user .form-actions {
     position: relative;
     clear: both;
   }
 }
 @media only screen and (max-width: 768px) {
   /* line 149, ../sass/module/_module.scss */
-  .search i[class^="icon-"], .user i[class^="icon-"] {
+  .search i[class^="icon-"], .search-in-content i[class^="icon-"], .user i[class^="icon-"] {
     font-size: 130%;
   }
   /* line 153, ../sass/module/_module.scss */
-  .search .form-text, .user .form-text {
+  .search .form-text, .search-in-content .form-text, .user .form-text {
     font-size: 110%;
     min-height: 50px;
     min-width: 100%;
     padding-left: 42px;
   }
   /* line 160, ../sass/module/_module.scss */
-  .search .form-actions, .user .form-actions {
+  .search .form-actions, .search-in-content .form-actions, .user .form-actions {
     position: relative;
     clear: both;
   }
   /* line 165, ../sass/module/_module.scss */
-  .search .form-submit, .user .form-submit {
+  .search .form-submit, .search-in-content .form-submit, .user .form-submit {
     font-size: 110%;
     margin-top: 20px;
     min-height: 44px;
@@ -5480,7 +5395,7 @@ html.js .search input.form-autocomplete {
   margin-right: 5px;
 }
 /* line 190, ../sass/module/_module.scss */
-.pane-library-list .button {
+.pane-library-list .button, .pane-library-list .facet-browser-toggle {
   /* Make sure the button aligns vertically with the select */
   margin-top: -2px;
 }
@@ -5656,46 +5571,105 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
 /* Search in header
    ========================================================================== */
 /* line 24, ../sass/module/_search.scss */
-.search .search-field-wrapper {
+.search .search-field-wrapper, .search-in-content .search-field-wrapper {
   position: relative;
 }
 /* line 28, ../sass/module/_search.scss */
-.search [class^="icon-"] {
+.search [class^="icon-"], .search-in-content [class^="icon-"] {
   bottom: 14px;
   left: 14px;
 }
 /* line 34, ../sass/module/_search.scss */
-.search .spinner i[class^="icon-"] {
+.search .spinner i[class^="icon-"], .search-in-content .spinner i[class^="icon-"] {
   height: auto;
 }
 /* line 42, ../sass/module/_search.scss */
-.search .form-item {
+.search .form-item, .search-in-content .form-item {
   width: 100%;
 }
 /* line 46, ../sass/module/_search.scss */
-.search .form-text {
+.search .form-text, .search-in-content .form-text {
   padding-left: 49px;
 }
 
-/* line 53, ../sass/module/_search.scss */
+/* line 52, ../sass/module/_search.scss */
+.search-in-content--amount {
+  color: #bcbcbc;
+}
+
+/* line 56, ../sass/module/_search.scss */
+.search-in-content {
+  margin-bottom: 20px;
+  position: relative;
+}
+/* line 63, ../sass/module/_search.scss */
+.search-in-content .form-text {
+  border: 1px solid #d5d5d5;
+}
+
+/* line 71, ../sass/module/_search.scss */
+.search-in-content--sort-wrapper .search-in-content--sort-results,
+.search-in-content--sort-wrapper .search-in-content--sort-best-match {
+  display: inline-block;
+  min-width: 0;
+  max-width: 49%;
+}
+/* line 77, ../sass/module/_search.scss */
+.search-in-content--sort-wrapper .search-in-content--sort-results {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 81, ../sass/module/_search.scss */
+.search-in-content--sort-wrapper .search-in-content--sort-best-match {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+
+/* line 86, ../sass/module/_search.scss */
 input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
-/* line 59, ../sass/module/_search.scss */
+/* line 92, ../sass/module/_search.scss */
 .field-name-ding-entity-buttons .reserve-button {
   padding-top: 11px;
   padding-bottom: 11px;
 }
 
-/* line 67, ../sass/module/_search.scss */
+/* line 100, ../sass/module/_search.scss */
 .button-see-online {
   margin-left: 10px;
 }
 
 /* Column wrapper fields
    ========================================================================== */
-/* line 78, ../sass/module/_search.scss */
+/* line 111, ../sass/module/_search.scss */
 .ting-object-left, .view-node-search-result .list-item .search-left, .ting-reference-reverse-list .list-item .search-left {
   float: left;
   width: 16.66667%;
@@ -5716,12 +5690,12 @@ input#edit-search-block-form--2.spinner {
   min-height: 100px;
 }
 
-/* line 86, ../sass/module/_search.scss */
+/* line 119, ../sass/module/_search.scss */
 .ding-format-short .ting-object-left, .ding-format-short .view-node-search-result .list-item .search-left, .view-node-search-result .list-item .ding-format-short .search-left, .ding-format-short .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item .ding-format-short .search-left {
   display: none;
 }
 
-/* line 91, ../sass/module/_search.scss */
+/* line 124, ../sass/module/_search.scss */
 .ting-object-right, .view-node-search-result .list-item .search-right, .ting-reference-reverse-list .list-item .search-right {
   float: right;
   width: 83.33333%;
@@ -5741,7 +5715,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 98, ../sass/module/_search.scss */
+/* line 131, ../sass/module/_search.scss */
 .ding-format-short .ting-object-right, .ding-format-short .view-node-search-result .list-item .search-right, .view-node-search-result .list-item .ding-format-short .search-right, .ding-format-short .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item .ding-format-short .search-right {
   float: right;
   width: 100%;
@@ -5762,7 +5736,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Facet browser styling
    ========================================================================== */
-/* line 108, ../sass/module/_search.scss */
+/* line 141, ../sass/module/_search.scss */
 .pane-ding-facetbrowser {
   /* General link rules for facet browser */
   /* Specific font color for headings and result count */
@@ -5773,91 +5747,91 @@ input#edit-search-block-form--2.spinner {
   /* Group with hidden facets */
   /* Media queries */
 }
-/* line 110, ../sass/module/_search.scss */
+/* line 143, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .pane-ding-facetbrowser input.form-checkbox {
   margin-top: 4px;
   margin-right: 8px;
   vertical-align: baseline;
 }
-/* line 116, ../sass/module/_search.scss */
+/* line 149, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .pane-ding-facetbrowser label.option {
   font-weight: inherit;
 }
-/* line 121, ../sass/module/_search.scss */
+/* line 154, ../sass/module/_search.scss */
 .pane-ding-facetbrowser a:link {
   text-decoration: none;
 }
-/* line 124, ../sass/module/_search.scss */
+/* line 157, ../sass/module/_search.scss */
 .pane-ding-facetbrowser a:visited {
   color: #00b7e7;
 }
-/* line 128, ../sass/module/_search.scss */
+/* line 161, ../sass/module/_search.scss */
 .pane-ding-facetbrowser legend {
   line-height: inherit;
   padding-top: 20px;
   padding-bottom: 10px;
 }
-/* line 137, ../sass/module/_search.scss */
+/* line 170, ../sass/module/_search.scss */
 .pane-ding-facetbrowser h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-ding-facetbrowser .count {
   color: #7c7c7c;
 }
-/* line 142, ../sass/module/_search.scss */
+/* line 175, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 146, ../sass/module/_search.scss */
+/* line 179, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 5px 0;
 }
-/* line 153, ../sass/module/_search.scss */
+/* line 186, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets {
   margin-top: 5px;
   margin-right: 10px;
   vertical-align: top;
 }
-/* line 158, ../sass/module/_search.scss */
+/* line 191, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before {
   font-family: "FontAwesome";
   padding-right: 5px;
   text-decoration: none;
   font-size: 130%;
 }
-/* line 166, ../sass/module/_search.scss */
+/* line 199, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .expand-more {
   display: block;
   float: left;
 }
-/* line 172, ../sass/module/_search.scss */
+/* line 205, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .expand-less {
   display: block;
   float: left;
 }
-/* line 180, ../sass/module/_search.scss */
+/* line 213, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 184, ../sass/module/_search.scss */
+/* line 217, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 189, ../sass/module/_search.scss */
+/* line 222, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect {
   float: right;
   margin-top: 10px;
 }
-/* line 199, ../sass/module/_search.scss */
+/* line 232, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group {
   clear: right;
 }
-/* line 204, ../sass/module/_search.scss */
+/* line 237, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 208, ../sass/module/_search.scss */
+/* line 241, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .expand-facets {
   display: block;
   text-align: right;
@@ -5867,19 +5841,19 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 @media only screen and (max-width: 768px) {
-  /* line 108, ../sass/module/_search.scss */
+  /* line 141, ../sass/module/_search.scss */
   .pane-ding-facetbrowser {
     display: none;
   }
 }
 
-/* line 231, ../sass/module/_search.scss */
+/* line 264, ../sass/module/_search.scss */
 .facet-browser-toggle {
   display: none;
   /* Media queries */
 }
 @media only screen and (max-width: 768px) {
-  /* line 231, ../sass/module/_search.scss */
+  /* line 264, ../sass/module/_search.scss */
   .facet-browser-toggle {
     clear: both;
     display: block;
@@ -5887,32 +5861,32 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 244, ../sass/module/_search.scss */
+/* line 277, ../sass/module/_search.scss */
 .facet-browser-responsive {
   border: 1px solid #d5d5d5;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 249, ../sass/module/_search.scss */
+/* line 282, ../sass/module/_search.scss */
 .facet-browser-responsive fieldset {
   border: 0;
   padding: 0;
 }
-/* line 255, ../sass/module/_search.scss */
+/* line 288, ../sass/module/_search.scss */
 .facet-browser-responsive .fieldset-wrapper,
 .facet-browser-responsive .expand-more {
   display: none;
 }
-/* line 259, ../sass/module/_search.scss */
+/* line 292, ../sass/module/_search.scss */
 .facet-browser-responsive .fieldset-legend {
   color: #00b7e7;
   cursor: pointer;
 }
-/* line 265, ../sass/module/_search.scss */
+/* line 298, ../sass/module/_search.scss */
 .facet-browser-responsive .fieldset-legend:hover {
   color: #006681;
 }
-/* line 269, ../sass/module/_search.scss */
+/* line 302, ../sass/module/_search.scss */
 .facet-browser-responsive .fieldset-legend:before {
   font-family: "FontAwesome";
   margin-right: 8px;
@@ -5920,11 +5894,11 @@ input#edit-search-block-form--2.spinner {
 
 /* Search results list
    ========================================================================== */
-/* line 285, ../sass/module/_search.scss */
+/* line 318, ../sass/module/_search.scss */
 .subjects strong {
   font-weight: inherit;
 }
-/* line 289, ../sass/module/_search.scss */
+/* line 322, ../sass/module/_search.scss */
 .subjects a {
   display: inline-block;
   margin-right: 5px;
@@ -5933,7 +5907,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Search query & results amount
    ========================================================================== */
-/* line 305, ../sass/module/_search.scss */
+/* line 338, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query {
   float: left;
   width: 66.66667%;
@@ -5953,20 +5927,20 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 311, ../sass/module/_search.scss */
+/* line 344, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display {
   margin: 0;
 }
-/* line 314, ../sass/module/_search.scss */
+/* line 347, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-label {
   color: #959595;
 }
-/* line 318, ../sass/module/_search.scss */
+/* line 351, ../sass/module/_search.scss */
 .pane-ting-search-search-display-extended-query #search-query-display #search-query-string {
   color: black;
 }
 
-/* line 324, ../sass/module/_search.scss */
+/* line 357, ../sass/module/_search.scss */
 .pane-ting-search {
   float: right;
   width: 33.33333%;
@@ -5985,150 +5959,150 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   text-align: right;
 }
-/* line 329, ../sass/module/_search.scss */
+/* line 362, ../sass/module/_search.scss */
 .pane-ting-search .ting-search-amount-block {
   color: #959595;
 }
 
 /* Sorting, display amount and display format groups
    ========================================================================== */
-/* line 339, ../sass/module/_search.scss */
+/* line 372, ../sass/module/_search.scss */
 .pane-ting-search-sort-form {
   clear: both;
   color: #959595;
   float: left;
   overflow: hidden;
 }
-/* line 345, ../sass/module/_search.scss */
+/* line 378, ../sass/module/_search.scss */
 .pane-ting-search-sort-form .form-item {
   margin: 0;
 }
-/* line 349, ../sass/module/_search.scss */
+/* line 382, ../sass/module/_search.scss */
 .pane-ting-search-sort-form label {
   display: inline;
   margin-right: 5px;
 }
-/* line 354, ../sass/module/_search.scss */
+/* line 387, ../sass/module/_search.scss */
 .pane-ting-search-sort-form .description {
   color: #bcbcbc;
   text-align: right;
 }
 
-/* line 360, ../sass/module/_search.scss */
+/* line 393, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page, .pane-ding-toggle-format-toggle {
   color: #959595;
   float: right;
   margin-left: 20px;
   overflow: hidden;
 }
-/* line 366, ../sass/module/_search.scss */
+/* line 399, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page a, .pane-ding-toggle-format-toggle a {
   margin-left: 10px;
   padding-right: 10px;
   border-right: 1px solid #006681;
   text-decoration: underline;
 }
-/* line 372, ../sass/module/_search.scss */
+/* line 405, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page a.selected, .pane-ding-toggle-format-toggle a.selected {
   font-weight: bold;
   color: #006681;
   text-decoration: none;
 }
-/* line 377, ../sass/module/_search.scss */
+/* line 410, ../sass/module/_search.scss */
 .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
   border-right: none;
 }
 
-/* line 383, ../sass/module/_search.scss */
+/* line 416, ../sass/module/_search.scss */
 .pane-ding-toggle-format-toggle {
   float: right;
 }
-/* line 388, ../sass/module/_search.scss */
+/* line 421, ../sass/module/_search.scss */
 .pane-ding-toggle-format-toggle #ding-toggle-format-image {
   height: 0;
 }
 
 /* Availability explaination legend */
-/* line 394, ../sass/module/_search.scss */
+/* line 427, ../sass/module/_search.scss */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden;
 }
-/* line 398, ../sass/module/_search.scss */
+/* line 431, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend {
   float: right;
   border: none;
   padding: 0;
 }
-/* line 403, ../sass/module/_search.scss */
+/* line 436, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item {
   margin: 0;
   margin-left: 10px;
   line-height: normal;
 }
-/* line 408, ../sass/module/_search.scss */
+/* line 441, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item img {
   vertical-align: middle;
 }
-/* line 412, ../sass/module/_search.scss */
+/* line 445, ../sass/module/_search.scss */
 .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
   font-weight: normal;
   color: #959595;
 }
 
-/* Search results list
+/* Seach results list
    ========================================================================== */
-/* line 425, ../sass/module/_search.scss */
+/* line 458, ../sass/module/_search.scss */
 .pane-search-result, .view-node-search-result, .ting-reference-reverse-list {
   clear: both;
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 430, ../sass/module/_search.scss */
+/* line 463, ../sass/module/_search.scss */
 .pane-search-result .search-results, .view-node-search-result .search-results, .ting-reference-reverse-list .search-results {
   padding-top: 20px;
   border-top: 1px solid #d5d5d5;
 }
-/* line 434, ../sass/module/_search.scss */
+/* line 467, ../sass/module/_search.scss */
 .pane-search-result .search-results .list, .view-node-search-result .search-results .list, .ting-reference-reverse-list .search-results .list {
   /* Compact search result display */
 }
-/* line 435, ../sass/module/_search.scss */
+/* line 468, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .list-item, .view-node-search-result .search-results .list .list-item, .ting-reference-reverse-list .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 440, ../sass/module/_search.scss */
+/* line 473, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .heading, .view-node-search-result .search-results .list .heading, .ting-reference-reverse-list .search-results .list .heading {
   margin-bottom: 10px;
 }
-/* line 445, ../sass/module/_search.scss */
+/* line 478, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .content, .view-node-search-result .search-results .list .content, .ting-reference-reverse-list .search-results .list .content,
 .pane-search-result .search-results .list .field,
 .view-node-search-result .search-results .list .field,
 .ting-reference-reverse-list .search-results .list .field {
   margin-bottom: 10px;
 }
-/* line 449, ../sass/module/_search.scss */
+/* line 482, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects, .view-node-search-result .search-results .list .subjects, .ting-reference-reverse-list .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 453, ../sass/module/_search.scss */
+/* line 486, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects strong, .view-node-search-result .search-results .list .subjects strong, .ting-reference-reverse-list .search-results .list .subjects strong {
   font-weight: inherit;
 }
-/* line 457, ../sass/module/_search.scss */
+/* line 490, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects a, .view-node-search-result .search-results .list .subjects a, .ting-reference-reverse-list .search-results .list .subjects a {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
-/* line 465, ../sass/module/_search.scss */
+/* line 498, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short, .view-node-search-result .search-results .list .ding-format-short, .ting-reference-reverse-list .search-results .list .ding-format-short {
   /* Display the author */
 }
-/* line 468, ../sass/module/_search.scss */
+/* line 501, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover, .view-node-search-result .search-results .list .ding-format-short .ting-cover, .ting-reference-reverse-list .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .view-node-search-result .search-results .list .ding-format-short .content,
@@ -6138,12 +6112,12 @@ input#edit-search-block-form--2.spinner {
 .ting-reference-reverse-list .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 473, ../sass/module/_search.scss */
+/* line 506, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content, .view-node-search-result .search-results .list .ding-format-short .heading + div.content, .ting-reference-reverse-list .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 480, ../sass/module/_search.scss */
+/* line 513, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .view-node-search-result .search-results .list .ding-format-short .content,
@@ -6154,39 +6128,39 @@ input#edit-search-block-form--2.spinner {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 485, ../sass/module/_search.scss */
+/* line 518, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 488, ../sass/module/_search.scss */
+/* line 521, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2, .view-node-search-result .search-results .list .ding-format-short .heading h2, .ting-reference-reverse-list .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 493, ../sass/module/_search.scss */
+/* line 526, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects, .view-node-search-result .search-results .list .ding-format-short .subjects, .ting-reference-reverse-list .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 497, ../sass/module/_search.scss */
+/* line 530, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short div.availability, .view-node-search-result .search-results .list .ding-format-short div.availability, .ting-reference-reverse-list .search-results .list .ding-format-short div.availability {
   display: inline-block;
   margin-top: 20px;
 }
 
-/* line 506, ../sass/module/_search.scss */
+/* line 539, ../sass/module/_search.scss */
 .availability {
   margin-bottom: 0;
 }
-/* line 509, ../sass/module/_search.scss */
+/* line 542, ../sass/module/_search.scss */
 .availability.content {
   float: right;
 }
-/* line 513, ../sass/module/_search.scss */
+/* line 546, ../sass/module/_search.scss */
 .availability li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 518, ../sass/module/_search.scss */
+/* line 551, ../sass/module/_search.scss */
 .availability li.pending {
   background-color: #959595;
   color: #fff;
@@ -6204,7 +6178,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.pending a:hover {
   text-decoration: none;
 }
-/* line 522, ../sass/module/_search.scss */
+/* line 555, ../sass/module/_search.scss */
 .availability li.availability.processed {
   background-color: #959595;
   color: #fff;
@@ -6222,7 +6196,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.processed a:hover {
   text-decoration: none;
 }
-/* line 526, ../sass/module/_search.scss */
+/* line 559, ../sass/module/_search.scss */
 .availability li.availability.available {
   background-color: #528c10;
   color: #fff;
@@ -6240,7 +6214,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available a:hover {
   text-decoration: none;
 }
-/* line 530, ../sass/module/_search.scss */
+/* line 563, ../sass/module/_search.scss */
 .availability li.availability.reservable {
   background-color: #f0cb28;
   color: #fff;
@@ -6258,7 +6232,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.reservable a:hover {
   text-decoration: none;
 }
-/* line 534, ../sass/module/_search.scss */
+/* line 567, ../sass/module/_search.scss */
 .availability li.availability.available.reservable {
   background-color: #528c10;
   color: #fff;
@@ -6276,7 +6250,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available.reservable a:hover {
   text-decoration: none;
 }
-/* line 538, ../sass/module/_search.scss */
+/* line 571, ../sass/module/_search.scss */
 .availability li.availability.available.not-reservable {
   background-color: #a32e10;
   color: #fff;
@@ -6294,7 +6268,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available.not-reservable a:hover {
   text-decoration: none;
 }
-/* line 542, ../sass/module/_search.scss */
+/* line 575, ../sass/module/_search.scss */
 .availability li.availability.unavailable.reservable {
   background-color: #f0cb28;
   color: #fff;
@@ -6312,7 +6286,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.unavailable.reservable a:hover {
   text-decoration: none;
 }
-/* line 546, ../sass/module/_search.scss */
+/* line 579, ../sass/module/_search.scss */
 .availability li.availability.unavailable.not-reservable {
   background-color: #a32e10;
   color: #fff;
@@ -6330,7 +6304,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.unavailable.not-reservable a:hover {
   text-decoration: none;
 }
-/* line 551, ../sass/module/_search.scss */
+/* line 584, ../sass/module/_search.scss */
 .availability li .availability-status:before {
   content: " - ";
   margin-left: 5px;
@@ -6339,93 +6313,93 @@ input#edit-search-block-form--2.spinner {
 /* Collection display
    ========================================================================== */
 /* Navigation */
-/* line 567, ../sass/module/_search.scss */
+/* line 600, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types li, .pane-ting-ting-object-types li, .pane-ting-ting-relation-anchors li {
   margin-bottom: 10px;
   padding-bottom: default-spacing / 2;
 }
-/* line 572, ../sass/module/_search.scss */
+/* line 605, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types .last, .pane-ting-ting-object-types .last, .pane-ting-ting-relation-anchors .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 581, ../sass/module/_search.scss */
+/* line 614, ../sass/module/_search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 585, ../sass/module/_search.scss */
+/* line 618, ../sass/module/_search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 590, ../sass/module/_search.scss */
+/* line 623, ../sass/module/_search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 596, ../sass/module/_search.scss */
+/* line 629, ../sass/module/_search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-bottom: 10px;
 }
-/* line 599, ../sass/module/_search.scss */
+/* line 632, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 605, ../sass/module/_search.scss */
+/* line 638, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 610, ../sass/module/_search.scss */
+/* line 643, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-type, .pane-ting-object .field-name-ting-type {
   float: right;
 }
-/* line 614, ../sass/module/_search.scss */
+/* line 647, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   float: right;
   margin: 0;
 }
-/* line 619, ../sass/module/_search.scss */
+/* line 652, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons form, .pane-ting-object .field-name-ding-entity-buttons form,
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button,
 .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button {
   float: left;
 }
-/* line 624, ../sass/module/_search.scss */
+/* line 657, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: black;
 }
-/* line 627, ../sass/module/_search.scss */
+/* line 660, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 633, ../sass/module/_search.scss */
+/* line 666, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
 }
-/* line 639, ../sass/module/_search.scss */
+/* line 672, ../sass/module/_search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   padding: 11px 14px;
 }
 
-/* line 646, ../sass/module/_search.scss */
+/* line 679, ../sass/module/_search.scss */
 .ting-cover {
   min-height: 60px;
   position: relative;
   width: 100%;
   /* Media queries */
 }
-/* line 653, ../sass/module/_search.scss */
+/* line 686, ../sass/module/_search.scss */
 .ting-cover img {
   position: relative;
   z-index: 90;
 }
-/* line 658, ../sass/module/_search.scss */
+/* line 691, ../sass/module/_search.scss */
 .ting-cover:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -6435,7 +6409,7 @@ input#edit-search-block-form--2.spinner {
   left: 30%;
 }
 @media only screen and (max-width: 480px) {
-  /* line 669, ../sass/module/_search.scss */
+  /* line 702, ../sass/module/_search.scss */
   .ting-cover:before {
     font-size: 180%;
     left: 20%;
@@ -6446,22 +6420,22 @@ input#edit-search-block-form--2.spinner {
 /* Object display
    ========================================================================== */
 /* Navigation */
-/* line 684, ../sass/module/_search.scss */
+/* line 717, ../sass/module/_search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
 
-/* line 690, ../sass/module/_search.scss */
+/* line 723, ../sass/module/_search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 696, ../sass/module/_search.scss */
+/* line 729, ../sass/module/_search.scss */
 .pane-ting-object {
   /* Material Details - Collapsible */
   /* List of Issues - Collapsible */
 }
-/* line 699, ../sass/module/_search.scss */
+/* line 732, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-left, .pane-ting-object .view-node-search-result .list-item .search-left, .view-node-search-result .list-item .pane-ting-object .search-left, .pane-ting-object .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item .pane-ting-object .search-left {
   float: left;
   width: 25%;
@@ -6481,7 +6455,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 200px;
   margin-bottom: 20px;
 }
-/* line 706, ../sass/module/_search.scss */
+/* line 739, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-right, .pane-ting-object .view-node-search-result .list-item .search-right, .view-node-search-result .list-item .pane-ting-object .search-right, .pane-ting-object .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item .pane-ting-object .search-right {
   float: right;
   width: 75%;
@@ -6500,21 +6474,21 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   margin-bottom: 20px;
 }
-/* line 712, ../sass/module/_search.scss */
+/* line 745, ../sass/module/_search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 718, ../sass/module/_search.scss */
+/* line 751, ../sass/module/_search.scss */
 .pane-ting-object .subjects {
   /* forget that clearfix */
 }
-/* line 720, ../sass/module/_search.scss */
+/* line 753, ../sass/module/_search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 728, ../sass/module/_search.scss */
+/* line 761, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title:before,
 .pane-ting-object .ding-periodical-fold:before {
   color: #00b7e7;
@@ -6522,73 +6496,73 @@ input#edit-search-block-form--2.spinner {
   font-size: 110%;
   padding-right: 6px;
 }
-/* line 736, ../sass/module/_search.scss */
+/* line 769, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title {
   display: inline-block;
 }
-/* line 747, ../sass/module/_search.scss */
+/* line 780, ../sass/module/_search.scss */
 .pane-ting-object .ding-periodical-fold {
   cursor: pointer;
   display: inline-block;
 }
-/* line 760, ../sass/module/_search.scss */
+/* line 793, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details {
   clear: both;
 }
-/* line 763, ../sass/module/_search.scss */
+/* line 796, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 769, ../sass/module/_search.scss */
+/* line 802, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-items {
   max-width: 72%;
 }
-/* line 773, ../sass/module/_search.scss */
+/* line 806, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .ting-material-detail {
   display: block;
 }
-/* line 778, ../sass/module/_search.scss */
+/* line 811, ../sass/module/_search.scss */
 .pane-ting-object .group-holdings-available {
   clear: both;
 }
-/* line 782, ../sass/module/_search.scss */
+/* line 815, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   margin-bottom: 20px;
 }
-/* line 785, ../sass/module/_search.scss */
+/* line 818, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 789, ../sass/module/_search.scss */
+/* line 822, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 793, ../sass/module/_search.scss */
+/* line 826, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 799, ../sass/module/_search.scss */
+/* line 832, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   margin-top: 20px;
   margin-bottom: 0;
 }
-/* line 804, ../sass/module/_search.scss */
+/* line 837, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 810, ../sass/module/_search.scss */
+/* line 843, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 816, ../sass/module/_search.scss */
+/* line 849, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -6597,23 +6571,23 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 824, ../sass/module/_search.scss */
+/* line 857, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 828, ../sass/module/_search.scss */
+/* line 861, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 832, ../sass/module/_search.scss */
+/* line 865, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 836, ../sass/module/_search.scss */
+/* line 869, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 841, ../sass/module/_search.scss */
+/* line 874, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation .meta {
   padding: 20px;
   padding-bottom: 10px;
@@ -6622,7 +6596,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Search autocomplete
    ========================================================================== */
-/* line 854, ../sass/module/_search.scss */
+/* line 887, ../sass/module/_search.scss */
 #autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -6638,7 +6612,7 @@ input#edit-search-block-form--2.spinner {
   max-width: 100%;
   padding: 10px;
 }
-/* line 865, ../sass/module/_search.scss */
+/* line 898, ../sass/module/_search.scss */
 #autocomplete li a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -6648,14 +6622,14 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 873, ../sass/module/_search.scss */
+/* line 906, ../sass/module/_search.scss */
 #autocomplete li a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 880, ../sass/module/_search.scss */
+/* line 913, ../sass/module/_search.scss */
 #autocomplete li a:hover {
   background-color: #efefef;
 }
@@ -7006,12 +6980,12 @@ input#edit-search-block-form--2.spinner {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }

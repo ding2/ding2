@@ -49,6 +49,39 @@ $search-border-type: solid;
 }
 
 
+.search-in-content--amount {
+  color: $gray-dark;
+}
+
+.search-in-content {
+  @extend .search;
+
+  margin-bottom: 20px;
+
+  position: relative;
+
+  .form-text {
+    border: 1px solid $gray;
+  }
+}
+
+
+.search-in-content--sort-wrapper {
+  .search-in-content--sort-results,
+  .search-in-content--sort-best-match {
+    display: inline-block;
+    min-width: 0;
+    max-width: 49%;
+  }
+
+  .search-in-content--sort-results {
+    @include zen-grid-item(6, 1);
+  }
+
+  .search-in-content--sort-best-match {
+    @include zen-grid-item(6, 1, right);
+  }
+}
 
 input#edit-search-block-form--2.spinner {
   background-image: none;
@@ -229,7 +262,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 .facet-browser-toggle {
-  @extend %button-default;
+  @extend .button;
 
   display: none;
 
@@ -419,7 +452,7 @@ input#edit-search-block-form--2.spinner {
 
 
 
-/* Search results list
+/* Seach results list
    ========================================================================== */
 
 .pane-search-result {
