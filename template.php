@@ -319,7 +319,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
     else {
       // User OG group ref to link back to library.
-      $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
+      if (isset($variables['content']['og_group_ref'])) {
+        $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
+      }
     }
 
     // Add event date to variables. A render array is created based on the date
