@@ -88,6 +88,7 @@ function ddbasic_process_html(&$vars) {
           $polyfills[$k][] = implode("\n", $v);
         }
       }
+      $polyfills_scripts = array();
       foreach ($polyfills as $kv => $kvp) {
         $polyfills_scripts[$kv] = implode("\n", $kvp);
       }
@@ -335,6 +336,35 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
+  }
+
+  // Add "read more" links to event and news in search result view mode.
+  if ($variables['view_mode'] == 'search_result') {
+    switch ($variables['node']->type) {
+      case 'ding_event':
+        $more_link = array(
+          '#theme' => 'link',
+          '#text' => '<i class="icon-chevron-right"></i>',
+          '#path' => 'node/' . $variables['nid'],
+          '#options' => array(
+            'attributes' => array(
+              'title' => $variables['title'],
+            ),
+            'html' => TRUE,
+          ),
+          '#prefix' => '<div class="event-arrow-link">',
+          '#surfix' => '</div>',
+          '#weight' => 6,
+        );
+
+        $variables['content']['group_right_col_search']['field_more_link'] = $more_link;
+        break;
+
+      case 'ding_news':
+
+        break;
+    }
+//    <div class="event-arrow-link"><a href="/arrangementer/udstilling/fotoudstilling-med-billeder-fra-ostgronland"><i class="icon-chevron-right"></i></a></div>
   }
 
   // For search result view mode move title into left col. group.

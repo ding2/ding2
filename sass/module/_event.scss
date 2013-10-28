@@ -72,6 +72,13 @@
 /* Event list
    ========================================================================== */
 
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 45%;
+}
+
 .pane-ding-event-ding-event-list {
   margin-bottom: 20px;
 }
@@ -122,10 +129,7 @@
   }
 
   .event-arrow-link {
-    display: inline-block;
-    position: absolute;
-    right: 0;
-    top: 45%;
+    @extend %arrow-link;
   }
   
   /* Media queries */  

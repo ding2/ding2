@@ -99,6 +99,15 @@ html.js .search input.form-autocomplete {
       @extend .ting-object-right;
     }
   }
+
+  // Get events read more correct.
+  .node-ding-event .group-right-col-search {
+    position: relative;
+
+    .event-arrow-link {
+      @extend %arrow-link;
+    }
+  }
 }
 
 /**

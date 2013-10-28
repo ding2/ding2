@@ -103,10 +103,7 @@
     }
 
     .news-arrow-link {
-      display: inline-block;
-      position: absolute;
-      right: 20px;
-      top: 45%;
+      @extend %arrow-link;
     }
   }
 }

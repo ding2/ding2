@@ -302,3 +302,13 @@
   z-index: 99;
   width: 100%;
 }
+
+/* Extends
+   ========================================================================== */
+
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 45%;
+}
