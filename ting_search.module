@@ -93,8 +93,7 @@ function ting_search_theme($existing, $type, $theme, $path) {
     'ting_search_results' => array(
       'variables' => array('results' => NULL, 'module' => NULL),
       'file'      => 'ting_search.pages.inc',
-      'template'  => 'ting-search-results',
-      'path' => $path . '/templates',
+      'template'  => 'templates/ting-search-results',
     ),
     'ting_search_mini_pager' => array(
       'variables' => array(
