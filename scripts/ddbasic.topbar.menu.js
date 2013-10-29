@@ -144,10 +144,11 @@
     /**
      * Add news category menu as sub-menu to news in main menu
      */
-    if ($(".pane-news-category-menu").length > 0) {
-      $(".pane-news-category-menu .sub-menu").clone().appendTo('.menu-mlid-1793');
+    if ($(".pane-taxonomy-menu").length > 0) {
+      $(".pane-taxonomy-menu .sub-menu").clone().appendTo('.active.menu-mlid-1793');
       // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
       $(".main-menu .sub-menu").addClass('main-menu');
+      $(".main-menu .sub-menu a").addClass('menu-item');
       $(".main-menu .sub-menu").removeClass('sub-menu');
       // Add sub-menu-wrapper class to taxonomy menu
       $(".pane-news-category-menu").addClass('sub-menu-wrapper');
@@ -156,10 +157,11 @@
     /*
      * Add event category menu as sub-menu to event in main menu
      */
-    if ($(".pane-event-category-menu").length > 0) {
-      $(".pane-event-category-menu .sub-menu").clone().appendTo('.menu-mlid-1816');
+    if ($(".pane-taxonomy-menu").length > 0) {
+      $(".pane-taxonomy-menu .sub-menu").clone().appendTo('.active.menu-mlid-1816');
       // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
       $(".main-menu .sub-menu").addClass('main-menu');
+      $(".main-menu .sub-menu a").addClass('menu-item');
       $(".main-menu .sub-menu").removeClass('sub-menu');
       // Add sub-menu-wrapper class to taxonomy menu
       $(".pane-event-category-menu").addClass('sub-menu-wrapper');
