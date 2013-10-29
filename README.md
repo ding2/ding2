@@ -57,6 +57,14 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
+__Optional__,but recommended patch that ensures that Ajax errors only are
+displayed when not in readystate 4. So when the user presses enter to perform a
+search before auto-complete Ajax is call is completed an error will not be
+displayed.
+```sh
+  ~$ wget -qO- https://drupal.org/files/issues/autocomplete-1232416-17-7x.patch | patch -p1
+```
+
 ## Build Ding2 installation profile
 Ding2 comes in the form of a Drupal installation profile and the first step is
 to build that profile. So go into your Drupal installations _profiles_ folder.
