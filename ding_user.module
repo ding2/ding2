@@ -214,7 +214,7 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
   $form['ding_user']['ding_user_tax_sms'] = array(
     '#type' => 'textfield',
     '#title' => t('Tax for SMS'),
-    '#default_value' => variable_get('ding_user_tax_sms', ''),
+    '#default_value' => variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS')),
     '#description' => t('Description to show user if a TAX for SMS is defined.'),
   );
 }
@@ -266,7 +266,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     }
   }
 
-  $tax_sms = variable_get('ding_user_tax_sms');
+  $tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
   $form['ding_user_tax_sms'] = array(
     '#type' => 'item',
     '#markup' => $tax_sms,
@@ -907,9 +907,9 @@ function ding_user_comment_load($comments) {
  */
 function ding_user_field_attach_view_alter(&$output, $context) {
   if (isset($output['field_alma_mobile_phone'][0]['#markup'])) {
-    $ding_user_tax_sms = variable_get('ding_user_tax_sms');
+    $ding_user_tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
     if ($ding_user_tax_sms) {
-      $output['field_alma_mobile_phone'][0]['#markup'] .= ' (' . $ding_user_tax_sms . ')';
+      $output['field_alma_mobile_phone'][0]['#markup'] .= '<span class="notice-sms">(' . $ding_user_tax_sms . ')</span>';
     }
   }
 }
