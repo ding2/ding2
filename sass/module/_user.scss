@@ -540,6 +540,11 @@
     min-width: 200px;
   }
 
+  .notice-sms {
+    font-style: italic;
+    padding-left: .5em;
+  }
+
   /* Media queries */
   @include small() {
     .field-label {
