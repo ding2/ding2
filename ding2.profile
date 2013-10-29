@@ -152,6 +152,7 @@ function ding2_module_selection_form($form, &$form_state) {
     'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
     'ding_campaign' => st('Add ding campaigns'),
     'ding_contact' => st('Contact module'),
+    'ding_example_content' => st('Add example content'),
   );
 
   $form['modules'] = array(
@@ -373,4 +374,7 @@ function ding2_module_selection_form_submit($form, &$form_state) {
 
   // Enable the provider (if selected) and modules.
   module_enable($module_list, TRUE);
+
+  // Ignore any other install messages.
+  drupal_get_messages();
 }
