@@ -57,13 +57,12 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
 
   // Build the content type block.
   $block = new stdClass();
-  $block->module  = 'search';
-  $block->delta   = 'result';
+  $block->module = 'search';
+  $block->delta = 'result';
 
   $results = '';
   // Only search if there are keywords or non-empty conditions.
   if ($keys || !empty($conditions)) {
-
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
   }
@@ -141,7 +140,6 @@ function ting_search_search_result_content_type_edit_form($form, &$form_state) {
     '#default_value' => $conf['override_no_key'],
     '#title' => t('Display text if no search keywords were submitted'),
   );
-
 
   $form['no_key_title'] = array(
     '#title' => t('Title'),
