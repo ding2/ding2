@@ -209,6 +209,14 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#options' => $period,
     '#description' => t('Uses that have not been active for this period will be automatically logged out.'),
   );
+
+  // Tax for SMS.
+  $form['ding_user']['ding_user_tax_sms'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tax for SMS'),
+    '#default_value' => variable_get('ding_user_tax_sms', ''),
+    '#description' => t('Description to show user if a TAX for SMS is defined.'),
+  );
 }
 
 /**
@@ -257,6 +265,13 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       $form['#submit'][] = 'ding_user_profile_update_submit';
     }
   }
+
+  $tax_sms = variable_get('ding_user_tax_sms');
+  $form['ding_user_tax_sms'] = array(
+    '#type' => 'item',
+    '#markup' => $tax_sms,
+    '#weight' => 0,
+  );
 }
 
 /**
@@ -882,6 +897,20 @@ function ding_user_comment_load($comments) {
       continue;
     }
     $comment->name = $user_names[$comment->uid];
+  }
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ *
+ * Alter user profile view with SMS TAX.
+ */
+function ding_user_field_attach_view_alter(&$output, $context) {
+  if (isset($output['field_alma_mobile_phone'][0]['#markup'])) {
+    $ding_user_tax_sms = variable_get('ding_user_tax_sms');
+    if ($ding_user_tax_sms) {
+      $output['field_alma_mobile_phone'][0]['#markup'] .= ' (' . $ding_user_tax_sms . ')';
+    }
   }
 }
 
