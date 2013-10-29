@@ -135,8 +135,12 @@ function ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ding_varnish_paths';
-  $strongarm->value = 'arrangementer
-biblioteker';
+  $strongarm->value = '<front>
+arrangementer/*
+biblioteker/*
+nyematerialer/*
+nyheder/*
+search/ting/*';
   $export['ding_varnish_paths'] = $strongarm;
 
   $strongarm = new stdClass();
