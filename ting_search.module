@@ -97,18 +97,18 @@ function ting_search_theme() {
     ),
     'ting_search_mini_pager' => array(
       'variables' => array(
-        'tags' => array(), 
-        'element' => 0, 
-        'parameters' => array(), 
-        'quantity' => 9
+        'tags' => array(),
+        'element' => 0,
+        'parameters' => array(),
+        'quantity' => 9,
       ),
     ),
     'ting_search_pager' => array(
       'variables' => array(
-        'tags' => array(), 
-        'element' => 0, 
-        'parameters' => array(), 
-        'quantity' => 9
+        'tags' => array(),
+        'element' => 0,
+        'parameters' => array(),
+        'quantity' => 9,
       ),
     ),
     'ting_search_display_extended_query' => array(
@@ -124,17 +124,17 @@ function ting_search_theme() {
 /**
  * Returns a themed list of extended actions.
  *
- * @return html ting_search_extended_search.
+ * @return string
+ *   HTML ting_search_extended_search.
  */
 function ting_search_get_extended_actions() {
   return theme('ting_search_extended_search');
 }
 
 /**
- * Implements hook_form_FORM_ID_alter
+ * Implements hook_form_FORM_ID_alter().
  *
- * @brief Implementation of hook_form_FORM_ID_alter() 
- *  for form search_block_form.
+ * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $advanced_fields = array(
@@ -154,6 +154,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       'description' => t('Enter subject keywords'),
     ),
   );
+
   // We're going to disable advanced search in
   // the first version, and implement later on.
   // When implementing againg, set
@@ -164,6 +165,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // Parse extended search query parameters.
   if (arg(0) == 'search') {
     $parts = explode('/', $_GET['q']);
+
     // Lose 'search' and the search type.
     array_shift($parts);
     $type = array_shift($parts);
@@ -171,6 +173,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
     $search_query = $indexes['q'];
     unset($indexes['q']);
+
     if ($type != 'ting' and !empty($indexes)) {
       $search_query .= " " . implode(' ', $indexes);
       $indexes = array();
@@ -191,7 +194,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#attributes' => array('id' => 'controls_search_size'),
   );
 
-  // See line 127-130 - disable in the first version.
+  // See line 127-130 - disabled in the first version.
   //$form['form_id']['#suffix'] = ting_search_get_extended_actions();
 
   if ($advanced) {
@@ -210,7 +213,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       ),
     );
 
-    $expand = FALSE;
     foreach ($advanced_fields as $name => $field) {
       $form['advanced'][$field['key']] = array(
         '#type' => 'textfield',
@@ -273,7 +275,7 @@ function ting_search_extract_indexes($matches, $set_keys = NULL) {
       $return[] = $subexp;
     }
   }
-  // Reappend unknown stuff.
+  // Re-append unknown stuff.
   if (count($return)) {
     return " and (" . implode(' and ', $return) . ")";
   }
@@ -399,7 +401,8 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   }
 
   // Save search result for usage by facet modules etc.
-  drupal_static('ting_search_results', $search_result);
+  $ting_search_results = &drupal_static('ting_search_results');
+  $ting_search_results = $search_result;
 
   // Add support for facet api.
   if (module_exists('ding_facets')) {
