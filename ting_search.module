@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Enables search integration with Ting.
@@ -30,14 +29,15 @@ function ting_search_ctools_plugin_api($module, $api) {
  * Implements hook_menu().
  */
 function ting_search_menu() {
-  // Create admin page link
+  $items = array();
+
   $items['admin/config/ting/search'] = array(
     'title' => 'Search settings',
     'description' => 'Settings avialable for ting search.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_admin_settings'),
     'access arguments' => array('administer ting settings'),
-    'file' => 'ting_search.admin.inc'
+    'file' => 'includes/ting_search.admin.inc',
   );
 
   return $items;
@@ -75,12 +75,12 @@ function ting_search_search_info() {
  * Implements hook_ding_facetbrowser().
  */
 function ting_search_ding_facetbrowser() {
-  $results             = new stdClass();
+  $results = new stdClass();
   $results->show_empty = FALSE;
-  $search_result       = drupal_static('ting_search_results');
+  $search_result = drupal_static('ting_search_results');
   if ($search_result) {
-    $results->facets     = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
-    $results->searchkey  = $search_result->search_key;
+    $results->facets = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
+    $results->searchkey = $search_result->search_key;
     return $results;
   }
 }
@@ -360,26 +360,26 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   try {
     $page = pager_find_page();
 
-    $resultsPerPage = variable_get('ting_search_results_per_page', 10);
+    $results_per_page = variable_get('ting_search_results_per_page', 10);
     if (!empty($conditions['size'])) {
-      $resultsPerPage = $conditions['size'];
+      $results_per_page = $conditions['size'];
     }
 
     if (!empty($conditions['sort'])) {
       $options['sort'] = $conditions['sort'];
     }
 
-    $searchResult = ting_do_search($query, $page + 1, $resultsPerPage, $options);
-    if (isset($searchResult->collections)) {
-      $searchResult->search_key = $keys;
+    $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
+    if (isset($search_result->collections)) {
+      $search_result->search_key = $keys;
 
-      // TODO: caching highes total_result know value of specific search
-      //       at the moment we only know if there is one more page
-      $total_results = ($page + 1) * $resultsPerPage + ($searchResult->more ? 1 : 0);
+      // @todo: caching highs total_result know value of specific search
+      // at the moment we only know if there is one more page
+      $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
 
-      pager_default_initialize($total_results, $resultsPerPage);
+      pager_default_initialize($total_results, $results_per_page);
 
-      foreach ($searchResult->collections as &$collection) {
+      foreach ($search_result->collections as &$collection) {
         $build = ting_collection_view($collection, 'teaser');
         $uri = entity_uri('ting_collection', $collection);
         $results[] = array(
@@ -399,7 +399,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   }
 
   // Save search result for usage by facet modules etc.
-  drupal_static('ting_search_results', $searchResult);
+  drupal_static('ting_search_results', $search_result);
 
   // Add support for facet api.
   if (module_exists('ding_facets')) {
@@ -609,7 +609,13 @@ function theme_ting_search_mini_pager($variables) {
       'class' => array('pager-next'),
       'data' => $li_next,
     );
-    return theme('item_list', array('items' => $items, 'type' => 'ul', 'attributes' => array('class' => array('pager'))));
+    return theme('item_list', array(
+      'items' => $items,
+      'type' => 'ul',
+      'attributes' => array(
+        'class' => array('pager'),
+      ),
+    ));
   }
 }
 
@@ -618,19 +624,20 @@ function theme_ting_search_mini_pager($variables) {
  * Implements hook_block_info().
  */
 function ting_search_block_info() {
-  $blocks['sort-form'] = array(
+  return array(
+    'sort-form' => array(
       'info' => t('Ting search "sort by" form'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
-    );
-  $blocks['records-per-page'] = array(
+    ),
+    'records-per-page' => array(
       'info' => t('Ting search "records per page"'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
-    );
-  $blocks['search-display-extended-query'] = array(
+    ),
+    'search-display-extended-query' => array(
       'info' => t('Ting search extended query display'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
-    );
-  return $blocks;
+    ),
+  );
 }
 
 /**
@@ -638,20 +645,23 @@ function ting_search_block_info() {
  */
 function ting_search_block_view($delta = '') {
   $block = array();
+
   switch ($delta) {
     case 'sort-form':
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
       $block['subject'] = t('Ting search sort controls');
       $block['content'] = drupal_get_form('ting_search_sort_form');
       break;
+
     case 'records-per-page':
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
       $block['subject'] = t('Ting search records per page controls');
-      $block['content'] = records_per_page_controls_content() ;
+      $block['content'] = records_per_page_controls_content();
       break;
+
     case 'search-display-extended-query':
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/ting_search_extendform.js');
-      $block['content'] = theme('ting_search_display_extended_query', array('query_label'=>t('Your query:'),'query_string'=>NULL));
+      $block['content'] = theme('ting_search_display_extended_query', array('query_label' => t('Your query:'), 'query_string' => NULL));
       break;
   }
   return $block;
@@ -714,7 +724,6 @@ function ting_search_sort_form_submit($form, &$form_state) {
   }
 
   $form_state['redirect'] = array($_GET['q'], array('query' => $query, ), );
-
 }
 
 /**
@@ -723,44 +732,46 @@ function ting_search_sort_form_submit($form, &$form_state) {
 function records_per_page_controls_content() {
   $search_result = drupal_static('ting_search_results');
   // Don't show anything if the search result is empty.
-  if(empty($search_result->collections))
-    return;
-  // Get the default results per page
-  $def_size = variable_get('ting_search_results_per_page', 10);
-  // Set default as the first value
-  $sizes = array($def_size => t($def_size));
-  // Increment the default size by 2.5 and 5 to provide the user with three different options. 
-  // Defaults to 10, 25, 50 posts per search page.
-  $size2 = round($def_size * 2.5);
-  $sizes[$size2] = t($size2);
-  $size3 = round($def_size * 5);
-  $sizes[$size3] = t($size3);
-  // create size render array
-  $size = array(
-    '#type' => 'markup',
-    '#prefix' => '<div id="ting-search-records-per-page">' . t('Results on page:'),
-    '#suffix' => '</div>',
-    '#markup' => '',
-  );
-  // Iterate through sizes and build the options.
-  foreach ($sizes as $number => $text) {
-    $pg = array('page' => 0);
-    $sz = array('size' => $number);
-    $classes = array();
-    $keys = array_keys($sizes);
+  if(!empty($search_result->collections)) {
+    // Get the default results per page.
+    $def_size = variable_get('ting_search_results_per_page', 10);
 
-    if (isset($_GET['size']) && $_GET['size'] == $number) {
-      $classes += array('selected');
+    // Set default as the first value.
+    $sizes = array($def_size => t($def_size));
+    // Increment the default size by 2.5 and 5 to provide the user with three different options.
+    // Defaults to 10, 25, 50 posts per search page.
+    $size2 = (int) round($def_size * 2.5);
+    $sizes[$size2] = t($size2);
+    $size3 = (int) round($def_size * 5);
+    $sizes[$size3] = t($size3);
+
+    // create size render array.
+    $size = array(
+      '#type' => 'markup',
+      '#prefix' => '<div id="ting-search-records-per-page">' . t('Results on page:'),
+      '#suffix' => '</div>',
+      '#markup' => '',
+    );
+    // Iterate through sizes and build the options.
+    foreach ($sizes as $number => $text) {
+      $pg = array('page' => 0);
+      $sz = array('size' => $number);
+      $classes = array();
+      $keys = array_keys($sizes);
+
+      if (isset($_GET['size']) && $_GET['size'] == $number) {
+        $classes += array('selected');
+      }
+      elseif ((!isset($_GET['size']) ||
+          !in_array($_GET['size'], $sizes)) &&
+        $number == $keys[0]) {
+        $classes += array('selected');
+      }
+      $size['#markup'] .= l($text, $_GET['q'], array('query' => $sz + $pg + drupal_get_query_parameters(), 'attributes' => array('class' => $classes, ), ));
     }
-    elseif ((!isset($_GET['size']) ||
-     !in_array($_GET['size'], $sizes)) &&
-     $number == $keys[0]) {
-      $classes += array('selected');
-    }
-    $size['#markup'] .= l($text, $_GET['q'], array('query' => $sz + $pg + drupal_get_query_parameters(), 'attributes' => array('class' => $classes, ), ));
+
+    return $size;
   }
-
-  return $size;
 }
 
 /**
