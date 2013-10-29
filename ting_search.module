@@ -185,12 +185,12 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
 
     // Set default value to the current search query.
     $form['search_block_form']['#default_value'] = $search_query;
-
-    // Add JS to handle spinner in the search form.
-    $form['search_block_form']['#attached']['js'] = array(
-      drupal_get_path('module', 'ting_search') . '/js/ting_search.js',
-    );
   }
+
+  // Add JS to handle spinner in the search form.
+  $form['search_block_form']['#attached']['js'] = array(
+    drupal_get_path('module', 'ting_search') . '/js/ting_search.js',
+  );
 
   $form['sort'] = array(
     '#type' => 'hidden',
