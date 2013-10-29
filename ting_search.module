@@ -139,6 +139,7 @@ function ting_search_get_extended_actions() {
  * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  // Define advanced fields.
   $advanced_fields = array(
     'dc.creator' => array(
       'key' => 'creator',
@@ -182,7 +183,13 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       $advanced = FALSE;
     }
 
+    // Set default value to the current search query.
     $form['search_block_form']['#default_value'] = $search_query;
+
+    // Add JS to handle spinner in the search form.
+    $form['search_block_form']['#attached']['js'] = array(
+      drupal_get_path('module', 'ting_search') . '/js/ting_search.js',
+    );
   }
 
   $form['sort'] = array(
