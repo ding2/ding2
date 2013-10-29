@@ -36,6 +36,7 @@ Drupal.ding_popup = {
       this.dialogs[response.name] = $('<div class="ding-popup-content"></div>').dialog({
           'autoOpen': false,
           'modal': true,
+          'closeText' : Drupal.t('close'),
           'close': function(event, ui) {
             if (response['refresh'] || self.refresh === true) {
               // Ensure that the page is not reload, when the log in dialog is
