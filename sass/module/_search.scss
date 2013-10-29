@@ -262,7 +262,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 .facet-browser-toggle {
-  @extend .button;
+  @extend %button-default;
 
   display: none;
 
