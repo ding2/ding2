@@ -146,14 +146,9 @@ function ting_get_objects($ids) {
   }
   // Open search is limited to 50 results per call, so iterate until all results
   // have been fetched.
-  $i = 0;
-  do {
-    // If the query is empty, then don't do it.
-    // Not necessary to do in each iteration, but it doesn't hurt much.
-    if (count($query) == 0) {
-      break;
-    }
-
+  // Also it has a limit on the size of the query (>187 rec.id= ORed together seems to break it).
+  $query_chunks = array_chunk($query, 50);
+  foreach ($query_chunks as $query_chunk) {
     $request = ting_get_request_factory()->getSearchRequest();
     if ($agency) {
       $request->setAgency($agency);
@@ -162,9 +157,8 @@ function ting_get_objects($ids) {
     if (!empty($profile) && method_exists($request, 'setProfile')) {
       $request->setProfile($profile);
     }
-    $request->setQuery(implode(' OR ', $query));
-    // Do it in steps of 50.
-    $request->setStart($i * 50 + 1);
+    $request->setQuery(implode(' OR ', $query_chunk));
+    $request->setStart(1);
     $request->setNumResults(50);
     $request->setAllObjects(TRUE);
 
@@ -179,13 +173,7 @@ function ting_get_objects($ids) {
         }
       }
     }
-    else {
-      // Result was false, hence the more property used in the while do not
-      // exists.
-      break;
-    }
-    $i++;
-  } while ($result->more);
+  }
 
   return $objects;
 }
