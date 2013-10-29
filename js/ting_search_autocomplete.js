@@ -16,15 +16,19 @@
       case 13: // Enter.
         if ($(input).hasClass('auto-submit')) {
           this.hidePopup(e.keyCode);
+          this.db.cancel();
           this.input.form.submit();
         }
         return true;
+
       case 40: // down arrow.
         this.selectDown();
         return false;
+
       case 38: // up arrow.
         this.selectUp();
         return false;
+
       default: // All other keys.
         return true;
     }
