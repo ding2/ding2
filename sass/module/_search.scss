@@ -162,6 +162,10 @@ input#edit-search-block-form--2.spinner {
 
   padding-left: 0;
   min-height: 100px;
+
+  @include small() {
+    @include zen-grid-item(4, 1);
+  }
 }
 
 .ding-format-short {
@@ -174,6 +178,10 @@ input#edit-search-block-form--2.spinner {
   @include zen-grid-item(10, 1, right);
 
   padding-right: 0;
+
+  @include small() {
+    @include zen-grid-item(8, 1, right);
+  }
 }
 
 .ding-format-short {
@@ -568,6 +576,14 @@ input#edit-search-block-form--2.spinner {
         div.availability {
           display: inline-block;
           margin-top: 20px;
+        }
+      }
+    }
+
+    @include small() {
+      .list {
+        .heading {
+          font-size: $font-size-tiny;
         }
       }
     }
