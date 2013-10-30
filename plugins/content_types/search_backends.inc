@@ -19,20 +19,20 @@ $plugin = array(
  * Render the ting search results amount block.
  */
 function ting_search_backend_engines_content_type_render($subtype, $conf, $panel_args, $context) {
-  $block = new stdClass();
-
-  $links = array();
+  $options = array();
 
   // Find search backends.
   $backends = search_get_info();
   $default = search_get_default_module_info();
+  $default_value = $default['module'];
 
-
+  // Search keys.
   $keys = NULL;
   if (!empty($context) && isset($context->data)) {
     $keys = $context->data;
   }
 
+  // Create options for each backend.
   foreach ($backends as $name => $backend) {
     // Get conditions (facets etc.).
     $conditions = NULL;
@@ -44,46 +44,59 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     // Create search path.
     $path = 'search/' . $backend['path'] . '/' . $keys;
     if (!empty($conditions)) {
-      $path .= '?';
-      // Conditions found, we need to add them (facets and sort).
-      // @todo: is there a better way to do this?
-      foreach ($conditions as $index => $condition) {
-        if (is_array($condition)) {
-          foreach ($condition as $i => $value) {
-            $path .= $index . '[' . $i . ']=' . $value . '&';
-          }
-        }
-        else {
-          if (!empty($condition)) {
-            $path .= $index . '=' . $condition . '&';
-          }
-        }
+      if (empty($conditions['sort'])) {
+        // Remove sort condition, if is the empty string.
+        unset($conditions['sort']);
       }
-      $path = substr($path, 0, -1);
     }
 
-    $weight = 0;
-    if ($default['module'] == $backend['module']) {
-      $weight = -50;
+    // Create the option as a link.
+    $title = t('<a href="@url">Search ' . $backend['title'] . '</a>', array(
+      '@url' => url($path, array('query' => $conditions)),
+    ));
+
+    // Set default value.
+    if (arg(1) == $backend['module']) {
+      $default_value = $backend['module'];
     }
-    $links[$name] = array(
-      '#theme' => 'link',
-      '#text' => t($backend['title']),
-      '#path' => $path,
-      '#options' => array(
-        'attributes' => array(
-          'title' => $backend['title'],
-        ),
-        'html' => FALSE,
-      ),
-      '#weight' => $weight,
-    );
+
+    // Add default option to the start of the array.
+    if ($default['module'] == $backend['module']) {
+      array_unshift($options, t($title));
+    }
+    else {
+      $options[$backend['module']] = t($title);
+    }
   }
 
+  // Create a form with the radio buttons.
+  $form = drupal_get_form('ting_search_backend_engines_form', $options, $default_value);
+
+  // Create the output.
+  $block = new stdClass();
   $block->title = t('Search backends');
-  $block->content = $links;
+  $block->content = $form;
 
   return $block;
+}
+
+function ting_search_backend_engines_form($form, &$form_state, $options, $default) {
+  $form = array(
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ting_search') . '/js/ting_search_backends.js',
+      ),
+    ),
+  );
+
+  $form['backends'] = array(
+    '#type' => 'radios',
+    '#required' => FALSE,
+    '#options' => $options,
+    '#default_value' => $default,
+  );
+
+  return $form;
 }
 
 /**
