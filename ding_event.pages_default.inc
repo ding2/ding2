@@ -732,6 +732,7 @@ events
       'identifier' => 'Library node',
       'name' => 'slug',
       'settings' => array(),
+      'keyword' => 'slug',
     ),
     'tid' => array(
       'id' => 1,
