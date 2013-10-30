@@ -6140,52 +6140,47 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   padding-top: 20px;
 }
-/* line 502, ../sass/module/_search.scss */
-.pane-search-result .search-results, .view-node-search-result .search-results, .ting-reference-reverse-list .search-results {
-  padding-top: 20px;
-  border-top: 1px solid #d5d5d5;
-}
-/* line 506, ../sass/module/_search.scss */
+/* line 503, ../sass/module/_search.scss */
 .pane-search-result .search-results .list, .view-node-search-result .search-results .list, .ting-reference-reverse-list .search-results .list {
   padding-left: 0;
   /* Compact search result display */
 }
-/* line 509, ../sass/module/_search.scss */
+/* line 506, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .list-item, .view-node-search-result .search-results .list .list-item, .ting-reference-reverse-list .search-results .list .list-item {
   background-color: #efefef;
   padding: 20px;
 }
-/* line 514, ../sass/module/_search.scss */
+/* line 511, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .heading, .view-node-search-result .search-results .list .heading, .ting-reference-reverse-list .search-results .list .heading {
   margin-bottom: 10px;
 }
-/* line 519, ../sass/module/_search.scss */
+/* line 516, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .content, .view-node-search-result .search-results .list .content, .ting-reference-reverse-list .search-results .list .content,
 .pane-search-result .search-results .list .field,
 .view-node-search-result .search-results .list .field,
 .ting-reference-reverse-list .search-results .list .field {
   margin-bottom: 10px;
 }
-/* line 523, ../sass/module/_search.scss */
+/* line 520, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects, .view-node-search-result .search-results .list .subjects, .ting-reference-reverse-list .search-results .list .subjects {
   margin-bottom: 0;
   padding-bottom: 20px;
 }
-/* line 527, ../sass/module/_search.scss */
+/* line 524, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects strong, .view-node-search-result .search-results .list .subjects strong, .ting-reference-reverse-list .search-results .list .subjects strong {
   font-weight: inherit;
 }
-/* line 531, ../sass/module/_search.scss */
+/* line 528, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .subjects a, .view-node-search-result .search-results .list .subjects a, .ting-reference-reverse-list .search-results .list .subjects a {
   display: inline-block;
   margin-right: 5px;
   margin-bottom: 5px;
 }
-/* line 539, ../sass/module/_search.scss */
+/* line 536, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short, .view-node-search-result .search-results .list .ding-format-short, .ting-reference-reverse-list .search-results .list .ding-format-short {
   /* Display the author */
 }
-/* line 542, ../sass/module/_search.scss */
+/* line 539, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .ting-cover, .view-node-search-result .search-results .list .ding-format-short .ting-cover, .ting-reference-reverse-list .search-results .list .ding-format-short .ting-cover,
 .pane-search-result .search-results .list .ding-format-short .content,
 .view-node-search-result .search-results .list .ding-format-short .content,
@@ -6195,12 +6190,12 @@ input#edit-search-block-form--2.spinner {
 .ting-reference-reverse-list .search-results .list .ding-format-short .field {
   display: none;
 }
-/* line 547, ../sass/module/_search.scss */
+/* line 544, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading + div.content, .view-node-search-result .search-results .list .ding-format-short .heading + div.content, .ting-reference-reverse-list .search-results .list .ding-format-short .heading + div.content {
   display: inline;
   margin-left: 5px;
 }
-/* line 554, ../sass/module/_search.scss */
+/* line 551, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading,
 .pane-search-result .search-results .list .ding-format-short .content,
 .view-node-search-result .search-results .list .ding-format-short .content,
@@ -6211,39 +6206,39 @@ input#edit-search-block-form--2.spinner {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 559, ../sass/module/_search.scss */
+/* line 556, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading {
   display: inline;
 }
-/* line 562, ../sass/module/_search.scss */
+/* line 559, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .heading h2, .view-node-search-result .search-results .list .ding-format-short .heading h2, .ting-reference-reverse-list .search-results .list .ding-format-short .heading h2 {
   display: inline;
 }
-/* line 567, ../sass/module/_search.scss */
+/* line 564, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short .subjects, .view-node-search-result .search-results .list .ding-format-short .subjects, .ting-reference-reverse-list .search-results .list .ding-format-short .subjects {
   display: none;
 }
-/* line 571, ../sass/module/_search.scss */
+/* line 568, ../sass/module/_search.scss */
 .pane-search-result .search-results .list .ding-format-short div.availability, .view-node-search-result .search-results .list .ding-format-short div.availability, .ting-reference-reverse-list .search-results .list .ding-format-short div.availability {
   display: inline-block;
   margin-top: 20px;
 }
 
-/* line 580, ../sass/module/_search.scss */
+/* line 577, ../sass/module/_search.scss */
 .availability {
   margin-bottom: 0;
 }
-/* line 583, ../sass/module/_search.scss */
+/* line 580, ../sass/module/_search.scss */
 .availability.content {
   float: right;
 }
-/* line 587, ../sass/module/_search.scss */
+/* line 584, ../sass/module/_search.scss */
 .availability li {
   display: inline-block;
   margin-bottom: 5px;
   padding: 0;
 }
-/* line 592, ../sass/module/_search.scss */
+/* line 589, ../sass/module/_search.scss */
 .availability li.pending {
   background-color: #959595;
   color: #fff;
@@ -6261,7 +6256,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.pending a:hover {
   text-decoration: none;
 }
-/* line 596, ../sass/module/_search.scss */
+/* line 593, ../sass/module/_search.scss */
 .availability li.availability.processed {
   background-color: #959595;
   color: #fff;
@@ -6279,7 +6274,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.processed a:hover {
   text-decoration: none;
 }
-/* line 600, ../sass/module/_search.scss */
+/* line 597, ../sass/module/_search.scss */
 .availability li.availability.available {
   background-color: #528c10;
   color: #fff;
@@ -6297,7 +6292,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available a:hover {
   text-decoration: none;
 }
-/* line 604, ../sass/module/_search.scss */
+/* line 601, ../sass/module/_search.scss */
 .availability li.availability.reservable {
   background-color: #f0cb28;
   color: #fff;
@@ -6315,7 +6310,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.reservable a:hover {
   text-decoration: none;
 }
-/* line 608, ../sass/module/_search.scss */
+/* line 605, ../sass/module/_search.scss */
 .availability li.availability.available.reservable {
   background-color: #528c10;
   color: #fff;
@@ -6333,7 +6328,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available.reservable a:hover {
   text-decoration: none;
 }
-/* line 612, ../sass/module/_search.scss */
+/* line 609, ../sass/module/_search.scss */
 .availability li.availability.available.not-reservable {
   background-color: #a32e10;
   color: #fff;
@@ -6351,7 +6346,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.available.not-reservable a:hover {
   text-decoration: none;
 }
-/* line 616, ../sass/module/_search.scss */
+/* line 613, ../sass/module/_search.scss */
 .availability li.availability.unavailable.reservable {
   background-color: #f0cb28;
   color: #fff;
@@ -6369,7 +6364,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.unavailable.reservable a:hover {
   text-decoration: none;
 }
-/* line 620, ../sass/module/_search.scss */
+/* line 617, ../sass/module/_search.scss */
 .availability li.availability.unavailable.not-reservable {
   background-color: #a32e10;
   color: #fff;
@@ -6387,7 +6382,7 @@ input#edit-search-block-form--2.spinner {
 .availability li.availability.unavailable.not-reservable a:hover {
   text-decoration: none;
 }
-/* line 625, ../sass/module/_search.scss */
+/* line 622, ../sass/module/_search.scss */
 .availability li .availability-status:before {
   content: " - ";
   margin-left: 5px;
@@ -6396,93 +6391,93 @@ input#edit-search-block-form--2.spinner {
 /* Collection display
    ========================================================================== */
 /* Navigation */
-/* line 641, ../sass/module/_search.scss */
+/* line 638, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types li, .pane-ting-ting-object-types li, .pane-ting-ting-relation-anchors li {
   margin-bottom: 10px;
   padding-bottom: default-spacing / 2;
 }
-/* line 646, ../sass/module/_search.scss */
+/* line 643, ../sass/module/_search.scss */
 .pane-ting-ting-collection-types .last, .pane-ting-ting-object-types .last, .pane-ting-ting-relation-anchors .last {
   margin-bottom: 0;
   border-bottom: none;
   padding-bottom: 0;
 }
 
-/* line 655, ../sass/module/_search.scss */
+/* line 652, ../sass/module/_search.scss */
 .pane-ting-collection h2, .pane-ting-object h2 {
   margin-bottom: 20px;
   margin-top: 40px;
 }
-/* line 659, ../sass/module/_search.scss */
+/* line 656, ../sass/module/_search.scss */
 .pane-ting-collection h2:first-child, .pane-ting-object h2:first-child {
   margin-top: 0;
 }
-/* line 664, ../sass/module/_search.scss */
+/* line 661, ../sass/module/_search.scss */
 .pane-ting-collection .view-mode-collection-list, .pane-ting-object .view-mode-collection-list {
   background-color: #efefef;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 670, ../sass/module/_search.scss */
+/* line 667, ../sass/module/_search.scss */
 .pane-ting-collection .field, .pane-ting-object .field {
   margin-bottom: 10px;
 }
-/* line 673, ../sass/module/_search.scss */
+/* line 670, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-entities, .pane-ting-object .field-name-ting-entities {
   margin: 0;
   padding: 0;
 }
-/* line 679, ../sass/module/_search.scss */
+/* line 676, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-title h2, .pane-ting-object .field-name-ting-title h2 {
   margin-top: 0;
 }
-/* line 684, ../sass/module/_search.scss */
+/* line 681, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ting-type, .pane-ting-object .field-name-ting-type {
   float: right;
 }
-/* line 688, ../sass/module/_search.scss */
+/* line 685, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons, .pane-ting-object .field-name-ding-entity-buttons {
   float: right;
   margin: 0;
 }
-/* line 693, ../sass/module/_search.scss */
+/* line 690, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons form, .pane-ting-object .field-name-ding-entity-buttons form,
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button,
 .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button {
   float: left;
 }
-/* line 698, ../sass/module/_search.scss */
+/* line 695, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a {
   color: black;
 }
-/* line 701, ../sass/module/_search.scss */
+/* line 698, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .ding-entity-button a:hover, .pane-ting-object .field-name-ding-entity-buttons .ding-entity-button a:hover {
   text-decoration: none;
 }
-/* line 707, ../sass/module/_search.scss */
+/* line 704, ../sass/module/_search.scss */
 .pane-ting-collection .field-name-ding-entity-buttons .form-actions, .pane-ting-object .field-name-ding-entity-buttons .form-actions {
   margin: 0;
 }
-/* line 713, ../sass/module/_search.scss */
+/* line 710, ../sass/module/_search.scss */
 .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   padding: 11px 14px;
 }
 
-/* line 720, ../sass/module/_search.scss */
+/* line 717, ../sass/module/_search.scss */
 .ting-cover {
   min-height: 60px;
   position: relative;
   width: 100%;
   /* Media queries */
 }
-/* line 727, ../sass/module/_search.scss */
+/* line 724, ../sass/module/_search.scss */
 .ting-cover img {
   position: relative;
   z-index: 90;
 }
-/* line 732, ../sass/module/_search.scss */
+/* line 729, ../sass/module/_search.scss */
 .ting-cover:before {
   color: #bcbcbc;
   font-family: "FontAwesome";
@@ -6492,9 +6487,9 @@ input#edit-search-block-form--2.spinner {
   left: 30%;
 }
 @media only screen and (max-width: 480px) {
-  /* line 743, ../sass/module/_search.scss */
+  /* line 740, ../sass/module/_search.scss */
   .ting-cover:before {
-    font-size: 180%;
+    font-size: 130%;
     left: 20%;
     top: 30%;
   }
@@ -6503,22 +6498,22 @@ input#edit-search-block-form--2.spinner {
 /* Object display
    ========================================================================== */
 /* Navigation */
-/* line 758, ../sass/module/_search.scss */
+/* line 755, ../sass/module/_search.scss */
 .pane-ting-ting-object-types, .pane-ting-ting-relation-anchors {
   margin-bottom: 20px;
 }
 
-/* line 764, ../sass/module/_search.scss */
+/* line 761, ../sass/module/_search.scss */
 .pane-ting-ting-relation-anchors {
   margin-bottom: 0;
 }
 
-/* line 770, ../sass/module/_search.scss */
+/* line 767, ../sass/module/_search.scss */
 .pane-ting-object {
   /* Material Details - Collapsible */
   /* List of Issues - Collapsible */
 }
-/* line 773, ../sass/module/_search.scss */
+/* line 770, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-left, .pane-ting-object .view-node-search-result .list-item .search-left, .view-node-search-result .list-item .pane-ting-object .search-left, .pane-ting-object .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item .pane-ting-object .search-left {
   float: left;
   width: 25%;
@@ -6538,7 +6533,7 @@ input#edit-search-block-form--2.spinner {
   min-height: 200px;
   margin-bottom: 20px;
 }
-/* line 780, ../sass/module/_search.scss */
+/* line 777, ../sass/module/_search.scss */
 .pane-ting-object .ting-object-right, .pane-ting-object .view-node-search-result .list-item .search-right, .view-node-search-result .list-item .pane-ting-object .search-right, .pane-ting-object .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item .pane-ting-object .search-right {
   float: right;
   width: 75%;
@@ -6557,21 +6552,21 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   margin-bottom: 20px;
 }
-/* line 786, ../sass/module/_search.scss */
+/* line 783, ../sass/module/_search.scss */
 .pane-ting-object .field {
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
 }
-/* line 792, ../sass/module/_search.scss */
+/* line 789, ../sass/module/_search.scss */
 .pane-ting-object .subjects {
   /* forget that clearfix */
 }
-/* line 794, ../sass/module/_search.scss */
+/* line 791, ../sass/module/_search.scss */
 .pane-ting-object .subjects:after {
   clear: none;
 }
-/* line 802, ../sass/module/_search.scss */
+/* line 799, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title:before,
 .pane-ting-object .ding-periodical-fold:before {
   color: #00b7e7;
@@ -6579,73 +6574,73 @@ input#edit-search-block-form--2.spinner {
   font-size: 110%;
   padding-right: 6px;
 }
-/* line 810, ../sass/module/_search.scss */
+/* line 807, ../sass/module/_search.scss */
 .pane-ting-object .collapsible .field-group-format-title {
   display: inline-block;
 }
-/* line 821, ../sass/module/_search.scss */
+/* line 818, ../sass/module/_search.scss */
 .pane-ting-object .ding-periodical-fold {
   cursor: pointer;
   display: inline-block;
 }
-/* line 834, ../sass/module/_search.scss */
+/* line 831, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details {
   clear: both;
 }
-/* line 837, ../sass/module/_search.scss */
+/* line 834, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-label {
   width: 25%;
   min-width: 200px;
   margin-right: 10px;
 }
-/* line 843, ../sass/module/_search.scss */
+/* line 840, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .field-items {
   max-width: 72%;
 }
-/* line 847, ../sass/module/_search.scss */
+/* line 844, ../sass/module/_search.scss */
 .pane-ting-object .group-material-details .ting-material-detail {
   display: block;
 }
-/* line 852, ../sass/module/_search.scss */
+/* line 849, ../sass/module/_search.scss */
 .pane-ting-object .group-holdings-available {
   clear: both;
 }
-/* line 856, ../sass/module/_search.scss */
+/* line 853, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings {
   margin-bottom: 20px;
 }
-/* line 859, ../sass/module/_search.scss */
+/* line 856, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul {
   padding: 20px;
   background-color: #efefef;
 }
-/* line 863, ../sass/module/_search.scss */
+/* line 860, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li {
   border: none;
   padding: 0;
 }
-/* line 867, ../sass/module/_search.scss */
+/* line 864, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings ul li:last-child {
   margin-bottom: 0;
 }
-/* line 873, ../sass/module/_search.scss */
+/* line 870, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings {
   margin-top: 20px;
   margin-bottom: 0;
 }
-/* line 878, ../sass/module/_search.scss */
+/* line 875, ../sass/module/_search.scss */
 .pane-ting-object .field-name-ding-availability-holdings .holdings:empty {
   margin: 0;
   padding: 0;
 }
-/* line 884, ../sass/module/_search.scss */
+/* line 881, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation {
   clear: both;
   margin-top: 20px;
   margin-bottom: 0;
   background-color: transparent;
 }
-/* line 890, ../sass/module/_search.scss */
+/* line 887, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div {
   padding-left: 20px;
   padding-right: 20px;
@@ -6654,23 +6649,23 @@ input#edit-search-block-form--2.spinner {
   overflow: hidden;
   background-color: #efefef;
 }
-/* line 898, ../sass/module/_search.scss */
+/* line 895, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div.clearfix {
   padding: 0;
 }
-/* line 902, ../sass/module/_search.scss */
+/* line 899, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div:last-child {
   padding-bottom: 20px;
 }
-/* line 906, ../sass/module/_search.scss */
+/* line 903, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div ul {
   margin: 0;
 }
-/* line 910, ../sass/module/_search.scss */
+/* line 907, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation > div p:empty {
   margin: 0;
 }
-/* line 915, ../sass/module/_search.scss */
+/* line 912, ../sass/module/_search.scss */
 .pane-ting-object .ting-relation .meta {
   padding: 20px;
   padding-bottom: 10px;
@@ -6679,7 +6674,7 @@ input#edit-search-block-form--2.spinner {
 
 /* Search autocomplete
    ========================================================================== */
-/* line 928, ../sass/module/_search.scss */
+/* line 925, ../sass/module/_search.scss */
 #autocomplete {
   -webkit-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
   -moz-box-shadow: rgba(0, 0, 0, 0.35) 0 0 10px;
@@ -6695,7 +6690,7 @@ input#edit-search-block-form--2.spinner {
   max-width: 100%;
   padding: 10px;
 }
-/* line 939, ../sass/module/_search.scss */
+/* line 936, ../sass/module/_search.scss */
 #autocomplete li a {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -6705,14 +6700,14 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 5px;
   padding: 5px 10px;
 }
-/* line 947, ../sass/module/_search.scss */
+/* line 944, ../sass/module/_search.scss */
 #autocomplete li a.ui-state-hover {
   margin-top: 0;
   margin-right: 0;
   margin-bottom: 5px;
   margin-left: 0;
 }
-/* line 954, ../sass/module/_search.scss */
+/* line 951, ../sass/module/_search.scss */
 #autocomplete li a:hover {
   background-color: #efefef;
 }

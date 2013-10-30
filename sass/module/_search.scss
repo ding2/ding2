@@ -500,9 +500,6 @@ input#edit-search-block-form--2.spinner {
   padding-top: 20px;
 
   .search-results {
-    padding-top: 20px;
-    border-top: $search-border-size $search-border-type $gray;
-
     .list {
       padding-left: 0;
 
@@ -741,7 +738,7 @@ input#edit-search-block-form--2.spinner {
   /* Media queries */
   @include small {
     &:before {
-      font-size: $font-size-largest;
+      font-size: $font-size-large;
       left: 20%;
       top: 30%;
     }
