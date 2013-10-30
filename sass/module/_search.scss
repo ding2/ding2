@@ -166,7 +166,6 @@ input#edit-search-block-form--2.spinner {
 
   /* Specific font color for headings and result count */
   h2,
-  .fieldset-legend,
   .count {
     color: $gray-darkest;
   }
@@ -258,6 +257,14 @@ input#edit-search-block-form--2.spinner {
   /* Media queries */
   @include small-medium() {
     display: none;
+  }
+}
+
+
+.pane-search-backends,
+.pane-ding-facetbrowser {
+  .fieldset-legend {
+    color: $gray-darkest;
   }
 }
 
