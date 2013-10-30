@@ -49,11 +49,11 @@ $search-border-type: solid;
 }
 
 
-.search-in-content--amount {
+.search-field-in-content--amount {
   color: $gray-dark;
 }
 
-.search-in-content {
+.search-field-in-content {
   @extend .search;
 
   margin-bottom: 20px;
@@ -63,22 +63,29 @@ $search-border-type: solid;
   .form-text {
     border: 1px solid $gray;
   }
+
+  .form-submit {
+    margin-top: 0;
+  }
 }
 
+.search-field-in-content--message {
+  margin-bottom: 30px;
+}
 
-.search-in-content--sort-wrapper {
-  .search-in-content--sort-results,
-  .search-in-content--sort-best-match {
+.search-field-in-content--sort-wrapper {
+  .search-field-in-content--sort-results,
+  .search-field-in-content--sort-best-match {
     display: inline-block;
     min-width: 0;
     max-width: 49%;
   }
 
-  .search-in-content--sort-results {
+  .search-field-in-content--sort-results {
     @include zen-grid-item(6, 1);
   }
 
-  .search-in-content--sort-best-match {
+  .search-field-in-content--sort-best-match {
     @include zen-grid-item(6, 1, right);
   }
 }
@@ -170,7 +177,7 @@ input#edit-search-block-form--2.spinner {
 
   legend {
     line-height: inherit;
-    padding-top: 20px;
+    padding-top: 10px;
     padding-bottom: 10px;
   }
 
@@ -480,6 +487,8 @@ input#edit-search-block-form--2.spinner {
     border-top: $search-border-size $search-border-type $gray;
 
     .list {
+      padding-left: 0;
+
       .list-item {
         background-color: $gray-light;
         padding: 20px;
