@@ -30,7 +30,7 @@ function ding_periodical_menu() {
  * the information as a HTML table in JSON.
  *
  * @param string $ding_entity_id
- *  Ding entity id for the periodical.
+ *   Ding entity id for the periodical.
  */
 function ding_periodical_issues_ajax($ding_entity_id) {
   $output = array();
@@ -38,7 +38,7 @@ function ding_periodical_issues_ajax($ding_entity_id) {
   // Load the entity for the periodical.
   $entity = ding_entity_load($ding_entity_id);
 
-  // Get availability
+  // Get availability.
   $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
   if (isset($availability[$entity->provider_id])) {
     $issues = $availability[$entity->provider_id]['issues'];
@@ -76,7 +76,7 @@ function ding_periodical_theme() {
       'variables' => array(
         'ding_entity_id' => NULL,
       ),
-      'template' => 'ding-periodical-issues'
+      'template' => 'ding-periodical-issues',
     ),
   );
 }
@@ -112,7 +112,7 @@ function theme_ding_periodical_issues($variables) {
       $holdings = array(
         array(
           'data' => '<div class="periodical-holdings">' . $holding_data . '</div>',
-        )
+        ),
       );
 
       // Normal behavior - periodicals, dc.type=tidsskrift.
@@ -154,7 +154,7 @@ function theme_ding_periodical_issues($variables) {
 /**
  * Build a markup for the availability table.
  *
- * @param $issue
+ * @param array $availability
  *   Issue array, with keys:
  *   - local_id: Periodical identifier.
  *   - provider: Provider identifier, 'alma' here.
@@ -167,15 +167,7 @@ function theme_ding_periodical_issues($variables) {
  *     - available_count
  *     - reservable
  *
- * Keys checked_out_count, reference_count, ordered_count
- * appear only in alma.
- *
- * @todo
- *   This table DOES NOT contain the reservations count,
- *   since this number comes as a separate value, for the whole
- *   ting item, not the periodicals.
- *
- * @return
+ * @return $string
  *   HTML markup for the availability table.
  */
 function ding_periodical_build_table($availability) {
@@ -187,39 +179,37 @@ function ding_periodical_build_table($availability) {
 
   $rows = array();
 
-  if ($availability['provider'] === 'alma') {
-    $header['not_for_loan'] = t('Not for loan');
-    $header['checked_out'] = t('Checked out');
-  }
-
   $i = 0;
-  foreach ($availability['placement'] as $placement) {
-    $rows[$i] = array(
-      $placement['location'],
-      $placement['total_count'],
-      $placement['available_count'],
-    );
+  foreach ($availability['placement'] as $data) {
+    $home = isset($data['available_count']) ? (int) $data['available_count'] : 0;
+    $home += isset($data['reference_count']) ? (int) $data['reference_count'] : 0;
 
-    if ($availability['provider'] === 'alma') {
-      $rows[$i][] = $placement['reference_count'];
-      $rows[$i][] = $placement['checked_out_count'];
-    }
+    $rows[$i] = array(
+      $data['location'],
+      $data['total_count'],
+      $home,
+    );
 
     $i++;
   }
 
   // Note: If stikcy header is TRUE, it will keep adding the js in FF until the
-  //       browser goes down.
-  return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE));
+  // browser goes down.
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'sticky' => FALSE,
+  ));
 }
 
 /**
  * Check if a given issue of a periodical have any copies on the libraries.
  *
  * @param array $issue
- *  An periodical isssue form the provider.
- * @return boolean
- *  If a copy exists it return TRUE else FALSE.
+ *   An periodical issue form the provider.
+ *
+ * @return bool
+ *   If a copy exists it return TRUE else FALSE.
  */
 function ding_periodical_has_copies($issue) {
   foreach ($issue['placement'] as $placement) {

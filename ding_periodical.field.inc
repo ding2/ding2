@@ -71,7 +71,7 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
   $element = array();
 
   // Check that the provider provides holdings information.
-  if (!ding_provider_implements('availability', 'holdings') ) {
+  if (!ding_provider_implements('availability', 'holdings')) {
     return $element;
   }
 
@@ -90,8 +90,8 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
               array(
                 'data' => array(
                   'ding_periodical' => array(
-                     'id' => drupal_html_class($entity->ding_entity_id),
-                     'ding_entity_id'  => $entity->ding_entity_id,
+                    'id' => drupal_html_class($entity->ding_entity_id),
+                    'ding_entity_id' => $entity->ding_entity_id,
                   ),
                 ),
                 'type' => 'setting',
