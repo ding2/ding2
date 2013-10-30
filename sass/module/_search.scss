@@ -140,13 +140,19 @@ input#edit-search-block-form--2.spinner {
 
 .pane-ding-facetbrowser {
 
-  .pane-ding-facetbrowser input.form-checkbox {
+  input.form-radio,
+  input.form-checkbox {
+    float: left;
+
     margin-top: 4px;
     margin-right: 8px;
+    height: 16px;
+    width: 16px;
+
     vertical-align: baseline;
   }
 
-  .pane-ding-facetbrowser label.option {
+  label.option {
     font-weight: inherit;
   }
 
@@ -166,6 +172,7 @@ input#edit-search-block-form--2.spinner {
 
   /* Specific font color for headings and result count */
   h2,
+  .fieldset-legend,
   .count {
     color: $gray-darkest;
   }
@@ -261,11 +268,8 @@ input#edit-search-block-form--2.spinner {
 }
 
 
-.pane-search-backends,
-.pane-ding-facetbrowser {
-  .fieldset-legend {
-    color: $gray-darkest;
-  }
+.pane-search-backends {
+  @extend .pane-ding-facetbrowser;
 }
 
 .facet-browser-toggle {
