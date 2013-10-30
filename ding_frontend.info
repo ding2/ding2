@@ -13,7 +13,6 @@ dependencies[] = dynamic_background
 dependencies[] = fe_block
 dependencies[] = features
 dependencies[] = image
-dependencies[] = l10n_update
 dependencies[] = languageicons
 dependencies[] = locale
 dependencies[] = menu
