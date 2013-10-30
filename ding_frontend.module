@@ -26,13 +26,13 @@ function ding_frontend_field_formatter_info() {
       'label' => t('Calendar page'),
       'field types' => array(
         'datetime',
-      )
+      ),
     ),
     'calendar_header' => array(
       'label' => t('Calendar header'),
       'field types' => array(
         'datetime',
-      )
+      ),
     ),
   );
 }
@@ -62,6 +62,7 @@ function ding_frontend_field_formatter_view($entity_type, $entity, $field, $inst
           '#markup' => theme('calendar_page', $vars),
         );
         break;
+
       case 'calendar_header':
         $date = new DateObject(
           $item['value'],
@@ -93,11 +94,22 @@ function ding_frontend_theme() {
   return array(
     'calendar_page' => array(
       'template' => 'calendar-page',
-      'variables' => array('day' => '', 'month' => '', 'weekday' => '', '' => FALSE),
+      'variables' => array(
+        'day' => '',
+        'month' => '',
+        'weekday' => '',
+        '' => FALSE,
+      ),
     ),
     'calendar_header' => array(
       'template' => 'calendar-header',
-      'variables' => array('day' => '', 'month' => '', 'weekday' => '', 'year' => '', '' => FALSE),
+      'variables' => array(
+        'day' => '',
+        'month' => '',
+        'weekday' => '',
+        'year' => '',
+        '' => FALSE,
+      ),
     ),
   );
 }
@@ -112,3 +124,4 @@ function ding_frontend_cache_actions_panels_cache_key_alter($cache) {
     $cache->key .= ':p' . check_plain($_GET['page']);
   }
 }
+
