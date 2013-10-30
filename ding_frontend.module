@@ -113,3 +113,22 @@ function ding_frontend_theme() {
     ),
   );
 }
+
+/**
+ * Implements hook_query_alter().
+ *
+ * Remove duplicates from the node search result view by grouping by nid and
+ * removing the score field.
+ */
+function ding_frontend_query_alter($query) {
+  if (isset($query->alterMetaData)) {
+    if (isset($query->alterMetaData['view'])) {
+      if ($query->alterMetaData['view']->name == 'ding_node_search') {
+        $fields = &$query->getGroupBy();
+        // Remove the score field and add group by nid.
+        unset($fields['score']);
+        $query->groupBy('nid');
+      }
+    }
+  }
+}
