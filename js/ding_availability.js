@@ -149,12 +149,6 @@
         if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
           // Show status for material.
           $('#' + id).append(Drupal.DADB[entity_id].html);
-
-          // Add reservation and total counts.
-          if (Drupal.DADB[entity_id].total_count != undefined || Drupal.DADB[entity_id].total_count > 0) {
-            var reserver = Drupal.t('We have !x copies and !y reservations for this material.', {'!x' : Drupal.DADB[entity_id].total_count, '!y' : Drupal.DADB[entity_id].reserved_count});
-            $('#' + id).prepend($('<p />', { 'class' : 'holdings-total-count', 'text' : reserver }));
-          }
         }
       }
     }
