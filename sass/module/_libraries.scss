@@ -188,6 +188,10 @@
   .links {
     @extend .sub-menu;
   }
+
+  @include small-medium() {
+    display: none;
+  };
 }
 
 /* Using id, can't remove and add better wrapper class */
@@ -277,3 +281,15 @@
     padding-right: 0;
   }
 }
+
+/* Display responsive menu*/
+.js-library-menu-responsive {
+  display: none;
+
+  @include small-medium() {
+    display: block;
+    padding-top: $medium-spacing;
+    padding-bottom: $medium-spacing;
+  }
+}
+

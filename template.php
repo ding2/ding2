@@ -596,6 +596,9 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $title_prefix = '<i class="icon-signout"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-signout';
       $element['#attributes']['class'][] = 'topbar-link-signout';
+
+      // For some unknown issue translation fails for this title.
+      $element['#title'] = t($element['#title']);
       break;
 
     default:

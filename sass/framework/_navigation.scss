@@ -270,6 +270,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
         padding-left: 12px;
+        width: 95%;
 
         &:hover {
           @include font-bold();
@@ -314,7 +315,7 @@
 /* Sub menu
    ========================================================================== */
 
-.sub-menu-wrapper {
+.pane-taxonomy-menu {
   @include small-medium() {
     display: none;
   }
