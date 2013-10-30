@@ -69,6 +69,8 @@ $search-border-type: solid;
   }
 }
 
+
+/* Search field in content */
 .search-field-in-content--message {
   margin-bottom: 30px;
 }
@@ -89,6 +91,46 @@ $search-border-type: solid;
     @include zen-grid-item(6, 1, right);
   }
 }
+
+
+/* No search results */
+.search-no-results--message {
+  margin-bottom: 30px;
+}
+
+.search-no-results--text {
+  margin-bottom: 20px;
+}
+
+%search-no-results--buttons {
+  @include box-sizing(border-box);
+
+  text-align: center;
+
+  a {
+    font-size: $font-size-medium;
+  }
+}
+
+.search-no-results--buttons-first {
+  @include zen-grid-item(3, 4);
+  @extend %search-no-results--buttons;
+}
+
+.search-no-results--buttons-second {
+  @include zen-grid-item(3, 4, right);
+  @extend %search-no-results--buttons;
+}
+
+
+.search-no-results--help-button {
+  @extend .button;
+}
+
+.search-no-results--contact-button {
+  @extend .button;
+}
+
 
 input#edit-search-block-form--2.spinner {
   background-image: none;
