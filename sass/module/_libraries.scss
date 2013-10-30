@@ -277,3 +277,14 @@
     padding-right: 0;
   }
 }
+
+/* Display responsive menu*/
+.js-library-menu-responsive {
+  display: none;
+
+  @include small-medium() {
+    display: block;
+    padding-top: $medium-spacing;
+    padding-bottom: $medium-spacing;
+  }
+}
