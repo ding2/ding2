@@ -94,8 +94,52 @@ function ding2_install_tasks(&$install_state) {
       'run' => empty($tasks) ? INSTALL_TASK_RUN_IF_REACHED : INSTALL_TASK_SKIP,
       'display' => empty($tasks),
     ),
+
+    // Update translations.
+    'ding2_import_translation' => array(
+      'display_name' => st('Set up translations'),
+      'display' => TRUE,
+      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+      'type' => 'batch',
+    ),
   ) + $tasks + array('profiler_install_profile_complete' => array());
   return $ret;
+}
+
+/**
+ * Translation callback.
+ *
+ * @param $install_state
+ *   An array of information about the current installation state.
+ *
+ * @return array
+ *   List of batches.
+ */
+function ding2_import_translation(&$install_state) {
+  // Enable l10n_update.
+  module_enable(array('l10n_update'), TRUE);
+  // Build batch with l10n_update module.
+  $history = l10n_update_get_history();
+  module_load_include('check.inc', 'l10n_update');
+  $available = l10n_update_available_releases();
+  $updates = l10n_update_build_updates($history, $available);
+
+  // Fire of the batch!
+  module_load_include('batch.inc', 'l10n_update');
+  $updates = _l10n_update_prepare_updates($updates, NULL, array());
+  $batch = l10n_update_batch_multiple($updates, LOCALE_IMPORT_KEEP);
+  return $batch;
+}
+
+/**
+ * Implement hook_install_tasks_alter().
+ *
+ * Remove defualt locale imports.
+ */
+function ding2_install_tasks_alter(&$tasks, $install_state) {
+  // Remove core steps for translation imports.
+  unset($tasks['install_import_locales']);
+  unset($tasks['install_import_locales_remaining']);
 }
 
 /**
@@ -374,7 +418,4 @@ function ding2_module_selection_form_submit($form, &$form_state) {
 
   // Enable the provider (if selected) and modules.
   module_enable($module_list, TRUE);
-
-  // Ignore any other install messages.
-  drupal_get_messages();
 }
