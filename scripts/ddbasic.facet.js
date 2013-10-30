@@ -13,14 +13,13 @@
     }).prependTo('.primary-content');
 
     // Move and show filters on click.
-    $('.facet-browser-toggle').click(function() {
+    $('.facet-browser-toggle').live('click', function() {
       // Clone facet browser if it does not exist.
       var facet_browser_clone = $('.facet-browser-responsive');
       if (!facet_browser_clone.length) {
         // Clone facets.
         facet_browser
           .clone(true)
-          .data( "arr", $.extend( [], facet_browser.data( "arr" )))
           .insertAfter(this)
           .removeAttr('class')
           .addClass('facet-browser-responsive');
@@ -36,7 +35,7 @@
       }
 
       // Add toggle to legend.
-      $('.fieldset-legend', facet_browser_clone).click(function() {
+      $('.fieldset-legend', facet_browser_clone).live('click', function() {
         if ($(this).hasClass('js-facet-browser-legend-visible')) {
           // Hide siblings.
           $(this)
