@@ -62,10 +62,10 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
 
     // Add default option to the start of the array.
     if ($default['module'] == $backend['module']) {
-      array_unshift($options, t($title));
+      array_unshift($options, $title);
     }
     else {
-      $options[$backend['module']] = t($title);
+      $options[$backend['module']] = $title;
     }
   }
 
