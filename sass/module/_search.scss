@@ -346,36 +346,7 @@ input#edit-search-block-form--2.spinner {
 }
 
 .facet-browser-responsive {
-  @extend %search-facet-expand;
-
-  border: $search-border-size $search-border-type $gray;
-  margin-bottom: 20px;
-  padding: 20px;
-
-  fieldset {
-    border: 0;
-    padding: 0;
-  }
-
-  .fieldset-legend {
-    @extend .icon-plus-sign;
-
-    color: $link-color;
-    cursor: pointer;
-
-    &:hover {
-      color: $link-color-hover;
-    }
-
-    &:before {
-      font-family: $base-icon-library-font;
-      margin-right: 8px;
-    }
-
-    &.js-facet-browser-legend-visible {
-      @extend .icon-minus-sign;
-    }
-  }
+  @extend .pane-ding-facetbrowser;
 }
 
 
