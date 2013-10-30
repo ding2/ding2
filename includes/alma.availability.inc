@@ -226,7 +226,7 @@ function _alma_populate_issues($input) {
           'reference_count' => $reference_count,
           'total_count' => $total_count,
           'available_count' => $available_count,
-          'reservable' => ($copy['status'] === 'availableForLoan') ? TRUE : FALSE,
+          'reservable' => ($copy['show_reservation_button'] === 'yes') ? TRUE : FALSE,
         );
       }
     }
