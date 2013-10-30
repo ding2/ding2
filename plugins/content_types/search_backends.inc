@@ -74,7 +74,6 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
 
   // Create the output.
   $block = new stdClass();
-  $block->title = t('Search backends');
   $block->content = $form;
 
   return $block;
@@ -90,6 +89,11 @@ function ting_search_backend_engines_form($form, &$form_state, $options, $defaul
   );
 
   $form['backends'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search in'),
+  );
+
+  $form['backends']['searches'] = array(
     '#type' => 'radios',
     '#required' => FALSE,
     '#options' => $options,
