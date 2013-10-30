@@ -65,7 +65,6 @@ features[image][] = ding_tetiary_small
 features[language][] = da
 features[language][] = en
 features[menu_blocks][] = 1
-features[menu_blocks][] = 2
 features[menu_custom][] = menu-footer-menu-1
 features[menu_custom][] = menu-footer-menu-2
 features[menu_custom][] = menu-footer-menu-3

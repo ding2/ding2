@@ -26,13 +26,13 @@ function ding_frontend_field_formatter_info() {
       'label' => t('Calendar page'),
       'field types' => array(
         'datetime',
-      )
+      ),
     ),
     'calendar_header' => array(
       'label' => t('Calendar header'),
       'field types' => array(
         'datetime',
-      )
+      ),
     ),
   );
 }
@@ -62,6 +62,7 @@ function ding_frontend_field_formatter_view($entity_type, $entity, $field, $inst
           '#markup' => theme('calendar_page', $vars),
         );
         break;
+
       case 'calendar_header':
         $date = new DateObject(
           $item['value'],
@@ -93,22 +94,41 @@ function ding_frontend_theme() {
   return array(
     'calendar_page' => array(
       'template' => 'calendar-page',
-      'variables' => array('day' => '', 'month' => '', 'weekday' => '', '' => FALSE),
+      'variables' => array(
+        'day' => '',
+        'month' => '',
+        'weekday' => '',
+        '' => FALSE,
+      ),
     ),
     'calendar_header' => array(
       'template' => 'calendar-header',
-      'variables' => array('day' => '', 'month' => '', 'weekday' => '', 'year' => '', '' => FALSE),
+      'variables' => array(
+        'day' => '',
+        'month' => '',
+        'weekday' => '',
+        'year' => '',
+        '' => FALSE,
+      ),
     ),
   );
 }
 
 /**
- * Implements hook_cache_actions_panels_cache_key_alter().
+ * Implements hook_query_alter().
  *
- * Add page to view panes cache keys, to not break the pager.
+ * Remove duplicates from the node search result view by grouping by nid and
+ * removing the score field.
  */
-function ding_frontend_cache_actions_panels_cache_key_alter($cache) {
-  if (in_array($cache->pane->type, array('views', 'views_panes')) && isset($_GET['page'])) {
-    $cache->key .= ':p' . check_plain($_GET['page']);
+function ding_frontend_query_alter($query) {
+  if (isset($query->alterMetaData)) {
+    if (isset($query->alterMetaData['view'])) {
+      if ($query->alterMetaData['view']->name == 'ding_node_search') {
+        $fields = &$query->getGroupBy();
+        // Remove the score field and add group by nid.
+        unset($fields['score']);
+        $query->groupBy('nid');
+      }
+    }
   }
 }
