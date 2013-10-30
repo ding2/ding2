@@ -68,5 +68,8 @@ projects[scheduler][version] = "1.1"
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
+projects[taxonomy_menu][subdir] = "contrib"
+projects[taxonomy_menu][version] = "1.4"
+
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.1"
