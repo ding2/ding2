@@ -103,10 +103,11 @@ function theme_ding_periodical_issues($variables) {
       $holding_data = ding_periodical_build_table($availability);
 
       // Check if the volume is reservable and add reservation form.
-      if (!empty($issue_id) && ding_periodical_has_copies($issues[$key])) {
+      if (!empty($issue_id) && ding_periodical_is_reservable($issues[$key])) {
         $reservation = new DingPeriodicalReservable($issue_id, $volume, $key, $variables['entity']);
         $form = ding_provider_get_form('ding_reservation_reserve_form', $reservation, TRUE);
-        $holding_data .= drupal_render($form);
+        $form['#attributes']['class'] = array('reservable');
+        $holding_data .= render($form);
       }
 
       $holdings = array(
@@ -124,7 +125,7 @@ function theme_ding_periodical_issues($variables) {
       );
 
       // Suppose we have dc.type=årbog, where keys for those periodicals are
-      // empty.
+      // empty or 0. Move the layout out.
       if (empty($issue)) {
         $iss[$i]['data'] = $holdings[0]['data'];
         $iss[$i]['class'][] = drupal_html_class('ding-periodical-no-issues');
@@ -211,11 +212,14 @@ function ding_periodical_build_table($availability) {
  * @return bool
  *   If a copy exists it return TRUE else FALSE.
  */
-function ding_periodical_has_copies($issue) {
+function ding_periodical_is_reservable($issue) {
   foreach ($issue['placement'] as $placement) {
-    if ($placement['total_count']) {
+    if ($placement['reservable']) {
+      // Found on placement that had a reservable copy.
       return TRUE;
     }
   }
+
+  // No placements found with reservable copy.
   return FALSE;
 }
