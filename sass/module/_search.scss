@@ -206,10 +206,14 @@ input#edit-search-block-form--2.spinner {
     vertical-align: top;
 
     &:before {
-      font-family: $base-icon-library-font;
+      float: left;
+      margin-right: 3px;
+      margin-top: -1px;
       padding-right: 5px;
-      text-decoration: none;
+
+      font-family: $base-icon-library-font;
       font-size: $font-size-large;
+      text-decoration: none;
     }
   }
 
