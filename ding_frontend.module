@@ -113,15 +113,3 @@ function ding_frontend_theme() {
     ),
   );
 }
-
-/**
- * Implements hook_cache_actions_panels_cache_key_alter().
- *
- * Add page to view panes cache keys, to not break the pager.
- */
-function ding_frontend_cache_actions_panels_cache_key_alter($cache) {
-  if (in_array($cache->pane->type, array('views', 'views_panes')) && isset($_GET['page'])) {
-    $cache->key .= ':p' . check_plain($_GET['page']);
-  }
-}
-
