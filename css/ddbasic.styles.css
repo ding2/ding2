@@ -3087,12 +3087,12 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 354, ../sass/framework/_fontawesome.scss */
-.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-search-backends .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-search-backends .expand-facets-hidden:before, .facet-browser-responsive .fieldset-legend:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle.js-collapsed:before {
+.icon-plus-sign:before, .pane-ding-facetbrowser .expand-more:before, .pane-search-backends .expand-more:before, .facet-browser-responsive .expand-more:before, .pane-ding-facetbrowser .expand-facets-hidden:before, .pane-search-backends .expand-facets-hidden:before, .facet-browser-responsive .fieldset-legend:before, .pane-ting-object .collapsible.collapsed .field-group-format-title:before, .pane-ting-object .expand-more:before, .opening-hours-toggle.js-collapsed:before {
   content: "\f055";
 }
 
 /* line 355, ../sass/framework/_fontawesome.scss */
-.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-search-backends .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .pane-search-backends .expand-facets-visible:before, .facet-browser-responsive .fieldset-legend.js-facet-browser-legend-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before, .opening-hours-toggle.js-expanded:before {
+.icon-minus-sign:before, .pane-ding-facetbrowser .expand-less:before, .pane-search-backends .expand-less:before, .facet-browser-responsive .expand-less:before, .pane-ding-facetbrowser .expand-facets-visible:before, .pane-search-backends .expand-facets-visible:before, .facet-browser-responsive .fieldset-legend.js-facet-browser-legend-visible:before, .pane-ting-object .collapsible .field-group-format-title:before, .pane-ting-object .expand-less:before, .opening-hours-toggle.js-expanded:before {
   content: "\f056";
 }
 
@@ -5829,21 +5829,51 @@ input#edit-search-block-form--2.spinner {
 /* Facet browser styling
    ========================================================================== */
 /* line 190, ../sass/module/_search.scss */
+.pane-ding-facetbrowser, .pane-search-backends, .facet-browser-responsive {
+  /* Expand facets link */
+}
+/* line 192, ../sass/module/_search.scss */
+.pane-ding-facetbrowser .expand, .pane-search-backends .expand, .facet-browser-responsive .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-search-backends .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .pane-search-backends .expand-facets {
+  margin-top: 5px;
+  margin-right: 10px;
+  vertical-align: top;
+}
+/* line 197, ../sass/module/_search.scss */
+.pane-ding-facetbrowser .expand:before, .pane-search-backends .expand:before, .facet-browser-responsive .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-search-backends .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before, .pane-search-backends .expand-facets:before {
+  float: left;
+  margin-right: 3px;
+  margin-top: -1px;
+  padding-right: 5px;
+  font-family: "FontAwesome";
+  font-size: 130%;
+  text-decoration: none;
+}
+/* line 209, ../sass/module/_search.scss */
+.pane-ding-facetbrowser .expand-more, .pane-search-backends .expand-more, .facet-browser-responsive .expand-more {
+  display: block;
+  float: left;
+}
+/* line 215, ../sass/module/_search.scss */
+.pane-ding-facetbrowser .expand-less, .pane-search-backends .expand-less, .facet-browser-responsive .expand-less {
+  display: block;
+  float: left;
+}
+
+/* line 223, ../sass/module/_search.scss */
 .pane-ding-facetbrowser, .pane-search-backends {
   /* General link rules for facet browser */
   /* Specific font color for headings and result count */
   /* Facet group spacing */
-  /* Expand facets link */
   /* Group for selected facets */
   /* Group for unselected facets */
   /* Group with hidden facets */
   /* Media queries */
 }
-/* line 192, ../sass/module/_search.scss */
+/* line 226, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .fieldset-wrapper, .pane-search-backends .fieldset-wrapper {
   margin-top: -15px;
 }
-/* line 197, ../sass/module/_search.scss */
+/* line 231, ../sass/module/_search.scss */
 .pane-ding-facetbrowser input.form-radio, .pane-search-backends input.form-radio,
 .pane-ding-facetbrowser input.form-checkbox,
 .pane-search-backends input.form-checkbox {
@@ -5854,25 +5884,25 @@ input#edit-search-block-form--2.spinner {
   width: 16px;
   vertical-align: baseline;
 }
-/* line 208, ../sass/module/_search.scss */
+/* line 242, ../sass/module/_search.scss */
 .pane-ding-facetbrowser label.option, .pane-search-backends label.option {
   font-weight: inherit;
 }
-/* line 213, ../sass/module/_search.scss */
+/* line 247, ../sass/module/_search.scss */
 .pane-ding-facetbrowser a:link, .pane-search-backends a:link {
   text-decoration: none;
 }
-/* line 216, ../sass/module/_search.scss */
+/* line 250, ../sass/module/_search.scss */
 .pane-ding-facetbrowser a:visited, .pane-search-backends a:visited {
   color: #00b7e7;
 }
-/* line 220, ../sass/module/_search.scss */
+/* line 254, ../sass/module/_search.scss */
 .pane-ding-facetbrowser legend, .pane-search-backends legend {
   line-height: inherit;
   padding-top: 10px;
   padding-bottom: 10px;
 }
-/* line 229, ../sass/module/_search.scss */
+/* line 263, ../sass/module/_search.scss */
 .pane-ding-facetbrowser h2, .pane-search-backends h2,
 .pane-ding-facetbrowser .fieldset-legend,
 .pane-search-backends .fieldset-legend,
@@ -5880,64 +5910,38 @@ input#edit-search-block-form--2.spinner {
 .pane-search-backends .count {
   color: #7c7c7c;
 }
-/* line 234, ../sass/module/_search.scss */
+/* line 268, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .form-wrapper, .pane-search-backends .form-wrapper {
   margin-bottom: 20px;
 }
-/* line 238, ../sass/module/_search.scss */
+/* line 272, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .form-wrapper .fieldset-wrapper .form-checkboxes .form-item, .pane-search-backends .form-wrapper .fieldset-wrapper .form-checkboxes .form-item {
   margin: 5px 0;
 }
-/* line 245, ../sass/module/_search.scss */
-.pane-ding-facetbrowser .expand, .pane-search-backends .expand, .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-search-backends .selected-checkbox-group .unselect, .pane-ding-facetbrowser .expand-facets, .pane-search-backends .expand-facets {
-  margin-top: 5px;
-  margin-right: 10px;
-  vertical-align: top;
-}
-/* line 250, ../sass/module/_search.scss */
-.pane-ding-facetbrowser .expand:before, .pane-search-backends .expand:before, .pane-ding-facetbrowser .selected-checkbox-group .unselect:before, .pane-search-backends .selected-checkbox-group .unselect:before, .pane-ding-facetbrowser .expand-facets:before, .pane-search-backends .expand-facets:before {
-  float: left;
-  margin-right: 3px;
-  margin-top: -1px;
-  padding-right: 5px;
-  font-family: "FontAwesome";
-  font-size: 130%;
-  text-decoration: none;
-}
-/* line 262, ../sass/module/_search.scss */
-.pane-ding-facetbrowser .expand-more, .pane-search-backends .expand-more {
-  display: block;
-  float: left;
-}
-/* line 268, ../sass/module/_search.scss */
-.pane-ding-facetbrowser .expand-less, .pane-search-backends .expand-less {
-  display: block;
-  float: left;
-}
-/* line 276, ../sass/module/_search.scss */
+/* line 279, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group, .pane-search-backends .selected-checkbox-group {
   overflow: hidden;
   margin-bottom: 20px;
 }
-/* line 280, ../sass/module/_search.scss */
+/* line 283, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .selected-checkbox, .pane-search-backends .selected-checkbox-group .selected-checkbox {
   background-color: #efefef;
   padding: 5px;
 }
-/* line 285, ../sass/module/_search.scss */
+/* line 288, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-search-backends .selected-checkbox-group .unselect {
   float: right;
   margin-top: 10px;
 }
-/* line 295, ../sass/module/_search.scss */
+/* line 298, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .unselected-checkbox-group, .pane-search-backends .unselected-checkbox-group {
   clear: right;
 }
-/* line 300, ../sass/module/_search.scss */
+/* line 303, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .hidden-facets-group, .pane-search-backends .hidden-facets-group {
   margin-bottom: 20px;
 }
-/* line 304, ../sass/module/_search.scss */
+/* line 307, ../sass/module/_search.scss */
 .pane-ding-facetbrowser .expand-facets, .pane-search-backends .expand-facets {
   display: block;
   text-align: right;
@@ -5947,19 +5951,19 @@ input#edit-search-block-form--2.spinner {
   border-top: 1px solid #d5d5d5;
 }
 @media only screen and (max-width: 768px) {
-  /* line 190, ../sass/module/_search.scss */
+  /* line 223, ../sass/module/_search.scss */
   .pane-ding-facetbrowser, .pane-search-backends {
     display: none;
   }
 }
 
-/* line 332, ../sass/module/_search.scss */
+/* line 335, ../sass/module/_search.scss */
 .facet-browser-toggle {
   display: none;
   /* Media queries */
 }
 @media only screen and (max-width: 768px) {
-  /* line 332, ../sass/module/_search.scss */
+  /* line 335, ../sass/module/_search.scss */
   .facet-browser-toggle {
     clear: both;
     display: block;
@@ -5967,21 +5971,16 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 345, ../sass/module/_search.scss */
+/* line 348, ../sass/module/_search.scss */
 .facet-browser-responsive {
   border: 1px solid #d5d5d5;
   margin-bottom: 20px;
   padding: 20px;
 }
-/* line 350, ../sass/module/_search.scss */
+/* line 355, ../sass/module/_search.scss */
 .facet-browser-responsive fieldset {
   border: 0;
   padding: 0;
-}
-/* line 356, ../sass/module/_search.scss */
-.facet-browser-responsive .fieldset-wrapper,
-.facet-browser-responsive .expand-more {
-  display: none;
 }
 /* line 360, ../sass/module/_search.scss */
 .facet-browser-responsive .fieldset-legend {

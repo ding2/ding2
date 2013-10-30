@@ -187,7 +187,41 @@ input#edit-search-block-form--2.spinner {
 /* Facet browser styling
    ========================================================================== */
 
+%search-facet-expand {
+  /* Expand facets link */
+  .expand {
+    margin-top: 5px;
+    margin-right: 10px;
+    vertical-align: top;
+
+    &:before {
+      float: left;
+      margin-right: 3px;
+      margin-top: -1px;
+      padding-right: 5px;
+
+      font-family: $base-icon-library-font;
+      font-size: $font-size-large;
+      text-decoration: none;
+    }
+  }
+
+  .expand-more {
+    @extend .icon-plus-sign;
+
+    display: block;
+    float: left;
+  }
+  .expand-less {
+    @extend .icon-minus-sign;
+
+    display: block;
+    float: left;
+  }
+}
+
 .pane-ding-facetbrowser {
+  @extend %search-facet-expand;
 
   .fieldset-wrapper {
     margin-top: -15px;
@@ -239,37 +273,6 @@ input#edit-search-block-form--2.spinner {
         margin: 5px 0;
       }
     }
-  }
-
-  /* Expand facets link */
-  .expand {
-    margin-top: 5px;
-    margin-right: 10px;
-    vertical-align: top;
-
-    &:before {
-      float: left;
-      margin-right: 3px;
-      margin-top: -1px;
-      padding-right: 5px;
-
-      font-family: $base-icon-library-font;
-      font-size: $font-size-large;
-      text-decoration: none;
-    }
-  }
-
-  .expand-more {
-    @extend .icon-plus-sign;
-
-    display: block;
-    float: left;
-  }
-  .expand-less {
-    @extend .icon-minus-sign;
-
-    display: block;
-    float: left;
   }
 
   /* Group for selected facets */
@@ -343,6 +346,8 @@ input#edit-search-block-form--2.spinner {
 }
 
 .facet-browser-responsive {
+  @extend %search-facet-expand;
+
   border: $search-border-size $search-border-type $gray;
   margin-bottom: 20px;
   padding: 20px;
@@ -350,11 +355,6 @@ input#edit-search-block-form--2.spinner {
   fieldset {
     border: 0;
     padding: 0;
-  }
-
-  .fieldset-wrapper,
-  .expand-more {
-    display: none;
   }
 
   .fieldset-legend {
