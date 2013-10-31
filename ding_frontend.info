@@ -62,7 +62,6 @@ features[image][] = ding_secondary_small
 features[image][] = ding_tetiary_large
 features[image][] = ding_tetiary_medium
 features[image][] = ding_tetiary_small
-features[language][] = da
 features[language][] = en
 features[menu_blocks][] = 1
 features[menu_custom][] = menu-footer-menu-1
