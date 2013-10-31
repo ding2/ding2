@@ -7,3 +7,11 @@
 #color_scheme_form #preview {
   display: none;
 }
+
+.form-item-palette-base {
+  display: none;
+}
+
+.form-item-palette-text {
+  display: none;
+}

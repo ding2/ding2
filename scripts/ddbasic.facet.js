@@ -22,7 +22,7 @@
           .clone(true)
           .insertAfter(this)
           .removeAttr('class')
-          .addClass('facet-browser-responsive');
+          .addClass('facet-browser-responsive js-facet-browser-toggle');
       }
       if (facet_browser_clone.hasClass('js-facet-browser-visible')) {
         facet_browser_clone.hide();
