@@ -1,3 +1,4 @@
+@charset "US-ASCII";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -1079,30 +1080,13 @@ table tbody tr:hover th {
 a.button,
 .form-submit,
 #edit-cancel,
-.search .form-submit,
-.search-field-in-content .form-submit,
-.user .form-submit,
 .facet-browser-toggle, form[id^='ding-reservation-reserve-form'].available .reserve-button, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
 .pane-loans .renew-loan-button .renewable,
 .pane-debts .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .pane-reservations .update-reservations .form-submit,
-.pane-reservations .renew-loan-button .form-submit,
-.pane-loans .update-reservations .form-submit,
-.pane-loans .renew-loan-button .form-submit,
-.pane-debts .update-reservations .form-submit,
-.pane-debts .renew-loan-button .form-submit,
-.pane-bookmarks .update-reservations .form-submit,
-.pane-bookmarks .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .pane-bookmarks .ding-entity-button.ding-bookmark-reservation-button a, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
+.pane-bookmarks .renew-loan-button .renewable, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
 .pane-loans .renew-loan-button .not-renewable,
 .pane-debts .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
-.pane-reservations .delete-reservations .form-submit,
-.pane-loans .delete-reservation .form-submit,
-.pane-loans .delete-reservations .form-submit,
-.pane-debts .delete-reservation .form-submit,
-.pane-debts .delete-reservations .form-submit,
-.pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, .pane-bookmarks .ding-entity-button a, #ding-bookmark-remove-form .form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
+.pane-bookmarks .renew-loan-button .not-renewable, .pane-bookmarks .ding-entity-button a, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button, .pane-ting-collection .form-submit,
 .pane-ting-collection .ding-entity-button,
 .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
@@ -1126,24 +1110,10 @@ a.button,
 .facet-browser-toggle:focus, form[id^='ding-reservation-reserve-form'].available .reserve-button:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
 .pane-loans .renew-loan-button .renewable:focus,
 .pane-debts .renew-loan-button .renewable:focus,
-.pane-bookmarks .renew-loan-button .renewable:focus, .pane-reservations .update-reservations .form-submit:focus,
-.pane-reservations .renew-loan-button .form-submit:focus,
-.pane-loans .update-reservations .form-submit:focus,
-.pane-loans .renew-loan-button .form-submit:focus,
-.pane-debts .update-reservations .form-submit:focus,
-.pane-debts .renew-loan-button .form-submit:focus,
-.pane-bookmarks .update-reservations .form-submit:focus,
-.pane-bookmarks .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
+.pane-bookmarks .renew-loan-button .renewable:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
 .pane-loans .renew-loan-button .not-renewable:focus,
 .pane-debts .renew-loan-button .not-renewable:focus,
-.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
-.pane-reservations .delete-reservations .form-submit:focus,
-.pane-loans .delete-reservation .form-submit:focus,
-.pane-loans .delete-reservations .form-submit:focus,
-.pane-debts .delete-reservation .form-submit:focus,
-.pane-debts .delete-reservations .form-submit:focus,
-.pane-bookmarks .delete-reservation .form-submit:focus,
-.pane-bookmarks .delete-reservations .form-submit:focus, .pane-bookmarks .ding-entity-button a:focus, #ding-bookmark-remove-form .form-submit:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
+.pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-bookmarks .ding-entity-button a:focus, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:focus,
 .pane-ting-collection .ding-entity-button:focus,
 .pane-ting-object .ding-entity-button:focus, .button:hover,
 .form-submit:hover,
@@ -1151,24 +1121,10 @@ a.button,
 .facet-browser-toggle:hover, form[id^='ding-reservation-reserve-form'].available .reserve-button:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
 .pane-loans .renew-loan-button .renewable:hover,
 .pane-debts .renew-loan-button .renewable:hover,
-.pane-bookmarks .renew-loan-button .renewable:hover, .pane-reservations .update-reservations .form-submit:hover,
-.pane-reservations .renew-loan-button .form-submit:hover,
-.pane-loans .update-reservations .form-submit:hover,
-.pane-loans .renew-loan-button .form-submit:hover,
-.pane-debts .update-reservations .form-submit:hover,
-.pane-debts .renew-loan-button .form-submit:hover,
-.pane-bookmarks .update-reservations .form-submit:hover,
-.pane-bookmarks .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
+.pane-bookmarks .renew-loan-button .renewable:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
 .pane-loans .renew-loan-button .not-renewable:hover,
 .pane-debts .renew-loan-button .not-renewable:hover,
-.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
-.pane-reservations .delete-reservations .form-submit:hover,
-.pane-loans .delete-reservation .form-submit:hover,
-.pane-loans .delete-reservations .form-submit:hover,
-.pane-debts .delete-reservation .form-submit:hover,
-.pane-debts .delete-reservations .form-submit:hover,
-.pane-bookmarks .delete-reservation .form-submit:hover,
-.pane-bookmarks .delete-reservations .form-submit:hover, .pane-bookmarks .ding-entity-button a:hover, #ding-bookmark-remove-form .form-submit:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
+.pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-bookmarks .ding-entity-button a:hover, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:hover,
 .pane-ting-collection .ding-entity-button:hover,
 .pane-ting-object .ding-entity-button:hover, .button:active,
 .form-submit:active,
@@ -1176,24 +1132,10 @@ a.button,
 .facet-browser-toggle:active, form[id^='ding-reservation-reserve-form'].available .reserve-button:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
 .pane-loans .renew-loan-button .renewable:active,
 .pane-debts .renew-loan-button .renewable:active,
-.pane-bookmarks .renew-loan-button .renewable:active, .pane-reservations .update-reservations .form-submit:active,
-.pane-reservations .renew-loan-button .form-submit:active,
-.pane-loans .update-reservations .form-submit:active,
-.pane-loans .renew-loan-button .form-submit:active,
-.pane-debts .update-reservations .form-submit:active,
-.pane-debts .renew-loan-button .form-submit:active,
-.pane-bookmarks .update-reservations .form-submit:active,
-.pane-bookmarks .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
+.pane-bookmarks .renew-loan-button .renewable:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
 .pane-loans .renew-loan-button .not-renewable:active,
 .pane-debts .renew-loan-button .not-renewable:active,
-.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
-.pane-reservations .delete-reservations .form-submit:active,
-.pane-loans .delete-reservation .form-submit:active,
-.pane-loans .delete-reservations .form-submit:active,
-.pane-debts .delete-reservation .form-submit:active,
-.pane-debts .delete-reservations .form-submit:active,
-.pane-bookmarks .delete-reservation .form-submit:active,
-.pane-bookmarks .delete-reservations .form-submit:active, .pane-bookmarks .ding-entity-button a:active, #ding-bookmark-remove-form .form-submit:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
+.pane-bookmarks .renew-loan-button .not-renewable:active, .pane-bookmarks .ding-entity-button a:active, form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button:active,
 .pane-ting-collection .ding-entity-button:active,
 .pane-ting-object .ding-entity-button:active {
   text-decoration: none;
@@ -1205,24 +1147,10 @@ a.button,
 .disabled.facet-browser-toggle, form[id^='ding-reservation-reserve-form'].available .disabled.reserve-button, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
 .pane-loans .renew-loan-button .disabled.renewable,
 .pane-debts .renew-loan-button .disabled.renewable,
-.pane-bookmarks .renew-loan-button .disabled.renewable, .pane-reservations .update-reservations .disabled.form-submit,
-.pane-reservations .renew-loan-button .disabled.form-submit,
-.pane-loans .update-reservations .disabled.form-submit,
-.pane-loans .renew-loan-button .disabled.form-submit,
-.pane-debts .update-reservations .disabled.form-submit,
-.pane-debts .renew-loan-button .disabled.form-submit,
-.pane-bookmarks .update-reservations .disabled.form-submit,
-.pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
+.pane-bookmarks .renew-loan-button .disabled.renewable, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
 .pane-loans .renew-loan-button .disabled.not-renewable,
 .pane-debts .renew-loan-button .disabled.not-renewable,
-.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-reservations .delete-reservation .disabled.form-submit,
-.pane-reservations .delete-reservations .disabled.form-submit,
-.pane-loans .delete-reservation .disabled.form-submit,
-.pane-loans .delete-reservations .disabled.form-submit,
-.pane-debts .delete-reservation .disabled.form-submit,
-.pane-debts .delete-reservations .disabled.form-submit,
-.pane-bookmarks .delete-reservation .disabled.form-submit,
-.pane-bookmarks .delete-reservations .disabled.form-submit, .pane-bookmarks .ding-entity-button a.disabled, #ding-bookmark-remove-form .disabled.form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
+.pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-bookmarks .ding-entity-button a.disabled, form[id^='ding-reservation-reserve-form'].unavailable.reservable .disabled.reserve-button,
 .pane-ting-collection .disabled.ding-entity-button,
 .pane-ting-object .disabled.ding-entity-button, [disabled].button,
 [disabled].form-submit,
@@ -1230,24 +1158,10 @@ a.button,
 [disabled].facet-browser-toggle, form[id^='ding-reservation-reserve-form'].available [disabled].reserve-button, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
 .pane-loans .renew-loan-button [disabled].renewable,
 .pane-debts .renew-loan-button [disabled].renewable,
-.pane-bookmarks .renew-loan-button [disabled].renewable, .pane-reservations .update-reservations [disabled].form-submit,
-.pane-reservations .renew-loan-button [disabled].form-submit,
-.pane-loans .update-reservations [disabled].form-submit,
-.pane-loans .renew-loan-button [disabled].form-submit,
-.pane-debts .update-reservations [disabled].form-submit,
-.pane-debts .renew-loan-button [disabled].form-submit,
-.pane-bookmarks .update-reservations [disabled].form-submit,
-.pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
+.pane-bookmarks .renew-loan-button [disabled].renewable, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
 .pane-loans .renew-loan-button [disabled].not-renewable,
 .pane-debts .renew-loan-button [disabled].not-renewable,
-.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-reservations .delete-reservation [disabled].form-submit,
-.pane-reservations .delete-reservations [disabled].form-submit,
-.pane-loans .delete-reservation [disabled].form-submit,
-.pane-loans .delete-reservations [disabled].form-submit,
-.pane-debts .delete-reservation [disabled].form-submit,
-.pane-debts .delete-reservations [disabled].form-submit,
-.pane-bookmarks .delete-reservation [disabled].form-submit,
-.pane-bookmarks .delete-reservations [disabled].form-submit, .pane-bookmarks .ding-entity-button a[disabled], #ding-bookmark-remove-form [disabled].form-submit, form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
+.pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-bookmarks .ding-entity-button a[disabled], form[id^='ding-reservation-reserve-form'].unavailable.reservable [disabled].reserve-button,
 .pane-ting-collection [disabled].ding-entity-button,
 .pane-ting-object [disabled].ding-entity-button {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
@@ -1266,9 +1180,6 @@ a.button,
 a.button,
 .form-submit,
 #edit-cancel,
-.search .form-submit,
-.search-field-in-content .form-submit,
-.user .form-submit,
 .facet-browser-toggle {
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #444444), color-stop(100%, #1e1e1e));
   background-image: -webkit-linear-gradient(#444444, #1e1e1e);
@@ -1627,7 +1538,7 @@ button.button {
  * @author magnify
  */
 /* line 8, ../sass/framework/_labels.scss */
-.label, .label-inverted, .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
+.label, .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a, .subjects .subject, .news-list .news-label, .super-heading .field-name-field-ding-news-library .field-item {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -1644,44 +1555,19 @@ button.button {
   /* Make sure it works on a link */
 }
 /* line 23, ../sass/framework/_labels.scss */
-.label a:link, .label-inverted a:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:link, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .label-inverted a:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:visited, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .label-inverted a:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:hover, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
+.label a:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:link, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:link, .subjects .subject a:link, .news-list .news-label a:link, .super-heading .field-name-field-ding-news-library .field-item a:link, .label a:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:visited, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:visited, .subjects .subject a:visited, .news-list .news-label a:visited, .super-heading .field-name-field-ding-news-library .field-item a:visited, .label a:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a a:hover, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a a:hover, .subjects .subject a:hover, .news-list .news-label a:hover, .super-heading .field-name-field-ding-news-library .field-item a:hover {
   color: #fffffd;
   text-decoration: none;
 }
 /* line 31, ../sass/framework/_labels.scss */
-.label:link, .label-inverted:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:link, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .label-inverted:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:visited, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
+.label:link, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:link, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:link, .subjects .subject:link, .news-list .news-label:link, .super-heading .field-name-field-ding-news-library .field-item:link, .label:visited, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:visited, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:visited, .subjects .subject:visited, .news-list .news-label:visited, .super-heading .field-name-field-ding-news-library .field-item:visited {
   color: #fffffd;
 }
 /* line 35, ../sass/framework/_labels.scss */
-.label:hover, .label-inverted:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:hover, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
+.label:hover, .view-node-search-result .list-item .field-type-taxonomy-term-reference a:hover, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a:hover, .subjects .subject:hover, .news-list .news-label:hover, .super-heading .field-name-field-ding-news-library .field-item:hover {
   background-color: #00a1cb;
   color: #fffffd;
   text-decoration: none;
-}
-
-/* line 43, ../sass/framework/_labels.scss */
-.label-inverted {
-  background-color: #000002;
-  color: #00cafc;
-  /* Make sure it works with a wrapper */
-  /* Make sure it works on a link */
-}
-/* line 51, ../sass/framework/_labels.scss */
-.label-inverted a:link {
-  color: #00cafc;
-}
-/* line 55, ../sass/framework/_labels.scss */
-.label-inverted a:hover {
-  color: #00cafc;
-}
-/* line 61, ../sass/framework/_labels.scss */
-.label-inverted:link {
-  color: #00cafc;
-}
-/* line 65, ../sass/framework/_labels.scss */
-.label-inverted:hover {
-  background-color: black;
-  color: #00cafc;
 }
 
 /**
@@ -4030,12 +3916,12 @@ body {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -4315,12 +4201,12 @@ body {
   clear: left;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
@@ -5139,12 +5025,12 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .view-node-search-result .list-item:before, .ting-reference-reverse-list .list-item:before, .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   clear: both;
 }
@@ -7125,12 +7011,12 @@ input#edit-search-block-form--2.spinner {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
@@ -7627,7 +7513,7 @@ input#edit-search-block-form--2.spinner {
   padding: 10px 0;
 }
 /* line 163, ../sass/module/_news.scss */
-.super-heading .label, .super-heading .label-inverted, .super-heading .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .view-node-search-result .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
+.super-heading .label, .super-heading .view-node-search-result .list-item .field-type-taxonomy-term-reference a, .view-node-search-result .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference a, .ting-reference-reverse-list .list-item .field-type-taxonomy-term-reference .super-heading a, .super-heading .subjects .subject, .subjects .super-heading .subject, .super-heading .news-list .news-label, .news-list .super-heading .news-label, .super-heading .field-name-field-ding-news-library .field-item,
 .super-heading .field,
 .super-heading .field-items,
 .super-heading .field-item {

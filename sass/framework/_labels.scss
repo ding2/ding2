@@ -38,32 +38,3 @@
     text-decoration: none;
   }
 }
-
-
-.label-inverted {
-  @extend .label;
-
-  background-color: $label-bg-color-inverted;
-  color: $label-text-color-inverted;
-
-  /* Make sure it works with a wrapper */
-  a {
-    &:link {
-      color: $label-text-color-inverted;
-    }
-
-    &:hover {
-      color: $label-text-color-inverted;
-    }
-  }
-
-  /* Make sure it works on a link */
-  &:link {
-    color: $label-text-color-inverted;
-  }
-
-  &:hover {
-    background-color: darken($label-bg-color-inverted, 10%);
-    color: $label-text-color-inverted;
-  }
-}

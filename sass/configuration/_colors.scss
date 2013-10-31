@@ -10,10 +10,10 @@
 $topbar-background-color:         #000001 !default;
 
 /* Header */
-$header_background_color:         #00caff;
+$header-background-color:         #00caff;
 
 /* Navigation */
-$navigation_background_color:     #fffffc !default;
+$navigation-background-color:     #fffffc !default;
 
 /* Links */
 $link-color:                      #00b7e7 !default;
@@ -21,9 +21,9 @@ $link-color-hover:                #006681 !default;
 
 /* Labels */
 $label-bg-color:                  #00cafe !default;
+$label-bg-color-hover:            #00a7d2 !default;
 $label-text-color:                #fffffd !default;
-$label-bg-color-inverted:         #000002 !default;
-$label-text-color-inverted:       #00cafc !default;
+$label-text-color-hover:          #fafaf7 !default;
 
 /* Content */
 $content-background-color:        #fffffe !default;
