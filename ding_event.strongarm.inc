@@ -296,7 +296,7 @@ function ding_event_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'taxonomy_menu_vocab_parent_event_category';
-  $strongarm->value = '1816';
+  $strongarm->value = '251';
   $export['taxonomy_menu_vocab_parent_event_category'] = $strongarm;
 
   $strongarm = new stdClass();
