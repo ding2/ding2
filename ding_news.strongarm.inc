@@ -282,14 +282,14 @@ function ding_news_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'taxonomy_menu_vocab_menu_news_category';
-  $strongarm->value = 'main-menu';
+  $strongarm->value = 0;
   $export['taxonomy_menu_vocab_menu_news_category'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'taxonomy_menu_vocab_parent_news_category';
-  $strongarm->value = '1793';
+  $strongarm->value = 0;
   $export['taxonomy_menu_vocab_parent_news_category'] = $strongarm;
 
   $strongarm = new stdClass();
