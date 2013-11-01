@@ -107,6 +107,14 @@ and you need to rebuild.
   ~$ drush cc drush
 ```
 
+## Alternative installation method
+If you are using an deployment system you may not want to patch Drupal core
+manually in a production environment.
+```sh
+  ~$ wget https://github.com/ding2tal/ding2/blob/development/drupal.make
+  ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
+```
+
 # Post installation
 After you have finished the installation there are some performance optimization
 that you should put into your settings.php file.
