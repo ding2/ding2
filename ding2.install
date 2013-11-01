@@ -1,5 +1,8 @@
 <?php
-// $Id$
+/**
+ * @file
+ * Setup default theme, shortcusts, roles, language, search and features.
+ */
 
 /**
  * Implements hook_install().
@@ -11,6 +14,7 @@ function ding2_install() {
   $default_theme = 'ddbasic';
   $admin_theme = 'seven';
 
+  $t = get_t();
 
   //
   // Disable all themes and only active default and admin themes.
@@ -20,7 +24,7 @@ function ding2_install() {
     ->condition('type', 'theme')
     ->execute();
 
-  // Enable themes
+  // Enable themes.
   theme_enable(array($default_theme, $admin_theme));
 
   // Enable $default_theme.
@@ -41,8 +45,18 @@ function ding2_install() {
   $shortcut_set->links = array(
     array(
       'link_path' => 'admin/config/regional/translate',
-      'link_title' => st('Translation'),
+      'link_title' => $t('Translation'),
       'weight' => -17,
+    ),
+    array(
+      'link_path' => 'admin/appearance/settings/ddbasic',
+      'link_title' => $t('Theme settings'),
+      'weight' => -18,
+    ),
+    array(
+      'link_path' => 'admin/config/user-interface/backgrounds',
+      'link_title' => $t('Backgrounds'),
+      'weight' => -19,
     ),
   );
   shortcut_set_save($shortcut_set);
@@ -69,10 +83,10 @@ function ding2_install() {
   // Update the menu router information (new permissions).
   menu_rebuild();
 
-  // Set default source language for i18n module
+  // Set default source language for i18n module.
   variable_set('i18n_string_source_language', 'en');
 
-  // Disable configurable timezones for users
+  // Disable configurable timezones for users.
   variable_set('configurable_timezones', 0);
 
   // Select the ding_frontpage as front page.
@@ -114,6 +128,14 @@ function ding2_install() {
     // at this point.
   }
 
+  // Submit theme settings.
+  module_load_include('inc', 'system', 'system.admin');
+  $form_state = form_state_defaults();
+  $form_state['build_info']['args'][0] = 'ddbasic';
+  $form_state['values'] = array();
+  $form_state['values']['scheme'] = 'classic';
+  drupal_form_submit('system_theme_settings', $form_state);
+
   //
   //  Features.
   //
@@ -128,7 +150,6 @@ function ding2_install() {
     'ding_page',
     'ding_frontend',
     'ding_ting_frontend',
-    'ding_user_roles',
     'ding_event',
     'ding_library',
     'ding_news',
@@ -137,7 +158,7 @@ function ding2_install() {
   );
   ding2_features_revert($features);
 
-  // Set page not found
+  // Set page not found.
   ding2_set_page_not_found();
 
   // Ignore any rebuild messages.
@@ -154,7 +175,7 @@ function ding2_install() {
  * Reverts a given set of feature modules.
  *
  * @param array $modules
- *  Names of the modules to revert.
+ *   Names of the modules to revert.
  */
 function ding2_features_revert($modules = array()) {
   foreach ($modules as $module) {
@@ -175,7 +196,7 @@ function ding2_features_revert($modules = array()) {
  * Set default theme setting for ddbasic.
  *
  * @return array
- *  The default theme settings.
+ *   The default theme settings.
  */
 function ding2_theme_settings() {
   return array(
@@ -239,4 +260,40 @@ function ding2_set_page_not_found() {
 
   // Set the 404 page.
   variable_set('site_404', 'siden-ikke-fundet');
+}
+
+/**
+ * Enable new shortcuts.
+ */
+function ding2_update_7000() {
+  $t = get_t();
+
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+
+  $shortcut_set->links[] = array(
+    'link_path' => 'admin/appearance/settings/ddbasic',
+    'link_title' => $t('Theme settings'),
+    'weight' => -18,
+  );
+  $shortcut_set->links[] = array(
+    'link_path' => 'admin/config/user-interface/backgrounds',
+    'link_title' => $t('Backgrounds'),
+    'weight' => -19,
+  );
+
+  shortcut_set_save($shortcut_set);
+
+  return array();
+}
+
+/**
+ * Append default ddbasic theme settings.
+ */
+function ding2_update_7001() {
+  module_load_include('inc', 'system', 'system.admin');
+  $form_state = form_state_defaults();
+  $form_state['build_info']['args'][0] = 'ddbasic';
+  $form_state['values'] = array();
+  $form_state['values']['scheme'] = 'classic';
+  drupal_form_submit('system_theme_settings', $form_state);
 }

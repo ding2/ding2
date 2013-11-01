@@ -20,11 +20,16 @@ dependencies[] = menu_position
 dependencies[] = securepages
 
 ; Ding modules.
+dependencies[] = ding_base
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 dependencies[] = ding_frontpage
 dependencies[] = ding_library_menu
 dependencies[] = ding_session_cache
 dependencies[] = ding_bookmark
+
+; Cache/performance modules
+dependencies[] = entitycache
+dependencies[] = ding_varnish
 
 files[] = ding2.profile

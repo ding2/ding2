@@ -32,10 +32,10 @@ projects[ding_ting_frontend][download][type] = "git"
 projects[ding_ting_frontend][download][url] = "git@github.com:ding2tal/ding_ting_frontend.git"
 projects[ding_ting_frontend][download][branch] = "development"
 
-projects[mkdru_ding_frontend][type] = "module"
-projects[mkdru_ding_frontend][download][type] = "git"
-projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2tal/mkdru_ding_frontend.git"
-projects[mkdru_ding_frontend][download][branch] = "development"
+#projects[mkdru_ding_frontend][type] = "module"
+#projects[mkdru_ding_frontend][download][type] = "git"
+#projects[mkdru_ding_frontend][download][url] = "git@github.com:ding2tal/mkdru_ding_frontend.git"
+#projects[mkdru_ding_frontend][download][branch] = "development"
 
 projects[ding_content][type] = "module"
 projects[ding_content][download][type] = "git"
@@ -82,6 +82,17 @@ projects[ding_session_cache][download][type] = "git"
 projects[ding_session_cache][download][url] = "git@github.com:ding2tal/ding_session_cache.git"
 projects[ding_session_cache][download][branch] = "development"
 
+projects[ding_varnish][type] = "module"
+projects[ding_varnish][download][type] = "git"
+projects[ding_varnish][download][url] = "git@github.com:ding2tal/ding_varnish.git"
+projects[ding_varnish][download][branch] = "development"
+
+projects[ding_contact][type] = "module"
+projects[ding_contact][download][type] = "git"
+projects[ding_contact][download][url] = "git@github.com:ding2tal/ding_contact.git"
+projects[ding_contact][download][branch] = "development"
+
+; Base theme
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
 projects[ddbasic][download][url] = "git@github.com:ding2tal/ddbasic.git"
@@ -94,6 +105,23 @@ libraries[profiler][download][tag] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 ; Contrib modules
+projects[entitycache][subdir] = "contrib"
+projects[entitycache][version] = "1.1"
+
+projects[expire][subdir] = "contrib"
+projects[expire][version] = "1.0-beta1"
+
+projects[fontyourface][subdir] = "contrib"
+projects[fontyourface][version] = "2.7"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.7"
 
+projects[memcache][subdir] = "contrib"
+projects[memcache][version] = "1.0"
+
+projects[apc][subdir] = "contrib"
+projects[apc][version] = "1.0-beta4"
+
+projects[varnish][subdir] = "contrib"
+projects[varnish][version] = "1.0-beta2"
