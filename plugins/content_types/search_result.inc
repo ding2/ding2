@@ -20,6 +20,8 @@ if (module_exists('search')) {
       'no_key' => '',
       'no_key_format' => filter_fallback_format(),
     ),
+    'render first' => TRUE,
+    'render last' => FALSE,
   );
 }
 
