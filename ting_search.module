@@ -780,7 +780,7 @@ function ting_search_sort_form_submit($form, &$form_state) {
  * Create links for changing how many records per page.
  */
 function records_per_page_controls_content() {
-  $size = NULL;
+  $markup = '';
 
   $search_result = drupal_static('ting_search_results');
 
@@ -814,19 +814,22 @@ function records_per_page_controls_content() {
         $classes += array('selected');
       }
       // Create size render array.
+      $markup .= l($text, $_GET['q'], array(
+        'query' => $sz + $pg + drupal_get_query_parameters(),
+        'attributes' => array(
+          'class' => $classes,
+        ),
+      ));
+    }
+
+    if (!empty($markup)) {
       $size = array(
         '#type' => 'markup',
         '#prefix' => '<div id="ting-search-records-per-page">' . t('Results on page:'),
         '#suffix' => '</div>',
-        '#markup' => l($text, $_GET['q'], array(
-          'query' => $sz + $pg + drupal_get_query_parameters(),
-          'attributes' => array(
-            'class' => $classes,
-          ),
-        )),
+        '#markup' => $markup,
       );
     }
-
     return $size;
   }
 }
