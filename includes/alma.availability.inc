@@ -82,6 +82,10 @@ function alma_availability_holdings($provider_ids, $reset = FALSE) {
               $holding['holdings'][$index]['placement'][] = $org['sublocation'][$data['sublocation_id']];
             }
 
+            if (!empty($data['collection_id'])) {
+              $holding['holdings'][$index]['placement'][] = $org['collection'][$data['collection_id']];
+            }
+
             if (!empty($data['shelf_mark'])) {
               $holding['holdings'][$index]['placement'][] = $data['shelf_mark'];
             }
