@@ -27,7 +27,7 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
   drupal_add_js(array(
     'dingFacetBrowser' => array(
-      'mainElement' => '.pane-ding-facetbrowser',
+      'facetElement' => '.js-facet-browser-toggle',
       'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5),
     )
   ), 'setting');
@@ -51,7 +51,7 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
       }
     }
     $block->title = t('Ding Facetbrowser');
-    $block->content = $block_content;
+    $block->content = '<div class="js-facet-browser-toggle">' . $block_content . '</div>';
     return $block;
   }
 }

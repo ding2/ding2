@@ -314,7 +314,7 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   // TODO: Get the facetbrowser dom id automatic
   drupal_add_js(array(
     'dingFacetBrowser' => array(
-    'mainElement' => '.pane-ding-facetbrowser',
+    'facetElement' => '.js-facet-browser-toggle',
     'showCount' => variable_get('ding_facetbrowser_number_of_terms', 5)),
   ), 'setting');
 

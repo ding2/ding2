@@ -5,7 +5,7 @@
     attach: function(context, settings) {
       Drupal.FoldFacetGroup();
 
-      var main_element = $(Drupal.settings.dingFacetBrowser.mainElement);
+      var main_element = $(Drupal.settings.dingFacetBrowser.facetElement);
 
       // Wrap all facet fieldsets marked as hidden in a container so we can hide
       // em. The link text is show less and will be changed to show more if the
@@ -54,7 +54,7 @@
   */
   Drupal.FoldFacetGroup = function() {
 
-    var main_element = $(Drupal.settings.dingFacetBrowser.mainElement);
+    var main_element = $(Drupal.settings.dingFacetBrowser.facetElement);
 
     // Add show more button to each facet group and hide some terms.
     main_element.find('fieldset.form-wrapper').each(function() {
