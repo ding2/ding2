@@ -29,8 +29,10 @@ function alma_debt_list($account, $reset = FALSE) {
     foreach ($debts['debts'] as $debt) {
       // Get the material number from the display name and remove it form it.
       preg_match('/^(\w+)\s+(.+)/', $debt['display_name'], $matchs);
-      $debt['display_name'] = $matchs[2];
-      $debt['material_number'] = $matchs[1];
+      if (count($matchs) == 3) {
+        $debt['display_name'] = $matchs[2];
+        $debt['material_number'] = $matchs[1];
+      }
 
       // Translate the fee type code into an text string.
       $debt['type'] = alma_debt_translate_debt_type($debt['type']);

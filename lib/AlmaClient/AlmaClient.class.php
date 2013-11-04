@@ -717,13 +717,20 @@ class AlmaClient {
     if ($record['media_class'] != 'periodical') {
       $record['holdings'] = AlmaClient::process_catalogue_record_holdings($elem);
     }
-    // Periodicals are nested holdings, which we want to keep that way.
     else {
+      // Periodicals are nested holdings, which we want to keep that way.
       foreach ($elem->getElementsByTagName('compositeHoldings') as $holdings) {
         foreach ($holdings->childNodes as $year_holdings) {
           $year = $year_holdings->getAttribute('value');
           foreach ($year_holdings->childNodes as $issue_holdings) {
             $issue = $issue_holdings->getAttribute('value');
+
+            // If this is a yearly publication it do not have issues.
+            if (empty($issue)) {
+              // So we set the issue to index as a single element.
+              $issue = 0;
+            }
+
             $holdings = AlmaClient::process_catalogue_record_holdings($issue_holdings);
             $record['holdings'][$year][$issue] = $holdings;
             $issue_list = array(
@@ -744,7 +751,6 @@ class AlmaClient {
                 }
               }
             }
-
             $record['issues'][$year][$issue] = $issue_list;
           }
         }
@@ -764,6 +770,7 @@ class AlmaClient {
       $holdings[] = array(
         'reservable' => $item->getAttribute('reservable'),
         'status' => $item->getAttribute('status'),
+        'show_reservation_button' => $item->getAttribute('showReservationButton'),
         'ordered_count' => (int) $item->getAttribute('nofOrdered'),
         'checked_out_count' => (int) $item->getAttribute('nofCheckedOut'),
         'reference_count' => (int) $item->getAttribute('nofReference'),
