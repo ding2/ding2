@@ -44,6 +44,37 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_on_this_site|ting_object|ting_object|default';
+  $field_group->group_name = 'group_on_this_site';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'On this site',
+    'weight' => '4',
+    'children' => array(
+      0 => 'ting_reference_reverse',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'On this site',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '1',
+        'label_element' => 'h2',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_on_this_site|ting_object|ting_object|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_ting_left_col_collection|ting_object|ting_object|collection_list';
   $field_group->group_name = 'group_ting_left_col_collection';
   $field_group->entity_type = 'ting_object';

@@ -289,7 +289,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ding_periodical',
         'settings' => array(),
         'type' => 'ding_periodical_issues_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -579,11 +579,11 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 29,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ting_reference',
         'settings' => array(),
         'type' => 'ting_reference_reverse_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -651,7 +651,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting_relation',
         'settings' => array(),
         'type' => 'ting_relations_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'search_result' => array(
         'label' => 'above',
