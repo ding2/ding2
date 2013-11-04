@@ -10,7 +10,7 @@
  */
 function ting_schema() {
   $schema = array();
-  
+
   $schema['ting_object'] = array(
     'description' => 'Local proxy table for ting objects.',
     'fields' => array(
@@ -84,6 +84,9 @@ function ting_schema() {
       ),
     ),
   );
+
+  // Cache table used by ting_execute_cache.
+  $schema['cache_ting'] = drupal_get_schema_unprocessed('system', 'cache');
 
   return $schema;
 }
@@ -210,4 +213,14 @@ function ting_update_7000() {
     ))
     ->condition('module', 'ting')
     ->execute();
+}
+
+/**
+ * Add cache table to use with ting_execute_cache().
+ */
+function ting_update_7001() {
+  $schema = ting_schema();
+  $ret = array();
+  $ret[] = db_create_table('cache_ting', $schema['cache_ting']);
+  return $ret;
 }

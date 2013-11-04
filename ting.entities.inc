@@ -202,9 +202,9 @@ class TingEntity extends DingEntity {
 
   function getRelations() {
     // If relations are not set; do another request to get relations
-    if( !isset($this->reply->relationsData) ) {
-      $tingClientObject = ting_get_object_request($this->ding_entity_id);
-      if( isset($tingClientObject->relationsData) ) {
+    if (!isset($this->reply->relationsData)) {
+      $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
+      if (isset($tingClientObject->relationsData)) {
         $this->reply->relationsData = $tingClientObject->relationsData;
       }
     }
@@ -268,7 +268,7 @@ class TingEntity extends DingEntity {
     // relations. First check if relations are set; if not do another request
     // to get relations
     if (!isset($this->reply->relationsData)) {
-      $tingClientObject = ting_get_object_request($this->ding_entity_id);
+      $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
       if (isset($tingClientObject->relationsData)) {
         $this->reply->relationsData = $tingClientObject->relationsData;
       }

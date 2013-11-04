@@ -98,10 +98,10 @@ class TingObjectController extends DrupalDefaultEntityController {
     }
 
     // Not known locally. Create a proxy if it exists in the well.
-    if (sizeof($unknown)) {
+    if (count($unknown)) {
       $new_ids = array();
       foreach ($unknown as $ding_entity_id) {
-        if (isset($objects[$ding_entity_id])){
+        if (isset($objects[$ding_entity_id])) {
           // Insert a new local proxy row.
           $ting_object = array(
             'ding_entity_id' => $ding_entity_id,
@@ -158,6 +158,7 @@ class TingObjectController extends DrupalDefaultEntityController {
     }
     return $entities;
   }
+
   /**
    * Gets entities from the static cache.
    *
@@ -180,15 +181,16 @@ class TingObjectController extends DrupalDefaultEntityController {
     // Exclude any entities loaded from cache if they don't match $conditions.
     // This ensures the same behavior whether loading from memory or database.
     if ($conditions) {
-      foreach ($entities as $entity) {
-        $entity_values = (array) $entity;
-        $diffs = array_diff_assoc($conditions, $entity_values);
-        if ($diffs) {
-          if (array_keys($diffs) != array('ding_entity_id') || !in_array($entity_values['ding_entity_id'], $diffs['ding_entity_id'])) {
+      // Check that conditions has ding_entity_id key.
+      if (!empty($conditions['ding_entity_id'])) {
+        foreach ($entities as $entity) {
+          if (!in_array($entity->ding_entity_id, $conditions['ding_entity_id'])) {
             unset($entities[$entity->{$this->idKey}]);
-          }}
+          }
+        }
       }
     }
+
     return $entities;
   }
 }
