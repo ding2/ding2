@@ -20,7 +20,7 @@ $plugin = array(
 );
 
 /**
- * Check the access
+ * Check the access.
  */
 function ding_user_external_user_access_check($conf, $context) {
   if (empty($context) || empty($context[0]->data) || user_is_anonymous()) {

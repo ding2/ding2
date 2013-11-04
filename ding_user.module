@@ -4,7 +4,7 @@
  * Ding user handling module.
  */
 
-include_once('ding_user_comments.inc');
+include_once 'ding_user_comments.inc';
 
 /**
  * Index used in sessions to implement logged in use session expire possible.
@@ -23,7 +23,7 @@ function ding_user_ctools_plugin_directory($owner, $plugin_type) {
 }
 
 /**
- * Implement hook_ctools_plugin_api().
+ * Implements hook_ctools_plugin_api().
  *
  * If you do this, CTools will pick up default panels pages in
  * ding_user.pages_default.inc
@@ -83,7 +83,7 @@ function ding_user_menu_alter(&$items) {
  * This is wrong because there already is a form tag which creates an illegal
  * html markup with nested form tag.
  *
- * This happens because Panels Everwhere reuses code from panels. Because there
+ * This happens because Panels Everywhere reuses code from panels. Because there
  * exist a form in contexts the function function panels_render_display() puts
  * an extra form around the code.
  *
@@ -99,7 +99,6 @@ function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
     }
   }
 }
-
 
 /**
  * Implements hook_entity_info_alter().
@@ -210,6 +209,14 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#options' => $period,
     '#description' => t('Uses that have not been active for this period will be automatically logged out.'),
   );
+
+  // Tax for SMS.
+  $form['ding_user']['ding_user_tax_sms'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tax for SMS'),
+    '#default_value' => variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS')),
+    '#description' => t('Description to show user if a TAX for SMS is defined.'),
+  );
 }
 
 /**
@@ -258,6 +265,13 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       $form['#submit'][] = 'ding_user_profile_update_submit';
     }
   }
+
+  $tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
+  $form['ding_user_tax_sms'] = array(
+    '#type' => 'item',
+    '#markup' => $tax_sms,
+    '#weight' => 0,
+  );
 }
 
 /**
@@ -763,7 +777,7 @@ function ding_user_get_creds($user = NULL) {
       $timeout = variable_get('ding_user_session_expire', 900);
       $roles = array_values($user->roles);
       // User who are authenticated but has no other roles (i.e. ding user).
-      if (sizeof($roles) == 1 && $roles[0] == 'authenticated user' && $timeout != 0) {
+      if (count($roles) == 1 && $roles[0] == 'authenticated user' && $timeout != 0) {
         // Check if session is expired.
         if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > variable_get('ding_user_session_expire', 900))) {
           watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
@@ -883,6 +897,20 @@ function ding_user_comment_load($comments) {
       continue;
     }
     $comment->name = $user_names[$comment->uid];
+  }
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ *
+ * Alter user profile view with SMS TAX.
+ */
+function ding_user_field_attach_view_alter(&$output, $context) {
+  if (isset($output['field_alma_mobile_phone'][0]['#markup'])) {
+    $ding_user_tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
+    if ($ding_user_tax_sms) {
+      $output['field_alma_mobile_phone'][0]['#markup'] .= '<span class="notice-sms">(' . $ding_user_tax_sms . ')</span>';
+    }
   }
 }
 
