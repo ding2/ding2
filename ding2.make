@@ -108,9 +108,6 @@ libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.1"
 
-projects[expire][subdir] = "contrib"
-projects[expire][version] = "1.0-beta1"
-
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 
@@ -122,6 +119,3 @@ projects[memcache][version] = "1.0"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
-
-projects[varnish][subdir] = "contrib"
-projects[varnish][version] = "1.0-beta2"
