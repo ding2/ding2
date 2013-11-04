@@ -69,9 +69,9 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_ding_reservation_lists_date';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_ding_reservation_lists_date'] = $strongarm;
+  $strongarm->name = 'date_format_ding_material_lists_date';
+  $strongarm->value = 'j. F Y';
+  $export['date_format_ding_material_lists_date'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -118,6 +118,69 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'ding_varnish_content_types';
+  $strongarm->value = array(
+    'ding_event' => 'ding_event',
+    'ding_library' => 'ding_library',
+    'ding_news' => 'ding_news',
+    'ding_page' => 'ding_page',
+    'new_materials' => 'new_materials',
+    'ding_campaign' => 0,
+    'panel' => 0,
+    'ding_rolltab' => 0,
+  );
+  $export['ding_varnish_content_types'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ding_varnish_paths';
+  $strongarm->value = '<front>
+arrangementer/*
+biblioteker/*
+nyematerialer/*
+nyheder/*
+search/ting/*';
+  $export['ding_varnish_paths'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ding_varnish_role';
+  $strongarm->value = '2';
+  $export['ding_varnish_role'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'expire_flush_front';
+  $strongarm->value = 1;
+  $export['expire_flush_front'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'expire_flush_menu_items';
+  $strongarm->value = '1';
+  $export['expire_flush_menu_items'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'expire_flush_node_terms';
+  $strongarm->value = 1;
+  $export['expire_flush_node_terms'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'expire_include_base_url';
+  $strongarm->value = 0;
+  $export['expire_include_base_url'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'globalredirect_settings';
   $strongarm->value = array(
     'language_redirect' => 1,
@@ -151,6 +214,34 @@ function ding_base_strongarm() {
   $strongarm->name = 'jquery_update_jquery_version';
   $strongarm->value = '1.7';
   $export['jquery_update_jquery_version'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'varnish_bantype';
+  $strongarm->value = '0';
+  $export['varnish_bantype'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'varnish_cache_clear';
+  $strongarm->value = '2';
+  $export['varnish_cache_clear'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'varnish_flush_cron';
+  $strongarm->value = '1';
+  $export['varnish_flush_cron'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'varnish_version';
+  $strongarm->value = '3';
+  $export['varnish_version'] = $strongarm;
 
   return $export;
 }
