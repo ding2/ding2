@@ -31,13 +31,11 @@ function ding_staff_default_page_manager_handlers() {
     'access' => array(
       'plugins' => array(
         0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 8,
-            ),
+          'name' => 'has_staff_role',
+          'settings' => NULL,
+          'context' => array(
+            0 => 'argument_entity_id:user_1',
           ),
-          'context' => 'argument_entity_id:user_1',
           'not' => FALSE,
         ),
         1 => array(
