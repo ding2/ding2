@@ -24,6 +24,12 @@ function ding_news_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -70,6 +76,13 @@ function ding_news_field_default_field_instances() {
         'type' => 'taxonomy_term_reference_link',
         'weight' => 1,
       ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 4,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'taxonomy',
@@ -113,6 +126,12 @@ function ding_news_field_default_field_instances() {
         'settings' => array(),
         'type' => 'file_url_plain',
         'weight' => 6,
+      ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -180,6 +199,13 @@ function ding_news_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -214,51 +240,6 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_library'
-  $field_instances['node-ding_news-field_ding_news_library'] = array(
-    'bundle' => 'ding_news',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 2,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 2,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'hidden',
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 2,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ding_news_library',
-    'label' => 'Library',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'ding_content',
-      'settings' => array(),
-      'type' => 'ding_content_group_audience_library',
-      'weight' => 7,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_news-field_ding_news_list_image'
   $field_instances['node-ding_news-field_ding_news_list_image'] = array(
     'bundle' => 'ding_news',
@@ -270,6 +251,16 @@ function ding_news_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 8,
+      ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'cs_adaptive_image',
+        'settings' => array(
+          'image_link' => '',
+          'styles' => '',
+        ),
+        'type' => 'cs_adaptive_image',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -353,6 +344,12 @@ function ding_news_field_default_field_instances() {
         'type' => 'ting_reference_default',
         'weight' => 7,
       ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -395,6 +392,13 @@ function ding_news_field_default_field_instances() {
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 5,
+      ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -450,6 +454,12 @@ function ding_news_field_default_field_instances() {
         ),
         'type' => 'cs_adaptive_image',
         'weight' => 0,
+      ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -518,6 +528,78 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ding_news-og_group_ref'
+  $field_instances['node-ding_news-og_group_ref'] = array(
+    'bundle' => 'ding_news',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Select the libraries this content should be associated with.',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'og_ui',
+        'settings' => array(),
+        'type' => 'og_list_default',
+        'weight' => 9,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'og_group_ref',
+    'label' => 'Library',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'og_widget' => array(
+          'admin' => array(
+            'widget_type' => 'entityreference_autocomplete',
+          ),
+          'default' => array(
+            'widget_type' => 'options_select',
+          ),
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_list_default',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 31,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
@@ -527,6 +609,7 @@ function ding_news_field_default_field_instances() {
   t('Library');
   t('List image');
   t('Materials');
+  t('Select the libraries this content should be associated with.');
   t('Tags');
   t('Title image');
 

@@ -12,11 +12,6 @@ projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
 projects[ding_page][download][branch] = "development"
 
-projects[ding_user_roles][type] = "module"
-projects[ding_user_roles][download][type] = "git"
-projects[ding_user_roles][download][url] = "git@github.com:ding2tal/ding_user_roles.git"
-projects[ding_user_roles][download][branch] = "development"
-
 projects[ting_reference][type] = "module"
 projects[ting_reference][download][type] = "git"
 projects[ting_reference][download][url] = "git@github.com:ding2tal/ting_reference.git"
@@ -41,18 +36,17 @@ projects[features_extra][version] = "1.0-beta1"
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
+projects[media][type] = "module"
 projects[media][subdir] = "contrib"
-projects[media][version] = "2.0-unstable7"
+projects[media][download][type] = "git"
+projects[media][download][url] = "http://git.drupal.org/project/media.git"
+projects[media][download][revision] = "e7be30f"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-unstable7"
+projects[file_entity][version] = "2.0-alpha2"
 
-projects[og][type] = "module"
 projects[og][subdir] = "contrib"
-projects[og][download][type] = "git"
-projects[og][download][url] = "http://git.drupal.org/project/og.git"
-projects[og][download][tag] = "7.x-1.3"
-projects[og][patch][0] = "http://drupal.org/files/1320778.patch"
+projects[og][version] = "2.3"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
@@ -63,3 +57,14 @@ projects[strongarm][version] = "2.0"
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
+projects[scheduler][subdir] = "contrib"
+projects[scheduler][version] = "1.1"
+
+projects[autosave][subdir] = "contrib"
+projects[autosave][version] = "2.2"
+
+projects[taxonomy_menu][subdir] = "contrib"
+projects[taxonomy_menu][version] = "1.4"
+
+projects[views_bulk_operations][subdir] = "contrib"
+projects[views_bulk_operations][version] = "3.1"
