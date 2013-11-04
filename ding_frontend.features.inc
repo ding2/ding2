@@ -60,6 +60,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_attachment_large',
   );
 
   // Exported image style: ding_attachment_medium.
@@ -83,6 +84,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_attachment_medium',
   );
 
   // Exported image style: ding_attachment_small.
@@ -106,6 +108,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_attachment_small',
   );
 
   // Exported image style: ding_list_large.
@@ -129,6 +132,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_list_large',
   );
 
   // Exported image style: ding_list_medium.
@@ -152,6 +156,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_list_medium',
   );
 
   // Exported image style: ding_list_small.
@@ -175,6 +180,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_list_small',
   );
 
   // Exported image style: ding_panorama_attachment_large.
@@ -197,6 +203,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_attachment_large',
   );
 
   // Exported image style: ding_panorama_attachment_medium.
@@ -219,6 +226,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_attachment_medium',
   );
 
   // Exported image style: ding_panorama_attachment_small.
@@ -241,6 +249,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_attachment_small',
   );
 
   // Exported image style: ding_panorama_list_large.
@@ -263,6 +272,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_list_large',
   );
 
   // Exported image style: ding_panorama_list_medium.
@@ -285,6 +295,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_list_medium',
   );
 
   // Exported image style: ding_panorama_list_small.
@@ -307,6 +318,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_list_small',
   );
 
   // Exported image style: ding_panorama_primary_large.
@@ -329,6 +341,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_primary_large',
   );
 
   // Exported image style: ding_panorama_primary_medium.
@@ -351,6 +364,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_primary_medium',
   );
 
   // Exported image style: ding_panorama_primary_small.
@@ -373,6 +387,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_primary_small',
   );
 
   // Exported image style: ding_panorama_secondary_large.
@@ -395,6 +410,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_secondary_large',
   );
 
   // Exported image style: ding_panorama_secondary_medium.
@@ -417,6 +433,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_secondary_medium',
   );
 
   // Exported image style: ding_panorama_secondary_small.
@@ -439,6 +456,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_secondary_small',
   );
 
   // Exported image style: ding_panorama_tetiary_large.
@@ -461,6 +479,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_tetiary_large',
   );
 
   // Exported image style: ding_panorama_tetiary_medium.
@@ -483,6 +502,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_tetiary_medium',
   );
 
   // Exported image style: ding_panorama_tetiary_small.
@@ -505,6 +525,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_panorama_tetiary_small',
   );
 
   // Exported image style: ding_primary_large.
@@ -528,6 +549,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_primary_large',
   );
 
   // Exported image style: ding_primary_medium.
@@ -551,6 +573,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_primary_medium',
   );
 
   // Exported image style: ding_primary_small.
@@ -574,6 +597,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_primary_small',
   );
 
   // Exported image style: ding_secondary_large.
@@ -597,6 +621,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_secondary_large',
   );
 
   // Exported image style: ding_secondary_medium.
@@ -620,6 +645,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_secondary_medium',
   );
 
   // Exported image style: ding_secondary_small.
@@ -643,6 +669,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_secondary_small',
   );
 
   // Exported image style: ding_tetiary_large.
@@ -666,6 +693,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_tetiary_large',
   );
 
   // Exported image style: ding_tetiary_medium.
@@ -689,6 +717,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_tetiary_medium',
   );
 
   // Exported image style: ding_tetiary_small.
@@ -712,6 +741,7 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_tetiary_small',
   );
 
   return $styles;
