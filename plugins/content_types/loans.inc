@@ -128,13 +128,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         '#information' => array(
           'loan_date' => array(
             'label' => t('Loan date'),
-            'data' => format_date(strtotime(check_plain($loan->loan_date)), 'custom', 'd/m/Y'),
+            'data' => format_date(strtotime(check_plain($loan->loan_date)), 'ding_material_lists_date'),
             'class' => 'loan-date',
             '#weight' => 0,
           ),
           'expiry' => array(
             'label' => t('Return date'),
-            'data' => format_date(strtotime(check_plain($loan->expiry)), 'custom', 'd/m/Y'),
+            'data' => format_date(strtotime(check_plain($loan->expiry)), 'ding_material_lists_date'),
             'class' => 'expire-date',
             '#weight' => 4,
           ),
@@ -183,13 +183,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#prefix' => '<div class="renew-loan-button action-button">',
     '#value' => t('Renew selected (@count)', array('@count' => 0)),
     '#suffix' => '</div>',
-  );
-
-  $form['actions_bottom'] = array(
-    '#prefix' => '<div class="action-buttons">',
-    '#suffix' => '</div>',
-    '#weight' => 2,
-    'submit_second' => $form['actions_top']['submit_first'],
   );
 
   return $form;
