@@ -145,7 +145,7 @@
      * Add news category menu as sub-menu to news in main menu
      */
     if ($(".pane-taxonomy-menu").length > 0) {
-      $(".pane-taxonomy-menu .sub-menu").clone().appendTo('.active.menu-mlid-1793');
+      $(".pane-taxonomy-menu .sub-menu").clone().appendTo('.active-trail');
       // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
       $(".main-menu .sub-menu").addClass('main-menu');
       $(".main-menu .sub-menu a").addClass('menu-item');
