@@ -10,7 +10,7 @@
 function ding_dibs_payment_get_url($amount, $params, $callback) {
   if (!empty($params['params']['debt_ids'])) {
     $params['order_info_long'] = array(array(t('Payment of library dues:')));
-    foreach($params['params']['debt_ids'] as $debt_id) {
+    foreach ($params['params']['debt_ids'] as $debt_id) {
       $params['order_info_long'][] = array($debt_id);
     }
   }

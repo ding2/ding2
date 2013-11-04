@@ -25,18 +25,15 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
 
     case 'transaction_accept':
       if ($transaction['payment_status'] == 1) {
-        // check if the payment is registered in the backend.
-        $status = db_query("
-          SELECT provider_payment_status
-          FROM {dibs_transactions}
-          WHERE payment_transaction_id = :payment_transaction_id",
-          array(
-            ':payment_transaction_id' => $transaction['payment_transaction_id'],
-          )
-        )->fetchField();
+        // Check if the payment is registered in the backend.
+        $status = db_select('dibs_transactions', 'transaction')
+          ->fields('transaction', array('provider_payment_status'))
+          ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
+          ->execute()
+          ->fetchField();
 
         if ($status == TRUE) {
-          // update user status cache
+          // Update user status cache.
           ding_provider_invoke('user', 'clear_cache', $user);
           drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', array('@amount' => $transaction['payment_price'], '@order' => $transaction['payment_order_id'], '@transaction' => $transaction['payment_transaction_id'])));
           watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
@@ -47,7 +44,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
         else {
           drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])), 'error');
         }
-        return drupal_goto('user/' . $user->uid . '/status/debts');
+        drupal_goto('user/' . $user->uid . '/status/debts');
       }
       else {
         drupal_set_message(t('Payment not verified by DIBS. This indicates a problem with the network. Please try again and contact the system administrator if it persists'), 'error');
@@ -56,7 +53,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           '%order' => $transaction['payment_order_id'],
           '!data' => '<pre>' . check_plain(print_r($transaction, TRUE)) . '</pre>',
         ), WATCHDOG_CRITICAL);
-        return drupal_goto('user/' . $user->uid . '/status/debts');
+        drupal_goto('user/' . $user->uid . '/status/debts');
       }
       break;
 
@@ -92,9 +89,9 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           // Call the callback, which may now *read* the session.
           $provider_payment_result = call_user_func($callback, $transaction);
 
-          if ( $provider_payment_result ) {
-            // Update dibs transaction with provider_payment_status = TRUE
-            $transaction_status = db_update('dibs_transactions')
+          if ($provider_payment_result) {
+            // Update dibs transaction with provider_payment_status = TRUE.
+            db_update('dibs_transactions')
               ->fields(array(
                 'provider_payment_status' => 1,
               ))
@@ -147,12 +144,17 @@ function ding_dibs_ding_provider() {
  * same values as when this function was called, but be aware that the
  * session variables will *not* be saved.
  *
- * @param $amount
- *  The amount to charge the user.
- * @param $params
- *  Parameters for dibs.module.
- * @param $callback
- *  The function to call on successful payment.
+ * @param string $amount
+ *   The amount to charge the user.
+ * @param array $params
+ *   Parameters for dibs.module.
+ * @param string $callback
+ *   The function to call on successful payment.
+ * @param bool $redirect
+ *   If FALSE no redirect is performed, defaults to TRUE.
+ *
+ * @return mixed
+ *   If $redirect is set to FALSE, will the api_hash value be returned.
  */
 function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE) {
   global $user;
@@ -174,7 +176,7 @@ function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE
   $params += array(
     'order_info_short' => t('Payment of library dues'),
     'order_price_info' => array('Total' => $amount),
-    // dibs module fills in missing data.
+    // Dibs module fills in missing data.
   );
 
   return dibs_payment_prepare($params, $redirect);
@@ -203,14 +205,15 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   $param['merchant'] = isset($settings['general']['merchant']) ? $settings['general']['merchant'] : NULL;
   $param['account'] = $account = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
 
-  // DIBS' parameter amount contains the price measured in the smallest unit, eg. ore in DK
+  // DIBS' parameter amount contains the price measured in the smallest unit,
+  // eg. ore in DK.
   $param['amount'] = $transaction['payment_price'] * 100;
   $param['orderid'] = $transaction['payment_order_id'];
   $param['transact'] = $transaction['payment_transaction_id'];
   $param['textreply'] = TRUE;
 
   $md5 = isset($settings['general']['md5']) ? $settings['general']['md5'] : FALSE;
-  if ( $md5 ) {
+  if ($md5) {
     $md5_key1 = isset($settings['general']['md5_key1']) ? $settings['general']['md5_key1'] : NULL;
     $md5_key2 = isset($settings['general']['md5_key2']) ? $settings['general']['md5_key2'] : NULL;
     $param['md5key'] = md5(
@@ -224,6 +227,7 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
     );
   }
 
+  $params = array();
   foreach ($param as $key => $val) {
     $params[] = $key . '=' . $val;
   }
@@ -237,8 +241,8 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   }
 
   if (isset($capture_status['status']) && $capture_status['status'] == 'ACCEPTED') {
-    // Update dibs transaction with dibs_capture_status = TRUE
-    $transaction_status = db_update('dibs_transactions')
+    // Update dibs transaction with dibs_capture_status = TRUE.
+    db_update('dibs_transactions')
       ->fields(array(
         'dibs_capture_status' => 1,
       ))
@@ -255,7 +259,7 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
   else {
     watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', array(
       '%url' => $url . '?' . implode('&', $params),
-      '%reply' => '<pre>' . print_r($capture_reply, 1) . '</pre>',
+      '%reply' => '<pre>' . print_r($capture_status['capture_reply'], 1) . '</pre>',
     ), WATCHDOG_CRITICAL);
   }
 
@@ -318,7 +322,7 @@ function ding_dibs_block_view($delta = '') {
     case 'dibs-cards-supported':
       $block['subject'] = t('Cards supported');
       $block['content'] = theme('dibs_cards_supported', array(
-        'cards_supported' => $supported_cards
+        'cards_supported' => $supported_cards,
       ));
       break;
   }
@@ -349,7 +353,7 @@ function ding_dibs_theme($existing, $type, $theme, $path) {
  * Implements hook_menu().
  */
 function ding_dibs_menu() {
-  // Settings pages
+  // Settings pages.
   $items['admin/config/payment/ding_dibs'] = array(
     'title' => 'Ding DIBS settings',
     'description' => 'Configure DIBS payment gateway for Ding.',
@@ -370,7 +374,7 @@ function ding_dibs_menu() {
     'file' => 'ding_dibs.admin.inc',
   );
 
-  // Transactions status reports
+  // Transactions status reports.
   $items['admin/config/payment/ding_dibs/reports'] = array(
     'title' => 'Ding DIBS reports',
     'description' => 'Ding DIBS payment reports.',
@@ -385,11 +389,11 @@ function ding_dibs_menu() {
   return $items;
 }
 
-
 /**
  * Return list of cards and logos.
  */
 function ding_dibs_cards() {
+  $cards = array();
   $cards['Dankort'] = 'dan53-35_01.gif';
   $cards['eDankort'] = 'edk_large.gif';
   $cards['VISA'] = 'visa_stor.gif';
@@ -413,5 +417,6 @@ function ding_dibs_cards() {
   $cards['Sampo'] = 'sampo_large.gif';
   $cards['BankAxess'] = 'BankAxess_03.gif';
   $cards['Getitcard'] = 'getitcard2_53x33.gif';
+
   return $cards;
 }
