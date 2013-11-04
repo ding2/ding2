@@ -19,7 +19,6 @@ function ding_content_wysiwyg_default_profiles() {
       'user_choose' => 0,
       'show_toggle' => 1,
       'theme' => 'advanced',
-      'language' => 'da',
       'buttons' => array(
         'default' => array(
           'Bold' => 1,
