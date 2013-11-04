@@ -68,6 +68,7 @@ function ting_relation_field_formatter_info() {
 function ting_relation_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $groups = array();
   $relation_types = ting_relation_inline();
+  $entity->getRelations();
   foreach ($entity->relations as $relation) {
     if (isset($relation_types[$relation->type])) {
       // The isPartOfManifestion relation has all relation to other libraries
@@ -203,9 +204,6 @@ function ting_relation_get_online_url($relation) {
     case 'dbcaddi:hasCreatorDescription':
       $title = $relation->object->getAc_source();
       $url = $relation->object->getOnline_url();
-      if (empty($url)) {
-        $url = $relation->object->getOnline_url();
-      }
       $url = empty($url) ? FALSE : $url;
 
       // Try to make a better link text.
