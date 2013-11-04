@@ -47,6 +47,7 @@ function bpi_push_action($type, $nid) {
     return $push_form;
   }
 }
+
 /**
  * BPI http action, with no ajax functionality.
  *
@@ -59,6 +60,7 @@ function bpi_push_action($type, $nid) {
 function http_bpi_push_action($nid) {
   return drupal_get_form('http_bpi_push_action_form', $nid);
 }
+
 /**
  * BPI http push form, used in save and push on node/edit page.
  *
@@ -110,7 +112,8 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
 
   $form['bpi_push_ccl'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Written under Creative Commons License'),
+    '#title' => t('I want be anonymous'),
+    '#default_value' => FALSE,
   );
 
   return confirm_form(
@@ -119,6 +122,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     'admin/content'
   );
 }
+
 /**
  * Submit handler for the  push node form on node/edit page.
  *
@@ -232,7 +236,8 @@ function bpi_push_form($form, $form_state, $nid) {
 
   $form['bpi_push_ccl'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Written under Creative Commons License'),
+    '#title' => t('I want be anonymous'),
+    '#default_value' => FALSE,
   );
 
   return confirm_form(
@@ -346,6 +351,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  *   Selected category at the BPI side.
  * @param string $audience
  *   Selected audience at the BPI side.
+ *
  * @return array
  *   An array of node values, used by the BPI ws.
  */
@@ -409,7 +415,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $bpi_content['audience'] = $audience;
     $bpi_content['related_materials'] = $materials_drupal;
     $bpi_content['editable'] = 0;
-    $bpi_content['authorship'] = ($authorship) ? TRUE : FALSE;
+    $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
     $bpi_content['images'] = array();
 
     if ($with_images) {

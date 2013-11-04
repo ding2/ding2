@@ -191,10 +191,6 @@ msgstr "Målgrupp"
 msgid "Push with images"
 msgstr "Inkludér billeder"
 
-#: bpi.push.inc:113;235
-msgid "Written under Creative Commons License"
-msgstr "Skrevet under Creative Commons License"
-
 #: bpi.push.inc:118;240
 msgid ""
 "Are you sure u want to push content <strong>%title</strong> to BPI well?"
