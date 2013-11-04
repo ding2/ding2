@@ -128,7 +128,7 @@ function openruth_settings_form() {
   // to 180 days.
   $periods = openruth_get_interest_periods();
   $default = variable_get('openruth_default_interest_period', 180);
-  $form['openruth'] += ding_reservation_interest_period_selector('', 'openruth_default_interest_period', $default, $periods);
+  $form['openruth'] += ding_reservation_interest_period_selector('openruth_default_interest_period', $default, $periods);
 
   $default_proxy = variable_get('openruth_proxy', array('host' => '', 'port' => ''));
   $form['openruth']['openruth_proxy'] = array(
