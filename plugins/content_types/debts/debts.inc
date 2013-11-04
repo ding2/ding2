@@ -107,8 +107,8 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
       '#title' => $debt->display_name,
       '#information' => array(
         'fee_date' => array(
-          'label' => t('Fee date'),
-          'data' => format_date(strtotime(check_plain($debt->date)), 'date_only'),
+          'label' => t('Created date'),
+          'data' => format_date(strtotime(check_plain($debt->date)), 'ding_material_lists_date'),
           'class' => 'fee-date',
           '#weight' => 0,
         ),
@@ -120,7 +120,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         ),
         'amount' => array(
           'label' => t('Amount'),
-          'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' '),
+          'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('Kr') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('Kr'),
           'class' => 'fee_amount',
           '#weight' => 8,
         ),
@@ -146,7 +146,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
     '#type' => 'item',
     '#prefix' => '<div class="total-amount">',
     '#suffix' => '</div>',
-    '#markup' => t('Total') . ': <span class="amount">' . number_format($total_amount, 2, ',', ' ') . '</span>',
+    '#markup' => t('Total') . ': <span class="amount">' . number_format($total_amount, 2, ',', ' ') . ' ' . t('Kr') . '</span>',
   );
 
   if ($has_invoiced_fees) {
