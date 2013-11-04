@@ -192,6 +192,7 @@ function bpi_search_get_items() {
   foreach ($response as $item) {
     $current_item = $item->getProperties();
     $assets = $item->getAssets();
+
     $bpi_nodes[] = array(
       'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
       'title' =>  isset($current_item['title']) ? $current_item['title'] : '',
@@ -205,6 +206,7 @@ function bpi_search_get_items() {
       'audience' =>  isset($current_item['audience']) ? $current_item['audience'] : '',
       'total_count' => isset($response->total) ? $response->total : 0,
       'assets' => (count($assets)>0) ? $item->getAssets() : array(),
+      'editable' => !empty($current_item['editable']),
     );
   }
 
@@ -235,6 +237,7 @@ function bpi_search_get_markup($items) {
         'class' => 'bpi-details',
       ),
       t('Photo'),
+      t('Editable'),
       t('Actions'),
     );
 
@@ -255,6 +258,18 @@ function bpi_search_get_markup($items) {
       $variables['attributes'] = array();
 
       $rows[$i]['photo'] = array('data' => theme_image($variables), 'class' => 'bpi-photo');
+
+      $editable_image = drupal_get_path('module', 'bpi') . '/images/' .
+        ($item['editable']? '' : 'not-') . 'editable.png';
+      $editable_text = $item['editable'] ? t('Editable') : t('Not editable');
+      $editable = array(
+        'alt' => $editable_text,
+        'path' => $editable_image,
+        'title' => $editable_text,
+        'attributes' => array(),
+      );
+      $rows[$i]['editable'] = array('data' => theme_image($editable), 'class' => 'bpi-photo');
+
       $rows[$i]['actions'] = l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax'))) . " " . l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']);
     }
 

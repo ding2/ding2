@@ -116,6 +116,12 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#default_value' => FALSE,
   );
 
+  $form['bpi_push_editable'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Editable'),
+    '#default_value' => '1',
+  );
+
   return confirm_form(
     $form,
     t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
@@ -141,11 +147,12 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
   $audience = $form_state['input']['bpi_push_audience'];
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
+  $editable = $form_state['input']['bpi_push_editable'];
   if (empty($nid)) {
     return;
   }
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
@@ -240,9 +247,18 @@ function bpi_push_form($form, $form_state, $nid) {
     '#default_value' => FALSE,
   );
 
+  $form['bpi_push_editable'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Editable'),
+    '#default_value' => '1',
+  );
+
   return confirm_form(
     $form,
-    t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
+    t(
+      'Are you sure u want to push content <strong>%title</strong> to BPI well?',
+      array('%title' => $node_title)
+    ),
     'admin/content'
   );
 }
@@ -265,13 +281,14 @@ function bpi_push_form_submit($form, &$form_state) {
   $audience = $form_state['input']['bpi_push_audience'];
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
+  $editable = $form_state['input']['bpi_push_editable'];
 
   if (empty($nid)) {
     return;
   }
 
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
@@ -355,7 +372,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  * @return array
  *   An array of node values, used by the BPI ws.
  */
-function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE) {
+function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1) {
   $bpi_content = array();
 
   if ($node instanceof stdClass) {
@@ -414,7 +431,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $bpi_content['category'] = $category;
     $bpi_content['audience'] = $audience;
     $bpi_content['related_materials'] = $materials_drupal;
-    $bpi_content['editable'] = 0;
+    $bpi_content['editable'] = (int) $editable;
     $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
     $bpi_content['images'] = array();
 
