@@ -363,7 +363,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
             'pickup_date' => array(
               'label' => t('Pickup date'),
-              'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_reservation_lists_date') : '',
+              'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_material_lists_date') : '',
               'class' => 'pickup-date',
               '#weight' => 4,
             ),
@@ -375,7 +375,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
             'created' => array(
               'label' => t('Created date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
               'class' => 'created-date',
               '#weight' => 16,
             ),
@@ -398,7 +398,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
             'expiry' => array(
               'label' => t('Expiry date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_reservation_lists_date') : '',
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_material_lists_date') : '',
               'class' => 'expire-date',
               '#weight' => 4,
             ),
@@ -410,7 +410,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
             'created' => array(
               'label' => t('Created date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
               'class' => 'created-date',
               '#weight' => 16,
             ),
@@ -439,7 +439,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
             'expiry' => array(
               'label' => t('Library'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_reservation_lists_date') : '',
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_material_lists_date') : '',
               'class' => 'expire-date',
               '#weight' => 4,
             ),
@@ -451,7 +451,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
             'created' => array(
               'label' => t('Expiry date'),
-              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_reservation_lists_date') : '',
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
               'class' => 'created-date',
               '#weight' => 16,
             ),
@@ -495,13 +495,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     '#weight' => -20,
   );
 
-  // Add action buttons to the bottom of the form.
-  $form['actions_bottom'] = array(
-    '#prefix' => '<div class="action-buttons">',
-    '#suffix' => '</div>',
-    '#weight' => 10,
-  );
-
   if ($able_to_delete) {
     $form['actions_top']['delete'] = array(
       '#prefix' => '<div class="delete-reservations action-button">',
@@ -514,7 +507,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         'wrapper' => 'ding-reservation-reservations-form',
       ),
     );
-    $form['actions_bottom']['delete'] = $form['actions_top']['delete'];
   }
 
   if ($type == 'not_ready_for_pickup') {
@@ -529,7 +521,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         'wrapper' => 'ding-reservation-updates-form',
       ),
     );
-    $form['actions_bottom']['update'] = $form['actions_top']['update'];
   }
 
   return $form;
