@@ -1,7 +1,12 @@
 <?php
+/**
+ * @file
+ * Retrieves covers for ting objects and returns them in the correct format
+ * based on configuration.
+ */
 
 /**
- * Return the URL for the cover of an object
+ * Return the URL for the cover of an object.
  */
 function ting_covers_objects() {
   $covers = array();
@@ -75,7 +80,7 @@ function ting_covers_objects() {
     watchdog('ting_covers', 'Unable to retrieve covers from ADDI: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
   }
 
-  //Return all image information
+  // Return all image information.
   drupal_json_output($covers);
 }
 
@@ -85,21 +90,22 @@ function ting_covers_objects() {
  * @see image_style_create_derivative()
  *
  * @param string $filename
- *    File name, including its path within Drupal's file folder.
+ *   File name, including its path within Drupal's file folder.
  * @param string $image_url
- *    URL for the source image file.
+ *   URL for the source image file.
+ *
  * @return mixed
- *    A file object or FALSE on error.
+ *   A file object or FALSE on error.
  */
 function _ting_covers_pages_fetch_image($filename, $image_url) {
   $result = drupal_http_request($image_url);
 
-  //Bail if the HTTP request failed
+  // Bail if the HTTP request failed.
   if ($result->code != 200) {
     return FALSE;
   }
 
-  // Get the folder for the final location of this preset...
+  // Get the folder for the final location of this preset.
   $directory = dirname($filename);
 
   // Build the destination folder tree if it doesn't already exist.
