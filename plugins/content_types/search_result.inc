@@ -1,14 +1,9 @@
 <?php
 
 if (module_exists('search')) {
-  /**
-   * Plugins are described by creating a $plugin array which will be used
-   * by the system that includes this file.
-   */
   $plugin = array(
     'single' => TRUE,
     'title' => t('Ting search - Search results'),
-    #'icon' => 'icon_search.png',
     'description' => t('The results of a search using keywords.'),
     'required context' => new ctools_context_required(t('Keywords'), 'string'),
     'category' => t('Widgets'),
@@ -25,6 +20,8 @@ if (module_exists('search')) {
       'no_key' => '',
       'no_key_format' => filter_fallback_format(),
     ),
+    'render first' => TRUE,
+    'render last' => FALSE,
   );
 }
 
@@ -43,7 +40,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     $keys = $context->data;
   }
 
-  $conditions =  NULL;
+  $conditions = NULL;
   if (isset($info['conditions_callback']) && function_exists($info['conditions_callback'])) {
     // Build an optional array of more search conditions.
     $conditions = $info['conditions_callback']($keys);
@@ -52,6 +49,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   // Display nothing at all if no keywords were entered.
   if (empty($keys) && empty($conditions)) {
     if (!empty($conf['override_no_key'])) {
+      $block = new stdClass();
       $block->title = $conf['no_key_title'];
       $block->content = check_markup($conf['no_key'], $conf['no_key_format'], FALSE);
       return $block;
@@ -61,13 +59,12 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
 
   // Build the content type block.
   $block = new stdClass();
-  $block->module  = 'search';
-  $block->delta   = 'result';
+  $block->module = 'search';
+  $block->delta = 'result';
 
   $results = '';
   // Only search if there are keywords or non-empty conditions.
   if ($keys || !empty($conditions)) {
-
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
   }
@@ -145,7 +142,6 @@ function ting_search_search_result_content_type_edit_form($form, &$form_state) {
     '#default_value' => $conf['override_no_key'],
     '#title' => t('Display text if no search keywords were submitted'),
   );
-
 
   $form['no_key_title'] = array(
     '#title' => t('Title'),
