@@ -96,39 +96,6 @@ em {
 }
 
 
-
-/* Links
-   ========================================================================== */
-
-a {
-  font-weight: $base-font-weight-normal;
-
-  &:link {
-    color: $link-color;
-    text-decoration: none;
-  }
-
-  &:visited {
-    color: darken($link-color, 15%);
-    text-decoration: none;
-  }
-
-  &:hover {
-    color: $link-color-hover;
-    text-decoration: underline;
-
-    i[class^="icon-"] {
-      text-decoration: none;
-    }
-  }
-
-  &:focus {
-    color: $link-color-hover;
-  }
-}
-
-
-
 /* Image
    ========================================================================== */
 

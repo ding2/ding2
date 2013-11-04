@@ -16,8 +16,8 @@
  * - $name: Themed username of node author output from theme_username().
  * - $node_url: Direct url of the current node.
  * - $display_submitted: Whether submission information should be displayed.
- * - $submitted: Submission information created from $date (NOTE: modified for ddbasic
- *   during ddbasic_preprocess_node in templates.php)
+ * - $submitted: Submission information created from $date (NOTE: modified for
+ *   ddbasic during ddbasic_preprocess_node in templates.php)
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -74,10 +74,12 @@
  * rule that was previously applied.
  *
  * ddbasic specific variables:
- * - $ddbasic_updated: Information about latest update on the node created from $date during
- *   ddbasic_preprocess_node().  
- * - $ddbasic_ding_news_tags: Tags, as a comma-separated list of links with leading text "Tags: "    
- * - $ddbasic_news_location: String containing adress info for either field_address or group_audience,
+ * - $ddbasic_updated: Information about latest update on the node created from
+ *   $date during ddbasic_preprocess_node().
+ * - $ddbasic_ding_news_tags: Tags, as a comma-separated list of links with
+ *   leading text "Tags: "
+ * - $ddbasic_news_location: String containing address info for either
+ *   field_address or group_audience,
  *   as relevant for the news node 
  * - $ddbasic_byline: outputs byline to be used before $name  
  * 
@@ -86,65 +88,65 @@
  * @see template_process()
  */
 ?>
-<div class="image-container">
-  <?php print render($content['field_ding_news_title_image']); ?>
-  <?php print render($content['field_ding_news_list_image']); ?>
-</div>
-<div class="super-heading">
-  <?php print render($content['field_ding_news_category']); ?>
-  <?php print render($content['field_ding_news_library']); ?>
-</div>
-<h2 class="heading"><?php print $title; ?></h2>
-<div class="lead">
-  <p>
-    <?php print render($content['field_ding_news_lead'][0]); ?>
-  </p>
-</div>
-
-<div class="content">
-<?php
-  // hide fields we have already rendered
-  hide($content['field_ding_news_title_image']);
-  hide($content['field_ding_news_list_image']);
-  hide($content['field_ding_news_category']);
-  hide($content['field_ding_news_library']);
-  hide($content['field_ding_news_lead']);
-  // Hide fields that will be displayed as panel panes instead
-  hide($content['comments']);
-  
-  // Hide fields now so that we can render them later.
-  hide($content['links']);
-  hide($content['field_ding_news_tags']);
-  print render($content);
-?>
-</div>
-
-<?php
-  // Remove the "Add new comment" link on the teaser page or if the comment
-  // form is being displayed on the same page.
-  if ($teaser || !empty($content['comments']['comment_form'])) {
-    unset($content['links']['comment']['#links']['comment-add']);
-  }
-  // Only display the wrapper div if there are links.
-  $links = render($content['links']);
-  if ($links):
-?>
-<div class="link-wrapper">
-  <?php print $links; ?>
-</div>
-<?php endif; ?>
-
-<?php if ($display_submitted): ?>
-  <div class="signature">
-    <div class="signature-image"><?php print $user_picture; ?></div>
-    <div class="signature-info">
-      <p><span class="signature-label"><?php print t("Posted by:"); ?></span><?php print $name; ?></p>
-      <p><span class="signature-label"><?php print t("Posted at:"); ?></span><?php print $submitted ?></p>
-      <p><span class="signature-label"><?php print t("Last updated:"); ?></span><?php print $ddbasic_updated ?></p>
+<article class="news">
+  <header class="page-header">
+    <div class="image-container">
+      <?php print render($content['field_ding_news_title_image']); ?>
     </div>
-  </div>
-<?php endif; ?>
+    <div class="super-heading">
+      <span class="news-category"><?php print render($content['field_ding_news_category']); ?></span>
+      <?php if (isset($content['og_group_ref']['#items'])) : ?>
+        <span class="library-ref"><?php print render($content['og_group_ref']); ?></span>
+      <?php endif; ?>
+      <?php if (isset($content['field_ding_news_tags'])) : ?>
+        <span class="news-tags">
+            <?php print render($content['field_ding_news_tags']); ?>
+          </span>
+      <?php endif; ?>
+    </div>
+    <h1 class="page-title"><?php print $title; ?></h1>
+    <div class="page-lead"><?php print render($content['field_ding_news_lead']); ?></div>
+  </header>
 
-<?php
-print render($content['comments']);
-?>
+  <section class="news-content">
+    <?php
+      // Hide fields that will be displayed as panel panes instead.
+      hide($content['comments']);
+
+      // Hide fields now so that we can render them later.
+      hide($content['links']);
+      hide($content['field_ding_news_tags']);
+
+      print render($content);
+    ?>
+  </section>
+
+  <footer class="news-footer">
+    <?php if ($display_submitted): ?>
+      <section class="signature">
+        <div class="signature-image"><?php print $user_picture; ?></div>
+        <div class="signature-info">
+          <p><span class="signature-label"><?php print t("Posted by:"); ?></span><?php print $name; ?></p>
+          <p><span class="signature-label"><?php print t("Posted at:"); ?></span><?php print $submitted ?></p>
+          <p><span class="signature-label"><?php print t("Last updated:"); ?></span><?php print $ddbasic_updated ?></p>
+        </div>
+      </section>
+    <?php endif; ?>
+
+    <?php
+    // Remove the "Add new comment" link on the teaser page or if the comment
+    // form is being displayed on the same page.
+    if ($teaser || !empty($content['comments']['comment_form'])) :
+      unset($content['links']['comment']['#links']['comment-add']);
+    endif;
+    ?>
+
+    <?php if (!empty($content['links']['#links'])) : ?>
+      <div class="link-wrapper">
+        <?php print render($links); ?>
+      </div>
+    <?php endif; ?>
+
+    <?php print render($content['comments']); ?>
+  </footer>
+</article>

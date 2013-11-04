@@ -23,18 +23,6 @@
   padding: $medium-spacing;
 }
 
-%article-background {
-  background-color: $article-background;
-}
-
-%article-background--odd {
-  background-color: $article-background-odd;
-}
-
-%article-background--even {
-  background-color: $article-background-even;
-}
-
 %article-heading {
   font-size: $font-size-large;
 }
@@ -45,11 +33,11 @@
 
 
 %article-text {
-  color: $article-text;
+  color: $list-text-color;
 }
 
 %article-text--opaque {
-  color: transparentize($article-text, .5);
+  color: transparentize($list-text-color, .5);
 }
 
 /* Styling for material list items (example use: search results, related materials on news etc.) */
@@ -139,8 +127,9 @@
   }
 
   .form-actions {
-    @include zen-grid-item(2, 1, right);
-
+    position: absolute;
+    top: 0;
+    right: 0;
     text-align: right;
   }
 
@@ -150,9 +139,9 @@
       font-size: $font-size-small;
     }
 
-    .form-item {
-      @include zen-grid-item(12, 1);
-      @include zen-clear();
+    .form-actions {
+      position: relative;
+      clear: both;
     }
   }
 
@@ -169,8 +158,8 @@
     }
 
     .form-actions {
-      @include zen-grid-item(12, 1);
-      @include zen-clear();
+      position: relative;
+      clear: both;
     }
 
     .form-submit {
@@ -312,4 +301,14 @@
   top: 0;
   z-index: 99;
   width: 100%;
+}
+
+/* Extends
+   ========================================================================== */
+
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 45%;
 }

@@ -11,7 +11,15 @@ form[id^='ding-reservation-reserve-form'] {
   &.reservable {
     display: block;
     margin-left: 10px;
+
   }
+
+  &.available {
+    .reserve-button {
+      @extend %button-action;
+    }
+  }
+
   &.unavailable.reservable {
     .reserve-button {
       @include create-gradient-button($white, $yellow, darken($yellow, 15%));

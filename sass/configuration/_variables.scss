@@ -49,20 +49,13 @@ $gray-darkest:                   darken($gray, 35%) !default;
 $red:                            #a32e10;
 $green:                          #528c10;
 $yellow:                         #f0cb28;
-
-/* Theme color definitions
-   ========================================================================== */
-
-$base-primary-color:             #00caff;
-$base-secondary-color:           #d94110;
-$base-tertiary-color:            #ecbe00;
+$blue:                           #00caff;
 
 
 /* Font library
    ========================================================================== */
 
 $base-icon-library-font:         "FontAwesome";
-
 
 
 /* Typography
@@ -102,13 +95,12 @@ $font-size-small:                 85%;
 $font-size-tiny:                  75%;
 
 
-
-/* Links
+/* Labels
    ========================================================================== */
 
-$link-color:                      #00b7e7;
-$link-color-hover:                darken($link-color, 20%);
-
+$label-border-radius:             8px;
+$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
+$label-padding:                   3px 10px;
 
 
 /* Navigation
@@ -118,17 +110,6 @@ $navbar-bg-color:                 transparentize($white, .95);
 $navbar-bg-active-color:          transparentize($white, .95);
 $navbar-text-color:               lighten($black, 30%);
 $navbar-text-color-active:        lighten($black, 30%);
-
-
-
-/* Articles (used in modules e.g. news, events)
-   ========================================================================== */
-
-$article-background:              #ebebeb;
-$article-background-odd:          #e8e8e8;
-$article-background-even:         #f2f2f2;
-$article-text:                    #4c4c4c;
-
 
 
 /* Availability

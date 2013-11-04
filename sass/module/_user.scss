@@ -70,6 +70,7 @@
   .item-information-list {
     overflow: hidden;
     padding-left: 0;
+
     .item-information {
       overflow: hidden;
       clear: left;
@@ -77,16 +78,18 @@
   }
 
   .item-information-label {
-    @include zen-grid-item(5, 1);
+    @include zen-grid-item(7, 1);
 
     padding: 0;
     padding-right: 10px;
   }
 
   .item-information-data {
-    @include zen-grid-item(7, 1, right);
+    @include zen-grid-item(5, 1, right);
 
     padding: 0;
+
+    text-align: right;
   }
 
   .select-all {
@@ -172,6 +175,10 @@
       background-color: $yellow;
     }
   }
+
+  .form-checkbox[disabled^="disabled"] {
+    display: none;
+  }
 }
 
 /* User debts specific
@@ -248,20 +255,13 @@
     }
 
     .item-information-label {
-      @include zen-clear();
-      @include zen-grid-item(12, 1);
-
       padding: 0;
 
       font-weight: bold;
     }
 
     .item-information-data {
-      @include zen-clear();
-      @include zen-grid-item(12, 1);
-
       padding: 0;
-
       margin-bottom: 10px;
     }
 
@@ -350,6 +350,12 @@
 .user {
   @extend %search-user-header;
 
+  overflow: hidden;
+
+  .user-field-wrapper {
+    position: relative;
+  }
+
   .form-item-name {
     @include zen-grid-item(6, 1);
 
@@ -374,6 +380,7 @@
     .form-item-name,
     .form-item-pass {
       @include zen-grid-item(12, 1);
+      @include zen-clear();
     }
 
     .form-actions {
@@ -531,6 +538,11 @@
 
   .field-label {
     min-width: 200px;
+  }
+
+  .notice-sms {
+    font-style: italic;
+    padding-left: .5em;
   }
 
   /* Media queries */

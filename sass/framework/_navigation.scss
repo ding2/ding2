@@ -39,7 +39,7 @@
     &.active {
       color: $white;
       text-decoration: none;
-      background-color: $base-primary-color;
+      background-color: $blue;
     }
 
     /* Hide mobile link menu item */
@@ -55,7 +55,7 @@
   /* Media queries */
   @include small() {
     .menu-item {
-      padding: 10px 12px;
+      padding: 10px 9px;
     }
   }
 
@@ -87,7 +87,6 @@
    ========================================================================== */
 
 .navigation-wrapper {
-  background-color: transparentize($white, .05);
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -103,7 +102,7 @@
   @include small-medium() {
     @include box-sizing(border-box);
 
-    background-color: $base-primary-color;
+    background-color: $blue;
     display: none;
     padding-top: 10px;
     padding-right: 20px;
@@ -271,6 +270,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
         padding-left: 12px;
+        width: 95%;
 
         &:hover {
           @include font-bold();
@@ -315,7 +315,7 @@
 /* Sub menu
    ========================================================================== */
 
-.sub-menu-wrapper {
+.pane-taxonomy-menu {
   @include small-medium() {
     display: none;
   }

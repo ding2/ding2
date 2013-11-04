@@ -17,7 +17,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Classes & Markup'),
     '#description' => t('Modify the default classes and markup from Drupal.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -11,
   );
 
@@ -53,7 +53,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Sticky menus'),
     '#description' => t('<h3>Sticky menus</h3>Here you can choose which menus you want to be sticky.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -71,7 +71,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Polyfills'),
     '#description' => t('<h3>Polyfills</h3>Here you can enable commonly used Polyfills supplied with the core theme.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -107,7 +107,6 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     ),
   );
 
-
   /*
    * Plugins
    */
@@ -116,7 +115,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#title' => t('Plugins'),
     '#description' => t('<h3>Plugins</h3>Here you can enable plugins supplied with the core theme.'),
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
+    '#collapsed' => TRUE,
     '#weight' => -10,
   );
 
@@ -138,4 +137,45 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['favicon']['#collapsible'] = TRUE;
   $form['favicon']['#collapsed'] = TRUE;
   $form['favicon']['#weight'] = 50;
+
+  // iOS icon.
+  $form['iosicon'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('iOS icon settings'),
+    '#description' => t("Your iOS icon, is displayed at the homescreen."),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['iosicon']['default_iosicon'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use the default iOS icon.'),
+    '#default_value' => TRUE,
+    '#description' => t('Check here if you want the theme to use the default iOS icon.'),
+  );
+  $form['iosicon']['settings'] = array(
+    '#type' => 'container',
+    '#states' => array(
+      // Hide the favicon settings when using the default favicon.
+      'invisible' => array(
+        'input[name="default_iosicon"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  $form['iosicon']['settings']['iosicon_path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path to custom iOS icon'),
+    '#description' => t('The path to the image file you would like to use as your custom iOS icon.'),
+  );
+  $form['iosicon']['settings']['iosicon_upload'] = array(
+    '#type' => 'file',
+    '#title' => t('Upload iOS icon image'),
+    '#description' => t("If you don't have direct file access to the server, use this field to upload your iOS icon."),
+  );
+
+  // Add css file to display:none on preview.
+  drupal_add_css(drupal_get_path('theme', 'ddbasic') . "/color/disable.css");
+
+  // Validate and submit logo, iOS logo and favicon.
+  $form['#validate'][] = 'ding2_module_selection_form_validate';
+  $form['#submit'][] = 'ding2_module_selection_form_submit';
 }

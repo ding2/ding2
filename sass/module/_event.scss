@@ -36,7 +36,7 @@
   }
 
   .event-list-day {
-    background-color: $base-primary-color;
+    background-color: $blue;
     color: $white;
     display: block;
     text-shadow: 0 -1px 0 rgba(0,0,0,.25);
@@ -71,6 +71,13 @@
 
 /* Event list
    ========================================================================== */
+
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 45%;
+}
 
 .pane-ding-event-ding-event-list {
   margin-bottom: 20px;
@@ -122,10 +129,7 @@
   }
 
   .event-arrow-link {
-    display: inline-block;
-    position: absolute;
-    right: 0;
-    top: 45%;
+    @extend %arrow-link;
   }
   
   /* Media queries */  

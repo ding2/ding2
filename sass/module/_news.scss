@@ -18,6 +18,10 @@
     overflow: hidden;
     position: relative;
   }
+  
+  .simple-list-item {
+    border-bottom: 1px solid $gray-light;
+  }
 
   .news-list-item:nth-child(odd) {
     @extend %article-background--odd;
@@ -99,10 +103,7 @@
     }
 
     .news-arrow-link {
-      display: inline-block;
-      position: absolute;
-      right: 20px;
-      top: 45%;
+      @extend %arrow-link;
     }
   }
 }

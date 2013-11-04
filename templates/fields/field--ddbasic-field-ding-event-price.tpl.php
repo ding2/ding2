@@ -41,4 +41,4 @@
  * @see theme_field()
  */
 $price = (intval($element['#items'][0]['value']) < 1) ? t('Free') : intval($element['#items'][0]['value']) . ' kr.';
-print $price; 
+print $price;

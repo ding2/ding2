@@ -93,19 +93,22 @@
   <h1 class="page-title"><?php print $title; ?></h1>
 
   <div class="event-lead">
-    <?php print render($content['field_ding_event_lead'][0]); ?>
+    <?php print render($content['field_ding_event_lead']); ?>
   </div>
   <div class="event-info">
-    <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
-
-    <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
+    <?php if (isset($ddbasic_event_date)) : ?>
+      <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
+    <?php endif; ?>
+    <?php if (isset($ddbasic_event_date)) : ?>
+      <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
+    <?php endif; ?>
 
     <?php if (isset($ddbasic_event_location)): ?>
-      <p><i class="icon-home"></i> <?php print $ddbasic_event_location; ?></p>
+      <p><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_target'])): ?>
-      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target'][0]); ?></p>
+      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target']); ?></p>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_price'])): ?>
@@ -113,25 +116,25 @@
     <?php endif; ?>
   </div>  
   <div class="event-content">
+    <?php if (isset($content['field_ding_event_title_image'])) : ?>
     <div class="event-image">
       <?php print render($content['field_ding_event_title_image']); ?>
-      <?php print render($content['field_ding_event_list_image']); ?>
     </div>
+    <?php endif; ?>
 
     <?php
-      // hide fields we have already rendered
-      hide($content['field_ding_event_list_image']);
-      hide($content['field_ding_event_title_image']);
+      // Hide fields we have already rendered.
       hide($content['field_ding_event_category']);
-      hide($content['field_ding_event_library']);
-      hide($content['field_ding_event_lead']);
-      hide($content['field_place2book_tickets']); //<-- field provided by optional module ding_place2book
+      hide($content['og_group_ref']);
+
+      // Field provided by optional module ding_place2book
+      hide($content['field_place2book_tickets']);
       hide($content['field_ding_event_date']);
       hide($content['field_ding_event_location']);
       hide($content['field_ding_event_target']);
       hide($content['field_ding_event_price']);
 
-      // Hide fields that will be displayed as panel panes instead
+      // Hide fields that will be displayed as panel panes instead.
       hide($content['comments']);
 
       // Hide fields now so that we can render them later.
@@ -145,15 +148,15 @@
   <footer class="event-footer">
     <section class="event-tags">
       <span class="event-category"><?php print render($content['field_ding_event_category']); ?></span>
-      <span class="event-library"><?php print render($content['field_ding_event_library']); ?></span>
-
-      <?php if ($ddbasic_ding_event_tags): ?>
-        <?php $ddbasic_ding_event_tags; ?>
+      <?php if (isset($content['field_ding_event_tags'])) : ?>
+        <span class="event-tags"><?php print render($content['field_ding_event_tags']); ?></span>
       <?php endif; ?>
-
+      <?php if (isset($content['og_group_ref']['#items'])) : ?>
+        <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
+      <?php endif; ?>
     </section>
 
-    <?php if ($display_submitted): ?>
+    <?php if ($display_submitted) : ?>
       <div class="signature">
         <div class="signature-image"><?php print $user_picture; ?></div>
         <div class="signature-info">
@@ -167,17 +170,15 @@
     <?php
       // Remove the "Add new comment" link on the teaser page or if the comment
       // form is being displayed on the same page.
-      if ($teaser || !empty($content['comments']['comment_form'])) {
+      // @todo: this should be moved to field_preprocess.
+      if ($teaser || !empty($content['comments']['comment_form'])) :
         unset($content['links']['comment']['#links']['comment-add']);
-      }
-
-      // Only display the wrapper div if there are links.
-      $links = render($content['links']);
-      if ($links):
+      endif;
     ?>
 
+    <?php if (!empty($content['links']['#links'])) : ?>
       <div class="link-wrapper">
-        <?php print $links; ?>
+        <?php print render($links); ?>
       </div>
     <?php endif; ?>
 

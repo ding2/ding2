@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @file field--ddbasic-field-ding-event-library.tpl.php
+ * @file field--ddbasic-field-ding-event-category.tpl.php
+ * Template for ddbasic field implementation to display the value of a field.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
@@ -41,11 +42,6 @@
 <?php if (!$label_hidden): ?>
   <div class="field-label"<?php print $title_attributes; ?>><?php print $label ?>:&nbsp;</div>
 <?php endif; ?>
-<?php 
-    foreach ($items as $delta => $item) {
-    if ($item["#type"]=='link') {
-      print l($item['#title'], $item['#href'], array('attributes' => array('class' => array('label', 'label-info'))));
-    } else {
-      print '<span class="label label-info">' . $item['#title'] . '</span>';
-    }
-  }
+<?php foreach ($items as $delta => $item): ?>
+  <?php print render($item); ?>
+<?php endforeach; ?>

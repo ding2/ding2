@@ -4,11 +4,7 @@
   core        = 7.x
   release     = 7.x-1.x
 
-
 ;----------// Stylesheets
-  stylesheets[all][] = css/ddbasic.reset.css
-  stylesheets[all][] = css/ddbasic.font.awesome.css
-  stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
   stylesheets[all][] = css/system.menus.css
@@ -19,7 +15,7 @@
   stylesheets[all][] = css/jquery.ui.theme.min.css
   stylesheets[all][] = css/jquery.ui.dialog.css
   stylesheets[all][] = css/jquery.ui.dialog.min.css
-
+  stylesheets[all][] = css/ddbasic.styles.css
 
 ;----------// JavaScripts
   scripts[] = scripts/jquery.cookie.js
@@ -27,6 +23,7 @@
   scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
+  scripts[] = scripts/ddbasic.facet.js
 
 
 ;----------// Regions
