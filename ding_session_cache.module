@@ -5,18 +5,16 @@
  * should only be available during a sessions lifespan.
  */
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Addes configration options to the system performance page based on the custom
+ * Adds configuration options to the system performance page based on the custom
  * hook_ding_session_cache_defaults() module implementations.
- *
  */
 function ding_session_cache_form_system_performance_settings_alter(&$form, &$form_state, $form_id) {
   $form['clear_cache']['#weight'] = -30;
 
-  // Add new fieldset to display the new cache options.
+  // Add new field-set to display the new cache options.
   $form['ding_session_cache'] = array(
     '#type' => 'fieldset',
     '#title' => t('Ding user cache'),
@@ -28,16 +26,16 @@ function ding_session_cache_form_system_performance_settings_alter(&$form, &$for
   // Calculate the cache time periods.
   $period = drupal_map_assoc(array(60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400), 'format_interval');
 
-  // Get pervious store default values.
+  // Get previous store default values.
   $defaults = variable_get('ding_session_cache', array());
 
   // Find the modules that implements hook_ding_session_cache_defautls() and
-  // build the fieldset around them.
+  // build the field-set around them.
   $form_elements = array();
   foreach (module_implements('ding_session_cache_defaults') as $module) {
     $function = $module . '_ding_session_cache_defaults';
     if (function_exists($function)) {
-      $result =  $function();
+      $result = $function();
       $form['ding_session_cache'][$module] = array(
         '#type' => 'fieldset',
         '#title' => $result['titel'],
@@ -69,11 +67,11 @@ function ding_session_cache_form_system_performance_settings_alter(&$form, &$for
  * activated under performance settings in the administration interface.
  *
  * @param string $module
- *  Name of the module to store the data under (perfix).
+ *   Name of the module to store the data under (perfix).
  * @param string $cid
- *  Index used to store the data under.
+ *   Index used to store the data under.
  * @param mixed $data
- *  Data to store in the cache.
+ *   Data to store in the cache.
  */
 function ding_session_cache_set($module, $cid, $data) {
   if (_ding_session_cache_enabled($module)) {
@@ -85,11 +83,12 @@ function ding_session_cache_set($module, $cid, $data) {
  * Get cached item.
  *
  * @param string $module
- *  Name of the module that the date is stored under (prefix).
+ *   Name of the module that the date is stored under (prefix).
  * @param string $cid
- *  Index data is stored under.
+ *   Index data is stored under.
+ *
  * @return mixed
- *  If data found it's returned else FALSE.
+ *   If data found it's returned else FALSE.
  */
 function ding_session_cache_get($module, $cid) {
   if (_ding_session_cache_enabled($module)) {
@@ -97,17 +96,17 @@ function ding_session_cache_get($module, $cid) {
     if (isset($cache->expire) && $cache->expire > REQUEST_TIME) {
       return $cache->data;
     }
-    return FALSE;
   }
+  return FALSE;
 }
 
 /**
  * Clear cache entry.
  *
  * @param string $module
- *  Name of the module that the date is stored under (prefix).
+ *   Name of the module that the date is stored under (prefix).
  * @param string $cid
- *  Index data is stored under.
+ *   Index data is stored under.
  */
 function ding_session_cache_clear($module, $cid) {
   cache_clear_all(_ding_session_cache_get_cid($module, $cid), 'cache_ding_session_cache', FALSE);
@@ -123,13 +122,20 @@ function ding_session_cache_user_logout($account) {
 }
 
 /**
- * Checks if caching is activated in the administration interface for the module
- * given.
+ * Implements hook_flush_cache().
+ */
+function ding_session_cache_flush_caches() {
+  return 'cache_ding_session_cache';
+}
+
+/**
+ * Checks if caching is activated for the module given as parameter.
  *
  * @param string $module
- *  Name of the module to check.
- * @return boolean
- *  TRUE if enabled else FALSE.
+ *   Name of the module to check.
+ *
+ * @return bool
+ *   TRUE if enabled else FALSE.
  */
 function _ding_session_cache_enabled($module) {
   $conf = _ding_session_cache_get_conf($module);
@@ -140,13 +146,14 @@ function _ding_session_cache_enabled($module) {
 }
 
 /**
- * Get expire timestamp based on the maximum cache lifetime configured for the
- * module given.
+ * Get expire timestamp based on the maximum cache lifetime for the module
+ * given as parameter.
  *
  * @param string $module
- *  Name of the module to get the expire for.
+ *   Name of the module to get the expire for.
+ *
  * @return string
- *  Unix timestamp with expire date or CACHE_TEMPORARY (-1).
+ *   Unix timestamp with expire date or CACHE_TEMPORARY (-1).
  */
 function _ding_session_cache_get_expire($module) {
   $conf = _ding_session_cache_get_conf($module);
@@ -160,15 +167,16 @@ function _ding_session_cache_get_expire($module) {
  * Get session cache configuration for a given module.
  *
  * @param string $module
- *  Name of the module to get the expire for.
+ *   Name of the module to get the expire for.
+ *
  * @return array
- *  The configuration or an empty array if not found.
+ *   The configuration or an empty array if not found.
  */
 function _ding_session_cache_get_conf($module) {
   // First try to load conf from database.
   $conf = variable_get('ding_session_cache', array());
   if (!isset($conf[$module])) {
-    // Configuraion not found, try the modules defaults.
+    // Configuration not found, try the modules defaults.
     $function = $module . '_ding_session_cache_defaults';
     if (function_exists($function)) {
       return $function();
@@ -185,11 +193,12 @@ function _ding_session_cache_get_conf($module) {
  * Build cache id based on the session id.
  *
  * @param string $module
- *  Name of the module to prefix result.
- * @param type $cid
- *  Name to postfix the result.
+ *   Name of the module to prefix result.
+ * @param string $cid
+ *   Name to postfix the result.
+ *
  * @return string
- *  Id that can be used in the cache.
+ *   Id that can be used in the cache.
  */
 function _ding_session_cache_get_cid($module, $cid) {
   return session_id() . '_' . $module . '_' . $cid;
