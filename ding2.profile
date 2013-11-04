@@ -118,6 +118,11 @@ function ding2_install_tasks(&$install_state) {
 function ding2_import_translation(&$install_state) {
   // Enable l10n_update.
   module_enable(array('l10n_update'), TRUE);
+
+  // Enable danish language.
+  include_once DRUPAL_ROOT . '/includes/locale.inc';
+  locale_add_language('da', NULL, NULL, NULL, '', NULL, TRUE, FALSE);
+
   // Build batch with l10n_update module.
   $history = l10n_update_get_history();
   module_load_include('check.inc', 'l10n_update');
@@ -140,6 +145,14 @@ function ding2_install_tasks_alter(&$tasks, $install_state) {
   // Remove core steps for translation imports.
   unset($tasks['install_import_locales']);
   unset($tasks['install_import_locales_remaining']);
+
+  // Callback for languageg selection.
+  $tasks['install_select_locale']['function'] = 'ding2_locale_selection';
+}
+
+// Set default language to english.
+function ding2_locale_selection(&$install_state) {
+  $install_state['parameters']['locale'] = 'en';
 }
 
 /**
