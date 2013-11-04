@@ -22,7 +22,7 @@ function ding_library_contact_content_type_render($subtype, $conf, $panel_args, 
     $content .= '
       <div class="library-contact-phone">
         <span class="library-contact-phone-label">' . t('Phone:') . '</span>
-        <span class="library-contact-phone">' . $node->field_ding_library_phone_number['und'][0]['value']. '</span>
+        <span class="library-contact-phone">' . $node->field_ding_library_phone_number['und'][0]['value'] . '</span>
       </div>';
   }
   if (!empty($node->field_ding_library_mail['und'])) {
@@ -42,7 +42,7 @@ function ding_library_contact_content_type_render($subtype, $conf, $panel_args, 
 }
 
 /**
- * 'Edit form' callback for the content type.
+ * Edit form callback for the content type.
  */
 function ding_library_contact_content_type_edit_form($form, &$form_state) {
   return $form;

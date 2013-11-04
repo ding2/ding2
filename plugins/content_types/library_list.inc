@@ -13,7 +13,7 @@ $plugin = array(
   'category' => t('Ding!'),
   'required context' => array(
     new ctools_context_optional(t('Taxonomy term id'), array('term', 'taxonomy_term')),
-    new ctools_context_optional(t('Library'), 'node')
+    new ctools_context_optional(t('Library'), 'node'),
   ),
   'defaults' => array(
     'type' => '',
@@ -42,10 +42,10 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $selected_url =  drupal_lookup_path('alias', $uri['path']) . '/' . $conf['slug']  . $suffix;
+    $selected_url = drupal_lookup_path('alias', $uri['path']) . '/' . $conf['slug']  . $suffix;
   }
 
-  // Get all active library title and nids.
+  // Get all active library title and nid's.
   $nodes = db_select('node', 'n')
     ->fields('n', array('nid', 'title'))
     ->condition('type', 'ding_library')
@@ -63,7 +63,7 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
     }
 
     foreach ($nodes as $node) {
-      $uri =  drupal_lookup_path('alias', 'node/' . $node->nid) . '/' . $conf['slug']  . $suffix;
+      $uri = drupal_lookup_path('alias', 'node/' . $node->nid) . '/' . $conf['slug']  . $suffix;
       $items[$uri] = $node->title;
     }
 
@@ -102,7 +102,7 @@ function ding_library_library_list_select_library($form, &$form_state, $items, $
     '#attributes' => array('onchange' => "form.submit('select_library');"),
     '#default_value' => $selected_url,
   );
-  
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#attributes' => array(
@@ -123,7 +123,7 @@ function ding_library_library_list_select_library_submit($form, &$form_state) {
 }
 
 /**
- * 'Edit form' callback for the content type.
+ * Edit form callback for the content type.
  */
 function ding_library_library_list_content_type_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];

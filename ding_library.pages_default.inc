@@ -25,15 +25,7 @@ function ding_library_default_page_manager_handlers() {
     'css_id' => 'ding-library-front',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'OG group from node',
-        'keyword' => 'group',
-        'name' => 'og_group_from_node',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -241,7 +233,13 @@ function ding_library_default_page_manager_handlers() {
     $pane->subtype = 'ding_news-ding_news_library_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -265,6 +263,12 @@ function ding_library_default_page_manager_handlers() {
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => 'Library events',
+      'arguments' => array(
+        'og_group_ref_target_id' => '',
+      ),
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -447,7 +451,7 @@ function ding_library_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'About library';
   $page->admin_description = '';
-  $page->path = 'node/%node/about';
+  $page->path = 'bibliotek/%slug/om';
   $page->access = array(
     'plugins' => array(
       2 => array(
@@ -468,12 +472,11 @@ function ding_library_default_page_manager_pages() {
   );
   $page->menu = array();
   $page->arguments = array(
-    'node' => array(
+    'slug' => array(
       'id' => 1,
-      'identifier' => 'Node: ID',
-      'name' => 'entity_id:node',
+      'identifier' => 'Library node',
+      'name' => 'slug',
       'settings' => array(),
-      'keyword' => 'node',
     ),
   );
   $page->conf = array(

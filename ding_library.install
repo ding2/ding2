@@ -1,9 +1,14 @@
 <?php
+/**
+ * @file
+ *
+ */
 
-// Install and update hooks for ding_library.
-
+/**
+ * Implements hook_install().
+ */
 function ding_library_install() {
-  // Disable default OG member rules
+  // Disable default OG member rules.
   db_update('rules_config')
     ->fields(array('active' => 0))
     ->condition(db_or()
@@ -11,6 +16,22 @@ function ding_library_install() {
     ->condition('name', 'rules_og_member_pending')
     ->condition('name', 'rules_og_group_content_notification'))
     ->execute();
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ding_library_enable() {
+  $path = array(
+    'source' => 'libraries',
+    'language' => 'und',
+  );
+
+  // Create Danish alias for libraries if needed.
+  if (!path_load($path)) {
+    $path['alias'] = 'biblioteker';
+    path_save($path);
+  }
 }
 
 /**
@@ -22,15 +43,17 @@ function ding_library_update_7001() {
   // Delete menu_block menu, not needed anymore.
   db_delete('block')
     ->condition('module', 'menu_block')
-    ->condition('delta','ding_content-main-lvl1')
-    ->condition('theme',$default_theme)
+    ->condition('delta', 'ding_content-main-lvl1')
+    ->condition('theme', $default_theme)
     ->execute();
+
   // Delete any left over library_menus.
   db_delete('block')
     ->condition('module', 'ding_library')
     ->condition('delta', 'library_menu')
     ->condition('theme', $default_theme)
     ->execute();
+
   // Add the new ding_menu.
   db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'))->values(array(
       'module' => 'ding_library',
@@ -60,3 +83,106 @@ function ding_library_update_7002() {
     ->execute();
 }
 
+/**
+ * Set OG user on library nodes to user 1.
+ */
+function ding_library_update_7003() {
+  $query = db_select('og', 'og');
+  $query->join('node', 'n', 'n.nid = og.etid');
+  $query->fields('og', array('etid'));
+  $query->addField('n', 'uid');
+  $rows = $query->execute();
+  foreach ($rows as $row) {
+    db_insert('og_membership')
+      ->fields(array(
+        'type' => 'og_membership_type_default',
+        'etid' => $row->uid,
+        'entity_type' => 'user',
+        'gid' => $row->etid,
+        'state' => 1,
+        'created' => time(),
+        'group_type' => 'node',
+        'field_name' => 'og_user_node',
+        'language' => 'und',
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Updated OG permission roles.
+ */
+function ding_library_update_7004() {
+  $roles = array(
+    array(
+      'rid' => 1,
+      'permission' => 'subscribe',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 2,
+      'permission' => 'unsubscribe',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'add user',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'approve and deny subscription',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage members',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage permissions',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage roles',
+      'module' => 'og_ui',
+    ),
+  );
+
+  foreach ($roles as $role) {
+    db_insert('og_role_permission')
+      ->fields($role)
+      ->execute();
+  }
+}
+
+/**
+ * Update group roles with type and bundle.
+ */
+function ding_library_update_7005() {
+  db_update('og_role')
+    ->fields(array(
+      'group_type' => 'node',
+      'group_bundle' => 'ding_library',
+    ))
+    ->execute();
+}
+
+/**
+ * Ensure that the OG audience field is add to users.
+ */
+function ding_library_update_7006() {
+  // Get basic OG audience field information.
+  $og_field = og_fields_info(OG_AUDIENCE_FIELD);
+  $og_field['field']['settings']['target_type'] = 'node';
+  $og_field['instance']['label'] = t('Group membership');
+
+  // If the user entity type has multiple bundles, make sure to attach a field
+  // instance to all of them.
+  $entity_info = entity_get_info('user');
+  foreach (array_keys($entity_info['bundles']) as $user_bundle) {
+    og_create_field('og_user_node', 'user', $user_bundle, $og_field);
+  }
+}
