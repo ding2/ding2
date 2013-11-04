@@ -23,7 +23,6 @@ function ting_reference_ding_entity_fields() {
   );
 }
 
-
 /**
  * Convert blackhole field storage to virtual field.
  */
