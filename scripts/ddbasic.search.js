@@ -13,6 +13,9 @@
       // search div.
       search.wrap('<div class="search"></div>');
 
+      // Remove tabs (panels visibility rules do not work!).
+      $('.pane-page-tabs').remove();
+
       // Hide top menu bar link.
       $('.topbar-link-search').hide();
     }
