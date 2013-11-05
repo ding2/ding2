@@ -52,6 +52,12 @@ $search-border-type: solid;
 /* Search in content
    ========================================================================== */
 
+.search-field-in-content {
+  .form-submit {
+    margin-top: 0;
+  }
+}
+
 .search-field-in-content--amount {
   color: $gray-dark;
 }
@@ -70,7 +76,12 @@ $search-border-type: solid;
 
 
 .search-field-in-content--message {
+  @include font-bold();
+
+  border: 1px dashed $gray;
+
   margin-bottom: 30px;
+  padding: 20px;
 }
 
 .search-field-in-content--sort-wrapper {
