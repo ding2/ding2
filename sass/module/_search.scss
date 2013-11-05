@@ -76,6 +76,8 @@ $search-border-type: solid;
 
 
 .search-field-in-content--message {
+  @include font-bold();
+
   border: 1px dashed $gray;
 
   margin-bottom: 30px;
