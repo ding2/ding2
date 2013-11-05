@@ -84,26 +84,37 @@ $search-border-type: solid;
   padding: 20px;
 }
 
-.search-field-in-content--sort-wrapper {
-  .search-field-in-content--sort-results,
-  .search-field-in-content--sort-best-match {
-    display: inline-block;
-    min-width: 0;
-    max-width: 49%;
-  }
-
-  .search-field-in-content--sort-results {
-    @include zen-grid-item(6, 1);
-  }
-
-  .search-field-in-content--sort-best-match {
-    @include zen-grid-item(6, 1, right);
-  }
+.search-field-in-content--sort-results,
+.search-field-in-content--sort-best-match,
+.page-search .pane-search-per-page,
+.page-search .pane-ting-search-sort-form {
+  display: inline-block;
+  min-width: 0;
+  max-width: 49%;
 }
 
+.search-field-in-content--sort-results,
+.page-search .pane-search-per-page {
+  @include zen-grid-item(6, 1);
+}
 
-/* No search results
-   ========================================================================== */
+.search-field-in-content--sort-best-match,
+.page-search .pane-ting-search-sort-form {
+  @include zen-grid-item(6, 1, right);
+}
+
+.page-search .pane-search-per-page,
+.page-search .pane-ting-search-sort-form {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.page-search .pane-ting-search-sort-form {
+  clear: none;
+}
+
+  /* No search results
+     ========================================================================== */
 
 .search-no-results--message {
   margin-bottom: 30px;
