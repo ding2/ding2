@@ -87,6 +87,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
  */
 function ting_search_backend_engines_form($form, &$form_state, $options, $default) {
   $form = array(
+    '#token' => FALSE,
     '#attached' => array(
       'js' => array(
         // Script to handle usability in the frontend (clicks).
