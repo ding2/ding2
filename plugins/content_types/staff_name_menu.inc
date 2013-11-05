@@ -35,22 +35,22 @@ function ding_staff_name_menu_content_type_render($subtype, $conf, $panel_args, 
 
   // Select libraries with connected staff
   $results = db_query("SELECT 
-    o.etid,
-    o.label,
-    u.uid, 
+    n.nid,
+    n.title,
+    u.uid,
     fs.field_ding_staff_surname_value AS surname,
     ff.field_ding_staff_forename_value AS forename
     FROM users u
     JOIN users_roles ur ON u.uid = ur.uid
     JOIN role r ON ur.rid = r.rid 
     JOIN profile p ON u.uid = p.uid
-    JOIN field_data_field_ding_staff_library fl ON p.pid = fl.entity_id
+    JOIN og_membership om ON p.pid = om.etid 
     JOIN field_data_field_ding_staff_surname fs ON p.pid = fs.entity_id
-    JOIN field_data_field_ding_staff_forename ff ON p.pid = ff.entity_id
-    JOIN og o ON fl.field_ding_staff_library_gid = o.gid
+    LEFT JOIN field_data_field_ding_staff_forename ff ON p.pid = ff.entity_id
+    JOIN node n ON om.gid = n.nid
     WHERE r.name = 'staff'
     AND p.type = 'ding_staff_profile'
-    ORDER BY o.label, fs.field_ding_staff_surname_value, ff.field_ding_staff_forename_value");
+    ORDER BY n.title, fs.field_ding_staff_surname_value, ff.field_ding_staff_forename_value");
 
   // Create links for each library found to that libraries staff page.
   $currentlib = NULL;
@@ -61,17 +61,17 @@ function ding_staff_name_menu_content_type_render($subtype, $conf, $panel_args, 
       $options = array('attributes' => array('class' => array('active')));
     }
     if ($conf['menu_levels'] == 2) {
-      if ($currentlib == NULL || $row->etid != $currentlib['id']) {
+      if ($currentlib == NULL || $row->nid != $currentlib['id']) {
         $currentlib = array(
-          'id' => $row->etid,
-          'data' => l($row->label, 'bibliotek/' . $row->etid),
+          'id' => $row->nid,
+          'data' => l($row->title, 'bibliotek/' . $row->nid),
           'children' => array(),
         );
-        $items[$row->etid] = $currentlib;
+        $items[$row->nid] = $currentlib;
       }
-      $items[$row->etid]['children'][] = l($row->surname . ', ' . $row->forename, 'user/' . $row->uid, $options);
+      $items[$row->nid]['children'][] = l($row->surname . ', ' . $row->forename, 'user/' . $row->uid, $options);
     } else {
-      $items[$row->etid] = l($row->label, 'bibliotek/' . $row->etid, $options);
+      $items[$row->nid] = l($row->title, 'bibliotek/' . $row->nid, $options);
     }
   }
 
