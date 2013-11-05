@@ -698,7 +698,12 @@ function ting_search_block_view($delta = '') {
     case 'sort-form':
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js');
       $block['subject'] = t('Ting search sort controls');
-      $block['content'] = drupal_get_form('ting_search_sort_form');
+
+      // Only display form if there are any search results.
+      $search_result = drupal_static('ting_search_results');
+      if (isset($search_result) && $search_result->numTotalObjects > 0) {
+        $block['content'] = drupal_get_form('ting_search_sort_form');
+      }
       break;
 
     case 'search-display-extended-query':

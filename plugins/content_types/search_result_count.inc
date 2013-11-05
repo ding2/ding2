@@ -25,9 +25,9 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
     $block->content = array(
       '#prefix' => '<h1 class="page-title">',
       '#surfix' => '</h1>',
-      '#markup' => format_plural($search_result->numTotalObjects,
-        t('Search result <span class="search-field-in-content--amount">(1 result)</span>'),
-        t('Search result <span class="search-field-in-content--amount">(!count results)</span>'), array(
+      '#markup' => format_plural((int) $search_result->numTotalObjects,
+        'Search result <span class="search-field-in-content--amount">(1 result)</span>',
+        'Search result <span class="search-field-in-content--amount">(!count results)</span>', array(
           '!count' => $search_result->numTotalObjects,
         )
       ),

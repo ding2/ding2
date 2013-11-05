@@ -23,7 +23,7 @@ $plugin = array(
 function ting_search_per_page_content_type_render($subtype, $conf, $panel_args, $context) {
   $sizes = records_per_page_controls_content();
 
-  $content = 'test';
+  $content = '';
   if (!empty($sizes) && isset($conf['select_type'])) {
     switch ($conf['select_type']) {
       case 'list':
@@ -96,9 +96,6 @@ function ting_search_per_page_form($form, &$form_state, $sizes) {
     '#required' => FALSE,
     '#options' => $options,
     '#default_value' => $default,
-    '#attributes' => array(
-      'class' => array('search-field-in-content--sort-results'),
-    ),
   );
 
   $form['submit'] = array(
