@@ -723,11 +723,9 @@ function ting_search_sort_form($form_state) {
   );
 
   $form['sort'] = array(
-    '#title' => t('Sort by:'),
     '#type' => 'select',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : variable_get('ting_search_default_sort', ''),
     '#options' => ting_search_sort_options(),
-    '#description' => t('Set sort order for search result'),
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -746,7 +744,7 @@ function ting_search_sort_form($form_state) {
  *   Returns an array of sort options.
  */
 function ting_search_sort_options() {
-  return array(
+  $options = array(
     '' => t('Ranking'),
     'title_ascending' => t('Title (Ascending)'),
     'title_descending' => t('Title (Descending)'),
@@ -757,6 +755,13 @@ function ting_search_sort_options() {
     'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
     'acquisitionDate_descending' => t('Acquisition date (Descending)'),
   );
+
+  // Add label to the front of the options.
+  foreach ($options as $key => $option) {
+    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
+  }
+
+  return $options;
 }
 
 /**
