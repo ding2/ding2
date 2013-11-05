@@ -15,6 +15,7 @@
       ting_search_toggle_spinner(true);
 
       // Continue normal click event.
+      $(this).trigger('click');
       return true;
     });
   });
