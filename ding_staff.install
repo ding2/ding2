@@ -82,6 +82,11 @@ function ding_staff_update_7003() {
  * Move content into the OG library groups.
  */
 function ding_staff_update_7004() {
+  // Only run on sites with legacy OG table from OG version prior to OG 7.x-2.x
+  if (!db_table_exists('og')) {
+    return;
+  }
+  
   $query = db_select('field_data_og_group_ref', 'group_ref');
   $query->join('og', 'og', 'group_ref.og_group_ref_target_id = og.gid');
   $query->fields('group_ref', array('entity_id', 'og_group_ref_target_id'))
@@ -102,5 +107,38 @@ function ding_staff_update_7004() {
         'language' => 'und',
       ))
       ->execute();
+  }
+}
+
+/*
+ * Create possibly missing Entity Cache table for profile2 entities
+ */
+function ding_staff_update_7005() {
+  // Error on ding2 site with entitycache enabled matches issue described in https://drupal.org/node/1387268
+  // Issue is to be fixed so Entity API has support for Entity Cache, see https://drupal.org/node/2017685
+
+  // Only run for sites with entitycache enabled
+  if (!module_exists('entitycache')) {
+    return;
+  }
+  
+  // Create cache table if it doesn't exist
+  if (!db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
+}
+
+
+/**
+ * Implements of hook_install().
+ */
+function ding_staff_install() {
+  // Make sure that entity cache table for profile2 has been created if entitycache is enabled
+  if (module_exists('entitycache') && !db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
   }
 }
