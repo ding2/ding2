@@ -21,6 +21,7 @@ function ding_permissions_secure_permissions_roles() {
     'provider',
     'local editor',
     'editor',
+    'staff',
   );
 }
 
@@ -44,6 +45,7 @@ function ding_permissions_secure_permissions($role) {
       'access site-wide contact form',
       'access user profiles',
       'search content',
+      'view any ding_staff_profile profile',
       'view files',
     ),
     'authenticated user' => array(
@@ -56,6 +58,7 @@ function ding_permissions_secure_permissions($role) {
       'post comments',
       'search content',
       'skip comment approval',
+      'view any ding_staff_profile profile',
       'view files',
       'view own files',
       'view own private files',
@@ -110,6 +113,10 @@ function ding_permissions_secure_permissions($role) {
       'access toolbar',
       'administer blocks',
       'administer contact forms',
+      'assign provider role',
+      'assign guest blogger role',
+      'assign local editor role',
+      'assign staff role',
       'clone node',
       'create ding_event content',
       'create ding_library content',
@@ -128,6 +135,8 @@ function ding_permissions_secure_permissions($role) {
       'edit any ding_library content',
       'edit any ding_news content',
       'edit any ding_page content',
+      'edit any ding_staff_profile profile',
+      'edit own ding_staff_profile profile',
       'edit own ding_event content',
       'edit own ding_library content',
       'edit own ding_news content',
