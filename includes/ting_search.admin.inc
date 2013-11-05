@@ -44,7 +44,21 @@ function ting_search_admin_settings($form_state) {
     '#title' => t('Default sorting'),
     '#options' => ting_search_sort_options(),
     '#default_value' => variable_get('ting_search_default_sort', ''),
-    '#description' => t('Set the default sorting for search results..'),
+    '#description' => t('Set the default sorting for search results.'),
+  );
+
+  $form['ting_search']['ting_search_result_message'] = array(
+    '#type' => 'text',
+    '#title' => t('Display message'),
+    '#default_value' => variable_get('ting_search_result_message', 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result'),
+    '#description' => t('Message to display when search has more than x results. The token %s will by substitute by the number choosen.'),
+  );
+
+  $form['ting_search']['ting_search_result_message_limit'] = array(
+    '#type' => 'text',
+    '#title' => t('Display message at'),
+    '#default_value' => '100',
+    '#description' => t('The limit at wich the message is to be displayed.'),
   );
 
   return system_settings_form($form);
