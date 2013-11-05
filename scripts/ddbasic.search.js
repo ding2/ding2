@@ -7,6 +7,11 @@
       var search = $('.search-field-wrapper');
       search.addClass('search-field-in-content');
       search.addClass('js-search-field-in-content');
+
+      // Remove label.
+      search.find('.label-search').remove();
+
+      // Add the search field.
       search.insertAfter('.pane-search-result-count');
 
       // Ensure that the spinner and other stuff works by wrapping it in a
