@@ -49,6 +49,9 @@ $search-border-type: solid;
 }
 
 
+/* Search in content
+   ========================================================================== */
+
 .search-field-in-content--amount {
   color: $gray-dark;
 }
@@ -66,7 +69,6 @@ $search-border-type: solid;
 }
 
 
-/* Search field in content */
 .search-field-in-content--message {
   margin-bottom: 30px;
 }
@@ -89,7 +91,9 @@ $search-border-type: solid;
 }
 
 
-/* No search results */
+/* No search results
+   ========================================================================== */
+
 .search-no-results--message {
   margin-bottom: 30px;
 }
