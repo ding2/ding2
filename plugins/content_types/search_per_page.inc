@@ -91,7 +91,7 @@ function ting_search_per_page_form($form, &$form_state, $sizes) {
     }
   }
 
-  $form['sizes'] = array(
+  $form['size'] = array(
     '#type' => 'select',
     '#required' => FALSE,
     '#options' => $options,
@@ -101,7 +101,28 @@ function ting_search_per_page_form($form, &$form_state, $sizes) {
     ),
   );
 
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Size'),
+    '#states' => array(
+      'visible' => array(':input[name="op"]' => array('value' => '')),
+    ),
+  );
+
   return $form;
+}
+
+/**
+ * Process submitted data for records per page form.
+ */
+function ting_search_per_page_form_submit($form, &$form_state) {
+  $query = drupal_get_query_parameters();
+
+  if (isset($form_state['input']['size'])) {
+    $query = array('size' => $form_state['input']['size']) + $query;
+  }
+
+  $form_state['redirect'] = array($_GET['q'], array('query' => $query));
 }
 
 /**
