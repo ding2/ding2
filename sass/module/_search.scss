@@ -52,6 +52,12 @@ $search-border-type: solid;
 /* Search in content
    ========================================================================== */
 
+.search-field-in-content {
+  .form-submit {
+    margin-top: 0;
+  }
+}
+
 .search-field-in-content--amount {
   color: $gray-dark;
 }
