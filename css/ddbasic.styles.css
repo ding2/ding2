@@ -5708,10 +5708,10 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
 /* line 97, ../sass/module/_search.scss */
 .search-field-in-content--sort-results,
 .page-search .pane-search-per-page {
-  float: left;
+  float: right;
   width: 50%;
-  margin-left: 0%;
-  margin-right: -50%;
+  margin-right: 0%;
+  margin-left: -50%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;
@@ -5728,10 +5728,10 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
 /* line 102, ../sass/module/_search.scss */
 .search-field-in-content--sort-best-match,
 .page-search .pane-ting-search-sort-form {
-  float: right;
+  float: left;
   width: 50%;
-  margin-right: 0%;
-  margin-left: -50%;
+  margin-left: 0%;
+  margin-right: -50%;
   padding-left: 10px;
   padding-right: 10px;
   -moz-box-sizing: border-box;

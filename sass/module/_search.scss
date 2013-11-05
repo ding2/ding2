@@ -95,12 +95,12 @@ $search-border-type: solid;
 
 .search-field-in-content--sort-results,
 .page-search .pane-search-per-page {
-  @include zen-grid-item(6, 1);
+  @include zen-grid-item(6, 1, right);
 }
 
 .search-field-in-content--sort-best-match,
 .page-search .pane-ting-search-sort-form {
-  @include zen-grid-item(6, 1, right);
+  @include zen-grid-item(6, 1);
 }
 
 .page-search .pane-search-per-page,
