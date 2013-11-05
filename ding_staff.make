@@ -62,6 +62,9 @@ projects[role_delegation][version] = "1.1"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
+projects[secure_permissions][subdir] = "contrib"
+projects[secure_permissions][version] = "1.5"
+
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
