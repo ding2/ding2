@@ -2,34 +2,16 @@
 /**
  * @file
  * Preprocess and Process Functions.
- *
- * 1. Rename each function and instance of "adaptivetheme_subtheme" to match
- *    your subthemes name, e.g. if your theme name is "footheme" then the
- *    function name will be "footheme_preprocess_hook". Tip - you can
- *    search/replace on "adaptivetheme_subtheme".
- * 2. Uncomment the required function to use.
- * 3. Read carefully, especially within adaptivetheme_subtheme_preprocess_html()
- *    , there are extra goodies you might want to leverage such as a very simple
- *    way of adding stylesheets for Internet Explorer and a browser detection
- *    script to add body classes.
- *
- * @see http://drupal.org/node/254940#variables-processor
  */
 
-global $theme_key, $path_to_ddbasic_core;
-$theme_key = $GLOBALS['theme_key'];
-$path_to_ddbasic_core = drupal_get_path('theme', 'ddbasic');
-
 // Includes frequently used theme functions that gets theme info, css files etc.
-include_once $path_to_ddbasic_core . '/inc/functions.inc';
-
+include_once $GLOBALS['theme_path'] . '/inc/functions.inc';
 
 /**
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
-  global $theme_key, $language;
-  $theme_name = $theme_key;
+  $language = $GLOBALS['language'];
 
   // Setup iOS logo if it's set.
   $vars['ios_logo'] = theme_get_setting('iosicon_upload');
@@ -39,10 +21,6 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
-
-  // Build an array of poly-filling scripts.
-  $vars['polyfills_array'] = '';
-  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
 
   // Load ddbasic plugins.
   ddbasic_load_plugins();
@@ -70,13 +48,16 @@ function ddbasic_preprocess_html(&$vars) {
   ));
 }
 
-
 /**
  * Implements hook_process_html().
  *
  * Process variables for html.tpl.php
  */
 function ddbasic_process_html(&$vars) {
+  $theme_name = $GLOBALS['theme_key'];
+  // Build an array of poly-filling scripts.
+  $vars['polyfills_array'] = '';
+  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
   // This code is copied from Adaptive Theme, at_core/inc/process.inc.
   // It wraps the required polyfills scripts into a conditional comment.
   if (!empty($vars['polyfills_array'])) {
@@ -667,7 +648,7 @@ function ddbasic_remove_default_link_classes($classes) {
  * Ex. add a javascript depending on the settings in the theme.
  */
 function ddbasic_load_plugins() {
-  global $path_to_ddbasic_core;
+  $path_to_ddbasic_core = $GLOBALS['theme_path'];
 
   // If sticky menus is enabled in the theme load it.
   if (theme_get_setting('main_menu_sticky')) {
@@ -749,7 +730,7 @@ function ddbasic_theme_conditional_scripts($ie_scripts) {
  * @param string $theme_name  :   Name of the theme.
  */
 function ddbasic_load_polyfills($theme_name) {
-  global $path_to_ddbasic_core;
+  $path_to_ddbasic_core = $GLOBALS['theme_path'];
 
   // Get the info file data.
   $info = ddbasic_get_info($theme_name);
@@ -806,7 +787,7 @@ function ddbasic_load_polyfills($theme_name) {
  *   Array of ?.
  */
 function ddbasic_polly_wants_a_cracker($polly) {
-  global $path_to_ddbasic_core;
+  $path_to_ddbasic_core = $GLOBALS['theme_path'];
 
   $baked_crackers = drupal_static(__FUNCTION__, array());
   if (empty($baked_crackers)) {

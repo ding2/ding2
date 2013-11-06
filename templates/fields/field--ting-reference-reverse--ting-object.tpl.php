@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file
+ * @file field--ting-reference-reverse--ting-object.tpl.php
  * Changes the ting reference reverse field on the ting object to match search
  * result layout.
  *
