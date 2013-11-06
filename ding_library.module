@@ -20,6 +20,56 @@ function ding_library_init() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ *
+ * Rewrite the main menus library link to redirect to a single library if only
+ * one library exists.
+ *
+ * Only called after a cache clear or menu rebuild.
+ */
+function ding_library_menu_alter(&$items) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('status', 1)
+    ->condition('type', 'ding_library');
+
+  // Get the number of libraries.
+  $count = $query->countQuery()
+    ->execute()
+    ->fetchField();
+
+  // If only one library exists try redirect to that library.
+  if ($count == 1) {
+    // Find the library's slug.
+    $query->join('field_data_field_ding_library_slug', 'ls', 'n.nid = ls.entity_id');
+    $query->addField('ls', 'field_ding_library_slug_value', 'slug');
+    $data = $query->execute()->fetchAssoc();
+
+    if (isset($items['libraries'])) {
+      // If the menu item "libraries" exists use a menu callback to redirect the
+      // user. The slug have been loaded above to ensure that the SQL is only
+      // run once, namely after a cache clear.
+      $items['libraries']['page callback'] = 'ding_library_single_library_redirect';
+      $items['libraries']['page arguments'] = array($data['slug']);
+    }
+  }
+}
+
+/**
+ * Redirect to a library based on slug value.
+ *
+ * Used be the menu alter in this module to handle the case where only one
+ * library exists on the site.
+ *
+ * @param string $slug
+ *   String value that represents the library's slug.
+ */
+function ding_library_single_library_redirect($slug) {
+  // Send Moved Permanently - 301 header with the redirect.
+  drupal_goto('bibliotek/' . $slug, array(), 301);
+}
+
+/**
  * Implements hook_block_info().
  */
 function ding_library_block_info() {
