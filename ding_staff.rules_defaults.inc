@@ -42,10 +42,6 @@ function ding_staff_rules_action_info() {
         ),
       ),
     ),
-    'ding_staff_remove_role_staff' => array(
-      'label' => t('Remove staff role from user'),
-      'group' => 'user',
-    ),
   );
 }
 /*
