@@ -723,9 +723,7 @@ function search_extend_content() {
  * Create form for sorting search result.
  */
 function ting_search_sort_form($form_state) {
-  $form = array(
-    '#token' => FALSE,
-  );
+  $form = array();
 
   $form['sort'] = array(
     '#type' => 'select',

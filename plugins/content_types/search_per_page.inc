@@ -69,7 +69,6 @@ function ting_search_per_page_content_type_render($subtype, $conf, $panel_args, 
  */
 function ting_search_per_page_form($form, &$form_state, $sizes) {
   $form = array(
-    '#token' => FALSE,
     '#attributes' => array(
       'class' => array('search-field-in-content--sort-wrapper'),
     ),
