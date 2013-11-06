@@ -5644,7 +5644,7 @@ form[id^='ding-reservation-reserve-form'].unavailable.reservable .reserve-button
    ========================================================================== */
 /* line 21, ../sass/module/_search.scss */
 .search-overlay--wrapper {
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba(0, 0, 0, 0.75);
   width: 100%;
   height: 100%;
   top: 0px;
