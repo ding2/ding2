@@ -1,0 +1,8 @@
+#bpi-field-mapper-wrapper label,
+#bpi-admin-settings-form .form-item-bpi-agency-id label,
+#bpi-admin-settings-form .form-item-bpi-service-url label,
+#bpi-admin-settings-form .form-item-bpi-api-key label,
+#bpi-admin-settings-form .form-item-bpi-secret-key label {
+  display: inline-block;
+  width: 175px;
+}

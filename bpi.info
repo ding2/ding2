@@ -1,0 +1,17 @@
+name = BPI
+description = Remote content syndication and pushing.
+version = 0.1
+core = 7.x
+configure = admin/config/bpi/settings
+package = BPI
+dependencies[] = date
+dependencies[] = date_popup
+dependencies[] = ding_popup
+dependencies[] = media
+dependencies[] = wysiwyg
+files[] = lib/bpi-client/Bpi/Sdk/Bpi.php
+files[] = bpi.admin.inc
+files[] = bpi.delete.inc
+files[] = bpi.push.inc
+files[] = bpi.statistics.inc
+files[] = bpi.syndicate.inc
