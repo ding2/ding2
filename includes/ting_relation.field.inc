@@ -112,9 +112,6 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   $element = array(
     '#theme' => 'ting_relation_groups',
     '#groups' => $groups,
-    '#attached' => array(
-      'css' => array(drupal_get_path('module', 'ting_relation') . '/ting_relation.css'),
-    ),
   );
 
   return $element;

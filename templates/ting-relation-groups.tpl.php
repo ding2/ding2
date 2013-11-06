@@ -25,13 +25,15 @@
  * @ingroup themeable
  */
 ?>
-<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <?php if (!$label_hidden): ?>
-    <div class="field-label"<?php print $title_attributes; ?>><?php print $title ?>:</div>
-  <?php endif; ?>
-  <div class="field-items"<?php print $content_attributes; ?>>
-    <?php foreach ($groups as $ns => $relations): ?>
-      <div class="field-item"><?php print render($relations); ?></div>
-    <?php endforeach; ?>
+<div class="pane-search-result">
+  <div class="search-results"<?php print $attributes; ?>>
+    <?php if (!$label_hidden): ?>
+      <div class="field-label"<?php print $title_attributes; ?>><?php print $title ?>:</div>
+    <?php endif; ?>
+    <ul class="list"<?php print $content_attributes; ?>>
+      <?php foreach ($groups as $ns => $relations): ?>
+        <li class="list-item"><?php print render($relations); ?></li>
+      <?php endforeach; ?>
+    </ul>
   </div>
 </div>
