@@ -755,8 +755,6 @@ function ting_search_sort_options() {
     'creator_descending' => t('Creator (Descending)'),
     'date_ascending' => t('Date (Ascending)'),
     'date_descending' => t('Date (Descending)'),
-    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
-    'acquisitionDate_descending' => t('Acquisition date (Descending)'),
   );
 
   // Add label to the front of the options.
