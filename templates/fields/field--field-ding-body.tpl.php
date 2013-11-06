@@ -1,8 +1,7 @@
 <?php
-
 /**
- * @file field--ddbasic-field-ding-event-price.tpl.php
- * Stripped all wrappers for this field.
+ * @file field-ding-body.tpl.php
+ * Removed all field wrappers.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
@@ -38,5 +37,6 @@
  * @see template_preprocess_field()
  * @see theme_field()
  */
-$price = (intval($element['#items'][0]['value']) < 1) ? t('Free') : intval($element['#items'][0]['value']) . ' kr.';
-print $price;
+?>
+<?php print render($items[0]); ?>
+ 

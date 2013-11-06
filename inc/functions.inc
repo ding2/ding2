@@ -113,7 +113,7 @@ function ddbasic_get_css_files($theme_name) {
  *   Usually the active theme.
  */
 function ddbasic_get_info_trail($theme_name) {
-  $info_trail = drupal_static(__FUNCTION__, array());
+  $info_trail = &drupal_static(__FUNCTION__, array());
   if (empty($info_trail)) {
     $lt = list_themes();
 

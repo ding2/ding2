@@ -1,6 +1,6 @@
 (function($) {
 
-  /*
+  /**
    * Toggle opening hours
    */
   function toggle_opening_hours() {
