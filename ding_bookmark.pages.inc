@@ -50,7 +50,6 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
 
     // Create basic information.
     $author = field_view_field('ting_object', $entity, 'ting_author', 'full');
-    $abstract = field_view_field('ting_object', $entity, 'ting_abstract', 'full');
 
     // Build the material item element.
     $item = array(
@@ -64,12 +63,6 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
           'data' => drupal_render($author),
           'class' => 'author',
           '#weight' => 0,
-        ),
-        'abstract' => array(
-          'label' => t('Abstract'),
-          'data' => drupal_render($abstract),
-          'class' => 'abstract',
-          '#weight' => 4,
         ),
       ),
     );
