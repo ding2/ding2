@@ -8295,11 +8295,35 @@ input#edit-search-block-form--2.spinner {
   font-size: 100%;
   margin-bottom: 5px;
 }
-/* line 227, ../sass/module/_libraries.scss */
+@media only screen and (max-width: 768px) {
+  /* line 216, ../sass/module/_libraries.scss */
+  #ding-library-front .ding-library-contact,
+  #ding-library-front .ding-library-address {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding: 20px;
+    background-color: #efefef;
+  }
+}
+/* line 236, ../sass/module/_libraries.scss */
 #ding-library-front .library-address-postal-code {
   margin-right: 5px;
 }
-/* line 231, ../sass/module/_libraries.scss */
+/* line 240, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-toggle {
   float: left;
   width: 50%;
@@ -8320,36 +8344,43 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 20px;
   width: auto;
 }
-/* line 239, ../sass/module/_libraries.scss */
+@media only screen and (max-width: 768px) {
+  /* line 240, ../sass/module/_libraries.scss */
+  #ding-library-front .opening-hours-toggle {
+    display: none;
+  }
+}
+/* line 252, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-opening-hours {
   clear: both;
   /* Toggle opening hours with javascript */
   display: none;
   margin-bottom: 10px;
 }
-/* line 247, ../sass/module/_libraries.scss */
+@media only screen and (max-width: 768px) {
+  /* line 252, ../sass/module/_libraries.scss */
+  #ding-library-front .ding-library-opening-hours {
+    display: block;
+    padding-top: 20px;
+  }
+}
+/* line 266, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week {
   padding-right: 0;
   padding-left: 0;
 }
-/* line 251, ../sass/module/_libraries.scss */
+/* line 270, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .header {
   padding-top: 10px;
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 259, ../sass/module/_libraries.scss */
+/* line 278, ../sass/module/_libraries.scss */
 #ding-library-front .opening-hours-week .day {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 266, ../sass/module/_libraries.scss */
-#ding-library-front .ding-library-news,
-#ding-library-front .ding-library-events {
-  border-top: 1px solid #efefef;
-  padding-top: 20px;
-}
-/* line 273, ../sass/module/_libraries.scss */
+/* line 284, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-news {
   clear: both;
   float: left;
@@ -8369,7 +8400,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 279, ../sass/module/_libraries.scss */
+/* line 290, ../sass/module/_libraries.scss */
 #ding-library-front .ding-library-events {
   float: right;
   width: 41.66667%;
@@ -8388,14 +8419,42 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-right: 0;
 }
+/* line 296, ../sass/module/_libraries.scss */
+#ding-library-front .ding-library-news,
+#ding-library-front .ding-library-events {
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
+}
+@media only screen and (max-width: 768px) {
+  /* line 296, ../sass/module/_libraries.scss */
+  #ding-library-front .ding-library-news,
+  #ding-library-front .ding-library-events {
+    clear: both;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+}
 
 /* Display responsive menu*/
-/* line 286, ../sass/module/_libraries.scss */
+/* line 308, ../sass/module/_libraries.scss */
 .js-library-menu-responsive {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 286, ../sass/module/_libraries.scss */
+  /* line 308, ../sass/module/_libraries.scss */
   .js-library-menu-responsive {
     display: block;
     padding-top: 10px;
