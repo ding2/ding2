@@ -315,7 +315,9 @@
 /* Sub menu
    ========================================================================== */
 
-.pane-taxonomy-menu {
+/* The submenu is moved to main menu in responsive design @see ddbasic/scripts/ddbasic.topbar.menu.js */
+.pane-taxonomy-menu,
+.sub-menu-wrapper {
   @include small-medium() {
     display: none;
   }

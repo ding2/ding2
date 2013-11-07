@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -2079,14 +2078,16 @@ button.button {
 
 /* Sub menu
    ========================================================================== */
+/* The submenu is moved to main menu in responsive design @see ddbasic/scripts/ddbasic.topbar.menu.js */
 @media only screen and (max-width: 768px) {
-  /* line 318, ../sass/framework/_navigation.scss */
-  .pane-taxonomy-menu {
+  /* line 320, ../sass/framework/_navigation.scss */
+  .pane-taxonomy-menu,
+  .sub-menu-wrapper {
     display: none;
   }
 }
 
-/* line 324, ../sass/framework/_navigation.scss */
+/* line 326, ../sass/framework/_navigation.scss */
 .sub-menu-title, .library-menu h2 {
   font-family: "SourceSansProRegular", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   font-weight: normal;
@@ -2096,17 +2097,17 @@ button.button {
   padding-bottom: 10px;
 }
 
-/* line 333, ../sass/framework/_navigation.scss */
+/* line 335, ../sass/framework/_navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 336, ../sass/framework/_navigation.scss */
+/* line 338, ../sass/framework/_navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 341, ../sass/framework/_navigation.scss */
+/* line 343, ../sass/framework/_navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -2115,17 +2116,17 @@ button.button {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 349, ../sass/framework/_navigation.scss */
+/* line 351, ../sass/framework/_navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 354, ../sass/framework/_navigation.scss */
+/* line 356, ../sass/framework/_navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 364, ../sass/framework/_navigation.scss */
+/* line 366, ../sass/framework/_navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   color: #00b7e7;
   float: left;
@@ -2134,25 +2135,25 @@ button.button {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 375, ../sass/framework/_navigation.scss */
+/* line 377, ../sass/framework/_navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 379, ../sass/framework/_navigation.scss */
+/* line 381, ../sass/framework/_navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 25px;
 }
-/* line 388, ../sass/framework/_navigation.scss */
+/* line 390, ../sass/framework/_navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
 /* Footer menus
    ========================================================================== */
-/* line 401, ../sass/framework/_navigation.scss */
+/* line 403, ../sass/framework/_navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -2160,12 +2161,12 @@ button.button {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 410, ../sass/framework/_navigation.scss */
+/* line 412, ../sass/framework/_navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: "FontAwesome";
 }
-/* line 420, ../sass/framework/_navigation.scss */
+/* line 422, ../sass/framework/_navigation.scss */
 .footer .menu {
   margin-top: 0;
   margin-right: 0;
@@ -2173,28 +2174,28 @@ button.button {
   margin-left: 0;
   padding: 0;
 }
-/* line 427, ../sass/framework/_navigation.scss */
+/* line 429, ../sass/framework/_navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 433, ../sass/framework/_navigation.scss */
+/* line 435, ../sass/framework/_navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: "FontAwesome";
 }
-/* line 439, ../sass/framework/_navigation.scss */
+/* line 441, ../sass/framework/_navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 443, ../sass/framework/_navigation.scss */
+/* line 445, ../sass/framework/_navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 768px) {
-  /* line 451, ../sass/framework/_navigation.scss */
+  /* line 453, ../sass/framework/_navigation.scss */
   .footer .menu {
     display: none;
   }
@@ -2202,20 +2203,20 @@ button.button {
 
 /* Action Links
    ========================================================================== */
-/* line 462, ../sass/framework/_navigation.scss */
+/* line 464, ../sass/framework/_navigation.scss */
 .action-links {
   padding-top: 10px;
   padding-right: 20px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
-/* line 468, ../sass/framework/_navigation.scss */
+/* line 470, ../sass/framework/_navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 475, ../sass/framework/_navigation.scss */
+/* line 477, ../sass/framework/_navigation.scss */
 .action-links li:before {
   color: #00b7e7;
   float: left;
@@ -2224,7 +2225,7 @@ button.button {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 484, ../sass/framework/_navigation.scss */
+/* line 486, ../sass/framework/_navigation.scss */
 .action-links li a {
   font-family: "SourceSansProRegular", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
