@@ -110,7 +110,7 @@ function ding_staff_update_7004() {
   }
 }
 
-/*
+/**
  * Create possibly missing Entity Cache table for profile2 entities
  */
 function ding_staff_update_7005() {
