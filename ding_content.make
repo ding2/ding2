@@ -7,11 +7,6 @@ projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
 projects[ding_page][download][branch] = "development"
 
-projects[ding_path_alias][type] = "module"
-projects[ding_path_alias][download][type] = "git"
-projects[ding_path_alias][download][url] = "git@github.com:ding2tal/ding_path_alias.git"
-projects[ding_path_alias][download][branch] = "development"
-
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
