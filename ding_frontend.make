@@ -25,6 +25,7 @@ projects[features_extra][version] = "1.0-beta1"
 
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
+projects[glboalredirect][patch][] = "https://drupal.org/files/language_redirect_view_node-1399506-2.patch"
 
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
