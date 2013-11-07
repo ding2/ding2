@@ -25,7 +25,7 @@ $search-border-type: solid;
   height: 100%;
   top: 0px;
   bottom: 0px;
-  position: absolute;
+  position: fixed;
   z-index: 99;
 
   color: rgb(255, 255, 255);
@@ -553,7 +553,7 @@ input#edit-search-block-form--2.spinner {
 
 
 
-/* Seach results list
+/* Search results list
    ========================================================================== */
 
 .pane-search-result {
@@ -572,6 +572,10 @@ input#edit-search-block-form--2.spinner {
 
       .heading {
         margin-bottom: 10px;
+      }
+
+      .meta {
+        margin-bottom: 20px;
       }
 
       .content,
