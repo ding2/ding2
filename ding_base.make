@@ -11,7 +11,7 @@ projects[features][version] = "2.0-beta2"
 
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
-projects[globalredirect][patch][] = "https://drupal.org/files/language_redirect_view_node-1399506-2.patch"
+projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.3"
