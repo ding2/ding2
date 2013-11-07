@@ -566,18 +566,40 @@ input#edit-search-block-form--2.spinner {
       padding-left: 0;
 
       .list-item {
-        background-color: $gray-light;
-        padding: 20px;
+        background: url('../images/pw_maze_white.png');
+        padding: 15px;
       }
 
-      .heading {
+      .view-mode-teaser {
+        padding: 20px;
+
+        background-color: transparentize($white, .25);
+      }
+
+      .heading h2 {
         margin-bottom: 10px;
 
-        font-size: $font-size-small;
+        font-size: $font-size-large;
       }
 
       .search-result--heading-type {
         color: $gray-darker;
+      }
+
+      .search-result--meta {
+        color: $gray-dark;
+      }
+
+      .search-result--content {
+        margin-top: 20px;
+      }
+
+      .search-result--availability,
+      .search-result--subjects,
+      .search-result--series {
+        border-top: 1px solid $gray-light;
+        margin-top: 20px;
+        padding-top: 20px;
       }
 
       .meta {

@@ -5,6 +5,14 @@
  */
 
 
+.unavailable,
+.unavailable:link,
+.unavailable:visited,
+.unavailable:hover,
+.unavailable:active {
+  color: darken($yellow, 10%);
+}
+
 form[id^='ding-reservation-reserve-form'] {
   display: none;
 
