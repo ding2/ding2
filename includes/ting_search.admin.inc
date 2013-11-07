@@ -48,14 +48,14 @@ function ting_search_admin_settings($form_state) {
   );
 
   $form['ting_search']['ting_search_result_message'] = array(
-    '#type' => 'text',
+    '#type' => 'textarea',
     '#title' => t('Display message'),
     '#default_value' => variable_get('ting_search_result_message', 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.'),
     '#description' => t('Message to display when search has more than x results. The token %s will by substitute by the number choosen.'),
   );
 
   $form['ting_search']['ting_search_result_message_limit'] = array(
-    '#type' => 'text',
+    '#type' => 'textfield',
     '#title' => t('Display message at'),
     '#default_value' => '100',
     '#description' => t('The limit at wich the message is to be displayed.'),
