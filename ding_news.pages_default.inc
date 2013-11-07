@@ -919,7 +919,17 @@ node/%node:nid/news
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'library_count',
+          'settings' => array(
+            'count' => '1',
+          ),
+          'not' => TRUE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'type' => 'ding_news',
       'context' => array(
@@ -952,6 +962,8 @@ node/%node:nid/news
         0 => 'argument_slug_1',
         1 => 'argument_term_1',
       ),
+      'override_title' => 1,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
