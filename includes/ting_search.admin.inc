@@ -57,7 +57,7 @@ function ting_search_admin_settings($form_state) {
   $form['ting_search']['ting_search_result_message_limit'] = array(
     '#type' => 'textfield',
     '#title' => t('Display message at'),
-    '#default_value' => '100',
+    '#default_value' => variable_get('ting_search_result_message_limit', 100),
     '#description' => t('The limit at wich the message is to be displayed.'),
   );
 
