@@ -36,6 +36,7 @@ function ding_staff_name_menu_content_type_render($subtype, $conf, $panel_args, 
   // Select libraries with connected staff
   $results = db_query("SELECT 
     n.nid,
+    ls.field_ding_library_slug_value AS slug,
     n.title,
     u.uid,
     fs.field_ding_staff_surname_value AS surname,
@@ -48,6 +49,7 @@ function ding_staff_name_menu_content_type_render($subtype, $conf, $panel_args, 
     JOIN field_data_field_ding_staff_surname fs ON p.pid = fs.entity_id
     LEFT JOIN field_data_field_ding_staff_forename ff ON p.pid = ff.entity_id
     JOIN node n ON om.gid = n.nid
+    LEFT JOIN  field_data_field_ding_library_slug ls ON n.nid = ls.entity_id
     WHERE r.name = 'staff'
     AND p.type = 'ding_staff_profile'
     ORDER BY n.title, fs.field_ding_staff_surname_value, ff.field_ding_staff_forename_value");
@@ -64,14 +66,16 @@ function ding_staff_name_menu_content_type_render($subtype, $conf, $panel_args, 
       if ($currentlib == NULL || $row->nid != $currentlib['id']) {
         $currentlib = array(
           'id' => $row->nid,
-          'data' => l($row->title, 'bibliotek/' . $row->nid),
+          //'data' => l($row->title, 'bibliotek/' . $row->slug),
+          'data' => l($row->title, 'node/' . $row->nid),
           'children' => array(),
         );
         $items[$row->nid] = $currentlib;
       }
       $items[$row->nid]['children'][] = l($row->surname . ', ' . $row->forename, 'user/' . $row->uid, $options);
     } else {
-      $items[$row->nid] = l($row->title, 'bibliotek/' . $row->nid, $options);
+      //$items[$row->nid] = l($row->title, 'bibliotek/' . $row->slug, $options);
+      $items[$row->nid] = l($row->title, 'node/' . $row->nid, $options);
     }
   }
 

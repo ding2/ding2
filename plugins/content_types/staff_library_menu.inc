@@ -25,26 +25,30 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
   // Default link of 'All libraries' links to staff list page. Set active class
   // if no library is given in the context.
   $options = array('attributes' => array('class' => array('active')));
-  if (isset($context->data)) {
-    $selected_library = $context->data;
+  if (isset($panel_args[0])) {
+    $selected_library = $panel_args[0];
     $options = array();
   }
   $items[] = l(t('All libraries'), 'staff' , $options);
 
-  // Select libray nids and titles.
-  $results = db_select('node', 'n')
-    ->fields('n', array('nid', 'title'))
-    ->condition('n.type', 'ding_library')
-    ->condition('n.status',   1)
-    ->execute();
-
+  // Select library nids and titles.
+  $results = db_query("SELECT
+    n.nid,
+    n.title,
+    fls.field_ding_library_slug_value AS slug
+    FROM node n
+    JOIN field_data_field_ding_library_slug fls ON n.nid = fls.entity_id 
+    WHERE n.type = 'ding_library'
+    AND n.status = 1
+    ORDER BY n.title;");
+  
   // Create links for each library found to that libraries staff page.
   foreach ($results as $row) {
     $options = array();
-    if ($selected_library && $selected_library->nid == $row->nid) {
+    if ($selected_library && $selected_library == $row->slug) {
       $options = array('attributes' => array('class' => array('active')));
     }
-    $items[] = l($row->title, 'bibliotek/' . $row->nid . '/staff', $options);
+    $items[] = l($row->title, 'bibliotek/' . $row->slug . '/staff', $options);
   }
 
   $block->content = array(
