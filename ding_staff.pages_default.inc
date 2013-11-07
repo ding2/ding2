@@ -31,13 +31,11 @@ function ding_staff_default_page_manager_handlers() {
     'access' => array(
       'plugins' => array(
         0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 8,
-            ),
+          'name' => 'has_staff_role',
+          'settings' => NULL,
+          'context' => array(
+            0 => 'argument_entity_id:user_1',
           ),
-          'context' => 'argument_entity_id:user_1',
           'not' => FALSE,
         ),
         1 => array(
@@ -276,19 +274,18 @@ function ding_staff_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding staff library';
   $page->admin_description = '';
-  $page->path = 'bibliotek/%node/staff';
+  $page->path = 'bibliotek/%slug/staff';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
   );
   $page->menu = array();
   $page->arguments = array(
-    'node' => array(
+    'slug' => array(
       'id' => 1,
-      'identifier' => 'Library node',
-      'name' => 'entity_id:node',
+      'identifier' => 'Node: Ding library slug',
+      'name' => 'slug',
       'settings' => array(),
-      'keyword' => 'node',
     ),
   );
   $page->conf = array(
@@ -312,15 +309,7 @@ function ding_staff_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'OG group from library node',
-        'keyword' => 'group',
-        'name' => 'og_group_from_node',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -378,7 +367,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => '%node:title : departments & staff',
+      'override_title_text' => '%slug:title : departments & staff',
     );
     $pane->cache = array();
     $pane->style = array(
