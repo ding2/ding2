@@ -145,13 +145,25 @@
      * Add news category menu as sub-menu to news in main menu
      */
     if ($(".pane-taxonomy-menu").length > 0) {
-      $(".pane-taxonomy-menu .sub-menu").clone().appendTo('.active-trail');
-      // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
-      $(".main-menu .sub-menu").addClass('main-menu');
+      $(".pane-taxonomy-menu > .sub-menu").clone().appendTo('.main-menu > .active-trail');
+
+      // Switch a few classes for style purposes.
       $(".main-menu .sub-menu a").addClass('menu-item');
+      $(".main-menu .sub-menu").addClass('main-menu');
       $(".main-menu .sub-menu").removeClass('sub-menu');
-      // Add sub-menu-wrapper class to taxonomy menu
-      $(".pane-news-category-menu").addClass('sub-menu-wrapper');
+
+      // The old menu is hidden by css on minor media queries.
+    }
+
+    if ($(".sub-menu-wrapper").length > 0) {
+      $(".sub-menu-wrapper > .sub-menu").clone().appendTo('.main-menu > .active-trail');
+
+      // Switch a few classes for style purposes.
+      $(".main-menu .sub-menu a").addClass('menu-item');
+      $(".main-menu .sub-menu").addClass('main-menu');
+      $(".main-menu .sub-menu").removeClass('sub-menu');
+
+      // The old menu is hidden by css on minor media queries.
     }
 
     /**
