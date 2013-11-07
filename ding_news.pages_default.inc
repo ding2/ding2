@@ -607,14 +607,28 @@ news/%tid:name',
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'library_count',
+          'settings' => array(
+            'count' => '1',
+          ),
+          'not' => TRUE,
+        ),
+        1 => array(
+          'settings' => NULL,
+          'not' => TRUE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'type' => 'ding_news',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'slug' => 'nyheder',
     );
@@ -635,7 +649,10 @@ news/%tid:name',
     $pane->subtype = 'ding_news-ding_news_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
