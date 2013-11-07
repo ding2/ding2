@@ -144,7 +144,7 @@
     /**
      * Add news category menu as sub-menu to news in main menu
      */
-    if ($(".pane-taxonomy-menu").length > 0) {
+   /* if ($(".pane-taxonomy-menu").length > 0) {
       $(".pane-taxonomy-menu > .sub-menu").clone().appendTo('.main-menu > .active-trail');
 
       // Switch a few classes for style purposes.
@@ -153,7 +153,7 @@
       $(".main-menu .sub-menu").removeClass('sub-menu');
 
       // The old menu is hidden by css on minor media queries.
-    }
+    }*/
 
     if ($(".sub-menu-wrapper").length > 0) {
       $(".sub-menu-wrapper > .sub-menu").clone().appendTo('.main-menu > .active-trail');
