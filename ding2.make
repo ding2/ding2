@@ -82,6 +82,11 @@ projects[ding_session_cache][download][type] = "git"
 projects[ding_session_cache][download][url] = "git@github.com:ding2tal/ding_session_cache.git"
 projects[ding_session_cache][download][branch] = "development"
 
+projects[ding_staff][type] = "module"
+projects[ding_staff][download][type] = "git"
+projects[ding_staff][download][url] = "git@github.com:ding2tal/ding_staff.git"
+projects[ding_staff][download][branch] = "development"
+
 projects[ding_varnish][type] = "module"
 projects[ding_varnish][download][type] = "git"
 projects[ding_varnish][download][url] = "git@github.com:ding2tal/ding_varnish.git"
