@@ -9447,13 +9447,16 @@ input#edit-search-block-form--2.spinner {
 .user-status-reservation,
 .user-status-debt,
 .user-status-ready-pickup {
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
   font-family: "SourceSansProSemibold";
   font-weight: normal;
   display: block;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 10px 20px;
 }
-/* line 475, ../sass/module/_user.scss */
+/* line 476, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
@@ -9461,20 +9464,20 @@ input#edit-search-block-form--2.spinner {
   text-decoration: none;
 }
 
-/* line 481, ../sass/module/_user.scss */
+/* line 482, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 486, ../sass/module/_user.scss */
+/* line 487, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 496, ../sass/module/_user.scss */
+/* line 497, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -9483,36 +9486,36 @@ input#edit-search-block-form--2.spinner {
   color: white;
 }
 
-/* line 501, ../sass/module/_user.scss */
+/* line 502, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 505, ../sass/module/_user.scss */
+/* line 506, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 510, ../sass/module/_user.scss */
+/* line 511, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 514, ../sass/module/_user.scss */
+/* line 515, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 519, ../sass/module/_user.scss */
+/* line 520, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 522, ../sass/module/_user.scss */
+/* line 523, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 529, ../sass/module/_user.scss */
+/* line 530, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -9524,17 +9527,17 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 539, ../sass/module/_user.scss */
+/* line 540, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
-/* line 543, ../sass/module/_user.scss */
+/* line 544, ../sass/module/_user.scss */
 .pane-profile2 .notice-sms {
   font-style: italic;
   padding-left: .5em;
 }
 @media only screen and (max-width: 480px) {
-  /* line 550, ../sass/module/_user.scss */
+  /* line 551, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -9543,14 +9546,14 @@ input#edit-search-block-form--2.spinner {
 
 /* User loans
    ========================================================================== */
-/* line 564, ../sass/module/_user.scss */
+/* line 565, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 569, ../sass/module/_user.scss */
+/* line 570, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -9559,7 +9562,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 576, ../sass/module/_user.scss */
+/* line 577, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -9568,12 +9571,12 @@ input#edit-search-block-form--2.spinner {
   margin-left: 47px;
 }
 
-/* line 584, ../sass/module/_user.scss */
+/* line 585, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 589, ../sass/module/_user.scss */
+/* line 590, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;

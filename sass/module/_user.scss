@@ -466,11 +466,12 @@
 .user-status-reservation,
 .user-status-debt,
 .user-status-ready-pickup {
+  @include border-radius(8px);
   @include font-bold();
 
   display: block;
-  margin-bottom: $medium-spacing;
-  padding: $medium-spacing;
+  margin-bottom: 10px;
+  padding: 10px 20px;
 
   &:hover {
     text-decoration: none;
