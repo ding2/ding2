@@ -349,82 +349,87 @@ function ting_search_conditions_callback($keys) {
  * Implements hook_search_execute().
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
-  $options = array();
-  $results = array();
-  $facet_array = array();
-  $query = '(' . _ting_search_quote($keys) . ')';
-  $options['numFacets'] = variable_get('ting_search_number_of_facets', 25);
-
-  // Extend query with selected facets.
-  if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
-    $facets = $conditions['facets'];
-    foreach ($facets as $facet) {
-      $facet = explode(':', $facet, 2);
-      if ($facet[0]) {
-        $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
-      }
-    }
-
-    $query .= ' AND ' . implode(' AND ', $facet_array);
-  }
-
-  $search_result = NULL;
-  try {
-    $page = pager_find_page();
-
-    // Set results per page.
-    $results_per_page = variable_get('ting_search_results_per_page', 10);
-    if (!empty($conditions['size'])) {
-      $results_per_page = $conditions['size'];
-    }
-
-    // Set sort order.
-    if (!empty($conditions['sort'])) {
-      $options['sort'] = $conditions['sort'];
-    }
-
-    module_load_include('client.inc', 'ting');
-    $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
-    if (isset($search_result->collections)) {
-      $search_result->search_key = $keys;
-
-      // @todo: caching highs total_result know value of specific search
-      // at the moment we only know if there is one more page
-      $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
-
-      pager_default_initialize($total_results, $results_per_page);
-
-      foreach ($search_result->collections as &$collection) {
-        $build = ting_collection_view($collection, 'teaser');
-        $uri = entity_uri('ting_collection', $collection);
-        $results[] = array(
-          'link' => url($uri['path'], $uri['options']),
-          'type' => '',
-          'title' => $collection->title,
-          'user' => '',
-          'date' => '',
-          'snippet' => drupal_render($build),
-        );
-      }
-    }
-  }
-  catch (TingClientException $e) {
-    watchdog_exception('ting_search', $e);
+  // Use static variable to ensure that this is only executed once.
+  $results = &drupal_static(__FUNCTION__);
+  if (!isset($results)) {
     $results = array();
-  }
+    $options = array();
+    $results = array();
+    $facet_array = array();
+    $query = '(' . _ting_search_quote($keys) . ')';
+    $options['numFacets'] = variable_get('ting_search_number_of_facets', 25);
 
-  // Save search result for usage by facet modules etc.
-  $ting_search_results = &drupal_static('ting_search_results');
-  $ting_search_results = $search_result;
+    // Extend query with selected facets.
+    if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
+      $facets = $conditions['facets'];
+      foreach ($facets as $facet) {
+        $facet = explode(':', $facet, 2);
+        if ($facet[0]) {
+          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+        }
+      }
 
-  // Add support for facet api.
-  if (module_exists('ding_facets')) {
-    // @todo ITK Aarhus finish implementation of facet api to use a standard
-    // facet module, that allows usage of modules from D.O. to improved facet
-    // usage.
-    $adapter = facetapi_adapter_load('ding_facets');
-    if ($adapter) {
-      $adapter->addActiveFilters($query);
+      $query .= ' AND ' . implode(' AND ', $facet_array);
+    }
+
+    $search_result = NULL;
+    try {
+      $page = pager_find_page();
+
+      // Set results per page.
+      $results_per_page = variable_get('ting_search_results_per_page', 10);
+      if (!empty($conditions['size'])) {
+        $results_per_page = $conditions['size'];
+      }
+
+      // Set sort order.
+      if (!empty($conditions['sort'])) {
+        $options['sort'] = $conditions['sort'];
+      }
+
+      module_load_include('client.inc', 'ting');
+      $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
+      if (isset($search_result->collections)) {
+        $search_result->search_key = $keys;
+
+        // @todo: caching highs total_result know value of specific search
+        // at the moment we only know if there is one more page
+        $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
+
+        pager_default_initialize($total_results, $results_per_page);
+
+        foreach ($search_result->collections as &$collection) {
+          $build = ting_collection_view($collection, 'teaser');
+          $uri = entity_uri('ting_collection', $collection);
+          $results[] = array(
+            'link' => url($uri['path'], $uri['options']),
+            'type' => '',
+            'title' => $collection->title,
+            'user' => '',
+            'date' => '',
+            'snippet' => drupal_render($build),
+          );
+        }
+      }
+    }
+    catch (TingClientException $e) {
+      watchdog_exception('ting_search', $e);
+      $results = array();
+    }
+
+    // Save search result for usage by facet modules etc.
+    $ting_search_results = &drupal_static('ting_search_results');
+    $ting_search_results = $search_result;
+
+    // Add support for facet api.
+    if (module_exists('ding_facets')) {
+      // @todo ITK Aarhus finish implementation of facet api to use a standard
+      // facet module, that allows usage of modules from D.O. to improved facet
+      // usage.
+      $adapter = facetapi_adapter_load('ding_facets');
+      if ($adapter) {
+        $adapter->addActiveFilters($query);
+      }
     }
   }
 
