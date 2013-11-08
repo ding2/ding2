@@ -19,7 +19,7 @@ function ding_staff_views_default_views() {
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-  
+
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Staff';
@@ -117,10 +117,8 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'profile';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'ding_staff_profile' => 'ding_staff_profile',
-  );
-  
+  $handler->display->display_options['filters']['type']['value'] = array('ding_staff_profile' => 'ding_staff_profile');
+
   /* Display: All staff list */
   $handler = $view->new_display('panel_pane', 'All staff list', 'ding_staff_list_all');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -274,12 +272,10 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'profile';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'ding_staff_profile' => 'ding_staff_profile',
-  );
+  $handler->display->display_options['filters']['type']['value'] = array('ding_staff_profile' => 'ding_staff_profile');
   $handler->display->display_options['pane_category']['name'] = 'Bruger';
   $handler->display->display_options['pane_category']['weight'] = '0';
-  
+
   /* Display: Library departments list */
   $handler = $view->new_display('panel_pane', 'Library departments list', 'ding_staff_library_departments');
   $handler->display->display_options['display_description'] = 'Department grouped list, not using tables';
@@ -621,9 +617,8 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['relationships']['profile']['table'] = 'users';
   $handler->display->display_options['relationships']['profile']['field'] = 'profile';
   $handler->display->display_options['relationships']['profile']['ui_name'] = 'Profile: staff';
-  $handler->display->display_options['relationships']['profile']['bundle_types'] = array(
-    'ding_staff_profile' => 'ding_staff_profile',
-  );
+  $handler->display->display_options['relationships']['profile']['bundle_types'] = array('ding_staff_profile' => 'ding_staff_profile');
+
   /* Felt: Bulk operations: Bruger */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'users';
@@ -677,9 +672,7 @@ function ding_staff_views_default_views() {
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-      'settings' => array(
-        'url' => '',
-      ),
+      'settings' => array('url' => ''),
     ),
     'action::system_send_email_action' => array(
       'selected' => 1,
@@ -798,9 +791,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['uid']['table'] = 'users';
   $handler->display->display_options['filters']['uid']['field'] = 'uid';
   $handler->display->display_options['filters']['uid']['operator'] = 'not in';
-  $handler->display->display_options['filters']['uid']['value'] = array(
-    0 => 0,
-  );
+  $handler->display->display_options['filters']['uid']['value'] = array(0 => 0);
   $handler->display->display_options['filters']['uid']['group'] = 1;
   /* Filter criterion: Bruger: Name (raw) */
   $handler->display->display_options['filters']['name']['id'] = 'name';

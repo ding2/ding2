@@ -28,8 +28,8 @@ function ding_staff_default_rules_configuration() {
 
 
 /**
-* Implements of hook_rules_action_info().
-*/
+ * Implements of hook_rules_action_info().
+ */
 function ding_staff_rules_action_info() {
   return array(
     'ding_staff_add_role_staff' => array(
@@ -45,13 +45,16 @@ function ding_staff_rules_action_info() {
   );
 }
 /*
- * Action to add the staff role to a user. 
+ * Action to add the staff role to a user.
  *
  * Since we cannot know which role ID the staff role has been assigned,
  * this function is used instead of the "add user role" action
+ *
+ * @param $profile_user
+ *   User object.
  */
 function ding_staff_add_role_staff($profile_user) {
-  // get the uid from the object
+  // Get the uid from the object.
   if (isset($profile_user->uid)) {
     $uid = $profile_user->uid;
   }
@@ -59,12 +62,12 @@ function ding_staff_add_role_staff($profile_user) {
     return;
   }
 
-  //make sure we have a user record
-  if ($uid){
+  // Make sure we have a user record.
+  if ($uid) {
     // Define "staff" as the role to add.
     $role_name = "staff";
     $user = user_load($uid);
-    
+
     // If the user doesn't already have the role, add the role to that user.
     $key = array_search($role_name, $user->roles);
     if ($key == FALSE) {
@@ -74,7 +77,8 @@ function ding_staff_add_role_staff($profile_user) {
       $rid = array_search($role_name, $roles);
       if ($rid != FALSE) {
         $new_role[$rid] = $role_name;
-        $all_roles = $user->roles + $new_role; // Add new role to existing roles.
+        // Add new role to existing roles.
+        $all_roles = $user->roles + $new_role;
         user_save($user, array('roles' => $all_roles));
         drupal_set_message(t('@username has been assigned the staff role.', array('@username' => $profile_user->name)), 'status');
       }
