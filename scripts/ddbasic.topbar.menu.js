@@ -7,82 +7,54 @@
   /**
    * Toggle the search form from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true the form and link are active/open.
    */
-  function ddbasic_search(init) {
-    var link = $('.js-topbar-link.topbar-link-search');
-    var header = $('.header-wrapper');
-    var form = $('.js-topbar-search');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-      // If on front-page display search.
-      if ($('body').hasClass('front')) {
-        link.addClass('active');
-        form.show();
-        header.show();
-      }
-      else {
-        link.removeClass('active');
-        form.hide();
-        header.hide();
-      }
-    }
-    else {
-      link.toggleClass('active');
-      form.toggle();
-      header.toggle();
+  function ddbasic_search(open) {
+    if (open) {
+      ddbasic_strip_active();
+      $('.topbar-menu .leaf .topbar-link-search').addClass('active');
+      $('.js-topbar-search').addClass('open');
     }
   }
 
   /**
    * Toggle the mobile menu from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true the form and link are active/open.
    */
-  function ddbasic_mobile_menu(init) {
-    var menu_link = $('.js-topbar-link.topbar-link-menu');
-    var menu = $('.js-topbar-menu');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-      menu_link.removeClass('active');
-    }
-    else {
-      menu_link.toggleClass('active');
-      menu.toggleClass('js-topbar-toggled');
+  function ddbasic_mobile_menu(open) {
+    if (open) {
+      ddbasic_strip_active();
+      $('.topbar-menu .leaf .topbar-link-menu').addClass('active');
+      $('.js-topbar-menu').addClass('open');
     }
   }
 
   /**
    * Toggle the user login form from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true the form and link are active/open.
    */
-  function ddbasic_user_login(init) {
-    var link = $('.js-topbar-link.topbar-link-user');
-    var header = $('.header-wrapper');
-    var form = $('.js-topbar-user');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-        form.hide();
-        header.hide();
+  function ddbasic_user_login(open) {
+    if (open) {
+      ddbasic_strip_active();
+      $('.topbar-menu .leaf .topbar-link-user-account').addClass('active');
+      $('.pane-ding-user-frontend-ding-user-menu').addClass('open');
     }
-    else {
-      link.toggleClass('active');
-      form.toggle();
-      header.toggle();
-    }
+  }
+
+  /**
+   * Strip active open classes.
+   */
+  function ddbasic_strip_active() {
+    $('.topbar-menu .leaf .js-topbar-link').removeClass('active');
+    $('.js-topbar-search').removeClass('open');
+    $('.js-topbar-menu').removeClass('open');
+    $('.pane-ding-user-frontend-ding-user-menu').removeClass('open');
+    $('.front .js-topbar-search').addClass('open');
   }
 
   /**
@@ -93,52 +65,27 @@
    */
   $(document).ready(function () {
     // Init the top bar.
-    ddbasic_mobile_menu(true);
-    ddbasic_user_login(true);
-    ddbasic_search(true);
+    ddbasic_strip_active()
+    $('.front .js-topbar-link.topbar-link-search').addClass('active');
 
     // If the search link is click toggle mobile menu if shown and display search.
     $('.js-topbar-link.topbar-link-search').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_mobile_menu();
-      }
-      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
-        // User menu is open, so close it.
-        ddbasic_user_login();
-      }
-
-      ddbasic_search();
+        ddbasic_search(true);
       e.preventDefault();
     });
 
     // If the mobile menu is click toggle search if displayed and display menu.
     $('.js-topbar-link.topbar-link-menu').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
-        // Search is open, so close it.
-        ddbasic_search();
-      }
-      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_user_login();
-      }
-      ddbasic_mobile_menu();
+        ddbasic_mobile_menu(true);
       e.preventDefault();
     });
 
     // User login.
-    $('.js-topbar-link.topbar-link-user').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
-        // Search is open, so close it.
-        ddbasic_search();
-      }
-      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_mobile_menu();
-      }
-      ddbasic_user_login();
+    $('.js-topbar-link.topbar-link-user-account').on('click touchstart', function(e) {
+        ddbasic_user_login(true);
       e.preventDefault();
     });
+
 
 
     /**

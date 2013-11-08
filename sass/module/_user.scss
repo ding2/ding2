@@ -554,7 +554,6 @@
   }
 }
 
-
 /* User loans
    ========================================================================== */
 
@@ -606,4 +605,11 @@
   .form-submit {
     @extend %button-danger;
   }
+}
+
+/* User top-menu
+   ========================================================================== */
+
+.topbar .pane-ding-user-frontend-ding-user-menu {
+  display: none;
 }
