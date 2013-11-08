@@ -18,7 +18,7 @@ include_once 'ding_permissions.features.inc';
 function ding_permissions_secure_permissions_roles() {
   return array(
     'guest blogger',
-    'provider',
+    'facilitator',
     'local editor',
     'editor',
     'staff',
@@ -71,7 +71,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_news content',
       'view own private files',
     ),
-    'provider' => array(
+    'facilitator' => array(
       'access workbench',
       'clone node',
       'create ding_event content',
