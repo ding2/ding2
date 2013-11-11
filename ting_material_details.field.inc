@@ -339,55 +339,65 @@ function ting_material_details_record_info() {
   return $ret;
 }
 
-/*
- * helper function
- * return array
+/**
+ * Gets the field value of a ting record for a given field type.
+ *
+ * @param string $field_type
+ *   The name of the field that should have its value extracted.
+ * @oaram TingEntity $entity
+ *   The ting entity the contains the field and value.
+ *
+ * @return mixed
+ *   The fields value or FALSE if field do not exists or is empty.
  */
-
-function ting_material_details_get_record_value($field_type, $entity) {
+function ting_material_details_get_record_value($field_type, TingEntity $entity) {
   $rec_info = ting_material_details_record_info();
   $rec = isset($rec_info[$field_type]) ? $rec_info[$field_type] : FALSE;
+  $value = FALSE;
 
-  if (!$rec) {
-    return FALSE;
-  }
+  if ($rec) {
+    // If it's a string simply use it.
+    if (is_string($rec)) {
+      $value = $entity->$rec;
+    }
 
-  if (is_string($rec)) {
-    $value = $entity->$rec;
-  }
-
-  if (is_array($rec)) {
-    foreach ($rec as $key => $val) {
-      if ($key) {
-        $value = isset($entity->record[$key][$val]) ? $entity->record[$key][$val] : FALSE;
-      }
-      else {
-        $value = isset($entity->record[$val]['']) ? $entity->record[$val][''] : FALSE;
+    if (is_array($rec)) {
+      foreach ($rec as $key => $val) {
+        if ($key) {
+          $value = isset($entity->record[$key][$val]) ? $entity->record[$key][$val] : FALSE;
+        }
+        else {
+          $value = isset($entity->record[$val]['']) ? $entity->record[$val][''] : FALSE;
+        }
       }
     }
   }
+
   return ting_material_details_parse($field_type, $value);
 }
 
-/*
- * helper function
- * handle special cases
+/**
+ * Parse ting entity field value based on field type.
+ *
+ * @param string $field_type
+ *   The name of the field that should have its value extracted.
+ * @oaram mixed $value
+ *   The fields value.
+ *
+ * @return mixed
+ *   The fields value or FALSE.
  */
-
 function ting_material_details_parse($field_type, $value) {
-  if (!$value) {
-    return FALSE;
-  }
+  $ret = $value;
 
-  switch ($field_type) {
-    case 'ting_details_uri':
-      foreach ($value as $key => $val) {
-        $ret[] = l($val, $val);
-      }
-      break;
-
-    default:
-      $ret = $value;
+  if ($value) {
+    switch ($field_type) {
+      case 'ting_details_uri':
+        foreach ($value as $val) {
+          $ret[] = l($val, $val);
+        }
+        break;
+    }
   }
 
   return $ret;
@@ -494,15 +504,6 @@ function process_series_info($series) {
   }
 
   return $result;
-}
-
-/**
- * Implements hook_field_validate().
- *
- * @todo is some kind of validation needed?
- */
-function ting_material_details_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
-  // Do nothing.
 }
 
 /**
