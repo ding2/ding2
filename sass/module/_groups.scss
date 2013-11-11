@@ -1,0 +1,91 @@
+/**
+ * Groups
+ *
+ * @author magnify, zorp
+ */
+
+
+
+/* Group blocks
+   ========================================================================== */
+
+.group-blocks--wrapper {
+  @include zen-grid-container();
+
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.group-blocks--inner {
+  @include zen-clear(both);
+  @include zen-nested-container();
+
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid $gray-light;
+}
+
+.group-blocks--one {
+  .group-blocks--first {
+    @include zen-grid-item(12, 1);
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.group-blocks--two {
+  .group-blocks--first {
+    @include zen-grid-item(6, 1);
+
+    padding-left: 0;
+  }
+
+  .group-blocks--second {
+    @include zen-grid-item(6, 1, right);
+
+    padding-right: 0;
+  }
+}
+
+.group-blocks--three {
+  .group-blocks--first {
+    @include zen-grid-item(4, 1);
+
+    padding-left: 0;
+  }
+
+  .group-blocks--second {
+    @include zen-grid-item(4, 5);
+  }
+
+  .group-blocks--third {
+    @include zen-grid-item(4, 1, right);
+
+    padding-right: 0;
+  }
+}
+
+.group-blocks--four {
+  .group-blocks--first {
+    @include zen-grid-item(3, 1);
+
+    padding-left: 0;
+  }
+
+  .group-blocks--second {
+    @include zen-grid-item(3, 4);
+  }
+
+  .group-blocks--third {
+    @include zen-grid-item(3, 4, right);
+  }
+
+  .group-blocks--fourth {
+    @include zen-grid-item(3, 1, right);
+
+    padding-right: 0;
+  }
+}
