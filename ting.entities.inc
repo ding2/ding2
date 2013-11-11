@@ -33,7 +33,6 @@ class TingRelation extends DingEntityBase {
  */
 class TingEntity extends DingEntity {
   public $type = DingEntityBase::NULL;
-  public $collectionTypes = DingEntityBase::NULL;
   public $serieNumber = DingEntityBase::NULL;
   public $serieTitle = DingEntityBase::NULL;
   public $serieDescription = DingEntityBase::NULL;
@@ -53,10 +52,6 @@ class TingEntity extends DingEntity {
   public $extent = DingEntityBase::NULL;
   public $classification = DingEntityBase::NULL;
   public $isbn = DingEntityBase::NULL;
-
-  public function getCollectionTypes() {
-    return !empty($this->reply->collectionTypes[0]) ? $this->reply->collectionTypes : FALSE;
-  }
 
   public function getExtent() {
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
