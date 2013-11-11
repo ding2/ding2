@@ -13,10 +13,10 @@
   function ddbasic_search(open) {
     if (open) {
       $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
-      $('.js-topbar-search').toggleClass('open');
+      $('.js-topbar-search').css("display", "block");
     } else {
       $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
-      $('.js-topbar-search').removeClass('open');
+      $('.js-topbar-search').css("display", "none");
     }
   }
 
@@ -29,10 +29,10 @@
   function ddbasic_mobile_menu(open) {
     if (open) {
       $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
-      $('.js-topbar-menu').toggleClass('open');
+      $('.js-topbar-menu').css("display", "block");
     } else {
       $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
-      $('.js-topbar-menu').removeClass('open');
+      $('.js-topbar-menu').css("display", "none");
     }
   }
 
@@ -44,11 +44,27 @@
    */
   function ddbasic_user_login(open) {
     if (open) {
+      $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
+      $('.js-topbar-user').css("display", "block");
+    } else {
+      $('.topbar-menu .leaf .topbar-link-user').removeClass('active');
+      $('.js-topbar-user').css("display", "none");
+    }
+  }
+
+  /**
+   * Toggle the user menu when logged in
+   *
+   * @param bool open
+   *   If true the form and link are active/open.
+   */
+  function ddbasic_user_account(open) {
+    if (open) {
       $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
-      $('.js-user-top-menu').toggleClass('open');
+      $('.js-user-top-menu').css("display", "block");
     } else {
       $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
-      $('.js-user-top-menu').removeClass('open');
+      $('.js-user-top-menu').css("display", "none");
     }
   }
 
@@ -65,15 +81,11 @@
    * When ready start the magic and handle the menu.
    */
   $(document).ready(function () {
-    // Clone and add mobile link, this way we can add specific action on mobile devices.
-    $('.js-topbar-link.topbar-link-user-account').clone().appendTo('.topbar-menu > .topbar-link-user-account');
-    $('.topbar-menu .topbar-link-user-account .js-topbar-link:last-child').addClass('js-topbar-link-mobile');
-
-    // Init the top bar.
-    ddbasic_strip_active()
-
     // Open search as default on frontpage.
-    $('.front .js-topbar-search').addClass('open');
+    $('.front .js-topbar-search').css("display", "block");
+
+    //Hide user login on load.
+    $('.js-topbar-user').css("display", "none");
 
     // Set active classes on menu.
     $('.front .leaf .topbar-link-menu').removeClass('active');
@@ -84,6 +96,7 @@
       ddbasic_search(true);
       ddbasic_mobile_menu(false);
       ddbasic_user_login(false);
+      ddbasic_user_account(false);
       e.preventDefault();
     });
 
@@ -92,17 +105,25 @@
       ddbasic_mobile_menu(true);
       ddbasic_search(false);
       ddbasic_user_login(false);
+      ddbasic_user_account(false);
       e.preventDefault();
     });
 
     // If the user login is clicked toggle user and show/hide user menu.
-    $('.js-topbar-link.js-topbar-link-mobile').on('click touchstart', function(e) {
+    $('.js-topbar-link.topbar-link-user').on('click touchstart', function(e) {
       ddbasic_user_login(true);
       ddbasic_mobile_menu(false);
       ddbasic_search(false);
       e.preventDefault();
     });
 
+    // If the user login is clicked toggle user and show/hide user menu.
+    $('.js-topbar-link.topbar-link-user-account').on('click touchstart', function(e) {
+      ddbasic_user_account(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_search(false);
+      e.preventDefault();
+    });
 
     /**
      * Add news category menu as sub-menu to news in main menu

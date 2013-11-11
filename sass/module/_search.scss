@@ -101,15 +101,6 @@ $search-border-type: solid;
   }
 }
 
-// Part of JS functionality. Open class provided by ddbasic.topbar.menu.js
-.js-topbar-search {
-  display: none;
-
-  &.open {
-    display: block;
-  }
-}
-
 
 /* Search in content
    ========================================================================== */

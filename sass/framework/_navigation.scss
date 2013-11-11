@@ -18,10 +18,6 @@
     display: inline;
   }
 
-  .js-topbar-link-mobile {
-    display: none;
-  }
-
   .menu-item {
     @include text-shadow(1px 1px 0 rgba(0, 0, 0, .5));
     @include font-bold();
@@ -50,10 +46,6 @@
     &.topbar-link-menu {
       display: none;
     }
-
-    &.js-topbar-link-mobile {
-      display: none;
-    }
   }
 
   i[class^="icon-"] {
@@ -80,18 +72,6 @@
     span {
       display: none;
     }
-
-    .menu-item {
-      &.topbar-link-user-account {
-        display: none;
-      }
-
-      /* Show mobile link menu item */
-      &.js-topbar-link-mobile,
-      &.topbar-link-menu {
-        display: inline-block;
-      }
-    }
   }
 }
 
@@ -106,10 +86,6 @@
   max-width: 100%;
   overflow: hidden;
   width: 100%;
-
-  &.js-topbar-menu.open {
-    display: block;
-  }
 
   /* Media queries */
   @include small-medium() {
