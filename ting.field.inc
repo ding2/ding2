@@ -131,6 +131,7 @@ function ting_field_formatter_info() {
       ),
       'settings' => array(
         'link_type' => 'none',
+        'prefix_type' => 'no',
       ),
     ),
     'ting_type_default' => array(
@@ -211,6 +212,16 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         ),
         '#default_value' => $settings['link_type'],
       );
+
+      $element['prefix_type'] = array(
+        '#type' => 'radios',
+        '#title' => t('Prefix with "ting type"'),
+        '#options' => array(
+          'no' => t('No'),
+          'yes' => t('Yes'),
+        ),
+        '#default_value' => $settings['prefix_type'],
+      );
       break;
 
     case 'ting_entities':
@@ -249,7 +260,9 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
   $summary = '';
   switch ($field['type']) {
     case 'ting_title':
-      $summary .= t('Link type: @type', array('@type' => $settings['link_type']));
+      $summary .= t('<strong>Link type:</strong> @type', array('@type' => $settings['link_type']));
+      $summary .= '</br>';
+      $summary .= t('<strong>Prefix with type</strong>: @type', array('@type' => $settings['prefix_type']));
       break;
 
     case 'ting_entities':
@@ -316,11 +329,32 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         else {
           $title = check_plain($entity->title);
         }
-        $element[$delta] = array(
-          '#prefix' => '<h2>',
-          '#suffix' => '</h2>',
-          '#markup' => $title,
-        );
+
+        // Check if element should be prefixed with type.
+        if ($display['settings']['prefix_type'] == 'yes') {
+          $ting_type = $entity->getType();
+          if (count($entity->getCollectionTypes()) > 1) {
+            $ting_type = t('Material collection');
+          }
+
+          $element[$delta] = array(
+            '#prefix' => '<h2>',
+            '#suffix' => '</h2>',
+            'title' => array(
+              // @todo: this could be moved into a theme function to be more
+              // generic.
+              '#prefix' => '<span class="search-result--heading-type">' . $ting_type . ':</span>',
+              '#markup' => $title,
+            ),
+          );
+        }
+        else {
+          $element[$delta] = array(
+            '#prefix' => '<h2>',
+            '#suffix' => '</h2>',
+            '#markup' => $title,
+          );
+        }
         break;
 
       case 'ting_type_default':
