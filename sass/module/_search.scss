@@ -611,11 +611,21 @@ input#edit-search-block-form--2.spinner {
       }
 
       .search-result--availability,
-      .search-result--subjects,
       .search-result--series {
         border-top: 1px solid $gray-light;
         margin-top: 20px;
         padding-top: 20px;
+      }
+
+      .search-result--availability-link {
+        margin-right: 8px;
+        padding-right: 11px;
+
+        border-right: 1px solid $gray;
+      }
+
+      .search-result--availability-link:last-child {
+        border-right: 0;
       }
 
       .meta {
