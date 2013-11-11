@@ -65,6 +65,21 @@ function ding_availability_theme($existing, $type, $theme, $path) {
       ),
       'path' => $path . '/templates',
     ),
+    'ding_availability_types' => array(
+      'template' => 'ding-availability-types',
+      'variables' => array(
+        'types' => array(),
+      ),
+      'path' => $path . '/templates',
+    ),
+    'ding_availability_type' => array(
+      'template' => 'ding-availability-type',
+      'variables' => array(
+        'label' => NULL,
+        'links' => array(),
+      ),
+      'path' => $path . '/templates',
+    ),
   );
 }
 
