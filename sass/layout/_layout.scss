@@ -57,9 +57,8 @@ body {
   }
 
   //Media queries
-  @include small() {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  @include small-medium() {
+    padding: 0;
   }
 }
 

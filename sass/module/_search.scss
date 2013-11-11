@@ -92,6 +92,19 @@ $search-border-type: solid;
     padding-left: 49px;
   }
 
+  @include small-medium {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    width: auto;
+  }
+}
+
+// Part of JS functionality. Open class provided by ddbasic.topbar.menu.js
+.js-topbar-search {
+  display: none;
+
   &.open {
     display: block;
   }

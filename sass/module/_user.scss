@@ -618,6 +618,14 @@
 /* User top-menu
    ========================================================================== */
 
-.topbar .pane-ding-user-frontend-ding-user-menu {
+.topbar .js-user-top-menu {
+  background: $header-background-color;
+  clear: both;
   display: none;
+
+  @include small-medium() {
+    &.open {
+      display:block;
+    }
+  }
 }

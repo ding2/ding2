@@ -12,9 +12,12 @@
    */
   function ddbasic_search(open) {
     if (open) {
-      ddbasic_strip_active();
-      $('.topbar-menu .leaf .topbar-link-search').addClass('active');
-      $('.js-topbar-search').addClass('open');
+      //ddbasic_strip_active();
+      $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
+      $('.js-topbar-search').toggleClass('open');
+    } else {
+      $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
+      $('.js-topbar-search').removeClass('open');
     }
   }
 
@@ -26,9 +29,12 @@
    */
   function ddbasic_mobile_menu(open) {
     if (open) {
-      ddbasic_strip_active();
-      $('.topbar-menu .leaf .topbar-link-menu').addClass('active');
-      $('.js-topbar-menu').addClass('open');
+      //ddbasic_strip_active();
+      $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
+      $('.js-topbar-menu').toggleClass('open');
+    } else {
+      $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
+      $('.js-topbar-menu').removeClass('open');
     }
   }
 
@@ -40,9 +46,12 @@
    */
   function ddbasic_user_login(open) {
     if (open) {
-      ddbasic_strip_active();
-      $('.topbar-menu .leaf .topbar-link-user-account').addClass('active');
-      $('.pane-ding-user-frontend-ding-user-menu').addClass('open');
+      //ddbasic_strip_active();
+      $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
+      $('.js-user-top-menu').toggleClass('open');
+    } else {
+      $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
+      $('.js-user-top-menu').removeClass('open');
     }
   }
 
@@ -50,57 +59,54 @@
    * Strip active open classes.
    */
   function ddbasic_strip_active() {
-    $('.topbar-menu .leaf .js-topbar-link').removeClass('active');
+    //$('.topbar-menu .leaf .js-topbar-link').removeClass('active');
     $('.js-topbar-search').removeClass('open');
     $('.js-topbar-menu').removeClass('open');
-    $('.pane-ding-user-frontend-ding-user-menu').removeClass('open');
-    $('.front .js-topbar-search').addClass('open');
+    $('.js-user-top-menu').removeClass('open');
   }
 
   /**
    * When ready start the magic and handle the menu.
-   *
-   * @todo: We might be able to group some of the stuff together in the logic
-   *        below, but for now we just need to have it working.
    */
   $(document).ready(function () {
+    // Clone and add mobile link, this way we can add specific action on mobile devices.
+    $('.js-topbar-link.topbar-link-user-account').clone().appendTo('.topbar-menu > .topbar-link-user-account');
+    $('.topbar-menu .topbar-link-user-account .js-topbar-link:last-child').addClass('js-topbar-link-mobile');
+
     // Init the top bar.
     ddbasic_strip_active()
-    $('.front .js-topbar-link.topbar-link-search').addClass('active');
+    $('.front .js-topbar-search').addClass('open');
+    $('.front .leaf .topbar-link-menu').removeClass('active');
+    $('.front .leaf .topbar-link-search').addClass('active');
 
-    // If the search link is click toggle mobile menu if shown and display search.
+    // If the search link is clicked toggle mobile menu and show/hide search.
     $('.js-topbar-link.topbar-link-search').on('click touchstart', function(e) {
-        ddbasic_search(true);
+      ddbasic_search(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_user_login(false);
       e.preventDefault();
     });
 
-    // If the mobile menu is click toggle search if displayed and display menu.
+    // If the mobile menu is clicked toggle search and show/hide menu.
     $('.js-topbar-link.topbar-link-menu').on('click touchstart', function(e) {
-        ddbasic_mobile_menu(true);
+      ddbasic_mobile_menu(true);
+      ddbasic_search(false);
+      ddbasic_user_login(false);
       e.preventDefault();
     });
 
-    // User login.
-    $('.js-topbar-link.topbar-link-user-account').on('click touchstart', function(e) {
-        ddbasic_user_login(true);
+    // If the user login is clicked toggle user and show/hide user menu.
+    $('.js-topbar-link.js-topbar-link-mobile').on('click touchstart', function(e) {
+      ddbasic_user_login(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_search(false);
       e.preventDefault();
     });
-
 
 
     /**
      * Add news category menu as sub-menu to news in main menu
      */
-   /* if ($(".pane-taxonomy-menu").length > 0) {
-      $(".pane-taxonomy-menu > .sub-menu").clone().appendTo('.main-menu > .active-trail');
-
-      // Switch a few classes for style purposes.
-      $(".main-menu .sub-menu a").addClass('menu-item');
-      $(".main-menu .sub-menu").addClass('main-menu');
-      $(".main-menu .sub-menu").removeClass('sub-menu');
-
-      // The old menu is hidden by css on minor media queries.
-    }*/
 
     if ($(".sub-menu-wrapper").length > 0) {
       $(".sub-menu-wrapper > .sub-menu").clone().appendTo('.main-menu > .active-trail');
