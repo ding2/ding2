@@ -80,7 +80,6 @@ $search-border-type: solid;
     i[class^="icon-"] {
       @extend .icon-spin;
       @extend .icon-spinner;
-
       height: auto;
     }
   }
@@ -91,6 +90,14 @@ $search-border-type: solid;
 
   .form-text {
     padding-left: 49px;
+  }
+
+  @include small-medium {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    width: auto;
   }
 }
 

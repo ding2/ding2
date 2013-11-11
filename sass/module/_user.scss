@@ -562,7 +562,6 @@
   }
 }
 
-
 /* User loans
    ========================================================================== */
 
@@ -613,5 +612,20 @@
 #ding-bookmark-remove-form {
   .form-submit {
     @extend %button-danger;
+  }
+}
+
+/* User top-menu
+   ========================================================================== */
+
+.topbar .js-user-top-menu {
+  background: $header-background-color;
+  clear: both;
+  display: none;
+
+  @include small-medium() {
+    &.open {
+      display:block;
+    }
   }
 }

@@ -57,9 +57,8 @@ body {
   }
 
   //Media queries
-  @include small() {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  @include small-medium() {
+    padding: 0;
   }
 }
 
@@ -190,10 +189,6 @@ body {
     @include zen-clear();
 
     margin-bottom: $large-spacing;
-
-    .grid-inner {
-      padding: $large-spacing;
-    }
   }
 
   /* Media queries */

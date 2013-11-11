@@ -7,153 +7,127 @@
   /**
    * Toggle the search form from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true the form and link are active/open.
    */
-  function ddbasic_search(init) {
-    var link = $('.js-topbar-link.topbar-link-search');
-    var header = $('.header-wrapper');
-    var form = $('.js-topbar-search');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-      // If on front-page display search.
-      if ($('body').hasClass('front')) {
-        link.addClass('active');
-        form.show();
-        header.show();
-      }
-      else {
-        link.removeClass('active');
-        form.hide();
-        header.hide();
-      }
-    }
-    else {
-      link.toggleClass('active');
-      form.toggle();
-      header.toggle();
+  function ddbasic_search(open) {
+    if (open) {
+      $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
+      $('.js-topbar-search').css("display", "block");
+    } else {
+      $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
+      $('.js-topbar-search').css("display", "none");
     }
   }
 
   /**
    * Toggle the mobile menu from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true the form and link are active/open.
    */
-  function ddbasic_mobile_menu(init) {
-    var menu_link = $('.js-topbar-link.topbar-link-menu');
-    var menu = $('.js-topbar-menu');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-      menu_link.removeClass('active');
-    }
-    else {
-      menu_link.toggleClass('active');
-      menu.toggleClass('js-topbar-toggled');
+  function ddbasic_mobile_menu(open) {
+    if (open) {
+      $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
+      $('.js-topbar-menu').css("display", "block");
+    } else {
+      $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
+      $('.js-topbar-menu').css("display", "none");
     }
   }
 
   /**
    * Toggle the user login form from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true the form and link are active/open.
    */
-  function ddbasic_user_login(init) {
-    var link = $('.js-topbar-link.topbar-link-user');
-    var header = $('.header-wrapper');
-    var form = $('.js-topbar-user');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-        form.hide();
-        header.hide();
-    }
-    else {
-      link.toggleClass('active');
-      form.toggle();
-      header.toggle();
+  function ddbasic_user_login(open) {
+    if (open) {
+      $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
+      $('.js-topbar-user').css("display", "block");
+    } else {
+      $('.topbar-menu .leaf .topbar-link-user').removeClass('active');
+      $('.js-topbar-user').css("display", "none");
     }
   }
 
   /**
-   * When ready start the magic and handle the menu.
+   * Toggle the user menu when logged in
    *
-   * @todo: We might be able to group some of the stuff together in the logic
-   *        below, but for now we just need to have it working.
+   * @param bool open
+   *   If true the form and link are active/open.
+   */
+  function ddbasic_user_account(open) {
+    if (open) {
+      $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
+      $('.js-user-top-menu').css("display", "block");
+    } else {
+      $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
+      $('.js-user-top-menu').css("display", "none");
+    }
+  }
+
+  /**
+   * Strip active open classes.
+   */
+  function ddbasic_strip_active() {
+    $('.js-topbar-search').removeClass('open');
+    $('.js-topbar-menu').removeClass('open');
+    $('.js-user-top-menu').removeClass('open');
+  }
+
+  /**
+   * When ready start the magic and handle the menu.
    */
   $(document).ready(function () {
-    // Init the top bar.
-    ddbasic_mobile_menu(true);
-    ddbasic_user_login(true);
-    ddbasic_search(true);
+    // Open search as default on frontpage.
+    $('.front .js-topbar-search').css("display", "block");
 
-    // If the search link is click toggle mobile menu if shown and display search.
+    //Hide user login on load.
+    $('.js-topbar-user').css("display", "none");
+
+    // Set active classes on menu.
+    $('.front .leaf .topbar-link-menu').removeClass('active');
+    $('.front .leaf .topbar-link-search').addClass('active');
+
+    // If the search link is clicked toggle mobile menu and show/hide search.
     $('.js-topbar-link.topbar-link-search').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_mobile_menu();
-      }
-      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
-        // User menu is open, so close it.
-        ddbasic_user_login();
-      }
-
-      ddbasic_search();
+      ddbasic_search(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_user_login(false);
+      ddbasic_user_account(false);
       e.preventDefault();
     });
 
-    // If the mobile menu is click toggle search if displayed and display menu.
+    // If the mobile menu is clicked toggle search and show/hide menu.
     $('.js-topbar-link.topbar-link-menu').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
-        // Search is open, so close it.
-        ddbasic_search();
-      }
-      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_user_login();
-      }
-      ddbasic_mobile_menu();
+      ddbasic_mobile_menu(true);
+      ddbasic_search(false);
+      ddbasic_user_login(false);
+      ddbasic_user_account(false);
       e.preventDefault();
     });
 
-    // User login.
+    // If the user login is clicked toggle user and show/hide user menu.
     $('.js-topbar-link.topbar-link-user').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
-        // Search is open, so close it.
-        ddbasic_search();
-      }
-      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_mobile_menu();
-      }
-      ddbasic_user_login();
+      ddbasic_user_login(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_search(false);
       e.preventDefault();
     });
 
+    // If the user login is clicked toggle user and show/hide user menu.
+    $('.js-topbar-link.topbar-link-user-account').on('click touchstart', function(e) {
+      ddbasic_user_account(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_search(false);
+      e.preventDefault();
+    });
 
     /**
      * Add news category menu as sub-menu to news in main menu
      */
-   /* if ($(".pane-taxonomy-menu").length > 0) {
-      $(".pane-taxonomy-menu > .sub-menu").clone().appendTo('.main-menu > .active-trail');
-
-      // Switch a few classes for style purposes.
-      $(".main-menu .sub-menu a").addClass('menu-item');
-      $(".main-menu .sub-menu").addClass('main-menu');
-      $(".main-menu .sub-menu").removeClass('sub-menu');
-
-      // The old menu is hidden by css on minor media queries.
-    }*/
 
     if ($(".sub-menu-wrapper").length > 0) {
       $(".sub-menu-wrapper > .sub-menu").clone().appendTo('.main-menu > .active-trail');

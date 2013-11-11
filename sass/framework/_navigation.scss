@@ -72,13 +72,6 @@
     span {
       display: none;
     }
-
-    .menu-item {
-      /* Show mobile link menu item */
-      &.topbar-link-menu {
-        display: inline-block;
-      }
-    }
   }
 }
 
@@ -93,10 +86,6 @@
   max-width: 100%;
   overflow: hidden;
   width: 100%;
-
-  &.js-topbar-toggled {
-    display: block;
-  }
 
   /* Media queries */
   @include small-medium() {
@@ -488,5 +477,24 @@
       margin-left: -$large-spacing;
       padding-left: 25px;
     }
+  }
+}
+
+
+/* User topbar menu
+   ========================================================================== */
+
+.js-user-top-menu {
+  @extend .navigation-wrapper;
+
+  padding-left: 30px;
+  float: left;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-right: 10px;
+
+  .sub-menu {
+    @extend .main-menu;
   }
 }
