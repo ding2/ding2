@@ -9988,34 +9988,25 @@ input#edit-search-block-form--2.spinner {
 /* Group blocks
    ========================================================================== */
 /* line 12, ../sass/module/_groups.scss */
-.group-blocks--wrapper {
-  *position: relative;
-  *zoom: 1;
-  padding-right: 10px;
-  padding-left: 10px;
-}
-/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-.group-blocks--wrapper:before, .group-blocks--wrapper:after {
-  content: "";
-  display: table;
-}
-/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
-.group-blocks--wrapper:after {
-  clear: both;
-}
-
-/* line 19, ../sass/module/_groups.scss */
 .group-blocks--inner {
   clear: both;
   padding-left: 0;
   padding-right: 0;
-  overflow: hidden;
-  margin-bottom: 20px;
-  padding-top: 20px;
   border-top: 1px solid #efefef;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+@media only screen and (max-width: 768px) {
+  /* line 12, ../sass/module/_groups.scss */
+  .group-blocks--inner {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
 }
 
-/* line 31, ../sass/module/_groups.scss */
+/* line 29, ../sass/module/_groups.scss */
 .group-blocks--one .group-blocks--first {
   float: left;
   width: 100%;
@@ -10036,7 +10027,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 40, ../sass/module/_groups.scss */
+/* line 38, ../sass/module/_groups.scss */
 .group-blocks--two .group-blocks--first {
   float: left;
   width: 50%;
@@ -10055,7 +10046,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 46, ../sass/module/_groups.scss */
+/* line 44, ../sass/module/_groups.scss */
 .group-blocks--two .group-blocks--second {
   float: right;
   width: 50%;
@@ -10075,7 +10066,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 54, ../sass/module/_groups.scss */
+/* line 52, ../sass/module/_groups.scss */
 .group-blocks--three .group-blocks--first {
   float: left;
   width: 33.33333%;
@@ -10094,7 +10085,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 60, ../sass/module/_groups.scss */
+/* line 58, ../sass/module/_groups.scss */
 .group-blocks--three .group-blocks--second {
   float: left;
   width: 33.33333%;
@@ -10112,7 +10103,7 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 64, ../sass/module/_groups.scss */
+/* line 62, ../sass/module/_groups.scss */
 .group-blocks--three .group-blocks--third {
   float: right;
   width: 33.33333%;
@@ -10132,7 +10123,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 72, ../sass/module/_groups.scss */
+/* line 70, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--first {
   float: left;
   width: 25%;
@@ -10151,7 +10142,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 78, ../sass/module/_groups.scss */
+/* line 76, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--second {
   float: left;
   width: 25%;
@@ -10169,7 +10160,7 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 82, ../sass/module/_groups.scss */
+/* line 80, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--third {
   float: right;
   width: 25%;
@@ -10187,7 +10178,7 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 86, ../sass/module/_groups.scss */
+/* line 84, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--fourth {
   float: right;
   width: 25%;
@@ -10205,4 +10196,60 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
   padding-right: 0;
+}
+
+/* line 91, ../sass/module/_groups.scss */
+.group-blocks--wrapper {
+  *position: relative;
+  *zoom: 1;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.group-blocks--wrapper:before, .group-blocks--wrapper:after {
+  content: "";
+  display: table;
+}
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.group-blocks--wrapper:after {
+  clear: both;
+}
+@media only screen and (max-width: 768px) {
+  /* line 102, ../sass/module/_groups.scss */
+  .group-blocks--wrapper .group-blocks--first,
+  .group-blocks--wrapper .group-blocks--second,
+  .group-blocks--wrapper .group-blocks--third,
+  .group-blocks--wrapper .group-blocks--fourth {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+  /* line 111, ../sass/module/_groups.scss */
+  .group-blocks--wrapper .group-blocks--first.last,
+  .group-blocks--wrapper .group-blocks--second.last,
+  .group-blocks--wrapper .group-blocks--third.last,
+  .group-blocks--wrapper .group-blocks--fourth.last {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
 }
