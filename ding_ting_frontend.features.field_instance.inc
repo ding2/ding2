@@ -27,10 +27,8 @@ function ding_ting_frontend_field_default_field_instances() {
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'ding_availability',
-        'settings' => array(
-          'link' => 1,
-        ),
-        'type' => 'ding_availability_types',
+        'settings' => array(),
+        'type' => 'ding_availability_with_labels',
         'weight' => 1,
       ),
     ),
