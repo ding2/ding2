@@ -39,7 +39,7 @@
  * @see
  */
 ?>
-<div class="availability content">
+<div class="availability search-result--availability">
   <?php if (!$label_hidden): ?>
       <strong><?php print $label ?>:</strong>
   <?php endif; ?>

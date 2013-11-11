@@ -450,7 +450,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
   // Make suggestion for the availability on the search result page.
   if ($vars['element']['#field_type'] == 'ting_collection_types' &&
-      $vars['element']['#formatter'] == 'ding_availability_types') {
+      $vars['element']['#formatter'] == 'ding_availability_with_labels') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
 }
