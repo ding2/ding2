@@ -12,7 +12,6 @@
    */
   function ddbasic_search(open) {
     if (open) {
-      //ddbasic_strip_active();
       $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
       $('.js-topbar-search').toggleClass('open');
     } else {
@@ -29,7 +28,6 @@
    */
   function ddbasic_mobile_menu(open) {
     if (open) {
-      //ddbasic_strip_active();
       $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
       $('.js-topbar-menu').toggleClass('open');
     } else {
@@ -46,7 +44,6 @@
    */
   function ddbasic_user_login(open) {
     if (open) {
-      //ddbasic_strip_active();
       $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
       $('.js-user-top-menu').toggleClass('open');
     } else {
@@ -59,7 +56,6 @@
    * Strip active open classes.
    */
   function ddbasic_strip_active() {
-    //$('.topbar-menu .leaf .js-topbar-link').removeClass('active');
     $('.js-topbar-search').removeClass('open');
     $('.js-topbar-menu').removeClass('open');
     $('.js-user-top-menu').removeClass('open');
@@ -75,7 +71,11 @@
 
     // Init the top bar.
     ddbasic_strip_active()
+
+    // Open search as default on frontpage.
     $('.front .js-topbar-search').addClass('open');
+
+    // Set active classes on menu.
     $('.front .leaf .topbar-link-menu').removeClass('active');
     $('.front .leaf .topbar-link-search').addClass('active');
 
