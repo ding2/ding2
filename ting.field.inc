@@ -332,8 +332,9 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
         // Check if element should be prefixed with type.
         if ($display['settings']['prefix_type'] == 'yes') {
+          $collction = ting_collection_load($entity->id);
           $ting_type = $entity->getType();
-          if (count($entity->getCollectionTypes()) > 1) {
+          if (count($collction->types) > 1) {
             $ting_type = t('Material collection');
           }
 
