@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -4303,12 +4304,8 @@ body {
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
-/* line 193, ../sass/layout/_layout.scss */
-.frontpage-layout .attachments-wrapper .grid-inner {
-  padding: 20px;
-}
 @media only screen and (max-width: 768px) {
-  /* line 202, ../sass/layout/_layout.scss */
+  /* line 198, ../sass/layout/_layout.scss */
   .frontpage-layout .primary-content,
   .frontpage-layout .secondary-content,
   .frontpage-layout .tertiary-content {
@@ -4331,7 +4328,7 @@ body {
   }
 }
 
-/* line 210, ../sass/layout/_layout.scss */
+/* line 206, ../sass/layout/_layout.scss */
 .default-layout {
   margin-top: 20px;
   /* Media queries */
@@ -4340,7 +4337,7 @@ body {
   /* Left sidebar only */
   /* Right sidebar only */
 }
-/* line 215, ../sass/layout/_layout.scss */
+/* line 211, ../sass/layout/_layout.scss */
 .default-layout .primary-content,
 .default-layout .secondary-content,
 .default-layout .tertiary-content {
@@ -4348,7 +4345,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 221, ../sass/layout/_layout.scss */
+/* line 217, ../sass/layout/_layout.scss */
 .default-layout .primary-content {
   float: left;
   width: 75%;
@@ -4366,7 +4363,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 225, ../sass/layout/_layout.scss */
+/* line 221, ../sass/layout/_layout.scss */
 .default-layout .layout-wrapper {
   clear: left;
   background-color: white;
@@ -4377,7 +4374,7 @@ body {
   padding-right: 10px;
   padding-left: 10px;
 }
-/* line 237, ../sass/layout/_layout.scss */
+/* line 233, ../sass/layout/_layout.scss */
 .default-layout .secondary-content {
   float: left;
   width: 25%;
@@ -4395,7 +4392,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 241, ../sass/layout/_layout.scss */
+/* line 237, ../sass/layout/_layout.scss */
 .default-layout .tertiary-content {
   float: left;
   width: 100%;
@@ -4415,7 +4412,7 @@ body {
   clear: left;
 }
 @media only screen and (max-width: 768px) {
-  /* line 250, ../sass/layout/_layout.scss */
+  /* line 246, ../sass/layout/_layout.scss */
   .default-layout .primary-content,
   .default-layout .secondary-content,
   .default-layout .tertiary-content {
@@ -4438,7 +4435,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 259, ../sass/layout/_layout.scss */
+  /* line 255, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4456,7 +4453,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 263, ../sass/layout/_layout.scss */
+  /* line 259, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4474,7 +4471,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 267, ../sass/layout/_layout.scss */
+  /* line 263, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4495,7 +4492,7 @@ body {
   }
 }
 @media only screen and (min-width: 1211px) {
-  /* line 273, ../sass/layout/_layout.scss */
+  /* line 269, ../sass/layout/_layout.scss */
   .default-layout.sidebars .primary-content {
     float: left;
     width: 50%;
@@ -4513,7 +4510,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 277, ../sass/layout/_layout.scss */
+  /* line 273, ../sass/layout/_layout.scss */
   .default-layout.sidebars .secondary-content {
     float: left;
     width: 25%;
@@ -4531,7 +4528,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 281, ../sass/layout/_layout.scss */
+  /* line 277, ../sass/layout/_layout.scss */
   .default-layout.sidebars .tertiary-content {
     float: right;
     width: 25%;
@@ -4551,7 +4548,7 @@ body {
     clear: none;
   }
 }
-/* line 290, ../sass/layout/_layout.scss */
+/* line 286, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .primary-content {
   float: left;
   width: 100%;
@@ -4569,7 +4566,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 294, ../sass/layout/_layout.scss */
+/* line 290, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .secondary-content {
   clear: both;
   float: left;
@@ -4588,7 +4585,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 299, ../sass/layout/_layout.scss */
+/* line 295, ../sass/layout/_layout.scss */
 .default-layout.empty-sidebars .tertiary-content {
   float: right;
   width: 50%;
@@ -4607,7 +4604,7 @@ body {
   _overflow-y: visible;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 307, ../sass/layout/_layout.scss */
+  /* line 303, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .primary-content {
     float: left;
     width: 75%;
@@ -4625,7 +4622,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 310, ../sass/layout/_layout.scss */
+  /* line 306, ../sass/layout/_layout.scss */
   .default-layout.left-sidebar .secondary-content {
     float: left;
     width: 25%;
@@ -4645,7 +4642,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 940px) {
-  /* line 319, ../sass/layout/_layout.scss */
+  /* line 315, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .primary-content {
     float: left;
     width: 66.66667%;
@@ -4663,7 +4660,7 @@ body {
     _overflow: hidden;
     _overflow-y: visible;
   }
-  /* line 323, ../sass/layout/_layout.scss */
+  /* line 319, ../sass/layout/_layout.scss */
   .default-layout.right-sidebar .tertiary-content {
     float: right;
     width: 33.33333%;
@@ -4685,7 +4682,7 @@ body {
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
-/* line 333, ../sass/layout/_layout.scss */
+/* line 329, ../sass/layout/_layout.scss */
 .attachment-first {
   float: left;
   width: 25%;
@@ -4704,7 +4701,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 337, ../sass/layout/_layout.scss */
+/* line 333, ../sass/layout/_layout.scss */
 .attachment-second {
   float: left;
   width: 25%;
@@ -4723,7 +4720,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 341, ../sass/layout/_layout.scss */
+/* line 337, ../sass/layout/_layout.scss */
 .attachment-third {
   float: right;
   width: 25%;
@@ -4742,7 +4739,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 345, ../sass/layout/_layout.scss */
+/* line 341, ../sass/layout/_layout.scss */
 .attachment-fourth {
   float: right;
   width: 25%;
@@ -4761,7 +4758,7 @@ body {
   _overflow-y: visible;
 }
 
-/* line 350, ../sass/layout/_layout.scss */
+/* line 346, ../sass/layout/_layout.scss */
 .attachments-1-1 .attachment-first {
   clear: left;
   float: left;
@@ -4783,7 +4780,7 @@ body {
 
 /* Media queries */
 @media only screen and (max-width: 480px) {
-  /* line 361, ../sass/layout/_layout.scss */
+  /* line 357, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third,
   .attachment-second,
@@ -4807,7 +4804,7 @@ body {
   }
 }
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  /* line 369, ../sass/layout/_layout.scss */
+  /* line 365, ../sass/layout/_layout.scss */
   .attachment-first,
   .attachment-third {
     clear: left;
@@ -4828,7 +4825,7 @@ body {
     _overflow-y: visible;
   }
 
-  /* line 375, ../sass/layout/_layout.scss */
+  /* line 371, ../sass/layout/_layout.scss */
   .attachment-second,
   .attachment-fourth {
     float: right;
@@ -4849,7 +4846,7 @@ body {
   }
 }
 /* Panel layout with 2 panes */
-/* line 382, ../sass/layout/_layout.scss */
+/* line 378, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-first {
   float: left;
   width: 50%;
@@ -4867,7 +4864,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 386, ../sass/layout/_layout.scss */
+/* line 382, ../sass/layout/_layout.scss */
 .attachments-2-2 .attachment-second {
   float: right;
   width: 50%;
@@ -4887,7 +4884,7 @@ body {
 }
 
 /* Panel layout with 3 panes */
-/* line 393, ../sass/layout/_layout.scss */
+/* line 389, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-first {
   float: left;
   width: 33.33333%;
@@ -4905,7 +4902,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 397, ../sass/layout/_layout.scss */
+/* line 393, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-second {
   float: left;
   width: 33.33333%;
@@ -4923,7 +4920,7 @@ body {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 401, ../sass/layout/_layout.scss */
+/* line 397, ../sass/layout/_layout.scss */
 .attachments-3-3 .attachment-third {
   float: right;
   width: 33.33333%;
@@ -4944,17 +4941,17 @@ body {
 
 /* Footer
    ========================================================================== */
-/* line 410, ../sass/layout/_layout.scss */
+/* line 406, ../sass/layout/_layout.scss */
 .footer {
   overflow: hidden;
   padding-top: 30px;
 }
-/* line 414, ../sass/layout/_layout.scss */
+/* line 410, ../sass/layout/_layout.scss */
 .footer .pane-title {
   font-size: 110%;
 }
 
-/* line 419, ../sass/layout/_layout.scss */
+/* line 415, ../sass/layout/_layout.scss */
 .footer-inner {
   margin-left: auto;
   margin-right: auto;
@@ -4962,13 +4959,13 @@ body {
   overflow: visible;
 }
 
-/* line 426, ../sass/layout/_layout.scss */
+/* line 422, ../sass/layout/_layout.scss */
 .footer-block {
   background-color: transparent;
   color: white;
 }
 
-/* line 431, ../sass/layout/_layout.scss */
+/* line 427, ../sass/layout/_layout.scss */
 .bottom {
   background-color: #191919;
   clear: both;
@@ -9947,5 +9944,279 @@ input#edit-search-block-form--2.spinner {
   /* line 63, ../sass/module/_tabroll.scss */
   #ding-tabroll .ui-tabs-panel .image {
     top: 4.5em;
+  }
+}
+
+/**
+ * Groups
+ *
+ * @author magnify, zorp
+ */
+/* Group blocks
+   ========================================================================== */
+/* line 12, ../sass/module/_groups.scss */
+.group-blocks--inner {
+  clear: both;
+  padding-left: 0;
+  padding-right: 0;
+  border-top: 1px solid #efefef;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+@media only screen and (max-width: 768px) {
+  /* line 12, ../sass/module/_groups.scss */
+  .group-blocks--inner {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+/* line 29, ../sass/module/_groups.scss */
+.group-blocks--one .group-blocks--first {
+  float: left;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* line 38, ../sass/module/_groups.scss */
+.group-blocks--two .group-blocks--first {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
+}
+/* line 44, ../sass/module/_groups.scss */
+.group-blocks--two .group-blocks--second {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-right: 0;
+}
+
+/* line 52, ../sass/module/_groups.scss */
+.group-blocks--three .group-blocks--first {
+  float: left;
+  width: 33.33333%;
+  margin-left: 0%;
+  margin-right: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
+}
+/* line 58, ../sass/module/_groups.scss */
+.group-blocks--three .group-blocks--second {
+  float: left;
+  width: 33.33333%;
+  margin-left: 33.33333%;
+  margin-right: -66.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 62, ../sass/module/_groups.scss */
+.group-blocks--three .group-blocks--third {
+  float: right;
+  width: 33.33333%;
+  margin-right: 0%;
+  margin-left: -33.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-right: 0;
+}
+
+/* line 70, ../sass/module/_groups.scss */
+.group-blocks--four .group-blocks--first {
+  float: left;
+  width: 25%;
+  margin-left: 0%;
+  margin-right: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
+}
+/* line 76, ../sass/module/_groups.scss */
+.group-blocks--four .group-blocks--second {
+  float: left;
+  width: 25%;
+  margin-left: 25%;
+  margin-right: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 80, ../sass/module/_groups.scss */
+.group-blocks--four .group-blocks--third {
+  float: right;
+  width: 25%;
+  margin-right: 25%;
+  margin-left: -50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+/* line 84, ../sass/module/_groups.scss */
+.group-blocks--four .group-blocks--fourth {
+  float: right;
+  width: 25%;
+  margin-right: 0%;
+  margin-left: -25%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-right: 0;
+}
+
+/* line 91, ../sass/module/_groups.scss */
+.group-blocks--wrapper {
+  *position: relative;
+  *zoom: 1;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+}
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.group-blocks--wrapper:before, .group-blocks--wrapper:after {
+  content: "";
+  display: table;
+}
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+.group-blocks--wrapper:after {
+  clear: both;
+}
+@media only screen and (max-width: 768px) {
+  /* line 102, ../sass/module/_groups.scss */
+  .group-blocks--wrapper .group-blocks--first,
+  .group-blocks--wrapper .group-blocks--second,
+  .group-blocks--wrapper .group-blocks--third,
+  .group-blocks--wrapper .group-blocks--fourth {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    padding-left: 0;
+    padding-right: 0;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+  /* line 111, ../sass/module/_groups.scss */
+  .group-blocks--wrapper .group-blocks--first.last,
+  .group-blocks--wrapper .group-blocks--second.last,
+  .group-blocks--wrapper .group-blocks--third.last,
+  .group-blocks--wrapper .group-blocks--fourth.last {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 }

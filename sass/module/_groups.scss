@@ -1,0 +1,118 @@
+/**
+ * Groups
+ *
+ * @author magnify, zorp
+ */
+
+
+
+/* Group blocks
+   ========================================================================== */
+
+.group-blocks--inner {
+  @include zen-clear(both);
+  @include zen-nested-container();
+
+  border-top: 1px solid $gray-light;
+  overflow: hidden;
+  margin-top: 20px;
+  padding-top: 20px;
+
+  @include small-medium() {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.group-blocks--one {
+  .group-blocks--first {
+    @include zen-grid-item(12, 1);
+
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.group-blocks--two {
+  .group-blocks--first {
+    @include zen-grid-item(6, 1);
+
+    padding-left: 0;
+  }
+
+  .group-blocks--second {
+    @include zen-grid-item(6, 1, right);
+
+    padding-right: 0;
+  }
+}
+
+.group-blocks--three {
+  .group-blocks--first {
+    @include zen-grid-item(4, 1);
+
+    padding-left: 0;
+  }
+
+  .group-blocks--second {
+    @include zen-grid-item(4, 5);
+  }
+
+  .group-blocks--third {
+    @include zen-grid-item(4, 1, right);
+
+    padding-right: 0;
+  }
+}
+
+.group-blocks--four {
+  .group-blocks--first {
+    @include zen-grid-item(3, 1);
+
+    padding-left: 0;
+  }
+
+  .group-blocks--second {
+    @include zen-grid-item(3, 4);
+  }
+
+  .group-blocks--third {
+    @include zen-grid-item(3, 4, right);
+  }
+
+  .group-blocks--fourth {
+    @include zen-grid-item(3, 1, right);
+
+    padding-right: 0;
+  }
+}
+
+.group-blocks--wrapper {
+  @include zen-grid-container();
+
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+
+  @include small-medium() {
+    .group-blocks--first,
+    .group-blocks--second,
+    .group-blocks--third,
+    .group-blocks--fourth {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
+      @include zen-nested-container();
+
+      border-bottom: 1px solid $gray-light;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+
+      &.last {
+        border-bottom: 0;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}

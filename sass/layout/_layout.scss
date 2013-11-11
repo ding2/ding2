@@ -189,10 +189,6 @@ body {
     @include zen-clear();
 
     margin-bottom: $large-spacing;
-
-    .grid-inner {
-      padding: $large-spacing;
-    }
   }
 
   /* Media queries */
