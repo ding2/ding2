@@ -160,7 +160,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 30,
+        'weight' => 33,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -228,7 +228,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 34,
+        'weight' => 37,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -295,7 +295,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 32,
+        'weight' => 35,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -589,7 +589,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 34,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -657,7 +657,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 33,
+        'weight' => 36,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -796,10 +796,9 @@ function ding_ting_frontend_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'ting',
         'settings' => array(),
-        'type' => 'ting_subjects_default',
-        'weight' => 20,
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -954,7 +953,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
