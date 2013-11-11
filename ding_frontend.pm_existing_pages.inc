@@ -29,7 +29,9 @@ comment/%/approve';
   $pm_existing_page->label = 'user';
   $pm_existing_page->context = 'entity|user|uid';
   $pm_existing_page->paths = 'user/password
-user/reset/%/%/%';
+user/reset/%/%/%
+user
+user/*';
   $export['user'] = $pm_existing_page;
 
   return $export;
