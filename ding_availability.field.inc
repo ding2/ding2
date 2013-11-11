@@ -263,7 +263,12 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $types[] = array(
             'data' => $typelink,
             'id' => $id,
-            'class' => array('availability', drupal_html_class($type), $available_online, 'pending'),
+            'class' => array(
+              'availability',
+              drupal_html_class($type),
+              $available_online,
+              'pending',
+            ),
           );
 
           $ids = array();

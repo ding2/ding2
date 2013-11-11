@@ -56,8 +56,8 @@ function ding_availability_ding_provider_user() {
  */
 function ding_availability_theme($existing, $type, $theme, $path) {
   return array(
-    'ding_availability' => array(
-      'template' => 'ding-availability',
+    'ding_holdings' => array(
+      'template' => 'ding-holdings',
       'variables' => array(
         'holdings' => NULL,
         'total_count' => NULL,
@@ -173,7 +173,7 @@ function ding_availability_holdings($provider_ids) {
       }
 
       // Theme the output.
-      $item['html'] = theme('ding_availability', array(
+      $item['html'] = theme('ding_holdings', array(
         'holdings' => array(
           '#theme' => 'table',
           '#header' => $header,
