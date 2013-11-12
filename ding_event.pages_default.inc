@@ -194,7 +194,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        1 => 'empty',
+        0 => 'relationship_entity_from_field:field_ding_event_category-node-taxonomy_term_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',

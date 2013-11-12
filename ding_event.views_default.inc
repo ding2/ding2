@@ -1259,6 +1259,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
@@ -1470,21 +1471,11 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Nid */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['nid']['exception']['title'] = 'Alle';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['nid']['not'] = TRUE;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
+  $handler->display->display_options['arguments']['tid']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
   $handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = FALSE;
@@ -1495,6 +1486,43 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['validate']['type'] = 'taxonomy_term';
   $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
     'event_category' => 'event_category',
+  );
+  /* Contextual filter: Content id: Filter the node it self out */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['ui_name'] = 'Content id: Filter the node it self out';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['not'] = TRUE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ding_event' => 'ding_event',
+  );
+  /* Filter criterion: Date: Date (node) */
+  $handler->display->display_options['filters']['date_filter']['id'] = 'date_filter';
+  $handler->display->display_options['filters']['date_filter']['table'] = 'node';
+  $handler->display->display_options['filters']['date_filter']['field'] = 'date_filter';
+  $handler->display->display_options['filters']['date_filter']['operator'] = '>=';
+  $handler->display->display_options['filters']['date_filter']['default_date'] = 'now';
+  $handler->display->display_options['filters']['date_filter']['date_fields'] = array(
+    'field_data_field_ding_event_date.field_ding_event_date_value' => 'field_data_field_ding_event_date.field_ding_event_date_value',
+    'field_data_field_ding_event_date.field_ding_event_date_value2' => 'field_data_field_ding_event_date.field_ding_event_date_value2',
   );
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
@@ -1508,7 +1536,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['argument_input'] = array(
     'tid' => array(
       'type' => 'context',
-      'context' => 'terms.tid',
+      'context' => 'entity:taxonomy_term.tid',
       'context_optional' => 1,
       'panel' => '0',
       'fixed' => '%tid',
