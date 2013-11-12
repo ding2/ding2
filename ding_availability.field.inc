@@ -373,7 +373,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                     'class' => array(
                       'search-result--availability-link',
                       'availability',
-                      'js-pending',
+                      'pending',
                     ),
                     'id' => $id,
                   ),

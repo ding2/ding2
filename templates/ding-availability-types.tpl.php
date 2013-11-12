@@ -8,5 +8,5 @@
  */
 ?>
 <?php foreach ($types as $type) : ?>
-  <p><?php print drupal_render($type); ?></p>
+  <p><?php print render($type); ?></p>
 <?php endforeach; ?>
