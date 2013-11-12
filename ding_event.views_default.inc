@@ -224,138 +224,6 @@ function ding_event_views_default_views() {
     'field_data_field_ding_event_date.field_ding_event_date_value2' => 'field_data_field_ding_event_date.field_ding_event_date_value2',
   );
 
-  /* Display: Frontpage event list */
-  $handler = $view->new_display('panel_pane', 'Frontpage event list', 'ding_event_frontpage_list');
-  $handler->display->display_options['defaults']['link_display'] = FALSE;
-  $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['link_url'] = 'arrangementer';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['row_class'] = 'list-item';
-  $handler->display->display_options['style_options']['class'] = 'list date-list';
-  $handler->display->display_options['style_options']['wrapper_class'] = '';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['ui_name'] = 'Title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
-  $handler->display->display_options['fields']['title']['element_class'] = 'heading';
-  $handler->display->display_options['fields']['title']['element_label_type'] = '0';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
-  /* Field: Date (calendar leaf) */
-  $handler->display->display_options['fields']['field_ding_event_date']['id'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['table'] = 'field_data_field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['field'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['ui_name'] = 'Date (calendar leaf)';
-  $handler->display->display_options['fields']['field_ding_event_date']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_date']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date']['type'] = 'calendar_page';
-  $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'ding_short_date_only',
-    'fromto' => 'value',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Location */
-  $handler->display->display_options['fields']['field_ding_event_location']['id'] = 'field_ding_event_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['table'] = 'field_data_field_ding_event_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['field'] = 'field_ding_event_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['ui_name'] = 'Location';
-  $handler->display->display_options['fields']['field_ding_event_location']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_location']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_event_location']['element_type'] = 'span';
-  $handler->display->display_options['fields']['field_ding_event_location']['element_class'] = 'event-list-location';
-  $handler->display->display_options['fields']['field_ding_event_location']['element_label_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_location']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_location']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_location']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_location']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_event_location']['click_sort_column'] = 'name_line';
-  $handler->display->display_options['fields']['field_ding_event_location']['settings'] = array(
-    'use_widget_handlers' => 0,
-    'format_handlers' => array(
-      'name-oneline' => 'name-oneline',
-    ),
-  );
-  /* Field: Time (from - to) */
-  $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['table'] = 'field_data_field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['field'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['ui_name'] = 'Time (from - to)';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['alter']['text'] = '[field_ding_event_date_1-value] - [field_ding_event_date_1-value2]';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_type'] = 'span';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_class'] = 'event-list-time';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_label_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
-    'format_type' => 'time_only',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-  );
-  /* Field: Price */
-  $handler->display->display_options['fields']['field_ding_event_price']['id'] = 'field_ding_event_price';
-  $handler->display->display_options['fields']['field_ding_event_price']['table'] = 'field_data_field_ding_event_price';
-  $handler->display->display_options['fields']['field_ding_event_price']['field'] = 'field_ding_event_price';
-  $handler->display->display_options['fields']['field_ding_event_price']['ui_name'] = 'Price';
-  $handler->display->display_options['fields']['field_ding_event_price']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_price']['element_type'] = 'span';
-  $handler->display->display_options['fields']['field_ding_event_price']['element_class'] = 'event-list-price';
-  $handler->display->display_options['fields']['field_ding_event_price']['element_label_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_price']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_price']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_event_price']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_price']['settings'] = array(
-    'thousand_separator' => ' ',
-    'prefix_suffix' => 1,
-  );
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Has taxonomy term ID */
-  $handler->display->display_options['arguments']['tid']['id'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
-  $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
-  $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['tid']['default_argument_options']['index'] = '1';
-  $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['argument_input'] = array(
-    'tid' => array(
-      'type' => 'panel',
-      'context' => 'entity:comment.author',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Content: Has taxonomy term ID',
-    ),
-  );
-
   /* Display: Event list */
   $handler = $view->new_display('panel_pane', 'Event list', 'ding_event_list');
   $handler->display->display_options['defaults']['use_more'] = FALSE;
@@ -392,11 +260,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: Group Node from OG membership */
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'Group node';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Date (for group header) (excluded) */
   $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
@@ -1650,11 +1513,8 @@ function ding_event_views_default_views() {
   <span class="event-list-price">[field_ding_event_price]</span>
 </div>'),
     t('Alle'),
-    t('Frontpage event list'),
-    t('more'),
-    t('[field_ding_event_date_1-value] - [field_ding_event_date_1-value2]'),
-    t('View panes'),
     t('Event list'),
+    t('more'),
     t('Number of elements'),
     t('- Alle -'),
     t('Forskydning'),
@@ -1662,15 +1522,16 @@ function ding_event_views_default_views() {
     t('‹ forrige'),
     t('Next ›'),
     t('Last »'),
-    t('Group node'),
     t('<i class="icon-chevron-right"></i>'),
     t('Læs mere'),
+    t('View panes'),
     t('Library event list'),
     t('Event list (library)'),
     t('Simple event list'),
     t('RSS event list'),
     t('Event list (same tag)'),
     t('Related events'),
+    t('Group node'),
     t('RSS library event list'),
   );
   $export['ding_event'] = $view;
